@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Robert's Recipe Box</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <h1>Robert's Recipe Box</h1>
+    <p>Flip through recipe cards by category.</p>
+    <input id="search" type="search" placeholder="Search recipes..." />
+  </header>
+
+  <main>
+    <section id="categoryGrid" class="category-grid"></section>
+
+    <section id="viewer" class="viewer hidden">
+      <button id="backBtn" class="link-button">← Back to categories</button>
+      <div class="tabs" id="tabs"></div>
+      <div class="controls">
+        <button id="prevBtn">◀ Previous</button>
+        <span id="counter">0 / 0</span>
+        <button id="nextBtn">Next ▶</button>
+      </div>
+      <div class="card-stage">
+        <div id="flipCard" class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front"><img id="frontImg" alt="Recipe card front" /></div>
+            <div class="flip-card-back"><img id="backImg" alt="Recipe card back" /></div>
+          </div>
+        </div>
+      </div>
+      <div class="controls bottom-controls">
+        <button id="flipBtn">Flip Card</button>
+        <button id="printBtn">Print</button>
+      </div>
+      <p class="hint">Use filenames like <strong>AM-001.png</strong>. Back sides can be named <strong>AM-001-back.png</strong>.</p>
+    </section>
+  </main>
+
+  <script src="recipes.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
