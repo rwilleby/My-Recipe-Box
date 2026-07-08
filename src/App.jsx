@@ -66,11 +66,8 @@ function CategoryGrid({ setFilter, setActivePage }) {
       <div className="categoryGrid">
         {categories.map((cat) => (
           <button key={cat.id} className="categoryTile" style={{ '--tile': cat.color }} onClick={() => { setFilter(cat.name); setActivePage('Recipes'); }}>
-            <img
-  className="categoryIconImage"
-  src={`${import.meta.env.BASE_URL}${cat.iconImage}`}
-  alt={`${cat.name} icon`}
-/><strong>{cat.name}</strong><small>{cat.count} recipes</small>
+            <img className="categoryIconImage" src={`${import.meta.env.BASE_URL}${cat.iconImage}`}
+  alt={`${cat.name} icon`}/><strong>{cat.name}</strong><small>{cat.count} recipes</small>
           </button>
         ))}
       </div>
