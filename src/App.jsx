@@ -83,9 +83,11 @@ function Hero({ setActivePage }) {
         <div className="aiBadge">✧ AI-POWERED RECIPE PLANNING ✧</div>
 
         <h1>
-          AI-generated recipes.
+          Organize your kitchen,
           <br />
-          All in one place.
+          all in one place,
+          <br />
+          for free.
         </h1>
 
         <p>
@@ -104,14 +106,6 @@ function Hero({ setActivePage }) {
           >
             ▣ Start Meal Planning
           </button>
-        </div>
-
-        <div className="transparency">
-          <span>✧</span>
-          <strong>Transparency first:</strong>
-          All collections on Robert’s Recipe Box are AI-generated planning tools
-          — not private family recipes.
-          <span className="info">ⓘ</span>
         </div>
       </div>
 
@@ -143,6 +137,13 @@ function Hero({ setActivePage }) {
             <strong>Smart Lists</strong>
             <small>& Cost Estimator</small>
           </div>
+        </div>
+
+        <div className="heroTransparency">
+          <strong>Transparency first:</strong> All collections are AI-generated
+          planning tools.
+          <br />
+          Not private family recipes.
         </div>
       </div>
     </section>
@@ -596,7 +597,9 @@ function CostEstimatorPage({ plan, servings, setServings }) {
       <div className="costCards">
         {totals.map((t) => (
           <div
-            className={servings === t.servings ? "costCard selected" : "costCard"}
+            className={
+              servings === t.servings ? "costCard selected" : "costCard"
+            }
             key={t.servings}
           >
             <small>{t.servings} servings</small>
