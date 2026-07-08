@@ -146,6 +146,7 @@ th { color: var(--green); }
   .categoryGrid, .recipeRow, .recipeGrid, .collectionGrid, .featureStrip, .plannerGrid, .shoppingGrid, .costCards { grid-template-columns: 1fr; }
   .pageHeader, .plannerControls, .toolbar { flex-direction: column; align-items: stretch; }
 }
+</> CSS
 .categoryIconImage {
   width: 54px;
   height: 54px;
