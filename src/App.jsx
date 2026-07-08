@@ -745,7 +745,7 @@ function FeatureStrip() {
     {
       icon: "✦",
       title: "AI-Powered Recipes",
-      text: "Thoughtful recipes inspired by real ingredients & popular flavors.",
+      text: "Thoughtful recipes inspired by popular dishes.",
     },
     {
       icon: "▦",
@@ -765,7 +765,7 @@ function FeatureStrip() {
     {
       icon: "◇",
       title: "Product Recommendations",
-      text: "Cool kitchen tools, storage, and food organizers to make cooking fun.",
+      text: "Cool kitchen tools, and food organizers to make cooking fun.",
     },
   ];
 
