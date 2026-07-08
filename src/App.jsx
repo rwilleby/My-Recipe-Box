@@ -743,27 +743,22 @@ function EmptyState({ title, text }) {
 function FeatureStrip() {
   const features = [
     {
-      icon: "✦",
       title: "AI-Powered Recipes",
-      text: "Thoughtful recipes inspired by popular dishes.",
+      text: "Thoughtful recipes selected & inspired by popular dishes.",
     },
     {
-      icon: "▦",
       title: "Meal Planning Made Easy",
       text: "Build your own weekly meal plans, adjust servings for 2-6 people.",
     },
     {
-      icon: "⌁",
       title: "Smart Shopping List",
       text: "Auto-generate your shopping list from your weekly meal plan.",
     },
     {
-      icon: "▤",
       title: "Grocery Store Shopping List",
       text: "Estimate your food cost based on your weekly menu items.",
     },
     {
-      icon: "◇",
       title: "Product Recommendations",
       text: "Cool kitchen tools, and food organizers to make cooking fun.",
     },
@@ -773,10 +768,9 @@ function FeatureStrip() {
     <section className="featureStrip">
       {features.map((feature) => (
         <div className="featureCard" key={feature.title}>
-          <span className="featureIcon" aria-hidden="true">
-            {feature.icon}
-          </span>
-          <strong>{feature.title}</strong>
+          <div className="featureCardHeader">
+            <strong>{feature.title}</strong>
+          </div>
           <small>{feature.text}</small>
         </div>
       ))}

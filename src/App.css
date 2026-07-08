@@ -582,11 +582,11 @@ h1 {
 
 /* ================================
    FEATURE STRIP
-   Five warm-gray centered cards with green glyph icons
+   Five compact cards with green title banners
    ================================ */
 
 .featureStrip {
-  margin: 22px 5.5vw 28px;
+  margin: 22px 5.5vw 26px;
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 14px;
@@ -594,51 +594,54 @@ h1 {
 }
 
 .featureCard {
-  min-height: 178px;
-  border: 1px solid #ded9d0;
-  border-radius: 16px;
-  background: linear-gradient(135deg, #f2f0ec 0%, #ebe7df 100%);
-  box-shadow: 0 10px 24px rgba(23, 31, 22, 0.07);
+  min-height: 116px;
+  border: 1px solid #ddd8cf;
+  border-radius: 10px;
+  background: #ffffff;
+  box-shadow: 0 8px 18px rgba(23, 31, 22, 0.06);
+  overflow: hidden;
   display: flex;
   flex-direction: column;
+  text-align: center;
+}
+
+.featureCardHeader {
+  min-height: 50px;
+  padding: 8px 10px;
+  background: linear-gradient(135deg, #14532d 0%, #0f3f22 100%);
+  display: flex;
   align-items: center;
-  justify-content: flex-start;
-  text-align: center;
-  padding: 24px 16px 20px;
+  justify-content: center;
 }
 
-.featureIcon {
+.featureCardHeader strong {
   display: block;
-  margin: 0 auto 14px;
-  color: var(--green);
-  font-size: 38px;
-  line-height: 1;
-  background: transparent;
-  border: 0;
-  box-shadow: none;
-  width: auto;
-  height: auto;
-}
-
-.featureCard strong {
-  display: block;
-  color: #111827;
+  color: #ffffff;
   font-size: 15px;
-  font-weight: 800;
-  line-height: 1.05;
+  font-weight: 850;
+  line-height: 1.12;
   text-align: center;
-  max-width: 132px;
-  margin: 0 auto 8px;
+  max-width: 160px;
+  margin: 0 auto;
 }
 
 .featureCard small {
-  display: block;
-  color: #6b7280;
-  font-size: 12.5px;
-  line-height: 1.28;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  color: #111827;
+  font-size: 13px;
+  line-height: 1.32;
   text-align: center;
-  max-width: 158px;
+  max-width: 185px;
   margin: 0 auto;
+  padding: 12px 12px 14px;
+}
+
+/* No icons in the compact feature cards */
+.featureIcon {
+  display: none;
 }
 
 /* ================================
@@ -1138,31 +1141,9 @@ th {
 
 
 
-/* ================================
-   OPTION A FEATURE CARD RESPONSIVE OVERRIDES
-   ================================ */
-
-@media (max-width: 1100px) {
-  .featureStrip {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 720px) {
-  .featureStrip {
-    grid-template-columns: 1fr;
-  }
-
-  .featureCard {
-    min-height: auto;
-    padding: 22px 18px;
-  }
-}
-
 
 /* ================================
-   FINAL FEATURE CARD OVERRIDES
-   Product Recommendations adds fifth card
+   FINAL FEATURE CARD RESPONSIVE OVERRIDES
    ================================ */
 
 @media (max-width: 1100px) {
@@ -1178,7 +1159,14 @@ th {
 
   .featureCard {
     min-height: auto;
-    padding: 22px 18px;
+  }
+
+  .featureCardHeader {
+    min-height: 46px;
+  }
+
+  .featureCard small {
+    padding: 12px 16px 14px;
+    max-width: 260px;
   }
 }
-
