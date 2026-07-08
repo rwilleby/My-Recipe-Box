@@ -1090,4 +1090,75 @@ th {
       url("/My-Recipe-Box/images/heroes/hero-pasta-wide.png");
     background-position: center right;
   }
+}/* ================================
+   FULL-WIDTH HERO BACKGROUND PHOTO
+   Keep stat box visible
+   ================================ */
+
+.hero {
+  position: relative;
+  min-height: 560px;
+  display: flex;
+  align-items: center;
+  padding: 54px 5.5vw 46px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.98) 0%,
+      rgba(255, 255, 255, 0.94) 30%,
+      rgba(255, 255, 255, 0.74) 48%,
+      rgba(255, 255, 255, 0.20) 68%,
+      rgba(255, 255, 255, 0.04) 100%
+    ),
+    url("/My-Recipe-Box/images/heroes/hero-pasta-wide.png");
+  background-size: cover;
+  background-position: center right;
+  background-repeat: no-repeat;
+  z-index: 0;
+}
+
+.heroCopy {
+  position: relative;
+  max-width: 620px;
+  padding-top: 10px;
+  z-index: 2;
+}
+
+/* Keep heroPhoto only so the stat box can show */
+.heroPhoto {
+  position: absolute;
+  inset: 0;
+  min-height: auto;
+  display: block;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Hide the old image because the hero background now handles it */
+.heroPhoto .heroImage {
+  display: none;
+}
+
+.statsCard {
+  position: absolute;
+  right: 5.5vw;
+  bottom: 34px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  min-width: min(92%, 620px);
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  pointer-events: auto;
+  z-index: 3;
 }
