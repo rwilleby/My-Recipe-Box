@@ -1000,26 +1000,25 @@ th {
   }
 }
 /* ================================
-   MAKE ALL CATEGORY ICON BOXES SAME SIZE
+   STANDARDIZED CATEGORY ICONS
    ================================ */
-
-.categoryTile {
-  width: 100%;
-}
 
 .categoryIconImage {
   width: 168px;
   height: 168px;
   max-width: 168px;
   max-height: 168px;
-  object-fit: cover;
+  object-fit: contain;
   display: block;
   margin: 0 auto 14px;
   border-radius: 28px;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
 }
 
-/* Remove individual scaling now that all boxes are fixed */
 .categoryTile img[alt="Smoked/Grilled icon"] {
   transform: none;
-} 
+}
 }
