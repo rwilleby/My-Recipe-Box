@@ -966,7 +966,7 @@ function FeatureStrip() {
     },
     {
       title: "Smart Shopping List",
-      text: "Auto-generate shopping lists from meal plans.",
+      text: "Auto-generate lists from meal plans.",
     },
     {
       title: "Grocery Store List",
@@ -974,7 +974,7 @@ function FeatureStrip() {
     },
     {
       title: "Recommendations",
-      text: "Find kitchen tools and organizers you’ll love.",
+      text: "Find kitchen tools and organizers.",
     },
   ];
 

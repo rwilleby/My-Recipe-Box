@@ -1465,97 +1465,13 @@ th {
   }
 }
 
-
 /* ================================
-   FINAL COMPACT FEATURE BOX OVERRIDES
-   Thin gray bars + tight two-line body text
+   FORCE COMPACT FEATURE BOXES - FINAL
+   Keeps five cards short with 2-line body text
    ================================ */
 
 .featureStrip {
-  margin: 14px 5.5vw 18px;
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 14px;
-  align-items: stretch;
-}
-
-.featureCard {
-  min-height: 82px;
-  border: 1px solid #d7d9dc;
-  border-radius: 10px;
-  background: #ffffff;
-  box-shadow: 0 6px 14px rgba(23, 31, 22, 0.045);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-}
-
-.featureCardHeader {
-  min-height: 28px;
-  padding: 4px 8px;
-  background: linear-gradient(135deg, #b5bac0 0%, #a8afb5 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.featureCardHeader strong {
-  display: block;
-  color: #ffffff;
-  font-size: 12.5px;
-  font-weight: 850;
-  line-height: 1.05;
-  text-align: center;
-  max-width: 180px;
-  margin: 0 auto;
-}
-
-.featureCard small {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex: 1;
-  color: #111827;
-  font-size: 12px;
-  line-height: 1.18;
-  text-align: center;
-  max-width: 210px;
-  margin: 0 auto;
-  padding: 7px 10px 8px;
-}
-
-/* Tablet/mobile compact feature behavior */
-@media (max-width: 1100px) {
-  .featureStrip {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 720px) {
-  .featureStrip {
-    grid-template-columns: 1fr;
-    margin: 12px 24px 18px;
-  }
-
-  .featureCard {
-    min-height: auto;
-  }
-
-  .featureCardHeader {
-    min-height: 30px;
-  }
-
-  .featureCard small {
-    padding: 8px 14px 9px;
-    max-width: 260px;
-  }
-}/* ================================
-   FORCE COMPACT FEATURE BOXES
-   ================================ */
-
-.featureStrip {
-  margin: 14px 5.5vw 18px !important;
+  margin: 12px 5.5vw 16px !important;
   display: grid !important;
   grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
   gap: 14px !important;
@@ -1563,12 +1479,12 @@ th {
 }
 
 .featureCard {
-  min-height: 76px !important;
+  min-height: 70px !important;
   height: auto !important;
   border: 1px solid #d7d9dc !important;
   border-radius: 8px !important;
   background: #ffffff !important;
-  box-shadow: 0 5px 12px rgba(23, 31, 22, 0.045) !important;
+  box-shadow: 0 4px 10px rgba(23, 31, 22, 0.04) !important;
   overflow: hidden !important;
   display: flex !important;
   flex-direction: column !important;
@@ -1576,8 +1492,8 @@ th {
 }
 
 .featureCardHeader {
-  min-height: 26px !important;
-  height: 26px !important;
+  min-height: 24px !important;
+  height: 24px !important;
   padding: 2px 8px !important;
   background: linear-gradient(135deg, #aeb4ba 0%, #9fa7ad 100%) !important;
   display: flex !important;
@@ -1586,8 +1502,9 @@ th {
 }
 
 .featureCardHeader strong {
+  display: block !important;
   color: #ffffff !important;
-  font-size: 12px !important;
+  font-size: 11.5px !important;
   font-weight: 800 !important;
   line-height: 1.05 !important;
   text-align: center !important;
@@ -1601,29 +1518,26 @@ th {
   align-items: center !important;
   justify-content: center !important;
   color: #111827 !important;
-  font-size: 11.5px !important;
-  line-height: 1.16 !important;
+  font-size: 11px !important;
+  line-height: 1.14 !important;
   text-align: center !important;
-  max-width: 180px !important;
+  max-width: 175px !important;
   margin: 0 auto !important;
-  padding: 6px 10px 7px !important;
+  padding: 5px 10px 6px !important;
 }
 
-/* Tablet */
 @media (max-width: 1100px) {
   .featureStrip {
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   }
 }
 
-/* Mobile */
 @media (max-width: 720px) {
   .featureStrip {
     grid-template-columns: 1fr !important;
   }
 
   .featureCard {
-    min-height: 72px !important;
+    min-height: 68px !important;
   }
 }
-
