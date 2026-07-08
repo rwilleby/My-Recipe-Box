@@ -83,7 +83,11 @@ function Hero({ setActivePage }) {
         <div className="aiBadge">✧ AI-POWERED RECIPE PLANNING ✧</div>
 
         <h1>
-          Helping you organize your cooking, kitchen, & shopping - all in one place...
+          Organize your kitchen,
+          <br />
+          all in one place,
+          <br />
+          for free.
         </h1>
 
         <p>
