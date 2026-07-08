@@ -1,5 +1,5 @@
 import { useMemo, useState, useEffect } from "react";
-import { categories, collections, recipes } from "./data/recipes";
+import { categories, recipes } from "./data/recipes";
 import { loadJSON, saveJSON } from "./utils/storage";
 import {
   DAYS,
@@ -435,27 +435,44 @@ function RecipeCardViewer({ viewer, onClose, setViewer }) {
 }
 
 function CollectionStrip() {
+  const collectionCards = [
+    {
+      title: "Slow Cooker Favorites",
+      text: "Set-it-and-forget-it meals for easy planning.",
+    },
+    {
+      title: "Summer Cookouts",
+      text: "Grill-friendly meals and warm-weather favorites.",
+    },
+    {
+      title: "Healthy Dinners",
+      text: "Balanced meals for lighter weeknight cooking.",
+    },
+    {
+      title: "Comfort Foods",
+      text: "Cozy classics for family-style meals.",
+    },
+    {
+      title: "Easy 30-Minute Meals",
+      text: "Fast dinners for busy nights.",
+    },
+  ];
+
   return (
-    <section className="section">
+    <section className="section collectionSection">
       <div className="sectionTitle">
-        <h2>
-          AI-Generated Collections for Every Plan{" "}
-          <span className="miniAi">AI</span>
-        </h2>
+        <h2>AI-Generated Collections for Every Plan</h2>
         <button>View all collections ›</button>
       </div>
 
       <div className="collectionGrid">
-        {collections.map((c) => (
-          <div
-            className="collectionTile"
-            key={c.id}
-            style={{ background: c.tint }}
-          >
-            <span>{c.icon}</span>
-            <strong>{c.title}</strong>
-            <small>{c.count} recipes</small>
-          </div>
+        {collectionCards.map((collection) => (
+          <button className="collectionTile" key={collection.title}>
+            <div className="collectionTileHeader">
+              <strong>{collection.title}</strong>
+            </div>
+            <small>{collection.text}</small>
+          </button>
         ))}
       </div>
     </section>
@@ -958,23 +975,23 @@ function FeatureStrip() {
   const features = [
     {
       title: "AI-Powered Recipes",
-      text: "Thoughtful recipes inspired by popular dishes.",
+      text: "Thoughtful recipes selected & inspired by popular dishes.",
     },
     {
       title: "Easy Meal Planning",
-      text: "Build weekly meal plans for 2–6 servings.",
+      text: "Build your own weekly meal plans, adjust servings for 2-6 people.",
     },
     {
       title: "Smart Shopping List",
-      text: "Auto-generate lists from meal plans.",
+      text: "Auto-generate your shopping list from your weekly meal plan.",
     },
     {
       title: "Grocery Store List",
-      text: "Estimate costs from your weekly menu.",
+      text: "Estimate your food cost based on your weekly menu items.",
     },
     {
       title: "Recommendations",
-      text: "Find kitchen tools and organizers.",
+      text: "Cool kitchen tools, and food organizers to make cooking fun.",
     },
   ];
 

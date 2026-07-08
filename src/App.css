@@ -1466,34 +1466,50 @@ th {
 }
 
 /* ================================
-   FORCE COMPACT FEATURE BOXES - FINAL
-   Keeps five cards short with 2-line body text
+   FINAL COLLECTION + SECTION TITLE OVERRIDES
+   Five collection boxes match compact gray/white feature boxes
    ================================ */
 
-.featureStrip {
-  margin: 12px 5.5vw 16px !important;
+/* 2/3 size section headings: Browse by Category, Recently Added, Collections */
+.sectionTitle h2 {
+  font-size: 18px !important;
+  line-height: 1.15 !important;
+}
+
+.collectionSection {
+  padding-top: 14px !important;
+}
+
+.collectionGrid {
   display: grid !important;
   grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
   gap: 14px !important;
   align-items: stretch !important;
 }
 
-.featureCard {
-  min-height: 70px !important;
+.collectionTile {
+  min-height: 76px !important;
   height: auto !important;
   border: 1px solid #d7d9dc !important;
   border-radius: 8px !important;
   background: #ffffff !important;
-  box-shadow: 0 4px 10px rgba(23, 31, 22, 0.04) !important;
+  box-shadow: 0 5px 12px rgba(23, 31, 22, 0.045) !important;
   overflow: hidden !important;
   display: flex !important;
   flex-direction: column !important;
   text-align: center !important;
+  padding: 0 !important;
+  cursor: pointer !important;
 }
 
-.featureCardHeader {
-  min-height: 24px !important;
-  height: 24px !important;
+.collectionTile:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.01);
+}
+
+.collectionTileHeader {
+  min-height: 26px !important;
+  height: 26px !important;
   padding: 2px 8px !important;
   background: linear-gradient(135deg, #aeb4ba 0%, #9fa7ad 100%) !important;
   display: flex !important;
@@ -1501,10 +1517,9 @@ th {
   justify-content: center !important;
 }
 
-.featureCardHeader strong {
-  display: block !important;
+.collectionTileHeader strong {
   color: #ffffff !important;
-  font-size: 11.5px !important;
+  font-size: 12px !important;
   font-weight: 800 !important;
   line-height: 1.05 !important;
   text-align: center !important;
@@ -1512,32 +1527,40 @@ th {
   max-width: 190px !important;
 }
 
-.featureCard small {
+.collectionTile small {
   flex: 1 !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
   color: #111827 !important;
-  font-size: 11px !important;
-  line-height: 1.14 !important;
+  font-size: 11.5px !important;
+  line-height: 1.16 !important;
   text-align: center !important;
-  max-width: 175px !important;
+  max-width: 180px !important;
   margin: 0 auto !important;
-  padding: 5px 10px 6px !important;
+  padding: 6px 10px 7px !important;
+}
+
+.collectionTile span {
+  display: none !important;
 }
 
 @media (max-width: 1100px) {
-  .featureStrip {
+  .collectionGrid {
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   }
 }
 
 @media (max-width: 720px) {
-  .featureStrip {
+  .sectionTitle h2 {
+    font-size: 17px !important;
+  }
+
+  .collectionGrid {
     grid-template-columns: 1fr !important;
   }
 
-  .featureCard {
-    min-height: 68px !important;
+  .collectionTile {
+    min-height: 72px !important;
   }
 }
