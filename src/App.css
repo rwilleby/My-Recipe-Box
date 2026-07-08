@@ -1055,3 +1055,67 @@ th {
     align-items: stretch;
   }
 }
+
+/* ================================
+   FINAL HERO + TRANSPARENCY OVERRIDES
+   Place transparency line below hero, not inside hero
+   ================================ */
+
+/* Hero headline only — keep other page h1 sizes unchanged */
+.hero h1 {
+  font-size: clamp(22px, 2.1vw, 28px);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  margin: 14px 0 12px;
+  max-width: 520px;
+}
+
+/* Keep supporting paragraph balanced under smaller headline */
+.heroCopy p {
+  font-size: 15px;
+  line-height: 1.42;
+  max-width: 560px;
+}
+
+/* Hide the old transparency line if it is still inside heroPhoto */
+.heroTransparency {
+  display: none !important;
+}
+
+/* New transparency line goes between Hero and CategoryGrid in App.jsx */
+.transparencyLine {
+  padding: 10px 5.5vw 4px;
+  color: #111;
+  font-size: 14px;
+  line-height: 1.25;
+  text-align: center;
+  background: var(--cream);
+  white-space: nowrap;
+}
+
+.transparencyLine strong {
+  font-weight: 800;
+}
+
+/* Stats can now sit lower because transparency is no longer inside the hero */
+.statsCard {
+  bottom: 18px;
+}
+
+/* Mobile: allow the transparency sentence to wrap */
+@media (max-width: 720px) {
+  .hero h1 {
+    font-size: clamp(24px, 8vw, 34px);
+  }
+
+  .transparencyLine {
+    white-space: normal;
+    font-size: 13px;
+    padding: 10px 24px 4px;
+  }
+
+  .statsCard {
+    bottom: auto;
+  }
+}
+

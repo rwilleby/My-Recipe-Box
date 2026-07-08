@@ -139,11 +139,16 @@ function Hero({ setActivePage }) {
           </div>
         </div>
 
-        <div className="heroTransparency">
-          <strong>Transparency first:</strong> All collections on Robert’s Recipe Box are AI-generated planning tools — not private family recipes.
-        </div>
       </div>
     </section>
+  );
+}
+
+function TransparencyLine() {
+  return (
+    <div className="transparencyLine">
+      <strong>Transparency first:</strong> All collections on Robert’s Recipe Box are AI-generated planning tools — not private family recipes.
+    </div>
   );
 }
 
@@ -273,6 +278,7 @@ function Home({
   return (
     <>
       <Hero setActivePage={setActivePage} />
+      <TransparencyLine />
       <CategoryGrid setFilter={setFilter} setActivePage={setActivePage} />
 
       <section className="section">
