@@ -470,6 +470,19 @@ h1 {
   filter: drop-shadow(0 8px 10px rgba(0, 0, 0, .25));
 }
 
+.recipeImage.recipePhoto {
+  background: #f7f3ec;
+  overflow: hidden;
+}
+
+.recipeImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
 .heart {
   position: absolute;
   top: 9px;

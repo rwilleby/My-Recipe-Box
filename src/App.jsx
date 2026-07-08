@@ -29,6 +29,34 @@ const CATEGORY_ICON_IMAGES = {
   SD: "images/icons/icon-side-dishes.png",
 };
 
+const AUTO_IMAGE_PREFIXES = new Set(["AS", "CC", "CO", "CR", "DN", "HB", "HBP", "IT"]);
+
+function recipeCodePrefix(recipeId = "") {
+  const match = recipeId.match(/^[A-Z]+/);
+  return match ? match[0] : "";
+}
+
+function recipeImageCandidates(recipe) {
+  const candidates = [];
+
+  if (recipe.heroImage) {
+    candidates.push(recipe.heroImage);
+  }
+
+  if (recipe.image) {
+    candidates.push(recipe.image);
+  }
+
+  const prefix = recipeCodePrefix(recipe.id);
+
+  if (recipe.id && AUTO_IMAGE_PREFIXES.has(prefix)) {
+    candidates.push(`images/heroes/${recipe.id}.png`);
+    candidates.push(`images/recipes/${recipe.id}.png`);
+  }
+
+  return [...new Set(candidates)];
+}
+
 function Header({ activePage, setActivePage }) {
   const nav = [
     "Recipes",
@@ -197,6 +225,26 @@ function CategoryGrid({ setFilter, setActivePage }) {
 }
 
 function RecipeImage({ recipe }) {
+  const candidates = recipeImageCandidates(recipe);
+  const [imageIndex, setImageIndex] = useState(0);
+  const imagePath = candidates[imageIndex];
+
+  useEffect(() => {
+    setImageIndex(0);
+  }, [recipe.id]);
+
+  if (imagePath) {
+    return (
+      <div className="recipeImage recipePhoto">
+        <img
+          src={`${import.meta.env.BASE_URL}${imagePath}`}
+          alt={recipe.title}
+          onError={() => setImageIndex((current) => current + 1)}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="recipeImage" style={{ background: recipe.imageStyle }}>
       <span>{recipe.emoji}</span>
