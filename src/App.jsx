@@ -768,7 +768,9 @@ function FeatureStrip() {
     <section className="featureStrip">
       {features.map((feature) => (
         <div className="featureCard" key={feature.title}>
-          <span className="featureIcon">{feature.icon}</span>
+          <span className="featureIcon" aria-hidden="true">
+            {feature.icon}
+          </span>
           <strong>{feature.title}</strong>
           <small>{feature.text}</small>
         </div>
