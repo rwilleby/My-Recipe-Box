@@ -43,7 +43,11 @@ function Hero({ setActivePage }) {
         <div className="transparency"><span>✧</span><strong>Transparency first:</strong> All collections on Robert’s Recipe Box are AI-generated planning tools — not private family recipes. <span className="info">ⓘ</span></div>
       </div>
       <div className="heroPhoto">
-        <div className="pastaBowl">🍝</div>
+        <img
+  className="heroImage"
+  src={`${import.meta.env.BASE_URL}images/heroes/hero-pasta.png`}
+  alt="Creamy pasta with basil and tomatoes"
+/>
         <div className="statsCard">
           <div><span>👨‍🍳</span><strong>400+</strong><small>AI Recipes</small></div>
           <div><span>♡</span><strong>50+</strong><small>Favorites</small></div>
