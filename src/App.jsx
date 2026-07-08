@@ -57,6 +57,34 @@ function recipeImageCandidates(recipe) {
   return [...new Set(candidates)];
 }
 
+function fullCardImageCandidates(recipe) {
+  const candidates = [];
+
+  if (recipe.cardImage) {
+    candidates.push(recipe.cardImage);
+  }
+
+  if (recipe.image) {
+    candidates.push(recipe.image);
+  }
+
+  const prefix = recipeCodePrefix(recipe.id);
+
+  if (recipe.id && AUTO_IMAGE_PREFIXES.has(prefix)) {
+    candidates.push(`images/recipes/${recipe.id}.png`);
+  }
+
+  if (recipe.heroImage) {
+    candidates.push(recipe.heroImage);
+  }
+
+  if (recipe.id && AUTO_IMAGE_PREFIXES.has(prefix)) {
+    candidates.push(`images/heroes/${recipe.id}.png`);
+  }
+
+  return [...new Set(candidates)];
+}
+
 function Header({ activePage, setActivePage }) {
   const nav = [
     "Recipes",
@@ -252,7 +280,14 @@ function RecipeImage({ recipe }) {
   );
 }
 
-function RecipeCard({ recipe, favorites, toggleFavorite, addToPlan }) {
+function RecipeCard({
+  recipe,
+  favorites,
+  toggleFavorite,
+  addToPlan,
+  openRecipeCard,
+  cardList = recipes,
+}) {
   return (
     <article className="recipeCard">
       <RecipeImage recipe={recipe} />
@@ -278,11 +313,124 @@ function RecipeCard({ recipe, favorites, toggleFavorite, addToPlan }) {
           <span>{recipe.price}</span>
         </div>
 
-        <button className="addPlan" onClick={() => addToPlan(recipe.id)}>
-          Add to planner
-        </button>
+        <div className="recipeActions">
+          <button
+            className="viewCard"
+            onClick={() => openRecipeCard(recipe.id, cardList)}
+          >
+            View Card
+          </button>
+          <button className="addPlan" onClick={() => addToPlan(recipe.id)}>
+            Add to planner
+          </button>
+        </div>
       </div>
     </article>
+  );
+}
+
+function RecipeCardViewer({ viewer, onClose, setViewer }) {
+  const [imageIndex, setImageIndex] = useState(0);
+
+  const viewerIds = viewer?.recipeIds?.length
+    ? viewer.recipeIds
+    : recipes.map((recipe) => recipe.id);
+  const currentIndex = viewer
+    ? Math.max(0, viewerIds.indexOf(viewer.recipeId))
+    : 0;
+  const currentRecipeId = viewerIds[currentIndex] || viewer?.recipeId;
+  const recipe = viewer
+    ? recipes.find((item) => item.id === currentRecipeId) ||
+      recipes.find((item) => item.id === viewer.recipeId)
+    : null;
+
+  useEffect(() => {
+    setImageIndex(0);
+  }, [recipe?.id]);
+
+  if (!viewer || !recipe) return null;
+
+  const imageCandidates = fullCardImageCandidates(recipe);
+  const imagePath = imageCandidates[imageIndex];
+  const hasMultiple = viewerIds.length > 1;
+
+  function goToOffset(offset) {
+    if (!hasMultiple) return;
+
+    const nextIndex =
+      (currentIndex + offset + viewerIds.length) % viewerIds.length;
+
+    setViewer({
+      recipeId: viewerIds[nextIndex],
+      recipeIds: viewerIds,
+    });
+  }
+
+  return (
+    <div className="cardViewerOverlay" onClick={onClose}>
+      <div className="cardViewer" onClick={(event) => event.stopPropagation()}>
+        <div className="cardViewerHeader">
+          <div>
+            <span className="cardViewerCode">{recipe.id}</span>
+            <h2>{recipe.title}</h2>
+          </div>
+
+          <button className="cardViewerClose" onClick={onClose}>
+            ×
+          </button>
+        </div>
+
+        <div className="cardViewerStage">
+          <button
+            className="cardViewerNav"
+            onClick={() => goToOffset(-1)}
+            disabled={!hasMultiple}
+            aria-label="Previous recipe card"
+          >
+            ‹
+          </button>
+
+          <div className="cardViewerImageWrap">
+            {imagePath ? (
+              <img
+                src={`${import.meta.env.BASE_URL}${imagePath}`}
+                alt={`${recipe.id} ${recipe.title} recipe card`}
+                onError={() => setImageIndex((current) => current + 1)}
+              />
+            ) : (
+              <div className="cardViewerMissing">
+                <strong>Recipe card image not found.</strong>
+                <span>
+                  Expected: images/recipes/{recipe.id}.png
+                </span>
+              </div>
+            )}
+          </div>
+
+          <button
+            className="cardViewerNav"
+            onClick={() => goToOffset(1)}
+            disabled={!hasMultiple}
+            aria-label="Next recipe card"
+          >
+            ›
+          </button>
+        </div>
+
+        <div className="cardViewerFooter">
+          <span>
+            {currentIndex + 1} of {viewerIds.length}
+          </span>
+          <a
+            href={`${import.meta.env.BASE_URL}images/recipes/${recipe.id}.png`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Open full image
+          </a>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -318,9 +466,12 @@ function Home({
   favorites,
   toggleFavorite,
   addToPlan,
+  openRecipeCard,
   setActivePage,
   setFilter,
 }) {
+  const recentlyAdded = recipes.slice(0, 6);
+
   return (
     <>
       <Hero setActivePage={setActivePage} />
@@ -337,13 +488,15 @@ function Home({
         </div>
 
         <div className="recipeRow">
-          {recipes.slice(0, 6).map((recipe) => (
+          {recentlyAdded.map((recipe) => (
             <RecipeCard
               key={recipe.id}
               recipe={recipe}
               favorites={favorites}
               toggleFavorite={toggleFavorite}
               addToPlan={addToPlan}
+              openRecipeCard={openRecipeCard}
+              cardList={recentlyAdded}
             />
           ))}
         </div>
@@ -358,6 +511,7 @@ function RecipesPage({
   favorites,
   toggleFavorite,
   addToPlan,
+  openRecipeCard,
   filter,
   setFilter,
 }) {
@@ -410,6 +564,8 @@ function RecipesPage({
             favorites={favorites}
             toggleFavorite={toggleFavorite}
             addToPlan={addToPlan}
+            openRecipeCard={openRecipeCard}
+            cardList={filtered}
           />
         ))}
       </div>
@@ -696,7 +852,12 @@ function CostEstimatorPage({ plan, servings, setServings }) {
   );
 }
 
-function FavoritesPage({ favorites, toggleFavorite, addToPlan }) {
+function FavoritesPage({
+  favorites,
+  toggleFavorite,
+  addToPlan,
+  openRecipeCard,
+}) {
   const saved = recipes.filter((r) => favorites.includes(r.id));
 
   return (
@@ -723,6 +884,8 @@ function FavoritesPage({ favorites, toggleFavorite, addToPlan }) {
               favorites={favorites}
               toggleFavorite={toggleFavorite}
               addToPlan={addToPlan}
+              openRecipeCard={openRecipeCard}
+              cardList={saved}
             />
           ))}
         </div>
@@ -844,6 +1007,7 @@ export default function App() {
     loadJSON(STORAGE_KEYS.checked, {})
   );
   const [filter, setFilter] = useState("");
+  const [cardViewer, setCardViewer] = useState(null);
 
   useEffect(() => saveJSON(STORAGE_KEYS.favorites, favorites), [favorites]);
   useEffect(() => saveJSON(STORAGE_KEYS.plan, plan), [plan]);
@@ -871,10 +1035,18 @@ export default function App() {
     setActivePage("Meal Planner");
   }
 
+  function openRecipeCard(recipeId, sourceRecipes = recipes) {
+    setCardViewer({
+      recipeId,
+      recipeIds: sourceRecipes.map((recipe) => recipe.id),
+    });
+  }
+
   const pageProps = {
     favorites,
     toggleFavorite,
     addToPlan,
+    openRecipeCard,
     setActivePage,
     setFilter,
     filter,
@@ -898,6 +1070,12 @@ export default function App() {
       {activePage === "Cost Estimator" && <CostEstimatorPage {...pageProps} />}
       {activePage === "Favorites" && <FavoritesPage {...pageProps} />}
       {activePage === "About" && <AboutPage />}
+
+      <RecipeCardViewer
+        viewer={cardViewer}
+        onClose={() => setCardViewer(null)}
+        setViewer={setCardViewer}
+      />
 
       <footer className="footer">
         Robert’s Recipe Box uses AI-generated recipe collections as practical
