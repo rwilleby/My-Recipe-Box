@@ -747,7 +747,7 @@ function FeatureStrip() {
       text: "Thoughtful recipes selected & inspired by popular dishes.",
     },
     {
-      title: "Meal Planning Made Easy",
+      title: "Easy Meal Planning",
       text: "Build your own weekly meal plans, adjust servings for 2-6 people.",
     },
     {
@@ -755,11 +755,11 @@ function FeatureStrip() {
       text: "Auto-generate your shopping list from your weekly meal plan.",
     },
     {
-      title: "Grocery Store Shopping List",
+      title: "Grocery Store List",
       text: "Estimate your food cost based on your weekly menu items.",
     },
     {
-      title: "Product Recommendations",
+      title: "Recommendations",
       text: "Cool kitchen tools, and food organizers to make cooking fun.",
     },
   ];
