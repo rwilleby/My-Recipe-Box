@@ -1170,3 +1170,65 @@ th {
     max-width: 260px;
   }
 }
+
+
+/* ================================
+   FINAL HERO BUTTON + PARAGRAPH ALIGNMENT
+   Align CTA buttons with bottom of stats card; make paragraph a narrow 3-line block
+   ================================ */
+
+.heroCopy {
+  position: static;
+  max-width: 560px;
+}
+
+.heroCopy .aiBadge,
+.heroCopy h1,
+.heroCopy p {
+  position: relative;
+  z-index: 2;
+}
+
+.heroCopy p {
+  max-width: 470px;
+  font-size: 15px;
+  line-height: 1.42;
+}
+
+.heroButtons {
+  position: absolute;
+  left: 5.5vw;
+  bottom: 18px;
+  z-index: 4;
+  margin: 0;
+}
+
+.statsCard {
+  bottom: 18px;
+}
+
+/* Tablet and mobile: return hero buttons to normal flow */
+@media (max-width: 1100px) {
+  .heroCopy {
+    position: relative;
+    max-width: 590px;
+  }
+
+  .heroButtons {
+    position: relative;
+    left: auto;
+    bottom: auto;
+    margin: 18px 0 0;
+  }
+
+  .heroCopy p {
+    max-width: 560px;
+  }
+}
+
+@media (max-width: 720px) {
+  .heroCopy p br {
+    display: none;
+  }
+}
+

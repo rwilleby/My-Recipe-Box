@@ -87,8 +87,11 @@ function Hero({ setActivePage }) {
         </h1>
 
         <p>
-          Browse my AI-generated recipe collections, save your favorites, build your weekly
-          meal plans, create your own shopping lists, and estimate food costs...
+          Browse AI-generated recipes, save your favorites,
+          <br />
+          build weekly meal plans, create smart shopping lists,
+          <br />
+          and estimate food costs.
         </p>
 
         <div className="heroButtons">
