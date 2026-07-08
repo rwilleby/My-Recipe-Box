@@ -140,10 +140,7 @@ function Hero({ setActivePage }) {
         </div>
 
         <div className="heroTransparency">
-          <strong>Transparency first:</strong> All collections are AI-generated
-          planning tools.
-          <br />
-          Not private family recipes.
+          <strong>Transparency first:</strong> All collections on Robert’s Recipe Box are AI-generated planning tools — not private family recipes.
         </div>
       </div>
     </section>
