@@ -83,17 +83,12 @@ function Hero({ setActivePage }) {
         <div className="aiBadge">✧ AI-POWERED RECIPE PLANNING ✧</div>
 
         <h1>
-          Organize your kitchen,
-          <br />
-          all in one place,
-          <br />
-          for free.
+          Helping to organize your cooking, kitchen, & shopping - all in one place...
         </h1>
 
         <p>
           Browse AI-generated recipe collections, save favorites, build weekly
-          meal plans, create shopping lists, and estimate food costs for 2, 4,
-          and 6 servings.
+          meal plans, create shopping lists, and estimate food costs...
         </p>
 
         <div className="heroButtons">
