@@ -287,6 +287,7 @@ function RecipeCard({
   addToPlan,
   openRecipeCard,
   cardList = recipes,
+  showPlannerButton = true,
 }) {
   return (
     <article className="recipeCard">
@@ -318,11 +319,13 @@ function RecipeCard({
             className="viewCard"
             onClick={() => openRecipeCard(recipe.id, cardList)}
           >
-            View Card
+            View Recipe Card
           </button>
-          <button className="addPlan" onClick={() => addToPlan(recipe.id)}>
-            Add to planner
-          </button>
+          {showPlannerButton && (
+            <button className="addPlan" onClick={() => addToPlan(recipe.id)}>
+              Add to planner
+            </button>
+          )}
         </div>
       </div>
     </article>
@@ -487,7 +490,7 @@ function Home({
   setActivePage,
   setFilter,
 }) {
-  const recentlyAdded = recipes.slice(0, 6);
+  const recentlyAdded = recipes.slice(0, 3);
 
   return (
     <>
@@ -514,6 +517,7 @@ function Home({
               addToPlan={addToPlan}
               openRecipeCard={openRecipeCard}
               cardList={recentlyAdded}
+              showPlannerButton={false}
             />
           ))}
         </div>
@@ -975,23 +979,23 @@ function FeatureStrip() {
   const features = [
     {
       title: "AI-Powered Recipes",
-      text: "Thoughtful recipes selected & inspired by popular dishes.",
+      text: "Recipe ideas inspired by popular dishes.",
     },
     {
       title: "Easy Meal Planning",
-      text: "Build your own weekly meal plans, adjust servings for 2-6 people.",
+      text: "Build weekly plans for 2–6 servings.",
     },
     {
       title: "Smart Shopping List",
-      text: "Auto-generate your shopping list from your weekly meal plan.",
+      text: "Create lists from your meal plan.",
     },
     {
       title: "Grocery Store List",
-      text: "Estimate your food cost based on your weekly menu items.",
+      text: "Estimate costs from your menu.",
     },
     {
       title: "Recommendations",
-      text: "Cool kitchen tools, and food organizers to make cooking fun.",
+      text: "Kitchen tools and organizers.",
     },
   ];
 

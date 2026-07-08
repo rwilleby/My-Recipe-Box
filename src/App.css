@@ -1564,3 +1564,107 @@ th {
     min-height: 72px !important;
   }
 }
+
+/* ================================
+   FORCE FINAL COMPACT FEATURE + COLLECTION BOXES
+   This must stay at the very bottom of App.css.
+   ================================ */
+
+.sectionTitle h2 {
+  font-size: 18px !important;
+  line-height: 1.15 !important;
+}
+
+.featureStrip,
+.collectionGrid {
+  display: grid !important;
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  gap: 14px !important;
+  align-items: stretch !important;
+}
+
+.featureStrip {
+  margin: 12px 5.5vw 16px !important;
+}
+
+.featureCard,
+.collectionTile {
+  min-height: 66px !important;
+  height: 66px !important;
+  border: 1px solid #d7d9dc !important;
+  border-radius: 8px !important;
+  background: #ffffff !important;
+  box-shadow: 0 5px 12px rgba(23, 31, 22, 0.045) !important;
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+  text-align: center !important;
+  padding: 0 !important;
+}
+
+.featureCardHeader,
+.collectionTileHeader {
+  min-height: 22px !important;
+  height: 22px !important;
+  padding: 1px 8px !important;
+  background: linear-gradient(135deg, #aeb4ba 0%, #9fa7ad 100%) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex: 0 0 22px !important;
+}
+
+.featureCardHeader strong,
+.collectionTileHeader strong {
+  color: #ffffff !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  line-height: 1.02 !important;
+  text-align: center !important;
+  margin: 0 auto !important;
+  max-width: 190px !important;
+}
+
+.featureCard small,
+.collectionTile small {
+  flex: 1 1 auto !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: #111827 !important;
+  font-size: 10.75px !important;
+  line-height: 1.08 !important;
+  text-align: center !important;
+  max-width: 170px !important;
+  margin: 0 auto !important;
+  padding: 3px 8px 4px !important;
+}
+
+.collectionTile span,
+.featureIcon {
+  display: none !important;
+}
+
+@media (max-width: 1100px) {
+  .featureStrip,
+  .collectionGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 720px) {
+  .sectionTitle h2 {
+    font-size: 17px !important;
+  }
+
+  .featureStrip,
+  .collectionGrid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .featureCard,
+  .collectionTile {
+    min-height: 64px !important;
+    height: auto !important;
+  }
+}
