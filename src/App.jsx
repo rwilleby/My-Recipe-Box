@@ -741,41 +741,38 @@ function EmptyState({ title, text }) {
 }
 
 function FeatureStrip() {
+  const features = [
+    {
+      icon: "✧",
+      title: "AI-Powered Collections",
+      text: "Thoughtfully generated recipes inspired by real ingredients and popular flavors.",
+    },
+    {
+      icon: "▣",
+      title: "Meal Planning Made Easy",
+      text: "Build weekly plans and adjust servings for 2, 4, or 6 people.",
+    },
+    {
+      icon: "🛒",
+      title: "Smart Shopping Lists",
+      text: "Auto-generate lists from your meal plan and keep your pantry organized.",
+    },
+    {
+      icon: "▤",
+      title: "Cost Estimator",
+      text: "Estimate total food costs based on servings and ingredients.",
+    },
+  ];
+
   return (
     <section className="featureStrip">
-      <div>
-        <span>✧</span>
-        <strong>AI-Powered Collections</strong>
-        <small>
-          Thoughtfully generated recipes inspired by real ingredients and
-          popular flavors.
-        </small>
-      </div>
-
-      <div>
-        <span>▣</span>
-        <strong>Meal Planning Made Easy</strong>
-        <small>
-          Build weekly plans and adjust servings for 2, 4, or 6 people.
-        </small>
-      </div>
-
-      <div>
-        <span>🛒</span>
-        <strong>Smart Shopping Lists</strong>
-        <small>
-          Auto-generate lists from your meal plan and keep your pantry
-          organized.
-        </small>
-      </div>
-
-      <div>
-        <span>▤</span>
-        <strong>Cost Estimator</strong>
-        <small>
-          Estimate total food costs based on servings and ingredients.
-        </small>
-      </div>
+      {features.map((feature) => (
+        <div className="featureCard" key={feature.title}>
+          <span className="featureIcon">{feature.icon}</span>
+          <strong>{feature.title}</strong>
+          <small>{feature.text}</small>
+        </div>
+      ))}
     </section>
   );
 }
