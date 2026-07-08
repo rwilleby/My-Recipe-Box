@@ -1,12 +1,12 @@
 export const categories = [
-  { id: 'AS', name: 'Asian', count: 58, icon: '🍜', color: '#EF4444' },
-  { id: 'AM', name: 'American', count: 86, icon: '🍔', color: '#2F77B4' },
-  { id: 'IT', name: 'Italian', count: 72, icon: '🍝', color: '#5FA05A' },
-  { id: 'MX', name: 'Mexican', count: 67, icon: '🌮', color: '#F28C18' },
-  { id: 'SB', name: 'Salads & Bowls', count: 52, icon: '🥗', color: '#20A986' },
-  { id: 'SF', name: 'Seafood', count: 43, icon: '🐟', color: '#3B8FCC' },
-  { id: 'SG', name: 'Smoked/Grilled', count: 63, icon: '🔥', color: '#A8795E' },
-  { id: 'SD', name: 'Side Dishes', count: 45, icon: '🍲', color: '#7E61B8' },
+  { id: 'AS', name: 'Asian', count: 58, iconImage: 'images/icons/icon-asian.png', color: '#EF4444' },
+{ id: 'AM', name: 'American', count: 86, iconImage: 'images/icons/icon-american.png', color: '#2F77B4' },
+{ id: 'IT', name: 'Italian', count: 72, iconImage: 'images/icons/icon-italian.png', color: '#5FA05A' },
+{ id: 'MX', name: 'Mexican', count: 67, iconImage: 'images/icons/icon-mexican.png', color: '#F28C18' },
+{ id: 'SB', name: 'Salads & Bowls', count: 52, iconImage: 'images/icons/icon-salads-bowls.png', color: '#20A986' },
+{ id: 'SF', name: 'Seafood', count: 43, iconImage: 'images/icons/icon-seafood.png', color: '#3B8FCC' },
+{ id: 'SG', name: 'Smoked/Grilled', count: 63, iconImage: 'images/icons/icon-smoked-grilled.png', color: '#A8795E' },
+{ id: 'SD', name: 'Side Dishes', count: 45, iconImage: 'images/icons/icon-side-dishes.png', color: '#7E61B8' },
 ];
 
 export const collections = [
