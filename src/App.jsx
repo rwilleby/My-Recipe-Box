@@ -744,28 +744,28 @@ function FeatureStrip() {
   const features = [
     {
       icon: "✦",
-      title: "AI-Powered Collections",
-      text: "Thoughtfully generated recipes inspired by real ingredients and popular flavors.",
+      title: "AI-Powered Recipes",
+      text: "Thoughtful recipes inspired by real ingredients & popular flavors.",
     },
     {
       icon: "▦",
       title: "Meal Planning Made Easy",
-      text: "Build weekly plans and adjust servings for 2, 4, or 6 people.",
+      text: "Build your own weekly meal plans, adjust servings for 2-6 people.",
     },
     {
       icon: "⌁",
-      title: "Smart Shopping Lists",
-      text: "Auto-generate lists from your meal plan and keep your pantry organized.",
+      title: "Smart Shopping List",
+      text: "Auto-generate your shopping list from your weekly meal plan.",
     },
     {
       icon: "▤",
-      title: "Cost Estimator",
-      text: "Estimate total food costs based on servings and ingredients.",
+      title: "Grocery Store Shopping List",
+      text: "Estimate your food cost based on your weekly menu items.",
     },
     {
       icon: "◇",
       title: "Product Recommendations",
-      text: "Recommended kitchen tools, storage, organizers, and ingredients to make cooking easier.",
+      text: "Cool kitchen tools, storage, and food organizers to make cooking fun.",
     },
   ];
 
