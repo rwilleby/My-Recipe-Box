@@ -1,4 +1,3 @@
-[README.md](https://github.com/user-attachments/files/29778980/README.md)
 # Robert's Recipe Box — Browser-Based V1
 
 This is the first easy browser-based version of Robert's Recipe Box.
