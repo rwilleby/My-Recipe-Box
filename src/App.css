@@ -582,45 +582,60 @@ h1 {
 
 /* ================================
    FEATURE STRIP
+   Four separate CTA-style cards
    ================================ */
 
 .featureStrip {
-  margin: 24px 5.5vw 30px;
-  border: 1px solid #eadccb;
-  border-radius: 12px;
-  background: white;
+  margin: 22px 5.5vw 28px;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  overflow: hidden;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, .04);
+  gap: 14px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  overflow: visible;
+  box-shadow: none;
 }
 
-.featureStrip div {
+.featureCard {
+  min-height: 132px;
+  border: 1px solid var(--green);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.92);
   display: grid;
-  grid-template-columns: 50px 1fr;
-  gap: 6px 14px;
-  padding: 18px 22px;
-  border-right: 1px solid var(--line);
+  grid-template-columns: 54px 1fr;
+  grid-template-rows: auto 1fr;
+  column-gap: 14px;
+  row-gap: 6px;
+  align-items: start;
+  padding: 18px;
+  box-shadow: 0 8px 18px rgba(20, 83, 45, 0.08);
 }
 
-.featureStrip div:last-child {
-  border-right: 0;
-}
-
-.featureStrip span {
+.featureIcon {
   grid-row: span 2;
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
   display: grid;
   place-items: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: #f6fbf7;
+  background: linear-gradient(135deg, #f0f8f2, #ffffff);
+  border: 1px solid #d8eadc;
   color: var(--green);
-  font-size: 24px;
+  font-size: 22px;
+  line-height: 1;
 }
 
-.featureStrip small {
-  color: var(--muted);
+.featureCard strong {
+  font-size: 17px;
+  font-weight: 850;
+  color: #111827;
+  line-height: 1.1;
+}
+
+.featureCard small {
+  color: #5f6368;
+  font-size: 14px;
   line-height: 1.35;
 }
 
@@ -1119,3 +1134,23 @@ th {
   }
 }
 
+
+/* ================================
+   FINAL FEATURE CARD RESPONSIVE OVERRIDES
+   ================================ */
+
+@media (max-width: 1100px) {
+  .featureStrip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .featureStrip {
+    grid-template-columns: 1fr;
+  }
+
+  .featureCard {
+    min-height: auto;
+  }
+}
