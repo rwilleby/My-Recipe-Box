@@ -87,8 +87,8 @@ function Hero({ setActivePage }) {
         </h1>
 
         <p>
-          Browse AI-generated recipe collections, save favorites, build weekly
-          meal plans, create shopping lists, and estimate food costs...
+          Browse my AI-generated recipe collections, save your favorites, build your weekly
+          meal plans, create your own shopping lists, and estimate food costs...
         </p>
 
         <div className="heroButtons">
@@ -142,7 +142,7 @@ function Hero({ setActivePage }) {
 function TransparencyLine() {
   return (
     <div className="transparencyLine">
-      <strong>Transparency first:</strong> All collections on Robert’s Recipe Box are AI-generated planning tools — not private family recipes.
+      <strong>Transparency first:</strong> All recipes & collections in Robert’s Recipe Box are AI-generated planning tools — not private family recipes.
     </div>
   );
 }
