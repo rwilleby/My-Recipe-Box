@@ -161,16 +161,15 @@ function Header({ activePage, setActivePage }) {
   return (
     <header className="topbar">
       <button
-        className="brand"
+        className="brand brandLogoButton"
         onClick={() => setActivePage("Home")}
         aria-label="Go home"
       >
-        <span className="brandIcon">♨</span>
-        <span>
-          <strong>Robert&apos;s</strong>
-          <br />
-          <strong>Recipe Box</strong>
-        </span>
+        <img
+          className="brandLogoImage"
+          src={`${import.meta.env.BASE_URL}images/ui/rrb-logo-wide.png`}
+          alt="Robert's Recipe Box"
+        />
       </button>
 
       <nav className="navLinks">
