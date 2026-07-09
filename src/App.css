@@ -1617,3 +1617,123 @@ th {
     flex: 1;
   }
 }
+
+
+/* ================================
+   ROLODEX HOLDER ART UPDATE
+   Uses: public/images/ui/hero-rolodex-.png
+   ================================ */
+
+/* Recently Added now shows 2 cards so the Rolodex gets more room */
+.recentlyAddedLayout {
+  grid-template-columns: minmax(260px, 0.7fr) minmax(560px, 1.7fr);
+  gap: 30px;
+}
+
+.recentlyAddedCards {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+/* The stage now places the real recipe card over the Rolodex holder art */
+.homeRolodexStage {
+  position: relative;
+  min-height: 365px;
+  grid-template-columns: 64px minmax(0, 1fr) 64px;
+  gap: 12px;
+  padding: 24px 26px 38px;
+  overflow: hidden;
+  background: #f4f1eb;
+}
+
+.homeRolodexHolderArt {
+  position: absolute;
+  left: 50%;
+  bottom: 8px;
+  width: min(104%, 980px);
+  max-width: none;
+  height: auto;
+  transform: translateX(-50%);
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+.homeRolodexCard {
+  position: relative;
+  z-index: 2;
+  align-self: center;
+  justify-self: center;
+  transform: translateY(-7px);
+  min-height: 235px;
+}
+
+.homeRolodexCard img {
+  width: min(78%, 760px);
+  max-height: 282px;
+  object-fit: contain;
+  border-radius: 7px;
+  background: #fff;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, .12);
+}
+
+.homeRolodexNav {
+  position: relative;
+  z-index: 3;
+  align-self: center;
+  background: rgba(255, 255, 255, .92);
+}
+
+.homeRolodexDots {
+  position: relative;
+  z-index: 4;
+}
+
+@media (max-width: 1100px) {
+  .recentlyAddedLayout {
+    grid-template-columns: 1fr;
+  }
+
+  .recentlyAddedCards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .homeRolodexStage {
+    min-height: 430px;
+  }
+
+  .homeRolodexHolderArt {
+    width: min(104%, 1080px);
+  }
+
+  .homeRolodexCard img {
+    width: min(78%, 860px);
+    max-height: 335px;
+  }
+}
+
+@media (max-width: 720px) {
+  .recentlyAddedCards {
+    grid-template-columns: 1fr;
+  }
+
+  .homeRolodexStage {
+    min-height: 265px;
+    grid-template-columns: 40px minmax(0, 1fr) 40px;
+    padding: 12px 10px 24px;
+  }
+
+  .homeRolodexHolderArt {
+    width: 118%;
+    bottom: 6px;
+  }
+
+  .homeRolodexCard {
+    min-height: 170px;
+    transform: translateY(-4px);
+  }
+
+  .homeRolodexCard img {
+    width: min(82%, 460px);
+    max-height: 190px;
+  }
+}

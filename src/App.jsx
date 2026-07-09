@@ -632,6 +632,13 @@ function RecipeRolodex({ openRecipeCard }) {
       </div>
 
       <div className="homeRolodexStage">
+        <img
+          className="homeRolodexHolderArt"
+          src={`${import.meta.env.BASE_URL}images/ui/hero-rolodex-.png`}
+          alt=""
+          aria-hidden="true"
+        />
+
         <button
           className="homeRolodexNav"
           onClick={() => goToOffset(-1)}
@@ -685,7 +692,7 @@ function Home({
   setActivePage,
   setFilter,
 }) {
-  const recentlyAdded = recipes.slice(0, 3);
+  const recentlyAdded = recipes.slice(0, 2);
 
   return (
     <>
