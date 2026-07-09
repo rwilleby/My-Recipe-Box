@@ -692,7 +692,7 @@ function Home({
   setActivePage,
   setFilter,
 }) {
-  const recentlyAdded = recipes.slice(0, 2);
+  const recentlyAdded = recipes.slice(0, 4);
 
   return (
     <>
