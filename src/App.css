@@ -2577,3 +2577,28 @@ th {
     max-height: 180px;
   }
 }
+
+/* ================================
+   ROLODEX RECIPE CARD 1/8-INCH SMALLER
+   Slightly reduces only the live recipe card image so all cards fit cleanly
+   inside the white Rolodex holder area.
+   ================================ */
+
+.homeRolodexCard img {
+  width: min(72.5%, 720px);
+  max-height: 252px;
+}
+
+@media (max-width: 1100px) {
+  .homeRolodexCard img {
+    width: min(72.5%, 744px);
+    max-height: 286px;
+  }
+}
+
+@media (max-width: 720px) {
+  .homeRolodexCard img {
+    width: min(76%, 440px);
+    max-height: 170px;
+  }
+}
