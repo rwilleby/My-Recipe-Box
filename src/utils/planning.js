@@ -1,43 +1,80 @@
-export const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-export const AISLES = ['Produce', 'Meat', 'Seafood', 'Dairy', 'Pantry', 'Bakery', 'Frozen', 'Other'];
+export const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 export function emptyPlan() {
-  return DAYS.reduce((acc, day) => ({ ...acc, [day]: [] }), {});
-}
-
-export function scaleCost(recipe, servings) {
-  const multiplier = servings / 4;
-  return Math.max(0, recipe.baseCost4 * multiplier);
-}
-
-export function buildShoppingList(plan, recipes, servings) {
-  const map = new Map();
-  Object.values(plan).flat().forEach((recipeId) => {
-    const recipe = recipes.find((r) => r.id === recipeId);
-    if (!recipe) return;
-    const factor = servings / recipe.servings;
-    recipe.ingredients.forEach((item) => {
-      const key = `${item.name}|${item.unit}|${item.aisle || 'Other'}`;
-      const existing = map.get(key) || { ...item, qty: 0, cost: 0, checked: false };
-      existing.qty += item.qty * factor;
-      existing.cost += item.cost * factor;
-      map.set(key, existing);
+  const plan = {};
+  ["week1", "week2"].forEach((week) => {
+    DAYS.forEach((day) => {
+      plan[`${week}-${day}`] = [];
     });
   });
-  return [...map.values()].sort((a, b) => AISLES.indexOf(a.aisle) - AISLES.indexOf(b.aisle) || a.name.localeCompare(b.name));
+  return plan;
 }
 
-export function planCost(plan, recipes, servings) {
-  return Object.values(plan)
-    .flat()
-    .reduce((total, recipeId) => {
-      const recipe = recipes.find((r) => r.id === recipeId);
-      return recipe ? total + scaleCost(recipe, servings) : total;
-    }, 0);
+function getPlannedRecipeIds(plan) {
+  if (!plan || typeof plan !== "object") return [];
+  return Object.values(plan).flatMap((items) => (Array.isArray(items) ? items : []));
 }
 
-export function formatQty(qty) {
-  if (qty >= 10) return Math.round(qty).toString();
-  if (Number.isInteger(qty)) return qty.toString();
-  return qty.toFixed(1).replace('.0', '');
+export function scaleCost(recipe, servings = 4) {
+  if (!recipe) return 0;
+
+  if (recipe.cost && typeof recipe.cost === "object") {
+    if (recipe.cost[servings] !== undefined) return Number(recipe.cost[servings]) || 0;
+    if (recipe.cost[String(servings)] !== undefined) return Number(recipe.cost[String(servings)]) || 0;
+
+    const baseServings = Number(recipe.servings) || 4;
+    const baseCost = Number(recipe.cost[baseServings] ?? recipe.cost[String(baseServings)] ?? recipe.cost[4] ?? recipe.cost["4"] ?? 0);
+    return baseCost ? baseCost * (servings / baseServings) : 0;
+  }
+
+  return Number(recipe.cost) || 0;
+}
+
+export function planCost(plan, recipes, servings = 4) {
+  const recipeIds = getPlannedRecipeIds(plan);
+  return recipeIds.reduce((total, recipeId) => {
+    const recipe = recipes.find((item) => item.id === recipeId);
+    return total + scaleCost(recipe, servings);
+  }, 0);
+}
+
+export function buildShoppingList(plan, recipes, servings = 4) {
+  const recipeIds = getPlannedRecipeIds(plan);
+  const grouped = new Map();
+
+  recipeIds.forEach((recipeId) => {
+    const recipe = recipes.find((item) => item.id === recipeId);
+    if (!recipe || !Array.isArray(recipe.ingredients)) return;
+
+    const recipeServings = Number(recipe.servings) || 4;
+    const multiplier = servings / recipeServings;
+
+    recipe.ingredients.forEach((ingredient) => {
+      const aisle = ingredient.aisle || "Other";
+      const unit = ingredient.unit || "";
+      const key = `${ingredient.name}|${unit}|${aisle}`;
+      const current = grouped.get(key) || {
+        name: ingredient.name,
+        qty: 0,
+        unit,
+        aisle,
+        cost: 0,
+      };
+
+      current.qty += (Number(ingredient.qty) || 0) * multiplier;
+      current.cost += (Number(ingredient.cost) || 0) * multiplier;
+      grouped.set(key, current);
+    });
+  });
+
+  return Array.from(grouped.values()).sort((a, b) => {
+    const aisleSort = a.aisle.localeCompare(b.aisle);
+    return aisleSort || a.name.localeCompare(b.name);
+  });
+}
+
+export function formatQty(value) {
+  const number = Number(value) || 0;
+  if (Number.isInteger(number)) return String(number);
+  return number.toFixed(2).replace(/\.00$/, "").replace(/0$/, "");
 }
