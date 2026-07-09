@@ -32,9 +32,12 @@ const CATEGORY_ICON_IMAGES = {
 const AUTO_IMAGE_PREFIXES = new Set(["AS", "CC", "CO", "CR", "DN", "HB", "HBP", "IT"]);
 
 const HERO_IMAGES = [
+  "images/heroes/hero-grill-wide.png",
+  "images/heroes/hero-pasta-wide.png",
+  "images/heroes/hero-salad-wide.png",
   "images/heroes/hero-brisket-wide.png",
-  "images/heroes/hero-dessert-wide.png",
-  "images/heroes/hero-seafood-wide.png",
+  "images/heroes/hero-cake-wide.png",
+  "images/heroes/hero-shrimp-wide.png",
 ];
 
 function recipeCodePrefix(recipeId = "") {
