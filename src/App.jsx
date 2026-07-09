@@ -165,7 +165,7 @@ function Hero({ setActivePage }) {
       <div className="heroOverlay" aria-hidden="true" />
 
       <div className="heroCopy">
-        <div className="aiBadge">✧ AI-POWERED RECIPE PLANNING ✧</div>
+        <div className="aiBadge">✧ AI-POWERED RECIPE  PLANNING ✧</div>
 
         <h1>
           Helping to organize your cooking, kitchen, & shopping - all in one place...
