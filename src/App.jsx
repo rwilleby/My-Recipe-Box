@@ -478,7 +478,7 @@ function CollectionStrip() {
   const collectionCards = [
     {
       title: "Slow Cooker Favorites",
-      text: "Set-it-and-forget-it meals for easy planning.",
+      text: "Set-it-and-forget-it meals for easy crock-pot cooking.",
     },
     {
       title: "Summer Cookouts",
@@ -490,11 +490,11 @@ function CollectionStrip() {
     },
     {
       title: "Comfort Foods",
-      text: "Cozy classics for family-style meals.",
+      text: "Popular classics for familiar family-style meals.",
     },
     {
       title: "Easy 30-Minute Meals",
-      text: "Fast dinners for busy nights.",
+      text: "Fast 30-minute dinners for those busy nights.",
     },
   ];
 
