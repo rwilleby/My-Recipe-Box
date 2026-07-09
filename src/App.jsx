@@ -313,6 +313,7 @@ function RecipeCard({
   openRecipeCard,
   cardList = recipes,
   showPlannerButton = true,
+  viewButtonText = "View Recipe Card",
 }) {
   return (
     <article className="recipeCard">
@@ -344,7 +345,7 @@ function RecipeCard({
             className="viewCard"
             onClick={() => openRecipeCard(recipe.id, cardList)}
           >
-            View Recipe Card
+            {viewButtonText}
           </button>
           {showPlannerButton && (
             <button className="addPlan" onClick={() => addToPlan(recipe.id)}>
@@ -721,6 +722,7 @@ function Home({
                 openRecipeCard={openRecipeCard}
                 cardList={recentlyAdded}
                 showPlannerButton={false}
+                viewButtonText="View Recipe"
               />
             ))}
           </div>
