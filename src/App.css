@@ -1,0 +1,1671 @@
+:root {
+  --green: #14532d;
+  --green-2: #2f6b3f;
+  --cream: #fbfaf7;
+  --line: #e8e4dc;
+  --text: #151515;
+  --muted: #676767;
+  --shadow: 0 12px 34px rgba(23, 31, 22, .09);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--text);
+  background: var(--cream);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--cream);
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.app {
+  min-height: 100vh;
+}
+
+/* ================================
+   TOP BAR
+   ================================ */
+
+.topbar {
+  height: 82px;
+  display: flex;
+  align-items: center;
+  padding: 0 5.5vw;
+  gap: 32px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(255, 255, 255, .88);
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: none;
+  border: 0;
+  padding: 0;
+  color: var(--text);
+  text-align: left;
+  min-width: 220px;
+}
+
+.brandIcon {
+  width: 42px;
+  height: 42px;
+  border: 2px solid #111;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  font-size: 21px;
+}
+
+.brand strong {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 23px;
+  line-height: .86;
+  font-weight: 700;
+}
+
+.navLinks {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  gap: clamp(12px, 2vw, 32px);
+}
+
+.navLinks button {
+  background: none;
+  border: 0;
+  color: #151515;
+  padding: 12px 0;
+  white-space: nowrap;
+}
+
+.navLinks button.active {
+  color: var(--green);
+  font-weight: 750;
+}
+
+.topActions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 24px;
+}
+
+.avatar {
+  font-size: 15px;
+  white-space: nowrap;
+}
+
+/* ================================
+   HERO — COMPACT FULL-WIDTH PHOTO
+   ================================ */
+
+.hero {
+  position: relative;
+  min-height: 335px;
+  display: block;
+  padding: 28px 5.5vw 22px;
+  background: #fff;
+  --hero-bg: url("/My-Recipe-Box/images/heroes/hero-pasta-wide.png");
+  overflow: hidden;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.98) 0%,
+      rgba(255, 255, 255, 0.93) 31%,
+      rgba(255, 255, 255, 0.68) 48%,
+      rgba(255, 255, 255, 0.18) 68%,
+      rgba(255, 255, 255, 0.03) 100%
+    ),
+    var(--hero-bg);
+  background-size: cover;
+  background-position: center right;
+  background-repeat: no-repeat;
+  z-index: 0;
+}
+
+.heroCopy {
+  position: relative;
+  max-width: 590px;
+  padding-top: 0;
+  z-index: 2;
+}
+
+.aiBadge {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 99px;
+  background: #f0e8ff;
+  color: #5e35b1;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+h1 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(38px, 4.3vw, 56px);
+  line-height: .92;
+  margin: 18px 0 14px;
+  letter-spacing: -.055em;
+}
+
+.heroCopy p,
+.pageHeader p {
+  font-size: 16px;
+  line-height: 1.42;
+  color: #242424;
+  max-width: 620px;
+  margin: 0;
+}
+
+.heroButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin: 18px 0 0;
+}
+
+.primary,
+.secondary {
+  min-height: 46px;
+  padding: 0 22px;
+  border-radius: 8px;
+  font-weight: 760;
+  border: 1px solid var(--green);
+}
+
+.primary {
+  background: var(--green);
+  color: #fff;
+  box-shadow: 0 8px 16px rgba(20, 83, 45, .16);
+}
+
+.secondary {
+  background: white;
+  color: #111;
+}
+
+.heroPhoto {
+  position: absolute;
+  inset: 0;
+  display: block;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.heroPhoto .heroImage,
+.pastaBowl,
+.heroPhoto::before,
+.heroPhoto::after {
+  display: none;
+}
+
+.statsCard {
+  position: absolute;
+  right: 5.5vw;
+  bottom: 58px;
+  width: calc((100vw - 11vw - 48px) / 2);
+  min-width: 0;
+  max-width: none;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  background: rgba(255, 255, 255, .94);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  pointer-events: auto;
+  z-index: 3;
+}
+
+.statsCard div {
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  column-gap: 8px;
+  align-items: center;
+  padding: 12px 14px;
+  border-right: 1px solid var(--line);
+}
+
+.statsCard div:last-child {
+  border-right: 0;
+}
+
+.statsCard span {
+  grid-row: span 2;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: #edf7ef;
+  color: var(--green);
+  font-size: 17px;
+}
+
+.statsCard strong {
+  font-size: 19px;
+}
+
+.statsCard small {
+  color: #3f3f3f;
+  font-size: 11px;
+}
+
+.heroTransparency {
+  position: absolute;
+  right: 5.5vw;
+  bottom: 18px;
+  width: calc((100vw - 11vw - 48px) / 2);
+  max-width: none;
+  min-height: 0;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  display: block;
+  color: #6b7280;
+  font-size: 14px;
+  line-height: 1.25;
+  text-align: center;
+  pointer-events: auto;
+  z-index: 4;
+}
+
+.heroTransparency strong {
+  font-weight: 800;
+}
+
+/* Legacy transparency card, used if older JSX is still present */
+.transparency {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 610px;
+  min-height: 76px;
+  padding: 14px 16px;
+  border: 1px solid #e6dff5;
+  border-radius: 10px;
+  background: rgba(251, 248, 255, .94);
+  color: #26232d;
+  font-size: 14px;
+  line-height: 1.45;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .04);
+}
+
+.transparency span:first-child {
+  color: #6d45cc;
+  font-size: 24px;
+}
+
+.info {
+  margin-left: auto;
+}
+
+/* ================================
+   SECTIONS
+   ================================ */
+
+.section {
+  padding: 18px 5.5vw;
+}
+
+.sectionTitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  margin: 0 0 12px;
+}
+
+.sectionTitle h2 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 26px;
+}
+
+.sectionTitle button {
+  background: none;
+  border: 0;
+  color: var(--green);
+  font-weight: 650;
+}
+
+/* ================================
+   CATEGORY ICON TILES — 8 ACROSS
+   ================================ */
+
+.categoryGrid {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: 14px;
+  align-items: start;
+  overflow: visible;
+}
+
+.categoryGrid .categoryTile {
+  display: flex !important;
+}
+
+.categoryTile {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent !important;
+  color: var(--text);
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0;
+  box-shadow: none;
+  transition: transform .18s ease, filter .18s ease;
+  padding: 0;
+}
+
+.categoryTile:hover {
+  transform: translateY(-4px);
+  filter: brightness(1.04);
+}
+
+.categoryIcon {
+  display: none;
+}
+
+.categoryIconImage {
+  width: 100%;
+  max-width: 132px;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto 10px;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  border-radius: 22px;
+}
+
+.categoryTile strong {
+  font-size: 15px;
+  font-weight: 800;
+  color: #111827;
+  line-height: 1.05;
+  text-align: center;
+  max-width: 120px;
+}
+
+.categoryTile small {
+  margin-top: 4px;
+  color: #6b7280;
+  font-size: 12.5px;
+  line-height: 1.1;
+  opacity: 1;
+  text-align: center;
+}
+
+/* ================================
+   RECIPE CARDS
+   ================================ */
+
+.recipeRow {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.recipeGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.recipeCard {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  background: white;
+  border: 1px solid var(--line);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .06);
+}
+
+.recipeImage {
+  height: 118px;
+  display: grid;
+  place-items: center;
+  font-size: 64px;
+}
+
+.recipeImage span {
+  filter: drop-shadow(0 8px 10px rgba(0, 0, 0, .25));
+}
+
+.recipeImage.recipePhoto {
+  background: #f7f3ec;
+  overflow: hidden;
+}
+
+.recipeImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.heart {
+  position: absolute;
+  top: 9px;
+  right: 10px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 0;
+  background: rgba(255, 255, 255, .74);
+  color: white;
+  font-size: 25px;
+  line-height: 1;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, .45);
+}
+
+.heart.saved {
+  color: #ef4444;
+  background: white;
+}
+
+.recipeBody {
+  padding: 10px 13px 13px;
+}
+
+.tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 850;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+
+.tag-AS { color: #ef4444; }
+.tag-AM { color: #2f77b4; }
+.tag-IT { color: #2f7d46; }
+.tag-MX { color: #f28c18; }
+.tag-SB { color: #08916f; }
+.tag-SF { color: #2f77b4; }
+.tag-SG { color: #8b5e40; }
+.tag-SD { color: #7457ad; }
+
+.recipeBody h3 {
+  margin: 0 0 9px;
+  font-size: 15px;
+  line-height: 1.15;
+  min-height: 36px;
+}
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.addPlan {
+  width: 100%;
+  margin-top: 10px;
+  border: 1px solid var(--line);
+  background: #fbfaf7;
+  border-radius: 8px;
+  min-height: 34px;
+  color: var(--green);
+  font-weight: 720;
+}
+
+/* ================================
+   COLLECTIONS
+   ================================ */
+
+.collectionGrid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.collectionTile {
+  display: grid;
+  grid-template-columns: 52px 1fr;
+  align-items: center;
+  min-height: 86px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px 18px;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, .04);
+}
+
+.collectionTile span {
+  grid-row: span 2;
+  font-size: 32px;
+}
+
+.collectionTile strong {
+  line-height: 1.15;
+}
+
+.collectionTile small {
+  color: var(--muted);
+}
+
+.miniAi {
+  background: #f0e8ff;
+  color: #6d45cc;
+  border-radius: 99px;
+  padding: 4px 9px;
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+}
+
+/* ================================
+   FEATURE STRIP
+   Five compact cards with cool-gray title banners
+   ================================ */
+
+.featureStrip {
+  margin: 18px 5.5vw 24px;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 14px;
+  align-items: stretch;
+}
+
+.featureCard {
+  min-height: 100px;
+  border: 1px solid #d7d9dc;
+  border-radius: 10px;
+  background: #ffffff;
+  box-shadow: 0 8px 18px rgba(23, 31, 22, 0.05);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.featureCardHeader {
+  min-height: 38px;
+  padding: 6px 10px;
+  background: linear-gradient(135deg, #aeb4ba 0%, #9fa7ad 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.featureCardHeader strong {
+  display: block;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 850;
+  line-height: 1.08;
+  text-align: center;
+  max-width: 170px;
+  margin: 0 auto;
+}
+
+.featureCard small {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  color: #111827;
+  font-size: 12.5px;
+  line-height: 1.22;
+  text-align: center;
+  max-width: 185px;
+  margin: 0 auto;
+  padding: 9px 12px 10px;
+}
+
+/* No icons in the compact feature cards */
+.featureIcon {
+  display: none;
+}
+
+/* ================================
+   PAGES
+   ================================ */
+
+.pageShell {
+  padding: 34px 5.5vw 50px;
+}
+
+.pageHeader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 28px;
+  margin-bottom: 24px;
+}
+
+.pageHeader h1 {
+  font-size: clamp(40px, 4vw, 58px);
+  margin: 15px 0 8px;
+}
+
+.toolbar {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.toolbar input,
+.toolbar select,
+.plannerControls select {
+  height: 48px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0 16px;
+  background: white;
+}
+
+.toolbar input {
+  flex: 1;
+}
+
+/* ================================
+   PLANNER
+   ================================ */
+
+.plannerGrid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.dayCard {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  min-height: 210px;
+  padding: 14px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .04);
+}
+
+.dayCard h3 {
+  margin: 0 0 12px;
+  color: var(--green);
+}
+
+.empty {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.planItem {
+  display: grid;
+  grid-template-columns: 34px 1fr 22px;
+  gap: 8px;
+  align-items: center;
+  background: #fbfaf7;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 8px;
+  margin-bottom: 8px;
+}
+
+.planItem small {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.planItem button {
+  border: 0;
+  background: none;
+  color: #aa2f2f;
+  font-size: 20px;
+}
+
+.plannerControls {
+  display: flex;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.plannerControls select:nth-child(2) {
+  flex: 1;
+}
+
+/* ================================
+   SERVINGS / COST
+   ================================ */
+
+.servingSelector {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: white;
+}
+
+.servingSelector span {
+  font-weight: 750;
+  margin-left: 8px;
+}
+
+.servingSelector button {
+  width: 42px;
+  height: 36px;
+  border-radius: 999px;
+  border: 0;
+  background: transparent;
+  font-weight: 800;
+}
+
+.servingSelector button.selected {
+  background: var(--green);
+  color: white;
+}
+
+.totalBox {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 16px 24px;
+  box-shadow: var(--shadow);
+}
+
+.totalBox small {
+  display: block;
+  color: var(--muted);
+}
+
+.totalBox strong {
+  font-size: 32px;
+  color: var(--green);
+}
+
+/* ================================
+   SHOPPING LIST
+   ================================ */
+
+.shoppingGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.shoppingGroup {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .04);
+}
+
+.shoppingGroup h2 {
+  margin: 0 0 12px;
+  color: var(--green);
+  font-size: 20px;
+}
+
+.shoppingItem {
+  display: grid;
+  grid-template-columns: 24px 1fr auto auto;
+  gap: 8px;
+  align-items: center;
+  padding: 9px 0;
+  border-bottom: 1px solid #f1eee8;
+}
+
+.shoppingItem:last-child {
+  border-bottom: 0;
+}
+
+.shoppingItem.checked span {
+  text-decoration: line-through;
+  color: var(--muted);
+}
+
+.shoppingItem small {
+  color: var(--muted);
+}
+
+.shoppingItem em {
+  font-style: normal;
+  font-weight: 750;
+  color: var(--green);
+}
+
+/* ================================
+   COST ESTIMATOR
+   ================================ */
+
+.costCards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 20px;
+}
+
+.costCard {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 22px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .04);
+}
+
+.costCard.selected {
+  border-color: var(--green);
+  background: #f5fbf5;
+}
+
+.costCard small,
+.costCard span {
+  display: block;
+  color: var(--muted);
+}
+
+.costCard strong {
+  display: block;
+  font-size: 38px;
+  margin: 8px 0;
+  color: var(--green);
+}
+
+.costTable {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 20px;
+  overflow: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+th {
+  color: var(--green);
+}
+
+/* ================================
+   EMPTY / ABOUT / FOOTER
+   ================================ */
+
+.emptyState,
+.aboutCard {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 32px;
+  box-shadow: var(--shadow);
+}
+
+.aboutCard {
+  max-width: 860px;
+}
+
+.footer {
+  padding: 22px 5.5vw;
+  color: var(--muted);
+  border-top: 1px solid var(--line);
+  background: white;
+  text-align: center;
+  font-size: 14px;
+}
+
+/* ================================
+   RESPONSIVE LAYOUT
+   ================================ */
+
+@media (max-width: 1100px) {
+  .topbar {
+    flex-wrap: wrap;
+    height: auto;
+    padding-top: 14px;
+    padding-bottom: 14px;
+  }
+
+  .navLinks {
+    order: 3;
+    width: 100%;
+    overflow-x: auto;
+    justify-content: flex-start;
+  }
+
+  .hero {
+    min-height: auto;
+    padding: 34px 5.5vw 28px;
+  }
+
+  .statsCard,
+  .heroTransparency {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    width: 100%;
+    margin-top: 16px;
+  }
+
+  .heroPhoto {
+    position: relative;
+    inset: auto;
+  }
+
+  .statsCard {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .categoryGrid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .categoryIconImage {
+    max-width: 145px;
+  }
+
+  .categoryTile strong {
+    font-size: 16px;
+    max-width: 140px;
+  }
+
+  .categoryTile small {
+    font-size: 13px;
+  }
+
+  .recipeRow,
+  .recipeGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .collectionGrid,
+  .featureStrip,
+  .plannerGrid,
+  .shoppingGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .topActions {
+    display: none;
+  }
+
+  .hero {
+    padding: 30px 24px;
+  }
+
+  .hero::before {
+    background-image:
+      linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.98) 0%,
+        rgba(255, 255, 255, 0.94) 100%
+      ),
+      var(--hero-bg);
+    background-position: center right;
+  }
+
+  h1 {
+    font-size: clamp(38px, 12vw, 50px);
+  }
+
+  .statsCard {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .categoryGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .categoryIconImage {
+    max-width: 150px;
+  }
+
+  .categoryTile strong {
+    font-size: 16px;
+    max-width: 145px;
+  }
+
+  .categoryTile small {
+    font-size: 13px;
+  }
+
+  .recipeRow,
+  .recipeGrid,
+  .collectionGrid,
+  .featureStrip,
+  .plannerGrid,
+  .shoppingGrid,
+  .costCards {
+    grid-template-columns: 1fr;
+  }
+
+  .pageHeader,
+  .plannerControls,
+  .toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+/* ================================
+   FINAL HERO + TRANSPARENCY OVERRIDES
+   Place transparency line below hero, not inside hero
+   ================================ */
+
+/* Hero headline only — keep other page h1 sizes unchanged */
+.hero h1 {
+  font-size: clamp(22px, 2.1vw, 28px);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  margin: 14px 0 12px;
+  max-width: 520px;
+}
+
+/* Keep supporting paragraph balanced under smaller headline */
+.heroCopy p {
+  font-size: 15px;
+  line-height: 1.42;
+  max-width: 560px;
+}
+
+/* Hide the old transparency line if it is still inside heroPhoto */
+.heroTransparency {
+  display: none !important;
+}
+
+/* New transparency line goes between Hero and CategoryGrid in App.jsx */
+.transparencyLine {
+  padding: 10px 5.5vw 4px;
+  color: #8b949e;
+  font-size: 14px;
+  line-height: 1.25;
+  text-align: center;
+  background: var(--cream);
+  white-space: nowrap;
+}
+
+.transparencyLine strong {
+  font-weight: 800;
+}
+
+/* Stats can now sit lower because transparency is no longer inside the hero */
+.statsCard {
+  bottom: 18px;
+}
+
+/* Mobile: allow the transparency sentence to wrap */
+@media (max-width: 720px) {
+  .hero h1 {
+    font-size: clamp(24px, 8vw, 34px);
+  }
+
+  .transparencyLine {
+    white-space: normal;
+    font-size: 13px;
+    padding: 10px 24px 4px;
+  }
+
+  .statsCard {
+    bottom: auto;
+  }
+}
+
+
+
+
+/* ================================
+   FINAL FEATURE CARD RESPONSIVE OVERRIDES
+   ================================ */
+
+@media (max-width: 1100px) {
+  .featureStrip {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .featureStrip {
+    grid-template-columns: 1fr;
+  }
+
+  .featureCard {
+    min-height: auto;
+  }
+
+  .featureCardHeader {
+    min-height: 38px;
+  }
+
+  .featureCard small {
+    padding: 10px 16px 12px;
+    max-width: 260px;
+  }
+}
+
+
+/* ================================
+   FINAL HERO BUTTON + PARAGRAPH ALIGNMENT
+   Align CTA buttons with bottom of stats card; make paragraph a narrow 3-line block
+   ================================ */
+
+.heroCopy {
+  position: static;
+  max-width: 560px;
+}
+
+.heroCopy .aiBadge,
+.heroCopy h1,
+.heroCopy p {
+  position: relative;
+  z-index: 2;
+}
+
+.heroCopy p {
+  max-width: 470px;
+  font-size: 15px;
+  line-height: 1.42;
+}
+
+.heroButtons {
+  position: absolute;
+  left: 5.5vw;
+  bottom: 18px;
+  z-index: 4;
+  margin: 0;
+}
+
+.statsCard {
+  bottom: 18px;
+}
+
+/* Tablet and mobile: return hero buttons to normal flow */
+@media (max-width: 1100px) {
+  .heroCopy {
+    position: relative;
+    max-width: 590px;
+  }
+
+  .heroButtons {
+    position: relative;
+    left: auto;
+    bottom: auto;
+    margin: 18px 0 0;
+  }
+
+  .heroCopy p {
+    max-width: 560px;
+  }
+}
+
+@media (max-width: 720px) {
+  .heroCopy p br {
+    display: none;
+  }
+}
+
+
+
+/* ================================
+   RECIPE CARD ROLODEX VIEWER
+   ================================ */
+
+.recipeActions {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.viewCard,
+.addPlan {
+  width: 100%;
+  min-height: 34px;
+  border-radius: 8px;
+  font-weight: 720;
+}
+
+.viewCard {
+  border: 1px solid var(--green);
+  background: var(--green);
+  color: #fff;
+}
+
+.viewCard:hover {
+  filter: brightness(1.05);
+}
+
+.cardViewerOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.72);
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  z-index: 1000;
+}
+
+.cardViewer {
+  width: min(96vw, 1220px);
+  max-height: 94vh;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.cardViewerHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 18px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--line);
+  background: #fbfaf7;
+}
+
+.cardViewerCode {
+  display: inline-block;
+  color: var(--green);
+  font-size: 13px;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  margin-bottom: 4px;
+}
+
+.cardViewerHeader h2 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(24px, 2.6vw, 36px);
+  line-height: 1.05;
+}
+
+.cardViewerClose {
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+  color: #111;
+  font-size: 28px;
+  line-height: 1;
+}
+
+.cardViewerStage {
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr) 54px;
+  gap: 14px;
+  align-items: center;
+  padding: 18px;
+  min-height: 0;
+  background: #f6f4ef;
+}
+
+.cardViewerImageWrap {
+  min-height: 0;
+  display: grid;
+  place-items: center;
+}
+
+.cardViewerImageWrap img {
+  max-width: 100%;
+  max-height: 68vh;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.18);
+  background: #fff;
+}
+
+.cardViewerNav {
+  width: 54px;
+  height: 86px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--green);
+  font-size: 54px;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+}
+
+.cardViewerNav:disabled {
+  opacity: 0.28;
+  cursor: not-allowed;
+}
+
+.cardViewerMissing {
+  min-height: 280px;
+  width: 100%;
+  border: 1px dashed #cbd5e1;
+  border-radius: 12px;
+  background: #fff;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  color: #6b7280;
+  padding: 24px;
+}
+
+.cardViewerMissing strong {
+  color: #111827;
+}
+
+.cardViewerMissing span {
+  display: block;
+  font-size: 13px;
+  margin-top: 8px;
+}
+
+.cardViewerFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 20px;
+  border-top: 1px solid var(--line);
+  background: #fff;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.cardViewerFooter a {
+  color: var(--green);
+  font-weight: 760;
+  text-decoration: none;
+}
+
+.cardViewerFooter a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 720px) {
+  .cardViewerOverlay {
+    padding: 10px;
+  }
+
+  .cardViewer {
+    width: 100%;
+    max-height: 96vh;
+    border-radius: 14px;
+  }
+
+  .cardViewerStage {
+    grid-template-columns: 42px minmax(0, 1fr) 42px;
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .cardViewerNav {
+    width: 42px;
+    height: 62px;
+    font-size: 40px;
+  }
+
+  .cardViewerImageWrap img {
+    max-height: 62vh;
+  }
+
+  .cardViewerHeader {
+    padding: 12px 14px;
+  }
+
+  .cardViewerClose {
+    width: 38px;
+    height: 38px;
+  }
+
+  .cardViewerFooter {
+    padding: 10px 14px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* ================================
+   FINAL COLLECTION + SECTION TITLE OVERRIDES
+   Five collection boxes match compact gray/white feature boxes
+   ================================ */
+
+/* 2/3 size section headings: Browse by Category, Recently Added, Collections */
+.sectionTitle h2 {
+  font-size: 18px !important;
+  line-height: 1.15 !important;
+}
+
+.collectionSection {
+  padding-top: 14px !important;
+}
+
+.collectionGrid {
+  display: grid !important;
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  gap: 14px !important;
+  align-items: stretch !important;
+}
+
+.collectionTile {
+  min-height: 76px !important;
+  height: auto !important;
+  border: 1px solid #d7d9dc !important;
+  border-radius: 8px !important;
+  background: #ffffff !important;
+  box-shadow: 0 5px 12px rgba(23, 31, 22, 0.045) !important;
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+  text-align: center !important;
+  padding: 0 !important;
+  cursor: pointer !important;
+}
+
+.collectionTile:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.01);
+}
+
+.collectionTileHeader {
+  min-height: 26px !important;
+  height: 26px !important;
+  padding: 2px 8px !important;
+  background: linear-gradient(135deg, #aeb4ba 0%, #9fa7ad 100%) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.collectionTileHeader strong {
+  color: #ffffff !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  line-height: 1.05 !important;
+  text-align: center !important;
+  margin: 0 auto !important;
+  max-width: 190px !important;
+}
+
+.collectionTile small {
+  flex: 1 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: #111827 !important;
+  font-size: 11.5px !important;
+  line-height: 1.16 !important;
+  text-align: center !important;
+  max-width: 180px !important;
+  margin: 0 auto !important;
+  padding: 6px 10px 7px !important;
+}
+
+.collectionTile span {
+  display: none !important;
+}
+
+@media (max-width: 1100px) {
+  .collectionGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 720px) {
+  .sectionTitle h2 {
+    font-size: 17px !important;
+  }
+
+  .collectionGrid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .collectionTile {
+    min-height: 72px !important;
+  }
+}
+
+/* ================================
+   FORCE FINAL COMPACT FEATURE + COLLECTION BOXES
+   This must stay at the very bottom of App.css.
+   ================================ */
+
+.sectionTitle h2 {
+  font-size: 18px !important;
+  line-height: 1.15 !important;
+}
+
+.featureStrip,
+.collectionGrid {
+  display: grid !important;
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  gap: 14px !important;
+  align-items: stretch !important;
+}
+
+.featureStrip {
+  margin: 12px 5.5vw 16px !important;
+}
+
+.featureCard,
+.collectionTile {
+  min-height: 66px !important;
+  height: 66px !important;
+  border: 1px solid #d7d9dc !important;
+  border-radius: 8px !important;
+  background: #ffffff !important;
+  box-shadow: 0 5px 12px rgba(23, 31, 22, 0.045) !important;
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+  text-align: center !important;
+  padding: 0 !important;
+}
+
+.featureCardHeader,
+.collectionTileHeader {
+  min-height: 22px !important;
+  height: 22px !important;
+  padding: 1px 8px !important;
+  background: linear-gradient(135deg, #aeb4ba 0%, #9fa7ad 100%) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex: 0 0 22px !important;
+}
+
+.featureCardHeader strong,
+.collectionTileHeader strong {
+  color: #ffffff !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  line-height: 1.02 !important;
+  text-align: center !important;
+  margin: 0 auto !important;
+  max-width: 190px !important;
+}
+
+.featureCard small,
+.collectionTile small {
+  flex: 1 1 auto !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: #111827 !important;
+  font-size: 10.75px !important;
+  line-height: 1.08 !important;
+  text-align: center !important;
+  max-width: 170px !important;
+  margin: 0 auto !important;
+  padding: 3px 8px 4px !important;
+}
+
+.collectionTile span,
+.featureIcon {
+  display: none !important;
+}
+
+@media (max-width: 1100px) {
+  .featureStrip,
+  .collectionGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 720px) {
+  .sectionTitle h2 {
+    font-size: 17px !important;
+  }
+
+  .featureStrip,
+  .collectionGrid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .featureCard,
+  .collectionTile {
+    min-height: 64px !important;
+    height: auto !important;
+  }
+}
