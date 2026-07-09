@@ -1975,13 +1975,13 @@ th {
 .homeRolodexStage {
   display: grid;
   place-items: center;
-  min-height: 340px;
-  padding: 22px 20px 24px;
+  min-height: 360px;
+  padding: 28px 20px 22px;
 }
 
 .homeRolodexHolderArt {
   left: 50%;
-  bottom: -2px;
+  bottom: 2px;
   width: min(108%, 980px);
   transform: translateX(-50%);
 }
@@ -1989,40 +1989,40 @@ th {
 .homeRolodexCard {
   align-self: center;
   justify-self: center;
-  transform: translateY(12px);
+  transform: translateY(34px);
 }
 
 .homeRolodexCard img {
-  width: min(68%, 660px);
-  max-height: 222px;
+  width: min(66%, 640px);
+  max-height: 214px;
 }
 
 .homeRolodexNav {
   align-self: center;
   justify-self: center;
-  transform: translateY(12px);
+  transform: translateY(34px);
 }
 
 @media (max-width: 1100px) {
   .homeRolodexStage {
-    min-height: 390px;
-    padding: 24px 20px 30px;
+    min-height: 405px;
+    padding: 30px 20px 28px;
   }
 
   .homeRolodexHolderArt {
-    bottom: 0;
+    bottom: 2px;
   }
 
   .homeRolodexCard,
   .homeRolodexNav {
-    transform: translateY(12px);
+    transform: translateY(28px);
   }
 }
 
 @media (max-width: 720px) {
   .homeRolodexStage {
-    min-height: 265px;
-    padding: 12px 9px 22px;
+    min-height: 280px;
+    padding: 14px 9px 18px;
   }
 
   .homeRolodexHolderArt {
@@ -2031,7 +2031,12 @@ th {
 
   .homeRolodexCard,
   .homeRolodexNav {
-    transform: translateY(8px);
+    transform: translateY(16px);
+  }
+
+  .homeRolodexCard img {
+    width: min(74%, 520px);
+    max-height: 160px;
   }
 }
 
@@ -2071,7 +2076,7 @@ th {
 
 .plannerAddPanel {
   display: grid;
-  grid-template-columns: minmax(210px, 260px) minmax(320px, 1fr);
+  grid-template-columns: minmax(190px, 230px) minmax(180px, 230px) minmax(300px, 1fr);
   gap: 12px;
   margin-bottom: 18px;
 }

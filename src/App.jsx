@@ -858,6 +858,20 @@ function RecipesPage({
 function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFavorite, openRecipeCard }) {
   const normalizedPlan = useMemo(() => normalizeTwoWeekPlan(plan), [plan]);
   const [selectedSlot, setSelectedSlot] = useState("week1-Mon");
+  const [selectedCategory, setSelectedCategory] = useState("All");
+
+  const filteredPlannerRecipes = useMemo(() => {
+    if (selectedCategory === "All") return recipes;
+
+    return recipes.filter((recipe) => {
+      return (
+        recipe.category === selectedCategory ||
+        recipe.categoryCode === selectedCategory ||
+        recipe.id?.startsWith(`${selectedCategory}-`)
+      );
+    });
+  }, [selectedCategory]);
+
   const totalMeals = plannedMealCount(normalizedPlan);
   const estimatedTotal = planCost(normalizedPlan, recipes, servings);
 
@@ -945,9 +959,24 @@ function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFa
           ))}
         </select>
 
+        <select
+          value={selectedCategory}
+          onChange={(event) => setSelectedCategory(event.target.value)}
+          aria-label="Filter recipes by category"
+        >
+          <option value="All">All Categories</option>
+          {categories.map((category) => (
+            <option key={category.id} value={category.name}>
+              {category.name}
+            </option>
+          ))}
+        </select>
+
         <select onChange={(event) => addRecipe(event.target.value)} value="">
-          <option value="">Add recipe to {plannerSlotLabel(selectedSlot)}</option>
-          {recipes.map((recipe) => (
+          <option value="">
+            Add {selectedCategory === "All" ? "recipe" : selectedCategory} to {plannerSlotLabel(selectedSlot)}
+          </option>
+          {filteredPlannerRecipes.map((recipe) => (
             <option key={recipe.id} value={recipe.id}>
               {recipe.id} — {recipe.title}
             </option>
