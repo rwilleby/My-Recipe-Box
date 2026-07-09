@@ -1,7 +1,1 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-
-export default defineConfig({
-  base: "/My-Recipe-Box/",
-  plugins: [react()],
-});
+Unsupported Media Type
