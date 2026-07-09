@@ -2527,3 +2527,53 @@ th {
     transform: none;
   }
 }
+
+/* ================================
+   FINAL ROLODEX HOLDER-UP / CARD-CENTERED TWEAK
+   1) Lift the Rolodex holder art roughly 1/2 inch.
+   2) Center the live recipe card within the holder's white area.
+   ================================ */
+
+.homeRolodexHolderArt {
+  top: 50%;
+  transform: translate(-50%, -50%) translateY(-26px);
+}
+
+.homeRolodexCard {
+  transform: translateY(-8px);
+}
+
+.homeRolodexCard img {
+  width: min(75%, 745px);
+  max-height: 268px;
+}
+
+@media (max-width: 1100px) {
+  .homeRolodexHolderArt {
+    transform: translate(-50%, -50%) translateY(-22px);
+  }
+
+  .homeRolodexCard {
+    transform: translateY(-6px);
+  }
+
+  .homeRolodexCard img {
+    width: min(75%, 770px);
+    max-height: 304px;
+  }
+}
+
+@media (max-width: 720px) {
+  .homeRolodexHolderArt {
+    transform: translate(-50%, -50%) translateY(-10px);
+  }
+
+  .homeRolodexCard {
+    transform: translateY(-2px);
+  }
+
+  .homeRolodexCard img {
+    width: min(78%, 452px);
+    max-height: 180px;
+  }
+}
