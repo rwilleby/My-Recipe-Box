@@ -354,7 +354,7 @@ function RecipeCard({
   );
 }
 
-function RecipeCardViewer({ viewer, onClose, setViewer }) {
+function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorite }) {
   const [imageIndex, setImageIndex] = useState(0);
 
   const viewerIds = viewer?.recipeIds?.length
@@ -375,6 +375,7 @@ function RecipeCardViewer({ viewer, onClose, setViewer }) {
 
   if (!viewer || !recipe) return null;
 
+  const isFavorite = favorites.includes(recipe.id);
   const imageCandidates = fullCardImageCandidates(recipe);
   const imagePath = imageCandidates[imageIndex];
   const hasMultiple = viewerIds.length > 1;
@@ -400,9 +401,20 @@ function RecipeCardViewer({ viewer, onClose, setViewer }) {
             <h2>{recipe.title}</h2>
           </div>
 
-          <button className="cardViewerClose" onClick={onClose}>
-            ×
-          </button>
+          <div className="cardViewerHeaderActions">
+            <button
+              className={isFavorite ? "cardViewerFavorite saved" : "cardViewerFavorite"}
+              onClick={() => toggleFavorite(recipe.id)}
+              aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
+              title={isFavorite ? "Remove from favorites" : "Add to favorites"}
+            >
+              ♥
+            </button>
+
+            <button className="cardViewerClose" onClick={onClose}>
+              ×
+            </button>
+          </div>
         </div>
 
         <div className="cardViewerStage">
@@ -504,20 +516,42 @@ function CollectionStrip() {
   );
 }
 
+function getRandomRecipes(sourceRecipes, maxCount = 12) {
+  return [...sourceRecipes]
+    .sort(() => Math.random() - 0.5)
+    .slice(0, maxCount);
+}
+
 function RecipeRolodex({ openRecipeCard }) {
-  const rolodexRecipes = recipes.slice(0, 12);
+  const [selectedCategory, setSelectedCategory] = useState("MASTER_RANDOM");
   const [activeIndex, setActiveIndex] = useState(0);
   const [imageIndex, setImageIndex] = useState(0);
 
-  const activeRecipe = rolodexRecipes[activeIndex] || recipes[0];
+  const rolodexRecipes = useMemo(() => {
+    const filteredRecipes =
+      selectedCategory === "MASTER_RANDOM"
+        ? recipes
+        : recipes.filter((recipe) => recipe.category === selectedCategory);
+
+    return getRandomRecipes(filteredRecipes, 12);
+  }, [selectedCategory]);
+
+  const activeRecipe = rolodexRecipes[activeIndex] || rolodexRecipes[0];
   const imageCandidates = activeRecipe ? fullCardImageCandidates(activeRecipe) : [];
   const imagePath = imageCandidates[imageIndex];
+
+  useEffect(() => {
+    setActiveIndex(0);
+    setImageIndex(0);
+  }, [selectedCategory]);
 
   useEffect(() => {
     setImageIndex(0);
   }, [activeRecipe?.id]);
 
   useEffect(() => {
+    if (!rolodexRecipes.length) return;
+
     const timer = window.setInterval(() => {
       setActiveIndex((current) => (current + 1) % rolodexRecipes.length);
     }, 7000);
@@ -526,12 +560,44 @@ function RecipeRolodex({ openRecipeCard }) {
   }, [rolodexRecipes.length]);
 
   function goToOffset(offset) {
+    if (!rolodexRecipes.length) return;
+
     setActiveIndex((current) =>
       (current + offset + rolodexRecipes.length) % rolodexRecipes.length
     );
   }
 
-  if (!activeRecipe) return null;
+  if (!activeRecipe) {
+    return (
+      <aside className="homeRolodex" aria-label="Recipe card rolodex">
+        <div className="homeRolodexHeader">
+          <div>
+            <span>Recipe Card Rolodex</span>
+            <strong>No cards found</strong>
+          </div>
+
+          <select
+            className="homeRolodexSelect"
+            value={selectedCategory}
+            onChange={(event) => setSelectedCategory(event.target.value)}
+            aria-label="Choose recipe card category"
+          >
+            <option value="MASTER_RANDOM">Random Variety</option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.name}>
+                {category.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="homeRolodexMissing">
+          <strong>No recipe cards found for this category.</strong>
+          <span>Try another category.</span>
+        </div>
+      </aside>
+    );
+  }
 
   return (
     <aside className="homeRolodex" aria-label="Recipe card rolodex">
@@ -540,7 +606,26 @@ function RecipeRolodex({ openRecipeCard }) {
           <span>Recipe Card Rolodex</span>
           <strong>{activeRecipe.title}</strong>
         </div>
-        <small>{activeIndex + 1} of {rolodexRecipes.length}</small>
+
+        <div className="homeRolodexControls">
+          <select
+            className="homeRolodexSelect"
+            value={selectedCategory}
+            onChange={(event) => setSelectedCategory(event.target.value)}
+            aria-label="Choose recipe card category"
+          >
+            <option value="MASTER_RANDOM">Random Variety</option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.name}>
+                {category.name}
+              </option>
+            ))}
+          </select>
+
+          <small>
+            {activeIndex + 1} of {rolodexRecipes.length}
+          </small>
+        </div>
       </div>
 
       <div className="homeRolodexStage">
@@ -1207,6 +1292,8 @@ export default function App() {
         viewer={cardViewer}
         onClose={() => setCardViewer(null)}
         setViewer={setCardViewer}
+        favorites={favorites}
+        toggleFavorite={toggleFavorite}
       />
 
       <footer className="footer">

@@ -1544,3 +1544,76 @@ th {
     font-size: 34px;
   }
 }
+
+/* ================================
+   ROLODEX CATEGORY SELECTOR
+   ================================ */
+
+.homeRolodexControls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.homeRolodexSelect {
+  height: 32px;
+  max-width: 170px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+  color: #111827;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 0 9px;
+}
+
+/* ================================
+   RECIPE CARD VIEWER FAVORITE BUTTON
+   ================================ */
+
+.cardViewerHeaderActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cardViewerFavorite {
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #ffffff;
+  color: #9ca3af;
+  font-size: 24px;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+}
+
+.cardViewerFavorite:hover {
+  color: #ef4444;
+  border-color: #f3b4b4;
+}
+
+.cardViewerFavorite.saved {
+  color: #ef4444;
+  background: #fff5f5;
+  border-color: #ef4444;
+}
+
+@media (max-width: 720px) {
+  .homeRolodexHeader {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .homeRolodexControls {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .homeRolodexSelect {
+    max-width: 220px;
+    flex: 1;
+  }
+}
