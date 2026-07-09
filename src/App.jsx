@@ -2,8 +2,6 @@ import { useMemo, useState, useEffect } from "react";
 import { categories, recipes } from "./data/recipes";
 import { loadJSON, saveJSON } from "./utils/storage";
 import {
-  DAYS,
-  emptyPlan,
   buildShoppingList,
   planCost,
   scaleCost,
@@ -39,6 +37,61 @@ const HERO_IMAGES = [
   "images/heroes/hero-cake-wide.png",
   "images/heroes/hero-shrimp-wide.png",
 ];
+const WEEK_DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
+const PLANNER_WEEKS = [
+  { id: "week1", title: "Week 1", subtitle: "First 7 dinners" },
+  { id: "week2", title: "Week 2", subtitle: "Second 7 dinners" },
+];
+
+const PLANNER_SLOTS = PLANNER_WEEKS.flatMap((week) =>
+  WEEK_DAYS.map((day) => ({ key: `${week.id}-${day}`, weekId: week.id, day }))
+);
+
+function emptyTwoWeekPlan() {
+  return PLANNER_SLOTS.reduce((plan, slot) => {
+    plan[slot.key] = [];
+    return plan;
+  }, {});
+}
+
+function normalizeTwoWeekPlan(savedPlan) {
+  const normalized = emptyTwoWeekPlan();
+
+  if (!savedPlan || typeof savedPlan !== "object") {
+    return normalized;
+  }
+
+  PLANNER_SLOTS.forEach((slot) => {
+    if (Array.isArray(savedPlan[slot.key])) {
+      normalized[slot.key] = savedPlan[slot.key];
+    }
+  });
+
+  // Preserve older one-week saved plans by moving Mon-Sun into Week 1.
+  WEEK_DAYS.forEach((day) => {
+    const legacyItems = savedPlan[day];
+    if (Array.isArray(legacyItems) && legacyItems.length) {
+      normalized[`week1-${day}`] = legacyItems;
+    }
+  });
+
+  return normalized;
+}
+
+function plannerSlotLabel(slotKey = "") {
+  const [weekId, day] = slotKey.split("-");
+  const week = PLANNER_WEEKS.find((item) => item.id === weekId);
+  return week && day ? `${week.title} ${day}` : slotKey;
+}
+
+function plannedMealCount(plan) {
+  return Object.values(plan || {}).reduce(
+    (total, dayRecipes) => total + (Array.isArray(dayRecipes) ? dayRecipes.length : 0),
+    0
+  );
+}
+
 
 function recipeCodePrefix(recipeId = "") {
   const match = recipeId.match(/^[A-Z]+/);
@@ -802,97 +855,221 @@ function RecipesPage({
   );
 }
 
-function PlannerPage({ plan, setPlan, servings, setServings }) {
-  const [selectedDay, setSelectedDay] = useState("Mon");
+function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFavorite, openRecipeCard }) {
+  const normalizedPlan = useMemo(() => normalizeTwoWeekPlan(plan), [plan]);
+  const [selectedSlot, setSelectedSlot] = useState("week1-Mon");
+  const totalMeals = plannedMealCount(normalizedPlan);
+  const estimatedTotal = planCost(normalizedPlan, recipes, servings);
 
-  function addRecipe(recipeId) {
-    if (!recipeId) return;
+  function addRecipe(recipeId, slotKey = selectedSlot) {
+    if (!recipeId || !slotKey) return;
 
-    setPlan((current) => ({
-      ...current,
-      [selectedDay]: [...(current[selectedDay] || []), recipeId],
-    }));
+    setPlan((current) => {
+      const next = normalizeTwoWeekPlan(current);
+      next[slotKey] = [...(next[slotKey] || []), recipeId];
+      return next;
+    });
   }
 
-  function removeRecipe(day, index) {
-    setPlan((current) => ({
-      ...current,
-      [day]: current[day].filter((_, i) => i !== index),
-    }));
+  function removeRecipe(slotKey, index) {
+    setPlan((current) => {
+      const next = normalizeTwoWeekPlan(current);
+      next[slotKey] = (next[slotKey] || []).filter((_, i) => i !== index);
+      return next;
+    });
   }
 
   function clearPlan() {
-    setPlan(emptyPlan());
+    setPlan(emptyTwoWeekPlan());
+  }
+
+  function clearWeek(weekId) {
+    setPlan((current) => {
+      const next = normalizeTwoWeekPlan(current);
+      WEEK_DAYS.forEach((day) => {
+        next[`${weekId}-${day}`] = [];
+      });
+      return next;
+    });
+  }
+
+  function copyWeekOneToWeekTwo() {
+    setPlan((current) => {
+      const next = normalizeTwoWeekPlan(current);
+      WEEK_DAYS.forEach((day) => {
+        next[`week2-${day}`] = [...(next[`week1-${day}`] || [])];
+      });
+      return next;
+    });
+  }
+
+  function firstEmptySlotForWeek(weekId) {
+    return (
+      WEEK_DAYS.map((day) => `${weekId}-${day}`).find(
+        (slotKey) => (normalizedPlan[slotKey] || []).length === 0
+      ) || `${weekId}-Mon`
+    );
   }
 
   return (
-    <main className="pageShell plannerLayout">
-      <div className="pageHeader">
+    <main className="pageShell plannerDashboard">
+      <div className="plannerHeroHeader">
         <div>
-          <div className="aiBadge">BROWSER-BASED PLANNER</div>
+          <div className="aiBadge">TWO-WEEK DINNER PLANNER</div>
           <h1>Weekly dinner planner</h1>
           <p>
-            Build a simple dinner plan. Your plan is saved in this browser only.
+            Plan dinners for two weeks, build one combined shopping list, and estimate your total grocery cost.
           </p>
         </div>
 
-        <ServingSelector servings={servings} setServings={setServings} />
+        <div className="plannerTopActions">
+          <button className="secondary" onClick={clearPlan}>Clear Planner</button>
+          <ServingSelector servings={servings} setServings={setServings} />
+        </div>
       </div>
 
-      <div className="plannerGrid">
-        {DAYS.map((day) => (
-          <div className="dayCard" key={day}>
-            <h3>{day}</h3>
-
-            {(plan[day] || []).length === 0 && (
-              <p className="empty">No dinner selected.</p>
-            )}
-
-            {(plan[day] || []).map((id, index) => {
-              const recipe = recipes.find((r) => r.id === id);
-
-              return recipe ? (
-                <div className="planItem" key={`${id}-${index}`}>
-                  <span>{recipe.emoji}</span>
-
-                  <div>
-                    <strong>{recipe.title}</strong>
-                    <small>
-                      {recipe.time} min • est. $
-                      {scaleCost(recipe, servings).toFixed(2)}
-                    </small>
-                  </div>
-
-                  <button onClick={() => removeRecipe(day, index)}>×</button>
-                </div>
-              ) : null;
-            })}
-          </div>
-        ))}
-      </div>
-
-      <div className="plannerControls">
+      <div className="plannerAddPanel">
         <select
-          value={selectedDay}
-          onChange={(e) => setSelectedDay(e.target.value)}
+          value={selectedSlot}
+          onChange={(event) => setSelectedSlot(event.target.value)}
+          aria-label="Choose planner day"
         >
-          {DAYS.map((d) => (
-            <option key={d}>{d}</option>
+          {PLANNER_WEEKS.map((week) => (
+            <optgroup key={week.id} label={week.title}>
+              {WEEK_DAYS.map((day) => (
+                <option key={`${week.id}-${day}`} value={`${week.id}-${day}`}>
+                  {week.title} — {day}
+                </option>
+              ))}
+            </optgroup>
           ))}
         </select>
 
-        <select onChange={(e) => addRecipe(e.target.value)} value="">
-          <option value="">Add recipe to {selectedDay}</option>
-          {recipes.map((r) => (
-            <option key={r.id} value={r.id}>
-              {r.title}
+        <select onChange={(event) => addRecipe(event.target.value)} value="">
+          <option value="">Add recipe to {plannerSlotLabel(selectedSlot)}</option>
+          {recipes.map((recipe) => (
+            <option key={recipe.id} value={recipe.id}>
+              {recipe.id} — {recipe.title}
             </option>
           ))}
         </select>
+      </div>
 
-        <button className="secondary" onClick={clearPlan}>
-          Clear plan
-        </button>
+      <div className="twoWeekPlannerLayout">
+        <div className="plannerWeeksGrid">
+          {PLANNER_WEEKS.map((week) => (
+            <section className="plannerWeekPanel" key={week.id}>
+              <div className="plannerWeekHeader">
+                <div>
+                  <h2>{week.title}</h2>
+                  <span>{week.subtitle}</span>
+                </div>
+                <button
+                  className="weekAddButton"
+                  onClick={() => setSelectedSlot(firstEmptySlotForWeek(week.id))}
+                >
+                  + Add Recipe
+                </button>
+              </div>
+
+              <div className="plannerDayStack">
+                {WEEK_DAYS.map((day) => {
+                  const slotKey = `${week.id}-${day}`;
+                  const mealIds = normalizedPlan[slotKey] || [];
+
+                  return (
+                    <section className="plannerDayRow" key={slotKey}>
+                      <div className="plannerDayLabel">
+                        <strong>{day}</strong>
+                      </div>
+
+                      <div className="plannerMealArea">
+                        {mealIds.length === 0 ? (
+                          <button
+                            className="plannerEmptyMeal"
+                            onClick={() => setSelectedSlot(slotKey)}
+                          >
+                            + Add dinner
+                          </button>
+                        ) : (
+                          mealIds.map((recipeId, index) => {
+                            const recipe = recipes.find((item) => item.id === recipeId);
+                            if (!recipe) return null;
+                            const isSaved = favorites.includes(recipe.id);
+
+                            return (
+                              <article className="plannerMealRow" key={`${slotKey}-${recipeId}-${index}`}>
+                                <div className="plannerMealThumb">
+                                  <RecipeImage recipe={recipe} />
+                                </div>
+
+                                <div className="plannerMealInfo">
+                                  <strong>{recipe.title}</strong>
+                                  <small>
+                                    {recipe.id} · {recipe.category} · {recipe.time} min · {servings} servings
+                                  </small>
+                                  <small>
+                                    Est. ${scaleCost(recipe, servings).toFixed(2)}
+                                  </small>
+                                </div>
+
+                                <div className="plannerMealActions">
+                                  <button
+                                    className={isSaved ? "plannerHeart saved" : "plannerHeart"}
+                                    onClick={() => toggleFavorite(recipe.id)}
+                                    aria-label={isSaved ? "Remove from favorites" : "Add to favorites"}
+                                  >
+                                    ♥
+                                  </button>
+                                  <button
+                                    className="plannerMiniButton"
+                                    onClick={() => openRecipeCard(recipe.id, recipes)}
+                                  >
+                                    View
+                                  </button>
+                                  <button
+                                    className="plannerRemoveButton"
+                                    onClick={() => removeRecipe(slotKey, index)}
+                                    aria-label="Remove recipe"
+                                  >
+                                    ×
+                                  </button>
+                                </div>
+                              </article>
+                            );
+                          })
+                        )}
+                      </div>
+                    </section>
+                  );
+                })}
+              </div>
+            </section>
+          ))}
+        </div>
+
+        <aside className="plannerSidePanel">
+          <section className="plannerSideCard">
+            <h2>Quick Actions</h2>
+            <button onClick={copyWeekOneToWeekTwo}>Copy Week 1 to Week 2</button>
+            <button onClick={() => clearWeek("week1")}>Clear Week 1</button>
+            <button onClick={() => clearWeek("week2")}>Clear Week 2</button>
+          </section>
+
+          <section className="plannerSideCard plannerStatCard">
+            <h2>Shopping List</h2>
+            <small>Combined for both weeks</small>
+            <strong>{totalMeals}</strong>
+            <span>planned meals</span>
+          </section>
+
+          <section className="plannerSideCard plannerStatCard">
+            <h2>Estimated Cost</h2>
+            <small>For both weeks</small>
+            <strong>${estimatedTotal.toFixed(2)}</strong>
+            <span>{servings} servings per meal</span>
+          </section>
+        </aside>
       </div>
     </main>
   );
@@ -1017,10 +1194,10 @@ function CostEstimatorPage({ plan, servings, setServings }) {
     <main className="pageShell">
       <div className="pageHeader">
         <div>
-          <div className="aiBadge">COST ESTIMATOR</div>
+          <div className="aiBadge">TWO-WEEK COST ESTIMATOR</div>
           <h1>Estimated food costs</h1>
           <p>
-            Compare approximate totals for servings of 2, 4, and 6. Actual
+            Compare approximate two-week totals for servings of 2, 4, and 6. Actual
             grocery prices may vary.
           </p>
         </div>
@@ -1066,7 +1243,7 @@ function CostEstimatorPage({ plan, servings, setServings }) {
             <tbody>
               {selected.map(({ day, recipe }, i) => (
                 <tr key={`${day}-${recipe.id}-${i}`}>
-                  <td>{day}</td>
+                  <td>{plannerSlotLabel(day)}</td>
                   <td>{recipe.title}</td>
                   <td>${scaleCost(recipe, 2).toFixed(2)}</td>
                   <td>${scaleCost(recipe, 4).toFixed(2)}</td>
@@ -1227,7 +1404,7 @@ export default function App() {
     loadJSON(STORAGE_KEYS.favorites, [])
   );
   const [plan, setPlan] = useState(() =>
-    loadJSON(STORAGE_KEYS.plan, emptyPlan())
+    normalizeTwoWeekPlan(loadJSON(STORAGE_KEYS.plan, emptyTwoWeekPlan()))
   );
   const [servings, setServings] = useState(() =>
     loadJSON(STORAGE_KEYS.servings, 4)
@@ -1253,12 +1430,13 @@ export default function App() {
 
   function addToPlan(recipeId) {
     setPlan((current) => {
-      const day = DAYS.find((d) => (current[d] || []).length === 0) || "Mon";
+      const next = normalizeTwoWeekPlan(current);
+      const firstOpenSlot =
+        PLANNER_SLOTS.find((slot) => (next[slot.key] || []).length === 0)?.key ||
+        "week1-Mon";
 
-      return {
-        ...current,
-        [day]: [...(current[day] || []), recipeId],
-      };
+      next[firstOpenSlot] = [...(next[firstOpenSlot] || []), recipeId];
+      return next;
     });
 
     setActivePage("Meal Planner");
