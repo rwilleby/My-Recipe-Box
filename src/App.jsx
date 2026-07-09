@@ -1,3 +1,4 @@
+// force GitHub Pages rebuild
 import { useMemo, useState, useEffect } from "react";
 import { categories, recipes } from "./data/recipes";
 import { loadJSON, saveJSON } from "./utils/storage";
