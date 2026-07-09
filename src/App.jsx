@@ -32,9 +32,9 @@ const CATEGORY_ICON_IMAGES = {
 const AUTO_IMAGE_PREFIXES = new Set(["AS", "CC", "CO", "CR", "DN", "HB", "HBP", "IT"]);
 
 const HERO_IMAGES = [
-  "images/heroes/hero-pasta-wide.png",
-  "images/heroes/hero-grill-wide.png",
-  "images/heroes/hero-salad-wide.png",
+  "images/heroes/hero-brisket-wide.png",
+  "images/heroes/hero-dessert-wide.png",
+  "images/heroes/hero-seafood-wide.png",
 ];
 
 function recipeCodePrefix(recipeId = "") {
@@ -223,7 +223,7 @@ function Hero({ setActivePage }) {
 function TransparencyLine() {
   return (
     <div className="transparencyLine">
-      <strong>Transparency first:</strong> All recipes & collections are AI-generated and are not private family recipes. My page employees affiliate marketing.
+      <strong>Transparency first:</strong> All recipes & collections in Robert’s Recipe Box are AI-generated planning tools — not private family recipes.
     </div>
   );
 }
@@ -463,7 +463,7 @@ function CollectionStrip() {
   const collectionCards = [
     {
       title: "Slow Cooker Favorites",
-      text: "Set-it-and-forget-it meals for easy crock-pot cooking.",
+      text: "Set-it-and-forget-it meals for easy planning.",
     },
     {
       title: "Summer Cookouts",
@@ -475,11 +475,11 @@ function CollectionStrip() {
     },
     {
       title: "Comfort Foods",
-      text: "Cozy classics for your family-style meals.",
+      text: "Cozy classics for family-style meals.",
     },
     {
       title: "Easy 30-Minute Meals",
-      text: "Fast dinners for busy weeknight cooking.",
+      text: "Fast dinners for busy nights.",
     },
   ];
 
@@ -1094,7 +1094,7 @@ function FeatureStrip() {
     },
     {
       title: "Easy Meal Planning",
-      text: "Build your own personal weekly meal plans for 2–6.",
+      text: "Build your own personal weekly meal plans for 2–6 servings.",
     },
     {
       title: "Smart Shopping List",
@@ -1102,11 +1102,11 @@ function FeatureStrip() {
     },
     {
       title: "Grocery Store List",
-      text: "Estimate your grocery costs based on your weekly menu.",
+      text: "Estimate your grocery costs from your weekly menu.",
     },
     {
       title: "Recommendations",
-      text: "Select kitchen tools and products to help you in the kitchen.",
+      text: "I recommend kitchen tools, and products to help you in the kitchen.",
     },
   ];
 
