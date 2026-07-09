@@ -223,7 +223,7 @@ function Hero({ setActivePage }) {
 function TransparencyLine() {
   return (
     <div className="transparencyLine">
-      <strong>Transparency first:</strong> All recipes & collections in Robert’s Recipe Box are AI-generated planning tools — not private family recipes.
+      <strong>Transparency first:</strong> All recipes & collections are AI-generated and are not private family recipes. My page employees affiliate marketing.
     </div>
   );
 }
@@ -463,7 +463,7 @@ function CollectionStrip() {
   const collectionCards = [
     {
       title: "Slow Cooker Favorites",
-      text: "Set-it-and-forget-it meals for easy planning.",
+      text: "Set-it-and-forget-it meals for easy crock-pot cooking.",
     },
     {
       title: "Summer Cookouts",
@@ -475,11 +475,11 @@ function CollectionStrip() {
     },
     {
       title: "Comfort Foods",
-      text: "Cozy classics for family-style meals.",
+      text: "Cozy classics for your family-style meals.",
     },
     {
       title: "Easy 30-Minute Meals",
-      text: "Fast dinners for busy nights.",
+      text: "Fast dinners for busy weeknight cooking.",
     },
   ];
 
@@ -1094,7 +1094,7 @@ function FeatureStrip() {
     },
     {
       title: "Easy Meal Planning",
-      text: "Build your own personal weekly meal plans for 2–6 servings.",
+      text: "Build your own personal weekly meal plans for 2–6.",
     },
     {
       title: "Smart Shopping List",
@@ -1102,11 +1102,11 @@ function FeatureStrip() {
     },
     {
       title: "Grocery Store List",
-      text: "Estimate your grocery costs from your weekly menu.",
+      text: "Estimate your grocery costs based on your weekly menu.",
     },
     {
       title: "Recommendations",
-      text: "I recommend kitchen tools, and products to help you in the kitchen.",
+      text: "Select kitchen tools and products to help you in the kitchen.",
     },
   ];
 
