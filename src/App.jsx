@@ -149,15 +149,21 @@ function Hero({ setActivePage }) {
     return () => window.clearInterval(timer);
   }, []);
 
-  const heroBackground = `${import.meta.env.BASE_URL}${HERO_IMAGES[heroIndex]}`;
-
   return (
-    <section
-      className="hero"
-      style={{
-        "--hero-bg": `url("${heroBackground}")`,
-      }}
-    >
+    <section className="hero">
+      <div className="heroRotator" aria-hidden="true">
+        {HERO_IMAGES.map((imagePath, index) => (
+          <img
+            key={imagePath}
+            className={index === heroIndex ? "heroRotatorImage active" : "heroRotatorImage"}
+            src={`${import.meta.env.BASE_URL}${imagePath}`}
+            alt=""
+          />
+        ))}
+      </div>
+
+      <div className="heroOverlay" aria-hidden="true" />
+
       <div className="heroCopy">
         <div className="aiBadge">✧ AI-POWERED RECIPE PLANNING ✧</div>
 
@@ -213,6 +219,7 @@ function Hero({ setActivePage }) {
     </section>
   );
 }
+
 function TransparencyLine() {
   return (
     <div className="transparencyLine">
@@ -497,6 +504,91 @@ function CollectionStrip() {
   );
 }
 
+function RecipeRolodex({ openRecipeCard }) {
+  const rolodexRecipes = recipes.slice(0, 12);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [imageIndex, setImageIndex] = useState(0);
+
+  const activeRecipe = rolodexRecipes[activeIndex] || recipes[0];
+  const imageCandidates = activeRecipe ? fullCardImageCandidates(activeRecipe) : [];
+  const imagePath = imageCandidates[imageIndex];
+
+  useEffect(() => {
+    setImageIndex(0);
+  }, [activeRecipe?.id]);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setActiveIndex((current) => (current + 1) % rolodexRecipes.length);
+    }, 7000);
+
+    return () => window.clearInterval(timer);
+  }, [rolodexRecipes.length]);
+
+  function goToOffset(offset) {
+    setActiveIndex((current) =>
+      (current + offset + rolodexRecipes.length) % rolodexRecipes.length
+    );
+  }
+
+  if (!activeRecipe) return null;
+
+  return (
+    <aside className="homeRolodex" aria-label="Recipe card rolodex">
+      <div className="homeRolodexHeader">
+        <div>
+          <span>Recipe Card Rolodex</span>
+          <strong>{activeRecipe.title}</strong>
+        </div>
+        <small>{activeIndex + 1} of {rolodexRecipes.length}</small>
+      </div>
+
+      <div className="homeRolodexStage">
+        <button
+          className="homeRolodexNav"
+          onClick={() => goToOffset(-1)}
+          aria-label="Previous recipe card"
+        >
+          ‹
+        </button>
+
+        <button
+          className="homeRolodexCard"
+          onClick={() => openRecipeCard(activeRecipe.id, rolodexRecipes)}
+          aria-label={`Open ${activeRecipe.title} recipe card`}
+        >
+          {imagePath ? (
+            <img
+              src={`${import.meta.env.BASE_URL}${imagePath}`}
+              alt={`${activeRecipe.id} ${activeRecipe.title} recipe card`}
+              onError={() => setImageIndex((current) => current + 1)}
+            />
+          ) : (
+            <div className="homeRolodexMissing">
+              <strong>Recipe card image not found.</strong>
+              <span>Expected: images/recipes/{activeRecipe.id}.png</span>
+            </div>
+          )}
+        </button>
+
+        <button
+          className="homeRolodexNav"
+          onClick={() => goToOffset(1)}
+          aria-label="Next recipe card"
+        >
+          ›
+        </button>
+      </div>
+
+      <div className="homeRolodexDots" aria-hidden="true">
+        {rolodexRecipes.map((recipe, index) => (
+          <span key={recipe.id} className={index === activeIndex ? "active" : ""} />
+        ))}
+      </div>
+    </aside>
+  );
+}
+
 function Home({
   favorites,
   toggleFavorite,
@@ -522,19 +614,23 @@ function Home({
           </button>
         </div>
 
-        <div className="recipeRow">
-          {recentlyAdded.map((recipe) => (
-            <RecipeCard
-              key={recipe.id}
-              recipe={recipe}
-              favorites={favorites}
-              toggleFavorite={toggleFavorite}
-              addToPlan={addToPlan}
-              openRecipeCard={openRecipeCard}
-              cardList={recentlyAdded}
-              showPlannerButton={false}
-            />
-          ))}
+        <div className="recentlyAddedLayout">
+          <div className="recipeRow recentlyAddedCards">
+            {recentlyAdded.map((recipe) => (
+              <RecipeCard
+                key={recipe.id}
+                recipe={recipe}
+                favorites={favorites}
+                toggleFavorite={toggleFavorite}
+                addToPlan={addToPlan}
+                openRecipeCard={openRecipeCard}
+                cardList={recentlyAdded}
+                showPlannerButton={false}
+              />
+            ))}
+          </div>
+
+          <RecipeRolodex openRecipeCard={openRecipeCard} />
         </div>
       </section>
 
@@ -994,23 +1090,23 @@ function FeatureStrip() {
   const features = [
     {
       title: "AI-Powered Recipes",
-      text: "Recipe ideas inspired by popular dishes.",
+      text: "AI recipe ideas inspired by popular internet cuisines.",
     },
     {
       title: "Easy Meal Planning",
-      text: "Build weekly plans for 2–6 servings.",
+      text: "Build your own personal weekly meal plans for 2–6 servings.",
     },
     {
       title: "Smart Shopping List",
-      text: "Create lists from your meal plan.",
+      text: "Create custom shopping lists from your private meal plan.",
     },
     {
       title: "Grocery Store List",
-      text: "Estimate costs from your menu.",
+      text: "Estimate your grocery costs from your weekly menu.",
     },
     {
       title: "Recommendations",
-      text: "Kitchen tools and organizers.",
+      text: "I recommend kitchen tools, and products to help you in the kitchen.",
     },
   ];
 
