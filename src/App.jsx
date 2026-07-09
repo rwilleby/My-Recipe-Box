@@ -1182,7 +1182,7 @@ function FeatureStrip() {
     },
     {
       title: "Easy Meal Planning",
-      text: "Build your own personal weekly meal plans for 2–6 servings.",
+      text: "Build your own personal weekly meal plans for 2–6.",
     },
     {
       title: "Smart Shopping List",
@@ -1194,7 +1194,7 @@ function FeatureStrip() {
     },
     {
       title: "Recommendations",
-      text: "I recommend kitchen tools, and products to help you in the kitchen.",
+      text: "Fun & handy kitchen products to help keep you organized.",
     },
   ];
 
