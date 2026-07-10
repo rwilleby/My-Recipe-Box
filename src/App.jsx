@@ -18,29 +18,26 @@ const STORAGE_KEYS = {
 };
 
 const CATEGORY_ICON_IMAGES = {
-  AM: "images/icons/icon-american.png",
-  AS: "images/icons/icon-asian.png",
-  CC: "images/icons/icon-cheesecakes.png",
-  CO: "images/icons/icon-cobblers.png",
-  CR: "images/icons/icon-cinnamon-rolls.png",
-  DN: "images/icons/icon-donuts.png",
-  DS: "images/icons/icon-desserts.png",
-  HB: "images/icons/icon-hamburgers.png",
-  HBP: "images/icons/icon-hamburger-patties.png",
-  IT: "images/icons/icon-italian.png",
-  JJ: "images/icons/icon-jams-jellies.png",
-  KR: "images/icons/icon-kolaches.png",
-  LF: "images/icons/icon-loafs-rolls.png",
-  MR: "images/icons/icon-marinades.png",
-  MX: "images/icons/icon-mexican.png",
-  PM: "images/icons/icon-protein-muffins.png",
-  QP: "images/icons/icon-quiche-pies.png",
-  RS: "images/icons/icon-rubs-seasonings.png",
-  SB: "images/icons/icon-salads-bowls.png",
-  SD: "images/icons/icon-side-dishes.png",
-  SF: "images/icons/icon-seafood.png",
-  SG: "images/icons/icon-smoked-grilled.png",
-  SW: "images/icons/icon-sandwiches.png",
+  AM: "images/categories/AM.png",
+  AS: "images/categories/AS.png",
+  CC: "images/categories/CC.png",
+  CO: "images/categories/CO.png",
+  CR: "images/categories/CR.png",
+  DN: "images/categories/DN.png",
+  DS: "images/categories/DS.png",
+  HB: "images/categories/HB.png",
+  IT: "images/categories/IT.png",
+  JJ: "images/categories/JJ.png",
+  KR: "images/categories/KR.png",
+  LF: "images/categories/LF.png",
+  MX: "images/categories/MX.png",
+  PM: "images/categories/PM.png",
+  QP: "images/categories/QP.png",
+  SB: "images/categories/SB.png",
+  SD: "images/categories/SD.png",
+  SF: "images/categories/SF.png",
+  SG: "images/categories/SG.png",
+  SW: "images/categories/SW.png",
 };
 
 const HOME_CATEGORY_CODES = [
@@ -67,213 +64,27 @@ const HOME_CATEGORY_CODES = [
 ];
 
 const HOME_CATEGORY_FALLBACKS = {
-  AM: { id: "AM", name: "American Cuisine", count: 0, icon: "🇺🇸" },
-  AS: { id: "AS", name: "Asian Cuisine", count: 0, icon: "🍜" },
+  AM: { id: "AM", name: "American", count: 0, icon: "🍽️" },
+  AS: { id: "AS", name: "Asian", count: 0, icon: "🍜" },
   CC: { id: "CC", name: "Cheesecakes", count: 0, icon: "🍰" },
   CO: { id: "CO", name: "Cobblers", count: 0, icon: "🥧" },
   CR: { id: "CR", name: "Cinnamon Rolls", count: 0, icon: "🌀" },
   DN: { id: "DN", name: "Donuts", count: 0, icon: "🍩" },
   DS: { id: "DS", name: "Desserts", count: 0, icon: "🍰" },
   HB: { id: "HB", name: "Hamburgers", count: 0, icon: "🍔" },
-  IT: { id: "IT", name: "Italian Cuisine", count: 0, icon: "🍝" },
+  IT: { id: "IT", name: "Italian", count: 0, icon: "🍝" },
   JJ: { id: "JJ", name: "Jams & Jellies", count: 0, icon: "🍓" },
   KR: { id: "KR", name: "Kolaches", count: 0, icon: "🥐" },
   LF: { id: "LF", name: "Loafs & Rolls", count: 0, icon: "🍞" },
-  MX: { id: "MX", name: "Mexican Cuisine", count: 0, icon: "🌮" },
+  MX: { id: "MX", name: "Mexican", count: 0, icon: "🌮" },
   PM: { id: "PM", name: "Protein Muffins", count: 0, icon: "🧁" },
   QP: { id: "QP", name: "Quiche & Pies", count: 0, icon: "🥧" },
   SB: { id: "SB", name: "Salads & Bowls", count: 0, icon: "🥗" },
   SD: { id: "SD", name: "Side Dishes", count: 0, icon: "🍲" },
-  SF: { id: "SF", name: "Seafood Dishes", count: 0, icon: "🐟" },
-  SG: { id: "SG", name: "Smoked & Grilled Meats", count: 0, icon: "🔥" },
+  SF: { id: "SF", name: "Seafood", count: 0, icon: "🐟" },
+  SG: { id: "SG", name: "Smoked/Grilled", count: 0, icon: "🔥" },
   SW: { id: "SW", name: "Sandwiches", count: 0, icon: "🥪" },
 };
-
-const PANTRY_STAPLES = [
-  {
-    group: "Spices & Seasonings",
-    items: [
-      "Salt",
-      "Black pepper",
-      "Garlic powder",
-      "Onion powder",
-      "Paprika",
-      "Chili powder",
-      "Italian seasoning",
-      "Dried oregano",
-      "Cinnamon",
-      "Taco seasoning",
-    ],
-  },
-  {
-    group: "Oils, Vinegars & Cooking Basics",
-    items: [
-      "Olive oil",
-      "Vegetable oil",
-      "Cooking spray",
-      "Butter",
-      "White vinegar",
-      "Apple cider vinegar",
-      "Flour",
-      "Cornstarch",
-      "Sugar",
-      "Brown sugar",
-    ],
-  },
-  {
-    group: "Sauces & Condiments",
-    items: [
-      "Soy sauce",
-      "Worcestershire sauce",
-      "Ketchup",
-      "Mustard",
-      "Mayonnaise",
-      "BBQ sauce",
-      "Hot sauce",
-      "Salsa",
-      "Honey",
-      "Maple syrup",
-    ],
-  },
-  {
-    group: "Rice, Pasta & Grains",
-    items: [
-      "White rice",
-      "Brown rice",
-      "Pasta",
-      "Egg noodles",
-      "Breadcrumbs",
-      "Rolled oats",
-      "Tortillas",
-      "Crackers",
-    ],
-  },
-  {
-    group: "Canned & Jarred Goods",
-    items: [
-      "Chicken broth",
-      "Beef broth",
-      "Cream of chicken soup",
-      "Cream of mushroom soup",
-      "Diced tomatoes",
-      "Tomato sauce",
-      "Tomato paste",
-      "Black beans",
-      "Pinto beans",
-      "Corn",
-    ],
-  },
-  {
-    group: "Freezer & Refrigerator Basics",
-    items: [
-      "Frozen vegetables",
-      "Frozen broccoli",
-      "Frozen corn",
-      "Shredded cheese",
-      "Eggs",
-      "Milk",
-      "Sour cream",
-      "Cream cheese",
-      "Parmesan cheese",
-    ],
-  },
-];
-
-const PANTRY_MATCHERS = [
-  { pantry: "Salt", terms: ["salt"] },
-  { pantry: "Black pepper", terms: ["pepper", "black pepper"] },
-  { pantry: "Garlic powder", terms: ["garlic powder"] },
-  { pantry: "Onion powder", terms: ["onion powder"] },
-  { pantry: "Paprika", terms: ["paprika"] },
-  { pantry: "Chili powder", terms: ["chili powder"] },
-  { pantry: "Italian seasoning", terms: ["italian seasoning"] },
-  { pantry: "Dried oregano", terms: ["oregano"] },
-  { pantry: "Cinnamon", terms: ["cinnamon"] },
-  { pantry: "Taco seasoning", terms: ["taco seasoning"] },
-  { pantry: "Olive oil", terms: ["olive oil"] },
-  { pantry: "Vegetable oil", terms: ["vegetable oil", "oil"] },
-  { pantry: "Cooking spray", terms: ["cooking spray"] },
-  { pantry: "Butter", terms: ["butter"] },
-  { pantry: "White vinegar", terms: ["white vinegar", "vinegar"] },
-  { pantry: "Apple cider vinegar", terms: ["apple cider vinegar"] },
-  { pantry: "Flour", terms: ["flour"] },
-  { pantry: "Cornstarch", terms: ["cornstarch"] },
-  { pantry: "Sugar", terms: ["sugar"] },
-  { pantry: "Brown sugar", terms: ["brown sugar"] },
-  { pantry: "Soy sauce", terms: ["soy sauce"] },
-  { pantry: "Worcestershire sauce", terms: ["worcestershire"] },
-  { pantry: "Ketchup", terms: ["ketchup"] },
-  { pantry: "Mustard", terms: ["mustard"] },
-  { pantry: "Mayonnaise", terms: ["mayonnaise", "mayo"] },
-  { pantry: "BBQ sauce", terms: ["bbq sauce", "barbecue sauce"] },
-  { pantry: "Hot sauce", terms: ["hot sauce"] },
-  { pantry: "Salsa", terms: ["salsa"] },
-  { pantry: "Honey", terms: ["honey"] },
-  { pantry: "Maple syrup", terms: ["maple syrup"] },
-  { pantry: "White rice", terms: ["white rice", "rice"] },
-  { pantry: "Brown rice", terms: ["brown rice"] },
-  { pantry: "Pasta", terms: ["pasta", "spaghetti", "penne", "fettuccine"] },
-  { pantry: "Egg noodles", terms: ["egg noodles"] },
-  { pantry: "Breadcrumbs", terms: ["breadcrumbs", "bread crumbs"] },
-  { pantry: "Rolled oats", terms: ["oats", "rolled oats"] },
-  { pantry: "Tortillas", terms: ["tortilla", "tortillas"] },
-  { pantry: "Crackers", terms: ["crackers"] },
-  { pantry: "Chicken broth", terms: ["chicken broth"] },
-  { pantry: "Beef broth", terms: ["beef broth"] },
-  { pantry: "Cream of chicken soup", terms: ["cream of chicken"] },
-  { pantry: "Cream of mushroom soup", terms: ["cream of mushroom"] },
-  { pantry: "Diced tomatoes", terms: ["diced tomatoes"] },
-  { pantry: "Tomato sauce", terms: ["tomato sauce"] },
-  { pantry: "Tomato paste", terms: ["tomato paste"] },
-  { pantry: "Black beans", terms: ["black beans"] },
-  { pantry: "Pinto beans", terms: ["pinto beans"] },
-  { pantry: "Corn", terms: ["corn"] },
-  { pantry: "Frozen vegetables", terms: ["frozen vegetables", "mixed vegetables"] },
-  { pantry: "Frozen broccoli", terms: ["frozen broccoli"] },
-  { pantry: "Frozen corn", terms: ["frozen corn"] },
-  { pantry: "Shredded cheese", terms: ["shredded cheese", "cheese"] },
-  { pantry: "Eggs", terms: ["eggs"] },
-  { pantry: "Milk", terms: ["milk"] },
-  { pantry: "Sour cream", terms: ["sour cream"] },
-  { pantry: "Cream cheese", terms: ["cream cheese"] },
-  { pantry: "Parmesan cheese", terms: ["parmesan"] },
-];
-
-function normalizePantryText(value = "") {
-  return value.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
-}
-
-function findPantryMatch(itemName = "") {
-  const normalizedItem = normalizePantryText(itemName);
-
-  return PANTRY_MATCHERS.find((matcher) =>
-    matcher.terms.some((term) => {
-      const normalizedTerm = normalizePantryText(term);
-      return normalizedItem === normalizedTerm || normalizedItem.includes(normalizedTerm);
-    })
-  );
-}
-
-function splitShoppingListByPantry(list, pantry) {
-  return list.reduce(
-    (groups, item) => {
-      const match = findPantryMatch(item.name);
-      const inPantry = match && pantry[match.pantry];
-
-      if (inPantry) {
-        groups.pantry.push({
-          ...item,
-          pantryName: match.pantry,
-        });
-      } else {
-        groups.needed.push(item);
-      }
-
-      return groups;
-    },
-    { needed: [], pantry: [] }
-  );
-}
 
 const AUTO_IMAGE_PREFIXES = new Set(["AS", "CC", "CO", "CR", "DN", "HB", "HBP", "IT"]);
 
@@ -591,13 +402,29 @@ function TransparencyLine() {
 
 function CategoryGrid({ setFilter, setActivePage }) {
   const categoryLookup = new Map(categories.map((category) => [category.id, category]));
-  const homeCategories = HOME_CATEGORY_CODES.map((code) => ({
-    ...HOME_CATEGORY_FALLBACKS[code],
-    ...(categoryLookup.get(code) || {}),
-  }));
+  const homeCategories = HOME_CATEGORY_CODES.map((code) => {
+    const fallback = HOME_CATEGORY_FALLBACKS[code];
+    const existing = categoryLookup.get(code);
+
+    return {
+      ...fallback,
+      ...(existing || {}),
+      name: fallback.name,
+      iconImage: CATEGORY_ICON_IMAGES[code],
+    };
+  });
 
   function openCategory(categoryName) {
-    setFilter(categoryName);
+    const matchingCategory = categories.find((category) => {
+      const fallback = HOME_CATEGORY_FALLBACKS[category.id];
+      return (
+        category.name === categoryName ||
+        fallback?.name === categoryName ||
+        category.id === categoryName
+      );
+    });
+
+    setFilter(matchingCategory?.name || categoryName);
     setActivePage("Recipes");
   }
 
@@ -612,32 +439,32 @@ function CategoryGrid({ setFilter, setActivePage }) {
 
       <div className="categoryGrid homeCategoryGrid">
         {homeCategories.map((cat) => {
-          const iconPath = cat.iconImage || CATEGORY_ICON_IMAGES[cat.id];
+          const iconPath = cat.iconImage;
 
           return (
             <button
               key={cat.id}
-              className="categoryTile"
+              className="categoryTile homeCategoryTile"
               onClick={() => openCategory(cat.name)}
               aria-label={`View ${cat.name} recipes`}
             >
-              {iconPath ? (
-                <img
-                  className="categoryIconImage"
-                  src={`${import.meta.env.BASE_URL}${iconPath}`}
-                  alt={`${cat.name} icon`}
-                  onError={(event) => {
-                    event.currentTarget.style.display = "none";
-                    const fallback = event.currentTarget.nextElementSibling;
-                    if (fallback) fallback.style.display = "grid";
-                  }}
-                />
-              ) : null}
+              <img
+                className="categoryIconImage"
+                src={`${import.meta.env.BASE_URL}${iconPath}`}
+                alt=""
+                aria-hidden="true"
+                onError={(event) => {
+                  event.currentTarget.style.display = "none";
+                  const fallback = event.currentTarget.nextElementSibling;
+                  if (fallback) fallback.style.display = "grid";
+                }}
+              />
 
-              <span className="categoryIcon categoryIconFallback">{cat.icon}</span>
+              <span className="categoryIcon categoryIconFallback" aria-hidden="true">
+                {cat.icon}
+              </span>
 
-              <strong>{cat.id}</strong>
-              <small>{cat.name}</small>
+              <strong>{cat.name}</strong>
             </button>
           );
         })}
