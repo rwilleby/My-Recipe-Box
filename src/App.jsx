@@ -33,6 +33,7 @@ const CATEGORY_ICON_IMAGES = {
   MX: "images/categories/MX.png",
   PM: "images/categories/PM.png",
   QP: "images/categories/QP.png",
+  CS: "images/categories/CS.png",
   SB: "images/categories/SB.png",
   SD: "images/categories/SD.png",
   SF: "images/categories/SF.png",
@@ -45,22 +46,22 @@ const HOME_CATEGORY_CODES = [
   "AS",
   "IT",
   "MX",
-  "SB",
   "SF",
-  "KR",
-  "LF",
-  "PM",
-  "SD",
-  "JJ",
   "QP",
+  "CS",
+  "SB",
   "SG",
+  "SD",
   "HB",
   "SW",
+  "LF",
+  "PM",
+  "KR",
   "CC",
   "CO",
   "CR",
   "DN",
-  "DS",
+  "JJ",
 ];
 
 const HOME_CATEGORY_LABELS = {
@@ -79,6 +80,7 @@ const HOME_CATEGORY_LABELS = {
   MX: "Mexican",
   PM: "Protein Muffins",
   QP: "Quiche & Pies",
+  CS: "Casseroles",
   SB: "Salads & Bowls",
   SD: "Side Dishes",
   SF: "Seafood",
@@ -102,6 +104,7 @@ const HOME_CATEGORY_FALLBACKS = {
   MX: { id: "MX", name: "Mexican Cuisine", count: 0, icon: "🌮" },
   PM: { id: "PM", name: "Protein Muffins", count: 0, icon: "🧁" },
   QP: { id: "QP", name: "Quiche & Pies", count: 0, icon: "🥧" },
+  CS: { id: "CS", name: "Casseroles", count: 0, icon: "🥘" },
   SB: { id: "SB", name: "Salads & Bowls", count: 0, icon: "🥗" },
   SD: { id: "SD", name: "Side Dishes", count: 0, icon: "🍲" },
   SF: { id: "SF", name: "Seafood Dishes", count: 0, icon: "🐟" },
@@ -578,10 +581,10 @@ function Hero({ setActivePage }) {
 
       <div className="heroPhoto">
         <div className="statsCard heroStatsBar">
-          <span>400+ RECIPES</span>
-          <span>YOUR FAVORITES</span>
-          <span>AI PLANNER</span>
-          <span>SMART LISTS</span>
+          <span>CHOOSE YOUR RECIPES</span>
+          <span>SAVE YOUR FAVORITES</span>
+          <span>PLAN YOUR MEALS</span>
+          <span>MAKE YOUR GROCERY LIST</span>
         </div>
       </div>
     </section>
@@ -627,7 +630,7 @@ function CategoryGrid({ setFilter, setActivePage }) {
         {homeCategories.map((cat) => (
           <button
             key={cat.id}
-            className="categoryTile homeCategoryTile"
+            className={HOME_CATEGORY_CODES.indexOf(cat.id) >= 10 ? "categoryTile homeCategoryTile secondRowCategoryTile" : "categoryTile homeCategoryTile"}
             onClick={() => openCategory(cat)}
             aria-label={`View ${cat.displayName} recipes`}
           >

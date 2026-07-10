@@ -4026,3 +4026,120 @@ th {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
+
+/* ================================
+   REQUESTED HOME CATEGORY / TRANSPARENCY / HERO STATS TWEAK
+   ================================ */
+
+/* 2) Transparency first text 25% smaller */
+.transparencyLine {
+  font-size: 10.5px;
+  line-height: 1.2;
+}
+
+/* 1) Category order is controlled by HOME_CATEGORY_CODES in App.jsx.
+   Row 2 icons are 25% smaller and centered under row 1 columns. */
+.homeCategoryGrid {
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  align-items: start;
+}
+
+.homeCategoryGrid .secondRowCategoryTile .categoryIconImage,
+.homeCategoryGrid .secondRowCategoryTile .categoryIconFallback {
+  width: calc(var(--category-tile-size, 104px) * 0.75);
+  height: calc(var(--category-tile-size, 104px) * 0.75);
+  max-width: calc(var(--category-tile-size, 104px) * 0.75);
+  border-radius: clamp(12px, 1vw, 16px);
+}
+
+.homeCategoryGrid .secondRowCategoryTile strong {
+  max-width: calc((var(--category-tile-size, 104px) * 0.75) + 30px);
+  font-size: calc(var(--category-name-size, 13.5px) * 0.92);
+}
+
+/* 3) Hero stats card: outlined like Start Meal Planning, no icons, centered text. */
+.heroStatsBar,
+.statsCard.heroStatsBar {
+  min-height: 46px;
+  height: 46px;
+  border: 2px solid var(--green);
+  border-radius: 8px;
+  box-shadow: none;
+  background: rgba(255, 255, 255, .94);
+  overflow: hidden;
+}
+
+.heroStatsBar span,
+.statsCard.heroStatsBar span {
+  display: grid;
+  place-items: center;
+  min-height: 46px;
+  padding: 0 12px;
+  border-right: 1px solid var(--green);
+  background: transparent;
+  color: #111827;
+  font-size: clamp(10px, .78vw, 12.5px);
+  font-weight: 800;
+  letter-spacing: .02em;
+  line-height: 1.05;
+  text-align: center;
+  white-space: normal;
+}
+
+.heroStatsBar span:last-child,
+.statsCard.heroStatsBar span:last-child {
+  border-right: 0;
+}
+
+@media (max-width: 1100px) {
+  .transparencyLine {
+    font-size: 10.5px;
+  }
+
+  .homeCategoryGrid .secondRowCategoryTile .categoryIconImage,
+  .homeCategoryGrid .secondRowCategoryTile .categoryIconFallback {
+    width: calc(var(--category-tile-size, 112px) * 0.75);
+    height: calc(var(--category-tile-size, 112px) * 0.75);
+    max-width: calc(var(--category-tile-size, 112px) * 0.75);
+  }
+
+  .heroStatsBar,
+  .statsCard.heroStatsBar {
+    height: auto;
+    min-height: 46px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .heroStatsBar span,
+  .statsCard.heroStatsBar span {
+    border-bottom: 1px solid var(--green);
+  }
+
+  .heroStatsBar span:nth-child(2n),
+  .statsCard.heroStatsBar span:nth-child(2n) {
+    border-right: 0;
+  }
+
+  .heroStatsBar span:nth-last-child(-n + 2),
+  .statsCard.heroStatsBar span:nth-last-child(-n + 2) {
+    border-bottom: 0;
+  }
+}
+
+@media (max-width: 720px) {
+  .transparencyLine {
+    font-size: 10px;
+  }
+
+  .homeCategoryGrid .secondRowCategoryTile .categoryIconImage,
+  .homeCategoryGrid .secondRowCategoryTile .categoryIconFallback {
+    width: calc(var(--category-tile-size, 126px) * 0.85);
+    height: calc(var(--category-tile-size, 126px) * 0.85);
+    max-width: calc(var(--category-tile-size, 126px) * 0.85);
+  }
+
+  .homeCategoryGrid .secondRowCategoryTile strong {
+    font-size: 14px;
+  }
+}
