@@ -1026,9 +1026,7 @@ function RecipesPage({
 }) {
   const [query, setQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(filter || "");
-  const [selectedCuisine, setSelectedCuisine] = useState("");
   const [selectedCookingMethod, setSelectedCookingMethod] = useState("");
-  const [selectedServingSize, setSelectedServingSize] = useState("");
   const [selectedMealType, setSelectedMealType] = useState("");
   const [selectedDietaryNeed, setSelectedDietaryNeed] = useState("");
   const [sortBy, setSortBy] = useState("newest");
@@ -1045,14 +1043,7 @@ function RecipesPage({
         .includes(query.toLowerCase());
 
       const matchesCategory = !selectedCategory || recipe.category === selectedCategory;
-      const matchesCuisine = !selectedCuisine || recipe.category === selectedCuisine;
-
-      let matchesServings = true;
-      if (selectedServingSize === '2-4') matchesServings = Number(recipe.servings) <= 4;
-      if (selectedServingSize === '4-6') matchesServings = Number(recipe.servings) >= 4 && Number(recipe.servings) <= 6;
-      if (selectedServingSize === '6+') matchesServings = Number(recipe.servings) >= 6;
-
-      return matchesQuery && matchesCategory && matchesCuisine && matchesServings;
+      return matchesQuery && matchesCategory;
     });
 
     const sorted = [...list];
@@ -1077,11 +1068,11 @@ function RecipesPage({
     }
 
     return sorted;
-  }, [query, selectedCategory, selectedCuisine, selectedCookingMethod, selectedServingSize, selectedMealType, selectedDietaryNeed, sortBy]);
+  }, [query, selectedCategory, selectedCookingMethod, selectedMealType, selectedDietaryNeed, sortBy]);
 
   useEffect(() => {
     setPage(1);
-  }, [query, selectedCategory, selectedCuisine, selectedCookingMethod, selectedServingSize, selectedMealType, selectedDietaryNeed, sortBy]);
+  }, [query, selectedCategory, selectedCookingMethod, selectedMealType, selectedDietaryNeed, sortBy]);
 
   const perPage = 12;
   const totalPages = Math.max(1, Math.ceil(filteredRecipes.length / perPage));
@@ -1163,28 +1154,12 @@ function RecipesPage({
             ))}
           </select>
 
-          <select value={selectedCuisine} onChange={(e) => setSelectedCuisine(e.target.value)}>
-            <option value="">All Cuisines</option>
-            {categories.map((category) => (
-              <option key={`cuisine-${category.id}`} value={category.name}>
-                {category.name}
-              </option>
-            ))}
-          </select>
-
           <select value={selectedCookingMethod} onChange={(e) => setSelectedCookingMethod(e.target.value)}>
             <option value="">All Cooking Methods</option>
             <option value="quick">Quick & Easy</option>
             <option value="baked">Baked</option>
             <option value="skillet">Skillet</option>
             <option value="slowcooker">Slow Cooker</option>
-          </select>
-
-          <select value={selectedServingSize} onChange={(e) => setSelectedServingSize(e.target.value)}>
-            <option value="">All Serving Sizes</option>
-            <option value="2-4">2–4 servings</option>
-            <option value="4-6">4–6 servings</option>
-            <option value="6+">6+ servings</option>
           </select>
 
           <select value={selectedMealType} onChange={(e) => setSelectedMealType(e.target.value)}>
