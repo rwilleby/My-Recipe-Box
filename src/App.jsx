@@ -14,6 +14,7 @@ const STORAGE_KEYS = {
   plan: "rrb_weeklyPlan",
   servings: "rrb_servingSize",
   checked: "rrb_checkedShoppingItems",
+  pantry: "rrb_pantryStaples",
 };
 
 const CATEGORY_ICON_IMAGES = {
@@ -26,6 +27,192 @@ const CATEGORY_ICON_IMAGES = {
   SG: "images/icons/icon-smoked-grilled.png",
   SD: "images/icons/icon-side-dishes.png",
 };
+
+const PANTRY_STAPLES = [
+  {
+    group: "Spices & Seasonings",
+    items: [
+      "Salt",
+      "Black pepper",
+      "Garlic powder",
+      "Onion powder",
+      "Paprika",
+      "Chili powder",
+      "Italian seasoning",
+      "Dried oregano",
+      "Cinnamon",
+      "Taco seasoning",
+    ],
+  },
+  {
+    group: "Oils, Vinegars & Cooking Basics",
+    items: [
+      "Olive oil",
+      "Vegetable oil",
+      "Cooking spray",
+      "Butter",
+      "White vinegar",
+      "Apple cider vinegar",
+      "Flour",
+      "Cornstarch",
+      "Sugar",
+      "Brown sugar",
+    ],
+  },
+  {
+    group: "Sauces & Condiments",
+    items: [
+      "Soy sauce",
+      "Worcestershire sauce",
+      "Ketchup",
+      "Mustard",
+      "Mayonnaise",
+      "BBQ sauce",
+      "Hot sauce",
+      "Salsa",
+      "Honey",
+      "Maple syrup",
+    ],
+  },
+  {
+    group: "Rice, Pasta & Grains",
+    items: [
+      "White rice",
+      "Brown rice",
+      "Pasta",
+      "Egg noodles",
+      "Breadcrumbs",
+      "Rolled oats",
+      "Tortillas",
+      "Crackers",
+    ],
+  },
+  {
+    group: "Canned & Jarred Goods",
+    items: [
+      "Chicken broth",
+      "Beef broth",
+      "Cream of chicken soup",
+      "Cream of mushroom soup",
+      "Diced tomatoes",
+      "Tomato sauce",
+      "Tomato paste",
+      "Black beans",
+      "Pinto beans",
+      "Corn",
+    ],
+  },
+  {
+    group: "Freezer & Refrigerator Basics",
+    items: [
+      "Frozen vegetables",
+      "Frozen broccoli",
+      "Frozen corn",
+      "Shredded cheese",
+      "Eggs",
+      "Milk",
+      "Sour cream",
+      "Cream cheese",
+      "Parmesan cheese",
+    ],
+  },
+];
+
+const PANTRY_MATCHERS = [
+  { pantry: "Salt", terms: ["salt"] },
+  { pantry: "Black pepper", terms: ["pepper", "black pepper"] },
+  { pantry: "Garlic powder", terms: ["garlic powder"] },
+  { pantry: "Onion powder", terms: ["onion powder"] },
+  { pantry: "Paprika", terms: ["paprika"] },
+  { pantry: "Chili powder", terms: ["chili powder"] },
+  { pantry: "Italian seasoning", terms: ["italian seasoning"] },
+  { pantry: "Dried oregano", terms: ["oregano"] },
+  { pantry: "Cinnamon", terms: ["cinnamon"] },
+  { pantry: "Taco seasoning", terms: ["taco seasoning"] },
+  { pantry: "Olive oil", terms: ["olive oil"] },
+  { pantry: "Vegetable oil", terms: ["vegetable oil", "oil"] },
+  { pantry: "Cooking spray", terms: ["cooking spray"] },
+  { pantry: "Butter", terms: ["butter"] },
+  { pantry: "White vinegar", terms: ["white vinegar", "vinegar"] },
+  { pantry: "Apple cider vinegar", terms: ["apple cider vinegar"] },
+  { pantry: "Flour", terms: ["flour"] },
+  { pantry: "Cornstarch", terms: ["cornstarch"] },
+  { pantry: "Sugar", terms: ["sugar"] },
+  { pantry: "Brown sugar", terms: ["brown sugar"] },
+  { pantry: "Soy sauce", terms: ["soy sauce"] },
+  { pantry: "Worcestershire sauce", terms: ["worcestershire"] },
+  { pantry: "Ketchup", terms: ["ketchup"] },
+  { pantry: "Mustard", terms: ["mustard"] },
+  { pantry: "Mayonnaise", terms: ["mayonnaise", "mayo"] },
+  { pantry: "BBQ sauce", terms: ["bbq sauce", "barbecue sauce"] },
+  { pantry: "Hot sauce", terms: ["hot sauce"] },
+  { pantry: "Salsa", terms: ["salsa"] },
+  { pantry: "Honey", terms: ["honey"] },
+  { pantry: "Maple syrup", terms: ["maple syrup"] },
+  { pantry: "White rice", terms: ["white rice", "rice"] },
+  { pantry: "Brown rice", terms: ["brown rice"] },
+  { pantry: "Pasta", terms: ["pasta", "spaghetti", "penne", "fettuccine"] },
+  { pantry: "Egg noodles", terms: ["egg noodles"] },
+  { pantry: "Breadcrumbs", terms: ["breadcrumbs", "bread crumbs"] },
+  { pantry: "Rolled oats", terms: ["oats", "rolled oats"] },
+  { pantry: "Tortillas", terms: ["tortilla", "tortillas"] },
+  { pantry: "Crackers", terms: ["crackers"] },
+  { pantry: "Chicken broth", terms: ["chicken broth"] },
+  { pantry: "Beef broth", terms: ["beef broth"] },
+  { pantry: "Cream of chicken soup", terms: ["cream of chicken"] },
+  { pantry: "Cream of mushroom soup", terms: ["cream of mushroom"] },
+  { pantry: "Diced tomatoes", terms: ["diced tomatoes"] },
+  { pantry: "Tomato sauce", terms: ["tomato sauce"] },
+  { pantry: "Tomato paste", terms: ["tomato paste"] },
+  { pantry: "Black beans", terms: ["black beans"] },
+  { pantry: "Pinto beans", terms: ["pinto beans"] },
+  { pantry: "Corn", terms: ["corn"] },
+  { pantry: "Frozen vegetables", terms: ["frozen vegetables", "mixed vegetables"] },
+  { pantry: "Frozen broccoli", terms: ["frozen broccoli"] },
+  { pantry: "Frozen corn", terms: ["frozen corn"] },
+  { pantry: "Shredded cheese", terms: ["shredded cheese", "cheese"] },
+  { pantry: "Eggs", terms: ["eggs"] },
+  { pantry: "Milk", terms: ["milk"] },
+  { pantry: "Sour cream", terms: ["sour cream"] },
+  { pantry: "Cream cheese", terms: ["cream cheese"] },
+  { pantry: "Parmesan cheese", terms: ["parmesan"] },
+];
+
+function normalizePantryText(value = "") {
+  return value.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+}
+
+function findPantryMatch(itemName = "") {
+  const normalizedItem = normalizePantryText(itemName);
+
+  return PANTRY_MATCHERS.find((matcher) =>
+    matcher.terms.some((term) => {
+      const normalizedTerm = normalizePantryText(term);
+      return normalizedItem === normalizedTerm || normalizedItem.includes(normalizedTerm);
+    })
+  );
+}
+
+function splitShoppingListByPantry(list, pantry) {
+  return list.reduce(
+    (groups, item) => {
+      const match = findPantryMatch(item.name);
+      const inPantry = match && pantry[match.pantry];
+
+      if (inPantry) {
+        groups.pantry.push({
+          ...item,
+          pantryName: match.pantry,
+        });
+      } else {
+        groups.needed.push(item);
+      }
+
+      return groups;
+    },
+    { needed: [], pantry: [] }
+  );
+}
 
 const AUTO_IMAGE_PREFIXES = new Set(["AS", "CC", "CO", "CR", "DN", "HB", "HBP", "IT"]);
 
@@ -153,6 +340,7 @@ function Header({ activePage, setActivePage }) {
     "Collections",
     "Meal Planner",
     "Shopping Lists",
+    "Pantry Staples",
     "Cost Estimator",
     "Favorites",
     "About",
@@ -1500,26 +1688,179 @@ function ServingSelector({ servings, setServings }) {
   );
 }
 
-function ShoppingListPage({ plan, checked, setChecked, servings }) {
+function PantryStaplesPage({ pantry, setPantry }) {
+  const totalStaples = PANTRY_STAPLES.reduce(
+    (sum, group) => sum + group.items.length,
+    0
+  );
+  const checkedCount = Object.values(pantry).filter(Boolean).length;
+
+  function togglePantryItem(item) {
+    setPantry((current) => ({
+      ...current,
+      [item]: !current[item],
+    }));
+  }
+
+  function clearPantry() {
+    setPantry({});
+  }
+
+  function checkCommonStaples() {
+    const commonStaples = [
+      "Salt",
+      "Black pepper",
+      "Garlic powder",
+      "Onion powder",
+      "Olive oil",
+      "Vegetable oil",
+      "Butter",
+      "Flour",
+      "Sugar",
+      "Soy sauce",
+      "Ketchup",
+      "Mustard",
+      "White rice",
+      "Pasta",
+      "Chicken broth",
+      "Eggs",
+      "Milk",
+    ];
+
+    setPantry((current) => {
+      const next = { ...current };
+      commonStaples.forEach((item) => {
+        next[item] = true;
+      });
+      return next;
+    });
+  }
+
+  return (
+    <main className="pageShell pantryPage">
+      <div className="pageHeader">
+        <div>
+          <div className="aiBadge">SMART SHOPPING LIST SETUP</div>
+          <h1>PANTRY STAPLES</h1>
+          <p>
+            Check off the staples you already keep in stock. Matching items will
+            show as already in pantry on your shopping list and will not be added
+            to your grocery total.
+          </p>
+        </div>
+
+        <div className="totalBox">
+          <small>Marked In Stock</small>
+          <strong>
+            {checkedCount}/{totalStaples}
+          </strong>
+        </div>
+      </div>
+
+      <div className="pantryActions">
+        <button className="primary" onClick={checkCommonStaples}>
+          Check common staples
+        </button>
+        <button className="secondary" onClick={clearPantry}>
+          Clear pantry checks
+        </button>
+      </div>
+
+      <div className="pantryGrid">
+        {PANTRY_STAPLES.map((group) => (
+          <section className="pantryGroup" key={group.group}>
+            <h2>{group.group}</h2>
+
+            {group.items.map((item) => (
+              <label
+                key={item}
+                className={pantry[item] ? "pantryItem checked" : "pantryItem"}
+              >
+                <input
+                  type="checkbox"
+                  checked={!!pantry[item]}
+                  onChange={() => togglePantryItem(item)}
+                />
+                <span>{item}</span>
+              </label>
+            ))}
+          </section>
+        ))}
+      </div>
+    </main>
+  );
+}
+
+function ShoppingListPage({ plan, checked, setChecked, servings, pantry, setActivePage }) {
   const list = useMemo(
     () => buildShoppingList(plan, recipes, servings),
     [plan, servings]
   );
 
-  const grouped = list.reduce((acc, item) => {
+  const { needed, pantry: pantryItems } = useMemo(
+    () => splitShoppingListByPantry(list, pantry),
+    [list, pantry]
+  );
+
+  const groupedNeeded = needed.reduce((acc, item) => {
     return {
       ...acc,
       [item.aisle]: [...(acc[item.aisle] || []), item],
     };
   }, {});
 
-  const total = list.reduce((sum, item) => sum + item.cost, 0);
+  const groupedPantry = pantryItems.reduce((acc, item) => {
+    return {
+      ...acc,
+      [item.aisle]: [...(acc[item.aisle] || []), item],
+    };
+  }, {});
+
+  const total = needed.reduce((sum, item) => sum + item.cost, 0);
 
   function toggleItem(key) {
     setChecked((current) => ({
       ...current,
       [key]: !current[key],
     }));
+  }
+
+  function renderNeededItem(item) {
+    const key = `${item.name}-${item.unit}-${item.aisle}`;
+
+    return (
+      <label
+        key={key}
+        className={checked[key] ? "checked shoppingItem" : "shoppingItem"}
+      >
+        <input
+          type="checkbox"
+          checked={!!checked[key]}
+          onChange={() => toggleItem(key)}
+        />
+
+        <span>{item.name}</span>
+        <small>
+          {formatQty(item.qty)} {item.unit}
+        </small>
+        <em>${item.cost.toFixed(2)}</em>
+      </label>
+    );
+  }
+
+  function renderPantryItem(item) {
+    const key = `${item.name}-${item.unit}-${item.aisle}-pantry`;
+
+    return (
+      <div key={key} className="shoppingItem pantryShoppingItem">
+        <span className="pantryFilledBox" aria-hidden="true" />
+        <span>{item.name}</span>
+        <small>
+          {formatQty(item.qty)} {item.unit}
+        </small>
+        <em>In pantry</em>
+      </div>
+    );
   }
 
   return (
@@ -1529,13 +1870,13 @@ function ShoppingListPage({ plan, checked, setChecked, servings }) {
           <div className="aiBadge">SMART SHOPPING LIST</div>
           <h1>Shopping list</h1>
           <p>
-            Auto-generated from your weekly dinner plan and selected serving
-            size.
+            Needed items stay open for shopping. Pantry staples you already have
+            are filled in black and are not included in the grocery total.
           </p>
         </div>
 
         <div className="totalBox">
-          <small>Estimated Total</small>
+          <small>Needed Items Total</small>
           <strong>${total.toFixed(2)}</strong>
         </div>
       </div>
@@ -1546,37 +1887,66 @@ function ShoppingListPage({ plan, checked, setChecked, servings }) {
           text="Add recipes to your weekly planner to generate a grocery list."
         />
       ) : (
-        <div className="shoppingGrid">
-          {Object.entries(grouped).map(([aisle, items]) => (
-            <section className="shoppingGroup" key={aisle}>
-              <h2>{aisle}</h2>
+        <div className="shoppingListSections">
+          <section className="shoppingListSection">
+            <div className="shoppingListSectionHeader">
+              <div>
+                <h2>NEEDED ITEMS</h2>
+                <p>Open boxes are added to your grocery shopping list.</p>
+              </div>
+              <strong>{needed.length} items</strong>
+            </div>
 
-              {items.map((item) => {
-                const key = `${item.name}-${item.unit}-${item.aisle}`;
+            {needed.length === 0 ? (
+              <div className="emptyState compactEmpty">
+                <h2>No needed items</h2>
+                <p>Everything on this list is currently marked as in your pantry.</p>
+              </div>
+            ) : (
+              <div className="shoppingGrid">
+                {Object.entries(groupedNeeded).map(([aisle, items]) => (
+                  <section className="shoppingGroup" key={aisle}>
+                    <h2>{aisle}</h2>
+                    {items.map(renderNeededItem)}
+                  </section>
+                ))}
+              </div>
+            )}
+          </section>
 
-                return (
-                  <label
-                    key={key}
-                    className={
-                      checked[key] ? "checked shoppingItem" : "shoppingItem"
-                    }
-                  >
-                    <input
-                      type="checkbox"
-                      checked={!!checked[key]}
-                      onChange={() => toggleItem(key)}
-                    />
+          <section className="shoppingListSection pantryListSection">
+            <div className="shoppingListSectionHeader">
+              <div>
+                <h2>ALREADY IN PANTRY</h2>
+                <p>Filled black boxes are pantry staples and are not added to the grocery total.</p>
+              </div>
+              <div className="pantryHeaderActions">
+                <strong>{pantryItems.length} items</strong>
+                <button className="secondary smallSecondary" onClick={() => setActivePage("Pantry Staples")}>
+                  Edit Pantry Staples
+                </button>
+              </div>
+            </div>
 
-                    <span>{item.name}</span>
-                    <small>
-                      {formatQty(item.qty)} {item.unit}
-                    </small>
-                    <em>${item.cost.toFixed(2)}</em>
-                  </label>
-                );
-              })}
-            </section>
-          ))}
+            {pantryItems.length === 0 ? (
+              <div className="emptyState compactEmpty">
+                <h2>No pantry matches yet</h2>
+                <p>
+                  Check items on the Pantry Staples page to move matching shopping
+                  list items here.
+                </p>
+              </div>
+            ) : (
+              <div className="shoppingGrid">
+                {Object.entries(groupedPantry).map(([aisle, items]) => (
+                  <section className="shoppingGroup" key={aisle}>
+                    <h2>{aisle}</h2>
+                    {items.map(renderPantryItem)}
+                  </section>
+                ))}
+              </div>
+            )}
+          </section>
         </div>
       )}
     </main>
@@ -1820,6 +2190,9 @@ export default function App() {
   const [checked, setChecked] = useState(() =>
     loadJSON(STORAGE_KEYS.checked, {})
   );
+  const [pantry, setPantry] = useState(() =>
+    loadJSON(STORAGE_KEYS.pantry, {})
+  );
   const [filter, setFilter] = useState("");
   const [cardViewer, setCardViewer] = useState(null);
 
@@ -1827,6 +2200,7 @@ export default function App() {
   useEffect(() => saveJSON(STORAGE_KEYS.plan, plan), [plan]);
   useEffect(() => saveJSON(STORAGE_KEYS.servings, servings), [servings]);
   useEffect(() => saveJSON(STORAGE_KEYS.checked, checked), [checked]);
+  useEffect(() => saveJSON(STORAGE_KEYS.pantry, pantry), [pantry]);
 
   function toggleFavorite(id) {
     setFavorites((current) =>
@@ -1871,6 +2245,8 @@ export default function App() {
     setServings,
     checked,
     setChecked,
+    pantry,
+    setPantry,
   };
 
   return (
@@ -1882,6 +2258,7 @@ export default function App() {
       {activePage === "Collections" && <CollectionsPage />}
       {activePage === "Meal Planner" && <PlannerPage {...pageProps} />}
       {activePage === "Shopping Lists" && <ShoppingListPage {...pageProps} />}
+      {activePage === "Pantry Staples" && <PantryStaplesPage {...pageProps} />}
       {activePage === "Cost Estimator" && <CostEstimatorPage {...pageProps} />}
       {activePage === "Favorites" && <FavoritesPage {...pageProps} />}
       {activePage === "About" && <AboutPage />}
