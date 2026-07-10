@@ -3906,3 +3906,123 @@ th {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
+
+/* ================================
+   HOME UPDATE — FEATURE STRIP LOWER, CATEGORY ORDER, HERO STATS BAR
+   ================================ */
+
+/* Move feature boxes visually to the lower homepage position above collections. */
+.featureStrip {
+  margin-top: 10px;
+  margin-bottom: 8px;
+}
+
+/* Hide the AI-Generated Collections heading/link while keeping collection boxes visible. */
+.collectionSection > .sectionTitle {
+  display: none;
+}
+
+.collectionSection {
+  padding-top: 8px;
+}
+
+/* Compact hero stats bar: no icons, same height as hero buttons. */
+.heroStatsBar,
+.statsCard.heroStatsBar {
+  height: 46px;
+  min-height: 46px;
+  bottom: 18px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: center;
+  overflow: hidden;
+}
+
+.heroStatsBar span,
+.statsCard.heroStatsBar span {
+  width: auto;
+  height: 100%;
+  min-height: 46px;
+  display: grid;
+  place-items: center;
+  padding: 0 12px;
+  border-right: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+  color: #111827;
+  font-size: clamp(11px, 0.95vw, 14px);
+  font-weight: 850;
+  letter-spacing: .02em;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.heroStatsBar span:last-child,
+.statsCard.heroStatsBar span:last-child {
+  border-right: 0;
+}
+
+/* Final homepage category grid: two rows of ten on desktop, responsive icon sizing. */
+.homeCategoryGrid {
+  --category-tile-size: clamp(68px, 7.1vw, 112px);
+  --category-name-size: clamp(10.5px, 0.85vw, 13.5px);
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  gap: clamp(10px, 1.25vw, 20px);
+}
+
+.homeCategoryGrid .categoryIconImage,
+.homeCategoryGrid .categoryIconFallback {
+  width: var(--category-tile-size);
+  height: var(--category-tile-size);
+  max-width: var(--category-tile-size);
+  border-radius: clamp(14px, 1.25vw, 20px);
+}
+
+.homeCategoryGrid .categoryTile strong {
+  max-width: calc(var(--category-tile-size) + 18px);
+  font-size: var(--category-name-size);
+}
+
+@media (max-width: 1100px) {
+  .heroStatsBar,
+  .statsCard.heroStatsBar {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    width: 100%;
+    margin-top: 16px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    height: auto;
+  }
+
+  .heroStatsBar span,
+  .statsCard.heroStatsBar span {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .heroStatsBar span:nth-child(2n),
+  .statsCard.heroStatsBar span:nth-child(2n) {
+    border-right: 0;
+  }
+
+  .heroStatsBar span:nth-last-child(-n + 2),
+  .statsCard.heroStatsBar span:nth-last-child(-n + 2) {
+    border-bottom: 0;
+  }
+
+  .homeCategoryGrid {
+    --category-tile-size: clamp(74px, 16vw, 118px);
+    --category-name-size: clamp(12px, 2.5vw, 14px);
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 18px 14px;
+  }
+}
+
+@media (max-width: 560px) {
+  .homeCategoryGrid {
+    --category-tile-size: clamp(92px, 38vw, 128px);
+    --category-name-size: 14px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

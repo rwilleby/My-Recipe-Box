@@ -47,6 +47,11 @@ const HOME_CATEGORY_CODES = [
   "MX",
   "SB",
   "SF",
+  "KR",
+  "LF",
+  "PM",
+  "SD",
+  "JJ",
   "QP",
   "SG",
   "HB",
@@ -56,11 +61,6 @@ const HOME_CATEGORY_CODES = [
   "CR",
   "DN",
   "DS",
-  "KR",
-  "LF",
-  "PM",
-  "SD",
-  "JJ",
 ];
 
 const HOME_CATEGORY_LABELS = {
@@ -577,27 +577,11 @@ function Hero({ setActivePage }) {
       </div>
 
       <div className="heroPhoto">
-        <div className="statsCard">
-          <div>
-            <span>👨‍🍳</span>
-            <strong>400+</strong>
-            <small>AI Recipes</small>
-          </div>
-          <div>
-            <span>♡</span>
-            <strong>50+</strong>
-            <small>Favorites</small>
-          </div>
-          <div>
-            <span>▣</span>
-            <strong>AI Meal</strong>
-            <small>Planner</small>
-          </div>
-          <div>
-            <span>🛒</span>
-            <strong>Smart Lists</strong>
-            <small>& Cost Estimator</small>
-          </div>
+        <div className="statsCard heroStatsBar">
+          <span>400+ RECIPES</span>
+          <span>YOUR FAVORITES</span>
+          <span>AI PLANNER</span>
+          <span>SMART LISTS</span>
         </div>
       </div>
     </section>
@@ -1352,7 +1336,6 @@ function Home({
     <>
       <Hero setActivePage={setActivePage} />
       <TransparencyLine />
-      <FeatureStrip />
       <CategoryGrid setFilter={setFilter} setActivePage={setActivePage} />
 
       <section className="section">
@@ -1384,6 +1367,7 @@ function Home({
         </div>
       </section>
 
+      <FeatureStrip />
       <CollectionStrip />
     </>
   );
