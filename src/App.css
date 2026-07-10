@@ -3838,3 +3838,97 @@ th {
 .collectionSection {
   padding-top: 8px;
 }
+
+
+/* ================================
+   HOME BROWSE BY CATEGORY — 20 ICON GRID
+   Shows two rows of ten and hides the heading/link.
+   HBP, MR, and RS are intentionally not shown here.
+   ================================ */
+
+.homeCategoryTitle {
+  display: none;
+}
+
+.homeCategorySection {
+  padding-top: 14px;
+  padding-bottom: 12px;
+}
+
+.homeCategoryGrid {
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  gap: 14px 16px;
+}
+
+.homeCategoryGrid .categoryTile {
+  gap: 0;
+}
+
+.homeCategoryGrid .categoryIconImage {
+  max-width: 96px;
+  width: 100%;
+  margin-bottom: 7px;
+  border-radius: 18px;
+}
+
+.homeCategoryGrid .categoryIconFallback {
+  width: 96px;
+  height: 96px;
+  max-width: 96px;
+  margin: 0 auto 7px;
+  border-radius: 18px;
+  display: none;
+  place-items: center;
+  font-size: 42px;
+  background: linear-gradient(135deg, #edf7ef, #ffffff);
+  border: 1px solid var(--line);
+}
+
+.homeCategoryGrid .categoryTile strong {
+  font-size: 14px;
+  line-height: 1;
+  max-width: 100px;
+}
+
+.homeCategoryGrid .categoryTile small {
+  font-size: 12px;
+  line-height: 1.05;
+  max-width: 105px;
+  min-height: 25px;
+  color: #111827;
+}
+
+@media (max-width: 1200px) {
+  .homeCategoryGrid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .homeCategoryGrid .categoryIconImage,
+  .homeCategoryGrid .categoryIconFallback {
+    max-width: 105px;
+    width: 105px;
+    height: 105px;
+  }
+}
+
+@media (max-width: 720px) {
+  .homeCategoryGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .homeCategoryGrid .categoryIconImage,
+  .homeCategoryGrid .categoryIconFallback {
+    max-width: 120px;
+    width: 120px;
+    height: 120px;
+  }
+
+  .homeCategoryGrid .categoryTile strong {
+    font-size: 15px;
+  }
+
+  .homeCategoryGrid .categoryTile small {
+    font-size: 12.5px;
+  }
+}

@@ -18,14 +18,75 @@ const STORAGE_KEYS = {
 };
 
 const CATEGORY_ICON_IMAGES = {
-  AS: "images/icons/icon-asian.png",
   AM: "images/icons/icon-american.png",
+  AS: "images/icons/icon-asian.png",
+  CC: "images/icons/icon-cheesecakes.png",
+  CO: "images/icons/icon-cobblers.png",
+  CR: "images/icons/icon-cinnamon-rolls.png",
+  DN: "images/icons/icon-donuts.png",
+  DS: "images/icons/icon-desserts.png",
+  HB: "images/icons/icon-hamburgers.png",
+  HBP: "images/icons/icon-hamburger-patties.png",
   IT: "images/icons/icon-italian.png",
+  JJ: "images/icons/icon-jams-jellies.png",
+  KR: "images/icons/icon-kolaches.png",
+  LF: "images/icons/icon-loafs-rolls.png",
+  MR: "images/icons/icon-marinades.png",
   MX: "images/icons/icon-mexican.png",
+  PM: "images/icons/icon-protein-muffins.png",
+  QP: "images/icons/icon-quiche-pies.png",
+  RS: "images/icons/icon-rubs-seasonings.png",
   SB: "images/icons/icon-salads-bowls.png",
+  SD: "images/icons/icon-side-dishes.png",
   SF: "images/icons/icon-seafood.png",
   SG: "images/icons/icon-smoked-grilled.png",
-  SD: "images/icons/icon-side-dishes.png",
+  SW: "images/icons/icon-sandwiches.png",
+};
+
+const HOME_CATEGORY_CODES = [
+  "AM",
+  "AS",
+  "CC",
+  "CO",
+  "CR",
+  "DN",
+  "DS",
+  "HB",
+  "IT",
+  "JJ",
+  "KR",
+  "LF",
+  "MX",
+  "PM",
+  "QP",
+  "SB",
+  "SD",
+  "SF",
+  "SG",
+  "SW",
+];
+
+const HOME_CATEGORY_FALLBACKS = {
+  AM: { id: "AM", name: "American Cuisine", count: 0, icon: "🇺🇸" },
+  AS: { id: "AS", name: "Asian Cuisine", count: 0, icon: "🍜" },
+  CC: { id: "CC", name: "Cheesecakes", count: 0, icon: "🍰" },
+  CO: { id: "CO", name: "Cobblers", count: 0, icon: "🥧" },
+  CR: { id: "CR", name: "Cinnamon Rolls", count: 0, icon: "🌀" },
+  DN: { id: "DN", name: "Donuts", count: 0, icon: "🍩" },
+  DS: { id: "DS", name: "Desserts", count: 0, icon: "🍰" },
+  HB: { id: "HB", name: "Hamburgers", count: 0, icon: "🍔" },
+  IT: { id: "IT", name: "Italian Cuisine", count: 0, icon: "🍝" },
+  JJ: { id: "JJ", name: "Jams & Jellies", count: 0, icon: "🍓" },
+  KR: { id: "KR", name: "Kolaches", count: 0, icon: "🥐" },
+  LF: { id: "LF", name: "Loafs & Rolls", count: 0, icon: "🍞" },
+  MX: { id: "MX", name: "Mexican Cuisine", count: 0, icon: "🌮" },
+  PM: { id: "PM", name: "Protein Muffins", count: 0, icon: "🧁" },
+  QP: { id: "QP", name: "Quiche & Pies", count: 0, icon: "🥧" },
+  SB: { id: "SB", name: "Salads & Bowls", count: 0, icon: "🥗" },
+  SD: { id: "SD", name: "Side Dishes", count: 0, icon: "🍲" },
+  SF: { id: "SF", name: "Seafood Dishes", count: 0, icon: "🐟" },
+  SG: { id: "SG", name: "Smoked & Grilled Meats", count: 0, icon: "🔥" },
+  SW: { id: "SW", name: "Sandwiches", count: 0, icon: "🥪" },
 };
 
 const PANTRY_STAPLES = [
@@ -529,22 +590,28 @@ function TransparencyLine() {
 }
 
 function CategoryGrid({ setFilter, setActivePage }) {
+  const categoryLookup = new Map(categories.map((category) => [category.id, category]));
+  const homeCategories = HOME_CATEGORY_CODES.map((code) => ({
+    ...HOME_CATEGORY_FALLBACKS[code],
+    ...(categoryLookup.get(code) || {}),
+  }));
+
   function openCategory(categoryName) {
     setFilter(categoryName);
     setActivePage("Recipes");
   }
 
   return (
-    <section className="section">
-      <div className="sectionTitle">
+    <section className="section homeCategorySection">
+      <div className="sectionTitle homeCategoryTitle">
         <h2>Browse by Category</h2>
         <button onClick={() => setActivePage("Recipes")}>
           View all categories ›
         </button>
       </div>
 
-      <div className="categoryGrid">
-        {categories.map((cat) => {
+      <div className="categoryGrid homeCategoryGrid">
+        {homeCategories.map((cat) => {
           const iconPath = cat.iconImage || CATEGORY_ICON_IMAGES[cat.id];
 
           return (
@@ -559,13 +626,18 @@ function CategoryGrid({ setFilter, setActivePage }) {
                   className="categoryIconImage"
                   src={`${import.meta.env.BASE_URL}${iconPath}`}
                   alt={`${cat.name} icon`}
+                  onError={(event) => {
+                    event.currentTarget.style.display = "none";
+                    const fallback = event.currentTarget.nextElementSibling;
+                    if (fallback) fallback.style.display = "grid";
+                  }}
                 />
-              ) : (
-                <span className="categoryIcon">{cat.icon}</span>
-              )}
+              ) : null}
 
-              <strong>{cat.name}</strong>
-              <small>{cat.count} recipes</small>
+              <span className="categoryIcon categoryIconFallback">{cat.icon}</span>
+
+              <strong>{cat.id}</strong>
+              <small>{cat.name}</small>
             </button>
           );
         })}
