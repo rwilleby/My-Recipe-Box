@@ -4047,3 +4047,51 @@ th {
     max-width: 140px;
   }
 }
+
+
+/* ================================
+   RESPONSIVE 10-COLUMN CATEGORY ICON SCALING
+   Keeps 10 icons per row on desktop while allowing each icon/tile
+   to resize with the available page width.
+   ================================ */
+
+.homeCategoryGrid {
+  --category-tile-size: clamp(68px, 7.1vw, 112px);
+  --category-name-size: clamp(10.5px, 0.85vw, 13.5px);
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  gap: clamp(10px, 1.25vw, 20px);
+}
+
+.homeCategoryGrid .categoryIconImage,
+.homeCategoryGrid .categoryIconFallback {
+  width: var(--category-tile-size);
+  height: var(--category-tile-size);
+  max-width: var(--category-tile-size);
+  border-radius: clamp(14px, 1.25vw, 20px);
+}
+
+.homeCategoryGrid .categoryIconFallback {
+  font-size: calc(var(--category-tile-size) * 0.38);
+}
+
+.homeCategoryGrid .categoryTile strong {
+  max-width: calc(var(--category-tile-size) + 18px);
+  font-size: var(--category-name-size);
+}
+
+@media (max-width: 900px) {
+  .homeCategoryGrid {
+    --category-tile-size: clamp(74px, 16vw, 118px);
+    --category-name-size: clamp(12px, 2.5vw, 14px);
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 18px 14px;
+  }
+}
+
+@media (max-width: 560px) {
+  .homeCategoryGrid {
+    --category-tile-size: clamp(92px, 38vw, 128px);
+    --category-name-size: 14px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
