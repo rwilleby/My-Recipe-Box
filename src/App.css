@@ -4143,3 +4143,76 @@ th {
     font-size: 14px;
   }
 }
+
+
+/* ================================
+   HEADER LOGO TRIM UPDATE
+   Trims excess white space below the logo so the topbar hairline rule
+   shows evenly across the full menu area.
+   ================================ */
+
+.topbar {
+  height: 74px;
+  align-items: center;
+  border-bottom: 1px solid var(--line);
+  overflow: visible;
+}
+
+.brandLogoButton {
+  height: 58px;
+  min-width: 260px;
+  width: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  overflow: hidden;
+}
+
+.brandLogoImage {
+  display: block;
+  width: 300px;
+  max-width: 300px;
+  height: auto;
+  object-fit: contain;
+  transform: translateY(-4px);
+}
+
+.navDropdownButton {
+  height: 74px;
+}
+
+@media (max-width: 1100px) {
+  .topbar {
+    height: auto;
+  }
+
+  .brandLogoButton {
+    height: 54px;
+    width: 270px;
+    min-width: 240px;
+  }
+
+  .brandLogoImage {
+    width: 270px;
+    max-width: 270px;
+    transform: translateY(-3px);
+  }
+
+  .navDropdownButton {
+    height: 44px;
+  }
+}
+
+@media (max-width: 720px) {
+  .brandLogoButton {
+    height: 50px;
+    width: 225px;
+    min-width: 210px;
+  }
+
+  .brandLogoImage {
+    width: 225px;
+    max-width: 225px;
+    transform: translateY(-2px);
+  }
+}
