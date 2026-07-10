@@ -3824,3 +3824,17 @@ th {
   margin-top: 10px;
   margin-bottom: 8px;
 }
+
+
+/* ================================
+   HIDE COLLECTIONS HEADER ON HOME
+   Keeps the collection boxes visible, hides the heading and View link.
+   ================================ */
+
+.collectionSection > .sectionTitle {
+  display: none;
+}
+
+.collectionSection {
+  padding-top: 8px;
+}
