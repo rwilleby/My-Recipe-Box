@@ -2647,3 +2647,110 @@ th {
     max-width: 225px;
   }
 }
+
+/* ================================
+   BROWSE RECIPES — 4 COLUMN FULL CARD PREVIEW
+   Shows recipe CARD artwork instead of hero thumbnails.
+   Keeps buttons smaller and side-by-side.
+   ================================ */
+
+.recipeGrid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  align-items: start;
+}
+
+.recipeGrid .recipeCardFullImage {
+  border-radius: 10px;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.recipeGrid .recipeCardFullImage .recipeFullCardImage {
+  height: 295px;
+  padding: 10px 10px 6px;
+  background: #ffffff;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.recipeGrid .recipeCardFullImage .recipeFullCardImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+  border-radius: 6px;
+  background: #ffffff;
+}
+
+.recipeGrid .recipeCardFullImage .recipeBody {
+  padding: 9px 11px 12px;
+}
+
+.recipeGrid .recipeCardFullImage .tag {
+  font-size: 10px;
+  margin-bottom: 4px;
+}
+
+.recipeGrid .recipeCardFullImage .recipeBody h3 {
+  font-size: 14px;
+  line-height: 1.12;
+  min-height: 32px;
+  margin-bottom: 7px;
+}
+
+.recipeGrid .recipeCardFullImage .recipeActions {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.recipeGrid .recipeCardFullImage .viewCard,
+.recipeGrid .recipeCardFullImage .addPlan {
+  min-height: 31px;
+  height: 31px;
+  margin-top: 0;
+  padding: 0 8px;
+  border-radius: 7px;
+  font-size: 11px;
+  line-height: 1;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.recipeGrid .recipeCardFullImage .meta {
+  font-size: 11px;
+  margin-top: 9px;
+}
+
+@media (max-width: 1250px) {
+  .recipeGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .recipeGrid .recipeCardFullImage .recipeFullCardImage {
+    height: 310px;
+  }
+}
+
+@media (max-width: 900px) {
+  .recipeGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .recipeGrid .recipeCardFullImage .recipeFullCardImage {
+    height: 280px;
+  }
+}
+
+@media (max-width: 560px) {
+  .recipeGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .recipeGrid .recipeCardFullImage .recipeFullCardImage {
+    height: 260px;
+  }
+}
