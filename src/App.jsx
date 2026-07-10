@@ -357,7 +357,7 @@ function RecipeImage({ recipe }) {
   );
 }
 
-function FullRecipeCardPreview({ recipe }) {
+function FullRecipeCardPreview({ recipe, onOpen }) {
   const candidates = fullCardImageCandidates(recipe);
   const [imageIndex, setImageIndex] = useState(0);
   const imagePath = candidates[imageIndex];
@@ -368,13 +368,17 @@ function FullRecipeCardPreview({ recipe }) {
 
   if (imagePath) {
     return (
-      <div className="recipeImage recipeFullCardImage">
+      <button
+        className="recipeImage recipeFullCardImage recipeFullCardImageButton"
+        onClick={onOpen}
+        aria-label={`Open ${recipe.title} recipe card`}
+      >
         <img
           src={`${import.meta.env.BASE_URL}${imagePath}`}
           alt={`${recipe.id} ${recipe.title} recipe card`}
           onError={() => setImageIndex((current) => current + 1)}
         />
-      </div>
+      </button>
     );
   }
 
@@ -434,7 +438,10 @@ function RecipeCard({
   return (
     <article className={isBrowseCard ? "recipeCard recipeCardFullImage" : "recipeCard"}>
       {isBrowseCard ? (
-        <FullRecipeCardPreview recipe={recipe} />
+        <FullRecipeCardPreview
+          recipe={recipe}
+          onOpen={() => openRecipeCard(recipe.id, cardList)}
+        />
       ) : (
         <RecipeImage recipe={recipe} />
       )}
@@ -625,6 +632,39 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
     printWindow.document.close();
   }
 
+  async function downloadCurrentCard() {
+    if (!imagePath) return;
+
+    const imageUrl = `${import.meta.env.BASE_URL}${imagePath}`;
+    const fileName = `${recipe.id}-${recipe.title}`
+      .replace(/[^a-z0-9]+/gi, "-")
+      .replace(/(^-|-$)/g, "")
+      .toLowerCase() + ".png";
+
+    try {
+      const response = await fetch(imageUrl);
+      const blob = await response.blob();
+      const objectUrl = URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = objectUrl;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+
+      URL.revokeObjectURL(objectUrl);
+    } catch (error) {
+      const link = document.createElement("a");
+      link.href = imageUrl;
+      link.download = fileName;
+      link.target = "_blank";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    }
+  }
+
   return (
     <div className="cardViewerOverlay" onClick={onClose}>
       <div className="cardViewer" onClick={(event) => event.stopPropagation()}>
@@ -692,13 +732,23 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
             {currentIndex + 1} of {viewerIds.length}
           </span>
 
-          <button
-            className="cardViewerPrint"
-            onClick={printCurrentCard}
-            disabled={!imagePath}
-          >
-            Print this card
-          </button>
+          <div className="cardViewerFooterActions">
+            <button
+              className="cardViewerPrint"
+              onClick={printCurrentCard}
+              disabled={!imagePath}
+            >
+              Print this card
+            </button>
+
+            <button
+              className="cardViewerDownload"
+              onClick={downloadCurrentCard}
+              disabled={!imagePath}
+            >
+              Download this card
+            </button>
+          </div>
         </div>
       </div>
     </div>
