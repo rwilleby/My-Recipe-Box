@@ -3816,129 +3816,11 @@ th {
 
 
 /* ================================
-   HOME FEATURE STRIP LOWER PLACEMENT
-   Feature boxes now sit above AI-Generated Collections.
-   ================================ */
-
-.featureStrip {
-  margin-top: 10px;
-  margin-bottom: 8px;
-}
-
-
-/* ================================
-   HIDE COLLECTIONS HEADER ON HOME
-   Keeps the collection boxes visible, hides the heading and View link.
-   ================================ */
-
-.collectionSection > .sectionTitle {
-  display: none;
-}
-
-.collectionSection {
-  padding-top: 8px;
-}
-
-
-/* ================================
-   HOME BROWSE BY CATEGORY — 20 ICON GRID
-   Shows two rows of ten and hides the heading/link.
-   HBP, MR, and RS are intentionally not shown here.
-   ================================ */
-
-.homeCategoryTitle {
-  display: none;
-}
-
-.homeCategorySection {
-  padding-top: 14px;
-  padding-bottom: 12px;
-}
-
-.homeCategoryGrid {
-  grid-template-columns: repeat(10, minmax(0, 1fr));
-  gap: 14px 16px;
-}
-
-.homeCategoryGrid .categoryTile {
-  gap: 0;
-}
-
-.homeCategoryGrid .categoryIconImage {
-  max-width: 96px;
-  width: 100%;
-  margin-bottom: 7px;
-  border-radius: 18px;
-}
-
-.homeCategoryGrid .categoryIconFallback {
-  width: 96px;
-  height: 96px;
-  max-width: 96px;
-  margin: 0 auto 7px;
-  border-radius: 18px;
-  display: none;
-  place-items: center;
-  font-size: 42px;
-  background: linear-gradient(135deg, #edf7ef, #ffffff);
-  border: 1px solid var(--line);
-}
-
-.homeCategoryGrid .categoryTile strong {
-  font-size: 14px;
-  line-height: 1;
-  max-width: 100px;
-}
-
-.homeCategoryGrid .categoryTile small {
-  font-size: 12px;
-  line-height: 1.05;
-  max-width: 105px;
-  min-height: 25px;
-  color: #111827;
-}
-
-@media (max-width: 1200px) {
-  .homeCategoryGrid {
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-  }
-
-  .homeCategoryGrid .categoryIconImage,
-  .homeCategoryGrid .categoryIconFallback {
-    max-width: 105px;
-    width: 105px;
-    height: 105px;
-  }
-}
-
-@media (max-width: 720px) {
-  .homeCategoryGrid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 16px;
-  }
-
-  .homeCategoryGrid .categoryIconImage,
-  .homeCategoryGrid .categoryIconFallback {
-    max-width: 120px;
-    width: 120px;
-    height: 120px;
-  }
-
-  .homeCategoryGrid .categoryTile strong {
-    font-size: 15px;
-  }
-
-  .homeCategoryGrid .categoryTile small {
-    font-size: 12.5px;
-  }
-}
-
-
-/* ================================
-   FINAL HOME CATEGORY ICON DIRECTION
-   20 categories, 2 rows of 10, final icon path:
-   public/images/categories/CODE.png
-   Show full category names only; no code initials.
+   MERGED FIX: FINAL HOME CATEGORY ICON GRID
+   - 20 icons only, 2 rows of 10 on desktop
+   - responsive icon scaling
+   - uses public/images/categories/CODE.png
+   - full category names only, no code initials
    ================================ */
 
 .homeCategoryTitle {
@@ -3952,9 +3834,11 @@ th {
 }
 
 .homeCategoryGrid {
+  --category-tile-size: clamp(68px, 7.1vw, 112px);
+  --category-name-size: clamp(10.5px, 0.85vw, 13.5px);
   display: grid;
   grid-template-columns: repeat(10, minmax(0, 1fr));
-  gap: 20px 20px;
+  gap: clamp(10px, 1.25vw, 20px);
   align-items: start;
 }
 
@@ -3971,37 +3855,32 @@ th {
   text-align: center;
 }
 
-.homeCategoryGrid .categoryIconImage {
-  width: 100%;
-  max-width: 104px;
+.homeCategoryGrid .categoryIconImage,
+.homeCategoryGrid .categoryIconFallback {
+  width: var(--category-tile-size);
+  height: var(--category-tile-size);
+  max-width: var(--category-tile-size);
   aspect-ratio: 1 / 1;
-  height: auto;
   object-fit: contain;
-  display: block;
   margin: 0 auto 8px;
+  border-radius: clamp(14px, 1.25vw, 20px);
   border: 0;
-  border-radius: 20px;
   background: transparent;
   box-shadow: none;
 }
 
 .homeCategoryGrid .categoryIconFallback {
   display: none;
-  width: 104px;
-  height: 104px;
-  max-width: 104px;
-  margin: 0 auto 8px;
-  border-radius: 20px;
   place-items: center;
-  font-size: 40px;
+  font-size: calc(var(--category-tile-size) * 0.38);
   background: linear-gradient(135deg, #edf7ef, #ffffff);
   border: 1px solid var(--line);
 }
 
 .homeCategoryGrid .categoryTile strong {
-  max-width: 118px;
+  max-width: calc(var(--category-tile-size) + 18px);
   color: #111827;
-  font-size: 13.5px;
+  font-size: var(--category-name-size);
   font-weight: 800;
   line-height: 1.08;
   text-align: center;
@@ -4009,74 +3888,6 @@ th {
 
 .homeCategoryGrid .categoryTile small {
   display: none;
-}
-
-@media (max-width: 1250px) {
-  .homeCategoryGrid {
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 22px 18px;
-  }
-
-  .homeCategoryGrid .categoryIconImage,
-  .homeCategoryGrid .categoryIconFallback {
-    max-width: 112px;
-    width: 112px;
-    height: 112px;
-  }
-
-  .homeCategoryGrid .categoryTile strong {
-    font-size: 14px;
-  }
-}
-
-@media (max-width: 720px) {
-  .homeCategoryGrid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 18px 16px;
-  }
-
-  .homeCategoryGrid .categoryIconImage,
-  .homeCategoryGrid .categoryIconFallback {
-    max-width: 126px;
-    width: 126px;
-    height: 126px;
-  }
-
-  .homeCategoryGrid .categoryTile strong {
-    font-size: 15px;
-    max-width: 140px;
-  }
-}
-
-
-/* ================================
-   RESPONSIVE 10-COLUMN CATEGORY ICON SCALING
-   Keeps 10 icons per row on desktop while allowing each icon/tile
-   to resize with the available page width.
-   ================================ */
-
-.homeCategoryGrid {
-  --category-tile-size: clamp(68px, 7.1vw, 112px);
-  --category-name-size: clamp(10.5px, 0.85vw, 13.5px);
-  grid-template-columns: repeat(10, minmax(0, 1fr));
-  gap: clamp(10px, 1.25vw, 20px);
-}
-
-.homeCategoryGrid .categoryIconImage,
-.homeCategoryGrid .categoryIconFallback {
-  width: var(--category-tile-size);
-  height: var(--category-tile-size);
-  max-width: var(--category-tile-size);
-  border-radius: clamp(14px, 1.25vw, 20px);
-}
-
-.homeCategoryGrid .categoryIconFallback {
-  font-size: calc(var(--category-tile-size) * 0.38);
-}
-
-.homeCategoryGrid .categoryTile strong {
-  max-width: calc(var(--category-tile-size) + 18px);
-  font-size: var(--category-name-size);
 }
 
 @media (max-width: 900px) {
