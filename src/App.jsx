@@ -565,6 +565,66 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
     });
   }
 
+  function printCurrentCard() {
+    if (!imagePath) return;
+
+    const imageUrl = `${window.location.origin}${import.meta.env.BASE_URL}${imagePath}`;
+    const printWindow = window.open("", "_blank", "width=1000,height=750");
+
+    if (!printWindow) {
+      window.print();
+      return;
+    }
+
+    printWindow.document.write(`
+      <!doctype html>
+      <html>
+        <head>
+          <title>${recipe.id} ${recipe.title}</title>
+          <style>
+            @page {
+              size: landscape;
+              margin: 0.25in;
+            }
+
+            * {
+              box-sizing: border-box;
+            }
+
+            body {
+              margin: 0;
+              min-height: 100vh;
+              display: grid;
+              place-items: center;
+              background: #ffffff;
+              font-family: Arial, sans-serif;
+            }
+
+            img {
+              width: 100%;
+              max-width: 10.5in;
+              max-height: 7.5in;
+              object-fit: contain;
+              display: block;
+            }
+          </style>
+        </head>
+        <body>
+          <img src="${imageUrl}" alt="${recipe.id} ${recipe.title} recipe card" />
+          <script>
+            const image = document.querySelector("img");
+            image.onload = () => {
+              window.focus();
+              window.print();
+            };
+          </script>
+        </body>
+      </html>
+    `);
+
+    printWindow.document.close();
+  }
+
   return (
     <div className="cardViewerOverlay" onClick={onClose}>
       <div className="cardViewer" onClick={(event) => event.stopPropagation()}>
@@ -631,13 +691,14 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
           <span>
             {currentIndex + 1} of {viewerIds.length}
           </span>
-          <a
-            href={`${import.meta.env.BASE_URL}images/recipes/${recipe.id}.png`}
-            target="_blank"
-            rel="noreferrer"
+
+          <button
+            className="cardViewerPrint"
+            onClick={printCurrentCard}
+            disabled={!imagePath}
           >
-            Open full image
-          </a>
+            Print this card
+          </button>
         </div>
       </div>
     </div>

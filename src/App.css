@@ -3200,3 +3200,29 @@ th {
     flex-wrap: wrap;
   }
 }
+
+
+/* ================================
+   RECIPE CARD VIEWER PRINT BUTTON
+   Replaces the old Open Full Image link.
+   ================================ */
+
+.cardViewerPrint {
+  min-height: 36px;
+  padding: 0 16px;
+  border: 1px solid var(--green);
+  border-radius: 8px;
+  background: var(--green);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.cardViewerPrint:hover {
+  filter: brightness(1.05);
+}
+
+.cardViewerPrint:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+}
