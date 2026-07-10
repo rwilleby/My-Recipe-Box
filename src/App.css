@@ -3609,3 +3609,207 @@ th {
     min-width: 205px;
   }
 }
+
+
+/* ================================
+   HEADER MENU LIGHTER TYPEFACE UPDATE
+   Uses a clean, non-bold sans-serif for top menu and dropdown items.
+   ================================ */
+
+.navDropdownButton {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-weight: 450;
+  letter-spacing: 0;
+}
+
+.navDropdown.active .navDropdownButton {
+  font-weight: 500;
+}
+
+.navDropdownMenu button {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-weight: 450;
+}
+
+.navDropdownMenu button:hover,
+.navDropdownMenu button.active {
+  font-weight: 500;
+}
+
+.navLinks button {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-weight: 450;
+}
+
+.navLinks button.active {
+  font-weight: 500;
+}
+
+
+/* ================================
+   RECOMMENDATIONS HUB + RECIPE MEDIA LINKS
+   ================================ */
+
+.recommendationsPage .pageHeader {
+  margin-bottom: 22px;
+}
+
+.recommendationsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.recommendationTile {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 22px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .04);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 245px;
+}
+
+.recommendationIcon {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: #edf7ef;
+  color: var(--green);
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.recommendationTile h2 {
+  margin: 4px 0 0;
+  color: #111827;
+  font-size: 20px;
+  line-height: 1.1;
+}
+
+.recommendationTile p {
+  margin: 0;
+  color: #374151;
+  line-height: 1.38;
+  font-size: 14px;
+}
+
+.recommendationTile small {
+  display: block;
+  color: var(--muted);
+  line-height: 1.35;
+  font-size: 12.5px;
+  margin-top: auto;
+}
+
+.recommendationTile button {
+  min-height: 34px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fbfaf7;
+  color: var(--green);
+  font-weight: 760;
+}
+
+.recommendationsNote {
+  margin-top: 20px;
+  max-width: 900px;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 22px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .04);
+}
+
+.recommendationsNote h2 {
+  margin: 0 0 8px;
+  color: var(--green);
+  font-size: 20px;
+}
+
+.recommendationsNote p {
+  margin: 0 0 14px;
+  color: #374151;
+  line-height: 1.45;
+}
+
+.recommendationsNote pre {
+  margin: 0;
+  padding: 14px;
+  border-radius: 10px;
+  background: #111827;
+  color: #f9fafb;
+  overflow: auto;
+  font-size: 13px;
+}
+
+.cardViewerHelpfulLinks {
+  padding: 12px 20px;
+  border-top: 1px solid var(--line);
+  background: #fbfaf7;
+}
+
+.cardViewerHelpfulLinks strong {
+  display: block;
+  color: var(--green);
+  font-size: 13px;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.cardViewerHelpfulLinks div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.cardViewerHelpfulLinks a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 32px;
+  padding: 0 11px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #ffffff;
+  color: #111827;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.cardViewerHelpfulLinks a:hover {
+  border-color: var(--green);
+  color: var(--green);
+}
+
+.cardViewerHelpfulLinks a span {
+  color: var(--green);
+  font-weight: 900;
+}
+
+@media (max-width: 1200px) {
+  .recommendationsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .recommendationsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .cardViewerHelpfulLinks {
+    padding: 10px 14px;
+  }
+
+  .cardViewerHelpfulLinks div {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

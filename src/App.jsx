@@ -368,6 +368,9 @@ function Header({ activePage, setActivePage }) {
       label: "Recommendations",
       items: [
         { label: "Kitchen Tools & Products", page: "Recommendations" },
+        { label: "Helpful Videos & Channels", page: "Recommendations" },
+        { label: "Storage & Organization", page: "Recommendations" },
+        { label: "Social Pages I Follow", page: "Recommendations" },
       ],
     },
   ];
@@ -776,6 +779,20 @@ function RecipeCard({
   );
 }
 
+function mediaIcon(type = "") {
+  const normalizedType = type.toLowerCase();
+
+  if (normalizedType.includes("youtube") || normalizedType.includes("video")) return "▶";
+  if (normalizedType.includes("instagram")) return "◎";
+  if (normalizedType.includes("facebook")) return "f";
+  if (normalizedType.includes("tiktok")) return "♪";
+  if (normalizedType.includes("product")) return "▣";
+  if (normalizedType.includes("freezer")) return "❄";
+  if (normalizedType.includes("storage")) return "□";
+
+  return "↗";
+}
+
 function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorite }) {
   const [imageIndex, setImageIndex] = useState(0);
 
@@ -968,6 +985,25 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
             ›
           </button>
         </div>
+
+        {recipe.mediaLinks?.length > 0 && (
+          <div className="cardViewerHelpfulLinks">
+            <strong>Helpful links</strong>
+            <div>
+              {recipe.mediaLinks.map((link, index) => (
+                <a
+                  key={`${recipe.id}-media-${index}`}
+                  href={link.url}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <span>{mediaIcon(link.type || link.label)}</span>
+                  {link.label}
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
 
         <div className="cardViewerFooter">
           <span>
@@ -2153,30 +2189,79 @@ function CollectionsPage() {
 }
 
 function RecommendationsPage() {
+  const recommendationCards = [
+    {
+      title: "Kitchen Tools & Products",
+      text: "Helpful kitchen gadgets, small appliances, and practical tools for easier everyday cooking.",
+      icon: "▣",
+      note: "Future home for affiliate-friendly product recommendations.",
+    },
+    {
+      title: "Helpful Videos & Channels",
+      text: "Cooking, freezer meal, meal-prep, and kitchen how-to videos worth saving.",
+      icon: "▶",
+      note: "Great for visual learners and step-by-step cooking help.",
+    },
+    {
+      title: "Storage & Organization",
+      text: "Food storage, pantry setup, freezer containers, labels, and kitchen organizers.",
+      icon: "□",
+      note: "Supports leftovers, freezer meals, and small-household planning.",
+    },
+    {
+      title: "Social Pages I Follow",
+      text: "YouTube, Instagram, Facebook, and TikTok pages that share helpful food and kitchen ideas.",
+      icon: "◎",
+      note: "A curated place for outside resources and inspiration.",
+    },
+  ];
+
   return (
-    <main className="pageShell">
+    <main className="pageShell recommendationsPage">
       <div className="pageHeader">
         <div>
-          <div className="aiBadge">KITCHEN TOOLS & PRODUCTS</div>
+          <div className="aiBadge">HELPFUL RESOURCES</div>
           <h1>Recommendations</h1>
           <p>
-            Helpful kitchen tools, storage ideas, organizers, and meal-prep
-            products will be added here as Robert’s Recipe Box grows.
+            A curated resource hub for kitchen tools, storage ideas, helpful
+            videos, and social pages that support simple cooking for seniors,
+            couples, and small households.
           </p>
         </div>
       </div>
 
-      <div className="aboutCard recommendationsCard">
-        <h2>Coming soon</h2>
+      <div className="recommendationsGrid">
+        {recommendationCards.map((card) => (
+          <article className="recommendationTile" key={card.title}>
+            <div className="recommendationIcon">{card.icon}</div>
+            <h2>{card.title}</h2>
+            <p>{card.text}</p>
+            <small>{card.note}</small>
+            <button type="button">Coming soon</button>
+          </article>
+        ))}
+      </div>
+
+      <div className="recommendationsNote">
+        <h2>Future recipe-card media links</h2>
         <p>
-          This section is planned for practical product recommendations that
-          support small-household cooking, leftovers, freezer storage, pantry
-          organization, and easier meal planning.
+          Individual recipe entries can later include optional helpful links such
+          as prep videos, freezer tips, storage ideas, or products used. Recipes
+          without links will stay clean and simple.
         </p>
-        <p>
-          Future recommendations may include kitchen tools, food storage,
-          organizing products, meal-prep containers, and other helpful items.
-        </p>
+
+        <pre>{`mediaLinks: [
+  {
+    label: "Helpful prep video",
+    type: "YouTube",
+    url: "https://youtube.com/..."
+  },
+  {
+    label: "Freezer storage tip",
+    type: "Storage",
+    url: "https://..."
+  }
+]`}</pre>
       </div>
     </main>
   );
