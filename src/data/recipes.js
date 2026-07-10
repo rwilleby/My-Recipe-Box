@@ -1,53 +1,167 @@
 export const categories = [
-  { id: "AS", name: "Asian", count: 24, icon: "🍜", iconImage: "images/icons/icon-asian.png" },
-  { id: "AM", name: "American", count: 86, icon: "🍔", iconImage: "images/icons/icon-american.png" },
-  { id: "IT", name: "Italian", count: 72, icon: "🍝", iconImage: "images/icons/icon-italian.png" },
-  { id: "MX", name: "Mexican", count: 67, icon: "🌮", iconImage: "images/icons/icon-mexican.png" },
-  { id: "SB", name: "Salads & Bowls", count: 52, icon: "🥗", iconImage: "images/icons/icon-salads-bowls.png" },
-  { id: "SF", name: "Seafood", count: 43, icon: "🐟", iconImage: "images/icons/icon-seafood.png" },
-  { id: "SG", name: "Smoked/Grilled", count: 63, icon: "🔥", iconImage: "images/icons/icon-smoked-grilled.png" },
-  { id: "SD", name: "Side Dishes", count: 45, icon: "🍲", iconImage: "images/icons/icon-side-dishes.png" },
+  { id: "AM", name: "American Cuisine", count: 0, icon: "🍽️", iconImage: "images/categories/AM.png" },
+  { id: "AS", name: "Asian Cuisine", count: 0, icon: "🍜", iconImage: "images/categories/AS.png" },
+  { id: "CC", name: "Cheesecakes", count: 0, icon: "🍰", iconImage: "images/categories/CC.png" },
+  { id: "CO", name: "Cobblers", count: 0, icon: "🥧", iconImage: "images/categories/CO.png" },
+  { id: "CR", name: "Cinnamon Rolls", count: 0, icon: "🌀", iconImage: "images/categories/CR.png" },
+  { id: "DN", name: "Donuts", count: 0, icon: "🍩", iconImage: "images/categories/DN.png" },
+  { id: "DS", name: "Desserts", count: 0, icon: "🍰", iconImage: "images/categories/DS.png" },
+  { id: "HB", name: "Hamburgers", count: 0, icon: "🍔", iconImage: "images/categories/HB.png" },
+  { id: "HBP", name: "Hamburger Patties", count: 0, icon: "🍔", iconImage: "images/categories/HBP.png" },
+  { id: "IT", name: "Italian Cuisine", count: 0, icon: "🍝", iconImage: "images/categories/IT.png" },
+  { id: "JJ", name: "Jams & Jellies", count: 0, icon: "🍓", iconImage: "images/categories/JJ.png" },
+  { id: "KR", name: "Kolaches", count: 0, icon: "🥐", iconImage: "images/categories/KR.png" },
+  { id: "LF", name: "Loafs & Rolls", count: 0, icon: "🍞", iconImage: "images/categories/LF.png" },
+  { id: "MR", name: "Marinades", count: 0, icon: "🫙", iconImage: "images/categories/MR.png" },
+  { id: "MX", name: "Mexican Cuisine", count: 0, icon: "🌮", iconImage: "images/categories/MX.png" },
+  { id: "PM", name: "Protein Muffins", count: 0, icon: "🧁", iconImage: "images/categories/PM.png" },
+  { id: "QP", name: "Quiche & Pies", count: 0, icon: "🥧", iconImage: "images/categories/QP.png" },
+  { id: "RS", name: "Rubs & Seasonings", count: 0, icon: "🧂", iconImage: "images/categories/RS.png" },
+  { id: "SB", name: "Salads & Bowls", count: 0, icon: "🥗", iconImage: "images/categories/SB.png" },
+  { id: "SD", name: "Side Dishes", count: 0, icon: "🍲", iconImage: "images/categories/SD.png" },
+  { id: "SF", name: "Seafood Dishes", count: 0, icon: "🐟", iconImage: "images/categories/SF.png" },
+  { id: "SG", name: "Smoked & Grilled Meats", count: 0, icon: "🔥", iconImage: "images/categories/SG.png" },
+  { id: "SW", name: "Sandwiches", count: 0, icon: "🥪", iconImage: "images/categories/SW.png" },
 ];
 
-export const collections = [
-  {
-    id: "slow-cooker-favorites",
-    title: "Slow Cooker Favorites",
-    count: 20,
-    icon: "🍲",
-    tint: "#fff7ed",
-  },
-  {
-    id: "summer-cookouts",
-    title: "Summer Cookouts",
-    count: 28,
-    icon: "☀️",
-    tint: "#fef3c7",
-  },
-  {
-    id: "healthy-dinners",
-    title: "Healthy Dinners",
-    count: 24,
-    icon: "🌿",
-    tint: "#f0fdf4",
-  },
-  {
-    id: "comfort-foods",
-    title: "Comfort Foods",
-    count: 30,
-    icon: "♡",
-    tint: "#fff1f2",
-  },
-  {
-    id: "easy-30-minute-meals",
-    title: "Easy 30-Minute Meals",
-    count: 28,
-    icon: "🍴",
-    tint: "#f5f3ff",
-  },
-];
+const CATEGORY_INFO = Object.fromEntries(categories.map((category) => [category.id, category]));
 
-const asianRecipes = [
+const CATEGORY_DEFAULTS = {
+  AM: { time: 35, servings: 4, price: "$$", emoji: "🍽️" },
+  AS: { time: 30, servings: 4, price: "$$", emoji: "🍜" },
+  CC: { time: 70, servings: 8, price: "$$", emoji: "🍰" },
+  CO: { time: 55, servings: 8, price: "$$", emoji: "🥧" },
+  CR: { time: 90, servings: 8, price: "$$", emoji: "🌀" },
+  DN: { time: 60, servings: 8, price: "$$", emoji: "🍩" },
+  DS: { time: 45, servings: 8, price: "$$", emoji: "🍰" },
+  HB: { time: 25, servings: 4, price: "$$", emoji: "🍔" },
+  HBP: { time: 20, servings: 4, price: "$$", emoji: "🍔" },
+  IT: { time: 40, servings: 4, price: "$$", emoji: "🍝" },
+  JJ: { time: 50, servings: 8, price: "$", emoji: "🍓" },
+  KR: { time: 90, servings: 8, price: "$$", emoji: "🥐" },
+  LF: { time: 90, servings: 8, price: "$$", emoji: "🍞" },
+  MR: { time: 10, servings: 4, price: "$", emoji: "🫙" },
+  MX: { time: 35, servings: 4, price: "$$", emoji: "🌮" },
+  PM: { time: 35, servings: 6, price: "$$", emoji: "🧁" },
+  QP: { time: 55, servings: 6, price: "$$", emoji: "🥧" },
+  RS: { time: 10, servings: 8, price: "$", emoji: "🧂" },
+  SB: { time: 20, servings: 4, price: "$$", emoji: "🥗" },
+  SD: { time: 25, servings: 4, price: "$", emoji: "🍲" },
+  SF: { time: 30, servings: 4, price: "$$$", emoji: "🐟" },
+  SG: { time: 60, servings: 4, price: "$$", emoji: "🔥" },
+  SW: { time: 20, servings: 4, price: "$$", emoji: "🥪" },
+};
+
+const CATEGORY_INGREDIENTS = {
+  AM: [
+    { name: "Protein", qty: 1, unit: "lb", aisle: "Meat", cost: 7 },
+    { name: "Vegetables", qty: 2, unit: "cups", aisle: "Produce", cost: 3 },
+    { name: "Pantry staples", qty: 1, unit: "set", aisle: "Pantry", cost: 3 },
+  ],
+  AS: [
+    { name: "Protein", qty: 1, unit: "lb", aisle: "Meat", cost: 7 },
+    { name: "Vegetables", qty: 2, unit: "cups", aisle: "Produce", cost: 3 },
+    { name: "Soy sauce", qty: 1, unit: "bottle", aisle: "Pantry", cost: 3 },
+    { name: "Rice", qty: 1, unit: "pkg", aisle: "Pantry", cost: 3 },
+  ],
+  IT: [
+    { name: "Protein", qty: 1, unit: "lb", aisle: "Meat", cost: 7 },
+    { name: "Pasta", qty: 1, unit: "box", aisle: "Pantry", cost: 2 },
+    { name: "Tomato sauce", qty: 1, unit: "jar", aisle: "Pantry", cost: 3 },
+    { name: "Parmesan cheese", qty: 1, unit: "pkg", aisle: "Dairy", cost: 4 },
+  ],
+  MX: [
+    { name: "Protein", qty: 1, unit: "lb", aisle: "Meat", cost: 7 },
+    { name: "Tortillas", qty: 1, unit: "pkg", aisle: "Bakery", cost: 3 },
+    { name: "Salsa", qty: 1, unit: "jar", aisle: "Pantry", cost: 3 },
+    { name: "Shredded cheese", qty: 1, unit: "pkg", aisle: "Dairy", cost: 4 },
+  ],
+  SB: [
+    { name: "Greens", qty: 1, unit: "pkg", aisle: "Produce", cost: 4 },
+    { name: "Protein", qty: 1, unit: "lb", aisle: "Meat", cost: 7 },
+    { name: "Vegetables", qty: 2, unit: "cups", aisle: "Produce", cost: 4 },
+    { name: "Dressing", qty: 1, unit: "bottle", aisle: "Pantry", cost: 3 },
+  ],
+  SD: [
+    { name: "Vegetables or starch", qty: 1, unit: "pkg", aisle: "Produce", cost: 4 },
+    { name: "Butter", qty: 1, unit: "stick", aisle: "Dairy", cost: 2 },
+    { name: "Pantry staples", qty: 1, unit: "set", aisle: "Pantry", cost: 2 },
+  ],
+  SF: [
+    { name: "Seafood", qty: 1, unit: "lb", aisle: "Seafood", cost: 12 },
+    { name: "Lemon", qty: 1, unit: "each", aisle: "Produce", cost: 1 },
+    { name: "Butter", qty: 1, unit: "stick", aisle: "Dairy", cost: 2 },
+    { name: "Pantry staples", qty: 1, unit: "set", aisle: "Pantry", cost: 2 },
+  ],
+};
+
+function codePrefix(id = "") {
+  return id.match(/^[A-Z]+/)?.[0] || "";
+}
+
+function defaultIngredients(categoryCode) {
+  return CATEGORY_INGREDIENTS[categoryCode] || [
+    { name: "Main ingredients", qty: 1, unit: "set", aisle: "Grocery", cost: 8 },
+    { name: "Pantry staples", qty: 1, unit: "set", aisle: "Pantry", cost: 3 },
+  ];
+}
+
+function defaultCost(price = "$$", servings = 4) {
+  const base =
+    price === "$" ? 10 :
+    price === "$$$" ? 28 :
+    18;
+
+  return {
+    2: Number((base * 0.55).toFixed(2)),
+    4: Number(base.toFixed(2)),
+    6: Number((base * 1.45).toFixed(2)),
+  };
+}
+
+function makeRecipe(entry) {
+  const [id, title, options = {}] = entry;
+  const categoryCode = options.categoryCode || codePrefix(id);
+  const category = CATEGORY_INFO[categoryCode];
+  const defaults = CATEGORY_DEFAULTS[categoryCode] || CATEGORY_DEFAULTS.AM;
+  const servings = options.servings ?? defaults.servings;
+  const price = options.price ?? defaults.price;
+
+  return {
+    id,
+    title,
+    category: options.category || category?.name || categoryCode,
+    categoryCode,
+    time: options.time ?? defaults.time,
+    servings,
+    price,
+    emoji: options.emoji ?? defaults.emoji,
+    imageStyle: options.imageStyle || "linear-gradient(135deg, #f8fafc, #e5e7eb)",
+    image: options.image || `images/recipes/${id}.png`,
+    cardImage: options.cardImage || `images/recipes/${id}.png`,
+    heroImage: options.heroImage || `images/heroes/${id}.png`,
+    cost: options.cost || defaultCost(price, servings),
+    ingredients: options.ingredients || defaultIngredients(categoryCode),
+    mediaLinks: options.mediaLinks || undefined,
+  };
+}
+
+/*
+  ADD NEW RECIPES HERE.
+
+  Format:
+  ["CODE-###", "Recipe Name"],
+
+  Optional advanced format:
+  ["CODE-###", "Recipe Name", { time: 30, servings: 4, price: "$$" }],
+
+  Image files expected:
+  public/images/recipes/CODE-###.png
+  public/images/heroes/CODE-###.png
+*/
+
+const recipeRows = [
+  // Asian Cuisine
   ["AS-001", "Beef & Broccoli"],
   ["AS-002", "Beijing Beef"],
   ["AS-003", "Mongolian Beef"],
@@ -72,203 +186,18 @@ const asianRecipes = [
   ["AS-022", "Chicken Egg Rolls"],
   ["AS-023", "Spring Rolls"],
   ["AS-024", "Crab Rangoons"],
+
+  // Add your new rows below this line.
 ];
 
-function makeAsianRecipe([id, title], index) {
-  return {
-    id,
-    title,
-    category: "Asian",
-    categoryCode: "AS",
-    time: index >= 17 ? 25 : 30,
-    servings: 4,
-    price: "$$",
-    emoji: "🍜",
-    imageStyle: "linear-gradient(135deg, #fee2e2, #fef3c7)",
-    image: `images/recipes/${id}.png`,
-    heroImage: `images/heroes/${id}.png`,
-    cost: {
-      2: 9.5,
-      4: 18,
-      6: 26,
-    },
-    ingredients: [
-      { name: "Protein", qty: 1, unit: "lb", aisle: "Meat", cost: 6 },
-      { name: "Vegetables", qty: 2, unit: "cups", aisle: "Produce", cost: 3 },
-      { name: "Sauce", qty: 1, unit: "bottle", aisle: "Pantry", cost: 4 },
-      { name: "Rice or noodles", qty: 1, unit: "pkg", aisle: "Pantry", cost: 3 },
-    ],
-  };
-}
+export const recipes = recipeRows.map(makeRecipe);
 
-export const recipes = [
-  ...asianRecipes.map(makeAsianRecipe),
+export const categoryCounts = recipes.reduce((counts, recipe) => {
+  counts[recipe.categoryCode] = (counts[recipe.categoryCode] || 0) + 1;
+  return counts;
+}, {});
 
-  {
-    id: "AM-014",
-    title: "Smash Burger with Secret Sauce",
-    category: "American",
-    categoryCode: "AM",
-    time: 25,
-    servings: 4,
-    price: "$$",
-    emoji: "🍔",
-    imageStyle: "linear-gradient(135deg, #f59e0b, #78350f)",
-    image: "images/recipes/AM-014.png",
-    heroImage: "images/heroes/AM-014.png",
-    cost: {
-      2: 8.75,
-      4: 16.5,
-      6: 24.25,
-    },
-    ingredients: [
-      { name: "Ground beef", qty: 1, unit: "lb", aisle: "Meat", cost: 6 },
-      { name: "Burger buns", qty: 4, unit: "ct", aisle: "Bakery", cost: 3 },
-      { name: "Cheese slices", qty: 4, unit: "ct", aisle: "Dairy", cost: 2 },
-      { name: "Burger sauce", qty: 1, unit: "bottle", aisle: "Pantry", cost: 3 },
-    ],
-  },
-  {
-    id: "IT-006",
-    title: "Creamy Garlic Parmesan Pasta",
-    category: "Italian",
-    categoryCode: "IT",
-    time: 30,
-    servings: 4,
-    price: "$",
-    emoji: "🍝",
-    imageStyle: "linear-gradient(135deg, #fef3c7, #a7f3d0)",
-    image: "images/recipes/IT-006.png",
-    heroImage: "images/heroes/IT-006.png",
-    cost: {
-      2: 6.5,
-      4: 12,
-      6: 17.5,
-    },
-    ingredients: [
-      { name: "Pasta", qty: 1, unit: "lb", aisle: "Pantry", cost: 2 },
-      { name: "Parmesan", qty: 1, unit: "cup", aisle: "Dairy", cost: 4 },
-      { name: "Cream", qty: 1, unit: "cup", aisle: "Dairy", cost: 3 },
-      { name: "Garlic", qty: 4, unit: "cloves", aisle: "Produce", cost: 1 },
-    ],
-  },
-  {
-    id: "MX-021",
-    title: "Carne Asada Tacos",
-    category: "Mexican",
-    categoryCode: "MX",
-    time: 40,
-    servings: 4,
-    price: "$$",
-    emoji: "🌮",
-    imageStyle: "linear-gradient(135deg, #fb923c, #365314)",
-    image: "images/recipes/MX-021.png",
-    heroImage: "images/heroes/MX-021.png",
-    cost: {
-      2: 9,
-      4: 17.25,
-      6: 25.5,
-    },
-    ingredients: [
-      { name: "Steak", qty: 1, unit: "lb", aisle: "Meat", cost: 8 },
-      { name: "Tortillas", qty: 8, unit: "ct", aisle: "Bakery", cost: 3 },
-      { name: "Cilantro and onion", qty: 1, unit: "set", aisle: "Produce", cost: 3 },
-      { name: "Limes", qty: 2, unit: "ct", aisle: "Produce", cost: 1 },
-    ],
-  },
-  {
-    id: "SB-008",
-    title: "Kale Caesar Salad",
-    category: "Salads & Bowls",
-    categoryCode: "SB",
-    time: 15,
-    servings: 2,
-    price: "$",
-    emoji: "🥗",
-    imageStyle: "linear-gradient(135deg, #bbf7d0, #0f766e)",
-    image: "images/recipes/SB-008.png",
-    heroImage: "images/heroes/SB-008.png",
-    cost: {
-      2: 7,
-      4: 13,
-      6: 19,
-    },
-    ingredients: [
-      { name: "Kale", qty: 1, unit: "bunch", aisle: "Produce", cost: 3 },
-      { name: "Caesar dressing", qty: 1, unit: "bottle", aisle: "Pantry", cost: 4 },
-      { name: "Croutons", qty: 1, unit: "bag", aisle: "Pantry", cost: 2 },
-      { name: "Parmesan", qty: 1, unit: "cup", aisle: "Dairy", cost: 4 },
-    ],
-  },
-  {
-    id: "SF-016",
-    title: "Lemon Herb Salmon",
-    category: "Seafood",
-    categoryCode: "SF",
-    time: 22,
-    servings: 2,
-    price: "$$$",
-    emoji: "🐟",
-    imageStyle: "linear-gradient(135deg, #fed7aa, #99f6e4)",
-    image: "images/recipes/SF-016.png",
-    heroImage: "images/heroes/SF-016.png",
-    cost: {
-      2: 12,
-      4: 23,
-      6: 34,
-    },
-    ingredients: [
-      { name: "Salmon fillets", qty: 2, unit: "ct", aisle: "Seafood", cost: 12 },
-      { name: "Lemon", qty: 1, unit: "ct", aisle: "Produce", cost: 1 },
-      { name: "Fresh herbs", qty: 1, unit: "bunch", aisle: "Produce", cost: 3 },
-      { name: "Olive oil", qty: 1, unit: "bottle", aisle: "Pantry", cost: 5 },
-    ],
-  },
-  {
-    id: "SG-010",
-    title: "Pulled Pork Butt",
-    category: "Smoked/Grilled",
-    categoryCode: "SG",
-    time: 480,
-    servings: 8,
-    price: "$$",
-    emoji: "🔥",
-    imageStyle: "linear-gradient(135deg, #6E1E2E, #78350f)",
-    image: "images/recipes/SG-010.png",
-    heroImage: "images/heroes/SG-010.png",
-    cost: {
-      2: 10,
-      4: 19,
-      6: 28,
-    },
-    ingredients: [
-      { name: "Pork butt", qty: 1, unit: "each", aisle: "Meat", cost: 18 },
-      { name: "BBQ rub", qty: 1, unit: "cup", aisle: "Pantry", cost: 3 },
-      { name: "BBQ sauce", qty: 1, unit: "bottle", aisle: "Pantry", cost: 4 },
-    ],
-  },
-  {
-    id: "SD-041",
-    title: "Cracker Barrel Hash Brown Casserole",
-    category: "Side Dishes",
-    categoryCode: "SD",
-    time: 45,
-    servings: 6,
-    price: "$",
-    emoji: "🍲",
-    imageStyle: "linear-gradient(135deg, #fef3c7, #e5e7eb)",
-    image: "images/recipes/SD-041.png",
-    heroImage: "images/heroes/SD-041.png",
-    cost: {
-      2: 5,
-      4: 9,
-      6: 13,
-    },
-    ingredients: [
-      { name: "Frozen hash browns", qty: 1, unit: "bag", aisle: "Frozen", cost: 4 },
-      { name: "Cheddar cheese", qty: 2, unit: "cups", aisle: "Dairy", cost: 4 },
-      { name: "Sour cream", qty: 1, unit: "cup", aisle: "Dairy", cost: 2 },
-      { name: "Cream soup", qty: 1, unit: "can", aisle: "Pantry", cost: 2 },
-    ],
-  },
-];
+export const categoriesWithCounts = categories.map((category) => ({
+  ...category,
+  count: categoryCounts[category.id] || category.count || 0,
+}));
