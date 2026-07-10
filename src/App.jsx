@@ -2242,27 +2242,6 @@ function RecommendationsPage() {
         ))}
       </div>
 
-      <div className="recommendationsNote">
-        <h2>Future recipe-card media links</h2>
-        <p>
-          Individual recipe entries can later include optional helpful links such
-          as prep videos, freezer tips, storage ideas, or products used. Recipes
-          without links will stay clean and simple.
-        </p>
-
-        <pre>{`mediaLinks: [
-  {
-    label: "Helpful prep video",
-    type: "YouTube",
-    url: "https://youtube.com/..."
-  },
-  {
-    label: "Freezer storage tip",
-    type: "Storage",
-    url: "https://..."
-  }
-]`}</pre>
-      </div>
     </main>
   );
 }
