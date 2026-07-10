@@ -357,6 +357,30 @@ function RecipeImage({ recipe }) {
   );
 }
 
+function FullRecipeCardPreview({ recipe }) {
+  const candidates = fullCardImageCandidates(recipe);
+  const [imageIndex, setImageIndex] = useState(0);
+  const imagePath = candidates[imageIndex];
+
+  useEffect(() => {
+    setImageIndex(0);
+  }, [recipe.id]);
+
+  if (imagePath) {
+    return (
+      <div className="recipeImage recipeFullCardImage">
+        <img
+          src={`${import.meta.env.BASE_URL}${imagePath}`}
+          alt={`${recipe.id} ${recipe.title} recipe card`}
+          onError={() => setImageIndex((current) => current + 1)}
+        />
+      </div>
+    );
+  }
+
+  return <RecipeImage recipe={recipe} />;
+}
+
 function RecipeCard({
   recipe,
   favorites,
@@ -366,10 +390,15 @@ function RecipeCard({
   cardList = recipes,
   showPlannerButton = true,
   viewButtonText = "View Recipe Card",
+  displayMode = "hero",
 }) {
   return (
-    <article className="recipeCard">
-      <RecipeImage recipe={recipe} />
+    <article className={displayMode === "card" ? "recipeCard recipeCardFullImage" : "recipeCard"}>
+      {displayMode === "card" ? (
+        <FullRecipeCardPreview recipe={recipe} />
+      ) : (
+        <RecipeImage recipe={recipe} />
+      )}
 
       <button
         className={`heart ${favorites.includes(recipe.id) ? "saved" : ""}`}
@@ -797,48 +826,224 @@ function RecipesPage({
   setFilter,
 }) {
   const [query, setQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState(filter || "");
+  const [selectedCuisine, setSelectedCuisine] = useState("");
+  const [selectedCookingMethod, setSelectedCookingMethod] = useState("");
+  const [selectedServingSize, setSelectedServingSize] = useState("");
+  const [selectedMealType, setSelectedMealType] = useState("");
+  const [selectedDietaryNeed, setSelectedDietaryNeed] = useState("");
+  const [sortBy, setSortBy] = useState("newest");
+  const [page, setPage] = useState(1);
 
-  const filtered = recipes.filter((r) => {
-    const matchesCategory = !filter || r.category === filter;
-    const matchesQuery = `${r.title} ${r.category}`
-      .toLowerCase()
-      .includes(query.toLowerCase());
+  useEffect(() => {
+    setSelectedCategory(filter || "");
+  }, [filter]);
 
-    return matchesCategory && matchesQuery;
-  });
+  const filteredRecipes = useMemo(() => {
+    let list = recipes.filter((recipe) => {
+      const matchesQuery = `${recipe.id} ${recipe.title} ${recipe.category}`
+        .toLowerCase()
+        .includes(query.toLowerCase());
+
+      const matchesCategory = !selectedCategory || recipe.category === selectedCategory;
+      const matchesCuisine = !selectedCuisine || recipe.category === selectedCuisine;
+
+      let matchesServings = true;
+      if (selectedServingSize === '2-4') matchesServings = Number(recipe.servings) <= 4;
+      if (selectedServingSize === '4-6') matchesServings = Number(recipe.servings) >= 4 && Number(recipe.servings) <= 6;
+      if (selectedServingSize === '6+') matchesServings = Number(recipe.servings) >= 6;
+
+      return matchesQuery && matchesCategory && matchesCuisine && matchesServings;
+    });
+
+    const sorted = [...list];
+    switch (sortBy) {
+      case 'az':
+        sorted.sort((a, b) => a.title.localeCompare(b.title));
+        break;
+      case 'time-low':
+        sorted.sort((a, b) => Number(a.time || 0) - Number(b.time || 0));
+        break;
+      case 'time-high':
+        sorted.sort((a, b) => Number(b.time || 0) - Number(a.time || 0));
+        break;
+      case 'servings-high':
+        sorted.sort((a, b) => Number(b.servings || 0) - Number(a.servings || 0));
+        break;
+      case 'servings-low':
+        sorted.sort((a, b) => Number(a.servings || 0) - Number(b.servings || 0));
+        break;
+      default:
+        break;
+    }
+
+    return sorted;
+  }, [query, selectedCategory, selectedCuisine, selectedCookingMethod, selectedServingSize, selectedMealType, selectedDietaryNeed, sortBy]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [query, selectedCategory, selectedCuisine, selectedCookingMethod, selectedServingSize, selectedMealType, selectedDietaryNeed, sortBy]);
+
+  const perPage = 12;
+  const totalPages = Math.max(1, Math.ceil(filteredRecipes.length / perPage));
+  const safePage = Math.min(page, totalPages);
+  const pageStart = (safePage - 1) * perPage;
+  const visibleRecipes = filteredRecipes.slice(pageStart, pageStart + perPage);
+
+  useEffect(() => {
+    if (page > totalPages) setPage(totalPages);
+  }, [page, totalPages]);
+
+  function renderPageButtons() {
+    if (totalPages <= 1) return null;
+
+    const buttons = [];
+    const visible = new Set([1, 2, 3, totalPages, safePage - 1, safePage, safePage + 1]);
+    const pages = [...visible]
+      .filter((n) => n >= 1 && n <= totalPages)
+      .sort((a, b) => a - b);
+
+    let prev = null;
+    for (const p of pages) {
+      if (prev && p - prev > 1) {
+        buttons.push(
+          <span key={`ellipsis-${prev}-${p}`} className="browsePaginationEllipsis">
+            …
+          </span>
+        );
+      }
+      buttons.push(
+        <button
+          key={p}
+          className={p === safePage ? 'active' : ''}
+          onClick={() => setPage(p)}
+          aria-label={`Page ${p}`}
+        >
+          {p}
+        </button>
+      );
+      prev = p;
+    }
+
+    return buttons;
+  }
 
   return (
-    <main className="pageShell">
-      <div className="pageHeader">
-        <div>
-          <div className="aiBadge">AI-GENERATED RECIPE LIBRARY</div>
-          <h1>Browse recipes</h1>
-          <p>
-            Search AI-generated recipe collections, save favorites, and add
-            dinners to your weekly plan.
-          </p>
+    <main className="pageShell browseRecipesPage">
+      <div className="browseHeaderRow">
+        <div className="browseIntro">
+          <h1>Browse Recipes</h1>
+          <p>Explore AI-generated recipes and meal ideas.</p>
+        </div>
+
+        <div className="browseSearchWrap">
+          <span className="browseSearchIcon">⌕</span>
+          <input
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search recipes..."
+            aria-label="Search recipes"
+          />
         </div>
       </div>
 
-      <div className="toolbar">
-        <input
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search recipes, ingredients, cuisines..."
-        />
+      <div className="browseControlsRow">
+        <div className="browseFilters">
+          <select
+            value={selectedCategory}
+            onChange={(e) => {
+              setSelectedCategory(e.target.value);
+              setFilter(e.target.value);
+            }}
+          >
+            <option value="">All Categories</option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.name}>
+                {category.name}
+              </option>
+            ))}
+          </select>
 
-        <select value={filter} onChange={(e) => setFilter(e.target.value)}>
-          <option value="">All categories</option>
-          {categories.map((c) => (
-            <option key={c.id} value={c.name}>
-              {c.name}
-            </option>
-          ))}
-        </select>
+          <select value={selectedCuisine} onChange={(e) => setSelectedCuisine(e.target.value)}>
+            <option value="">All Cuisines</option>
+            {categories.map((category) => (
+              <option key={`cuisine-${category.id}`} value={category.name}>
+                {category.name}
+              </option>
+            ))}
+          </select>
+
+          <select value={selectedCookingMethod} onChange={(e) => setSelectedCookingMethod(e.target.value)}>
+            <option value="">All Cooking Methods</option>
+            <option value="quick">Quick & Easy</option>
+            <option value="baked">Baked</option>
+            <option value="skillet">Skillet</option>
+            <option value="slowcooker">Slow Cooker</option>
+          </select>
+
+          <select value={selectedServingSize} onChange={(e) => setSelectedServingSize(e.target.value)}>
+            <option value="">All Serving Sizes</option>
+            <option value="2-4">2–4 servings</option>
+            <option value="4-6">4–6 servings</option>
+            <option value="6+">6+ servings</option>
+          </select>
+
+          <select value={selectedMealType} onChange={(e) => setSelectedMealType(e.target.value)}>
+            <option value="">All Meal Types</option>
+            <option value="dinner">Dinner</option>
+            <option value="lunch">Lunch</option>
+            <option value="sidedish">Side Dish</option>
+            <option value="dessert">Dessert</option>
+          </select>
+
+          <select value={selectedDietaryNeed} onChange={(e) => setSelectedDietaryNeed(e.target.value)}>
+            <option value="">All Dietary Needs</option>
+            <option value="glutenfree">Gluten Free</option>
+            <option value="lowcarb">Low Carb</option>
+            <option value="lighter">Lighter Options</option>
+          </select>
+        </div>
+
+        <div className="browseSortWrap">
+          <label htmlFor="browse-sort">Sort By:</label>
+          <select id="browse-sort" value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+            <option value="newest">Newest</option>
+            <option value="az">A–Z</option>
+            <option value="time-low">Time: Low to High</option>
+            <option value="time-high">Time: High to Low</option>
+            <option value="servings-low">Servings: Low to High</option>
+            <option value="servings-high">Servings: High to Low</option>
+          </select>
+        </div>
       </div>
 
-      <div className="recipeGrid">
-        {filtered.map((recipe) => (
+      <div className="browseResultsRow">
+        <strong>{filteredRecipes.length} recipes found</strong>
+        {totalPages > 1 && (
+          <div className="browsePagination">
+            <button
+              className="browsePaginationArrow"
+              onClick={() => setPage((current) => Math.max(1, current - 1))}
+              disabled={safePage === 1}
+              aria-label="Previous page"
+            >
+              ‹
+            </button>
+            {renderPageButtons()}
+            <button
+              className="browsePaginationArrow"
+              onClick={() => setPage((current) => Math.min(totalPages, current + 1))}
+              disabled={safePage === totalPages}
+              aria-label="Next page"
+            >
+              ›
+            </button>
+          </div>
+        )}
+      </div>
+
+      <div className="recipeGrid browseRecipeGrid">
+        {visibleRecipes.map((recipe) => (
           <RecipeCard
             key={recipe.id}
             recipe={recipe}
@@ -846,7 +1051,8 @@ function RecipesPage({
             toggleFavorite={toggleFavorite}
             addToPlan={addToPlan}
             openRecipeCard={openRecipeCard}
-            cardList={filtered}
+            cardList={filteredRecipes}
+            displayMode="card"
           />
         ))}
       </div>
