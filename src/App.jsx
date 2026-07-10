@@ -1257,7 +1257,6 @@ function Home({
     <>
       <Hero setActivePage={setActivePage} />
       <TransparencyLine />
-      <FeatureStrip />
       <CategoryGrid setFilter={setFilter} setActivePage={setActivePage} />
 
       <section className="section">
@@ -1289,6 +1288,7 @@ function Home({
         </div>
       </section>
 
+      <FeatureStrip />
       <CollectionStrip />
     </>
   );

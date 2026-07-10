@@ -3813,3 +3813,14 @@ th {
     align-items: stretch;
   }
 }
+
+
+/* ================================
+   HOME FEATURE STRIP LOWER PLACEMENT
+   Feature boxes now sit above AI-Generated Collections.
+   ================================ */
+
+.featureStrip {
+  margin-top: 10px;
+  margin-bottom: 8px;
+}
