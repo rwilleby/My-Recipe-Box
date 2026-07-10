@@ -1,4 +1,4 @@
-export const categories = [
+const baseCategories = [
   { id: "AM", name: "American Cuisine", count: 0, icon: "🍽️", iconImage: "images/categories/AM.png" },
   { id: "AS", name: "Asian Cuisine", count: 0, icon: "🍜", iconImage: "images/categories/AS.png" },
   { id: "CC", name: "Cheesecakes", count: 0, icon: "🍰", iconImage: "images/categories/CC.png" },
@@ -22,146 +22,52 @@ export const categories = [
   { id: "SF", name: "Seafood Dishes", count: 0, icon: "🐟", iconImage: "images/categories/SF.png" },
   { id: "SG", name: "Smoked & Grilled Meats", count: 0, icon: "🔥", iconImage: "images/categories/SG.png" },
   { id: "SW", name: "Sandwiches", count: 0, icon: "🥪", iconImage: "images/categories/SW.png" },
+  { id: "CS", name: "Casseroles", count: 0, icon: "🥘", iconImage: "images/categories/CS.png" },
 ];
 
-const CATEGORY_INFO = Object.fromEntries(categories.map((category) => [category.id, category]));
-
-const CATEGORY_DEFAULTS = {
-  AM: { time: 35, servings: 4, price: "$$", emoji: "🍽️" },
-  AS: { time: 30, servings: 4, price: "$$", emoji: "🍜" },
-  CC: { time: 70, servings: 8, price: "$$", emoji: "🍰" },
-  CO: { time: 55, servings: 8, price: "$$", emoji: "🥧" },
-  CR: { time: 90, servings: 8, price: "$$", emoji: "🌀" },
-  DN: { time: 60, servings: 8, price: "$$", emoji: "🍩" },
-  DS: { time: 45, servings: 8, price: "$$", emoji: "🍰" },
-  HB: { time: 25, servings: 4, price: "$$", emoji: "🍔" },
-  HBP: { time: 20, servings: 4, price: "$$", emoji: "🍔" },
-  IT: { time: 40, servings: 4, price: "$$", emoji: "🍝" },
-  JJ: { time: 50, servings: 8, price: "$", emoji: "🍓" },
-  KR: { time: 90, servings: 8, price: "$$", emoji: "🥐" },
-  LF: { time: 90, servings: 8, price: "$$", emoji: "🍞" },
-  MR: { time: 10, servings: 4, price: "$", emoji: "🫙" },
-  MX: { time: 35, servings: 4, price: "$$", emoji: "🌮" },
-  PM: { time: 35, servings: 6, price: "$$", emoji: "🧁" },
-  QP: { time: 55, servings: 6, price: "$$", emoji: "🥧" },
-  RS: { time: 10, servings: 8, price: "$", emoji: "🧂" },
-  SB: { time: 20, servings: 4, price: "$$", emoji: "🥗" },
-  SD: { time: 25, servings: 4, price: "$", emoji: "🍲" },
-  SF: { time: 30, servings: 4, price: "$$$", emoji: "🐟" },
-  SG: { time: 60, servings: 4, price: "$$", emoji: "🔥" },
-  SW: { time: 20, servings: 4, price: "$$", emoji: "🥪" },
+const CATEGORY_INFO = Object.fromEntries(baseCategories.map((category) => [category.id, category]));
+const DEFAULTS = {
+  AS: [30,4,"$$","🍜"], MX: [35,4,"$$","🌮"], PM: [35,6,"$$","🧁"], QP: [55,6,"$$","🥧"],
+  SB: [20,4,"$$","🥗"], SD: [25,4,"$","🍲"], SF: [30,4,"$$$","🐟"], SG: [60,4,"$$","🔥"],
+  CS: [45,6,"$$","🥘"], AM: [35,4,"$$","🍽️"], IT: [40,4,"$$","🍝"]
 };
-
-const CATEGORY_INGREDIENTS = {
-  AM: [
-    { name: "Protein", qty: 1, unit: "lb", aisle: "Meat", cost: 7 },
-    { name: "Vegetables", qty: 2, unit: "cups", aisle: "Produce", cost: 3 },
-    { name: "Pantry staples", qty: 1, unit: "set", aisle: "Pantry", cost: 3 },
-  ],
-  AS: [
-    { name: "Protein", qty: 1, unit: "lb", aisle: "Meat", cost: 7 },
-    { name: "Vegetables", qty: 2, unit: "cups", aisle: "Produce", cost: 3 },
-    { name: "Soy sauce", qty: 1, unit: "bottle", aisle: "Pantry", cost: 3 },
-    { name: "Rice", qty: 1, unit: "pkg", aisle: "Pantry", cost: 3 },
-  ],
-  IT: [
-    { name: "Protein", qty: 1, unit: "lb", aisle: "Meat", cost: 7 },
-    { name: "Pasta", qty: 1, unit: "box", aisle: "Pantry", cost: 2 },
-    { name: "Tomato sauce", qty: 1, unit: "jar", aisle: "Pantry", cost: 3 },
-    { name: "Parmesan cheese", qty: 1, unit: "pkg", aisle: "Dairy", cost: 4 },
-  ],
-  MX: [
-    { name: "Protein", qty: 1, unit: "lb", aisle: "Meat", cost: 7 },
-    { name: "Tortillas", qty: 1, unit: "pkg", aisle: "Bakery", cost: 3 },
-    { name: "Salsa", qty: 1, unit: "jar", aisle: "Pantry", cost: 3 },
-    { name: "Shredded cheese", qty: 1, unit: "pkg", aisle: "Dairy", cost: 4 },
-  ],
-  SB: [
-    { name: "Greens", qty: 1, unit: "pkg", aisle: "Produce", cost: 4 },
-    { name: "Protein", qty: 1, unit: "lb", aisle: "Meat", cost: 7 },
-    { name: "Vegetables", qty: 2, unit: "cups", aisle: "Produce", cost: 4 },
-    { name: "Dressing", qty: 1, unit: "bottle", aisle: "Pantry", cost: 3 },
-  ],
-  SD: [
-    { name: "Vegetables or starch", qty: 1, unit: "pkg", aisle: "Produce", cost: 4 },
-    { name: "Butter", qty: 1, unit: "stick", aisle: "Dairy", cost: 2 },
-    { name: "Pantry staples", qty: 1, unit: "set", aisle: "Pantry", cost: 2 },
-  ],
-  SF: [
-    { name: "Seafood", qty: 1, unit: "lb", aisle: "Seafood", cost: 12 },
-    { name: "Lemon", qty: 1, unit: "each", aisle: "Produce", cost: 1 },
-    { name: "Butter", qty: 1, unit: "stick", aisle: "Dairy", cost: 2 },
-    { name: "Pantry staples", qty: 1, unit: "set", aisle: "Pantry", cost: 2 },
-  ],
-};
-
-function codePrefix(id = "") {
-  return id.match(/^[A-Z]+/)?.[0] || "";
-}
-
+function codePrefix(id = "") { return id.match(/^[A-Z]+/)?.[0] || ""; }
+function defaultCost(price = "$$") { const base = price === "$" ? 10 : price === "$$$" ? 28 : 18; return { 2: +(base*0.55).toFixed(2), 4: +base.toFixed(2), 6: +(base*1.45).toFixed(2) }; }
 function defaultIngredients(categoryCode) {
-  return CATEGORY_INGREDIENTS[categoryCode] || [
-    { name: "Main ingredients", qty: 1, unit: "set", aisle: "Grocery", cost: 8 },
-    { name: "Pantry staples", qty: 1, unit: "set", aisle: "Pantry", cost: 3 },
-  ];
+  const common = { name: "Pantry staples", qty: 1, unit: "set", aisle: "Pantry", cost: 3 };
+  if (categoryCode === "AS") return [{ name: "Protein", qty: 1, unit: "lb", aisle: "Meat", cost: 7 }, { name: "Vegetables", qty: 2, unit: "cups", aisle: "Produce", cost: 3 }, { name: "Soy sauce", qty: 1, unit: "bottle", aisle: "Pantry", cost: 3 }, { name: "Rice", qty: 1, unit: "pkg", aisle: "Pantry", cost: 3 }];
+  if (categoryCode === "MX") return [{ name: "Protein", qty: 1, unit: "lb", aisle: "Meat", cost: 7 }, { name: "Tortillas", qty: 1, unit: "pkg", aisle: "Bakery", cost: 3 }, { name: "Salsa", qty: 1, unit: "jar", aisle: "Pantry", cost: 3 }, { name: "Shredded cheese", qty: 1, unit: "pkg", aisle: "Dairy", cost: 4 }];
+  if (categoryCode === "SF") return [{ name: "Seafood", qty: 1, unit: "lb", aisle: "Seafood", cost: 12 }, { name: "Lemon", qty: 1, unit: "each", aisle: "Produce", cost: 1 }, { name: "Butter", qty: 1, unit: "stick", aisle: "Dairy", cost: 2 }, common];
+  if (categoryCode === "SG") return [{ name: "Meat", qty: 1, unit: "lb", aisle: "Meat", cost: 9 }, { name: "BBQ sauce", qty: 1, unit: "bottle", aisle: "Pantry", cost: 3 }, { name: "Seasoning", qty: 1, unit: "set", aisle: "Pantry", cost: 2 }];
+  if (categoryCode === "PM") return [{ name: "Protein powder", qty: 1, unit: "scoop", aisle: "Pantry", cost: 3 }, { name: "Flour", qty: 1, unit: "cup", aisle: "Pantry", cost: 1 }, { name: "Eggs", qty: 2, unit: "each", aisle: "Dairy", cost: 1 }, { name: "Milk", qty: 1, unit: "cup", aisle: "Dairy", cost: 1 }];
+  if (categoryCode === "QP") return [{ name: "Pie crust", qty: 1, unit: "each", aisle: "Frozen", cost: 3 }, { name: "Eggs", qty: 4, unit: "each", aisle: "Dairy", cost: 2 }, { name: "Cheese", qty: 1, unit: "cup", aisle: "Dairy", cost: 3 }, { name: "Main filling", qty: 1, unit: "set", aisle: "Grocery", cost: 6 }];
+  return [{ name: "Main ingredients", qty: 1, unit: "set", aisle: "Grocery", cost: 8 }, common];
 }
-
-function defaultCost(price = "$$", servings = 4) {
-  const base =
-    price === "$" ? 10 :
-    price === "$$$" ? 28 :
-    18;
-
-  return {
-    2: Number((base * 0.55).toFixed(2)),
-    4: Number(base.toFixed(2)),
-    6: Number((base * 1.45).toFixed(2)),
-  };
-}
-
 function makeRecipe(entry) {
   const [id, title, options = {}] = entry;
   const categoryCode = options.categoryCode || codePrefix(id);
   const category = CATEGORY_INFO[categoryCode];
-  const defaults = CATEGORY_DEFAULTS[categoryCode] || CATEGORY_DEFAULTS.AM;
-  const servings = options.servings ?? defaults.servings;
-  const price = options.price ?? defaults.price;
-
+  const [time, servings, price, emoji] = DEFAULTS[categoryCode] || DEFAULTS.AM;
+  const finalPrice = options.price ?? price;
   return {
-    id,
-    title,
+    id, title,
     category: options.category || category?.name || categoryCode,
     categoryCode,
-    time: options.time ?? defaults.time,
-    servings,
-    price,
-    emoji: options.emoji ?? defaults.emoji,
+    time: options.time ?? time,
+    servings: options.servings ?? servings,
+    price: finalPrice,
+    emoji: options.emoji ?? emoji,
     imageStyle: options.imageStyle || "linear-gradient(135deg, #f8fafc, #e5e7eb)",
     image: options.image || `images/recipes/${id}.png`,
     cardImage: options.cardImage || `images/recipes/${id}.png`,
     heroImage: options.heroImage || `images/heroes/${id}.png`,
-    cost: options.cost || defaultCost(price, servings),
+    cost: options.cost || defaultCost(finalPrice),
     ingredients: options.ingredients || defaultIngredients(categoryCode),
     mediaLinks: options.mediaLinks || undefined,
   };
 }
 
-/*
-  ADD NEW RECIPES HERE.
-
-  Format:
-  ["CODE-###", "Recipe Name"],
-
-  Optional advanced format:
-  ["CODE-###", "Recipe Name", { time: 30, servings: 4, price: "$$" }],
-
-  Image files expected:
-  public/images/recipes/CODE-###.png
-  public/images/heroes/CODE-###.png
-*/
-
 const recipeRows = [
-  // Asian Cuisine
   ["AS-001", "Beef & Broccoli"],
   ["AS-002", "Beijing Beef"],
   ["AS-003", "Mongolian Beef"],
@@ -186,18 +92,185 @@ const recipeRows = [
   ["AS-022", "Chicken Egg Rolls"],
   ["AS-023", "Spring Rolls"],
   ["AS-024", "Crab Rangoons"],
-
-  // Add your new rows below this line.
+  ["MX-019", "Queso Dip"],
+  ["MX-020", "White Queso Dip"],
+  ["MX-021", "Enchilada Casserole"],
+  ["MX-022", "Taco Casserole"],
+  ["MX-023", "Mexican Lasagna"],
+  ["MX-024", "Tamale Casserole"],
+  ["MX-025", "Beef Fajita Rice Bowls"],
+  ["MX-026", "Beef Taco Rice Bowls"],
+  ["MX-027", "Carnitas Rice Bowls"],
+  ["MX-028", "Chicken Burrito Bowls"],
+  ["MX-029", "Chicken Enchilada Verde Bowls"],
+  ["MX-030", "Chicken Fajita Rice Bowls"],
+  ["MX-031", "Chicken Quesadillas"],
+  ["MX-032", "Chicken Street Tacos"],
+  ["MX-033", "Chicken Tamale Casserole"],
+  ["MX-034", "Chicken Tortilla Soup"],
+  ["MX-035", "Chile Colorado"],
+  ["MX-036", "Chile Verde Pork"],
+  ["MX-037", "Chimichangas"],
+  ["MX-038", "Fajita Quesadillas"],
+  ["MX-039", "Flautas"],
+  ["MX-040", "King Ranch Chicken"],
+  ["MX-041", "Mexican Chicken & Rice"],
+  ["MX-042", "Mexican Taco Soup"],
+  ["MX-043", "Taco Bell-Style Taco Meat"],
+  ["MX-044", "Shredded Chicken"],
+  ["PM-001", "Apple Cinnamon"],
+  ["PM-002", "Blueberry"],
+  ["PM-003", "Chocolate Chip"],
+  ["PM-004", "Double Chocolate"],
+  ["PM-005", "Lemon Poppyseed"],
+  ["PM-006", "Pumpkin Spice"],
+  ["PM-007", "Banana Nut"],
+  ["PM-008", "Raspberry"],
+  ["PM-009", "Cranberry Orange"],
+  ["PM-010", "Cinnamon Roll"],
+  ["PM-011", "Strawberry Cheesecake"],
+  ["PM-012", "Brown Sugar Oatmeal"],
+  ["PM-013", "Apple Streusel"],
+  ["PM-014", "Carrot Cake"],
+  ["QP-001", "Classic Cheese"],
+  ["QP-002", "Lorraine"],
+  ["QP-003", "Ham & Cheese"],
+  ["QP-004", "Spinach"],
+  ["QP-005", "Broccoli & Cheese"],
+  ["QP-006", "Cowboy"],
+  ["QP-007", "Bacon & Cheddar"],
+  ["QP-008", "Western"],
+  ["QP-009", "Ham & Swiss"],
+  ["QP-010", "Sausage & Cheese"],
+  ["QP-011", "Crab"],
+  ["QP-012", "Beef Taco"],
+  ["QP-013", "Tomato Basil"],
+  ["QP-014", "Caramelized Onion"],
+  ["QP-015", "Crawfish"],
+  ["QP-016", "Cheeseburger"],
+  ["QP-017", "Chicken Pot Pie"],
+  ["QP-018", "Beef Pot Pie"],
+  ["QP-019", "Apple Pie"],
+  ["QP-020", "Cherry Pie"],
+  ["QP-021", "Peach Pie"],
+  ["QP-022", "Blueberry Pie"],
+  ["QP-023", "Blackberry Pie"],
+  ["QP-024", "Strawberry Rhubarb Pie"],
+  ["QP-025", "Pecan Pie"],
+  ["QP-026", "Coconut Custard Pie"],
+  ["QP-027", "Chocolate Cream Ice Box Pie"],
+  ["QP-028", "Pink Lemonade Ice Box Pie"],
+  ["QP-029", "Key Lime Ice Box Pie"],
+  ["QP-030", "Strawberry Ice Box Pie"],
+  ["SB-001", "Asian Chicken Crunch"],
+  ["SB-002", "BLT Chicken Salad"],
+  ["SB-003", "Buffalo Chicken"],
+  ["SB-004", "Burger Bowl"],
+  ["SB-005", "High-Protein Chef Salad"],
+  ["SB-006", "High-Protein Chicken Caesar"],
+  ["SB-007", "High-Protein Chicken Cobb"],
+  ["SB-008", "High-Protein Chicken Salad"],
+  ["SB-009", "High-Protein Cottage Cheese"],
+  ["SB-010", "High-Protein Crab Salad"],
+  ["SB-011", "High-Protein Egg Salad"],
+  ["SB-012", "High-Protein Greek Chicken Salad"],
+  ["SB-013", "High-Protein Italian Chicken Pasta"],
+  ["SB-014", "High-Protein Mediterranean Chickpea"],
+  ["SB-015", "High-Protein Pimento Chicken Salad"],
+  ["SB-016", "High-Protein Salmon Salad"],
+  ["SB-017", "High-Protein Shrimp Cobb Salad"],
+  ["SB-018", "High-Protein Tuna Salad"],
+  ["SB-019", "Jersey Mike’s Sub-in-a-Tub"],
+  ["SB-020", "Base Chopped Salad Mix"],
+  ["SD-001", "Baked Beans"],
+  ["SD-002", "Cornbread Stuffing"],
+  ["SD-003", "Mashed Potatoes"],
+  ["SD-004", "Green Beans"],
+  ["SD-005", "Broccoli"],
+  ["SD-006", "Garlic Parmesan Pasta"],
+  ["SD-007", "Macaroni & Cheese"],
+  ["SD-008", "Whole Corn"],
+  ["SD-009", "Oriental Stir-Fry"],
+  ["SD-010", "Fried Rice"],
+  ["SD-011", "Egg Noodles"],
+  ["SD-012", "Peas & Carrots"],
+  ["SD-013", "Southern-Style Green Beans"],
+  ["SD-014", "Pinto Beans"],
+  ["SD-015", "Spanish Rice"],
+  ["SD-016", "Dirty Rice"],
+  ["SD-017", "Scalloped Potatoes"],
+  ["SD-018", "Rice Pilaf"],
+  ["SD-019", "Refried Beans"],
+  ["SD-020", "Spaghetti Noodles"],
+  ["SD-021", "Italian Vegetables"],
+  ["SD-022", "Coleslaw"],
+  ["SD-023", "Mustard Potato Salad"],
+  ["SD-024", "German Potato Salad"],
+  ["SD-025", "Glazed Carrots"],
+  ["SD-026", "Corn on the Cob"],
+  ["SD-027", "Baked Potato"],
+  ["SD-028", "Baked Sweet Potato"],
+  ["SD-029", "Flattened Mini Potatoes"],
+  ["SD-030", "Roasted Asparagus"],
+  ["SD-031", "Brussels Sprouts"],
+  ["SD-032", "Fried Okra"],
+  ["SD-033", "Cabbage"],
+  ["SD-034", "Hashbrown Casserole"],
+  ["SD-035", "Cheesy Grits"],
+  ["SD-036", "Roasted Zucchini"],
+  ["SD-037", "Roasted Red Potatoes"],
+  ["SD-038", "Wild Rice Pilaf"],
+  ["SD-039", "Roasted Vegetables"],
+  ["SD-040", "Butter Grits"],
+  ["SD-041", "Steak Fries"],
+  ["SD-042", "Crinkle-Cut Fries"],
+  ["SD-043", "Waffle Fries"],
+  ["SD-044", "McDonald’s Fries"],
+  ["SD-045", "Sweet Potato Fries"],
+  ["SD-046", "Tater Tots"],
+  ["SD-047", "Dinner Salad"],
+  ["SD-048", "White Rice"],
+  ["SD-049", "Cilantro Lime Rice"],
+  ["SD-050", "Broccoli Cheese Rice"],
+  ["SD-051", "Creamy Mushroom Rice"],
+  ["SD-052", "Jasmine Rice"],
+  ["SF-001", "Baked Coconut Shrimp"],
+  ["SF-002", "Shrimp Scampi"],
+  ["SF-003", "Shrimp & Grits"],
+  ["SF-004", "Salmon Patties"],
+  ["SF-005", "Crab Cakes"],
+  ["SF-006", "Coconut Lime Shrimp"],
+  ["SF-007", "Cajun Shrimp"],
+  ["SF-008", "Teriyaki Salmon"],
+  ["SF-009", "Honey Garlic Salmon"],
+  ["SF-010", "Cornmeal Tilapia"],
+  ["SF-011", "Blackened Tilapia"],
+  ["SF-012", "Cajun Tilapia"],
+  ["SF-013", "Parmesan Tilapia"],
+  ["SF-014", "Lemon Garlic Tilapia"],
+  ["SF-015", "Boiled Shrimp"],
+  ["SF-016", "Seafood Gumbo"],
+  ["SF-017", "Crawfish Bisque"],
+  ["SF-018", "Crawfish Étouffée"],
+  ["SF-019", "Hush Puppies"],
+  ["SF-020", "Dirty Rice"],
+  ["SG-001", "Grilled Flank Steak"],
+  ["SG-002", "Beef Fajitas"],
+  ["SG-003", "Grilled Hot Dogs"],
+  ["SG-004", "Grilled Sausage Links"],
+  ["SG-005", "Grilled Chicken Breasts"],
+  ["SG-008", "Texas-Style Brisket"],
+  ["SG-009", "Sliced Pork Butt"],
+  ["SG-010", "Pulled Pork Butt"],
+  ["SG-011", "Smoked Chicken Breast"],
+  ["SG-012", "Smoked Pork Ribs"],
+  ["SG-013", "Smoked Beef Ribs"],
+  ["SG-014", "Smoked Chicken Legs"],
+  ["SG-015", "Smoked Chicken Wings"],
+  ["SG-016", "Smoked Chicken Quarters"]
 ];
 
 export const recipes = recipeRows.map(makeRecipe);
-
-export const categoryCounts = recipes.reduce((counts, recipe) => {
-  counts[recipe.categoryCode] = (counts[recipe.categoryCode] || 0) + 1;
-  return counts;
-}, {});
-
-export const categoriesWithCounts = categories.map((category) => ({
-  ...category,
-  count: categoryCounts[category.id] || category.count || 0,
-}));
+const categoryCounts = recipes.reduce((counts, recipe) => { counts[recipe.categoryCode] = (counts[recipe.categoryCode] || 0) + 1; return counts; }, {});
+export const categories = baseCategories.map((category) => ({ ...category, count: categoryCounts[category.id] || 0 }));
+export const categoriesWithCounts = categories;
