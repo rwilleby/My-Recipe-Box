@@ -3476,3 +3476,136 @@ th {
     flex-direction: column;
   }
 }
+
+
+/* ================================
+   HEADER DROPDOWN NAVIGATION UPDATE
+   Top nav: About | Recipes | Shopping | Favorites | Recommendations
+   ================================ */
+
+.dropdownNav {
+  align-items: stretch;
+  gap: clamp(10px, 1.7vw, 24px);
+  overflow: visible;
+}
+
+.navDropdown {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.navDropdownButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 82px;
+  background: none;
+  border: 0;
+  color: #151515;
+  padding: 0 2px;
+  white-space: nowrap;
+  font-weight: 720;
+}
+
+.navDropdownButton span {
+  font-size: 13px;
+  color: #6b7280;
+  transform: translateY(1px);
+}
+
+.navDropdown.active .navDropdownButton,
+.navDropdownButton:hover {
+  color: var(--green);
+}
+
+.navDropdownMenu {
+  position: absolute;
+  left: 50%;
+  top: calc(100% - 8px);
+  transform: translateX(-50%) translateY(8px);
+  min-width: 220px;
+  padding: 8px;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 18px 45px rgba(17, 24, 39, .14);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: 100;
+  transition: opacity .16s ease, transform .16s ease, visibility .16s ease;
+}
+
+.navDropdown:hover .navDropdownMenu,
+.navDropdown:focus-within .navDropdownMenu {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+
+.navDropdownMenu button {
+  display: block;
+  width: 100%;
+  min-height: 38px;
+  padding: 9px 11px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #111827;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+.navDropdownMenu button:hover,
+.navDropdownMenu button.active {
+  background: #f5fbf5;
+  color: var(--green);
+}
+
+.recommendationsCard {
+  max-width: 900px;
+}
+
+@media (max-width: 1100px) {
+  .dropdownNav {
+    order: 3;
+    width: 100%;
+    overflow-x: auto;
+    justify-content: flex-start;
+    align-items: center;
+    padding-bottom: 2px;
+  }
+
+  .navDropdownButton {
+    height: 44px;
+  }
+
+  .navDropdownMenu {
+    left: 0;
+    top: 44px;
+    transform: translateY(8px);
+  }
+
+  .navDropdown:hover .navDropdownMenu,
+  .navDropdown:focus-within .navDropdownMenu {
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 720px) {
+  .dropdownNav {
+    gap: 16px;
+  }
+
+  .navDropdownButton {
+    font-size: 14px;
+  }
+
+  .navDropdownMenu {
+    min-width: 205px;
+  }
+}

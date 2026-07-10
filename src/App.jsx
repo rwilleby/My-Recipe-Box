@@ -335,16 +335,50 @@ function fullCardImageCandidates(recipe) {
 }
 
 function Header({ activePage, setActivePage }) {
-  const nav = [
-    "Recipes",
-    "Collections",
-    "Meal Planner",
-    "Shopping Lists",
-    "Pantry Staples",
-    "Cost Estimator",
-    "Favorites",
-    "About",
+  const navGroups = [
+    {
+      label: "About",
+      items: [
+        { label: "About the Project", page: "About" },
+      ],
+    },
+    {
+      label: "Recipes",
+      items: [
+        { label: "Browse Recipes", page: "Recipes" },
+        { label: "Collections", page: "Collections" },
+        { label: "Two-Week Meal Planner", page: "Meal Planner" },
+      ],
+    },
+    {
+      label: "Shopping",
+      items: [
+        { label: "Shopping Lists", page: "Shopping Lists" },
+        { label: "Pantry Staples", page: "Pantry Staples" },
+        { label: "Cost Estimator", page: "Cost Estimator" },
+      ],
+    },
+    {
+      label: "Favorites",
+      items: [
+        { label: "Saved Recipes", page: "Favorites" },
+      ],
+    },
+    {
+      label: "Recommendations",
+      items: [
+        { label: "Kitchen Tools & Products", page: "Recommendations" },
+      ],
+    },
   ];
+
+  function openPage(page) {
+    setActivePage(page);
+  }
+
+  function groupIsActive(group) {
+    return group.items.some((item) => activePage === item.page);
+  }
 
   return (
     <header className="topbar">
@@ -360,15 +394,35 @@ function Header({ activePage, setActivePage }) {
         />
       </button>
 
-      <nav className="navLinks">
-        {nav.map((item) => (
-          <button
-            key={item}
-            className={activePage === item ? "active" : ""}
-            onClick={() => setActivePage(item)}
+      <nav className="navLinks dropdownNav" aria-label="Main navigation">
+        {navGroups.map((group) => (
+          <div
+            className={groupIsActive(group) ? "navDropdown active" : "navDropdown"}
+            key={group.label}
           >
-            {item}
-          </button>
+            <button
+              className="navDropdownButton"
+              type="button"
+              onClick={() => openPage(group.items[0].page)}
+              aria-haspopup="true"
+            >
+              {group.label}
+              <span aria-hidden="true">⌄</span>
+            </button>
+
+            <div className="navDropdownMenu">
+              {group.items.map((item) => (
+                <button
+                  key={item.page}
+                  className={activePage === item.page ? "active" : ""}
+                  type="button"
+                  onClick={() => openPage(item.page)}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+          </div>
         ))}
       </nav>
 
@@ -2098,6 +2152,36 @@ function CollectionsPage() {
   );
 }
 
+function RecommendationsPage() {
+  return (
+    <main className="pageShell">
+      <div className="pageHeader">
+        <div>
+          <div className="aiBadge">KITCHEN TOOLS & PRODUCTS</div>
+          <h1>Recommendations</h1>
+          <p>
+            Helpful kitchen tools, storage ideas, organizers, and meal-prep
+            products will be added here as Robert’s Recipe Box grows.
+          </p>
+        </div>
+      </div>
+
+      <div className="aboutCard recommendationsCard">
+        <h2>Coming soon</h2>
+        <p>
+          This section is planned for practical product recommendations that
+          support small-household cooking, leftovers, freezer storage, pantry
+          organization, and easier meal planning.
+        </p>
+        <p>
+          Future recommendations may include kitchen tools, food storage,
+          organizing products, meal-prep containers, and other helpful items.
+        </p>
+      </div>
+    </main>
+  );
+}
+
 function AboutPage() {
   return (
     <main className="pageShell">
@@ -2261,6 +2345,7 @@ export default function App() {
       {activePage === "Pantry Staples" && <PantryStaplesPage {...pageProps} />}
       {activePage === "Cost Estimator" && <CostEstimatorPage {...pageProps} />}
       {activePage === "Favorites" && <FavoritesPage {...pageProps} />}
+      {activePage === "Recommendations" && <RecommendationsPage />}
       {activePage === "About" && <AboutPage />}
 
       <RecipeCardViewer
