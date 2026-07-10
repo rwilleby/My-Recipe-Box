@@ -3042,3 +3042,161 @@ th {
     height: 360px;
   }
 }
+
+
+/* ================================
+   BROWSE RECIPES SHORTER BOXES + TAGS
+   Reduces preview height, removes excess whitespace, and adds bottom tags.
+   ================================ */
+
+.browseRecipeGrid .recipeCardFullImage .recipeFullCardImage {
+  height: 248px;
+  padding: 10px 10px 2px;
+  background: #ffffff;
+}
+
+.browseRecipeGrid .recipeCardFullImage .recipeBody {
+  padding: 10px 12px 14px;
+}
+
+.browseRecipeGrid .recipeCardFullImage .recipeActions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 0;
+}
+
+.browseRecipeGrid .recipeCardFullImage .viewCard,
+.browseRecipeGrid .recipeCardFullImage .addPlan {
+  width: 100%;
+  height: 38px;
+  min-height: 38px;
+  padding: 0 10px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 800;
+  margin-top: 0;
+  white-space: nowrap;
+}
+
+.browseRecipeMetaFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.browseRecipeMetaFooter .meta {
+  flex: 1;
+  justify-content: flex-start;
+  gap: 18px;
+  font-size: 12px;
+}
+
+.browseCardHeart {
+  position: static;
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  border-radius: 50%;
+  border: 0;
+  background: transparent;
+  color: #111827;
+  font-size: 25px;
+  line-height: 1;
+  text-shadow: none;
+}
+
+.browseCardHeart.saved {
+  color: #ef4444;
+  background: transparent;
+}
+
+.browseRecipeTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+  min-height: 30px;
+}
+
+.browseRecipeTag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  border: 1px solid transparent;
+}
+
+.browseRecipeTag-AS {
+  background: #fff2e8;
+  color: #b45309;
+}
+
+.browseRecipeTag-AM {
+  background: #eef5ff;
+  color: #1d4ed8;
+}
+
+.browseRecipeTag-IT {
+  background: #edf8ee;
+  color: #2f7d46;
+}
+
+.browseRecipeTag-MX {
+  background: #fdf0ef;
+  color: #c2410c;
+}
+
+.browseRecipeTag-SB {
+  background: #ebfaf6;
+  color: #0f766e;
+}
+
+.browseRecipeTag-SF {
+  background: #eef6ff;
+  color: #2563eb;
+}
+
+.browseRecipeTag-SG {
+  background: #f8f1ed;
+  color: #92400e;
+}
+
+.browseRecipeTag-SD {
+  background: #f3efff;
+  color: #6d28d9;
+}
+
+@media (max-width: 1250px) {
+  .browseRecipeGrid .recipeCardFullImage .recipeFullCardImage {
+    height: 236px;
+  }
+}
+
+@media (max-width: 1000px) {
+  .browseRecipeGrid .recipeCardFullImage .recipeFullCardImage {
+    height: 228px;
+  }
+}
+
+@media (max-width: 560px) {
+  .browseRecipeGrid .recipeCardFullImage .recipeFullCardImage {
+    height: 214px;
+  }
+
+  .browseRecipeMetaFooter {
+    flex-wrap: wrap;
+  }
+
+  .browseRecipeMetaFooter .meta {
+    gap: 12px;
+    row-gap: 6px;
+    flex-wrap: wrap;
+  }
+}

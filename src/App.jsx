@@ -381,6 +381,41 @@ function FullRecipeCardPreview({ recipe }) {
   return <RecipeImage recipe={recipe} />;
 }
 
+function getRecipeBrowseTags(recipe) {
+  const title = recipe.title.toLowerCase();
+  const tags = [];
+
+  function addTag(tag) {
+    if (tag && !tags.includes(tag)) tags.push(tag);
+  }
+
+  if (recipe.category === 'Side Dishes') addTag('Side Dish');
+  else if (recipe.category === 'Salads & Bowls') addTag('Salad');
+  else addTag(recipe.category);
+
+  if (title.includes('casserole') || title.includes('bake') || title.includes('lasagna') || title.includes('pot pie')) {
+    addTag('Casserole');
+  }
+
+  if (title.includes('pasta') || title.includes('alfredo') || title.includes('spaghetti') || title.includes('ziti') || title.includes('mac')) {
+    addTag('Pasta');
+  }
+
+  if (Number(recipe.time) <= 30) {
+    addTag('Quick & Easy');
+  }
+
+  if (Number(recipe.servings) >= 6 || title.includes('casserole') || title.includes('bake')) {
+    addTag('Family Favorite');
+  }
+
+  if (title.includes('taco') || title.includes('mac') || title.includes('pizza') || title.includes('cheese')) {
+    addTag('Kid Friendly');
+  }
+
+  return tags.slice(0, 3);
+}
+
 function RecipeCard({
   recipe,
   favorites,
@@ -392,21 +427,27 @@ function RecipeCard({
   viewButtonText = "View Recipe Card",
   displayMode = "hero",
 }) {
+  const isBrowseCard = displayMode === "card";
+  const browseTags = isBrowseCard ? getRecipeBrowseTags(recipe) : [];
+  const isFavorite = favorites.includes(recipe.id);
+
   return (
-    <article className={displayMode === "card" ? "recipeCard recipeCardFullImage" : "recipeCard"}>
-      {displayMode === "card" ? (
+    <article className={isBrowseCard ? "recipeCard recipeCardFullImage" : "recipeCard"}>
+      {isBrowseCard ? (
         <FullRecipeCardPreview recipe={recipe} />
       ) : (
         <RecipeImage recipe={recipe} />
       )}
 
-      <button
-        className={`heart ${favorites.includes(recipe.id) ? "saved" : ""}`}
-        onClick={() => toggleFavorite(recipe.id)}
-        aria-label="Save favorite"
-      >
-        ♡
-      </button>
+      {!isBrowseCard && (
+        <button
+          className={`heart ${isFavorite ? "saved" : ""}`}
+          onClick={() => toggleFavorite(recipe.id)}
+          aria-label="Save favorite"
+        >
+          ♡
+        </button>
+      )}
 
       <div className="recipeBody">
         <span className={`tag tag-${recipe.categoryCode}`}>
@@ -415,25 +456,72 @@ function RecipeCard({
 
         <h3>{recipe.title}</h3>
 
-        <div className="meta">
-          <span>◷ {recipe.time} min</span>
-          <span>♙ {recipe.servings}</span>
-          <span>{recipe.price}</span>
-        </div>
+        {isBrowseCard ? (
+          <>
+            <div className="recipeActions browseRecipeActions">
+              <button
+                className="viewCard"
+                onClick={() => openRecipeCard(recipe.id, cardList)}
+              >
+                {viewButtonText}
+              </button>
+              {showPlannerButton && (
+                <button className="addPlan" onClick={() => addToPlan(recipe.id)}>
+                  Add to Planner
+                </button>
+              )}
+            </div>
 
-        <div className="recipeActions">
-          <button
-            className="viewCard"
-            onClick={() => openRecipeCard(recipe.id, cardList)}
-          >
-            {viewButtonText}
-          </button>
-          {showPlannerButton && (
-            <button className="addPlan" onClick={() => addToPlan(recipe.id)}>
-              Add to planner
-            </button>
-          )}
-        </div>
+            <div className="browseRecipeMetaFooter">
+              <div className="meta">
+                <span>◷ {recipe.time} min</span>
+                <span>♙ {recipe.servings} servings</span>
+                <span>{recipe.price}</span>
+              </div>
+
+              <button
+                className={`heart browseCardHeart ${isFavorite ? "saved" : ""}`}
+                onClick={() => toggleFavorite(recipe.id)}
+                aria-label="Save favorite"
+              >
+                ♡
+              </button>
+            </div>
+
+            <div className="browseRecipeTags">
+              {browseTags.map((tag) => (
+                <span
+                  key={`${recipe.id}-${tag}`}
+                  className={`browseRecipeTag browseRecipeTag-${recipe.categoryCode}`}
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="meta">
+              <span>◷ {recipe.time} min</span>
+              <span>♙ {recipe.servings}</span>
+              <span>{recipe.price}</span>
+            </div>
+
+            <div className="recipeActions">
+              <button
+                className="viewCard"
+                onClick={() => openRecipeCard(recipe.id, cardList)}
+              >
+                {viewButtonText}
+              </button>
+              {showPlannerButton && (
+                <button className="addPlan" onClick={() => addToPlan(recipe.id)}>
+                  Add to planner
+                </button>
+              )}
+            </div>
+          </>
+        )}
       </div>
     </article>
   );
