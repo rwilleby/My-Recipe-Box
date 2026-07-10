@@ -300,7 +300,7 @@ function splitShoppingListByPantry(list, pantry) {
 
 const AUTO_IMAGE_PREFIXES = new Set([
   "AM", "AS", "CC", "CO", "CR", "DN", "DS", "HB", "HBP", "IT", "JJ", "KR", "LF",
-  "MR", "MX", "PM", "QP", "RS", "SB", "SD", "SF", "SG", "SW"
+  "MR", "MX", "PM", "QP", "CS", "RS", "SB", "SD", "SF", "SG", "SW"
 ]);
 
 const HERO_IMAGES = [
@@ -1172,10 +1172,18 @@ function RecipeRolodex({ openRecipeCard }) {
   const [imageIndex, setImageIndex] = useState(0);
 
   const rolodexRecipes = useMemo(() => {
+    const selectedCategoryObject = categories.find(
+      (category) => category.name === selectedCategory || category.id === selectedCategory
+    );
+
     const filteredRecipes =
       selectedCategory === "MASTER_RANDOM"
         ? recipes
-        : recipes.filter((recipe) => recipe.category === selectedCategory);
+        : recipes.filter((recipe) => (
+            recipe.category === selectedCategory ||
+            recipe.categoryCode === selectedCategoryObject?.id ||
+            recipe.id?.startsWith(`${selectedCategoryObject?.id}-`)
+          ));
 
     return getRandomRecipes(filteredRecipes, 12);
   }, [selectedCategory]);
@@ -1610,11 +1618,15 @@ function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFa
   const filteredPlannerRecipes = useMemo(() => {
     if (selectedCategory === "All") return recipes;
 
+    const selectedCategoryObject = categories.find(
+      (category) => category.name === selectedCategory || category.id === selectedCategory
+    );
+
     return recipes.filter((recipe) => {
       return (
         recipe.category === selectedCategory ||
-        recipe.categoryCode === selectedCategory ||
-        recipe.id?.startsWith(`${selectedCategory}-`)
+        recipe.categoryCode === selectedCategoryObject?.id ||
+        recipe.id?.startsWith(`${selectedCategoryObject?.id}-`)
       );
     });
   }, [selectedCategory]);
