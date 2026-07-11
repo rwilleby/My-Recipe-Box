@@ -1,12 +1,16 @@
-SHOPPING PRINT LIST + BREAD HOMEMADE UPDATE
+THREE-LEVEL SHELF-STABLE PANTRY UPDATE
 
 Upload/replace:
 src/App.jsx
 src/App.css
 
 What changed:
-- Bread/bun grocery recommendations now include homemade options because users can control ingredients.
-- Added PRINT LIST button on the Shopping List page.
-- Print output opens a condensed, easy-use one-line shopping list.
-- Print layout uses two columns, aisle sections, checkboxes, item name, and quantity.
-- Main homepage Freezer Tips button removed if present.
+- Pantry Staples now has 3 levels:
+  Level 1: Minimum Pantry
+  Level 2: Medium Pantry
+  Level 3: Fully Stocked Pantry
+- Each level builds on the one before it.
+- All pantry items shown are shelf-stable products.
+- Removed refrigerator/freezer items from the Pantry Staples page.
+- Added level tabs, level summary, item level labels, and Check Level buttons.
+- Pantry matching was updated to use shelf-stable pantry items.

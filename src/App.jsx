@@ -110,92 +110,154 @@ const HOME_CATEGORY_FALLBACKS = {
   SW: { id: "SW", name: "Sandwiches", count: 0, icon: "🥪" },
 };
 
+const PANTRY_LEVELS = [
+  {
+    id: 1,
+    label: "Minimum Pantry",
+    shortLabel: "Minimum",
+    description: "Core shelf-stable basics for simple meals and shopping-list matching.",
+  },
+  {
+    id: 2,
+    label: "Medium Pantry",
+    shortLabel: "Medium",
+    description: "Adds more sauces, grains, canned goods, and baking basics for flexible weekly cooking.",
+  },
+  {
+    id: 3,
+    label: "Fully Stocked Pantry",
+    shortLabel: "Fully Stocked",
+    description: "A deeper shelf-stable pantry for meal prep, freezer meals, baking, and lower-carb swaps.",
+  },
+];
+
 const PANTRY_STAPLES = [
   {
     group: "Spices & Seasonings",
     items: [
-      "Salt",
-      "Black pepper",
-      "Garlic powder",
-      "Onion powder",
-      "Paprika",
-      "Chili powder",
-      "Italian seasoning",
-      "Dried oregano",
-      "Cinnamon",
-      "Taco seasoning",
+      { name: "Salt", level: 1 },
+      { name: "Black pepper", level: 1 },
+      { name: "Garlic powder", level: 1 },
+      { name: "Onion powder", level: 1 },
+      { name: "Paprika", level: 1 },
+      { name: "Chili powder", level: 1 },
+      { name: "Italian seasoning", level: 1 },
+      { name: "Dried oregano", level: 2 },
+      { name: "Ground cumin", level: 2 },
+      { name: "Cinnamon", level: 2 },
+      { name: "Taco seasoning", level: 2 },
+      { name: "Cajun seasoning", level: 3 },
+      { name: "Lemon pepper", level: 3 },
+      { name: "Smoked paprika", level: 3 },
+      { name: "Red pepper flakes", level: 3 },
     ],
   },
   {
     group: "Oils, Vinegars & Cooking Basics",
     items: [
-      "Olive oil",
-      "Vegetable oil",
-      "Cooking spray",
-      "Butter",
-      "White vinegar",
-      "Apple cider vinegar",
-      "Flour",
-      "Cornstarch",
-      "Sugar",
-      "Brown sugar",
+      { name: "Olive oil", level: 1 },
+      { name: "Vegetable oil", level: 1 },
+      { name: "Cooking spray", level: 1 },
+      { name: "White vinegar", level: 1 },
+      { name: "Flour", level: 1 },
+      { name: "Sugar", level: 1 },
+      { name: "Cornstarch", level: 2 },
+      { name: "Brown sugar", level: 2 },
+      { name: "Apple cider vinegar", level: 2 },
+      { name: "Baking powder", level: 2 },
+      { name: "Baking soda", level: 2 },
+      { name: "Powdered milk", level: 3 },
+      { name: "Shelf-stable milk", level: 3 },
+      { name: "Powdered buttermilk", level: 3 },
+      { name: "Shelf-stable ghee", level: 3 },
     ],
   },
   {
     group: "Sauces & Condiments",
     items: [
-      "Soy sauce",
-      "Worcestershire sauce",
-      "Ketchup",
-      "Mustard",
-      "Mayonnaise",
-      "BBQ sauce",
-      "Hot sauce",
-      "Salsa",
-      "Honey",
-      "Maple syrup",
+      { name: "Soy sauce", level: 1 },
+      { name: "Ketchup", level: 1 },
+      { name: "Mustard", level: 1 },
+      { name: "BBQ sauce", level: 1 },
+      { name: "Salsa", level: 1 },
+      { name: "Hot sauce", level: 2 },
+      { name: "Worcestershire sauce", level: 2 },
+      { name: "Honey", level: 2 },
+      { name: "Maple syrup", level: 2 },
+      { name: "No-sugar-added BBQ sauce", level: 3 },
+      { name: "No-sugar-added ketchup", level: 3 },
+      { name: "Lower-sodium soy sauce", level: 3 },
+      { name: "Teriyaki sauce", level: 3 },
+      { name: "Buffalo sauce", level: 3 },
     ],
   },
   {
     group: "Rice, Pasta & Grains",
     items: [
-      "White rice",
-      "Brown rice",
-      "Pasta",
-      "Egg noodles",
-      "Breadcrumbs",
-      "Rolled oats",
-      "Tortillas",
-      "Crackers",
+      { name: "White rice", level: 1 },
+      { name: "Pasta", level: 1 },
+      { name: "Egg noodles", level: 1 },
+      { name: "Breadcrumbs", level: 1 },
+      { name: "Rolled oats", level: 2 },
+      { name: "Brown rice", level: 2 },
+      { name: "Jasmine rice", level: 2 },
+      { name: "Tortillas", level: 2 },
+      { name: "Crackers", level: 2 },
+      { name: "Microwave rice cups", level: 3 },
+      { name: "Higher-protein pasta", level: 3 },
+      { name: "Low-carb tortillas", level: 3 },
+      { name: "Shelf-stable cauliflower rice", level: 3 },
     ],
   },
   {
     group: "Canned & Jarred Goods",
     items: [
-      "Chicken broth",
-      "Beef broth",
-      "Cream of chicken soup",
-      "Cream of mushroom soup",
-      "Diced tomatoes",
-      "Tomato sauce",
-      "Tomato paste",
-      "Black beans",
-      "Pinto beans",
-      "Corn",
+      { name: "Chicken broth", level: 1 },
+      { name: "Beef broth", level: 1 },
+      { name: "Cream of chicken soup", level: 1 },
+      { name: "Cream of mushroom soup", level: 1 },
+      { name: "Diced tomatoes", level: 1 },
+      { name: "Tomato sauce", level: 1 },
+      { name: "Tomato paste", level: 2 },
+      { name: "Black beans", level: 2 },
+      { name: "Pinto beans", level: 2 },
+      { name: "Corn", level: 2 },
+      { name: "Green beans", level: 2 },
+      { name: "Tuna packets or cans", level: 3 },
+      { name: "Chicken packets or cans", level: 3 },
+      { name: "No-sugar-added marinara", level: 3 },
+      { name: "Enchilada sauce", level: 3 },
+      { name: "Diced green chiles", level: 3 },
     ],
   },
   {
-    group: "Freezer & Refrigerator Basics",
+    group: "Shelf-Stable Baking & Breakfast",
     items: [
-      "Frozen vegetables",
-      "Frozen broccoli",
-      "Frozen corn",
-      "Shredded cheese",
-      "Eggs",
-      "Milk",
-      "Sour cream",
-      "Cream cheese",
-      "Parmesan cheese",
+      { name: "Pancake mix", level: 2 },
+      { name: "Muffin mix", level: 2 },
+      { name: "Cake mix", level: 2 },
+      { name: "Vanilla extract", level: 2 },
+      { name: "Protein powder", level: 3 },
+      { name: "Almond flour", level: 3 },
+      { name: "Sugar-free pudding mix", level: 3 },
+      { name: "No-sugar-added pie filling", level: 3 },
+      { name: "Shelf-stable applesauce cups", level: 3 },
+    ],
+  },
+  {
+    group: "Freezer Meal & Storage Supplies",
+    items: [
+      { name: "Quart freezer bags", level: 1 },
+      { name: "Gallon freezer bags", level: 1 },
+      { name: "Permanent marker", level: 1 },
+      { name: "Painter's tape", level: 2 },
+      { name: "Foil pans", level: 2 },
+      { name: "Heavy-duty foil", level: 2 },
+      { name: "Parchment paper", level: 2 },
+      { name: "Vacuum sealer bags", level: 3 },
+      { name: "Freezer labels", level: 3 },
+      { name: "Disposable soup containers", level: 3 },
+      { name: "Meal-prep containers", level: 3 },
     ],
   },
 ];
@@ -209,35 +271,53 @@ const PANTRY_MATCHERS = [
   { pantry: "Chili powder", terms: ["chili powder"] },
   { pantry: "Italian seasoning", terms: ["italian seasoning"] },
   { pantry: "Dried oregano", terms: ["oregano"] },
+  { pantry: "Ground cumin", terms: ["cumin"] },
   { pantry: "Cinnamon", terms: ["cinnamon"] },
   { pantry: "Taco seasoning", terms: ["taco seasoning"] },
+  { pantry: "Cajun seasoning", terms: ["cajun seasoning"] },
+  { pantry: "Lemon pepper", terms: ["lemon pepper"] },
+  { pantry: "Smoked paprika", terms: ["smoked paprika"] },
+  { pantry: "Red pepper flakes", terms: ["red pepper flakes"] },
   { pantry: "Olive oil", terms: ["olive oil"] },
   { pantry: "Vegetable oil", terms: ["vegetable oil", "oil"] },
   { pantry: "Cooking spray", terms: ["cooking spray"] },
-  { pantry: "Butter", terms: ["butter"] },
   { pantry: "White vinegar", terms: ["white vinegar", "vinegar"] },
   { pantry: "Apple cider vinegar", terms: ["apple cider vinegar"] },
   { pantry: "Flour", terms: ["flour"] },
   { pantry: "Cornstarch", terms: ["cornstarch"] },
   { pantry: "Sugar", terms: ["sugar"] },
   { pantry: "Brown sugar", terms: ["brown sugar"] },
+  { pantry: "Baking powder", terms: ["baking powder"] },
+  { pantry: "Baking soda", terms: ["baking soda"] },
+  { pantry: "Powdered milk", terms: ["powdered milk"] },
+  { pantry: "Shelf-stable milk", terms: ["shelf stable milk", "shelf-stable milk"] },
+  { pantry: "Powdered buttermilk", terms: ["powdered buttermilk"] },
+  { pantry: "Shelf-stable ghee", terms: ["ghee", "shelf-stable ghee"] },
   { pantry: "Soy sauce", terms: ["soy sauce"] },
+  { pantry: "Lower-sodium soy sauce", terms: ["lower-sodium soy sauce", "lower sodium soy sauce"] },
   { pantry: "Worcestershire sauce", terms: ["worcestershire"] },
   { pantry: "Ketchup", terms: ["ketchup"] },
+  { pantry: "No-sugar-added ketchup", terms: ["no-sugar-added ketchup", "no sugar added ketchup"] },
   { pantry: "Mustard", terms: ["mustard"] },
-  { pantry: "Mayonnaise", terms: ["mayonnaise", "mayo"] },
   { pantry: "BBQ sauce", terms: ["bbq sauce", "barbecue sauce"] },
+  { pantry: "No-sugar-added BBQ sauce", terms: ["no-sugar-added bbq sauce", "no sugar added bbq sauce", "lower-sugar bbq sauce", "lower sugar bbq sauce"] },
   { pantry: "Hot sauce", terms: ["hot sauce"] },
   { pantry: "Salsa", terms: ["salsa"] },
+  { pantry: "Teriyaki sauce", terms: ["teriyaki sauce"] },
+  { pantry: "Buffalo sauce", terms: ["buffalo sauce"] },
   { pantry: "Honey", terms: ["honey"] },
   { pantry: "Maple syrup", terms: ["maple syrup"] },
   { pantry: "White rice", terms: ["white rice", "rice"] },
   { pantry: "Brown rice", terms: ["brown rice"] },
+  { pantry: "Jasmine rice", terms: ["jasmine rice"] },
+  { pantry: "Microwave rice cups", terms: ["microwave rice cups", "rice cups", "ready rice"] },
   { pantry: "Pasta", terms: ["pasta", "spaghetti", "penne", "fettuccine"] },
+  { pantry: "Higher-protein pasta", terms: ["higher-protein pasta", "high protein pasta", "protein pasta"] },
   { pantry: "Egg noodles", terms: ["egg noodles"] },
   { pantry: "Breadcrumbs", terms: ["breadcrumbs", "bread crumbs"] },
   { pantry: "Rolled oats", terms: ["oats", "rolled oats"] },
   { pantry: "Tortillas", terms: ["tortilla", "tortillas"] },
+  { pantry: "Low-carb tortillas", terms: ["low-carb tortilla", "low carb tortilla", "low-carb flour tortillas"] },
   { pantry: "Crackers", terms: ["crackers"] },
   { pantry: "Chicken broth", terms: ["chicken broth"] },
   { pantry: "Beef broth", terms: ["beef broth"] },
@@ -249,15 +329,20 @@ const PANTRY_MATCHERS = [
   { pantry: "Black beans", terms: ["black beans"] },
   { pantry: "Pinto beans", terms: ["pinto beans"] },
   { pantry: "Corn", terms: ["corn"] },
-  { pantry: "Frozen vegetables", terms: ["frozen vegetables", "mixed vegetables"] },
-  { pantry: "Frozen broccoli", terms: ["frozen broccoli"] },
-  { pantry: "Frozen corn", terms: ["frozen corn"] },
-  { pantry: "Shredded cheese", terms: ["shredded cheese", "cheese"] },
-  { pantry: "Eggs", terms: ["eggs"] },
-  { pantry: "Milk", terms: ["milk"] },
-  { pantry: "Sour cream", terms: ["sour cream"] },
-  { pantry: "Cream cheese", terms: ["cream cheese"] },
-  { pantry: "Parmesan cheese", terms: ["parmesan"] },
+  { pantry: "Green beans", terms: ["green beans"] },
+  { pantry: "Tuna packets or cans", terms: ["tuna", "tuna packets", "tuna cans"] },
+  { pantry: "Chicken packets or cans", terms: ["canned chicken", "chicken packets"] },
+  { pantry: "No-sugar-added marinara", terms: ["no-sugar-added marinara", "no sugar added marinara", "marinara"] },
+  { pantry: "Enchilada sauce", terms: ["enchilada sauce"] },
+  { pantry: "Diced green chiles", terms: ["diced green chiles", "green chiles"] },
+  { pantry: "Protein powder", terms: ["protein powder"] },
+  { pantry: "Almond flour", terms: ["almond flour"] },
+  { pantry: "Quart freezer bags", terms: ["quart freezer bags", "freezer bags"] },
+  { pantry: "Gallon freezer bags", terms: ["gallon freezer bags"] },
+  { pantry: "Vacuum sealer bags", terms: ["vacuum sealer bags", "vacuum seal bags"] },
+  { pantry: "Freezer labels", terms: ["freezer labels", "labels"] },
+  { pantry: "Painter's tape", terms: ["painter's tape", "painters tape"] },
+  { pantry: "Meal-prep containers", terms: ["meal prep containers", "storage containers"] },
 ];
 
 
@@ -2105,16 +2190,31 @@ function ServingSelector({ servings, setServings }) {
 }
 
 function PantryStaplesPage({ pantry, setPantry }) {
-  const totalStaples = PANTRY_STAPLES.reduce(
+  const [selectedPantryLevel, setSelectedPantryLevel] = useState(1);
+  const selectedLevelInfo =
+    PANTRY_LEVELS.find((level) => level.id === selectedPantryLevel) ||
+    PANTRY_LEVELS[0];
+
+  const visiblePantryGroups = PANTRY_STAPLES.map((group) => ({
+    ...group,
+    items: group.items.filter((item) => item.level <= selectedPantryLevel),
+  })).filter((group) => group.items.length > 0);
+
+  const totalStaples = visiblePantryGroups.reduce(
     (sum, group) => sum + group.items.length,
     0
   );
-  const checkedCount = Object.values(pantry).filter(Boolean).length;
+
+  const checkedCount = visiblePantryGroups.reduce(
+    (sum, group) =>
+      sum + group.items.filter((item) => pantry[item.name]).length,
+    0
+  );
 
   function togglePantryItem(item) {
     setPantry((current) => ({
       ...current,
-      [item]: !current[item],
+      [item.name]: !current[item.name],
     }));
   }
 
@@ -2122,30 +2222,14 @@ function PantryStaplesPage({ pantry, setPantry }) {
     setPantry({});
   }
 
-  function checkCommonStaples() {
-    const commonStaples = [
-      "Salt",
-      "Black pepper",
-      "Garlic powder",
-      "Onion powder",
-      "Olive oil",
-      "Vegetable oil",
-      "Butter",
-      "Flour",
-      "Sugar",
-      "Soy sauce",
-      "Ketchup",
-      "Mustard",
-      "White rice",
-      "Pasta",
-      "Chicken broth",
-      "Eggs",
-      "Milk",
-    ];
+  function checkLevelStaples(level = selectedPantryLevel) {
+    const levelItems = PANTRY_STAPLES.flatMap((group) =>
+      group.items.filter((item) => item.level <= level).map((item) => item.name)
+    );
 
     setPantry((current) => {
       const next = { ...current };
-      commonStaples.forEach((item) => {
+      levelItems.forEach((item) => {
         next[item] = true;
       });
       return next;
@@ -2156,26 +2240,50 @@ function PantryStaplesPage({ pantry, setPantry }) {
     <main className="pageShell pantryPage">
       <div className="pageHeader">
         <div>
-          <div className="aiBadge">SMART SHOPPING LIST SETUP</div>
+          <div className="aiBadge">SHELF-STABLE PANTRY SETUP</div>
           <h1>PANTRY STAPLES</h1>
           <p>
-            Check off the staples you already keep in stock. Matching items will
-            show as already in pantry on your shopping list and will not be added
-            to your grocery total.
+            Choose a pantry level and check off shelf-stable products you already
+            keep on hand. Each level builds on the one before it.
           </p>
         </div>
 
         <div className="totalBox">
-          <small>Marked In Stock</small>
+          <small>{selectedLevelInfo.shortLabel} Stocked</small>
           <strong>
             {checkedCount}/{totalStaples}
           </strong>
         </div>
       </div>
 
+      <div className="pantryLevelTabs" role="tablist" aria-label="Pantry staple level">
+        {PANTRY_LEVELS.map((level) => (
+          <button
+            key={level.id}
+            type="button"
+            className={selectedPantryLevel === level.id ? "active" : ""}
+            onClick={() => setSelectedPantryLevel(level.id)}
+          >
+            <span>Level {level.id}</span>
+            <strong>{level.shortLabel}</strong>
+          </button>
+        ))}
+      </div>
+
+      <div className="pantryLevelSummary">
+        <div>
+          <h2>{selectedLevelInfo.label}</h2>
+          <p>{selectedLevelInfo.description}</p>
+        </div>
+        <span>All items shown are shelf-stable.</span>
+      </div>
+
       <div className="pantryActions">
-        <button className="primary" onClick={checkCommonStaples}>
-          Check common staples
+        <button className="primary" onClick={() => checkLevelStaples(selectedPantryLevel)}>
+          Check Level {selectedPantryLevel}
+        </button>
+        <button className="secondary" onClick={() => checkLevelStaples(1)}>
+          Check Minimum
         </button>
         <button className="secondary" onClick={clearPantry}>
           Clear pantry checks
@@ -2183,21 +2291,22 @@ function PantryStaplesPage({ pantry, setPantry }) {
       </div>
 
       <div className="pantryGrid">
-        {PANTRY_STAPLES.map((group) => (
+        {visiblePantryGroups.map((group) => (
           <section className="pantryGroup" key={group.group}>
             <h2>{group.group}</h2>
 
             {group.items.map((item) => (
               <label
-                key={item}
-                className={pantry[item] ? "pantryItem checked" : "pantryItem"}
+                key={item.name}
+                className={pantry[item.name] ? "pantryItem checked" : "pantryItem"}
               >
                 <input
                   type="checkbox"
-                  checked={!!pantry[item]}
+                  checked={!!pantry[item.name]}
                   onChange={() => togglePantryItem(item)}
                 />
-                <span>{item}</span>
+                <span>{item.name}</span>
+                <em>Level {item.level}</em>
               </label>
             ))}
           </section>
@@ -2206,6 +2315,7 @@ function PantryStaplesPage({ pantry, setPantry }) {
     </main>
   );
 }
+
 
 function ShoppingListPage({ plan, checked, setChecked, servings, pantry, setActivePage }) {
   const list = useMemo(

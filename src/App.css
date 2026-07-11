@@ -4743,3 +4743,113 @@ th {
     font-size: 10px !important;
   }
 }
+
+
+/* ================================
+   THREE-LEVEL SHELF-STABLE PANTRY UPDATE
+   Minimum / Medium / Fully Stocked pantry levels.
+   ================================ */
+
+.pantryLevelTabs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: -8px 0 14px;
+}
+
+.pantryLevelTabs button {
+  min-height: 70px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #ffffff;
+  color: #111827;
+  display: grid;
+  gap: 3px;
+  place-items: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .035);
+}
+
+.pantryLevelTabs button span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+
+.pantryLevelTabs button strong {
+  font-size: 18px;
+  color: #111827;
+}
+
+.pantryLevelTabs button.active {
+  border-color: var(--green);
+  background: #f5fbf5;
+  box-shadow: 0 8px 24px rgba(20, 83, 45, .08);
+}
+
+.pantryLevelTabs button.active strong {
+  color: var(--green);
+}
+
+.pantryLevelSummary {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 16px;
+  padding: 16px 18px;
+  border: 1px solid #d9eadc;
+  border-radius: 14px;
+  background: #f7fcf8;
+}
+
+.pantryLevelSummary h2 {
+  margin: 0 0 5px;
+  color: var(--green);
+  font-size: 22px;
+}
+
+.pantryLevelSummary p {
+  margin: 0;
+  color: #374151;
+  line-height: 1.35;
+}
+
+.pantryLevelSummary > span {
+  color: var(--green);
+  font-size: 13px;
+  font-weight: 850;
+  white-space: nowrap;
+}
+
+.pantryItem {
+  grid-template-columns: 24px minmax(0, 1fr) auto;
+}
+
+.pantryItem em {
+  color: #6b7280;
+  font-style: normal;
+  font-size: 11px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.pantryItem.checked em {
+  color: var(--green);
+}
+
+@media (max-width: 760px) {
+  .pantryLevelTabs {
+    grid-template-columns: 1fr;
+  }
+
+  .pantryLevelSummary {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .pantryLevelSummary > span {
+    white-space: normal;
+  }
+}
