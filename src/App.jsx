@@ -3,8 +3,6 @@ import { categories, recipes } from "./data/recipes";
 import { loadJSON, saveJSON } from "./utils/storage";
 import {
   buildShoppingList,
-  planCost,
-  scaleCost,
   formatQty,
 } from "./utils/planning";
 import "./App.css";
@@ -444,7 +442,6 @@ function Header({ activePage, setActivePage }) {
       items: [
         { label: "Shopping Lists", page: "Shopping Lists" },
         { label: "Pantry Staples", page: "Pantry Staples" },
-        { label: "Cost Estimator", page: "Cost Estimator" },
       ],
     },
     {
@@ -565,7 +562,7 @@ function Hero({ setActivePage }) {
           <br />
           build weekly meal plans, create smart shopping lists,
           <br />
-          and estimate food costs.
+          and track pantry staples.
         </p>
 
         <div className="heroButtons">
@@ -1634,7 +1631,6 @@ function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFa
   }, [selectedCategory]);
 
   const totalMeals = plannedMealCount(normalizedPlan);
-  const estimatedTotal = planCost(normalizedPlan, recipes, servings);
 
   function addRecipe(recipeId, slotKey = selectedSlot) {
     if (!recipeId || !slotKey) return;
@@ -1798,9 +1794,6 @@ function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFa
                                   <small>
                                     {recipe.id} · {recipe.category} · {recipe.time} min · {servings} servings
                                   </small>
-                                  <small>
-                                    Est. ${scaleCost(recipe, servings).toFixed(2)}
-                                  </small>
                                 </div>
 
                                 <div className="plannerMealActions">
@@ -1853,11 +1846,12 @@ function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFa
             <span>planned meals</span>
           </section>
 
-          <section className="plannerSideCard plannerStatCard">
-            <h2>Estimated Cost</h2>
-            <small>For both weeks</small>
-            <strong>${estimatedTotal.toFixed(2)}</strong>
-            <span>{servings} servings per meal</span>
+          <section className="plannerSideCard">
+            <h2>Planning Tip</h2>
+            <p className="plannerSideNote">
+              Use your two-week plan to build a focused shopping list and avoid
+              buying duplicate pantry staples.
+            </p>
           </section>
         </aside>
       </div>
@@ -2010,8 +2004,6 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, setActi
     };
   }, {});
 
-  const total = needed.reduce((sum, item) => sum + item.cost, 0);
-
   function toggleItem(key) {
     setChecked((current) => ({
       ...current,
@@ -2037,7 +2029,6 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, setActi
         <small>
           {formatQty(item.qty)} {item.unit}
         </small>
-        <em>${item.cost.toFixed(2)}</em>
       </label>
     );
   }
@@ -2052,7 +2043,6 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, setActi
         <small>
           {formatQty(item.qty)} {item.unit}
         </small>
-        <em>In pantry</em>
       </div>
     );
   }
@@ -2069,10 +2059,7 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, setActi
           </p>
         </div>
 
-        <div className="totalBox">
-          <small>Needed Items Total</small>
-          <strong>${total.toFixed(2)}</strong>
-        </div>
+
       </div>
 
       {list.length === 0 ? (
@@ -2143,89 +2130,6 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, setActi
           </section>
         </div>
       )}
-    </main>
-  );
-}
-
-function CostEstimatorPage({ plan, servings, setServings }) {
-  const selected = Object.entries(plan)
-    .flatMap(([day, ids]) =>
-      ids.map((id) => ({
-        day,
-        recipe: recipes.find((r) => r.id === id),
-      }))
-    )
-    .filter((x) => x.recipe);
-
-  const totals = [2, 4, 6].map((n) => ({
-    servings: n,
-    total: planCost(plan, recipes, n),
-  }));
-
-  return (
-    <main className="pageShell">
-      <div className="pageHeader">
-        <div>
-          <div className="aiBadge">TWO-WEEK COST ESTIMATOR</div>
-          <h1>Estimated food costs</h1>
-          <p>
-            Compare approximate two-week totals for servings of 2, 4, and 6. Actual
-            grocery prices may vary.
-          </p>
-        </div>
-
-        <ServingSelector servings={servings} setServings={setServings} />
-      </div>
-
-      <div className="costCards">
-        {totals.map((t) => (
-          <div
-            className={
-              servings === t.servings ? "costCard selected" : "costCard"
-            }
-            key={t.servings}
-          >
-            <small>{t.servings} servings</small>
-            <strong>${t.total.toFixed(2)}</strong>
-            <span>{selected.length || 0} planned meals</span>
-          </div>
-        ))}
-      </div>
-
-      <section className="costTable">
-        <h2>Meal cost details</h2>
-
-        {selected.length === 0 ? (
-          <EmptyState
-            title="No meals selected"
-            text="Add recipes to your meal planner to estimate costs."
-          />
-        ) : (
-          <table>
-            <thead>
-              <tr>
-                <th>Day</th>
-                <th>Recipe</th>
-                <th>2 servings</th>
-                <th>4 servings</th>
-                <th>6 servings</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {selected.map(({ day, recipe }, i) => (
-                <tr key={`${day}-${recipe.id}-${i}`}>
-                  <td>{plannerSlotLabel(day)}</td>
-                  <td>{recipe.title}</td>
-                  <td>${scaleCost(recipe, 2).toFixed(2)}</td>
-                  <td>${scaleCost(recipe, 4).toFixed(2)}</td>
-                  <td>${scaleCost(recipe, 6).toFixed(2)}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
-      </section>
     </main>
   );
 }
@@ -2360,7 +2264,7 @@ function AboutPage() {
           <p>
             Robert’s Recipe Box is a practical recipe planning library. Recipes
             and collections are AI-generated to help users browse ideas, plan
-            meals, build shopping lists, and estimate costs.
+            meals, build shopping lists, and track pantry staples.
           </p>
         </div>
       </div>
@@ -2405,8 +2309,8 @@ function FeatureStrip() {
       text: "Create custom shopping lists from your private meal plan.",
     },
     {
-      title: "Grocery Store List",
-      text: "Estimate your grocery costs from your weekly menu.",
+      title: "Pantry Staples",
+      text: "Track what you already have before building your shopping list.",
     },
     {
       title: "Recommendations",
@@ -2511,7 +2415,6 @@ export default function App() {
       {activePage === "Meal Planner" && <PlannerPage {...pageProps} />}
       {activePage === "Shopping Lists" && <ShoppingListPage {...pageProps} />}
       {activePage === "Pantry Staples" && <PantryStaplesPage {...pageProps} />}
-      {activePage === "Cost Estimator" && <CostEstimatorPage {...pageProps} />}
       {activePage === "Favorites" && <FavoritesPage {...pageProps} />}
       {activePage === "Recommendations" && <RecommendationsPage />}
       {activePage === "About" && <AboutPage />}

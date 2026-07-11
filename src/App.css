@@ -4216,3 +4216,24 @@ th {
     transform: translateY(-2px);
   }
 }
+
+
+/* ================================
+   REMOVE COST ESTIMATOR UPDATE
+   Keeps planning/shopping simple and hides cost displays.
+   ================================ */
+
+.shoppingItem {
+  grid-template-columns: 24px 1fr auto;
+}
+
+.pantryShoppingItem {
+  grid-template-columns: 24px 1fr auto;
+}
+
+.plannerSideNote {
+  margin: 0;
+  color: #374151;
+  line-height: 1.4;
+  font-size: 14px;
+}
