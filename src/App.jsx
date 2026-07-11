@@ -388,6 +388,7 @@ function recipeImageCandidates(recipe) {
   if (recipe.id && AUTO_IMAGE_PREFIXES.has(prefix)) {
     candidates.push(`images/heroes/${recipe.id}.png`);
     candidates.push(`images/recipes/${recipe.id}.png`);
+    candidates.push(`images/recipes/${recipe.id} .png`);
   }
 
   return [...new Set(candidates)];
@@ -408,6 +409,7 @@ function fullCardImageCandidates(recipe) {
 
   if (recipe.id && AUTO_IMAGE_PREFIXES.has(prefix)) {
     candidates.push(`images/recipes/${recipe.id}.png`);
+    candidates.push(`images/recipes/${recipe.id} .png`);
   }
 
   if (recipe.heroImage) {

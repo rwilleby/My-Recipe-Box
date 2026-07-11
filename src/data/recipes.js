@@ -591,6 +591,6 @@ const categoryCounts = recipes.reduce((counts, recipe) => {
 export const categories = baseCategories.map((category) => ({
   ...category,
   count: categoryCounts[category.id] || 0,
-});
+}));
 
 export const categoriesWithCounts = categories;

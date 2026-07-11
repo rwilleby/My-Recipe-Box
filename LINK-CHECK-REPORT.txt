@@ -1,0 +1,98 @@
+RECIPE LINK CHECK REPORT
+
+Critical fixes made:
+1. Fixed syntax error in src/data/recipes.js.
+2. Added SG fallback image paths in src/App.jsx:
+   images/recipes/SG-001.png
+   images/recipes/SG-001 .png
+   images/heroes/SG-001.png
+
+Why SG was showing hero images:
+Your recipes folder contains SG card filenames with a space before .png.
+The code was looking for SG-001.png, not SG-001 .png, so it fell through to the hero image.
+
+SG filenames matched by the new fallback:
+SG-001
+SG-002
+SG-003
+SG-004
+SG-005
+SG-008
+SG-009
+SG-010
+SG-011
+SG-012
+SG-013
+SG-014
+SG-015
+SG-016
+
+Category icon status:
+App.jsx points to images/categories/CODE.png.
+categories.rtf filename entries found: 21
+icons.rtf filename entries found: 21
+
+Counts:
+recipeRows in recipes.js: 376
+recipe image filenames found in recipes.rtf: 394
+hero image filenames found in Heroes.rtf: 382
+
+Recipe rows with no exact recipe-card image filename:
+SG-001
+SG-002
+SG-003
+SG-004
+SG-005
+SG-008
+SG-009
+SG-010
+SG-011
+SG-012
+SG-013
+SG-014
+SG-015
+SG-016
+
+Recipe rows with no recipe image even after space fallback:
+None
+
+Recipe image files that do not have recipeRows:
+MX-001.png
+MX-002.png
+MX-003.png
+MX-004.png
+MX-005.png
+MX-006.png
+MX-007.png
+MX-008.png
+MX-009.png
+MX-010.png
+MX-011.png
+MX-012.png
+MX-013.png
+MX-014.png
+MX-015.png
+MX-016.png
+MX-017.png
+MX-018.png
+
+Hero images missing for recipeRows:
+CO-001
+CO-002
+CO-003
+CO-004
+CO-005
+CO-006
+PM-002
+PM-003
+PM-004
+PM-005
+PM-006
+PM-007
+PM-008
+PM-009
+PM-010
+PM-011
+PM-012
+PM-013
+PM-014
