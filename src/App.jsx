@@ -615,8 +615,8 @@ const HERO_IMAGES = [
 
 const ABOUT_STORY_PHOTOS = [
   {
-    src: "images/about/robert-pete-stairs.jpg",
-    alt: "Robert sitting on the stairs with Pete beside him",
+    src: "images/about/robert-pete-puppy2.jpg",
+    alt: "Robert holding Pete as a small puppy",
   },
   {
     src: "images/about/robert-pete-pool.jpg",
