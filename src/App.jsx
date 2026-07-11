@@ -605,12 +605,12 @@ const AUTO_IMAGE_PREFIXES = new Set([
 ]);
 
 const HERO_IMAGES = [
-  "images/heroes/hero-grill-wide.png",
-  "images/heroes/hero-pasta-wide.png",
-  "images/heroes/hero-salad-wide.png",
-  "images/heroes/hero-brisket-wide.png",
-  "images/heroes/hero-cake-wide.png",
-  "images/heroes/hero-shrimp-wide.png",
+  "images/thumbs/heroes/hero-grill-wide.jpg",
+  "images/thumbs/heroes/hero-pasta-wide.jpg",
+  "images/thumbs/heroes/hero-salad-wide.jpg",
+  "images/thumbs/heroes/hero-brisket-wide.jpg",
+  "images/thumbs/heroes/hero-cake-wide.jpg",
+  "images/thumbs/heroes/hero-shrimp-wide.jpg",
 ];
 const WEEK_DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
@@ -675,6 +675,14 @@ function recipeCodePrefix(recipeId = "") {
 
 function recipeImageCandidates(recipe) {
   const candidates = [];
+  const prefix = recipeCodePrefix(recipe.id);
+
+  if (recipe.id && AUTO_IMAGE_PREFIXES.has(prefix)) {
+    candidates.push(`images/thumbs/heroes/${recipe.id}.jpg`);
+    candidates.push(`images/thumbs/heroes/${recipe.id} .jpg`);
+    candidates.push(`images/thumbs/recipes/${recipe.id}.jpg`);
+    candidates.push(`images/thumbs/recipes/${recipe.id} .jpg`);
+  }
 
   if (recipe.heroImage) {
     candidates.push(recipe.heroImage);
@@ -684,10 +692,9 @@ function recipeImageCandidates(recipe) {
     candidates.push(recipe.image);
   }
 
-  const prefix = recipeCodePrefix(recipe.id);
-
   if (recipe.id && AUTO_IMAGE_PREFIXES.has(prefix)) {
     candidates.push(`images/heroes/${recipe.id}.png`);
+    candidates.push(`images/heroes/${recipe.id} .png`);
     candidates.push(`images/recipes/${recipe.id}.png`);
     candidates.push(`images/recipes/${recipe.id} .png`);
   }
@@ -695,8 +702,14 @@ function recipeImageCandidates(recipe) {
   return [...new Set(candidates)];
 }
 
-function fullCardImageCandidates(recipe) {
+function previewCardImageCandidates(recipe) {
   const candidates = [];
+  const prefix = recipeCodePrefix(recipe.id);
+
+  if (recipe.id && AUTO_IMAGE_PREFIXES.has(prefix)) {
+    candidates.push(`images/thumbs/recipes/${recipe.id}.jpg`);
+    candidates.push(`images/thumbs/recipes/${recipe.id} .jpg`);
+  }
 
   if (recipe.cardImage) {
     candidates.push(recipe.cardImage);
@@ -706,8 +719,6 @@ function fullCardImageCandidates(recipe) {
     candidates.push(recipe.image);
   }
 
-  const prefix = recipeCodePrefix(recipe.id);
-
   if (recipe.id && AUTO_IMAGE_PREFIXES.has(prefix)) {
     candidates.push(`images/recipes/${recipe.id}.png`);
     candidates.push(`images/recipes/${recipe.id} .png`);
@@ -719,6 +730,41 @@ function fullCardImageCandidates(recipe) {
 
   if (recipe.id && AUTO_IMAGE_PREFIXES.has(prefix)) {
     candidates.push(`images/heroes/${recipe.id}.png`);
+    candidates.push(`images/heroes/${recipe.id} .png`);
+  }
+
+  return [...new Set(candidates)];
+}
+
+function fullCardImageCandidates(recipe) {
+  const candidates = [];
+  const prefix = recipeCodePrefix(recipe.id);
+
+  if (recipe.cardImage) {
+    candidates.push(recipe.cardImage);
+  }
+
+  if (recipe.image) {
+    candidates.push(recipe.image);
+  }
+
+  if (recipe.id && AUTO_IMAGE_PREFIXES.has(prefix)) {
+    candidates.push(`images/recipes/${recipe.id}.png`);
+    candidates.push(`images/recipes/${recipe.id} .png`);
+  }
+
+  if (recipe.id && AUTO_IMAGE_PREFIXES.has(prefix)) {
+    candidates.push(`images/thumbs/recipes/${recipe.id}.jpg`);
+    candidates.push(`images/thumbs/recipes/${recipe.id} .jpg`);
+  }
+
+  if (recipe.heroImage) {
+    candidates.push(recipe.heroImage);
+  }
+
+  if (recipe.id && AUTO_IMAGE_PREFIXES.has(prefix)) {
+    candidates.push(`images/heroes/${recipe.id}.png`);
+    candidates.push(`images/heroes/${recipe.id} .png`);
   }
 
   return [...new Set(candidates)];
@@ -849,6 +895,10 @@ function Hero({ setActivePage }) {
             className={index === heroIndex ? "heroRotatorImage active" : "heroRotatorImage"}
             src={`${import.meta.env.BASE_URL}${imagePath}`}
             alt=""
+            decoding="async"
+            onError={(event) => {
+              event.currentTarget.style.display = "none";
+            }}
           />
         ))}
       </div>
@@ -949,6 +999,8 @@ function CategoryGrid({ setFilter, setActivePage }) {
               src={`${import.meta.env.BASE_URL}${cat.iconImage}`}
               alt=""
               aria-hidden="true"
+              loading="lazy"
+              decoding="async"
               onError={(event) => {
                 event.currentTarget.style.display = "none";
                 const fallback = event.currentTarget.nextElementSibling;
@@ -981,6 +1033,8 @@ function RecipeImage({ recipe }) {
         <img
           src={`${import.meta.env.BASE_URL}${imagePath}`}
           alt={recipe.title}
+          loading="lazy"
+          decoding="async"
           onError={() => setImageIndex((current) => current + 1)}
         />
       </div>
@@ -995,7 +1049,7 @@ function RecipeImage({ recipe }) {
 }
 
 function FullRecipeCardPreview({ recipe, onOpen }) {
-  const candidates = fullCardImageCandidates(recipe);
+  const candidates = previewCardImageCandidates(recipe);
   const [imageIndex, setImageIndex] = useState(0);
   const imagePath = candidates[imageIndex];
 
@@ -1013,6 +1067,8 @@ function FullRecipeCardPreview({ recipe, onOpen }) {
         <img
           src={`${import.meta.env.BASE_URL}${imagePath}`}
           alt={`${recipe.id} ${recipe.title} recipe card`}
+          loading="lazy"
+          decoding="async"
           onError={() => setImageIndex((current) => current + 1)}
         />
       </button>
@@ -1356,6 +1412,7 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
               <img
                 src={`${import.meta.env.BASE_URL}${imagePath}`}
                 alt={`${recipe.id} ${recipe.title} recipe card`}
+                decoding="async"
                 onError={() => setImageIndex((current) => current + 1)}
               />
             ) : (
@@ -1499,7 +1556,7 @@ function RecipeRolodex({ openRecipeCard }) {
   }, [selectedCategory]);
 
   const activeRecipe = rolodexRecipes[activeIndex] || rolodexRecipes[0];
-  const imageCandidates = activeRecipe ? fullCardImageCandidates(activeRecipe) : [];
+  const imageCandidates = activeRecipe ? previewCardImageCandidates(activeRecipe) : [];
   const imagePath = imageCandidates[imageIndex];
 
   useEffect(() => {
@@ -1596,6 +1653,8 @@ function RecipeRolodex({ openRecipeCard }) {
           src={`${import.meta.env.BASE_URL}images/ui/hero-rolodex-.png`}
           alt=""
           aria-hidden="true"
+          loading="lazy"
+          decoding="async"
         />
 
         <button
@@ -1615,6 +1674,8 @@ function RecipeRolodex({ openRecipeCard }) {
             <img
               src={`${import.meta.env.BASE_URL}${imagePath}`}
               alt={`${activeRecipe.id} ${activeRecipe.title} recipe card`}
+              loading="lazy"
+              decoding="async"
               onError={() => setImageIndex((current) => current + 1)}
             />
           ) : (

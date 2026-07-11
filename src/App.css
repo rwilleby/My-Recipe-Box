@@ -4853,3 +4853,25 @@ th {
     white-space: normal;
   }
 }
+
+
+/* ================================
+   JPEG THUMBNAILS + HERO JPG UPDATE
+   - Browse/Rolodex previews use public/images/thumbs/*.jpg first.
+   - Homepage hero rotation uses public/images/heroes-jpg/*.jpg.
+   - Full viewer/print/download still prefer public/images/recipes/*.png.
+   ================================ */
+
+.recipeFullCardImage img,
+.homeRolodexCard img,
+.recipeImage img {
+  image-rendering: auto;
+}
+
+
+/* ================================
+   THUMBS SUBFOLDER PATH UPDATE
+   Code now expects:
+   public/images/thumbs/recipes/CODE.jpg
+   public/images/thumbs/heroes/hero-name.jpg
+   ================================ */

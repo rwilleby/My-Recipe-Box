@@ -1,16 +1,18 @@
-THREE-LEVEL SHELF-STABLE PANTRY UPDATE
+THUMBS SUBFOLDER PATH UPDATE
 
 Upload/replace:
 src/App.jsx
 src/App.css
 
-What changed:
-- Pantry Staples now has 3 levels:
-  Level 1: Minimum Pantry
-  Level 2: Medium Pantry
-  Level 3: Fully Stocked Pantry
-- Each level builds on the one before it.
-- All pantry items shown are shelf-stable products.
-- Removed refrigerator/freezer items from the Pantry Staples page.
-- Added level tabs, level summary, item level labels, and Check Level buttons.
-- Pantry matching was updated to use shelf-stable pantry items.
+This version matches your current folder structure:
+public/images/thumbs/heroes/
+public/images/thumbs/recipes/
+
+Browse/Rolodex loads JPEG recipe thumbnails from:
+images/thumbs/recipes/CODE.jpg
+
+Homepage hero rotation loads JPEG hero images from:
+images/thumbs/heroes/hero-name.jpg
+
+Full card viewer/print/download still uses the original PNG recipe cards from:
+images/recipes/CODE.png
