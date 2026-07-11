@@ -954,15 +954,6 @@ function Hero({ setActivePage }) {
           </button>
         </div>
       </div>
-
-      <div className="heroPhoto">
-        <div className="statsCard heroStatsBar">
-          <span>CHOOSE YOUR RECIPES</span>
-          <span>SAVE YOUR FAVORITES</span>
-          <span>PLAN YOUR MEALS</span>
-          <span>MAKE YOUR GROCERY LIST</span>
-        </div>
-      </div>
     </section>
   );
 }
@@ -2655,12 +2646,6 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, setActi
         <div className="pageHeaderActions">
           <button className="primary" onClick={printShoppingList}>
             Print List
-          </button>
-          <button
-            className="secondary"
-            onClick={() => setActivePage("Freezer Tips")}
-          >
-            Freezer Tips
           </button>
           <button
             className="secondary"

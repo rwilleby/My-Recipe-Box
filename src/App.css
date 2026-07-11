@@ -5285,3 +5285,20 @@ th {
     font-size: 28px;
   }
 }
+
+
+/* ================================
+   HERO CLEANUP UPDATE
+   Removes the old right-side CHOOSE/SAVE/PLAN/LIST stats bar
+   and any Freezer Tips button placed over the hero image.
+   ================================ */
+
+.heroPhoto,
+.heroStatsBar,
+.statsCard.heroStatsBar {
+  display: none !important;
+}
+
+.heroButtons {
+  max-width: 560px;
+}
