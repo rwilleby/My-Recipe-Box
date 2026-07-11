@@ -3067,10 +3067,10 @@ function AboutPage({ setActivePage }) {
   }
 
   return (
-    <main className="pageShell aboutPageShell">
-      <section className="aboutHeroSection">
-        <div className="aboutFramePanel">
-          <div className="vintageFrame">
+    <main className="pageShell aboutPageShell aboutPageCompactStory">
+      <section className="aboutCompactLayout">
+        <aside className="aboutFramePanel aboutFramePanelCompact">
+          <div className="vintageFrame vintageFrameCompact">
             <div className="vintageFrameInner">
               <div className="vintagePhotoStage">
                 {ABOUT_STORY_PHOTOS.map((photo, index) => (
@@ -3116,40 +3116,65 @@ function AboutPage({ setActivePage }) {
             ))}
           </div>
 
-          <p className="aboutPhotoCaption">♡ Robert &amp; Pete — always better together.</p>
-        </div>
+          <p className="aboutPhotoCaption">♡ Robert &amp; Pete</p>
+        </aside>
 
-        <div className="aboutStoryCard">
+        <article className="aboutStoryCard aboutStoryCardCompact">
           <div className="aiBadge">ABOUT ROBERT&apos;S RECIPE BOX</div>
 
           <h1>Why I Created Robert’s Recipe Box</h1>
 
-          <div className="aboutDivider" aria-hidden="true">
-            <span />
+          <div className="aboutStoryScroll">
+            <p>
+              I created Robert’s Recipe Box because I saw a need for a simpler,
+              more affordable way for seniors, older couples, empty nesters, and
+              smaller households to plan and prepare their meals.
+            </p>
+
+            <p>
+              Meal-delivery subscriptions can be expensive, while many traditional
+              recipes make far more food than two people need. At the same time,
+              cooking a completely different meal every night can require too much
+              shopping, preparation, cleanup, and time in the kitchen.
+            </p>
+
+            <p>
+              Robert’s Recipe Box is designed to offer another option.
+            </p>
+
+            <p>
+              The goal is to help people find practical recipes, prepare meals in
+              reasonable quantities, enjoy planned leftovers, and freeze extra
+              portions for another day. In many cases, one recipe can provide
+              dinner for two today and a second prepared meal for later.
+            </p>
+
+            <p>
+              The program also helps users organize weekly meal plans, create
+              shopping lists, estimate grocery costs, and find practical ingredient
+              substitutions. The original recipes remain available, while optional
+              lower-calorie, lower-carb, budget-friendly, and freezer-friendly
+              suggestions allow people to adapt meals to fit their own needs.
+            </p>
+
+            <p>
+              Robert’s Recipe Box is intended to remain free to use. The site may
+              recommend kitchen tools, food-storage products, organizers, and
+              selected grocery items through affiliate links. When someone makes a
+              purchase through one of those links, the site may receive a small
+              commission at no additional cost to the shopper. That support helps
+              keep the recipes and planning tools available without requiring a
+              paid subscription.
+            </p>
+
+            <p>
+              This is not about complicated gourmet cooking or spending all day in
+              the kitchen. It is about making everyday meals easier, more
+              affordable, more organized, and better suited to real life.
+            </p>
           </div>
 
-          <p>
-            I created Robert&apos;s Recipe Box to make home cooking easier for
-            seniors, older couples, and anyone who does not need the oversized
-            portions or high cost of meal subscription programs.
-          </p>
-
-          <p>
-            Most recipe sites either assume you are cooking for a crowd or leave
-            you with too much work in the kitchen. I wanted to build a simpler,
-            more practical option — recipes that feel familiar, manageable, and
-            worth making.
-          </p>
-
-          <p>
-            Many of the meals are planned so you can cook once, enjoy a meal
-            now, and freeze another portion for later. My goal is to help
-            people save money, stay organized, and keep good homemade meals on
-            hand with recipe cards, meal planning, shopping lists, and helpful
-            kitchen tips.
-          </p>
-
-          <div className="aboutStoryActions">
+          <div className="aboutStoryActions aboutStoryActionsCompact">
             <button className="primary" onClick={() => setActivePage("Recipes")}>
               ▣ Browse Recipes
             </button>
@@ -3158,7 +3183,7 @@ function AboutPage({ setActivePage }) {
               ▣ Start Meal Planning
             </button>
           </div>
-        </div>
+        </article>
       </section>
     </main>
   );
