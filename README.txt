@@ -1,11 +1,15 @@
-REMOVE HERO STATS / FREEZER BUTTON UPDATE
+MAIN PAGE SIMPLER MEAL PLANNING HERO UPDATE
 
 Upload/replace:
 src/App.jsx
 src/App.css
 
 What changed:
-- Removed the right-side hero stats/button area.
-- Removed the old CHOOSE YOUR RECIPES / SAVE YOUR FAVORITES / PLAN YOUR MEALS / MAKE YOUR GROCERY LIST bar.
-- Removed any Freezer Tips button sitting on top of the hero image.
-- Keeps the main Browse Recipes / Start Meal Planning buttons in the hero copy.
+- Removed hero buttons:
+  BROWSE RECIPES
+  START MEAL PLANNING
+  FREEZER TIPS
+- Changed hero headline to:
+  A simpler meal planning option
+- Replaced hero body copy with the new intro story text.
+- Body copy is now in a scrollable text block.

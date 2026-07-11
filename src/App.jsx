@@ -924,34 +924,23 @@ function Hero({ setActivePage }) {
       <div className="heroCopy">
         <div className="aiBadge">✧ AI-POWERED RECIPE PLANNING ✧</div>
 
-        <h1>
-          Helping to organize your cooking, kitchen, & shopping - all in one place...
-        </h1>
+        <h1>A simpler meal planning option</h1>
 
-        <p>
-          Browse AI-generated recipes, save your favorites,
-          <br />
-          build weekly meal plans, create smart shopping lists,
-          <br />
-          and track pantry staples.
-        </p>
-
-        <div className="heroButtons">
-          <button className="primary" onClick={() => setActivePage("Recipes")}>
-            ▣ Browse Recipes
-          </button>
-          <button
-            className="secondary"
-            onClick={() => setActivePage("Meal Planner")}
-          >
-            ▣ Start Meal Planning
-          </button>
-          <button
-            className="secondary freezerHeroButton"
-            onClick={() => setActivePage("Freezer Tips")}
-          >
-            ▣ Freezer Tips
-          </button>
+        <div className="heroIntroScroll">
+          <p>
+            I created this page to give seniors, older couples, empty nesters,
+            and smaller households a simpler, more affordable way to plan meals.
+          </p>
+          <p>
+            Meal-subscription services can be expensive, and many recipes make
+            too much food for a few people. Hopefully I can offer you practical
+            recipes, in reasonable portions, with planned leftovers and
+            freezer-friendly options.
+          </p>
+          <p>
+            Turning one meal into two and respecting your time and your money,
+            this free website might help stretch your dollar a little bit more.
+          </p>
         </div>
       </div>
     </section>
