@@ -260,6 +260,224 @@ const PANTRY_MATCHERS = [
   { pantry: "Parmesan cheese", terms: ["parmesan"] },
 ];
 
+
+const GROCERY_REFERENCE_GROUPS = [
+  {
+    group: "Tortillas & Wraps",
+    intro: "Useful for tacos, quesadillas, wraps, enchiladas, and freezer-friendly burrito bowls.",
+    items: [
+      {
+        name: "Low-carb flour tortillas",
+        useFor: "Tacos, quesadillas, enchiladas, wraps",
+        examples: [
+          "Mission Carb Balance",
+          "La Banderita Carb Counter",
+          "H-E-B Carb Sense",
+          "Ole Xtreme Wellness"
+        ],
+        note: "Look for soft taco size, high-fiber options, and a size that fits your portions.",
+        terms: ["tortilla", "tortillas", "wrap", "wraps", "low-carb flour tortillas", "flour tortillas"],
+      },
+      {
+        name: "Lower-carb tortilla chips",
+        useFor: "Queso, dips, taco bowls",
+        examples: [
+          "Quest tortilla-style chips",
+          "H-E-B Quest-style protein chips",
+          "Baked tortilla chips"
+        ],
+        note: "Use as an occasional swap; portion into small bags for easier control.",
+        terms: ["tortilla chips", "chips"],
+      },
+    ],
+  },
+  {
+    group: "Proteins",
+    intro: "More specific protein choices make the shopping list easier to use and freezer prep easier to plan.",
+    items: [
+      {
+        name: "Boneless skinless chicken breasts",
+        useFor: "Chicken casseroles, salads, bowls, fajitas, grilled chicken",
+        examples: ["Fresh family pack", "Individually frozen breasts", "Thin-sliced chicken breasts"],
+        note: "Good for batch cooking, shredding, grilling, and freezing in two-serving portions.",
+        terms: ["chicken breast", "chicken breasts", "boneless skinless chicken breasts"],
+      },
+      {
+        name: "Chicken tenders",
+        useFor: "Quick skillet meals, stir-fry, fajitas, nuggets",
+        examples: ["Fresh chicken tenderloins", "Frozen chicken tenders"],
+        note: "Faster to cook and easy to portion for two-person meals.",
+        terms: ["chicken tenders", "chicken tenderloins", "tenders"],
+      },
+      {
+        name: "Boneless skinless chicken thighs",
+        useFor: "Slow cooker meals, casseroles, grilled chicken, freezer meals",
+        examples: ["Fresh boneless thighs", "Frozen boneless thighs"],
+        note: "More forgiving for reheating and freezer meals.",
+        terms: ["chicken thighs", "boneless skinless chicken thighs"],
+      },
+      {
+        name: "Lean ground beef",
+        useFor: "Tacos, burgers, casseroles, meatballs, pasta sauce",
+        examples: ["90/10 ground beef", "93/7 ground beef", "Lean ground sirloin"],
+        note: "Brown in bulk, drain well, and freeze flat in meal-sized bags.",
+        terms: ["ground beef", "lean ground beef", "hamburger meat"],
+      },
+      {
+        name: "Seafood fillets",
+        useFor: "Tilapia, cod, salmon, seafood dinners",
+        examples: ["Tilapia fillets", "Cod fillets", "Salmon portions"],
+        note: "Individually frozen portions are easy for small households.",
+        terms: ["tilapia", "cod", "salmon", "fish fillets", "seafood", "seafood fillets"],
+      },
+    ],
+  },
+  {
+    group: "Rice, Pasta & Bowl Bases",
+    intro: "Use these swaps when you want a lighter or lower-carb base without changing the whole recipe.",
+    items: [
+      {
+        name: "Cauliflower rice",
+        useFor: "Rice bowls, Mexican bowls, stir-fry, casseroles",
+        examples: ["Frozen cauliflower rice", "Riced cauliflower steam bags"],
+        note: "Good lower-carb option; mix half cauliflower rice and half white rice if you want a softer transition.",
+        terms: ["cauliflower rice", "riced cauliflower"],
+      },
+      {
+        name: "Higher-protein or lower-carb pasta",
+        useFor: "Italian pasta dishes, pasta salads, casseroles",
+        examples: ["Barilla Protein+ pasta", "Banza chickpea pasta", "Fiber Gourmet pasta"],
+        note: "Start with half regular pasta and half swap pasta if texture is a concern.",
+        terms: ["pasta", "spaghetti", "penne", "fettuccine", "macaroni", "noodles"],
+      },
+      {
+        name: "Microwave rice cups or pouches",
+        useFor: "Fast two-serving sides and bowls",
+        examples: ["Brown rice cups", "Jasmine rice cups", "Ready rice pouches"],
+        note: "Helpful for seniors or couples who do not want to cook a full pot of rice.",
+        terms: ["rice", "white rice", "brown rice", "jasmine rice", "ready rice"],
+      },
+    ],
+  },
+  {
+    group: "Breads, Buns & Rolls",
+    intro: "Helpful swaps for burgers, sandwiches, freezer sandwiches, and small-household meals.",
+    items: [
+      {
+        name: "Lower-calorie burger buns",
+        useFor: "Burgers, pulled pork, sandwiches",
+        examples: ["647 sandwich rolls", "Thin sandwich buns", "Whole wheat sandwich thins"],
+        note: "Check size and texture; some thin buns work better toasted.",
+        terms: ["burger buns", "buns", "sandwich buns", "rolls"],
+      },
+      {
+        name: "Lower-carb sandwich bread",
+        useFor: "Sandwiches, toast, freezer breakfast sandwiches",
+        examples: ["Nature's Own Keto", "Sola bread", "647 bread"],
+        note: "Freeze extra slices so a small household can avoid waste.",
+        terms: ["bread", "sandwich bread", "toast"],
+      },
+    ],
+  },
+  {
+    group: "Cheese, Dairy & Creamy Ingredients",
+    intro: "These choices help keep casseroles, salads, and bowls familiar while giving lighter options to review.",
+    items: [
+      {
+        name: "Reduced-fat shredded cheese",
+        useFor: "Mexican bakes, casseroles, eggs, salads",
+        examples: ["Reduced-fat Mexican blend", "Reduced-fat cheddar", "Part-skim mozzarella"],
+        note: "For better melt, mix reduced-fat cheese with a smaller amount of regular cheese.",
+        terms: ["shredded cheese", "cheese", "cheddar", "mozzarella", "mexican cheese"],
+      },
+      {
+        name: "Plain Greek yogurt",
+        useFor: "Sauces, dressings, chicken salad, dips",
+        examples: ["Nonfat plain Greek yogurt", "2% plain Greek yogurt"],
+        note: "Useful swap for some sour cream or mayo-based recipes.",
+        terms: ["greek yogurt", "plain greek yogurt", "yogurt"],
+      },
+      {
+        name: "Light sour cream",
+        useFor: "Tacos, bowls, dips, casseroles",
+        examples: ["Light sour cream", "Reduced-fat sour cream"],
+        note: "Good for toppings; Greek yogurt can work in many cold uses.",
+        terms: ["sour cream", "light sour cream"],
+      },
+    ],
+  },
+  {
+    group: "Sauces, Dressings & Condiments",
+    intro: "Sauces can change calories quickly, so this list gives the user products to review before buying.",
+    items: [
+      {
+        name: "Lower-sugar BBQ sauce",
+        useFor: "Smoked meats, grilled chicken, pulled pork",
+        examples: ["G Hughes sugar free BBQ sauce", "Stubb's lower sugar options"],
+        note: "Taste varies a lot; keep one favorite regular sauce and one lower-sugar sauce if needed.",
+        terms: ["bbq sauce", "barbecue sauce"],
+      },
+      {
+        name: "Light salad dressings",
+        useFor: "Salads, bowls, marinades",
+        examples: ["Bolthouse Farms yogurt dressings", "Lite vinaigrettes", "Skinnygirl dressings"],
+        note: "For meal prep, keep dressing separate until serving.",
+        terms: ["dressing", "salad dressing", "vinaigrette"],
+      },
+      {
+        name: "Salsa and taco sauces",
+        useFor: "Tacos, bowls, casseroles, eggs",
+        examples: ["Fresh salsa", "Restaurant-style salsa", "Green salsa verde"],
+        note: "Often adds flavor without needing much extra fat.",
+        terms: ["salsa", "taco sauce", "salsa verde", "enchilada sauce"],
+      },
+    ],
+  },
+  {
+    group: "Freezer & Meal-Prep Supplies",
+    intro: "These support the cook-once, eat-once, freeze-once method used throughout the recipe box.",
+    items: [
+      {
+        name: "Freezer bags",
+        useFor: "Flat-freezing cooked proteins, sauces, soups, and meal portions",
+        examples: ["Quart freezer bags", "Gallon freezer bags", "Vacuum sealer bags"],
+        note: "Freeze flat first, then stand bags upright like files.",
+        terms: ["freezer bag", "freezer bags", "vacuum seal bags", "vacuum sealer bags"],
+      },
+      {
+        name: "Two-serving freezer containers",
+        useFor: "Prepared meals, casseroles, soups, leftovers",
+        examples: ["2-cup containers", "3-cup containers", "Freezer-safe meal prep containers"],
+        note: "Choose stackable containers with lids that seal tightly.",
+        terms: ["freezer containers", "meal prep containers", "storage containers"],
+      },
+      {
+        name: "Freezer labels",
+        useFor: "Recipe name, date, servings, reheating notes",
+        examples: ["Freezer labels", "Painter's tape and marker", "Dissolvable food labels"],
+        note: "Label before freezing so meals are easy to rotate.",
+        terms: ["freezer labels", "labels", "painter's tape", "painters tape"],
+      },
+    ],
+  },
+];
+
+const GROCERY_REFERENCE_ITEMS = GROCERY_REFERENCE_GROUPS.flatMap((group) =>
+  group.items.map((item) => ({ ...item, group: group.group }))
+);
+
+function findGroceryReference(itemName = "") {
+  const normalizedItem = normalizePantryText(itemName);
+
+  return GROCERY_REFERENCE_ITEMS.find((item) =>
+    item.terms.some((term) => {
+      const normalizedTerm = normalizePantryText(term);
+      return normalizedItem === normalizedTerm || normalizedItem.includes(normalizedTerm);
+    })
+  );
+}
+
+
 function normalizePantryText(value = "") {
   return value.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
 }
@@ -456,6 +674,7 @@ function Header({ activePage, setActivePage }) {
         { label: "Kitchen Tools & Products", page: "Recommendations" },
         { label: "Helpful Videos & Channels", page: "Recommendations" },
         { label: "Storage & Organization", page: "Recommendations" },
+        { label: "Smart Grocery Picks", page: "Grocery Picks" },
         { label: "Freezer Meals & Storage", page: "Freezer Tips" },
         { label: "Social Pages I Follow", page: "Recommendations" },
       ],
@@ -1696,7 +1915,7 @@ function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFa
           <div className="aiBadge">TWO-WEEK DINNER PLANNER</div>
           <h1>Weekly dinner planner</h1>
           <p>
-            Plan dinners for two weeks, build one combined shopping list, and estimate your total grocery cost.
+            Plan dinners for two weeks, build one combined shopping list, and save extra portions for future freezer meals.
           </p>
         </div>
 
@@ -1860,6 +2079,7 @@ function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFa
               for a future week.
             </p>
             <button onClick={() => setActivePage("Freezer Tips")}>Review Freezer Tips</button>
+            <button onClick={() => setActivePage("Grocery Picks")}>Review Smart Grocery Picks</button>
           </section>
         </aside>
       </div>
@@ -2019,25 +2239,46 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, setActi
     }));
   }
 
+  function renderGroceryReference(item) {
+    const reference = findGroceryReference(item.name);
+    if (!reference) return null;
+
+    return (
+      <div className="shoppingSuggestionNote">
+        <strong>{reference.name}</strong>
+        <span>{reference.note}</span>
+        <small>
+          Examples to review: {reference.examples.slice(0, 3).join(" · ")}
+        </small>
+        <button type="button" onClick={() => setActivePage("Grocery Picks")}>
+          View grocery picks
+        </button>
+      </div>
+    );
+  }
+
   function renderNeededItem(item) {
     const key = `${item.name}-${item.unit}-${item.aisle}`;
 
     return (
-      <label
-        key={key}
-        className={checked[key] ? "checked shoppingItem" : "shoppingItem"}
-      >
-        <input
-          type="checkbox"
-          checked={!!checked[key]}
-          onChange={() => toggleItem(key)}
-        />
+      <div key={key} className="shoppingItemWrap">
+        <label
+          className={checked[key] ? "checked shoppingItem" : "shoppingItem"}
+        >
+          <input
+            type="checkbox"
+            checked={!!checked[key]}
+            onChange={() => toggleItem(key)}
+          />
 
-        <span>{item.name}</span>
-        <small>
-          {formatQty(item.qty)} {item.unit}
-        </small>
-      </label>
+          <span>{item.name}</span>
+          <small>
+            {formatQty(item.qty)} {item.unit}
+          </small>
+        </label>
+
+        {renderGroceryReference(item)}
+      </div>
     );
   }
 
@@ -2045,12 +2286,16 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, setActi
     const key = `${item.name}-${item.unit}-${item.aisle}-pantry`;
 
     return (
-      <div key={key} className="shoppingItem pantryShoppingItem">
-        <span className="pantryFilledBox" aria-hidden="true" />
-        <span>{item.name}</span>
-        <small>
-          {formatQty(item.qty)} {item.unit}
-        </small>
+      <div key={key} className="shoppingItemWrap">
+        <div className="shoppingItem pantryShoppingItem">
+          <span className="pantryFilledBox" aria-hidden="true" />
+          <span>{item.name}</span>
+          <small>
+            {formatQty(item.qty)} {item.unit}
+          </small>
+        </div>
+
+        {renderGroceryReference(item)}
       </div>
     );
   }
@@ -2276,6 +2521,70 @@ function RecommendationsPage({ setActivePage }) {
 }
 
 
+
+function GroceryPicksPage({ setActivePage }) {
+  return (
+    <main className="pageShell groceryPicksPage">
+      <div className="pageHeader">
+        <div>
+          <div className="aiBadge">SMART GROCERY REFERENCE</div>
+          <h1>Smart Grocery Picks</h1>
+          <p>
+            A reference list for lighter, lower-carb, freezer-friendly, and
+            small-household grocery choices. Use it before shopping, or when a
+            shopping-list item shows a suggested swap.
+          </p>
+        </div>
+
+        <div className="pageHeaderActions">
+          <button className="secondary" onClick={() => setActivePage("Shopping Lists")}>
+            Back to Shopping List
+          </button>
+          <button className="secondary" onClick={() => setActivePage("Freezer Tips")}>
+            Freezer Tips
+          </button>
+        </div>
+      </div>
+
+      <section className="groceryPicksIntro">
+        <h2>How to use this list</h2>
+        <p>
+          These are not price estimates. They are product types and examples to
+          review so the user can choose items that better fit a lower-calorie,
+          lower-carb, or easier meal-prep lifestyle.
+        </p>
+      </section>
+
+      <div className="groceryReferenceGrid">
+        {GROCERY_REFERENCE_GROUPS.map((group) => (
+          <section className="groceryReferenceGroup" key={group.group}>
+            <div className="groceryReferenceGroupHeader">
+              <h2>{group.group}</h2>
+              <p>{group.intro}</p>
+            </div>
+
+            <div className="groceryReferenceItems">
+              {group.items.map((item) => (
+                <article className="groceryReferenceItem" key={item.name}>
+                  <h3>{item.name}</h3>
+                  <span>{item.useFor}</span>
+                  <p>{item.note}</p>
+                  <div>
+                    {item.examples.map((example) => (
+                      <small key={example}>{example}</small>
+                    ))}
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
+    </main>
+  );
+}
+
+
 function FreezerTipsPage({ setActivePage }) {
   const tipCards = [
     {
@@ -2448,8 +2757,8 @@ function FeatureStrip() {
       text: "Create custom shopping lists from your private meal plan.",
     },
     {
-      title: "Pantry Staples",
-      text: "Track what you already have before building your shopping list.",
+      title: "Smart Grocery Picks",
+      text: "Review lighter, lower-carb grocery swaps before shopping.",
     },
     {
       title: "Recommendations",
@@ -2556,6 +2865,7 @@ export default function App() {
       {activePage === "Pantry Staples" && <PantryStaplesPage {...pageProps} />}
       {activePage === "Favorites" && <FavoritesPage {...pageProps} />}
       {activePage === "Recommendations" && <RecommendationsPage {...pageProps} />}
+      {activePage === "Grocery Picks" && <GroceryPicksPage {...pageProps} />}
       {activePage === "Freezer Tips" && <FreezerTipsPage {...pageProps} />}
       {activePage === "About" && <AboutPage />}
 

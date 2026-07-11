@@ -160,9 +160,238 @@ function codePrefix(id = "") {
   return id.match(/^[A-Z]+/)?.[0] || "";
 }
 
-function defaultIngredients(categoryCode) {
-  return CATEGORY_INGREDIENTS[categoryCode] || [
-    { name: "Main ingredients", qty: 1, unit: "set", aisle: "Grocery", cost: 8 },
+function titleHas(title = "", terms = []) {
+  const lower = title.toLowerCase();
+  return terms.some((term) => lower.includes(term));
+}
+
+function proteinForRecipe(categoryCode, title = "") {
+  if (titleHas(title, ["chicken breast", "grilled chicken", "chicken fajita", "chicken alfredo", "chicken parmesan", "chicken piccata", "chicken marsala", "chicken scampi", "chicken florentine", "chicken cacciatore", "chicken enchilada", "shredded chicken", "chicken tortilla", "chicken quesadilla", "chicken street taco"])) {
+    return { name: "Boneless skinless chicken breasts", qty: 1.5, unit: "lb", aisle: "Meat", cost: 8 };
+  }
+
+  if (titleHas(title, ["chicken thighs"])) {
+    return { name: "Boneless skinless chicken thighs", qty: 1.5, unit: "lb", aisle: "Meat", cost: 7 };
+  }
+
+  if (titleHas(title, ["chicken tenders", "chicken nugget"])) {
+    return { name: "Chicken tenders", qty: 1.5, unit: "lb", aisle: "Meat", cost: 8 };
+  }
+
+  if (titleHas(title, ["beef & broccoli", "beijing beef", "mongolian beef", "pepper steak", "black pepper beef", "beef fajita", "steak", "chile colorado", "beef ragu"])) {
+    return { name: "Lean beef strips or sirloin", qty: 1.5, unit: "lb", aisle: "Meat", cost: 10 };
+  }
+
+  if (titleHas(title, ["burger", "hamburger", "patty", "taco meat", "meatballs", "meatloaf", "cheeseburger", "ground beef", "beef taco"])) {
+    return { name: "Lean ground beef", qty: 1.5, unit: "lb", aisle: "Meat", cost: 8 };
+  }
+
+  if (titleHas(title, ["pork", "carnitas", "pulled pork", "sliced pork", "sausage", "boudin"])) {
+    return { name: "Pork or sausage", qty: 1.5, unit: "lb", aisle: "Meat", cost: 7 };
+  }
+
+  if (titleHas(title, ["shrimp", "coconut shrimp", "boiled shrimp", "scampi"])) {
+    return { name: "Peeled raw shrimp", qty: 1.5, unit: "lb", aisle: "Seafood", cost: 12 };
+  }
+
+  if (titleHas(title, ["salmon"])) {
+    return { name: "Salmon portions", qty: 1.5, unit: "lb", aisle: "Seafood", cost: 14 };
+  }
+
+  if (titleHas(title, ["tilapia"])) {
+    return { name: "Tilapia fillets", qty: 1.5, unit: "lb", aisle: "Seafood", cost: 9 };
+  }
+
+  if (titleHas(title, ["cod"])) {
+    return { name: "Cod fillets", qty: 1.5, unit: "lb", aisle: "Seafood", cost: 11 };
+  }
+
+  if (titleHas(title, ["crab", "crab cakes", "crab ravioli"])) {
+    return { name: "Crab meat", qty: 1, unit: "lb", aisle: "Seafood", cost: 16 };
+  }
+
+  if (titleHas(title, ["crawfish"])) {
+    return { name: "Crawfish tails", qty: 1, unit: "lb", aisle: "Seafood", cost: 14 };
+  }
+
+  return { name: "Main protein", qty: 1.5, unit: "lb", aisle: "Meat", cost: 8 };
+}
+
+function defaultIngredients(categoryCode, title = "", id = "") {
+  const protein = proteinForRecipe(categoryCode, title);
+
+  if (categoryCode === "AS") {
+    if (titleHas(title, ["fried rice"])) {
+      return [
+        protein,
+        { name: "Microwave rice cups or cooked rice", qty: 2, unit: "cups", aisle: "Pantry", cost: 3 },
+        { name: "Frozen stir-fry vegetables", qty: 1, unit: "bag", aisle: "Frozen", cost: 3 },
+        { name: "Lower-sodium soy sauce", qty: 1, unit: "bottle", aisle: "Pantry", cost: 3 },
+      ];
+    }
+
+    if (titleHas(title, ["lo mein", "chow mein", "singapore noodles"])) {
+      return [
+        protein,
+        { name: "Higher-protein or lower-carb noodles", qty: 1, unit: "pkg", aisle: "Pantry", cost: 4 },
+        { name: "Frozen stir-fry vegetables", qty: 1, unit: "bag", aisle: "Frozen", cost: 3 },
+        { name: "Lower-sodium soy sauce", qty: 1, unit: "bottle", aisle: "Pantry", cost: 3 },
+      ];
+    }
+
+    if (titleHas(title, ["egg rolls", "spring rolls", "crab rangoons"])) {
+      return [
+        protein,
+        { name: "Egg roll or wonton wrappers", qty: 1, unit: "pkg", aisle: "Produce", cost: 4 },
+        { name: "Bagged coleslaw mix", qty: 1, unit: "bag", aisle: "Produce", cost: 3 },
+        { name: "Lower-sodium soy sauce", qty: 1, unit: "bottle", aisle: "Pantry", cost: 3 },
+      ];
+    }
+
+    return [
+      protein,
+      { name: "Frozen stir-fry vegetables", qty: 1, unit: "bag", aisle: "Frozen", cost: 3 },
+      { name: "Lower-sodium soy sauce", qty: 1, unit: "bottle", aisle: "Pantry", cost: 3 },
+      { name: "Microwave rice cups or cauliflower rice", qty: 1, unit: "pkg", aisle: "Pantry", cost: 3 },
+    ];
+  }
+
+  if (categoryCode === "MX") {
+    if (titleHas(title, ["queso"])) {
+      return [
+        { name: "Reduced-fat shredded Mexican cheese", qty: 2, unit: "cups", aisle: "Dairy", cost: 4 },
+        { name: "Light evaporated milk", qty: 1, unit: "can", aisle: "Pantry", cost: 2 },
+        { name: "Diced green chiles", qty: 1, unit: "can", aisle: "Pantry", cost: 2 },
+        { name: "Lower-carb tortilla chips", qty: 1, unit: "bag", aisle: "Snack", cost: 4 },
+      ];
+    }
+
+    if (titleHas(title, ["rice bowl", "burrito bowl", "bowls"])) {
+      return [
+        protein,
+        { name: "Cauliflower rice or microwave rice cups", qty: 1, unit: "pkg", aisle: "Frozen", cost: 3 },
+        { name: "Salsa", qty: 1, unit: "jar", aisle: "Pantry", cost: 3 },
+        { name: "Reduced-fat shredded Mexican cheese", qty: 1, unit: "pkg", aisle: "Dairy", cost: 4 },
+      ];
+    }
+
+    if (titleHas(title, ["soup"])) {
+      return [
+        protein,
+        { name: "Low-sodium chicken broth", qty: 1, unit: "carton", aisle: "Pantry", cost: 3 },
+        { name: "Salsa or enchilada sauce", qty: 1, unit: "jar", aisle: "Pantry", cost: 3 },
+        { name: "Black beans", qty: 1, unit: "can", aisle: "Pantry", cost: 1 },
+      ];
+    }
+
+    return [
+      protein,
+      { name: "Low-carb flour tortillas", qty: 1, unit: "pkg", aisle: "Bakery", cost: 4 },
+      { name: "Salsa or enchilada sauce", qty: 1, unit: "jar", aisle: "Pantry", cost: 3 },
+      { name: "Reduced-fat shredded Mexican cheese", qty: 1, unit: "pkg", aisle: "Dairy", cost: 4 },
+    ];
+  }
+
+  if (categoryCode === "IT") {
+    if (titleHas(title, ["pizza", "flatbread", "stromboli", "calzone", "subs", "sliders", "sandwiches"])) {
+      return [
+        protein,
+        { name: "Lower-calorie bread, buns, or pizza crust", qty: 1, unit: "pkg", aisle: "Bakery", cost: 4 },
+        { name: "Part-skim mozzarella cheese", qty: 1, unit: "pkg", aisle: "Dairy", cost: 4 },
+        { name: "Tomato sauce", qty: 1, unit: "jar", aisle: "Pantry", cost: 3 },
+      ];
+    }
+
+    if (titleHas(title, ["soup"])) {
+      return [
+        protein,
+        { name: "Low-sodium broth", qty: 1, unit: "carton", aisle: "Pantry", cost: 3 },
+        { name: "Diced tomatoes", qty: 1, unit: "can", aisle: "Pantry", cost: 2 },
+        { name: "Higher-protein or lower-carb pasta", qty: 1, unit: "box", aisle: "Pantry", cost: 4 },
+      ];
+    }
+
+    return [
+      protein,
+      { name: "Higher-protein or lower-carb pasta", qty: 1, unit: "box", aisle: "Pantry", cost: 4 },
+      { name: "Tomato sauce", qty: 1, unit: "jar", aisle: "Pantry", cost: 3 },
+      { name: "Part-skim mozzarella or parmesan cheese", qty: 1, unit: "pkg", aisle: "Dairy", cost: 4 },
+    ];
+  }
+
+  if (categoryCode === "SB") {
+    return [
+      protein,
+      { name: "Bagged salad greens or chopped salad mix", qty: 1, unit: "bag", aisle: "Produce", cost: 4 },
+      { name: "Fresh vegetables", qty: 2, unit: "cups", aisle: "Produce", cost: 4 },
+      { name: "Light salad dressing or Greek yogurt dressing", qty: 1, unit: "bottle", aisle: "Pantry", cost: 4 },
+    ];
+  }
+
+  if (categoryCode === "SF") {
+    return [
+      protein,
+      { name: "Lemon", qty: 1, unit: "each", aisle: "Produce", cost: 1 },
+      { name: "Butter or olive oil", qty: 1, unit: "set", aisle: "Pantry", cost: 2 },
+      { name: "Cauliflower rice, salad greens, or microwave rice cups", qty: 1, unit: "pkg", aisle: "Frozen", cost: 3 },
+    ];
+  }
+
+  if (categoryCode === "SG") {
+    return [
+      protein,
+      { name: "Lower-sugar BBQ sauce", qty: 1, unit: "bottle", aisle: "Pantry", cost: 4 },
+      { name: "Dry rub or seasoning blend", qty: 1, unit: "set", aisle: "Pantry", cost: 2 },
+      { name: "Freezer bags or vacuum seal bags", qty: 1, unit: "box", aisle: "Storage", cost: 5 },
+    ];
+  }
+
+  if (categoryCode === "HB" || categoryCode === "HBP") {
+    return [
+      { name: "Lean ground beef", qty: 1.5, unit: "lb", aisle: "Meat", cost: 8 },
+      { name: "Lower-calorie burger buns", qty: 1, unit: "pkg", aisle: "Bakery", cost: 4 },
+      { name: "Reduced-fat sliced cheese", qty: 1, unit: "pkg", aisle: "Dairy", cost: 4 },
+      { name: "Burger toppings", qty: 1, unit: "set", aisle: "Produce", cost: 4 },
+    ];
+  }
+
+  if (categoryCode === "QP") {
+    return [
+      protein,
+      { name: "Pie crust", qty: 1, unit: "each", aisle: "Frozen", cost: 3 },
+      { name: "Eggs", qty: 4, unit: "each", aisle: "Dairy", cost: 2 },
+      { name: "Reduced-fat shredded cheese", qty: 1, unit: "cup", aisle: "Dairy", cost: 3 },
+    ];
+  }
+
+  if (categoryCode === "PM") {
+    return [
+      { name: "Protein powder", qty: 1, unit: "scoop", aisle: "Pantry", cost: 3 },
+      { name: "Rolled oats or flour", qty: 1, unit: "cup", aisle: "Pantry", cost: 1 },
+      { name: "Eggs", qty: 2, unit: "each", aisle: "Dairy", cost: 1 },
+      { name: "Milk or unsweetened almond milk", qty: 1, unit: "cup", aisle: "Dairy", cost: 1 },
+    ];
+  }
+
+  if (categoryCode === "JJ") {
+    return [
+      { name: "Fresh or frozen fruit", qty: 4, unit: "cups", aisle: "Produce", cost: 5 },
+      { name: "Low-calorie sweetener or sugar", qty: 1, unit: "set", aisle: "Pantry", cost: 2 },
+      { name: "Pectin", qty: 1, unit: "box", aisle: "Pantry", cost: 2 },
+      { name: "Freezer-safe jars or containers", qty: 1, unit: "set", aisle: "Storage", cost: 4 },
+    ];
+  }
+
+  if (categoryCode === "LF" || categoryCode === "KR" || categoryCode === "CR" || categoryCode === "DN" || categoryCode === "CC" || categoryCode === "CO") {
+    return CATEGORY_INGREDIENTS[categoryCode] || [
+      { name: "Baking ingredients", qty: 1, unit: "set", aisle: "Pantry", cost: 6 },
+      { name: "Freezer bags or containers", qty: 1, unit: "set", aisle: "Storage", cost: 4 },
+    ];
+  }
+
+  return [
+    protein,
+    { name: "Fresh vegetables", qty: 2, unit: "cups", aisle: "Produce", cost: 4 },
     { name: "Pantry staples", qty: 1, unit: "set", aisle: "Pantry", cost: 3 },
   ];
 }
@@ -197,7 +426,7 @@ function makeRecipe(entry) {
     cardImage: options.cardImage || `images/recipes/${id}.png`,
     heroImage: options.heroImage || `images/heroes/${id}.png`,
     cost: options.cost || defaultCost(price),
-    ingredients: options.ingredients || defaultIngredients(categoryCode),
+    ingredients: options.ingredients || defaultIngredients(categoryCode, title, id),
     mediaLinks: options.mediaLinks || undefined,
   };
 }
