@@ -4,6 +4,7 @@ const baseCategories = [
   { id: "CC", name: "Cheesecakes", count: 0, icon: "🍰", iconImage: "images/categories/CC.png" },
   { id: "CO", name: "Cobblers", count: 0, icon: "🥧", iconImage: "images/categories/CO.png" },
   { id: "CR", name: "Cinnamon Rolls", count: 0, icon: "🌀", iconImage: "images/categories/CR.png" },
+  { id: "CS", name: "Casseroles", count: 0, icon: "🥘", iconImage: "images/categories/CS.png" },
   { id: "DN", name: "Donuts", count: 0, icon: "🍩", iconImage: "images/categories/DN.png" },
   { id: "DS", name: "Desserts", count: 0, icon: "🍰", iconImage: "images/categories/DS.png" },
   { id: "HB", name: "Hamburgers", count: 0, icon: "🍔", iconImage: "images/categories/HB.png" },
@@ -22,46 +23,180 @@ const baseCategories = [
   { id: "SF", name: "Seafood Dishes", count: 0, icon: "🐟", iconImage: "images/categories/SF.png" },
   { id: "SG", name: "Smoked & Grilled Meats", count: 0, icon: "🔥", iconImage: "images/categories/SG.png" },
   { id: "SW", name: "Sandwiches", count: 0, icon: "🥪", iconImage: "images/categories/SW.png" },
-  { id: "CS", name: "Casseroles", count: 0, icon: "🥘", iconImage: "images/categories/CS.png" },
 ];
 
 const CATEGORY_INFO = Object.fromEntries(baseCategories.map((category) => [category.id, category]));
-const DEFAULTS = {
-  AS: [30,4,"$$","🍜"], MX: [35,4,"$$","🌮"], PM: [35,6,"$$","🧁"], QP: [55,6,"$$","🥧"],
-  SB: [20,4,"$$","🥗"], SD: [25,4,"$","🍲"], SF: [30,4,"$$$","🐟"], SG: [60,4,"$$","🔥"],
-  CS: [45,6,"$$","🥘"], AM: [35,4,"$$","🍽️"], IT: [40,4,"$$","🍝"]
+
+const CATEGORY_DEFAULTS = {
+  AM: { time: 35, servings: 4, price: "$$", emoji: "🍽️" },
+  AS: { time: 30, servings: 4, price: "$$", emoji: "🍜" },
+  CC: { time: 70, servings: 8, price: "$$", emoji: "🍰" },
+  CO: { time: 55, servings: 8, price: "$$", emoji: "🥧" },
+  CR: { time: 90, servings: 8, price: "$$", emoji: "🌀" },
+  CS: { time: 45, servings: 6, price: "$$", emoji: "🥘" },
+  DN: { time: 60, servings: 8, price: "$$", emoji: "🍩" },
+  DS: { time: 45, servings: 8, price: "$$", emoji: "🍰" },
+  HB: { time: 25, servings: 4, price: "$$", emoji: "🍔" },
+  HBP: { time: 20, servings: 4, price: "$$", emoji: "🍔" },
+  IT: { time: 40, servings: 4, price: "$$", emoji: "🍝" },
+  JJ: { time: 50, servings: 8, price: "$", emoji: "🍓" },
+  KR: { time: 90, servings: 8, price: "$$", emoji: "🥐" },
+  LF: { time: 90, servings: 8, price: "$$", emoji: "🍞" },
+  MR: { time: 10, servings: 4, price: "$", emoji: "🫙" },
+  MX: { time: 35, servings: 4, price: "$$", emoji: "🌮" },
+  PM: { time: 35, servings: 6, price: "$$", emoji: "🧁" },
+  QP: { time: 55, servings: 6, price: "$$", emoji: "🥧" },
+  RS: { time: 10, servings: 8, price: "$", emoji: "🧂" },
+  SB: { time: 20, servings: 4, price: "$$", emoji: "🥗" },
+  SD: { time: 25, servings: 4, price: "$", emoji: "🍲" },
+  SF: { time: 30, servings: 4, price: "$$$", emoji: "🐟" },
+  SG: { time: 60, servings: 4, price: "$$", emoji: "🔥" },
+  SW: { time: 20, servings: 4, price: "$$", emoji: "🥪" },
 };
-function codePrefix(id = "") { return id.match(/^[A-Z]+/)?.[0] || ""; }
-function defaultCost(price = "$$") { const base = price === "$" ? 10 : price === "$$$" ? 28 : 18; return { 2: +(base*0.55).toFixed(2), 4: +base.toFixed(2), 6: +(base*1.45).toFixed(2) }; }
-function defaultIngredients(categoryCode) {
-  const common = { name: "Pantry staples", qty: 1, unit: "set", aisle: "Pantry", cost: 3 };
-  if (categoryCode === "AS") return [{ name: "Protein", qty: 1, unit: "lb", aisle: "Meat", cost: 7 }, { name: "Vegetables", qty: 2, unit: "cups", aisle: "Produce", cost: 3 }, { name: "Soy sauce", qty: 1, unit: "bottle", aisle: "Pantry", cost: 3 }, { name: "Rice", qty: 1, unit: "pkg", aisle: "Pantry", cost: 3 }];
-  if (categoryCode === "MX") return [{ name: "Protein", qty: 1, unit: "lb", aisle: "Meat", cost: 7 }, { name: "Tortillas", qty: 1, unit: "pkg", aisle: "Bakery", cost: 3 }, { name: "Salsa", qty: 1, unit: "jar", aisle: "Pantry", cost: 3 }, { name: "Shredded cheese", qty: 1, unit: "pkg", aisle: "Dairy", cost: 4 }];
-  if (categoryCode === "SF") return [{ name: "Seafood", qty: 1, unit: "lb", aisle: "Seafood", cost: 12 }, { name: "Lemon", qty: 1, unit: "each", aisle: "Produce", cost: 1 }, { name: "Butter", qty: 1, unit: "stick", aisle: "Dairy", cost: 2 }, common];
-  if (categoryCode === "SG") return [{ name: "Meat", qty: 1, unit: "lb", aisle: "Meat", cost: 9 }, { name: "BBQ sauce", qty: 1, unit: "bottle", aisle: "Pantry", cost: 3 }, { name: "Seasoning", qty: 1, unit: "set", aisle: "Pantry", cost: 2 }];
-  if (categoryCode === "PM") return [{ name: "Protein powder", qty: 1, unit: "scoop", aisle: "Pantry", cost: 3 }, { name: "Flour", qty: 1, unit: "cup", aisle: "Pantry", cost: 1 }, { name: "Eggs", qty: 2, unit: "each", aisle: "Dairy", cost: 1 }, { name: "Milk", qty: 1, unit: "cup", aisle: "Dairy", cost: 1 }];
-  if (categoryCode === "QP") return [{ name: "Pie crust", qty: 1, unit: "each", aisle: "Frozen", cost: 3 }, { name: "Eggs", qty: 4, unit: "each", aisle: "Dairy", cost: 2 }, { name: "Cheese", qty: 1, unit: "cup", aisle: "Dairy", cost: 3 }, { name: "Main filling", qty: 1, unit: "set", aisle: "Grocery", cost: 6 }];
-  return [{ name: "Main ingredients", qty: 1, unit: "set", aisle: "Grocery", cost: 8 }, common];
+
+const CATEGORY_INGREDIENTS = {
+  AS: [
+    { name: "Protein", qty: 1, unit: "lb", aisle: "Meat", cost: 7 },
+    { name: "Vegetables", qty: 2, unit: "cups", aisle: "Produce", cost: 3 },
+    { name: "Soy sauce", qty: 1, unit: "bottle", aisle: "Pantry", cost: 3 },
+    { name: "Rice", qty: 1, unit: "pkg", aisle: "Pantry", cost: 3 },
+  ],
+  CC: [
+    { name: "Cream cheese", qty: 2, unit: "pkg", aisle: "Dairy", cost: 6 },
+    { name: "Sugar", qty: 1, unit: "cup", aisle: "Pantry", cost: 1 },
+    { name: "Vanilla", qty: 1, unit: "tsp", aisle: "Pantry", cost: 1 },
+    { name: "Crust ingredients", qty: 1, unit: "set", aisle: "Pantry", cost: 2 },
+  ],
+  CO: [
+    { name: "Fruit filling", qty: 1, unit: "set", aisle: "Produce", cost: 5 },
+    { name: "Flour", qty: 1, unit: "cup", aisle: "Pantry", cost: 1 },
+    { name: "Sugar", qty: 1, unit: "cup", aisle: "Pantry", cost: 1 },
+    { name: "Butter", qty: 1, unit: "stick", aisle: "Dairy", cost: 2 },
+  ],
+  CR: [
+    { name: "Dough ingredients", qty: 1, unit: "set", aisle: "Pantry", cost: 4 },
+    { name: "Butter", qty: 1, unit: "stick", aisle: "Dairy", cost: 2 },
+    { name: "Cinnamon sugar", qty: 1, unit: "set", aisle: "Pantry", cost: 2 },
+  ],
+  DN: [
+    { name: "Flour", qty: 1, unit: "cup", aisle: "Pantry", cost: 1 },
+    { name: "Sugar", qty: 1, unit: "cup", aisle: "Pantry", cost: 1 },
+    { name: "Eggs", qty: 2, unit: "each", aisle: "Dairy", cost: 1 },
+    { name: "Oil for frying", qty: 1, unit: "set", aisle: "Pantry", cost: 3 },
+  ],
+  HB: [
+    { name: "Ground beef", qty: 1, unit: "lb", aisle: "Meat", cost: 7 },
+    { name: "Burger buns", qty: 1, unit: "pkg", aisle: "Bakery", cost: 3 },
+    { name: "Cheese & toppings", qty: 1, unit: "set", aisle: "Dairy", cost: 4 },
+  ],
+  HBP: [
+    { name: "Ground beef", qty: 1, unit: "lb", aisle: "Meat", cost: 7 },
+    { name: "Seasonings", qty: 1, unit: "set", aisle: "Pantry", cost: 2 },
+  ],
+  IT: [
+    { name: "Protein", qty: 1, unit: "lb", aisle: "Meat", cost: 7 },
+    { name: "Pasta", qty: 1, unit: "box", aisle: "Pantry", cost: 2 },
+    { name: "Tomato sauce", qty: 1, unit: "jar", aisle: "Pantry", cost: 3 },
+    { name: "Parmesan cheese", qty: 1, unit: "pkg", aisle: "Dairy", cost: 4 },
+  ],
+  JJ: [
+    { name: "Fruit", qty: 1, unit: "set", aisle: "Produce", cost: 5 },
+    { name: "Sugar or sweetener", qty: 1, unit: "set", aisle: "Pantry", cost: 2 },
+    { name: "Pectin", qty: 1, unit: "box", aisle: "Pantry", cost: 2 },
+  ],
+  KR: [
+    { name: "Dough ingredients", qty: 1, unit: "set", aisle: "Pantry", cost: 4 },
+    { name: "Main filling", qty: 1, unit: "set", aisle: "Meat", cost: 5 },
+    { name: "Cheese", qty: 1, unit: "pkg", aisle: "Dairy", cost: 3 },
+  ],
+  LF: [
+    { name: "Flour", qty: 1, unit: "bag", aisle: "Pantry", cost: 4 },
+    { name: "Yeast", qty: 1, unit: "pkg", aisle: "Pantry", cost: 2 },
+    { name: "Butter or oil", qty: 1, unit: "set", aisle: "Pantry", cost: 2 },
+  ],
+  MX: [
+    { name: "Protein", qty: 1, unit: "lb", aisle: "Meat", cost: 7 },
+    { name: "Tortillas", qty: 1, unit: "pkg", aisle: "Bakery", cost: 3 },
+    { name: "Salsa", qty: 1, unit: "jar", aisle: "Pantry", cost: 3 },
+    { name: "Shredded cheese", qty: 1, unit: "pkg", aisle: "Dairy", cost: 4 },
+  ],
+  PM: [
+    { name: "Protein powder", qty: 1, unit: "scoop", aisle: "Pantry", cost: 3 },
+    { name: "Flour", qty: 1, unit: "cup", aisle: "Pantry", cost: 1 },
+    { name: "Eggs", qty: 2, unit: "each", aisle: "Dairy", cost: 1 },
+    { name: "Milk", qty: 1, unit: "cup", aisle: "Dairy", cost: 1 },
+  ],
+  QP: [
+    { name: "Pie crust", qty: 1, unit: "each", aisle: "Frozen", cost: 3 },
+    { name: "Eggs", qty: 4, unit: "each", aisle: "Dairy", cost: 2 },
+    { name: "Cheese", qty: 1, unit: "cup", aisle: "Dairy", cost: 3 },
+    { name: "Main filling", qty: 1, unit: "set", aisle: "Grocery", cost: 6 },
+  ],
+  SB: [
+    { name: "Greens", qty: 1, unit: "pkg", aisle: "Produce", cost: 4 },
+    { name: "Protein", qty: 1, unit: "lb", aisle: "Meat", cost: 7 },
+    { name: "Vegetables", qty: 2, unit: "cups", aisle: "Produce", cost: 4 },
+    { name: "Dressing", qty: 1, unit: "bottle", aisle: "Pantry", cost: 3 },
+  ],
+  SD: [
+    { name: "Vegetables or starch", qty: 1, unit: "pkg", aisle: "Produce", cost: 4 },
+    { name: "Butter", qty: 1, unit: "stick", aisle: "Dairy", cost: 2 },
+    { name: "Pantry staples", qty: 1, unit: "set", aisle: "Pantry", cost: 2 },
+  ],
+  SF: [
+    { name: "Seafood", qty: 1, unit: "lb", aisle: "Seafood", cost: 12 },
+    { name: "Lemon", qty: 1, unit: "each", aisle: "Produce", cost: 1 },
+    { name: "Butter", qty: 1, unit: "stick", aisle: "Dairy", cost: 2 },
+    { name: "Pantry staples", qty: 1, unit: "set", aisle: "Pantry", cost: 2 },
+  ],
+  SG: [
+    { name: "Meat", qty: 1, unit: "lb", aisle: "Meat", cost: 9 },
+    { name: "BBQ sauce", qty: 1, unit: "bottle", aisle: "Pantry", cost: 3 },
+    { name: "Seasoning", qty: 1, unit: "set", aisle: "Pantry", cost: 2 },
+  ],
+};
+
+function codePrefix(id = "") {
+  return id.match(/^[A-Z]+/)?.[0] || "";
 }
+
+function defaultIngredients(categoryCode) {
+  return CATEGORY_INGREDIENTS[categoryCode] || [
+    { name: "Main ingredients", qty: 1, unit: "set", aisle: "Grocery", cost: 8 },
+    { name: "Pantry staples", qty: 1, unit: "set", aisle: "Pantry", cost: 3 },
+  ];
+}
+
+function defaultCost(price = "$$") {
+  const base = price === "$" ? 10 : price === "$$$" ? 28 : 18;
+  return {
+    2: Number((base * 0.55).toFixed(2)),
+    4: Number(base.toFixed(2)),
+    6: Number((base * 1.45).toFixed(2)),
+  };
+}
+
 function makeRecipe(entry) {
   const [id, title, options = {}] = entry;
   const categoryCode = options.categoryCode || codePrefix(id);
   const category = CATEGORY_INFO[categoryCode];
-  const [time, servings, price, emoji] = DEFAULTS[categoryCode] || DEFAULTS.AM;
-  const finalPrice = options.price ?? price;
+  const defaults = CATEGORY_DEFAULTS[categoryCode] || CATEGORY_DEFAULTS.AM;
+  const price = options.price ?? defaults.price;
+
   return {
-    id, title,
+    id,
+    title,
     category: options.category || category?.name || categoryCode,
     categoryCode,
-    time: options.time ?? time,
-    servings: options.servings ?? servings,
-    price: finalPrice,
-    emoji: options.emoji ?? emoji,
+    time: options.time ?? defaults.time,
+    servings: options.servings ?? defaults.servings,
+    price,
+    emoji: options.emoji ?? defaults.emoji,
     imageStyle: options.imageStyle || "linear-gradient(135deg, #f8fafc, #e5e7eb)",
     image: options.image || `images/recipes/${id}.png`,
     cardImage: options.cardImage || `images/recipes/${id}.png`,
     heroImage: options.heroImage || `images/heroes/${id}.png`,
-    cost: options.cost || defaultCost(finalPrice),
+    cost: options.cost || defaultCost(price),
     ingredients: options.ingredients || defaultIngredients(categoryCode),
     mediaLinks: options.mediaLinks || undefined,
   };
@@ -92,6 +227,182 @@ const recipeRows = [
   ["AS-022", "Chicken Egg Rolls"],
   ["AS-023", "Spring Rolls"],
   ["AS-024", "Crab Rangoons"],
+  ["CC-001", "Mini Cheesecakes: Classic Plain"],
+  ["CC-002", "Mini Cheesecakes: Salted Caramel"],
+  ["CC-003", "Mini Cheesecakes: Oreo Cookie"],
+  ["CC-004", "Mini Cheesecakes: Strawberry Swirl"],
+  ["CC-005", "Mini Cheesecakes: Chocolate Swirl"],
+  ["CC-006", "Mini Cheesecakes: Blueberry"],
+  ["CO-001", "Apple Cobbler"],
+  ["CO-002", "Blackberry Cobbler"],
+  ["CO-003", "Blueberry Cobbler"],
+  ["CO-004", "Cherry Cobbler"],
+  ["CO-005", "Strawberry Cobbler"],
+  ["CO-006", "Peach Cobbler"],
+  ["CR-001", "Traditional Cinnamon Rolls"],
+  ["CR-002", "Chocolate Cinnamon Rolls"],
+  ["CR-003", "Apple Cinnamon Rolls"],
+  ["CR-004", "Pecan Raisin Cinnamon Rolls"],
+  ["CR-005", "Crescent Dough Cinnamon Rolls"],
+  ["DN-001", "Yeast Glazed Donuts"],
+  ["DN-002", "Classic Cake Donuts"],
+  ["DN-003", "Chocolate Cake Donuts"],
+  ["DN-004", "Old-Fashioned Buttermilk Donuts"],
+  ["DN-005", "Filled Donuts"],
+  ["DN-006", "Apple Fritters"],
+  ["DN-007", "Blueberry Cake Donuts"],
+  ["HB-001", "Big Mac Style Burger"],
+  ["HB-002", "Whataburger Style Burger"],
+  ["HB-003", "In-N-Out Style Burger"],
+  ["HB-004", "Five Guys Style Burger"],
+  ["HB-005", "Sonic Style Burger"],
+  ["HB-006", "Shake Shack Style Burger"],
+  ["HB-007", "Steakhouse Burger"],
+  ["HB-008", "Breakfast Burger with Egg"],
+  ["HB-009", "Avocado Bacon Burger"],
+  ["HB-010", "Blue Cheese Burger"],
+  ["HB-011", "Garlic Butter Burger"],
+  ["HB-012", "Pizza Burger"],
+  ["HB-013", "Mac & Cheese Burger"],
+  ["HB-014", "Western Burger with Onion Rings"],
+  ["HB-015", "French Onion Burger"],
+  ["HB-016", "Classic Cheeseburger"],
+  ["HB-017", "Double Cheeseburger"],
+  ["HB-018", "Bacon Cheeseburger"],
+  ["HB-019", "Mushroom Swiss Burger"],
+  ["HB-020", "Patty Melt"],
+  ["HB-021", "Smash Burger"],
+  ["HB-022", "Diner Burger"],
+  ["HB-023", "Oklahoma Onion Burger"],
+  ["HB-024", "BBQ Bacon Burger"],
+  ["HB-025", "Smokehouse Burger"],
+  ["HB-026", "Jalapeño BBQ Burger"],
+  ["HB-027", "Chili Cheese Burger"],
+  ["HB-028", "Texas Burger"],
+  ["HB-029", "Fried Onion Burger"],
+  ["HB-030", "Pimento Cheese Burger"],
+  ["HB-031", "Lipsey Burger"],
+  ["HBP-001", "Standard Thin Hamburger Patty"],
+  ["HBP-002", "Quarter-Pound Hamburger Patty"],
+  ["HBP-003", "Smashburger Patty"],
+  ["HBP-004", "Garlic Pepper Patty"],
+  ["HBP-005", "Worcestershire Onion Patty"],
+  ["HBP-006", "Steakhouse Patty"],
+  ["HBP-007", "BBQ Bacon Patty"],
+  ["HBP-008", "Jalapeño Cheddar Patty"],
+  ["HBP-009", "Cajun Patty"],
+  ["HBP-010", "Taco Burger Patty"],
+  ["HBP-011", "Garlic Butter Patty"],
+  ["HBP-012", "Lipsey-Style Chili"],
+  ["IT-001", "Chicken Alfredo"],
+  ["IT-002", "Chicken Parmesan"],
+  ["IT-003", "Chicken Marsala"],
+  ["IT-004", "Chicken Piccata"],
+  ["IT-005", "Tuscan Chicken"],
+  ["IT-006", "Creamy Garlic Chicken Pasta"],
+  ["IT-007", "Italian Baked Chicken"],
+  ["IT-008", "Chicken Cacciatore"],
+  ["IT-009", "Chicken Florentine"],
+  ["IT-010", "Chicken Scampi"],
+  ["IT-011", "Spaghetti & Meatballs"],
+  ["IT-012", "Baked Ziti with Italian Sausage"],
+  ["IT-013", "Lasagna"],
+  ["IT-014", "Italian Meatloaf"],
+  ["IT-015", "Beef Ragu"],
+  ["IT-016", "Italian Beef Sandwiches"],
+  ["IT-017", "Sausage & Peppers"],
+  ["IT-018", "Stuffed Shells with Meat Sauce"],
+  ["IT-019", "Manicotti with Meat Sauce"],
+  ["IT-020", "Italian Meatballs"],
+  ["IT-021", "Fettuccine Alfredo"],
+  ["IT-022", "Baked Spaghetti"],
+  ["IT-023", "Pasta Primavera"],
+  ["IT-024", "Penne Alla Vodka"],
+  ["IT-025", "Cheese Ravioli Bake"],
+  ["IT-026", "Tortellini Alfredo"],
+  ["IT-027", "Pesto Pasta"],
+  ["IT-028", "Creamy Tomato Pasta"],
+  ["IT-029", "Spinach Ricotta Stuffed Shells"],
+  ["IT-030", "Eggplant Parmesan"],
+  ["IT-031", "Shrimp Scampi"],
+  ["IT-032", "Seafood Alfredo"],
+  ["IT-033", "Linguine with Clam Sauce"],
+  ["IT-034", "Lemon Garlic Shrimp Pasta"],
+  ["IT-035", "Italian Baked Cod"],
+  ["IT-036", "Salmon Florentine"],
+  ["IT-037", "Shrimp Fra Diavolo"],
+  ["IT-038", "Crab Ravioli"],
+  ["IT-039", "Scallop Pasta"],
+  ["IT-040", "Tuna Pasta Bake"],
+  ["IT-041", "Margherita Pizza"],
+  ["IT-042", "Pepperoni Pizza"],
+  ["IT-043", "Italian Sausage Pizza"],
+  ["IT-044", "Garlic Bread Pizza"],
+  ["IT-045", "Stromboli"],
+  ["IT-046", "Calzone"],
+  ["IT-047", "Meatball Subs"],
+  ["IT-048", "Chicken Parmesan Subs"],
+  ["IT-049", "Italian Sliders"],
+  ["IT-050", "Caprese Flatbread"],
+  ["IT-051", "Zuppa Toscana"],
+  ["IT-052", "Pasta Fagioli"],
+  ["IT-053", "Italian Wedding Soup"],
+  ["IT-054", "Minestrone Soup"],
+  ["IT-055", "Tomato Basil Soup"],
+  ["IT-056", "Chicken Gnocchi Soup"],
+  ["IT-057", "Sausage Tortellini Soup"],
+  ["IT-058", "Ribollita"],
+  ["IT-059", "Italian Lentil Soup"],
+  ["IT-060", "Creamy Parmesan Soup"],
+  ["JJ-001", "Homemade Blackberry Jam"],
+  ["JJ-002", "Lower-Cal Blackberry Jam"],
+  ["JJ-003", "Lower-Cal Blueberry Jam"],
+  ["JJ-004", "Lower-Cal Peach Jam"],
+  ["JJ-005", "Lower-Cal Strawberry Jam"],
+  ["JJ-006", "Jalapeño Bacon Jam"],
+  ["JJ-007", "Jalapeño Mint Bacon Jam"],
+  ["JJ-008", "Maple Bourbon Bacon Jam"],
+  ["JJ-009", "Peach Jalapeño Jam"],
+  ["JJ-010", "Pineapple Bacon Jam"],
+  ["JJ-011", "Pineapple Jalapeño Jam"],
+  ["JJ-012", "Strawberry Jalapeño Jam"],
+  ["JJ-013", "Tomato Onion Bacon Jam"],
+  ["JJ-014", "Low-Cal Strawberry Preserves"],
+  ["JJ-015", "Low-Cal Grape Jam"],
+  ["JJ-016", "Low-Cal Raspberry Preserves"],
+  ["JJ-017", "Low-Cal Blackberry Preserves"],
+  ["JJ-018", "Low-Cal Blueberry Preserves"],
+  ["JJ-019", "Low-Cal Peach Preserves"],
+  ["JJ-020", "All-Fruit Strawberry Preserves"],
+  ["JJ-021", "All-Fruit Grape Jam"],
+  ["JJ-022", "All-Fruit Raspberry Preserves"],
+  ["JJ-023", "All-Fruit Blackberry Preserves"],
+  ["JJ-024", "All-Fruit Blueberry Preserves"],
+  ["JJ-025", "All-Fruit Peach Preserves"],
+  ["KR-001", "Sausage & Cheese Kolaches"],
+  ["KR-002", "Ham & Swiss Kolaches"],
+  ["KR-003", "Bacon, Egg & Cheese Kolaches"],
+  ["KR-004", "Sausage, Egg & Cheese Kolaches"],
+  ["KR-005", "Boudin Kolaches"],
+  ["KR-006", "Chicken Nugget Kolaches"],
+  ["KR-007", "Mini Sausage Kolaches"],
+  ["LF-001", "Basic White Breads"],
+  ["LF-002", "Honey Wheat Breads"],
+  ["LF-003", "Buttermilk Breads"],
+  ["LF-004", "Whole Wheat Breads"],
+  ["LF-005", "Cheddar Cheese Breads"],
+  ["LF-006", "Jalapeño Cheddar Breads"],
+  ["LF-007", "Italian-Style Breads"],
+  ["LF-008", "Onion-Olive Breads"],
+  ["LF-009", "Parmesan Garlic Breads"],
+  ["LF-010", "Hawaiian-Style Breads"],
+  ["LF-011", "Pretzel Breads"],
+  ["LF-012", "Garlic-Cheese Breads"],
+  ["LF-013", "Sourdough: No-Knead Artisan Bread"],
+  ["LF-014", "Sourdough: Overnight Artisan Bread"],
+  ["LF-015", "Sourdough: Rustic Farmhouse Bread"],
+  ["LF-FZ1", "Making & Storing Frozen Breads"],
+  ["LF-FZ2", "Freezing Dough After Proofing, Before Baking"],
   ["MX-019", "Queso Dip"],
   ["MX-020", "White Queso Dip"],
   ["MX-021", "Enchilada Casserole"],
@@ -271,6 +582,15 @@ const recipeRows = [
 ];
 
 export const recipes = recipeRows.map(makeRecipe);
-const categoryCounts = recipes.reduce((counts, recipe) => { counts[recipe.categoryCode] = (counts[recipe.categoryCode] || 0) + 1; return counts; }, {});
-export const categories = baseCategories.map((category) => ({ ...category, count: categoryCounts[category.id] || 0 }));
+
+const categoryCounts = recipes.reduce((counts, recipe) => {
+  counts[recipe.categoryCode] = (counts[recipe.categoryCode] || 0) + 1;
+  return counts;
+}, {});
+
+export const categories = baseCategories.map((category) => ({
+  ...category,
+  count: categoryCounts[category.id] || 0,
+});
+
 export const categoriesWithCounts = categories;
