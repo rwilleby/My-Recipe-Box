@@ -366,15 +366,15 @@ const GROCERY_REFERENCE_GROUPS = [
       {
         name: "Lower-calorie burger buns",
         useFor: "Burgers, pulled pork, sandwiches",
-        examples: ["647 sandwich rolls", "Thin sandwich buns", "Whole wheat sandwich thins"],
-        note: "Check size and texture; some thin buns work better toasted.",
+        examples: ["Homemade buns or rolls", "647 sandwich rolls", "Thin sandwich buns", "Whole wheat sandwich thins"],
+        note: "Homemade is a good option because you control ingredients; some thin buns work better toasted.",
         terms: ["burger buns", "buns", "sandwich buns", "rolls"],
       },
       {
         name: "Lower-carb sandwich bread",
         useFor: "Sandwiches, toast, freezer breakfast sandwiches",
-        examples: ["Nature's Own Keto", "Sola bread", "647 bread"],
-        note: "Freeze extra slices so a small household can avoid waste.",
+        examples: ["Homemade sandwich bread", "Nature's Own Keto", "Sola bread", "647 bread"],
+        note: "Homemade is a good option because you control ingredients; freeze extra slices to avoid waste.",
         terms: ["bread", "sandwich bread", "toast"],
       },
     ],
@@ -2239,6 +2239,162 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, setActi
     }));
   }
 
+  function printShoppingList() {
+    const printWindow = window.open("", "_blank", "width=900,height=700");
+
+    const neededGroups = Object.entries(groupedNeeded);
+    const pantryGroups = Object.entries(groupedPantry);
+
+    const neededHtml = neededGroups.length
+      ? neededGroups.map(([aisle, items]) => `
+          <section>
+            <h2>${aisle}</h2>
+            ${items.map((item) => `
+              <div class="item">
+                <span class="box"></span>
+                <strong>${item.name}</strong>
+                <em>${formatQty(item.qty)} ${item.unit}</em>
+              </div>
+            `).join("")}
+          </section>
+        `).join("")
+      : `<p>No needed items.</p>`;
+
+    const pantryHtml = pantryGroups.length
+      ? pantryGroups.map(([aisle, items]) => `
+          <section>
+            <h2>${aisle}</h2>
+            ${items.map((item) => `
+              <div class="item pantry">
+                <span class="box filled"></span>
+                <strong>${item.name}</strong>
+                <em>${formatQty(item.qty)} ${item.unit}</em>
+              </div>
+            `).join("")}
+          </section>
+        `).join("")
+      : "";
+
+    if (!printWindow) {
+      window.print();
+      return;
+    }
+
+    printWindow.document.write(`
+      <!doctype html>
+      <html>
+        <head>
+          <title>Shopping List</title>
+          <style>
+            @page { size: portrait; margin: 0.35in; }
+            * { box-sizing: border-box; }
+            body {
+              margin: 0;
+              color: #111;
+              font-family: Arial, Helvetica, sans-serif;
+              font-size: 10px;
+              line-height: 1.15;
+            }
+            header {
+              display: flex;
+              justify-content: space-between;
+              align-items: end;
+              border-bottom: 2px solid #111;
+              padding-bottom: 6px;
+              margin-bottom: 8px;
+            }
+            h1 {
+              margin: 0;
+              font-size: 18px;
+              letter-spacing: .04em;
+              text-transform: uppercase;
+            }
+            .date { font-size: 10px; color: #333; }
+            .grid {
+              display: grid;
+              grid-template-columns: repeat(2, minmax(0, 1fr));
+              column-gap: 18px;
+              row-gap: 8px;
+              align-items: start;
+            }
+            section {
+              break-inside: avoid;
+              page-break-inside: avoid;
+              border: 1px solid #999;
+              border-radius: 6px;
+              overflow: hidden;
+            }
+            h2 {
+              margin: 0;
+              padding: 4px 6px;
+              background: #f0f0f0;
+              border-bottom: 1px solid #999;
+              font-size: 11px;
+              text-transform: uppercase;
+              letter-spacing: .04em;
+            }
+            .item {
+              display: grid;
+              grid-template-columns: 14px minmax(0, 1fr) auto;
+              gap: 5px;
+              align-items: center;
+              min-height: 20px;
+              padding: 3px 6px;
+              border-bottom: 1px solid #ddd;
+            }
+            .item:last-child { border-bottom: 0; }
+            .box {
+              width: 10px;
+              height: 10px;
+              border: 1px solid #111;
+              display: inline-block;
+            }
+            .filled { background: #111; }
+            strong {
+              font-weight: 600;
+              min-width: 0;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
+            em {
+              font-style: normal;
+              color: #333;
+              white-space: nowrap;
+            }
+            .pantryTitle {
+              font-size: 13px;
+              margin: 12px 0 6px;
+              padding-top: 6px;
+              border-top: 1px solid #111;
+            }
+          </style>
+        </head>
+        <body>
+          <header>
+            <h1>Shopping List</h1>
+            <div class="date">${new Date().toLocaleDateString()}</div>
+          </header>
+
+          <div class="grid">
+            ${neededHtml}
+          </div>
+
+          ${pantryHtml ? `<h1 class="pantryTitle">Already in Pantry</h1><div class="grid">${pantryHtml}</div>` : ""}
+
+          <script>
+            window.onload = () => {
+              window.focus();
+              window.print();
+            };
+          </script>
+        </body>
+      </html>
+    `);
+
+    printWindow.document.close();
+  }
+
   function renderGroceryReference(item) {
     const reference = findGroceryReference(item.name);
     if (!reference) return null;
@@ -2307,15 +2463,25 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, setActi
             Needed items stay open for shopping. Pantry staples you already have
             are shown separately.
           </p>
-          <button
-            className="secondary pageInlineButton"
-            onClick={() => setActivePage("Freezer Tips")}
-          >
-            Review freezer storage tips
-          </button>
         </div>
 
-
+        <div className="pageHeaderActions">
+          <button className="primary" onClick={printShoppingList}>
+            Print List
+          </button>
+          <button
+            className="secondary"
+            onClick={() => setActivePage("Freezer Tips")}
+          >
+            Freezer Tips
+          </button>
+          <button
+            className="secondary"
+            onClick={() => setActivePage("Grocery Picks")}
+          >
+            Grocery Picks
+          </button>
+        </div>
       </div>
 
       {list.length === 0 ? (
@@ -2536,9 +2702,6 @@ function GroceryPicksPage({ setActivePage }) {
         <div className="pageHeaderActions">
           <button className="secondary" onClick={() => setActivePage("Shopping Lists")}>
             Back to Shopping List
-          </button>
-          <button className="secondary" onClick={() => setActivePage("Freezer Tips")}>
-            Freezer Tips
           </button>
         </div>
       </div>

@@ -1,15 +1,12 @@
-SHOPPING LIST TWO-COLUMN + COMPACT SUGGESTIONS UPDATE
+SHOPPING PRINT LIST + BREAD HOMEMADE UPDATE
 
 Upload/replace:
 src/App.jsx
 src/App.css
 
 What changed:
-- Shopping List groups now display in 2 wider columns instead of 4.
-- Product recommendation notes are shorter and less wordy.
-- Recommendation notes now show:
-  Suggested picks: item type
-  brand/example list
-  small Review button
-- Shopping-list intro text was tightened.
-- Mobile still switches to one column.
+- Bread/bun grocery recommendations now include homemade options because users can control ingredients.
+- Added PRINT LIST button on the Shopping List page.
+- Print output opens a condensed, easy-use one-line shopping list.
+- Print layout uses two columns, aisle sections, checkboxes, item name, and quantity.
+- Main homepage Freezer Tips button removed if present.
