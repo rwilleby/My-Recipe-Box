@@ -4593,3 +4593,104 @@ th {
     width: 100%;
   }
 }
+
+
+/* ================================
+   SHOPPING LIST TWO-COLUMN + COMPACT SUGGESTIONS UPDATE
+   Wider columns make product suggestions easier to read.
+   Shorter notes keep the list from feeling too wordy.
+   ================================ */
+
+.shoppingGrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.shoppingGroup {
+  padding: 15px 16px;
+}
+
+.shoppingGroup h2 {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.shoppingItem {
+  min-height: 36px;
+  padding: 8px 0;
+  grid-template-columns: 24px minmax(0, 1fr) auto;
+}
+
+.shoppingItem span {
+  min-width: 0;
+}
+
+.shoppingItem small {
+  white-space: nowrap;
+}
+
+.shoppingSuggestionNote {
+  margin: -1px 0 9px 33px;
+  padding: 8px 10px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: 10px;
+  row-gap: 4px;
+  align-items: center;
+}
+
+.shoppingSuggestionNote strong {
+  grid-column: 1 / 2;
+  font-size: 12.5px;
+  line-height: 1.15;
+}
+
+.shoppingSuggestionNote span {
+  display: none;
+}
+
+.shoppingSuggestionNote small {
+  grid-column: 1 / 2;
+  font-size: 11px;
+  line-height: 1.2;
+}
+
+.shoppingSuggestionNote button {
+  grid-column: 2 / 3;
+  grid-row: 1 / 3;
+  min-height: 28px;
+  padding: 0 9px;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.shoppingListSectionHeader {
+  margin-bottom: 10px;
+}
+
+.shoppingListSectionHeader h2 {
+  font-size: 21px;
+}
+
+.shoppingListSectionHeader p {
+  font-size: 13px;
+}
+
+@media (max-width: 900px) {
+  .shoppingGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .shoppingSuggestionNote {
+    margin-left: 0;
+    grid-template-columns: 1fr;
+  }
+
+  .shoppingSuggestionNote button {
+    grid-column: 1;
+    grid-row: auto;
+    justify-self: start;
+  }
+}

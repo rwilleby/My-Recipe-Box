@@ -2245,13 +2245,10 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, setActi
 
     return (
       <div className="shoppingSuggestionNote">
-        <strong>{reference.name}</strong>
-        <span>{reference.note}</span>
-        <small>
-          Examples to review: {reference.examples.slice(0, 3).join(" · ")}
-        </small>
+        <strong>Suggested picks: {reference.name}</strong>
+        <small>{reference.examples.slice(0, 3).join(" · ")}</small>
         <button type="button" onClick={() => setActivePage("Grocery Picks")}>
-          View grocery picks
+          Review
         </button>
       </div>
     );
@@ -2308,7 +2305,7 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, setActi
           <h1>Shopping list</h1>
           <p>
             Needed items stay open for shopping. Pantry staples you already have
-            are filled in black and are not included in the grocery total.
+            are shown separately.
           </p>
           <button
             className="secondary pageInlineButton"
@@ -2332,7 +2329,7 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, setActi
             <div className="shoppingListSectionHeader">
               <div>
                 <h2>NEEDED ITEMS</h2>
-                <p>Open boxes are added to your grocery shopping list.</p>
+                <p>Open boxes are items to buy.</p>
               </div>
               <strong>{needed.length} items</strong>
             </div>
@@ -2358,7 +2355,7 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, setActi
             <div className="shoppingListSectionHeader">
               <div>
                 <h2>ALREADY IN PANTRY</h2>
-                <p>Filled black boxes are pantry staples and are not added to the grocery total.</p>
+                <p>Filled black boxes are already in your pantry.</p>
               </div>
               <div className="pantryHeaderActions">
                 <strong>{pantryItems.length} items</strong>
