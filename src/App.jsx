@@ -612,6 +612,22 @@ const HERO_IMAGES = [
   "images/thumbs/heroes/hero-cake-wide.jpg",
   "images/thumbs/heroes/hero-shrimp-wide.jpg",
 ];
+
+const ABOUT_STORY_PHOTOS = [
+  {
+    src: "images/about/robert-pete-stairs.jpg",
+    alt: "Robert sitting on the stairs with Pete beside him",
+  },
+  {
+    src: "images/about/robert-pete-pool.jpg",
+    alt: "Robert in the pool with Pete",
+  },
+  {
+    src: "images/about/robert-pete-puppy.jpg",
+    alt: "Robert resting with Pete as a puppy",
+  },
+];
+
 const WEEK_DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 const PLANNER_WEEKS = [
@@ -3033,33 +3049,117 @@ function FreezerTipsPage({ setActivePage }) {
   );
 }
 
-function AboutPage() {
-  return (
-    <main className="pageShell">
-      <div className="pageHeader">
-        <div>
-          <div className="aiBadge">ABOUT THE PROJECT</div>
-          <h1>AI-generated planning tools, not private recipes</h1>
-          <p>
-            Robert’s Recipe Box is a practical recipe planning library. Recipes
-            and collections are AI-generated to help users browse ideas, plan
-            meals, build shopping lists, and track pantry staples.
-          </p>
-        </div>
-      </div>
+function AboutPage({ setActivePage }) {
+  const [photoIndex, setPhotoIndex] = useState(0);
 
-      <div className="aboutCard">
-        <h2>Browser-based first version</h2>
-        <p>
-          Favorites, weekly plans, shopping list checks, and serving size are
-          saved using your browser’s local storage. They stay on this browser
-          and are not synced across devices.
-        </p>
-        <p>
-          This keeps the first GitHub Pages version simple, fast, and easy to
-          maintain. A login-based version can be added later.
-        </p>
-      </div>
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setPhotoIndex((current) => (current + 1) % ABOUT_STORY_PHOTOS.length);
+    }, 4500);
+
+    return () => window.clearInterval(timer);
+  }, []);
+
+  function goToPhoto(offset) {
+    setPhotoIndex((current) =>
+      (current + offset + ABOUT_STORY_PHOTOS.length) % ABOUT_STORY_PHOTOS.length
+    );
+  }
+
+  return (
+    <main className="pageShell aboutPageShell">
+      <section className="aboutHeroSection">
+        <div className="aboutFramePanel">
+          <div className="vintageFrame">
+            <div className="vintageFrameInner">
+              <div className="vintagePhotoStage">
+                {ABOUT_STORY_PHOTOS.map((photo, index) => (
+                  <img
+                    key={photo.src}
+                    src={`${import.meta.env.BASE_URL}${photo.src}`}
+                    alt={photo.alt}
+                    className={index === photoIndex ? "vintagePhoto active" : "vintagePhoto"}
+                    loading={index === 0 ? "eager" : "lazy"}
+                    decoding="async"
+                  />
+                ))}
+              </div>
+            </div>
+
+            <button
+              className="aboutFrameNav aboutFrameNavPrev"
+              type="button"
+              onClick={() => goToPhoto(-1)}
+              aria-label="Previous Robert and Pete photo"
+            >
+              ‹
+            </button>
+            <button
+              className="aboutFrameNav aboutFrameNavNext"
+              type="button"
+              onClick={() => goToPhoto(1)}
+              aria-label="Next Robert and Pete photo"
+            >
+              ›
+            </button>
+          </div>
+
+          <div className="aboutPhotoDots" aria-label="About photo selector">
+            {ABOUT_STORY_PHOTOS.map((photo, index) => (
+              <button
+                key={photo.src}
+                type="button"
+                className={index === photoIndex ? "active" : ""}
+                onClick={() => setPhotoIndex(index)}
+                aria-label={`Show about photo ${index + 1}`}
+              />
+            ))}
+          </div>
+
+          <p className="aboutPhotoCaption">♡ Robert &amp; Pete — always better together.</p>
+        </div>
+
+        <div className="aboutStoryCard">
+          <div className="aiBadge">ABOUT ROBERT&apos;S RECIPE BOX</div>
+
+          <h1>Why I Created Robert’s Recipe Box</h1>
+
+          <div className="aboutDivider" aria-hidden="true">
+            <span />
+          </div>
+
+          <p>
+            I created Robert&apos;s Recipe Box to make home cooking easier for
+            seniors, older couples, and anyone who does not need the oversized
+            portions or high cost of meal subscription programs.
+          </p>
+
+          <p>
+            Most recipe sites either assume you are cooking for a crowd or leave
+            you with too much work in the kitchen. I wanted to build a simpler,
+            more practical option — recipes that feel familiar, manageable, and
+            worth making.
+          </p>
+
+          <p>
+            Many of the meals are planned so you can cook once, enjoy a meal
+            now, and freeze another portion for later. My goal is to help
+            people save money, stay organized, and keep good homemade meals on
+            hand with recipe cards, meal planning, shopping lists, and helpful
+            kitchen tips.
+          </p>
+
+          <div className="aboutStoryActions">
+            <button className="primary" onClick={() => setActivePage("Recipes")}>
+              ▣ Browse Recipes
+            </button>
+
+            <button className="secondary" onClick={() => setActivePage("Meal Planner")}>
+              ▣ Start Meal Planning
+            </button>
+          </div>
+        </div>
+      </section>
     </main>
   );
 }
@@ -3198,7 +3298,7 @@ export default function App() {
       {activePage === "Recommendations" && <RecommendationsPage {...pageProps} />}
       {activePage === "Grocery Picks" && <GroceryPicksPage {...pageProps} />}
       {activePage === "Freezer Tips" && <FreezerTipsPage {...pageProps} />}
-      {activePage === "About" && <AboutPage />}
+      {activePage === "About" && <AboutPage setActivePage={setActivePage} />}
 
       <RecipeCardViewer
         viewer={cardViewer}

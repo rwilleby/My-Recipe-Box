@@ -4875,3 +4875,251 @@ th {
    public/images/thumbs/recipes/CODE.jpg
    public/images/thumbs/heroes/hero-name.jpg
    ================================ */
+
+
+/* ================================
+   ABOUT PAGE — ROBERT & PETE STORY FRAME
+   ================================ */
+
+.aboutPageShell {
+  padding-top: 38px;
+  padding-bottom: 60px;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,.92), rgba(255,255,255,.96)),
+    var(--cream);
+}
+
+.aboutHeroSection {
+  display: grid;
+  grid-template-columns: minmax(330px, 0.95fr) minmax(0, 1.05fr);
+  gap: clamp(30px, 4vw, 58px);
+  align-items: center;
+}
+
+.aboutFramePanel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.vintageFrame {
+  position: relative;
+  width: min(100%, 560px);
+  padding: clamp(14px, 2vw, 22px);
+  border-radius: 10px;
+  background:
+    linear-gradient(145deg, #5c3a1c 0%, #cda867 20%, #7a5129 42%, #e1be7a 58%, #4b2f17 100%);
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.18),
+    inset 0 0 0 2px rgba(255, 255, 255, 0.22),
+    inset 0 0 0 7px rgba(72, 42, 18, 0.34);
+}
+
+.vintageFrame::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border-radius: 7px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  pointer-events: none;
+}
+
+.vintageFrameInner {
+  position: relative;
+  z-index: 1;
+  padding: clamp(10px, 1.5vw, 16px);
+  border-radius: 5px;
+  background: #f3eee4;
+  box-shadow:
+    inset 0 0 0 1px rgba(99, 75, 43, 0.22),
+    inset 0 0 20px rgba(120, 94, 55, 0.08);
+}
+
+.vintagePhotoStage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3.05;
+  overflow: hidden;
+  border-radius: 3px;
+  background: #ddd6c8;
+  border: 1px solid #c9bea8;
+}
+
+.vintagePhoto {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0;
+  transform: scale(1.015);
+  transition: opacity 700ms ease, transform 1200ms ease;
+}
+
+.vintagePhoto.active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.aboutFrameNav {
+  position: absolute;
+  top: 50%;
+  z-index: 4;
+  width: 48px;
+  height: 48px;
+  border: 1px solid rgba(20, 83, 45, .18);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.94);
+  color: var(--green);
+  font-size: 36px;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 8px 20px rgba(0,0,0,.12);
+  transform: translateY(-50%);
+}
+
+.aboutFrameNavPrev {
+  left: -18px;
+}
+
+.aboutFrameNavNext {
+  right: -18px;
+}
+
+.aboutPhotoDots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 2px;
+}
+
+.aboutPhotoDots button {
+  width: 12px;
+  height: 12px;
+  border: 0;
+  border-radius: 999px;
+  background: #d4d0c6;
+  transition: transform .18s ease, background .18s ease;
+}
+
+.aboutPhotoDots button.active {
+  background: var(--green);
+  transform: scale(1.14);
+}
+
+.aboutPhotoCaption {
+  margin: 0;
+  color: var(--green);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 17px;
+  font-style: italic;
+  text-align: center;
+}
+
+.aboutStoryCard {
+  background: rgba(255,255,255,.96);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  padding: clamp(28px, 4vw, 46px);
+}
+
+.aboutStoryCard h1 {
+  margin: 16px 0 14px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(42px, 5vw, 72px);
+  line-height: .96;
+  letter-spacing: -0.055em;
+  color: #1f2328;
+}
+
+.aboutDivider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 8px 0 26px;
+  color: #9cab91;
+}
+
+.aboutDivider::before,
+.aboutDivider::after {
+  content: "";
+  height: 1px;
+  flex: 1;
+  background: #cbd4c1;
+}
+
+.aboutDivider span::before {
+  content: "❧";
+  font-size: 24px;
+  color: #9cab91;
+}
+
+.aboutStoryCard p {
+  margin: 0 0 18px;
+  color: #20242a;
+  font-size: clamp(16px, 1.18vw, 19px);
+  line-height: 1.62;
+}
+
+.aboutStoryActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 28px;
+}
+
+@media (max-width: 1050px) {
+  .aboutHeroSection {
+    grid-template-columns: 1fr;
+  }
+
+  .aboutFramePanel {
+    order: 2;
+  }
+
+  .aboutStoryCard {
+    order: 1;
+  }
+
+  .vintageFrame {
+    max-width: 620px;
+  }
+}
+
+@media (max-width: 640px) {
+  .aboutPageShell {
+    padding-top: 24px;
+  }
+
+  .aboutStoryCard h1 {
+    font-size: clamp(34px, 11vw, 46px);
+  }
+
+  .aboutStoryActions {
+    flex-direction: column;
+  }
+
+  .aboutStoryActions .primary,
+  .aboutStoryActions .secondary {
+    width: 100%;
+  }
+
+  .aboutFrameNav {
+    width: 40px;
+    height: 40px;
+    font-size: 30px;
+  }
+
+  .aboutFrameNavPrev {
+    left: -10px;
+  }
+
+  .aboutFrameNavNext {
+    right: -10px;
+  }
+}
