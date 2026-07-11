@@ -1,21 +1,13 @@
-REMOVE COST ESTIMATOR UPDATE
+Freezer Meals & Storage update
 
-Upload/replace these in GitHub:
+Upload/replace:
 src/App.jsx
 src/App.css
 
-Optional but included for consistency:
-src/data/recipes.js
-src/utils/planning.js
-src/utils/storage.js
-index.html
-package.json
-vite.config.js
-
-Changes:
-- Removed Cost Estimator from Shopping dropdown.
-- Removed Cost Estimator page route.
-- Removed visible estimated meal cost from planner rows.
-- Removed visible grocery total and item costs from Shopping List.
-- Replaced feature card wording with Pantry Staples.
-- Updated homepage/about copy to stop promising food cost estimates.
+This adds:
+- Recommendations > Freezer Meals & Storage menu item
+- New Freezer Meals & Storage page
+- Homepage Freezer Tips button
+- Planner sidebar Review Freezer Tips button
+- Shopping List Review freezer storage tips button
+- Recommendations card linking to the freezer page

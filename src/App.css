@@ -4237,3 +4237,156 @@ th {
   line-height: 1.4;
   font-size: 14px;
 }
+
+
+/* ================================
+   FREEZER MEALS & STORAGE PAGE
+   ================================ */
+
+.freezerHeroButton {
+  background: rgba(255, 255, 255, .92);
+}
+
+.pageInlineButton {
+  margin-top: 14px;
+}
+
+.freezerHeader {
+  align-items: flex-start;
+}
+
+.freezerHeaderActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.freezerIntroCard,
+.freezerPanel,
+.freezerSuppliesPanel {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .04);
+}
+
+.freezerIntroCard {
+  padding: 22px;
+  margin-bottom: 18px;
+}
+
+.freezerIntroCard h2,
+.freezerPanel h2,
+.freezerSuppliesTitle h2 {
+  margin-top: 0;
+  color: var(--green);
+}
+
+.freezerIntroCard ol {
+  margin: 10px 0 0;
+  padding-left: 22px;
+  display: grid;
+  gap: 8px;
+  color: #374151;
+}
+
+.freezerSectionGrid {
+  display: grid;
+  grid-template-columns: 1.35fr .85fr .85fr;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.freezerPanel {
+  padding: 20px;
+}
+
+.freezerTipGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.freezerTipCard {
+  border: 1px solid #edf0ea;
+  border-radius: 12px;
+  padding: 14px;
+  background: #fbfaf7;
+}
+
+.freezerTipCard h3 {
+  margin: 0 0 6px;
+  color: #111827;
+  font-size: 15px;
+}
+
+.freezerTipCard p,
+.freezerList {
+  margin: 0;
+  color: #374151;
+  line-height: 1.4;
+  font-size: 14px;
+}
+
+.freezerList {
+  padding-left: 20px;
+  display: grid;
+  gap: 9px;
+}
+
+.cautionPanel {
+  background: #fffdf8;
+}
+
+.freezerSuppliesPanel {
+  padding: 20px;
+}
+
+.freezerSuppliesTitle {
+  margin-bottom: 14px;
+}
+
+.freezerSupplyGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.freezerSupplyCard {
+  min-height: 52px;
+  display: grid;
+  place-items: center;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fbfaf7;
+  color: #111827;
+  font-weight: 750;
+  text-align: center;
+}
+
+@media (max-width: 1100px) {
+  .freezerHeader {
+    flex-direction: column;
+  }
+
+  .freezerHeaderActions {
+    justify-content: flex-start;
+  }
+
+  .freezerSectionGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .freezerSupplyGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .freezerTipGrid,
+  .freezerSupplyGrid {
+    grid-template-columns: 1fr;
+  }
+}

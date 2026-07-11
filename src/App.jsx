@@ -456,6 +456,7 @@ function Header({ activePage, setActivePage }) {
         { label: "Kitchen Tools & Products", page: "Recommendations" },
         { label: "Helpful Videos & Channels", page: "Recommendations" },
         { label: "Storage & Organization", page: "Recommendations" },
+        { label: "Freezer Meals & Storage", page: "Freezer Tips" },
         { label: "Social Pages I Follow", page: "Recommendations" },
       ],
     },
@@ -574,6 +575,12 @@ function Hero({ setActivePage }) {
             onClick={() => setActivePage("Meal Planner")}
           >
             ▣ Start Meal Planning
+          </button>
+          <button
+            className="secondary freezerHeroButton"
+            onClick={() => setActivePage("Freezer Tips")}
+          >
+            ▣ Freezer Tips
           </button>
         </div>
       </div>
@@ -1609,7 +1616,7 @@ function RecipesPage({
   );
 }
 
-function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFavorite, openRecipeCard }) {
+function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFavorite, openRecipeCard, setActivePage }) {
   const normalizedPlan = useMemo(() => normalizeTwoWeekPlan(plan), [plan]);
   const [selectedSlot, setSelectedSlot] = useState("week1-Mon");
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -1849,9 +1856,10 @@ function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFa
           <section className="plannerSideCard">
             <h2>Planning Tip</h2>
             <p className="plannerSideNote">
-              Use your two-week plan to build a focused shopping list and avoid
-              buying duplicate pantry staples.
+              Use your two-week plan to cook once, eat once, and freeze one meal
+              for a future week.
             </p>
+            <button onClick={() => setActivePage("Freezer Tips")}>Review Freezer Tips</button>
           </section>
         </aside>
       </div>
@@ -2057,6 +2065,12 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, setActi
             Needed items stay open for shopping. Pantry staples you already have
             are filled in black and are not included in the grocery total.
           </p>
+          <button
+            className="secondary pageInlineButton"
+            onClick={() => setActivePage("Freezer Tips")}
+          >
+            Review freezer storage tips
+          </button>
         </div>
 
 
@@ -2196,7 +2210,7 @@ function CollectionsPage() {
   );
 }
 
-function RecommendationsPage() {
+function RecommendationsPage({ setActivePage }) {
   const recommendationCards = [
     {
       title: "Kitchen Tools & Products",
@@ -2215,6 +2229,13 @@ function RecommendationsPage() {
       text: "Food storage, pantry setup, freezer containers, labels, and kitchen organizers.",
       icon: "□",
       note: "Supports leftovers, freezer meals, and small-household planning.",
+    },
+    {
+      title: "Freezer Meals & Storage",
+      text: "Tips, supplies, labels, and containers for saving a second prepared meal for later.",
+      icon: "❄",
+      note: "Cook once, eat once, freeze once.",
+      page: "Freezer Tips",
     },
     {
       title: "Social Pages I Follow",
@@ -2245,11 +2266,129 @@ function RecommendationsPage() {
             <h2>{card.title}</h2>
             <p>{card.text}</p>
             <small>{card.note}</small>
-            <button type="button">Coming soon</button>
+            <button type="button" onClick={() => card.page ? setActivePage(card.page) : undefined}>{card.page ? "Review tips" : "Coming soon"}</button>
           </article>
         ))}
       </div>
 
+    </main>
+  );
+}
+
+
+function FreezerTipsPage({ setActivePage }) {
+  const tipCards = [
+    {
+      title: "Cool before freezing",
+      text: "Let hot foods cool before sealing. This helps prevent steam, ice crystals, and soggy reheats.",
+    },
+    {
+      title: "Portion for two",
+      text: "Pack the extra meal as a two-serving portion so it is ready for another weeknight dinner.",
+    },
+    {
+      title: "Freeze flat when possible",
+      text: "Soups, sauces, shredded meats, and rice bowls stack better when frozen flat in freezer bags.",
+    },
+    {
+      title: "Label every package",
+      text: "Write the recipe name, date, serving count, and simple reheating note before freezing.",
+    },
+  ];
+
+  const supplyCards = [
+    "Freezer bags",
+    "Vacuum seal bags",
+    "Meal-prep containers",
+    "Foil pans with lids",
+    "Freezer-safe labels",
+    "Painter’s tape & marker",
+    "Silicone trays for sauces",
+    "Freezer bins for rotation",
+  ];
+
+  return (
+    <main className="pageShell freezerPage">
+      <div className="pageHeader freezerHeader">
+        <div>
+          <div className="aiBadge">COOK ONCE · EAT ONCE · FREEZE ONCE</div>
+          <h1>Freezer Meals & Storage</h1>
+          <p>
+            Many Robert’s Recipe Box meals are intentionally planned for small
+            households with enough food for dinner now and a second prepared
+            meal to freeze for later.
+          </p>
+        </div>
+
+        <div className="freezerHeaderActions">
+          <button className="primary" onClick={() => setActivePage("Meal Planner")}>
+            Start Meal Planning
+          </button>
+          <button className="secondary" onClick={() => setActivePage("Shopping Lists")}>
+            View Shopping List
+          </button>
+        </div>
+      </div>
+
+      <section className="freezerIntroCard">
+        <h2>The freezer-meal method</h2>
+        <ol>
+          <li>Cook the recipe and enjoy tonight’s meal.</li>
+          <li>Cool the extra portion safely.</li>
+          <li>Pack it as a two-serving freezer meal.</li>
+          <li>Label it with name, date, and reheating notes.</li>
+          <li>Add it to a future meal plan when you need an easy dinner.</li>
+        </ol>
+      </section>
+
+      <section className="freezerSectionGrid">
+        <div className="freezerPanel">
+          <h2>Freezing Tips & Tricks</h2>
+          <div className="freezerTipGrid">
+            {tipCards.map((tip) => (
+              <article className="freezerTipCard" key={tip.title}>
+                <h3>{tip.title}</h3>
+                <p>{tip.text}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+
+        <div className="freezerPanel">
+          <h2>Best Foods to Freeze</h2>
+          <ul className="freezerList">
+            <li>Casseroles and bakes</li>
+            <li>Soups, chili, and stews</li>
+            <li>Meatballs and cooked shredded meats</li>
+            <li>Pasta sauces and Italian meals</li>
+            <li>Rice bowls without fresh toppings</li>
+            <li>Cooked breads, rolls, and kolaches</li>
+          </ul>
+        </div>
+
+        <div className="freezerPanel cautionPanel">
+          <h2>Foods to Freeze Carefully</h2>
+          <ul className="freezerList">
+            <li>Lettuce salads and fresh toppings</li>
+            <li>Mayonnaise-based salads</li>
+            <li>Fried foods that may soften</li>
+            <li>Cream sauces that need gentle reheating</li>
+            <li>Raw tomatoes or watery vegetables</li>
+          </ul>
+        </div>
+      </section>
+
+      <section className="freezerSuppliesPanel">
+        <div className="sectionTitle freezerSuppliesTitle">
+          <h2>Freezer Supplies to Review</h2>
+          <button onClick={() => setActivePage("Recommendations")}>Back to Recommendations ›</button>
+        </div>
+        <div className="freezerSupplyGrid">
+          {supplyCards.map((supply) => (
+            <div className="freezerSupplyCard" key={supply}>{supply}</div>
+          ))}
+        </div>
+      </section>
     </main>
   );
 }
@@ -2416,7 +2555,8 @@ export default function App() {
       {activePage === "Shopping Lists" && <ShoppingListPage {...pageProps} />}
       {activePage === "Pantry Staples" && <PantryStaplesPage {...pageProps} />}
       {activePage === "Favorites" && <FavoritesPage {...pageProps} />}
-      {activePage === "Recommendations" && <RecommendationsPage />}
+      {activePage === "Recommendations" && <RecommendationsPage {...pageProps} />}
+      {activePage === "Freezer Tips" && <FreezerTipsPage {...pageProps} />}
       {activePage === "About" && <AboutPage />}
 
       <RecipeCardViewer
