@@ -131,179 +131,6 @@ const PANTRY_LEVELS = [
   },
 ];
 
-
-const COOKING_METHODS = [
-  {
-    id: "air-fryer",
-    label: "Air Fryer",
-    title: "Air Fryer Recipes",
-    icon: "airFryer",
-    featured: true,
-  },
-  {
-    id: "oven",
-    label: "Conventional Oven",
-    title: "Oven Recipes",
-    icon: "oven",
-    featured: true,
-  },
-  {
-    id: "microwave",
-    label: "Microwave",
-    title: "Microwave-Friendly Recipes",
-    icon: "microwave",
-    featured: true,
-  },
-  {
-    id: "gas-grill",
-    label: "Gas Grill",
-    title: "Gas Grill Recipes",
-    icon: "grill",
-    featured: true,
-  },
-  {
-    id: "smoker",
-    label: "Smoker / Pellet Grill",
-    title: "Smoker & Pellet Grill Recipes",
-    icon: "smoker",
-    featured: true,
-  },
-  {
-    id: "stovetop",
-    label: "Stovetop",
-    title: "Stovetop Recipes",
-    icon: "stovetop",
-    featured: false,
-  },
-  {
-    id: "slow-cooker",
-    label: "Slow Cooker",
-    title: "Slow Cooker Recipes",
-    icon: "slowCooker",
-    featured: false,
-  },
-  {
-    id: "pressure-cooker",
-    label: "Pressure Cooker",
-    title: "Pressure Cooker Recipes",
-    icon: "pressureCooker",
-    featured: false,
-  },
-  {
-    id: "no-cook",
-    label: "No-Cook",
-    title: "No-Cook Recipes",
-    icon: "noCook",
-    featured: false,
-  },
-];
-
-const FEATURED_COOKING_METHODS = COOKING_METHODS.filter((method) => method.featured);
-
-function normalizeRecipeText(recipe) {
-  return `${recipe.id || ""} ${recipe.title || ""} ${recipe.category || ""} ${recipe.categoryCode || ""}`.toLowerCase();
-}
-
-function getRecipeCookingMethods(recipe) {
-  const text = normalizeRecipeText(recipe);
-  const methods = new Set();
-
-  function has(...terms) {
-    return terms.some((term) => text.includes(term));
-  }
-
-  if (
-    has("air fryer", "air-fryer", "fried", "fries", "fritter", "hush puppies", "egg rolls", "spring rolls", "nugget", "tater tots")
-  ) {
-    methods.add("air-fryer");
-  }
-
-  if (
-    has(
-      "baked",
-      "bake",
-      "casserole",
-      "lasagna",
-      "pot pie",
-      "quiche",
-      "pie",
-      "cheesecake",
-      "cobbler",
-      "cinnamon rolls",
-      "donuts",
-      "muffins",
-      "bread",
-      "rolls",
-      "kolaches",
-      "ziti",
-      "stuffed shells",
-      "manicotti"
-    ) ||
-    ["CC", "CO", "CR", "DN", "LF", "KR", "PM", "QP"].includes(recipe.categoryCode)
-  ) {
-    methods.add("oven");
-  }
-
-  if (
-    has("microwave", "soup", "rice", "oatmeal", "mug", "reheat", "steam", "campbell")
-  ) {
-    methods.add("microwave");
-  }
-
-  if (
-    has("grilled", "grill", "burger", "hamburger", "hot dogs", "sausage links", "fajita", "flank steak")
-  ) {
-    methods.add("gas-grill");
-  }
-
-  if (
-    has("smoked", "smoker", "brisket", "pork butt", "pulled pork", "ribs", "burnt ends", "smoked chicken") ||
-    recipe.categoryCode === "SG"
-  ) {
-    methods.add("smoker");
-  }
-
-  if (
-    has("skillet", "stir-fry", "stir fry", "saute", "sauté", "alfredo", "scampi", "pepper steak", "beef & broccoli", "lo mein", "chow mein", "quesadilla")
-  ) {
-    methods.add("stovetop");
-  }
-
-  if (
-    has("slow cooker", "crockpot", "crock pot")
-  ) {
-    methods.add("slow-cooker");
-  }
-
-  if (
-    has("pressure cooker", "instant pot")
-  ) {
-    methods.add("pressure-cooker");
-  }
-
-  if (
-    has("salad", "cold", "coleslaw", "egg salad", "chicken salad", "tuna salad", "pimento", "sub-in-a-tub") ||
-    recipe.categoryCode === "SB"
-  ) {
-    methods.add("no-cook");
-  }
-
-  if (methods.size === 0) {
-    if (["AS", "IT", "MX", "SF", "SD"].includes(recipe.categoryCode)) {
-      methods.add("stovetop");
-    } else {
-      methods.add("oven");
-    }
-  }
-
-  return [...methods];
-}
-
-function recipeMatchesCookingMethod(recipe, methodId) {
-  return !methodId || getRecipeCookingMethods(recipe).includes(methodId);
-}
-
-
 const PANTRY_STAPLES = [
   {
     group: "Spices & Seasonings",
@@ -1203,138 +1030,6 @@ function TransparencyLine() {
     </div>
   );
 }
-
-
-function CookingMethodIcon({ type }) {
-  const common = {
-    width: "42",
-    height: "42",
-    viewBox: "0 0 64 64",
-    fill: "none",
-    stroke: "currentColor",
-    strokeWidth: "4",
-    strokeLinecap: "round",
-    strokeLinejoin: "round",
-    ariaHidden: true,
-  };
-
-  if (type === "airFryer") {
-    return (
-      <svg {...common}>
-        <rect x="14" y="18" width="36" height="34" rx="7" />
-        <path d="M22 28h20" />
-        <path d="M23 38h18" />
-        <path d="M25 18v-5h14v5" />
-        <circle cx="45" cy="25" r="2" />
-      </svg>
-    );
-  }
-
-  if (type === "oven") {
-    return (
-      <svg {...common}>
-        <rect x="12" y="12" width="40" height="42" rx="5" />
-        <path d="M12 23h40" />
-        <path d="M22 17h1" />
-        <path d="M32 17h1" />
-        <path d="M42 17h1" />
-        <path d="M22 39h20" />
-        <path d="M24 46h16" />
-      </svg>
-    );
-  }
-
-  if (type === "microwave") {
-    return (
-      <svg {...common}>
-        <rect x="9" y="18" width="46" height="30" rx="5" />
-        <rect x="16" y="24" width="25" height="18" rx="3" />
-        <circle cx="48" cy="28" r="2" />
-        <circle cx="48" cy="38" r="2" />
-        <path d="M22 33c3-4 6 4 9 0s6 4 9 0" />
-      </svg>
-    );
-  }
-
-  if (type === "grill") {
-    return (
-      <svg {...common}>
-        <path d="M14 30h36" />
-        <path d="M18 30c0 12 8 20 14 20s14-8 14-20" />
-        <path d="M22 50l-5 7" />
-        <path d="M42 50l5 7" />
-        <path d="M22 23h20" />
-        <path d="M28 18c-4-4 4-7 0-11" />
-        <path d="M36 18c-4-4 4-7 0-11" />
-      </svg>
-    );
-  }
-
-  if (type === "smoker") {
-    return (
-      <svg {...common}>
-        <rect x="18" y="20" width="30" height="34" rx="5" />
-        <path d="M25 30h16" />
-        <path d="M25 39h16" />
-        <path d="M33 20v-8" />
-        <path d="M29 12c-4-4 4-6 0-10" />
-        <path d="M38 12c-4-4 4-6 0-10" />
-        <path d="M24 54v5" />
-        <path d="M42 54v5" />
-      </svg>
-    );
-  }
-
-  return (
-    <svg {...common}>
-      <circle cx="32" cy="32" r="20" />
-      <path d="M22 34h20" />
-      <path d="M32 22v20" />
-    </svg>
-  );
-}
-
-function CookingMethodGrid({ setActivePage, setCookingMethodFilter }) {
-  function openMethod(method) {
-    setCookingMethodFilter(method.id);
-    setActivePage("Recipes");
-  }
-
-  return (
-    <section className="section cookingMethodSection">
-      <div className="sectionTitle cookingMethodTitle">
-        <h2>Browse by Cooking Method</h2>
-        <button
-          type="button"
-          onClick={() => {
-            setCookingMethodFilter("");
-            setActivePage("Recipes");
-          }}
-        >
-          View all cooking methods ›
-        </button>
-      </div>
-
-      <div className="cookingMethodGrid">
-        {FEATURED_COOKING_METHODS.map((method) => (
-          <button
-            key={method.id}
-            className={`cookingMethodTile cookingMethodTile-${method.id}`}
-            type="button"
-            onClick={() => openMethod(method)}
-            aria-label={`View ${method.title}`}
-          >
-            <span className="cookingMethodIcon">
-              <CookingMethodIcon type={method.icon} />
-            </span>
-            <strong>{method.title}</strong>
-          </button>
-        ))}
-      </div>
-    </section>
-  );
-}
-
 
 function CategoryGrid({ setFilter, setActivePage }) {
   const categoryLookup = new Map(categories.map((category) => [category.id, category]));
@@ -2349,7 +2044,6 @@ function Home({
   openRecipeCard,
   setActivePage,
   setFilter,
-  setCookingMethodFilter,
 }) {
   const recentlyAdded = recipes.slice(0, 4);
 
@@ -2358,7 +2052,6 @@ function Home({
       <Hero setActivePage={setActivePage} />
       <TransparencyLine />
       <CategoryGrid setFilter={setFilter} setActivePage={setActivePage} />
-      <CookingMethodGrid setActivePage={setActivePage} setCookingMethodFilter={setCookingMethodFilter} />
 
       <section className="section">
         <div className="sectionTitle">
@@ -2402,12 +2095,10 @@ function RecipesPage({
   openRecipeCard,
   filter,
   setFilter,
-  cookingMethodFilter,
-  setCookingMethodFilter,
 }) {
   const [query, setQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(filter || "");
-  const [selectedCookingMethod, setSelectedCookingMethod] = useState(cookingMethodFilter || "");
+  const [selectedCookingMethod, setSelectedCookingMethod] = useState("");
   const [selectedMealType, setSelectedMealType] = useState("");
   const [selectedDietaryNeed, setSelectedDietaryNeed] = useState("");
   const [sortBy, setSortBy] = useState("newest");
@@ -2416,10 +2107,6 @@ function RecipesPage({
   useEffect(() => {
     setSelectedCategory(filter || "");
   }, [filter]);
-
-  useEffect(() => {
-    setSelectedCookingMethod(cookingMethodFilter || "");
-  }, [cookingMethodFilter]);
 
   const filteredRecipes = useMemo(() => {
     let list = recipes.filter((recipe) => {
@@ -2436,9 +2123,7 @@ function RecipesPage({
         recipe.categoryCode === selectedCategoryObject?.id ||
         recipe.id?.startsWith(`${selectedCategoryObject?.id}-`);
 
-      const matchesCookingMethod = recipeMatchesCookingMethod(recipe, selectedCookingMethod);
-
-      return matchesQuery && matchesCategory && matchesCookingMethod;
+      return matchesQuery && matchesCategory;
     });
 
     const sorted = [...list];
@@ -2549,19 +2234,12 @@ function RecipesPage({
             ))}
           </select>
 
-          <select
-            value={selectedCookingMethod}
-            onChange={(e) => {
-              setSelectedCookingMethod(e.target.value);
-              setCookingMethodFilter(e.target.value);
-            }}
-          >
+          <select value={selectedCookingMethod} onChange={(e) => setSelectedCookingMethod(e.target.value)}>
             <option value="">All Cooking Methods</option>
-            {COOKING_METHODS.map((method) => (
-              <option key={method.id} value={method.id}>
-                {method.label}
-              </option>
-            ))}
+            <option value="quick">Quick & Easy</option>
+            <option value="baked">Baked</option>
+            <option value="skillet">Skillet</option>
+            <option value="slowcooker">Slow Cooker</option>
           </select>
 
           <select value={selectedMealType} onChange={(e) => setSelectedMealType(e.target.value)}>
@@ -3957,7 +3635,6 @@ export default function App() {
     loadJSON(STORAGE_KEYS.pantry, {})
   );
   const [filter, setFilter] = useState("");
-  const [cookingMethodFilter, setCookingMethodFilter] = useState("");
   const [cardViewer, setCardViewer] = useState(null);
 
   useEffect(() => saveJSON(STORAGE_KEYS.favorites, favorites), [favorites]);
@@ -4003,8 +3680,6 @@ export default function App() {
     setActivePage,
     setFilter,
     filter,
-    cookingMethodFilter,
-    setCookingMethodFilter,
     plan,
     setPlan,
     servings,
