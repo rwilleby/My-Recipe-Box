@@ -6010,3 +6010,184 @@ th {
     min-width: 0 !important;
   }
 }
+
+
+/* ================================
+   MY RECIPE NOTES UPDATE
+   Handwritten-style notes like the back of a recipe card.
+   ================================ */
+
+.recipeNotesWrap {
+  position: relative;
+  min-width: 0;
+}
+
+.recipeNotesButton {
+  width: 100%;
+  min-height: 34px;
+  border: 1px solid #e0d5bf;
+  border-radius: 8px;
+  background: #fffdf7;
+  color: #6b4a21;
+  font-size: 12px;
+  font-weight: 850;
+  line-height: 1;
+}
+
+.recipeNotesButton:hover {
+  border-color: #b98a49;
+  background: #fff8e8;
+}
+
+.recipeNotesBubble {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 8px);
+  transform: translateX(-50%);
+  width: min(340px, 88vw);
+  z-index: 90;
+  text-align: left;
+}
+
+.recipeNotesPaper {
+  position: relative;
+  padding: 16px 17px 17px;
+  border: 1px solid #e3d4b9;
+  border-radius: 10px;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      #fffaf0 0,
+      #fffaf0 27px,
+      #d9edf8 28px
+    );
+  box-shadow: 0 18px 50px rgba(17, 24, 39, .18);
+}
+
+.recipeNotesPaper::before {
+  content: "";
+  position: absolute;
+  left: 38px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: rgba(210, 96, 96, .35);
+}
+
+.recipeNotesBubble::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -7px;
+  width: 12px;
+  height: 12px;
+  transform: translateX(-50%) rotate(45deg);
+  background: #fffaf0;
+  border-right: 1px solid #e3d4b9;
+  border-bottom: 1px solid #e3d4b9;
+}
+
+.recipeNotesHeader {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.recipeNotesHeader strong {
+  color: #6b4a21;
+  font-family: "Bradley Hand", "Segoe Print", "Comic Sans MS", cursive;
+  font-size: 20px;
+  line-height: 1.1;
+  font-weight: 700;
+}
+
+.recipeNotesHeader button {
+  width: 24px;
+  height: 24px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .7);
+  color: #6b4a21;
+  font-size: 17px;
+  line-height: 1;
+}
+
+.recipeNotesPaper p {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  padding-left: 8px;
+  color: #263238;
+  font-family: "Bradley Hand", "Segoe Print", "Comic Sans MS", cursive;
+  font-size: 17px;
+  line-height: 1.62;
+}
+
+.browseRecipeActions .recipeNotesWrap,
+.recipeActions .recipeNotesWrap {
+  grid-column: 1 / -1;
+}
+
+.recipeNotesViewerTopWrap {
+  position: relative;
+  width: auto;
+  min-width: 150px;
+  z-index: 20;
+}
+
+.recipeNotesViewerTopWrap .recipeNotesButton {
+  width: auto;
+  min-width: 150px;
+  min-height: 42px;
+  padding: 0 16px;
+  border-radius: 999px;
+  background: #fffdf7;
+  font-size: 13px;
+}
+
+.recipeNotesViewerTopWrap .recipeNotesBubble {
+  left: auto;
+  right: 0;
+  bottom: auto;
+  top: calc(100% + 10px);
+  transform: none;
+  width: min(390px, 88vw);
+  z-index: 120;
+}
+
+.recipeNotesViewerTopWrap .recipeNotesBubble::after {
+  left: auto;
+  right: 60px;
+  top: -7px;
+  bottom: auto;
+  border: 0;
+  border-left: 1px solid #e3d4b9;
+  border-top: 1px solid #e3d4b9;
+}
+
+@media (max-width: 720px) {
+  .recipeNotesBubble {
+    left: 0;
+    transform: none;
+    width: min(330px, 88vw);
+  }
+
+  .recipeNotesViewerTopWrap {
+    min-width: 122px;
+  }
+
+  .recipeNotesViewerTopWrap .recipeNotesButton {
+    min-width: 122px;
+    min-height: 38px;
+    padding: 0 12px;
+    font-size: 12px;
+  }
+
+  .recipeNotesPaper p {
+    font-size: 16px;
+  }
+}

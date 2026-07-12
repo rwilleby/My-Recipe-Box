@@ -1346,6 +1346,96 @@ function SmartTipsButton({ recipe, position = "inline" }) {
 }
 
 
+
+function getRecipePersonalNote(recipe) {
+  if (recipe.personalNote?.text) {
+    return {
+      title: recipe.personalNote.title || "My Recipe Notes",
+      text: recipe.personalNote.text,
+    };
+  }
+
+  const category = recipe.categoryCode || "";
+  const title = `${recipe.title || ""}`.toLowerCase();
+
+  let text =
+    "This is a practical recipe to keep in the rotation. I would think about how it fits a two-person meal plan, what can be saved for later, and whether the extra portion is better refrigerated or frozen.";
+
+  if (category === "MX") {
+    text = "For Mexican-style meals, I like making the filling first and then deciding how to serve it. Use tortillas for one meal, then make a bowl or salad with the leftovers. Low-carb tortillas, salsa, and a little less cheese can help keep it lighter.";
+  } else if (category === "IT") {
+    text = "Italian meals are often good planned-leftover meals. I would keep pasta portions reasonable, add extra protein or vegetables where possible, and freeze extra sauce or baked portions for another week.";
+  } else if (category === "SB") {
+    text = "For salads and bowls, I would keep the dressing separate until serving. These can be great for lunch the next day, especially when the protein is already cooked and portioned.";
+  } else if (category === "SD") {
+    text = "Side dishes are a good place to stretch a meal without making dinner complicated. I would make enough for today, then save a small portion to pair with another protein later in the week.";
+  } else if (category === "SF") {
+    text = "Seafood is usually best fresh, but simple cooked portions can still work for another meal if handled carefully. I would keep sauces light, add lemon or herbs, and avoid overcooking when reheating.";
+  } else if (category === "SG") {
+    text = "Smoked and grilled meats are perfect for cook-once, eat-twice planning. I would portion the extra meat into two-serving freezer packs so it is ready for sandwiches, bowls, salads, or quick dinners later.";
+  } else if (category === "HB" || category === "HBP") {
+    text = "Burgers and patties are easy to adapt. I would freeze extra patties between parchment, use a lighter bun or burger bowl when needed, and keep toppings simple so the meal stays practical.";
+  } else if (category === "QP") {
+    text = "Quiche and pies can work well for planned leftovers. I would cool slices completely, wrap them well, and reheat gently. A salad or vegetable side helps turn one slice into a full meal.";
+  } else if (category === "PM") {
+    text = "Protein muffins are useful for quick breakfasts or snacks. I would freeze extras individually so they are easy to pull out one at a time instead of leaving a whole batch on the counter.";
+  } else if (["CC", "CO", "CR", "DN", "JJ"].includes(category)) {
+    text = "For sweets, smaller portions are usually the best plan. I would freeze individual servings when possible so dessert is available without keeping the whole batch out at once.";
+  } else if (["LF", "KR"].includes(category)) {
+    text = "Homemade bread-style recipes let you control the ingredients. I would freeze extras early, label them clearly, and pull out only what is needed for a meal or two.";
+  }
+
+  if (title.includes("queso")) {
+    text = "This is best served warm and is more of a treat or sharing recipe. For a lighter version, use a little less processed cheese, add tomatoes or peppers, and serve with baked chips, low-carb tortillas, or fresh vegetables. I would refrigerate leftovers and reheat gently instead of freezing.";
+  } else if (title.includes("casserole") || title.includes("bake") || title.includes("lasagna")) {
+    text = "This is the kind of recipe that fits the cook-once, eat-once, freeze-once idea. I would portion the extra servings into a two-person freezer container, label it with the date, and save it for a night when cooking from scratch feels like too much.";
+  } else if (title.includes("soup") || title.includes("gumbo") || title.includes("bisque")) {
+    text = "Soups are great freezer meals. I would cool the extra portion completely, freeze it flat in bags or in two-serving containers, and add fresh toppings only after reheating.";
+  } else if (title.includes("fried") || title.includes("fries") || title.includes("fritter")) {
+    text = "Fried-style foods are usually best fresh. If I wanted a lighter version, I would try the air fryer or oven, use a light oil spray, and make only the amount needed for the meal.";
+  }
+
+  return { title: "My Recipe Notes", text };
+}
+
+function MyRecipeNotesButton({ recipe, position = "inline" }) {
+  const [open, setOpen] = useState(false);
+  const note = getRecipePersonalNote(recipe);
+
+  const wrapperClass =
+    position === "viewerTop"
+      ? "recipeNotesWrap recipeNotesViewerTopWrap"
+      : "recipeNotesWrap";
+
+  return (
+    <div className={wrapperClass}>
+      <button
+        type="button"
+        className="recipeNotesButton"
+        onClick={() => setOpen((current) => !current)}
+        aria-expanded={open}
+      >
+        My Recipe Notes
+      </button>
+
+      {open && (
+        <div className="recipeNotesBubble">
+          <div className="recipeNotesPaper">
+            <div className="recipeNotesHeader">
+              <strong>{note.title}</strong>
+              <button type="button" onClick={() => setOpen(false)} aria-label="Close recipe notes">
+                ×
+              </button>
+            </div>
+            <p>{note.text}</p>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+
 function RecipeCard({
   recipe,
   favorites,
@@ -1404,6 +1494,7 @@ function RecipeCard({
                 </button>
               )}
               <SmartTipsButton recipe={recipe} />
+              <MyRecipeNotesButton recipe={recipe} />
             </div>
 
             <div className="browseRecipeMetaFooter">
@@ -1618,6 +1709,7 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
 
           <div className="cardViewerHeaderActions">
             <SmartTipsButton recipe={recipe} position="viewerTop" />
+            <MyRecipeNotesButton recipe={recipe} position="viewerTop" />
 
             <button
               className={isFavorite ? "cardViewerFavorite saved" : "cardViewerFavorite"}
