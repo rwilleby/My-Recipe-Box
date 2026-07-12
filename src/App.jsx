@@ -3424,55 +3424,158 @@ function AboutPage({ setActivePage, initialSection = "why" }) {
         <article className="aboutStoryCard compactAboutStory">
           <div className="aiBadge">ABOUT THE PROJECT</div>
 
-          <h1>Why I Created Robert’s Recipe Box</h1>
+          <h1>Robert’s Recipe Box</h1>
 
           <div className="aboutStoryScroll">
             <p>
-              I created Robert’s Recipe Box because I saw a need for a simpler,
-              more affordable way for seniors, older couples, empty nesters, and
-              smaller households to plan and prepare their meals.
+              I created Robert’s Recipe Box after my wife and I tried a few
+              subscription meal plans, and I read about others where you actually
+              cooked your meals from their provided product. I thought, if I am
+              going to cook, why not cook something we like?
             </p>
 
             <p>
-              Meal-delivery subscriptions can be expensive, while many traditional
-              recipes make far more food than two people need. At the same time,
-              cooking a completely different meal every night can require too much
-              shopping, preparation, cleanup, and time in the kitchen.
+              I liked the basic idea: choose a meal, receive the ingredients, and
+              have clear instructions to follow. The problem was that we did not
+              always like the meals being offered. I found myself wishing that I
+              could use the same organized approach while cooking the foods my
+              wife and I actually enjoyed.
             </p>
 
             <p>
-              Robert’s Recipe Box is designed to offer another option.
+              At the same time, the cost of eating out was continuing to rise.
+              Even fast food, which once seemed like an inexpensive and convenient
+              option, was becoming surprisingly expensive for two people. By the
+              time we ordered two meals, added drinks, paid tax, and occasionally
+              included delivery fees or a tip, the total could be much higher
+              than expected.
             </p>
 
             <p>
-              The goal is to help people find practical recipes, prepare meals in
-              reasonable quantities, enjoy planned leftovers, and freeze extra
-              portions for another day. In many cases, one recipe can provide
-              dinner for two today and a second prepared meal for later.
+              That made me start comparing the cost of eating out with the cost
+              of preparing similar meals at home.
             </p>
 
             <p>
-              The program also helps users organize weekly meal plans, create
-              shopping lists, estimate grocery costs, and find practical ingredient
-              substitutions. The original recipes remain available, while optional
-              lower-calorie, lower-carb, budget-friendly, and freezer-friendly
-              suggestions allow people to adapt meals to fit their own needs.
+              In many cases, we could make four servings at home for about the
+              same price—or sometimes less—than buying two restaurant or
+              fast-food meals. We could have dinner that evening and still have
+              two servings left for lunch, another dinner, or the freezer.
             </p>
 
             <p>
-              Robert’s Recipe Box is intended to remain free to use. The site may
-              recommend kitchen tools, food-storage products, organizers, and
-              selected grocery items through affiliate links. When someone makes a
-              purchase through one of those links, the site may receive a small
-              commission at no additional cost to the shopper. That support helps
-              keep the recipes and planning tools available without requiring a
-              paid subscription.
+              I also realized that many of the restaurant and fast-food meals we
+              enjoyed could be recreated at home as copycat recipes.
             </p>
 
             <p>
-              This is not about complicated gourmet cooking or spending all day in
-              the kitchen. It is about making everyday meals easier, more
-              affordable, more organized, and better suited to real life.
+              Making them ourselves gave us more control. We could adjust the
+              ingredients to fit our tastes and goals by using more protein,
+              fewer carbohydrates, less salt, fewer calories, leaner meats,
+              lighter sauces, better ingredients, and more reasonable portions.
+            </p>
+
+            <p>
+              We did not have to give up the foods we liked. We simply needed a
+              practical way to make our own versions.
+            </p>
+
+            <p>
+              I also wanted a simple recipe card that I could keep nearby while
+              cooking—something easy to follow or quickly reference without
+              scrolling through a long webpage.
+            </p>
+
+            <p>
+              The idea was to make four servings at a time. My wife and I could
+              enjoy two servings for dinner and use the other two to begin
+              building a collection of freezer meals. That would give us meals we
+              liked, reduce the need to cook every night, and make dinner easier
+              on busy days or on days when we simply did not feel like spending
+              much time in the kitchen.
+            </p>
+
+            <p>
+              Honestly, I started with that one basic task.
+            </p>
+
+            <p>
+              Then, as I sometimes do, I got a little carried away.
+            </p>
+
+            <p>
+              I began making more recipe cards. Then I started printing them,
+              organizing them, laminating them, creating categories, comparing
+              costs, developing copycat recipes, planning grocery lists, and
+              looking for better ways to prepare, store, and reuse meals.
+            </p>
+
+            <p>
+              And, well—here we are.
+            </p>
+
+            <p>
+              Robert’s Recipe Box was never created as a way to make money—and it
+              still isn’t.
+            </p>
+
+            <p>
+              It was created to make sense of cooking for two people on a senior
+              citizen budget. It is about preparing foods we actually like,
+              controlling the ingredients, making practical portions, reducing
+              waste, planning useful leftovers, and building a dependable supply
+              of freezer meals for another day.
+            </p>
+
+            <p>
+              I did add an affiliate marketing section with links to products I
+              personally like, use, or recommend. You do not have to click those
+              links or purchase anything through them. It is appreciated when you
+              do, because the site may earn a small commission at no additional
+              cost to you, but it is never expected.
+            </p>
+
+            <p>
+              Robert’s Recipe Box will remain free to use. I will never charge a
+              subscription fee, membership fee, or access fee for the recipes,
+              recipe cards, meal-planning tools, shopping ideas, or general
+              information on this site.
+            </p>
+
+            <p>
+              The goal is not to cook something completely different every night
+              or spend hours in the kitchen. The goal is to create a simple
+              routine:
+            </p>
+
+            <ul className="aboutRoutineList">
+              <li>Choose meals you enjoy.</li>
+              <li>Compare the cost of eating out with making them at home.</li>
+              <li>Follow an easy recipe card.</li>
+              <li>Adjust the ingredients to fit your preferences.</li>
+              <li>Make enough for dinner and another meal.</li>
+              <li>Freeze extra portions when practical.</li>
+              <li>Keep a selection of prepared meals available.</li>
+            </ul>
+
+            <p>
+              What began as a personal project has grown into a collection of
+              recipes, copycat meals, recipe cards, planning tools, shopping
+              ideas, substitutions, and practical cooking information that may
+              also help other couples, seniors, empty nesters, and smaller
+              households.
+            </p>
+
+            <p>
+              It is still built around the same simple idea that started
+              everything:
+            </p>
+
+            <p>
+              <strong>
+                Cook what you like, make it the way you like it, spend less when
+                possible, and prepare a little extra for another day.
+              </strong>
             </p>
           </div>
 

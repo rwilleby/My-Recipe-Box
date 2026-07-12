@@ -6408,3 +6408,33 @@ th {
 .aboutStoryActions .secondary {
   white-space: normal;
 }
+
+
+/* ================================
+   ABOUT ROBERT'S RECIPE BOX STORY UPDATE
+   Adds longer story copy and routine bullet list styling.
+   ================================ */
+
+.aboutRoutineList {
+  margin: 0 0 18px;
+  padding-left: 22px;
+  display: grid;
+  gap: 7px;
+}
+
+.aboutRoutineList li {
+  color: #1f2933;
+  font-size: 16px;
+  line-height: 1.45;
+}
+
+.aboutStoryScroll strong {
+  color: var(--green);
+  font-weight: 850;
+}
+
+@media (max-width: 640px) {
+  .aboutRoutineList li {
+    font-size: 15.5px;
+  }
+}
