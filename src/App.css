@@ -5302,3 +5302,22 @@ th {
 .heroButtons {
   max-width: 560px;
 }
+
+
+/* ================================
+   ROLODEX THUMBNAIL PERFORMANCE UPDATE
+   Rolodex and Browse previews now use small JPEG thumbnails first:
+   public/images/thumbs/recipes/CODE.jpg
+   Full viewer/print/download still prefer full PNG cards:
+   public/images/recipes/CODE.png
+   ================================ */
+
+.homeRolodexCard img,
+.recipeFullCardImage img,
+.recipeImage img {
+  image-rendering: auto;
+}
+
+.homeRolodexCard img {
+  background: #ffffff;
+}
