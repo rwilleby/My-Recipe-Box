@@ -809,11 +809,12 @@ function fullCardImageCandidates(recipe) {
 
 function Header({ activePage, setActivePage }) {
   const navGroups = [
-    {
+        {
       label: "About",
       items: [
-        { label: "Why I Created This Site", page: "About" },
-        { label: "How I Got Into Smoking & Grilling", page: "About Smoking" },
+        { label: "Robert's Recipe Box", page: "About" },
+        { label: "About the Recipes", page: "About Recipes" },
+        { label: "About Smoking & Grilling", page: "About Smoking" },
       ],
     },
     {
@@ -3360,6 +3361,90 @@ function FreezerTipsPage({ setActivePage }) {
   );
 }
 
+
+function AboutRecipesPage({ setActivePage }) {
+  return (
+    <main className="pageShell aboutRecipesPage">
+      <section className="aboutRecipesHero">
+        <div>
+          <div className="aiBadge">ABOUT THE RECIPES</div>
+          <h1>About the Recipes</h1>
+          <p>
+            Robert’s Recipe Box is built around practical meals, familiar foods,
+            recipe-card simplicity, and planned leftovers for smaller households.
+          </p>
+        </div>
+      </section>
+
+      <div className="aboutRecipesGrid">
+        <article className="aboutRecipesCard">
+          <h2>Practical recipe cards</h2>
+          <p>
+            The recipes are designed to be easy to browse, easy to organize, and
+            easy to reference while cooking. The goal is not to scroll through a
+            long article just to find the ingredients or directions.
+          </p>
+        </article>
+
+        <article className="aboutRecipesCard">
+          <h2>Built for smaller households</h2>
+          <p>
+            Many recipes are planned around four servings. For a two-person
+            household, that can mean dinner today and another prepared meal for
+            lunch, another dinner, or the freezer.
+          </p>
+        </article>
+
+        <article className="aboutRecipesCard">
+          <h2>Copycat and familiar meals</h2>
+          <p>
+            Some recipes are inspired by restaurant-style or fast-food favorites.
+            The idea is to make foods people already enjoy, but with more control
+            over ingredients, portions, cost, and nutrition.
+          </p>
+        </article>
+
+        <article className="aboutRecipesCard">
+          <h2>Adjustable choices</h2>
+          <p>
+            Recipes may include lower-calorie, lower-carb, lower-sodium,
+            higher-protein, freezer-friendly, or budget-friendly ideas. The
+            original recipe remains available, while the suggestions help users
+            adapt meals to their own needs.
+          </p>
+        </article>
+
+        <article className="aboutRecipesCard">
+          <h2>Freezer-friendly planning</h2>
+          <p>
+            The site encourages a cook-once, eat-once, freeze-once approach when
+            practical. Extra portions can become prepared meals for days when
+            cooking from scratch is not realistic.
+          </p>
+        </article>
+
+        <article className="aboutRecipesCard">
+          <h2>Shopping and pantry support</h2>
+          <p>
+            Meal planning, pantry staples, grocery-list ideas, and smart grocery
+            picks are included to make the recipes more useful beyond the recipe
+            card itself.
+          </p>
+        </article>
+      </div>
+
+      <div className="aboutRecipesActions">
+        <button className="primary" onClick={() => setActivePage("Recipes")}>
+          Browse Recipes
+        </button>
+        <button className="secondary" onClick={() => setActivePage("Meal Planner")}>
+          Start Meal Planning
+        </button>
+      </div>
+    </main>
+  );
+}
+
 function AboutPage({ setActivePage, initialSection = "why" }) {
   const [photoIndex, setPhotoIndex] = useState(0);
 
@@ -3807,7 +3892,8 @@ export default function App() {
       {activePage === "Recommendations" && <RecommendationsPage {...pageProps} />}
       {activePage === "Grocery Picks" && <GroceryPicksPage {...pageProps} />}
       {activePage === "Freezer Tips" && <FreezerTipsPage {...pageProps} />}
-      {activePage === "About" && <AboutPage setActivePage={setActivePage} initialSection="why" />}
+      {activePage === "About" && <AboutPage setActivePage={setActivePage} initialSection="main" />}
+      {activePage === "About Recipes" && <AboutRecipesPage setActivePage={setActivePage} />}
       {activePage === "About Smoking" && <AboutPage setActivePage={setActivePage} initialSection="smoking" />}
 
       <RecipeCardViewer
