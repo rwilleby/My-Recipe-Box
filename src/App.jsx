@@ -3370,17 +3370,11 @@ function AboutPage({ setActivePage }) {
     return () => window.clearInterval(timer);
   }, []);
 
-  function goToPhoto(offset) {
-    setPhotoIndex((current) =>
-      (current + offset + ABOUT_STORY_PHOTOS.length) % ABOUT_STORY_PHOTOS.length
-    );
-  }
-
   return (
-    <main className="pageShell aboutPageShell aboutPageCompactStory">
+    <main className="pageShell aboutPageShell">
       <section className="aboutCompactLayout">
-        <aside className="aboutFramePanel aboutFramePanelCompact">
-          <div className="vintageFrame vintageFrameCompact">
+        <aside className="aboutFramePanel compactAboutFrame">
+          <div className="vintageFrame">
             <div className="vintageFrameInner">
               <div className="vintagePhotoStage">
                 {ABOUT_STORY_PHOTOS.map((photo, index) => (
@@ -3388,30 +3382,17 @@ function AboutPage({ setActivePage }) {
                     key={photo.src}
                     src={`${import.meta.env.BASE_URL}${photo.src}`}
                     alt={photo.alt}
-                    className={index === photoIndex ? "vintagePhoto active" : "vintagePhoto"}
-                    loading={index === 0 ? "eager" : "lazy"}
+                    className={
+                      index === photoIndex
+                        ? "vintagePhoto active"
+                        : "vintagePhoto"
+                    }
+                    loading="lazy"
                     decoding="async"
                   />
                 ))}
               </div>
             </div>
-
-            <button
-              className="aboutFrameNav aboutFrameNavPrev"
-              type="button"
-              onClick={() => goToPhoto(-1)}
-              aria-label="Previous Robert and Pete photo"
-            >
-              ‹
-            </button>
-            <button
-              className="aboutFrameNav aboutFrameNavNext"
-              type="button"
-              onClick={() => goToPhoto(1)}
-              aria-label="Next Robert and Pete photo"
-            >
-              ›
-            </button>
           </div>
 
           <div className="aboutPhotoDots" aria-label="About photo selector">
@@ -3421,16 +3402,14 @@ function AboutPage({ setActivePage }) {
                 type="button"
                 className={index === photoIndex ? "active" : ""}
                 onClick={() => setPhotoIndex(index)}
-                aria-label={`Show about photo ${index + 1}`}
+                aria-label={`Show photo ${index + 1}`}
               />
             ))}
           </div>
-
-          <p className="aboutPhotoCaption">♡ Robert &amp; Pete</p>
         </aside>
 
-        <article className="aboutStoryCard aboutStoryCardCompact">
-          <div className="aiBadge">ABOUT ROBERT&apos;S RECIPE BOX</div>
+        <article className="aboutStoryCard compactAboutStory">
+          <div className="aiBadge">ABOUT THE PROJECT</div>
 
           <h1>Why I Created Robert’s Recipe Box</h1>
 
@@ -3484,13 +3463,19 @@ function AboutPage({ setActivePage }) {
             </p>
           </div>
 
-          <div className="aboutStoryActions aboutStoryActionsCompact">
-            <button className="primary" onClick={() => setActivePage("Recipes")}>
-              ▣ Browse Recipes
+          <div className="aboutStoryActions">
+            <button
+              className="primary"
+              onClick={() => setActivePage("Recipes")}
+            >
+              Browse Recipes
             </button>
 
-            <button className="secondary" onClick={() => setActivePage("Meal Planner")}>
-              ▣ Start Meal Planning
+            <button
+              className="secondary"
+              onClick={() => setActivePage("Meal Planner")}
+            >
+              Start Meal Planning
             </button>
           </div>
         </article>
@@ -3498,6 +3483,7 @@ function AboutPage({ setActivePage }) {
     </main>
   );
 }
+
 
 function EmptyState({ title, text }) {
   return (
