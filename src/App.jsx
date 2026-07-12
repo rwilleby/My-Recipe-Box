@@ -812,7 +812,8 @@ function Header({ activePage, setActivePage }) {
     {
       label: "About",
       items: [
-        { label: "About the Project", page: "About" },
+        { label: "Why I Created This Site", page: "About" },
+        { label: "How I Got Into Smoking & Grilling", page: "About Smoking" },
       ],
     },
     {
@@ -3359,7 +3360,7 @@ function FreezerTipsPage({ setActivePage }) {
   );
 }
 
-function AboutPage({ setActivePage }) {
+function AboutPage({ setActivePage, initialSection = "why" }) {
   const [photoIndex, setPhotoIndex] = useState(0);
 
   useEffect(() => {
@@ -3370,9 +3371,21 @@ function AboutPage({ setActivePage }) {
     return () => window.clearInterval(timer);
   }, []);
 
+  useEffect(() => {
+    const targetId =
+      initialSection === "smoking" ? "about-smoking-grilling" : "about-why-created";
+
+    window.setTimeout(() => {
+      const target = document.getElementById(targetId);
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 80);
+  }, [initialSection]);
+
   return (
     <main className="pageShell aboutPageShell">
-      <section className="aboutCompactLayout">
+      <section className="aboutCompactLayout" id="about-why-created">
         <aside className="aboutFramePanel compactAboutFrame">
           <div className="vintageFrame">
             <div className="vintageFrameInner">
@@ -3477,11 +3490,21 @@ function AboutPage({ setActivePage }) {
             >
               Start Meal Planning
             </button>
+
+            <button
+              className="secondary"
+              onClick={() => {
+                const target = document.getElementById("about-smoking-grilling");
+                if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+              }}
+            >
+              Smoking & Grilling Story
+            </button>
           </div>
         </article>
       </section>
 
-      <section className="aboutSmokingSection">
+      <section className="aboutSmokingSection" id="about-smoking-grilling">
         <div className="aboutSmokingHeader">
           <div>
             <div className="aiBadge">SMOKING & GRILLING FOODS</div>
@@ -3681,7 +3704,8 @@ export default function App() {
       {activePage === "Recommendations" && <RecommendationsPage {...pageProps} />}
       {activePage === "Grocery Picks" && <GroceryPicksPage {...pageProps} />}
       {activePage === "Freezer Tips" && <FreezerTipsPage {...pageProps} />}
-      {activePage === "About" && <AboutPage setActivePage={setActivePage} />}
+      {activePage === "About" && <AboutPage setActivePage={setActivePage} initialSection="why" />}
+      {activePage === "About Smoking" && <AboutPage setActivePage={setActivePage} initialSection="smoking" />}
 
       <RecipeCardViewer
         viewer={cardViewer}

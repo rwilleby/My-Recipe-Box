@@ -6393,3 +6393,18 @@ th {
     font-size: 15.5px;
   }
 }
+
+
+/* ================================
+   ABOUT MENU TWO-ITEM UPDATE
+   Supports direct navigation to Why I Created This Site and Smoking & Grilling.
+   ================================ */
+
+#about-why-created,
+#about-smoking-grilling {
+  scroll-margin-top: 92px;
+}
+
+.aboutStoryActions .secondary {
+  white-space: normal;
+}
