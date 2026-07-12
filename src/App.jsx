@@ -1101,6 +1101,163 @@ function getRecipeBrowseTags(recipe) {
   return tags.slice(0, 3);
 }
 
+
+function titleIncludes(recipe, terms) {
+  const text = `${recipe.id || ""} ${recipe.title || ""} ${recipe.category || ""}`.toLowerCase();
+  return terms.some((term) => text.includes(term));
+}
+
+function getRecipeSmartTips(recipe) {
+  const category = recipe.categoryCode || "";
+  const isDessert = ["CC", "CO", "CR", "DN", "DS", "JJ", "PM"].includes(category);
+  const isBread = ["LF", "KR"].includes(category);
+  const isSeafood = category === "SF";
+  const isMexican = category === "MX";
+  const isItalian = category === "IT";
+  const isBurger = category === "HB" || category === "HBP";
+  const isSalad = category === "SB";
+  const isSide = category === "SD";
+  const isSmoked = category === "SG";
+
+  const tips = {
+    calories: "Use smaller portions, measure sauces and cheese, and add vegetables or salad on the side.",
+    carbs: "Reduce bread, pasta, rice, crust, or sugar where possible; use lower-carb swaps when the texture still works.",
+    sodium: "Choose reduced-sodium sauces, broths, canned goods, and seasoning blends; taste before adding extra salt.",
+    protein: "Add lean protein or use a higher-protein version of the main ingredient when possible.",
+  };
+
+  if (isMexican) {
+    tips.calories = "Use lean chicken or lean ground beef, go lighter on cheese and sour cream, and bulk up with lettuce, peppers, onions, or salsa.";
+    tips.carbs = "Use low-carb tortillas, make it a bowl over cauliflower rice, or serve beans/rice in smaller portions.";
+    tips.sodium = "Choose reduced-sodium taco seasoning, salsa, beans, broth, and enchilada sauce.";
+    tips.protein = "Add extra grilled chicken, lean taco meat, shrimp, or Greek-yogurt topping instead of extra cheese.";
+  }
+
+  if (isItalian) {
+    tips.calories = "Use part-skim mozzarella, lighter cream sauces, and add vegetables to stretch the meal without adding much fat.";
+    tips.carbs = "Use protein pasta, smaller pasta portions, zucchini noodles, spaghetti squash, or a half pasta / half vegetable base.";
+    tips.sodium = "Pick no-salt-added tomatoes, lower-sodium marinara, and go lighter on parmesan and cured meats.";
+    tips.protein = "Add grilled chicken, turkey meatballs, shrimp, lean beef, or cottage-cheese/Greek-yogurt blended sauces.";
+  }
+
+  if (isBurger) {
+    tips.calories = "Use a leaner patty, smaller bun, lighter cheese, and load up with lettuce, tomato, onions, and pickles.";
+    tips.carbs = "Use a lettuce wrap, low-carb bun, half bun, or burger bowl instead of a full bun.";
+    tips.sodium = "Use lower-sodium seasoning and sauces; go easy on pickles, bacon, processed cheese, and bottled condiments.";
+    tips.protein = "Use lean ground beef, turkey, chicken, or a slightly larger patty with fewer high-calorie toppings.";
+  }
+
+  if (isSeafood) {
+    tips.calories = "Bake, grill, or air fry instead of deep frying; use lemon, herbs, and light butter or olive oil.";
+    tips.carbs = "Skip heavy breading or use a light almond-flour/panko mix; serve with vegetables or cauliflower rice.";
+    tips.sodium = "Use salt-free seafood seasoning or reduced-sodium Old Bay-style seasoning; avoid heavy bottled sauces.";
+    tips.protein = "Increase the seafood portion slightly or pair with Greek-yogurt slaw, cottage cheese, or a high-protein side.";
+  }
+
+  if (isSalad) {
+    tips.calories = "Keep dressing on the side, measure nuts/cheese/croutons, and use Greek-yogurt-based dressings.";
+    tips.carbs = "Limit croutons, tortilla strips, pasta, dried fruit, and sweet dressings.";
+    tips.sodium = "Go lighter on deli meats, bacon, cheese, pickles, olives, and bottled dressings.";
+    tips.protein = "Add grilled chicken, tuna, salmon, shrimp, eggs, cottage cheese, beans, or Greek-yogurt dressing.";
+  }
+
+  if (isSide) {
+    tips.calories = "Use light butter, broth, herbs, or Greek yogurt instead of heavy cream or extra cheese.";
+    tips.carbs = "Use cauliflower rice, roasted vegetables, smaller potato portions, or half-and-half starch/vegetable blends.";
+    tips.sodium = "Use reduced-sodium broth, rinse canned vegetables/beans, and season with herbs before adding salt.";
+    tips.protein = "Pair with lean protein, add beans where appropriate, or use Greek yogurt/cottage cheese in creamy sides.";
+  }
+
+  if (isSmoked) {
+    tips.calories = "Choose leaner cuts when possible, trim visible fat, and measure BBQ sauce.";
+    tips.carbs = "Use no-sugar-added BBQ sauce and serve with lower-carb sides like slaw, salad, or green vegetables.";
+    tips.sodium = "Use a lower-sodium rub and avoid over-seasoning before smoking or grilling.";
+    tips.protein = "Portion meat into two-serving freezer packs so protein is ready for future meals.";
+  }
+
+  if (isBread) {
+    tips.calories = "Make smaller portions or rolls, freeze extras immediately, and use measured butter or spreads.";
+    tips.carbs = "Homemade is a good option because you control ingredients; try smaller slices or partial whole-wheat blends.";
+    tips.sodium = "Reduce added salt slightly in homemade dough and avoid salty processed fillings when possible.";
+    tips.protein = "Use higher-protein flour blends, add Greek yogurt where appropriate, or pair bread with eggs, lean meats, or cottage cheese.";
+  }
+
+  if (isDessert) {
+    tips.calories = "Make smaller portions, use mini servings, reduce frosting/toppings, or freeze individual portions.";
+    tips.carbs = "Use lower-sugar fruit, sugar substitutes where they work, almond flour blends, or smaller crust portions.";
+    tips.sodium = "Use unsalted butter and watch boxed mixes, canned fillings, and salty toppings.";
+    tips.protein = "Add Greek yogurt, cottage cheese, protein powder, or serve with a higher-protein meal rather than eating alone.";
+  }
+
+  if (titleIncludes(recipe, ["fried", "fries", "fritter", "donut", "hush puppies", "egg rolls", "spring rolls"])) {
+    tips.calories = "Air fry or bake instead of deep frying when possible; use a light oil spray and smaller portions.";
+    tips.carbs = "Use lighter breading, smaller portions, or pair with a low-carb main dish.";
+  }
+
+  if (titleIncludes(recipe, ["rice bowl", "fried rice", "rice", "burrito bowl"])) {
+    tips.carbs = "Use cauliflower rice, half cauliflower rice / half regular rice, or a smaller rice base with extra vegetables.";
+    tips.protein = "Add extra chicken, shrimp, lean beef, eggs, or beans to make the bowl more filling.";
+  }
+
+  if (titleIncludes(recipe, ["pasta", "spaghetti", "ziti", "alfredo", "mac", "noodles", "lo mein", "chow mein"])) {
+    tips.carbs = "Use protein pasta, zucchini noodles, hearts-of-palm pasta, spaghetti squash, or half pasta / half vegetables.";
+    tips.protein = "Add grilled chicken, shrimp, lean beef, turkey meatballs, or cottage cheese blended into sauce.";
+  }
+
+  if (titleIncludes(recipe, ["casserole", "bake", "lasagna", "pot pie"])) {
+    tips.calories = "Use lean protein, lighter cheese or sauce, and add vegetables to stretch the casserole.";
+    tips.carbs = "Use a thinner crust, smaller pasta/rice layer, cauliflower rice, or extra vegetables.";
+    tips.sodium = "Use reduced-sodium soups, broths, sauces, and canned vegetables.";
+  }
+
+  return tips;
+}
+
+function SmartTipsButton({ recipe }) {
+  const [open, setOpen] = useState(false);
+  const tips = getRecipeSmartTips(recipe);
+
+  return (
+    <div className="smartTipsWrap">
+      <button
+        type="button"
+        className="smartTipsButton"
+        onClick={() => setOpen((current) => !current)}
+        aria-expanded={open}
+      >
+        Smart Tips
+      </button>
+
+      {open && (
+        <div className="smartTipsBubble">
+          <div className="smartTipsBubbleHeader">
+            <strong>{recipe.title}</strong>
+            <button type="button" onClick={() => setOpen(false)} aria-label="Close smart tips">
+              ×
+            </button>
+          </div>
+
+          <ul>
+            <li>
+              <strong>Lower calorie:</strong> {tips.calories}
+            </li>
+            <li>
+              <strong>Lower carb:</strong> {tips.carbs}
+            </li>
+            <li>
+              <strong>Lower sodium:</strong> {tips.sodium}
+            </li>
+            <li>
+              <strong>Higher protein:</strong> {tips.protein}
+            </li>
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+}
+
+
 function RecipeCard({
   recipe,
   favorites,
@@ -1158,6 +1315,7 @@ function RecipeCard({
                   Add to Planner
                 </button>
               )}
+              <SmartTipsButton recipe={recipe} />
             </div>
 
             <div className="browseRecipeMetaFooter">
@@ -1207,6 +1365,7 @@ function RecipeCard({
                   Add to planner
                 </button>
               )}
+              <SmartTipsButton recipe={recipe} />
             </div>
           </>
         )}
@@ -1421,6 +1580,10 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
           >
             ›
           </button>
+        </div>
+
+        <div className="cardViewerSmartTips">
+          <SmartTipsButton recipe={recipe} />
         </div>
 
         {recipe.mediaLinks?.length > 0 && (

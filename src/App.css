@@ -5321,3 +5321,152 @@ th {
 .homeRolodexCard img {
   background: #ffffff;
 }
+
+
+/* ================================
+   SMART TIPS POPUP UPDATE
+   Adds lower-calorie, lower-carb, lower-sodium, and higher-protein ideas.
+   ================================ */
+
+.smartTipsWrap {
+  position: relative;
+  min-width: 0;
+}
+
+.smartTipsButton {
+  width: 100%;
+  min-height: 34px;
+  border: 1px solid #d9eadc;
+  border-radius: 8px;
+  background: #ffffff;
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 850;
+  line-height: 1;
+}
+
+.smartTipsButton:hover {
+  border-color: var(--green);
+  background: #f5fbf5;
+}
+
+.smartTipsBubble {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 8px);
+  transform: translateX(-50%);
+  width: min(330px, 88vw);
+  max-height: 320px;
+  overflow-y: auto;
+  z-index: 80;
+  padding: 12px;
+  border: 1px solid #d9eadc;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #111827;
+  box-shadow: 0 18px 50px rgba(17, 24, 39, .18);
+  text-align: left;
+}
+
+.smartTipsBubble::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -7px;
+  width: 12px;
+  height: 12px;
+  transform: translateX(-50%) rotate(45deg);
+  background: #ffffff;
+  border-right: 1px solid #d9eadc;
+  border-bottom: 1px solid #d9eadc;
+}
+
+.smartTipsBubbleHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid #edf2ee;
+}
+
+.smartTipsBubbleHeader strong {
+  color: var(--green);
+  font-size: 13px;
+  line-height: 1.2;
+}
+
+.smartTipsBubbleHeader button {
+  width: 24px;
+  height: 24px;
+  border: 0;
+  border-radius: 999px;
+  background: #f3f4f6;
+  color: #111827;
+  font-size: 17px;
+  line-height: 1;
+}
+
+.smartTipsBubble ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+
+.smartTipsBubble li {
+  color: #374151;
+  font-size: 12.5px;
+  line-height: 1.35;
+}
+
+.smartTipsBubble li strong {
+  color: #111827;
+}
+
+.browseRecipeActions .smartTipsWrap {
+  grid-column: 1 / -1;
+}
+
+.browseRecipeActions .smartTipsButton {
+  min-height: 31px;
+}
+
+.cardViewerSmartTips {
+  padding: 10px 20px;
+  border-top: 1px solid var(--line);
+  background: #fbfaf7;
+  display: flex;
+  justify-content: center;
+}
+
+.cardViewerSmartTips .smartTipsWrap {
+  width: min(260px, 100%);
+}
+
+.cardViewerSmartTips .smartTipsBubble {
+  bottom: auto;
+  top: calc(100% + 8px);
+}
+
+.cardViewerSmartTips .smartTipsBubble::after {
+  top: -7px;
+  bottom: auto;
+  border: 0;
+  border-left: 1px solid #d9eadc;
+  border-top: 1px solid #d9eadc;
+}
+
+@media (max-width: 720px) {
+  .smartTipsBubble {
+    left: 0;
+    transform: none;
+    width: min(320px, 86vw);
+  }
+
+  .smartTipsBubble::after {
+    left: 24px;
+  }
+}
