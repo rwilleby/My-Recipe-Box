@@ -5932,3 +5932,81 @@ th {
     padding-right: 14px;
   }
 }
+
+
+/* ================================
+   HERO INFO BUTTONS TWO-LINE CENTERED UPDATE
+   Centers the full button row on the hero image and forces exact two-line labels.
+   ================================ */
+
+.heroInfoButtons {
+  left: 50% !important;
+  right: auto !important;
+  transform: translateX(-50%) !important;
+  justify-content: center !important;
+  align-items: flex-end !important;
+  max-width: min(1120px, 92vw) !important;
+  width: max-content;
+}
+
+.heroInfoButton {
+  width: 152px !important;
+  min-width: 152px !important;
+  min-height: 44px !important;
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 5px 10px !important;
+  text-align: center !important;
+  white-space: normal !important;
+  line-height: 1.02 !important;
+}
+
+.heroInfoButton span {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+.heroInfoButton span:first-child,
+.heroInfoButton span:last-child {
+  font-size: 10.2px;
+  font-weight: 850;
+  letter-spacing: .052em;
+  line-height: 1.05;
+}
+
+.heroInfoPopup {
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+}
+
+.heroInfoPopup::after {
+  left: 50% !important;
+  transform: translateX(-50%) rotate(45deg) !important;
+}
+
+@media (max-width: 1100px) {
+  .heroInfoButtons {
+    position: relative;
+    left: auto !important;
+    bottom: auto;
+    transform: none !important;
+    max-width: none !important;
+    width: 100%;
+    justify-content: center !important;
+  }
+}
+
+@media (max-width: 720px) {
+  .heroInfoButtons {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .heroInfoButton {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+}

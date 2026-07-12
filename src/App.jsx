@@ -615,26 +615,38 @@ const HERO_IMAGES = [
 
 const HERO_INFO_BUTTONS = [
   {
-    title: "WHY WE'RE ALWAYS FREE",
+    line1: "WHY WE WILL",
+    line2: "ALWAYS BE FREE",
+    title: "WHY WE WILL ALWAYS BE FREE",
     text: "Robert’s Recipe Box is intended to remain free to use. Optional recommendations and affiliate links may help support the site without requiring a paid subscription.",
   },
   {
-    title: "BROWSE OUR RECIPES",
+    line1: "BROWSE OUR",
+    line2: "RECIPE LIBRARY",
+    title: "BROWSE OUR RECIPE LIBRARY",
     text: "Browse recipe cards by category, search for meal ideas, and open full recipe cards for viewing, printing, or saving.",
   },
   {
-    title: "SELECT YOUR FAVORITES",
+    line1: "SELECT YOUR",
+    line2: "FAVORITE RECIPES",
+    title: "SELECT YOUR FAVORITE RECIPES",
     text: "Save recipes you like so they are easier to find again on this device. Favorites are stored in your browser.",
   },
   {
-    title: "PLAN YOUR MEALS",
+    line1: "PLAN YOUR CUSTOM",
+    line2: "WEEKLY MEAL PLANS",
+    title: "PLAN YOUR CUSTOM WEEKLY MEAL PLANS",
     text: "Build a practical meal plan using recipes designed for smaller households, planned leftovers, and freezer-friendly second meals.",
   },
   {
-    title: "PRINT YOUR GROCERY LIST",
+    line1: "PRINT YOUR",
+    line2: "GROCERY LISTS",
+    title: "PRINT YOUR GROCERY LISTS",
     text: "Use your meal plan to create a practical grocery list, review pantry staples, and print a condensed list before shopping.",
   },
   {
+    line1: "VIEW OUR",
+    line2: "TIPS & TRICKS",
     title: "VIEW OUR TIPS & TRICKS",
     text: "Find practical tips for freezer meals, storage, lower-carb swaps, lower-calorie options, and easier small-household cooking.",
   },
@@ -916,7 +928,8 @@ function HeroInfoButtons() {
             }
             aria-expanded={openInfo === item.title}
           >
-            {item.title}
+            <span>{item.line1}</span>
+            <span>{item.line2}</span>
           </button>
 
           {openInfo === item.title && (
