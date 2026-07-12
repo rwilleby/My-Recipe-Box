@@ -3480,6 +3480,68 @@ function AboutPage({ setActivePage }) {
           </div>
         </article>
       </section>
+
+      <section className="aboutSmokingSection">
+        <div className="aboutSmokingHeader">
+          <div>
+            <div className="aiBadge">SMOKING & GRILLING FOODS</div>
+            <h2>How I Got Started Smoking Meat</h2>
+          </div>
+        </div>
+
+        <div className="aboutSmokingGrid">
+          <article className="aboutSmokingCard">
+            <p>
+              I got started smoking meat after buying a Pit Boss pellet grill.
+              I am not a professional pitmaster, and I do not pretend to be one.
+              I am just someone who wanted to learn how to make good barbecue at
+              home without making the process harder than it needed to be.
+            </p>
+
+            <p>
+              What I found is that a pellet grill can make smoking and grilling
+              more approachable. It still takes time, patience, seasoning, and
+              practice, but it gives a home cook a practical way to learn. Over
+              time, the results became more than acceptable. Some of the meals
+              made me think twice about going to many of the local barbecue
+              restaurants.
+            </p>
+
+            <p>
+              That is the spirit behind the smoked and grilled recipes in
+              Robert’s Recipe Box. These are not meant to be competition
+              barbecue instructions. They are practical recipes for people who
+              want to cook brisket, pork, ribs, chicken, sausage, burgers, and
+              grilled meals at home.
+            </p>
+
+            <p>
+              The same basic idea still applies: cook enough to enjoy a meal now
+              and save extra portions for later. Smoked meats can work especially
+              well for planned leftovers because they can be portioned, frozen,
+              and used later for sandwiches, bowls, tacos, salads, baked
+              potatoes, or quick weeknight dinners.
+            </p>
+
+            <p>
+              I am still learning and experimenting, and that is part of the
+              enjoyment. The goal is to make smoking and grilling feel possible,
+              useful, and worth trying for everyday home cooks.
+            </p>
+          </article>
+
+          <aside className="aboutSmokingCallout">
+            <h3>Why it fits the recipe box</h3>
+            <ul>
+              <li>Works well for cook-once, eat-twice meals.</li>
+              <li>Extra meat can be frozen in two-serving portions.</li>
+              <li>Leftovers can become sandwiches, bowls, tacos, or salads.</li>
+              <li>Pellet grills make smoking more approachable for home cooks.</li>
+            </ul>
+          </aside>
+        </div>
+      </section>
+
     </main>
   );
 }

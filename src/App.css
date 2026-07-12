@@ -6288,3 +6288,108 @@ th {
     font-size: 15.5px;
   }
 }
+
+
+/* ================================
+   ABOUT SMOKING & GRILLING SECTION
+   Adds personal story section: How I Got Started Smoking Meat.
+   ================================ */
+
+.aboutSmokingSection {
+  margin-top: 30px;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  padding: 28px;
+}
+
+.aboutSmokingHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.aboutSmokingHeader h2 {
+  margin: 12px 0 0;
+  color: #111827;
+  font-size: clamp(25px, 2.5vw, 36px);
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+}
+
+.aboutSmokingGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(240px, 330px);
+  gap: 22px;
+  align-items: start;
+}
+
+.aboutSmokingCard {
+  max-height: min(58vh, 520px);
+  overflow-y: auto;
+  padding-right: 14px;
+  scrollbar-width: thin;
+}
+
+.aboutSmokingCard p {
+  margin: 0 0 16px;
+  color: #1f2933;
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.aboutSmokingCard p:last-child {
+  margin-bottom: 0;
+}
+
+.aboutSmokingCallout {
+  border: 1px solid #d9eadc;
+  border-radius: 14px;
+  background: #f7fcf8;
+  padding: 18px;
+}
+
+.aboutSmokingCallout h3 {
+  margin: 0 0 12px;
+  color: var(--green);
+  font-size: 18px;
+  line-height: 1.15;
+}
+
+.aboutSmokingCallout ul {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 9px;
+}
+
+.aboutSmokingCallout li {
+  color: #374151;
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+@media (max-width: 900px) {
+  .aboutSmokingGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .aboutSmokingCard {
+    max-height: none;
+    overflow: visible;
+    padding-right: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .aboutSmokingSection {
+    padding: 22px 18px;
+  }
+
+  .aboutSmokingCard p {
+    font-size: 15.5px;
+  }
+}
