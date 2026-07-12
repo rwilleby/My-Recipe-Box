@@ -984,6 +984,24 @@ function Hero({ setActivePage }) {
           <br />
           and track pantry staples.
         </p>
+
+        <div className="heroButtons">
+          <button className="primary" onClick={() => setActivePage("Recipes")}>
+            ▣ Browse Recipes
+          </button>
+          <button
+            className="secondary"
+            onClick={() => setActivePage("Meal Planner")}
+          >
+            ▣ Start Meal Planning
+          </button>
+          <button
+            className="secondary freezerHeroButton"
+            onClick={() => setActivePage("Freezer Tips")}
+          >
+            ▣ Freezer Tips
+          </button>
+        </div>
       </div>
       <HeroInfoButtons />
 
@@ -1023,6 +1041,1142 @@ function CategoryGrid({ setFilter, setActivePage }) {
     <section className="section homeCategorySection">
       <div className="sectionTitle homeCategoryTitle">
         <h2>Browse by Category</h2>
+        <button onClick={() => setActivePage("Recipes")}>View all categories ›</button>
+      </div>
+
+      <div className="categoryGrid homeCategoryGrid">
+        {homeCategories.map((cat) => (
+          <button
+            key={cat.id}
+            className={HOME_CATEGORY_CODES.indexOf(cat.id) >= 10 ? "categoryTile homeCategoryTile secondRowCategoryTile" : "categoryTile homeCategoryTile"}
+            onClick={() => openCategory(cat)}
+            aria-label={`View ${cat.displayName} recipes`}
+          >
+            <img
+              className="categoryIconImage"
+              src={`${import.meta.env.BASE_URL}${cat.iconImage}`}
+              alt=""
+              aria-hidden="true"
+              loading="lazy"
+              decoding="async"
+              onError={(event) => {
+                event.currentTarget.style.display = "none";
+                const fallback = event.currentTarget.nextElementSibling;
+                if (fallback) fallback.style.display = "grid";
+              }}
+            />
+            <span className="categoryIcon categoryIconFallback" aria-hidden="true">
+              {cat.icon}
+            </span>
+            <strong>{cat.displayName}</strong>
+          </button>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function RecipeImage({ recipe }) {
+  const candidates = recipeImageCandidates(recipe);
+  const [imageIndex, setImageIndex] = useState(0);
+  const imagePath = candidates[imageIndex];
+
+  useEffect(() => {
+    setImageIndex(0);
+  }, [recipe.id]);
+
+  if (imagePath) {
+    return (
+      <div className="recipeImage recipePhoto">
+        <img
+          src={`${import.meta.env.BASE_URL}${imagePath}`}
+          alt={recipe.title}
+          loading="lazy"
+          decoding="async"
+          onError={() => setImageIndex((current) => current + 1)}
+        />
+      </div>
+    );
+  }
+
+  return (
+    <div className="recipeImage" style={{ background: recipe.imageStyle }}>
+      <span>{recipe.emoji}</span>
+    </div>
+  );
+}
+
+function FullRecipeCardPreview({ recipe, onOpen }) {
+  const candidates = previewCardImageCandidates(recipe);
+  const [imageIndex, setImageIndex] = useState(0);
+  const imagePath = candidates[imageIndex];
+
+  useEffect(() => {
+    setImageIndex(0);
+  }, [recipe.id]);
+
+  if (imagePath) {
+    return (
+      <button
+        className="recipeImage recipeFullCardImage recipeFullCardImageButton"
+        onClick={onOpen}
+        aria-label={`Open ${recipe.title} recipe card`}
+      >
+        <img
+          src={`${import.meta.env.BASE_URL}${imagePath}`}
+          alt={`${recipe.id} ${recipe.title} recipe card`}
+          loading="lazy"
+          decoding="async"
+          onError={() => setImageIndex((current) => current + 1)}
+        />
+      </button>
+    );
+  }
+
+  return <RecipeImage recipe={recipe} />;
+}
+
+function getRecipeBrowseTags(recipe) {
+  const title = recipe.title.toLowerCase();
+  const tags = [];
+
+  function addTag(tag) {
+    if (tag && !tags.includes(tag)) tags.push(tag);
+  }
+
+  if (recipe.category === 'Side Dishes') addTag('Side Dish');
+  else if (recipe.category === 'Salads & Bowls') addTag('Salad');
+  else addTag(recipe.category);
+
+  if (title.includes('casserole') || title.includes('bake') || title.includes('lasagna') || title.includes('pot pie')) {
+    addTag('Casserole');
+  }
+
+  if (title.includes('pasta') || title.includes('alfredo') || title.includes('spaghetti') || title.includes('ziti') || title.includes('mac')) {
+    addTag('Pasta');
+  }
+
+  if (Number(recipe.time) <= 30) {
+    addTag('Quick & Easy');
+  }
+
+  if (Number(recipe.servings) >= 6 || title.includes('casserole') || title.includes('bake')) {
+    addTag('Family Favorite');
+  }
+
+  if (title.includes('taco') || title.includes('mac') || title.includes('pizza') || title.includes('cheese')) {
+    addTag('Kid Friendly');
+  }
+
+  return tags.slice(0, 3);
+}
+
+
+function titleIncludes(recipe, terms) {
+  const text = `${recipe.id || ""} ${recipe.title || ""} ${recipe.category || ""}`.toLowerCase();
+  return terms.some((term) => text.includes(term));
+}
+
+function getRecipeSmartTips(recipe) {
+  const category = recipe.categoryCode || "";
+  const isDessert = ["CC", "CO", "CR", "DN", "DS", "JJ", "PM"].includes(category);
+  const isBread = ["LF", "KR"].includes(category);
+  const isSeafood = category === "SF";
+  const isMexican = category === "MX";
+  const isItalian = category === "IT";
+  const isBurger = category === "HB" || category === "HBP";
+  const isSalad = category === "SB";
+  const isSide = category === "SD";
+  const isSmoked = category === "SG";
+
+  const tips = {
+    calories: "Use smaller portions, measure sauces and cheese, and add vegetables or salad on the side.",
+    carbs: "Reduce bread, pasta, rice, crust, or sugar where possible; use lower-carb swaps when the texture still works.",
+    sodium: "Choose reduced-sodium sauces, broths, canned goods, and seasoning blends; taste before adding extra salt.",
+    protein: "Add lean protein or use a higher-protein version of the main ingredient when possible.",
+  };
+
+  if (isMexican) {
+    tips.calories = "Use lean chicken or lean ground beef, go lighter on cheese and sour cream, and bulk up with lettuce, peppers, onions, or salsa.";
+    tips.carbs = "Use low-carb tortillas, make it a bowl over cauliflower rice, or serve beans/rice in smaller portions.";
+    tips.sodium = "Choose reduced-sodium taco seasoning, salsa, beans, broth, and enchilada sauce.";
+    tips.protein = "Add extra grilled chicken, lean taco meat, shrimp, or Greek-yogurt topping instead of extra cheese.";
+  }
+
+  if (isItalian) {
+    tips.calories = "Use part-skim mozzarella, lighter cream sauces, and add vegetables to stretch the meal without adding much fat.";
+    tips.carbs = "Use protein pasta, smaller pasta portions, zucchini noodles, spaghetti squash, or a half pasta / half vegetable base.";
+    tips.sodium = "Pick no-salt-added tomatoes, lower-sodium marinara, and go lighter on parmesan and cured meats.";
+    tips.protein = "Add grilled chicken, turkey meatballs, shrimp, lean beef, or cottage-cheese/Greek-yogurt blended sauces.";
+  }
+
+  if (isBurger) {
+    tips.calories = "Use a leaner patty, smaller bun, lighter cheese, and load up with lettuce, tomato, onions, and pickles.";
+    tips.carbs = "Use a lettuce wrap, low-carb bun, half bun, or burger bowl instead of a full bun.";
+    tips.sodium = "Use lower-sodium seasoning and sauces; go easy on pickles, bacon, processed cheese, and bottled condiments.";
+    tips.protein = "Use lean ground beef, turkey, chicken, or a slightly larger patty with fewer high-calorie toppings.";
+  }
+
+  if (isSeafood) {
+    tips.calories = "Bake, grill, or air fry instead of deep frying; use lemon, herbs, and light butter or olive oil.";
+    tips.carbs = "Skip heavy breading or use a light almond-flour/panko mix; serve with vegetables or cauliflower rice.";
+    tips.sodium = "Use salt-free seafood seasoning or reduced-sodium Old Bay-style seasoning; avoid heavy bottled sauces.";
+    tips.protein = "Increase the seafood portion slightly or pair with Greek-yogurt slaw, cottage cheese, or a high-protein side.";
+  }
+
+  if (isSalad) {
+    tips.calories = "Keep dressing on the side, measure nuts/cheese/croutons, and use Greek-yogurt-based dressings.";
+    tips.carbs = "Limit croutons, tortilla strips, pasta, dried fruit, and sweet dressings.";
+    tips.sodium = "Go lighter on deli meats, bacon, cheese, pickles, olives, and bottled dressings.";
+    tips.protein = "Add grilled chicken, tuna, salmon, shrimp, eggs, cottage cheese, beans, or Greek-yogurt dressing.";
+  }
+
+  if (isSide) {
+    tips.calories = "Use light butter, broth, herbs, or Greek yogurt instead of heavy cream or extra cheese.";
+    tips.carbs = "Use cauliflower rice, roasted vegetables, smaller potato portions, or half-and-half starch/vegetable blends.";
+    tips.sodium = "Use reduced-sodium broth, rinse canned vegetables/beans, and season with herbs before adding salt.";
+    tips.protein = "Pair with lean protein, add beans where appropriate, or use Greek yogurt/cottage cheese in creamy sides.";
+  }
+
+  if (isSmoked) {
+    tips.calories = "Choose leaner cuts when possible, trim visible fat, and measure BBQ sauce.";
+    tips.carbs = "Use no-sugar-added BBQ sauce and serve with lower-carb sides like slaw, salad, or green vegetables.";
+    tips.sodium = "Use a lower-sodium rub and avoid over-seasoning before smoking or grilling.";
+    tips.protein = "Portion meat into two-serving freezer packs so protein is ready for future meals.";
+  }
+
+  if (isBread) {
+    tips.calories = "Make smaller portions or rolls, freeze extras immediately, and use measured butter or spreads.";
+    tips.carbs = "Homemade is a good option because you control ingredients; try smaller slices or partial whole-wheat blends.";
+    tips.sodium = "Reduce added salt slightly in homemade dough and avoid salty processed fillings when possible.";
+    tips.protein = "Use higher-protein flour blends, add Greek yogurt where appropriate, or pair bread with eggs, lean meats, or cottage cheese.";
+  }
+
+  if (isDessert) {
+    tips.calories = "Make smaller portions, use mini servings, reduce frosting/toppings, or freeze individual portions.";
+    tips.carbs = "Use lower-sugar fruit, sugar substitutes where they work, almond flour blends, or smaller crust portions.";
+    tips.sodium = "Use unsalted butter and watch boxed mixes, canned fillings, and salty toppings.";
+    tips.protein = "Add Greek yogurt, cottage cheese, protein powder, or serve with a higher-protein meal rather than eating alone.";
+  }
+
+  if (titleIncludes(recipe, ["fried", "fries", "fritter", "donut", "hush puppies", "egg rolls", "spring rolls"])) {
+    tips.calories = "Air fry or bake instead of deep frying when possible; use a light oil spray and smaller portions.";
+    tips.carbs = "Use lighter breading, smaller portions, or pair with a low-carb main dish.";
+  }
+
+  if (titleIncludes(recipe, ["rice bowl", "fried rice", "rice", "burrito bowl"])) {
+    tips.carbs = "Use cauliflower rice, half cauliflower rice / half regular rice, or a smaller rice base with extra vegetables.";
+    tips.protein = "Add extra chicken, shrimp, lean beef, eggs, or beans to make the bowl more filling.";
+  }
+
+  if (titleIncludes(recipe, ["pasta", "spaghetti", "ziti", "alfredo", "mac", "noodles", "lo mein", "chow mein"])) {
+    tips.carbs = "Use protein pasta, zucchini noodles, hearts-of-palm pasta, spaghetti squash, or half pasta / half vegetables.";
+    tips.protein = "Add grilled chicken, shrimp, lean beef, turkey meatballs, or cottage cheese blended into sauce.";
+  }
+
+  if (titleIncludes(recipe, ["casserole", "bake", "lasagna", "pot pie"])) {
+    tips.calories = "Use lean protein, lighter cheese or sauce, and add vegetables to stretch the casserole.";
+    tips.carbs = "Use a thinner crust, smaller pasta/rice layer, cauliflower rice, or extra vegetables.";
+    tips.sodium = "Use reduced-sodium soups, broths, sauces, and canned vegetables.";
+  }
+
+  return tips;
+}
+
+function SmartTipsButton({ recipe, position = "inline" }) {
+  const [open, setOpen] = useState(false);
+  const tips = getRecipeSmartTips(recipe);
+
+  const wrapperClass =
+    position === "viewerTop"
+      ? "smartTipsWrap smartTipsViewerTopWrap"
+      : "smartTipsWrap";
+
+  return (
+    <div className={wrapperClass}>
+      <button
+        type="button"
+        className="smartTipsButton"
+        onClick={() => setOpen((current) => !current)}
+        aria-expanded={open}
+      >
+        Smart Tips
+      </button>
+
+      {open && (
+        <div className="smartTipsBubble">
+          <div className="smartTipsBubbleHeader">
+            <strong>{recipe.title}</strong>
+            <button type="button" onClick={() => setOpen(false)} aria-label="Close smart tips">
+              ×
+            </button>
+          </div>
+
+          <ul>
+            <li>
+              <strong>Lower calorie:</strong> {tips.calories}
+            </li>
+            <li>
+              <strong>Lower carb:</strong> {tips.carbs}
+            </li>
+            <li>
+              <strong>Lower sodium:</strong> {tips.sodium}
+            </li>
+            <li>
+              <strong>Higher protein:</strong> {tips.protein}
+            </li>
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+}
+
+
+function RecipeCard({
+  recipe,
+  favorites,
+  toggleFavorite,
+  addToPlan,
+  openRecipeCard,
+  cardList = recipes,
+  showPlannerButton = true,
+  viewButtonText = "View Recipe Card",
+  displayMode = "hero",
+}) {
+  const isBrowseCard = displayMode === "card";
+  const browseTags = isBrowseCard ? getRecipeBrowseTags(recipe) : [];
+  const isFavorite = favorites.includes(recipe.id);
+
+  return (
+    <article className={isBrowseCard ? "recipeCard recipeCardFullImage" : "recipeCard"}>
+      {isBrowseCard ? (
+        <FullRecipeCardPreview
+          recipe={recipe}
+          onOpen={() => openRecipeCard(recipe.id, cardList)}
+        />
+      ) : (
+        <RecipeImage recipe={recipe} />
+      )}
+
+      {!isBrowseCard && (
+        <button
+          className={`heart ${isFavorite ? "saved" : ""}`}
+          onClick={() => toggleFavorite(recipe.id)}
+          aria-label="Save favorite"
+        >
+          ♡
+        </button>
+      )}
+
+      <div className="recipeBody">
+        <span className={`tag tag-${recipe.categoryCode}`}>
+          {recipe.category}
+        </span>
+
+        <h3>{recipe.title}</h3>
+
+        {isBrowseCard ? (
+          <>
+            <div className="recipeActions browseRecipeActions">
+              <button
+                className="viewCard"
+                onClick={() => openRecipeCard(recipe.id, cardList)}
+              >
+                {viewButtonText}
+              </button>
+              {showPlannerButton && (
+                <button className="addPlan" onClick={() => addToPlan(recipe.id)}>
+                  Add to Planner
+                </button>
+              )}
+              <SmartTipsButton recipe={recipe} />
+            </div>
+
+            <div className="browseRecipeMetaFooter">
+              <div className="meta">
+                <span>◷ {recipe.time} min</span>
+                <span>♙ {recipe.servings} servings</span>
+                <span>{recipe.price}</span>
+              </div>
+
+              <button
+                className={`heart browseCardHeart ${isFavorite ? "saved" : ""}`}
+                onClick={() => toggleFavorite(recipe.id)}
+                aria-label="Save favorite"
+              >
+                ♡
+              </button>
+            </div>
+
+            <div className="browseRecipeTags">
+              {browseTags.map((tag) => (
+                <span
+                  key={`${recipe.id}-${tag}`}
+                  className={`browseRecipeTag browseRecipeTag-${recipe.categoryCode}`}
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="meta">
+              <span>◷ {recipe.time} min</span>
+              <span>♙ {recipe.servings}</span>
+              <span>{recipe.price}</span>
+            </div>
+
+            <div className="recipeActions">
+              <button
+                className="viewCard"
+                onClick={() => openRecipeCard(recipe.id, cardList)}
+              >
+                {viewButtonText}
+              </button>
+              {showPlannerButton && (
+                <button className="addPlan" onClick={() => addToPlan(recipe.id)}>
+                  Add to planner
+                </button>
+              )}
+              <SmartTipsButton recipe={recipe} />
+            </div>
+          </>
+        )}
+      </div>
+    </article>
+  );
+}
+
+function mediaIcon(type = "") {
+  const normalizedType = type.toLowerCase();
+
+  if (normalizedType.includes("youtube") || normalizedType.includes("video")) return "▶";
+  if (normalizedType.includes("instagram")) return "◎";
+  if (normalizedType.includes("facebook")) return "f";
+  if (normalizedType.includes("tiktok")) return "♪";
+  if (normalizedType.includes("product")) return "▣";
+  if (normalizedType.includes("freezer")) return "❄";
+  if (normalizedType.includes("storage")) return "□";
+
+  return "↗";
+}
+
+function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorite }) {
+  const [imageIndex, setImageIndex] = useState(0);
+
+  const viewerIds = viewer?.recipeIds?.length
+    ? viewer.recipeIds
+    : recipes.map((recipe) => recipe.id);
+  const currentIndex = viewer
+    ? Math.max(0, viewerIds.indexOf(viewer.recipeId))
+    : 0;
+  const currentRecipeId = viewerIds[currentIndex] || viewer?.recipeId;
+  const recipe = viewer
+    ? recipes.find((item) => item.id === currentRecipeId) ||
+      recipes.find((item) => item.id === viewer.recipeId)
+    : null;
+
+  useEffect(() => {
+    setImageIndex(0);
+  }, [recipe?.id]);
+
+  if (!viewer || !recipe) return null;
+
+  const isFavorite = favorites.includes(recipe.id);
+  const imageCandidates = fullCardImageCandidates(recipe);
+  const imagePath = imageCandidates[imageIndex];
+  const hasMultiple = viewerIds.length > 1;
+
+  function goToOffset(offset) {
+    if (!hasMultiple) return;
+
+    const nextIndex =
+      (currentIndex + offset + viewerIds.length) % viewerIds.length;
+
+    setViewer({
+      recipeId: viewerIds[nextIndex],
+      recipeIds: viewerIds,
+    });
+  }
+
+  function printCurrentCard() {
+    if (!imagePath) return;
+
+    const imageUrl = `${window.location.origin}${import.meta.env.BASE_URL}${imagePath}`;
+    const printWindow = window.open("", "_blank", "width=1000,height=750");
+
+    if (!printWindow) {
+      window.print();
+      return;
+    }
+
+    printWindow.document.write(`
+      <!doctype html>
+      <html>
+        <head>
+          <title>${recipe.id} ${recipe.title}</title>
+          <style>
+            @page {
+              size: landscape;
+              margin: 0.25in;
+            }
+
+            * {
+              box-sizing: border-box;
+            }
+
+            body {
+              margin: 0;
+              min-height: 100vh;
+              display: grid;
+              place-items: center;
+              background: #ffffff;
+              font-family: Arial, sans-serif;
+            }
+
+            img {
+              width: 100%;
+              max-width: 10.5in;
+              max-height: 7.5in;
+              object-fit: contain;
+              display: block;
+            }
+          </style>
+        </head>
+        <body>
+          <img src="${imageUrl}" alt="${recipe.id} ${recipe.title} recipe card" />
+          <script>
+            const image = document.querySelector("img");
+            image.onload = () => {
+              window.focus();
+              window.print();
+            };
+          </script>
+        </body>
+      </html>
+    `);
+
+    printWindow.document.close();
+  }
+
+  async function downloadCurrentCard() {
+    if (!imagePath) return;
+
+    const imageUrl = `${import.meta.env.BASE_URL}${imagePath}`;
+    const fileName = `${recipe.id}-${recipe.title}`
+      .replace(/[^a-z0-9]+/gi, "-")
+      .replace(/(^-|-$)/g, "")
+      .toLowerCase() + ".png";
+
+    try {
+      const response = await fetch(imageUrl);
+      const blob = await response.blob();
+      const objectUrl = URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = objectUrl;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+
+      URL.revokeObjectURL(objectUrl);
+    } catch (error) {
+      const link = document.createElement("a");
+      link.href = imageUrl;
+      link.download = fileName;
+      link.target = "_blank";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    }
+  }
+
+  return (
+    <div className="cardViewerOverlay" onClick={onClose}>
+      <div className="cardViewer" onClick={(event) => event.stopPropagation()}>
+        <div className="cardViewerHeader">
+          <div>
+            <span className="cardViewerCode">{recipe.id}</span>
+            <h2>{recipe.title}</h2>
+          </div>
+
+          <div className="cardViewerHeaderActions">
+            <SmartTipsButton recipe={recipe} position="viewerTop" />
+
+            <button
+              className={isFavorite ? "cardViewerFavorite saved" : "cardViewerFavorite"}
+              onClick={() => toggleFavorite(recipe.id)}
+              aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
+              title={isFavorite ? "Remove from favorites" : "Add to favorites"}
+            >
+              ♥
+            </button>
+
+            <button className="cardViewerClose" onClick={onClose}>
+              ×
+            </button>
+          </div>
+        </div>
+
+        <div className="cardViewerStage">
+          <button
+            className="cardViewerNav"
+            onClick={() => goToOffset(-1)}
+            disabled={!hasMultiple}
+            aria-label="Previous recipe card"
+          >
+            ‹
+          </button>
+
+          <div className="cardViewerImageWrap">
+            {imagePath ? (
+              <img
+                src={`${import.meta.env.BASE_URL}${imagePath}`}
+                alt={`${recipe.id} ${recipe.title} recipe card`}
+                decoding="async"
+                onError={() => setImageIndex((current) => current + 1)}
+              />
+            ) : (
+              <div className="cardViewerMissing">
+                <strong>Recipe card image not found.</strong>
+                <span>
+                  Expected: images/recipes/{recipe.id}.png
+                </span>
+              </div>
+            )}
+          </div>
+
+          <button
+            className="cardViewerNav"
+            onClick={() => goToOffset(1)}
+            disabled={!hasMultiple}
+            aria-label="Next recipe card"
+          >
+            ›
+          </button>
+        </div>
+
+        <div className="cardViewerSmartTips">
+        </div>
+
+        {recipe.mediaLinks?.length > 0 && (
+          <div className="cardViewerHelpfulLinks">
+            <strong>Helpful links</strong>
+            <div>
+              {recipe.mediaLinks.map((link, index) => (
+                <a
+                  key={`${recipe.id}-media-${index}`}
+                  href={link.url}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <span>{mediaIcon(link.type || link.label)}</span>
+                  {link.label}
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div className="cardViewerFooter">
+          <span>
+            {currentIndex + 1} of {viewerIds.length}
+          </span>
+
+          <div className="cardViewerFooterActions">
+            <button
+              className="cardViewerPrint"
+              onClick={printCurrentCard}
+              disabled={!imagePath}
+            >
+              Print this card
+            </button>
+
+            <button
+              className="cardViewerDownload"
+              onClick={downloadCurrentCard}
+              disabled={!imagePath}
+            >
+              Download this card
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CollectionStrip() {
+  const collectionCards = [
+    {
+      title: "Slow Cooker Favorites",
+      text: "Set-it-and-forget-it meals for easy crock-pot cooking.",
+    },
+    {
+      title: "Summer Cookouts",
+      text: "Grill-friendly meals and warm-weather favorites.",
+    },
+    {
+      title: "Healthy Dinners",
+      text: "Balanced meals for lighter weeknight cooking.",
+    },
+    {
+      title: "Comfort Foods",
+      text: "Popular classics for familiar family-style meals.",
+    },
+    {
+      title: "Easy 30-Minute Meals",
+      text: "Fast 30-minute dinners for those busy nights.",
+    },
+  ];
+
+  return (
+    <section className="section collectionSection">
+      <div className="sectionTitle">
+        <h2>AI-Generated Collections for Every Plan</h2>
+        <button>View all collections ›</button>
+      </div>
+
+      <div className="collectionGrid">
+        {collectionCards.map((collection) => (
+          <button className="collectionTile" key={collection.title}>
+            <div className="collectionTileHeader">
+              <strong>{collection.title}</strong>
+            </div>
+            <small>{collection.text}</small>
+          </button>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function getRandomRecipes(sourceRecipes, maxCount = 12) {
+  return [...sourceRecipes]
+    .sort(() => Math.random() - 0.5)
+    .slice(0, maxCount);
+}
+
+function RecipeRolodex({ openRecipeCard }) {
+  const [selectedCategory, setSelectedCategory] = useState("MASTER_RANDOM");
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [imageIndex, setImageIndex] = useState(0);
+
+  const rolodexRecipes = useMemo(() => {
+    const selectedCategoryObject = categories.find(
+      (category) => category.name === selectedCategory || category.id === selectedCategory
+    );
+
+    const filteredRecipes =
+      selectedCategory === "MASTER_RANDOM"
+        ? recipes
+        : recipes.filter((recipe) => (
+            recipe.category === selectedCategory ||
+            recipe.categoryCode === selectedCategoryObject?.id ||
+            recipe.id?.startsWith(`${selectedCategoryObject?.id}-`)
+          ));
+
+    return getRandomRecipes(filteredRecipes, 12);
+  }, [selectedCategory]);
+
+  const activeRecipe = rolodexRecipes[activeIndex] || rolodexRecipes[0];
+  const imageCandidates = activeRecipe ? previewCardImageCandidates(activeRecipe) : [];
+  const imagePath = imageCandidates[imageIndex];
+
+  useEffect(() => {
+    setActiveIndex(0);
+    setImageIndex(0);
+  }, [selectedCategory]);
+
+  useEffect(() => {
+    setImageIndex(0);
+  }, [activeRecipe?.id]);
+
+  useEffect(() => {
+    if (!rolodexRecipes.length) return;
+
+    const timer = window.setInterval(() => {
+      setActiveIndex((current) => (current + 1) % rolodexRecipes.length);
+    }, 7000);
+
+    return () => window.clearInterval(timer);
+  }, [rolodexRecipes.length]);
+
+  function goToOffset(offset) {
+    if (!rolodexRecipes.length) return;
+
+    setActiveIndex((current) =>
+      (current + offset + rolodexRecipes.length) % rolodexRecipes.length
+    );
+  }
+
+  if (!activeRecipe) {
+    return (
+      <aside className="homeRolodex" aria-label="Recipe card rolodex">
+        <div className="homeRolodexHeader">
+          <div>
+            <span>Recipe Card Rolodex</span>
+            <strong>No cards found</strong>
+          </div>
+
+          <select
+            className="homeRolodexSelect"
+            value={selectedCategory}
+            onChange={(event) => setSelectedCategory(event.target.value)}
+            aria-label="Choose recipe card category"
+          >
+            <option value="MASTER_RANDOM">Random Variety</option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.name}>
+                {category.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="homeRolodexMissing">
+          <strong>No recipe cards found for this category.</strong>
+          <span>Try another category.</span>
+        </div>
+      </aside>
+    );
+  }
+
+  return (
+    <aside className="homeRolodex" aria-label="Recipe card rolodex">
+      <div className="homeRolodexHeader">
+        <div>
+          <span>Recipe Card Rolodex</span>
+          <strong>{activeRecipe.title}</strong>
+        </div>
+
+        <div className="homeRolodexControls">
+          <select
+            className="homeRolodexSelect"
+            value={selectedCategory}
+            onChange={(event) => setSelectedCategory(event.target.value)}
+            aria-label="Choose recipe card category"
+          >
+            <option value="MASTER_RANDOM">Random Variety</option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.name}>
+                {category.name}
+              </option>
+            ))}
+          </select>
+
+          <small>
+            {activeIndex + 1} of {rolodexRecipes.length}
+          </small>
+        </div>
+      </div>
+
+      <div className="homeRolodexStage">
+        <img
+          className="homeRolodexHolderArt"
+          src={`${import.meta.env.BASE_URL}images/ui/hero-rolodex-.png`}
+          alt=""
+          aria-hidden="true"
+          loading="lazy"
+          decoding="async"
+        />
+
+        <button
+          className="homeRolodexNav"
+          onClick={() => goToOffset(-1)}
+          aria-label="Previous recipe card"
+        >
+          ‹
+        </button>
+
+        <button
+          className="homeRolodexCard"
+          onClick={() => openRecipeCard(activeRecipe.id, rolodexRecipes)}
+          aria-label={`Open ${activeRecipe.title} recipe card`}
+        >
+          {imagePath ? (
+            <img
+              src={`${import.meta.env.BASE_URL}${imagePath}`}
+              alt={`${activeRecipe.id} ${activeRecipe.title} recipe card`}
+              loading="lazy"
+              decoding="async"
+              onError={() => setImageIndex((current) => current + 1)}
+            />
+          ) : (
+            <div className="homeRolodexMissing">
+              <strong>Recipe card image not found.</strong>
+              <span>Expected: images/recipes/{activeRecipe.id}.png</span>
+            </div>
+          )}
+        </button>
+
+        <button
+          className="homeRolodexNav"
+          onClick={() => goToOffset(1)}
+          aria-label="Next recipe card"
+        >
+          ›
+        </button>
+      </div>
+
+      <div className="homeRolodexDots" aria-hidden="true">
+        {rolodexRecipes.map((recipe, index) => (
+          <span key={recipe.id} className={index === activeIndex ? "active" : ""} />
+        ))}
+      </div>
+    </aside>
+  );
+}
+
+function Home({
+  favorites,
+  toggleFavorite,
+  addToPlan,
+  openRecipeCard,
+  setActivePage,
+  setFilter,
+}) {
+  const recentlyAdded = recipes.slice(0, 4);
+
+  return (
+    <>
+      <Hero setActivePage={setActivePage} />
+      <TransparencyLine />
+      <CategoryGrid setFilter={setFilter} setActivePage={setActivePage} />
+
+      <section className="section">
+        <div className="sectionTitle">
+          <h2>Recently Added</h2>
+          <button onClick={() => setActivePage("Recipes")}>
+            View all recipes ›
+          </button>
+        </div>
+
+        <div className="recentlyAddedLayout">
+          <div className="recipeRow recentlyAddedCards">
+            {recentlyAdded.map((recipe) => (
+              <RecipeCard
+                key={recipe.id}
+                recipe={recipe}
+                favorites={favorites}
+                toggleFavorite={toggleFavorite}
+                addToPlan={addToPlan}
+                openRecipeCard={openRecipeCard}
+                cardList={recentlyAdded}
+                showPlannerButton={false}
+                viewButtonText="View Recipe"
+              />
+            ))}
+          </div>
+
+          <RecipeRolodex openRecipeCard={openRecipeCard} />
+        </div>
+      </section>
+
+      <FeatureStrip />
+      <CollectionStrip />
+    </>
+  );
+}
+
+function RecipesPage({
+  favorites,
+  toggleFavorite,
+  addToPlan,
+  openRecipeCard,
+  filter,
+  setFilter,
+}) {
+  const [query, setQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState(filter || "");
+  const [selectedCookingMethod, setSelectedCookingMethod] = useState("");
+  const [selectedMealType, setSelectedMealType] = useState("");
+  const [selectedDietaryNeed, setSelectedDietaryNeed] = useState("");
+  const [sortBy, setSortBy] = useState("newest");
+  const [page, setPage] = useState(1);
+
+  useEffect(() => {
+    setSelectedCategory(filter || "");
+  }, [filter]);
+
+  const filteredRecipes = useMemo(() => {
+    let list = recipes.filter((recipe) => {
+      const matchesQuery = `${recipe.id} ${recipe.title} ${recipe.category}`
+        .toLowerCase()
+        .includes(query.toLowerCase());
+
+      const selectedCategoryObject = categories.find(
+        (category) => category.name === selectedCategory || category.id === selectedCategory
+      );
+      const matchesCategory =
+        !selectedCategory ||
+        recipe.category === selectedCategory ||
+        recipe.categoryCode === selectedCategoryObject?.id ||
+        recipe.id?.startsWith(`${selectedCategoryObject?.id}-`);
+
+      return matchesQuery && matchesCategory;
+    });
+
+    const sorted = [...list];
+    switch (sortBy) {
+      case 'az':
+        sorted.sort((a, b) => a.title.localeCompare(b.title));
+        break;
+      case 'time-low':
+        sorted.sort((a, b) => Number(a.time || 0) - Number(b.time || 0));
+        break;
+      case 'time-high':
+        sorted.sort((a, b) => Number(b.time || 0) - Number(a.time || 0));
+        break;
+      case 'servings-high':
+        sorted.sort((a, b) => Number(b.servings || 0) - Number(a.servings || 0));
+        break;
+      case 'servings-low':
+        sorted.sort((a, b) => Number(a.servings || 0) - Number(b.servings || 0));
+        break;
+      default:
+        break;
+    }
+
+    return sorted;
+  }, [query, selectedCategory, selectedCookingMethod, selectedMealType, selectedDietaryNeed, sortBy]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [query, selectedCategory, selectedCookingMethod, selectedMealType, selectedDietaryNeed, sortBy]);
+
+  const perPage = 12;
+  const totalPages = Math.max(1, Math.ceil(filteredRecipes.length / perPage));
+  const safePage = Math.min(page, totalPages);
+  const pageStart = (safePage - 1) * perPage;
+  const visibleRecipes = filteredRecipes.slice(pageStart, pageStart + perPage);
+
+  useEffect(() => {
+    if (page > totalPages) setPage(totalPages);
+  }, [page, totalPages]);
+
+  function renderPageButtons() {
+    if (totalPages <= 1) return null;
+
+    const buttons = [];
+    const visible = new Set([1, 2, 3, totalPages, safePage - 1, safePage, safePage + 1]);
+    const pages = [...visible]
+      .filter((n) => n >= 1 && n <= totalPages)
+      .sort((a, b) => a - b);
+
+    let prev = null;
+    for (const p of pages) {
+      if (prev && p - prev > 1) {
+        buttons.push(
+          <span key={`ellipsis-${prev}-${p}`} className="browsePaginationEllipsis">
+            …
+          </span>
+        );
+      }
+      buttons.push(
+        <button
+          key={p}
+          className={p === safePage ? 'active' : ''}
+          onClick={() => setPage(p)}
+          aria-label={`Page ${p}`}
+        >
+          {p}
+        </button>
+      );
+      prev = p;
+    }
+
+    return buttons;
+  }
+
+  return (
+    <main className="pageShell browseRecipesPage">
+      <div className="browseHeaderRow">
+        <div className="browseIntro">
+          <h1>Browse Recipes</h1>
+          <p>Explore AI-generated recipes and meal ideas.</p>
+        </div>
+
+        <div className="browseSearchWrap">
+          <span className="browseSearchIcon">⌕</span>
+          <input
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search recipes..."
+            aria-label="Search recipes"
+          />
+        </div>
+      </div>
+
+      <div className="browseControlsRow">
+        <div className="browseFilters">
+          <select
+            value={selectedCategory}
+            onChange={(e) => {
+              setSelectedCategory(e.target.value);
+              setFilter(e.target.value);
+            }}
+          >
+            <option value="">All Categories</option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.name}>
+                {category.name}
+              </option>
+            ))}
+          </select>
+
+          <select value={selectedCookingMethod} onChange={(e) => setSelectedCookingMethod(e.target.value)}>
+            <option value="">All Cooking Methods</option>
+            <option value="quick">Quick & Easy</option>
+            <option value="baked">Baked</option>
+            <option value="skillet">Skillet</option>
+            <option value="slowcooker">Slow Cooker</option>
+          </select>
+
+          <select value={selectedMealType} onChange={(e) => setSelectedMealType(e.target.value)}>
+            <option value="">All Meal Types</option>
+            <option value="dinner">Dinner</option>
+            <option value="lunch">Lunch</option>
+            <option value="sidedish">Side Dish</option>
+            <option value="dessert">Dessert</option>
+          </select>
+
+          <select value={selectedDietaryNeed} onChange={(e) => setSelectedDietaryNeed(e.target.value)}>
+            <option value="">All Dietary Needs</option>
+            <option value="glutenfree">Gluten Free</option>
+            <option value="lowcarb">Low Carb</option>
+            <option value="lighter">Lighter Options</option>
+          </select>
+        </div>
+
+        <div className="browseSortWrap">
+          <label htmlFor="browse-sort">Sort By:</label>
+          <select id="browse-sort" value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+            <option value="newest">Newest</option>
+            <option value="az">A–Z</option>
+            <option value="time-low">Time: Low to High</option>
+            <option value="time-high">Time: High to Low</option>
+            <option value="servings-low">Servings: Low to High</option>
+            <option value="servings-high">Servings: High to Low</option>
+          </select>
+        </div>
+      </div>
+
+      <div className="browseResultsRow">
+        <strong>{filteredRecipes.length} recipes found</strong>
+        {totalPages > 1 && (
+          <div className="browsePagination">
+            <button
+              className="browsePaginationArrow"
+              onClick={() => setPage((current) => Math.max(1, current - 1))}
+              disabled={safePage === 1}
+              aria-label="Previous page"
+            >
+              ‹
+            </button>
             {renderPageButtons()}
             <button
               className="browsePaginationArrow"
@@ -1297,6 +2451,7 @@ function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFa
               Use your two-week plan to cook once, eat once, and freeze one meal
               for a future week.
             </p>
+            <button onClick={() => setActivePage("Freezer Tips")}>Review Freezer Tips</button>
             <button onClick={() => setActivePage("Grocery Picks")}>Review Smart Grocery Picks</button>
           </section>
         </aside>
@@ -2027,6 +3182,9 @@ function FreezerTipsPage({ setActivePage }) {
         </div>
 
         <div className="freezerHeaderActions">
+          <button className="primary" onClick={() => setActivePage("Meal Planner")}>
+            Start Meal Planning
+          </button>
           <button className="secondary" onClick={() => setActivePage("Shopping Lists")}>
             View Shopping List
           </button>
@@ -2222,6 +3380,13 @@ function AboutPage({ setActivePage }) {
           </div>
 
           <div className="aboutStoryActions aboutStoryActionsCompact">
+            <button className="primary" onClick={() => setActivePage("Recipes")}>
+              ▣ Browse Recipes
+            </button>
+
+            <button className="secondary" onClick={() => setActivePage("Meal Planner")}>
+              ▣ Start Meal Planning
+            </button>
           </div>
         </article>
       </section>
