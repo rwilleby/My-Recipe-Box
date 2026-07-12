@@ -5470,3 +5470,223 @@ th {
     left: 24px;
   }
 }
+
+
+/* ================================
+   SMART TIPS TOP CARD POSITION UPDATE
+   Moves Smart Tips to the top of each recipe card, left of the heart.
+   ================================ */
+
+.recipeCard {
+  overflow: visible;
+}
+
+.smartTipsTopWrap {
+  position: absolute;
+  top: 9px;
+  right: 52px;
+  z-index: 12;
+  width: auto;
+}
+
+.smartTipsTopWrap .smartTipsButton {
+  width: auto;
+  min-width: 84px;
+  min-height: 34px;
+  padding: 0 11px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .88);
+  border: 1px solid rgba(20, 83, 45, .26);
+  color: var(--green);
+  font-size: 10.5px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  box-shadow: 0 5px 14px rgba(17, 24, 39, .12);
+  backdrop-filter: blur(4px);
+}
+
+.smartTipsTopWrap .smartTipsButton:hover {
+  background: #ffffff;
+  border-color: var(--green);
+}
+
+.smartTipsTopWrap .smartTipsBubble {
+  left: auto;
+  right: 0;
+  bottom: auto;
+  top: calc(100% + 8px);
+  transform: none;
+}
+
+.smartTipsTopWrap .smartTipsBubble::after {
+  left: auto;
+  right: 36px;
+  top: -7px;
+  bottom: auto;
+  border: 0;
+  border-left: 1px solid #d9eadc;
+  border-top: 1px solid #d9eadc;
+}
+
+.browseRecipeGrid .recipeCardFullImage {
+  overflow: visible;
+}
+
+.browseRecipeGrid .recipeCardFullImage .heart,
+.browseCardHeart {
+  z-index: 13;
+}
+
+@media (max-width: 720px) {
+  .smartTipsTopWrap {
+    right: 50px;
+  }
+
+  .smartTipsTopWrap .smartTipsButton {
+    min-width: 76px;
+    padding: 0 9px;
+    font-size: 9.8px;
+  }
+
+  .smartTipsTopWrap .smartTipsBubble {
+    right: -42px;
+    width: min(315px, 88vw);
+  }
+
+  .smartTipsTopWrap .smartTipsBubble::after {
+    right: 78px;
+  }
+}
+
+
+/* ================================
+   SMART TIPS VIEWER TOP / CARD LOWER UPDATE
+   - Recipe grid cards keep Smart Tips in the lower action area.
+   - Large recipe viewer shows Smart Tips in the header, left of the favorite heart.
+   ================================ */
+
+/* Disable the previous top-card placement. */
+.smartTipsTopWrap {
+  position: relative !important;
+  top: auto !important;
+  right: auto !important;
+  z-index: 1 !important;
+  width: 100% !important;
+}
+
+.smartTipsTopWrap .smartTipsButton {
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 34px !important;
+  padding: 0 11px !important;
+  border-radius: 8px !important;
+  background: #ffffff !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  font-size: 12px !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+}
+
+.smartTipsTopWrap .smartTipsBubble {
+  left: 50% !important;
+  right: auto !important;
+  bottom: calc(100% + 8px) !important;
+  top: auto !important;
+  transform: translateX(-50%) !important;
+}
+
+.smartTipsTopWrap .smartTipsBubble::after {
+  left: 50% !important;
+  right: auto !important;
+  top: auto !important;
+  bottom: -7px !important;
+  border-left: 0 !important;
+  border-top: 0 !important;
+  border-right: 1px solid #d9eadc !important;
+  border-bottom: 1px solid #d9eadc !important;
+}
+
+/* Viewer header placement, left of the heart. */
+.smartTipsViewerTopWrap {
+  position: relative;
+  width: auto;
+  min-width: 132px;
+  z-index: 20;
+}
+
+.smartTipsViewerTopWrap .smartTipsButton {
+  width: auto;
+  min-width: 132px;
+  min-height: 42px;
+  padding: 0 16px;
+  border-radius: 999px;
+  border: 1px solid #d9eadc;
+  background: #ffffff;
+  color: var(--green);
+  font-size: 13px;
+  font-weight: 850;
+  box-shadow: none;
+}
+
+.smartTipsViewerTopWrap .smartTipsButton:hover {
+  border-color: var(--green);
+  background: #f5fbf5;
+}
+
+.smartTipsViewerTopWrap .smartTipsBubble {
+  left: auto;
+  right: 0;
+  bottom: auto;
+  top: calc(100% + 10px);
+  transform: none;
+  width: min(360px, 86vw);
+  z-index: 120;
+}
+
+.smartTipsViewerTopWrap .smartTipsBubble::after {
+  left: auto;
+  right: 54px;
+  top: -7px;
+  bottom: auto;
+  border: 0;
+  border-left: 1px solid #d9eadc;
+  border-top: 1px solid #d9eadc;
+}
+
+/* Keep the lower card button full-width like screenshot two. */
+.recipeActions .smartTipsWrap,
+.browseRecipeActions .smartTipsWrap {
+  grid-column: 1 / -1;
+}
+
+.recipeActions .smartTipsButton,
+.browseRecipeActions .smartTipsButton {
+  width: 100%;
+}
+
+.cardViewerSmartTips {
+  display: none !important;
+}
+
+@media (max-width: 720px) {
+  .smartTipsViewerTopWrap {
+    min-width: 108px;
+  }
+
+  .smartTipsViewerTopWrap .smartTipsButton {
+    min-width: 108px;
+    min-height: 38px;
+    padding: 0 12px;
+    font-size: 12px;
+  }
+
+  .smartTipsViewerTopWrap .smartTipsBubble {
+    right: -74px;
+    width: min(330px, 88vw);
+  }
+
+  .smartTipsViewerTopWrap .smartTipsBubble::after {
+    right: 112px;
+  }
+}

@@ -1213,12 +1213,17 @@ function getRecipeSmartTips(recipe) {
   return tips;
 }
 
-function SmartTipsButton({ recipe }) {
+function SmartTipsButton({ recipe, position = "inline" }) {
   const [open, setOpen] = useState(false);
   const tips = getRecipeSmartTips(recipe);
 
+  const wrapperClass =
+    position === "viewerTop"
+      ? "smartTipsWrap smartTipsViewerTopWrap"
+      : "smartTipsWrap";
+
   return (
-    <div className="smartTipsWrap">
+    <div className={wrapperClass}>
       <button
         type="button"
         className="smartTipsButton"
@@ -1529,6 +1534,8 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
           </div>
 
           <div className="cardViewerHeaderActions">
+            <SmartTipsButton recipe={recipe} position="viewerTop" />
+
             <button
               className={isFavorite ? "cardViewerFavorite saved" : "cardViewerFavorite"}
               onClick={() => toggleFavorite(recipe.id)}
@@ -1583,7 +1590,6 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
         </div>
 
         <div className="cardViewerSmartTips">
-          <SmartTipsButton recipe={recipe} />
         </div>
 
         {recipe.mediaLinks?.length > 0 && (
