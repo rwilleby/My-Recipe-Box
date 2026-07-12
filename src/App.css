@@ -5838,3 +5838,30 @@ th {
     width: min(310px, 88vw);
   }
 }
+
+
+/* ================================
+   HERO BUTTON FINAL TEXT/CLEANUP UPDATE
+   Removes original hero action buttons and removes heavier top rule.
+   ================================ */
+
+.hero .heroButtons {
+  display: none !important;
+}
+
+.heroInfoButton {
+  border: 1px solid rgba(20, 83, 45, .42) !important;
+  border-top: 1px solid rgba(20, 83, 45, .42) !important;
+  min-width: 132px;
+}
+
+.heroInfoButton:hover,
+.heroInfoButtonWrap:focus-within .heroInfoButton {
+  border: 1px solid var(--green) !important;
+}
+
+@media (max-width: 720px) {
+  .heroInfoButton {
+    min-width: 0;
+  }
+}
