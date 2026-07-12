@@ -613,6 +613,34 @@ const HERO_IMAGES = [
   "images/thumbs/heroes/hero-shrimp-wide.jpg",
 ];
 
+const HERO_INFO_BUTTONS = [
+  {
+    title: "ALWAYS FREE",
+    text: "Robert’s Recipe Box is intended to remain free to use. Optional recommendations and affiliate links may help support the site without requiring a subscription.",
+  },
+  {
+    title: "BROWSE RECIPES",
+    text: "Browse recipe cards by category, search for meal ideas, and open full recipe cards for viewing, printing, or saving.",
+  },
+  {
+    title: "SELECT FAVORITES",
+    text: "Save recipes you like so they are easier to find again on this device. Favorites are stored in your browser.",
+  },
+  {
+    title: "PLAN MEALS",
+    text: "Build a practical meal plan using recipes designed for smaller households, planned leftovers, and freezer-friendly second meals.",
+  },
+  {
+    title: "GROCERY LIST",
+    text: "Use your meal plan to create a shopping list, check pantry staples, and review smarter grocery picks before you shop.",
+  },
+  {
+    title: "TIPS & TRICKS",
+    text: "Find practical tips for freezer meals, storage, lower-carb swaps, lower-calorie options, and easier small-household cooking.",
+  },
+];
+
+
 const ABOUT_STORY_PHOTOS = [
   {
     src: "images/about/robert-pete-puppy2.jpg",
@@ -872,6 +900,46 @@ function Header({ activePage, setActivePage }) {
   );
 }
 
+
+function HeroInfoButtons() {
+  const [openInfo, setOpenInfo] = useState(null);
+
+  return (
+    <div className="heroInfoButtons" aria-label="Homepage quick information">
+      {HERO_INFO_BUTTONS.map((item) => (
+        <div className="heroInfoButtonWrap" key={item.title}>
+          <button
+            type="button"
+            className="heroInfoButton"
+            onClick={() =>
+              setOpenInfo((current) => (current === item.title ? null : item.title))
+            }
+            aria-expanded={openInfo === item.title}
+          >
+            {item.title}
+          </button>
+
+          {openInfo === item.title && (
+            <div className="heroInfoPopup">
+              <div className="heroInfoPopupHeader">
+                <strong>{item.title}</strong>
+                <button
+                  type="button"
+                  onClick={() => setOpenInfo(null)}
+                  aria-label={`Close ${item.title} information`}
+                >
+                  ×
+                </button>
+              </div>
+              <p>{item.text}</p>
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function Hero({ setActivePage }) {
   const [heroIndex, setHeroIndex] = useState(0);
 
@@ -935,6 +1003,8 @@ function Hero({ setActivePage }) {
           </button>
         </div>
       </div>
+      <HeroInfoButtons />
+
     </section>
   );
 }
