@@ -5865,3 +5865,73 @@ th {
     min-width: 0;
   }
 }
+
+
+/* ================================
+   MOBILE CATEGORY ICON PAIRS FIX
+   Phone view: category icons run in clean pairs with no overlap.
+   ================================ */
+
+@media (max-width: 560px) {
+  .homeCategorySection {
+    padding-left: 18px;
+    padding-right: 18px;
+    overflow: visible;
+  }
+
+  .homeCategoryGrid,
+  .categoryGrid.homeCategoryGrid {
+    --category-tile-size: clamp(82px, 31vw, 118px);
+    --category-name-size: 13px;
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 22px 14px !important;
+    align-items: start;
+    justify-items: center;
+    overflow: visible;
+  }
+
+  .homeCategoryTile,
+  .categoryTile.homeCategoryTile {
+    width: 100%;
+    min-width: 0;
+    min-height: calc(var(--category-tile-size) + 34px);
+    display: flex !important;
+    align-items: center;
+    justify-content: flex-start;
+    overflow: visible;
+  }
+
+  .homeCategoryGrid .categoryIconImage,
+  .homeCategoryGrid .categoryIconFallback,
+  .homeCategoryGrid .secondRowCategoryTile .categoryIconImage,
+  .homeCategoryGrid .secondRowCategoryTile .categoryIconFallback {
+    width: var(--category-tile-size) !important;
+    height: var(--category-tile-size) !important;
+    max-width: var(--category-tile-size) !important;
+    margin: 0 auto 8px !important;
+    object-fit: contain;
+  }
+
+  .homeCategoryGrid .categoryTile strong,
+  .homeCategoryGrid .secondRowCategoryTile strong {
+    max-width: calc(var(--category-tile-size) + 18px) !important;
+    font-size: var(--category-name-size) !important;
+    line-height: 1.08;
+    text-align: center;
+    word-break: normal;
+  }
+}
+
+@media (max-width: 380px) {
+  .homeCategoryGrid,
+  .categoryGrid.homeCategoryGrid {
+    --category-tile-size: clamp(76px, 30vw, 102px);
+    gap: 20px 10px !important;
+  }
+
+  .homeCategorySection {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+}
