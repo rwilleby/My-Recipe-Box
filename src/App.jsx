@@ -615,8 +615,8 @@ const HERO_IMAGES = [
 
 const HERO_INFO_BUTTONS = [
   {
-    line1: "ALWAYS",
-    line2: "FREE",
+    line1: "NO",
+    line2: "SUBSCRIPTIONS",
     title: "WHY WE WILL ALWAYS BE FREE",
     text: "Robert’s Recipe Box is intended to remain free to use. Optional recommendations and affiliate links may help support the site without requiring a paid subscription.",
   },
@@ -634,19 +634,19 @@ const HERO_INFO_BUTTONS = [
   },
   {
     line1: "PLAN YOUR",
-    line2: "MEALS",
+    line2: "WEEKLY MEALS",
     title: "PLAN YOUR CUSTOM WEEKLY MEAL PLANS",
     text: "Build a practical meal plan using recipes designed for smaller households, planned leftovers, and freezer-friendly second meals.",
   },
   {
-    line1: "CHECK YOUR",
-    line2: "LIST",
+    line1: "MAKE YOUR",
+    line2: "GROCERY LIST",
     title: "PRINT YOUR GROCERY LISTS",
     text: "Use your meal plan to create a practical grocery list, review pantry staples, and print a condensed list before shopping.",
   },
   {
-    line1: "VIEW OUR",
-    line2: "TIPS",
+    line1: "TIPS &",
+    line2: "SUGGESTIONS",
     title: "VIEW OUR TIPS & TRICKS",
     text: "Find practical tips for freezer meals, storage, lower-carb swaps, lower-calorie options, and easier small-household cooking.",
   },
@@ -927,17 +927,17 @@ function Header({ activePage, setActivePage }) {
 
 function getHeroInfoTargetPage(title) {
   switch (title) {
-    case "Always Free":
+    case "No Subscriptions":
       return "About";
     case "Browse Our Recipes":
       return "Recipes";
     case "Select Your Favorites":
       return "Favorites";
-    case "Plan Your Meals":
+    case "Plan Your Weekly Meals":
       return "Meal Planner";
-    case "Check Your List":
+    case "Make Your Grocery List":
       return "Shopping Lists";
-    case "View Our Tips":
+    case "Tips & Suggestions":
       return "Freezer Tips";
     default:
       return "How To Use";
