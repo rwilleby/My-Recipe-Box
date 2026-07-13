@@ -1455,7 +1455,7 @@ function RecipeCard({
   openRecipeCard,
   cardList = recipes,
   showPlannerButton = true,
-  viewButtonText = "View Recipe Card",
+  viewButtonText = "View Recipe",
   displayMode = "hero",
 }) {
   const isBrowseCard = displayMode === "card";
@@ -3735,85 +3735,117 @@ function AboutRecipesPage({ setActivePage }) {
 
 function AboutPage({ setActivePage }) {
   return (
-    <main className="pageShell aboutUnifiedPage">
-      <section className="aboutRecipesHero" id="about-roberts-recipe-box">
-        <div>
-          <div className="aiBadge">OUR MISSION</div>
+    <main className="pageShell letterPageShell">
+      <article className="readerLetterCard">
+        <header className="readerLetterHeader">
+          <div className="readerLetterLogoBlock">
+            <img
+              className="readerLetterLogo"
+              src={`${import.meta.env.BASE_URL}images/ui/rrb-logo-wide.png`}
+              alt="Robert's Recipe Box"
+            />
+            <div className="readerLetterTagline">Plan. Cook. Eat. Freeze. Save!</div>
+          </div>
+
+          <div className="readerLetterMeta">
+            <span>Our Mission</span>
+            <span>Robert’s Recipe Box</span>
+          </div>
+        </header>
+
+        <div className="readerLetterRule" />
+
+        <section className="readerLetterBody">
+          <div className="readerLetterOrnament" aria-hidden="true">❦</div>
           <h1>Why I Started This Page</h1>
-          <p>
-            Robert’s Recipe Box began as a personal way to cook meals we enjoy,
-            prepare practical portions for two people, save money where possible,
-            and freeze a little extra for another day.
-          </p>
-        </div>
-      </section>
 
-      <div className="aboutRecipesGrid aboutRobertGrid">
-        <article className="aboutRecipesCard">
-          <h2>How it started</h2>
-          <p>
-            I created Robert’s Recipe Box after my wife and I tried a few
-            subscription meal plans. I liked the idea of organized meals and
-            clear instructions, but I wanted to cook foods we actually enjoyed.
-          </p>
-        </article>
+          <p className="readerGreeting">Dear Reader,</p>
 
-        <article className="aboutRecipesCard">
-          <h2>Cooking for two</h2>
           <p>
-            The idea was to make four servings at a time: two for dinner and two
-            for another meal or the freezer. That makes cooking more useful for a
-            smaller household.
+            I started Robert’s Recipe Box because I know how challenging it can be
+            to plan meals that are simple, affordable, and actually
+            enjoyable—especially when you are cooking for one, two, or just a few.
           </p>
-        </article>
 
-        <article className="aboutRecipesCard">
-          <h2>Saving where possible</h2>
           <p>
-            Eating out had become expensive, even for fast food. Cooking at home
-            made it easier to compare costs, control portions, and reduce waste.
+            My wife and I had tried a few subscription meal plans, and I liked the
+            basic idea: choose a meal, have the ingredients organized, and follow
+            clear instructions. The problem was that we did not always like the
+            meals being offered. I found myself thinking that if I was going to
+            cook, I wanted to cook something we actually enjoyed.
           </p>
-        </article>
 
-        <article className="aboutRecipesCard">
-          <h2>Recipe cards</h2>
           <p>
-            I wanted simple recipe cards that were easy to follow while cooking,
-            without needing to scroll through a long webpage.
+            At the same time, eating out was becoming more expensive. Even fast
+            food could add up quickly for two people once drinks, tax, delivery
+            fees, or tips were included. That made me start comparing the cost of
+            buying a meal with the cost of making a similar meal at home.
           </p>
-        </article>
 
-        <article className="aboutRecipesCard">
-          <h2>Still free to use</h2>
           <p>
-            Robert’s Recipe Box was not created as a subscription site. The goal
-            is to keep the recipes, cards, planning tools, and shopping ideas
-            free to use.
+            In many cases, we could prepare four servings at home for about the
+            same price—or sometimes less—than buying two restaurant or fast-food
+            meals. That meant dinner for two today and another meal for later in
+            the week or the freezer.
           </p>
-        </article>
 
-        <article className="aboutRecipesCard aboutQuoteCard">
-          <h2>The simple idea</h2>
           <p>
-            <strong>
-              Cook what you like, make it the way you like it, spend less when
-              possible, and prepare a little extra for another day.
-            </strong>
+            I created this site to help seniors, couples, empty nesters, and
+            smaller households find an easier, less stressful way to get dinner on
+            the table without wasting food or money.
           </p>
-        </article>
-      </div>
 
-      <div className="aboutRecipesActions">
-        <button className="primary" onClick={() => setActivePage("Recipes")}>
-          Browse Recipes
-        </button>
-        <button className="secondary" onClick={() => setActivePage("How To Use")}>
-          How to Use This Site
-        </button>
-      </div>
+          <p>
+            Here, you will find practical meal ideas, recipe cards, copycat-style
+            meals, grocery-list help, freezer tips, and simple planning tools made
+            for the way many of us actually cook and live today.
+          </p>
+
+          <p>
+            My goal is to help you stretch your budget, make meals you genuinely
+            enjoy, prepare enough for dinner and another meal, and build a small
+            supply of freezer meals that can save time and bring peace of mind.
+          </p>
+
+          <p>
+            If this site can make your time in the kitchen simpler, your meals
+            more satisfying, and your days a little easier, then Robert’s Recipe
+            Box has done exactly what I hoped it would do.
+          </p>
+
+          <p>
+            Thank you for being here. I am glad you are part of this journey.
+          </p>
+
+          <div className="readerSignatureBlock">
+            <p>Sincerely,</p>
+            <div className="readerSignature">Robert</div>
+            <p>
+              Robert Willeby<br />
+              Robert’s Recipe Box
+            </p>
+          </div>
+        </section>
+
+        <div className="readerLetterRule bottom" />
+
+        <footer className="readerLetterActions">
+          <button className="primary" onClick={() => setActivePage("Recipes")}>
+            Browse Recipes
+          </button>
+          <button className="secondary" onClick={() => setActivePage("How To Use")}>
+            How to Use This Site
+          </button>
+          <button className="secondary" onClick={() => setActivePage("About Recipes")}>
+            About the Recipes
+          </button>
+        </footer>
+      </article>
     </main>
   );
 }
+
+
 
 function AboutSmokingPage({ setActivePage }) {
   return (

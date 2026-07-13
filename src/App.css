@@ -7490,3 +7490,172 @@ button,
     letter-spacing: -0.014em;
   }
 }
+
+
+/* =========================================================
+   WHY I STARTED THIS PAGE — LETTER TO READERS
+   Letterhead-style mission page with signature block.
+   ========================================================= */
+
+.letterPageShell {
+  padding-top: clamp(28px, 4vw, 54px);
+  padding-bottom: clamp(44px, 6vw, 80px);
+}
+
+.readerLetterCard {
+  width: min(100%, 980px);
+  margin: 0 auto;
+  padding: clamp(26px, 4.5vw, 58px);
+  border: 1px solid #e6dcc9;
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at 20% 0%, rgba(255, 248, 232, .85), transparent 36%),
+    linear-gradient(180deg, #fffaf0 0%, #fff7e8 100%);
+  box-shadow:
+    0 28px 64px rgba(38, 28, 18, .14),
+    0 2px 0 rgba(255, 255, 255, .7) inset;
+  color: #1f2933;
+}
+
+.readerLetterHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 28px;
+}
+
+.readerLetterLogoBlock {
+  display: grid;
+  gap: 4px;
+}
+
+.readerLetterLogo {
+  width: min(320px, 52vw);
+  height: auto;
+  display: block;
+  filter: sepia(.12) contrast(1.04);
+}
+
+.readerLetterTagline {
+  font-family: var(--rrb-body-font, Inter, system-ui, sans-serif);
+  color: #7a4f28;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  margin-left: 6px;
+}
+
+.readerLetterMeta {
+  display: grid;
+  gap: 6px;
+  justify-items: end;
+  color: #7a4f28;
+  font-family: var(--rrb-body-font, Inter, system-ui, sans-serif);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.readerLetterRule {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #c9a875, transparent);
+  margin: clamp(22px, 3vw, 34px) 0;
+}
+
+.readerLetterRule.bottom {
+  margin-top: clamp(26px, 3vw, 38px);
+}
+
+.readerLetterBody {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.readerLetterOrnament {
+  text-align: center;
+  color: #9a6a36;
+  font-size: 26px;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.readerLetterBody h1 {
+  font-family: var(--rrb-editorial-heading-font, Georgia, serif);
+  color: #6e3f1d;
+  text-align: center;
+  font-size: clamp(38px, 5vw, 60px);
+  line-height: 1;
+  letter-spacing: -0.045em;
+  margin: 0 0 30px;
+  text-transform: none !important;
+}
+
+.readerLetterBody p {
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  color: #232323;
+  font-size: clamp(17px, 1.35vw, 20px);
+  line-height: 1.62;
+  margin: 0 0 18px;
+}
+
+.readerGreeting {
+  font-weight: 700;
+}
+
+.readerSignatureBlock {
+  margin-top: 30px;
+}
+
+.readerSignatureBlock p {
+  margin-bottom: 8px;
+}
+
+.readerSignature {
+  font-family: "Bradley Hand", "Segoe Script", "Snell Roundhand", "Comic Sans MS", cursive;
+  font-size: clamp(54px, 7vw, 84px);
+  line-height: .9;
+  color: #111827;
+  margin: 4px 0 10px;
+  transform: rotate(-2deg);
+  transform-origin: left center;
+}
+
+.readerLetterActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
+@media (max-width: 720px) {
+  .readerLetterHeader {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .readerLetterMeta {
+    justify-items: center;
+  }
+
+  .readerLetterTagline {
+    margin-left: 0;
+  }
+
+  .readerLetterBody h1 {
+    font-size: 38px;
+  }
+
+  .readerLetterBody p {
+    font-size: 16.5px;
+  }
+
+  .readerLetterActions {
+    flex-direction: column;
+  }
+
+  .readerLetterActions .primary,
+  .readerLetterActions .secondary {
+    width: 100%;
+  }
+}
