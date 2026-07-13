@@ -6628,3 +6628,37 @@ th {
     max-width: 230px;
   }
 }
+
+
+/* ================================
+   ABOUT THE RECIPES FULL COPY UPDATE
+   Longer About the Recipes page with full policy/review/safety copy.
+   ================================ */
+
+.aboutRecipesFullGrid .aboutRecipesCard p + p {
+  margin-top: 10px;
+}
+
+.aboutRecipesWideCard {
+  grid-column: span 2;
+}
+
+.aboutRecipesFullGrid .aboutCardList {
+  margin-top: 9px;
+}
+
+.aboutRecipesFullGrid .aboutCardList li {
+  font-size: 14.3px;
+}
+
+@media (max-width: 1000px) {
+  .aboutRecipesWideCard {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 640px) {
+  .aboutRecipesWideCard {
+    grid-column: span 1;
+  }
+}
