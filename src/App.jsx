@@ -851,7 +851,7 @@ function Header({ activePage, setActivePage }) {
         { label: "BAKING YOUR OWN BREADS", page: "Bread Tips" },
         { label: "SMOKING YOUR OWN MEATS", page: "About Smoking" },
         { label: "FREEZER TECHNIQUES", page: "Freezer Tips" },
-        { label: "HEALTHY GROCERY SUBSTITUTIONS", page: "Smart Grocery Picks" },
+        { label: "HEALTHY GROCERY SUBSTITUTIONS", page: "Grocery Picks" },
         { label: "SUBMIT YOUR RECIPES", page: "Submit Recipes" },
         { label: "SAFE COOKING RULES", page: "Safe Cooking Rules" },
         { label: "TOOLS & PRODUCTS", page: "Recommendations" },
@@ -881,6 +881,7 @@ function Header({ activePage, setActivePage }) {
           src={`${import.meta.env.BASE_URL}images/ui/rrb-logo-wide.png`}
           alt="Robert's Recipe Box"
         />
+        <span className="brandLogoTagline">PLAN. COOK. EAT. FREEZE. SAVE!</span>
       </button>
 
       <nav className="navLinks dropdownNav" aria-label="Main navigation">
@@ -900,9 +901,9 @@ function Header({ activePage, setActivePage }) {
             </button>
 
             <div className="navDropdownMenu">
-              {group.items.map((item) => (
+              {group.items.map((item, index) => (
                 <button
-                  key={item.page}
+                  key={`${group.label}-${item.label}-${index}`}
                   className={activePage === item.page ? "active" : ""}
                   type="button"
                   onClick={() => openPage(item.page)}
@@ -917,7 +918,6 @@ function Header({ activePage, setActivePage }) {
 
       <div className="topActions">
         <span>⌕</span>
-        <span>♡</span>
         <span className="avatar">◉ Robert⌄</span>
       </div>
     </header>
@@ -3877,6 +3877,7 @@ function App() {
       {activePage === "Favorites" && <FavoritesPage {...pageProps} />}
       {activePage === "Recommendations" && <RecommendationsPage {...pageProps} />}
       {activePage === "Grocery Picks" && <GroceryPicksPage {...pageProps} />}
+      {activePage === "Smart Grocery Picks" && <GroceryPicksPage {...pageProps} />}
       {activePage === "Freezer Tips" && <FreezerTipsPage {...pageProps} />}
       {activePage === "About" && <AboutPage setActivePage={setActivePage} initialSection="main" />}
       {activePage === "Who Is Robert" && (
