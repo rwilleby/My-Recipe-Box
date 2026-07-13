@@ -969,7 +969,7 @@ function HeroInfoButtons({ setActivePage }) {
 
   return (
     <div className="heroInfoButtons" aria-label="Homepage quick information">
-      {HERO_INFO_BUTTONS.map((item) => (
+      {HERO_INFO_BUTTONS.map((item, index) => (
         <div className="heroInfoButtonWrap" key={item.title}>
           <button
             type="button"
@@ -979,6 +979,7 @@ function HeroInfoButtons({ setActivePage }) {
             }
             aria-expanded={openInfo === item.title}
           >
+            <span className="heroInfoStepNumber" aria-hidden="true">{index + 1}</span>
             <span>{item.line1}</span>
             <span>{item.line2}</span>
           </button>
