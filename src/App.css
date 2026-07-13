@@ -7943,3 +7943,32 @@ button,
     max-height: 46vh;
   }
 }
+
+
+/* =========================================================
+   HERO INFO POPUP MORE INFO BUTTONS
+   Adds a call-to-action button inside each hero information popup.
+   ========================================================= */
+
+.heroInfoMoreButton {
+  margin-top: 14px;
+  width: 100%;
+  min-height: 38px;
+  border-radius: 10px;
+  border: 1px solid var(--green);
+  background: var(--green);
+  color: #ffffff;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform .16s ease, background .16s ease, box-shadow .16s ease;
+}
+
+.heroInfoMoreButton:hover {
+  background: #0f4a29;
+  box-shadow: 0 8px 18px rgba(20, 83, 45, .18);
+  transform: translateY(-1px);
+}
+
+.heroInfoMoreButton:active {
+  transform: translateY(0);
+}

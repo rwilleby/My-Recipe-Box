@@ -924,7 +924,47 @@ function Header({ activePage, setActivePage }) {
 }
 
 
-function HeroInfoButtons() {
+
+function getHeroInfoTargetPage(title) {
+  switch (title) {
+    case "Why We Will Always Be Free":
+      return "About";
+    case "Browse Our Recipe Library":
+      return "Recipes";
+    case "Select Your Favorite Recipes":
+      return "Favorites";
+    case "Plan Your Custom Weekly Meal Plans":
+      return "Meal Planner";
+    case "Print Your Grocery Lists":
+      return "Shopping Lists";
+    case "View Our Tips & Tricks":
+      return "Freezer Tips";
+    default:
+      return "How To Use";
+  }
+}
+
+function getHeroInfoMoreInfoLabel(title) {
+  switch (title) {
+    case "Why We Will Always Be Free":
+      return "Read Our Mission";
+    case "Browse Our Recipe Library":
+      return "Browse Recipes";
+    case "Select Your Favorite Recipes":
+      return "View Favorites";
+    case "Plan Your Custom Weekly Meal Plans":
+      return "Plan Meals";
+    case "Print Your Grocery Lists":
+      return "Open Shopping Lists";
+    case "View Our Tips & Tricks":
+      return "View Tips";
+    default:
+      return "More Info";
+  }
+}
+
+
+function HeroInfoButtons({ setActivePage }) {
   const [openInfo, setOpenInfo] = useState(null);
 
   return (
@@ -956,6 +996,17 @@ function HeroInfoButtons() {
                 </button>
               </div>
               <p>{item.text}</p>
+
+              <button
+                type="button"
+                className="heroInfoMoreButton"
+                onClick={() => {
+                  setOpenInfo(null);
+                  setActivePage(getHeroInfoTargetPage(item.title));
+                }}
+              >
+                {getHeroInfoMoreInfoLabel(item.title)}
+              </button>
             </div>
           )}
         </div>
@@ -1027,7 +1078,7 @@ function Hero({ setActivePage }) {
           </button>
         </div>
       </div>
-      <HeroInfoButtons />
+      <HeroInfoButtons setActivePage={setActivePage} />
 
     </section>
   );
