@@ -6699,3 +6699,36 @@ th {
     font-size: 14px;
   }
 }
+
+
+/* ================================
+   ROBERT'S RECIPE BOX PHOTO REMOVAL
+   Removes the rotating photo frame from the Robert's Recipe Box page.
+   ================================ */
+
+.aboutUnifiedPage .aboutRecipesHero {
+  display: block;
+}
+
+.aboutUnifiedPage .aboutRecipesHero p {
+  max-width: 860px;
+}
+
+
+/* ================================
+   ABOUT THE RECIPES SHORT AI UPDATE
+   Restores the shorter card-grid page and keeps Robert's page photo-free.
+   ================================ */
+
+.aboutUnifiedPage .aboutRecipesHero {
+  display: block;
+}
+
+.aboutUnifiedPage .aboutRecipesHero p {
+  max-width: 860px;
+}
+
+.aboutRecipesCard.aboutQuoteCard {
+  background: #f7fcf8;
+  border-color: #d9eadc;
+}

@@ -3614,191 +3614,95 @@ function AboutRecipesPage({ setActivePage }) {
           <div className="aiBadge">ABOUT THE RECIPES</div>
           <h1>About the Recipes</h1>
           <p>
-            All recipes in Robert’s Recipe Box are generated with the assistance
-            of artificial intelligence under my direction.
+            Robert’s Recipe Box is built around practical meals, familiar foods,
+            AI-assisted recipe development under my direction, recipe-card
+            simplicity, and planned leftovers for smaller households.
           </p>
         </div>
       </section>
 
-      <div className="aboutRecipesGrid aboutRecipesFullGrid">
-        <article className="aboutRecipesCard aboutRecipesWideCard">
-          <h2>Created with AI under my direction</h2>
+      <div className="aboutRecipesGrid">
+        <article className="aboutRecipesCard">
+          <h2>AI-assisted, directed by me</h2>
           <p>
-            I decide the type of meal or product I want to create, the
-            ingredients or flavors I prefer, the number of servings, the cooking
-            method, and the general nutritional or practical goals. The AI then
-            helps develop and organize the recipe, ingredient list, directions,
-            substitutions, estimated nutrition information, and recipe-card
-            content.
+            The recipes are generated with the assistance of artificial
+            intelligence, but they are guided by my choices for the meal idea,
+            flavors, servings, cooking method, practical goals, and recipe-card
+            format.
           </p>
         </article>
 
         <article className="aboutRecipesCard">
-          <h2>Recipe inspiration</h2>
-          <p>The recipes may be based on:</p>
-          <ul className="aboutCardList">
-            <li>Foods my wife and I enjoy</li>
-            <li>Traditional family-style meals</li>
-            <li>Restaurant and fast-food favorites</li>
-            <li>Copycat-style dishes</li>
-            <li>Familiar grocery-store products</li>
-            <li>Meals designed for specific appliances or cooking methods</li>
-            <li>Ideas adjusted for smaller households and freezer meals</li>
-          </ul>
-        </article>
-
-        <article className="aboutRecipesCard">
-          <h2>Copycat-style recipes</h2>
+          <h2>Practical recipe cards</h2>
           <p>
-            These are not copied restaurant formulas or official recipes from the
-            companies, restaurants, or products that may have inspired them.
-            Copycat recipes are homemade interpretations intended to create a
-            similar type of meal while allowing the ingredients, seasonings,
-            portions, and cooking methods to be adjusted.
+            The recipes are designed to be easy to browse, easy to organize, and
+            easy to reference while cooking. The goal is not to scroll through a
+            long article just to find the ingredients or directions.
           </p>
         </article>
 
         <article className="aboutRecipesCard">
-          <h2>Designed for cooking for two</h2>
+          <h2>Built for smaller households</h2>
           <p>
-            Most recipes are designed to make approximately four servings. For
-            our household, that generally means two servings for dinner and two
-            additional servings for another meal.
-          </p>
-          <p>
-            The remaining portions may be refrigerated for later in the week or
-            packaged as a freezer meal. This helps reduce the need to cook every
-            night while still allowing us to prepare foods we enjoy.
+            Many recipes are planned around four servings. For a two-person
+            household, that can mean dinner today and another prepared meal for
+            lunch, another dinner, or the freezer.
           </p>
         </article>
 
         <article className="aboutRecipesCard">
-          <h2>Adjusted to our preferences</h2>
+          <h2>Copycat and familiar meals</h2>
           <p>
-            One of the main benefits of preparing meals at home is having more
-            control over what goes into them.
-          </p>
-          <ul className="aboutCardList">
-            <li>More protein</li>
-            <li>Fewer carbohydrates</li>
-            <li>Fewer calories</li>
-            <li>Less sodium</li>
-            <li>Leaner meats</li>
-            <li>Lighter sauces and dressings</li>
-            <li>Reduced-fat ingredients</li>
-            <li>Smaller or more reasonable portions</li>
-            <li>Affordable grocery-store ingredients</li>
-            <li>Freezer-friendly preparation methods</li>
-          </ul>
-        </article>
-
-        <article className="aboutRecipesCard">
-          <h2>Not every recipe is diet-specific</h2>
-          <p>
-            Not every recipe is intended to be low-carb, low-calorie, or
-            suitable for a particular diet. The original version may be presented
-            along with optional substitutions so that each person can choose what
-            works best for their household.
+            Some recipes are inspired by restaurant-style, fast-food, family-style,
+            or grocery-store favorites. They are homemade interpretations, not
+            official restaurant formulas or copied company recipes.
           </p>
         </article>
 
         <article className="aboutRecipesCard">
-          <h2>Recipe review and testing</h2>
+          <h2>Adjustable choices</h2>
           <p>
-            Artificial intelligence is a useful tool, but it can make mistakes.
-            I review the recipes and recipe cards for ingredient quantities,
-            directions, temperatures, cooking times, serving sizes, and overall
-            practicality.
-          </p>
-          <p>
-            However, not every recipe on the site may have been personally
-            prepared or tested in my kitchen before it is published.
+            Recipes may include lower-calorie, lower-carb, lower-sodium,
+            higher-protein, freezer-friendly, or budget-friendly ideas. The
+            original recipe remains available, while the suggestions help users
+            adapt meals to their own needs.
           </p>
         </article>
 
         <article className="aboutRecipesCard">
-          <h2>Use reasonable cooking judgment</h2>
+          <h2>Freezer-friendly planning</h2>
           <p>
-            Visitors should read the complete recipe before beginning, use
-            reasonable cooking judgment, and adjust ingredients, cooking times,
-            and seasonings as needed.
+            The site encourages a cook-once, eat-once, freeze-once approach when
+            practical. Extra portions can become prepared meals for days when
+            cooking from scratch is not realistic.
           </p>
         </article>
 
         <article className="aboutRecipesCard">
-          <h2>Cooking times and temperatures</h2>
+          <h2>Shopping and pantry support</h2>
           <p>
-            Cooking appliances and ingredients can vary. Ovens, microwaves, air
-            fryers, slow cookers, gas grills, smokers, and stovetops may not cook
-            food at exactly the same rate.
-          </p>
-          <p>
-            The times and temperatures shown on the recipe cards are guides.
-            Check food as it cooks and use a reliable food thermometer whenever
-            appropriate.
+            Meal planning, pantry staples, grocery-list ideas, and smart grocery
+            picks are included to make the recipes more useful beyond the recipe
+            card itself.
           </p>
         </article>
 
         <article className="aboutRecipesCard">
-          <h2>Food safety</h2>
+          <h2>Review before cooking</h2>
           <p>
-            Always make sure meat, poultry, seafood, eggs, casseroles, and
-            reheated foods reach a safe internal temperature before serving.
-          </p>
-        </article>
-
-        <article className="aboutRecipesCard">
-          <h2>Nutrition and cost estimates</h2>
-          <p>
-            Nutrition information, serving sizes, grocery prices, preparation
-            times, and cooking times are estimates. Actual results will vary.
-          </p>
-          <ul className="aboutCardList">
-            <li>Ingredient brands</li>
-            <li>Product sizes</li>
-            <li>Substitutions</li>
-            <li>Portion sizes</li>
-            <li>Cooking methods</li>
-            <li>Grocery stores</li>
-            <li>Local prices</li>
-          </ul>
-        </article>
-
-        <article className="aboutRecipesCard">
-          <h2>General reference only</h2>
-          <p>
-            Estimated nutrition information is provided as a general reference.
-            It should not be considered medical, dietary, or professional
-            nutritional advice.
-          </p>
-          <p>
-            Anyone with food allergies, diabetes, kidney disease, heart disease,
-            medically required dietary restrictions, or other health concerns
-            should carefully review the ingredients and follow the guidance of a
-            physician or registered dietitian.
-          </p>
-        </article>
-
-        <article className="aboutRecipesCard">
-          <h2>Make each recipe your own</h2>
-          <p>
-            The recipe cards are intended to be practical guides. You may prefer
-            a different seasoning, another vegetable, less salt, more protein, a
-            lighter sauce, a different cheese, or an alternative cooking method.
-          </p>
-          <p>
-            Adjust each recipe to fit your tastes, budget, equipment, and
-            household needs. That is the advantage of cooking at home.
+            Artificial intelligence is useful, but it can make mistakes. Read the
+            complete recipe before beginning, use reasonable cooking judgment,
+            check temperatures when needed, and adjust seasonings, timing, and
+            ingredients for your kitchen.
           </p>
         </article>
 
         <article className="aboutRecipesCard aboutQuoteCard">
-          <h2>The best version</h2>
+          <h2>Make it your own</h2>
           <p>
             <strong>
-              You control the ingredients, the portions, the seasonings, and the
-              finished meal. The best version of any recipe is the one that works
-              for you and the people at your table.
+              The best version of any recipe is the one that works for your
+              tastes, your budget, your equipment, and the people at your table.
             </strong>
           </p>
         </article>
@@ -3811,229 +3715,14 @@ function AboutRecipesPage({ setActivePage }) {
         <button className="secondary" onClick={() => setActivePage("Meal Planner")}>
           Start Meal Planning
         </button>
-        <button className="secondary" onClick={() => setActivePage("About")}>
-          Robert’s Recipe Box
+        <button className="secondary" onClick={() => setActivePage("How To Use")}>
+          How to Use This Site
         </button>
       </div>
     </main>
   );
 }
 
-
-function AboutSmokingPage({ setActivePage }) {
-  return (
-    <main className="pageShell aboutRecipesPage aboutSmokingUnifiedPage" id="about-smoking-grilling">
-      <section className="aboutRecipesHero">
-        <div>
-          <div className="aiBadge">SMOKING & GRILLING FOODS</div>
-          <h1>About Smoking & Grilling</h1>
-          <p>How I got started smoking meat, what I learned from using a pellet grill, and why smoked and grilled foods fit the cook-once, eat-twice approach behind Robert’s Recipe Box.</p>
-        </div>
-      </section>
-
-      <div className="aboutRecipesGrid">
-        <article className="aboutRecipesCard">
-          <h2>How I got started</h2>
-          <p>I got started smoking meat after buying a Pit Boss pellet grill. I am not a professional pitmaster. I am someone who wanted to learn how to make good barbecue at home.</p>
-        </article>
-
-        <article className="aboutRecipesCard">
-          <h2>Why a pellet grill helped</h2>
-          <p>A pellet grill can make smoking and grilling more approachable. It still takes time, patience, seasoning, and practice, but it gives a home cook a practical way to learn.</p>
-        </article>
-
-        <article className="aboutRecipesCard">
-          <h2>Better than expected</h2>
-          <p>Over time, the results became more than acceptable. Some of the meals made me think twice about going to many of the local barbecue restaurants.</p>
-        </article>
-
-        <article className="aboutRecipesCard">
-          <h2>Not competition barbecue</h2>
-          <p>The smoked and grilled recipes are practical recipes for people who want to cook brisket, pork, ribs, chicken, sausage, burgers, and grilled meals at home.</p>
-        </article>
-
-        <article className="aboutRecipesCard">
-          <h2>Cook once, eat twice</h2>
-          <p>The same basic idea still applies: cook enough to enjoy a meal now and save extra portions for later. Smoked meats work especially well for planned leftovers.</p>
-        </article>
-
-        <article className="aboutRecipesCard">
-          <h2>Freezer-friendly portions</h2>
-          <p>Extra smoked meat can be portioned, frozen, and used later for sandwiches, bowls, tacos, salads, baked potatoes, or quick weeknight dinners.</p>
-        </article>
-
-        <article className="aboutRecipesCard">
-          <h2>Still learning</h2>
-          <p>I am still learning and experimenting, and that is part of the enjoyment. The goal is to make smoking and grilling feel possible, useful, and worth trying.</p>
-        </article>
-
-        <article className="aboutRecipesCard">
-          <h2>Why it fits the recipe box</h2>
-          <ul className="aboutCardList">
-            <li>Works well for cook-once, eat-twice meals.</li>
-            <li>Extra meat can be frozen in two-serving portions.</li>
-            <li>Leftovers can become sandwiches, bowls, tacos, or salads.</li>
-            <li>Pellet grills make smoking more approachable for home cooks.</li>
-          </ul>
-        </article>
-
-        <article className="aboutRecipesCard aboutQuoteCard">
-          <h2>The point</h2>
-          <p><strong>Good smoked and grilled food does not have to be complicated. It just needs a practical method, patience, and a plan for using the extra portions well.</strong></p>
-        </article>
-      </div>
-
-      <div className="aboutRecipesActions">
-        <button className="primary" onClick={() => setActivePage("Recipes")}>Browse Smoked & Grilled Recipes</button>
-        <button className="secondary" onClick={() => setActivePage("About")}>Robert’s Recipe Box</button>
-      </div>
-    </main>
-  );
-}
-
-
-function AboutPage({ setActivePage, initialSection = "main" }) {
-  const [photoIndex, setPhotoIndex] = useState(0);
-
-  useEffect(() => {
-    const timer = window.setInterval(() => {
-      setPhotoIndex((current) => (current + 1) % ABOUT_STORY_PHOTOS.length);
-    }, 4500);
-
-    return () => window.clearInterval(timer);
-  }, []);
-
-  return (
-    <main className="pageShell aboutUnifiedPage">
-      <section className="aboutRecipesHero aboutRobertHero" id="about-roberts-recipe-box">
-        <div className="aboutRobertHeroText">
-          <div className="aiBadge">ROBERT’S RECIPE BOX</div>
-          <h1>Robert’s Recipe Box</h1>
-          <p>
-            A personal recipe-card project built around cooking for two, saving
-            money where possible, enjoying familiar meals, and preparing a little
-            extra for another day.
-          </p>
-        </div>
-
-        <aside className="aboutHeroFrame">
-          <div className="vintageFrame">
-            <div className="vintageFrameInner">
-              <div className="vintagePhotoStage">
-                {ABOUT_STORY_PHOTOS.map((photo, index) => (
-                  <img
-                    key={photo.src}
-                    src={`${import.meta.env.BASE_URL}${photo.src}`}
-                    alt={photo.alt}
-                    className={index === photoIndex ? "vintagePhoto active" : "vintagePhoto"}
-                    loading="lazy"
-                    decoding="async"
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <div className="aboutPhotoDots" aria-label="About photo selector">
-            {ABOUT_STORY_PHOTOS.map((photo, index) => (
-              <button
-                key={photo.src}
-                type="button"
-                className={index === photoIndex ? "active" : ""}
-                onClick={() => setPhotoIndex(index)}
-                aria-label={`Show photo ${index + 1}`}
-              />
-            ))}
-          </div>
-        </aside>
-      </section>
-
-      <div className="aboutRecipesGrid aboutRobertGrid">
-        <article className="aboutRecipesCard">
-          <h2>How it started</h2>
-          <p>I created Robert’s Recipe Box after my wife and I tried a few subscription meal plans. I thought, if I am going to cook, why not cook something we like?</p>
-        </article>
-
-        <article className="aboutRecipesCard">
-          <h2>The subscription-meal idea</h2>
-          <p>I liked the idea of choosing a meal, receiving ingredients, and following clear instructions. The problem was that we did not always like the meals being offered.</p>
-        </article>
-
-        <article className="aboutRecipesCard">
-          <h2>Eating out was getting expensive</h2>
-          <p>Even fast food was becoming surprisingly expensive for two people once drinks, tax, delivery fees, or tips were included.</p>
-        </article>
-
-        <article className="aboutRecipesCard">
-          <h2>One meal became two</h2>
-          <p>In many cases, we could make four servings at home for about the same price—or less—than buying two restaurant or fast-food meals.</p>
-        </article>
-
-        <article className="aboutRecipesCard">
-          <h2>Copycat meals made sense</h2>
-          <p>Making our own versions of restaurant-style meals gave us more control over protein, carbohydrates, salt, calories, meats, sauces, ingredients, and portions.</p>
-        </article>
-
-        <article className="aboutRecipesCard">
-          <h2>A simple recipe card</h2>
-          <p>I wanted a simple recipe card I could keep nearby while cooking—something easy to follow without scrolling through a long webpage.</p>
-        </article>
-
-        <article className="aboutRecipesCard">
-          <h2>The freezer-meal idea</h2>
-          <p>The goal was to make four servings: two for dinner and two to start building a collection of freezer meals for another day.</p>
-        </article>
-
-        <article className="aboutRecipesCard">
-          <h2>Then I got carried away</h2>
-          <p>I began making more recipe cards, printing them, organizing them, laminating them, creating categories, comparing costs, and planning grocery lists.</p>
-        </article>
-
-        <article className="aboutRecipesCard">
-          <h2>Still free to use</h2>
-          <p>Robert’s Recipe Box will remain free to use. I will never charge a subscription fee, membership fee, or access fee for the recipes and planning tools.</p>
-        </article>
-
-        <article className="aboutRecipesCard">
-          <h2>Affiliate links</h2>
-          <p>The site may include links to products I personally like, use, or recommend. If you purchase through those links, the site may earn a small commission at no additional cost to you.</p>
-        </article>
-
-        <article className="aboutRecipesCard">
-          <h2>A simple routine</h2>
-          <ul className="aboutCardList">
-            <li>Choose meals you enjoy.</li>
-            <li>Follow an easy recipe card.</li>
-            <li>Adjust ingredients to fit your preferences.</li>
-            <li>Make enough for dinner and another meal.</li>
-            <li>Freeze extra portions when practical.</li>
-          </ul>
-        </article>
-
-        <article className="aboutRecipesCard aboutQuoteCard">
-          <h2>The simple idea</h2>
-          <p><strong>Cook what you like, make it the way you like it, spend less when possible, and prepare a little extra for another day.</strong></p>
-        </article>
-      </div>
-
-      <div className="aboutRecipesActions">
-        <button className="primary" onClick={() => setActivePage("Recipes")}>Browse Recipes</button>
-        <button className="secondary" onClick={() => setActivePage("Meal Planner")}>Start Meal Planning</button>
-        <button className="secondary" onClick={() => setActivePage("About Recipes")}>About the Recipes</button>
-      </div>
-    </main>
-  );
-}
-
-
-function EmptyState({ title, text }) {
-  return (
-    <div className="emptyState">
-      <h2>{title}</h2>
-      <p>{text}</p>
-    </div>
-  );
-}
 
 function FeatureStrip() {
   const features = [
