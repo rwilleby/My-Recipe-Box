@@ -615,8 +615,8 @@ const HERO_IMAGES = [
 
 const HERO_INFO_BUTTONS = [
   {
-    line1: "NO",
-    line2: "SUBSCRIPTIONS",
+    line1: "ALWAYS FREE",
+    line2: "TO USE",
     title: "WHY WE WILL ALWAYS BE FREE",
     text: "Robert’s Recipe Box is intended to remain free to use. Optional recommendations and affiliate links may help support the site without requiring a paid subscription.",
   },
@@ -927,7 +927,7 @@ function Header({ activePage, setActivePage }) {
 
 function getHeroInfoTargetPage(title) {
   switch (title) {
-    case "No Subscriptions":
+    case "Always Free To Use":
       return "About";
     case "Browse Our Recipes":
       return "Recipes";

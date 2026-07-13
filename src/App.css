@@ -8278,3 +8278,61 @@ button,
     padding-left: 26px !important;
   }
 }
+
+
+/* =========================================================
+   HERO INFO READ MORE + NUMBER FINAL ADJUSTMENT
+   Centers Read More button and enlarges number circles by 25%.
+   ========================================================= */
+
+/* Previous circle was 16px; 25% larger = 20px */
+.heroInfoButton .heroInfoStepNumber {
+  width: 20px !important;
+  height: 20px !important;
+  min-width: 20px !important;
+  max-width: 20px !important;
+  min-height: 20px !important;
+  max-height: 20px !important;
+  font-size: 11px !important;
+  left: 7px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  display: grid !important;
+  place-items: center !important;
+  text-align: center !important;
+  line-height: 1 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.heroInfoButton {
+  padding-left: 30px !important;
+}
+
+/* Center the popup Read More button */
+.heroInfoMoreButton {
+  display: block !important;
+  margin: 12px auto 0 !important;
+  width: auto !important;
+  min-width: 112px !important;
+  max-width: max-content !important;
+  text-align: center !important;
+}
+
+/* Keep the number sizing stable at tablet sizes */
+@media (max-width: 1100px) {
+  .heroInfoButton .heroInfoStepNumber {
+    width: 20px !important;
+    height: 20px !important;
+    min-width: 20px !important;
+    min-height: 20px !important;
+    font-size: 11px !important;
+    left: 7px !important;
+  }
+
+  .heroInfoButton {
+    padding-left: 30px !important;
+  }
+}
