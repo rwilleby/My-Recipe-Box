@@ -6538,3 +6538,93 @@ th {
     width: 100%;
   }
 }
+
+
+/* ================================
+   ABOUT PAGES MATCHING CARD STYLE UPDATE
+   Makes Robert's Recipe Box and Smoking & Grilling match About the Recipes.
+   ================================ */
+
+.aboutUnifiedPage {
+  padding-top: 38px;
+}
+
+.aboutRobertHero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(190px, 270px);
+  gap: 24px;
+  align-items: center;
+}
+
+.aboutRobertHeroText {
+  min-width: 0;
+}
+
+.aboutHeroFrame {
+  justify-self: end;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  max-width: 250px;
+}
+
+.aboutHeroFrame .vintageFrame {
+  width: 100%;
+  padding: 10px;
+}
+
+.aboutHeroFrame .vintageFrameInner {
+  padding: 8px;
+}
+
+.aboutHeroFrame .vintagePhotoStage {
+  aspect-ratio: 4 / 5;
+}
+
+.aboutRobertGrid {
+  margin-top: 0;
+}
+
+.aboutCardList {
+  margin: 0;
+  padding-left: 20px;
+  display: grid;
+  gap: 7px;
+}
+
+.aboutCardList li {
+  color: #374151;
+  font-size: 14.5px;
+  line-height: 1.45;
+}
+
+.aboutQuoteCard {
+  background: #f7fcf8;
+  border-color: #d9eadc;
+}
+
+.aboutQuoteCard strong {
+  color: var(--green);
+  font-weight: 850;
+}
+
+.aboutSmokingUnifiedPage .aboutRecipesHero {
+  margin-bottom: 22px;
+}
+
+@media (max-width: 900px) {
+  .aboutRobertHero {
+    grid-template-columns: 1fr;
+  }
+
+  .aboutHeroFrame {
+    justify-self: center;
+  }
+}
+
+@media (max-width: 640px) {
+  .aboutHeroFrame {
+    max-width: 230px;
+  }
+}

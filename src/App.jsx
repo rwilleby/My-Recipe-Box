@@ -3445,7 +3445,79 @@ function AboutRecipesPage({ setActivePage }) {
   );
 }
 
-function AboutPage({ setActivePage, initialSection = "why" }) {
+function AboutSmokingPage({ setActivePage }) {
+  return (
+    <main className="pageShell aboutRecipesPage aboutSmokingUnifiedPage" id="about-smoking-grilling">
+      <section className="aboutRecipesHero">
+        <div>
+          <div className="aiBadge">SMOKING & GRILLING FOODS</div>
+          <h1>About Smoking & Grilling</h1>
+          <p>How I got started smoking meat, what I learned from using a pellet grill, and why smoked and grilled foods fit the cook-once, eat-twice approach behind Robert’s Recipe Box.</p>
+        </div>
+      </section>
+
+      <div className="aboutRecipesGrid">
+        <article className="aboutRecipesCard">
+          <h2>How I got started</h2>
+          <p>I got started smoking meat after buying a Pit Boss pellet grill. I am not a professional pitmaster. I am someone who wanted to learn how to make good barbecue at home.</p>
+        </article>
+
+        <article className="aboutRecipesCard">
+          <h2>Why a pellet grill helped</h2>
+          <p>A pellet grill can make smoking and grilling more approachable. It still takes time, patience, seasoning, and practice, but it gives a home cook a practical way to learn.</p>
+        </article>
+
+        <article className="aboutRecipesCard">
+          <h2>Better than expected</h2>
+          <p>Over time, the results became more than acceptable. Some of the meals made me think twice about going to many of the local barbecue restaurants.</p>
+        </article>
+
+        <article className="aboutRecipesCard">
+          <h2>Not competition barbecue</h2>
+          <p>The smoked and grilled recipes are practical recipes for people who want to cook brisket, pork, ribs, chicken, sausage, burgers, and grilled meals at home.</p>
+        </article>
+
+        <article className="aboutRecipesCard">
+          <h2>Cook once, eat twice</h2>
+          <p>The same basic idea still applies: cook enough to enjoy a meal now and save extra portions for later. Smoked meats work especially well for planned leftovers.</p>
+        </article>
+
+        <article className="aboutRecipesCard">
+          <h2>Freezer-friendly portions</h2>
+          <p>Extra smoked meat can be portioned, frozen, and used later for sandwiches, bowls, tacos, salads, baked potatoes, or quick weeknight dinners.</p>
+        </article>
+
+        <article className="aboutRecipesCard">
+          <h2>Still learning</h2>
+          <p>I am still learning and experimenting, and that is part of the enjoyment. The goal is to make smoking and grilling feel possible, useful, and worth trying.</p>
+        </article>
+
+        <article className="aboutRecipesCard">
+          <h2>Why it fits the recipe box</h2>
+          <ul className="aboutCardList">
+            <li>Works well for cook-once, eat-twice meals.</li>
+            <li>Extra meat can be frozen in two-serving portions.</li>
+            <li>Leftovers can become sandwiches, bowls, tacos, or salads.</li>
+            <li>Pellet grills make smoking more approachable for home cooks.</li>
+          </ul>
+        </article>
+
+        <article className="aboutRecipesCard aboutQuoteCard">
+          <h2>The point</h2>
+          <p><strong>Good smoked and grilled food does not have to be complicated. It just needs a practical method, patience, and a plan for using the extra portions well.</strong></p>
+        </article>
+      </div>
+
+      <div className="aboutRecipesActions">
+        <button className="primary" onClick={() => setActivePage("Recipes")}>Browse Smoked & Grilled Recipes</button>
+        <button className="secondary" onClick={() => setActivePage("About")}>Robert’s Recipe Box</button>
+      </div>
+    </main>
+  );
+}
+
+
+function AboutPage({ setActivePage, initialSection = "main" }) {
   const [photoIndex, setPhotoIndex] = useState(0);
 
   useEffect(() => {
@@ -3456,22 +3528,20 @@ function AboutPage({ setActivePage, initialSection = "why" }) {
     return () => window.clearInterval(timer);
   }, []);
 
-  useEffect(() => {
-    const targetId =
-      initialSection === "smoking" ? "about-smoking-grilling" : "about-why-created";
-
-    window.setTimeout(() => {
-      const target = document.getElementById(targetId);
-      if (target) {
-        target.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-    }, 80);
-  }, [initialSection]);
-
   return (
-    <main className="pageShell aboutPageShell">
-      <section className="aboutCompactLayout" id="about-why-created">
-        <aside className="aboutFramePanel compactAboutFrame">
+    <main className="pageShell aboutUnifiedPage">
+      <section className="aboutRecipesHero aboutRobertHero" id="about-roberts-recipe-box">
+        <div className="aboutRobertHeroText">
+          <div className="aiBadge">ROBERT’S RECIPE BOX</div>
+          <h1>Robert’s Recipe Box</h1>
+          <p>
+            A personal recipe-card project built around cooking for two, saving
+            money where possible, enjoying familiar meals, and preparing a little
+            extra for another day.
+          </p>
+        </div>
+
+        <aside className="aboutHeroFrame">
           <div className="vintageFrame">
             <div className="vintageFrameInner">
               <div className="vintagePhotoStage">
@@ -3480,11 +3550,7 @@ function AboutPage({ setActivePage, initialSection = "why" }) {
                     key={photo.src}
                     src={`${import.meta.env.BASE_URL}${photo.src}`}
                     alt={photo.alt}
-                    className={
-                      index === photoIndex
-                        ? "vintagePhoto active"
-                        : "vintagePhoto"
-                    }
+                    className={index === photoIndex ? "vintagePhoto active" : "vintagePhoto"}
                     loading="lazy"
                     decoding="async"
                   />
@@ -3505,254 +3571,81 @@ function AboutPage({ setActivePage, initialSection = "why" }) {
             ))}
           </div>
         </aside>
+      </section>
 
-        <article className="aboutStoryCard compactAboutStory">
-          <div className="aiBadge">ABOUT THE PROJECT</div>
-
-          <h1>Robert’s Recipe Box</h1>
-
-          <div className="aboutStoryScroll">
-            <p>
-              I created Robert’s Recipe Box after my wife and I tried a few
-              subscription meal plans, and I read about others where you actually
-              cooked your meals from their provided product. I thought, if I am
-              going to cook, why not cook something we like?
-            </p>
-
-            <p>
-              I liked the basic idea: choose a meal, receive the ingredients, and
-              have clear instructions to follow. The problem was that we did not
-              always like the meals being offered. I found myself wishing that I
-              could use the same organized approach while cooking the foods my
-              wife and I actually enjoyed.
-            </p>
-
-            <p>
-              At the same time, the cost of eating out was continuing to rise.
-              Even fast food, which once seemed like an inexpensive and convenient
-              option, was becoming surprisingly expensive for two people. By the
-              time we ordered two meals, added drinks, paid tax, and occasionally
-              included delivery fees or a tip, the total could be much higher
-              than expected.
-            </p>
-
-            <p>
-              That made me start comparing the cost of eating out with the cost
-              of preparing similar meals at home.
-            </p>
-
-            <p>
-              In many cases, we could make four servings at home for about the
-              same price—or sometimes less—than buying two restaurant or
-              fast-food meals. We could have dinner that evening and still have
-              two servings left for lunch, another dinner, or the freezer.
-            </p>
-
-            <p>
-              I also realized that many of the restaurant and fast-food meals we
-              enjoyed could be recreated at home as copycat recipes.
-            </p>
-
-            <p>
-              Making them ourselves gave us more control. We could adjust the
-              ingredients to fit our tastes and goals by using more protein,
-              fewer carbohydrates, less salt, fewer calories, leaner meats,
-              lighter sauces, better ingredients, and more reasonable portions.
-            </p>
-
-            <p>
-              We did not have to give up the foods we liked. We simply needed a
-              practical way to make our own versions.
-            </p>
-
-            <p>
-              I also wanted a simple recipe card that I could keep nearby while
-              cooking—something easy to follow or quickly reference without
-              scrolling through a long webpage.
-            </p>
-
-            <p>
-              The idea was to make four servings at a time. My wife and I could
-              enjoy two servings for dinner and use the other two to begin
-              building a collection of freezer meals. That would give us meals we
-              liked, reduce the need to cook every night, and make dinner easier
-              on busy days or on days when we simply did not feel like spending
-              much time in the kitchen.
-            </p>
-
-            <p>
-              Honestly, I started with that one basic task.
-            </p>
-
-            <p>
-              Then, as I sometimes do, I got a little carried away.
-            </p>
-
-            <p>
-              I began making more recipe cards. Then I started printing them,
-              organizing them, laminating them, creating categories, comparing
-              costs, developing copycat recipes, planning grocery lists, and
-              looking for better ways to prepare, store, and reuse meals.
-            </p>
-
-            <p>
-              And, well—here we are.
-            </p>
-
-            <p>
-              Robert’s Recipe Box was never created as a way to make money—and it
-              still isn’t.
-            </p>
-
-            <p>
-              It was created to make sense of cooking for two people on a senior
-              citizen budget. It is about preparing foods we actually like,
-              controlling the ingredients, making practical portions, reducing
-              waste, planning useful leftovers, and building a dependable supply
-              of freezer meals for another day.
-            </p>
-
-            <p>
-              I did add an affiliate marketing section with links to products I
-              personally like, use, or recommend. You do not have to click those
-              links or purchase anything through them. It is appreciated when you
-              do, because the site may earn a small commission at no additional
-              cost to you, but it is never expected.
-            </p>
-
-            <p>
-              Robert’s Recipe Box will remain free to use. I will never charge a
-              subscription fee, membership fee, or access fee for the recipes,
-              recipe cards, meal-planning tools, shopping ideas, or general
-              information on this site.
-            </p>
-
-            <p>
-              The goal is not to cook something completely different every night
-              or spend hours in the kitchen. The goal is to create a simple
-              routine:
-            </p>
-
-            <ul className="aboutRoutineList">
-              <li>Choose meals you enjoy.</li>
-              <li>Compare the cost of eating out with making them at home.</li>
-              <li>Follow an easy recipe card.</li>
-              <li>Adjust the ingredients to fit your preferences.</li>
-              <li>Make enough for dinner and another meal.</li>
-              <li>Freeze extra portions when practical.</li>
-              <li>Keep a selection of prepared meals available.</li>
-            </ul>
-
-            <p>
-              What began as a personal project has grown into a collection of
-              recipes, copycat meals, recipe cards, planning tools, shopping
-              ideas, substitutions, and practical cooking information that may
-              also help other couples, seniors, empty nesters, and smaller
-              households.
-            </p>
-
-            <p>
-              It is still built around the same simple idea that started
-              everything:
-            </p>
-
-            <p>
-              <strong>
-                Cook what you like, make it the way you like it, spend less when
-                possible, and prepare a little extra for another day.
-              </strong>
-            </p>
-          </div>
-
-          <div className="aboutStoryActions">
-            <button
-              className="primary"
-              onClick={() => setActivePage("Recipes")}
-            >
-              Browse Recipes
-            </button>
-
-            <button
-              className="secondary"
-              onClick={() => setActivePage("Meal Planner")}
-            >
-              Start Meal Planning
-            </button>
-
-            <button
-              className="secondary"
-              onClick={() => {
-                const target = document.getElementById("about-smoking-grilling");
-                if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
-              }}
-            >
-              Smoking & Grilling Story
-            </button>
-          </div>
+      <div className="aboutRecipesGrid aboutRobertGrid">
+        <article className="aboutRecipesCard">
+          <h2>How it started</h2>
+          <p>I created Robert’s Recipe Box after my wife and I tried a few subscription meal plans. I thought, if I am going to cook, why not cook something we like?</p>
         </article>
-      </section>
 
-      <section className="aboutSmokingSection" id="about-smoking-grilling">
-        <div className="aboutSmokingHeader">
-          <div>
-            <div className="aiBadge">SMOKING & GRILLING FOODS</div>
-            <h2>How I Got Started Smoking Meat</h2>
-          </div>
-        </div>
+        <article className="aboutRecipesCard">
+          <h2>The subscription-meal idea</h2>
+          <p>I liked the idea of choosing a meal, receiving ingredients, and following clear instructions. The problem was that we did not always like the meals being offered.</p>
+        </article>
 
-        <div className="aboutSmokingGrid">
-          <article className="aboutSmokingCard">
-            <p>
-              I got started smoking meat after buying a Pit Boss pellet grill.
-              I am not a professional pitmaster, and I do not pretend to be one.
-              I am just someone who wanted to learn how to make good barbecue at
-              home without making the process harder than it needed to be.
-            </p>
+        <article className="aboutRecipesCard">
+          <h2>Eating out was getting expensive</h2>
+          <p>Even fast food was becoming surprisingly expensive for two people once drinks, tax, delivery fees, or tips were included.</p>
+        </article>
 
-            <p>
-              What I found is that a pellet grill can make smoking and grilling
-              more approachable. It still takes time, patience, seasoning, and
-              practice, but it gives a home cook a practical way to learn. Over
-              time, the results became more than acceptable. Some of the meals
-              made me think twice about going to many of the local barbecue
-              restaurants.
-            </p>
+        <article className="aboutRecipesCard">
+          <h2>One meal became two</h2>
+          <p>In many cases, we could make four servings at home for about the same price—or less—than buying two restaurant or fast-food meals.</p>
+        </article>
 
-            <p>
-              That is the spirit behind the smoked and grilled recipes in
-              Robert’s Recipe Box. These are not meant to be competition
-              barbecue instructions. They are practical recipes for people who
-              want to cook brisket, pork, ribs, chicken, sausage, burgers, and
-              grilled meals at home.
-            </p>
+        <article className="aboutRecipesCard">
+          <h2>Copycat meals made sense</h2>
+          <p>Making our own versions of restaurant-style meals gave us more control over protein, carbohydrates, salt, calories, meats, sauces, ingredients, and portions.</p>
+        </article>
 
-            <p>
-              The same basic idea still applies: cook enough to enjoy a meal now
-              and save extra portions for later. Smoked meats can work especially
-              well for planned leftovers because they can be portioned, frozen,
-              and used later for sandwiches, bowls, tacos, salads, baked
-              potatoes, or quick weeknight dinners.
-            </p>
+        <article className="aboutRecipesCard">
+          <h2>A simple recipe card</h2>
+          <p>I wanted a simple recipe card I could keep nearby while cooking—something easy to follow without scrolling through a long webpage.</p>
+        </article>
 
-            <p>
-              I am still learning and experimenting, and that is part of the
-              enjoyment. The goal is to make smoking and grilling feel possible,
-              useful, and worth trying for everyday home cooks.
-            </p>
-          </article>
+        <article className="aboutRecipesCard">
+          <h2>The freezer-meal idea</h2>
+          <p>The goal was to make four servings: two for dinner and two to start building a collection of freezer meals for another day.</p>
+        </article>
 
-          <aside className="aboutSmokingCallout">
-            <h3>Why it fits the recipe box</h3>
-            <ul>
-              <li>Works well for cook-once, eat-twice meals.</li>
-              <li>Extra meat can be frozen in two-serving portions.</li>
-              <li>Leftovers can become sandwiches, bowls, tacos, or salads.</li>
-              <li>Pellet grills make smoking more approachable for home cooks.</li>
-            </ul>
-          </aside>
-        </div>
-      </section>
+        <article className="aboutRecipesCard">
+          <h2>Then I got carried away</h2>
+          <p>I began making more recipe cards, printing them, organizing them, laminating them, creating categories, comparing costs, and planning grocery lists.</p>
+        </article>
 
+        <article className="aboutRecipesCard">
+          <h2>Still free to use</h2>
+          <p>Robert’s Recipe Box will remain free to use. I will never charge a subscription fee, membership fee, or access fee for the recipes and planning tools.</p>
+        </article>
+
+        <article className="aboutRecipesCard">
+          <h2>Affiliate links</h2>
+          <p>The site may include links to products I personally like, use, or recommend. If you purchase through those links, the site may earn a small commission at no additional cost to you.</p>
+        </article>
+
+        <article className="aboutRecipesCard">
+          <h2>A simple routine</h2>
+          <ul className="aboutCardList">
+            <li>Choose meals you enjoy.</li>
+            <li>Follow an easy recipe card.</li>
+            <li>Adjust ingredients to fit your preferences.</li>
+            <li>Make enough for dinner and another meal.</li>
+            <li>Freeze extra portions when practical.</li>
+          </ul>
+        </article>
+
+        <article className="aboutRecipesCard aboutQuoteCard">
+          <h2>The simple idea</h2>
+          <p><strong>Cook what you like, make it the way you like it, spend less when possible, and prepare a little extra for another day.</strong></p>
+        </article>
+      </div>
+
+      <div className="aboutRecipesActions">
+        <button className="primary" onClick={() => setActivePage("Recipes")}>Browse Recipes</button>
+        <button className="secondary" onClick={() => setActivePage("Meal Planner")}>Start Meal Planning</button>
+        <button className="secondary" onClick={() => setActivePage("About Recipes")}>About the Recipes</button>
+      </div>
     </main>
   );
 }
@@ -3894,7 +3787,7 @@ export default function App() {
       {activePage === "Freezer Tips" && <FreezerTipsPage {...pageProps} />}
       {activePage === "About" && <AboutPage setActivePage={setActivePage} initialSection="main" />}
       {activePage === "About Recipes" && <AboutRecipesPage setActivePage={setActivePage} />}
-      {activePage === "About Smoking" && <AboutPage setActivePage={setActivePage} initialSection="smoking" />}
+      {activePage === "About Smoking" && <AboutSmokingPage setActivePage={setActivePage} />}
 
       <RecipeCardViewer
         viewer={cardViewer}
