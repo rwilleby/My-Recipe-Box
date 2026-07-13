@@ -809,10 +809,11 @@ function fullCardImageCandidates(recipe) {
 
 function Header({ activePage, setActivePage }) {
   const navGroups = [
-        {
+                {
       label: "About",
       items: [
         { label: "Robert's Recipe Box", page: "About" },
+        { label: "How to Use This Site", page: "How To Use" },
         { label: "About the Recipes", page: "About Recipes" },
         { label: "About Smoking & Grilling", page: "About Smoking" },
       ],
@@ -3362,6 +3363,249 @@ function FreezerTipsPage({ setActivePage }) {
 }
 
 
+function HowToUsePage({ setActivePage }) {
+  return (
+    <main className="pageShell aboutRecipesPage howToUsePage">
+      <section className="aboutRecipesHero">
+        <div>
+          <div className="aiBadge">HOW TO USE THE SITE</div>
+          <h1>How to Use Robert’s Recipe Box</h1>
+          <p>
+            Robert’s Recipe Box is a free recipe-planning website created for
+            seniors, couples, empty nesters, and smaller households who want
+            practical meals without expensive meal-delivery subscriptions,
+            oversized recipes, or hours of daily cooking.
+          </p>
+        </div>
+      </section>
+
+      <div className="aboutRecipesGrid howToUseGrid">
+        <article className="aboutRecipesCard aboutRecipesWideCard">
+          <h2>What the site helps you do</h2>
+          <p>The site is designed to help you:</p>
+          <ul className="aboutCardList">
+            <li>Find recipes that fit your tastes and schedule</li>
+            <li>Prepare reasonable portions for one or two people</li>
+            <li>Plan for useful leftovers</li>
+            <li>Freeze extra servings for another day</li>
+            <li>Build weekly meal plans</li>
+            <li>Create organized grocery lists</li>
+            <li>Estimate grocery costs</li>
+            <li>Find practical ingredient substitutions</li>
+            <li>Make recipes lower in calories, lower in carbohydrates, more budget-friendly, or easier to freeze</li>
+          </ul>
+          <p>
+            The original recipe is always available. Optional suggestions allow
+            you to adjust it to better fit your household, dietary goals, budget,
+            or cooking routine.
+          </p>
+        </article>
+
+        <article className="aboutRecipesCard">
+          <h2>1. Browse by category</h2>
+          <p>
+            Start by selecting a recipe category from the home page. Categories
+            include American, Asian, Casseroles, Cheesecakes, Cinnamon Rolls,
+            Cobblers, Desserts, Donuts, Hamburgers, Italian, Jams & Jellies,
+            Kolaches, Loafs & Rolls, Mexican, Protein Muffins, Quiche & Pies,
+            Salads & Bowls, Sandwiches, Seafood, Side Dishes, and Smoked or
+            Grilled Foods.
+          </p>
+          <p>
+            Selecting a category opens the recipes available in that collection.
+          </p>
+        </article>
+
+        <article className="aboutRecipesCard">
+          <h2>2. Flip through recipe cards</h2>
+          <p>
+            Use the recipe-card viewer to move forward or backward through the
+            collection. Each recipe card is designed to provide the most
+            important information in one easy-to-read place.
+          </p>
+          <ul className="aboutCardList">
+            <li>Recipe name</li>
+            <li>Ingredients</li>
+            <li>Directions</li>
+            <li>Number of servings</li>
+            <li>Estimated nutrition information</li>
+            <li>Helpful preparation or serving notes</li>
+          </ul>
+        </article>
+
+        <article className="aboutRecipesCard">
+          <h2>3. Open the full recipe</h2>
+          <p>
+            Select a recipe card to view the full recipe page. The full page may
+            include detailed preparation instructions, substitutions,
+            lower-calorie options, lower-carbohydrate options, budget-friendly
+            alternatives, side-dish suggestions, freezer guidance, and product
+            recommendations.
+          </p>
+        </article>
+
+        <article className="aboutRecipesCard">
+          <h2>4. Adjust for your household</h2>
+          <p>
+            Many recipes can be prepared as written, divided into smaller
+            portions, or doubled for planned leftovers. For a two-person
+            household, a four-serving recipe can often provide dinner for two
+            tonight and a second meal for later in the week.
+          </p>
+          <p>
+            You may also freeze the extra two servings for a future meal.
+          </p>
+        </article>
+
+        <article className="aboutRecipesCard">
+          <h2>5. Use optional recipe picks</h2>
+          <p>Throughout the site, you may see helpful recommendations such as:</p>
+          <ul className="aboutCardList">
+            <li><strong>Robert’s Lower-Carb Pick:</strong> a practical ingredient replacement that reduces carbohydrates.</li>
+            <li><strong>Robert’s Lower-Calorie Pick:</strong> a lighter ingredient or preparation method.</li>
+            <li><strong>Best for Two-Person Meals:</strong> a recipe or product that divides easily into smaller portions.</li>
+            <li><strong>Best Freezer-Friendly Product:</strong> an ingredient or storage option for meals prepared in advance.</li>
+            <li><strong>Best Budget Substitution:</strong> a lower-cost alternative.</li>
+            <li><strong>Use Half-and-Half Swap:</strong> half original ingredient and half lighter alternative.</li>
+          </ul>
+          <p>These are optional suggestions. Choose the version that works best for you.</p>
+        </article>
+
+        <article className="aboutRecipesCard">
+          <h2>6. Build a weekly meal plan</h2>
+          <p>A practical weekly plan might include:</p>
+          <ul className="aboutCardList">
+            <li>Two freshly prepared meals</li>
+            <li>Two planned-leftover meals</li>
+            <li>One freezer meal</li>
+            <li>One simple sandwich, salad, or soup night</li>
+            <li>One flexible night for dining out or using remaining ingredients</li>
+          </ul>
+          <p>
+            Planning meals before shopping can help reduce duplicate purchases
+            and unused food.
+          </p>
+        </article>
+
+        <article className="aboutRecipesCard">
+          <h2>7. Create a grocery list</h2>
+          <p>
+            After selecting your meals, combine the required ingredients into one
+            shopping list. Before shopping, check what you already have, remove
+            duplicate items, combine repeated ingredients, note quantities, and
+            separate the list by grocery-store section.
+          </p>
+          <p>
+            Common sections include produce, meat and seafood, dairy, frozen
+            foods, canned goods, pantry items, bakery, and household supplies.
+          </p>
+        </article>
+
+        <article className="aboutRecipesCard">
+          <h2>8. Compare costs and substitute</h2>
+          <p>
+            Use estimated prices as a planning guide, but compare them with your
+            local grocery store. You can often reduce the weekly grocery bill by
+            buying store brands, choosing frozen vegetables, dividing family-size
+            meat packages, using planned leftovers, substituting pantry items,
+            choosing recipes with shared ingredients, and freezing food before it
+            spoils.
+          </p>
+        </article>
+
+        <article className="aboutRecipesCard">
+          <h2>9. Save or print recipes</h2>
+          <p>
+            Recipes may be saved, printed, or added to your personal recipe
+            collection depending on available site features. Printed cards are
+            useful for cooking without keeping a phone or tablet near the stove.
+          </p>
+          <p>
+            When printing, review the printer preview and select the recommended
+            card size or page layout.
+          </p>
+        </article>
+
+        <article className="aboutRecipesCard">
+          <h2>10. Use freezer and storage instructions</h2>
+          <p>
+            Allow cooked food to cool before placing it in the refrigerator or
+            freezer. Label stored meals with the recipe name, date prepared,
+            number of servings, and reheating instructions.
+          </p>
+          <p>
+            Freeze individual or two-person portions whenever possible. Smaller
+            packages thaw faster and reduce waste.
+          </p>
+        </article>
+
+        <article className="aboutRecipesCard">
+          <h2>A simple way to get started</h2>
+          <ol className="aboutNumberedList">
+            <li>Choose three main dishes.</li>
+            <li>Select two or three side dishes.</li>
+            <li>Plan which meals will provide leftovers.</li>
+            <li>Choose one meal to freeze.</li>
+            <li>Create one combined shopping list.</li>
+            <li>Check your pantry before shopping.</li>
+            <li>Prepare ingredients in advance when practical.</li>
+          </ol>
+          <p>
+            Begin with a few recipes and add meal planning, grocery lists,
+            substitutions, and freezer meals as you become familiar with the site.
+          </p>
+        </article>
+
+        <article className="aboutRecipesCard">
+          <h2>Important information</h2>
+          <p>
+            Nutrition values, grocery prices, serving sizes, and cooking times
+            are estimates and may vary depending on ingredients, brands,
+            equipment, and portion sizes.
+          </p>
+          <p>
+            Recipe suggestions are provided for general informational purposes.
+            Anyone with food allergies, dietary restrictions, swallowing
+            concerns, kidney disease, diabetes, heart conditions, or other
+            medical needs should follow the guidance of their physician or
+            registered dietitian.
+          </p>
+          <p>
+            Always verify that meat, poultry, seafood, eggs, and reheated foods
+            reach a safe internal temperature.
+          </p>
+        </article>
+
+        <article className="aboutRecipesCard aboutQuoteCard">
+          <h2>Our goal</h2>
+          <p>
+            <strong>
+              The goal of Robert’s Recipe Box is not to make cooking complicated.
+              It is to help you prepare enjoyable meals, shop more efficiently,
+              reduce waste, save money, spend less time in the kitchen, and keep
+              a few good meals ready for the days when you do not feel like
+              cooking.
+            </strong>
+          </p>
+        </article>
+      </div>
+
+      <div className="aboutRecipesActions">
+        <button className="primary" onClick={() => setActivePage("Recipes")}>
+          Browse Recipes
+        </button>
+        <button className="secondary" onClick={() => setActivePage("Meal Planner")}>
+          Start Meal Planning
+        </button>
+        <button className="secondary" onClick={() => setActivePage("Shopping Lists")}>
+          View Grocery List
+        </button>
+      </div>
+    </main>
+  );
+}
+
+
 function AboutRecipesPage({ setActivePage }) {
   return (
     <main className="pageShell aboutRecipesPage">
@@ -3917,6 +4161,7 @@ export default function App() {
       {activePage === "Grocery Picks" && <GroceryPicksPage {...pageProps} />}
       {activePage === "Freezer Tips" && <FreezerTipsPage {...pageProps} />}
       {activePage === "About" && <AboutPage setActivePage={setActivePage} initialSection="main" />}
+      {activePage === "How To Use" && <HowToUsePage setActivePage={setActivePage} />}
       {activePage === "About Recipes" && <AboutRecipesPage setActivePage={setActivePage} />}
       {activePage === "About Smoking" && <AboutSmokingPage setActivePage={setActivePage} />}
 

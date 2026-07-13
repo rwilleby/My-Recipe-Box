@@ -6662,3 +6662,40 @@ th {
     grid-column: span 1;
   }
 }
+
+
+/* ================================
+   HOW TO USE ROBERT'S RECIPE BOX PAGE
+   Same card-grid style as About pages.
+   ================================ */
+
+.howToUsePage .aboutRecipesHero {
+  margin-bottom: 22px;
+}
+
+.howToUseGrid .aboutRecipesCard p + p {
+  margin-top: 10px;
+}
+
+.aboutNumberedList {
+  margin: 0 0 14px;
+  padding-left: 22px;
+  display: grid;
+  gap: 7px;
+}
+
+.aboutNumberedList li {
+  color: #374151;
+  font-size: 14.5px;
+  line-height: 1.45;
+}
+
+.howToUseGrid .aboutCardList strong {
+  color: var(--green);
+}
+
+@media (max-width: 640px) {
+  .aboutNumberedList li {
+    font-size: 14px;
+  }
+}
