@@ -7008,3 +7008,485 @@ button,
     letter-spacing: .045em;
   }
 }
+
+
+/* =========================================================
+   OPTION D TYPOGRAPHY SYSTEM
+   Friendly everyday headings + clean system-interface body text
+   This layer intentionally comes last to override Option A.
+   ========================================================= */
+
+:root {
+  --rrb-friendly-heading-font: "Trebuchet MS", "Aptos Display", "Segoe UI", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+  --rrb-body-font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Clean system-interface body text */
+html,
+body,
+#root,
+.app {
+  font-family: var(--rrb-body-font);
+  font-weight: 400;
+  letter-spacing: normal;
+}
+
+/* Body, recipe copy, lists, controls, cards, and utility text */
+p,
+li,
+small,
+label,
+input,
+select,
+textarea,
+button,
+.recipeCard,
+.recipeCard *,
+.recipeViewer,
+.recipeViewer *,
+.aboutRecipesCard p,
+.aboutRecipesCard li,
+.heroInfoPopup,
+.shoppingListPage,
+.plannerPage,
+.pantryPage,
+.featureCard small,
+.collectionCard small,
+.browseControlsRow,
+.browseResultsRow,
+.footer {
+  font-family: var(--rrb-body-font);
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+/* Friendly everyday headings */
+h1,
+h2,
+h3,
+h4,
+.sectionTitle h2,
+.heroTitle,
+.browseIntro h1,
+.aboutRecipesHero h1,
+.aboutRecipesCard h2,
+.placeholderInfoPage h1,
+.recipeViewerTitle,
+.cardTitle,
+.featureCard h3,
+.collectionCard h3,
+.homeRolodexHeader strong,
+.recipeSectionTitle,
+.panelTitle {
+  font-family: var(--rrb-friendly-heading-font);
+  text-transform: none;
+  letter-spacing: -0.025em;
+  font-stretch: normal;
+  font-weight: 800;
+  line-height: 1.06;
+}
+
+/* Friendly headline sizing and spacing */
+.heroTitle,
+.aboutRecipesHero h1,
+.browseIntro h1,
+.placeholderInfoPage h1 {
+  letter-spacing: -0.035em;
+  font-weight: 850;
+}
+
+.aboutRecipesCard h2,
+.featureCard h3,
+.collectionCard h3,
+.sectionTitle h2 {
+  letter-spacing: -0.018em;
+  font-weight: 800;
+}
+
+/* Main menu stays neat and readable, but not harsh condensed */
+.navDropdownButton,
+.navButton {
+  font-family: var(--rrb-body-font);
+  text-transform: uppercase;
+  letter-spacing: .045em;
+  font-weight: 800;
+  line-height: 1.05;
+}
+
+.navDropdownMenu button {
+  font-family: var(--rrb-body-font);
+  text-transform: none;
+  letter-spacing: normal;
+  font-weight: 650;
+}
+
+/* General buttons stay clean interface text */
+button,
+.primary,
+.secondary,
+.heroInfoButton,
+.recipeActionButton,
+.viewerButton {
+  font-family: var(--rrb-body-font);
+  letter-spacing: normal;
+}
+
+/* Recipe card headings can be friendly, but recipe body stays readable */
+.recipeCard h3,
+.recipeViewer h1,
+.recipeViewer h2,
+.cardTitle {
+  font-family: var(--rrb-friendly-heading-font);
+  text-transform: none;
+  letter-spacing: -0.018em;
+  font-weight: 800;
+}
+
+.recipeCard p,
+.recipeCard li,
+.recipeCard small,
+.recipeCard span,
+.recipeViewer p,
+.recipeViewer li,
+.recipeViewer small,
+.recipeViewer span,
+.cardBody,
+.cardBody * {
+  font-family: var(--rrb-body-font);
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+/* Logo tagline uses friendly clean interface emphasis */
+.logoTagline,
+.siteTagline,
+.logoSubtext,
+.brandTagline {
+  font-family: var(--rrb-body-font);
+  text-transform: uppercase;
+  letter-spacing: .075em;
+  font-weight: 850;
+}
+
+/* =========================================================
+   INFO PAGES: FULL-WIDTH STACKED BOXES
+   Applies to About / Mission / Recipes / How-to / Tips placeholder pages.
+   ========================================================= */
+
+.aboutRecipesPage .aboutRecipesGrid,
+.aboutUnifiedPage .aboutRecipesGrid,
+.placeholderInfoPage .aboutRecipesGrid,
+.howToUsePage .aboutRecipesGrid,
+.aboutSmokingUnifiedPage .aboutRecipesGrid,
+.aboutRobertGrid,
+.howToUseGrid,
+.aboutRecipesFullGrid {
+  display: grid;
+  grid-template-columns: 1fr !important;
+  gap: 16px;
+  max-width: 980px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.aboutRecipesPage .aboutRecipesHero,
+.aboutUnifiedPage .aboutRecipesHero,
+.placeholderInfoPage .aboutRecipesHero,
+.howToUsePage .aboutRecipesHero,
+.aboutSmokingUnifiedPage .aboutRecipesHero {
+  max-width: 980px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.aboutRecipesCard,
+.aboutRecipesWideCard,
+.aboutQuoteCard {
+  grid-column: 1 / -1 !important;
+  width: 100%;
+}
+
+.aboutRecipesCard {
+  padding: clamp(20px, 2.1vw, 28px);
+}
+
+.aboutRecipesCard h2 {
+  margin-bottom: 10px;
+  font-size: clamp(22px, 2vw, 30px);
+}
+
+.aboutRecipesCard p,
+.aboutRecipesCard li {
+  font-size: 16px;
+  line-height: 1.58;
+}
+
+.aboutCardList,
+.aboutNumberedList,
+.aboutRoutineList {
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+
+/* Make action buttons align with stacked info-page content width */
+.aboutRecipesActions {
+  max-width: 980px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Mobile refinements */
+@media (max-width: 640px) {
+  h1,
+  .aboutRecipesHero h1,
+  .browseIntro h1,
+  .placeholderInfoPage h1 {
+    letter-spacing: -0.025em;
+    line-height: 1.08;
+  }
+
+  .aboutRecipesCard h2 {
+    font-size: 22px;
+  }
+
+  .aboutRecipesCard p,
+  .aboutRecipesCard li {
+    font-size: 15.5px;
+  }
+
+  .navDropdownButton {
+    letter-spacing: .025em;
+  }
+}
+
+
+/* =========================================================
+   OPTION B TYPOGRAPHY SYSTEM
+   Warm Editorial headings + clean system-interface body text.
+   Natural initial caps / title case, not all caps.
+   This layer intentionally comes last to override prior typography layers.
+   ========================================================= */
+
+:root {
+  --rrb-editorial-heading-font: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", serif;
+  --rrb-body-font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Clean system-interface body text */
+html,
+body,
+#root,
+.app {
+  font-family: var(--rrb-body-font);
+  font-weight: 400;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+/* Body, recipe copy, lists, controls, cards, and utility text */
+p,
+li,
+small,
+label,
+input,
+select,
+textarea,
+button,
+.recipeCard,
+.recipeCard *,
+.recipeViewer,
+.recipeViewer *,
+.aboutRecipesCard p,
+.aboutRecipesCard li,
+.heroInfoPopup,
+.shoppingListPage,
+.plannerPage,
+.pantryPage,
+.featureCard small,
+.collectionCard small,
+.browseControlsRow,
+.browseResultsRow,
+.footer {
+  font-family: var(--rrb-body-font);
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+/* Warm editorial headline style */
+h1,
+h2,
+h3,
+h4,
+.sectionTitle h2,
+.heroTitle,
+.browseIntro h1,
+.aboutRecipesHero h1,
+.aboutRecipesCard h2,
+.placeholderInfoPage h1,
+.recipeViewerTitle,
+.cardTitle,
+.featureCard h3,
+.collectionCard h3,
+.homeRolodexHeader strong,
+.recipeSectionTitle,
+.panelTitle {
+  font-family: var(--rrb-editorial-heading-font);
+  text-transform: none !important;
+  letter-spacing: -0.025em;
+  font-stretch: normal;
+  font-weight: 700;
+  line-height: 1.08;
+}
+
+/* Hero and page headlines: warm, readable, not shouted */
+.heroTitle,
+.aboutRecipesHero h1,
+.browseIntro h1,
+.placeholderInfoPage h1 {
+  font-family: var(--rrb-editorial-heading-font);
+  text-transform: none !important;
+  letter-spacing: -0.035em;
+  font-weight: 700;
+  line-height: 1.03;
+}
+
+/* Subheads / card heads */
+.aboutRecipesCard h2,
+.featureCard h3,
+.collectionCard h3,
+.sectionTitle h2 {
+  font-family: var(--rrb-editorial-heading-font);
+  text-transform: none !important;
+  letter-spacing: -0.018em;
+  font-weight: 700;
+  line-height: 1.12;
+}
+
+/* Main menu remains readable interface text, not all caps forced by CSS */
+.navDropdownButton,
+.navButton {
+  font-family: var(--rrb-body-font);
+  text-transform: none !important;
+  letter-spacing: normal;
+  font-weight: 750;
+  line-height: 1.05;
+}
+
+/* Dropdown menu items also natural case */
+.navDropdownMenu button {
+  font-family: var(--rrb-body-font);
+  text-transform: none !important;
+  letter-spacing: normal;
+  font-weight: 600;
+}
+
+/* General buttons clean interface text */
+button,
+.primary,
+.secondary,
+.heroInfoButton,
+.recipeActionButton,
+.viewerButton {
+  font-family: var(--rrb-body-font);
+  text-transform: none !important;
+  letter-spacing: normal;
+}
+
+/* Recipe card headings warm editorial, but recipe details stay clean */
+.recipeCard h3,
+.recipeViewer h1,
+.recipeViewer h2,
+.cardTitle {
+  font-family: var(--rrb-editorial-heading-font);
+  text-transform: none !important;
+  letter-spacing: -0.018em;
+  font-weight: 700;
+}
+
+.recipeCard p,
+.recipeCard li,
+.recipeCard small,
+.recipeCard span,
+.recipeViewer p,
+.recipeViewer li,
+.recipeViewer small,
+.recipeViewer span,
+.cardBody,
+.cardBody * {
+  font-family: var(--rrb-body-font);
+  text-transform: none !important;
+  letter-spacing: normal;
+}
+
+/* Eyebrow labels can stay small and readable, but not forced all-caps */
+.aiBadge,
+.categoryBadge,
+.kicker,
+.eyebrow {
+  font-family: var(--rrb-body-font);
+  text-transform: none !important;
+  letter-spacing: .02em;
+  font-weight: 750;
+}
+
+/* Logo tagline uses clean interface emphasis */
+.logoTagline,
+.siteTagline,
+.logoSubtext,
+.brandTagline {
+  font-family: var(--rrb-body-font);
+  text-transform: none !important;
+  letter-spacing: .02em;
+  font-weight: 800;
+}
+
+/* Keep full-width stacked info-page boxes */
+.aboutRecipesPage .aboutRecipesGrid,
+.aboutUnifiedPage .aboutRecipesGrid,
+.placeholderInfoPage .aboutRecipesGrid,
+.howToUsePage .aboutRecipesGrid,
+.aboutSmokingUnifiedPage .aboutRecipesGrid,
+.aboutRobertGrid,
+.howToUseGrid,
+.aboutRecipesFullGrid {
+  display: grid;
+  grid-template-columns: 1fr !important;
+  gap: 16px;
+  max-width: 980px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.aboutRecipesPage .aboutRecipesHero,
+.aboutUnifiedPage .aboutRecipesHero,
+.placeholderInfoPage .aboutRecipesHero,
+.howToUsePage .aboutRecipesHero,
+.aboutSmokingUnifiedPage .aboutRecipesHero {
+  max-width: 980px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.aboutRecipesCard,
+.aboutRecipesWideCard,
+.aboutQuoteCard {
+  grid-column: 1 / -1 !important;
+  width: 100%;
+}
+
+/* Mobile refinements */
+@media (max-width: 640px) {
+  h1,
+  .aboutRecipesHero h1,
+  .browseIntro h1,
+  .placeholderInfoPage h1 {
+    letter-spacing: -0.025em;
+    line-height: 1.08;
+  }
+
+  h2,
+  h3,
+  .aboutRecipesCard h2 {
+    letter-spacing: -0.014em;
+  }
+}
