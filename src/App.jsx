@@ -1701,6 +1701,89 @@ function mediaIcon(type = "") {
   return "↗";
 }
 
+
+function getRecipeEstimatedCost(recipe) {
+  const title = `${recipe.title || ""}`.toLowerCase();
+  const category = recipe.categoryCode || "";
+  const servings = Number(recipe.servings || 4) || 4;
+
+  let low = 8;
+  let high = 13;
+  let pantryLow = 5;
+  let pantryHigh = 9;
+  let note =
+    "This estimate assumes typical store-brand pricing and common pantry staples such as salt, pepper, oil, flour, sugar, and basic seasonings may already be on hand.";
+
+  if (category === "SF" || title.includes("shrimp") || title.includes("salmon") || title.includes("cod") || title.includes("seafood")) {
+    low = 13;
+    high = 20;
+    pantryLow = 10;
+    pantryHigh = 16;
+    note = "Seafood prices vary widely by store, package size, fresh versus frozen, and local availability.";
+  } else if (category === "SG" || title.includes("brisket") || title.includes("ribs") || title.includes("pork butt") || title.includes("smoked")) {
+    low = 18;
+    high = 32;
+    pantryLow = 14;
+    pantryHigh = 26;
+    note = "Smoked and grilled meats can cost more up front, but larger cuts often provide several meals or freezer portions.";
+  } else if (category === "HB" || title.includes("burger") || title.includes("hamburger") || title.includes("patties")) {
+    low = 10;
+    high = 17;
+    pantryLow = 8;
+    pantryHigh = 13;
+    note = "Burger costs depend heavily on meat choice, buns, cheese, toppings, and whether condiments are already on hand.";
+  } else if (category === "PM" || title.includes("muffin")) {
+    low = 6;
+    high = 11;
+    pantryLow = 4;
+    pantryHigh = 8;
+    note = "Baking recipes are usually lower-cost if flour, sweeteners, spices, and oil are already in the pantry.";
+  } else if (category === "QP" || title.includes("quiche") || title.includes("pie")) {
+    low = 8;
+    high = 15;
+    pantryLow = 6;
+    pantryHigh = 12;
+    note = "Quiche and pie costs depend on cheese, eggs, crust, meat, and whether baking staples are already available.";
+  } else if (category === "SD" || title.includes("rice") || title.includes("beans") || title.includes("potatoes") || title.includes("vegetables")) {
+    low = 4;
+    high = 9;
+    pantryLow = 3;
+    pantryHigh = 7;
+    note = "Side dishes are often budget-friendly, especially when they use pantry staples, frozen vegetables, rice, beans, or potatoes.";
+  } else if (category === "MX" || category === "AS" || category === "IT") {
+    low = 9;
+    high = 16;
+    pantryLow = 7;
+    pantryHigh = 13;
+    note = "Cuisine-style meals vary based on sauces, proteins, cheese, pasta, rice, tortillas, and vegetables already on hand.";
+  } else if (category === "CC" || category === "CO" || category === "CR" || category === "DN" || category === "JJ") {
+    low = 7;
+    high = 14;
+    pantryLow = 5;
+    pantryHigh = 10;
+    note = "Dessert and baking costs depend on dairy, fruit, chocolate, nuts, and how many baking staples are already in the pantry.";
+  }
+
+  const perServingLow = low / servings;
+  const perServingHigh = high / servings;
+  const pantryPerServingLow = pantryLow / servings;
+  const pantryPerServingHigh = pantryHigh / servings;
+
+  function money(value) {
+    return `$${value.toFixed(2)}`;
+  }
+
+  return {
+    servings,
+    recipeRange: `$${low.toFixed(0)}–$${high.toFixed(0)}`,
+    pantryRange: `$${pantryLow.toFixed(0)}–$${pantryHigh.toFixed(0)}`,
+    perServingRange: `${money(perServingLow)}–${money(perServingHigh)}`,
+    pantryPerServingRange: `${money(pantryPerServingLow)}–${money(pantryPerServingHigh)}`,
+    note,
+  };
+}
+
+
 function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorite }) {
   const [imageIndex, setImageIndex] = useState(0);
   const [openPanel, setOpenPanel] = useState(null);
@@ -1731,6 +1814,7 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
   const tips = getRecipeSmartTips(recipe);
   const note = getRecipePersonalNote(recipe);
   const cookingOptions = getRecipeCookingOptions(recipe);
+  const estimatedCost = getRecipeEstimatedCost(recipe);
 
   function goToOffset(offset) {
     if (!hasMultiple) return;
@@ -1922,6 +2006,7 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
                 {openPanel === "cooking" && "Cooking Options"}
                 {openPanel === "tips" && "Smart Tips"}
                 {openPanel === "notes" && "My Recipe Notes"}
+                {openPanel === "cost" && "Estimated Cost"}
               </strong>
               <button type="button" onClick={() => setOpenPanel(null)} aria-label="Close popup">
                 ×
@@ -2002,6 +2087,15 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
               onClick={() => togglePanel("notes")}
             >
               My Recipe Notes
+            </button>
+
+
+            <button
+              className={openPanel === "cost" ? "viewerActionButton viewerActionCost active" : "viewerActionButton viewerActionCost"}
+              type="button"
+              onClick={() => togglePanel("cost")}
+            >
+              Estimated Cost
             </button>
 
             <button
