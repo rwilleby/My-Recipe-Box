@@ -6732,3 +6732,62 @@ th {
   background: #f7fcf8;
   border-color: #d9eadc;
 }
+
+
+/* ================================
+   MENU + HEADLINE TYPOGRAPHY UPDATE
+   Narrow, sans-serif, all-caps menu and headlines.
+   ================================ */
+
+:root {
+  --rrb-condensed-font: "Arial Narrow", "Roboto Condensed", "Helvetica Neue Condensed", "Aptos Narrow", "Liberation Sans Narrow", Impact, sans-serif;
+}
+
+.navButton,
+.dropdownMenu button,
+.mobileNav button,
+.headerNav button,
+.mainNav button,
+.siteNav button,
+.navGroup > button,
+.navDropdown button {
+  font-family: var(--rrb-condensed-font);
+  text-transform: uppercase;
+  letter-spacing: .075em;
+  font-stretch: condensed;
+  font-weight: 800;
+}
+
+h1,
+h2,
+h3,
+.sectionTitle h2,
+.heroTitle,
+.browseIntro h1,
+.aboutRecipesHero h1,
+.aboutRecipesCard h2,
+.recipeViewerTitle,
+.cardTitle,
+.featureCard h3,
+.collectionCard h3,
+.placeholderInfoPage h1 {
+  font-family: var(--rrb-condensed-font);
+  text-transform: uppercase;
+  letter-spacing: .045em;
+  font-stretch: condensed;
+  font-weight: 900;
+}
+
+.logoTagline,
+.siteTagline,
+.logoSubtext,
+.brandTagline {
+  font-family: var(--rrb-condensed-font);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  font-weight: 900;
+}
+
+.placeholderInfoPage .aboutRecipesHero p {
+  max-width: 860px;
+}

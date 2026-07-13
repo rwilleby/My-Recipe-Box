@@ -809,45 +809,54 @@ function fullCardImageCandidates(recipe) {
 
 function Header({ activePage, setActivePage }) {
   const navGroups = [
-                {
-      label: "About",
+    {
+      label: "OUR MISSION",
       items: [
-        { label: "Robert's Recipe Box", page: "About" },
-        { label: "How to Use This Site", page: "How To Use" },
-        { label: "About the Recipes", page: "About Recipes" },
-        { label: "About Smoking & Grilling", page: "About Smoking" },
+        { label: "WHY I STARTED THIS PAGE", page: "About" },
+        { label: "WHO IS ROBERT", page: "Who Is Robert" },
+        { label: "WHAT ARE MY GOALS", page: "My Goals" },
       ],
     },
     {
-      label: "Recipes",
+      label: "COOKING METHODS",
       items: [
-        { label: "Browse Recipes", page: "Recipes" },
-        { label: "Collections", page: "Collections" },
-        { label: "Two-Week Meal Planner", page: "Meal Planner" },
+        { label: "AIR FRYER RECIPES", page: "Cooking Methods" },
+        { label: "OVEN RECIPES", page: "Cooking Methods" },
+        { label: "MICROWAVE RECIPES", page: "Cooking Methods" },
+        { label: "GAS GRILL RECIPES", page: "Cooking Methods" },
+        { label: "SMOKER & PELLET GRILL RECIPES", page: "About Smoking" },
       ],
     },
     {
-      label: "Shopping",
+      label: "OUR RECIPES",
       items: [
-        { label: "Shopping Lists", page: "Shopping Lists" },
-        { label: "Pantry Staples", page: "Pantry Staples" },
+        { label: "HOW TO USE THIS SITE", page: "How To Use" },
+        { label: "BROWSE ALL RECIPES", page: "Recipes" },
+        { label: "SUGGESTED MEAL PLANS", page: "Suggested Meal Plans" },
+        { label: "PLAN YOUR MEALS", page: "Meal Planner" },
       ],
     },
     {
-      label: "Favorites",
+      label: "YOUR LISTS",
       items: [
-        { label: "Saved Recipes", page: "Favorites" },
+        { label: "YOUR PANTRY", page: "Pantry Staples" },
+        { label: "YOUR FAVORITES", page: "Favorites" },
+        { label: "YOUR MEAL PLAN", page: "Meal Planner" },
+        { label: "YOUR SHOPPING LIST", page: "Shopping Lists" },
       ],
     },
     {
-      label: "Recommendations",
+      label: "TIPS & TECHNIQUES",
       items: [
-        { label: "Kitchen Tools & Products", page: "Recommendations" },
-        { label: "Helpful Videos & Channels", page: "Recommendations" },
-        { label: "Storage & Organization", page: "Recommendations" },
-        { label: "Smart Grocery Picks", page: "Grocery Picks" },
-        { label: "Freezer Meals & Storage", page: "Freezer Tips" },
-        { label: "Social Pages I Follow", page: "Recommendations" },
+        { label: "BAKING YOUR OWN BREADS", page: "Bread Tips" },
+        { label: "SMOKING YOUR OWN MEATS", page: "About Smoking" },
+        { label: "FREEZER TECHNIQUES", page: "Freezer Tips" },
+        { label: "HEALTHY GROCERY SUBSTITUTIONS", page: "Smart Grocery Picks" },
+        { label: "SUBMIT YOUR RECIPES", page: "Submit Recipes" },
+        { label: "SAFE COOKING RULES", page: "Safe Cooking Rules" },
+        { label: "TOOLS & PRODUCTS", page: "Recommendations" },
+        { label: "STORAGE & ORGANIZATION", page: "Storage Organization" },
+        { label: "OTHER INTERESTS", page: "Other Interests" },
       ],
     },
   ];
@@ -3762,7 +3771,27 @@ function FeatureStrip() {
   );
 }
 
-export default function App() {
+export default 
+function PlaceholderInfoPage({ eyebrow, title, text, setActivePage }) {
+  return (
+    <main className="pageShell aboutRecipesPage placeholderInfoPage">
+      <section className="aboutRecipesHero">
+        <div>
+          <div className="aiBadge">{eyebrow}</div>
+          <h1>{title}</h1>
+          <p>{text}</p>
+        </div>
+      </section>
+
+      <div className="aboutRecipesActions">
+        <button className="primary" onClick={() => setActivePage("Recipes")}>Browse Recipes</button>
+        <button className="secondary" onClick={() => setActivePage("How To Use")}>How to Use This Site</button>
+      </div>
+    </main>
+  );
+}
+
+function App() {
   const [activePage, setActivePage] = useState("Home");
   const [favorites, setFavorites] = useState(() =>
     loadJSON(STORAGE_KEYS.favorites, [])
@@ -3850,6 +3879,33 @@ export default function App() {
       {activePage === "Grocery Picks" && <GroceryPicksPage {...pageProps} />}
       {activePage === "Freezer Tips" && <FreezerTipsPage {...pageProps} />}
       {activePage === "About" && <AboutPage setActivePage={setActivePage} initialSection="main" />}
+      {activePage === "Who Is Robert" && (
+        <PlaceholderInfoPage eyebrow="OUR MISSION" title="Who Is Robert" text="This page will introduce Robert, the person behind Robert’s Recipe Box, and explain the practical cooking experience behind the site." setActivePage={setActivePage} />
+      )}
+      {activePage === "My Goals" && (
+        <PlaceholderInfoPage eyebrow="OUR MISSION" title="What Are My Goals" text="This page will explain the goals of Robert’s Recipe Box: practical meals, smart planning, useful leftovers, freezer meals, and saving money where possible." setActivePage={setActivePage} />
+      )}
+      {activePage === "Cooking Methods" && (
+        <PlaceholderInfoPage eyebrow="COOKING METHODS" title="Cooking Methods" text="This page will help visitors browse recipes by appliance or method, including air fryer, oven, microwave, gas grill, smoker, stovetop, slow cooker, and other practical cooking options." setActivePage={setActivePage} />
+      )}
+      {activePage === "Suggested Meal Plans" && (
+        <PlaceholderInfoPage eyebrow="OUR RECIPES" title="Suggested Meal Plans" text="This page will collect practical meal-plan ideas for smaller households, planned leftovers, freezer meals, and easy weekly routines." setActivePage={setActivePage} />
+      )}
+      {activePage === "Bread Tips" && (
+        <PlaceholderInfoPage eyebrow="TIPS & TECHNIQUES" title="Baking Your Own Breads" text="This page will include practical bread-baking tips, freezer ideas, recipe-card guidance, and simple ways to bake breads and rolls at home." setActivePage={setActivePage} />
+      )}
+      {activePage === "Submit Recipes" && (
+        <PlaceholderInfoPage eyebrow="TIPS & TECHNIQUES" title="Submit Your Recipes" text="This page will explain how visitors can suggest recipe ideas, family favorites, copycat-style meals, or practical cooking tips for future consideration." setActivePage={setActivePage} />
+      )}
+      {activePage === "Safe Cooking Rules" && (
+        <PlaceholderInfoPage eyebrow="TIPS & TECHNIQUES" title="Safe Cooking Rules" text="This page will collect basic food-safety reminders for cooking, cooling, freezing, thawing, reheating, and checking safe internal temperatures." setActivePage={setActivePage} />
+      )}
+      {activePage === "Storage Organization" && (
+        <PlaceholderInfoPage eyebrow="TIPS & TECHNIQUES" title="Storage & Organization" text="This page will include ideas for organizing recipes, pantry staples, freezer meals, storage containers, labels, and kitchen tools." setActivePage={setActivePage} />
+      )}
+      {activePage === "Other Interests" && (
+        <PlaceholderInfoPage eyebrow="TIPS & TECHNIQUES" title="Other Interests" text="This page will hold additional practical topics, experiments, tools, and ideas that do not fit neatly into the main recipe sections." setActivePage={setActivePage} />
+      )}
       {activePage === "How To Use" && <HowToUsePage setActivePage={setActivePage} />}
       {activePage === "About Recipes" && <AboutRecipesPage setActivePage={setActivePage} />}
       {activePage === "About Smoking" && <AboutSmokingPage setActivePage={setActivePage} />}
