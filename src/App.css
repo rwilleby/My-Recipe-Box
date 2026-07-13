@@ -8336,3 +8336,16 @@ button,
     padding-left: 30px !important;
   }
 }
+
+
+/* =========================================================
+   HERO POPUP READ MORE TEXT ALIGNMENT
+   Keeps the Read More button centered, but flushes its text left.
+   ========================================================= */
+
+.heroInfoMoreButton {
+  text-align: left !important;
+  justify-content: flex-start !important;
+  padding-left: 16px !important;
+  padding-right: 16px !important;
+}
