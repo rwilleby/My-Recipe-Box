@@ -6822,3 +6822,189 @@ h2,
     letter-spacing: .045em;
   }
 }
+
+
+/* =========================================================
+   OPTION A TYPOGRAPHY SYSTEM
+   Strong condensed headings + clean system-interface body text
+   ========================================================= */
+
+:root {
+  --rrb-heading-font: "Arial Narrow", "Roboto Condensed", "Helvetica Neue Condensed", "Aptos Narrow", "Liberation Sans Narrow", Impact, sans-serif;
+  --rrb-body-font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Clean interface/body text throughout the site */
+html,
+body,
+#root,
+.app {
+  font-family: var(--rrb-body-font);
+  font-weight: 400;
+  letter-spacing: normal;
+}
+
+/* Body copy, recipe text, cards, forms, controls, and utility text stay clean and readable */
+p,
+li,
+small,
+label,
+input,
+select,
+textarea,
+button,
+.recipeCard,
+.recipeCard *,
+.recipeViewer,
+.recipeViewer *,
+.aboutRecipesCard p,
+.aboutRecipesCard li,
+.heroInfoPopup,
+.shoppingListPage,
+.plannerPage,
+.pantryPage,
+.featureCard small,
+.collectionCard small,
+.browseControlsRow,
+.browseResultsRow,
+.footer {
+  font-family: var(--rrb-body-font);
+  letter-spacing: normal;
+}
+
+/* Strong condensed headings only */
+h1,
+h2,
+h3,
+h4,
+.sectionTitle h2,
+.heroTitle,
+.browseIntro h1,
+.aboutRecipesHero h1,
+.aboutRecipesCard h2,
+.placeholderInfoPage h1,
+.recipeViewerTitle,
+.cardTitle,
+.featureCard h3,
+.collectionCard h3,
+.homeRolodexHeader strong,
+.recipeSectionTitle,
+.panelTitle {
+  font-family: var(--rrb-heading-font);
+  text-transform: uppercase;
+  letter-spacing: .045em;
+  font-stretch: condensed;
+  font-weight: 900;
+  line-height: .98;
+}
+
+/* Headline sizing polish */
+.heroTitle {
+  letter-spacing: .035em;
+}
+
+.aboutRecipesHero h1,
+.browseIntro h1,
+.placeholderInfoPage h1 {
+  letter-spacing: .04em;
+}
+
+.aboutRecipesCard h2,
+.featureCard h3,
+.collectionCard h3 {
+  letter-spacing: .05em;
+}
+
+/* Main menu gets condensed label treatment, but dropdown contents remain clean and readable */
+.navDropdownButton,
+.navButton {
+  font-family: var(--rrb-heading-font);
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.navDropdownMenu button {
+  font-family: var(--rrb-body-font);
+  text-transform: uppercase;
+  letter-spacing: .035em;
+  font-weight: 750;
+}
+
+/* Buttons use clean interface text unless they are part of the main nav */
+button,
+.primary,
+.secondary,
+.heroInfoButton,
+.recipeActionButton,
+.viewerButton {
+  font-family: var(--rrb-body-font);
+  letter-spacing: normal;
+}
+
+.navDropdownButton,
+.navButton {
+  font-family: var(--rrb-heading-font);
+  letter-spacing: .07em;
+}
+
+/* Prevent recipe-card body text from inheriting condensed headline styling */
+.recipeCard p,
+.recipeCard li,
+.recipeCard small,
+.recipeCard span,
+.recipeViewer p,
+.recipeViewer li,
+.recipeViewer small,
+.recipeViewer span,
+.cardBody,
+.cardBody * {
+  font-family: var(--rrb-body-font);
+  text-transform: none;
+  letter-spacing: normal;
+  line-height: normal;
+}
+
+/* Keep recipe names/titles visually strong without forcing all recipe details into condensed text */
+.recipeCard h3,
+.recipeViewer h1,
+.recipeViewer h2,
+.cardTitle {
+  font-family: var(--rrb-heading-font);
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  font-weight: 900;
+}
+
+/* Logo tagline follows the heading style */
+.logoTagline,
+.siteTagline,
+.logoSubtext,
+.brandTagline {
+  font-family: var(--rrb-heading-font);
+  text-transform: uppercase;
+  letter-spacing: .085em;
+  font-weight: 900;
+}
+
+/* Mobile readability adjustments */
+@media (max-width: 640px) {
+  h1,
+  .aboutRecipesHero h1,
+  .browseIntro h1,
+  .placeholderInfoPage h1 {
+    letter-spacing: .03em;
+    line-height: 1.02;
+  }
+
+  h2,
+  h3,
+  .aboutRecipesCard h2 {
+    letter-spacing: .04em;
+  }
+
+  .navDropdownButton {
+    letter-spacing: .045em;
+  }
+}
