@@ -8418,3 +8418,35 @@ button,
     grid-template-columns: 1fr;
   }
 }
+
+
+/* =========================================================
+   RECIPE VIEWER COST POPUP FIX + SHORT LABELS
+   Ensures Estimated Cost content displays and shortens button wording.
+   ========================================================= */
+
+.viewerBottomSheetContent.viewerCostSheet {
+  display: block !important;
+  min-height: 160px;
+}
+
+.viewerCostGrid {
+  display: grid !important;
+}
+
+.viewerUnifiedActions .viewerActionButton,
+.viewerUnifiedActions .viewerActionHeart {
+  white-space: nowrap;
+}
+
+.viewerActionCost {
+  border-color: #d8e2ec;
+  color: #1f4f7a;
+}
+
+.viewerActionCost:hover,
+.viewerActionCost.active {
+  border-color: #2f6f9f;
+  background: #f3f8fc;
+  color: #1f4f7a;
+}

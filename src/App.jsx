@@ -1484,7 +1484,7 @@ function SmartTipsButton({ recipe, position = "inline" }) {
 function getRecipePersonalNote(recipe) {
   if (recipe.personalNote?.text) {
     return {
-      title: recipe.personalNote.title || "My Recipe Notes",
+      title: recipe.personalNote.title || "My Notes",
       text: recipe.personalNote.text,
     };
   }
@@ -1529,7 +1529,7 @@ function getRecipePersonalNote(recipe) {
     text = "Fried-style foods are usually best fresh. If I wanted a lighter version, I would try the air fryer or oven, use a light oil spray, and make only the amount needed for the meal.";
   }
 
-  return { title: "My Recipe Notes", text };
+  return { title: "My Notes", text };
 }
 
 function MyRecipeNotesButton({ recipe, position = "inline" }) {
@@ -1549,7 +1549,7 @@ function MyRecipeNotesButton({ recipe, position = "inline" }) {
         onClick={() => setOpen((current) => !current)}
         aria-expanded={open}
       >
-        My Recipe Notes
+        My Notes
       </button>
 
       {open && (
@@ -2005,7 +2005,7 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
               <strong>
                 {openPanel === "cooking" && "Cooking Options"}
                 {openPanel === "tips" && "Smart Tips"}
-                {openPanel === "notes" && "My Recipe Notes"}
+                {openPanel === "notes" && "My Notes"}
                 {openPanel === "cost" && "Estimated Cost"}
               </strong>
               <button type="button" onClick={() => setOpenPanel(null)} aria-label="Close popup">
@@ -2048,6 +2048,47 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
               </div>
             )}
 
+
+            {openPanel === "cost" && (
+              <div className="viewerBottomSheetContent viewerCostSheet">
+                <div className="viewerCostGrid">
+                  <article className="viewerCostBox">
+                    <span>Estimated recipe total</span>
+                    <strong>{estimatedCost.recipeRange}</strong>
+                    <small>Buying typical store-brand ingredients</small>
+                  </article>
+
+                  <article className="viewerCostBox">
+                    <span>If pantry staples are on hand</span>
+                    <strong>{estimatedCost.pantryRange}</strong>
+                    <small>Partial-use ingredients and basics already stocked</small>
+                  </article>
+
+                  <article className="viewerCostBox">
+                    <span>Estimated cost per serving</span>
+                    <strong>{estimatedCost.perServingRange}</strong>
+                    <small>Based on {estimatedCost.servings} servings</small>
+                  </article>
+
+                  <article className="viewerCostBox">
+                    <span>Pantry-on-hand per serving</span>
+                    <strong>{estimatedCost.pantryPerServingRange}</strong>
+                    <small>Useful for meal-planning comparisons</small>
+                  </article>
+                </div>
+
+                <p className="viewerCostNote">
+                  {estimatedCost.note}
+                </p>
+
+                <p className="viewerCostDisclaimer">
+                  Estimate only. Actual cost will vary by store, brand, package
+                  size, sale prices, local prices, substitutions, and items
+                  already in your refrigerator, freezer, or pantry.
+                </p>
+              </div>
+            )}
+
             {openPanel === "notes" && (
               <div className="viewerBottomSheetContent viewerNotesSheet">
                 <div className="viewerNotesPaper">
@@ -2086,7 +2127,7 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
               type="button"
               onClick={() => togglePanel("notes")}
             >
-              My Recipe Notes
+              My Notes
             </button>
 
 
@@ -2113,7 +2154,7 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
               onClick={printCurrentCard}
               disabled={!imagePath}
             >
-              Print this recipe
+              Print
             </button>
 
             <button
@@ -2121,7 +2162,7 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
               onClick={downloadCurrentCard}
               disabled={!imagePath}
             >
-              Download this recipe
+              Download
             </button>
           </div>
         </div>
