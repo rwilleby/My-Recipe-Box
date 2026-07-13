@@ -8196,3 +8196,85 @@ button,
     left: 7px !important;
   }
 }
+
+
+/* =========================================================
+   HERO INFO FINAL FLOW CLEANUP
+   Smaller number markers, no arrows, smaller white Read More button.
+   ========================================================= */
+
+/* Number markers: 1/3 smaller than prior 24px version */
+.heroInfoButton .heroInfoStepNumber {
+  width: 16px !important;
+  height: 16px !important;
+  min-width: 16px !important;
+  max-width: 16px !important;
+  min-height: 16px !important;
+  max-height: 16px !important;
+  left: 7px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  font-size: 9px !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+  display: grid !important;
+  place-items: center !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Keep the lettering size; only adjust left padding so smaller marker fits cleanly */
+.heroInfoButton {
+  padding-left: 26px !important;
+}
+
+/* Remove the flow arrows completely */
+.heroInfoButtonWrap:not(:last-child)::after {
+  display: none !important;
+  content: none !important;
+}
+
+/* Popup Read More button: white with hairline green rule, smaller size */
+.heroInfoMoreButton {
+  width: auto !important;
+  min-width: 112px !important;
+  min-height: 30px !important;
+  margin-top: 12px !important;
+  padding: 6px 14px !important;
+  border-radius: 999px !important;
+  border: 1px solid var(--green) !important;
+  background: #ffffff !important;
+  color: var(--green) !important;
+  font-size: 13px !important;
+  font-weight: 750 !important;
+  line-height: 1 !important;
+  box-shadow: none !important;
+}
+
+.heroInfoMoreButton:hover {
+  background: #f3faf5 !important;
+  color: var(--green) !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.heroInfoMoreButton:active {
+  transform: none !important;
+}
+
+@media (max-width: 1100px) {
+  .heroInfoButton .heroInfoStepNumber {
+    width: 16px !important;
+    height: 16px !important;
+    min-width: 16px !important;
+    min-height: 16px !important;
+    left: 7px !important;
+    font-size: 9px !important;
+  }
+
+  .heroInfoButton {
+    padding-left: 26px !important;
+  }
+}
