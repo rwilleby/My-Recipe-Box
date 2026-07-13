@@ -1307,6 +1307,92 @@ function getRecipeSmartTips(recipe) {
   return tips;
 }
 
+
+function getRecipeCookingOptions(recipe) {
+  const title = `${recipe.title || ""}`.toLowerCase();
+  const category = recipe.categoryCode || "";
+
+  const options = [];
+
+  if (category === "SG" || title.includes("smoked") || title.includes("brisket") || title.includes("ribs")) {
+    options.push({
+      label: "Smoker / Pellet Grill",
+      text: "Best for low-and-slow flavor. Cook to temperature, rest the meat when needed, and portion leftovers for sandwiches, bowls, tacos, or freezer meals.",
+    });
+  }
+
+  if (title.includes("grilled") || title.includes("burger") || title.includes("hot dog") || title.includes("fajita")) {
+    options.push({
+      label: "Gas Grill",
+      text: "Good for quick outdoor cooking. Watch hot spots, use a thermometer for meat, and keep cooked portions covered while resting.",
+    });
+  }
+
+  if (
+    title.includes("baked") ||
+    title.includes("casserole") ||
+    title.includes("pie") ||
+    title.includes("quiche") ||
+    title.includes("muffin") ||
+    title.includes("bread") ||
+    title.includes("roll") ||
+    category === "QP" ||
+    category === "PM" ||
+    category === "LF"
+  ) {
+    options.push({
+      label: "Oven",
+      text: "Use the recipe-card temperature as a guide. Ovens vary, so begin checking near the early end of the cooking time.",
+    });
+  }
+
+  if (
+    title.includes("fried") ||
+    title.includes("fries") ||
+    title.includes("shrimp") ||
+    title.includes("nugget") ||
+    title.includes("egg roll")
+  ) {
+    options.push({
+      label: "Air Fryer",
+      text: "Useful for crisping smaller portions. Cook in a single layer, shake or turn halfway through, and reduce time if portions are small.",
+    });
+  }
+
+  if (title.includes("soup") || title.includes("rice") || title.includes("reheat") || category === "SD") {
+    options.push({
+      label: "Microwave",
+      text: "Helpful for reheating leftovers or simple sides. Cover loosely, stir when practical, and make sure reheated foods are hot throughout.",
+    });
+  }
+
+  if (
+    title.includes("skillet") ||
+    title.includes("stir") ||
+    title.includes("alfredo") ||
+    title.includes("queso") ||
+    title.includes("pasta") ||
+    category === "AS" ||
+    category === "MX" ||
+    category === "IT"
+  ) {
+    options.push({
+      label: "Stovetop",
+      text: "Good for sauces, skillets, pasta dishes, and quick reheating. Use medium heat when reheating creamy sauces so they do not separate.",
+    });
+  }
+
+  if (options.length === 0) {
+    options.push({
+      label: "Best Method",
+      text: "Follow the method shown on the recipe card first. Adjust time, temperature, and equipment based on your kitchen and portion size.",
+    });
+  }
+
+  return options.slice(0, 4);
+}
+
+
 function SmartTipsButton({ recipe, position = "inline" }) {
   const [open, setOpen] = useState(false);
   const tips = getRecipeSmartTips(recipe);
@@ -1580,6 +1666,7 @@ function mediaIcon(type = "") {
 
 function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorite }) {
   const [imageIndex, setImageIndex] = useState(0);
+  const [openPanel, setOpenPanel] = useState(null);
 
   const viewerIds = viewer?.recipeIds?.length
     ? viewer.recipeIds
@@ -1595,6 +1682,7 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
 
   useEffect(() => {
     setImageIndex(0);
+    setOpenPanel(null);
   }, [recipe?.id]);
 
   if (!viewer || !recipe) return null;
@@ -1603,6 +1691,9 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
   const imageCandidates = fullCardImageCandidates(recipe);
   const imagePath = imageCandidates[imageIndex];
   const hasMultiple = viewerIds.length > 1;
+  const tips = getRecipeSmartTips(recipe);
+  const note = getRecipePersonalNote(recipe);
+  const cookingOptions = getRecipeCookingOptions(recipe);
 
   function goToOffset(offset) {
     if (!hasMultiple) return;
@@ -1614,6 +1705,10 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
       recipeId: viewerIds[nextIndex],
       recipeIds: viewerIds,
     });
+  }
+
+  function togglePanel(panelName) {
+    setOpenPanel((current) => (current === panelName ? null : panelName));
   }
 
   function printCurrentCard() {
@@ -1711,27 +1806,15 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
 
   return (
     <div className="cardViewerOverlay" onClick={onClose}>
-      <div className="cardViewer" onClick={(event) => event.stopPropagation()}>
+      <div className="cardViewer cardViewerBottomActions" onClick={(event) => event.stopPropagation()}>
         <div className="cardViewerHeader">
           <div>
             <span className="cardViewerCode">{recipe.id}</span>
             <h2>{recipe.title}</h2>
           </div>
 
-          <div className="cardViewerHeaderActions">
-            <SmartTipsButton recipe={recipe} position="viewerTop" />
-            <MyRecipeNotesButton recipe={recipe} position="viewerTop" />
-
-            <button
-              className={isFavorite ? "cardViewerFavorite saved" : "cardViewerFavorite"}
-              onClick={() => toggleFavorite(recipe.id)}
-              aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
-              title={isFavorite ? "Remove from favorites" : "Add to favorites"}
-            >
-              ♥
-            </button>
-
-            <button className="cardViewerClose" onClick={onClose}>
+          <div className="cardViewerHeaderActions compact">
+            <button className="cardViewerClose" onClick={onClose} aria-label="Close recipe viewer">
               ×
             </button>
           </div>
@@ -1775,9 +1858,6 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
           </button>
         </div>
 
-        <div className="cardViewerSmartTips">
-        </div>
-
         {recipe.mediaLinks?.length > 0 && (
           <div className="cardViewerHelpfulLinks">
             <strong>Helpful links</strong>
@@ -1797,26 +1877,120 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
           </div>
         )}
 
-        <div className="cardViewerFooter">
-          <span>
+        {openPanel && (
+          <div className="viewerBottomSheet" role="dialog" aria-label={`${openPanel} information`}>
+            <div className="viewerBottomSheetHandle" />
+            <div className="viewerBottomSheetHeader">
+              <strong>
+                {openPanel === "cooking" && "Cooking Options"}
+                {openPanel === "tips" && "Smart Tips"}
+                {openPanel === "notes" && "My Recipe Notes"}
+              </strong>
+              <button type="button" onClick={() => setOpenPanel(null)} aria-label="Close popup">
+                ×
+              </button>
+            </div>
+
+            {openPanel === "cooking" && (
+              <div className="viewerBottomSheetContent">
+                <p className="viewerSheetIntro">
+                  Practical ways to think about cooking or reheating this recipe.
+                </p>
+                <div className="viewerCookingOptionList">
+                  {cookingOptions.map((option) => (
+                    <article key={`${recipe.id}-${option.label}`} className="viewerCookingOption">
+                      <h3>{option.label}</h3>
+                      <p>{option.text}</p>
+                    </article>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {openPanel === "tips" && (
+              <div className="viewerBottomSheetContent">
+                <ul className="viewerSmartTipsList">
+                  <li>
+                    <strong>Lower calorie:</strong> {tips.calories}
+                  </li>
+                  <li>
+                    <strong>Lower carb:</strong> {tips.carbs}
+                  </li>
+                  <li>
+                    <strong>Lower sodium:</strong> {tips.sodium}
+                  </li>
+                  <li>
+                    <strong>Higher protein:</strong> {tips.protein}
+                  </li>
+                </ul>
+              </div>
+            )}
+
+            {openPanel === "notes" && (
+              <div className="viewerBottomSheetContent viewerNotesSheet">
+                <div className="viewerNotesPaper">
+                  <h3>{note.title}</h3>
+                  <p>{note.text}</p>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        <div className="cardViewerFooter cardViewerUnifiedFooter">
+          <span className="cardViewerCount">
             {currentIndex + 1} of {viewerIds.length}
           </span>
 
-          <div className="cardViewerFooterActions">
+          <div className="cardViewerFooterActions viewerUnifiedActions">
             <button
-              className="cardViewerPrint"
-              onClick={printCurrentCard}
-              disabled={!imagePath}
+              className={openPanel === "cooking" ? "viewerActionButton active" : "viewerActionButton"}
+              type="button"
+              onClick={() => togglePanel("cooking")}
             >
-              Print this card
+              Cooking Options
             </button>
 
             <button
-              className="cardViewerDownload"
+              className={openPanel === "tips" ? "viewerActionButton active" : "viewerActionButton"}
+              type="button"
+              onClick={() => togglePanel("tips")}
+            >
+              Smart Tips
+            </button>
+
+            <button
+              className={openPanel === "notes" ? "viewerActionButton viewerActionNotes active" : "viewerActionButton viewerActionNotes"}
+              type="button"
+              onClick={() => togglePanel("notes")}
+            >
+              My Recipe Notes
+            </button>
+
+            <button
+              className={isFavorite ? "viewerActionHeart saved" : "viewerActionHeart"}
+              type="button"
+              onClick={() => toggleFavorite(recipe.id)}
+              aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
+              title={isFavorite ? "Remove from favorites" : "Add to favorites"}
+            >
+              ♥
+            </button>
+
+            <button
+              className="viewerActionButton viewerActionPrint"
+              onClick={printCurrentCard}
+              disabled={!imagePath}
+            >
+              Print this recipe
+            </button>
+
+            <button
+              className="viewerActionButton viewerActionDownload"
               onClick={downloadCurrentCard}
               disabled={!imagePath}
             >
-              Download this card
+              Download this recipe
             </button>
           </div>
         </div>
@@ -1824,6 +1998,7 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
     </div>
   );
 }
+
 
 function CollectionStrip() {
   const collectionCards = [

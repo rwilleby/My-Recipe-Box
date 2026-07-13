@@ -7659,3 +7659,287 @@ button,
     width: 100%;
   }
 }
+
+
+/* =========================================================
+   RECIPE VIEWER BOTTOM ACTION BAR + BOTTOM-UP POPUPS
+   Cooking Options / Smart Tips / My Recipe Notes / Heart / Print / Download
+   ========================================================= */
+
+.cardViewerBottomActions {
+  position: relative;
+  overflow: hidden;
+}
+
+.cardViewerHeaderActions.compact {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.cardViewerBottomActions .cardViewerHeaderActions .smartTipsWrap,
+.cardViewerBottomActions .cardViewerHeaderActions .recipeNotesWrap,
+.cardViewerBottomActions .cardViewerHeaderActions .cardViewerFavorite {
+  display: none !important;
+}
+
+.cardViewerUnifiedFooter {
+  align-items: center;
+  gap: 14px;
+  padding: 14px 20px;
+}
+
+.cardViewerUnifiedFooter .cardViewerCount {
+  flex: 0 0 auto;
+  color: #4b5563;
+  font-weight: 650;
+}
+
+.viewerUnifiedActions {
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.viewerActionButton,
+.viewerActionHeart {
+  min-height: 42px;
+  border-radius: 12px;
+  border: 1px solid #d9eadc;
+  background: #fff;
+  color: var(--green);
+  font-weight: 800;
+  padding: 0 18px;
+  box-shadow: none;
+  cursor: pointer;
+}
+
+.viewerActionButton:hover,
+.viewerActionButton.active {
+  border-color: var(--green);
+  background: #f3faf5;
+}
+
+.viewerActionNotes {
+  border-color: #ead7b8;
+  color: #7a4f28;
+}
+
+.viewerActionNotes:hover,
+.viewerActionNotes.active {
+  border-color: #c9a875;
+  background: #fffaf0;
+}
+
+.viewerActionPrint {
+  background: var(--green);
+  border-color: var(--green);
+  color: #fff;
+}
+
+.viewerActionPrint:hover {
+  background: #0f4a29;
+  color: #fff;
+}
+
+.viewerActionDownload {
+  border-color: #e7ded1;
+  color: var(--green);
+}
+
+.viewerActionHeart {
+  width: 46px;
+  min-width: 46px;
+  padding: 0;
+  border-radius: 999px;
+  color: #111827;
+  font-size: 22px;
+  line-height: 1;
+  display: inline-grid;
+  place-items: center;
+}
+
+.viewerActionHeart.saved {
+  color: #c2410c;
+  border-color: #f1c7b6;
+  background: #fff7ed;
+}
+
+.viewerBottomSheet {
+  position: absolute;
+  left: 22px;
+  right: 22px;
+  bottom: 78px;
+  z-index: 8;
+  max-height: min(52vh, 420px);
+  overflow: auto;
+  border: 1px solid #e5dfd3;
+  border-radius: 18px 18px 10px 10px;
+  background: #ffffff;
+  box-shadow: 0 -18px 50px rgba(17, 24, 39, .18);
+  animation: viewerSheetUp .18s ease-out;
+}
+
+@keyframes viewerSheetUp {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.viewerBottomSheetHandle {
+  width: 54px;
+  height: 5px;
+  border-radius: 999px;
+  background: #d7d1c7;
+  margin: 10px auto 4px;
+}
+
+.viewerBottomSheetHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 20px 10px;
+  border-bottom: 1px solid #f0ebe3;
+}
+
+.viewerBottomSheetHeader strong {
+  color: #111827;
+  font-size: 18px;
+}
+
+.viewerBottomSheetHeader button {
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  border: 1px solid #e7ded1;
+  background: #fff;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.viewerBottomSheetContent {
+  padding: 18px 22px 22px;
+}
+
+.viewerSheetIntro {
+  margin: 0 0 14px;
+  color: #4b5563;
+  font-size: 15px;
+}
+
+.viewerCookingOptionList {
+  display: grid;
+  gap: 12px;
+}
+
+.viewerCookingOption {
+  border: 1px solid #e8efe9;
+  border-radius: 14px;
+  background: #f8fcf9;
+  padding: 14px 16px;
+}
+
+.viewerCookingOption h3 {
+  margin: 0 0 6px;
+  color: var(--green);
+  font-size: 18px;
+}
+
+.viewerCookingOption p {
+  margin: 0;
+  color: #374151;
+  line-height: 1.45;
+}
+
+.viewerSmartTipsList {
+  margin: 0;
+  padding-left: 20px;
+  display: grid;
+  gap: 10px;
+}
+
+.viewerSmartTipsList li {
+  color: #374151;
+  line-height: 1.45;
+}
+
+.viewerSmartTipsList strong {
+  color: var(--green);
+}
+
+.viewerNotesSheet {
+  background:
+    linear-gradient(90deg, rgba(196, 44, 44, .28) 34px, transparent 34px),
+    repeating-linear-gradient(#fffaf0, #fffaf0 29px, #e9dcc2 30px);
+}
+
+.viewerNotesPaper {
+  padding: 8px 12px 4px 28px;
+}
+
+.viewerNotesPaper h3 {
+  margin: 0 0 10px;
+  color: #7a4f28;
+  font-family: "Bradley Hand", "Segoe Print", "Comic Sans MS", cursive;
+  font-size: 26px;
+}
+
+.viewerNotesPaper p {
+  margin: 0;
+  color: #2f261c;
+  font-family: "Bradley Hand", "Segoe Print", "Comic Sans MS", cursive;
+  font-size: 19px;
+  line-height: 1.55;
+}
+
+@media (max-width: 900px) {
+  .viewerUnifiedActions {
+    justify-content: flex-start;
+  }
+
+  .cardViewerUnifiedFooter {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .viewerBottomSheet {
+    left: 12px;
+    right: 12px;
+    bottom: 132px;
+  }
+}
+
+@media (max-width: 640px) {
+  .viewerUnifiedActions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+  }
+
+  .viewerActionButton {
+    width: 100%;
+    padding: 0 12px;
+    font-size: 13.5px;
+  }
+
+  .viewerActionHeart {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .viewerBottomSheet {
+    bottom: 190px;
+    max-height: 46vh;
+  }
+}
