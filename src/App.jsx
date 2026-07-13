@@ -881,7 +881,6 @@ function Header({ activePage, setActivePage }) {
           src={`${import.meta.env.BASE_URL}images/ui/rrb-logo-wide.png`}
           alt="Robert's Recipe Box"
         />
-        <span className="brandLogoTagline">PLAN. COOK. EAT. FREEZE. SAVE!</span>
       </button>
 
       <nav className="navLinks dropdownNav" aria-label="Main navigation">
@@ -3733,6 +3732,168 @@ function AboutRecipesPage({ setActivePage }) {
 }
 
 
+
+function AboutPage({ setActivePage }) {
+  return (
+    <main className="pageShell aboutUnifiedPage">
+      <section className="aboutRecipesHero" id="about-roberts-recipe-box">
+        <div>
+          <div className="aiBadge">OUR MISSION</div>
+          <h1>Why I Started This Page</h1>
+          <p>
+            Robert’s Recipe Box began as a personal way to cook meals we enjoy,
+            prepare practical portions for two people, save money where possible,
+            and freeze a little extra for another day.
+          </p>
+        </div>
+      </section>
+
+      <div className="aboutRecipesGrid aboutRobertGrid">
+        <article className="aboutRecipesCard">
+          <h2>How it started</h2>
+          <p>
+            I created Robert’s Recipe Box after my wife and I tried a few
+            subscription meal plans. I liked the idea of organized meals and
+            clear instructions, but I wanted to cook foods we actually enjoyed.
+          </p>
+        </article>
+
+        <article className="aboutRecipesCard">
+          <h2>Cooking for two</h2>
+          <p>
+            The idea was to make four servings at a time: two for dinner and two
+            for another meal or the freezer. That makes cooking more useful for a
+            smaller household.
+          </p>
+        </article>
+
+        <article className="aboutRecipesCard">
+          <h2>Saving where possible</h2>
+          <p>
+            Eating out had become expensive, even for fast food. Cooking at home
+            made it easier to compare costs, control portions, and reduce waste.
+          </p>
+        </article>
+
+        <article className="aboutRecipesCard">
+          <h2>Recipe cards</h2>
+          <p>
+            I wanted simple recipe cards that were easy to follow while cooking,
+            without needing to scroll through a long webpage.
+          </p>
+        </article>
+
+        <article className="aboutRecipesCard">
+          <h2>Still free to use</h2>
+          <p>
+            Robert’s Recipe Box was not created as a subscription site. The goal
+            is to keep the recipes, cards, planning tools, and shopping ideas
+            free to use.
+          </p>
+        </article>
+
+        <article className="aboutRecipesCard aboutQuoteCard">
+          <h2>The simple idea</h2>
+          <p>
+            <strong>
+              Cook what you like, make it the way you like it, spend less when
+              possible, and prepare a little extra for another day.
+            </strong>
+          </p>
+        </article>
+      </div>
+
+      <div className="aboutRecipesActions">
+        <button className="primary" onClick={() => setActivePage("Recipes")}>
+          Browse Recipes
+        </button>
+        <button className="secondary" onClick={() => setActivePage("How To Use")}>
+          How to Use This Site
+        </button>
+      </div>
+    </main>
+  );
+}
+
+function AboutSmokingPage({ setActivePage }) {
+  return (
+    <main className="pageShell aboutRecipesPage aboutSmokingUnifiedPage">
+      <section className="aboutRecipesHero">
+        <div>
+          <div className="aiBadge">TIPS & TECHNIQUES</div>
+          <h1>Smoking Your Own Meats</h1>
+          <p>
+            I got started smoking meat after buying a Pit Boss pellet grill and
+            learning how practical smoked and grilled foods can be for cook-once,
+            eat-twice meals.
+          </p>
+        </div>
+      </section>
+
+      <div className="aboutRecipesGrid">
+        <article className="aboutRecipesCard">
+          <h2>How I got started</h2>
+          <p>
+            I am not a professional pitmaster. I started with the basics,
+            followed proven methods, paid attention to temperatures, and learned
+            from each cook.
+          </p>
+        </article>
+
+        <article className="aboutRecipesCard">
+          <h2>Why it works</h2>
+          <p>
+            Smoked meats can be portioned, refrigerated, frozen, and reused later
+            for sandwiches, bowls, tacos, salads, baked potatoes, or quick
+            weeknight dinners.
+          </p>
+        </article>
+
+        <article className="aboutRecipesCard">
+          <h2>Still learning</h2>
+          <p>
+            The goal is not competition barbecue. The goal is practical,
+            flavorful food that home cooks can learn and use.
+          </p>
+        </article>
+      </div>
+
+      <div className="aboutRecipesActions">
+        <button className="primary" onClick={() => setActivePage("Recipes")}>
+          Browse Recipes
+        </button>
+        <button className="secondary" onClick={() => setActivePage("About")}>
+          Our Mission
+        </button>
+      </div>
+    </main>
+  );
+}
+
+function PlaceholderInfoPage({ eyebrow, title, text, setActivePage }) {
+  return (
+    <main className="pageShell aboutRecipesPage placeholderInfoPage">
+      <section className="aboutRecipesHero">
+        <div>
+          <div className="aiBadge">{eyebrow}</div>
+          <h1>{title}</h1>
+          <p>{text}</p>
+        </div>
+      </section>
+
+      <div className="aboutRecipesActions">
+        <button className="primary" onClick={() => setActivePage("Recipes")}>
+          Browse Recipes
+        </button>
+        <button className="secondary" onClick={() => setActivePage("How To Use")}>
+          How to Use This Site
+        </button>
+      </div>
+    </main>
+  );
+}
+
+
 function FeatureStrip() {
   const features = [
     {
@@ -3771,27 +3932,7 @@ function FeatureStrip() {
   );
 }
 
-export default 
-function PlaceholderInfoPage({ eyebrow, title, text, setActivePage }) {
-  return (
-    <main className="pageShell aboutRecipesPage placeholderInfoPage">
-      <section className="aboutRecipesHero">
-        <div>
-          <div className="aiBadge">{eyebrow}</div>
-          <h1>{title}</h1>
-          <p>{text}</p>
-        </div>
-      </section>
-
-      <div className="aboutRecipesActions">
-        <button className="primary" onClick={() => setActivePage("Recipes")}>Browse Recipes</button>
-        <button className="secondary" onClick={() => setActivePage("How To Use")}>How to Use This Site</button>
-      </div>
-    </main>
-  );
-}
-
-function App() {
+export default function App() {
   const [activePage, setActivePage] = useState("Home");
   const [favorites, setFavorites] = useState(() =>
     loadJSON(STORAGE_KEYS.favorites, [])
@@ -3881,31 +4022,76 @@ function App() {
       {activePage === "Freezer Tips" && <FreezerTipsPage {...pageProps} />}
       {activePage === "About" && <AboutPage setActivePage={setActivePage} initialSection="main" />}
       {activePage === "Who Is Robert" && (
-        <PlaceholderInfoPage eyebrow="OUR MISSION" title="Who Is Robert" text="This page will introduce Robert, the person behind Robert’s Recipe Box, and explain the practical cooking experience behind the site." setActivePage={setActivePage} />
+        <PlaceholderInfoPage
+          eyebrow="OUR MISSION"
+          title="Who Is Robert"
+          text="This page will introduce Robert, the person behind Robert’s Recipe Box, and explain the practical cooking experience behind the site."
+          setActivePage={setActivePage}
+        />
       )}
       {activePage === "My Goals" && (
-        <PlaceholderInfoPage eyebrow="OUR MISSION" title="What Are My Goals" text="This page will explain the goals of Robert’s Recipe Box: practical meals, smart planning, useful leftovers, freezer meals, and saving money where possible." setActivePage={setActivePage} />
+        <PlaceholderInfoPage
+          eyebrow="OUR MISSION"
+          title="What Are My Goals"
+          text="This page will explain the goals of Robert’s Recipe Box: practical meals, smart planning, useful leftovers, freezer meals, and saving money where possible."
+          setActivePage={setActivePage}
+        />
       )}
       {activePage === "Cooking Methods" && (
-        <PlaceholderInfoPage eyebrow="COOKING METHODS" title="Cooking Methods" text="This page will help visitors browse recipes by appliance or method, including air fryer, oven, microwave, gas grill, smoker, stovetop, slow cooker, and other practical cooking options." setActivePage={setActivePage} />
+        <PlaceholderInfoPage
+          eyebrow="COOKING METHODS"
+          title="Cooking Methods"
+          text="This page will help visitors browse recipes by appliance or method, including air fryer, oven, microwave, gas grill, smoker, stovetop, slow cooker, and other practical cooking options."
+          setActivePage={setActivePage}
+        />
       )}
       {activePage === "Suggested Meal Plans" && (
-        <PlaceholderInfoPage eyebrow="OUR RECIPES" title="Suggested Meal Plans" text="This page will collect practical meal-plan ideas for smaller households, planned leftovers, freezer meals, and easy weekly routines." setActivePage={setActivePage} />
+        <PlaceholderInfoPage
+          eyebrow="OUR RECIPES"
+          title="Suggested Meal Plans"
+          text="This page will collect practical meal-plan ideas for smaller households, planned leftovers, freezer meals, and easy weekly routines."
+          setActivePage={setActivePage}
+        />
       )}
       {activePage === "Bread Tips" && (
-        <PlaceholderInfoPage eyebrow="TIPS & TECHNIQUES" title="Baking Your Own Breads" text="This page will include practical bread-baking tips, freezer ideas, recipe-card guidance, and simple ways to bake breads and rolls at home." setActivePage={setActivePage} />
+        <PlaceholderInfoPage
+          eyebrow="TIPS & TECHNIQUES"
+          title="Baking Your Own Breads"
+          text="This page will include practical bread-baking tips, freezer ideas, recipe-card guidance, and simple ways to bake breads and rolls at home."
+          setActivePage={setActivePage}
+        />
       )}
       {activePage === "Submit Recipes" && (
-        <PlaceholderInfoPage eyebrow="TIPS & TECHNIQUES" title="Submit Your Recipes" text="This page will explain how visitors can suggest recipe ideas, family favorites, copycat-style meals, or practical cooking tips for future consideration." setActivePage={setActivePage} />
+        <PlaceholderInfoPage
+          eyebrow="TIPS & TECHNIQUES"
+          title="Submit Your Recipes"
+          text="This page will explain how visitors can suggest recipe ideas, family favorites, copycat-style meals, or practical cooking tips for future consideration."
+          setActivePage={setActivePage}
+        />
       )}
       {activePage === "Safe Cooking Rules" && (
-        <PlaceholderInfoPage eyebrow="TIPS & TECHNIQUES" title="Safe Cooking Rules" text="This page will collect basic food-safety reminders for cooking, cooling, freezing, thawing, reheating, and checking safe internal temperatures." setActivePage={setActivePage} />
+        <PlaceholderInfoPage
+          eyebrow="TIPS & TECHNIQUES"
+          title="Safe Cooking Rules"
+          text="This page will collect basic food-safety reminders for cooking, cooling, freezing, thawing, reheating, and checking safe internal temperatures."
+          setActivePage={setActivePage}
+        />
       )}
       {activePage === "Storage Organization" && (
-        <PlaceholderInfoPage eyebrow="TIPS & TECHNIQUES" title="Storage & Organization" text="This page will include ideas for organizing recipes, pantry staples, freezer meals, storage containers, labels, and kitchen tools." setActivePage={setActivePage} />
+        <PlaceholderInfoPage
+          eyebrow="TIPS & TECHNIQUES"
+          title="Storage & Organization"
+          text="This page will include ideas for organizing recipes, pantry staples, freezer meals, storage containers, labels, and kitchen tools."
+          setActivePage={setActivePage}
+        />
       )}
       {activePage === "Other Interests" && (
-        <PlaceholderInfoPage eyebrow="TIPS & TECHNIQUES" title="Other Interests" text="This page will hold additional practical topics, experiments, tools, and ideas that do not fit neatly into the main recipe sections." setActivePage={setActivePage} />
+        <PlaceholderInfoPage
+          eyebrow="TIPS & TECHNIQUES"
+          title="Other Interests"
+          text="This page will hold additional practical topics, experiments, tools, and ideas that do not fit neatly into the main recipe sections."
+          setActivePage={setActivePage}
+        />
       )}
       {activePage === "How To Use" && <HowToUsePage setActivePage={setActivePage} />}
       {activePage === "About Recipes" && <AboutRecipesPage setActivePage={setActivePage} />}

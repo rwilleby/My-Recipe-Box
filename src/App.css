@@ -6735,46 +6735,52 @@ th {
 
 
 /* ================================
-   MENU + HEADLINE TYPOGRAPHY UPDATE
-   Narrow, sans-serif, all-caps menu and headlines.
+   SITE RENDER REPAIR + MENU UPDATE
+   Safe all-caps menu/headline styling without breaking page layout.
    ================================ */
 
 :root {
-  --rrb-condensed-font: "Arial Narrow", "Roboto Condensed", "Helvetica Neue Condensed", "Aptos Narrow", "Liberation Sans Narrow", Impact, sans-serif;
+  --rrb-condensed-font: "Arial Narrow", "Roboto Condensed", "Helvetica Neue Condensed", "Aptos Narrow", "Liberation Sans Narrow", sans-serif;
 }
 
+.navDropdownButton,
+.navDropdownMenu button,
 .navButton,
-.dropdownMenu button,
-.mobileNav button,
-.headerNav button,
-.mainNav button,
-.siteNav button,
-.navGroup > button,
-.navDropdown button {
+.dropdownMenu button {
   font-family: var(--rrb-condensed-font);
   text-transform: uppercase;
-  letter-spacing: .075em;
-  font-stretch: condensed;
-  font-weight: 800;
+  letter-spacing: .06em;
+  font-weight: 850;
+}
+
+.navLinks.dropdownNav {
+  gap: clamp(8px, 1vw, 15px);
+}
+
+.navDropdownButton {
+  font-size: clamp(11px, .85vw, 13px);
+  white-space: nowrap;
+}
+
+.navDropdownMenu {
+  min-width: max-content;
+}
+
+.navDropdownMenu button {
+  font-size: 12.5px;
+  letter-spacing: .05em;
 }
 
 h1,
 h2,
-h3,
 .sectionTitle h2,
-.heroTitle,
 .browseIntro h1,
 .aboutRecipesHero h1,
 .aboutRecipesCard h2,
-.recipeViewerTitle,
-.cardTitle,
-.featureCard h3,
-.collectionCard h3,
 .placeholderInfoPage h1 {
   font-family: var(--rrb-condensed-font);
   text-transform: uppercase;
-  letter-spacing: .045em;
-  font-stretch: condensed;
+  letter-spacing: .04em;
   font-weight: 900;
 }
 
@@ -6788,121 +6794,31 @@ h3,
   font-weight: 900;
 }
 
+.aboutUnifiedPage {
+  padding-top: 38px;
+}
+
+.aboutQuoteCard {
+  background: #f7fcf8;
+  border-color: #d9eadc;
+}
+
+.aboutQuoteCard strong {
+  color: var(--green);
+  font-weight: 850;
+}
+
 .placeholderInfoPage .aboutRecipesHero p {
   max-width: 860px;
 }
 
-
-/* ================================
-   MENU FIX / RESPONSIVE POLISH
-   Fixes crowded menu, duplicate dropdown keys, logo tagline display,
-   and removes the top Favorites shortcut.
-   ================================ */
-
-.topbar {
-  gap: clamp(14px, 1.8vw, 26px);
-  padding-left: clamp(22px, 4vw, 70px);
-  padding-right: clamp(22px, 4vw, 70px);
-}
-
-.navLinks.dropdownNav {
-  justify-content: center;
-  gap: clamp(8px, 1.15vw, 18px);
-}
-
-.navDropdownButton {
-  font-family: var(--rrb-condensed-font);
-  text-transform: uppercase;
-  letter-spacing: .085em;
-  font-size: clamp(11px, .86vw, 13px);
-  font-weight: 900;
-}
-
-.navDropdownMenu {
-  min-width: max-content;
-}
-
-.navDropdownMenu button {
-  font-family: var(--rrb-condensed-font);
-  text-transform: uppercase;
-  letter-spacing: .06em;
-  font-size: 12.5px;
-  font-weight: 850;
-}
-
-.brandLogoButton {
-  flex-direction: column;
-  justify-content: center;
-  gap: 0;
-  height: 70px;
-  width: clamp(220px, 19vw, 280px);
-  min-width: clamp(220px, 19vw, 280px);
-}
-
-.brandLogoImage {
-  width: 100%;
-  max-width: 100%;
-  max-height: 47px;
-  object-fit: contain;
-  object-position: center top;
-  transform: translateY(0);
-}
-
-.brandLogoTagline {
-  display: block;
-  margin-top: -2px;
-  font-family: var(--rrb-condensed-font);
-  text-transform: uppercase;
-  letter-spacing: .105em;
-  font-size: clamp(9px, .72vw, 11px);
-  line-height: 1;
-  font-weight: 900;
-  color: var(--green);
-  white-space: nowrap;
-}
-
-.topActions {
-  gap: 10px;
-}
-
 @media (max-width: 1180px) {
-  .topbar {
-    gap: 12px;
-    padding-left: 22px;
-    padding-right: 22px;
-  }
-
-  .brandLogoButton {
-    width: 220px;
-    min-width: 220px;
-  }
-
-  .navLinks.dropdownNav {
-    gap: 8px;
+  .topActions {
+    display: none;
   }
 
   .navDropdownButton {
     font-size: 11px;
-    letter-spacing: .065em;
-  }
-
-  .topActions {
-    display: none;
-  }
-}
-
-@media (max-width: 720px) {
-  .brandLogoButton {
-    width: 210px;
-    min-width: 210px;
-    height: 58px;
-  }
-
-  .brandLogoImage {
-    max-height: 40px;
-  }
-
-  .brandLogoTagline {
-    font-size: 8.5px;
+    letter-spacing: .045em;
   }
 }
