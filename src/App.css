@@ -9003,3 +9003,132 @@ button,
 .heroInfoPopup .heroInfoMoreButton {
   margin-top: 16px !important;
 }
+
+
+/* =========================================================
+   COST POPUP CUTLINE + NO HELP BUTTONS
+   Taller panel, no ? buttons, single cutline-style disclaimer.
+   ========================================================= */
+
+/* Taller bottom sheet so cost text can show without a scrollbar in normal desktop view. */
+.viewerBottomSheet {
+  max-height: min(74vh, 680px) !important;
+}
+
+.viewerBottomSheetContent.viewerCostSheet {
+  padding-bottom: 28px;
+}
+
+/* Remove cost help buttons/bubbles completely. */
+.viewerCostHelpButton,
+.viewerCostHelpBubble {
+  display: none !important;
+}
+
+.viewerCostHelpWrap {
+  position: static !important;
+}
+
+/* Keep the cost boxes clean now that help icons are gone. */
+.viewerCostBox {
+  position: relative;
+  overflow: visible;
+}
+
+.viewerCoverageBox p:not(.viewerCostCutline) {
+  display: none !important;
+}
+
+/* Cutline-style explanation at bottom of Estimated Cost panel. */
+.viewerCostCutline {
+  margin: 18px auto 0;
+  max-width: 980px;
+  padding-top: 14px;
+  border-top: 1px solid #e2e8f0;
+  color: #4b5563;
+  font-size: 13.5px;
+  line-height: 1.45;
+  text-align: center;
+}
+
+.viewerCostCutline strong {
+  display: inline-block;
+  margin-left: 6px;
+  color: var(--green);
+  font-weight: 850;
+  white-space: nowrap;
+}
+
+/* Retire older separate disclaimer/tagline styles inside this panel. */
+.viewerCostNote,
+.viewerCostPantryNote,
+.viewerCostTagline {
+  display: none !important;
+}
+
+@media (max-width: 900px) {
+  .viewerBottomSheet {
+    max-height: min(72vh, 640px) !important;
+  }
+}
+
+@media (max-width: 560px) {
+  .viewerBottomSheet {
+    max-height: 70vh !important;
+  }
+
+  .viewerCostCutline {
+    text-align: left;
+    font-size: 13px;
+  }
+
+  .viewerCostCutline strong {
+    display: block;
+    margin-left: 0;
+    margin-top: 6px;
+    text-align: center;
+  }
+}
+
+
+/* =========================================================
+   HERO POPUP BULLET TEXT TIGHTENING
+   Smaller font and tighter line spacing for the heart-bullet items.
+   ========================================================= */
+
+.heroInfoPopup .heroInfoBulletList {
+  gap: 5px !important;
+}
+
+.heroInfoPopup .heroInfoBulletList li {
+  grid-template-columns: 14px minmax(0, 1fr) !important;
+  gap: 7px !important;
+  font-size: 14px !important;
+  line-height: 1.22 !important;
+}
+
+.heroInfoPopup .heroInfoBulletHeart {
+  font-size: 10px !important;
+  line-height: 1.22 !important;
+  padding-top: 2px !important;
+}
+
+.heroInfoPopup {
+  padding-top: 18px !important;
+  padding-bottom: 18px !important;
+}
+
+.heroInfoPopup .heroInfoMoreButton {
+  margin-top: 12px !important;
+}
+
+@media (max-width: 760px) {
+  .heroInfoPopup .heroInfoBulletList {
+    gap: 5px !important;
+  }
+
+  .heroInfoPopup .heroInfoBulletList li {
+    font-size: 13.5px !important;
+    line-height: 1.2 !important;
+  }
+}

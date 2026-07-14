@@ -1744,7 +1744,6 @@ function getRecipeEstimatedCost(recipe) {
 function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorite }) {
   const [imageIndex, setImageIndex] = useState(0);
   const [openPanel, setOpenPanel] = useState(null);
-  const [openCostHelp, setOpenCostHelp] = useState(null);
 
   const viewerIds = viewer?.recipeIds?.length
     ? viewer.recipeIds
@@ -1761,7 +1760,6 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
   useEffect(() => {
     setImageIndex(0);
     setOpenPanel(null);
-    setOpenCostHelp(null);
   }, [recipe?.id]);
 
   if (!viewer || !recipe) return null;
@@ -1789,11 +1787,6 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
 
   function togglePanel(panelName) {
     setOpenPanel((current) => (current === panelName ? null : panelName));
-    setOpenCostHelp(null);
-  }
-
-  function toggleCostHelp(helpName) {
-    setOpenCostHelp((current) => (current === helpName ? null : helpName));
   }
 
   function printCurrentCard() {
@@ -2017,139 +2010,47 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
               <div className="viewerBottomSheetContent viewerCostSheet">
                 {estimatedCost.displayCost ? (
                   <>
-                    <div className="viewerCostSummary viewerCostHelpWrap">
-                      <button
-                        type="button"
-                        className="viewerCostHelpButton"
-                        onClick={() => toggleCostHelp("summary")}
-                        aria-label="Explain cost per serving"
-                      >
-                        ?
-                      </button>
+                    <div className="viewerCostSummary">
                       <span className="viewerCostConfidence">{estimatedCost.confidenceLabel}</span>
                       <strong>{estimatedCost.roundedCostPerServing}</strong>
                       <em>{estimatedCost.costCategory}</em>
-                      {openCostHelp === "summary" && (
-                        <div className="viewerCostHelpBubble">
-                          <strong>Cost per serving</strong>
-                          <p>
-                            This is the rounded planning estimate for one serving
-                            of the recipe, based on the ingredient-use cost
-                            assigned to this recipe card.
-                          </p>
-                        </div>
-                      )}
                     </div>
 
                     <div className="viewerCostGrid viewerCostGridPlanning">
-                      <article className="viewerCostBox viewerCostHelpWrap">
-                        <button
-                          type="button"
-                          className="viewerCostHelpButton"
-                          onClick={() => toggleCostHelp("total")}
-                          aria-label="Explain estimated total recipe cost"
-                        >
-                          ?
-                        </button>
+                      <article className="viewerCostBox">
                         <span>Estimated total recipe cost</span>
                         <strong>{estimatedCost.roundedRecipeCost}</strong>
                         <small>Ingredient-use cost for this recipe card</small>
-                        {openCostHelp === "total" && (
-                          <div className="viewerCostHelpBubble">
-                            <strong>Estimated total recipe cost</strong>
-                            <p>
-                              This is the estimated value of the ingredients
-                              used in the recipe, not the full checkout cost of
-                              buying every package new.
-                            </p>
-                          </div>
-                        )}
                       </article>
 
-                      <article className="viewerCostBox viewerCostHelpWrap">
-                        <button
-                          type="button"
-                          className="viewerCostHelpButton"
-                          onClick={() => toggleCostHelp("servings")}
-                          aria-label="Explain servings used"
-                        >
-                          ?
-                        </button>
+                      <article className="viewerCostBox">
                         <span>Servings used</span>
                         <strong>{estimatedCost.servings}</strong>
                         <small>{estimatedCost.servingBasis}</small>
-                        {openCostHelp === "servings" && (
-                          <div className="viewerCostHelpBubble">
-                            <strong>Servings used</strong>
-                            <p>
-                              This is the serving count used to divide the total
-                              recipe estimate into a per-serving planning cost.
-                            </p>
-                          </div>
-                        )}
                       </article>
 
-                      <article className="viewerCostBox viewerCoverageBox viewerCostHelpWrap">
-                        <button
-                          type="button"
-                          className="viewerCostHelpButton"
-                          onClick={() => toggleCostHelp("coverage")}
-                          aria-label="Explain ingredient-cost coverage"
-                        >
-                          ?
-                        </button>
+                      <article className="viewerCostBox viewerCoverageBox">
                         <span>Ingredient-cost coverage</span>
                         <strong>{estimatedCost.coveragePercent}%</strong>
                         <small>{estimatedCost.costedLines} of {estimatedCost.ingredientLines} ingredient lines costed</small>
-
-                        {openCostHelp === "coverage" && (
-                          <div className="viewerCostHelpBubble">
-                            <strong>Ingredient-cost coverage</strong>
-                            <p>
-                              This tells you how many ingredient lines were
-                              matched to pricing data. Some ingredients may be
-                              common pantry items the user already has at home,
-                              such as salt, pepper, oil, flour, spices, or basic
-                              sauces.
-                            </p>
-                          </div>
-                        )}
                       </article>
 
-                      <article className="viewerCostBox viewerCostHelpWrap">
-                        <button
-                          type="button"
-                          className="viewerCostHelpButton"
-                          onClick={() => toggleCostHelp("category")}
-                          aria-label="Explain cost category"
-                        >
-                          ?
-                        </button>
+                      <article className="viewerCostBox">
                         <span>Cost category</span>
                         <strong>{estimatedCost.costCategory}</strong>
                         <small>Rounded planning estimate</small>
-                        {openCostHelp === "category" && (
-                          <div className="viewerCostHelpBubble">
-                            <strong>Cost category</strong>
-                            <p>
-                              This groups the recipe into a simple planning
-                              range, such as Budget-Friendly, Everyday Value,
-                              Moderate Cost, or Premium Meal.
-                            </p>
-                          </div>
-                        )}
                       </article>
                     </div>
 
-                    <p className="viewerCostNote">
-                      {RECIPE_COST_NOTE}
-                    </p>
-                    <p className="viewerCostPantryNote">
-                      Some items in the ingredient list may already be in your
-                      pantry, refrigerator, or freezer.
-                    </p>
-                    <p className="viewerCostTagline">
-                      {RECIPE_COST_TAGLINE}
+                    <p className="viewerCostCutline">
+                      Estimated cost uses ingredient-use pricing for this recipe
+                      card, not the full checkout cost of buying every package
+                      new. Servings used shows the number of portions used to
+                      calculate the per-serving estimate. Ingredient-cost
+                      coverage shows how much of the ingredient list has usable
+                      pricing in the cost database. Some items may already be in
+                      your pantry, refrigerator, or freezer. {RECIPE_COST_NOTE}
+                      <strong>{RECIPE_COST_TAGLINE}</strong>
                     </p>
                   </>
                 ) : (
