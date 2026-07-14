@@ -3704,7 +3704,13 @@ function ProductsIUsePage({ setActivePage }) {
               aria-label={`View ${product.title} on Amazon`}
               title="View on Amazon"
             >
-              <span>amazon</span>
+              <img
+                className="productsIUseAmazonIcon"
+                src={`${import.meta.env.BASE_URL}images/ui/amazon-smile.png`}
+                alt=""
+                loading="lazy"
+                decoding="async"
+              />
             </a>
             <div className="productsIUsePageImage">
               <img
