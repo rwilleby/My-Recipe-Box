@@ -8450,3 +8450,106 @@ button,
   background: #f3f8fc;
   color: #1f4f7a;
 }
+
+
+/* =========================================================
+   WORKBOOK-BACKED RECIPE COST SYSTEM
+   Uses src/data/recipeCosts.js and only displays public prices
+   when the approved display rules are met.
+   ========================================================= */
+
+.viewerCostUnderReview {
+  border: 1px solid #ead7b8;
+  border-radius: 14px;
+  background: #fffaf0;
+  padding: 18px;
+  color: #374151;
+}
+
+.viewerCostUnderReview strong {
+  display: block;
+  color: #7a4f28;
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+
+.viewerCostUnderReview p {
+  margin: 0 0 10px;
+  line-height: 1.45;
+}
+
+.viewerCostUnderReview small {
+  color: #6b7280;
+  line-height: 1.35;
+}
+
+.viewerCostNote {
+  border-top: 1px solid #e6edf2;
+  padding-top: 12px;
+}
+
+
+/* =========================================================
+   HOMEPAGE INSTRUCTION POPUPS UPDATE
+   Continuous paragraph with green heart dividers + Under Construction page.
+   ========================================================= */
+
+.heroInfoText {
+  margin: 0;
+}
+
+.heroInfoText span {
+  display: inline;
+}
+
+.heroInfoHeartDivider {
+  color: var(--green);
+  display: inline-block !important;
+  margin: 0 10px;
+  font-size: .78em;
+  line-height: 1;
+  vertical-align: 0.05em;
+}
+
+.heroInfoMoreButton {
+  display: block !important;
+  margin: 14px auto 0 !important;
+  width: auto !important;
+  min-width: 112px !important;
+  max-width: max-content !important;
+  min-height: 30px !important;
+  padding: 6px 14px !important;
+  border-radius: 999px !important;
+  border: 1px solid var(--green) !important;
+  background: #ffffff !important;
+  color: var(--green) !important;
+  font-size: 13px !important;
+  font-weight: 750 !important;
+  line-height: 1 !important;
+  box-shadow: none !important;
+  text-align: center !important;
+}
+
+.heroInfoMoreButton:hover {
+  background: #f3faf5 !important;
+  color: var(--green) !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.underConstructionPage {
+  padding-top: clamp(42px, 6vw, 84px);
+  padding-bottom: clamp(54px, 7vw, 96px);
+}
+
+.underConstructionHero {
+  max-width: 920px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.underConstructionActions {
+  max-width: 920px;
+  margin-left: auto;
+  margin-right: auto;
+}

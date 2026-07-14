@@ -1,5 +1,6 @@
 import { useMemo, useState, useEffect } from "react";
 import { categories, recipes } from "./data/recipes";
+import { getRecipeCostEstimate, RECIPE_COST_NOTE } from "./data/recipeCosts";
 import { loadJSON, saveJSON } from "./utils/storage";
 import {
   buildShoppingList,
@@ -615,40 +616,82 @@ const HERO_IMAGES = [
 
 const HERO_INFO_BUTTONS = [
   {
+    title: "Why Robert’s Recipe Box Is Free",
     line1: "ALWAYS FREE",
     line2: "TO USE",
-    title: "WHY WE WILL ALWAYS BE FREE",
-    text: "Robert’s Recipe Box is intended to remain free to use. Optional recommendations and affiliate links may help support the site without requiring a paid subscription.",
+    textParts: [
+      "Robert’s Recipe Box is designed to be a helpful, easy-to-use cooking resource without a required subscription.",
+      "You can browse recipes, save favorites, plan meals, and build shopping lists at no charge.",
+      "The goal is to make meal planning simpler for seniors, couples, empty nesters, and smaller households.",
+      "Some pages may include optional product recommendations or affiliate links.",
+      "Those links may help support the cost of maintaining and improving the website.",
+      "You are never required to make a purchase to use the main features of Robert’s Recipe Box.",
+    ],
   },
   {
+    title: "Browse Our Recipe Library",
     line1: "BROWSE OUR",
     line2: "RECIPES",
-    title: "BROWSE OUR RECIPE LIBRARY",
-    text: "Browse recipe cards by category, search for meal ideas, and open full recipe cards for viewing, printing, or saving.",
+    textParts: [
+      "Explore recipe cards organized into easy-to-browse food categories.",
+      "You can search for a specific recipe, meal idea, ingredient, or type of cuisine.",
+      "Open any recipe card to review the ingredients, directions, servings, and nutrition information.",
+      "Use the recipe viewer to move forward or backward through a collection.",
+      "You can also print or download recipe cards for use in your kitchen.",
+      "New recipes and categories will continue to be added as the website grows.",
+    ],
   },
   {
+    title: "Save Your Favorite Recipes",
     line1: "SELECT YOUR",
     line2: "FAVORITES",
-    title: "SELECT YOUR FAVORITE RECIPES",
-    text: "Save recipes you like so they are easier to find again on this device. Favorites are stored in your browser.",
+    textParts: [
+      "Tap the heart on any recipe to add it to your personal Favorites collection.",
+      "Saving favorites makes recipes you enjoy easier to find the next time you visit.",
+      "Your favorites are stored in the browser on the device you are currently using.",
+      "No account, password, or paid membership is required.",
+      "Favorites saved on one device may not automatically appear on another device.",
+      "You can add or remove recipes from your Favorites list at any time.",
+    ],
   },
   {
+    title: "Plan Your Weekly Meals",
     line1: "PLAN YOUR",
     line2: "WEEKLY MEALS",
-    title: "PLAN YOUR CUSTOM WEEKLY MEAL PLANS",
-    text: "Build a practical meal plan using recipes designed for smaller households, planned leftovers, and freezer-friendly second meals.",
+    textParts: [
+      "Use the meal planner to organize dinners for one or two weeks at a time.",
+      "Choose recipes from the library and place them on the days that work best for you.",
+      "Plan fresh meals, planned leftovers, simple meals, and freezer meals together.",
+      "Recipes can be arranged around your schedule, household size, and cooking routine.",
+      "A thoughtful plan can reduce repeat shopping, unused ingredients, and last-minute meal decisions.",
+      "When your plan is ready, use it to create one combined grocery list.",
+    ],
   },
   {
+    title: "Create Your Grocery List",
     line1: "MAKE YOUR",
     line2: "GROCERY LIST",
-    title: "PRINT YOUR GROCERY LISTS",
-    text: "Use your meal plan to create a practical grocery list, review pantry staples, and print a condensed list before shopping.",
+    textParts: [
+      "Your selected meal-plan recipes can be combined into one organized grocery list.",
+      "Repeated ingredients are grouped together to make shopping easier.",
+      "Review your pantry staples before buying items you may already have at home.",
+      "The list can help separate needed groceries from ingredients already in your pantry.",
+      "You can check off items while shopping or print a condensed list before leaving home.",
+      "Actual quantities may need minor adjustments based on brands, package sizes, and substitutions.",
+    ],
   },
   {
+    title: "Practical Tips & Suggestions",
     line1: "TIPS &",
     line2: "SUGGESTIONS",
-    title: "VIEW OUR TIPS & TRICKS",
-    text: "Find practical tips for freezer meals, storage, lower-carb swaps, lower-calorie options, and easier small-household cooking.",
+    textParts: [
+      "Find practical ideas for cooking, meal planning, food storage, and freezer preparation.",
+      "Review optional lower-calorie, lower-carb, lower-sodium, and higher-protein suggestions.",
+      "Learn ways to divide recipes into useful portions for one- or two-person households.",
+      "Explore tips for planned leftovers, reheating meals, and freezing extra servings safely.",
+      "You may also find helpful grocery substitutions, kitchen-product ideas, and organization tips.",
+      "Use the suggestions that fit your tastes, budget, equipment, and personal needs.",
+    ],
   },
 ];
 
@@ -926,22 +969,7 @@ function Header({ activePage, setActivePage }) {
 
 
 function getHeroInfoTargetPage(title) {
-  switch (title) {
-    case "Always Free To Use":
-      return "About";
-    case "Browse Our Recipes":
-      return "Recipes";
-    case "Select Your Favorites":
-      return "Favorites";
-    case "Plan Your Weekly Meals":
-      return "Meal Planner";
-    case "Make Your Grocery List":
-      return "Shopping Lists";
-    case "Tips & Suggestions":
-      return "Freezer Tips";
-    default:
-      return "How To Use";
-  }
+  return "Under Construction";
 }
 
 function getHeroInfoMoreInfoLabel(title) {
@@ -981,7 +1009,16 @@ function HeroInfoButtons({ setActivePage }) {
                   ×
                 </button>
               </div>
-              <p>{item.text}</p>
+              <p className="heroInfoText">
+                {item.textParts.map((sentence, index) => (
+                  <span key={`${item.title}-sentence-${index}`}>
+                    {sentence}
+                    {index < item.textParts.length - 1 && (
+                      <span className="heroInfoHeartDivider" aria-hidden="true">♥</span>
+                    )}
+                  </span>
+                ))}
+              </p>
 
               <button
                 type="button"
@@ -1703,86 +1740,8 @@ function mediaIcon(type = "") {
 
 
 function getRecipeEstimatedCost(recipe) {
-  const title = `${recipe.title || ""}`.toLowerCase();
-  const category = recipe.categoryCode || "";
-  const servings = Number(recipe.servings || 4) || 4;
-
-  let low = 8;
-  let high = 13;
-  let pantryLow = 5;
-  let pantryHigh = 9;
-  let note =
-    "This estimate assumes typical store-brand pricing and common pantry staples such as salt, pepper, oil, flour, sugar, and basic seasonings may already be on hand.";
-
-  if (category === "SF" || title.includes("shrimp") || title.includes("salmon") || title.includes("cod") || title.includes("seafood")) {
-    low = 13;
-    high = 20;
-    pantryLow = 10;
-    pantryHigh = 16;
-    note = "Seafood prices vary widely by store, package size, fresh versus frozen, and local availability.";
-  } else if (category === "SG" || title.includes("brisket") || title.includes("ribs") || title.includes("pork butt") || title.includes("smoked")) {
-    low = 18;
-    high = 32;
-    pantryLow = 14;
-    pantryHigh = 26;
-    note = "Smoked and grilled meats can cost more up front, but larger cuts often provide several meals or freezer portions.";
-  } else if (category === "HB" || title.includes("burger") || title.includes("hamburger") || title.includes("patties")) {
-    low = 10;
-    high = 17;
-    pantryLow = 8;
-    pantryHigh = 13;
-    note = "Burger costs depend heavily on meat choice, buns, cheese, toppings, and whether condiments are already on hand.";
-  } else if (category === "PM" || title.includes("muffin")) {
-    low = 6;
-    high = 11;
-    pantryLow = 4;
-    pantryHigh = 8;
-    note = "Baking recipes are usually lower-cost if flour, sweeteners, spices, and oil are already in the pantry.";
-  } else if (category === "QP" || title.includes("quiche") || title.includes("pie")) {
-    low = 8;
-    high = 15;
-    pantryLow = 6;
-    pantryHigh = 12;
-    note = "Quiche and pie costs depend on cheese, eggs, crust, meat, and whether baking staples are already available.";
-  } else if (category === "SD" || title.includes("rice") || title.includes("beans") || title.includes("potatoes") || title.includes("vegetables")) {
-    low = 4;
-    high = 9;
-    pantryLow = 3;
-    pantryHigh = 7;
-    note = "Side dishes are often budget-friendly, especially when they use pantry staples, frozen vegetables, rice, beans, or potatoes.";
-  } else if (category === "MX" || category === "AS" || category === "IT") {
-    low = 9;
-    high = 16;
-    pantryLow = 7;
-    pantryHigh = 13;
-    note = "Cuisine-style meals vary based on sauces, proteins, cheese, pasta, rice, tortillas, and vegetables already on hand.";
-  } else if (category === "CC" || category === "CO" || category === "CR" || category === "DN" || category === "JJ") {
-    low = 7;
-    high = 14;
-    pantryLow = 5;
-    pantryHigh = 10;
-    note = "Dessert and baking costs depend on dairy, fruit, chocolate, nuts, and how many baking staples are already in the pantry.";
-  }
-
-  const perServingLow = low / servings;
-  const perServingHigh = high / servings;
-  const pantryPerServingLow = pantryLow / servings;
-  const pantryPerServingHigh = pantryHigh / servings;
-
-  function money(value) {
-    return `$${value.toFixed(2)}`;
-  }
-
-  return {
-    servings,
-    recipeRange: `$${low.toFixed(0)}–$${high.toFixed(0)}`,
-    pantryRange: `$${pantryLow.toFixed(0)}–$${pantryHigh.toFixed(0)}`,
-    perServingRange: `${money(perServingLow)}–${money(perServingHigh)}`,
-    pantryPerServingRange: `${money(pantryPerServingLow)}–${money(pantryPerServingHigh)}`,
-    note,
-  };
+  return getRecipeCostEstimate(recipe);
 }
-
 
 function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorite }) {
   const [imageIndex, setImageIndex] = useState(0);
@@ -2051,41 +2010,52 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
 
             {openPanel === "cost" && (
               <div className="viewerBottomSheetContent viewerCostSheet">
-                <div className="viewerCostGrid">
-                  <article className="viewerCostBox">
-                    <span>Estimated recipe total</span>
-                    <strong>{estimatedCost.recipeRange}</strong>
-                    <small>Buying typical store-brand ingredients</small>
-                  </article>
+                {estimatedCost.displayCost ? (
+                  <>
+                    <div className="viewerCostGrid">
+                      <article className="viewerCostBox">
+                        <span>Estimated total recipe cost</span>
+                        <strong>{estimatedCost.formattedRecipeCost}</strong>
+                        <small>Based on the approved ingredient-cost workbook</small>
+                      </article>
 
-                  <article className="viewerCostBox">
-                    <span>If pantry staples are on hand</span>
-                    <strong>{estimatedCost.pantryRange}</strong>
-                    <small>Partial-use ingredients and basics already stocked</small>
-                  </article>
+                      <article className="viewerCostBox">
+                        <span>Estimated cost per serving</span>
+                        <strong>{estimatedCost.formattedCostPerServing}</strong>
+                        <small>Based on {estimatedCost.servings} verified servings</small>
+                      </article>
 
-                  <article className="viewerCostBox">
-                    <span>Estimated cost per serving</span>
-                    <strong>{estimatedCost.perServingRange}</strong>
-                    <small>Based on {estimatedCost.servings} servings</small>
-                  </article>
+                      <article className="viewerCostBox">
+                        <span>Servings used</span>
+                        <strong>{estimatedCost.servings}</strong>
+                        <small>{estimatedCost.servingBasis}</small>
+                      </article>
 
-                  <article className="viewerCostBox">
-                    <span>Pantry-on-hand per serving</span>
-                    <strong>{estimatedCost.pantryPerServingRange}</strong>
-                    <small>Useful for meal-planning comparisons</small>
-                  </article>
-                </div>
+                      <article className="viewerCostBox">
+                        <span>Ingredient-cost coverage</span>
+                        <strong>{estimatedCost.coveragePercent}%</strong>
+                        <small>{estimatedCost.costedLines} of {estimatedCost.ingredientLines} ingredient lines costed</small>
+                      </article>
+                    </div>
 
-                <p className="viewerCostNote">
-                  {estimatedCost.note}
-                </p>
-
-                <p className="viewerCostDisclaimer">
-                  Estimate only. Actual cost will vary by store, brand, package
-                  size, sale prices, local prices, substitutions, and items
-                  already in your refrigerator, freezer, or pantry.
-                </p>
+                    <p className="viewerCostNote">
+                      {RECIPE_COST_NOTE}
+                    </p>
+                  </>
+                ) : (
+                  <div className="viewerCostUnderReview">
+                    <strong>Cost estimate under review</strong>
+                    <p>
+                      This recipe does not yet meet the public display rules for
+                      ingredient-cost coverage, verified servings, and calculated
+                      cost greater than zero.
+                    </p>
+                    <small>
+                      Prices will display after the recipe reaches at least 90%
+                      ingredient-cost coverage and the serving count is verified.
+                    </small>
+                  </div>
+                )}
               </div>
             )}
 
@@ -4249,6 +4219,33 @@ function AboutSmokingPage({ setActivePage }) {
   );
 }
 
+
+function UnderConstructionPage({ setActivePage }) {
+  return (
+    <main className="pageShell underConstructionPage">
+      <section className="aboutRecipesHero underConstructionHero">
+        <div>
+          <div className="aiBadge">PAGE IN DEVELOPMENT</div>
+          <h1>Under Construction</h1>
+          <p>
+            This section of Robert’s Recipe Box is still being prepared. Please
+            check back soon as new information and features are added.
+          </p>
+        </div>
+      </section>
+
+      <div className="aboutRecipesActions underConstructionActions">
+        <button className="primary" onClick={() => setActivePage("Home")}>
+          Return Home
+        </button>
+        <button className="secondary" onClick={() => setActivePage("Recipes")}>
+          Browse Recipes
+        </button>
+      </div>
+    </main>
+  );
+}
+
 function PlaceholderInfoPage({ eyebrow, title, text, setActivePage }) {
   return (
     <main className="pageShell aboutRecipesPage placeholderInfoPage">
@@ -4389,6 +4386,7 @@ export default function App() {
       <Header activePage={activePage} setActivePage={setActivePage} />
 
       {activePage === "Home" && <Home {...pageProps} />}
+      {activePage === "Under Construction" && <UnderConstructionPage setActivePage={setActivePage} />}
       {activePage === "Recipes" && <RecipesPage {...pageProps} />}
       {activePage === "Collections" && <CollectionsPage />}
       {activePage === "Meal Planner" && <PlannerPage {...pageProps} />}
