@@ -8957,3 +8957,49 @@ button,
     right: auto !important;
   }
 }
+
+
+/* =========================================================
+   HERO POPUP HEART BULLETS
+   Converts inline heart dividers into flush-left green bullet hearts.
+   ========================================================= */
+
+.heroInfoText,
+.heroInfoHeartDivider {
+  display: none !important;
+}
+
+.heroInfoBulletList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 9px;
+}
+
+.heroInfoBulletList li {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+  color: #374151;
+  font-size: inherit;
+  line-height: 1.38;
+  text-align: left;
+}
+
+.heroInfoBulletHeart {
+  color: var(--green);
+  font-size: 12px;
+  line-height: 1.38;
+  padding-top: 2px;
+  text-align: left;
+}
+
+.heroInfoPopup {
+  text-align: left;
+}
+
+.heroInfoPopup .heroInfoMoreButton {
+  margin-top: 16px !important;
+}

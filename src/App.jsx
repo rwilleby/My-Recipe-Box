@@ -1009,16 +1009,14 @@ function HeroInfoButtons({ setActivePage }) {
                   ×
                 </button>
               </div>
-              <p className="heroInfoText">
+              <ul className="heroInfoBulletList">
                 {item.textParts.map((sentence, index) => (
-                  <span key={`${item.title}-sentence-${index}`}>
-                    {sentence}
-                    {index < item.textParts.length - 1 && (
-                      <span className="heroInfoHeartDivider" aria-hidden="true">♥</span>
-                    )}
-                  </span>
+                  <li key={`${item.title}-sentence-${index}`}>
+                    <span className="heroInfoBulletHeart" aria-hidden="true">♥</span>
+                    <span>{sentence}</span>
+                  </li>
                 ))}
-              </p>
+              </ul>
 
               <button
                 type="button"
