@@ -1058,7 +1058,7 @@ function Hero({ setActivePage }) {
 
         <h1>Plan. Cook. Eat. Freeze. Save.</h1>
 
-        <p>A free recipe-card and meal-planning site that I use every week for our personal meal planning. It is specifically designed for seniors, couples, empty nesters, and smaller households who want practical meals, useful leftovers, freezer-friendly ideas, and organized grocery lists. Shop smarter. Save more.</p>
+        <p>Welcome to my free recipe-card and meal-planning site. I use it every week for my own meal planning, and I designed it especially for seniors, couples, empty nesters, and smaller households who want practical meals, useful leftovers, freezer-friendly ideas, and organized grocery lists. Shop smarter. Save more.</p>
 
         <div className="heroButtons">
           <button className="primary" onClick={() => setActivePage("Recipes")}>
@@ -1086,7 +1086,7 @@ function Hero({ setActivePage }) {
 
 function TransparencyLine() {
   return (
-    <div className="transparencyLine">Being transparent: I use AI assistance to generate recipes and do not copy recipes from other sites. I simply ask for a recipe and let AI generate the cards, then I test them and approve them for the site. Read my disclaimers.</div>
+    <div className="transparencyLine">Honesty: I use AI assistance to generate recipes. I’m not a chef. I do not copy recipes from others; I simply tell AI what I want and let it generate the recipes for me. Read my disclaimers.</div>
   );
 }
 
