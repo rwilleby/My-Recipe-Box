@@ -11233,3 +11233,98 @@ button,
     min-height: 390px !important;
   }
 }
+
+
+/* =========================================================
+   PRODUCTS I USE PAGE — IMAGE POSITION + AMAZON CORNER LINK
+   Moves product images upward and adds folded affiliate-link corner.
+   ========================================================= */
+
+.productsIUsePageCard {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Move image content upward inside each product card so it does not crowd headlines. */
+.productsIUsePageImage {
+  align-items: start !important;
+  padding: 8px 14px 6px !important;
+}
+
+.productsIUsePageImage img {
+  object-fit: contain !important;
+  object-position: center top !important;
+  transform: translateY(-8px);
+}
+
+/* Give the text block consistent breathing room below the higher image. */
+.productsIUsePageCard div:last-child {
+  padding-top: 12px !important;
+}
+
+/* Folded top-right corner affiliate link */
+.productsIUseAmazonCorner {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 8;
+  width: 74px;
+  height: 74px;
+  overflow: hidden;
+  color: #111827;
+  text-decoration: none;
+}
+
+.productsIUseAmazonCorner::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-top: 74px solid #ff9900;
+  border-left: 74px solid transparent;
+  filter: drop-shadow(-2px 2px 3px rgba(17, 24, 39, .18));
+}
+
+.productsIUseAmazonCorner span {
+  position: absolute;
+  top: 13px;
+  right: -2px;
+  width: 64px;
+  transform: rotate(45deg);
+  transform-origin: center;
+  color: #111827;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 9px;
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: -.02em;
+  text-align: center;
+  text-transform: lowercase;
+}
+
+.productsIUseAmazonCorner:hover::before {
+  border-top-color: #ffb23f;
+}
+
+/* Keep corner visible but not overpowering on smaller screens. */
+@media (max-width: 640px) {
+  .productsIUseAmazonCorner {
+    width: 64px;
+    height: 64px;
+  }
+
+  .productsIUseAmazonCorner::before {
+    border-top-width: 64px;
+    border-left-width: 64px;
+  }
+
+  .productsIUseAmazonCorner span {
+    top: 11px;
+    right: -5px;
+    font-size: 8px;
+  }
+
+  .productsIUsePageImage img {
+    transform: translateY(-6px);
+  }
+}
