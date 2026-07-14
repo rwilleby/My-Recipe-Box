@@ -9548,3 +9548,195 @@ button,
     min-height: 170px;
   }
 }
+
+
+/* =========================================================
+   HOME SHOWCASE / PRODUCTS / COLLECTION BUTTON REFINEMENT
+   - Featured image fits the panel width without oversized cropping.
+   - Featured rotation runs twice as long as Rolodex.
+   - Products I Use matches Featured Selection styling with arrow rotation.
+   - Bottom collection buttons are smaller and closer to reference.
+   ========================================================= */
+
+/* Featured Selection: food hero should fit neatly in the available width. */
+.featuredSelectionImage {
+  min-height: 155px !important;
+  aspect-ratio: 16 / 10 !important;
+  padding: 10px !important;
+  background: #ffffff !important;
+}
+
+.featuredSelectionImage img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  border-radius: 12px;
+}
+
+/* Keep left panels same height, but more compact. */
+.homeFeatureCard.featuredSelectionCard,
+.homeFeatureCard.productsIUseCard {
+  min-height: 255px !important;
+  height: 100%;
+}
+
+.homeShowcaseRolodexColumn .homeRolodex {
+  min-height: 526px !important;
+  height: 100%;
+}
+
+.homeMiniSectionHeader {
+  margin-bottom: 10px !important;
+}
+
+.homeMiniSectionHeader h2 {
+  font-size: clamp(20px, 1.8vw, 28px) !important;
+}
+
+/* Products I Use: same overall visual style as Featured Selection. */
+.productUseFeatureWrap {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  display: grid;
+}
+
+.productUseFeatureTile {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 10px;
+  text-align: center;
+}
+
+.productUseFeatureImage {
+  min-height: 155px;
+  aspect-ratio: 16 / 10;
+  border-radius: 15px;
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid #e2e8e2;
+  display: grid;
+  place-items: center;
+  padding: 10px;
+}
+
+.productUseFeatureImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 12px;
+  display: block;
+}
+
+.productUseFeatureTile strong,
+.featuredSelectionButton strong {
+  color: #111827;
+  font-size: 14px !important;
+  line-height: 1.15 !important;
+  font-weight: 800;
+  text-align: center;
+}
+
+.productUseArrow {
+  position: absolute;
+  top: 43%;
+  transform: translateY(-50%);
+  z-index: 5;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  border: 1px solid #d6e4d8;
+  background: rgba(255, 255, 255, .94);
+  color: var(--green);
+  font-size: 24px;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(17, 24, 39, .10);
+}
+
+.productUseArrow:hover {
+  background: #f3faf5;
+  border-color: var(--green);
+}
+
+.productUseArrowLeft {
+  left: 8px;
+}
+
+.productUseArrowRight {
+  right: 8px;
+}
+
+/* Bottom collection buttons: smaller, lower profile, no icon feel. */
+.homeCollectionButtonSection {
+  padding-top: 18px !important;
+  padding-bottom: 26px !important;
+}
+
+.homeCollectionButtonGrid {
+  gap: clamp(12px, 1.4vw, 18px) !important;
+}
+
+.homeCollectionButton {
+  min-height: 86px !important;
+  border-radius: 12px !important;
+}
+
+.homeCollectionButton .collectionTileHeader {
+  padding: 7px 10px !important;
+  background: #aab1b5 !important;
+}
+
+.homeCollectionButton .collectionTileHeader strong {
+  font-size: 14px !important;
+  line-height: 1.05 !important;
+}
+
+.homeCollectionButton small {
+  padding: 10px 12px 12px !important;
+  font-size: 12.5px !important;
+  line-height: 1.12 !important;
+  font-weight: 600 !important;
+}
+
+/* Hide the older feature strip row if any legacy call remains. */
+.featureStrip {
+  display: none !important;
+}
+
+@media (max-width: 1000px) {
+  .homeShowcaseRolodexColumn .homeRolodex {
+    min-height: auto !important;
+  }
+
+  .homeFeatureCard.featuredSelectionCard,
+  .homeFeatureCard.productsIUseCard {
+    min-height: 245px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .featuredSelectionImage,
+  .productUseFeatureImage {
+    min-height: 150px !important;
+  }
+
+  .productUseArrow {
+    width: 28px;
+    height: 28px;
+    font-size: 22px;
+  }
+
+  .homeCollectionButton {
+    min-height: 78px !important;
+  }
+}

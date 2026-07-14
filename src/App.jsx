@@ -2266,7 +2266,7 @@ function FeaturedSelectionPanel({ openRecipeCard }) {
 
     const timer = window.setInterval(() => {
       setActiveIndex((current) => (current + 1) % featuredRecipes.length);
-    }, 7000);
+    }, 14000);
 
     return () => window.clearInterval(timer);
   }, [featuredRecipes.length]);
@@ -2309,19 +2309,14 @@ function FeaturedSelectionPanel({ openRecipeCard }) {
 }
 
 function ProductsIUseCarousel({ setActivePage }) {
-  const [startIndex, setStartIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const product = PRODUCTS_I_USE[activeIndex % PRODUCTS_I_USE.length];
 
-  useEffect(() => {
-    if (PRODUCTS_I_USE.length <= 3) return;
-
-    const timer = window.setInterval(() => {
-      setStartIndex((current) => (current + 1) % PRODUCTS_I_USE.length);
-    }, 6000);
-
-    return () => window.clearInterval(timer);
-  }, []);
-
-  const product = PRODUCTS_I_USE[startIndex % PRODUCTS_I_USE.length];
+  function goToProduct(offset) {
+    setActiveIndex((current) =>
+      (current + offset + PRODUCTS_I_USE.length) % PRODUCTS_I_USE.length
+    );
+  }
 
   return (
     <section className="homeFeatureCard productsIUseCard">
@@ -2329,20 +2324,42 @@ function ProductsIUseCarousel({ setActivePage }) {
         <h2>Products I Use</h2>
       </div>
 
-      <button
-        type="button"
-        className="productUseFeatureTile"
-        onClick={() => setActivePage("Recommendations")}
-        aria-label={`View recommended products for ${product.title}`}
-      >
-        <img
-          src={`${import.meta.env.BASE_URL}${product.image}`}
-          alt=""
-          loading="lazy"
-          decoding="async"
-        />
-        <strong>{product.title}</strong>
-      </button>
+      <div className="productUseFeatureWrap">
+        <button
+          type="button"
+          className="productUseArrow productUseArrowLeft"
+          onClick={() => goToProduct(-1)}
+          aria-label="Previous product"
+        >
+          ‹
+        </button>
+
+        <button
+          type="button"
+          className="productUseFeatureTile"
+          onClick={() => setActivePage("Recommendations")}
+          aria-label={`View recommended products for ${product.title}`}
+        >
+          <div className="productUseFeatureImage">
+            <img
+              src={`${import.meta.env.BASE_URL}${product.image}`}
+              alt=""
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <strong>{product.title}</strong>
+        </button>
+
+        <button
+          type="button"
+          className="productUseArrow productUseArrowRight"
+          onClick={() => goToProduct(1)}
+          aria-label="Next product"
+        >
+          ›
+        </button>
+      </div>
     </section>
   );
 }
@@ -3573,7 +3590,7 @@ function CollectionsPage() {
         </div>
       </div>
 
-      <CollectionStrip />
+      <CollectionStrip setActivePage={setActivePage} />
       <FeatureStrip />
     </main>
   );
