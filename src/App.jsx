@@ -2151,6 +2151,8 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
 
 
 function CollectionStrip({ setActivePage }) {
+  const [openCollection, setOpenCollection] = useState(null);
+
   const collectionCards = [
     {
       title: "Slow Cooker Favorites",
@@ -2183,17 +2185,46 @@ function CollectionStrip({ setActivePage }) {
     <section className="section collectionSection homeCollectionButtonSection">
       <div className="collectionGrid homeCollectionButtonGrid">
         {collectionCards.map((collection) => (
-          <button
-            type="button"
-            className="collectionTile homeCollectionButton"
-            key={collection.title}
-            onClick={() => setActivePage(collection.page)}
-          >
-            <div className="collectionTileHeader">
-              <strong>{collection.title}</strong>
-            </div>
-            <small>{collection.text}</small>
-          </button>
+          <div className="homeCollectionPopupWrap" key={collection.title}>
+            <button
+              type="button"
+              className="homeCollectionFlowButton"
+              onClick={() =>
+                setOpenCollection((current) =>
+                  current === collection.title ? null : collection.title
+                )
+              }
+              aria-expanded={openCollection === collection.title}
+            >
+              {collection.title}
+            </button>
+
+            {openCollection === collection.title && (
+              <div className="homeCollectionPopup">
+                <div className="homeCollectionPopupHeader">
+                  <strong>{collection.title}</strong>
+                  <button
+                    type="button"
+                    onClick={() => setOpenCollection(null)}
+                    aria-label={`Close ${collection.title}`}
+                  >
+                    ×
+                  </button>
+                </div>
+                <p>{collection.text}</p>
+                <button
+                  type="button"
+                  className="homeCollectionReadMore"
+                  onClick={() => {
+                    setOpenCollection(null);
+                    setActivePage(collection.page);
+                  }}
+                >
+                  Read More
+                </button>
+              </div>
+            )}
+          </div>
         ))}
       </div>
     </section>

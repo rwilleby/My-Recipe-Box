@@ -9882,3 +9882,244 @@ button,
     line-height: 1.12 !important;
   }
 }
+
+
+/* =========================================================
+   HOME SHOWCASE + COLLECTION POPUP BUTTON FINAL EDITS
+   1) Featured/Product headings match Rolodex recipe-title style.
+   2) Featured/Product images fit inside the column with equal side space.
+   3) Bottom collection row becomes hero-style title buttons with upward popups.
+   ========================================================= */
+
+/* Match Featured Selection / Products I Use to the Rolodex title style */
+.homeMiniSectionHeader h2 {
+  color: #111827 !important;
+  font-family: var(--rrb-editorial-heading-font, Georgia, "Iowan Old Style", serif) !important;
+  font-size: clamp(24px, 2.25vw, 34px) !important;
+  line-height: 1.02 !important;
+  letter-spacing: -0.035em !important;
+  font-weight: 700 !important;
+  text-transform: none !important;
+  margin: 0 !important;
+}
+
+.homeMiniSectionHeader {
+  margin-bottom: 10px !important;
+}
+
+/* Make media boxes fit cleanly inside the card area */
+.featuredSelectionImage,
+.productUseFeatureImage {
+  width: calc(100% - 72px) !important;
+  max-width: 360px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  min-height: 150px !important;
+  aspect-ratio: 16 / 10 !important;
+  padding: 12px !important;
+  box-sizing: border-box !important;
+  border: 1px solid #dbe8dc !important;
+  border-radius: 16px !important;
+  background: #ffffff !important;
+  overflow: hidden !important;
+}
+
+.featuredSelectionImage img,
+.productUseFeatureImage img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  display: block !important;
+  border-radius: 12px !important;
+}
+
+.featuredSelectionButton strong,
+.productUseFeatureTile strong {
+  width: calc(100% - 72px) !important;
+  max-width: 360px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  font-size: 14px !important;
+  line-height: 1.15 !important;
+  font-weight: 800 !important;
+}
+
+.productUseArrowLeft {
+  left: calc(50% - 170px) !important;
+}
+
+.productUseArrowRight {
+  right: calc(50% - 170px) !important;
+}
+
+/* Bottom collection buttons: match hero button style, title only */
+.homeCollectionButtonSection {
+  padding-top: 20px !important;
+  padding-bottom: 28px !important;
+  overflow: visible !important;
+}
+
+.homeCollectionButtonGrid {
+  display: grid !important;
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  gap: clamp(10px, 1.2vw, 16px) !important;
+  overflow: visible !important;
+}
+
+.homeCollectionPopupWrap {
+  position: relative;
+  overflow: visible;
+}
+
+.homeCollectionFlowButton {
+  width: 100%;
+  min-height: 58px;
+  border-radius: 14px;
+  border: 1.5px solid var(--green);
+  background: rgba(255, 255, 255, .94);
+  color: #123f24;
+  display: grid;
+  place-items: center;
+  padding: 10px 12px;
+  text-align: center;
+  font-family: var(--rrb-body-font, Inter, system-ui, sans-serif);
+  font-size: clamp(12px, .95vw, 14px);
+  line-height: 1.08;
+  letter-spacing: .055em;
+  font-weight: 900;
+  text-transform: uppercase;
+  box-shadow: 0 8px 18px rgba(17, 24, 39, .055);
+  cursor: pointer;
+}
+
+.homeCollectionFlowButton:hover,
+.homeCollectionFlowButton[aria-expanded="true"] {
+  background: #f3faf5;
+  border-color: #0f4a29;
+}
+
+.homeCollectionPopup {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 14px);
+  transform: translateX(-50%);
+  z-index: 60;
+  width: min(330px, 84vw);
+  border: 1px solid #d9eadc;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 16px 38px rgba(17, 24, 39, .16);
+  padding: 14px 16px 16px;
+  text-align: left;
+}
+
+.homeCollectionPopup::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -8px;
+  width: 16px;
+  height: 16px;
+  background: #ffffff;
+  border-right: 1px solid #d9eadc;
+  border-bottom: 1px solid #d9eadc;
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.homeCollectionPopupHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  border-bottom: 1px solid #e7efe8;
+  padding-bottom: 8px;
+  margin-bottom: 9px;
+}
+
+.homeCollectionPopupHeader strong {
+  color: var(--green);
+  font-size: 15px;
+  line-height: 1.1;
+  font-weight: 850;
+}
+
+.homeCollectionPopupHeader button {
+  border: 0;
+  background: #f3f4f6;
+  color: #111827;
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.homeCollectionPopup p {
+  margin: 0;
+  color: #374151;
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.homeCollectionReadMore {
+  display: block;
+  margin: 12px auto 0;
+  width: auto;
+  min-width: 104px;
+  min-height: 30px;
+  border-radius: 999px;
+  border: 1px solid var(--green);
+  background: #ffffff;
+  color: var(--green);
+  font-size: 13px;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.homeCollectionReadMore:hover {
+  background: #f3faf5;
+}
+
+/* Remove/override legacy gray collection button contents */
+.homeCollectionButton,
+.homeCollectionButton .collectionTileHeader,
+.homeCollectionButton small {
+  display: none !important;
+}
+
+@media (max-width: 1100px) {
+  .homeCollectionButtonGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+
+  .productUseArrowLeft {
+    left: 26px !important;
+  }
+
+  .productUseArrowRight {
+    right: 26px !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .homeCollectionButtonGrid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .homeCollectionPopup {
+    bottom: calc(100% + 12px);
+    width: min(92vw, 330px);
+  }
+
+  .featuredSelectionImage,
+  .productUseFeatureImage,
+  .featuredSelectionButton strong,
+  .productUseFeatureTile strong {
+    width: calc(100% - 42px) !important;
+  }
+}
