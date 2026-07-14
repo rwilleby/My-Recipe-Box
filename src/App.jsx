@@ -1056,17 +1056,9 @@ function Hero({ setActivePage }) {
       <div className="heroCopy">
         <div className="aiBadge">✧ AI-POWERED RECIPE PLANNING ✧</div>
 
-        <h1>
-          Helping to organize your cooking, kitchen, & shopping - all in one place...
-        </h1>
+        <h1>Plan. Cook. Eat. Freeze. Save.</h1>
 
-        <p>
-          Browse AI-generated recipes, save your favorites,
-          <br />
-          build weekly meal plans, create smart shopping lists,
-          <br />
-          and track pantry staples.
-        </p>
+        <p>A free recipe-card and meal-planning site that I use every week for our personal meal planning. It is specifically designed for seniors, couples, empty nesters, and smaller households who want practical meals, useful leftovers, freezer-friendly ideas, and organized grocery lists. Shop smarter. Save more.</p>
 
         <div className="heroButtons">
           <button className="primary" onClick={() => setActivePage("Recipes")}>
@@ -1094,9 +1086,7 @@ function Hero({ setActivePage }) {
 
 function TransparencyLine() {
   return (
-    <div className="transparencyLine">
-      <strong>Transparency first:</strong> All recipes & collections in Robert’s Recipe Box are AI-generated planning tools — not private family recipes.
-    </div>
+    <div className="transparencyLine">Being transparent: I use AI assistance to generate recipes and do not copy recipes from other sites. I simply ask for a recipe and let AI generate the cards, then I test them and approve them for the site. Read my disclaimers.</div>
   );
 }
 
