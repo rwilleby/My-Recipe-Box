@@ -8553,3 +8553,48 @@ button,
   margin-left: auto;
   margin-right: auto;
 }
+
+
+/* =========================================================
+   HERO INSTRUCTION POPUPS OPEN DOWNWARD
+   Prevents the taller instruction popups from covering the hero text.
+   ========================================================= */
+
+.heroInfoButtonWrap {
+  position: relative;
+  overflow: visible;
+}
+
+/* Open the popup below the hero instruction buttons instead of above them. */
+.heroInfoPopup {
+  top: calc(100% + 16px) !important;
+  bottom: auto !important;
+  transform: translateX(-50%) !important;
+  z-index: 40;
+  max-height: min(52vh, 430px);
+  overflow-y: auto;
+}
+
+/* Reposition the small pointer so it points upward to the button. */
+.heroInfoPopup::before,
+.heroInfoPopup::after {
+  top: -10px !important;
+  bottom: auto !important;
+  transform: rotate(45deg) !important;
+}
+
+/* Keep the popup readable and away from screen edges. */
+.heroInfoPopup {
+  width: min(520px, 90vw);
+}
+
+/* On small screens, let the popup sit naturally beneath the selected button. */
+@media (max-width: 760px) {
+  .heroInfoPopup {
+    left: 50% !important;
+    top: calc(100% + 14px) !important;
+    bottom: auto !important;
+    width: min(92vw, 520px);
+    max-height: 56vh;
+  }
+}
