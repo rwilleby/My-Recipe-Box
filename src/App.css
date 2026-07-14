@@ -9328,3 +9328,223 @@ button,
     grid-template-columns: 1fr;
   }
 }
+
+
+/* =========================================================
+   HOME COLLECTION BUTTON ROW UPDATE
+   Removes top feature row and makes collection row the main button row.
+   ========================================================= */
+
+.homeCollectionButtonSection {
+  padding-top: 22px;
+  padding-bottom: 34px;
+}
+
+.homeCollectionButtonSection .sectionTitle {
+  display: none !important;
+}
+
+.homeCollectionButtonGrid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: clamp(14px, 1.6vw, 22px);
+}
+
+.homeCollectionButton {
+  appearance: none;
+  width: 100%;
+  min-height: 118px;
+  border: 1px solid #d6dce0;
+  border-radius: 14px;
+  background: #ffffff;
+  padding: 0;
+  overflow: hidden;
+  text-align: center;
+  box-shadow: 0 8px 22px rgba(17, 24, 39, .045);
+  cursor: pointer;
+  transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+}
+
+.homeCollectionButton:hover {
+  transform: translateY(-2px);
+  border-color: var(--green);
+  box-shadow: 0 12px 28px rgba(20, 83, 45, .10);
+}
+
+.homeCollectionButton .collectionTileHeader {
+  background: #aab1b5;
+  color: #ffffff;
+  padding: 12px 14px;
+  min-height: 0;
+  display: block;
+}
+
+.homeCollectionButton .collectionTileHeader strong {
+  color: #ffffff;
+  font-size: 17px;
+  line-height: 1.08;
+}
+
+.homeCollectionButton small {
+  display: block;
+  padding: 16px 18px 18px;
+  color: #111827;
+  font-size: 15px;
+  line-height: 1.18;
+  font-weight: 600;
+}
+
+.collectionDetailPage .aboutRecipesHero {
+  max-width: 980px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.collectionDetailPage .aboutRecipesActions {
+  max-width: 980px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Keep old feature row hidden if any legacy call is still present. */
+.featureStrip {
+  display: none !important;
+}
+
+@media (max-width: 1100px) {
+  .homeCollectionButtonGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .homeCollectionButtonGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .homeCollectionButton {
+    min-height: 100px;
+  }
+}
+
+
+/* =========================================================
+   HOME FEATURED / PRODUCTS / ROLODEX HEIGHT FIX
+   Featured uses food hero only; Products I Use shows one rotating item.
+   Both left panels match height and Rolodex matches total height.
+   ========================================================= */
+
+.homeRolodexShowcaseLayout {
+  align-items: stretch;
+}
+
+.homeShowcaseLeftColumn {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  gap: 16px;
+  height: 100%;
+}
+
+.homeShowcaseRolodexColumn {
+  height: 100%;
+}
+
+.homeFeatureCard.featuredSelectionCard,
+.homeFeatureCard.productsIUseCard {
+  min-height: 300px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.featuredSelectionButton,
+.productUseFeatureTile {
+  flex: 1 1 auto;
+}
+
+.featuredSelectionImage {
+  flex: 1 1 auto;
+  min-height: 185px;
+  max-height: none;
+  aspect-ratio: 4 / 3;
+}
+
+/* Featured Selection should show the food/hero photo, not the full recipe card. */
+.featuredSelectionImage img {
+  object-fit: cover;
+  object-position: center;
+}
+
+/* One-at-a-time Products I Use rotation */
+.productsIUseGrid {
+  display: none !important;
+}
+
+.productUseFeatureTile {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 10px;
+  text-align: center;
+}
+
+.productUseFeatureTile img {
+  width: 100%;
+  height: 100%;
+  min-height: 185px;
+  object-fit: cover;
+  border-radius: 15px;
+  display: block;
+  background: #f7faf7;
+  border: 1px solid #e2e8e2;
+}
+
+.productUseFeatureTile strong {
+  color: #111827;
+  font-size: 15px;
+  line-height: 1.18;
+  font-weight: 800;
+}
+
+/* Make the Rolodex visually match the left-column stack height. */
+.homeShowcaseRolodexColumn .homeRolodex {
+  min-height: 616px;
+  height: 100%;
+}
+
+@media (max-width: 1000px) {
+  .homeShowcaseLeftColumn {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    height: auto;
+  }
+
+  .homeFeatureCard.featuredSelectionCard,
+  .homeFeatureCard.productsIUseCard {
+    min-height: 280px;
+  }
+
+  .homeShowcaseRolodexColumn .homeRolodex {
+    min-height: auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .homeShowcaseLeftColumn {
+    grid-template-columns: 1fr;
+  }
+
+  .homeFeatureCard.featuredSelectionCard,
+  .homeFeatureCard.productsIUseCard {
+    min-height: 260px;
+  }
+
+  .featuredSelectionImage,
+  .productUseFeatureTile img {
+    min-height: 170px;
+  }
+}

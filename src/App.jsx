@@ -2150,40 +2150,45 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
 }
 
 
-function CollectionStrip() {
+function CollectionStrip({ setActivePage }) {
   const collectionCards = [
     {
       title: "Slow Cooker Favorites",
       text: "Set-it-and-forget-it meals for easy crock-pot cooking.",
+      page: "Slow Cooker Favorites",
     },
     {
       title: "Summer Cookouts",
       text: "Grill-friendly meals and warm-weather favorites.",
+      page: "Summer Cookouts",
     },
     {
       title: "Healthy Dinners",
       text: "Balanced meals for lighter weeknight cooking.",
+      page: "Healthy Dinners",
     },
     {
       title: "Comfort Foods",
       text: "Popular classics for familiar family-style meals.",
+      page: "Comfort Foods",
     },
     {
       title: "Easy 30-Minute Meals",
       text: "Fast 30-minute dinners for those busy nights.",
+      page: "Easy 30-Minute Meals",
     },
   ];
 
   return (
-    <section className="section collectionSection">
-      <div className="sectionTitle">
-        <h2>AI-Generated Collections for Every Plan</h2>
-        <button>View all collections ›</button>
-      </div>
-
-      <div className="collectionGrid">
+    <section className="section collectionSection homeCollectionButtonSection">
+      <div className="collectionGrid homeCollectionButtonGrid">
         {collectionCards.map((collection) => (
-          <button className="collectionTile" key={collection.title}>
+          <button
+            type="button"
+            className="collectionTile homeCollectionButton"
+            key={collection.title}
+            onClick={() => setActivePage(collection.page)}
+          >
             <div className="collectionTileHeader">
               <strong>{collection.title}</strong>
             </div>
@@ -2194,6 +2199,7 @@ function CollectionStrip() {
     </section>
   );
 }
+
 
 function getRandomRecipes(sourceRecipes, maxCount = 12) {
   return [...sourceRecipes]
@@ -2225,13 +2231,34 @@ const PRODUCTS_I_USE = [
   },
 ];
 
+
+function heroFoodImageCandidates(recipe) {
+  const candidates = [];
+  const prefix = recipeCodePrefix(recipe.id);
+
+  if (recipe.heroImage) candidates.push(recipe.heroImage);
+
+  if (recipe.id && AUTO_IMAGE_PREFIXES.has(prefix)) {
+    candidates.push(`images/heroes/${recipe.id}.png`);
+    candidates.push(`images/heroes/${recipe.id} .png`);
+    candidates.push(`images/heroes/${recipe.id}.jpg`);
+    candidates.push(`images/heroes/${recipe.id} .jpg`);
+  }
+
+  if (recipe.image && !`${recipe.image}`.includes("/recipes/")) {
+    candidates.push(recipe.image);
+  }
+
+  return [...new Set(candidates)];
+}
+
 function FeaturedSelectionPanel({ openRecipeCard }) {
   const featuredRecipes = useMemo(() => recipes.slice(0, 12), []);
   const [activeIndex, setActiveIndex] = useState(0);
   const [imageIndex, setImageIndex] = useState(0);
 
   const recipe = featuredRecipes[activeIndex] || featuredRecipes[0];
-  const imageCandidates = recipe ? recipeImageCandidates(recipe) : [];
+  const imageCandidates = recipe ? heroFoodImageCandidates(recipe) : [];
   const imagePath = imageCandidates[imageIndex];
 
   useEffect(() => {
@@ -2294,9 +2321,7 @@ function ProductsIUseCarousel({ setActivePage }) {
     return () => window.clearInterval(timer);
   }, []);
 
-  const visibleProducts = [0, 1, 2].map(
-    (offset) => PRODUCTS_I_USE[(startIndex + offset) % PRODUCTS_I_USE.length]
-  );
+  const product = PRODUCTS_I_USE[startIndex % PRODUCTS_I_USE.length];
 
   return (
     <section className="homeFeatureCard productsIUseCard">
@@ -2304,25 +2329,20 @@ function ProductsIUseCarousel({ setActivePage }) {
         <h2>Products I Use</h2>
       </div>
 
-      <div className="productsIUseGrid">
-        {visibleProducts.map((product) => (
-          <button
-            type="button"
-            key={product.title}
-            className="productUseTile"
-            onClick={() => setActivePage("Recommendations")}
-            aria-label={`View recommended products for ${product.title}`}
-          >
-            <img
-              src={`${import.meta.env.BASE_URL}${product.image}`}
-              alt=""
-              loading="lazy"
-              decoding="async"
-            />
-            <strong>{product.title}</strong>
-          </button>
-        ))}
-      </div>
+      <button
+        type="button"
+        className="productUseFeatureTile"
+        onClick={() => setActivePage("Recommendations")}
+        aria-label={`View recommended products for ${product.title}`}
+      >
+        <img
+          src={`${import.meta.env.BASE_URL}${product.image}`}
+          alt=""
+          loading="lazy"
+          decoding="async"
+        />
+        <strong>{product.title}</strong>
+      </button>
     </section>
   );
 }
@@ -2526,8 +2546,7 @@ function Home({
         </div>
       </section>
 
-      <FeatureStrip />
-      <CollectionStrip />
+      <CollectionStrip setActivePage={setActivePage} />
     </>
   );
 }
@@ -4507,6 +4526,33 @@ function DisclaimersPage({ setActivePage }) {
   );
 }
 
+
+function CollectionDetailPage({ title, text, setActivePage }) {
+  return (
+    <main className="pageShell aboutRecipesPage collectionDetailPage">
+      <section className="aboutRecipesHero">
+        <div>
+          <div className="aiBadge">RECIPE COLLECTION</div>
+          <h1>{title}</h1>
+          <p>{text}</p>
+        </div>
+      </section>
+
+      <div className="aboutRecipesActions">
+        <button className="primary" onClick={() => setActivePage("Recipes")}>
+          Browse Recipes
+        </button>
+        <button className="secondary" onClick={() => setActivePage("Meal Planner")}>
+          Plan Your Meals
+        </button>
+        <button className="secondary" onClick={() => setActivePage("Home")}>
+          Return Home
+        </button>
+      </div>
+    </main>
+  );
+}
+
 function FeatureStrip() {
   const features = [
     {
@@ -4627,6 +4673,41 @@ export default function App() {
       {activePage === "Under Construction" && <UnderConstructionPage setActivePage={setActivePage} />}
       {activePage === "Recipes" && <RecipesPage {...pageProps} />}
       {activePage === "Collections" && <CollectionsPage />}
+      {activePage === "Slow Cooker Favorites" && (
+        <CollectionDetailPage
+          title="Slow Cooker Favorites"
+          text="A collection page for easy slow-cooker meals and set-it-and-forget-it dinner ideas. More recipes and filters will be added here."
+          setActivePage={setActivePage}
+        />
+      )}
+      {activePage === "Summer Cookouts" && (
+        <CollectionDetailPage
+          title="Summer Cookouts"
+          text="A collection page for grill-friendly meals, warm-weather favorites, cookouts, and simple outdoor dinners. More recipes and filters will be added here."
+          setActivePage={setActivePage}
+        />
+      )}
+      {activePage === "Healthy Dinners" && (
+        <CollectionDetailPage
+          title="Healthy Dinners"
+          text="A collection page for lighter, practical dinner ideas with flexible options for lower-calorie, lower-carb, and higher-protein meals. More recipes and filters will be added here."
+          setActivePage={setActivePage}
+        />
+      )}
+      {activePage === "Comfort Foods" && (
+        <CollectionDetailPage
+          title="Comfort Foods"
+          text="A collection page for familiar classics, cozy family-style meals, and practical comfort-food recipes. More recipes and filters will be added here."
+          setActivePage={setActivePage}
+        />
+      )}
+      {activePage === "Easy 30-Minute Meals" && (
+        <CollectionDetailPage
+          title="Easy 30-Minute Meals"
+          text="A collection page for fast weeknight meals and simple dinners that come together quickly. More recipes and filters will be added here."
+          setActivePage={setActivePage}
+        />
+      )}
       {activePage === "Meal Planner" && <PlannerPage {...pageProps} />}
       {activePage === "Shopping Lists" && <ShoppingListPage {...pageProps} />}
       {activePage === "Pantry Staples" && <PantryStaplesPage {...pageProps} />}
