@@ -10736,3 +10736,113 @@ button,
     padding: 8px 12px !important;
   }
 }
+
+
+/* =========================================================
+   HOME SHOWCASE FINAL BUTTON + IMAGE POSITION UPDATE
+   Bottom buttons: 10.5px font / 44px height.
+   Featured/Product media: wider internal-box fit and moved up 1/4 inch.
+   ========================================================= */
+
+/* Bottom collection buttons: match requested hero-button sizing */
+.homeCollectionFlowButton {
+  min-height: 44px !important;
+  height: 44px !important;
+  border-radius: 13px !important;
+  border: 1px solid var(--green) !important;
+  font-size: 10.5px !important;
+  line-height: 1.05 !important;
+  padding: 7px 14px !important;
+  letter-spacing: .075em !important;
+  font-weight: 900 !important;
+}
+
+/* Keep the row compact */
+.homeCollectionButtonSection {
+  padding-top: 12px !important;
+  padding-bottom: 18px !important;
+}
+
+/* Featured Selection / Products I Use media boxes:
+   Use more of the internal card width and move upward by about 1/4 inch. */
+.featuredSelectionImage,
+.productUseFeatureImage {
+  width: calc(100% - 18px) !important;
+  max-width: none !important;
+  min-height: 205px !important;
+  aspect-ratio: 16 / 10 !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  margin-top: -24px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  border-radius: 14px !important;
+}
+
+.featuredSelectionImage img,
+.productUseFeatureImage img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  display: block !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+/* Keep image titles aligned with the wider image area */
+.featuredSelectionButton strong,
+.productUseFeatureTile strong {
+  width: calc(100% - 18px) !important;
+  max-width: none !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* Product arrows remain inside the wider media area */
+.productUseArrowLeft {
+  left: 18px !important;
+}
+
+.productUseArrowRight {
+  right: 18px !important;
+}
+
+/* Add a little lower breathing room since the images moved up */
+.featuredSelectionButton,
+.productUseFeatureTile {
+  gap: 10px !important;
+}
+
+@media (max-width: 1000px) {
+  .featuredSelectionImage,
+  .productUseFeatureImage,
+  .featuredSelectionButton strong,
+  .productUseFeatureTile strong {
+    width: calc(100% - 18px) !important;
+  }
+
+  .homeCollectionFlowButton {
+    min-height: 44px !important;
+    height: 44px !important;
+    font-size: 10.5px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .featuredSelectionImage,
+  .productUseFeatureImage {
+    margin-top: -16px !important;
+    min-height: 180px !important;
+  }
+
+  .homeCollectionFlowButton {
+    min-height: 44px !important;
+    height: 44px !important;
+    font-size: 10.5px !important;
+  }
+}
