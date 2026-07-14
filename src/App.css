@@ -10446,3 +10446,232 @@ button,
     width: calc(100% - 42px) !important;
   }
 }
+
+
+/* =========================================================
+   HOME SHOWCASE FINAL ADJUSTMENT
+   Match bottom buttons to hero buttons, enlarge showcase images,
+   and make collection popup text match top hero popup text style.
+   ========================================================= */
+
+/* Larger centered image areas — use more of the card space like the green-box mockup */
+.featuredSelectionImage,
+.productUseFeatureImage {
+  width: calc(100% - 34px) !important;
+  max-width: 430px !important;
+  min-height: 205px !important;
+  aspect-ratio: 16 / 10 !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding: 0 !important;
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  border-radius: 16px !important;
+  display: grid !important;
+  place-items: center !important;
+}
+
+.featuredSelectionImage img,
+.productUseFeatureImage img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+.featuredSelectionButton,
+.productUseFeatureTile {
+  gap: 12px !important;
+}
+
+.featuredSelectionButton strong,
+.productUseFeatureTile strong {
+  width: calc(100% - 34px) !important;
+  max-width: 430px !important;
+  font-size: 14px !important;
+  line-height: 1.15 !important;
+}
+
+/* Keep Products arrows inside the image/product card border while image grows */
+.productUseArrowLeft {
+  left: 22px !important;
+}
+
+.productUseArrowRight {
+  right: 22px !important;
+}
+
+.productUseArrow {
+  top: 45% !important;
+  width: 28px !important;
+  height: 28px !important;
+  font-size: 21px !important;
+  font-weight: 500 !important;
+}
+
+/* Bottom collection buttons: match top hero buttons shape/height/radius/line/text */
+.homeCollectionButtonSection {
+  padding-top: 20px !important;
+  padding-bottom: 28px !important;
+}
+
+.homeCollectionButtonGrid {
+  display: grid !important;
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  gap: clamp(12px, 1.3vw, 18px) !important;
+}
+
+.homeCollectionFlowButton {
+  width: 100% !important;
+  min-height: 70px !important;
+  border-radius: 14px !important;
+  border: 1px solid var(--green) !important;
+  background: rgba(255, 255, 255, .94) !important;
+  color: #123f24 !important;
+  display: grid !important;
+  place-items: center !important;
+  padding: 10px 20px !important;
+  text-align: center !important;
+  font-family: var(--rrb-body-font, Inter, system-ui, sans-serif) !important;
+  font-size: 13px !important;
+  line-height: 1.08 !important;
+  letter-spacing: .075em !important;
+  font-weight: 900 !important;
+  text-transform: uppercase !important;
+  box-shadow: 0 8px 18px rgba(17, 24, 39, .055) !important;
+}
+
+.homeCollectionFlowButton:hover,
+.homeCollectionFlowButton[aria-expanded="true"] {
+  background: #f3faf5 !important;
+  border-color: var(--green) !important;
+}
+
+/* Collection popups: match the TOP hero popup style and keep inside page bounds */
+.homeCollectionPopup {
+  width: min(520px, 90vw) !important;
+  max-width: 90vw !important;
+  border: 1px solid #d9eadc !important;
+  border-radius: 18px !important;
+  background: #ffffff !important;
+  box-shadow: 0 16px 38px rgba(17, 24, 39, .16) !important;
+  padding: 18px 20px 18px !important;
+  text-align: left !important;
+}
+
+/* First/last popup edge handling */
+.homeCollectionPopupWrap:first-child .homeCollectionPopup {
+  left: 0 !important;
+  right: auto !important;
+  transform: translateX(0) !important;
+}
+
+.homeCollectionPopupWrap:last-child .homeCollectionPopup {
+  left: auto !important;
+  right: 0 !important;
+  transform: translateX(0) !important;
+}
+
+/* Popup title: same style as top hero popup, initial caps */
+.homeCollectionPopupHeader strong {
+  color: var(--green) !important;
+  font-family: var(--rrb-body-font, Inter, system-ui, sans-serif) !important;
+  font-size: 17px !important;
+  line-height: 1.1 !important;
+  font-weight: 900 !important;
+  letter-spacing: .035em !important;
+  text-transform: none !important;
+}
+
+/* Popup body: initial cap, same readable style as top popup text */
+.homeCollectionPopup p {
+  margin: 0 !important;
+  color: #374151 !important;
+  font-family: var(--rrb-body-font, Inter, system-ui, sans-serif) !important;
+  font-size: 14px !important;
+  line-height: 1.35 !important;
+  font-weight: 500 !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+}
+
+.homeCollectionPopupHeader {
+  border-bottom: 1px solid #e7efe8 !important;
+  padding-bottom: 10px !important;
+  margin-bottom: 11px !important;
+}
+
+/* Read More button styled like top popup */
+.homeCollectionReadMore {
+  display: block !important;
+  margin: 14px auto 0 !important;
+  width: auto !important;
+  min-width: 112px !important;
+  min-height: 30px !important;
+  padding: 6px 14px !important;
+  border-radius: 999px !important;
+  border: 1px solid var(--green) !important;
+  background: #ffffff !important;
+  color: var(--green) !important;
+  font-family: var(--rrb-body-font, Inter, system-ui, sans-serif) !important;
+  font-size: 13px !important;
+  font-weight: 750 !important;
+  line-height: 1 !important;
+  text-transform: none !important;
+  letter-spacing: normal !important;
+  box-shadow: none !important;
+}
+
+.homeCollectionReadMore:hover {
+  background: #f3faf5 !important;
+}
+
+/* Hide older gray collection boxes entirely */
+.homeCollectionButton,
+.homeCollectionButton .collectionTileHeader,
+.homeCollectionButton small {
+  display: none !important;
+}
+
+@media (max-width: 1100px) {
+  .homeCollectionButtonGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+
+  .featuredSelectionImage,
+  .productUseFeatureImage {
+    width: calc(100% - 30px) !important;
+    min-height: 190px !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .homeCollectionButtonGrid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .homeCollectionPopup,
+  .homeCollectionPopupWrap:first-child .homeCollectionPopup,
+  .homeCollectionPopupWrap:last-child .homeCollectionPopup {
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
+    width: min(92vw, 520px) !important;
+  }
+
+  .featuredSelectionImage,
+  .productUseFeatureImage {
+    width: calc(100% - 24px) !important;
+    min-height: 170px !important;
+  }
+
+  .homeCollectionFlowButton {
+    min-height: 62px !important;
+  }
+}
