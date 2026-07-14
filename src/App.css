@@ -10936,3 +10936,51 @@ button,
     grid-template-rows: 190px auto;
   }
 }
+
+
+/* =========================================================
+   PRODUCTS I USE IMAGE SIZE REDUCTION
+   Reduces Products I Use carousel image area by about 25%.
+   Featured Selection remains unchanged.
+   ========================================================= */
+
+.productsIUseCard .productUseFeatureImage {
+  width: 75% !important;
+  max-width: 75% !important;
+  min-height: 150px !important;
+  aspect-ratio: 16 / 10 !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.productsIUseCard .productUseFeatureImage img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  object-position: center !important;
+}
+
+/* Keep arrows aligned with the smaller product image */
+.productsIUseCard .productUseArrowLeft {
+  left: 13% !important;
+}
+
+.productsIUseCard .productUseArrowRight {
+  right: 13% !important;
+}
+
+@media (max-width: 700px) {
+  .productsIUseCard .productUseFeatureImage {
+    width: 78% !important;
+    max-width: 78% !important;
+    min-height: 140px !important;
+  }
+
+  .productsIUseCard .productUseArrowLeft {
+    left: 11% !important;
+  }
+
+  .productsIUseCard .productUseArrowRight {
+    right: 11% !important;
+  }
+}
