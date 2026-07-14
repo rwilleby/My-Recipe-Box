@@ -1,6 +1,6 @@
 import { useMemo, useState, useEffect } from "react";
 import { categories, recipes } from "./data/recipes";
-import { getRecipeCostEstimate, RECIPE_COST_NOTE } from "./data/recipeCosts";
+import { getRecipeCostEstimate, RECIPE_COST_NOTE, RECIPE_COST_TAGLINE } from "./data/recipeCosts";
 import { loadJSON, saveJSON } from "./utils/storage";
 import {
   buildShoppingList,
@@ -2012,17 +2012,17 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
               <div className="viewerBottomSheetContent viewerCostSheet">
                 {estimatedCost.displayCost ? (
                   <>
-                    <div className="viewerCostGrid">
+                    <div className="viewerCostSummary">
+                      <span className="viewerCostConfidence">{estimatedCost.confidenceLabel}</span>
+                      <strong>{estimatedCost.roundedCostPerServing}</strong>
+                      <em>{estimatedCost.costCategory}</em>
+                    </div>
+
+                    <div className="viewerCostGrid viewerCostGridPlanning">
                       <article className="viewerCostBox">
                         <span>Estimated total recipe cost</span>
-                        <strong>{estimatedCost.formattedRecipeCost}</strong>
-                        <small>Based on the approved ingredient-cost workbook</small>
-                      </article>
-
-                      <article className="viewerCostBox">
-                        <span>Estimated cost per serving</span>
-                        <strong>{estimatedCost.formattedCostPerServing}</strong>
-                        <small>Based on {estimatedCost.servings} verified servings</small>
+                        <strong>{estimatedCost.roundedRecipeCost}</strong>
+                        <small>Ingredient-use cost for this recipe card</small>
                       </article>
 
                       <article className="viewerCostBox">
@@ -2036,24 +2036,38 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
                         <strong>{estimatedCost.coveragePercent}%</strong>
                         <small>{estimatedCost.costedLines} of {estimatedCost.ingredientLines} ingredient lines costed</small>
                       </article>
+
+                      <article className="viewerCostBox">
+                        <span>Cost category</span>
+                        <strong>{estimatedCost.costCategory}</strong>
+                        <small>Rounded planning estimate</small>
+                      </article>
                     </div>
 
                     <p className="viewerCostNote">
                       {RECIPE_COST_NOTE}
+                    </p>
+                    <p className="viewerCostTagline">
+                      {RECIPE_COST_TAGLINE}
                     </p>
                   </>
                 ) : (
                   <div className="viewerCostUnderReview">
                     <strong>Cost estimate under review</strong>
                     <p>
-                      This recipe does not yet meet the public display rules for
-                      ingredient-cost coverage, verified servings, and calculated
-                      cost greater than zero.
+                      This recipe is missing a major ingredient cost, serving
+                      quantity, or usable ingredient-use total.
                     </p>
                     <small>
-                      Prices will display after the recipe reaches at least 90%
-                      ingredient-cost coverage and the serving count is verified.
+                      A public planning estimate will display after the missing
+                      cost or serving information is added.
                     </small>
+                    <p className="viewerCostNote">
+                      {RECIPE_COST_NOTE}
+                    </p>
+                    <p className="viewerCostTagline">
+                      {RECIPE_COST_TAGLINE}
+                    </p>
                   </div>
                 )}
               </div>

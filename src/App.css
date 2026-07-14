@@ -8598,3 +8598,72 @@ button,
     max-height: 56vh;
   }
 }
+
+
+/* =========================================================
+   RECIPE COST PLANNING ESTIMATE UPDATE
+   Rounded ingredient-use estimates, cost category, note, and tagline.
+   ========================================================= */
+
+.viewerCostSummary {
+  border: 1px solid #d8e2ec;
+  border-radius: 16px;
+  background: #f8fbfd;
+  padding: 18px 20px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.viewerCostSummary .viewerCostConfidence {
+  display: inline-block;
+  margin-bottom: 8px;
+  color: #1f4f7a;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.viewerCostSummary strong {
+  display: block;
+  color: #123f63;
+  font-size: clamp(26px, 3vw, 38px);
+  line-height: 1.05;
+  margin-bottom: 6px;
+}
+
+.viewerCostSummary em {
+  display: inline-block;
+  color: var(--green);
+  font-style: normal;
+  font-weight: 850;
+  font-size: 15px;
+}
+
+.viewerCostGridPlanning .viewerCostBox strong {
+  font-size: 20px;
+}
+
+.viewerCostNote {
+  margin: 16px auto 0;
+  max-width: 780px;
+  color: #4b5563;
+  font-size: 13.5px;
+  line-height: 1.45;
+  text-align: center;
+}
+
+.viewerCostTagline {
+  margin: 7px auto 0;
+  color: var(--green);
+  font-size: 14px;
+  line-height: 1.2;
+  font-weight: 850;
+  text-align: center;
+}
+
+.viewerCostUnderReview .viewerCostNote {
+  margin-top: 14px;
+}
+
+.viewerCostUnderReview .viewerCostTagline {
+  margin-top: 7px;
+}

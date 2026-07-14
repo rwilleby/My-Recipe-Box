@@ -4,9 +4,10 @@
 // serving count is verified, and calculated cost is greater than zero.
 
 export const RECIPE_COST_NOTE =
-  "Estimated using typical store-brand pricing. Grocery prices vary by store and location.";
+  "Estimated using typical store-brand pricing. Your actual cost may vary by store, location, package size, brand, shopping method, sales, and ingredients already on hand.";
 
 export const COST_UNDER_REVIEW_TEXT = "Cost estimate under review";
+export const RECIPE_COST_TAGLINE = "Shop smarter. Save more.";
 
 export const recipeCosts = {
   "AS-001": {
@@ -7891,24 +7892,54 @@ export const recipeCosts = {
   }
 };
 
-export function canDisplayRecipeCost(costRecord) {
-  return Boolean(
-    costRecord &&
-      costRecord.ingredientCostCoverageAtLeast90 &&
-      costRecord.servingCountVerified &&
-      costRecord.calculatedCostGreaterThanZero &&
-      costRecord.displayCost
-  );
+export function hasMajorCostIssue(costRecord) {
+  if (!costRecord) return true;
+
+  const servingCountVerified = Boolean(costRecord.servingCountVerified);
+  const calculatedCostGreaterThanZero = Number(costRecord.estimatedRecipeCost || 0) > 0;
+  const hasAnyCostedIngredients = Number(costRecord.costedLines || 0) > 0;
+
+  return !servingCountVerified || !calculatedCostGreaterThanZero || !hasAnyCostedIngredients;
 }
 
-export function formatRecipeCostCurrency(value) {
+export function canDisplayRecipeCost(costRecord) {
+  return Boolean(costRecord && !hasMajorCostIssue(costRecord));
+}
+
+export function getCostConfidenceLabel(costRecord) {
+  if (!canDisplayRecipeCost(costRecord)) return COST_UNDER_REVIEW_TEXT;
+
+  const coverage = Number(costRecord.costCoverage || 0);
+  return coverage >= 0.9 ? "Ingredient-use estimate" : "Planning estimate";
+}
+
+export function getCostCategory(costPerServing) {
+  const amount = Number(costPerServing || 0);
+
+  if (amount <= 2.5) return "Budget-Friendly";
+  if (amount <= 4.0) return "Everyday Value";
+  if (amount <= 6.5) return "Moderate Cost";
+  return "Premium Meal";
+}
+
+export function formatRoundedPlanningRange(value, unitLabel = "") {
   const amount = Number(value || 0);
-  return amount.toLocaleString("en-US", {
-    style: "currency",
-    currency: "USD",
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
+
+  if (!amount || amount <= 0) return "";
+
+  let low = Math.floor(amount);
+  let high = Math.ceil(amount);
+
+  if (amount < 1) {
+    low = 1;
+    high = 1;
+  }
+
+  if (low === high) {
+    return `About $${high}${unitLabel}`;
+  }
+
+  return `About $${low}–$${high}${unitLabel}`;
 }
 
 export function getRecipeCostEstimate(recipeOrCode) {
@@ -7922,26 +7953,44 @@ export function getRecipeCostEstimate(recipeOrCode) {
       recipeCode: code,
       displayCost: false,
       publicStatus: COST_UNDER_REVIEW_TEXT,
+      confidenceLabel: COST_UNDER_REVIEW_TEXT,
       note: RECIPE_COST_NOTE,
+      tagline: RECIPE_COST_TAGLINE,
       reason: "No approved cost record is available for this recipe yet.",
     };
   }
 
   const displayCost = canDisplayRecipeCost(record);
+  const confidenceLabel = getCostConfidenceLabel(record);
+  const category = getCostCategory(record.estimatedCostPerServing);
 
   return {
     ...record,
     displayCost,
-    publicStatus: displayCost ? "Ready" : COST_UNDER_REVIEW_TEXT,
+    publicStatus: displayCost ? confidenceLabel : COST_UNDER_REVIEW_TEXT,
+    confidenceLabel,
+    costCategory: displayCost ? category : "",
     note: RECIPE_COST_NOTE,
+    tagline: RECIPE_COST_TAGLINE,
+
+    // Ingredient-use estimate for recipe cards and recipe-detail popups.
+    roundedRecipeCost: displayCost
+      ? formatRoundedPlanningRange(record.estimatedRecipeCost, " total")
+      : "",
+    roundedCostPerServing: displayCost
+      ? formatRoundedPlanningRange(record.estimatedCostPerServing, " per serving")
+      : "",
+
+    // Backward-compatible fields for any existing UI references.
     formattedRecipeCost: displayCost
-      ? formatRecipeCostCurrency(record.estimatedRecipeCost)
+      ? formatRoundedPlanningRange(record.estimatedRecipeCost, " total")
       : "",
     formattedCostPerServing: displayCost
-      ? formatRecipeCostCurrency(record.estimatedCostPerServing)
+      ? formatRoundedPlanningRange(record.estimatedCostPerServing, " per serving")
       : "",
+
     reason: displayCost
       ? ""
-      : "This recipe needs additional ingredient-cost coverage or serving verification before a public price is shown.",
+      : "This recipe is missing a major ingredient cost, serving quantity, or usable ingredient-use total.",
   };
 }
