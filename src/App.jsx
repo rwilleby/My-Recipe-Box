@@ -884,7 +884,7 @@ function Header({ activePage, setActivePage }) {
         { label: "HEALTHY GROCERY SUBSTITUTIONS", page: "Grocery Picks" },
         { label: "SUBMIT YOUR RECIPES", page: "Submit Recipes" },
         { label: "SAFE COOKING RULES", page: "Safe Cooking Rules" },
-        { label: "TOOLS & PRODUCTS", page: "Recommendations" },
+        { label: "TOOLS & PRODUCTS", page: "Products I Use" },
         { label: "STORAGE & ORGANIZATION", page: "Storage Organization" },
         { label: "OTHER INTERESTS", page: "Other Interests" },
       ],
@@ -2241,24 +2241,79 @@ function getRandomRecipes(sourceRecipes, maxCount = 12) {
 
 const PRODUCTS_I_USE = [
   {
-    title: "Vacuum Sealer",
-    image: "images/products/vacuum-sealer.svg",
+    title: "Aluminum Mini Bread Pans",
+    image: "images/products/aluminum-mini-bread-pans.jpg",
+    note: "Small disposable pans for mini loaves, freezer portions, gift breads, and make-ahead meals.",
   },
   {
-    title: "Freezer Portion Containers",
-    image: "images/products/freezer-cubes.svg",
+    title: "Aluminum 4-Inch Pie Pans",
+    image: "images/products/aluminum-4in-pie-pans.jpg",
+    note: "Small disposable pie pans for personal pies, quiche portions, desserts, and freezer-friendly servings.",
   },
   {
-    title: "Mason Jars",
-    image: "images/products/mason-jars.svg",
+    title: "Aluminum Cupcake Pans",
+    image: "images/products/aluminum-cupcake-pans.jpg",
+    note: "Disposable cupcake or muffin pans for small-batch baking, easy cleanup, and portioned treats.",
   },
   {
-    title: "Freezer Labels",
-    image: "images/products/storage-labels.svg",
+    title: "Aluminum Mini Cake Pans",
+    image: "images/products/aluminum-mini-cake-pans.jpg",
+    note: "Small disposable cake pans for desserts, small loaves, gifting, and freezer-friendly portions.",
   },
   {
-    title: "Sheet Pans",
-    image: "images/products/sheet-pan.svg",
+    title: "Ball 2-Ounce Jars",
+    image: "images/products/ball-2oz-jars.jpg",
+    note: "Small jars for sauces, dressings, jams, seasoning mixes, toppings, and portioned condiments.",
+  },
+  {
+    title: "Ball 4-Ounce Jars",
+    image: "images/products/ball-4oz-jars.jpg",
+    note: "Useful jars for small desserts, sauces, overnight oats, fruit portions, and pantry organization.",
+  },
+  {
+    title: "Ball 8-Ounce Jars",
+    image: "images/products/ball-8oz-jars.jpg",
+    note: "Everyday jars for leftovers, soups, salads, snacks, sauces, and small make-ahead portions.",
+  },
+  {
+    title: "Baguette Bread Pan",
+    image: "images/products/bread-baguette-pan.jpg",
+    note: "A perforated bread pan for baking baguettes, sub rolls, and crustier homemade breads.",
+  },
+  {
+    title: "Bread Machine",
+    image: "images/products/bread-machine.jpg",
+    note: "A countertop bread machine for simple homemade bread, dough cycles, and small-batch baking.",
+  },
+  {
+    title: "Pullman Bread Pan",
+    image: "images/products/bread-pullman-pan.jpg",
+    note: "A lidded loaf pan for sandwich bread, square loaves, and consistent homemade slices.",
+  },
+  {
+    title: "8-Ounce Deli Containers",
+    image: "images/products/plastic-storage-8oz.jpg",
+    note: "Small plastic containers for sauces, fruit, snacks, toppings, and small leftovers.",
+  },
+  {
+    title: "16-Ounce Deli Containers",
+    image: "images/products/plastic-storage-16oz.jpg",
+    note: "Mid-size containers for leftovers, soups, chopped ingredients, and freezer portions.",
+  },
+  {
+    title: "32-Ounce Deli Containers",
+    image: "images/products/plastic-storage-32oz.jpg",
+    note: "Larger containers for soups, sauces, meal-prep portions, and freezer storage.",
+  },
+  {
+    title: "Silicone Freezer Trays",
+    image: "images/products/silicone-freezer-trays.jpg",
+    note: "Portion trays for freezing soups, sauces, broth, cooked meats, and individual meal components.",
+  },
+  {
+    title: "Vacuum Sealer Jar Attachment",
+    image: "images/products/vacuum-sealer-jar.jpg",
+    note: "A jar-sealing tool for helping store dry goods, sauces, and pantry items in mason jars.",
   },
 ];
 
@@ -2358,8 +2413,8 @@ function ProductsIUseCarousel({ setActivePage }) {
         <button
           type="button"
           className="productUseFeatureTile"
-          onClick={() => setActivePage("Recommendations")}
-          aria-label={`View recommended products for ${product.title}`}
+          onClick={() => setActivePage("Products I Use")}
+          aria-label={`View product details for ${product.title}`}
         >
           <div className="productUseFeatureImage">
             <img
@@ -3617,6 +3672,56 @@ function CollectionsPage() {
   );
 }
 
+
+function ProductsIUsePage({ setActivePage }) {
+  return (
+    <main className="pageShell productsIUsePage">
+      <section className="aboutRecipesHero productsIUseHero">
+        <div>
+          <div className="aiBadge">TOOLS & PRODUCTS</div>
+          <h1>Products I Use</h1>
+          <p>
+            A simple reference page for the containers, pans, jars, storage
+            tools, and kitchen products I like to keep in mind for recipe cards,
+            planned leftovers, freezer meals, and small-household cooking.
+          </p>
+        </div>
+      </section>
+
+      <div className="productsIUsePageGrid">
+        {PRODUCTS_I_USE.map((product) => (
+          <article className="productsIUsePageCard" key={product.title}>
+            <div className="productsIUsePageImage">
+              <img
+                src={`${import.meta.env.BASE_URL}${product.image}`}
+                alt={product.title}
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <div>
+              <h2>{product.title}</h2>
+              <p>{product.note}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <div className="aboutRecipesActions productsIUseActions">
+        <button className="primary" onClick={() => setActivePage("Home")}>
+          Return Home
+        </button>
+        <button className="secondary" onClick={() => setActivePage("Recipes")}>
+          Browse Recipes
+        </button>
+        <button className="secondary" onClick={() => setActivePage("Recommendations")}>
+          Recommendations
+        </button>
+      </div>
+    </main>
+  );
+}
+
 function RecommendationsPage({ setActivePage }) {
   const recommendationCards = [
     {
@@ -4751,6 +4856,7 @@ export default function App() {
       {activePage === "Pantry Staples" && <PantryStaplesPage {...pageProps} />}
       {activePage === "Favorites" && <FavoritesPage {...pageProps} />}
       {activePage === "Recommendations" && <RecommendationsPage {...pageProps} />}
+      {activePage === "Products I Use" && <ProductsIUsePage setActivePage={setActivePage} />}
       {activePage === "Grocery Picks" && <GroceryPicksPage {...pageProps} />}
       {activePage === "Smart Grocery Picks" && <GroceryPicksPage {...pageProps} />}
       {activePage === "Freezer Tips" && <FreezerTipsPage {...pageProps} />}
