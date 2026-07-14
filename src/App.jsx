@@ -1084,9 +1084,20 @@ function Hero({ setActivePage }) {
   );
 }
 
-function TransparencyLine() {
+function TransparencyLine({ setActivePage }) {
   return (
-    <div className="transparencyLine">Honesty: I use AI assistance to generate recipes. I’m not a chef. I do not copy recipes from others; I simply tell AI what I want and let it generate the recipes for me. Read my disclaimers.</div>
+    <div className="transparencyLine">
+      Honesty: I use AI assistance to generate recipes. I’m not a chef. I do not
+      copy recipes from others; I simply tell AI what I want and let it generate
+      the recipes for me.{" "}
+      <button
+        type="button"
+        className="transparencyLink"
+        onClick={() => setActivePage("Disclaimers")}
+      >
+        Read my disclaimers.
+      </button>
+    </div>
   );
 }
 
@@ -2374,7 +2385,7 @@ function Home({
   return (
     <>
       <Hero setActivePage={setActivePage} />
-      <TransparencyLine />
+      <TransparencyLine setActivePage={setActivePage} />
       <CategoryGrid setFilter={setFilter} setActivePage={setActivePage} />
 
       <section className="section">
@@ -4267,6 +4278,126 @@ function PlaceholderInfoPage({ eyebrow, title, text, setActivePage }) {
 }
 
 
+
+function DisclaimersPage({ setActivePage }) {
+  return (
+    <main className="pageShell aboutRecipesPage disclaimersPage">
+      <section className="aboutRecipesHero">
+        <div>
+          <div className="aiBadge">DISCLAIMERS & TECHNICAL INFORMATION</div>
+          <h1>Disclaimers & Technical Information</h1>
+          <p>
+            Robert’s Recipe Box is a practical recipe-card and meal-planning
+            website. The information on this site is intended for general
+            planning, cooking, and household organization purposes.
+          </p>
+        </div>
+      </section>
+
+      <div className="aboutRecipesGrid disclaimersGrid">
+        <article className="aboutRecipesCard">
+          <h2>AI-Assisted Recipes</h2>
+          <p>
+            Recipes in Robert’s Recipe Box are created with the assistance of
+            artificial intelligence under Robert’s direction. Robert chooses the
+            meal idea, serving goals, cooking method, flavors, practical needs,
+            and recipe-card format.
+          </p>
+          <p>
+            The recipes are not copied from other websites, restaurants, brands,
+            or cookbooks. Copycat-style recipes are homemade interpretations
+            inspired by familiar meals, products, or restaurant-style foods.
+          </p>
+        </article>
+
+        <article className="aboutRecipesCard">
+          <h2>Not Professional Advice</h2>
+          <p>
+            Robert is not presenting this website as professional culinary,
+            medical, nutritional, financial, or food-safety advice. Visitors
+            should use reasonable judgment and review each recipe before cooking.
+          </p>
+        </article>
+
+        <article className="aboutRecipesCard">
+          <h2>Recipe Testing</h2>
+          <p>
+            Recipes and recipe cards are reviewed for practicality, but not every
+            recipe may have been personally prepared in Robert’s kitchen before
+            being published. Cooking times, temperatures, textures, and finished
+            results may vary.
+          </p>
+        </article>
+
+        <article className="aboutRecipesCard">
+          <h2>Nutrition Estimates</h2>
+          <p>
+            Nutrition values are estimates only. Actual values will vary based on
+            ingredient brands, package sizes, substitutions, preparation methods,
+            and portion sizes.
+          </p>
+          <p>
+            Anyone with diabetes, kidney disease, heart disease, food allergies,
+            swallowing concerns, medically required dietary restrictions, or other
+            health concerns should follow the guidance of a physician or
+            registered dietitian.
+          </p>
+        </article>
+
+        <article className="aboutRecipesCard">
+          <h2>Cost Estimates</h2>
+          <p>
+            Recipe costs are planning estimates based on typical store-brand
+            pricing and ingredient-use calculations. Actual grocery costs may
+            vary by store, location, brand, package size, shopping method, sales,
+            substitutions, and ingredients already on hand.
+          </p>
+        </article>
+
+        <article className="aboutRecipesCard">
+          <h2>Food Safety</h2>
+          <p>
+            Visitors are responsible for safe food handling, cooking, cooling,
+            freezing, thawing, reheating, and storage. Always verify that meat,
+            poultry, seafood, eggs, casseroles, and reheated foods reach safe
+            internal temperatures before serving.
+          </p>
+        </article>
+
+        <article className="aboutRecipesCard">
+          <h2>Affiliate Links</h2>
+          <p>
+            Some pages may include optional product recommendations or affiliate
+            links. If a purchase is made through an affiliate link, the site may
+            earn a small commission at no additional cost to the shopper. These
+            links are optional and are not required to use the website.
+          </p>
+        </article>
+
+        <article className="aboutRecipesCard aboutQuoteCard">
+          <h2>Use Your Judgment</h2>
+          <p>
+            <strong>
+              Robert’s Recipe Box is meant to help with practical meal planning.
+              Review recipes, adjust ingredients, check cooking temperatures, and
+              choose the options that work best for your household.
+            </strong>
+          </p>
+        </article>
+      </div>
+
+      <div className="aboutRecipesActions">
+        <button className="primary" onClick={() => setActivePage("Home")}>
+          Return Home
+        </button>
+        <button className="secondary" onClick={() => setActivePage("Recipes")}>
+          Browse Recipes
+        </button>
+      </div>
+    </main>
+  );
+}
+
 function FeatureStrip() {
   const features = [
     {
@@ -4383,6 +4514,7 @@ export default function App() {
       <Header activePage={activePage} setActivePage={setActivePage} />
 
       {activePage === "Home" && <Home {...pageProps} />}
+      {activePage === "Disclaimers" && <DisclaimersPage setActivePage={setActivePage} />}
       {activePage === "Under Construction" && <UnderConstructionPage setActivePage={setActivePage} />}
       {activePage === "Recipes" && <RecipesPage {...pageProps} />}
       {activePage === "Collections" && <CollectionsPage />}

@@ -9132,3 +9132,42 @@ button,
     line-height: 1.2 !important;
   }
 }
+
+
+/* =========================================================
+   HONESTY LINE DISCLAIMER LINK + DISCLAIMERS PAGE
+   ========================================================= */
+
+.transparencyLine .transparencyLink {
+  display: inline;
+  border: 0;
+  background: transparent;
+  color: var(--green);
+  font: inherit;
+  font-weight: 850;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.transparencyLine .transparencyLink:hover {
+  color: #0f4a29;
+}
+
+.disclaimersPage .aboutRecipesHero,
+.disclaimersPage .aboutRecipesGrid,
+.disclaimersPage .aboutRecipesActions {
+  max-width: 980px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.disclaimersGrid {
+  grid-template-columns: 1fr !important;
+}
+
+.disclaimersPage .aboutRecipesCard {
+  grid-column: 1 / -1 !important;
+}
