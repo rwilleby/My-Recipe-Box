@@ -9171,3 +9171,160 @@ button,
 .disclaimersPage .aboutRecipesCard {
   grid-column: 1 / -1 !important;
 }
+
+
+/* =========================================================
+   HOME FEATURED SELECTION + PRODUCTS I USE + ROLODEX LAYOUT
+   Left 1/4 column: Featured Selection and Products I Use.
+   Right 3/4 column: Recipe Rolodex.
+   ========================================================= */
+
+.homeRolodexShowcaseSection {
+  padding-top: 22px;
+}
+
+.homeRolodexShowcaseLayout {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) minmax(0, 3fr);
+  gap: clamp(18px, 2.2vw, 30px);
+  align-items: stretch;
+}
+
+.homeShowcaseLeftColumn {
+  min-width: 0;
+  display: grid;
+  grid-template-rows: auto auto;
+  gap: 16px;
+  align-self: start;
+}
+
+.homeShowcaseRolodexColumn {
+  min-width: 0;
+}
+
+.homeShowcaseRolodexColumn .homeRolodex {
+  height: 100%;
+}
+
+.homeFeatureCard {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  padding: 16px;
+}
+
+.homeMiniSectionHeader {
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.homeMiniSectionHeader h2 {
+  margin: 0;
+  color: var(--green);
+  font-size: clamp(20px, 2vw, 26px);
+  line-height: 1.05;
+}
+
+.featuredSelectionButton {
+  display: grid;
+  gap: 10px;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  text-align: center;
+}
+
+.featuredSelectionImage {
+  aspect-ratio: 4 / 3;
+  border-radius: 15px;
+  overflow: hidden;
+  background: #f7faf7;
+  display: grid;
+  place-items: center;
+  border: 1px solid #e2e8e2;
+}
+
+.featuredSelectionImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.featuredSelectionImage span {
+  font-size: 46px;
+}
+
+.featuredSelectionButton strong {
+  color: #111827;
+  font-size: 15px;
+  line-height: 1.18;
+  font-weight: 800;
+}
+
+.productsIUseGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.productUseTile {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+  border: 1px solid #e2e8e2;
+  background: #fbfdfb;
+  border-radius: 13px;
+  padding: 8px;
+  text-align: left;
+  cursor: pointer;
+  transition: transform .16s ease, border-color .16s ease, background .16s ease;
+}
+
+.productUseTile:hover {
+  transform: translateY(-1px);
+  border-color: var(--green);
+  background: #f3faf5;
+}
+
+.productUseTile img {
+  width: 58px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 10px;
+  display: block;
+  background: #ffffff;
+}
+
+.productUseTile strong {
+  color: #111827;
+  font-size: 13px;
+  line-height: 1.15;
+  font-weight: 750;
+}
+
+@media (max-width: 1000px) {
+  .homeRolodexShowcaseLayout {
+    grid-template-columns: 1fr;
+  }
+
+  .homeShowcaseLeftColumn {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .homeShowcaseLeftColumn {
+    grid-template-columns: 1fr;
+  }
+
+  .productsIUseGrid {
+    grid-template-columns: 1fr;
+  }
+}

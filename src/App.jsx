@@ -2201,6 +2201,133 @@ function getRandomRecipes(sourceRecipes, maxCount = 12) {
     .slice(0, maxCount);
 }
 
+
+const PRODUCTS_I_USE = [
+  {
+    title: "Vacuum Sealer",
+    image: "images/products/vacuum-sealer.svg",
+  },
+  {
+    title: "Freezer Portion Containers",
+    image: "images/products/freezer-cubes.svg",
+  },
+  {
+    title: "Mason Jars",
+    image: "images/products/mason-jars.svg",
+  },
+  {
+    title: "Freezer Labels",
+    image: "images/products/storage-labels.svg",
+  },
+  {
+    title: "Sheet Pans",
+    image: "images/products/sheet-pan.svg",
+  },
+];
+
+function FeaturedSelectionPanel({ openRecipeCard }) {
+  const featuredRecipes = useMemo(() => recipes.slice(0, 12), []);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [imageIndex, setImageIndex] = useState(0);
+
+  const recipe = featuredRecipes[activeIndex] || featuredRecipes[0];
+  const imageCandidates = recipe ? recipeImageCandidates(recipe) : [];
+  const imagePath = imageCandidates[imageIndex];
+
+  useEffect(() => {
+    if (!featuredRecipes.length) return;
+
+    const timer = window.setInterval(() => {
+      setActiveIndex((current) => (current + 1) % featuredRecipes.length);
+    }, 7000);
+
+    return () => window.clearInterval(timer);
+  }, [featuredRecipes.length]);
+
+  useEffect(() => {
+    setImageIndex(0);
+  }, [recipe?.id]);
+
+  if (!recipe) return null;
+
+  return (
+    <section className="homeFeatureCard featuredSelectionCard">
+      <div className="homeMiniSectionHeader">
+        <h2>Featured Selection</h2>
+      </div>
+
+      <button
+        type="button"
+        className="featuredSelectionButton"
+        onClick={() => openRecipeCard(recipe.id, featuredRecipes)}
+        aria-label={`Open ${recipe.title} recipe card`}
+      >
+        <div className="featuredSelectionImage">
+          {imagePath ? (
+            <img
+              src={`${import.meta.env.BASE_URL}${imagePath}`}
+              alt={recipe.title}
+              loading="lazy"
+              decoding="async"
+              onError={() => setImageIndex((current) => current + 1)}
+            />
+          ) : (
+            <span>{recipe.emoji || "🍽️"}</span>
+          )}
+        </div>
+        <strong>{recipe.title}</strong>
+      </button>
+    </section>
+  );
+}
+
+function ProductsIUseCarousel({ setActivePage }) {
+  const [startIndex, setStartIndex] = useState(0);
+
+  useEffect(() => {
+    if (PRODUCTS_I_USE.length <= 3) return;
+
+    const timer = window.setInterval(() => {
+      setStartIndex((current) => (current + 1) % PRODUCTS_I_USE.length);
+    }, 6000);
+
+    return () => window.clearInterval(timer);
+  }, []);
+
+  const visibleProducts = [0, 1, 2].map(
+    (offset) => PRODUCTS_I_USE[(startIndex + offset) % PRODUCTS_I_USE.length]
+  );
+
+  return (
+    <section className="homeFeatureCard productsIUseCard">
+      <div className="homeMiniSectionHeader">
+        <h2>Products I Use</h2>
+      </div>
+
+      <div className="productsIUseGrid">
+        {visibleProducts.map((product) => (
+          <button
+            type="button"
+            key={product.title}
+            className="productUseTile"
+            onClick={() => setActivePage("Recommendations")}
+            aria-label={`View recommended products for ${product.title}`}
+          >
+            <img
+              src={`${import.meta.env.BASE_URL}${product.image}`}
+              alt=""
+              loading="lazy"
+              decoding="async"
+            />
+            <strong>{product.title}</strong>
+          </button>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+
 function RecipeRolodex({ openRecipeCard }) {
   const [selectedCategory, setSelectedCategory] = useState("MASTER_RANDOM");
   const [activeIndex, setActiveIndex] = useState(0);
@@ -2380,40 +2507,22 @@ function Home({
   setActivePage,
   setFilter,
 }) {
-  const recentlyAdded = recipes.slice(0, 4);
-
   return (
     <>
       <Hero setActivePage={setActivePage} />
       <TransparencyLine setActivePage={setActivePage} />
       <CategoryGrid setFilter={setFilter} setActivePage={setActivePage} />
 
-      <section className="section">
-        <div className="sectionTitle">
-          <h2>Recently Added</h2>
-          <button onClick={() => setActivePage("Recipes")}>
-            View all recipes ›
-          </button>
-        </div>
+      <section className="section homeRolodexShowcaseSection">
+        <div className="homeRolodexShowcaseLayout">
+          <aside className="homeShowcaseLeftColumn">
+            <FeaturedSelectionPanel openRecipeCard={openRecipeCard} />
+            <ProductsIUseCarousel setActivePage={setActivePage} />
+          </aside>
 
-        <div className="recentlyAddedLayout">
-          <div className="recipeRow recentlyAddedCards">
-            {recentlyAdded.map((recipe) => (
-              <RecipeCard
-                key={recipe.id}
-                recipe={recipe}
-                favorites={favorites}
-                toggleFavorite={toggleFavorite}
-                addToPlan={addToPlan}
-                openRecipeCard={openRecipeCard}
-                cardList={recentlyAdded}
-                showPlannerButton={false}
-                viewButtonText="View Recipe"
-              />
-            ))}
+          <div className="homeShowcaseRolodexColumn">
+            <RecipeRolodex openRecipeCard={openRecipeCard} />
           </div>
-
-          <RecipeRolodex openRecipeCard={openRecipeCard} />
         </div>
       </section>
 
