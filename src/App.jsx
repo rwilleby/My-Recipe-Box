@@ -956,11 +956,25 @@ function Header({ activePage, setActivePage }) {
 
 
 function getHeroInfoTargetPage(title) {
-  return "Under Construction";
+  switch (title) {
+    case "Plan Your Weekly Meals":
+      return "Meal Planner";
+    case "Create Your Grocery List":
+      return "Shopping Lists";
+    default:
+      return "Under Construction";
+  }
 }
 
 function getHeroInfoMoreInfoLabel(title) {
-  return "Read More";
+  switch (title) {
+    case "Plan Your Weekly Meals":
+      return "Plan Your Meals";
+    case "Create Your Grocery List":
+      return "Go To Your Shopping List";
+    default:
+      return "Read More";
+  }
 }
 
 
