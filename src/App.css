@@ -10939,108 +10939,34 @@ button,
 
 
 /* =========================================================
-   PRODUCTS I USE IMAGE SIZE REDUCTION
-   Reduces Products I Use carousel image area by about 25%.
-   Featured Selection remains unchanged.
+   COLLECTION POPUP IMAGES
+   Adds uploaded images to bottom collection popups.
    ========================================================= */
 
-.productsIUseCard .productUseFeatureImage {
-  width: 75% !important;
-  max-width: 75% !important;
-  min-height: 150px !important;
-  aspect-ratio: 16 / 10 !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
+.homeCollectionPopupImage {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #f7faf7;
+  margin: 0 0 12px;
 }
 
-.productsIUseCard .productUseFeatureImage img {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: contain !important;
-  object-position: center !important;
+.homeCollectionPopupImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
 }
 
-/* Keep arrows aligned with the smaller product image */
-.productsIUseCard .productUseArrowLeft {
-  left: 13% !important;
+.homeCollectionPopup {
+  width: min(540px, 90vw) !important;
 }
 
-.productsIUseCard .productUseArrowRight {
-  right: 13% !important;
-}
-
+/* Keep popup image from making the card too tall on smaller screens. */
 @media (max-width: 700px) {
-  .productsIUseCard .productUseFeatureImage {
-    width: 78% !important;
-    max-width: 78% !important;
-    min-height: 140px !important;
-  }
-
-  .productsIUseCard .productUseArrowLeft {
-    left: 11% !important;
-  }
-
-  .productsIUseCard .productUseArrowRight {
-    right: 11% !important;
-  }
-}
-
-
-/* =========================================================
-   PRODUCTS I USE SIZE RESTORE + MOVE DOWN
-   Restores the product image size and moves it down so it does not crowd
-   or cover the Products I Use heading.
-   ========================================================= */
-
-.productsIUseCard .productUseFeatureImage {
-  width: calc(100% - 18px) !important;
-  max-width: none !important;
-  min-height: 205px !important;
-  aspect-ratio: 16 / 10 !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
-  margin-top: 12px !important;
-  padding: 0 !important;
-}
-
-.productsIUseCard .productUseFeatureImage img {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: contain !important;
-  object-position: center !important;
-}
-
-.productsIUseCard .productUseFeatureTile {
-  gap: 12px !important;
-}
-
-/* Keep arrows aligned with the restored full-size product image */
-.productsIUseCard .productUseArrowLeft {
-  left: 18px !important;
-}
-
-.productsIUseCard .productUseArrowRight {
-  right: 18px !important;
-}
-
-/* Give the heading a little protected space above the product image */
-.productsIUseCard .homeMiniSectionHeader {
-  margin-bottom: 14px !important;
-}
-
-@media (max-width: 700px) {
-  .productsIUseCard .productUseFeatureImage {
-    width: calc(100% - 24px) !important;
-    max-width: none !important;
-    min-height: 180px !important;
-    margin-top: 10px !important;
-  }
-
-  .productsIUseCard .productUseArrowLeft {
-    left: 18px !important;
-  }
-
-  .productsIUseCard .productUseArrowRight {
-    right: 18px !important;
+  .homeCollectionPopupImage {
+    aspect-ratio: 16 / 10;
   }
 }

@@ -2158,26 +2158,36 @@ function CollectionStrip({ setActivePage }) {
       title: "Slow Cooker Favorites",
       text: "Set-it-and-forget-it meals for easy crock-pot cooking.",
       page: "Slow Cooker Favorites",
+      image: "images/collections/crockpot.png",
+      imageAlt: "Slow cooker meal in a crockpot",
     },
     {
       title: "Summer Cookouts",
       text: "Grill-friendly meals and warm-weather favorites.",
       page: "Summer Cookouts",
+      image: "images/collections/cookout.png",
+      imageAlt: "Backyard cookout with grilled foods",
     },
     {
       title: "Healthy Dinners",
       text: "Balanced meals for lighter weeknight cooking.",
       page: "Healthy Dinners",
+      image: "images/collections/healthy.png",
+      imageAlt: "Healthy dinner plate with chicken, vegetables, and quinoa",
     },
     {
       title: "Comfort Foods",
       text: "Popular classics for familiar family-style meals.",
       page: "Comfort Foods",
+      image: "images/collections/comfort.png",
+      imageAlt: "Comfort foods including pot pie, roast, mashed potatoes, and macaroni",
     },
     {
       title: "Easy 30-Minute Meals",
       text: "Fast 30-minute dinners for those busy nights.",
       page: "Easy 30-Minute Meals",
+      image: "images/collections/30-minute.png",
+      imageAlt: "Quick skillet pasta meal",
     },
   ];
 
@@ -2211,6 +2221,16 @@ function CollectionStrip({ setActivePage }) {
                     ×
                   </button>
                 </div>
+
+                <div className="homeCollectionPopupImage">
+                  <img
+                    src={`${import.meta.env.BASE_URL}${collection.image}`}
+                    alt={collection.imageAlt}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
+
                 <p>{collection.text}</p>
                 <button
                   type="button"
