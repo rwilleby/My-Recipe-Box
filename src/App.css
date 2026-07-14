@@ -8781,3 +8781,97 @@ button,
     transform: translateX(-50%) rotate(45deg) !important;
   }
 }
+
+
+/* =========================================================
+   COST BOX HELP POPUPS
+   Small ? buttons explain each blue cost-information area.
+   ========================================================= */
+
+.viewerCostHelpWrap {
+  position: relative;
+}
+
+.viewerCostHelpButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  border: 1px solid #b8cfe1;
+  background: #ffffff;
+  color: #1f4f7a;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  font-size: 13px;
+  line-height: 1;
+  font-weight: 850;
+  cursor: pointer;
+  box-shadow: 0 2px 7px rgba(18, 63, 99, .08);
+}
+
+.viewerCostHelpButton:hover {
+  background: #f3f8fc;
+  border-color: #2f6f9f;
+}
+
+.viewerCostHelpBubble {
+  position: absolute;
+  top: 38px;
+  right: 10px;
+  z-index: 30;
+  width: min(280px, 72vw);
+  border: 1px solid #d8e2ec;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 14px 34px rgba(17, 24, 39, .16);
+  padding: 12px 14px;
+  text-align: left;
+}
+
+.viewerCostHelpBubble::before {
+  content: "";
+  position: absolute;
+  top: -7px;
+  right: 13px;
+  width: 12px;
+  height: 12px;
+  background: #ffffff;
+  border-left: 1px solid #d8e2ec;
+  border-top: 1px solid #d8e2ec;
+  transform: rotate(45deg);
+}
+
+.viewerCostHelpBubble strong {
+  display: block;
+  color: #123f63;
+  font-size: 14px;
+  line-height: 1.15;
+  margin-bottom: 5px;
+}
+
+.viewerCostHelpBubble p {
+  margin: 0;
+  color: #4b5563;
+  font-size: 12.5px;
+  line-height: 1.38;
+}
+
+.viewerCostSummary .viewerCostHelpButton {
+  top: 12px;
+  right: 14px;
+}
+
+.viewerCostSummary .viewerCostHelpBubble {
+  top: 42px;
+  right: 14px;
+}
+
+@media (max-width: 560px) {
+  .viewerCostHelpBubble {
+    right: 8px;
+    width: min(260px, 78vw);
+  }
+}

@@ -1746,6 +1746,7 @@ function getRecipeEstimatedCost(recipe) {
 function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorite }) {
   const [imageIndex, setImageIndex] = useState(0);
   const [openPanel, setOpenPanel] = useState(null);
+  const [openCostHelp, setOpenCostHelp] = useState(null);
 
   const viewerIds = viewer?.recipeIds?.length
     ? viewer.recipeIds
@@ -1762,6 +1763,7 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
   useEffect(() => {
     setImageIndex(0);
     setOpenPanel(null);
+    setOpenCostHelp(null);
   }, [recipe?.id]);
 
   if (!viewer || !recipe) return null;
@@ -1789,6 +1791,11 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
 
   function togglePanel(panelName) {
     setOpenPanel((current) => (current === panelName ? null : panelName));
+    setOpenCostHelp(null);
+  }
+
+  function toggleCostHelp(helpName) {
+    setOpenCostHelp((current) => (current === helpName ? null : helpName));
   }
 
   function printCurrentCard() {
@@ -2012,26 +2019,87 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
               <div className="viewerBottomSheetContent viewerCostSheet">
                 {estimatedCost.displayCost ? (
                   <>
-                    <div className="viewerCostSummary">
+                    <div className="viewerCostSummary viewerCostHelpWrap">
+                      <button
+                        type="button"
+                        className="viewerCostHelpButton"
+                        onClick={() => toggleCostHelp("summary")}
+                        aria-label="Explain cost per serving"
+                      >
+                        ?
+                      </button>
                       <span className="viewerCostConfidence">{estimatedCost.confidenceLabel}</span>
                       <strong>{estimatedCost.roundedCostPerServing}</strong>
                       <em>{estimatedCost.costCategory}</em>
+                      {openCostHelp === "summary" && (
+                        <div className="viewerCostHelpBubble">
+                          <strong>Cost per serving</strong>
+                          <p>
+                            This is the rounded planning estimate for one serving
+                            of the recipe, based on the ingredient-use cost
+                            assigned to this recipe card.
+                          </p>
+                        </div>
+                      )}
                     </div>
 
                     <div className="viewerCostGrid viewerCostGridPlanning">
-                      <article className="viewerCostBox">
+                      <article className="viewerCostBox viewerCostHelpWrap">
+                        <button
+                          type="button"
+                          className="viewerCostHelpButton"
+                          onClick={() => toggleCostHelp("total")}
+                          aria-label="Explain estimated total recipe cost"
+                        >
+                          ?
+                        </button>
                         <span>Estimated total recipe cost</span>
                         <strong>{estimatedCost.roundedRecipeCost}</strong>
                         <small>Ingredient-use cost for this recipe card</small>
+                        {openCostHelp === "total" && (
+                          <div className="viewerCostHelpBubble">
+                            <strong>Estimated total recipe cost</strong>
+                            <p>
+                              This is the estimated value of the ingredients
+                              used in the recipe, not the full checkout cost of
+                              buying every package new.
+                            </p>
+                          </div>
+                        )}
                       </article>
 
-                      <article className="viewerCostBox">
+                      <article className="viewerCostBox viewerCostHelpWrap">
+                        <button
+                          type="button"
+                          className="viewerCostHelpButton"
+                          onClick={() => toggleCostHelp("servings")}
+                          aria-label="Explain servings used"
+                        >
+                          ?
+                        </button>
                         <span>Servings used</span>
                         <strong>{estimatedCost.servings}</strong>
                         <small>{estimatedCost.servingBasis}</small>
+                        {openCostHelp === "servings" && (
+                          <div className="viewerCostHelpBubble">
+                            <strong>Servings used</strong>
+                            <p>
+                              This is the serving count used to divide the total
+                              recipe estimate into a per-serving planning cost.
+                            </p>
+                          </div>
+                        )}
                       </article>
 
-                      <article className="viewerCostBox viewerCoverageBox">
+                      <article className="viewerCostBox viewerCoverageBox viewerCostHelpWrap">
+                        <button
+                          type="button"
+                          className="viewerCostHelpButton"
+                          onClick={() => toggleCostHelp("coverage")}
+                          aria-label="Explain ingredient-cost coverage"
+                        >
+                          ?
+                        </button>
                         <span>Ingredient-cost coverage</span>
                         <strong>{estimatedCost.coveragePercent}%</strong>
                         <small>{estimatedCost.costedLines} of {estimatedCost.ingredientLines} ingredient lines costed</small>
@@ -2040,12 +2108,40 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
                           usable pricing in our cost database. Higher coverage
                           usually means a more reliable planning estimate.
                         </p>
+                        {openCostHelp === "coverage" && (
+                          <div className="viewerCostHelpBubble">
+                            <strong>Ingredient-cost coverage</strong>
+                            <p>
+                              This tells you how many ingredient lines were
+                              matched to pricing data. For example, 90% coverage
+                              means almost every ingredient has a usable cost.
+                            </p>
+                          </div>
+                        )}
                       </article>
 
-                      <article className="viewerCostBox">
+                      <article className="viewerCostBox viewerCostHelpWrap">
+                        <button
+                          type="button"
+                          className="viewerCostHelpButton"
+                          onClick={() => toggleCostHelp("category")}
+                          aria-label="Explain cost category"
+                        >
+                          ?
+                        </button>
                         <span>Cost category</span>
                         <strong>{estimatedCost.costCategory}</strong>
                         <small>Rounded planning estimate</small>
+                        {openCostHelp === "category" && (
+                          <div className="viewerCostHelpBubble">
+                            <strong>Cost category</strong>
+                            <p>
+                              This groups the recipe into a simple planning
+                              range, such as Budget-Friendly, Everyday Value,
+                              Moderate Cost, or Premium Meal.
+                            </p>
+                          </div>
+                        )}
                       </article>
                     </div>
 
