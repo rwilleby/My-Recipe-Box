@@ -10970,3 +10970,99 @@ button,
     aspect-ratio: 16 / 10;
   }
 }
+
+
+/* =========================================================
+   HOME LEFT COLUMN DEPTH ADJUSTMENT
+   Same total column height, less space for Featured Selection,
+   more space for Products I Use so the title is not covered.
+   ========================================================= */
+
+/* Keep the same total column depth, but give more of it to Products I Use. */
+.homeShowcaseLeftColumn {
+  grid-template-rows: 0.82fr 1.18fr !important;
+  gap: 16px !important;
+}
+
+/* Top card gets a little shorter. */
+.homeFeatureCard.featuredSelectionCard {
+  min-height: 245px !important;
+}
+
+/* Bottom card gets more vertical room. */
+.homeFeatureCard.productsIUseCard {
+  min-height: 365px !important;
+}
+
+/* Featured image scales down slightly to fit the shorter top card. */
+.featuredSelectionCard .featuredSelectionImage {
+  min-height: 150px !important;
+  max-height: 165px !important;
+  margin-top: 0 !important;
+}
+
+.featuredSelectionCard .featuredSelectionButton {
+  gap: 8px !important;
+}
+
+/* Products title gets protected space; image moves down so it does not cover heading. */
+.productsIUseCard .homeMiniSectionHeader {
+  position: relative !important;
+  z-index: 3 !important;
+  margin-bottom: 22px !important;
+}
+
+.productsIUseCard .productUseFeatureImage {
+  margin-top: 8px !important;
+  min-height: 225px !important;
+  max-height: 245px !important;
+}
+
+/* Keep the product name below the image comfortably inside the larger bottom card. */
+.productsIUseCard .productUseFeatureTile {
+  gap: 14px !important;
+}
+
+.productsIUseCard .productUseFeatureTile strong {
+  padding-bottom: 2px !important;
+}
+
+/* Product arrows remain inside the product image area after moving the image down. */
+.productsIUseCard .productUseArrow {
+  top: 54% !important;
+}
+
+@media (max-width: 1000px) {
+  .homeShowcaseLeftColumn {
+    grid-template-columns: 1fr 1fr !important;
+    grid-template-rows: auto !important;
+  }
+
+  .homeFeatureCard.featuredSelectionCard,
+  .homeFeatureCard.productsIUseCard {
+    min-height: 285px !important;
+  }
+
+  .productsIUseCard .productUseFeatureImage {
+    min-height: 185px !important;
+    margin-top: 0 !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .homeShowcaseLeftColumn {
+    grid-template-columns: 1fr !important;
+  }
+
+  .homeFeatureCard.featuredSelectionCard {
+    min-height: 245px !important;
+  }
+
+  .homeFeatureCard.productsIUseCard {
+    min-height: 330px !important;
+  }
+
+  .productsIUseCard .productUseFeatureImage {
+    min-height: 205px !important;
+  }
+}
