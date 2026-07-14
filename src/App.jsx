@@ -2031,10 +2031,15 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
                         <small>{estimatedCost.servingBasis}</small>
                       </article>
 
-                      <article className="viewerCostBox">
+                      <article className="viewerCostBox viewerCoverageBox">
                         <span>Ingredient-cost coverage</span>
                         <strong>{estimatedCost.coveragePercent}%</strong>
                         <small>{estimatedCost.costedLines} of {estimatedCost.ingredientLines} ingredient lines costed</small>
+                        <p>
+                          This shows how much of the recipe ingredient list has
+                          usable pricing in our cost database. Higher coverage
+                          usually means a more reliable planning estimate.
+                        </p>
                       </article>
 
                       <article className="viewerCostBox">

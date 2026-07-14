@@ -8667,3 +8667,117 @@ button,
 .viewerCostUnderReview .viewerCostTagline {
   margin-top: 7px;
 }
+
+
+/* =========================================================
+   COST COVERAGE EXPLANATION + HERO POPDOWN FIX
+   Explains ingredient-cost coverage and forces hero popups to open downward.
+   ========================================================= */
+
+.viewerCoverageBox p {
+  margin: 8px 0 0;
+  color: #6b7280;
+  font-size: 12.5px;
+  line-height: 1.35;
+}
+
+/* Keep the hero instruction buttons as the positioning anchor. */
+.heroInfoButtons,
+.heroInfoButtonWrap {
+  overflow: visible !important;
+}
+
+.heroInfoButtonWrap {
+  position: relative !important;
+}
+
+/* Force hero instruction popups to appear below the buttons. */
+.heroInfoButtonWrap .heroInfoPopup {
+  position: absolute !important;
+  top: calc(100% + 16px) !important;
+  bottom: auto !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  z-index: 999 !important;
+  width: min(520px, 90vw) !important;
+  max-height: min(58vh, 460px) !important;
+  overflow-y: auto !important;
+}
+
+/* Remove any old upward-pointing/bottom pointer and create a top pointer. */
+.heroInfoButtonWrap .heroInfoPopup::before,
+.heroInfoButtonWrap .heroInfoPopup::after {
+  content: "" !important;
+  position: absolute !important;
+  left: 50% !important;
+  top: -9px !important;
+  bottom: auto !important;
+  width: 16px !important;
+  height: 16px !important;
+  transform: translateX(-50%) rotate(45deg) !important;
+  background: #ffffff !important;
+  border-left: 1px solid #d9eadc !important;
+  border-top: 1px solid #d9eadc !important;
+  border-right: 0 !important;
+  border-bottom: 0 !important;
+  box-shadow: none !important;
+  z-index: -1 !important;
+}
+
+/* On left/right edge buttons, avoid the popup running off the viewport. */
+.heroInfoButtonWrap:first-child .heroInfoPopup {
+  left: 0 !important;
+  transform: translateX(0) !important;
+}
+
+.heroInfoButtonWrap:first-child .heroInfoPopup::before,
+.heroInfoButtonWrap:first-child .heroInfoPopup::after {
+  left: 44px !important;
+  transform: rotate(45deg) !important;
+}
+
+.heroInfoButtonWrap:last-child .heroInfoPopup {
+  left: auto !important;
+  right: 0 !important;
+  transform: translateX(0) !important;
+}
+
+.heroInfoButtonWrap:last-child .heroInfoPopup::before,
+.heroInfoButtonWrap:last-child .heroInfoPopup::after {
+  left: auto !important;
+  right: 44px !important;
+  transform: rotate(45deg) !important;
+}
+
+/* Make sure the pop-down sits above the transparency line/category row. */
+.hero,
+.heroRotator,
+.heroContent,
+.heroInfoButtons {
+  overflow: visible !important;
+}
+
+@media (max-width: 760px) {
+  .heroInfoButtonWrap .heroInfoPopup,
+  .heroInfoButtonWrap:first-child .heroInfoPopup,
+  .heroInfoButtonWrap:last-child .heroInfoPopup {
+    left: 50% !important;
+    right: auto !important;
+    top: calc(100% + 14px) !important;
+    bottom: auto !important;
+    transform: translateX(-50%) !important;
+    width: min(92vw, 520px) !important;
+    max-height: 58vh !important;
+  }
+
+  .heroInfoButtonWrap .heroInfoPopup::before,
+  .heroInfoButtonWrap .heroInfoPopup::after,
+  .heroInfoButtonWrap:first-child .heroInfoPopup::before,
+  .heroInfoButtonWrap:first-child .heroInfoPopup::after,
+  .heroInfoButtonWrap:last-child .heroInfoPopup::before,
+  .heroInfoButtonWrap:last-child .heroInfoPopup::after {
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) rotate(45deg) !important;
+  }
+}
