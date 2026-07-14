@@ -2293,16 +2293,6 @@ function FeaturedSelectionPanel({ openRecipeCard }) {
   const imagePath = imageCandidates[imageIndex];
 
   useEffect(() => {
-    if (!featuredRecipes.length) return;
-
-    const timer = window.setInterval(() => {
-      setActiveIndex((current) => (current + 1) % featuredRecipes.length);
-    }, 14000);
-
-    return () => window.clearInterval(timer);
-  }, [featuredRecipes.length]);
-
-  useEffect(() => {
     setImageIndex(0);
   }, [recipe?.id]);
 

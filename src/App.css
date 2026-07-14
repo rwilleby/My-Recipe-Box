@@ -10123,3 +10123,326 @@ button,
     width: calc(100% - 42px) !important;
   }
 }
+
+
+/* =========================================================
+   HOME SHOWCASE FINAL STYLE + POPUP REFINEMENT
+   1) Smaller Featured/Product headings to match Rolodex recipe title size.
+   2) Stop visual border treatment around media images.
+   3) Keep Products arrows inside the Products card border.
+   4) Bottom collection popups stay inside page boundaries and match hero popup style.
+   ========================================================= */
+
+/* 1) Featured Selection / Products I Use headline: about half prior oversized treatment */
+.homeMiniSectionHeader h2 {
+  color: #111827 !important;
+  font-family: var(--rrb-editorial-heading-font, Georgia, "Iowan Old Style", serif) !important;
+  font-size: clamp(22px, 2vw, 30px) !important;
+  line-height: 1.02 !important;
+  letter-spacing: -0.035em !important;
+  font-weight: 700 !important;
+  text-transform: none !important;
+  margin: 0 !important;
+}
+
+.homeMiniSectionHeader {
+  margin-bottom: 8px !important;
+}
+
+/* 2) Image areas: no green line / no white frame border; still constrained to the column */
+.featuredSelectionImage,
+.productUseFeatureImage {
+  width: calc(100% - 66px) !important;
+  max-width: 350px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  min-height: 150px !important;
+  aspect-ratio: 16 / 10 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  overflow: hidden !important;
+  border-radius: 14px !important;
+}
+
+.featuredSelectionImage img,
+.productUseFeatureImage img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  display: block !important;
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  border-radius: 12px !important;
+  background: transparent !important;
+}
+
+.featuredSelectionButton strong,
+.productUseFeatureTile strong {
+  width: calc(100% - 66px) !important;
+  max-width: 350px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  font-size: 14px !important;
+  line-height: 1.15 !important;
+  font-weight: 800 !important;
+}
+
+/* 3) Products arrows stay inside the Products I Use card border and inside image area */
+.productUseFeatureWrap {
+  position: relative !important;
+  overflow: visible !important;
+}
+
+.productUseArrow {
+  position: absolute !important;
+  top: 47% !important;
+  transform: translateY(-50%) !important;
+  z-index: 8 !important;
+  width: 26px !important;
+  height: 26px !important;
+  border-radius: 999px !important;
+  border: 1px solid #d6e4d8 !important;
+  background: rgba(255, 255, 255, .96) !important;
+  color: var(--green) !important;
+  font-size: 20px !important;
+  line-height: 1 !important;
+  font-weight: 500 !important;
+  display: grid !important;
+  place-items: center !important;
+  box-shadow: 0 4px 12px rgba(17, 24, 39, .10) !important;
+}
+
+.productUseArrowLeft {
+  left: 34px !important;
+}
+
+.productUseArrowRight {
+  right: 34px !important;
+}
+
+/* 4) Bottom row collection buttons: hero-button style, same line thickness as top */
+.homeCollectionButtonSection {
+  padding-top: 20px !important;
+  padding-bottom: 28px !important;
+  overflow: visible !important;
+}
+
+.homeCollectionButtonGrid {
+  display: grid !important;
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  gap: clamp(10px, 1.2vw, 16px) !important;
+  overflow: visible !important;
+}
+
+.homeCollectionPopupWrap {
+  position: relative !important;
+  overflow: visible !important;
+}
+
+.homeCollectionFlowButton {
+  width: 100% !important;
+  min-height: 58px !important;
+  border-radius: 14px !important;
+  border: 1px solid var(--green) !important;
+  background: rgba(255, 255, 255, .94) !important;
+  color: #123f24 !important;
+  display: grid !important;
+  place-items: center !important;
+  padding: 10px 12px !important;
+  text-align: center !important;
+  font-family: var(--rrb-body-font, Inter, system-ui, sans-serif) !important;
+  font-size: clamp(12px, .95vw, 14px) !important;
+  line-height: 1.08 !important;
+  letter-spacing: .055em !important;
+  font-weight: 900 !important;
+  text-transform: uppercase !important;
+  box-shadow: 0 8px 18px rgba(17, 24, 39, .055) !important;
+  cursor: pointer !important;
+}
+
+.homeCollectionFlowButton:hover,
+.homeCollectionFlowButton[aria-expanded="true"] {
+  background: #f3faf5 !important;
+  border-color: #0f4a29 !important;
+}
+
+/* Bottom collection popups: upward, constrained, and styled like the top hero popups */
+.homeCollectionPopup {
+  position: absolute !important;
+  bottom: calc(100% + 14px) !important;
+  top: auto !important;
+  z-index: 80 !important;
+  width: min(520px, 90vw) !important;
+  max-width: 90vw !important;
+  border: 1px solid #d9eadc !important;
+  border-radius: 18px !important;
+  background: #ffffff !important;
+  box-shadow: 0 16px 38px rgba(17, 24, 39, .16) !important;
+  padding: 18px 20px 18px !important;
+  text-align: left !important;
+}
+
+/* Default center positioning */
+.homeCollectionPopup {
+  left: 50% !important;
+  right: auto !important;
+  transform: translateX(-50%) !important;
+}
+
+/* Keep first/last popups inside page boundaries */
+.homeCollectionPopupWrap:first-child .homeCollectionPopup {
+  left: 0 !important;
+  transform: translateX(0) !important;
+}
+
+.homeCollectionPopupWrap:last-child .homeCollectionPopup {
+  left: auto !important;
+  right: 0 !important;
+  transform: translateX(0) !important;
+}
+
+/* Pointer points down toward the button */
+.homeCollectionPopup::after {
+  content: "" !important;
+  position: absolute !important;
+  left: 50% !important;
+  bottom: -8px !important;
+  width: 16px !important;
+  height: 16px !important;
+  background: #ffffff !important;
+  border-right: 1px solid #d9eadc !important;
+  border-bottom: 1px solid #d9eadc !important;
+  transform: translateX(-50%) rotate(45deg) !important;
+}
+
+.homeCollectionPopupWrap:first-child .homeCollectionPopup::after {
+  left: 44px !important;
+  transform: rotate(45deg) !important;
+}
+
+.homeCollectionPopupWrap:last-child .homeCollectionPopup::after {
+  left: auto !important;
+  right: 44px !important;
+  transform: rotate(45deg) !important;
+}
+
+.homeCollectionPopupHeader {
+  display: flex !important;
+  align-items: flex-start !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  border-bottom: 1px solid #e7efe8 !important;
+  padding-bottom: 10px !important;
+  margin-bottom: 11px !important;
+}
+
+.homeCollectionPopupHeader strong {
+  color: var(--green) !important;
+  font-family: var(--rrb-body-font, Inter, system-ui, sans-serif) !important;
+  font-size: 17px !important;
+  line-height: 1.1 !important;
+  font-weight: 900 !important;
+  letter-spacing: .055em !important;
+  text-transform: uppercase !important;
+}
+
+.homeCollectionPopupHeader button {
+  border: 0 !important;
+  background: #f3f4f6 !important;
+  color: #111827 !important;
+  width: 34px !important;
+  height: 34px !important;
+  border-radius: 999px !important;
+  display: grid !important;
+  place-items: center !important;
+  padding: 0 !important;
+  font-size: 24px !important;
+  line-height: 1 !important;
+  cursor: pointer !important;
+}
+
+.homeCollectionPopup p {
+  margin: 0 !important;
+  color: #374151 !important;
+  font-size: 14px !important;
+  line-height: 1.35 !important;
+  text-transform: uppercase !important;
+  letter-spacing: .025em !important;
+  font-weight: 650 !important;
+}
+
+.homeCollectionReadMore {
+  display: block !important;
+  margin: 14px auto 0 !important;
+  width: auto !important;
+  min-width: 112px !important;
+  min-height: 30px !important;
+  border-radius: 999px !important;
+  border: 1px solid var(--green) !important;
+  background: #ffffff !important;
+  color: var(--green) !important;
+  font-size: 13px !important;
+  font-weight: 750 !important;
+  cursor: pointer !important;
+}
+
+.homeCollectionReadMore:hover {
+  background: #f3faf5 !important;
+}
+
+/* Remove legacy gray collection button pieces */
+.homeCollectionButton,
+.homeCollectionButton .collectionTileHeader,
+.homeCollectionButton small {
+  display: none !important;
+}
+
+@media (max-width: 1100px) {
+  .homeCollectionButtonGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+
+  .productUseArrowLeft {
+    left: 28px !important;
+  }
+
+  .productUseArrowRight {
+    right: 28px !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .homeCollectionButtonGrid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .homeCollectionPopup,
+  .homeCollectionPopupWrap:first-child .homeCollectionPopup,
+  .homeCollectionPopupWrap:last-child .homeCollectionPopup {
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
+    width: min(92vw, 520px) !important;
+  }
+
+  .homeCollectionPopup::after,
+  .homeCollectionPopupWrap:first-child .homeCollectionPopup::after,
+  .homeCollectionPopupWrap:last-child .homeCollectionPopup::after {
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) rotate(45deg) !important;
+  }
+
+  .featuredSelectionImage,
+  .productUseFeatureImage,
+  .featuredSelectionButton strong,
+  .productUseFeatureTile strong {
+    width: calc(100% - 42px) !important;
+  }
+}
