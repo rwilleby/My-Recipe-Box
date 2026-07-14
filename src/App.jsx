@@ -2103,18 +2103,16 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
                         <span>Ingredient-cost coverage</span>
                         <strong>{estimatedCost.coveragePercent}%</strong>
                         <small>{estimatedCost.costedLines} of {estimatedCost.ingredientLines} ingredient lines costed</small>
-                        <p>
-                          This shows how much of the recipe ingredient list has
-                          usable pricing in our cost database. Higher coverage
-                          usually means a more reliable planning estimate.
-                        </p>
+
                         {openCostHelp === "coverage" && (
                           <div className="viewerCostHelpBubble">
                             <strong>Ingredient-cost coverage</strong>
                             <p>
                               This tells you how many ingredient lines were
-                              matched to pricing data. For example, 90% coverage
-                              means almost every ingredient has a usable cost.
+                              matched to pricing data. Some ingredients may be
+                              common pantry items the user already has at home,
+                              such as salt, pepper, oil, flour, spices, or basic
+                              sauces.
                             </p>
                           </div>
                         )}
@@ -2148,6 +2146,10 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
                     <p className="viewerCostNote">
                       {RECIPE_COST_NOTE}
                     </p>
+                    <p className="viewerCostPantryNote">
+                      Some items in the ingredient list may already be in your
+                      pantry, refrigerator, or freezer.
+                    </p>
                     <p className="viewerCostTagline">
                       {RECIPE_COST_TAGLINE}
                     </p>
@@ -2165,6 +2167,10 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
                     </small>
                     <p className="viewerCostNote">
                       {RECIPE_COST_NOTE}
+                    </p>
+                    <p className="viewerCostPantryNote">
+                      Some items in the ingredient list may already be in your
+                      pantry, refrigerator, or freezer.
                     </p>
                     <p className="viewerCostTagline">
                       {RECIPE_COST_TAGLINE}

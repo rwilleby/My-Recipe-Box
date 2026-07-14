@@ -8875,3 +8875,85 @@ button,
     width: min(260px, 78vw);
   }
 }
+
+
+/* =========================================================
+   COST HELP POPUPS CONTAINED + PANTRY NOTE
+   Keeps help bubbles inside the visible cost panel and removes long text from boxes.
+   ========================================================= */
+
+.viewerCostBox {
+  overflow: visible;
+}
+
+.viewerCostHelpBubble {
+  position: absolute !important;
+  top: 40px !important;
+  right: 10px !important;
+  left: auto !important;
+  z-index: 80 !important;
+  width: min(250px, calc(100% - 20px)) !important;
+  max-width: calc(100% - 20px) !important;
+  max-height: 170px;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+/* First box help opens inward so it cannot run off the left edge. */
+.viewerCostGrid .viewerCostBox:first-child .viewerCostHelpBubble {
+  left: 10px !important;
+  right: auto !important;
+}
+
+.viewerCostGrid .viewerCostBox:first-child .viewerCostHelpBubble::before {
+  left: 16px !important;
+  right: auto !important;
+}
+
+/* Cost summary help stays inside the large top box. */
+.viewerCostSummary .viewerCostHelpBubble {
+  right: 14px !important;
+  left: auto !important;
+  width: min(300px, calc(100% - 28px)) !important;
+  max-width: calc(100% - 28px) !important;
+}
+
+/* Remove excess vertical bulk from the ingredient coverage card after deleting the explanation. */
+.viewerCoverageBox p:not(.viewerCostNote):not(.viewerCostTagline):not(.viewerCostPantryNote) {
+  display: none !important;
+}
+
+.viewerCostPantryNote {
+  margin: 8px auto 0;
+  max-width: 780px;
+  color: #4b5563;
+  font-size: 13.5px;
+  line-height: 1.45;
+  text-align: center;
+}
+
+@media (max-width: 900px) {
+  .viewerCostHelpBubble,
+  .viewerCostSummary .viewerCostHelpBubble {
+    width: min(260px, calc(100% - 20px)) !important;
+    max-width: calc(100% - 20px) !important;
+  }
+}
+
+@media (max-width: 560px) {
+  .viewerCostHelpBubble,
+  .viewerCostGrid .viewerCostBox:first-child .viewerCostHelpBubble,
+  .viewerCostSummary .viewerCostHelpBubble {
+    left: 10px !important;
+    right: auto !important;
+    width: calc(100% - 20px) !important;
+    max-width: calc(100% - 20px) !important;
+  }
+
+  .viewerCostHelpBubble::before,
+  .viewerCostGrid .viewerCostBox:first-child .viewerCostHelpBubble::before,
+  .viewerCostSummary .viewerCostHelpBubble::before {
+    left: 18px !important;
+    right: auto !important;
+  }
+}
