@@ -2373,6 +2373,23 @@ function heroFoodImageCandidates(recipe) {
   return [...new Set(candidates)];
 }
 
+function getRandomRecipes(list = [], count = 12) {
+  const safeList = Array.isArray(list) ? list.filter(Boolean) : [];
+
+  if (safeList.length <= count) {
+    return safeList;
+  }
+
+  const copy = [...safeList];
+
+  for (let i = copy.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+
+  return copy.slice(0, count);
+}
+
 function FeaturedSelectionPanel({ openRecipeCard }) {
   const featuredRecipes = useMemo(() => recipes.slice(0, 12), []);
   const [activeIndex, setActiveIndex] = useState(0);
