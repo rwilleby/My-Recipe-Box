@@ -683,6 +683,86 @@ const HERO_INFO_BUTTONS = [
 ];
 
 
+
+const PRODUCTS_I_USE = [
+  {
+    title: "Aluminum Mini Bread Pans",
+    image: "images/products/aluminum-mini-bread-pans.jpg",
+    note: "Small disposable pans for mini loaves, freezer portions, gift breads, and make-ahead meals.",
+  },
+  {
+    title: "Aluminum 4-Inch Pie Pans",
+    image: "images/products/aluminum-4in-pie-pans.jpg",
+    note: "Small disposable pie pans for personal pies, quiche portions, desserts, and freezer-friendly servings.",
+  },
+  {
+    title: "Aluminum Cupcake Pans",
+    image: "images/products/aluminum-cupcake-pans.jpg",
+    note: "Disposable cupcake or muffin pans for small-batch baking, easy cleanup, and portioned treats.",
+  },
+  {
+    title: "Aluminum Mini Cake Pans",
+    image: "images/products/aluminum-mini-cake-pans.jpg",
+    note: "Small disposable cake pans for desserts, small loaves, gifting, and freezer-friendly portions.",
+  },
+  {
+    title: "Ball 2-Ounce Jars",
+    image: "images/products/ball-2oz-jars.jpg",
+    note: "Small jars for sauces, dressings, jams, seasoning mixes, toppings, and portioned condiments.",
+  },
+  {
+    title: "Ball 4-Ounce Jars",
+    image: "images/products/ball-4oz-jars.jpg",
+    note: "Useful jars for small desserts, sauces, overnight oats, fruit portions, and pantry organization.",
+  },
+  {
+    title: "Ball 8-Ounce Jars",
+    image: "images/products/ball-8oz-jars.jpg",
+    note: "Everyday jars for leftovers, soups, salads, snacks, sauces, and small make-ahead portions.",
+  },
+  {
+    title: "Baguette Bread Pan",
+    image: "images/products/bread-baguette-pan.jpg",
+    note: "A perforated bread pan for baking baguettes, sub rolls, and crustier homemade breads.",
+  },
+  {
+    title: "Bread Machine",
+    image: "images/products/bread-machine.jpg",
+    note: "A countertop bread machine for simple homemade bread, dough cycles, and small-batch baking.",
+  },
+  {
+    title: "Pullman Bread Pan",
+    image: "images/products/bread-pullman-pan.jpg",
+    note: "A lidded loaf pan for sandwich bread, square loaves, and consistent homemade slices.",
+  },
+  {
+    title: "8-Ounce Deli Containers",
+    image: "images/products/plastic-storage-8oz.jpg",
+    note: "Small plastic containers for sauces, fruit, snacks, toppings, and small leftovers.",
+  },
+  {
+    title: "16-Ounce Deli Containers",
+    image: "images/products/plastic-storage-16oz.jpg",
+    note: "Mid-size containers for leftovers, soups, chopped ingredients, and freezer portions.",
+  },
+  {
+    title: "32-Ounce Deli Containers",
+    image: "images/products/plastic-storage-32oz.jpg",
+    note: "Larger containers for soups, sauces, meal-prep portions, and freezer storage.",
+  },
+  {
+    title: "Silicone Freezer Trays",
+    image: "images/products/silicone-freezer-trays.jpg",
+    note: "Portion trays for freezing soups, sauces, broth, cooked meats, and individual meal components.",
+  },
+  {
+    title: "Vacuum Sealer Jar Attachment",
+    image: "images/products/vacuum-sealer-jar.jpg",
+    note: "A jar-sealing tool for helping store dry goods, sauces, and pantry items in mason jars.",
+  },
+];
+
+
 const ABOUT_STORY_PHOTOS = [
   {
     src: "images/about/robert-pete-puppy2.jpg",
