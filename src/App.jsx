@@ -4632,17 +4632,27 @@ function PlaceholderInfoPage({ eyebrow, title, text, setActivePage }) {
 }
 
 
-function PageHeroImage({ src, alt = "" }) {
+function PageHeroImage({ src, alt = "", title = "", eyebrow = "", text = "", icon = "" }) {
   if (!src) return null;
 
   return (
-    <section className="pageTopHeroImage">
+    <section className={`pageTopHeroImage${title ? " hasHeroText" : ""}`}>
       <img
         src={`${import.meta.env.BASE_URL}${src}`}
         alt={alt}
         loading="eager"
         decoding="async"
       />
+      {title && (
+        <div className="pageHeroTextOverlay">
+          {eyebrow && <div className="pageHeroEyebrow">{eyebrow}</div>}
+          <h1>
+            {icon && <span className="pageHeroIcon" aria-hidden="true">{icon}</span>}
+            {title}
+          </h1>
+          {text && <p>{text}</p>}
+        </div>
+      )}
     </section>
   );
 }
@@ -4661,7 +4671,13 @@ function HeroTopicPage({
 }) {
   return (
     <main className="pageShell aboutRecipesPage heroTopicPage">
-      <PageHeroImage src={heroImage} alt={heroAlt} />
+      <PageHeroImage
+        src={heroImage}
+        alt={heroAlt}
+        eyebrow={eyebrow}
+        title={title}
+        text={text}
+      />
 
       <section className="aboutRecipesHero heroTopicIntro">
         <div>
@@ -5005,8 +5021,31 @@ export default function App() {
         </>
       )}
       {activePage === "Shopping Lists" && <ShoppingListPage {...pageProps} />}
-      {activePage === "Pantry Staples" && <PantryStaplesPage {...pageProps} />}
-      {activePage === "Favorites" && <FavoritesPage {...pageProps} />}
+      {activePage === "Pantry Staples" && (
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-pantry.png"
+            alt="Pantry staples in jars and baskets on a kitchen counter"
+            eyebrow="YOUR LISTS"
+            title="Pantry Staples"
+            text="Keep useful staples organized so meal planning and shopping are easier."
+          />
+          <PantryStaplesPage {...pageProps} />
+        </>
+      )}
+      {activePage === "Favorites" && (
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-favorites.png"
+            alt="Healthy bowl with vegetables and a wooden heart"
+            eyebrow="YOUR LISTS"
+            title="Your Favorites"
+            icon="♥"
+            text="Save the recipes you like so they are easy to find again."
+          />
+          <FavoritesPage {...pageProps} />
+        </>
+      )}
       {activePage === "Recommendations" && <RecommendationsPage {...pageProps} />}
       {activePage === "Products I Use" && <ProductsIUsePage setActivePage={setActivePage} />}
       {activePage === "Grocery Picks" && <GroceryPicksPage {...pageProps} />}
