@@ -12062,3 +12062,312 @@ button,
     max-height: 150px !important;
   }
 }
+
+
+/* =========================================================
+   FINAL HOME SHOWCASE COMPACT FIT FIX
+   Tightens Featured Selection / Products I Use / Rolodex so every
+   item fits inside its approved area without spillover or excess height.
+   ========================================================= */
+
+.homeRolodexShowcaseSection {
+  padding-top: 18px !important;
+  padding-bottom: 10px !important;
+}
+
+.homeRolodexShowcaseLayout {
+  display: grid !important;
+  grid-template-columns: minmax(220px, 1fr) minmax(0, 3fr) !important;
+  gap: 22px !important;
+  align-items: stretch !important;
+}
+
+/* Overall left-column depth is now intentionally compact. */
+.homeShowcaseLeftColumn {
+  display: grid !important;
+  grid-template-rows: 300px 390px !important;
+  gap: 18px !important;
+  min-width: 0 !important;
+  align-self: stretch !important;
+}
+
+/* Rolodex matches the combined left-column height. */
+.homeShowcaseRolodexColumn {
+  min-width: 0 !important;
+  align-self: stretch !important;
+}
+
+.homeShowcaseRolodexColumn .homeRolodex {
+  height: 708px !important;
+  min-height: 708px !important;
+  max-height: 708px !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+/* Left cards contain all content inside the approved areas. */
+.homeFeatureCard.featuredSelectionCard,
+.homeFeatureCard.productsIUseCard {
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+  padding: 14px 16px !important;
+  box-sizing: border-box !important;
+}
+
+/* Compact headings. */
+.homeMiniSectionHeader {
+  flex: 0 0 auto !important;
+  margin: 0 0 10px !important;
+  padding: 0 !important;
+  position: relative !important;
+  z-index: 5 !important;
+}
+
+.homeMiniSectionHeader h2 {
+  margin: 0 !important;
+  color: #111827 !important;
+  font-size: 22px !important;
+  line-height: 1.05 !important;
+  letter-spacing: -0.025em !important;
+}
+
+/* Featured Selection content stays inside top panel. */
+.featuredSelectionCard .featuredSelectionButton {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  height: 100% !important;
+  display: grid !important;
+  grid-template-rows: minmax(0, 1fr) auto !important;
+  gap: 8px !important;
+  align-items: stretch !important;
+  justify-items: center !important;
+  padding: 0 !important;
+}
+
+.featuredSelectionCard .featuredSelectionImage {
+  width: 100% !important;
+  max-width: 260px !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: 185px !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  overflow: hidden !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.featuredSelectionCard .featuredSelectionImage img {
+  width: auto !important;
+  height: auto !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  display: block !important;
+}
+
+.featuredSelectionCard .featuredSelectionButton strong {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  color: #111827 !important;
+  font-size: 14px !important;
+  line-height: 1.12 !important;
+  font-weight: 800 !important;
+  text-align: center !important;
+}
+
+/* Products I Use content stays inside bottom panel, including product title. */
+.productsIUseCard .productUseFeatureWrap {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  height: 100% !important;
+  position: relative !important;
+  display: grid !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+}
+
+.productsIUseCard .productUseFeatureTile {
+  height: 100% !important;
+  min-height: 0 !important;
+  display: grid !important;
+  grid-template-rows: minmax(0, 1fr) auto !important;
+  gap: 10px !important;
+  align-items: stretch !important;
+  justify-items: center !important;
+  padding: 0 !important;
+}
+
+.productsIUseCard .productUseFeatureImage {
+  width: 100% !important;
+  max-width: 280px !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: 255px !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  overflow: hidden !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.productsIUseCard .productUseFeatureImage img {
+  width: auto !important;
+  height: auto !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  display: block !important;
+}
+
+.productsIUseCard .productUseFeatureTile strong {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  color: #111827 !important;
+  font-size: 14px !important;
+  line-height: 1.12 !important;
+  font-weight: 800 !important;
+  text-align: center !important;
+}
+
+/* Arrows stay inside the Products I Use image area. */
+.productsIUseCard .productUseArrow {
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  z-index: 8 !important;
+  width: 26px !important;
+  height: 26px !important;
+  font-size: 20px !important;
+}
+
+.productsIUseCard .productUseArrowLeft {
+  left: 12px !important;
+}
+
+.productsIUseCard .productUseArrowRight {
+  right: 12px !important;
+}
+
+/* Rolodex: reduce oversized whitespace while keeping card/holder centered. */
+.homeRolodexHeader {
+  flex: 0 0 64px !important;
+  min-height: 64px !important;
+  padding: 10px 14px !important;
+}
+
+.homeRolodexStage {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  height: auto !important;
+  display: grid !important;
+  grid-template-columns: 56px minmax(0, 1fr) 56px !important;
+  gap: 10px !important;
+  align-items: center !important;
+  justify-items: center !important;
+  padding: 18px 18px 24px !important;
+  overflow: hidden !important;
+}
+
+.homeRolodexHolderArt {
+  width: min(100%, 900px) !important;
+  top: 54% !important;
+  bottom: auto !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+}
+
+.homeRolodexCard {
+  min-height: 0 !important;
+  height: 100% !important;
+  width: 100% !important;
+  transform: translateY(8px) !important;
+  display: grid !important;
+  place-items: center !important;
+}
+
+.homeRolodexCard img {
+  width: min(66%, 630px) !important;
+  max-height: 225px !important;
+  object-fit: contain !important;
+}
+
+.homeRolodexNav {
+  transform: none !important;
+  align-self: center !important;
+  justify-self: center !important;
+}
+
+.homeRolodexDots {
+  flex: 0 0 34px !important;
+  min-height: 34px !important;
+  padding: 10px 12px !important;
+}
+
+/* Responsive reset. */
+@media (max-width: 1000px) {
+  .homeRolodexShowcaseLayout {
+    grid-template-columns: 1fr !important;
+  }
+
+  .homeShowcaseLeftColumn {
+    grid-template-columns: 1fr 1fr !important;
+    grid-template-rows: auto !important;
+  }
+
+  .homeFeatureCard.featuredSelectionCard,
+  .homeFeatureCard.productsIUseCard {
+    min-height: 300px !important;
+  }
+
+  .homeShowcaseRolodexColumn .homeRolodex {
+    height: auto !important;
+    min-height: 420px !important;
+    max-height: none !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .homeShowcaseLeftColumn {
+    grid-template-columns: 1fr !important;
+  }
+
+  .homeFeatureCard.featuredSelectionCard {
+    min-height: 280px !important;
+  }
+
+  .homeFeatureCard.productsIUseCard {
+    min-height: 360px !important;
+  }
+
+  .homeShowcaseRolodexColumn .homeRolodex {
+    min-height: 360px !important;
+  }
+
+  .homeRolodexStage {
+    grid-template-columns: 40px minmax(0, 1fr) 40px !important;
+    padding: 12px 10px 18px !important;
+  }
+
+  .homeRolodexCard img {
+    width: min(76%, 420px) !important;
+    max-height: 170px !important;
+  }
+}
