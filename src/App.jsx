@@ -940,10 +940,10 @@ function Header({ activePage, setActivePage }) {
       label: "COOKING METHODS",
       items: [
         { label: "AIR FRYER RECIPES", page: "Air Fryer Recipes" },
-        { label: "OVEN RECIPES", page: "Cooking Methods" },
-        { label: "MICROWAVE RECIPES", page: "Cooking Methods" },
-        { label: "GAS GRILL RECIPES", page: "Cooking Methods" },
-        { label: "SMOKER & PELLET GRILL RECIPES", page: "About Smoking" },
+        { label: "OVEN RECIPES", page: "Oven Recipes" },
+        { label: "MICROWAVE RECIPES", page: "Microwave Recipes" },
+        { label: "GAS GRILL RECIPES", page: "Gas Grill Recipes" },
+        { label: "SMOKER & PELLET GRILL RECIPES", page: "Smoker Recipes" },
       ],
     },
     {
@@ -4632,41 +4632,57 @@ function PlaceholderInfoPage({ eyebrow, title, text, setActivePage }) {
 }
 
 
-function AirFryerRecipesPage({ setActivePage }) {
-  return (
-    <main className="pageShell aboutRecipesPage airFryerRecipesPage">
-      <section className="airFryerHeroBanner">
-        <img
-          src={`${import.meta.env.BASE_URL}images/heroes/air-fryer-recipes-hero.png`}
-          alt="Air fryer on a kitchen counter with air fryer chicken wings and roasted potatoes"
-          loading="eager"
-          decoding="async"
-        />
-      </section>
+function PageHeroImage({ src, alt = "" }) {
+  if (!src) return null;
 
-      <section className="aboutRecipesHero airFryerIntroCard">
+  return (
+    <section className="pageTopHeroImage">
+      <img
+        src={`${import.meta.env.BASE_URL}${src}`}
+        alt={alt}
+        loading="eager"
+        decoding="async"
+      />
+    </section>
+  );
+}
+
+function HeroTopicPage({
+  eyebrow,
+  title,
+  text,
+  heroImage,
+  heroAlt,
+  setActivePage,
+  primaryPage = "Recipes",
+  primaryLabel = "Browse Recipes",
+  secondaryPage = "How To Use",
+  secondaryLabel = "How to Use This Site",
+}) {
+  return (
+    <main className="pageShell aboutRecipesPage heroTopicPage">
+      <PageHeroImage src={heroImage} alt={heroAlt} />
+
+      <section className="aboutRecipesHero heroTopicIntro">
         <div>
-          <div className="aiBadge">COOKING METHODS</div>
-          <h1>Air Fryer Recipes</h1>
-          <p>
-            A simple starting page for meals, sides, and ideas that work well in an air fryer.
-            This section can grow into a practical collection of air fryer recipes, shortcuts,
-            and easy small-household cooking ideas.
-          </p>
+          <div className="aiBadge">{eyebrow}</div>
+          <h1>{title}</h1>
+          <p>{text}</p>
         </div>
       </section>
 
-      <div className="aboutRecipesActions airFryerActions">
-        <button className="primary" onClick={() => setActivePage("Recipes")}>
-          Browse Recipes
+      <div className="aboutRecipesActions">
+        <button className="primary" onClick={() => setActivePage(primaryPage)}>
+          {primaryLabel}
         </button>
-        <button className="secondary" onClick={() => setActivePage("How To Use")}>
-          How to Use This Site
+        <button className="secondary" onClick={() => setActivePage(secondaryPage)}>
+          {secondaryLabel}
         </button>
       </div>
     </main>
   );
 }
+
 
 
 
@@ -4934,7 +4950,15 @@ export default function App() {
       {activePage === "Home" && <Home {...pageProps} />}
       {activePage === "Disclaimers" && <DisclaimersPage setActivePage={setActivePage} />}
       {activePage === "Under Construction" && <UnderConstructionPage setActivePage={setActivePage} />}
-      {activePage === "Recipes" && <RecipesPage {...pageProps} />}
+      {activePage === "Recipes" && (
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-recipes.png"
+            alt="Recipe card organization setup on a kitchen counter"
+          />
+          <RecipesPage {...pageProps} />
+        </>
+      )}
       {activePage === "Collections" && <CollectionsPage setActivePage={setActivePage} />}
       {activePage === "Slow Cooker Favorites" && (
         <CollectionDetailPage
@@ -4971,7 +4995,15 @@ export default function App() {
           setActivePage={setActivePage}
         />
       )}
-      {activePage === "Meal Planner" && <PlannerPage {...pageProps} />}
+      {activePage === "Meal Planner" && (
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-meal-plan.png"
+            alt="Meal planning notebook with vegetables and dinner ingredients"
+          />
+          <PlannerPage {...pageProps} />
+        </>
+      )}
       {activePage === "Shopping Lists" && <ShoppingListPage {...pageProps} />}
       {activePage === "Pantry Staples" && <PantryStaplesPage {...pageProps} />}
       {activePage === "Favorites" && <FavoritesPage {...pageProps} />}
@@ -4980,27 +5012,89 @@ export default function App() {
       {activePage === "Grocery Picks" && <GroceryPicksPage {...pageProps} />}
       {activePage === "Smart Grocery Picks" && <GroceryPicksPage {...pageProps} />}
       {activePage === "Freezer Tips" && <FreezerTipsPage {...pageProps} />}
-      {activePage === "About" && <AboutPage setActivePage={setActivePage} initialSection="main" />}
+      {activePage === "About" && (
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-mission.png"
+            alt="Recipe box, binder, and kitchen organization setup"
+          />
+          <AboutPage setActivePage={setActivePage} initialSection="main" />
+        </>
+      )}
       {activePage === "Who Is Robert" && (
-        <PlaceholderInfoPage
+        <HeroTopicPage
           eyebrow="OUR MISSION"
           title="Who Is Robert"
+          heroImage="images/heroes/hero-mission.png"
+          heroAlt="Recipe box, binder, and kitchen organization setup"
           text="This page will introduce Robert, the person behind Robert’s Recipe Box, and explain the practical cooking experience behind the site."
           setActivePage={setActivePage}
         />
       )}
       {activePage === "My Goals" && (
-        <PlaceholderInfoPage
+        <HeroTopicPage
           eyebrow="OUR MISSION"
           title="What Are My Goals"
+          heroImage="images/heroes/hero-mission.png"
+          heroAlt="Recipe box, binder, and kitchen organization setup"
           text="This page will explain the goals of Robert’s Recipe Box: practical meals, smart planning, useful leftovers, freezer meals, and saving money where possible."
           setActivePage={setActivePage}
         />
       )}
+      
       {activePage === "Air Fryer Recipes" && (
-        <AirFryerRecipesPage setActivePage={setActivePage} />
+        <HeroTopicPage
+          eyebrow="COOKING METHODS"
+          title="Air Fryer Recipes"
+          heroImage="images/heroes/hero-air-fryer.png"
+          heroAlt="Air fryer with wings and potatoes on a kitchen counter"
+          text="This page will collect practical air fryer recipes, shortcuts, reheating ideas, and small-household cooking tips."
+          setActivePage={setActivePage}
+        />
       )}
-      {activePage === "Cooking Methods" && (
+      {activePage === "Oven Recipes" && (
+        <HeroTopicPage
+          eyebrow="COOKING METHODS"
+          title="Oven Recipes"
+          heroImage="images/heroes/hero-oven.png"
+          heroAlt="Baked casserole with tomatoes, basil, and kitchen herbs"
+          text="This page will collect practical oven-baked meals, casseroles, sheet-pan dinners, sides, and make-ahead recipe ideas."
+          setActivePage={setActivePage}
+        />
+      )}
+      {activePage === "Microwave Recipes" && (
+        <HeroTopicPage
+          eyebrow="COOKING METHODS"
+          title="Microwave Recipes"
+          heroImage="images/heroes/hero-microwave.png"
+          heroAlt="Microwave with a warm bowl of food on a kitchen counter"
+          text="This page will collect simple microwave cooking ideas, reheating tips, small portions, and quick meal shortcuts."
+          setActivePage={setActivePage}
+        />
+      )}
+      {activePage === "Gas Grill Recipes" && (
+        <HeroTopicPage
+          eyebrow="COOKING METHODS"
+          title="Gas Grill Recipes"
+          heroImage="images/heroes/hero-grill.png"
+          heroAlt="Gas grill with grilled meats and vegetables"
+          text="This page will collect gas-grill recipes, warm-weather meals, quick grilling ideas, and practical outdoor cooking tips."
+          setActivePage={setActivePage}
+        />
+      )}
+      {activePage === "Smoker Recipes" && (
+        <HeroTopicPage
+          eyebrow="COOKING METHODS"
+          title="Smoker & Pellet Grill Recipes"
+          heroImage="images/heroes/hero-smoker.png"
+          heroAlt="Pellet smoker with sliced brisket on a cutting board"
+          text="This page will collect smoked meats, pellet-grill ideas, smoker tips, wood-pellet flavor notes, and practical barbecue planning ideas."
+          setActivePage={setActivePage}
+          primaryPage="About Smoking"
+          primaryLabel="About Smoking & Grilling"
+        />
+      )}
+{activePage === "Cooking Methods" && (
         <PlaceholderInfoPage
           eyebrow="COOKING METHODS"
           title="Cooking Methods"
@@ -5009,11 +5103,15 @@ export default function App() {
         />
       )}
       {activePage === "Suggested Meal Plans" && (
-        <PlaceholderInfoPage
+        <HeroTopicPage
           eyebrow="OUR RECIPES"
           title="Suggested Meal Plans"
+          heroImage="images/heroes/hero-weekly-plan.png"
+          heroAlt="Weekly meal planner with fresh vegetables"
           text="This page will collect practical meal-plan ideas for smaller households, planned leftovers, freezer meals, and easy weekly routines."
           setActivePage={setActivePage}
+          primaryPage="Meal Planner"
+          primaryLabel="Plan Your Meals"
         />
       )}
       {activePage === "Bread Tips" && (
@@ -5041,11 +5139,15 @@ export default function App() {
         />
       )}
       {activePage === "Storage Organization" && (
-        <PlaceholderInfoPage
+        <HeroTopicPage
           eyebrow="TIPS & TECHNIQUES"
           title="Storage & Organization"
+          heroImage="images/heroes/hero-storage.png"
+          heroAlt="Pantry storage containers, baskets, spices, and herbs"
           text="This page will include ideas for organizing recipes, pantry staples, freezer meals, storage containers, labels, and kitchen tools."
           setActivePage={setActivePage}
+          primaryPage="Products I Use"
+          primaryLabel="Products I Use"
         />
       )}
       {activePage === "Other Interests" && (
