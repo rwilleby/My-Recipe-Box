@@ -2172,35 +2172,35 @@ function CollectionStrip({ setActivePage }) {
       title: "Slow Cooker Favorites",
       text: "Set-it-and-forget-it meals for easy crock-pot cooking.",
       page: "Slow Cooker Favorites",
-      image: "images/collections/crockpot.png",
+      image: "images/collections/crockpot.jpg",
       imageAlt: "Slow cooker meal in a crockpot",
     },
     {
       title: "Summer Cookouts",
       text: "Grill-friendly meals and warm-weather favorites.",
       page: "Summer Cookouts",
-      image: "images/collections/cookout.png",
+      image: "images/collections/cookout.jpg",
       imageAlt: "Backyard cookout with grilled foods",
     },
     {
       title: "Healthy Dinners",
       text: "Balanced meals for lighter weeknight cooking.",
       page: "Healthy Dinners",
-      image: "images/collections/healthy.png",
+      image: "images/collections/healthy.jpg",
       imageAlt: "Healthy dinner plate with chicken, vegetables, and quinoa",
     },
     {
       title: "Comfort Foods",
       text: "Popular classics for familiar family-style meals.",
       page: "Comfort Foods",
-      image: "images/collections/comfort.png",
+      image: "images/collections/comfort.jpg",
       imageAlt: "Comfort foods including pot pie, roast, mashed potatoes, and macaroni",
     },
     {
       title: "Easy 30-Minute Meals",
       text: "Fast 30-minute dinners for those busy nights.",
       page: "Easy 30-Minute Meals",
-      image: "images/collections/30-minute.png",
+      image: "images/collections/30-minute.jpg",
       imageAlt: "Quick skillet pasta meal",
     },
   ];
@@ -3580,7 +3580,7 @@ function FavoritesPage({
   );
 }
 
-function CollectionsPage() {
+function CollectionsPage({ setActivePage }) {
   return (
     <main className="pageShell">
       <div className="pageHeader">
@@ -4764,7 +4764,7 @@ export default function App() {
       {activePage === "Disclaimers" && <DisclaimersPage setActivePage={setActivePage} />}
       {activePage === "Under Construction" && <UnderConstructionPage setActivePage={setActivePage} />}
       {activePage === "Recipes" && <RecipesPage {...pageProps} />}
-      {activePage === "Collections" && <CollectionsPage />}
+      {activePage === "Collections" && <CollectionsPage setActivePage={setActivePage} />}
       {activePage === "Slow Cooker Favorites" && (
         <CollectionDetailPage
           title="Slow Cooker Favorites"
