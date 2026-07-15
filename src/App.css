@@ -12940,3 +12940,259 @@ button,
     padding: 8px 12px !important;
   }
 }
+
+/* =========================================================
+   HOME SHOWCASE PROPORTIONAL RESET
+   Featured Selection / Products I Use / Recipe Card Rolodex
+   - Rolodex column = 3/4 available width
+   - Left column = 1/4 available width
+   - Main gutter = 1/8 inch
+   - Rolodex total height = 1/2 Rolodex width
+   - Left column height matches Rolodex height
+   - Left column rows are equal height with 1/8 inch gutter
+   ========================================================= */
+
+@media (min-width: 1001px) {
+  .homeRolodexShowcaseSection {
+    padding-top: 16px !important;
+    padding-bottom: 12px !important;
+  }
+
+  .homeRolodexShowcaseLayout {
+    --showcase-gutter: 12px;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 3fr) !important;
+    column-gap: var(--showcase-gutter) !important;
+    align-items: stretch !important;
+    width: 100% !important;
+    max-width: none !important;
+  }
+
+  .homeShowcaseRolodexColumn {
+    min-width: 0 !important;
+    width: 100% !important;
+    aspect-ratio: 2 / 1 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    align-self: stretch !important;
+  }
+
+  .homeShowcaseRolodexColumn .homeRolodex {
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    display: grid !important;
+    grid-template-rows: auto minmax(0, 1fr) auto !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+  }
+
+  .homeShowcaseLeftColumn {
+    min-width: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    display: grid !important;
+    grid-template-rows: minmax(0, 1fr) minmax(0, 1fr) !important;
+    row-gap: 12px !important;
+    align-self: stretch !important;
+  }
+
+  .homeFeatureCard.featuredSelectionCard,
+  .homeFeatureCard.productsIUseCard {
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+    display: grid !important;
+    grid-template-rows: auto minmax(0, 1fr) !important;
+    padding: 12px !important;
+  }
+
+  .homeMiniSectionHeader {
+    margin: 0 0 8px !important;
+    padding: 0 !important;
+    min-height: 0 !important;
+    text-align: center !important;
+  }
+
+  .homeMiniSectionHeader h2 {
+    margin: 0 !important;
+    font-size: clamp(18px, 1.55vw, 24px) !important;
+    line-height: 1.05 !important;
+    letter-spacing: -0.025em !important;
+  }
+
+  .featuredSelectionCard .featuredSelectionButton,
+  .productsIUseCard .productUseFeatureTile {
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    display: grid !important;
+    grid-template-rows: minmax(0, 1fr) auto !important;
+    gap: 8px !important;
+    align-items: center !important;
+    justify-items: center !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+  }
+
+  .featuredSelectionCard .featuredSelectionImage,
+  .productsIUseCard .productUseFeatureImage {
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    max-width: none !important;
+    max-height: none !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    overflow: hidden !important;
+    display: grid !important;
+    place-items: center !important;
+  }
+
+  .featuredSelectionCard .featuredSelectionImage img,
+  .productsIUseCard .productUseFeatureImage img,
+  .productsIUseCard .productUseFeatureTile img {
+    width: auto !important;
+    height: auto !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    object-fit: contain !important;
+    object-position: center center !important;
+    display: block !important;
+  }
+
+  .featuredSelectionCard .featuredSelectionButton strong,
+  .productsIUseCard .productUseFeatureTile strong {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    text-align: center !important;
+    font-size: clamp(12px, .95vw, 15px) !important;
+    line-height: 1.1 !important;
+  }
+
+  .productsIUseCard .productUseFeatureWrap {
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    display: grid !important;
+    overflow: hidden !important;
+    position: relative !important;
+    padding: 0 !important;
+  }
+
+  .productsIUseCard .productUseArrow {
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    width: 24px !important;
+    height: 24px !important;
+    font-size: 18px !important;
+    z-index: 8 !important;
+  }
+
+  .productsIUseCard .productUseArrowLeft { left: 8px !important; }
+  .productsIUseCard .productUseArrowRight { right: 8px !important; }
+
+  .homeRolodexHeader {
+    min-height: 0 !important;
+    padding: 8px 14px !important;
+    box-sizing: border-box !important;
+  }
+
+  .homeRolodexStage {
+    min-height: 0 !important;
+    height: 100% !important;
+    display: grid !important;
+    grid-template-columns: 54px minmax(0, 1fr) 54px !important;
+    gap: 10px !important;
+    align-items: center !important;
+    justify-items: center !important;
+    padding: 12px !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+  }
+
+  .homeRolodexHolderArt {
+    left: 50% !important;
+    top: 50% !important;
+    bottom: auto !important;
+    width: min(92%, 900px) !important;
+    max-width: 900px !important;
+    height: auto !important;
+    transform: translate(-50%, -50%) !important;
+  }
+
+  .homeRolodexCard {
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    display: grid !important;
+    place-items: center !important;
+    transform: none !important;
+  }
+
+  .homeRolodexCard img {
+    width: min(64%, 650px) !important;
+    height: auto !important;
+    max-height: 42% !important;
+    object-fit: contain !important;
+    object-position: center center !important;
+  }
+
+  .homeRolodexNav {
+    width: 54px !important;
+    height: 82px !important;
+    align-self: center !important;
+    justify-self: center !important;
+    transform: none !important;
+  }
+
+  .homeRolodexDots {
+    min-height: 0 !important;
+    padding: 7px 12px 8px !important;
+    box-sizing: border-box !important;
+  }
+}
+
+@media (max-width: 1000px) {
+  .homeRolodexShowcaseLayout {
+    grid-template-columns: 1fr !important;
+    gap: 18px !important;
+  }
+
+  .homeShowcaseLeftColumn {
+    grid-template-columns: 1fr 1fr !important;
+    grid-template-rows: auto !important;
+    height: auto !important;
+    row-gap: 0 !important;
+    column-gap: 18px !important;
+  }
+
+  .homeShowcaseRolodexColumn { aspect-ratio: auto !important; }
+
+  .homeShowcaseRolodexColumn .homeRolodex {
+    min-height: 390px !important;
+    height: auto !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .homeShowcaseLeftColumn {
+    grid-template-columns: 1fr !important;
+    gap: 18px !important;
+  }
+
+  .homeFeatureCard.featuredSelectionCard { min-height: 260px !important; }
+  .homeFeatureCard.productsIUseCard { min-height: 320px !important; }
+}
