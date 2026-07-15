@@ -929,53 +929,65 @@ function fullCardImageCandidates(recipe) {
 function Header({ activePage, setActivePage }) {
   const navGroups = [
     {
-      label: "OUR MISSION",
+      label: "ABOUT US",
       items: [
-        { label: "WHY I STARTED THIS PAGE", page: "About" },
-        { label: "WHO IS ROBERT", page: "Who Is Robert" },
-        { label: "WHAT ARE MY GOALS", page: "My Goals" },
-      ],
-    },
-    {
-      label: "COOKING METHODS",
-      items: [
-        { label: "AIR FRYER RECIPES", page: "Air Fryer Recipes" },
-        { label: "OVEN RECIPES", page: "Oven Recipes" },
-        { label: "MICROWAVE RECIPES", page: "Microwave Recipes" },
-        { label: "GAS GRILL RECIPES", page: "Gas Grill Recipes" },
-        { label: "SMOKER & PELLET GRILL RECIPES", page: "Smoker Recipes" },
+        { label: "WHO, WHAT, WHEN, WHERE, WHY", page: "About" },
+        { label: "CONTACT ME", page: "Contact Me" },
+        { label: "BORING DISCLAIMER STUFF", page: "Disclaimers" },
+        { label: "UNDER CONSTRUCTION", page: "Under Construction" },
       ],
     },
     {
       label: "OUR RECIPES",
       items: [
-        { label: "HOW TO USE THIS SITE", page: "How To Use" },
-        { label: "BROWSE ALL RECIPES", page: "Recipes" },
-        { label: "SUGGESTED MEAL PLANS", page: "Suggested Meal Plans" },
-        { label: "PLAN YOUR MEALS", page: "Meal Planner" },
+        { label: "AI-GENERATED, NEVER COPIED", page: "About Recipes" },
+        { label: "FREE TO USE, PRINT OR DOWNLOAD", page: "Free To Use" },
+        { label: "BROWSE OUR LIBRARY", page: "Recipes" },
       ],
     },
     {
-      label: "YOUR LISTS",
+      label: "COLLECTIONS",
+      items: [
+        { label: "DINNER COMBINATIONS", page: "Dinner Combinations" },
+        { label: "SLOW COOKER MEALS", page: "Slow Cooker Favorites" },
+        { label: "SUMMER COOKOUTS", page: "Summer Cookouts" },
+        { label: "HEALTHY DINNERS", page: "Healthy Dinners" },
+        { label: "COMFORT FOODS", page: "Comfort Foods" },
+        { label: "EASY 30-MINUTE MEALS", page: "Easy 30-Minute Meals" },
+      ],
+    },
+    {
+      label: "COOKING METHODS",
+      items: [
+        { label: "AIR FRYERS", page: "Air Fryer Recipes" },
+        { label: "CROCKPOT", page: "Crockpot Recipes" },
+        { label: "OVENS", page: "Oven Recipes" },
+        { label: "MICROWAVES", page: "Microwave Recipes" },
+        { label: "GAS GRILLS", page: "Gas Grill Recipes" },
+        { label: "PELLET SMOKERS", page: "Smoker Recipes" },
+      ],
+    },
+    {
+      label: "PLANNING",
       items: [
         { label: "YOUR PANTRY", page: "Pantry Staples" },
         { label: "YOUR FAVORITES", page: "Favorites" },
-        { label: "YOUR MEAL PLAN", page: "Meal Planner" },
-        { label: "YOUR SHOPPING LIST", page: "Shopping Lists" },
+        { label: "YOUR MEAL PLANS", page: "Meal Planner" },
+        { label: "YOUR GROCERY LIST", page: "Shopping Lists" },
       ],
     },
     {
-      label: "TIPS & TECHNIQUES",
+      label: "TIPS & ORGANIZATION",
       items: [
-        { label: "BAKING YOUR OWN BREADS", page: "Bread Tips" },
-        { label: "SMOKING YOUR OWN MEATS", page: "About Smoking" },
-        { label: "FREEZER TECHNIQUES", page: "Freezer Tips" },
-        { label: "HEALTHY GROCERY SUBSTITUTIONS", page: "Grocery Picks" },
-        { label: "SUBMIT YOUR RECIPES", page: "Submit Recipes" },
-        { label: "SAFE COOKING RULES", page: "Safe Cooking Rules" },
-        { label: "TOOLS & PRODUCTS", page: "Products I Use" },
+        { label: "TIPS: BREADMAKING", page: "Bread Tips" },
+        { label: "TIPS: SMOKING MEATS", page: "About Smoking" },
+        { label: "TIPS: GRILLING", page: "Grilling Tips" },
+        { label: "TIPS: FREEZING MEALS", page: "Freezer Tips" },
+        { label: "HEALTHY SUBSTITUTIONS", page: "Grocery Picks" },
+        { label: "REFERENCE GUIDES", page: "Reference Guides" },
+        { label: "COOKING TOOLS & PRODUCTS", page: "Products I Use" },
         { label: "STORAGE & ORGANIZATION", page: "Storage Organization" },
-        { label: "OTHER INTERESTS", page: "Other Interests" },
+        { label: "SUBMIT FAMILY RECIPES", page: "Submit Recipes" },
       ],
     },
   ];
@@ -4964,6 +4976,58 @@ export default function App() {
       <Header activePage={activePage} setActivePage={setActivePage} />
 
       {activePage === "Home" && <Home {...pageProps} />}
+      {activePage === "Contact Me" && (
+        <PlaceholderInfoPage
+          eyebrow="ABOUT US"
+          title="Contact Me"
+          text="This page will include a simple way to contact Robert about recipe ideas, corrections, suggestions, or questions about Robert’s Recipe Box."
+          setActivePage={setActivePage}
+        />
+      )}
+      {activePage === "Free To Use" && (
+        <PlaceholderInfoPage
+          eyebrow="OUR RECIPES"
+          title="Free To Use, Print or Download"
+          text="Robert’s Recipe Box is free to use. Recipes, cards, meal-planning ideas, shopping-list tools, and practical information are intended to remain available without a subscription."
+          setActivePage={setActivePage}
+        />
+      )}
+      {activePage === "Dinner Combinations" && (
+        <CollectionDetailPage
+          title="Dinner Combinations"
+          text="A collection page for main dishes, side dishes, freezer meals, planned leftovers, and practical dinner pairings for smaller households."
+          setActivePage={setActivePage}
+        />
+      )}
+      {activePage === "Crockpot Recipes" && (
+        <HeroTopicPage
+          eyebrow="COOKING METHODS"
+          title="Crockpot Recipes"
+          heroImage="images/heroes/hero-weekly-plan.png"
+          heroAlt="Meal planning and slow-cooker dinner preparation"
+          text="This page will collect slow-cooker and crockpot meals that work well for practical dinner planning, planned leftovers, and freezer-friendly portions."
+          setActivePage={setActivePage}
+        />
+      )}
+      {activePage === "Grilling Tips" && (
+        <HeroTopicPage
+          eyebrow="TIPS & ORGANIZATION"
+          title="Tips: Grilling"
+          heroImage="images/heroes/hero-grill.png"
+          heroAlt="Gas grill with grilled meats and vegetables"
+          text="This page will collect practical grilling tips for burgers, chicken, meats, vegetables, cookouts, and simple outdoor meals."
+          setActivePage={setActivePage}
+        />
+      )}
+      {activePage === "Reference Guides" && (
+        <PlaceholderInfoPage
+          eyebrow="TIPS & ORGANIZATION"
+          title="Reference Guides"
+          text="This page will collect practical kitchen reference guides, cooking charts, storage reminders, substitutions, freezer tips, and other quick-use information."
+          setActivePage={setActivePage}
+        />
+      )}
+
       {activePage === "Disclaimers" && <DisclaimersPage setActivePage={setActivePage} />}
       {activePage === "Under Construction" && <UnderConstructionPage setActivePage={setActivePage} />}
       {activePage === "Recipes" && (

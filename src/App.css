@@ -13679,3 +13679,39 @@ button,
 
 
 /* ROLODEX CARDS UP 1/8 INCH UPDATE: moved recipe cards up by ~12px additional across breakpoints. */
+
+
+/* =========================================================
+   MAIN MENU RESTRUCTURE UPDATE
+   Allows the larger updated menu labels and longer dropdowns.
+   ========================================================= */
+
+.navLinks.dropdownNav {
+  gap: clamp(6px, .8vw, 14px) !important;
+}
+
+.navDropdownButton {
+  font-size: clamp(10px, .72vw, 12px) !important;
+  letter-spacing: .035em !important;
+}
+
+.navDropdownMenu {
+  min-width: max-content !important;
+  max-width: min(92vw, 360px) !important;
+}
+
+.navDropdownMenu button {
+  font-size: 12px !important;
+  white-space: nowrap !important;
+}
+
+@media (max-width: 1180px) {
+  .navDropdownButton {
+    font-size: 10px !important;
+    letter-spacing: .025em !important;
+  }
+
+  .navLinks.dropdownNav {
+    gap: 8px !important;
+  }
+}
