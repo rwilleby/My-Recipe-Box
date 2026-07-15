@@ -11233,3 +11233,832 @@ button,
     min-height: 390px !important;
   }
 }
+
+
+/* =========================================================
+   PRODUCTS I USE PAGE — IMAGE POSITION + AMAZON CORNER LINK
+   Moves product images upward and adds folded affiliate-link corner.
+   ========================================================= */
+
+.productsIUsePageCard {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Move image content upward inside each product card so it does not crowd headlines. */
+.productsIUsePageImage {
+  align-items: start !important;
+  padding: 8px 14px 6px !important;
+}
+
+.productsIUsePageImage img {
+  object-fit: contain !important;
+  object-position: center top !important;
+  transform: translateY(-8px);
+}
+
+/* Give the text block consistent breathing room below the higher image. */
+.productsIUsePageCard div:last-child {
+  padding-top: 12px !important;
+}
+
+/* Folded top-right corner affiliate link */
+.productsIUseAmazonCorner {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 8;
+  width: 74px;
+  height: 74px;
+  overflow: hidden;
+  color: #111827;
+  text-decoration: none;
+}
+
+.productsIUseAmazonCorner::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-top: 74px solid #ff9900;
+  border-left: 74px solid transparent;
+  filter: drop-shadow(-2px 2px 3px rgba(17, 24, 39, .18));
+}
+
+.productsIUseAmazonCorner span {
+  position: absolute;
+  top: 13px;
+  right: -2px;
+  width: 64px;
+  transform: rotate(45deg);
+  transform-origin: center;
+  color: #111827;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 9px;
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: -.02em;
+  text-align: center;
+  text-transform: lowercase;
+}
+
+.productsIUseAmazonCorner:hover::before {
+  border-top-color: #ffb23f;
+}
+
+/* Keep corner visible but not overpowering on smaller screens. */
+@media (max-width: 640px) {
+  .productsIUseAmazonCorner {
+    width: 64px;
+    height: 64px;
+  }
+
+  .productsIUseAmazonCorner::before {
+    border-top-width: 64px;
+    border-left-width: 64px;
+  }
+
+  .productsIUseAmazonCorner span {
+    top: 11px;
+    right: -5px;
+    font-size: 8px;
+  }
+
+  .productsIUsePageImage img {
+    transform: translateY(-6px);
+  }
+}
+
+
+/* =========================================================
+   FINAL FIX — HOME LEFT COLUMN + PRODUCTS I USE PAGE
+   Keeps the home left-column content inside the green-box areas,
+   prevents headline overlap, and refines the Products I Use page
+   with smaller product subheads and Amazon-smile link icons.
+   ========================================================= */
+
+/* ---------- HOME SHOWCASE: LEFT COLUMN FIT ---------- */
+.homeShowcaseLeftColumn {
+  display: grid !important;
+  grid-template-rows: 318px 462px !important;
+  gap: 22px !important;
+  align-self: stretch !important;
+}
+
+.homeShowcaseRolodexColumn .homeRolodex {
+  min-height: 802px !important;
+  height: 802px !important;
+}
+
+.homeFeatureCard.featuredSelectionCard,
+.homeFeatureCard.productsIUseCard {
+  height: 100% !important;
+  min-height: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+  padding: 14px 18px 14px !important;
+  box-sizing: border-box !important;
+}
+
+.homeMiniSectionHeader {
+  flex: 0 0 auto !important;
+  margin: 0 0 10px !important;
+  padding: 0 !important;
+  position: relative !important;
+  z-index: 4 !important;
+}
+
+.homeMiniSectionHeader h2 {
+  margin: 0 !important;
+  font-size: clamp(20px, 1.5vw, 24px) !important;
+  line-height: 1.08 !important;
+}
+
+.featuredSelectionCard .featuredSelectionButton {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  display: grid !important;
+  grid-template-rows: minmax(0, 1fr) auto !important;
+  gap: 8px !important;
+  align-items: stretch !important;
+  justify-items: center !important;
+}
+
+.featuredSelectionCard .featuredSelectionImage {
+  width: calc(100% - 24px) !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  margin: 0 auto !important;
+  padding: 6px 0 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.featuredSelectionCard .featuredSelectionImage img {
+  max-width: 100% !important;
+  max-height: 168px !important;
+  width: auto !important;
+  height: auto !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  display: block !important;
+}
+
+.featuredSelectionCard .featuredSelectionButton strong {
+  width: 100% !important;
+  margin: 0 auto !important;
+  font-size: 14px !important;
+  line-height: 1.12 !important;
+  padding-top: 2px !important;
+}
+
+.productsIUseCard .homeMiniSectionHeader {
+  margin-bottom: 14px !important;
+}
+
+.productsIUseCard .productUseFeatureWrap {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  display: grid !important;
+  position: relative !important;
+  overflow: hidden !important;
+  padding-top: 2px !important;
+}
+
+.productsIUseCard .productUseFeatureTile {
+  height: 100% !important;
+  min-height: 0 !important;
+  display: grid !important;
+  grid-template-rows: minmax(0, 1fr) auto !important;
+  gap: 10px !important;
+  align-items: stretch !important;
+  justify-items: center !important;
+}
+
+.productsIUseCard .productUseFeatureImage {
+  width: calc(100% - 36px) !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  margin: 0 auto !important;
+  padding: 12px 0 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.productsIUseCard .productUseFeatureImage img {
+  max-width: 100% !important;
+  max-height: 248px !important;
+  width: auto !important;
+  height: auto !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  display: block !important;
+}
+
+.productsIUseCard .productUseFeatureTile strong {
+  width: 100% !important;
+  margin: 0 auto !important;
+  font-size: 14px !important;
+  line-height: 1.12 !important;
+  padding-top: 4px !important;
+}
+
+.productsIUseCard .productUseArrow {
+  top: 55% !important;
+  transform: translateY(-50%) !important;
+  z-index: 7 !important;
+}
+
+.productsIUseCard .productUseArrowLeft {
+  left: 12px !important;
+}
+
+.productsIUseCard .productUseArrowRight {
+  right: 12px !important;
+}
+
+@media (max-width: 1000px) {
+  .homeShowcaseLeftColumn {
+    grid-template-columns: 1fr 1fr !important;
+    grid-template-rows: auto !important;
+    gap: 18px !important;
+  }
+
+  .homeShowcaseRolodexColumn .homeRolodex {
+    height: auto !important;
+    min-height: auto !important;
+  }
+
+  .homeFeatureCard.featuredSelectionCard,
+  .homeFeatureCard.productsIUseCard {
+    height: auto !important;
+    min-height: 300px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .homeShowcaseLeftColumn {
+    grid-template-columns: 1fr !important;
+  }
+
+  .homeFeatureCard.featuredSelectionCard {
+    min-height: 300px !important;
+  }
+
+  .homeFeatureCard.productsIUseCard {
+    min-height: 420px !important;
+  }
+}
+
+/* ---------- PRODUCTS I USE PAGE ---------- */
+.productsIUsePageCard {
+  position: relative !important;
+  overflow: hidden !important;
+  grid-template-rows: 236px auto !important;
+}
+
+.productsIUsePageImage {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 20px 18px 12px !important;
+  background: #ffffff !important;
+}
+
+.productsIUsePageImage img {
+  width: auto !important;
+  height: auto !important;
+  max-width: 94% !important;
+  max-height: 100% !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  transform: none !important;
+  display: block !important;
+}
+
+.productsIUsePageCard div:last-child {
+  padding: 14px 16px 16px !important;
+}
+
+.productsIUsePageCard h2 {
+  margin: 0 0 8px !important;
+  color: #111827 !important;
+  font-size: 13px !important;
+  line-height: 1.15 !important;
+}
+
+.productsIUsePageCard p {
+  margin: 0 !important;
+  color: #374151 !important;
+  font-size: 14px !important;
+  line-height: 1.42 !important;
+}
+
+.productsIUseAmazonCorner {
+  position: absolute !important;
+  top: 10px !important;
+  right: 10px !important;
+  z-index: 8 !important;
+  width: 28px !important;
+  height: 28px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: visible !important;
+  text-decoration: none !important;
+  background: transparent !important;
+}
+
+.productsIUseAmazonCorner::before {
+  display: none !important;
+}
+
+.productsIUseAmazonCorner span {
+  display: none !important;
+}
+
+.productsIUseAmazonIcon {
+  width: 28px !important;
+  height: 28px !important;
+  display: block !important;
+  border-radius: 8px !important;
+  box-shadow: 0 2px 8px rgba(17, 24, 39, .12) !important;
+}
+
+@media (max-width: 640px) {
+  .productsIUsePageCard {
+    grid-template-rows: 210px auto !important;
+  }
+
+  .productsIUseAmazonCorner,
+  .productsIUseAmazonIcon {
+    width: 24px !important;
+    height: 24px !important;
+  }
+}
+
+
+/* =========================================================
+   PRODUCTS I USE — TIGHTER CARD LAYOUT
+   Makes the product listing page more compact and uniform.
+   ========================================================= */
+
+.productsIUsePage {
+  padding-top: 28px !important;
+}
+
+.productsIUseHero {
+  margin-bottom: 16px !important;
+  padding: 26px 30px !important;
+}
+
+.productsIUseHero h1 {
+  margin-bottom: 8px !important;
+}
+
+.productsIUseHero p {
+  font-size: 15.5px !important;
+  line-height: 1.42 !important;
+}
+
+.productsIUsePageGrid {
+  gap: 14px !important;
+}
+
+.productsIUsePageCard {
+  grid-template-rows: 178px auto !important;
+  border-radius: 14px !important;
+}
+
+.productsIUsePageImage {
+  padding: 14px 14px 8px !important;
+  min-height: 0 !important;
+}
+
+.productsIUsePageImage img {
+  max-width: 92% !important;
+  max-height: 160px !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  transform: none !important;
+}
+
+.productsIUsePageCard div:last-child {
+  padding: 12px 14px 14px !important;
+}
+
+.productsIUsePageCard h2 {
+  margin: 0 0 5px !important;
+  font-size: 12px !important;
+  line-height: 1.12 !important;
+  letter-spacing: -0.01em !important;
+}
+
+.productsIUsePageCard p {
+  font-size: 12.5px !important;
+  line-height: 1.32 !important;
+}
+
+.productsIUseAmazonCorner {
+  top: 8px !important;
+  right: 8px !important;
+  width: 24px !important;
+  height: 24px !important;
+}
+
+.productsIUseAmazonIcon {
+  width: 24px !important;
+  height: 24px !important;
+  border-radius: 7px !important;
+}
+
+.productsIUseActions {
+  margin-top: 16px !important;
+}
+
+@media (max-width: 1000px) {
+  .productsIUsePageGrid {
+    gap: 14px !important;
+  }
+
+  .productsIUsePageCard {
+    grid-template-rows: 170px auto !important;
+  }
+
+  .productsIUsePageImage img {
+    max-height: 152px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .productsIUseHero {
+    padding: 22px 20px !important;
+  }
+
+  .productsIUsePageCard {
+    grid-template-rows: 168px auto !important;
+  }
+
+  .productsIUsePageImage img {
+    max-height: 150px !important;
+  }
+
+  .productsIUsePageCard h2 {
+    font-size: 12.5px !important;
+  }
+
+  .productsIUsePageCard p {
+    font-size: 12.5px !important;
+  }
+}
+
+
+/* =========================================================
+   CONSOLIDATED HOME / PRODUCTS / COLLECTION FIX
+   Restores missing edits in one final override layer.
+   ========================================================= */
+
+/* HOME LEFT COLUMN: fit sections into approved spaces */
+.homeShowcaseLeftColumn {
+  display: grid !important;
+  grid-template-rows: 318px 462px !important;
+  gap: 22px !important;
+  align-self: stretch !important;
+}
+
+.homeShowcaseRolodexColumn .homeRolodex {
+  min-height: 802px !important;
+  height: 802px !important;
+}
+
+.homeFeatureCard.featuredSelectionCard,
+.homeFeatureCard.productsIUseCard {
+  height: 100% !important;
+  min-height: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+  padding: 14px 18px 14px !important;
+  box-sizing: border-box !important;
+}
+
+.homeMiniSectionHeader {
+  flex: 0 0 auto !important;
+  margin: 0 0 10px !important;
+  padding: 0 !important;
+  position: relative !important;
+  z-index: 4 !important;
+}
+
+.homeMiniSectionHeader h2 {
+  margin: 0 !important;
+  font-size: clamp(20px, 1.5vw, 24px) !important;
+  line-height: 1.08 !important;
+}
+
+/* Featured Selection */
+.featuredSelectionCard .featuredSelectionButton {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  display: grid !important;
+  grid-template-rows: minmax(0, 1fr) auto !important;
+  gap: 8px !important;
+  align-items: stretch !important;
+  justify-items: center !important;
+}
+
+.featuredSelectionCard .featuredSelectionImage {
+  width: calc(100% - 24px) !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  margin: 0 auto !important;
+  padding: 6px 0 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.featuredSelectionCard .featuredSelectionImage img {
+  max-width: 100% !important;
+  max-height: 168px !important;
+  width: auto !important;
+  height: auto !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+}
+
+.featuredSelectionCard .featuredSelectionButton strong {
+  width: 100% !important;
+  margin: 0 auto !important;
+  font-size: 14px !important;
+  line-height: 1.12 !important;
+  padding-top: 2px !important;
+}
+
+/* Products I Use homepage card */
+.productsIUseCard .homeMiniSectionHeader {
+  margin-bottom: 14px !important;
+}
+
+.productsIUseCard .productUseFeatureWrap {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  display: grid !important;
+  position: relative !important;
+  overflow: hidden !important;
+  padding-top: 2px !important;
+}
+
+.productsIUseCard .productUseFeatureTile {
+  height: 100% !important;
+  min-height: 0 !important;
+  display: grid !important;
+  grid-template-rows: minmax(0, 1fr) auto !important;
+  gap: 10px !important;
+  align-items: stretch !important;
+  justify-items: center !important;
+}
+
+.productsIUseCard .productUseFeatureImage {
+  width: calc(100% - 36px) !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  margin: 0 auto !important;
+  padding: 12px 0 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.productsIUseCard .productUseFeatureImage img {
+  max-width: 100% !important;
+  max-height: 248px !important;
+  width: auto !important;
+  height: auto !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+}
+
+.productsIUseCard .productUseFeatureTile strong {
+  width: 100% !important;
+  margin: 0 auto !important;
+  font-size: 14px !important;
+  line-height: 1.12 !important;
+  padding-top: 4px !important;
+}
+
+.productsIUseCard .productUseArrow {
+  top: 55% !important;
+  transform: translateY(-50%) !important;
+  z-index: 7 !important;
+}
+
+.productsIUseCard .productUseArrowLeft {
+  left: 12px !important;
+}
+
+.productsIUseCard .productUseArrowRight {
+  right: 12px !important;
+}
+
+/* Bottom collection buttons and popups */
+.homeCollectionFlowButton {
+  min-height: 44px !important;
+  height: 44px !important;
+  border-radius: 13px !important;
+  border: 1px solid var(--green) !important;
+  background: rgba(255, 255, 255, .94) !important;
+  color: #123f24 !important;
+  padding: 7px 14px !important;
+  font-size: 10.5px !important;
+  line-height: 1.05 !important;
+  letter-spacing: .075em !important;
+  font-weight: 900 !important;
+  text-transform: uppercase !important;
+}
+
+.homeCollectionPopup {
+  width: min(540px, 90vw) !important;
+}
+
+.homeCollectionPopupImage {
+  width: 100% !important;
+  aspect-ratio: 16 / 9 !important;
+  border-radius: 14px !important;
+  overflow: hidden !important;
+  background: #f7faf7 !important;
+  margin: 0 0 12px !important;
+}
+
+.homeCollectionPopupImage img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  display: block !important;
+}
+
+/* Products I Use page — tighter cards + Amazon smile icon */
+.productsIUsePage {
+  padding-top: 28px !important;
+}
+
+.productsIUseHero {
+  margin-bottom: 16px !important;
+  padding: 26px 30px !important;
+}
+
+.productsIUseHero h1 {
+  margin-bottom: 8px !important;
+}
+
+.productsIUseHero p {
+  font-size: 15.5px !important;
+  line-height: 1.42 !important;
+}
+
+.productsIUsePageGrid {
+  gap: 14px !important;
+}
+
+.productsIUsePageCard {
+  position: relative !important;
+  overflow: hidden !important;
+  grid-template-rows: 178px auto !important;
+  border-radius: 14px !important;
+}
+
+.productsIUsePageImage {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 14px 14px 8px !important;
+  background: #ffffff !important;
+  min-height: 0 !important;
+}
+
+.productsIUsePageImage img {
+  width: auto !important;
+  height: auto !important;
+  max-width: 92% !important;
+  max-height: 160px !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  transform: none !important;
+  display: block !important;
+}
+
+.productsIUsePageCard div:last-child {
+  padding: 12px 14px 14px !important;
+}
+
+.productsIUsePageCard h2 {
+  margin: 0 0 5px !important;
+  color: #111827 !important;
+  font-size: 12px !important;
+  line-height: 1.12 !important;
+  letter-spacing: -0.01em !important;
+}
+
+.productsIUsePageCard p {
+  margin: 0 !important;
+  color: #374151 !important;
+  font-size: 12.5px !important;
+  line-height: 1.32 !important;
+}
+
+.productsIUseAmazonCorner {
+  position: absolute !important;
+  top: 8px !important;
+  right: 8px !important;
+  z-index: 8 !important;
+  width: 24px !important;
+  height: 24px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: visible !important;
+  background: transparent !important;
+  text-decoration: none !important;
+}
+
+.productsIUseAmazonCorner::before,
+.productsIUseAmazonCorner span {
+  display: none !important;
+}
+
+.productsIUseAmazonIcon {
+  width: 24px !important;
+  height: 24px !important;
+  display: block !important;
+  border-radius: 7px !important;
+  box-shadow: 0 2px 8px rgba(17, 24, 39, .12) !important;
+}
+
+@media (max-width: 1000px) {
+  .homeShowcaseLeftColumn {
+    grid-template-columns: 1fr 1fr !important;
+    grid-template-rows: auto !important;
+    gap: 18px !important;
+  }
+
+  .homeShowcaseRolodexColumn .homeRolodex {
+    height: auto !important;
+    min-height: auto !important;
+  }
+
+  .homeFeatureCard.featuredSelectionCard,
+  .homeFeatureCard.productsIUseCard {
+    height: auto !important;
+    min-height: 300px !important;
+  }
+
+  .productsIUsePageCard {
+    grid-template-rows: 170px auto !important;
+  }
+
+  .productsIUsePageImage img {
+    max-height: 152px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .homeShowcaseLeftColumn {
+    grid-template-columns: 1fr !important;
+  }
+
+  .homeFeatureCard.featuredSelectionCard {
+    min-height: 300px !important;
+  }
+
+  .homeFeatureCard.productsIUseCard {
+    min-height: 420px !important;
+  }
+
+  .productsIUsePageCard {
+    grid-template-rows: 168px auto !important;
+  }
+
+  .productsIUsePageImage img {
+    max-height: 150px !important;
+  }
+}

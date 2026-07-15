@@ -956,11 +956,25 @@ function Header({ activePage, setActivePage }) {
 
 
 function getHeroInfoTargetPage(title) {
-  return "Under Construction";
+  switch (title) {
+    case "Plan Your Weekly Meals":
+      return "Meal Planner";
+    case "Create Your Grocery List":
+      return "Shopping Lists";
+    default:
+      return "Under Construction";
+  }
 }
 
 function getHeroInfoMoreInfoLabel(title) {
-  return "Read More";
+  switch (title) {
+    case "Plan Your Weekly Meals":
+      return "Plan Your Meals";
+    case "Create Your Grocery List":
+      return "Go To Your Shopping List";
+    default:
+      return "Read More";
+  }
 }
 
 
@@ -2158,26 +2172,36 @@ function CollectionStrip({ setActivePage }) {
       title: "Slow Cooker Favorites",
       text: "Set-it-and-forget-it meals for easy crock-pot cooking.",
       page: "Slow Cooker Favorites",
+      image: "images/collections/crockpot.png",
+      imageAlt: "Slow cooker meal in a crockpot",
     },
     {
       title: "Summer Cookouts",
       text: "Grill-friendly meals and warm-weather favorites.",
       page: "Summer Cookouts",
+      image: "images/collections/cookout.png",
+      imageAlt: "Backyard cookout with grilled foods",
     },
     {
       title: "Healthy Dinners",
       text: "Balanced meals for lighter weeknight cooking.",
       page: "Healthy Dinners",
+      image: "images/collections/healthy.png",
+      imageAlt: "Healthy dinner plate with chicken, vegetables, and quinoa",
     },
     {
       title: "Comfort Foods",
       text: "Popular classics for familiar family-style meals.",
       page: "Comfort Foods",
+      image: "images/collections/comfort.png",
+      imageAlt: "Comfort foods including pot pie, roast, mashed potatoes, and macaroni",
     },
     {
       title: "Easy 30-Minute Meals",
       text: "Fast 30-minute dinners for those busy nights.",
       page: "Easy 30-Minute Meals",
+      image: "images/collections/30-minute.png",
+      imageAlt: "Quick skillet pasta meal",
     },
   ];
 
@@ -2211,6 +2235,16 @@ function CollectionStrip({ setActivePage }) {
                     ×
                   </button>
                 </div>
+
+                <div className="homeCollectionPopupImage">
+                  <img
+                    src={`${import.meta.env.BASE_URL}${collection.image}`}
+                    alt={collection.imageAlt}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
+
                 <p>{collection.text}</p>
                 <button
                   type="button"
@@ -2231,112 +2265,6 @@ function CollectionStrip({ setActivePage }) {
   );
 }
 
-
-function getRandomRecipes(sourceRecipes, maxCount = 12) {
-  return [...sourceRecipes]
-    .sort(() => Math.random() - 0.5)
-    .slice(0, maxCount);
-}
-
-
-const PRODUCTS_I_USE = [
-  {
-    title: "Aluminum Mini Bread Pans",
-    image: "images/products/aluminum-mini-bread-pans.jpg",
-    note: "Small disposable pans for mini loaves, freezer portions, gift breads, and make-ahead meals.",
-  },
-  {
-    title: "Aluminum 4-Inch Pie Pans",
-    image: "images/products/aluminum-4in-pie-pans.jpg",
-    note: "Small disposable pie pans for personal pies, quiche portions, desserts, and freezer-friendly servings.",
-  },
-  {
-    title: "Aluminum Cupcake Pans",
-    image: "images/products/aluminum-cupcake-pans.jpg",
-    note: "Disposable cupcake or muffin pans for small-batch baking, easy cleanup, and portioned treats.",
-  },
-  {
-    title: "Aluminum Mini Cake Pans",
-    image: "images/products/aluminum-mini-cake-pans.jpg",
-    note: "Small disposable cake pans for desserts, small loaves, gifting, and freezer-friendly portions.",
-  },
-  {
-    title: "Ball 2-Ounce Jars",
-    image: "images/products/ball-2oz-jars.jpg",
-    note: "Small jars for sauces, dressings, jams, seasoning mixes, toppings, and portioned condiments.",
-  },
-  {
-    title: "Ball 4-Ounce Jars",
-    image: "images/products/ball-4oz-jars.jpg",
-    note: "Useful jars for small desserts, sauces, overnight oats, fruit portions, and pantry organization.",
-  },
-  {
-    title: "Ball 8-Ounce Jars",
-    image: "images/products/ball-8oz-jars.jpg",
-    note: "Everyday jars for leftovers, soups, salads, snacks, sauces, and small make-ahead portions.",
-  },
-  {
-    title: "Baguette Bread Pan",
-    image: "images/products/bread-baguette-pan.jpg",
-    note: "A perforated bread pan for baking baguettes, sub rolls, and crustier homemade breads.",
-  },
-  {
-    title: "Bread Machine",
-    image: "images/products/bread-machine.jpg",
-    note: "A countertop bread machine for simple homemade bread, dough cycles, and small-batch baking.",
-  },
-  {
-    title: "Pullman Bread Pan",
-    image: "images/products/bread-pullman-pan.jpg",
-    note: "A lidded loaf pan for sandwich bread, square loaves, and consistent homemade slices.",
-  },
-  {
-    title: "8-Ounce Deli Containers",
-    image: "images/products/plastic-storage-8oz.jpg",
-    note: "Small plastic containers for sauces, fruit, snacks, toppings, and small leftovers.",
-  },
-  {
-    title: "16-Ounce Deli Containers",
-    image: "images/products/plastic-storage-16oz.jpg",
-    note: "Mid-size containers for leftovers, soups, chopped ingredients, and freezer portions.",
-  },
-  {
-    title: "32-Ounce Deli Containers",
-    image: "images/products/plastic-storage-32oz.jpg",
-    note: "Larger containers for soups, sauces, meal-prep portions, and freezer storage.",
-  },
-  {
-    title: "Silicone Freezer Trays",
-    image: "images/products/silicone-freezer-trays.jpg",
-    note: "Portion trays for freezing soups, sauces, broth, cooked meats, and individual meal components.",
-  },
-  {
-    title: "Vacuum Sealer Jar Attachment",
-    image: "images/products/vacuum-sealer-jar.jpg",
-    note: "A jar-sealing tool for helping store dry goods, sauces, and pantry items in mason jars.",
-  },
-];
-
-
-function heroFoodImageCandidates(recipe) {
-  const candidates = [];
-  const prefix = recipeCodePrefix(recipe.id);
-
-  if (recipe.heroImage) candidates.push(recipe.heroImage);
-
-  if (recipe.id && AUTO_IMAGE_PREFIXES.has(prefix)) {
-    candidates.push(`images/heroes/${recipe.id}.png`);
-    candidates.push(`images/heroes/${recipe.id} .png`);
-    candidates.push(`images/heroes/${recipe.id}.jpg`);
-    candidates.push(`images/heroes/${recipe.id} .jpg`);
-  }
-
-  if (recipe.image && !`${recipe.image}`.includes("/recipes/")) {
-    candidates.push(recipe.image);
-  }
-
-  return [...new Set(candidates)];
-}
 
 function FeaturedSelectionPanel({ openRecipeCard }) {
   const featuredRecipes = useMemo(() => recipes.slice(0, 12), []);
@@ -3673,6 +3601,11 @@ function CollectionsPage() {
 }
 
 
+
+function getProductAffiliateUrl(product) {
+  return product.affiliateUrl || "https://www.amazon.com/";
+}
+
 function ProductsIUsePage({ setActivePage }) {
   return (
     <main className="pageShell productsIUsePage">
@@ -3691,6 +3624,22 @@ function ProductsIUsePage({ setActivePage }) {
       <div className="productsIUsePageGrid">
         {PRODUCTS_I_USE.map((product) => (
           <article className="productsIUsePageCard" key={product.title}>
+            <a
+              className="productsIUseAmazonCorner"
+              href={getProductAffiliateUrl(product)}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={`View ${product.title} on Amazon`}
+              title="View on Amazon"
+            >
+              <img
+                className="productsIUseAmazonIcon"
+                src={`${import.meta.env.BASE_URL}images/ui/amazon-smile.png`}
+                alt=""
+                loading="lazy"
+                decoding="async"
+              />
+            </a>
             <div className="productsIUsePageImage">
               <img
                 src={`${import.meta.env.BASE_URL}${product.image}`}
