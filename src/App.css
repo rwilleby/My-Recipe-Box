@@ -13422,3 +13422,38 @@ button,
     transform: translateY(-4px) !important;
   }
 }
+
+
+/* ================================
+   AIR FRYER RECIPES HERO IMAGE UPDATE
+   Adds a full-width hero image banner to the Air Fryer Recipes page.
+   ================================ */
+
+.airFryerRecipesPage {
+  padding-top: 38px;
+}
+
+.airFryerHeroBanner {
+  margin-bottom: 22px;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.airFryerHeroBanner img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.airFryerIntroCard {
+  margin-bottom: 0;
+}
+
+@media (max-width: 640px) {
+  .airFryerHeroBanner {
+    border-radius: 14px;
+  }
+}

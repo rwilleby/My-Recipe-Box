@@ -939,7 +939,7 @@ function Header({ activePage, setActivePage }) {
     {
       label: "COOKING METHODS",
       items: [
-        { label: "AIR FRYER RECIPES", page: "Cooking Methods" },
+        { label: "AIR FRYER RECIPES", page: "Air Fryer Recipes" },
         { label: "OVEN RECIPES", page: "Cooking Methods" },
         { label: "MICROWAVE RECIPES", page: "Cooking Methods" },
         { label: "GAS GRILL RECIPES", page: "Cooking Methods" },
@@ -4632,6 +4632,43 @@ function PlaceholderInfoPage({ eyebrow, title, text, setActivePage }) {
 }
 
 
+function AirFryerRecipesPage({ setActivePage }) {
+  return (
+    <main className="pageShell aboutRecipesPage airFryerRecipesPage">
+      <section className="airFryerHeroBanner">
+        <img
+          src={`${import.meta.env.BASE_URL}images/heroes/air-fryer-recipes-hero.png`}
+          alt="Air fryer on a kitchen counter with air fryer chicken wings and roasted potatoes"
+          loading="eager"
+          decoding="async"
+        />
+      </section>
+
+      <section className="aboutRecipesHero airFryerIntroCard">
+        <div>
+          <div className="aiBadge">COOKING METHODS</div>
+          <h1>Air Fryer Recipes</h1>
+          <p>
+            A simple starting page for meals, sides, and ideas that work well in an air fryer.
+            This section can grow into a practical collection of air fryer recipes, shortcuts,
+            and easy small-household cooking ideas.
+          </p>
+        </div>
+      </section>
+
+      <div className="aboutRecipesActions airFryerActions">
+        <button className="primary" onClick={() => setActivePage("Recipes")}>
+          Browse Recipes
+        </button>
+        <button className="secondary" onClick={() => setActivePage("How To Use")}>
+          How to Use This Site
+        </button>
+      </div>
+    </main>
+  );
+}
+
+
 
 function DisclaimersPage({ setActivePage }) {
   return (
@@ -4959,6 +4996,9 @@ export default function App() {
           text="This page will explain the goals of Robert’s Recipe Box: practical meals, smart planning, useful leftovers, freezer meals, and saving money where possible."
           setActivePage={setActivePage}
         />
+      )}
+      {activePage === "Air Fryer Recipes" && (
+        <AirFryerRecipesPage setActivePage={setActivePage} />
       )}
       {activePage === "Cooking Methods" && (
         <PlaceholderInfoPage
