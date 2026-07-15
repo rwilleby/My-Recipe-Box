@@ -4977,27 +4977,54 @@ export default function App() {
 
       {activePage === "Home" && <Home {...pageProps} />}
       {activePage === "Contact Me" && (
-        <PlaceholderInfoPage
-          eyebrow="ABOUT US"
-          title="Contact Me"
-          text="This page will include a simple way to contact Robert about recipe ideas, corrections, suggestions, or questions about Robert’s Recipe Box."
-          setActivePage={setActivePage}
-        />
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-mission.png"
+            alt="Recipe box, notebook, and kitchen organization setup"
+            eyebrow="ABOUT US"
+            title="Contact Me"
+            text="This page will include a simple way to contact Robert about recipe ideas, corrections, suggestions, or questions about Robert’s Recipe Box."
+          />
+          <PlaceholderInfoPage
+            eyebrow="ABOUT US"
+            title="Contact Me"
+            text="This page will include a simple way to contact Robert about recipe ideas, corrections, suggestions, or questions about Robert’s Recipe Box."
+            setActivePage={setActivePage}
+          />
+        </>
       )}
       {activePage === "Free To Use" && (
-        <PlaceholderInfoPage
-          eyebrow="OUR RECIPES"
-          title="Free To Use, Print or Download"
-          text="Robert’s Recipe Box is free to use. Recipes, cards, meal-planning ideas, shopping-list tools, and practical information are intended to remain available without a subscription."
-          setActivePage={setActivePage}
-        />
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-recipes.png"
+            alt="Recipe card organization setup on a kitchen counter"
+            eyebrow="OUR RECIPES"
+            title="Free To Use, Print or Download"
+            text="Recipes, cards, meal-planning ideas, shopping-list tools, and practical information are intended to remain available without a subscription."
+          />
+          <PlaceholderInfoPage
+            eyebrow="OUR RECIPES"
+            title="Free To Use, Print or Download"
+            text="Robert’s Recipe Box is free to use. Recipes, cards, meal-planning ideas, shopping-list tools, and practical information are intended to remain available without a subscription."
+            setActivePage={setActivePage}
+          />
+        </>
       )}
       {activePage === "Dinner Combinations" && (
-        <CollectionDetailPage
-          title="Dinner Combinations"
-          text="A collection page for main dishes, side dishes, freezer meals, planned leftovers, and practical dinner pairings for smaller households."
-          setActivePage={setActivePage}
-        />
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-weekly-plan.png"
+            alt="Weekly planner with fresh vegetables and meal-prep ingredients"
+            eyebrow="COLLECTIONS"
+            title="Dinner Combinations"
+            text="Practical main-dish and side-dish pairings, planned leftovers, and easy dinner combinations for smaller households."
+          />
+          <CollectionDetailPage
+            title="Dinner Combinations"
+            text="A collection page for main dishes, side dishes, freezer meals, planned leftovers, and practical dinner pairings for smaller households."
+            setActivePage={setActivePage}
+          />
+        </>
       )}
       {activePage === "Crockpot Recipes" && (
         <HeroTopicPage
@@ -5020,78 +5047,182 @@ export default function App() {
         />
       )}
       {activePage === "Reference Guides" && (
-        <PlaceholderInfoPage
-          eyebrow="TIPS & ORGANIZATION"
-          title="Reference Guides"
-          text="This page will collect practical kitchen reference guides, cooking charts, storage reminders, substitutions, freezer tips, and other quick-use information."
-          setActivePage={setActivePage}
-        />
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-storage.png"
+            alt="Pantry storage containers, spices, and kitchen organization setup"
+            eyebrow="TIPS & ORGANIZATION"
+            title="Reference Guides"
+            text="Practical kitchen reference guides, cooking charts, storage reminders, substitutions, freezer tips, and other quick-use information."
+          />
+          <PlaceholderInfoPage
+            eyebrow="TIPS & ORGANIZATION"
+            title="Reference Guides"
+            text="This page will collect practical kitchen reference guides, cooking charts, storage reminders, substitutions, freezer tips, and other quick-use information."
+            setActivePage={setActivePage}
+          />
+        </>
       )}
 
-      {activePage === "Disclaimers" && <DisclaimersPage setActivePage={setActivePage} />}
-      {activePage === "Under Construction" && <UnderConstructionPage setActivePage={setActivePage} />}
+      {activePage === "Disclaimers" && (
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-mission.png"
+            alt="Recipe box, notebook, and kitchen organization setup"
+            eyebrow="ABOUT US"
+            title="Boring Disclaimer Stuff"
+            text="Important information about how the site works, recipe sources, nutritional estimates, food safety, and general-use guidance."
+          />
+          <DisclaimersPage setActivePage={setActivePage} />
+        </>
+      )}
+      {activePage === "Under Construction" && (
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-mission.png"
+            alt="Recipe box, notebook, and kitchen organization setup"
+            eyebrow="ABOUT US"
+            title="Under Construction"
+            text="This section is still being built. More pages, recipe cards, and practical planning tools will be added as the site continues to grow."
+          />
+          <UnderConstructionPage setActivePage={setActivePage} />
+        </>
+      )}
       {activePage === "Recipes" && (
         <>
           <PageHeroImage
             src="images/heroes/hero-recipes.png"
             alt="Recipe card organization setup on a kitchen counter"
+            eyebrow="OUR RECIPES"
+            title="Browse Our Library"
+            text="Explore practical recipe cards, organized categories, and easy meal ideas created for everyday home cooking."
           />
           <RecipesPage {...pageProps} />
         </>
       )}
-      {activePage === "Collections" && <CollectionsPage setActivePage={setActivePage} />}
+      {activePage === "Collections" && (
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-weekly-plan.png"
+            alt="Weekly meal planner with fresh vegetables"
+            eyebrow="COLLECTIONS"
+            title="Collections"
+            text="Browse themed recipe collections for easy planning, practical dinners, and favorite meal ideas grouped in useful ways."
+          />
+          <CollectionsPage setActivePage={setActivePage} />
+        </>
+      )}
       {activePage === "Slow Cooker Favorites" && (
-        <CollectionDetailPage
-          title="Slow Cooker Favorites"
-          text="A collection page for easy slow-cooker meals and set-it-and-forget-it dinner ideas. More recipes and filters will be added here."
-          setActivePage={setActivePage}
-        />
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-weekly-plan.png"
+            alt="Weekly planner with fresh vegetables and meal-prep ingredients"
+            eyebrow="COLLECTIONS"
+            title="Slow Cooker Favorites"
+            text="Easy slow-cooker meals and set-it-and-forget-it dinner ideas for practical home cooking."
+          />
+          <CollectionDetailPage
+            title="Slow Cooker Favorites"
+            text="A collection page for easy slow-cooker meals and set-it-and-forget-it dinner ideas. More recipes and filters will be added here."
+            setActivePage={setActivePage}
+          />
+        </>
       )}
       {activePage === "Summer Cookouts" && (
-        <CollectionDetailPage
-          title="Summer Cookouts"
-          text="A collection page for grill-friendly meals, warm-weather favorites, cookouts, and simple outdoor dinners. More recipes and filters will be added here."
-          setActivePage={setActivePage}
-        />
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-grill.png"
+            alt="Gas grill with grilled meats and vegetables"
+            eyebrow="COLLECTIONS"
+            title="Summer Cookouts"
+            text="Grill-friendly meals, warm-weather favorites, cookouts, and simple outdoor dinners."
+          />
+          <CollectionDetailPage
+            title="Summer Cookouts"
+            text="A collection page for grill-friendly meals, warm-weather favorites, cookouts, and simple outdoor dinners. More recipes and filters will be added here."
+            setActivePage={setActivePage}
+          />
+        </>
       )}
       {activePage === "Healthy Dinners" && (
-        <CollectionDetailPage
-          title="Healthy Dinners"
-          text="A collection page for lighter, practical dinner ideas with flexible options for lower-calorie, lower-carb, and higher-protein meals. More recipes and filters will be added here."
-          setActivePage={setActivePage}
-        />
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-favorites.png"
+            alt="Healthy bowl with vegetables and a wooden heart"
+            eyebrow="COLLECTIONS"
+            title="Healthy Dinners"
+            text="Lighter, practical dinner ideas with flexible options for lower-calorie, lower-carb, and higher-protein meals."
+          />
+          <CollectionDetailPage
+            title="Healthy Dinners"
+            text="A collection page for lighter, practical dinner ideas with flexible options for lower-calorie, lower-carb, and higher-protein meals. More recipes and filters will be added here."
+            setActivePage={setActivePage}
+          />
+        </>
       )}
       {activePage === "Comfort Foods" && (
-        <CollectionDetailPage
-          title="Comfort Foods"
-          text="A collection page for familiar classics, cozy family-style meals, and practical comfort-food recipes. More recipes and filters will be added here."
-          setActivePage={setActivePage}
-        />
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-oven.png"
+            alt="Baked casserole with tomatoes, basil, and kitchen herbs"
+            eyebrow="COLLECTIONS"
+            title="Comfort Foods"
+            text="Familiar classics, cozy family-style meals, and practical comfort-food recipes."
+          />
+          <CollectionDetailPage
+            title="Comfort Foods"
+            text="A collection page for familiar classics, cozy family-style meals, and practical comfort-food recipes. More recipes and filters will be added here."
+            setActivePage={setActivePage}
+          />
+        </>
       )}
       {activePage === "Easy 30-Minute Meals" && (
-        <CollectionDetailPage
-          title="Easy 30-Minute Meals"
-          text="A collection page for fast weeknight meals and simple dinners that come together quickly. More recipes and filters will be added here."
-          setActivePage={setActivePage}
-        />
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-microwave.png"
+            alt="Microwave with a warm bowl of food on a kitchen counter"
+            eyebrow="COLLECTIONS"
+            title="Easy 30-Minute Meals"
+            text="Fast weeknight meals and simple dinners that come together quickly."
+          />
+          <CollectionDetailPage
+            title="Easy 30-Minute Meals"
+            text="A collection page for fast weeknight meals and simple dinners that come together quickly. More recipes and filters will be added here."
+            setActivePage={setActivePage}
+          />
+        </>
       )}
       {activePage === "Meal Planner" && (
         <>
           <PageHeroImage
             src="images/heroes/hero-meal-plan.png"
             alt="Meal planning notebook with vegetables and dinner ingredients"
+            eyebrow="PLANNING"
+            title="Your Meal Plans"
+            text="Build weekly meal plans, organize ideas, and keep dinner planning simple."
           />
           <PlannerPage {...pageProps} />
         </>
       )}
-      {activePage === "Shopping Lists" && <ShoppingListPage {...pageProps} />}
+      {activePage === "Shopping Lists" && (
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-meal-plan.png"
+            alt="Meal planner notebook with vegetables and planning tools"
+            eyebrow="PLANNING"
+            title="Your Grocery List"
+            text="Turn meal ideas into a simple working grocery list for practical shopping."
+          />
+          <ShoppingListPage {...pageProps} />
+        </>
+      )}
       {activePage === "Pantry Staples" && (
         <>
           <PageHeroImage
             src="images/heroes/hero-pantry.png"
             alt="Pantry staples in jars and baskets on a kitchen counter"
-            eyebrow="YOUR LISTS"
-            title="Pantry Staples"
+            eyebrow="PLANNING"
+            title="Your Pantry"
             text="Keep useful staples organized so meal planning and shopping are easier."
           />
           <PantryStaplesPage {...pageProps} />
@@ -5102,7 +5233,7 @@ export default function App() {
           <PageHeroImage
             src="images/heroes/hero-favorites.png"
             alt="Healthy bowl with vegetables and a wooden heart"
-            eyebrow="YOUR LISTS"
+            eyebrow="PLANNING"
             title="Your Favorites"
             icon="♥"
             text="Save the recipes you like so they are easy to find again."
@@ -5110,16 +5241,74 @@ export default function App() {
           <FavoritesPage {...pageProps} />
         </>
       )}
-      {activePage === "Recommendations" && <RecommendationsPage {...pageProps} />}
-      {activePage === "Products I Use" && <ProductsIUsePage setActivePage={setActivePage} />}
-      {activePage === "Grocery Picks" && <GroceryPicksPage {...pageProps} />}
-      {activePage === "Smart Grocery Picks" && <GroceryPicksPage {...pageProps} />}
-      {activePage === "Freezer Tips" && <FreezerTipsPage {...pageProps} />}
+      {activePage === "Recommendations" && (
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-storage.png"
+            alt="Pantry storage containers, spices, and kitchen organization setup"
+            eyebrow="TIPS & ORGANIZATION"
+            title="Recommendations"
+            text="Helpful kitchen products, practical tools, and useful items that support cooking and organization."
+          />
+          <RecommendationsPage {...pageProps} />
+        </>
+      )}
+      {activePage === "Products I Use" && (
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-storage.png"
+            alt="Pantry storage containers, spices, and kitchen organization setup"
+            eyebrow="TIPS & ORGANIZATION"
+            title="Cooking Tools & Products"
+            text="Helpful products and practical kitchen tools that support cooking, meal prep, and organization."
+          />
+          <ProductsIUsePage setActivePage={setActivePage} />
+        </>
+      )}
+      {activePage === "Grocery Picks" && (
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-favorites.png"
+            alt="Healthy bowl with vegetables and a wooden heart"
+            eyebrow="TIPS & ORGANIZATION"
+            title="Healthy Substitutions"
+            text="Review lighter swaps, lower-carb options, and practical ingredient ideas before you shop."
+          />
+          <GroceryPicksPage {...pageProps} />
+        </>
+      )}
+      {activePage === "Smart Grocery Picks" && (
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-favorites.png"
+            alt="Healthy bowl with vegetables and a wooden heart"
+            eyebrow="TIPS & ORGANIZATION"
+            title="Healthy Substitutions"
+            text="Review lighter swaps, lower-carb options, and practical ingredient ideas before you shop."
+          />
+          <GroceryPicksPage {...pageProps} />
+        </>
+      )}
+      {activePage === "Freezer Tips" && (
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-storage.png"
+            alt="Pantry storage containers, spices, and kitchen organization setup"
+            eyebrow="TIPS & ORGANIZATION"
+            title="Tips: Freezing Meals"
+            text="Helpful freezer ideas, storage notes, and practical ways to save meals for later."
+          />
+          <FreezerTipsPage {...pageProps} />
+        </>
+      )}
       {activePage === "About" && (
         <>
           <PageHeroImage
             src="images/heroes/hero-mission.png"
             alt="Recipe box, binder, and kitchen organization setup"
+            eyebrow="ABOUT US"
+            title="Who, What, When, Where, Why"
+            text="Learn how Robert’s Recipe Box got started, what it is designed to do, and why practical home cooking matters."
           />
           <AboutPage setActivePage={setActivePage} initialSection="main" />
         </>
@@ -5198,12 +5387,21 @@ export default function App() {
         />
       )}
 {activePage === "Cooking Methods" && (
-        <PlaceholderInfoPage
-          eyebrow="COOKING METHODS"
-          title="Cooking Methods"
-          text="This page will help visitors browse recipes by appliance or method, including air fryer, oven, microwave, gas grill, smoker, stovetop, slow cooker, and other practical cooking options."
-          setActivePage={setActivePage}
-        />
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-air-fryer.png"
+            alt="Air fryer with wings and potatoes on a kitchen counter"
+            eyebrow="COOKING METHODS"
+            title="Cooking Methods"
+            text="Browse recipes by appliance or method, including air fryer, oven, microwave, gas grill, smoker, and slow cooker."
+          />
+          <PlaceholderInfoPage
+            eyebrow="COOKING METHODS"
+            title="Cooking Methods"
+            text="This page will help visitors browse recipes by appliance or method, including air fryer, oven, microwave, gas grill, smoker, stovetop, slow cooker, and other practical cooking options."
+            setActivePage={setActivePage}
+          />
+        </>
       )}
       {activePage === "Suggested Meal Plans" && (
         <HeroTopicPage
@@ -5218,28 +5416,55 @@ export default function App() {
         />
       )}
       {activePage === "Bread Tips" && (
-        <PlaceholderInfoPage
-          eyebrow="TIPS & TECHNIQUES"
-          title="Baking Your Own Breads"
-          text="This page will include practical bread-baking tips, freezer ideas, recipe-card guidance, and simple ways to bake breads and rolls at home."
-          setActivePage={setActivePage}
-        />
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-recipes.png"
+            alt="Recipe box and kitchen organization setup"
+            eyebrow="TIPS & ORGANIZATION"
+            title="Tips: Breadmaking"
+            text="Practical bread-baking tips, freezer ideas, recipe-card guidance, and simple ways to bake breads and rolls at home."
+          />
+          <PlaceholderInfoPage
+            eyebrow="TIPS & TECHNIQUES"
+            title="Baking Your Own Breads"
+            text="This page will include practical bread-baking tips, freezer ideas, recipe-card guidance, and simple ways to bake breads and rolls at home."
+            setActivePage={setActivePage}
+          />
+        </>
       )}
       {activePage === "Submit Recipes" && (
-        <PlaceholderInfoPage
-          eyebrow="TIPS & TECHNIQUES"
-          title="Submit Your Recipes"
-          text="This page will explain how visitors can suggest recipe ideas, family favorites, copycat-style meals, or practical cooking tips for future consideration."
-          setActivePage={setActivePage}
-        />
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-recipes.png"
+            alt="Recipe card organization setup on a kitchen counter"
+            eyebrow="TIPS & ORGANIZATION"
+            title="Submit Family Recipes"
+            text="Share recipe ideas, family favorites, or practical cooking suggestions for future consideration."
+          />
+          <PlaceholderInfoPage
+            eyebrow="TIPS & TECHNIQUES"
+            title="Submit Your Recipes"
+            text="This page will explain how visitors can suggest recipe ideas, family favorites, copycat-style meals, or practical cooking tips for future consideration."
+            setActivePage={setActivePage}
+          />
+        </>
       )}
       {activePage === "Safe Cooking Rules" && (
-        <PlaceholderInfoPage
-          eyebrow="TIPS & TECHNIQUES"
-          title="Safe Cooking Rules"
-          text="This page will collect basic food-safety reminders for cooking, cooling, freezing, thawing, reheating, and checking safe internal temperatures."
-          setActivePage={setActivePage}
-        />
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-oven.png"
+            alt="Baked casserole with tomatoes, basil, and kitchen herbs"
+            eyebrow="TIPS & ORGANIZATION"
+            title="Safe Cooking Rules"
+            text="Basic food-safety reminders for cooking, cooling, freezing, thawing, reheating, and checking safe internal temperatures."
+          />
+          <PlaceholderInfoPage
+            eyebrow="TIPS & TECHNIQUES"
+            title="Safe Cooking Rules"
+            text="This page will collect basic food-safety reminders for cooking, cooling, freezing, thawing, reheating, and checking safe internal temperatures."
+            setActivePage={setActivePage}
+          />
+        </>
       )}
       {activePage === "Storage Organization" && (
         <HeroTopicPage
@@ -5254,16 +5479,58 @@ export default function App() {
         />
       )}
       {activePage === "Other Interests" && (
-        <PlaceholderInfoPage
-          eyebrow="TIPS & TECHNIQUES"
-          title="Other Interests"
-          text="This page will hold additional practical topics, experiments, tools, and ideas that do not fit neatly into the main recipe sections."
-          setActivePage={setActivePage}
-        />
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-mission.png"
+            alt="Recipe box, notebook, and kitchen organization setup"
+            eyebrow="TIPS & ORGANIZATION"
+            title="Other Interests"
+            text="Additional practical topics, experiments, tools, and ideas that do not fit neatly into the main recipe sections."
+          />
+          <PlaceholderInfoPage
+            eyebrow="TIPS & TECHNIQUES"
+            title="Other Interests"
+            text="This page will hold additional practical topics, experiments, tools, and ideas that do not fit neatly into the main recipe sections."
+            setActivePage={setActivePage}
+          />
+        </>
       )}
-      {activePage === "How To Use" && <HowToUsePage setActivePage={setActivePage} />}
-      {activePage === "About Recipes" && <AboutRecipesPage setActivePage={setActivePage} />}
-      {activePage === "About Smoking" && <AboutSmokingPage setActivePage={setActivePage} />}
+      {activePage === "How To Use" && (
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-recipes.png"
+            alt="Recipe card organization setup on a kitchen counter"
+            eyebrow="OUR RECIPES"
+            title="How to Use This Site"
+            text="Get the most from the recipe library, meal-planning tools, shopping lists, favorites, and practical kitchen features."
+          />
+          <HowToUsePage setActivePage={setActivePage} />
+        </>
+      )}
+      {activePage === "About Recipes" && (
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-recipes.png"
+            alt="Recipe card organization setup on a kitchen counter"
+            eyebrow="OUR RECIPES"
+            title="AI-Generated, Never Copied"
+            text="Learn how the recipes are created, why they are practical for smaller households, and how they are intended to be used."
+          />
+          <AboutRecipesPage setActivePage={setActivePage} />
+        </>
+      )}
+      {activePage === "About Smoking" && (
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-smoker.png"
+            alt="Pellet smoker with sliced brisket on a cutting board"
+            eyebrow="TIPS & ORGANIZATION"
+            title="Tips: Smoking Meats"
+            text="Learn how Robert got started smoking meat, what he has learned, and how practical smoker cooking fits into the site."
+          />
+          <AboutSmokingPage setActivePage={setActivePage} />
+        </>
+      )}
 
       <RecipeCardViewer
         viewer={cardViewer}
