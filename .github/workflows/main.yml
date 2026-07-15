@@ -25,9 +25,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Remove stale lockfile
+        run: rm -f package-lock.json npm-shrinkwrap.json
 
       - name: Install dependencies
-        run: npm install
+        run: npm install --no-package-lock --registry=https://registry.npmjs.org
 
       - name: Build
         run: npm run build
