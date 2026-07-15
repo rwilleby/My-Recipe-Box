@@ -13199,3 +13199,61 @@ button,
   .homeFeatureCard.featuredSelectionCard { min-height: 260px !important; }
   .homeFeatureCard.productsIUseCard { min-height: 320px !important; }
 }
+
+
+/* =========================================================
+   ROLODEX HOLDER HALF-INCH MARGIN UPDATE
+   Keeps the Rolodex section size unchanged.
+   Enlarges/positions the Rolodex holder art so it sits about
+   1/2 inch from the left, right, and bottom of the Rolodex box.
+   ========================================================= */
+
+@media (min-width: 1001px) {
+  .homeRolodexStage {
+    position: relative !important;
+    overflow: hidden !important;
+  }
+
+  .homeRolodexHolderArt {
+    left: 50% !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: 48px !important; /* 1/2 inch at 96dpi */
+    width: calc(100% - 96px) !important; /* 1/2 inch left + 1/2 inch right */
+    max-width: none !important;
+    height: auto !important;
+    transform: translateX(-50%) !important;
+    object-fit: contain !important;
+    object-position: center bottom !important;
+  }
+
+  /* Keep the live recipe card centered over the enlarged holder art.
+     We will adjust the recipe card sizing separately later. */
+  .homeRolodexCard {
+    transform: none !important;
+    display: grid !important;
+    place-items: center !important;
+  }
+
+  .homeRolodexCard img {
+    margin: auto !important;
+  }
+}
+
+@media (max-width: 1000px) {
+  .homeRolodexHolderArt {
+    left: 50% !important;
+    top: auto !important;
+    bottom: 32px !important;
+    width: calc(100% - 64px) !important;
+    max-width: none !important;
+    transform: translateX(-50%) !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .homeRolodexHolderArt {
+    bottom: 22px !important;
+    width: calc(100% - 36px) !important;
+  }
+}
