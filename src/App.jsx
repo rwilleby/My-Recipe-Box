@@ -2266,6 +2266,33 @@ function CollectionStrip({ setActivePage }) {
 }
 
 
+
+function heroFoodImageCandidates(recipe) {
+  const candidates = [];
+  const prefix = recipeCodePrefix(recipe.id);
+
+  if (recipe.heroImage) candidates.push(recipe.heroImage);
+
+  if (recipe.id && AUTO_IMAGE_PREFIXES.has(prefix)) {
+    candidates.push(`images/heroes/${recipe.id}.jpg`);
+    candidates.push(`images/heroes/${recipe.id} .jpg`);
+    candidates.push(`images/heroes/${recipe.id}.png`);
+    candidates.push(`images/heroes/${recipe.id} .png`);
+    candidates.push(`images/thumbs/recipes/${recipe.id}.jpg`);
+    candidates.push(`images/thumbs/recipes/${recipe.id} .jpg`);
+  }
+
+  if (recipe.image) candidates.push(recipe.image);
+  if (recipe.cardImage) candidates.push(recipe.cardImage);
+
+  if (recipe.id && AUTO_IMAGE_PREFIXES.has(prefix)) {
+    candidates.push(`images/recipes/${recipe.id}.png`);
+    candidates.push(`images/recipes/${recipe.id} .png`);
+  }
+
+  return [...new Set(candidates)];
+}
+
 function FeaturedSelectionPanel({ openRecipeCard }) {
   const featuredRecipes = useMemo(() => recipes.slice(0, 12), []);
   const [activeIndex, setActiveIndex] = useState(0);
