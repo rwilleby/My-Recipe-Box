@@ -3673,11 +3673,6 @@ function CollectionsPage() {
 }
 
 
-
-function getProductAffiliateUrl(product) {
-  return product.affiliateUrl || "https://www.amazon.com/";
-}
-
 function ProductsIUsePage({ setActivePage }) {
   return (
     <main className="pageShell productsIUsePage">
@@ -3696,22 +3691,6 @@ function ProductsIUsePage({ setActivePage }) {
       <div className="productsIUsePageGrid">
         {PRODUCTS_I_USE.map((product) => (
           <article className="productsIUsePageCard" key={product.title}>
-            <a
-              className="productsIUseAmazonCorner"
-              href={getProductAffiliateUrl(product)}
-              target="_blank"
-              rel="noreferrer"
-              aria-label={`View ${product.title} on Amazon`}
-              title="View on Amazon"
-            >
-              <img
-                className="productsIUseAmazonIcon"
-                src={`${import.meta.env.BASE_URL}images/ui/amazon-smile.png`}
-                alt=""
-                loading="lazy"
-                decoding="async"
-              />
-            </a>
             <div className="productsIUsePageImage">
               <img
                 src={`${import.meta.env.BASE_URL}${product.image}`}
