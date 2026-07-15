@@ -13143,9 +13143,12 @@ button,
   }
 
   .homeRolodexCard img {
-    width: min(64%, 650px) !important;
+    width: min(80%, 812px) !important;
     height: auto !important;
-    max-height: 42% !important;
+    max-height: 52.5% !important;
+    margin: auto !important;
+    align-self: center !important;
+    justify-self: center !important;
     object-fit: contain !important;
     object-position: center center !important;
   }
