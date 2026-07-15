@@ -13376,3 +13376,49 @@ button,
     max-height: 220px !important;
   }
 }
+
+
+/* =========================================================
+   ROLODEX HOLDER LARGER / MORE VISIBLE
+   Cards stay essentially the same size.
+   Holder is enlarged and revealed more clearly behind the cards.
+   ========================================================= */
+
+@media (min-width: 1001px) {
+  .homeRolodexStage {
+    position: relative !important;
+    overflow: hidden !important;
+  }
+
+  .homeRolodexHolderArt {
+    width: min(calc(100% - 8px), 1240px) !important;
+    left: 50% !important;
+    bottom: -2px !important;
+    transform: translateX(-50%) !important;
+    z-index: 1 !important;
+    object-fit: contain !important;
+    object-position: center bottom !important;
+  }
+
+  .homeRolodexCard {
+    position: relative !important;
+    z-index: 2 !important;
+    transform: translateY(-12px) !important;
+  }
+
+  .homeRolodexCard img {
+    width: min(88%, 980px) !important;
+    max-height: 380px !important;
+  }
+}
+
+@media (max-width: 1000px) {
+  .homeRolodexHolderArt {
+    width: calc(100% - 12px) !important;
+    bottom: -1px !important;
+  }
+
+  .homeRolodexCard {
+    transform: translateY(-4px) !important;
+  }
+}
