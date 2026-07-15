@@ -13257,3 +13257,122 @@ button,
     width: calc(100% - 36px) !important;
   }
 }
+
+
+/* =========================================================
+   ROLODEX NEW HERO FIT UPDATE
+   Uses the new rolodex holder image and scales it to fit the
+   allocated Rolodex stage almost full width, anchored to the bottom.
+   The top breathing room can float as needed.
+   ========================================================= */
+
+@media (min-width: 1001px) {
+  .homeRolodexStage {
+    position: relative !important;
+    overflow: hidden !important;
+  }
+
+  .homeRolodexHolderArt {
+    position: absolute !important;
+    left: 50% !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: 0 !important;
+    width: calc(100% - 84px) !important;
+    max-width: none !important;
+    height: auto !important;
+    transform: translateX(-50%) !important;
+    object-fit: contain !important;
+    object-position: center bottom !important;
+    z-index: 1 !important;
+    pointer-events: none !important;
+    user-select: none !important;
+  }
+
+  .homeRolodexCard {
+    position: relative !important;
+    z-index: 2 !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 250px !important;
+    display: grid !important;
+    place-items: center !important;
+    align-self: center !important;
+    justify-self: center !important;
+    transform: translateY(-6px) !important;
+  }
+
+  .homeRolodexCard img {
+    width: min(74%, 820px) !important;
+    max-height: 300px !important;
+    object-fit: contain !important;
+    object-position: center center !important;
+    margin: auto !important;
+  }
+}
+
+@media (max-width: 1000px) {
+  .homeRolodexHolderArt {
+    left: 50% !important;
+    top: auto !important;
+    bottom: 0 !important;
+    width: calc(100% - 56px) !important;
+    max-width: none !important;
+    transform: translateX(-50%) !important;
+  }
+
+  .homeRolodexCard img {
+    width: min(78%, 560px) !important;
+    max-height: 225px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .homeRolodexHolderArt {
+    width: calc(100% - 24px) !important;
+    bottom: 0 !important;
+  }
+
+  .homeRolodexCard img {
+    width: min(82%, 420px) !important;
+    max-height: 180px !important;
+  }
+}
+
+
+/* =========================================================
+   ROLODEX LIVE CARD ENLARGED ON HOLDER
+   Enlarges the active recipe card so it visually fills more of the
+   Rolodex holder, while preserving the already approved box size.
+   ========================================================= */
+
+@media (min-width: 1001px) {
+  .homeRolodexCard {
+    transform: translateY(2px) !important;
+  }
+
+  .homeRolodexCard img {
+    width: min(88%, 980px) !important;
+    max-height: 380px !important;
+    object-fit: contain !important;
+    object-position: center center !important;
+  }
+}
+
+@media (max-width: 1000px) {
+  .homeRolodexCard {
+    transform: translateY(0) !important;
+  }
+
+  .homeRolodexCard img {
+    width: min(90%, 760px) !important;
+    max-height: 310px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .homeRolodexCard img {
+    width: min(92%, 460px) !important;
+    max-height: 220px !important;
+  }
+}
