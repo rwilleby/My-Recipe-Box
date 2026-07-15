@@ -3761,7 +3761,8 @@ function ProductsIUsePage({ setActivePage }) {
               className="productsIUseAmazonCorner"
               href={getProductAffiliateUrl(product)}
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
+              
               aria-label={`View ${product.title} on Amazon`}
               title="View on Amazon"
             >

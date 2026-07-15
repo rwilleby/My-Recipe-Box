@@ -12402,3 +12402,293 @@ button,
     border-radius: 10px !important;
   }
 }
+
+
+/* =========================================================
+   HOME SHOWCASE TRUE FIT OVERRIDE
+   Compresses the entire Featured / Products / Rolodex row so content
+   stays inside the approved visual boxes with less dead space.
+   ========================================================= */
+
+.homeRolodexShowcaseSection {
+  padding-top: 14px !important;
+  padding-bottom: 8px !important;
+}
+
+.homeRolodexShowcaseLayout {
+  display: grid !important;
+  grid-template-columns: minmax(210px, 0.92fr) minmax(0, 3.08fr) !important;
+  gap: 22px !important;
+  align-items: stretch !important;
+  max-height: 590px !important;
+}
+
+/* Left side: top smaller, bottom larger, total compact. */
+.homeShowcaseLeftColumn {
+  display: grid !important;
+  grid-template-rows: 235px 335px !important;
+  gap: 18px !important;
+  height: 590px !important;
+  max-height: 590px !important;
+  min-height: 0 !important;
+  align-self: stretch !important;
+}
+
+.homeFeatureCard.featuredSelectionCard,
+.homeFeatureCard.productsIUseCard {
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  padding: 12px 14px !important;
+  overflow: hidden !important;
+  display: grid !important;
+  grid-template-rows: auto minmax(0, 1fr) !important;
+  box-sizing: border-box !important;
+}
+
+/* Smaller section titles so they do not eat the card depth. */
+.homeMiniSectionHeader {
+  margin: 0 0 8px !important;
+  padding: 0 !important;
+  min-height: 0 !important;
+}
+
+.homeMiniSectionHeader h2 {
+  font-size: 20px !important;
+  line-height: 1.04 !important;
+  margin: 0 !important;
+  letter-spacing: -0.025em !important;
+}
+
+/* Featured Selection: fit image + name inside the top green area. */
+.featuredSelectionCard .featuredSelectionButton {
+  min-height: 0 !important;
+  height: 100% !important;
+  display: grid !important;
+  grid-template-rows: minmax(0, 1fr) auto !important;
+  gap: 8px !important;
+  align-items: stretch !important;
+  justify-items: center !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+}
+
+.featuredSelectionCard .featuredSelectionImage {
+  width: 100% !important;
+  max-width: 235px !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: 145px !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  overflow: hidden !important;
+}
+
+.featuredSelectionCard .featuredSelectionImage img {
+  width: auto !important;
+  height: auto !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain !important;
+  object-position: center !important;
+}
+
+.featuredSelectionCard .featuredSelectionButton strong {
+  font-size: 13px !important;
+  line-height: 1.1 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Products I Use: keep image, arrows, and product name inside bottom green area. */
+.productsIUseCard .productUseFeatureWrap {
+  min-height: 0 !important;
+  height: 100% !important;
+  display: grid !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+}
+
+.productsIUseCard .productUseFeatureTile {
+  min-height: 0 !important;
+  height: 100% !important;
+  display: grid !important;
+  grid-template-rows: minmax(0, 1fr) auto !important;
+  gap: 8px !important;
+  align-items: stretch !important;
+  justify-items: center !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+}
+
+.productsIUseCard .productUseFeatureImage {
+  width: 100% !important;
+  max-width: 250px !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: 225px !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  overflow: hidden !important;
+}
+
+.productsIUseCard .productUseFeatureImage img {
+  width: auto !important;
+  height: auto !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain !important;
+  object-position: center !important;
+}
+
+.productsIUseCard .productUseFeatureTile strong {
+  font-size: 13px !important;
+  line-height: 1.1 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Keep product arrows inside the image region, not near the product name. */
+.productsIUseCard .productUseArrow {
+  top: 48% !important;
+  width: 24px !important;
+  height: 24px !important;
+  font-size: 18px !important;
+  transform: translateY(-50%) !important;
+}
+
+.productsIUseCard .productUseArrowLeft {
+  left: 10px !important;
+}
+
+.productsIUseCard .productUseArrowRight {
+  right: 10px !important;
+}
+
+/* Right Rolodex: same compact total height as left column. */
+.homeShowcaseRolodexColumn,
+.homeShowcaseRolodexColumn .homeRolodex {
+  height: 590px !important;
+  min-height: 590px !important;
+  max-height: 590px !important;
+  overflow: hidden !important;
+}
+
+.homeShowcaseRolodexColumn .homeRolodex {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.homeRolodexHeader {
+  flex: 0 0 58px !important;
+  min-height: 58px !important;
+  padding: 8px 14px !important;
+}
+
+.homeRolodexStage {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  height: auto !important;
+  display: grid !important;
+  grid-template-columns: 52px minmax(0, 1fr) 52px !important;
+  gap: 10px !important;
+  align-items: center !important;
+  justify-items: center !important;
+  padding: 10px 18px 18px !important;
+  overflow: hidden !important;
+}
+
+.homeRolodexHolderArt {
+  width: min(88%, 790px) !important;
+  left: 50% !important;
+  top: 56% !important;
+  bottom: auto !important;
+  transform: translate(-50%, -50%) !important;
+}
+
+.homeRolodexCard {
+  height: 100% !important;
+  min-height: 0 !important;
+  transform: translateY(12px) !important;
+  display: grid !important;
+  place-items: center !important;
+}
+
+.homeRolodexCard img {
+  width: min(60%, 555px) !important;
+  max-height: 190px !important;
+  object-fit: contain !important;
+}
+
+.homeRolodexNav {
+  transform: none !important;
+}
+
+.homeRolodexDots {
+  flex: 0 0 30px !important;
+  min-height: 30px !important;
+  padding: 8px 12px !important;
+}
+
+/* Amazon links: guaranteed new tab/window. Styling preserved. */
+.productsIUseAmazonCorner {
+  cursor: pointer !important;
+}
+
+/* Responsive fallback. */
+@media (max-width: 1000px) {
+  .homeRolodexShowcaseLayout {
+    grid-template-columns: 1fr !important;
+    max-height: none !important;
+  }
+
+  .homeShowcaseLeftColumn {
+    grid-template-columns: 1fr 1fr !important;
+    grid-template-rows: auto !important;
+    height: auto !important;
+    max-height: none !important;
+  }
+
+  .homeFeatureCard.featuredSelectionCard,
+  .homeFeatureCard.productsIUseCard {
+    min-height: 280px !important;
+  }
+
+  .homeShowcaseRolodexColumn,
+  .homeShowcaseRolodexColumn .homeRolodex {
+    height: auto !important;
+    min-height: 380px !important;
+    max-height: none !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .homeShowcaseLeftColumn {
+    grid-template-columns: 1fr !important;
+  }
+
+  .homeFeatureCard.featuredSelectionCard {
+    min-height: 250px !important;
+  }
+
+  .homeFeatureCard.productsIUseCard {
+    min-height: 320px !important;
+  }
+
+  .homeRolodexCard img {
+    width: min(74%, 420px) !important;
+    max-height: 165px !important;
+  }
+}
