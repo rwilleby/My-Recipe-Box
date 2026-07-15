@@ -13595,3 +13595,84 @@ button,
     letter-spacing: .04em;
   }
 }
+
+
+/* =========================================================
+   ROLODEX HOLDER CORRECT CARD-SIZE UPDATE
+   Enlarges the holder art to match the current live recipe card size.
+   The recipe card itself and allocated Rolodex section size are unchanged.
+   ========================================================= */
+
+@media (min-width: 1001px) {
+  .homeRolodexStage {
+    position: relative !important;
+    overflow: hidden !important;
+    isolation: isolate !important;
+  }
+
+  /*
+    Holder target:
+    - almost full width of the center stage
+    - bottom anchored so the wood base stays visible
+    - slightly taller/closer to card scale
+  */
+  .homeRolodexHolderArt {
+    position: absolute !important;
+    left: 50% !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: -6px !important;
+    width: min(118%, 1320px) !important;
+    max-width: none !important;
+    height: auto !important;
+    transform: translateX(-50%) !important;
+    object-fit: contain !important;
+    object-position: center bottom !important;
+    z-index: 1 !important;
+    pointer-events: none !important;
+    user-select: none !important;
+  }
+
+  /* Keep the live recipe card above the larger holder. */
+  .homeRolodexCard {
+    position: relative !important;
+    z-index: 2 !important;
+    transform: translateY(-12px) !important;
+  }
+
+  .homeRolodexCard img {
+    position: relative !important;
+    z-index: 2 !important;
+  }
+
+  .homeRolodexNav {
+    position: relative !important;
+    z-index: 4 !important;
+  }
+}
+
+@media (max-width: 1000px) {
+  .homeRolodexHolderArt {
+    left: 50% !important;
+    top: auto !important;
+    bottom: -4px !important;
+    width: min(116%, 900px) !important;
+    max-width: none !important;
+    transform: translateX(-50%) !important;
+  }
+
+  .homeRolodexCard {
+    transform: translateY(-6px) !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .homeRolodexHolderArt {
+    width: 120% !important;
+    bottom: -2px !important;
+  }
+
+  .homeRolodexCard {
+    transform: translateY(-4px) !important;
+  }
+}
