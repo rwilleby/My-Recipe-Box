@@ -689,21 +689,25 @@ const PRODUCTS_I_USE = [
     title: "Aluminum Mini Bread Pans",
     image: "images/products/aluminum-mini-bread-pans.jpg",
     note: "Small disposable pans for mini loaves, freezer portions, gift breads, and make-ahead meals.",
+    affiliateUrl: "https://www.amazon.com/dp/B0DQ4VVWSB?ref_=ppx_hzsearch_conn_dt_b_fed_asin_title_4&th=1",
   },
   {
     title: "Aluminum 4-Inch Pie Pans",
     image: "images/products/aluminum-4in-pie-pans.jpg",
     note: "Small disposable pie pans for personal pies, quiche portions, desserts, and freezer-friendly servings.",
+    affiliateUrl: "https://www.amazon.com/dp/B083962QCL?ref_=ppx_hzsearch_conn_dt_b_fed_asin_title_2&th=1",
   },
   {
     title: "Aluminum Cupcake Pans",
     image: "images/products/aluminum-cupcake-pans.jpg",
     note: "Disposable cupcake or muffin pans for small-batch baking, easy cleanup, and portioned treats.",
+    affiliateUrl: "https://www.amazon.com/dp/B06XTYFZH6?ref_=ppx_hzsearch_conn_dt_b_fed_asin_title_24&th=1",
   },
   {
     title: "Aluminum Mini Cake Pans",
     image: "images/products/aluminum-mini-cake-pans.jpg",
     note: "Small disposable cake pans for desserts, small loaves, gifting, and freezer-friendly portions.",
+    affiliateUrl: "https://www.amazon.com/dp/B0DQ4WFXBT?ref_=ppx_hzsearch_conn_dt_b_fed_asin_title_1&th=1",
   },
   {
     title: "Ball 2-Ounce Jars",
@@ -724,6 +728,7 @@ const PRODUCTS_I_USE = [
     title: "Baguette Bread Pan",
     image: "images/products/bread-baguette-pan.jpg",
     note: "A perforated bread pan for baking baguettes, sub rolls, and crustier homemade breads.",
+    affiliateUrl: "https://www.amazon.com/dp/B0912CCQSN?ref_=ppx_hzsearch_conn_dt_b_fed_asin_title_7&th=1",
   },
   {
     title: "Bread Machine",
@@ -734,21 +739,25 @@ const PRODUCTS_I_USE = [
     title: "Pullman Bread Pan",
     image: "images/products/bread-pullman-pan.jpg",
     note: "A lidded loaf pan for sandwich bread, square loaves, and consistent homemade slices.",
+    affiliateUrl: "https://www.amazon.com/dp/B0D7D53QDG?ref_=ppx_hzsearch_conn_dt_b_fed_asin_title_7",
   },
   {
     title: "8-Ounce Deli Containers",
     image: "images/products/plastic-storage-8oz.jpg",
     note: "Small plastic containers for sauces, fruit, snacks, toppings, and small leftovers.",
+    affiliateUrl: "https://www.amazon.com/dp/B0DX8LVYXV?ref_=ppx_hzsearch_conn_dt_b_fed_asin_title_3&th=1",
   },
   {
     title: "16-Ounce Deli Containers",
     image: "images/products/plastic-storage-16oz.jpg",
     note: "Mid-size containers for leftovers, soups, chopped ingredients, and freezer portions.",
+    affiliateUrl: "https://www.amazon.com/dp/B0DX7M3Y66?ref_=ppx_hzsearch_conn_dt_b_fed_asin_title_5&th=1",
   },
   {
     title: "32-Ounce Deli Containers",
     image: "images/products/plastic-storage-32oz.jpg",
     note: "Larger containers for soups, sauces, meal-prep portions, and freezer storage.",
+    affiliateUrl: "https://www.amazon.com/dp/B0DX7L9RSN?ref_=ppx_hzsearch_conn_dt_b_fed_asin_title_5&th=1",
   },
   {
     title: "Silicone Freezer Trays",

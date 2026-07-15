@@ -12371,3 +12371,34 @@ button,
     max-height: 170px !important;
   }
 }
+
+
+/* =========================================================
+   PRODUCTS I USE AMAZON LOGO SIZE UPDATE
+   Doubles the Amazon smile logo square on product cards.
+   ========================================================= */
+
+.productsIUseAmazonCorner {
+  width: 48px !important;
+  height: 48px !important;
+  top: 8px !important;
+  right: 8px !important;
+}
+
+.productsIUseAmazonIcon {
+  width: 48px !important;
+  height: 48px !important;
+  border-radius: 12px !important;
+}
+
+@media (max-width: 640px) {
+  .productsIUseAmazonCorner,
+  .productsIUseAmazonIcon {
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  .productsIUseAmazonIcon {
+    border-radius: 10px !important;
+  }
+}
