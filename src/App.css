@@ -14971,3 +14971,351 @@ textarea {
     --rrb-control-size: 14px;
   }
 }
+
+
+/* =========================================================
+   WEEKLY DINNER PLANNER — WEEK TABS + HORIZONTAL DAY ROWS
+   Shows Week 1 or Week 2 one at a time so daily menu rows are wider.
+   ========================================================= */
+
+.plannerWeekTabs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0 0 14px;
+}
+
+.plannerWeekTab {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 3px 12px;
+  align-items: center;
+  min-height: 62px;
+  padding: 12px 16px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #ffffff;
+  color: #111827;
+  text-align: left;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, .035);
+}
+
+.plannerWeekTab strong {
+  font-family: var(--rrb-heading-font);
+  font-size: 20px;
+  line-height: 1.1;
+  color: #111827;
+  font-weight: 700;
+}
+
+.plannerWeekTab span {
+  font-size: 13px;
+  color: #6B7280;
+  font-weight: 400;
+}
+
+.plannerWeekTab small {
+  grid-row: 1 / span 2;
+  grid-column: 2;
+  align-self: center;
+  justify-self: end;
+  min-width: 76px;
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: #f3f4f6;
+  color: #374151;
+  font-size: 12px;
+  line-height: 1;
+  text-align: center;
+}
+
+.plannerWeekTab.active {
+  border-color: #14532D;
+  background: #f7fcf8;
+  box-shadow: 0 8px 22px rgba(20, 83, 45, .08);
+}
+
+.plannerWeekTab.active strong {
+  color: #14532D;
+}
+
+.plannerWeekTab.active small {
+  background: #14532D;
+  color: #ffffff;
+}
+
+.plannerWeekTabbedLayout {
+  grid-template-columns: minmax(0, 1fr) 290px;
+}
+
+.plannerSingleWeekGrid {
+  grid-template-columns: 1fr !important;
+}
+
+.plannerHorizontalDayRow {
+  grid-template-columns: 122px minmax(0, 1fr) !important;
+  min-height: 96px;
+}
+
+.plannerHorizontalDayRow .plannerDayLabel {
+  justify-items: center;
+  align-items: center;
+}
+
+.plannerHorizontalDayRow .plannerDayLabel strong {
+  font-size: 17px;
+  color: #14532D;
+}
+
+.plannerHorizontalDayRow .plannerMealArea {
+  padding: 12px 14px;
+}
+
+.plannerHorizontalDayRow .plannerEmptyMeal {
+  min-height: 68px;
+  width: 100%;
+  justify-self: stretch;
+}
+
+.plannerHorizontalDayRow .plannerMealRow {
+  grid-template-columns: 118px minmax(0, 1fr) auto;
+  gap: 14px;
+}
+
+.plannerHorizontalDayRow .plannerMealThumb,
+.plannerHorizontalDayRow .plannerMealThumb .recipeImage {
+  width: 118px;
+  height: 74px;
+}
+
+.plannerHorizontalDayRow .plannerMealInfo strong {
+  font-size: 17px;
+  line-height: 1.15;
+}
+
+.plannerHorizontalDayRow .plannerMealInfo small {
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+@media (max-width: 1050px) {
+  .plannerWeekTabbedLayout {
+    grid-template-columns: 1fr;
+  }
+
+  .plannerSidePanel {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .plannerWeekTabs {
+    grid-template-columns: 1fr;
+  }
+
+  .plannerHorizontalDayRow {
+    grid-template-columns: 1fr !important;
+  }
+
+  .plannerHorizontalDayRow .plannerDayLabel {
+    min-height: 44px;
+    border-right: 0;
+    border-bottom: 1px solid #f1eee8;
+    justify-content: start;
+    padding: 0 14px;
+  }
+
+  .plannerHorizontalDayRow .plannerMealRow {
+    grid-template-columns: 88px minmax(0, 1fr);
+  }
+
+  .plannerHorizontalDayRow .plannerMealActions {
+    grid-column: 1 / -1;
+    justify-content: flex-start;
+  }
+
+  .plannerHorizontalDayRow .plannerMealThumb,
+  .plannerHorizontalDayRow .plannerMealThumb .recipeImage {
+    width: 88px;
+    height: 64px;
+  }
+
+  .plannerSidePanel {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* =========================================================
+   WEEKLY DINNER PLANNER — OPTION 4 COMPACT WEEKLY TABLE
+   Stacked weekly tables with horizontal day rows.
+   ========================================================= */
+
+.plannerCompactTableLayout {
+  grid-template-columns: minmax(0, 1fr) 290px !important;
+  gap: 18px;
+}
+
+.plannerCompactTables {
+  display: grid;
+  gap: 18px;
+  min-width: 0;
+}
+
+.plannerCompactWeek {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .045);
+  overflow: hidden;
+}
+
+.plannerCompactWeekHeader {
+  border-bottom: 1px solid var(--line);
+}
+
+.plannerTableHeader {
+  display: grid;
+  grid-template-columns: 110px minmax(220px, 1.35fr) minmax(180px, .85fr) minmax(190px, auto);
+  gap: 0;
+  padding: 10px 14px;
+  background: #f7f8f6;
+  border-bottom: 1px solid #edf0ea;
+  color: #6B7280;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.plannerCompactTableRows {
+  display: grid;
+}
+
+.plannerTableRow {
+  display: grid;
+  grid-template-columns: 110px minmax(220px, 1.35fr) minmax(180px, .85fr) minmax(190px, auto);
+  gap: 0;
+  align-items: stretch;
+  min-height: 72px;
+  border-bottom: 1px solid #f1eee8;
+}
+
+.plannerTableRow:last-child {
+  border-bottom: 0;
+}
+
+.plannerTableDay,
+.plannerTableMeals,
+.plannerTableDetails,
+.plannerTableActions {
+  min-width: 0;
+  padding: 12px 14px;
+  display: grid;
+  align-content: center;
+}
+
+.plannerTableDay {
+  background: #fbfaf7;
+  color: #14532D;
+  border-right: 1px solid #f1eee8;
+}
+
+.plannerTableDay strong {
+  font-family: var(--rrb-body-font);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.plannerTableMeals {
+  gap: 8px;
+}
+
+.plannerTableMealTitle {
+  display: grid;
+  gap: 3px;
+}
+
+.plannerTableMealTitle strong {
+  font-family: var(--rrb-body-font);
+  color: #111827;
+  font-size: 15px;
+  line-height: 1.2;
+  font-weight: 600;
+}
+
+.plannerTableMealTitle small,
+.plannerTableDetails span,
+.plannerTableMuted {
+  color: #6B7280;
+  font-size: 13px;
+  line-height: 1.3;
+}
+
+.plannerTableDetails {
+  gap: 8px;
+  border-left: 1px solid #f7f3ec;
+}
+
+.plannerTableActions {
+  justify-content: end;
+  border-left: 1px solid #f7f3ec;
+}
+
+.plannerTableActionSet {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  margin: 2px 0;
+}
+
+.plannerTableEmpty {
+  min-height: 42px !important;
+  width: 100%;
+  justify-self: stretch;
+}
+
+@media (max-width: 1120px) {
+  .plannerCompactTableLayout {
+    grid-template-columns: 1fr !important;
+  }
+
+  .plannerSidePanel {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 860px) {
+  .plannerTableHeader {
+    display: none;
+  }
+
+  .plannerTableRow {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .plannerTableDay {
+    border-right: 0;
+    border-bottom: 1px solid #f1eee8;
+    padding: 10px 14px;
+  }
+
+  .plannerTableMeals,
+  .plannerTableDetails,
+  .plannerTableActions {
+    border-left: 0;
+    padding: 10px 14px;
+  }
+
+  .plannerTableActions {
+    justify-content: start;
+  }
+
+  .plannerTableActionSet {
+    justify-content: flex-start;
+  }
+
+  .plannerSidePanel {
+    grid-template-columns: 1fr;
+  }
+}
