@@ -98,7 +98,7 @@ button {
 
 .navLinks button.active {
   color: var(--green);
-  font-weight: 750;
+  font-weight: 700;
 }
 
 .topActions {
@@ -181,7 +181,7 @@ button {
   background: #f0e8ff;
   color: #5e35b1;
   font-size: 13px;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: .04em;
   text-transform: uppercase;
 }
@@ -378,7 +378,7 @@ h1 {
 
 .categoryTile strong {
   font-size: 15px;
-  font-weight: 800;
+  font-weight: 700;
   color: #111827;
   line-height: 1.05;
   text-align: center;
@@ -470,7 +470,7 @@ h1 {
 .tag {
   display: inline-block;
   font-size: 11px;
-  font-weight: 850;
+  font-weight: 700;
   text-transform: uppercase;
   margin-bottom: 5px;
 }
@@ -630,7 +630,7 @@ h1 {
 }
 
 .servingSelector span {
-  font-weight: 750;
+  font-weight: 700;
   margin-left: 8px;
 }
 
@@ -640,7 +640,7 @@ h1 {
   border-radius: 999px;
   border: 0;
   background: transparent;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .servingSelector button.selected {
@@ -714,7 +714,7 @@ h1 {
 
 .shoppingItem em {
   font-style: normal;
-  font-weight: 750;
+  font-weight: 700;
   color: var(--green);
 }
 
@@ -1003,7 +1003,7 @@ th {
   display: inline-block;
   color: var(--green);
   font-size: 13px;
-  font-weight: 850;
+  font-weight: 700;
   letter-spacing: 0.08em;
   margin-bottom: 4px;
 }
@@ -1212,7 +1212,7 @@ th {
 }
 
 .transparencyLine strong {
-  font-weight: 800;
+  font-weight: 700;
 }
 
 /* ================================
@@ -1256,7 +1256,7 @@ th {
   display: block;
   color: var(--green);
   font-size: 11px;
-  font-weight: 850;
+  font-weight: 700;
   letter-spacing: .08em;
   text-transform: uppercase;
   line-height: 1.1;
@@ -1421,7 +1421,7 @@ th {
 .collectionTileHeader strong {
   color: #ffffff;
   font-size: 11px;
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1.02;
   text-align: center;
   margin: 0 auto;
@@ -2148,7 +2148,7 @@ th {
   border-radius: 8px;
   color: var(--green);
   background: #fff;
-  font-weight: 800;
+  font-weight: 700;
   white-space: nowrap;
 }
 
@@ -2195,7 +2195,7 @@ th {
   border-radius: 10px;
   background: #fffdf8;
   color: var(--green);
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .plannerMealRow {
@@ -2257,7 +2257,7 @@ th {
 .plannerMiniButton {
   min-height: 32px;
   border-radius: 8px;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .plannerHeart,
@@ -2318,7 +2318,7 @@ th {
   border-radius: 10px;
   background: #fff;
   color: #111827;
-  font-weight: 750;
+  font-weight: 700;
   text-align: left;
   padding: 0 12px;
 }
@@ -2716,7 +2716,7 @@ th {
   border-radius: 7px;
   font-size: 11px;
   line-height: 1;
-  font-weight: 800;
+  font-weight: 700;
   white-space: nowrap;
 }
 
@@ -2888,7 +2888,7 @@ th {
 .browsePagination button.active {
   background: var(--green);
   color: #ffffff;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .browsePaginationArrow {
@@ -2948,7 +2948,7 @@ th {
   padding: 0 10px;
   border-radius: 8px;
   font-size: 13px;
-  font-weight: 800;
+  font-weight: 700;
   margin-top: 0;
 }
 
@@ -3074,7 +3074,7 @@ th {
   padding: 0 10px;
   border-radius: 8px;
   font-size: 13px;
-  font-weight: 800;
+  font-weight: 700;
   margin-top: 0;
   white-space: nowrap;
 }
@@ -3215,7 +3215,7 @@ th {
   background: var(--green);
   color: #ffffff;
   font-size: 14px;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .cardViewerPrint:hover {
@@ -3262,7 +3262,7 @@ th {
   background: #ffffff;
   color: var(--green);
   font-size: 14px;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .cardViewerDownload:hover {
@@ -3302,7 +3302,7 @@ th {
   font-size: clamp(34px, 3.2vw, 42px);
   line-height: 1.04;
   letter-spacing: -0.035em;
-  font-weight: 850;
+  font-weight: 700;
 }
 
 .browseIntro h1 {
@@ -3623,7 +3623,7 @@ th {
 }
 
 .navDropdown.active .navDropdownButton {
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .navDropdownMenu button {
@@ -3633,7 +3633,7 @@ th {
 
 .navDropdownMenu button:hover,
 .navDropdownMenu button.active {
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .navLinks button {
@@ -3642,7 +3642,7 @@ th {
 }
 
 .navLinks button.active {
-  font-weight: 500;
+  font-weight: 600;
 }
 
 
@@ -3681,7 +3681,7 @@ th {
   background: #edf7ef;
   color: var(--green);
   font-size: 24px;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .recommendationTile h2 {
@@ -3790,7 +3790,7 @@ th {
 
 .cardViewerHelpfulLinks a span {
   color: var(--green);
-  font-weight: 900;
+  font-weight: 700;
 }
 
 @media (max-width: 1200px) {
@@ -3881,7 +3881,7 @@ th {
   max-width: calc(var(--category-tile-size) + 18px);
   color: #111827;
   font-size: var(--category-name-size);
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1.08;
   text-align: center;
 }
@@ -3952,7 +3952,7 @@ th {
   background: transparent;
   color: #111827;
   font-size: clamp(11px, 0.95vw, 14px);
-  font-weight: 850;
+  font-weight: 700;
   letter-spacing: .02em;
   text-align: center;
   white-space: nowrap;
@@ -4080,7 +4080,7 @@ th {
   background: transparent;
   color: #111827;
   font-size: clamp(10px, .78vw, 12.5px);
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: .02em;
   line-height: 1.05;
   text-align: center;
@@ -4362,7 +4362,7 @@ th {
   border-radius: 10px;
   background: #fbfaf7;
   color: #111827;
-  font-weight: 750;
+  font-weight: 700;
   text-align: center;
 }
 
@@ -4455,7 +4455,7 @@ th {
   background: #ffffff;
   color: var(--green);
   font-size: 11.5px;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .groceryPicksIntro {
@@ -4538,7 +4538,7 @@ th {
 .groceryReferenceItem > span {
   color: var(--green);
   font-size: 12px;
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1.2;
   text-transform: uppercase;
   letter-spacing: .03em;
@@ -4567,7 +4567,7 @@ th {
   background: #edf7ef;
   color: var(--green);
   font-size: 11.5px;
-  font-weight: 750;
+  font-weight: 700;
 }
 
 @media (max-width: 1100px) {
@@ -4772,7 +4772,7 @@ th {
 .pantryLevelTabs button span {
   color: var(--muted);
   font-size: 12px;
-  font-weight: 800;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: .05em;
 }
@@ -4819,7 +4819,7 @@ th {
 .pantryLevelSummary > span {
   color: var(--green);
   font-size: 13px;
-  font-weight: 850;
+  font-weight: 700;
   white-space: nowrap;
 }
 
@@ -4831,7 +4831,7 @@ th {
   color: #6b7280;
   font-style: normal;
   font-size: 11px;
-  font-weight: 800;
+  font-weight: 700;
   white-space: nowrap;
 }
 
@@ -5234,7 +5234,7 @@ th {
 
 .aboutStoryScroll p:nth-child(3) {
   color: var(--green);
-  font-weight: 850;
+  font-weight: 700;
   font-size: clamp(16px, 1.15vw, 18px);
 }
 
@@ -5341,7 +5341,7 @@ th {
   background: #ffffff;
   color: var(--green);
   font-size: 12px;
-  font-weight: 850;
+  font-weight: 700;
   line-height: 1;
 }
 
@@ -5625,7 +5625,7 @@ th {
   background: #ffffff;
   color: var(--green);
   font-size: 13px;
-  font-weight: 850;
+  font-weight: 700;
   box-shadow: none;
 }
 
@@ -5728,7 +5728,7 @@ th {
   background: rgba(255, 255, 255, .94);
   color: #102817;
   font-size: 10.5px;
-  font-weight: 850;
+  font-weight: 700;
   letter-spacing: .055em;
   line-height: 1.05;
   text-align: center;
@@ -5973,7 +5973,7 @@ th {
 .heroInfoButton span:first-child,
 .heroInfoButton span:last-child {
   font-size: 10.2px;
-  font-weight: 850;
+  font-weight: 700;
   letter-spacing: .052em;
   line-height: 1.05;
 }
@@ -6030,7 +6030,7 @@ th {
   background: #fffdf7;
   color: #6b4a21;
   font-size: 12px;
-  font-weight: 850;
+  font-weight: 700;
   line-height: 1;
 }
 
@@ -6430,7 +6430,7 @@ th {
 
 .aboutStoryScroll strong {
   color: var(--green);
-  font-weight: 850;
+  font-weight: 700;
 }
 
 @media (max-width: 640px) {
@@ -6606,7 +6606,7 @@ th {
 
 .aboutQuoteCard strong {
   color: var(--green);
-  font-weight: 850;
+  font-weight: 700;
 }
 
 .aboutSmokingUnifiedPage .aboutRecipesHero {
@@ -6750,7 +6750,7 @@ th {
   font-family: var(--rrb-condensed-font);
   text-transform: uppercase;
   letter-spacing: .06em;
-  font-weight: 850;
+  font-weight: 700;
 }
 
 .navLinks.dropdownNav {
@@ -6781,7 +6781,7 @@ h2,
   font-family: var(--rrb-condensed-font);
   text-transform: uppercase;
   letter-spacing: .04em;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .logoTagline,
@@ -6791,7 +6791,7 @@ h2,
   font-family: var(--rrb-condensed-font);
   text-transform: uppercase;
   letter-spacing: .08em;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .aboutUnifiedPage {
@@ -6805,7 +6805,7 @@ h2,
 
 .aboutQuoteCard strong {
   color: var(--green);
-  font-weight: 850;
+  font-weight: 700;
 }
 
 .placeholderInfoPage .aboutRecipesHero p {
@@ -6894,7 +6894,7 @@ h4,
   text-transform: uppercase;
   letter-spacing: .045em;
   font-stretch: condensed;
-  font-weight: 900;
+  font-weight: 700;
   line-height: .98;
 }
 
@@ -6921,7 +6921,7 @@ h4,
   font-family: var(--rrb-heading-font);
   text-transform: uppercase;
   letter-spacing: .07em;
-  font-weight: 900;
+  font-weight: 700;
   line-height: 1;
 }
 
@@ -6929,7 +6929,7 @@ h4,
   font-family: var(--rrb-body-font);
   text-transform: uppercase;
   letter-spacing: .035em;
-  font-weight: 750;
+  font-weight: 700;
 }
 
 /* Buttons use clean interface text unless they are part of the main nav */
@@ -6974,7 +6974,7 @@ button,
   font-family: var(--rrb-heading-font);
   text-transform: uppercase;
   letter-spacing: .04em;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 /* Logo tagline follows the heading style */
@@ -6985,7 +6985,7 @@ button,
   font-family: var(--rrb-heading-font);
   text-transform: uppercase;
   letter-spacing: .085em;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 /* Mobile readability adjustments */
@@ -7082,7 +7082,7 @@ h4,
   text-transform: none;
   letter-spacing: -0.025em;
   font-stretch: normal;
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1.06;
 }
 
@@ -7092,7 +7092,7 @@ h4,
 .browseIntro h1,
 .placeholderInfoPage h1 {
   letter-spacing: -0.035em;
-  font-weight: 850;
+  font-weight: 700;
 }
 
 .aboutRecipesCard h2,
@@ -7100,7 +7100,7 @@ h4,
 .collectionCard h3,
 .sectionTitle h2 {
   letter-spacing: -0.018em;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 /* Main menu stays neat and readable, but not harsh condensed */
@@ -7109,7 +7109,7 @@ h4,
   font-family: var(--rrb-body-font);
   text-transform: uppercase;
   letter-spacing: .045em;
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1.05;
 }
 
@@ -7139,7 +7139,7 @@ button,
   font-family: var(--rrb-friendly-heading-font);
   text-transform: none;
   letter-spacing: -0.018em;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .recipeCard p,
@@ -7165,7 +7165,7 @@ button,
   font-family: var(--rrb-body-font);
   text-transform: uppercase;
   letter-spacing: .075em;
-  font-weight: 850;
+  font-weight: 700;
 }
 
 /* =========================================================
@@ -7368,7 +7368,7 @@ h4,
   font-family: var(--rrb-body-font);
   text-transform: none !important;
   letter-spacing: normal;
-  font-weight: 750;
+  font-weight: 700;
   line-height: 1.05;
 }
 
@@ -7426,7 +7426,7 @@ button,
   font-family: var(--rrb-body-font);
   text-transform: none !important;
   letter-spacing: .02em;
-  font-weight: 750;
+  font-weight: 700;
 }
 
 /* Logo tagline uses clean interface emphasis */
@@ -7437,7 +7437,7 @@ button,
   font-family: var(--rrb-body-font);
   text-transform: none !important;
   letter-spacing: .02em;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 /* Keep full-width stacked info-page boxes */
@@ -7540,7 +7540,7 @@ button,
   font-family: var(--rrb-body-font, Inter, system-ui, sans-serif);
   color: #7a4f28;
   font-size: 12px;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: .1em;
   text-transform: uppercase;
   margin-left: 6px;
@@ -7711,7 +7711,7 @@ button,
   border: 1px solid #d9eadc;
   background: #fff;
   color: var(--green);
-  font-weight: 800;
+  font-weight: 700;
   padding: 0 18px;
   box-shadow: none;
   cursor: pointer;
@@ -7958,7 +7958,7 @@ button,
   border: 1px solid var(--green);
   background: var(--green);
   color: #ffffff;
-  font-weight: 800;
+  font-weight: 700;
   cursor: pointer;
   transition: transform .16s ease, background .16s ease, box-shadow .16s ease;
 }
@@ -8006,7 +8006,7 @@ button,
   border: 1px solid var(--flow-line);
   color: var(--flow-green);
   font-size: 17px;
-  font-weight: 900;
+  font-weight: 700;
   box-shadow: 0 6px 16px rgba(20, 83, 45, .12);
   pointer-events: none;
 }
@@ -8034,7 +8034,7 @@ button,
   font-family: var(--rrb-body-font, Inter, system-ui, sans-serif);
   font-size: 15px;
   line-height: 1;
-  font-weight: 900;
+  font-weight: 700;
   letter-spacing: 0;
 }
 
@@ -8376,7 +8376,7 @@ button,
   display: block;
   color: #4b5563;
   font-size: 13px;
-  font-weight: 750;
+  font-weight: 700;
   margin-bottom: 7px;
 }
 
@@ -8619,7 +8619,7 @@ button,
   margin-bottom: 8px;
   color: #1f4f7a;
   font-size: 13px;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .viewerCostSummary strong {
@@ -8634,7 +8634,7 @@ button,
   display: inline-block;
   color: var(--green);
   font-style: normal;
-  font-weight: 850;
+  font-weight: 700;
   font-size: 15px;
 }
 
@@ -8656,7 +8656,7 @@ button,
   color: var(--green);
   font-size: 14px;
   line-height: 1.2;
-  font-weight: 850;
+  font-weight: 700;
   text-align: center;
 }
 
@@ -8807,7 +8807,7 @@ button,
   padding: 0;
   font-size: 13px;
   line-height: 1;
-  font-weight: 850;
+  font-weight: 700;
   cursor: pointer;
   box-shadow: 0 2px 7px rgba(18, 63, 99, .08);
 }
@@ -9055,7 +9055,7 @@ button,
   display: inline-block;
   margin-left: 6px;
   color: var(--green);
-  font-weight: 850;
+  font-weight: 700;
   white-space: nowrap;
 }
 
@@ -9144,7 +9144,7 @@ button,
   background: transparent;
   color: var(--green);
   font: inherit;
-  font-weight: 850;
+  font-weight: 700;
   text-decoration: underline;
   text-underline-offset: 3px;
   padding: 0;
@@ -9262,7 +9262,7 @@ button,
   color: #111827;
   font-size: 15px;
   line-height: 1.18;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .productsIUseGrid {
@@ -9305,7 +9305,7 @@ button,
   color: #111827;
   font-size: 13px;
   line-height: 1.15;
-  font-weight: 750;
+  font-weight: 700;
 }
 
 @media (max-width: 1000px) {
@@ -9507,7 +9507,7 @@ button,
   color: #111827;
   font-size: 15px;
   line-height: 1.18;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 /* Make the Rolodex visually match the left-column stack height. */
@@ -9640,7 +9640,7 @@ button,
   color: #111827;
   font-size: 14px !important;
   line-height: 1.15 !important;
-  font-weight: 800;
+  font-weight: 700;
   text-align: center;
 }
 
@@ -9987,7 +9987,7 @@ button,
   font-size: clamp(12px, .95vw, 14px);
   line-height: 1.08;
   letter-spacing: .055em;
-  font-weight: 900;
+  font-weight: 700;
   text-transform: uppercase;
   box-shadow: 0 8px 18px rgba(17, 24, 39, .055);
   cursor: pointer;
@@ -10041,7 +10041,7 @@ button,
   color: var(--green);
   font-size: 15px;
   line-height: 1.1;
-  font-weight: 850;
+  font-weight: 700;
 }
 
 .homeCollectionPopupHeader button {
@@ -10077,7 +10077,7 @@ button,
   background: #ffffff;
   color: var(--green);
   font-size: 13px;
-  font-weight: 750;
+  font-weight: 700;
   cursor: pointer;
 }
 
@@ -11296,7 +11296,7 @@ button,
   font-family: Arial, Helvetica, sans-serif;
   font-size: 9px;
   line-height: 1;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: -.02em;
   text-align: center;
   text-transform: lowercase;
@@ -13515,7 +13515,7 @@ button,
   border: 1px solid rgba(18, 63, 36, .14);
   color: #123f24;
   font-size: clamp(10px, .72vw, 13px);
-  font-weight: 850;
+  font-weight: 700;
   letter-spacing: .12em;
   text-transform: uppercase;
 }
@@ -13765,7 +13765,7 @@ button,
   border: 1px solid rgba(107, 78, 193, .10);
   color: #5c42bf;
   font-size: clamp(12px, .86vw, 16px);
-  font-weight: 850;
+  font-weight: 700;
   letter-spacing: .08em;
   text-transform: uppercase;
 }
@@ -14347,7 +14347,7 @@ button,
   color: #5e35b1;
   font-family: var(--rrb-body-font);
   font-size: 12px;
-  font-weight: 850;
+  font-weight: 700;
   letter-spacing: .06em;
   text-transform: uppercase;
 }
@@ -14575,5 +14575,399 @@ button,
 
   .aboutLetterPhotoBreak figcaption {
     font-size: 17px;
+  }
+}
+
+
+/* =========================================================
+   LOCKED ROBERT'S RECIPE BOX TYPOGRAPHY SYSTEM
+   Approved site-wide standard.
+   ========================================================= */
+
+:root {
+  --rrb-heading-font: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  --rrb-body-font: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+
+  --rrb-title-strong: #111827;
+  --rrb-body-text: #374151;
+  --rrb-muted-text: #6B7280;
+  --rrb-faint-text: #8B949E;
+  --rrb-brand-green: #14532D;
+  --rrb-white-text: #FFFFFF;
+
+  --rrb-major-page-title: 28px;
+  --rrb-standard-page-title: 24px;
+  --rrb-section-heading: 22px;
+  --rrb-card-heading: 20px;
+
+  --rrb-component-title: 17px;
+  --rrb-body-size: 15px;
+  --rrb-supporting-size: 13px;
+  --rrb-label-size: 12px;
+  --rrb-control-size: 14px;
+}
+
+html,
+body,
+.app {
+  font-family: var(--rrb-body-font) !important;
+  color: var(--rrb-body-text);
+  font-size: var(--rrb-body-size);
+  line-height: 1.45;
+  font-weight: 400;
+}
+
+body,
+p,
+li,
+td,
+th,
+input,
+textarea,
+select,
+label,
+small {
+  font-family: var(--rrb-body-font) !important;
+}
+
+p,
+li {
+  color: var(--rrb-body-text) !important;
+  font-size: var(--rrb-body-size) !important;
+  font-weight: 400 !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.pageHeader h1,
+.browseIntro h1,
+.aboutRecipesHero h1,
+.aboutWelcomeIntro h1,
+.aboutLetterIntro h1,
+.aboutLetterSection h2,
+.aboutLetterClosing h2,
+.heroTopicIntro h1,
+.placeholderInfoPage h1,
+.collectionDetailPage h1,
+.disclaimersPage h1,
+.productsIUseHero h1,
+.groceryPicksPage h1,
+.plannerPage h1,
+.pantryPage h1,
+.shoppingListPage h1,
+.favoritesPage h1,
+.collectionsPage h1,
+.recommendationsPage h1,
+.underConstructionHero h1 {
+  font-family: var(--rrb-heading-font) !important;
+  color: var(--rrb-title-strong) !important;
+  font-weight: 700 !important;
+  text-transform: none !important;
+  letter-spacing: normal !important;
+  font-stretch: normal !important;
+}
+
+/* Major Page Title */
+h1,
+.pageHeader h1,
+.browseIntro h1,
+.aboutRecipesHero h1,
+.aboutWelcomeIntro h1,
+.aboutLetterIntro h1,
+.heroTopicIntro h1,
+.placeholderInfoPage h1,
+.collectionDetailPage h1,
+.disclaimersPage h1,
+.productsIUseHero h1,
+.groceryPicksPage h1,
+.plannerPage h1,
+.pantryPage h1,
+.shoppingListPage h1,
+.favoritesPage h1,
+.collectionsPage h1,
+.recommendationsPage h1,
+.underConstructionHero h1,
+.pageHeroTextOverlay h1 {
+  font-size: var(--rrb-major-page-title) !important;
+  line-height: 1.12 !important;
+}
+
+/* Standard Page Title */
+.standardPageTitle,
+.pageTitle,
+.modalTitle,
+.recipeViewerTitle,
+.viewerTitle,
+.aboutLetterStory h2 {
+  font-family: var(--rrb-heading-font) !important;
+  color: var(--rrb-title-strong) !important;
+  font-size: var(--rrb-standard-page-title) !important;
+  line-height: 1.15 !important;
+  font-weight: 700 !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+}
+
+/* Section Heading */
+h2,
+.sectionTitle h2,
+.aboutRecipesCard h2,
+.aboutWelcomeCard h2,
+.aboutLetterSection h2,
+.aboutLetterClosing h2,
+.collectionDetailPage h2,
+.groceryReferenceGroupHeader h2,
+.recipeViewerSection h2,
+.viewerPanel h2,
+.panelTitle {
+  font-family: var(--rrb-heading-font) !important;
+  color: var(--rrb-title-strong) !important;
+  font-size: var(--rrb-section-heading) !important;
+  line-height: 1.18 !important;
+  font-weight: 700 !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+}
+
+/* Card Heading */
+h3,
+h4,
+.cardTitle,
+.recipeCardTitle,
+.featureCard h3,
+.collectionCard h3,
+.collectionTile strong,
+.recipeGridCard h3,
+.productsIUsePageCard h2,
+.recommendationCard h2,
+.groceryReferenceItem h3,
+.aboutLetterPhotoBreak figcaption,
+.homeRolodexHeader strong {
+  font-family: var(--rrb-heading-font) !important;
+  color: var(--rrb-title-strong) !important;
+  font-size: var(--rrb-card-heading) !important;
+  line-height: 1.18 !important;
+  font-weight: 700 !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+}
+
+/* Component Title */
+.componentTitle,
+.panelHeader strong,
+.featureCard strong,
+.productUseTile strong,
+.productsIUsePageCard strong,
+.collectionTile .collectionTileTitle,
+.homeMiniSectionHeader h2,
+.recipeSectionTitle,
+.costLabel,
+.viewerCostMain,
+.statLabel {
+  font-family: var(--rrb-body-font) !important;
+  font-size: var(--rrb-component-title) !important;
+  line-height: 1.2 !important;
+  font-weight: 600 !important;
+  color: var(--rrb-title-strong) !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+}
+
+/* Body Text */
+.heroCopy p,
+.pageHeader p,
+.aboutRecipesHero p,
+.aboutRecipesCard p,
+.aboutWelcomeIntro p,
+.aboutWelcomeCard p,
+.aboutLetterIntro p,
+.aboutLetterSection p,
+.aboutLetterClosing p,
+.placeholderInfoPage p,
+.collectionDetailPage p,
+.productsIUsePageCard p,
+.groceryReferenceItem p,
+.freezerTipCard p,
+.howToUseCard p,
+.recommendationCard p,
+.recipeCard p,
+.viewerBody,
+.viewerBody p,
+.modalBody,
+.modalBody p,
+.pageHeroTextOverlay p {
+  font-family: var(--rrb-body-font) !important;
+  font-size: var(--rrb-body-size) !important;
+  line-height: 1.45 !important;
+  font-weight: 400 !important;
+  color: var(--rrb-body-text) !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+}
+
+/* Supporting Text */
+small,
+.supportingText,
+.cardMeta,
+.recipeMeta,
+.collectionCard small,
+.featureCard small,
+.productUseTile small,
+.productsIUsePageCard small,
+.homeRolodexHeader small,
+.viewerFinePrint,
+.viewerCostFinePrint,
+.footer,
+.footer p {
+  font-family: var(--rrb-body-font) !important;
+  font-size: var(--rrb-supporting-size) !important;
+  line-height: 1.35 !important;
+  font-weight: 400 !important;
+  color: var(--rrb-muted-text) !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+}
+
+/* Labels and Metadata */
+.aiBadge,
+.eyebrow,
+.categoryBadge,
+.tag,
+.browseRecipeTag,
+.recipeTag,
+.metaLabel,
+.costCategory,
+.viewerCostBadge,
+.navDropdownMenu button small,
+.homeRolodexDots,
+.pageHeroEyebrow {
+  font-family: var(--rrb-body-font) !important;
+  font-size: var(--rrb-label-size) !important;
+  line-height: 1.1 !important;
+  font-weight: 600 !important;
+  letter-spacing: .04em !important;
+  text-transform: uppercase !important;
+}
+
+/* Buttons and Controls */
+button,
+.primary,
+.secondary,
+.navButton,
+.navDropdownButton,
+.navDropdownMenu button,
+.heroInfoButton,
+.recipeActionButton,
+.viewerButton,
+.browseControlsRow,
+.browseControlsRow select,
+.browseControlsRow input,
+.filterButton,
+.plannerControls,
+.plannerControls button,
+input,
+select,
+textarea {
+  font-family: var(--rrb-body-font) !important;
+  font-size: var(--rrb-control-size) !important;
+  font-weight: 700 !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+}
+
+.navButton,
+.navDropdownButton,
+.navDropdownMenu button {
+  color: var(--rrb-title-strong);
+  text-transform: none !important;
+  letter-spacing: .02em !important;
+  font-weight: 700 !important;
+}
+
+.muted,
+.mutedText,
+.supportingText,
+.cardMeta,
+.recipeMeta {
+  color: var(--rrb-muted-text) !important;
+}
+
+.legal,
+.finePrint,
+.viewerFinePrint,
+.footer small {
+  color: var(--rrb-faint-text) !important;
+}
+
+.brandGreen,
+.navDropdownButton.active,
+.navButton.active,
+.sectionAccent,
+.recipeSectionTitle,
+.categoryIcon,
+.homeRolodexNav {
+  color: var(--rrb-brand-green) !important;
+}
+
+.primary,
+.onColor,
+.textOnColor,
+.heroInfoStepNumber,
+.categoryTileIcon,
+.badgeOnColor {
+  color: var(--rrb-white-text) !important;
+}
+
+/* Supporting-page hero overlay follows locked system */
+.pageHeroEyebrow {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 8px 14px !important;
+  border-radius: 99px !important;
+  background: #f0e8ff !important;
+  color: #5e35b1 !important;
+}
+
+.pageHeroTextOverlay h1 {
+  font-family: var(--rrb-heading-font) !important;
+  color: var(--rrb-title-strong) !important;
+  font-weight: 700 !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+}
+
+.pageHeroTextOverlay p {
+  font-family: var(--rrb-body-font) !important;
+  color: var(--rrb-body-text) !important;
+  font-size: var(--rrb-body-size) !important;
+  font-weight: 400 !important;
+}
+
+/* Handwriting exceptions only */
+.recipeNotesBubble,
+.recipeNotesBubble textarea,
+.aboutLetterSignature,
+.signature,
+.readerSignature {
+  font-family: "Bradley Hand", "Segoe Print", "Comic Sans MS", cursive !important;
+}
+
+@media (max-width: 640px) {
+  :root {
+    --rrb-major-page-title: 26px;
+    --rrb-standard-page-title: 22px;
+    --rrb-section-heading: 20px;
+    --rrb-card-heading: 18px;
+
+    --rrb-component-title: 17px;
+    --rrb-body-size: 15px;
+    --rrb-supporting-size: 13px;
+    --rrb-label-size: 12px;
+    --rrb-control-size: 14px;
   }
 }
