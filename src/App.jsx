@@ -5014,8 +5014,8 @@ export default function App() {
       {activePage === "Dinner Combinations" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-weekly-plan.png"
-            alt="Weekly planner with fresh vegetables and meal-prep ingredients"
+            src="images/heroes/hero-complete-dinner.jpg"
+            alt="Complete dinner with recipe cards, meal plan clipboard, and plated food"
             eyebrow="COLLECTIONS"
             title="Dinner Combinations"
             text="Practical main-dish and side-dish pairings, planned leftovers, and easy dinner combinations for smaller households."
