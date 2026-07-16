@@ -14276,3 +14276,126 @@ button,
     max-width: 80% !important;
   }
 }
+
+
+/* =========================================================
+   ABOUT US / WELCOME TO OUR SITE CONTENT UPDATE
+   Replaces letter-style layout with sectioned serif content blocks.
+   ========================================================= */
+
+.aboutWelcomePage {
+  padding-top: 0 !important;
+  padding-bottom: 44px;
+}
+
+.aboutWelcomeIntro,
+.aboutWelcomeStory,
+.aboutWelcomeClosing {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  padding: clamp(24px, 3vw, 38px);
+  margin-bottom: 18px;
+}
+
+.aboutWelcomeIntro h1,
+.aboutWelcomeStory h2,
+.aboutWelcomeClosing h2,
+.aboutWelcomeCard h2 {
+  font-family: Georgia, "Times New Roman", serif !important;
+  text-transform: none !important;
+  letter-spacing: -.035em !important;
+  color: #111111;
+}
+
+.aboutWelcomeIntro h1 {
+  margin: 18px 0 14px;
+  font-size: clamp(38px, 4.3vw, 56px);
+  line-height: .92;
+}
+
+.aboutWelcomeIntro p,
+.aboutWelcomeStory p,
+.aboutWelcomeClosing p,
+.aboutWelcomeCard p {
+  font-family: Georgia, "Times New Roman", serif;
+  color: #242424;
+  font-size: 18px;
+  line-height: 1.52;
+  margin: 0;
+}
+
+.aboutWelcomeGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.aboutWelcomeCard {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .04);
+  padding: 24px;
+}
+
+.aboutWelcomeCard span {
+  display: inline-flex;
+  margin-bottom: 12px;
+  color: #5e35b1;
+  font-family: var(--rrb-body-font);
+  font-size: 12px;
+  font-weight: 850;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.aboutWelcomeCard h2,
+.aboutWelcomeStory h2,
+.aboutWelcomeClosing h2 {
+  margin: 0 0 10px;
+  font-size: clamp(26px, 2.25vw, 34px);
+  line-height: 1;
+}
+
+.aboutWelcomeStory {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.aboutWelcomeStory p + p,
+.aboutWelcomeClosing p + p {
+  margin-top: 14px;
+}
+
+.aboutWelcomeClosing .aboutRecipesActions {
+  margin-top: 22px;
+}
+
+@media (max-width: 850px) {
+  .aboutWelcomeGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .aboutWelcomeIntro p,
+  .aboutWelcomeStory p,
+  .aboutWelcomeClosing p,
+  .aboutWelcomeCard p {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 640px) {
+  .aboutWelcomeIntro,
+  .aboutWelcomeStory,
+  .aboutWelcomeClosing,
+  .aboutWelcomeCard {
+    padding: 22px 18px;
+  }
+
+  .aboutWelcomeIntro h1 {
+    font-size: clamp(32px, 9vw, 42px);
+  }
+}
