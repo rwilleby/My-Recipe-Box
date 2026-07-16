@@ -988,6 +988,7 @@ function Header({ activePage, setActivePage }) {
         { label: "COOKING TOOLS & PRODUCTS", page: "Products I Use" },
         { label: "STORAGE & ORGANIZATION", page: "Storage Organization" },
         { label: "SUBMIT FAMILY RECIPES", page: "Submit Recipes" },
+        { label: "AFFILIATE MARKETING", page: "Affiliate Marketing" },
       ],
     },
   ];
@@ -5268,8 +5269,8 @@ export default function App() {
       {activePage === "Grocery Picks" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-favorites.png"
-            alt="Healthy bowl with vegetables and a wooden heart"
+            src="images/heroes/hero-healthy.jpg"
+            alt="Healthy lower-carb substitution ingredients on a light kitchen counter"
             eyebrow="TIPS & ORGANIZATION"
             title="Healthy Substitutions"
             text="Review lighter swaps, lower-carb options, and practical ingredient ideas before you shop."
@@ -5280,8 +5281,8 @@ export default function App() {
       {activePage === "Smart Grocery Picks" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-favorites.png"
-            alt="Healthy bowl with vegetables and a wooden heart"
+            src="images/heroes/hero-healthy.jpg"
+            alt="Healthy lower-carb substitution ingredients on a light kitchen counter"
             eyebrow="TIPS & ORGANIZATION"
             title="Healthy Substitutions"
             text="Review lighter swaps, lower-carb options, and practical ingredient ideas before you shop."
@@ -5378,7 +5379,7 @@ export default function App() {
         <HeroTopicPage
           eyebrow="COOKING METHODS"
           title="Smoker & Pellet Grill Recipes"
-          heroImage="images/heroes/hero-smoker.png"
+          heroImage="images/heroes/hero-smoker.jpg"
           heroAlt="Pellet smoker with sliced brisket on a cutting board"
           text="This page will collect smoked meats, pellet-grill ideas, smoker tips, wood-pellet flavor notes, and practical barbecue planning ideas."
           setActivePage={setActivePage}
@@ -5522,7 +5523,7 @@ export default function App() {
       {activePage === "About Smoking" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-smoker.png"
+            src="images/heroes/hero-smoker.jpg"
             alt="Pellet smoker with sliced brisket on a cutting board"
             eyebrow="TIPS & ORGANIZATION"
             title="Tips: Smoking Meats"
@@ -5532,7 +5533,25 @@ export default function App() {
         </>
       )}
 
-      <RecipeCardViewer
+      
+      {activePage === "Affiliate Marketing" && (
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-guides.jpg"
+            alt="Kitchen reference tools, notebook, measuring cups, and utensils"
+            eyebrow="TIPS & ORGANIZATION"
+            title="Affiliate Marketing"
+            text="This page will explain affiliate links, product recommendations, and how Robert’s Recipe Box may earn a small commission from qualifying purchases."
+          />
+          <PlaceholderInfoPage
+            eyebrow="TIPS & ORGANIZATION"
+            title="Affiliate Marketing"
+            text="This page will explain affiliate links, product recommendations, and how Robert’s Recipe Box may earn a small commission from qualifying purchases at no additional cost to the visitor."
+            setActivePage={setActivePage}
+          />
+        </>
+      )}
+<RecipeCardViewer
         viewer={cardViewer}
         onClose={() => setCardViewer(null)}
         setViewer={setCardViewer}
