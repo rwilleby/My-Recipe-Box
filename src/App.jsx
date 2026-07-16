@@ -5305,8 +5305,8 @@ export default function App() {
       {activePage === "About" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-mission.png"
-            alt="Recipe box, binder, and kitchen organization setup"
+            src="images/heroes/hero-about-us.png"
+            alt="Framed family photos, coffee cup, and small plant on a light kitchen counter"
             eyebrow="ABOUT US"
             title="Who, What, When, Where, Why"
             text="Learn how Robert’s Recipe Box got started, what it is designed to do, and why practical home cooking matters."
