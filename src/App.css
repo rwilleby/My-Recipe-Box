@@ -14399,3 +14399,181 @@ button,
     font-size: clamp(32px, 9vw, 42px);
   }
 }
+
+
+/* =========================================================
+   ABOUT US REFINED LETTER CONTENT UPDATE
+   The hero uses the same bubble/headline/body style as the main page.
+   The body content becomes flowing paragraph text with optional photos.
+   ========================================================= */
+
+/* Match supporting hero typography to the main page hero strip */
+.pageHeroEyebrow {
+  display: inline-flex !important;
+  align-items: center !important;
+  align-self: flex-start !important;
+  gap: 6px !important;
+  padding: 8px 14px !important;
+  border-radius: 99px !important;
+  background: #f0e8ff !important;
+  color: #5e35b1 !important;
+  font-size: 13px !important;
+  font-weight: 800 !important;
+  letter-spacing: .04em !important;
+  text-transform: uppercase !important;
+  line-height: 1 !important;
+}
+
+.pageHeroTextOverlay h1 {
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: clamp(38px, 4.3vw, 56px) !important;
+  line-height: .92 !important;
+  margin: 18px 0 14px !important;
+  letter-spacing: -.055em !important;
+  color: #111111 !important;
+  text-transform: none !important;
+}
+
+.pageHeroTextOverlay p {
+  font-size: 16px !important;
+  line-height: 1.42 !important;
+  color: #242424 !important;
+  max-width: 620px !important;
+  margin: 0 !important;
+  font-weight: 400 !important;
+}
+
+/* Refined About Us letter body */
+.aboutLetterPage {
+  padding-top: 0 !important;
+  padding-bottom: 48px;
+}
+
+.aboutLetterArticle {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: clamp(22px, 3vw, 36px);
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+}
+
+.aboutLetterIntro {
+  margin-bottom: 26px;
+}
+
+.aboutLetterIntro h1,
+.aboutLetterSection h2,
+.aboutLetterClosing h2 {
+  font-family: Georgia, "Times New Roman", serif !important;
+  text-transform: none !important;
+  color: #111111;
+  letter-spacing: -.055em !important;
+}
+
+.aboutLetterIntro h1 {
+  font-size: clamp(38px, 4.3vw, 56px);
+  line-height: .92;
+  margin: 18px 0 14px;
+}
+
+.aboutLetterIntro p,
+.aboutLetterSection p,
+.aboutLetterClosing p {
+  font-family: var(--rrb-body-font);
+  color: #242424;
+  font-size: 16px;
+  line-height: 1.52;
+  margin: 0;
+  max-width: 760px;
+}
+
+.aboutLetterSection {
+  padding: 22px 0;
+  border-top: 1px solid rgba(17, 24, 39, .08);
+}
+
+.aboutLetterSection h2 {
+  font-size: clamp(28px, 2.9vw, 40px);
+  line-height: .96;
+  margin: 0 0 12px;
+}
+
+.aboutLetterSection p + p {
+  margin-top: 14px;
+}
+
+.aboutLetterPhotoBreak {
+  display: grid;
+  grid-template-columns: minmax(150px, 220px) minmax(0, 1fr);
+  gap: 20px;
+  align-items: center;
+  margin: 10px 0 22px;
+  padding: 18px;
+  border-radius: 16px;
+  background: #fbfaf7;
+  border: 1px solid rgba(17, 24, 39, .08);
+}
+
+.aboutLetterPhotoBreakRight {
+  grid-template-columns: minmax(0, 1fr) minmax(150px, 220px);
+}
+
+.aboutLetterPhotoBreakRight img {
+  order: 2;
+}
+
+.aboutLetterPhotoBreakRight figcaption {
+  order: 1;
+}
+
+.aboutLetterPhotoBreak img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid rgba(17, 24, 39, .1);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, .08);
+}
+
+.aboutLetterPhotoBreak figcaption {
+  font-family: Georgia, "Times New Roman", serif;
+  color: #334155;
+  font-size: 20px;
+  line-height: 1.32;
+}
+
+.aboutLetterClosing {
+  margin-top: 12px;
+  padding-top: 26px;
+  border-top: 1px solid rgba(17, 24, 39, .08);
+}
+
+.aboutLetterSignature {
+  margin-top: 18px !important;
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: 34px !important;
+  line-height: 1 !important;
+  color: #111111 !important;
+}
+
+@media (max-width: 760px) {
+  .aboutLetterArticle {
+    padding: 22px 18px;
+  }
+
+  .aboutLetterPhotoBreak,
+  .aboutLetterPhotoBreakRight {
+    grid-template-columns: 1fr;
+  }
+
+  .aboutLetterPhotoBreakRight img,
+  .aboutLetterPhotoBreakRight figcaption {
+    order: initial;
+  }
+
+  .aboutLetterPhotoBreak figcaption {
+    font-size: 17px;
+  }
+}

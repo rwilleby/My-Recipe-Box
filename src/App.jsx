@@ -4426,94 +4426,133 @@ function AboutRecipesPage({ setActivePage }) {
 
 
 function AboutPage({ setActivePage }) {
-  const aboutSections = [
-    {
-      kicker: "Why this site exists",
-      title: "A practical recipe box for real life",
-      text: "Robert’s Recipe Box started with a simple idea: make it easier to plan meals, cook at home, save useful leftovers, and keep grocery shopping more organized.",
-    },
-    {
-      kicker: "Who it is for",
-      title: "Built for smaller households",
-      text: "The site is especially useful for seniors, couples, empty nesters, and smaller households that do not always need large family-size recipes every night.",
-    },
-    {
-      kicker: "How it helps",
-      title: "Plan. Cook. Eat. Freeze. Save.",
-      text: "Recipes are designed to work with meal planning, shopping lists, practical portions, freezer-friendly ideas, and simple ways to stretch one cooking session into more than one meal.",
-    },
-    {
-      kicker: "What makes it different",
-      title: "Recipe cards without the clutter",
-      text: "The goal is to keep the recipes easy to browse, easy to print, easy to save, and easy to use in the kitchen without scrolling through long articles.",
-    },
-  ];
-
   return (
-    <main className="pageShell aboutWelcomePage aboutUnifiedPage">
-      <section className="aboutWelcomeIntro">
-        <div className="aiBadge">WELCOME TO OUR SITE</div>
-        <h1>Welcome to Robert’s Recipe Box</h1>
-        <p>
-          This site is my personal recipe-card and meal-planning project. It was
-          created to help make everyday cooking simpler, more organized, and more
-          practical for the way smaller households really eat.
-        </p>
-      </section>
-
-      <section className="aboutWelcomeGrid">
-        {aboutSections.map((section) => (
-          <article className="aboutWelcomeCard" key={section.title}>
-            <span>{section.kicker}</span>
-            <h2>{section.title}</h2>
-            <p>{section.text}</p>
-          </article>
-        ))}
-      </section>
-
-      <section className="aboutWelcomeStory">
-        <div>
-          <h2>How Robert’s Recipe Box got started</h2>
+    <main className="pageShell aboutLetterPage aboutUnifiedPage">
+      <article className="aboutLetterArticle">
+        <section className="aboutLetterIntro">
+          <div className="aiBadge">WELCOME TO OUR SITE</div>
+          <h1>Welcome to Robert’s Recipe Box</h1>
           <p>
-            My wife and I tried a few subscription meal plans. I liked the basic
-            idea: choose a meal, receive the ingredients, and follow clear
-            instructions. The problem was that we did not always like the meals
-            being offered.
+            Welcome to my free recipe-card and meal-planning site. I use it every
+            week for my own meal planning, and I designed it especially for
+            seniors, couples, empty nesters, and smaller households who want
+            practical meals, useful leftovers, freezer-friendly ideas, and
+            organized grocery lists.
+          </p>
+        </section>
+
+        <section className="aboutLetterSection">
+          <h2>Why I started this site</h2>
+          <p>
+            Robert’s Recipe Box started after my wife and I tried a few
+            subscription meal plans. I liked the basic idea: choose a meal,
+            receive the ingredients, and follow clear instructions. The problem
+            was that we did not always like the meals being offered.
           </p>
           <p>
-            I found myself wishing I could use the same organized approach while
+            I found myself wishing I could use that same organized approach while
             cooking the foods we actually enjoy. At the same time, the cost of
-            eating out kept rising, even for meals that used to feel inexpensive
-            and convenient.
+            eating out kept rising. Even fast food, which once felt inexpensive
+            and convenient, was becoming surprisingly expensive.
+          </p>
+        </section>
+
+        <figure className="aboutLetterPhotoBreak">
+          <img
+            src={`${import.meta.env.BASE_URL}images/about/robert-pete-pool.jpg`}
+            alt="Robert with Pete"
+            loading="lazy"
+            decoding="async"
+          />
+          <figcaption>Built around real home cooking, practical planning, and everyday meals.</figcaption>
+        </figure>
+
+        <section className="aboutLetterSection">
+          <h2>What I wanted to build</h2>
+          <p>
+            I wanted a place where recipes could be organized like useful recipe
+            cards, not buried inside long articles. I wanted meals that could be
+            planned ahead, printed, saved, adjusted, and reused in a practical
+            way.
           </p>
           <p>
-            Robert’s Recipe Box grew out of that need: a free place to organize
-            practical recipes, plan meals, build grocery lists, think ahead about
-            leftovers, and save meals for another day.
+            The goal is simple: help people plan what to cook, keep track of what
+            they like, make better grocery lists, use leftovers wisely, and freeze
+            extra portions for another day. For a smaller household, one recipe
+            can often become dinner today and another prepared meal for later.
           </p>
-        </div>
-      </section>
+        </section>
 
-      <section className="aboutWelcomeClosing">
-        <h2>My goal</h2>
-        <p>
-          I want this site to be useful, simple, and practical. It is not about
-          fancy cooking. It is about making good meals easier to plan, easier to
-          cook, easier to reuse, and easier to afford.
-        </p>
+        <section className="aboutLetterSection">
+          <h2>Who this site is for</h2>
+          <p>
+            This site is especially useful for seniors, older couples, empty
+            nesters, and smaller households. Many traditional recipes make more
+            food than two people need, while cooking a completely different meal
+            every night can take too much planning, shopping, preparation, and
+            cleanup.
+          </p>
+          <p>
+            Robert’s Recipe Box is meant to offer another option. It is designed
+            for practical home cooking: familiar meals, realistic portions,
+            organized grocery lists, useful leftovers, freezer-friendly thinking,
+            and simple ways to save money where possible.
+          </p>
+        </section>
 
-        <div className="aboutRecipesActions">
-          <button className="primary" onClick={() => setActivePage("Recipes")}>
-            Browse Our Library
-          </button>
-          <button className="secondary" onClick={() => setActivePage("Meal Planner")}>
-            Plan Your Meals
-          </button>
-          <button className="secondary" onClick={() => setActivePage("About Recipes")}>
-            About the Recipes
-          </button>
-        </div>
-      </section>
+        <figure className="aboutLetterPhotoBreak aboutLetterPhotoBreakRight">
+          <img
+            src={`${import.meta.env.BASE_URL}images/about/robert-pete-puppy.jpg`}
+            alt="Pete as a puppy"
+            loading="lazy"
+            decoding="async"
+          />
+          <figcaption>A personal project, built one practical idea at a time.</figcaption>
+        </figure>
+
+        <section className="aboutLetterSection">
+          <h2>How the recipes are created</h2>
+          <p>
+            I use AI assistance to generate recipe ideas and recipe-card content,
+            but the direction comes from me. I choose the meal idea, cooking
+            method, serving goal, flavor direction, practical needs, and how I
+            want the recipe to fit into the site.
+          </p>
+          <p>
+            The recipes are not copied from other websites, restaurants, brands,
+            or cookbooks. They are created as practical, AI-assisted recipe-card
+            ideas under my direction. Some may be inspired by familiar foods,
+            restaurant-style meals, or common home-cooking favorites, but the goal
+            is always to make something useful for this site.
+          </p>
+        </section>
+
+        <section className="aboutLetterSection">
+          <h2>What I hope this becomes</h2>
+          <p>
+            My hope is that Robert’s Recipe Box becomes a simple, useful place to
+            plan meals, browse ideas, save favorites, print recipe cards, build
+            grocery lists, and think ahead about leftovers and freezer meals.
+          </p>
+          <p>
+            It is not meant to be fancy. It is meant to be practical. If it helps
+            someone cook at home more often, waste less food, save a little money,
+            or feel more organized in the kitchen, then it is doing what I hoped
+            it would do.
+          </p>
+        </section>
+
+        <section className="aboutLetterClosing">
+          <p>
+            Thank you for visiting Robert’s Recipe Box. I hope you find something
+            here that makes planning, cooking, shopping, and saving meals a little
+            easier.
+          </p>
+          <p className="aboutLetterSignature">
+            Robert
+          </p>
+        </section>
+      </article>
     </main>
   );
 }
