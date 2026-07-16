@@ -5049,8 +5049,8 @@ export default function App() {
       {activePage === "Reference Guides" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-storage.png"
-            alt="Pantry storage containers, spices, and kitchen organization setup"
+            src="images/heroes/hero-guides.jpg"
+            alt="Kitchen reference tools, measuring cups, scale, notebook, and utensils"
             eyebrow="TIPS & ORGANIZATION"
             title="Reference Guides"
             text="Practical kitchen reference guides, cooking charts, storage reminders, substitutions, freezer tips, and other quick-use information."
@@ -5195,8 +5195,8 @@ export default function App() {
       {activePage === "Meal Planner" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-meal-plan.png"
-            alt="Meal planning notebook with vegetables and dinner ingredients"
+            src="images/heroes/hero-meal-plan.jpg"
+            alt="Meal planning notebook with pen, coffee, and kitchen tools"
             eyebrow="PLANNING"
             title="Your Meal Plans"
             text="Build weekly meal plans, organize ideas, and keep dinner planning simple."
@@ -5207,8 +5207,8 @@ export default function App() {
       {activePage === "Shopping Lists" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-meal-plan.png"
-            alt="Meal planner notebook with vegetables and planning tools"
+            src="images/heroes/hero-grocery-list.jpg"
+            alt="Grocery list clipboard with fresh vegetables on a light kitchen counter"
             eyebrow="PLANNING"
             title="Your Grocery List"
             text="Turn meal ideas into a simple working grocery list for practical shopping."
@@ -5219,8 +5219,8 @@ export default function App() {
       {activePage === "Pantry Staples" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-pantry.png"
-            alt="Pantry staples in jars and baskets on a kitchen counter"
+            src="images/heroes/hero-your-pantry.jpg"
+            alt="Pantry jars with dry goods, utensils, herbs, and coffee on a light counter"
             eyebrow="PLANNING"
             title="Your Pantry"
             text="Keep useful staples organized so meal planning and shopping are easier."
@@ -5435,8 +5435,8 @@ export default function App() {
       {activePage === "Submit Recipes" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-recipes.png"
-            alt="Recipe card organization setup on a kitchen counter"
+            src="images/heroes/hero-submit-recipe.jpg"
+            alt="Recipe cards, notebook, utensils, coffee, and kitchen organization setup"
             eyebrow="TIPS & ORGANIZATION"
             title="Submit Family Recipes"
             text="Share recipe ideas, family favorites, or practical cooking suggestions for future consideration."
@@ -5470,8 +5470,8 @@ export default function App() {
         <HeroTopicPage
           eyebrow="TIPS & TECHNIQUES"
           title="Storage & Organization"
-          heroImage="images/heroes/hero-storage.png"
-          heroAlt="Pantry storage containers, baskets, spices, and herbs"
+          heroImage="images/heroes/hero-storage.jpg"
+          heroAlt="Food storage containers, labels, pantry jars, notebook, and kitchen organization items"
           text="This page will include ideas for organizing recipes, pantry staples, freezer meals, storage containers, labels, and kitchen tools."
           setActivePage={setActivePage}
           primaryPage="Products I Use"
