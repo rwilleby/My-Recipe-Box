@@ -2948,6 +2948,7 @@ function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFa
   const normalizedPlan = useMemo(() => normalizeTwoWeekPlan(plan), [plan]);
   const [selectedSlot, setSelectedSlot] = useState("week1-Mon");
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [activePlannerWeek, setActivePlannerWeek] = useState("week1");
 
   const filteredPlannerRecipes = useMemo(() => {
     if (selectedCategory === "All") return recipes;
@@ -2966,6 +2967,8 @@ function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFa
   }, [selectedCategory]);
 
   const totalMeals = plannedMealCount(normalizedPlan);
+  const activeWeek =
+    PLANNER_WEEKS.find((week) => week.id === activePlannerWeek) || PLANNER_WEEKS[0];
 
   function addRecipe(recipeId, slotKey = selectedSlot) {
     if (!recipeId || !slotKey) return;
@@ -3076,94 +3079,117 @@ function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFa
         </select>
       </div>
 
-      <div className="twoWeekPlannerLayout">
-        <div className="plannerWeeksGrid">
-          {PLANNER_WEEKS.map((week) => (
-            <section className="plannerWeekPanel" key={week.id}>
-              <div className="plannerWeekHeader">
-                <div>
-                  <h2>{week.title}</h2>
-                  <span>{week.subtitle}</span>
-                </div>
-                <button
-                  className="weekAddButton"
-                  onClick={() => setSelectedSlot(firstEmptySlotForWeek(week.id))}
-                >
-                  + Add Recipe
-                </button>
+      <div className="plannerWeekTabs" role="tablist" aria-label="Choose planner week">
+        {PLANNER_WEEKS.map((week) => {
+          const weekMealCount = WEEK_DAYS.reduce(
+            (sum, day) => sum + (normalizedPlan[`${week.id}-${day}`] || []).length,
+            0
+          );
+
+          return (
+            <button
+              key={week.id}
+              className={activePlannerWeek === week.id ? "plannerWeekTab active" : "plannerWeekTab"}
+              onClick={() => {
+                setActivePlannerWeek(week.id);
+                setSelectedSlot(firstEmptySlotForWeek(week.id));
+              }}
+              type="button"
+            >
+              <strong>{week.title}</strong>
+              <span>{week.subtitle}</span>
+              <small>{weekMealCount} planned</small>
+            </button>
+          );
+        })}
+      </div>
+
+      <div className="twoWeekPlannerLayout plannerWeekTabbedLayout">
+        <div className="plannerWeeksGrid plannerSingleWeekGrid">
+          <section className="plannerWeekPanel" key={activeWeek.id}>
+            <div className="plannerWeekHeader">
+              <div>
+                <h2>{activeWeek.title}</h2>
+                <span>{activeWeek.subtitle}</span>
               </div>
+              <button
+                className="weekAddButton"
+                onClick={() => setSelectedSlot(firstEmptySlotForWeek(activeWeek.id))}
+              >
+                + Add Recipe
+              </button>
+            </div>
 
-              <div className="plannerDayStack">
-                {WEEK_DAYS.map((day) => {
-                  const slotKey = `${week.id}-${day}`;
-                  const mealIds = normalizedPlan[slotKey] || [];
+            <div className="plannerDayStack">
+              {WEEK_DAYS.map((day) => {
+                const slotKey = `${activeWeek.id}-${day}`;
+                const mealIds = normalizedPlan[slotKey] || [];
 
-                  return (
-                    <section className="plannerDayRow" key={slotKey}>
-                      <div className="plannerDayLabel">
-                        <strong>{day}</strong>
-                      </div>
+                return (
+                  <section className="plannerDayRow plannerHorizontalDayRow" key={slotKey}>
+                    <div className="plannerDayLabel">
+                      <strong>{day}</strong>
+                    </div>
 
-                      <div className="plannerMealArea">
-                        {mealIds.length === 0 ? (
-                          <button
-                            className="plannerEmptyMeal"
-                            onClick={() => setSelectedSlot(slotKey)}
-                          >
-                            + Add dinner
-                          </button>
-                        ) : (
-                          mealIds.map((recipeId, index) => {
-                            const recipe = recipes.find((item) => item.id === recipeId);
-                            if (!recipe) return null;
-                            const isSaved = favorites.includes(recipe.id);
+                    <div className="plannerMealArea">
+                      {mealIds.length === 0 ? (
+                        <button
+                          className="plannerEmptyMeal"
+                          onClick={() => setSelectedSlot(slotKey)}
+                        >
+                          + Add dinner
+                        </button>
+                      ) : (
+                        mealIds.map((recipeId, index) => {
+                          const recipe = recipes.find((item) => item.id === recipeId);
+                          if (!recipe) return null;
+                          const isSaved = favorites.includes(recipe.id);
 
-                            return (
-                              <article className="plannerMealRow" key={`${slotKey}-${recipeId}-${index}`}>
-                                <div className="plannerMealThumb">
-                                  <RecipeImage recipe={recipe} />
-                                </div>
+                          return (
+                            <article className="plannerMealRow" key={`${slotKey}-${recipeId}-${index}`}>
+                              <div className="plannerMealThumb">
+                                <RecipeImage recipe={recipe} />
+                              </div>
 
-                                <div className="plannerMealInfo">
-                                  <strong>{recipe.title}</strong>
-                                  <small>
-                                    {recipe.id} · {recipe.category} · {recipe.time} min · {servings} servings
-                                  </small>
-                                </div>
+                              <div className="plannerMealInfo">
+                                <strong>{recipe.title}</strong>
+                                <small>
+                                  {recipe.id} · {recipe.category} · {recipe.time} min · {servings} servings
+                                </small>
+                              </div>
 
-                                <div className="plannerMealActions">
-                                  <button
-                                    className={isSaved ? "plannerHeart saved" : "plannerHeart"}
-                                    onClick={() => toggleFavorite(recipe.id)}
-                                    aria-label={isSaved ? "Remove from favorites" : "Add to favorites"}
-                                  >
-                                    ♥
-                                  </button>
-                                  <button
-                                    className="plannerMiniButton"
-                                    onClick={() => openRecipeCard(recipe.id, recipes)}
-                                  >
-                                    View
-                                  </button>
-                                  <button
-                                    className="plannerRemoveButton"
-                                    onClick={() => removeRecipe(slotKey, index)}
-                                    aria-label="Remove recipe"
-                                  >
-                                    ×
-                                  </button>
-                                </div>
-                              </article>
-                            );
-                          })
-                        )}
-                      </div>
-                    </section>
-                  );
-                })}
-              </div>
-            </section>
-          ))}
+                              <div className="plannerMealActions">
+                                <button
+                                  className={isSaved ? "plannerHeart saved" : "plannerHeart"}
+                                  onClick={() => toggleFavorite(recipe.id)}
+                                  aria-label={isSaved ? "Remove from favorites" : "Add to favorites"}
+                                >
+                                  ♥
+                                </button>
+                                <button
+                                  className="plannerMiniButton"
+                                  onClick={() => openRecipeCard(recipe.id, recipes)}
+                                >
+                                  View
+                                </button>
+                                <button
+                                  className="plannerRemoveButton"
+                                  onClick={() => removeRecipe(slotKey, index)}
+                                  aria-label="Remove recipe"
+                                >
+                                  ×
+                                </button>
+                              </div>
+                            </article>
+                          );
+                        })
+                      )}
+                    </div>
+                  </section>
+                );
+              })}
+            </div>
+          </section>
         </div>
 
         <aside className="plannerSidePanel">
