@@ -15802,3 +15802,30 @@ textarea {
     padding: 8px !important;
   }
 }
+
+
+/* =========================================================
+   ROLODEX COMPOSITE FADE TRANSITION
+   Smooth fade-in when the rotating composite image changes.
+   ========================================================= */
+
+.homeRolodexCompositeImage {
+  animation: rolodexCompositeFadeIn 650ms ease-in-out both !important;
+  will-change: opacity;
+}
+
+@keyframes rolodexCompositeFadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .homeRolodexCompositeImage {
+    animation: none !important;
+  }
+}
