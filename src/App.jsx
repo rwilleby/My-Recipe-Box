@@ -952,6 +952,7 @@ function Header({ activePage, setActivePage }) {
         { label: "SLOW COOKER MEALS", page: "Slow Cooker Favorites" },
         { label: "SUMMER COOKOUTS", page: "Summer Cookouts" },
         { label: "HEALTHY DINNERS", page: "Healthy Dinners" },
+        { label: "SALAD JARS", page: "Salad Jars" },
         { label: "COMFORT FOODS", page: "Comfort Foods" },
         { label: "EASY 30-MINUTE MEALS", page: "Easy 30-Minute Meals" },
       ],
@@ -5128,12 +5129,13 @@ export default function App() {
       {activePage === "Free To Use" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-recipes.png"
-            alt="Recipe card organization setup on a kitchen counter"
+            src="images/heroes/hero-page-free-to-use.jpg"
+            alt="Free to use recipe planning setup with chicken dinner, recipe box, recipe plan clipboard, and notebook"
             eyebrow="OUR RECIPES"
             title="Free To Use, Print or Download"
             text="Recipes, cards, meal-planning ideas, shopping-list tools, and practical information are intended to remain available without a subscription."
-          />
+            className="pageHeroDepth464"
+/>
           <PlaceholderInfoPage
             eyebrow="OUR RECIPES"
             title="Free To Use, Print or Download"
@@ -5199,36 +5201,39 @@ export default function App() {
       {activePage === "Disclaimers" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-mission.png"
-            alt="Recipe box, notebook, and kitchen organization setup"
+            src="images/heroes/hero-page-disclaimers.jpg"
+            alt="Disclaimer page setup with disclaimer notebook, glasses, scales, recipe box, and clipboard"
             eyebrow="ABOUT US"
             title="Boring Disclaimer Stuff"
             text="Important information about how the site works, recipe sources, nutritional estimates, food safety, and general-use guidance."
-          />
+            className="pageHeroDepth464"
+/>
           <DisclaimersPage setActivePage={setActivePage} />
         </>
       )}
       {activePage === "Under Construction" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-mission.png"
-            alt="Recipe box, notebook, and kitchen organization setup"
+            src="images/heroes/hero-page-construction.jpg"
+            alt="Under construction page setup with hard hat, construction sign, recipe box, and notebook"
             eyebrow="ABOUT US"
             title="Under Construction"
             text="This section is still being built. More pages, recipe cards, and practical planning tools will be added as the site continues to grow."
-          />
+            className="pageHeroDepth464"
+/>
           <UnderConstructionPage setActivePage={setActivePage} />
         </>
       )}
       {activePage === "Recipes" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-recipes.png"
-            alt="Recipe card organization setup on a kitchen counter"
+            src="images/heroes/hero-page-browse-recipes.jpg"
+            alt="Browse recipes setup with recipe box, pasta dish, salad, notebook, and recipe category clipboard"
             eyebrow="OUR RECIPES"
             title="Browse Our Library"
             text="Explore practical recipe cards, organized categories, and easy meal ideas created for everyday home cooking."
-          />
+            className="pageHeroDepth464"
+/>
           <RecipesPage {...pageProps} />
         </>
       )}
@@ -5244,15 +5249,33 @@ export default function App() {
           <CollectionsPage setActivePage={setActivePage} />
         </>
       )}
+      {activePage === "Salad Jars" && (
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-page-salad-jars.jpg"
+            alt="Salad jars meal planning setup with mason jar salads, recipe box, notebook, and clipboard"
+            eyebrow="COLLECTIONS"
+            title="Salad Jars"
+            text="A collection page for make-ahead salad jars, fresh lunches, and easy grab-and-go meal prep ideas."
+            className="pageHeroDepth464"
+          />
+          <CollectionDetailPage
+            title="Salad Jars"
+            text="A collection page for make-ahead salad jars, fresh lunches, and easy grab-and-go meal prep ideas. More recipes and filters will be added here."
+            setActivePage={setActivePage}
+          />
+        </>
+      )}
       {activePage === "Slow Cooker Favorites" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-weekly-plan.png"
-            alt="Weekly planner with fresh vegetables and meal-prep ingredients"
+            src="images/heroes/hero-page-slow-cooker.jpg"
+            alt="Slow cooker meal setup with crockpot, sides, rolls, recipe box, and slow cooker meal plan clipboard"
             eyebrow="COLLECTIONS"
             title="Slow Cooker Favorites"
             text="Easy slow-cooker meals and set-it-and-forget-it dinner ideas for practical home cooking."
-          />
+            className="pageHeroDepth464"
+/>
           <CollectionDetailPage
             title="Slow Cooker Favorites"
             text="A collection page for easy slow-cooker meals and set-it-and-forget-it dinner ideas. More recipes and filters will be added here."
@@ -5280,12 +5303,13 @@ export default function App() {
       {activePage === "Healthy Dinners" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-favorites.png"
-            alt="Healthy bowl with vegetables and a wooden heart"
+            src="images/heroes/hero-page-healthy-dinners.jpg"
+            alt="Healthy dinner setup with grilled chicken, salad, grains, recipe box, and meal plan clipboard"
             eyebrow="COLLECTIONS"
             title="Healthy Dinners"
             text="Lighter, practical dinner ideas with flexible options for lower-calorie, lower-carb, and higher-protein meals."
-          />
+            className="pageHeroDepth464"
+/>
           <CollectionDetailPage
             title="Healthy Dinners"
             text="A collection page for lighter, practical dinner ideas with flexible options for lower-calorie, lower-carb, and higher-protein meals. More recipes and filters will be added here."
@@ -5296,12 +5320,13 @@ export default function App() {
       {activePage === "Comfort Foods" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-oven.png"
-            alt="Baked casserole with tomatoes, basil, and kitchen herbs"
+            src="images/heroes/hero-page-comfort-food.jpg"
+            alt="Comfort food meal setup with meatloaf, mashed potatoes, green beans, rolls, macaroni, and recipe box"
             eyebrow="COLLECTIONS"
             title="Comfort Foods"
             text="Familiar classics, cozy family-style meals, and practical comfort-food recipes."
-          />
+            className="pageHeroDepth464"
+/>
           <CollectionDetailPage
             title="Comfort Foods"
             text="A collection page for familiar classics, cozy family-style meals, and practical comfort-food recipes. More recipes and filters will be added here."
@@ -5312,12 +5337,13 @@ export default function App() {
       {activePage === "Easy 30-Minute Meals" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-microwave.png"
-            alt="Microwave with a warm bowl of food on a kitchen counter"
+            src="images/heroes/hero-page-30-minute-meals.jpg"
+            alt="Easy 30-minute meal planning setup with chicken, salad, recipe cards, and a meal plan clipboard"
             eyebrow="COLLECTIONS"
             title="Easy 30-Minute Meals"
             text="Fast weeknight meals and simple dinners that come together quickly."
-          />
+            className="pageHeroDepth464"
+/>
           <CollectionDetailPage
             title="Easy 30-Minute Meals"
             text="A collection page for fast weeknight meals and simple dinners that come together quickly. More recipes and filters will be added here."
@@ -5340,12 +5366,13 @@ export default function App() {
       {activePage === "Shopping Lists" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-grocery-list.jpg"
-            alt="Grocery list clipboard with fresh vegetables on a light kitchen counter"
+            src="images/heroes/hero-page-grocery-list.jpg"
+            alt="Grocery list setup with clipboard, shopping bag, notebook, coffee, and fresh groceries"
             eyebrow="PLANNING"
             title="Your Grocery List"
             text="Turn meal ideas into a simple working grocery list for practical shopping."
-          />
+            className="pageHeroDepth464"
+/>
           <ShoppingListPage {...pageProps} />
         </>
       )}
@@ -5364,13 +5391,14 @@ export default function App() {
       {activePage === "Favorites" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-favorites.png"
-            alt="Healthy bowl with vegetables and a wooden heart"
+            src="images/heroes/hero-page-favorite-recipes.jpg"
+            alt="Favorite recipe setup with recipe box, favorite recipe card, notebook, and kitchen decor"
             eyebrow="PLANNING"
             title="Your Favorites"
             icon="♥"
             text="Save the recipes you like so they are easy to find again."
-          />
+            className="pageHeroDepth464"
+/>
           <FavoritesPage {...pageProps} />
         </>
       )}
@@ -5437,12 +5465,13 @@ export default function App() {
       {activePage === "About" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-about-us.png"
+            src="images/heroes/hero-page-about-us.jpg"
             alt="Framed family photos, coffee cup, and small plant on a light kitchen counter"
             eyebrow="ABOUT US"
             title="Welcome to Our Site"
             text="A free recipe-card and meal-planning site built for practical meals, smaller households, useful leftovers, freezer-friendly ideas, and smarter shopping."
-          />
+            className="pageHeroDepth464"
+/>
           <AboutPage setActivePage={setActivePage} initialSection="main" />
         </>
       )}
@@ -5643,12 +5672,13 @@ export default function App() {
       {activePage === "About Recipes" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-recipes.png"
-            alt="Recipe card organization setup on a kitchen counter"
+            src="images/heroes/hero-page-ai-generated.jpg"
+            alt="AI-generated recipes setup with recipe box, chicken dinner, notebook, and planning clipboard"
             eyebrow="OUR RECIPES"
             title="AI-Generated, Never Copied"
             text="Learn how the recipes are created, why they are practical for smaller households, and how they are intended to be used."
-          />
+            className="pageHeroDepth464"
+/>
           <AboutRecipesPage setActivePage={setActivePage} />
         </>
       )}

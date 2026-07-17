@@ -15873,3 +15873,45 @@ textarea {
     max-width: 68% !important;
   }
 }
+
+
+/* =========================================================
+   NEW PAGE HERO IMAGE DEPTHS — 1440 x 464 BATCH
+   Applies only to pages using the new pageHeroDepth464 class.
+   ========================================================= */
+
+.pageTopHeroImage.pageHeroDepth464 {
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  aspect-ratio: 1440 / 464 !important;
+  overflow: hidden !important;
+  background: #ffffff !important;
+}
+
+.pageTopHeroImage.pageHeroDepth464 img {
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+}
+
+.pageTopHeroImage.pageHeroDepth464 .pageHeroTextOverlay {
+  top: 24px !important;
+  left: clamp(44px, 5.5vw, 76px) !important;
+  max-width: min(620px, 46%) !important;
+}
+
+@media (max-width: 760px) {
+  .pageTopHeroImage.pageHeroDepth464 {
+    aspect-ratio: 1440 / 464 !important;
+  }
+
+  .pageTopHeroImage.pageHeroDepth464 .pageHeroTextOverlay {
+    top: 18px !important;
+    left: 20px !important;
+    max-width: 68% !important;
+  }
+}
