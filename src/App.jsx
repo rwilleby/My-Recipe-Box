@@ -3015,9 +3015,14 @@ function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFa
     );
   }
 
-  function plannerNutritionText(recipe) {
-    if (!recipe) return "Add a recipe to view estimated nutrition details.";
-    return "Estimated nutrition: open the recipe card to review calories, protein, carbs, and more.";
+  function plannerEstimatedCostText(recipe) {
+    const estimatedCost = getRecipeEstimatedCost(recipe);
+
+    if (!estimatedCost?.displayCost) {
+      return "Cost estimate under review";
+    }
+
+    return `${estimatedCost.roundedCostPerServing} per serving · ${estimatedCost.roundedRecipeCost} total · ${estimatedCost.costCategory}`;
   }
 
   return (
@@ -3091,7 +3096,7 @@ function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFa
               <div className="plannerTableHeader" aria-hidden="true">
                 <span>Day</span>
                 <span>Dinner Plan</span>
-                <span>Nutrition</span>
+                <span>Estimated Cost</span>
                 <span>Actions</span>
               </div>
 
@@ -3129,9 +3134,9 @@ function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFa
                         )}
                       </div>
 
-                      <div className="plannerTableNutrition">
+                      <div className="plannerTableEstimatedCost">
                         {mealIds.length === 0 ? (
-                          <span className="plannerTableMuted">Estimated nutrition appears after you add a dinner.</span>
+                          <span className="plannerTableMuted">Estimated cost appears after you add a dinner.</span>
                         ) : (
                           mealIds.map((recipeId, index) => {
                             const recipe = recipes.find((item) => item.id === recipeId);
@@ -3139,7 +3144,7 @@ function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFa
 
                             return (
                               <span key={`${slotKey}-${recipeId}-${index}-nutrition`}>
-                                {plannerNutritionText(recipe)}
+                                {plannerEstimatedCostText(recipe)}
                               </span>
                             );
                           })
