@@ -4908,11 +4908,11 @@ function DinnerCombinationCard({ meal, onOpenRecipeSearch }) {
         </div>
 
         <div className="dinnerCombinationNutrition" aria-label={`Estimated nutrition for ${meal.title}`}>
-          <span>{meal.calories} calories</span>
-          <span>{meal.protein}g protein</span>
-          <span>{meal.carbs}g carbs</span>
-          <span>{meal.fat}g fat</span>
-          <span>{meal.fiber}g fiber</span>
+          <span><strong>{meal.calories}</strong><small>calories</small></span>
+          <span><strong>{meal.protein}g</strong><small>protein</small></span>
+          <span><strong>{meal.carbs}g</strong><small>carbs</small></span>
+          <span><strong>{meal.fat}g</strong><small>fat</small></span>
+          <span><strong>{meal.fiber}g</strong><small>fiber</small></span>
         </div>
 
         <details className="dinnerCombinationHeating">
@@ -4959,6 +4959,7 @@ function DinnerCombinationsPage({ setActivePage, setFilter }) {
   const [sideFilter, setSideFilter] = useState("all");
   const [lowerCalorieOnly, setLowerCalorieOnly] = useState(false);
   const [higherProteinOnly, setHigherProteinOnly] = useState(false);
+  const [sortMode, setSortMode] = useState("meal-number");
 
   const filteredMeals = useMemo(() => {
     const normalizedSearch = searchTerm.trim().toLowerCase();
@@ -4969,8 +4970,13 @@ function DinnerCombinationsPage({ setActivePage, setFilter }) {
       .filter((meal) => sideFilter === "all" || (meal.tags || []).includes(sideFilter))
       .filter((meal) => !lowerCalorieOnly || Number(meal.calories) < 600)
       .filter((meal) => !higherProteinOnly || Number(meal.protein) >= 30)
-      .sort((a, b) => Number(a.number) - Number(b.number));
-  }, [higherProteinOnly, lowerCalorieOnly, proteinFilter, searchTerm, sideFilter]);
+      .sort((a, b) => {
+        if (sortMode === "calories-low") return Number(a.calories) - Number(b.calories);
+        if (sortMode === "protein-high") return Number(b.protein) - Number(a.protein);
+        if (sortMode === "title") return a.title.localeCompare(b.title);
+        return Number(a.number) - Number(b.number);
+      });
+  }, [higherProteinOnly, lowerCalorieOnly, proteinFilter, searchTerm, sideFilter, sortMode]);
 
   function clearDinnerCombinationFilters() {
     setSearchTerm("");
@@ -4978,6 +4984,7 @@ function DinnerCombinationsPage({ setActivePage, setFilter }) {
     setSideFilter("all");
     setLowerCalorieOnly(false);
     setHigherProteinOnly(false);
+    setSortMode("meal-number");
   }
 
   function openRecipeSearch(recipeName) {
@@ -4987,36 +4994,21 @@ function DinnerCombinationsPage({ setActivePage, setFilter }) {
 
   return (
     <main className="pageShell dinnerCombinationsPage">
-      <section className="dinnerCombinationsIntro">
-        <div>
-          <div className="aiBadge">MEAL PLANNING</div>
-          <h1>Dinner Combinations</h1>
-          <p>
-            These dinner combinations are designed to help you quickly choose practical meals with a main dish,
-            sides, portion guidance, and estimated nutrition. They can be used for weekly planning, freezer meal
-            prep, or simple dinner ideas for smaller households.
-          </p>
-          <p className="dinnerCombinationsNote">
-            Nutrition values are estimates and may vary based on brands, portions, and preparation methods.
-          </p>
-        </div>
-      </section>
-
-      <section className="dinnerCombinationControls" aria-label="Dinner combination filters">
+<section className="dinnerCombinationControls" aria-label="Dinner combination filters">
         <label className="dinnerCombinationSearch">
           <span>Search meals</span>
           <input
             type="search"
             value={searchTerm}
             onChange={(event) => setSearchTerm(event.target.value)}
-            placeholder="Search by title, main dish, or side dish"
+            placeholder="Search meals, main dishes, or sides…"
           />
         </label>
 
         <label>
-          <span>Protein type</span>
+          <span>Protein</span>
           <select value={proteinFilter} onChange={(event) => setProteinFilter(event.target.value)}>
-            <option value="all">All proteins</option>
+            <option value="all">All Proteins</option>
             {DINNER_PROTEIN_FILTERS.map((filter) => (
               <option key={filter} value={filter}>
                 {filter.charAt(0).toUpperCase() + filter.slice(1)}
@@ -5026,9 +5018,9 @@ function DinnerCombinationsPage({ setActivePage, setFilter }) {
         </label>
 
         <label>
-          <span>Side type</span>
+          <span>Side Type</span>
           <select value={sideFilter} onChange={(event) => setSideFilter(event.target.value)}>
-            <option value="all">All sides</option>
+            <option value="all">All Side Types</option>
             {DINNER_SIDE_FILTERS.map((filter) => (
               <option key={filter} value={filter}>
                 {filter.charAt(0).toUpperCase() + filter.slice(1)}
@@ -5044,7 +5036,7 @@ function DinnerCombinationsPage({ setActivePage, setFilter }) {
               checked={lowerCalorieOnly}
               onChange={(event) => setLowerCalorieOnly(event.target.checked)}
             />
-            Under 600 calories
+            Under 600 Calories
           </label>
           <label>
             <input
@@ -5052,11 +5044,21 @@ function DinnerCombinationsPage({ setActivePage, setFilter }) {
               checked={higherProteinOnly}
               onChange={(event) => setHigherProteinOnly(event.target.checked)}
             />
-            30g+ protein
+            30g+ Protein
           </label>
         </div>
 
-        <button type="button" onClick={clearDinnerCombinationFilters}>Clear Filters</button>
+        <label>
+          <span>Sort</span>
+          <select value={sortMode} onChange={(event) => setSortMode(event.target.value)}>
+            <option value="meal-number">Meal Number</option>
+            <option value="title">Title</option>
+            <option value="calories-low">Lowest Calories</option>
+            <option value="protein-high">Highest Protein</option>
+          </select>
+        </label>
+
+        <button type="button" onClick={clearDinnerCombinationFilters}>Clear</button>
       </section>
 
       <div className="dinnerCombinationResultsBar">
