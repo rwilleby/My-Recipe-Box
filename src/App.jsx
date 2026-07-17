@@ -4813,6 +4813,7 @@ function HeroTopicPage({
   primaryLabel = "Browse Recipes",
   secondaryPage = "How To Use",
   secondaryLabel = "How to Use This Site",
+  heroClassName = "pageHeroDepth464",
 }) {
   return (
     <main className="pageShell aboutRecipesPage heroTopicPage">
@@ -4822,6 +4823,7 @@ function HeroTopicPage({
         eyebrow={eyebrow}
         title={title}
         text={text}
+        className={heroClassName}
       />
 
       <section className="aboutRecipesHero heroTopicIntro">
@@ -5147,12 +5149,13 @@ export default function App() {
       {activePage === "Dinner Combinations" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-complete-dinner.jpg"
-            alt="Complete dinner with recipe cards, meal plan clipboard, and plated food"
+            src="images/heroes/hero-page-complete-dinners.jpg"
+            alt="Complete dinner setup with steak, sides, recipe box, clipboard, and iced tea"
             eyebrow="COLLECTIONS"
             title="Dinner Combinations"
             text="Practical main-dish and side-dish pairings, planned leftovers, and easy dinner combinations for smaller households."
-          />
+            className="pageHeroDepth464"
+/>
           <CollectionDetailPage
             title="Dinner Combinations"
             text="A collection page for main dishes, side dishes, freezer meals, planned leftovers, and practical dinner pairings for smaller households."
@@ -5164,8 +5167,8 @@ export default function App() {
         <HeroTopicPage
           eyebrow="COOKING METHODS"
           title="Crockpot Recipes"
-          heroImage="images/heroes/hero-weekly-plan.png"
-          heroAlt="Meal planning and slow-cooker dinner preparation"
+          heroImage="images/heroes/hero-page-crockpot.jpg"
+          heroAlt="Crockpot with slow-cooked meal, checklist, notebook, coffee, and potted plant"
           text="This page will collect slow-cooker and crockpot meals that work well for practical dinner planning, planned leftovers, and freezer-friendly portions."
           setActivePage={setActivePage}
         />
@@ -5183,12 +5186,13 @@ export default function App() {
       {activePage === "Reference Guides" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-guides.jpg"
-            alt="Kitchen reference tools, measuring cups, scale, notebook, and utensils"
+            src="images/heroes/hero-page-reference-guides.jpg"
+            alt="Kitchen reference guides setup with measuring cups, conversion chart, cookbooks, and utensils"
             eyebrow="TIPS & ORGANIZATION"
             title="Reference Guides"
             text="Practical kitchen reference guides, cooking charts, storage reminders, substitutions, freezer tips, and other quick-use information."
-          />
+            className="pageHeroDepth464"
+/>
           <PlaceholderInfoPage
             eyebrow="TIPS & ORGANIZATION"
             title="Reference Guides"
@@ -5286,12 +5290,12 @@ export default function App() {
       {activePage === "Summer Cookouts" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-summer-cookouts.jpg"
-            alt="Summer cookout meal planning setup with burgers, sides, iced tea, and recipe cards"
+            src="images/heroes/hero-page-summer-cookouts.jpg"
+            alt="Summer cookout setup with burger, hot dog, corn, baked beans, coleslaw, and recipe box"
             eyebrow="COLLECTIONS"
             title="Summer Cookouts"
             text="Grill-friendly meals, warm-weather favorites, cookouts, and simple outdoor dinners."
-                      className="summerCookoutsHeroDepth"
+                      className="pageHeroDepth464"
 />
           <CollectionDetailPage
             title="Summer Cookouts"
@@ -5379,12 +5383,13 @@ export default function App() {
       {activePage === "Pantry Staples" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-your-pantry.jpg"
-            alt="Pantry jars with dry goods, utensils, herbs, and coffee on a light counter"
+            src="images/heroes/hero-page-your-pantry.jpg"
+            alt="Pantry planning setup with labeled pantry containers, canned goods, checklist, and notebook"
             eyebrow="PLANNING"
             title="Your Pantry"
             text="Keep useful staples organized so meal planning and shopping are easier."
-          />
+            className="pageHeroDepth464"
+/>
           <PantryStaplesPage {...pageProps} />
         </>
       )}
@@ -5417,36 +5422,39 @@ export default function App() {
       {activePage === "Products I Use" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-storage.png"
-            alt="Pantry storage containers, spices, and kitchen organization setup"
+            src="images/heroes/hero-page-cooking-tools.jpg"
+            alt="Cooking tools and products setup with utensils, measuring cups, grater, mixing bowl, and skillet"
             eyebrow="TIPS & ORGANIZATION"
             title="Cooking Tools & Products"
             text="Helpful products and practical kitchen tools that support cooking, meal prep, and organization."
-          />
+            className="pageHeroDepth464"
+/>
           <ProductsIUsePage setActivePage={setActivePage} />
         </>
       )}
       {activePage === "Grocery Picks" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-healthy.jpg"
-            alt="Healthy lower-carb substitution ingredients on a light kitchen counter"
+            src="images/heroes/hero-page-healthy-substitutions.jpg"
+            alt="Healthy substitutions setup with cauliflower, tofu, zucchini noodles, beans, grains, yogurt, and greens"
             eyebrow="TIPS & ORGANIZATION"
             title="Healthy Substitutions"
             text="Review lighter swaps, lower-carb options, and practical ingredient ideas before you shop."
-          />
+            className="pageHeroDepth464"
+/>
           <GroceryPicksPage {...pageProps} />
         </>
       )}
       {activePage === "Smart Grocery Picks" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-healthy.jpg"
-            alt="Healthy lower-carb substitution ingredients on a light kitchen counter"
+            src="images/heroes/hero-page-healthy-substitutions.jpg"
+            alt="Healthy substitutions setup with cauliflower, tofu, zucchini noodles, beans, grains, yogurt, and greens"
             eyebrow="TIPS & ORGANIZATION"
             title="Healthy Substitutions"
             text="Review lighter swaps, lower-carb options, and practical ingredient ideas before you shop."
-          />
+            className="pageHeroDepth464"
+/>
           <GroceryPicksPage {...pageProps} />
         </>
       )}
@@ -5500,8 +5508,8 @@ export default function App() {
         <HeroTopicPage
           eyebrow="COOKING METHODS"
           title="Air Fryer Recipes"
-          heroImage="images/heroes/hero-air-fryer.png"
-          heroAlt="Air fryer with wings and potatoes on a kitchen counter"
+          heroImage="images/heroes/hero-page-air-fryer.jpg"
+          heroAlt="Air fryer with fries, cooked bites, towel, and potted herb"
           text="This page will collect practical air fryer recipes, shortcuts, reheating ideas, and small-household cooking tips."
           setActivePage={setActivePage}
         />
@@ -5510,8 +5518,8 @@ export default function App() {
         <HeroTopicPage
           eyebrow="COOKING METHODS"
           title="Oven Recipes"
-          heroImage="images/heroes/hero-oven.png"
-          heroAlt="Baked casserole with tomatoes, basil, and kitchen herbs"
+          heroImage="images/heroes/hero-page-oven.jpg"
+          heroAlt="Oven cooking setup with casserole, oven tips clipboard, utensils, coffee, and notebook"
           text="This page will collect practical oven-baked meals, casseroles, sheet-pan dinners, sides, and make-ahead recipe ideas."
           setActivePage={setActivePage}
         />
@@ -5520,8 +5528,8 @@ export default function App() {
         <HeroTopicPage
           eyebrow="COOKING METHODS"
           title="Microwave Recipes"
-          heroImage="images/heroes/hero-microwave.png"
-          heroAlt="Microwave with a warm bowl of food on a kitchen counter"
+          heroImage="images/heroes/hero-page-microwaves.jpg"
+          heroAlt="Microwave cooking setup with bowl of food, towel, and potted plant"
           text="This page will collect simple microwave cooking ideas, reheating tips, small portions, and quick meal shortcuts."
           setActivePage={setActivePage}
         />
@@ -5530,8 +5538,8 @@ export default function App() {
         <HeroTopicPage
           eyebrow="COOKING METHODS"
           title="Gas Grill Recipes"
-          heroImage="images/heroes/hero-grill.png"
-          heroAlt="Gas grill with grilled meats and vegetables"
+          heroImage="images/heroes/hero-page-gas-grills.jpg"
+          heroAlt="Gas grill with grilled burgers and vegetables on a light kitchen counter"
           text="This page will collect gas-grill recipes, warm-weather meals, quick grilling ideas, and practical outdoor cooking tips."
           setActivePage={setActivePage}
         />
@@ -5540,8 +5548,8 @@ export default function App() {
         <HeroTopicPage
           eyebrow="COOKING METHODS"
           title="Smoker & Pellet Grill Recipes"
-          heroImage="images/heroes/hero-smoker.jpg"
-          heroAlt="Pellet smoker with sliced brisket on a cutting board"
+          heroImage="images/heroes/hero-page-pellet-smoker.jpg"
+          heroAlt="Pellet smoker with brisket, sliced smoked meat, pellets, towel, and potted plant"
           text="This page will collect smoked meats, pellet-grill ideas, smoker tips, wood-pellet flavor notes, and practical barbecue planning ideas."
           setActivePage={setActivePage}
           primaryPage="About Smoking"
@@ -5632,8 +5640,8 @@ export default function App() {
         <HeroTopicPage
           eyebrow="TIPS & TECHNIQUES"
           title="Storage & Organization"
-          heroImage="images/heroes/hero-storage.jpg"
-          heroAlt="Food storage containers, labels, pantry jars, notebook, and kitchen organization items"
+          heroImage="images/heroes/hero-page-storage.jpg"
+          heroAlt="Storage and organization setup with labeled containers, pantry items, basket, and kitchen notes"
           text="This page will include ideas for organizing recipes, pantry staples, freezer meals, storage containers, labels, and kitchen tools."
           setActivePage={setActivePage}
           primaryPage="Products I Use"
@@ -5699,12 +5707,13 @@ export default function App() {
       {activePage === "Affiliate Marketing" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-guides.jpg"
-            alt="Kitchen reference tools, notebook, measuring cups, and utensils"
+            src="images/heroes/hero-page-affiliate.jpg"
+            alt="Affiliate marketing setup with laptop dashboard, notebook, coffee, and affiliate partner checklist"
             eyebrow="TIPS & ORGANIZATION"
             title="Affiliate Marketing"
             text="This page will explain affiliate links, product recommendations, and how Robert’s Recipe Box may earn a small commission from qualifying purchases."
-          />
+            className="pageHeroDepth464"
+/>
           <PlaceholderInfoPage
             eyebrow="TIPS & ORGANIZATION"
             title="Affiliate Marketing"
