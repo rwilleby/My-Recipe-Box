@@ -17466,3 +17466,186 @@ textarea {
     font-size: 18px !important;
   }
 }
+
+
+/* =========================================================
+   BORING DISCLAIMER STUFF — ACCORDION PAGE
+   Full disclaimer content in expandable topic sections.
+   ========================================================= */
+
+.disclaimersAccordionPage {
+  padding-top: 24px !important;
+  padding-bottom: 48px !important;
+}
+
+.disclaimersIntroCard {
+  border: 1px solid rgba(20, 83, 45, 0.14);
+  border-radius: 18px;
+  background: linear-gradient(180deg, #ffffff 0%, #fbfaf7 100%);
+  box-shadow: 0 14px 34px rgba(17, 24, 39, 0.07);
+  padding: 26px 28px;
+  margin-bottom: 18px;
+}
+
+.disclaimersIntroCard h1 {
+  margin: 8px 0 12px;
+  color: #111827;
+  font-family: var(--rrb-heading-font, Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif);
+  font-size: 28px;
+  line-height: 1.1;
+  font-weight: 700;
+}
+
+.disclaimersIntroCard p {
+  max-width: 940px;
+  margin: 0;
+  color: #374151;
+  font-family: var(--rrb-body-font, Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif);
+  font-size: 15px;
+  line-height: 1.55;
+  font-weight: 400;
+}
+
+.disclaimersIntroCard .disclaimersIntroNote {
+  margin-top: 10px;
+  color: #6B7280;
+  font-size: 13px;
+}
+
+.disclaimerAccordionList {
+  display: grid;
+  gap: 12px;
+}
+
+.disclaimerAccordionSection {
+  border: 1px solid rgba(20, 83, 45, 0.16);
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 10px 26px rgba(17, 24, 39, 0.05);
+  overflow: hidden;
+}
+
+.disclaimerAccordionTrigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 18px 20px;
+  border: 0;
+  background: #ffffff;
+  color: #111827;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--rrb-heading-font, Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif);
+  font-size: 22px;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+.disclaimerAccordionTrigger:hover,
+.disclaimerAccordionTrigger[aria-expanded="true"] {
+  background: #f8faf7;
+}
+
+.disclaimerAccordionArrow {
+  min-width: 30px;
+  min-height: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: #14532D;
+  color: #ffffff;
+  font-family: var(--rrb-body-font, Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.disclaimerAccordionPanel {
+  display: grid;
+  gap: 14px;
+  padding: 0 20px 20px;
+  background: #ffffff;
+}
+
+.disclaimerSubsection {
+  display: grid;
+  gap: 12px;
+  padding: 18px;
+  border: 1px solid rgba(20, 83, 45, 0.12);
+  border-radius: 14px;
+  background: #fbfaf7;
+}
+
+.disclaimerSubsection h2 {
+  margin: 0;
+  color: #111827;
+  font-family: var(--rrb-heading-font, Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif);
+  font-size: 20px;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+.disclaimerExplanationBlock {
+  border-radius: 12px;
+  padding: 14px 16px;
+  border: 1px solid rgba(20, 83, 45, 0.12);
+  background: #ffffff;
+}
+
+.disclaimerExplanationBlock.simple {
+  background: #f8faf7;
+}
+
+.disclaimerExplanationBlock h3 {
+  margin: 0 0 8px;
+  color: #14532D;
+  font-family: var(--rrb-body-font, Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif);
+  font-size: 14px;
+  line-height: 1.25;
+  font-weight: 700;
+}
+
+.disclaimerExplanationBlock p {
+  margin: 0;
+  color: #374151;
+  font-family: var(--rrb-body-font, Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif);
+  font-size: 15px;
+  line-height: 1.58;
+  font-weight: 400;
+}
+
+.disclaimerExplanationBlock p + p {
+  margin-top: 8px;
+}
+
+@media (max-width: 760px) {
+  .disclaimersIntroCard {
+    padding: 22px 20px;
+  }
+
+  .disclaimersIntroCard h1 {
+    font-size: 26px;
+  }
+
+  .disclaimerAccordionTrigger {
+    padding: 16px;
+    font-size: 20px;
+  }
+
+  .disclaimerAccordionPanel {
+    padding: 0 14px 16px;
+  }
+
+  .disclaimerSubsection {
+    padding: 15px;
+  }
+
+  .disclaimerSubsection h2 {
+    font-size: 18px;
+  }
+
+  .disclaimerExplanationBlock {
+    padding: 12px 13px;
+  }
+}
