@@ -42,14 +42,15 @@ export const dinnerCombinations = [
   },
   {
     id: "meal-001",
+    image: "images/dinner-combinations/meal-001.jpg",
     number: 1,
     title: "BBQ Pulled Chicken",
-    subtitle: "With Baked Beans & Dinner Roll",
+    subtitle: "With Baked Beans & Cornbread",
     mainDish: "BBQ Pulled Chicken",
     mainServing: "1 cup",
     sides: [
       { name: "Baked Beans", serving: "1/2 cup" },
-      { name: "Dinner Roll", serving: "1 roll" },
+      { name: "Cornbread", serving: "1/2 cup" },
     ],
     calories: 610,
     protein: 34,
@@ -65,6 +66,7 @@ export const dinnerCombinations = [
   },
   {
     id: "meal-002",
+    image: "images/dinner-combinations/meal-002.jpg",
     number: 2,
     title: "Salisbury Steak",
     subtitle: "With Mashed Potatoes & Green Beans",
@@ -88,6 +90,7 @@ export const dinnerCombinations = [
   },
   {
     id: "meal-003",
+    image: "images/dinner-combinations/meal-003.jpg",
     number: 3,
     title: "Chicken Alfredo",
     subtitle: "With Broccoli & Garlic Bread",
@@ -111,6 +114,7 @@ export const dinnerCombinations = [
   },
   {
     id: "meal-004",
+    image: "images/dinner-combinations/meal-004.jpg",
     number: 4,
     title: "Turkey Meatloaf",
     subtitle: "With Roasted Potatoes & Carrots",
@@ -134,6 +138,7 @@ export const dinnerCombinations = [
   },
   {
     id: "meal-005",
+    image: "images/dinner-combinations/meal-005.jpg",
     number: 5,
     title: "Baked Cod",
     subtitle: "With Rice Pilaf & Asparagus",
@@ -157,6 +162,7 @@ export const dinnerCombinations = [
   },
   {
     id: "meal-006",
+    image: "images/dinner-combinations/meal-006.jpg",
     number: 6,
     title: "Vegetable Pasta Bake",
     subtitle: "With Garden Salad & Dinner Roll",
@@ -164,7 +170,7 @@ export const dinnerCombinations = [
     mainServing: "1 cup",
     sides: [
       { name: "Garden Salad", serving: "1 cup" },
-      { name: "Dinner Roll", serving: "1 roll" },
+      { name: "Cornbread", serving: "1/2 cup" },
     ],
     calories: 590,
     protein: 24,
