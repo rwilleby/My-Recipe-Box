@@ -2515,176 +2515,181 @@ function ProductsIUseCarousel({ setActivePage }) {
 }
 
 
-function RecipeRolodex({ openRecipeCard }) {
-  const [selectedCategory, setSelectedCategory] = useState("MASTER_RANDOM");
+
+const ROLODEX_COMPOSITE_SLIDES = [
+  {
+    id: "AS",
+    title: "Asian Cuisine",
+    image: "images/rolodex/ROLO-AS-002.jpg",
+    categoryFilter: "Asian Cuisine",
+  },
+  {
+    id: "AM",
+    title: "American Cuisine",
+    image: "images/rolodex/ROLO-AM-002.jpg",
+    categoryFilter: "American Cuisine",
+  },
+  {
+    id: "IT",
+    title: "Italian Cuisine",
+    image: "images/rolodex/ROLO-IT-002.jpg",
+    categoryFilter: "Italian Cuisine",
+  },
+  {
+    id: "MX",
+    title: "Mexican Cuisine",
+    image: "images/rolodex/ROLO-MX-002.jpg",
+    categoryFilter: "Mexican Cuisine",
+  },
+  {
+    id: "SF",
+    title: "Seafood Dishes",
+    image: "images/rolodex/ROLO-SF-002.jpg",
+    categoryFilter: "Seafood Dishes",
+  },
+  {
+    id: "SG",
+    title: "Smoked & Grilled Meats",
+    image: "images/rolodex/ROLO-SG-002.jpg",
+    categoryFilter: "Smoked & Grilled Meats",
+  },
+  {
+    id: "SB",
+    title: "Salads & Bowls",
+    image: "images/rolodex/ROLO-SB-002.jpg",
+    categoryFilter: "Salads & Bowls",
+  },
+  {
+    id: "SD",
+    title: "Side Dishes",
+    image: "images/rolodex/ROLO-SD-002.jpg",
+    categoryFilter: "Side Dishes",
+  },
+];
+
+function RecipeRolodex({ setActivePage, setFilter }) {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [imageIndex, setImageIndex] = useState(0);
-
-  const rolodexRecipes = useMemo(() => {
-    const selectedCategoryObject = categories.find(
-      (category) => category.name === selectedCategory || category.id === selectedCategory
-    );
-
-    const filteredRecipes =
-      selectedCategory === "MASTER_RANDOM"
-        ? recipes
-        : recipes.filter((recipe) => (
-            recipe.category === selectedCategory ||
-            recipe.categoryCode === selectedCategoryObject?.id ||
-            recipe.id?.startsWith(`${selectedCategoryObject?.id}-`)
-          ));
-
-    return getRandomRecipes(filteredRecipes, 12);
-  }, [selectedCategory]);
-
-  const activeRecipe = rolodexRecipes[activeIndex] || rolodexRecipes[0];
-  const imageCandidates = activeRecipe ? previewCardImageCandidates(activeRecipe) : [];
-  const imagePath = imageCandidates[imageIndex];
+  const rolodexSlides = ROLODEX_COMPOSITE_SLIDES;
+  const activeSlide = rolodexSlides[activeIndex] || rolodexSlides[0];
 
   useEffect(() => {
-    setActiveIndex(0);
-    setImageIndex(0);
-  }, [selectedCategory]);
-
-  useEffect(() => {
-    setImageIndex(0);
-  }, [activeRecipe?.id]);
-
-  useEffect(() => {
-    if (!rolodexRecipes.length) return;
+    if (!rolodexSlides.length) return;
 
     const timer = window.setInterval(() => {
-      setActiveIndex((current) => (current + 1) % rolodexRecipes.length);
+      setActiveIndex((current) => (current + 1) % rolodexSlides.length);
     }, 7000);
 
     return () => window.clearInterval(timer);
-  }, [rolodexRecipes.length]);
+  }, [rolodexSlides.length]);
 
   function goToOffset(offset) {
-    if (!rolodexRecipes.length) return;
+    if (!rolodexSlides.length) return;
 
     setActiveIndex((current) =>
-      (current + offset + rolodexRecipes.length) % rolodexRecipes.length
+      (current + offset + rolodexSlides.length) % rolodexSlides.length
     );
   }
 
-  if (!activeRecipe) {
+  function viewActiveRecipes() {
+    if (!activeSlide) return;
+
+    const matchingCategory = categories.find(
+      (category) =>
+        category.id === activeSlide.id ||
+        category.name === activeSlide.categoryFilter ||
+        category.name === activeSlide.title
+    );
+
+    setFilter(matchingCategory?.name || activeSlide.categoryFilter || "All");
+    setActivePage("Recipes");
+  }
+
+  if (!activeSlide) {
     return (
-      <aside className="homeRolodex" aria-label="Recipe card rolodex">
+      <aside className="homeRolodex homeRolodexComposite" aria-label="Recipe card rolodex">
         <div className="homeRolodexHeader">
           <div>
             <span>Recipe Card Rolodex</span>
-            <strong>No cards found</strong>
+            <strong>No Rolodex images found</strong>
           </div>
-
-          <select
-            className="homeRolodexSelect"
-            value={selectedCategory}
-            onChange={(event) => setSelectedCategory(event.target.value)}
-            aria-label="Choose recipe card category"
-          >
-            <option value="MASTER_RANDOM">Random Variety</option>
-            {categories.map((category) => (
-              <option key={category.id} value={category.name}>
-                {category.name}
-              </option>
-            ))}
-          </select>
         </div>
 
         <div className="homeRolodexMissing">
-          <strong>No recipe cards found for this category.</strong>
-          <span>Try another category.</span>
+          <strong>No composite Rolodex images are currently listed.</strong>
+          <span>Edit ROLODEX_COMPOSITE_SLIDES in App.jsx to add images.</span>
         </div>
       </aside>
     );
   }
 
   return (
-    <aside className="homeRolodex" aria-label="Recipe card rolodex">
+    <aside className="homeRolodex homeRolodexComposite" aria-label="Recipe card rolodex">
       <div className="homeRolodexHeader">
         <div>
           <span>Recipe Card Rolodex</span>
-          <strong>{activeRecipe.title}</strong>
+          <strong>{activeSlide.title}</strong>
         </div>
 
         <div className="homeRolodexControls">
-          <select
-            className="homeRolodexSelect"
-            value={selectedCategory}
-            onChange={(event) => setSelectedCategory(event.target.value)}
-            aria-label="Choose recipe card category"
+          <button
+            type="button"
+            className="homeRolodexViewButton"
+            onClick={viewActiveRecipes}
+            aria-label={`View ${activeSlide.title} recipes`}
           >
-            <option value="MASTER_RANDOM">Random Variety</option>
-            {categories.map((category) => (
-              <option key={category.id} value={category.name}>
-                {category.name}
-              </option>
-            ))}
-          </select>
+            View Recipes
+          </button>
 
           <small>
-            {activeIndex + 1} of {rolodexRecipes.length}
+            {activeIndex + 1} of {rolodexSlides.length}
           </small>
         </div>
       </div>
 
-      <div className="homeRolodexStage">
-        <img
-          className="homeRolodexHolderArt"
-          src={`${import.meta.env.BASE_URL}images/ui/hero-rolodex-.png`}
-          alt=""
-          aria-hidden="true"
-          loading="lazy"
-          decoding="async"
-        />
-
+      <div className="homeRolodexStage homeRolodexCompositeStage">
         <button
+          type="button"
           className="homeRolodexNav"
           onClick={() => goToOffset(-1)}
-          aria-label="Previous recipe card"
+          aria-label="Previous Rolodex image"
         >
           ‹
         </button>
 
         <button
-          className="homeRolodexCard"
-          onClick={() => openRecipeCard(activeRecipe.id, rolodexRecipes)}
-          aria-label={`Open ${activeRecipe.title} recipe card`}
+          type="button"
+          className="homeRolodexCompositeImageButton"
+          onClick={viewActiveRecipes}
+          aria-label={`View ${activeSlide.title} recipes`}
         >
-          {imagePath ? (
-            <img
-              src={`${import.meta.env.BASE_URL}${imagePath}`}
-              alt={`${activeRecipe.id} ${activeRecipe.title} recipe card`}
-              loading="lazy"
-              decoding="async"
-              onError={() => setImageIndex((current) => current + 1)}
-            />
-          ) : (
-            <div className="homeRolodexMissing">
-              <strong>Recipe card image not found.</strong>
-              <span>Expected: images/recipes/{activeRecipe.id}.png</span>
-            </div>
-          )}
+          <img
+            className="homeRolodexCompositeImage"
+            src={`${import.meta.env.BASE_URL}${activeSlide.image}`}
+            alt={`${activeSlide.title} Rolodex recipe card collection`}
+            loading="lazy"
+            decoding="async"
+          />
         </button>
 
         <button
+          type="button"
           className="homeRolodexNav"
           onClick={() => goToOffset(1)}
-          aria-label="Next recipe card"
+          aria-label="Next Rolodex image"
         >
           ›
         </button>
       </div>
 
       <div className="homeRolodexDots" aria-hidden="true">
-        {rolodexRecipes.map((recipe, index) => (
-          <span key={recipe.id} className={index === activeIndex ? "active" : ""} />
+        {rolodexSlides.map((slide, index) => (
+          <span key={slide.id} className={index === activeIndex ? "active" : ""} />
         ))}
       </div>
     </aside>
   );
 }
+
 
 function Home({
   favorites,
@@ -2708,7 +2713,7 @@ function Home({
           </aside>
 
           <div className="homeShowcaseRolodexColumn">
-            <RecipeRolodex openRecipeCard={openRecipeCard} />
+            <RecipeRolodex setActivePage={setActivePage} setFilter={setFilter} />
           </div>
         </div>
       </section>

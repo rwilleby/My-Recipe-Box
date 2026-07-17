@@ -15462,3 +15462,105 @@ textarea {
     padding: 10px 14px;
   }
 }
+
+
+/* =========================================================
+   HOMEPAGE ROLODEX — FINISHED COMPOSITE JPG ROTATOR
+   Replaces separate Rolodex base + live recipe-card overlay with one
+   complete composite image per slide.
+   ========================================================= */
+
+.homeRolodexComposite .homeRolodexHeader {
+  align-items: center;
+}
+
+.homeRolodexComposite .homeRolodexControls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.homeRolodexViewButton {
+  min-height: 40px;
+  padding: 0 18px;
+  border: 1px solid var(--rrb-brand-green, #14532D);
+  border-radius: 10px;
+  background: var(--rrb-brand-green, #14532D);
+  color: #ffffff;
+  font-family: var(--rrb-body-font);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.homeRolodexViewButton:hover {
+  filter: brightness(.96);
+}
+
+.homeRolodexCompositeStage {
+  position: relative;
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) 42px;
+  gap: 10px;
+  align-items: center;
+  min-height: auto;
+  padding: 12px;
+  background: #f6f4ef;
+  overflow: hidden;
+}
+
+.homeRolodexCompositeImageButton {
+  width: 100%;
+  aspect-ratio: 2 / 1;
+  min-width: 0;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.homeRolodexCompositeImage {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center center;
+}
+
+/* Obsolete overlay elements are no longer rendered in JSX. */
+.homeRolodexComposite .homeRolodexHolderArt,
+.homeRolodexComposite .homeRolodexCard {
+  display: none !important;
+}
+
+.homeRolodexComposite .homeRolodexNav {
+  position: relative;
+  z-index: 3;
+}
+
+@media (max-width: 720px) {
+  .homeRolodexComposite .homeRolodexHeader {
+    align-items: flex-start;
+  }
+
+  .homeRolodexComposite .homeRolodexControls {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .homeRolodexCompositeStage {
+    grid-template-columns: 38px minmax(0, 1fr) 38px;
+    padding: 10px;
+  }
+
+  .homeRolodexViewButton {
+    min-height: 38px;
+    padding: 0 14px;
+  }
+}
