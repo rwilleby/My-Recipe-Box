@@ -4776,11 +4776,11 @@ function PlaceholderInfoPage({ eyebrow, title, text, setActivePage }) {
 }
 
 
-function PageHeroImage({ src, alt = "", title = "", eyebrow = "", text = "", icon = "" }) {
+function PageHeroImage({ src, alt = "", title = "", eyebrow = "", text = "", icon = "", className = "" }) {
   if (!src) return null;
 
   return (
-    <section className={`pageTopHeroImage${title ? " hasHeroText" : ""}`}>
+    <section className={`pageTopHeroImage${title ? " hasHeroText" : ""}${className ? ` ${className}` : ""}`}>
       <img
         src={`${import.meta.env.BASE_URL}${src}`}
         alt={alt}
@@ -5268,7 +5268,8 @@ export default function App() {
             eyebrow="COLLECTIONS"
             title="Summer Cookouts"
             text="Grill-friendly meals, warm-weather favorites, cookouts, and simple outdoor dinners."
-          />
+                      className="summerCookoutsHeroDepth"
+/>
           <CollectionDetailPage
             title="Summer Cookouts"
             text="A collection page for grill-friendly meals, warm-weather favorites, cookouts, and simple outdoor dinners. More recipes and filters will be added here."

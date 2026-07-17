@@ -15829,3 +15829,47 @@ textarea {
     animation: none !important;
   }
 }
+
+
+/* =========================================================
+   SUMMER COOKOUTS HERO DEPTH FIT
+   Uploaded image is 1440 x 619. This page uses that exact aspect
+   ratio instead of the standard thin hero depth.
+   ========================================================= */
+
+.pageTopHeroImage.summerCookoutsHeroDepth {
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  aspect-ratio: 1440 / 619 !important;
+  overflow: hidden !important;
+  background: #ffffff !important;
+}
+
+.pageTopHeroImage.summerCookoutsHeroDepth img {
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+}
+
+/* Keep the text inside the taller Summer Cookouts hero without stretching it. */
+.pageTopHeroImage.summerCookoutsHeroDepth .pageHeroTextOverlay {
+  top: 24px !important;
+  left: clamp(44px, 5.5vw, 76px) !important;
+  max-width: min(620px, 46%) !important;
+}
+
+@media (max-width: 760px) {
+  .pageTopHeroImage.summerCookoutsHeroDepth {
+    aspect-ratio: 1440 / 619 !important;
+  }
+
+  .pageTopHeroImage.summerCookoutsHeroDepth .pageHeroTextOverlay {
+    top: 18px !important;
+    left: 20px !important;
+    max-width: 68% !important;
+  }
+}
