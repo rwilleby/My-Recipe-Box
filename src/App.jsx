@@ -5118,7 +5118,7 @@ export default function App() {
             alt="Recipe box, notebook, and kitchen organization setup"
             eyebrow="ABOUT US"
             title="Contact Me"
-            text="This page will include a simple way to contact Robert about recipe ideas, corrections, suggestions, or questions about Robert’s Recipe Box."
+            text="Have a question, suggestion, correction, or recipe idea you would like to share? Send me a message, and I will do my best to respond and help point you in the right direction."
           />
           <PlaceholderInfoPage
             eyebrow="ABOUT US"
@@ -5135,7 +5135,7 @@ export default function App() {
             alt="Free to use recipe planning setup with chicken dinner, recipe box, recipe plan clipboard, and notebook"
             eyebrow="OUR RECIPES"
             title="Free To Use, Print or Download"
-            text="Recipes, cards, meal-planning ideas, shopping-list tools, and practical information are intended to remain available without a subscription."
+            text="Use these recipes in the way that works best for your kitchen and cooking routine. You may view them online, print a clean copy, or download your favorites so they are easy to save, organize, and use later."
             className="pageHeroDepth464"
 />
           <PlaceholderInfoPage
@@ -5153,7 +5153,7 @@ export default function App() {
             alt="Complete dinner setup with steak, sides, recipe box, clipboard, and iced tea"
             eyebrow="COLLECTIONS"
             title="Dinner Combinations"
-            text="Practical main-dish and side-dish pairings, planned leftovers, and easy dinner combinations for smaller households."
+            text="Take some of the guesswork out of planning a complete dinner. These combinations pair main dishes with side dishes and other additions that complement one another and make meal planning easier."
             className="pageHeroDepth464"
 />
           <CollectionDetailPage
@@ -5169,7 +5169,7 @@ export default function App() {
           title="Crockpot Recipes"
           heroImage="images/heroes/hero-page-crockpot.jpg"
           heroAlt="Crockpot with slow-cooked meal, checklist, notebook, coffee, and potted plant"
-          text="This page will collect slow-cooker and crockpot meals that work well for practical dinner planning, planned leftovers, and freezer-friendly portions."
+          text="Add the ingredients, select the temperature, and let the Crockpot do most of the work. These recipes are ideal for busy days, make-ahead preparation, tender meats, comforting dinners, and relaxed evenings."
           setActivePage={setActivePage}
         />
       )}
@@ -5179,7 +5179,7 @@ export default function App() {
           title="Tips: Grilling"
           heroImage="images/heroes/hero-grill.png"
           heroAlt="Gas grill with grilled meats and vegetables"
-          text="This page will collect practical grilling tips for burgers, chicken, meats, vegetables, cookouts, and simple outdoor meals."
+          text="Build confidence at the grill with helpful information about preparation, direct and indirect heat, timing, turning, and doneness. Better grilling habits can produce food that is safer, juicier, more flavorful, and more consistent."
           setActivePage={setActivePage}
         />
       )}
@@ -5190,7 +5190,7 @@ export default function App() {
             alt="Kitchen reference guides setup with measuring cups, conversion chart, cookbooks, and utensils"
             eyebrow="TIPS & ORGANIZATION"
             title="Reference Guides"
-            text="Practical kitchen reference guides, cooking charts, storage reminders, substitutions, freezer tips, and other quick-use information."
+            text="Keep useful cooking information close at hand whenever a question comes up. These guides provide quick help with measurements, temperatures, substitutions, storage times, portions, cooking terms, and other common kitchen details."
             className="pageHeroDepth464"
 />
           <PlaceholderInfoPage
@@ -5209,7 +5209,7 @@ export default function App() {
             alt="Disclaimer page setup with disclaimer notebook, glasses, scales, recipe box, and clipboard"
             eyebrow="ABOUT US"
             title="Boring Disclaimer Stuff"
-            text="Important information about how the site works, recipe sources, nutritional estimates, food safety, and general-use guidance."
+            text="Every website needs a little fine print, even a friendly recipe website. This page explains our general-use policies, privacy information, nutritional disclaimers, affiliate disclosures, and other important legal details."
             className="pageHeroDepth464"
 />
           <DisclaimersPage setActivePage={setActivePage} />
@@ -5222,7 +5222,7 @@ export default function App() {
             alt="Under construction page setup with hard hat, construction sign, recipe box, and notebook"
             eyebrow="ABOUT US"
             title="Under Construction"
-            text="This section is still being built. More pages, recipe cards, and practical planning tools will be added as the site continues to grow."
+            text="This part of the website is still being planned, written, or assembled. Please check back soon as we continue adding new recipes, helpful features, reference materials, and improvements throughout the site."
             className="pageHeroDepth464"
 />
           <UnderConstructionPage setActivePage={setActivePage} />
@@ -5235,7 +5235,7 @@ export default function App() {
             alt="Browse recipes setup with recipe box, pasta dish, salad, notebook, and recipe category clipboard"
             eyebrow="OUR RECIPES"
             title="Browse Our Library"
-            text="Explore practical recipe cards, organized categories, and easy meal ideas created for everyday home cooking."
+            text="Explore our growing recipe library and find something that sounds good for your next meal. Browse by category, cooking method, meal type, collection, or personal preference to narrow down the choices."
             className="pageHeroDepth464"
 />
           <RecipesPage {...pageProps} />
@@ -5248,7 +5248,7 @@ export default function App() {
             alt="Weekly meal planner with fresh vegetables"
             eyebrow="COLLECTIONS"
             title="Collections"
-            text="Browse themed recipe collections for easy planning, practical dinners, and favorite meal ideas grouped in useful ways."
+            text="Our recipe collections bring similar meals and ideas together in one convenient place. Choose a collection based on your schedule, the season, your cooking method, or simply what sounds good today."
           />
           <CollectionsPage setActivePage={setActivePage} />
         </>
@@ -5260,7 +5260,7 @@ export default function App() {
             alt="Salad jars meal planning setup with mason jar salads, recipe box, notebook, and clipboard"
             eyebrow="COLLECTIONS"
             title="Salad Jars"
-            text="A collection page for make-ahead salad jars, fresh lunches, and easy grab-and-go meal prep ideas."
+            text="Prepare colorful, convenient salads that are easy to store, carry, and enjoy later. Proper layering helps protect delicate ingredients and keeps everything fresher and crisper until you are ready to mix and eat."
             className="pageHeroDepth464"
           />
           <CollectionDetailPage
@@ -5277,7 +5277,7 @@ export default function App() {
             alt="Slow cooker meal setup with crockpot, sides, rolls, recipe box, and slow cooker meal plan clipboard"
             eyebrow="COLLECTIONS"
             title="Slow Cooker Favorites"
-            text="Easy slow-cooker meals and set-it-and-forget-it dinner ideas for practical home cooking."
+            text="Let your slow cooker handle most of the work while you get on with your day. These comforting recipes are designed for easy preparation, dependable results, and relaxed dinners with minimal last-minute effort."
             className="pageHeroDepth464"
 />
           <CollectionDetailPage
@@ -5294,7 +5294,7 @@ export default function App() {
             alt="Summer cookout setup with burger, hot dog, corn, baked beans, coleslaw, and recipe box"
             eyebrow="COLLECTIONS"
             title="Summer Cookouts"
-            text="Grill-friendly meals, warm-weather favorites, cookouts, and simple outdoor dinners."
+            text="Fire up the grill and enjoy the familiar flavors of summer. These recipes are suited for backyard meals, family gatherings, holiday weekends, poolside dinners, and casual outdoor entertaining."
                       className="pageHeroDepth464"
 />
           <CollectionDetailPage
@@ -5311,7 +5311,7 @@ export default function App() {
             alt="Healthy dinner setup with grilled chicken, salad, grains, recipe box, and meal plan clipboard"
             eyebrow="COLLECTIONS"
             title="Healthy Dinners"
-            text="Lighter, practical dinner ideas with flexible options for lower-calorie, lower-carb, and higher-protein meals."
+            text="Enjoy satisfying dinners made with more balanced ingredients, sensible portions, and practical cooking methods. These recipes are designed to show that healthier meals can still be comforting, flavorful, and easy to prepare."
             className="pageHeroDepth464"
 />
           <CollectionDetailPage
@@ -5328,7 +5328,7 @@ export default function App() {
             alt="Comfort food meal setup with meatloaf, mashed potatoes, green beans, rolls, macaroni, and recipe box"
             eyebrow="COLLECTIONS"
             title="Comfort Foods"
-            text="Familiar classics, cozy family-style meals, and practical comfort-food recipes."
+            text="Sometimes the best meal is one that feels familiar, filling, and satisfying. These comforting favorites are perfect for relaxed family dinners, cooler evenings, hearty appetites, and those days when you want something dependable."
             className="pageHeroDepth464"
 />
           <CollectionDetailPage
@@ -5345,7 +5345,7 @@ export default function App() {
             alt="Easy 30-minute meal planning setup with chicken, salad, recipe cards, and a meal plan clipboard"
             eyebrow="COLLECTIONS"
             title="Easy 30-Minute Meals"
-            text="Fast weeknight meals and simple dinners that come together quickly."
+            text="Busy evenings do not have to end with an expensive takeout order or an unsatisfying meal. These quick recipes are designed to help you put a flavorful, dependable dinner on the table in about 30 minutes."
             className="pageHeroDepth464"
 />
           <CollectionDetailPage
@@ -5362,7 +5362,7 @@ export default function App() {
             alt="Weekly dinner planner hero with meal-planning notebook, checklist clipboard, coffee, and a potted plant on a light marble counter"
             eyebrow="TWO-WEEK DINNER PLANNER"
             title="Your Weekly Dinner Planner"
-            text="Plan dinners for two weeks, keep ideas organized, and make practical meal planning easier for your household."
+            text="Organize upcoming breakfasts, lunches, dinners, leftovers, and special meals before the week becomes busy. A simple meal plan reduces last-minute decisions and makes preparation, thawing, and shopping easier."
           />
           <PlannerPage {...pageProps} />
         </>
@@ -5374,7 +5374,7 @@ export default function App() {
             alt="Grocery list setup with clipboard, shopping bag, notebook, coffee, and fresh groceries"
             eyebrow="PLANNING"
             title="Your Grocery List"
-            text="Turn meal ideas into a simple working grocery list for practical shopping."
+            text="Build a clear, organized shopping list around the meals you plan to prepare. Keeping ingredients grouped and easy to review helps prevent forgotten items, repeat trips, and unnecessary impulse purchases."
             className="pageHeroDepth464"
 />
           <ShoppingListPage {...pageProps} />
@@ -5387,7 +5387,7 @@ export default function App() {
             alt="Pantry planning setup with labeled pantry containers, canned goods, checklist, and notebook"
             eyebrow="PLANNING"
             title="Your Pantry"
-            text="Keep useful staples organized so meal planning and shopping are easier."
+            text="Keep track of the ingredients, canned goods, spices, baking supplies, and staples you already have on hand. A well-organized pantry makes meal planning faster and helps prevent buying unnecessary duplicates."
             className="pageHeroDepth464"
 />
           <PantryStaplesPage {...pageProps} />
@@ -5401,7 +5401,7 @@ export default function App() {
             eyebrow="PLANNING"
             title="Your Favorites"
             icon="♥"
-            text="Save the recipes you like so they are easy to find again."
+            text="Save the recipes you enjoy most in one convenient place for easy access. Your favorites collection can become a dependable personal cookbook filled with meals you already know your household will enjoy."
             className="pageHeroDepth464"
 />
           <FavoritesPage {...pageProps} />
@@ -5426,7 +5426,7 @@ export default function App() {
             alt="Cooking tools and products setup with utensils, measuring cups, grater, mixing bowl, and skillet"
             eyebrow="TIPS & ORGANIZATION"
             title="Cooking Tools & Products"
-            text="Helpful products and practical kitchen tools that support cooking, meal prep, and organization."
+            text="Explore kitchen tools and products that may make preparation, cooking, serving, storage, and cleanup easier. Recommendations focus on practical value, everyday usefulness, durability, and whether an item genuinely improves the cooking process."
             className="pageHeroDepth464"
 />
           <ProductsIUsePage setActivePage={setActivePage} />
@@ -5439,7 +5439,7 @@ export default function App() {
             alt="Healthy substitutions setup with cauliflower, tofu, zucchini noodles, beans, grains, yogurt, and greens"
             eyebrow="TIPS & ORGANIZATION"
             title="Healthy Substitutions"
-            text="Review lighter swaps, lower-carb options, and practical ingredient ideas before you shop."
+            text="Small ingredient changes can make familiar recipes better suited to your needs and preferences. Explore practical substitutions that may reduce calories, added sugar, sodium, saturated fat, or refined carbohydrates without removing all the flavor."
             className="pageHeroDepth464"
 />
           <GroceryPicksPage {...pageProps} />
@@ -5452,7 +5452,7 @@ export default function App() {
             alt="Healthy substitutions setup with cauliflower, tofu, zucchini noodles, beans, grains, yogurt, and greens"
             eyebrow="TIPS & ORGANIZATION"
             title="Healthy Substitutions"
-            text="Review lighter swaps, lower-carb options, and practical ingredient ideas before you shop."
+            text="Small ingredient changes can make familiar recipes better suited to your needs and preferences. Explore practical substitutions that may reduce calories, added sugar, sodium, saturated fat, or refined carbohydrates without removing all the flavor."
             className="pageHeroDepth464"
 />
           <GroceryPicksPage {...pageProps} />
@@ -5465,7 +5465,7 @@ export default function App() {
             alt="Pantry storage containers, spices, and kitchen organization setup"
             eyebrow="TIPS & ORGANIZATION"
             title="Tips: Freezing Meals"
-            text="Helpful freezer ideas, storage notes, and practical ways to save meals for later."
+            text="Save time and reduce waste by preparing meals in advance and freezing them correctly. These tips cover suitable containers, packaging, labeling, storage times, safe thawing, reheating, and maintaining the best possible texture and flavor."
           />
           <FreezerTipsPage {...pageProps} />
         </>
@@ -5477,7 +5477,7 @@ export default function App() {
             alt="Framed family photos, coffee cup, and small plant on a light kitchen counter"
             eyebrow="ABOUT US"
             title="Welcome to Our Site"
-            text="A free recipe-card and meal-planning site built for practical meals, smaller households, useful leftovers, freezer-friendly ideas, and smarter shopping."
+            text="Come on in and take a look around. You will find approachable recipes, useful kitchen tips, meal-planning tools, and ideas designed to make home cooking easier, more organized, and more enjoyable."
             className="pageHeroDepth464"
 />
           <AboutPage setActivePage={setActivePage} initialSection="main" />
@@ -5510,7 +5510,7 @@ export default function App() {
           title="Air Fryer Recipes"
           heroImage="images/heroes/hero-page-air-fryer.jpg"
           heroAlt="Air fryer with fries, cooked bites, towel, and potted herb"
-          text="This page will collect practical air fryer recipes, shortcuts, reheating ideas, and small-household cooking tips."
+          text="Make crisp, flavorful foods with less oil, less mess, and shorter cooking times. These air-fryer recipes are designed for convenient preparation, easy cleanup, practical portions, and dependable results."
           setActivePage={setActivePage}
         />
       )}
@@ -5520,7 +5520,7 @@ export default function App() {
           title="Oven Recipes"
           heroImage="images/heroes/hero-page-oven.jpg"
           heroAlt="Oven cooking setup with casserole, oven tips clipboard, utensils, coffee, and notebook"
-          text="This page will collect practical oven-baked meals, casseroles, sheet-pan dinners, sides, and make-ahead recipe ideas."
+          text="From casseroles and sheet-pan meals to breads, side dishes, and desserts, the oven remains one of the most useful tools in the kitchen. Explore dependable baked recipes for everyday meals and special occasions."
           setActivePage={setActivePage}
         />
       )}
@@ -5530,7 +5530,7 @@ export default function App() {
           title="Microwave Recipes"
           heroImage="images/heroes/hero-page-microwaves.jpg"
           heroAlt="Microwave cooking setup with bowl of food, towel, and potted plant"
-          text="This page will collect simple microwave cooking ideas, reheating tips, small portions, and quick meal shortcuts."
+          text="The microwave can do far more than warm coffee or reheat leftovers. These ideas help you prepare quick meals, simple side dishes, snacks, sauces, and useful recipe components with less time and cleanup."
           setActivePage={setActivePage}
         />
       )}
@@ -5540,7 +5540,7 @@ export default function App() {
           title="Gas Grill Recipes"
           heroImage="images/heroes/hero-page-gas-grills.jpg"
           heroAlt="Gas grill with grilled burgers and vegetables on a light kitchen counter"
-          text="This page will collect gas-grill recipes, warm-weather meals, quick grilling ideas, and practical outdoor cooking tips."
+          text="Enjoy fast, flavorful outdoor cooking with recipes developed for the convenience of a gas grill. Learn to prepare meats, vegetables, sandwiches, and complete meals while improving timing, heat control, and confidence."
           setActivePage={setActivePage}
         />
       )}
@@ -5550,7 +5550,7 @@ export default function App() {
           title="Smoker & Pellet Grill Recipes"
           heroImage="images/heroes/hero-page-pellet-smoker.jpg"
           heroAlt="Pellet smoker with brisket, sliced smoked meat, pellets, towel, and potted plant"
-          text="This page will collect smoked meats, pellet-grill ideas, smoker tips, wood-pellet flavor notes, and practical barbecue planning ideas."
+          text="Discover the deep flavor and satisfying results that come from cooking food low and slow. These recipes include practical guidance for seasoning, smoking, temperature control, wrapping, resting, and serving tender meats."
           setActivePage={setActivePage}
           primaryPage="About Smoking"
           primaryLabel="About Smoking & Grilling"
@@ -5563,7 +5563,7 @@ export default function App() {
             alt="Air fryer with wings and potatoes on a kitchen counter"
             eyebrow="COOKING METHODS"
             title="Cooking Methods"
-            text="Browse recipes by appliance or method, including air fryer, oven, microwave, gas grill, smoker, and slow cooker."
+            text="Find recipes according to the appliance or cooking method you already prefer to use. Each section makes it easier to select meals that fit your kitchen equipment, available time, experience, and cooking routine."
           />
           <PlaceholderInfoPage
             eyebrow="COOKING METHODS"
@@ -5592,7 +5592,7 @@ export default function App() {
             alt="Recipe box and kitchen organization setup"
             eyebrow="TIPS & ORGANIZATION"
             title="Tips: Breadmaking"
-            text="Practical bread-baking tips, freezer ideas, recipe-card guidance, and simple ways to bake breads and rolls at home."
+            text="Breadmaking becomes easier once you understand how ingredients, temperatures, kneading, rising, and timing work together. These tips will help you prepare better loaves, rolls, and doughs with more dependable results at home."
           />
           <PlaceholderInfoPage
             eyebrow="TIPS & TECHNIQUES"
@@ -5609,7 +5609,7 @@ export default function App() {
             alt="Recipe cards, notebook, utensils, coffee, and kitchen organization setup"
             eyebrow="TIPS & ORGANIZATION"
             title="Submit Family Recipes"
-            text="Share recipe ideas, family favorites, or practical cooking suggestions for future consideration."
+            text="Help preserve the recipes, traditions, and food memories that are important to your family. Submit a favorite dish, handwritten card, inherited recipe, or personal story so it can be organized, remembered, and shared."
           />
           <PlaceholderInfoPage
             eyebrow="TIPS & TECHNIQUES"
@@ -5642,7 +5642,7 @@ export default function App() {
           title="Storage & Organization"
           heroImage="images/heroes/hero-page-storage.jpg"
           heroAlt="Storage and organization setup with labeled containers, pantry items, basket, and kitchen notes"
-          text="This page will include ideas for organizing recipes, pantry staples, freezer meals, storage containers, labels, and kitchen tools."
+          text="A more organized kitchen can save time, reduce waste, and make cooking feel less stressful. Find practical ideas for arranging ingredients, cookware, appliances, recipes, pantry supplies, and prepared meals so they are easier to use."
           setActivePage={setActivePage}
           primaryPage="Products I Use"
           primaryLabel="Products I Use"
@@ -5684,7 +5684,7 @@ export default function App() {
             alt="AI-generated recipes setup with recipe box, chicken dinner, notebook, and planning clipboard"
             eyebrow="OUR RECIPES"
             title="AI-Generated, Never Copied"
-            text="Learn how the recipes are created, why they are practical for smaller households, and how they are intended to be used."
+            text="Our recipes are created with the help of artificial intelligence under Robert’s personal direction. Each recipe begins with selected ingredients, flavors, servings, cooking methods, and practical goals rather than being copied from another website or cookbook."
             className="pageHeroDepth464"
 />
           <AboutRecipesPage setActivePage={setActivePage} />
@@ -5697,7 +5697,7 @@ export default function App() {
             alt="Pellet smoker with sliced brisket on a cutting board"
             eyebrow="TIPS & ORGANIZATION"
             title="Tips: Smoking Meats"
-            text="Learn how Robert got started smoking meat, what he has learned, and how practical smoker cooking fits into the site."
+            text="Learn the basics of smoking meat with practical guidance on seasoning, wood pellets, cooking temperatures, wrapping, resting, and food safety. Small changes in technique can greatly improve tenderness, moisture, bark, and flavor."
           />
           <AboutSmokingPage setActivePage={setActivePage} />
         </>
@@ -5711,7 +5711,7 @@ export default function App() {
             alt="Affiliate marketing setup with laptop dashboard, notebook, coffee, and affiliate partner checklist"
             eyebrow="TIPS & ORGANIZATION"
             title="Affiliate Marketing"
-            text="This page will explain affiliate links, product recommendations, and how Robert’s Recipe Box may earn a small commission from qualifying purchases."
+            text="Some links on Robert’s Recipe Box may lead to products sold by outside retailers. When a qualifying purchase is made, the website may receive a small commission at no additional cost to you, helping support future recipes and site improvements."
             className="pageHeroDepth464"
 />
           <PlaceholderInfoPage
