@@ -15564,3 +15564,135 @@ textarea {
     padding: 0 14px;
   }
 }
+
+
+/* =========================================================
+   ROLODEX COMPOSITE CENTERING / PATH FALLBACK FIX
+   Strongly overrides older floating-card Rolodex patch rules.
+   ========================================================= */
+
+.homeRolodexComposite {
+  --rolodex-composite-aspect-ratio: 2 / 1;
+}
+
+.homeRolodexComposite .homeRolodexStage,
+.homeRolodexCompositeStage {
+  position: relative !important;
+  display: grid !important;
+  grid-template-columns: 54px minmax(0, 1fr) 54px !important;
+  gap: 10px !important;
+  align-items: center !important;
+  justify-items: center !important;
+  place-items: center !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  height: auto !important;
+  min-height: 0 !important;
+  padding: 14px !important;
+  box-sizing: border-box !important;
+  background: #f6f4ef !important;
+  overflow: hidden !important;
+  isolation: isolate !important;
+}
+
+.homeRolodexCompositeImageButton {
+  width: 100% !important;
+  max-width: 100% !important;
+  aspect-ratio: var(--rolodex-composite-aspect-ratio) !important;
+  min-width: 0 !important;
+  height: auto !important;
+  min-height: 0 !important;
+  border: 0 !important;
+  border-radius: 12px !important;
+  background: transparent !important;
+  padding: 0 !important;
+  display: grid !important;
+  place-items: center !important;
+  align-items: center !important;
+  justify-items: center !important;
+  overflow: hidden !important;
+  cursor: pointer !important;
+}
+
+.homeRolodexCompositeImage {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  margin: auto !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+.homeRolodexCompositeFallback {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 220px !important;
+  display: grid !important;
+  place-items: center !important;
+  align-content: center !important;
+  gap: 8px !important;
+  padding: 20px !important;
+  border: 1px dashed #cbd5e1 !important;
+  border-radius: 12px !important;
+  background: #ffffff !important;
+  color: #374151 !important;
+  text-align: center !important;
+}
+
+.homeRolodexCompositeFallback strong {
+  color: #111827 !important;
+  font-size: 17px !important;
+}
+
+.homeRolodexCompositeFallback span {
+  color: #6B7280 !important;
+  font-size: 13px !important;
+}
+
+.homeRolodexCompositeFallback code {
+  display: inline-block !important;
+  max-width: 100% !important;
+  overflow-wrap: anywhere !important;
+  padding: 5px 8px !important;
+  border-radius: 6px !important;
+  background: #f3f4f6 !important;
+  color: #374151 !important;
+  font-size: 12px !important;
+}
+
+.homeRolodexComposite .homeRolodexHolderArt,
+.homeRolodexComposite .homeRolodexCard,
+.homeRolodexComposite .homeRolodexCard img {
+  display: none !important;
+}
+
+.homeRolodexComposite .homeRolodexNav {
+  position: relative !important;
+  z-index: 3 !important;
+  align-self: center !important;
+  justify-self: center !important;
+}
+
+@media (max-width: 720px) {
+  .homeRolodexComposite .homeRolodexStage,
+  .homeRolodexCompositeStage {
+    grid-template-columns: 42px minmax(0, 1fr) 42px !important;
+    gap: 8px !important;
+    padding: 10px !important;
+  }
+}
+
+@media (max-width: 520px) {
+  .homeRolodexComposite .homeRolodexStage,
+  .homeRolodexCompositeStage {
+    grid-template-columns: 36px minmax(0, 1fr) 36px !important;
+    gap: 6px !important;
+    padding: 8px !important;
+  }
+}

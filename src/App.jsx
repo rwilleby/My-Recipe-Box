@@ -2569,8 +2569,14 @@ const ROLODEX_COMPOSITE_SLIDES = [
 
 function RecipeRolodex({ setActivePage, setFilter }) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [failedImageIds, setFailedImageIds] = useState({});
   const rolodexSlides = ROLODEX_COMPOSITE_SLIDES;
   const activeSlide = rolodexSlides[activeIndex] || rolodexSlides[0];
+  const activeSlideImagePath = activeSlide?.image?.replace(/^\/+/, "") || "";
+  const activeSlideImageUrl = activeSlideImagePath
+    ? `${import.meta.env.BASE_URL}${activeSlideImagePath}`
+    : "";
+  const activeImageFailed = activeSlide ? failedImageIds[activeSlide.id] : false;
 
   useEffect(() => {
     if (!rolodexSlides.length) return;
@@ -2662,13 +2668,34 @@ function RecipeRolodex({ setActivePage, setFilter }) {
           onClick={viewActiveRecipes}
           aria-label={`View ${activeSlide.title} recipes`}
         >
-          <img
-            className="homeRolodexCompositeImage"
-            src={`${import.meta.env.BASE_URL}${activeSlide.image}`}
-            alt={`${activeSlide.title} Rolodex recipe card collection`}
-            loading="lazy"
-            decoding="async"
-          />
+          {activeSlideImageUrl && !activeImageFailed ? (
+            <img
+              key={activeSlide.id}
+              className="homeRolodexCompositeImage"
+              src={activeSlideImageUrl}
+              alt={`${activeSlide.title} Rolodex recipe card collection`}
+              loading="lazy"
+              decoding="async"
+              onLoad={() =>
+                setFailedImageIds((current) => ({
+                  ...current,
+                  [activeSlide.id]: false,
+                }))
+              }
+              onError={() =>
+                setFailedImageIds((current) => ({
+                  ...current,
+                  [activeSlide.id]: true,
+                }))
+              }
+            />
+          ) : (
+            <div className="homeRolodexCompositeFallback">
+              <strong>{activeSlide.title}</strong>
+              <span>Composite image not found.</span>
+              <code>{activeSlideImagePath}</code>
+            </div>
+          )}
         </button>
 
         <button
