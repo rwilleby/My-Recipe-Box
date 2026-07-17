@@ -17203,8 +17203,8 @@ textarea {
 /* Approved card grid: compact website cards, not label art. */
 .dinnerCombinationGrid {
   display: grid !important;
-  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  gap: 16px !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 20px !important;
 }
 
 .dinnerCombinationCard,
@@ -17423,9 +17423,9 @@ textarea {
   font-weight: 700 !important;
 }
 
-@media (max-width: 1400px) {
+@media (max-width: 1080px) {
   .dinnerCombinationGrid {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-template-columns: 1fr !important;
   }
 }
 
