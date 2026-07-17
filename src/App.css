@@ -15319,3 +15319,114 @@ textarea {
     grid-template-columns: 1fr;
   }
 }
+
+
+/* =========================================================
+   WEEKLY DINNER PLANNER — hero/layout refinement
+   ========================================================= */
+
+.weeklyDinnerPlannerPage {
+  gap: 18px;
+}
+
+.weeklyDinnerPlannerPage .plannerHeroHeader {
+  display: none !important;
+}
+
+.plannerQuickActionsBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.plannerQuickActionsButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.plannerQuickActionsButtons .secondary,
+.weeklyDinnerPlannerPage .secondary {
+  min-height: 42px;
+}
+
+.plannerFullWidthControls {
+  grid-template-columns: minmax(220px, 1fr) minmax(220px, 1fr) minmax(260px, 1.35fr);
+  width: 100%;
+}
+
+.plannerCompactTablesFullWidth {
+  width: 100%;
+}
+
+.simplifiedPlannerWeekHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.simplifiedPlannerWeekHeader h2 {
+  margin: 0;
+}
+
+.plannerTableHeader,
+.plannerTableRow {
+  grid-template-columns: 110px minmax(360px, 1.8fr) minmax(300px, 1.25fr) minmax(190px, auto);
+}
+
+.plannerTableMealsWide {
+  gap: 10px;
+}
+
+.plannerTableNutrition {
+  min-width: 0;
+  padding: 12px 14px;
+  display: grid;
+  align-content: center;
+  gap: 8px;
+  border-left: 1px solid #f7f3ec;
+}
+
+.plannerTableNutrition span {
+  color: #6B7280;
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+@media (max-width: 1080px) {
+  .plannerFullWidthControls {
+    grid-template-columns: 1fr;
+  }
+
+  .plannerQuickActionsBar {
+    align-items: stretch;
+  }
+
+  .plannerQuickActionsButtons {
+    width: 100%;
+  }
+}
+
+@media (max-width: 860px) {
+  .plannerTableHeader {
+    display: none;
+  }
+
+  .plannerTableRow {
+    grid-template-columns: 1fr;
+  }
+
+  .plannerTableNutrition {
+    border-left: 0;
+    padding: 10px 14px;
+  }
+
+  .simplifiedPlannerWeekHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
