@@ -15696,3 +15696,109 @@ textarea {
     padding: 8px !important;
   }
 }
+
+
+/* =========================================================
+   ROLODEX REAL UPLOADED FILES FINAL FIT
+   Uses the corrected uploaded composite JPG files exactly as-is.
+   ========================================================= */
+
+.homeRolodexCompositeImageButton {
+  background: transparent !important;
+}
+
+.homeRolodexCompositeImage {
+  object-fit: contain !important;
+  object-position: center center !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+}
+
+
+/* =========================================================
+   ROLODEX FINAL FIT / NO-CROP UPDATE
+   The uploaded composite JPGs are 1376 x 887.
+   This uses their true aspect ratio so the full artwork is visible,
+   centered vertically and horizontally, with object-fit: contain.
+   ========================================================= */
+
+.homeRolodexComposite {
+  --rolodex-composite-aspect-ratio: 1376 / 887 !important;
+}
+
+.homeRolodexComposite .homeRolodexStage,
+.homeRolodexCompositeStage {
+  display: grid !important;
+  grid-template-columns: 54px minmax(0, 1fr) 54px !important;
+  align-items: center !important;
+  justify-items: center !important;
+  place-items: center !important;
+  padding: 14px !important;
+  min-height: 0 !important;
+  height: auto !important;
+  overflow: visible !important;
+  background: #f6f4ef !important;
+}
+
+.homeRolodexCompositeImageButton {
+  width: min(100%, 980px) !important;
+  max-width: 100% !important;
+  aspect-ratio: var(--rolodex-composite-aspect-ratio) !important;
+  height: auto !important;
+  min-height: 0 !important;
+  display: grid !important;
+  place-items: center !important;
+  align-self: center !important;
+  justify-self: center !important;
+  overflow: visible !important;
+  background: transparent !important;
+  border: 0 !important;
+  padding: 0 !important;
+}
+
+.homeRolodexCompositeImage {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  margin: auto !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+.homeRolodexComposite .homeRolodexNav {
+  align-self: center !important;
+  justify-self: center !important;
+  z-index: 3 !important;
+}
+
+.homeRolodexComposite .homeRolodexDots {
+  border-top: 1px solid var(--line) !important;
+}
+
+@media (max-width: 900px) {
+  .homeRolodexComposite .homeRolodexStage,
+  .homeRolodexCompositeStage {
+    grid-template-columns: 44px minmax(0, 1fr) 44px !important;
+    gap: 8px !important;
+    padding: 10px !important;
+  }
+
+  .homeRolodexCompositeImageButton {
+    width: 100% !important;
+  }
+}
+
+@media (max-width: 560px) {
+  .homeRolodexComposite .homeRolodexStage,
+  .homeRolodexCompositeStage {
+    grid-template-columns: 34px minmax(0, 1fr) 34px !important;
+    gap: 6px !important;
+    padding: 8px !important;
+  }
+}
