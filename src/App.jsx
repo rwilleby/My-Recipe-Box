@@ -5263,8 +5263,8 @@ export default function App() {
       {activePage === "Summer Cookouts" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-grill.png"
-            alt="Gas grill with grilled meats and vegetables"
+            src="images/heroes/hero-summer-cookouts.jpg"
+            alt="Summer cookout meal planning setup with burgers, sides, iced tea, and recipe cards"
             eyebrow="COLLECTIONS"
             title="Summer Cookouts"
             text="Grill-friendly meals, warm-weather favorites, cookouts, and simple outdoor dinners."
