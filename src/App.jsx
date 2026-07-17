@@ -5,7 +5,7 @@ import {
   DINNER_SIDE_FILTERS,
   dinnerCombinations,
   getDinnerCombinationSearchText,
-} from "./data/dinnerCombinations";
+} from "./data/dinnerCombinations.js";
 import { getRecipeCostEstimate, RECIPE_COST_NOTE, RECIPE_COST_TAGLINE } from "./data/recipeCosts";
 import { loadJSON, saveJSON } from "./utils/storage";
 import {
