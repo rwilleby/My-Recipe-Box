@@ -4868,60 +4868,92 @@ function HeroTopicPage({
 
 
 
-function DinnerCombinationCard({ meal }) {
+function DinnerCombinationCard({ meal, onOpenRecipeSearch }) {
+  const recipeButtons = [
+    { label: meal.mainDish, type: "Main Dish" },
+    ...(meal.sides || []).map((side) => ({ label: side.name, type: "Side Dish" })),
+  ];
+
   return (
-    <article className="dinnerCombinationCard">
-      <div className="dinnerCombinationCardTop">
-        <span className="dinnerCombinationNumber">Meal #{meal.number}</span>
-        <span className="dinnerCombinationTag">Dinner Combination</span>
-      </div>
-
-      <h3>{meal.title}</h3>
-      <p className="dinnerCombinationSubtitle">{meal.subtitle}</p>
-
-      <div className="dinnerCombinationDetails">
-        <section>
-          <h4>Main Dish:</h4>
-          <p>
-            <strong>{meal.mainDish}</strong>
-            <span> — {meal.mainServing}</span>
-          </p>
-        </section>
-
-        <section>
-          <h4>Sides:</h4>
-          <ul>
-            {meal.sides.map((side) => (
-              <li key={`${meal.id}-${side.name}`}>
-                <strong>{side.name}</strong>
-                <span> — {side.serving}</span>
-              </li>
-            ))}
-          </ul>
-        </section>
-      </div>
-
-      <div className="dinnerCombinationNutrition" aria-label={`Estimated nutrition for ${meal.title}`}>
-        <span>{meal.calories} calories</span>
-        <span>{meal.protein}g protein</span>
-        <span>{meal.carbs}g carbs</span>
-        <span>{meal.fat}g fat</span>
-        <span>{meal.fiber}g fiber</span>
-      </div>
-
-      <details className="dinnerCombinationHeating">
-        <summary>Heating & freezer notes</summary>
-        <div>
-          <p><strong>Freezer life:</strong> {meal.freezerLife}</p>
-          <p><strong>Oven:</strong> {meal.ovenInstructions}</p>
-          <p><strong>Microwave:</strong> {meal.microwaveInstructions}</p>
+    <article className={`dinnerCombinationCard${meal.image ? " hasMealImage" : ""}`}>
+      <div className="dinnerCombinationContent">
+        <div className="dinnerCombinationCardTop">
+          <span className="dinnerCombinationNumber">Meal #{meal.number}</span>
+          <span className="dinnerCombinationTag">Dinner Combination</span>
         </div>
-      </details>
+
+        <h3>{meal.title}</h3>
+        <p className="dinnerCombinationSubtitle">{meal.subtitle}</p>
+
+        <div className="dinnerCombinationDetails">
+          <section>
+            <h4>Main Dish:</h4>
+            <p>
+              <strong>{meal.mainDish}</strong>
+              <span> — {meal.mainServing}</span>
+            </p>
+          </section>
+
+          <section>
+            <h4>Sides:</h4>
+            <ul>
+              {meal.sides.map((side) => (
+                <li key={`${meal.id}-${side.name}`}>
+                  <strong>{side.name}</strong>
+                  <span> — {side.serving}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        </div>
+
+        <div className="dinnerCombinationNutrition" aria-label={`Estimated nutrition for ${meal.title}`}>
+          <span>{meal.calories} calories</span>
+          <span>{meal.protein}g protein</span>
+          <span>{meal.carbs}g carbs</span>
+          <span>{meal.fat}g fat</span>
+          <span>{meal.fiber}g fiber</span>
+        </div>
+
+        <details className="dinnerCombinationHeating">
+          <summary>Heating & freezer notes</summary>
+          <div>
+            <p><strong>Freezer life:</strong> {meal.freezerLife}</p>
+            <p><strong>Oven:</strong> {meal.ovenInstructions}</p>
+            <p><strong>Microwave:</strong> {meal.microwaveInstructions}</p>
+          </div>
+        </details>
+      </div>
+
+      {meal.image && (
+        <aside className="dinnerCombinationMedia">
+          <img
+            src={`${import.meta.env.BASE_URL}${meal.image}`}
+            alt={`${meal.title} dinner combination with ${meal.subtitle.replace(/^With\s+/i, "")}`}
+            loading="lazy"
+            decoding="async"
+          />
+
+          <div className="dinnerCombinationRecipeButtons" aria-label={`Recipe searches for ${meal.title}`}>
+            <h4>Recipe Cards</h4>
+            {recipeButtons.map((button) => (
+              <button
+                key={`${meal.id}-${button.type}-${button.label}`}
+                type="button"
+                onClick={() => onOpenRecipeSearch(button.label)}
+              >
+                <span>{button.type}</span>
+                {button.label}
+              </button>
+            ))}
+          </div>
+        </aside>
+      )}
     </article>
   );
 }
 
-function DinnerCombinationsPage() {
+function DinnerCombinationsPage({ setActivePage, setFilter }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [proteinFilter, setProteinFilter] = useState("all");
   const [sideFilter, setSideFilter] = useState("all");
@@ -4946,6 +4978,11 @@ function DinnerCombinationsPage() {
     setSideFilter("all");
     setLowerCalorieOnly(false);
     setHigherProteinOnly(false);
+  }
+
+  function openRecipeSearch(recipeName) {
+    setFilter(recipeName);
+    setActivePage("Recipes");
   }
 
   return (
@@ -5030,7 +5067,7 @@ function DinnerCombinationsPage() {
       {filteredMeals.length > 0 ? (
         <section className="dinnerCombinationGrid" aria-label="Dinner combination results">
           {filteredMeals.map((meal) => (
-            <DinnerCombinationCard key={meal.id} meal={meal} />
+            <DinnerCombinationCard key={meal.id} meal={meal} onOpenRecipeSearch={openRecipeSearch} />
           ))}
         </section>
       ) : (
@@ -6066,7 +6103,7 @@ export default function App() {
             text="These dinner combinations are designed to help you quickly choose practical meals with a main dish, sides, portion guidance, and estimated nutrition. They can be used for weekly planning, freezer meal prep, or simple dinner ideas for smaller households.\n\nNutrition values are estimates and may vary based on brands, portions, and preparation methods."
             className="pageHeroDepth464"
           />
-          <DinnerCombinationsPage />
+          <DinnerCombinationsPage setActivePage={setActivePage} setFilter={setFilter} />
         </>
       )}
       {activePage === "Crockpot Recipes" && (
