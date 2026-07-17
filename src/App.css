@@ -16126,36 +16126,27 @@ textarea {
 
 
 /* =========================================================
-   APPROVED SUPPORTING-PAGE HERO INTRO PARAGRAPHS
-   Keeps live HTML hero text inside the open left side of the banner.
+   MULTI-PARAGRAPH HERO INTRO TEXT REFINEMENT
+   Keeps longer approved paragraphs readable inside the open left side.
    ========================================================= */
+
+.pageHeroIntroText {
+  display: grid !important;
+  gap: 8px !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.pageHeroIntroText p {
+  margin: 0 !important;
+}
 
 .pageTopHeroImage.hasHeroText .pageHeroTextOverlay,
 .pageTopHeroImage.pageHeroDepth464 .pageHeroTextOverlay,
 .pageTopHeroImage.cookingMethodHeroLarge .pageHeroTextOverlay,
 .pageTopHeroImage.summerCookoutsHeroDepth .pageHeroTextOverlay {
-  width: min(560px, 42vw) !important;
-  max-width: min(560px, 42vw) !important;
-  top: 24px !important;
-  left: clamp(44px, 5.5vw, 76px) !important;
-  right: auto !important;
-  z-index: 2 !important;
-}
-
-.pageHeroTextOverlay p {
-  width: 100% !important;
-  max-width: 100% !important;
-  color: #374151 !important;
-  font-family: var(--rrb-body-font, Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif) !important;
-  font-size: 15px !important;
-  line-height: 1.45 !important;
-  font-weight: 400 !important;
-  margin-top: 12px !important;
-}
-
-.pageHeroTextOverlay h1 {
-  font-family: var(--rrb-heading-font, Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif) !important;
-  font-weight: 700 !important;
+  width: min(580px, 42vw) !important;
+  max-width: min(580px, 42vw) !important;
 }
 
 @media (max-width: 980px) {
@@ -16165,13 +16156,6 @@ textarea {
   .pageTopHeroImage.summerCookoutsHeroDepth .pageHeroTextOverlay {
     width: min(520px, 50vw) !important;
     max-width: min(520px, 50vw) !important;
-    left: clamp(28px, 4.5vw, 52px) !important;
-    top: 20px !important;
-  }
-
-  .pageHeroTextOverlay p {
-    font-size: 14px !important;
-    line-height: 1.38 !important;
   }
 }
 
@@ -16182,12 +16166,9 @@ textarea {
   .pageTopHeroImage.summerCookoutsHeroDepth .pageHeroTextOverlay {
     width: calc(100% - 40px) !important;
     max-width: calc(100% - 40px) !important;
-    left: 20px !important;
-    top: 16px !important;
   }
 
-  .pageHeroTextOverlay p {
-    font-size: 13px !important;
-    line-height: 1.32 !important;
+  .pageHeroIntroText {
+    gap: 6px !important;
   }
 }
