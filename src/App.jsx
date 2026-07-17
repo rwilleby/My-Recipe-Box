@@ -88,7 +88,7 @@ const HOME_CATEGORY_LABELS = {
 };
 
 const HOME_CATEGORY_FALLBACKS = {
-  AM: { id: "AM", name: "American Cuisine", count: 0, icon: "🍽️" },
+  AM: { id: "AM", name: "American Cuisine", count: 0, icon: "plate" },
   AS: { id: "AS", name: "Asian Cuisine", count: 0, icon: "🍜" },
   CC: { id: "CC", name: "Cheesecakes", count: 0, icon: "🍰" },
   CO: { id: "CO", name: "Cobblers", count: 0, icon: "🥧" },
@@ -103,9 +103,9 @@ const HOME_CATEGORY_FALLBACKS = {
   MX: { id: "MX", name: "Mexican Cuisine", count: 0, icon: "🌮" },
   PM: { id: "PM", name: "Protein Muffins", count: 0, icon: "🧁" },
   QP: { id: "QP", name: "Quiche & Pies", count: 0, icon: "🥧" },
-  CS: { id: "CS", name: "Casseroles", count: 0, icon: "🥘" },
+  CS: { id: "CS", name: "Casseroles", count: 0, icon: "pan" },
   SB: { id: "SB", name: "Salads & Bowls", count: 0, icon: "🥗" },
-  SD: { id: "SD", name: "Side Dishes", count: 0, icon: "🍲" },
+  SD: { id: "SD", name: "Side Dishes", count: 0, icon: "pot" },
   SF: { id: "SF", name: "Seafood Dishes", count: 0, icon: "🐟" },
   SG: { id: "SG", name: "Smoked & Grilled Meats", count: 0, icon: "🔥" },
   SW: { id: "SW", name: "Sandwiches", count: 0, icon: "🥪" },
@@ -4865,7 +4865,7 @@ const REFERENCE_GUIDES = [
   {
     id: "weights-measures",
     title: "Weights & Measures",
-    icon: "⚖️",
+    icon: "scale",
     description:
       "Quick reference for common kitchen measurements, conversions, and equivalents.",
     lastUpdated: "July 17, 2026",
@@ -4997,7 +4997,7 @@ const REFERENCE_GUIDES = [
   {
     id: "cooking-temperatures",
     title: "Cooking Temperatures",
-    icon: "🌡️",
+    icon: "thermometer",
     description:
       "Safe minimum internal temperatures and common doneness reminders for everyday cooking.",
     lastUpdated: "July 17, 2026",
@@ -5029,7 +5029,7 @@ const REFERENCE_GUIDES = [
   {
     id: "oven-conversions",
     title: "Oven Conversions",
-    icon: "▤",
+    icon: "oven",
     description:
       "Common oven temperature conversions and practical notes for baking and roasting.",
     lastUpdated: "July 17, 2026",
@@ -5060,7 +5060,7 @@ const REFERENCE_GUIDES = [
   {
     id: "pan-sizes",
     title: "Pan & Baking Dish Sizes",
-    icon: "🥘",
+    icon: "pan",
     description:
       "Common pan sizes, approximate capacity, and practical substitution reminders.",
     lastUpdated: "July 17, 2026",
@@ -5092,7 +5092,7 @@ const REFERENCE_GUIDES = [
   {
     id: "ingredient-weights",
     title: "Ingredient Weights",
-    icon: "⚖",
+    icon: "weight",
     description:
       "Approximate weights for common ingredients used in everyday home cooking.",
     lastUpdated: "July 17, 2026",
@@ -5123,7 +5123,7 @@ const REFERENCE_GUIDES = [
   {
     id: "refrigerator-freezer",
     title: "Refrigerator & Freezer Guide",
-    icon: "❄️",
+    icon: "snowflake",
     description:
       "Practical storage-time reminders for refrigerated and frozen foods.",
     lastUpdated: "July 17, 2026",
@@ -5157,7 +5157,7 @@ const REFERENCE_GUIDES = [
   {
     id: "serving-portions",
     title: "Serving & Portion Guide",
-    icon: "🍽️",
+    icon: "plate",
     description:
       "Simple portion estimates for planning meals, leftovers, and grocery quantities.",
     lastUpdated: "July 17, 2026",
@@ -5189,7 +5189,7 @@ const REFERENCE_GUIDES = [
   {
     id: "substitutions",
     title: "Common Substitutions",
-    icon: "↔",
+    icon: "swap",
     description:
       "Useful substitutions for common ingredients when you are missing an item or adjusting a recipe.",
     lastUpdated: "July 17, 2026",
@@ -5217,7 +5217,7 @@ const REFERENCE_GUIDES = [
   {
     id: "small-appliances",
     title: "Air Fryer, Slow Cooker & Pressure Cooker",
-    icon: "🍲",
+    icon: "pot",
     description:
       "Quick appliance reminders for timing, safety, and best results.",
     lastUpdated: "July 17, 2026",
@@ -5254,7 +5254,7 @@ const REFERENCE_GUIDES = [
   {
     id: "smoking-grilling",
     title: "Smoking & Grilling Guide",
-    icon: "♨️",
+    icon: "grill",
     description:
       "Practical reminders for outdoor cooking, temperature control, resting, and safe doneness.",
     lastUpdated: "July 17, 2026",
@@ -5283,6 +5283,139 @@ const REFERENCE_GUIDES = [
     ],
   },
 ];
+
+
+function ReferenceGuideIcon({ type, size = "normal" }) {
+  const commonProps = {
+    className: `referenceGuideSvgIcon ${size === "large" ? "large" : ""}`,
+    viewBox: "0 0 48 48",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    "aria-hidden": "true",
+    focusable: "false",
+  };
+
+  switch (type) {
+    case "scale":
+      return (
+        <svg {...commonProps}>
+          <path d="M24 7v34" />
+          <path d="M14 13h20" />
+          <path d="M24 10l-12 8" />
+          <path d="M24 10l12 8" />
+          <path d="M10 20l-5 11h10l-5-11z" />
+          <path d="M38 20l-5 11h10l-5-11z" />
+          <path d="M16 41h16" />
+        </svg>
+      );
+    case "thermometer":
+      return (
+        <svg {...commonProps}>
+          <path d="M25 7a5 5 0 0 0-10 0v22a10 10 0 1 0 10 0V7z" />
+          <path d="M20 31V14" />
+          <path d="M20 38a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" />
+          <path d="M30 12h8" />
+          <path d="M30 20h6" />
+        </svg>
+      );
+    case "oven":
+      return (
+        <svg {...commonProps}>
+          <rect x="8" y="9" width="32" height="30" rx="3" />
+          <path d="M8 17h32" />
+          <path d="M15 13h.2" />
+          <path d="M22 13h.2" />
+          <path d="M29 13h.2" />
+          <path d="M14 24h20v10H14z" />
+          <path d="M17 27h14" />
+        </svg>
+      );
+    case "pan":
+      return (
+        <svg {...commonProps}>
+          <path d="M9 24h24a9 9 0 0 1-9 9h-6a9 9 0 0 1-9-9z" />
+          <path d="M33 24h9" />
+          <path d="M13 20c2-3 6-5 11-5s9 2 11 5" />
+          <path d="M17 13c0-2 2-4 4-4h6c2 0 4 2 4 4" />
+        </svg>
+      );
+    case "weight":
+      return (
+        <svg {...commonProps}>
+          <path d="M17 17h14l4 23H13l4-23z" />
+          <path d="M18 17a6 6 0 0 1 12 0" />
+          <path d="M24 25v9" />
+          <path d="M20 29h8" />
+        </svg>
+      );
+    case "snowflake":
+      return (
+        <svg {...commonProps}>
+          <path d="M24 7v34" />
+          <path d="M10 15l28 18" />
+          <path d="M38 15L10 33" />
+          <path d="M18 10l6 6 6-6" />
+          <path d="M18 38l6-6 6 6" />
+          <path d="M9 23l8-2-2-8" />
+          <path d="M39 25l-8 2 2 8" />
+        </svg>
+      );
+    case "plate":
+      return (
+        <svg {...commonProps}>
+          <circle cx="24" cy="24" r="13" />
+          <circle cx="24" cy="24" r="7" />
+          <path d="M8 10v28" />
+          <path d="M5 10v10" />
+          <path d="M11 10v10" />
+          <path d="M40 10v28" />
+          <path d="M36 10c0 8 4 10 4 10" />
+        </svg>
+      );
+    case "swap":
+      return (
+        <svg {...commonProps}>
+          <path d="M10 17h23" />
+          <path d="M28 11l6 6-6 6" />
+          <path d="M38 31H15" />
+          <path d="M20 25l-6 6 6 6" />
+        </svg>
+      );
+    case "pot":
+      return (
+        <svg {...commonProps}>
+          <path d="M12 20h24v17H12V20z" />
+          <path d="M10 20h28" />
+          <path d="M16 20c0-5 4-9 8-9s8 4 8 9" />
+          <path d="M8 25h4" />
+          <path d="M36 25h4" />
+          <path d="M19 28h10" />
+        </svg>
+      );
+    case "grill":
+      return (
+        <svg {...commonProps}>
+          <path d="M12 19h24a12 12 0 0 1-24 0z" />
+          <path d="M16 19v-4" />
+          <path d="M24 19v-5" />
+          <path d="M32 19v-4" />
+          <path d="M18 31l-5 9" />
+          <path d="M30 31l5 9" />
+          <path d="M18 40h12" />
+          <path d="M36 19h6" />
+        </svg>
+      );
+    default:
+      return (
+        <svg {...commonProps}>
+          <circle cx="24" cy="24" r="14" />
+          <path d="M18 24h12" />
+          <path d="M24 18v12" />
+        </svg>
+      );
+  }
+}
+
 
 function ReferenceGuideSection({ section }) {
   if (section.type === "table") {
@@ -5369,7 +5502,7 @@ function ReferenceGuidesPage() {
                 role="tab"
                 aria-selected={guide.id === selectedGuide.id}
               >
-                <span className="referenceGuideNavIcon" aria-hidden="true">{guide.icon}</span>
+                <ReferenceGuideIcon type={guide.icon} />
                 <span>{guide.title}</span>
               </button>
             ))}
@@ -5385,7 +5518,7 @@ function ReferenceGuidesPage() {
           <div className="referenceGuidePanelHeader">
             <div>
               <h2>
-                <span aria-hidden="true">{selectedGuide.icon}</span>
+                <ReferenceGuideIcon type={selectedGuide.icon} size="large" />
                 {selectedGuide.title}
               </h2>
               <p>{selectedGuide.description}</p>

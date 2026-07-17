@@ -16653,3 +16653,39 @@ textarea {
     margin-bottom: 14px;
   }
 }
+
+
+/* =========================================================
+   REFERENCE GUIDE ICONS — MATCH FRONT-PAGE STYLE
+   Replaces emoji-style guide icons with clean brand-green line icons.
+   ========================================================= */
+
+.referenceGuideSvgIcon {
+  width: 24px;
+  height: 24px;
+  display: block;
+  color: #14532D;
+  stroke: currentColor;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex: 0 0 auto;
+}
+
+.referenceGuideSvgIcon.large {
+  width: 34px;
+  height: 34px;
+  stroke-width: 2.25;
+}
+
+.referenceGuideNavButton.active .referenceGuideSvgIcon {
+  color: #ffffff;
+}
+
+.referenceGuidePanelHeader h2 .referenceGuideSvgIcon {
+  color: #14532D;
+}
+
+.referenceGuideNavIcon {
+  display: none !important;
+}
