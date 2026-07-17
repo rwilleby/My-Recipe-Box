@@ -1,5 +1,11 @@
 import { useMemo, useState, useEffect } from "react";
 import { categories, recipes } from "./data/recipes";
+import {
+  DINNER_PROTEIN_FILTERS,
+  DINNER_SIDE_FILTERS,
+  dinnerCombinations,
+  getDinnerCombinationSearchText,
+} from "./data/dinnerCombinations";
 import { getRecipeCostEstimate, RECIPE_COST_NOTE, RECIPE_COST_TAGLINE } from "./data/recipeCosts";
 import { loadJSON, saveJSON } from "./utils/storage";
 import {
@@ -4861,6 +4867,184 @@ function HeroTopicPage({
 
 
 
+
+function DinnerCombinationCard({ meal }) {
+  return (
+    <article className="dinnerCombinationCard">
+      <div className="dinnerCombinationCardTop">
+        <span className="dinnerCombinationNumber">Meal #{meal.number}</span>
+        <span className="dinnerCombinationTag">Dinner Combination</span>
+      </div>
+
+      <h3>{meal.title}</h3>
+      <p className="dinnerCombinationSubtitle">{meal.subtitle}</p>
+
+      <div className="dinnerCombinationDetails">
+        <section>
+          <h4>Main Dish:</h4>
+          <p>
+            <strong>{meal.mainDish}</strong>
+            <span> — {meal.mainServing}</span>
+          </p>
+        </section>
+
+        <section>
+          <h4>Sides:</h4>
+          <ul>
+            {meal.sides.map((side) => (
+              <li key={`${meal.id}-${side.name}`}>
+                <strong>{side.name}</strong>
+                <span> — {side.serving}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </div>
+
+      <div className="dinnerCombinationNutrition" aria-label={`Estimated nutrition for ${meal.title}`}>
+        <span>{meal.calories} calories</span>
+        <span>{meal.protein}g protein</span>
+        <span>{meal.carbs}g carbs</span>
+        <span>{meal.fat}g fat</span>
+        <span>{meal.fiber}g fiber</span>
+      </div>
+
+      <details className="dinnerCombinationHeating">
+        <summary>Heating & freezer notes</summary>
+        <div>
+          <p><strong>Freezer life:</strong> {meal.freezerLife}</p>
+          <p><strong>Oven:</strong> {meal.ovenInstructions}</p>
+          <p><strong>Microwave:</strong> {meal.microwaveInstructions}</p>
+        </div>
+      </details>
+    </article>
+  );
+}
+
+function DinnerCombinationsPage() {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [proteinFilter, setProteinFilter] = useState("all");
+  const [sideFilter, setSideFilter] = useState("all");
+  const [lowerCalorieOnly, setLowerCalorieOnly] = useState(false);
+  const [higherProteinOnly, setHigherProteinOnly] = useState(false);
+
+  const filteredMeals = useMemo(() => {
+    const normalizedSearch = searchTerm.trim().toLowerCase();
+
+    return dinnerCombinations
+      .filter((meal) => !normalizedSearch || getDinnerCombinationSearchText(meal).includes(normalizedSearch))
+      .filter((meal) => proteinFilter === "all" || (meal.tags || []).includes(proteinFilter))
+      .filter((meal) => sideFilter === "all" || (meal.tags || []).includes(sideFilter))
+      .filter((meal) => !lowerCalorieOnly || Number(meal.calories) < 600)
+      .filter((meal) => !higherProteinOnly || Number(meal.protein) >= 30)
+      .sort((a, b) => Number(a.number) - Number(b.number));
+  }, [higherProteinOnly, lowerCalorieOnly, proteinFilter, searchTerm, sideFilter]);
+
+  function clearDinnerCombinationFilters() {
+    setSearchTerm("");
+    setProteinFilter("all");
+    setSideFilter("all");
+    setLowerCalorieOnly(false);
+    setHigherProteinOnly(false);
+  }
+
+  return (
+    <main className="pageShell dinnerCombinationsPage">
+      <section className="dinnerCombinationsIntro">
+        <div>
+          <div className="aiBadge">MEAL PLANNING</div>
+          <h1>Dinner Combinations</h1>
+          <p>
+            These dinner combinations are designed to help you quickly choose practical meals with a main dish,
+            sides, portion guidance, and estimated nutrition. They can be used for weekly planning, freezer meal
+            prep, or simple dinner ideas for smaller households.
+          </p>
+          <p className="dinnerCombinationsNote">
+            Nutrition values are estimates and may vary based on brands, portions, and preparation methods.
+          </p>
+        </div>
+      </section>
+
+      <section className="dinnerCombinationControls" aria-label="Dinner combination filters">
+        <label className="dinnerCombinationSearch">
+          <span>Search meals</span>
+          <input
+            type="search"
+            value={searchTerm}
+            onChange={(event) => setSearchTerm(event.target.value)}
+            placeholder="Search by title, main dish, or side dish"
+          />
+        </label>
+
+        <label>
+          <span>Protein type</span>
+          <select value={proteinFilter} onChange={(event) => setProteinFilter(event.target.value)}>
+            <option value="all">All proteins</option>
+            {DINNER_PROTEIN_FILTERS.map((filter) => (
+              <option key={filter} value={filter}>
+                {filter.charAt(0).toUpperCase() + filter.slice(1)}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <label>
+          <span>Side type</span>
+          <select value={sideFilter} onChange={(event) => setSideFilter(event.target.value)}>
+            <option value="all">All sides</option>
+            {DINNER_SIDE_FILTERS.map((filter) => (
+              <option key={filter} value={filter}>
+                {filter.charAt(0).toUpperCase() + filter.slice(1)}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <div className="dinnerCombinationChecks">
+          <label>
+            <input
+              type="checkbox"
+              checked={lowerCalorieOnly}
+              onChange={(event) => setLowerCalorieOnly(event.target.checked)}
+            />
+            Under 600 calories
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              checked={higherProteinOnly}
+              onChange={(event) => setHigherProteinOnly(event.target.checked)}
+            />
+            30g+ protein
+          </label>
+        </div>
+
+        <button type="button" onClick={clearDinnerCombinationFilters}>Clear Filters</button>
+      </section>
+
+      <div className="dinnerCombinationResultsBar">
+        <strong>{filteredMeals.length}</strong>
+        <span>{filteredMeals.length === 1 ? "meal combination" : "meal combinations"} shown</span>
+      </div>
+
+      {filteredMeals.length > 0 ? (
+        <section className="dinnerCombinationGrid" aria-label="Dinner combination results">
+          {filteredMeals.map((meal) => (
+            <DinnerCombinationCard key={meal.id} meal={meal} />
+          ))}
+        </section>
+      ) : (
+        <section className="dinnerCombinationEmpty">
+          <h2>No dinner combinations found</h2>
+          <p>Try clearing a filter or searching for a different main dish or side dish.</p>
+        </section>
+      )}
+    </main>
+  );
+}
+
+
+
 const REFERENCE_GUIDES = [
   {
     id: "weights-measures",
@@ -5879,14 +6063,10 @@ export default function App() {
             alt="Complete dinner setup with steak, sides, recipe box, clipboard, and iced tea"
             eyebrow="COLLECTIONS"
             title="Dinner Combinations"
-            text="Planning the main dish is often only part of the challenge. Dinner Combinations brings together main dishes, side dishes, breads, salads, and other additions that work well as a complete meal.\n\nThese suggestions can help you avoid serving the same sides repeatedly or wondering what belongs with a particular entrée. Use the combinations exactly as shown or treat them as a starting point for building your own dinner."
+            text="These dinner combinations are designed to help you quickly choose practical meals with a main dish, sides, portion guidance, and estimated nutrition. They can be used for weekly planning, freezer meal prep, or simple dinner ideas for smaller households.\n\nNutrition values are estimates and may vary based on brands, portions, and preparation methods."
             className="pageHeroDepth464"
-/>
-          <CollectionDetailPage
-            title="Dinner Combinations"
-            text="A collection page for main dishes, side dishes, freezer meals, planned leftovers, and practical dinner pairings for smaller households."
-            setActivePage={setActivePage}
           />
+          <DinnerCombinationsPage />
         </>
       )}
       {activePage === "Crockpot Recipes" && (
