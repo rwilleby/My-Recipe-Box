@@ -15982,3 +15982,49 @@ textarea {
     padding: 8px !important;
   }
 }
+
+
+/* =========================================================
+   COOKING METHODS HERO SIZE UPDATE
+   Enlarges only the six Cooking Methods hero images:
+   Air Fryers, Crockpot, Ovens, Microwaves, Gas Grills, Pellet Smokers.
+   ========================================================= */
+
+.pageTopHeroImage.cookingMethodHeroLarge {
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  aspect-ratio: 1440 / 464 !important;
+  margin: 0 0 22px 0 !important;
+  overflow: hidden !important;
+  background: #ffffff !important;
+}
+
+.pageTopHeroImage.cookingMethodHeroLarge img {
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+}
+
+/* Keep page text safely inside the larger banner. */
+.pageTopHeroImage.cookingMethodHeroLarge .pageHeroTextOverlay {
+  top: 24px !important;
+  left: clamp(44px, 5.5vw, 76px) !important;
+  max-width: min(620px, 46%) !important;
+}
+
+@media (max-width: 760px) {
+  .pageTopHeroImage.cookingMethodHeroLarge {
+    aspect-ratio: 1440 / 464 !important;
+  }
+
+  .pageTopHeroImage.cookingMethodHeroLarge .pageHeroTextOverlay {
+    top: 18px !important;
+    left: 20px !important;
+    max-width: 68% !important;
+  }
+}
