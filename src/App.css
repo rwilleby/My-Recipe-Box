@@ -16077,3 +16077,49 @@ textarea {
     padding: 8px !important;
   }
 }
+
+
+/* =========================================================
+   FULL-WIDTH HERO WRAPPER FIX
+   HeroTopicPage previously rendered the hero inside pageShell, which
+   constrained some heroes and created the narrower image-2 look.
+   This keeps all supporting heroes full-width like the About Us page.
+   ========================================================= */
+
+.pageTopHeroImage {
+  display: block !important;
+  width: 100% !important;
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+.heroTopicPage {
+  padding-top: 0 !important;
+}
+
+/* The duplicate intro card below HeroTopicPage heroes stays hidden. */
+.heroTopicPage .heroTopicIntro,
+.heroTopicPage .aboutRecipesHero {
+  display: none !important;
+}
+
+/* All supporting page hero images created from the 1440x464 Photoshop master */
+.pageTopHeroImage.hasHeroText,
+.pageTopHeroImage.pageHeroDepth464,
+.pageTopHeroImage.cookingMethodHeroLarge {
+  aspect-ratio: 1440 / 464 !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: hidden !important;
+}
+
+.pageTopHeroImage.hasHeroText img,
+.pageTopHeroImage.pageHeroDepth464 img,
+.pageTopHeroImage.cookingMethodHeroLarge img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+}

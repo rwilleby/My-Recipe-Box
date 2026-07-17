@@ -4816,7 +4816,7 @@ function HeroTopicPage({
   heroClassName = "pageHeroDepth464",
 }) {
   return (
-    <main className="pageShell aboutRecipesPage heroTopicPage">
+    <>
       <PageHeroImage
         src={heroImage}
         alt={heroAlt}
@@ -4826,27 +4826,27 @@ function HeroTopicPage({
         className={heroClassName}
       />
 
-      <section className="aboutRecipesHero heroTopicIntro">
-        <div>
-          <div className="aiBadge">{eyebrow}</div>
-          <h1>{title}</h1>
-          <p>{text}</p>
-        </div>
-      </section>
+      <main className="pageShell aboutRecipesPage heroTopicPage">
+        <section className="aboutRecipesHero heroTopicIntro">
+          <div>
+            <div className="aiBadge">{eyebrow}</div>
+            <h1>{title}</h1>
+            <p>{text}</p>
+          </div>
+        </section>
 
-      <div className="aboutRecipesActions">
-        <button className="primary" onClick={() => setActivePage(primaryPage)}>
-          {primaryLabel}
-        </button>
-        <button className="secondary" onClick={() => setActivePage(secondaryPage)}>
-          {secondaryLabel}
-        </button>
-      </div>
-    </main>
+        <div className="aboutRecipesActions">
+          <button className="primary" onClick={() => setActivePage(primaryPage)}>
+            {primaryLabel}
+          </button>
+          <button className="secondary" onClick={() => setActivePage(secondaryPage)}>
+            {secondaryLabel}
+          </button>
+        </div>
+      </main>
+    </>
   );
 }
-
-
 
 
 function DisclaimersPage({ setActivePage }) {
@@ -5171,7 +5171,6 @@ export default function App() {
           heroAlt="Crockpot with slow-cooked meal, checklist, notebook, coffee, and potted plant"
           text="This page will collect slow-cooker and crockpot meals that work well for practical dinner planning, planned leftovers, and freezer-friendly portions."
           setActivePage={setActivePage}
-          heroClassName="cookingMethodHeroLarge"
         />
       )}
       {activePage === "Grilling Tips" && (
@@ -5513,7 +5512,6 @@ export default function App() {
           heroAlt="Air fryer with fries, cooked bites, towel, and potted herb"
           text="This page will collect practical air fryer recipes, shortcuts, reheating ideas, and small-household cooking tips."
           setActivePage={setActivePage}
-          heroClassName="cookingMethodHeroLarge"
         />
       )}
       {activePage === "Oven Recipes" && (
@@ -5524,7 +5522,6 @@ export default function App() {
           heroAlt="Oven cooking setup with casserole, oven tips clipboard, utensils, coffee, and notebook"
           text="This page will collect practical oven-baked meals, casseroles, sheet-pan dinners, sides, and make-ahead recipe ideas."
           setActivePage={setActivePage}
-          heroClassName="cookingMethodHeroLarge"
         />
       )}
       {activePage === "Microwave Recipes" && (
@@ -5535,7 +5532,6 @@ export default function App() {
           heroAlt="Microwave cooking setup with bowl of food, towel, and potted plant"
           text="This page will collect simple microwave cooking ideas, reheating tips, small portions, and quick meal shortcuts."
           setActivePage={setActivePage}
-          heroClassName="cookingMethodHeroLarge"
         />
       )}
       {activePage === "Gas Grill Recipes" && (
@@ -5546,7 +5542,6 @@ export default function App() {
           heroAlt="Gas grill with grilled burgers and vegetables on a light kitchen counter"
           text="This page will collect gas-grill recipes, warm-weather meals, quick grilling ideas, and practical outdoor cooking tips."
           setActivePage={setActivePage}
-          heroClassName="cookingMethodHeroLarge"
         />
       )}
       {activePage === "Smoker Recipes" && (
@@ -5559,7 +5554,6 @@ export default function App() {
           setActivePage={setActivePage}
           primaryPage="About Smoking"
           primaryLabel="About Smoking & Grilling"
-          heroClassName="cookingMethodHeroLarge"
         />
       )}
 {activePage === "Cooking Methods" && (
