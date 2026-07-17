@@ -4860,6 +4860,588 @@ function HeroTopicPage({
 }
 
 
+
+const REFERENCE_GUIDES = [
+  {
+    id: "weights-measures",
+    title: "Weights & Measures",
+    icon: "⚖️",
+    description:
+      "Quick reference for common kitchen measurements, conversions, and equivalents.",
+    lastUpdated: "July 17, 2026",
+    tabs: [
+      {
+        id: "volume",
+        label: "Volume",
+        sections: [
+          {
+            type: "table",
+            title: "Volume Equivalents",
+            columns: ["Measurement", "Equivalent", "Metric"],
+            rows: [
+              ["1 tablespoon", "3 teaspoons", "15 ml"],
+              ["1/8 cup", "2 tablespoons", "30 ml"],
+              ["1/4 cup", "4 tablespoons", "60 ml"],
+              ["1/3 cup", "5 tablespoons + 1 teaspoon", "80 ml"],
+              ["1/2 cup", "8 tablespoons", "120 ml"],
+              ["2/3 cup", "10 tablespoons + 2 teaspoons", "160 ml"],
+              ["3/4 cup", "12 tablespoons", "180 ml"],
+              ["1 cup", "16 tablespoons", "240 ml"],
+            ],
+          },
+          {
+            type: "table",
+            title: "Liquid Equivalents",
+            columns: ["Measurement", "Fluid Ounces", "Metric"],
+            rows: [
+              ["1 cup", "8 fl oz", "240 ml"],
+              ["1 pint", "16 fl oz", "480 ml"],
+              ["1 quart", "32 fl oz", "960 ml"],
+              ["1/2 gallon", "64 fl oz", "1.9 L"],
+              ["1 gallon", "128 fl oz", "3.8 L"],
+            ],
+          },
+          {
+            type: "tips",
+            title: "Quick Kitchen Equivalents",
+            items: [
+              "1 pinch is a small amount held between thumb and forefinger.",
+              "1 dash is generally about 1/8 teaspoon.",
+              "1 stick of butter equals 1/2 cup or 8 tablespoons.",
+              "1 cup of shredded cheese is about 4 ounces.",
+              "1 cup of all-purpose flour is about 120 grams when spooned and leveled.",
+            ],
+          },
+        ],
+      },
+      {
+        id: "weight",
+        label: "Weight",
+        sections: [
+          {
+            type: "table",
+            title: "Common U.S. Weights",
+            columns: ["Weight", "Ounces", "Grams"],
+            rows: [
+              ["1/4 pound", "4 oz", "113 g"],
+              ["1/2 pound", "8 oz", "227 g"],
+              ["3/4 pound", "12 oz", "340 g"],
+              ["1 pound", "16 oz", "454 g"],
+              ["1 1/2 pounds", "24 oz", "680 g"],
+              ["2 pounds", "32 oz", "907 g"],
+            ],
+          },
+          {
+            type: "info",
+            title: "Measuring Dry Ingredients",
+            text:
+              "For flour and similar dry ingredients, spoon the ingredient into the measuring cup and level it with a straight edge. Scooping directly from the bag can pack the ingredient and increase the amount.",
+          },
+        ],
+      },
+      {
+        id: "metric",
+        label: "Metric",
+        sections: [
+          {
+            type: "table",
+            title: "Common Metric Conversions",
+            columns: ["U.S. Measure", "Metric Approximation", "Notes"],
+            rows: [
+              ["1 teaspoon", "5 ml", "Liquid volume"],
+              ["1 tablespoon", "15 ml", "Liquid volume"],
+              ["1 cup", "240 ml", "Liquid volume"],
+              ["1 ounce", "28 g", "Weight"],
+              ["1 pound", "454 g", "Weight"],
+              ["350°F", "177°C", "Often rounded to 175°C"],
+            ],
+          },
+        ],
+      },
+      {
+        id: "butter",
+        label: "Butter",
+        sections: [
+          {
+            type: "table",
+            title: "Butter Equivalents",
+            columns: ["Butter", "Tablespoons", "Cups"],
+            rows: [
+              ["1/2 stick", "4 tablespoons", "1/4 cup"],
+              ["1 stick", "8 tablespoons", "1/2 cup"],
+              ["2 sticks", "16 tablespoons", "1 cup"],
+              ["4 sticks", "32 tablespoons", "2 cups"],
+            ],
+          },
+        ],
+      },
+      {
+        id: "liquid",
+        label: "Liquid Measurements",
+        sections: [
+          {
+            type: "table",
+            title: "Cup, Pint, Quart & Gallon",
+            columns: ["Measurement", "Equivalent", "Metric Approximation"],
+            rows: [
+              ["2 cups", "1 pint", "480 ml"],
+              ["4 cups", "1 quart", "960 ml"],
+              ["2 quarts", "1/2 gallon", "1.9 L"],
+              ["4 quarts", "1 gallon", "3.8 L"],
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: "cooking-temperatures",
+    title: "Cooking Temperatures",
+    icon: "🌡️",
+    description:
+      "Safe minimum internal temperatures and common doneness reminders for everyday cooking.",
+    lastUpdated: "July 17, 2026",
+    sections: [
+      {
+        type: "table",
+        title: "Safe Minimum Internal Temperatures",
+        columns: ["Food", "Temperature", "Notes"],
+        rows: [
+          ["Poultry", "165°F", "Chicken, turkey, casseroles with poultry"],
+          ["Ground meats", "160°F", "Beef, pork, veal, lamb"],
+          ["Seafood", "145°F", "Fish should be opaque and flake easily"],
+          ["Whole cuts of beef, pork, veal, lamb", "145°F + rest", "Rest at least 3 minutes"],
+          ["Egg dishes", "160°F", "Includes casseroles and custards"],
+          ["Leftovers", "165°F", "Reheat thoroughly"],
+        ],
+      },
+      {
+        type: "tips",
+        title: "Temperature Tips",
+        items: [
+          "Use an instant-read thermometer for the most reliable results.",
+          "Check the thickest part of the food and avoid touching bone or the pan.",
+          "Carryover cooking can raise the temperature slightly after food is removed from heat.",
+        ],
+      },
+    ],
+  },
+  {
+    id: "oven-conversions",
+    title: "Oven Conversions",
+    icon: "▤",
+    description:
+      "Common oven temperature conversions and practical notes for baking and roasting.",
+    lastUpdated: "July 17, 2026",
+    sections: [
+      {
+        type: "table",
+        title: "Fahrenheit to Celsius",
+        columns: ["Fahrenheit", "Celsius", "Common Use"],
+        rows: [
+          ["250°F", "120°C", "Low and slow"],
+          ["300°F", "150°C", "Gentle baking"],
+          ["325°F", "165°C", "Casseroles, cakes"],
+          ["350°F", "175°C", "General baking"],
+          ["375°F", "190°C", "Roasting, cookies"],
+          ["400°F", "205°C", "Roasting vegetables"],
+          ["425°F", "220°C", "High roasting"],
+          ["450°F", "230°C", "Pizza, quick browning"],
+        ],
+      },
+      {
+        type: "info",
+        title: "Convection Note",
+        text:
+          "For convection baking, many recipes work best when the temperature is reduced by about 25°F, but always follow your oven manual and watch food closely the first time.",
+      },
+    ],
+  },
+  {
+    id: "pan-sizes",
+    title: "Pan & Baking Dish Sizes",
+    icon: "🥘",
+    description:
+      "Common pan sizes, approximate capacity, and practical substitution reminders.",
+    lastUpdated: "July 17, 2026",
+    sections: [
+      {
+        type: "table",
+        title: "Common Baking Dish Sizes",
+        columns: ["Pan or Dish", "Approx. Capacity", "Common Uses"],
+        rows: [
+          ["8 × 8 inch square", "2 quarts", "Brownies, small casseroles"],
+          ["9 × 9 inch square", "2.5 quarts", "Bars, small bakes"],
+          ["9 × 13 inch baking dish", "3 quarts", "Casseroles, sheet cakes"],
+          ["9 inch pie plate", "4 cups", "Pies, quiche"],
+          ["Loaf pan", "6 to 8 cups", "Quick breads, meatloaf"],
+          ["12-cup muffin pan", "Standard", "Muffins, cupcakes"],
+        ],
+      },
+      {
+        type: "tips",
+        title: "Pan Substitution Tips",
+        items: [
+          "Changing pan size can change baking time and thickness.",
+          "A shallower pan usually bakes faster; a deeper pan may need more time.",
+          "Avoid filling pans more than about two-thirds full unless the recipe says otherwise.",
+        ],
+      },
+    ],
+  },
+  {
+    id: "ingredient-weights",
+    title: "Ingredient Weights",
+    icon: "⚖",
+    description:
+      "Approximate weights for common ingredients used in everyday home cooking.",
+    lastUpdated: "July 17, 2026",
+    sections: [
+      {
+        type: "table",
+        title: "Approximate Ingredient Weights",
+        columns: ["Ingredient", "Common Measure", "Approx. Weight"],
+        rows: [
+          ["All-purpose flour", "1 cup", "120 g"],
+          ["Granulated sugar", "1 cup", "200 g"],
+          ["Brown sugar, packed", "1 cup", "213 g"],
+          ["Powdered sugar", "1 cup", "120 g"],
+          ["Butter", "1 tablespoon", "14 g"],
+          ["Shredded cheddar", "1 cup", "113 g"],
+          ["Rice, uncooked", "1 cup", "185 g"],
+          ["Rolled oats", "1 cup", "90 g"],
+        ],
+      },
+      {
+        type: "info",
+        title: "Accuracy Note",
+        text:
+          "Ingredient weights can vary by brand, humidity, grind, and how the ingredient is measured. A kitchen scale gives the most consistent results.",
+      },
+    ],
+  },
+  {
+    id: "refrigerator-freezer",
+    title: "Refrigerator & Freezer Guide",
+    icon: "❄️",
+    description:
+      "Practical storage-time reminders for refrigerated and frozen foods.",
+    lastUpdated: "July 17, 2026",
+    sections: [
+      {
+        type: "table",
+        title: "Refrigerator Storage",
+        columns: ["Food", "Typical Storage Time", "Notes"],
+        rows: [
+          ["Cooked leftovers", "3 to 4 days", "Store promptly in shallow containers"],
+          ["Cooked poultry", "3 to 4 days", "Keep covered and chilled"],
+          ["Raw ground meat", "1 to 2 days", "Cook or freeze soon"],
+          ["Raw poultry", "1 to 2 days", "Keep sealed on a lower shelf"],
+          ["Soups and stews", "3 to 4 days", "Cool quickly before storing"],
+        ],
+      },
+      {
+        type: "table",
+        title: "Freezer Storage",
+        columns: ["Food", "Best Quality Time", "Notes"],
+        rows: [
+          ["Cooked meals", "2 to 3 months", "Wrap well and label"],
+          ["Raw ground meat", "3 to 4 months", "Freeze flat when possible"],
+          ["Raw poultry pieces", "9 months", "Use freezer-safe packaging"],
+          ["Soups and stews", "2 to 3 months", "Leave headspace for expansion"],
+          ["Breads and rolls", "2 to 3 months", "Wrap tightly"],
+        ],
+      },
+    ],
+  },
+  {
+    id: "serving-portions",
+    title: "Serving & Portion Guide",
+    icon: "🍽️",
+    description:
+      "Simple portion estimates for planning meals, leftovers, and grocery quantities.",
+    lastUpdated: "July 17, 2026",
+    sections: [
+      {
+        type: "table",
+        title: "General Serving Estimates",
+        columns: ["Food", "Typical Serving", "Planning Note"],
+        rows: [
+          ["Boneless meat or poultry", "4 to 6 oz cooked", "Allow more for hearty appetites"],
+          ["Fish fillet", "4 to 6 oz", "Depends on side dishes"],
+          ["Pasta, dry", "2 oz", "About 1 cup cooked"],
+          ["Rice, dry", "1/4 cup", "About 3/4 cup cooked"],
+          ["Vegetables", "1/2 to 1 cup", "Varies by meal"],
+          ["Soup", "1 to 1 1/2 cups", "More for main dish soup"],
+        ],
+      },
+      {
+        type: "tips",
+        title: "Planning Tips",
+        items: [
+          "Plan larger servings when leftovers are part of the goal.",
+          "For mixed dishes, portion size depends on richness and side dishes.",
+          "Smaller households can cook full recipes and freeze extra portions for later.",
+        ],
+      },
+    ],
+  },
+  {
+    id: "substitutions",
+    title: "Common Substitutions",
+    icon: "↔",
+    description:
+      "Useful substitutions for common ingredients when you are missing an item or adjusting a recipe.",
+    lastUpdated: "July 17, 2026",
+    sections: [
+      {
+        type: "table",
+        title: "Everyday Substitutions",
+        columns: ["Ingredient Needed", "Possible Substitute", "Notes"],
+        rows: [
+          ["1 cup buttermilk", "1 cup milk + 1 Tbsp lemon juice or vinegar", "Let stand 5 minutes"],
+          ["1 tablespoon cornstarch", "2 tablespoons all-purpose flour", "Best for sauces"],
+          ["1 cup sour cream", "1 cup plain Greek yogurt", "Works in many dips and toppings"],
+          ["1 cup brown sugar", "1 cup white sugar + 1 Tbsp molasses", "Mix well"],
+          ["1 teaspoon baking powder", "1/4 tsp baking soda + 1/2 tsp cream of tartar", "Use promptly"],
+        ],
+      },
+      {
+        type: "info",
+        title: "Substitution Reminder",
+        text:
+          "Substitutions can change flavor, texture, browning, or moisture. Use them as practical options, not always as exact replacements.",
+      },
+    ],
+  },
+  {
+    id: "small-appliances",
+    title: "Air Fryer, Slow Cooker & Pressure Cooker",
+    icon: "🍲",
+    description:
+      "Quick appliance reminders for timing, safety, and best results.",
+    lastUpdated: "July 17, 2026",
+    sections: [
+      {
+        type: "tips",
+        title: "Air Fryer Tips",
+        items: [
+          "Avoid overcrowding the basket so hot air can circulate.",
+          "Shake or turn food for more even browning.",
+          "Start checking early because models vary.",
+        ],
+      },
+      {
+        type: "tips",
+        title: "Slow Cooker Tips",
+        items: [
+          "Keep the lid closed as much as possible.",
+          "Cut dense vegetables evenly so they cook at the same pace.",
+          "Use enough liquid for the recipe, but remember slow cookers trap moisture.",
+        ],
+      },
+      {
+        type: "tips",
+        title: "Pressure Cooker Tips",
+        items: [
+          "Do not overfill the cooker.",
+          "Allow time for pressure build-up and release when planning the meal.",
+          "Use the release method recommended in the recipe.",
+        ],
+      },
+    ],
+  },
+  {
+    id: "smoking-grilling",
+    title: "Smoking & Grilling Guide",
+    icon: "♨️",
+    description:
+      "Practical reminders for outdoor cooking, temperature control, resting, and safe doneness.",
+    lastUpdated: "July 17, 2026",
+    sections: [
+      {
+        type: "table",
+        title: "Outdoor Cooking Reminders",
+        columns: ["Topic", "Guidance", "Why It Matters"],
+        rows: [
+          ["Preheating", "Preheat grills and smokers before cooking", "Improves timing and searing"],
+          ["Thermometer", "Use internal temperature, not just time", "Improves safety and consistency"],
+          ["Resting", "Rest larger meats before slicing", "Helps juices redistribute"],
+          ["Smoke", "Use clean, steady smoke", "Avoids harsh flavors"],
+          ["Zones", "Use direct and indirect heat when grilling", "Helps prevent burning"],
+        ],
+      },
+      {
+        type: "tips",
+        title: "Quick Tips",
+        items: [
+          "Keep the lid closed when smoking to maintain temperature.",
+          "Trim excess fat but leave enough for moisture and flavor.",
+          "Slice brisket and similar meats against the grain.",
+        ],
+      },
+    ],
+  },
+];
+
+function ReferenceGuideSection({ section }) {
+  if (section.type === "table") {
+    return (
+      <section className="referenceGuideCard">
+        <h3>{section.title}</h3>
+        <div className="referenceGuideTableWrap">
+          <table>
+            <thead>
+              <tr>
+                {section.columns.map((column) => (
+                  <th key={column}>{column}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {section.rows.map((row, rowIndex) => (
+                <tr key={rowIndex}>
+                  {row.map((cell, cellIndex) => (
+                    <td key={cellIndex}>{cell}</td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    );
+  }
+
+  if (section.type === "tips") {
+    return (
+      <section className="referenceGuideCard">
+        <h3>{section.title}</h3>
+        <ul className="referenceGuideTipsList">
+          {section.items.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+      </section>
+    );
+  }
+
+  return (
+    <section className="referenceGuideInfoBox">
+      <div className="referenceGuideInfoIcon" aria-hidden="true">💡</div>
+      <div>
+        <h3>{section.title}</h3>
+        <p>{section.text}</p>
+      </div>
+    </section>
+  );
+}
+
+function ReferenceGuidesPage() {
+  const [selectedGuideId, setSelectedGuideId] = useState("weights-measures");
+  const selectedGuide =
+    REFERENCE_GUIDES.find((guide) => guide.id === selectedGuideId) || REFERENCE_GUIDES[0];
+  const [selectedTabId, setSelectedTabId] = useState(selectedGuide.tabs?.[0]?.id || "overview");
+
+  useEffect(() => {
+    setSelectedTabId(selectedGuide.tabs?.[0]?.id || "overview");
+  }, [selectedGuideId, selectedGuide.tabs]);
+
+  const activeTab = selectedGuide.tabs?.find((tab) => tab.id === selectedTabId);
+  const sections = activeTab?.sections || selectedGuide.sections || [];
+
+  return (
+    <main className="pageShell referenceGuidesFeaturePage">
+      <section className="referenceGuidesLayout" aria-label="Reference guides">
+        <aside className="referenceGuidesNav" aria-label="Reference guide list">
+          <div className="referenceGuidesBrandBlock">
+            <div className="referenceGuidesBrandTitle">Robert’s Recipe Box</div>
+            <div className="referenceGuidesBrandSubtitle">Reference Guides</div>
+          </div>
+
+          <div className="referenceGuideButtonList" role="tablist" aria-label="Choose a reference guide">
+            {REFERENCE_GUIDES.map((guide) => (
+              <button
+                key={guide.id}
+                type="button"
+                className={`referenceGuideNavButton${guide.id === selectedGuide.id ? " active" : ""}`}
+                onClick={() => setSelectedGuideId(guide.id)}
+                role="tab"
+                aria-selected={guide.id === selectedGuide.id}
+              >
+                <span className="referenceGuideNavIcon" aria-hidden="true">{guide.icon}</span>
+                <span>{guide.title}</span>
+              </button>
+            ))}
+          </div>
+
+          <div className="referenceGuideNavNote">
+            <span aria-hidden="true">★</span>
+            <p>Click any guide to view details. Print or download options appear below the guide.</p>
+          </div>
+        </aside>
+
+        <section className="referenceGuidePanel" aria-live="polite">
+          <div className="referenceGuidePanelHeader">
+            <div>
+              <h2>
+                <span aria-hidden="true">{selectedGuide.icon}</span>
+                {selectedGuide.title}
+              </h2>
+              <p>{selectedGuide.description}</p>
+            </div>
+          </div>
+
+          {selectedGuide.tabs && (
+            <div className="referenceGuideTabs" role="tablist" aria-label={`${selectedGuide.title} categories`}>
+              {selectedGuide.tabs.map((tab) => (
+                <button
+                  key={tab.id}
+                  type="button"
+                  className={tab.id === selectedTabId ? "active" : ""}
+                  onClick={() => setSelectedTabId(tab.id)}
+                  role="tab"
+                  aria-selected={tab.id === selectedTabId}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+          )}
+
+          <div className="referenceGuidePanelBody">
+            <div className="referenceGuideSections">
+              {sections.map((section, index) => (
+                <ReferenceGuideSection key={`${selectedGuide.id}-${selectedTabId}-${index}`} section={section} />
+              ))}
+            </div>
+          </div>
+
+          <footer className="referenceGuideFooter">
+            <div className="referenceGuideActions">
+              <button type="button" onClick={() => window.print()}>
+                <span aria-hidden="true">🖨️</span>
+                Print This Guide
+              </button>
+              <button type="button" className="referenceGuidePlaceholderButton" disabled title="PDF download files will be added later.">
+                <span aria-hidden="true">⬇️</span>
+                Download PDF Coming Soon
+              </button>
+              <button type="button" className="referenceGuidePlaceholderButton" disabled title="Full-page views will be added later.">
+                <span aria-hidden="true">↗</span>
+                Open as Full Page Coming Soon
+              </button>
+            </div>
+            <p>Robert’s Recipe Box Reference Guides • Last updated: {selectedGuide.lastUpdated}</p>
+          </footer>
+        </section>
+      </section>
+    </main>
+  );
+}
+
+
+
 function DisclaimersPage({ setActivePage }) {
   return (
     <main className="pageShell aboutRecipesPage disclaimersPage">
@@ -5201,15 +5783,12 @@ export default function App() {
             alt="Kitchen reference guides setup with measuring cups, conversion chart, cookbooks, and utensils"
             eyebrow="TIPS & ORGANIZATION"
             title="Reference Guides"
-            text="Cooking often involves small questions that are difficult to remember in the middle of preparing a meal. Reference guides provide quick answers for measurements, temperatures, storage times, substitutions, portions, equipment, and common cooking terms.\n\nThese pages are designed to be easy to scan, print, or revisit when needed. They can serve as a practical kitchen reference without requiring you to search through a long article for one simple answer."
+            text="Cooking often involves small questions that are difficult to remember in the middle of preparing a meal. Reference guides provide quick answers for measurements, temperatures, storage times, substitutions, portions, equipment, and common cooking terms.
+
+These pages are designed to be easy to scan, print, or revisit when needed. They can serve as a practical kitchen reference without requiring you to search through a long article for one simple answer."
             className="pageHeroDepth464"
-/>
-          <PlaceholderInfoPage
-            eyebrow="TIPS & ORGANIZATION"
-            title="Reference Guides"
-            text="This page will collect practical kitchen reference guides, cooking charts, storage reminders, substitutions, freezer tips, and other quick-use information."
-            setActivePage={setActivePage}
           />
+          <ReferenceGuidesPage />
         </>
       )}
 
