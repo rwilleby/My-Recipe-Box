@@ -4798,10 +4798,11 @@ function PageHeroImage({ src, alt = "", title = "", eyebrow = "", text = "", ico
           {text && (
             <div className="pageHeroIntroText">
               {String(text)
-                .split(/\\n\\s*\\n|\n\s*\n/)
-                .filter(Boolean)
+                .replace(/\\\\n/g, "\\n")
+                .split(/\\n\\s*\\n/)
+                .filter((paragraph) => paragraph.trim().length > 0)
                 .map((paragraph, index) => (
-                  <p key={index}>{paragraph}</p>
+                  <p key={index}>{paragraph.trim()}</p>
                 ))}
             </div>
           )}

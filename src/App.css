@@ -16172,3 +16172,23 @@ textarea {
     gap: 6px !important;
   }
 }
+
+
+/* =========================================================
+   HERO INTRO NEWLINE PARAGRAPH FIX
+   Treats \n\n markers in hero text as true paragraph breaks.
+   ========================================================= */
+
+.pageHeroIntroText {
+  display: grid !important;
+  gap: 8px !important;
+}
+
+.pageHeroIntroText p {
+  display: block !important;
+  margin: 0 !important;
+}
+
+.pageHeroIntroText p + p {
+  margin-top: 0 !important;
+}
