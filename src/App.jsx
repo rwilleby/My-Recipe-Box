@@ -4799,7 +4799,8 @@ function PageHeroImage({ src, alt = "", title = "", eyebrow = "", text = "", ico
             <div className="pageHeroIntroText">
               {String(text)
                 .replace(/\\\\n/g, "\\n")
-                .split(/\\n\\s*\\n/)
+                .replace(/\\n/g, "\n")
+                .split(/\n\s*\n/)
                 .filter((paragraph) => paragraph.trim().length > 0)
                 .map((paragraph, index) => (
                   <p key={index}>{paragraph.trim()}</p>
