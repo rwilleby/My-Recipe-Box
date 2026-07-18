@@ -19174,156 +19174,10 @@ nav button,
 
 
 /* =========================================================
-   HEADER DROPDOWNS OVER HERO FIX
-   Ensures top menu dropdowns layer above supporting-page hero images.
+   PAGE NOTES ALIGNMENT + STACKING FINAL
+   Align popup left with paragraph/button line and keep it above content.
    ========================================================= */
 
-.siteHeader,
-.siteHeader *,
-.headerShell,
-.headerShell *,
-.headerInner,
-.headerInner *,
-.mainHeader,
-.mainHeader *,
-.topHeader,
-.topHeader * {
-  overflow: visible !important;
-}
-
-.siteHeader,
-.headerShell,
-.headerInner,
-.mainHeader,
-.topHeader {
-  position: relative !important;
-  z-index: 10000 !important;
-  isolation: isolate !important;
-}
-
-.siteHeader nav,
-.siteHeader .navGroup,
-.siteHeader .navItem,
-.siteHeader .dropdown,
-.siteHeader .dropdownToggle,
-.siteHeader .dropdownMenu,
-.siteHeader .navDropdown,
-.siteHeader .menuDropdown,
-.headerNav,
-.headerNav *,
-.siteNav,
-.siteNav *,
-.mainNav,
-.mainNav *,
-.navMenu,
-.navMenu *,
-.navDropdown,
-.dropdownMenu,
-.menuDropdown {
-  overflow: visible !important;
-  z-index: 10010 !important;
-}
-
-.dropdownMenu,
-.navDropdown,
-.menuDropdown,
-.siteHeader [role="menu"],
-.siteHeader [data-dropdown],
-.siteHeader .navGroupMenu,
-.siteHeader .submenu {
-  position: absolute !important;
-  z-index: 10020 !important;
-}
-
-/* Keep hero layers below header/dropdowns. */
-.pageTopHeroImage,
-.pageTopHeroImage.hasHeroText,
-.pageTopHeroImage.pageHeroDepth464,
-.pageTopHeroImage.cookingMethodHeroLarge,
-.pageTopHeroImage.summerCookoutsHeroDepth {
-  z-index: 1 !important;
-}
-
-.pageTopHeroImage .pageNotesStrip,
-.pageNotesPopup {
-  z-index: 50 !important;
-}
-
-
-/* =========================================================
-   HEADER DROPDOWN POSITION FIX
-   Corrects prior over-broad z-index rules that caused menu labels
-   to stack on top of each other. Top menu stays in normal layout;
-   only actual dropdown panels layer above the hero.
-   ========================================================= */
-
-/* Keep the top navigation in its normal flex/grid flow. */
-.siteHeader nav,
-.siteHeader .headerNav,
-.siteHeader .siteNav,
-.siteHeader .mainNav,
-.siteHeader .navMenu,
-.siteHeader .navGroup,
-.siteHeader .navItem,
-.siteHeader .dropdown,
-.siteHeader .dropdownToggle,
-.headerNav,
-.siteNav,
-.mainNav,
-.navMenu,
-.navGroup,
-.navItem,
-.dropdown,
-.dropdownToggle {
-  position: relative !important;
-  display: revert-layer;
-  overflow: visible !important;
-}
-
-/* Undo accidental absolute positioning on any top-level menu wrapper. */
-.siteHeader .menuDropdown,
-.siteHeader .navDropdown {
-  position: static !important;
-}
-
-/* Only the actual dropdown panel/list should be absolute and above the hero. */
-.siteHeader .dropdownMenu,
-.siteHeader .navGroupMenu,
-.siteHeader .submenu,
-.siteHeader [role="menu"] {
-  position: absolute !important;
-  z-index: 20000 !important;
-}
-
-/* Header remains above hero, but without forcing every child into a stacking conflict. */
-.siteHeader,
-.headerShell,
-.headerInner,
-.mainHeader,
-.topHeader {
-  position: relative !important;
-  z-index: 15000 !important;
-  overflow: visible !important;
-}
-
-/* Hero stays below header/dropdowns. */
-.pageTopHeroImage,
-.pageTopHeroImage.hasHeroText,
-.pageTopHeroImage.pageHeroDepth464,
-.pageTopHeroImage.cookingMethodHeroLarge,
-.pageTopHeroImage.summerCookoutsHeroDepth {
-  position: relative !important;
-  z-index: 1 !important;
-}
-
-
-/* =========================================================
-   PAGE NOTES POPUP ABOVE PAGE CONTENT FIX
-   Ensures PAGE NOTES opens downward over cards, grids, and page content.
-   Header/dropdown menus still remain above the page notes popup.
-   ========================================================= */
-
-/* The hero must be allowed to visibly overflow when Page Notes opens. */
 .pageTopHeroImage,
 .pageTopHeroImage.hasHeroText,
 .pageTopHeroImage.pageHeroDepth464,
@@ -19331,14 +19185,15 @@ nav button,
 .pageTopHeroImage.summerCookoutsHeroDepth {
   position: relative !important;
   overflow: visible !important;
-  z-index: 5000 !important;
+  z-index: 30000 !important;
 }
 
-/* PAGE NOTES button and popup sit above all normal page content. */
 .pageTopHeroImage .pageNotesStrip,
 .pageNotesStrip {
   position: absolute !important;
-  z-index: 6000 !important;
+  left: clamp(44px, 5.5vw, 76px) !important;
+  bottom: 12px !important;
+  z-index: 31000 !important;
   overflow: visible !important;
 }
 
@@ -19346,14 +19201,18 @@ nav button,
 .pageNotesPopup,
 .pageHelpPopup.pageNotesPopup {
   position: absolute !important;
+  left: 0 !important;
+  right: auto !important;
   top: calc(100% + 10px) !important;
   bottom: auto !important;
-  z-index: 9000 !important;
-  overflow: visible !important;
-  isolation: isolate !important;
+  transform: none !important;
+  width: min(620px, calc(100vw - 110px)) !important;
+  max-height: min(64vh, 520px) !important;
+  overflow-y: auto !important;
+  z-index: 32000 !important;
 }
 
-/* Normal page content must stay below the hero/page-notes stacking layer. */
+/* Normal page content must stay below the hero/page-notes layer. */
 .pageShell,
 .section,
 .productsIUsePage,
@@ -19371,25 +19230,38 @@ nav button,
   z-index: 1 !important;
 }
 
-/* The site header and its dropdown menus remain the top layer. */
-.siteHeader,
-.headerShell,
-.headerInner,
-.mainHeader,
-.topHeader {
-  position: relative !important;
-  overflow: visible !important;
-  z-index: 15000 !important;
+/* Header and dropdowns remain above Page Notes. */
+.topbar,
+.topbar .navDropdownMenu {
+  z-index: 90000 !important;
 }
 
-.siteHeader .dropdownMenu,
-.siteHeader .navGroupMenu,
-.siteHeader .submenu,
-.siteHeader [role="menu"] {
-  z-index: 20000 !important;
+/* =========================================================
+   DINNER COMBINATION IMAGE + RECIPE BUTTON STATE
+   ========================================================= */
+
+.dinnerCombinationMedia img {
+  background: #f8faf7 !important;
 }
 
-/* Mobile popup behavior stays readable and above page content. */
+.dinnerRecipePopupItem > button.hasRecipeMatch {
+  border-color: rgba(20, 83, 45, 0.36) !important;
+  opacity: 1 !important;
+}
+
+.dinnerRecipePopupItem > button.hasRecipeMatch:hover {
+  background: #14532D !important;
+  color: #ffffff !important;
+}
+
+.dinnerRecipePopupItem > button.hasRecipeMatch:hover span {
+  color: rgba(255, 255, 255, 0.82) !important;
+}
+
+.dinnerRecipePopupItem > button.missingRecipeMatch {
+  opacity: 0.68 !important;
+}
+
 @media (max-width: 760px) {
   .pageTopHeroImage .pageNotesPopup,
   .pageNotesPopup,
@@ -19401,672 +19273,7 @@ nav button,
     bottom: 18px !important;
     width: auto !important;
     max-width: none !important;
-    z-index: 20000 !important;
-  }
-}
-
-
-/* =========================================================
-   MAIN MENU LAYOUT HARD RESET
-   Fixes over-broad dropdown/header overrides that caused top menu
-   labels to stack or overlap each other.
-   ========================================================= */
-
-/* Restore the header/nav wrappers to normal flow. */
-.siteHeader,
-.siteHeader *,
-.headerShell,
-.headerShell *,
-.headerInner,
-.headerInner *,
-.mainHeader,
-.mainHeader *,
-.topHeader,
-.topHeader *,
-.headerNav,
-.headerNav *,
-.siteNav,
-.siteNav *,
-.mainNav,
-.mainNav *,
-.navMenu,
-.navMenu *,
-.navGroup,
-.navGroup *,
-.navItem,
-.navItem *,
-.dropdown,
-.dropdown *,
-.dropdownToggle,
-.dropdownToggle * {
-  transform: none !important;
-}
-
-/* Top menu rows should be horizontal, not absolute-stacked. */
-.siteHeader nav,
-.headerNav,
-.siteNav,
-.mainNav,
-.navMenu {
-  position: relative !important;
-  display: flex !important;
-  flex-direction: row !important;
-  flex-wrap: nowrap !important;
-  align-items: center !important;
-  justify-content: flex-end !important;
-  gap: clamp(8px, 0.9vw, 16px) !important;
-  overflow: visible !important;
-  z-index: 15000 !important;
-}
-
-/* Each top-level menu group stays in the row. */
-.siteHeader .navGroup,
-.siteHeader .navItem,
-.siteHeader .dropdown,
-.headerNav .navGroup,
-.headerNav .navItem,
-.headerNav .dropdown,
-.siteNav .navGroup,
-.siteNav .navItem,
-.siteNav .dropdown,
-.mainNav .navGroup,
-.mainNav .navItem,
-.mainNav .dropdown,
-.navMenu .navGroup,
-.navMenu .navItem,
-.navMenu .dropdown {
-  position: relative !important;
-  display: inline-flex !important;
-  flex: 0 0 auto !important;
-  align-items: center !important;
-  justify-content: center !important;
-  width: auto !important;
-  height: auto !important;
-  left: auto !important;
-  right: auto !important;
-  top: auto !important;
-  bottom: auto !important;
-  margin: 0 !important;
-  overflow: visible !important;
-  z-index: auto !important;
-}
-
-/* Top-level menu buttons/links stay compact and inline. */
-.siteHeader .dropdownToggle,
-.siteHeader nav > button,
-.siteHeader nav > a,
-.headerNav button,
-.headerNav a,
-.siteNav button,
-.siteNav a,
-.mainNav button,
-.mainNav a,
-.navMenu button,
-.navMenu a {
-  position: relative !important;
-  display: inline-flex !important;
-  flex: 0 0 auto !important;
-  align-items: center !important;
-  justify-content: center !important;
-  width: auto !important;
-  min-width: 0 !important;
-  height: auto !important;
-  left: auto !important;
-  right: auto !important;
-  top: auto !important;
-  bottom: auto !important;
-  margin: 0 !important;
-  white-space: nowrap !important;
-  line-height: 1.1 !important;
-  z-index: auto !important;
-}
-
-/* Condensed font remains, but only as typography, not layout. */
-.siteHeader nav,
-.siteHeader nav button,
-.siteHeader nav a,
-.headerNav,
-.headerNav button,
-.headerNav a,
-.siteNav,
-.siteNav button,
-.siteNav a,
-.mainNav,
-.mainNav button,
-.mainNav a,
-.navMenu,
-.navMenu button,
-.navMenu a,
-.dropdownMenu,
-.dropdownMenu button,
-.dropdownMenu a {
-  font-family: "Arial Narrow", "Aptos Narrow", "Roboto Condensed", "Liberation Sans Narrow", "Helvetica Neue Condensed", Arial, sans-serif !important;
-  font-stretch: condensed !important;
-}
-
-/* Dropdown panels are the only header elements allowed to float over the hero. */
-.siteHeader .dropdownMenu,
-.siteHeader .navGroupMenu,
-.siteHeader .submenu,
-.siteHeader [role="menu"],
-.headerNav .dropdownMenu,
-.siteNav .dropdownMenu,
-.mainNav .dropdownMenu,
-.navMenu .dropdownMenu {
-  position: absolute !important;
-  top: calc(100% + 10px) !important;
-  left: 0 !important;
-  right: auto !important;
-  bottom: auto !important;
-  display: grid !important;
-  width: max-content !important;
-  min-width: 260px !important;
-  max-width: min(92vw, 520px) !important;
-  z-index: 30000 !important;
-  overflow: visible !important;
-}
-
-/* Let right-side dropdowns stay on screen when browser supports it through existing alignment classes. */
-.siteHeader .navGroup:last-child .dropdownMenu,
-.siteHeader .dropdown:last-child .dropdownMenu,
-.headerNav .navGroup:last-child .dropdownMenu,
-.siteNav .navGroup:last-child .dropdownMenu,
-.mainNav .navGroup:last-child .dropdownMenu,
-.navMenu .navGroup:last-child .dropdownMenu {
-  left: auto !important;
-  right: 0 !important;
-}
-
-/* Keep header above the hero. */
-.siteHeader,
-.headerShell,
-.headerInner,
-.mainHeader,
-.topHeader {
-  position: relative !important;
-  z-index: 25000 !important;
-  overflow: visible !important;
-  isolation: isolate !important;
-}
-
-/* Hero and normal content stay lower. */
-.pageTopHeroImage,
-.pageTopHeroImage.hasHeroText,
-.pageTopHeroImage.pageHeroDepth464,
-.pageTopHeroImage.cookingMethodHeroLarge,
-.pageTopHeroImage.summerCookoutsHeroDepth {
-  position: relative !important;
-  z-index: 1 !important;
-}
-
-@media (max-width: 980px) {
-  .siteHeader nav,
-  .headerNav,
-  .siteNav,
-  .mainNav,
-  .navMenu {
-    flex-wrap: wrap !important;
-    justify-content: center !important;
-    row-gap: 8px !important;
-  }
-}
-
-
-/* =========================================================
-   FINAL HEADER MENU + PAGE NOTES RESET
-   Fixes:
-   1) Top menu labels stacking/overlapping.
-   2) PAGE NOTES popup appearing behind page content.
-   ========================================================= */
-
-/* Header stays above the page, but children return to normal flow. */
-.siteHeader,
-.headerShell,
-.headerInner,
-.mainHeader,
-.topHeader {
-  position: relative !important;
-  z-index: 60000 !important;
-  overflow: visible !important;
-  isolation: isolate !important;
-}
-
-/* Restore top menu rows to ordinary horizontal flow. */
-.siteHeader nav,
-.headerNav,
-.siteNav,
-.mainNav,
-.navMenu {
-  position: relative !important;
-  display: flex !important;
-  flex-direction: row !important;
-  flex-wrap: nowrap !important;
-  align-items: center !important;
-  justify-content: flex-end !important;
-  gap: clamp(10px, 1vw, 18px) !important;
-  overflow: visible !important;
-  white-space: nowrap !important;
-  transform: none !important;
-}
-
-/* Restore top-level menu groups/items so labels do not stack. */
-.siteHeader .navGroup,
-.siteHeader .navItem,
-.siteHeader .dropdown,
-.headerNav .navGroup,
-.headerNav .navItem,
-.headerNav .dropdown,
-.siteNav .navGroup,
-.siteNav .navItem,
-.siteNav .dropdown,
-.mainNav .navGroup,
-.mainNav .navItem,
-.mainNav .dropdown,
-.navMenu .navGroup,
-.navMenu .navItem,
-.navMenu .dropdown {
-  position: relative !important;
-  display: inline-flex !important;
-  flex: 0 0 auto !important;
-  align-items: center !important;
-  justify-content: center !important;
-  width: auto !important;
-  min-width: 0 !important;
-  max-width: none !important;
-  height: auto !important;
-  left: auto !important;
-  right: auto !important;
-  top: auto !important;
-  bottom: auto !important;
-  transform: none !important;
-  margin: 0 !important;
-  overflow: visible !important;
-}
-
-/* Restore top-level clickable labels. */
-.siteHeader .dropdownToggle,
-.siteHeader nav > button,
-.siteHeader nav > a,
-.headerNav button,
-.headerNav a,
-.siteNav button,
-.siteNav a,
-.mainNav button,
-.mainNav a,
-.navMenu button,
-.navMenu a {
-  position: relative !important;
-  display: inline-flex !important;
-  flex: 0 0 auto !important;
-  align-items: center !important;
-  justify-content: center !important;
-  width: auto !important;
-  min-width: 0 !important;
-  max-width: none !important;
-  height: auto !important;
-  left: auto !important;
-  right: auto !important;
-  top: auto !important;
-  bottom: auto !important;
-  transform: none !important;
-  margin: 0 !important;
-  white-space: nowrap !important;
-  line-height: 1.1 !important;
-  z-index: auto !important;
-}
-
-/* Only actual dropdown panels may float over the hero. */
-.siteHeader .dropdownMenu,
-.siteHeader .navGroupMenu,
-.siteHeader .submenu,
-.siteHeader [role="menu"],
-.headerNav .dropdownMenu,
-.siteNav .dropdownMenu,
-.mainNav .dropdownMenu,
-.navMenu .dropdownMenu {
-  position: absolute !important;
-  top: calc(100% + 8px) !important;
-  left: 0 !important;
-  right: auto !important;
-  bottom: auto !important;
-  transform: none !important;
-  z-index: 70000 !important;
-  width: max-content !important;
-  min-width: 260px !important;
-  max-width: min(92vw, 560px) !important;
-  overflow: visible !important;
-}
-
-/* If the last dropdown is near the edge, keep it on-screen. */
-.siteHeader .navGroup:last-child .dropdownMenu,
-.siteHeader .dropdown:last-child .dropdownMenu,
-.headerNav .navGroup:last-child .dropdownMenu,
-.siteNav .navGroup:last-child .dropdownMenu,
-.mainNav .navGroup:last-child .dropdownMenu,
-.navMenu .navGroup:last-child .dropdownMenu {
-  left: auto !important;
-  right: 0 !important;
-}
-
-/* Condensed menu typography only; no layout side effects. */
-.siteHeader nav,
-.siteHeader nav button,
-.siteHeader nav a,
-.headerNav,
-.headerNav button,
-.headerNav a,
-.siteNav,
-.siteNav button,
-.siteNav a,
-.mainNav,
-.mainNav button,
-.mainNav a,
-.navMenu,
-.navMenu button,
-.navMenu a,
-.dropdownMenu,
-.dropdownMenu button,
-.dropdownMenu a {
-  font-family: "Arial Narrow", "Aptos Narrow", "Roboto Condensed", "Liberation Sans Narrow", "Helvetica Neue Condensed", Arial, sans-serif !important;
-  font-stretch: condensed !important;
-  letter-spacing: 0.01em !important;
-}
-
-/* PAGE NOTES becomes a fixed overlay so page cards/grids cannot cover it. */
-.pageTopHeroImage .pageNotesPopup,
-.pageNotesPopup,
-.pageHelpPopup.pageNotesPopup {
-  position: fixed !important;
-  left: clamp(44px, 5.5vw, 76px) !important;
-  top: min(48vh, 430px) !important;
-  right: auto !important;
-  bottom: auto !important;
-  transform: none !important;
-  width: min(620px, calc(100vw - 88px)) !important;
-  max-height: min(46vh, 460px) !important;
-  overflow-y: auto !important;
-  z-index: 55000 !important;
-}
-
-/* Keep normal page content below PAGE NOTES. */
-.pageShell,
-.section,
-.productsIUsePage,
-.productsIUseGrid,
-.productsIUseCard,
-.referenceGuidesFeaturePage,
-.referenceGuidePanel,
-.dinnerCombinationsPage,
-.dinnerCombinationGrid,
-.dinnerCombinationCard,
-.collectionDetailPage,
-.aboutRecipesPage,
-.heroTopicPage {
-  position: relative !important;
-  z-index: 1 !important;
-}
-
-.pageTopHeroImage,
-.pageTopHeroImage.hasHeroText,
-.pageTopHeroImage.pageHeroDepth464,
-.pageTopHeroImage.cookingMethodHeroLarge,
-.pageTopHeroImage.summerCookoutsHeroDepth {
-  position: relative !important;
-  z-index: 1 !important;
-}
-
-@media (max-width: 980px) {
-  .siteHeader nav,
-  .headerNav,
-  .siteNav,
-  .mainNav,
-  .navMenu {
-    flex-wrap: wrap !important;
-    justify-content: center !important;
-    row-gap: 8px !important;
-  }
-}
-
-@media (max-width: 760px) {
-  .pageTopHeroImage .pageNotesPopup,
-  .pageNotesPopup,
-  .pageHelpPopup.pageNotesPopup {
-    left: 16px !important;
-    right: 16px !important;
-    top: auto !important;
-    bottom: 18px !important;
-    width: auto !important;
     max-height: min(70vh, 520px) !important;
-    z-index: 65000 !important;
-  }
-}
-
-
-/* =========================================================
-   TOPBAR ACTUAL CLASS MENU FIX
-   Uses the real header classes in App.jsx:
-   .topbar, .navLinks.dropdownNav, .navDropdown,
-   .navDropdownButton, .navDropdownMenu, .topActions
-   ========================================================= */
-
-/* Restore the actual header row. */
-.topbar {
-  position: sticky !important;
-  top: 0 !important;
-  z-index: 90000 !important;
-  display: flex !important;
-  flex-direction: row !important;
-  align-items: center !important;
-  justify-content: flex-start !important;
-  height: 82px !important;
-  padding: 0 5.5vw !important;
-  gap: 32px !important;
-  overflow: visible !important;
-  background: rgba(255, 255, 255, 0.88) !important;
-  border-bottom: 1px solid var(--line) !important;
-}
-
-/* Brand/logo stays on the left. */
-.topbar > .brand,
-.topbar > .brandLogoButton {
-  position: relative !important;
-  display: flex !important;
-  flex: 0 0 auto !important;
-  align-items: center !important;
-  justify-content: flex-start !important;
-  width: auto !important;
-  min-width: 220px !important;
-  left: auto !important;
-  right: auto !important;
-  top: auto !important;
-  bottom: auto !important;
-  transform: none !important;
-  z-index: 2 !important;
-}
-
-/* Main nav is the center horizontal row. */
-.topbar > .navLinks.dropdownNav,
-.navLinks.dropdownNav {
-  position: relative !important;
-  display: flex !important;
-  flex: 1 1 auto !important;
-  flex-direction: row !important;
-  flex-wrap: nowrap !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: clamp(8px, 1.1vw, 18px) !important;
-  width: auto !important;
-  min-width: 0 !important;
-  height: 82px !important;
-  left: auto !important;
-  right: auto !important;
-  top: auto !important;
-  bottom: auto !important;
-  transform: none !important;
-  overflow: visible !important;
-  z-index: 3 !important;
-}
-
-/* Each top-level menu item stays in that row. */
-.navLinks.dropdownNav > .navDropdown {
-  position: relative !important;
-  display: inline-flex !important;
-  flex: 0 0 auto !important;
-  align-items: center !important;
-  justify-content: center !important;
-  width: auto !important;
-  min-width: 0 !important;
-  max-width: none !important;
-  height: 82px !important;
-  left: auto !important;
-  right: auto !important;
-  top: auto !important;
-  bottom: auto !important;
-  transform: none !important;
-  margin: 0 !important;
-  overflow: visible !important;
-  z-index: 4 !important;
-}
-
-/* Top-level buttons/labels should not stack or become absolute. */
-.navLinks.dropdownNav > .navDropdown > .navDropdownButton {
-  position: relative !important;
-  display: inline-flex !important;
-  flex: 0 0 auto !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 5px !important;
-  width: auto !important;
-  min-width: 0 !important;
-  max-width: none !important;
-  height: 82px !important;
-  left: auto !important;
-  right: auto !important;
-  top: auto !important;
-  bottom: auto !important;
-  transform: none !important;
-  margin: 0 !important;
-  padding: 0 2px !important;
-  white-space: nowrap !important;
-  line-height: 1.1 !important;
-  color: #151515 !important;
-  background: none !important;
-  border: 0 !important;
-  z-index: 5 !important;
-  font-family: "Arial Narrow", "Aptos Narrow", "Roboto Condensed", "Liberation Sans Narrow", "Helvetica Neue Condensed", Arial, sans-serif !important;
-  font-stretch: condensed !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.01em !important;
-}
-
-/* Dropdown panel floats over hero, but only the panel floats. */
-.navLinks.dropdownNav > .navDropdown > .navDropdownMenu {
-  position: absolute !important;
-  left: 50% !important;
-  right: auto !important;
-  top: calc(100% - 8px) !important;
-  bottom: auto !important;
-  transform: translateX(-50%) translateY(8px) !important;
-  display: grid !important;
-  width: max-content !important;
-  min-width: 220px !important;
-  max-width: min(92vw, 560px) !important;
-  height: auto !important;
-  margin: 0 !important;
-  padding: 8px !important;
-  overflow: visible !important;
-  background: #ffffff !important;
-  border: 1px solid var(--line) !important;
-  border-radius: 12px !important;
-  box-shadow: 0 18px 45px rgba(17, 24, 39, 0.14) !important;
-  z-index: 95000 !important;
-  opacity: 0 !important;
-  visibility: hidden !important;
-  pointer-events: none !important;
-}
-
-.navLinks.dropdownNav > .navDropdown:hover > .navDropdownMenu,
-.navLinks.dropdownNav > .navDropdown:focus-within > .navDropdownMenu {
-  opacity: 1 !important;
-  visibility: visible !important;
-  pointer-events: auto !important;
-  transform: translateX(-50%) translateY(0) !important;
-}
-
-/* Dropdown menu item text uses the same condensed font. */
-.navLinks.dropdownNav > .navDropdown > .navDropdownMenu button {
-  position: relative !important;
-  display: block !important;
-  width: 100% !important;
-  min-height: 38px !important;
-  padding: 9px 11px !important;
-  border: 0 !important;
-  border-radius: 8px !important;
-  background: transparent !important;
-  color: #111827 !important;
-  text-align: left !important;
-  white-space: nowrap !important;
-  font-family: "Arial Narrow", "Aptos Narrow", "Roboto Condensed", "Liberation Sans Narrow", "Helvetica Neue Condensed", Arial, sans-serif !important;
-  font-stretch: condensed !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.01em !important;
-}
-
-/* Right-side search/account actions stay on the right. */
-.topbar > .topActions {
-  position: relative !important;
-  display: flex !important;
-  flex: 0 0 auto !important;
-  align-items: center !important;
-  justify-content: flex-end !important;
-  gap: 20px !important;
-  width: auto !important;
-  min-width: max-content !important;
-  height: auto !important;
-  left: auto !important;
-  right: auto !important;
-  top: auto !important;
-  bottom: auto !important;
-  transform: none !important;
-  margin-left: auto !important;
-  overflow: visible !important;
-  z-index: 2 !important;
-}
-
-/* Keep hero below header/dropdowns. */
-.hero,
-.pageTopHeroImage,
-.pageTopHeroImage.hasHeroText,
-.pageTopHeroImage.pageHeroDepth464,
-.pageTopHeroImage.cookingMethodHeroLarge,
-.pageTopHeroImage.summerCookoutsHeroDepth {
-  position: relative !important;
-  z-index: 1 !important;
-}
-
-/* Medium widths can wrap cleanly rather than overlap. */
-@media (max-width: 1180px) {
-  .topbar {
-    height: auto !important;
-    min-height: 82px !important;
-    flex-wrap: wrap !important;
-    row-gap: 6px !important;
-    padding-top: 8px !important;
-    padding-bottom: 8px !important;
-  }
-
-  .topbar > .navLinks.dropdownNav,
-  .navLinks.dropdownNav {
-    order: 3 !important;
-    flex: 1 0 100% !important;
-    height: auto !important;
-    justify-content: center !important;
-    flex-wrap: wrap !important;
-    row-gap: 4px !important;
-  }
-
-  .navLinks.dropdownNav > .navDropdown,
-  .navLinks.dropdownNav > .navDropdown > .navDropdownButton {
-    height: 34px !important;
+    z-index: 95000 !important;
   }
 }

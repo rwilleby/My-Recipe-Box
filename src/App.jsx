@@ -5172,6 +5172,21 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard }) {
   const [activeRecipePopup, setActiveRecipePopup] = useState(null);
   const [selectedPlannerDay, setSelectedPlannerDay] = useState("week1-Mon");
   const [addedMessage, setAddedMessage] = useState("");
+  const [mealImageIndex, setMealImageIndex] = useState(0);
+
+  const paddedMealNumber = String(meal.number).padStart(3, "0");
+  const mealImageCandidates = [
+    meal.image,
+    `images/dinner-combinations/meal-${paddedMealNumber}.jpg`,
+    `images/dinner-combinations/MEAL-${paddedMealNumber}.jpg`,
+    `images/dinner-combinations/meal-${paddedMealNumber}.JPG`,
+    `images/dinner-combinations/MEAL-${paddedMealNumber}.JPG`,
+    `images/dinner-combinations/meal-${paddedMealNumber}.jpeg`,
+    `images/dinner-combinations/meal-${paddedMealNumber}.png`,
+    `images/dinner-combinations/MEAL-${paddedMealNumber}.png`,
+  ].filter(Boolean);
+
+  const activeMealImage = mealImageCandidates[mealImageIndex] || mealImageCandidates[0];
 
   const recipeButtons = [
     { label: meal.mainDish, type: "Main Dish", recipeId: meal.mainRecipeId },
@@ -5193,27 +5208,42 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard }) {
     window.setTimeout(() => setAddedMessage(""), 2600);
   }
 
+  function findLinkedRecipe(recipeId) {
+    if (!recipeId) return null;
+    return recipes.find((recipe) => recipe.id === recipeId) || null;
+  }
+
   function handleRecipeButton(button) {
-    if (button.recipeId) {
-      openRecipeCard(button.recipeId, recipes);
+    const linkedRecipe = findLinkedRecipe(button.recipeId);
+
+    if (linkedRecipe) {
+      openRecipeCard(linkedRecipe.id, recipes);
       return;
     }
 
     setActiveRecipePopup(activeRecipePopup === button.label ? null : button.label);
   }
 
+  function handleMealImageError() {
+    setMealImageIndex((current) => {
+      const next = current + 1;
+      return next < mealImageCandidates.length ? next : current;
+    });
+  }
+
   return (
-    <article className={`dinnerCombinationCard${meal.image ? " hasMealImage" : ""}`}>
+    <article className={`dinnerCombinationCard${activeMealImage ? " hasMealImage" : ""}`}>
       <div className="dinnerCombinationMealBadge">Meal #{meal.number}</div>
 
       <div className="dinnerCombinationHeader">
-        {meal.image && (
+        {activeMealImage && (
           <div className="dinnerCombinationMedia">
             <img
-              src={`${import.meta.env.BASE_URL}${meal.image}`}
+              src={`${import.meta.env.BASE_URL}${activeMealImage}`}
               alt={`${meal.title} dinner combination with ${meal.subtitle.replace(/^With\s+/i, "")}`}
               loading="lazy"
               decoding="async"
+              onError={handleMealImageError}
             />
           </div>
         )}
@@ -5258,35 +5288,41 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard }) {
       <section className="dinnerCombinationRecipeButtons" aria-label={`Recipe card buttons for ${meal.title}`}>
         <h4>Recipe Cards</h4>
         <div className="dinnerCombinationRecipeButtonGrid">
-          {recipeButtons.map((button) => (
-            <div className="dinnerRecipePopupItem" key={`${meal.id}-${button.type}-${button.label}`}>
-              <button
-                type="button"
-                className={button.recipeId ? "hasRecipeMatch" : "missingRecipeMatch"}
-                onClick={() => handleRecipeButton(button)}
-              >
-                <span>{button.type}</span>
-                {button.label}
-              </button>
+          {recipeButtons.map((button) => {
+            const linkedRecipe = findLinkedRecipe(button.recipeId);
+            const hasRecipeMatch = Boolean(linkedRecipe);
 
-              {!button.recipeId && activeRecipePopup === button.label && (
-                <div className="dinnerRecipeMiniPopup" role="dialog" aria-label={`${button.label} recipe card`}>
-                  <button
-                    type="button"
-                    className="dinnerRecipeMiniClose"
-                    onClick={() => setActiveRecipePopup(null)}
-                    aria-label="Close recipe card note"
-                  >
-                    ×
-                  </button>
-                  <h5>{button.label}</h5>
-                  <p>
-                    A matching recipe card is not linked yet. Add a recipeId for this item in dinnerCombinations.js when the card is available.
-                  </p>
-                </div>
-              )}
-            </div>
-          ))}
+            return (
+              <div className="dinnerRecipePopupItem" key={`${meal.id}-${button.type}-${button.label}`}>
+                <button
+                  type="button"
+                  className={hasRecipeMatch ? "hasRecipeMatch" : "missingRecipeMatch"}
+                  onClick={() => handleRecipeButton(button)}
+                  title={hasRecipeMatch ? `Open ${linkedRecipe.title}` : "Recipe card not linked yet"}
+                >
+                  <span>{button.type}</span>
+                  {button.label}
+                </button>
+
+                {!hasRecipeMatch && activeRecipePopup === button.label && (
+                  <div className="dinnerRecipeMiniPopup" role="dialog" aria-label={`${button.label} recipe card`}>
+                    <button
+                      type="button"
+                      className="dinnerRecipeMiniClose"
+                      onClick={() => setActiveRecipePopup(null)}
+                      aria-label="Close recipe card note"
+                    >
+                      ×
+                    </button>
+                    <h5>{button.label}</h5>
+                    <p>
+                      A matching recipe card is not linked yet. Add a valid recipeId for this item in dinnerCombinations.js when the card is available.
+                    </p>
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
       </section>
 
