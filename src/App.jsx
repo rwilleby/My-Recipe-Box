@@ -5107,8 +5107,8 @@ function PageHeroImage({ src, alt = "", title = "", eyebrow = "", text = "", ico
           )}
         </div>
       )}
-        {title && <PageHelpButtonStrip pageTitle={title} pageEyebrow={eyebrow} />}
       </section>
+      {title && <PageHelpButtonStrip pageTitle={title} pageEyebrow={eyebrow} />}
     </>
   );
 }
