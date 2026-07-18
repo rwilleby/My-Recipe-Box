@@ -5028,46 +5028,42 @@ function getPageHelpSteps(pageTitle = "", pageEyebrow = "") {
 }
 
 function PageHelpButtonStrip({ pageTitle, pageEyebrow }) {
-  const [activeStepIndex, setActiveStepIndex] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
   const steps = getPageHelpSteps(pageTitle, pageEyebrow).slice(0, 4);
 
   if (!pageTitle || !steps?.length) return null;
 
   return (
-    <section className="pageHelpStrip" aria-label={`How to use ${pageTitle}`}>
-      <div className="pageHelpButtons">
-        {steps.map((step, index) => {
-          const isActive = activeStepIndex === index;
+    <section className="pageHelpStrip pageNotesStrip" aria-label={`Page notes for ${pageTitle}`}>
+      <div className="pageHelpItem pageNotesItem">
+        <button
+          type="button"
+          className={`pageHelpButton pageNotesButton${isOpen ? " active" : ""}`}
+          onClick={() => setIsOpen((current) => !current)}
+          aria-expanded={isOpen}
+        >
+          <span className="pageHelpNumber pageNotesQuestion">?</span>
+          <span>Page Notes</span>
+        </button>
 
-          return (
-            <div className="pageHelpItem" key={`${pageTitle}-${step.label}`}>
-              <button
-                type="button"
-                className={`pageHelpButton${isActive ? " active" : ""}`}
-                onClick={() => setActiveStepIndex(isActive ? null : index)}
-                aria-expanded={isActive}
-              >
-                <span className="pageHelpNumber">{index + 1}</span>
-                <span>{step.label}</span>
-              </button>
-
-              {isActive && (
-                <div className="pageHelpPopup" role="dialog" aria-label={step.label}>
-                  <button
-                    type="button"
-                    className="pageHelpClose"
-                    onClick={() => setActiveStepIndex(null)}
-                    aria-label="Close tip"
-                  >
-                    ×
-                  </button>
-                  <h3>{step.label}</h3>
-                  <p>{step.text}</p>
-                </div>
-              )}
-            </div>
-          );
-        })}
+        {isOpen && (
+          <div className="pageHelpPopup pageNotesPopup" role="dialog" aria-label="How to best use this page">
+            <button
+              type="button"
+              className="pageHelpClose"
+              onClick={() => setIsOpen(false)}
+              aria-label="Close page notes"
+            >
+              ×
+            </button>
+            <h3>How to best use this page</h3>
+            <ul>
+              {steps.map((step) => (
+                <li key={`${pageTitle}-${step.label}`}>{step.text}</li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     </section>
   );
@@ -5107,8 +5103,8 @@ function PageHeroImage({ src, alt = "", title = "", eyebrow = "", text = "", ico
           )}
         </div>
       )}
+        {title && <PageHelpButtonStrip pageTitle={title} pageEyebrow={eyebrow} />}
       </section>
-      {title && <PageHelpButtonStrip pageTitle={title} pageEyebrow={eyebrow} />}
     </>
   );
 }
@@ -5162,12 +5158,6 @@ function HeroTopicPage({
 
 
 
-function formatDinnerNutritionValue(value, suffix = "") {
-  const numericValue = Number(value);
-  if (!Number.isFinite(numericValue)) return "—";
-  return `${numericValue}${suffix}`;
-}
-
 function DinnerCombinationCard({ meal, onOpenRecipeSearch }) {
   const recipeButtons = [
     { label: meal.mainDish, type: "Main Dish" },
@@ -5208,11 +5198,11 @@ function DinnerCombinationCard({ meal, onOpenRecipeSearch }) {
         </div>
 
         <div className="dinnerCombinationNutrition" aria-label={`Estimated nutrition for ${meal.title}`}>
-          <span><strong>{formatDinnerNutritionValue(meal.calories)}</strong><small>calories</small></span>
-          <span><strong>{formatDinnerNutritionValue(meal.protein, "g")}</strong><small>protein</small></span>
-          <span><strong>{formatDinnerNutritionValue(meal.carbs, "g")}</strong><small>carbs</small></span>
-          <span><strong>{formatDinnerNutritionValue(meal.fat, "g")}</strong><small>fat</small></span>
-          <span><strong>{formatDinnerNutritionValue(meal.fiber, "g")}</strong><small>fiber</small></span>
+          <span><strong>{meal.calories}</strong><small>calories</small></span>
+          <span><strong>{meal.protein}g</strong><small>protein</small></span>
+          <span><strong>{meal.carbs}g</strong><small>carbs</small></span>
+          <span><strong>{meal.fat}g</strong><small>fat</small></span>
+          <span><strong>{meal.fiber}g</strong><small>fiber</small></span>
         </div>
 
         <details className="dinnerCombinationHeating">
@@ -5268,11 +5258,11 @@ function DinnerCombinationsPage({ setActivePage, setFilter }) {
       .filter((meal) => !normalizedSearch || getDinnerCombinationSearchText(meal).includes(normalizedSearch))
       .filter((meal) => proteinFilter === "all" || (meal.tags || []).includes(proteinFilter))
       .filter((meal) => sideFilter === "all" || (meal.tags || []).includes(sideFilter))
-      .filter((meal) => !lowerCalorieOnly || (Number.isFinite(Number(meal.calories)) && Number(meal.calories) < 600))
-      .filter((meal) => !higherProteinOnly || (Number.isFinite(Number(meal.protein)) && Number(meal.protein) >= 30))
+      .filter((meal) => !lowerCalorieOnly || Number(meal.calories) < 600)
+      .filter((meal) => !higherProteinOnly || Number(meal.protein) >= 30)
       .sort((a, b) => {
-        if (sortMode === "calories-low") return (Number.isFinite(Number(a.calories)) ? Number(a.calories) : 9999) - (Number.isFinite(Number(b.calories)) ? Number(b.calories) : 9999);
-        if (sortMode === "protein-high") return (Number.isFinite(Number(b.protein)) ? Number(b.protein) : -1) - (Number.isFinite(Number(a.protein)) ? Number(a.protein) : -1);
+        if (sortMode === "calories-low") return Number(a.calories) - Number(b.calories);
+        if (sortMode === "protein-high") return Number(b.protein) - Number(a.protein);
         if (sortMode === "title") return a.title.localeCompare(b.title);
         return Number(a.number) - Number(b.number);
       });
