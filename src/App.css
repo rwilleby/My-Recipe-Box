@@ -19277,3 +19277,353 @@ nav button,
     z-index: 95000 !important;
   }
 }
+
+
+/* =========================================================
+   TOPBAR ACTUAL CLASS MENU FIX
+   Uses the real header classes in App.jsx:
+   .topbar, .navLinks.dropdownNav, .navDropdown,
+   .navDropdownButton, .navDropdownMenu, .topActions
+   ========================================================= */
+
+/* Restore the actual header row. */
+.topbar {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 90000 !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  height: 82px !important;
+  padding: 0 5.5vw !important;
+  gap: 32px !important;
+  overflow: visible !important;
+  background: rgba(255, 255, 255, 0.88) !important;
+  border-bottom: 1px solid var(--line) !important;
+}
+
+/* Brand/logo stays on the left. */
+.topbar > .brand,
+.topbar > .brandLogoButton {
+  position: relative !important;
+  display: flex !important;
+  flex: 0 0 auto !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  width: auto !important;
+  min-width: 220px !important;
+  left: auto !important;
+  right: auto !important;
+  top: auto !important;
+  bottom: auto !important;
+  transform: none !important;
+  z-index: 2 !important;
+}
+
+/* Main nav is the center horizontal row. */
+.topbar > .navLinks.dropdownNav,
+.navLinks.dropdownNav {
+  position: relative !important;
+  display: flex !important;
+  flex: 1 1 auto !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: clamp(8px, 1.1vw, 18px) !important;
+  width: auto !important;
+  min-width: 0 !important;
+  height: 82px !important;
+  left: auto !important;
+  right: auto !important;
+  top: auto !important;
+  bottom: auto !important;
+  transform: none !important;
+  overflow: visible !important;
+  z-index: 3 !important;
+}
+
+/* Each top-level menu item stays in that row. */
+.navLinks.dropdownNav > .navDropdown {
+  position: relative !important;
+  display: inline-flex !important;
+  flex: 0 0 auto !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: auto !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  height: 82px !important;
+  left: auto !important;
+  right: auto !important;
+  top: auto !important;
+  bottom: auto !important;
+  transform: none !important;
+  margin: 0 !important;
+  overflow: visible !important;
+  z-index: 4 !important;
+}
+
+/* Top-level buttons/labels should not stack or become absolute. */
+.navLinks.dropdownNav > .navDropdown > .navDropdownButton {
+  position: relative !important;
+  display: inline-flex !important;
+  flex: 0 0 auto !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 5px !important;
+  width: auto !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  height: 82px !important;
+  left: auto !important;
+  right: auto !important;
+  top: auto !important;
+  bottom: auto !important;
+  transform: none !important;
+  margin: 0 !important;
+  padding: 0 2px !important;
+  white-space: nowrap !important;
+  line-height: 1.1 !important;
+  color: #151515 !important;
+  background: none !important;
+  border: 0 !important;
+  z-index: 5 !important;
+  font-family: "Arial Narrow", "Aptos Narrow", "Roboto Condensed", "Liberation Sans Narrow", "Helvetica Neue Condensed", Arial, sans-serif !important;
+  font-stretch: condensed !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.01em !important;
+}
+
+/* Dropdown panel floats over hero, but only the panel floats. */
+.navLinks.dropdownNav > .navDropdown > .navDropdownMenu {
+  position: absolute !important;
+  left: 50% !important;
+  right: auto !important;
+  top: calc(100% - 8px) !important;
+  bottom: auto !important;
+  transform: translateX(-50%) translateY(8px) !important;
+  display: grid !important;
+  width: max-content !important;
+  min-width: 220px !important;
+  max-width: min(92vw, 560px) !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 8px !important;
+  overflow: visible !important;
+  background: #ffffff !important;
+  border: 1px solid var(--line) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 18px 45px rgba(17, 24, 39, 0.14) !important;
+  z-index: 95000 !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+.navLinks.dropdownNav > .navDropdown:hover > .navDropdownMenu,
+.navLinks.dropdownNav > .navDropdown:focus-within > .navDropdownMenu {
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  transform: translateX(-50%) translateY(0) !important;
+}
+
+/* Dropdown menu item text uses the same condensed font. */
+.navLinks.dropdownNav > .navDropdown > .navDropdownMenu button {
+  position: relative !important;
+  display: block !important;
+  width: 100% !important;
+  min-height: 38px !important;
+  padding: 9px 11px !important;
+  border: 0 !important;
+  border-radius: 8px !important;
+  background: transparent !important;
+  color: #111827 !important;
+  text-align: left !important;
+  white-space: nowrap !important;
+  font-family: "Arial Narrow", "Aptos Narrow", "Roboto Condensed", "Liberation Sans Narrow", "Helvetica Neue Condensed", Arial, sans-serif !important;
+  font-stretch: condensed !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.01em !important;
+}
+
+/* Right-side search/account actions stay on the right. */
+.topbar > .topActions {
+  position: relative !important;
+  display: flex !important;
+  flex: 0 0 auto !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 20px !important;
+  width: auto !important;
+  min-width: max-content !important;
+  height: auto !important;
+  left: auto !important;
+  right: auto !important;
+  top: auto !important;
+  bottom: auto !important;
+  transform: none !important;
+  margin-left: auto !important;
+  overflow: visible !important;
+  z-index: 2 !important;
+}
+
+/* Keep hero below header/dropdowns. */
+.hero,
+.pageTopHeroImage,
+.pageTopHeroImage.hasHeroText,
+.pageTopHeroImage.pageHeroDepth464,
+.pageTopHeroImage.cookingMethodHeroLarge,
+.pageTopHeroImage.summerCookoutsHeroDepth {
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+/* Medium widths can wrap cleanly rather than overlap. */
+@media (max-width: 1180px) {
+  .topbar {
+    height: auto !important;
+    min-height: 82px !important;
+    flex-wrap: wrap !important;
+    row-gap: 6px !important;
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+  }
+
+  .topbar > .navLinks.dropdownNav,
+  .navLinks.dropdownNav {
+    order: 3 !important;
+    flex: 1 0 100% !important;
+    height: auto !important;
+    justify-content: center !important;
+    flex-wrap: wrap !important;
+    row-gap: 4px !important;
+  }
+
+  .navLinks.dropdownNav > .navDropdown,
+  .navLinks.dropdownNav > .navDropdown > .navDropdownButton {
+    height: 34px !important;
+  }
+}
+
+
+/* =========================================================
+   WEEKLY PLANNER DINNER COMBINATION SUPPORT
+   Shows main + sides in the planner and opens a meal-only popup.
+   ========================================================= */
+
+.plannerDinnerComboReference {
+  display: grid !important;
+  gap: 3px !important;
+  margin-top: 4px !important;
+}
+
+.plannerDinnerComboReference span {
+  color: #374151 !important;
+  font-family: var(--rrb-body-font, Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif) !important;
+  font-size: 12px !important;
+  line-height: 1.28 !important;
+}
+
+.plannerDinnerModalOverlay {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 100000 !important;
+  display: grid !important;
+  place-items: center !important;
+  padding: 24px !important;
+  background: rgba(17, 24, 39, 0.42) !important;
+}
+
+.plannerDinnerModal {
+  position: relative !important;
+  width: min(760px, calc(100vw - 40px)) !important;
+  max-height: calc(100vh - 48px) !important;
+  overflow-y: auto !important;
+  border: 1px solid rgba(20, 83, 45, 0.18) !important;
+  border-radius: 18px !important;
+  background: #ffffff !important;
+  box-shadow: 0 24px 70px rgba(17, 24, 39, 0.28) !important;
+  padding: 22px !important;
+}
+
+.plannerDinnerModalClose {
+  position: absolute !important;
+  top: 14px !important;
+  right: 16px !important;
+  width: 34px !important;
+  height: 34px !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  background: #f3f4f6 !important;
+  color: #374151 !important;
+  cursor: pointer !important;
+  font-size: 24px !important;
+  line-height: 1 !important;
+}
+
+.plannerDinnerModal h2 {
+  margin: 14px 48px 6px 0 !important;
+  color: #111827 !important;
+  font-family: var(--rrb-heading-font, Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif) !important;
+  font-size: 28px !important;
+  line-height: 1.12 !important;
+  font-weight: 700 !important;
+}
+
+.plannerDinnerModalImage {
+  display: block !important;
+  width: 100% !important;
+  max-height: 300px !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+  border-radius: 14px !important;
+  border: 1px solid rgba(20, 83, 45, 0.14) !important;
+  margin: 16px 0 !important;
+  background: #f8faf7 !important;
+}
+
+.plannerDinnerModalDetails {
+  display: grid !important;
+  gap: 7px !important;
+  color: #374151 !important;
+  font-family: var(--rrb-body-font, Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif) !important;
+}
+
+.plannerDinnerModalDetails h3 {
+  margin: 8px 0 0 !important;
+  color: #14532D !important;
+  font-family: var(--rrb-body-font, Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif) !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+}
+
+.plannerDinnerModalDetails p,
+.plannerDinnerModalDetails li {
+  margin: 0 !important;
+  color: #374151 !important;
+  font-size: 15px !important;
+  line-height: 1.42 !important;
+}
+
+.plannerDinnerModalDetails ul {
+  margin: 0 !important;
+  padding-left: 20px !important;
+}
+
+@media (max-width: 760px) {
+  .plannerDinnerModalOverlay {
+    padding: 14px !important;
+  }
+
+  .plannerDinnerModal {
+    width: calc(100vw - 28px) !important;
+    padding: 18px !important;
+  }
+
+  .plannerDinnerModal h2 {
+    font-size: 24px !important;
+  }
+}

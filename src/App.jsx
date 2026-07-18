@@ -3059,6 +3059,15 @@ function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFa
   const normalizedPlan = useMemo(() => normalizeTwoWeekPlan(plan), [plan]);
   const [selectedSlot, setSelectedSlot] = useState("week1-Mon");
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [plannerDinnerViewer, setPlannerDinnerViewer] = useState(null);
+
+  function resolvePlannerRecipe(recipeId) {
+    return recipes.find((item) => item.id === recipeId) || null;
+  }
+
+  function resolvePlannerDinnerMeal(recipeId) {
+    return dinnerCombinations.find((item) => item.id === recipeId) || null;
+  }
 
   const filteredPlannerRecipes = useMemo(() => {
     if (selectedCategory === "All") return recipes;
@@ -3232,8 +3241,8 @@ function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFa
                           </button>
                         ) : (
                           mealIds.map((recipeId, index) => {
-                            const recipe = recipes.find((item) => item.id === recipeId);
-                            const dinnerMeal = dinnerCombinations.find((item) => item.id === recipeId);
+                            const recipe = resolvePlannerRecipe(recipeId);
+                            const dinnerMeal = resolvePlannerDinnerMeal(recipeId);
                             const plannerItem = recipe || dinnerMeal;
                             if (!plannerItem) return null;
 
@@ -3243,7 +3252,13 @@ function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFa
                                 {recipe ? (
                                   <small>{recipe.id} · {recipe.category} · {recipe.time} min · serves {servings}</small>
                                 ) : (
-                                  <small>{plannerItem.id.toUpperCase()} · Dinner Combination · {plannerItem.calories || "—"} calories</small>
+                                  <div className="plannerDinnerComboReference">
+                                    <small>{plannerItem.id.toUpperCase()} · Dinner Combination · {plannerItem.calories || "—"} calories</small>
+                                    <span><strong>Main:</strong> {plannerItem.mainDish} — {plannerItem.mainServing}</span>
+                                    {(plannerItem.sides || []).map((side) => (
+                                      <span key={`${recipeId}-${side.name}`}><strong>Side:</strong> {side.name} — {side.serving}</span>
+                                    ))}
+                                  </div>
                                 )}
                               </div>
                             );
@@ -3256,8 +3271,8 @@ function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFa
                           <span className="plannerTableMuted">Estimated cost appears after you add a dinner.</span>
                         ) : (
                           mealIds.map((recipeId, index) => {
-                            const recipe = recipes.find((item) => item.id === recipeId);
-                            const dinnerMeal = dinnerCombinations.find((item) => item.id === recipeId);
+                            const recipe = resolvePlannerRecipe(recipeId);
+                            const dinnerMeal = resolvePlannerDinnerMeal(recipeId);
                             if (!recipe && !dinnerMeal) return null;
 
                             return (
@@ -3279,8 +3294,8 @@ function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFa
                           </button>
                         ) : (
                           mealIds.map((recipeId, index) => {
-                            const recipe = recipes.find((item) => item.id === recipeId);
-                            const dinnerMeal = dinnerCombinations.find((item) => item.id === recipeId);
+                            const recipe = resolvePlannerRecipe(recipeId);
+                            const dinnerMeal = resolvePlannerDinnerMeal(recipeId);
                             if (!recipe && !dinnerMeal) return null;
                             const isSaved = recipe ? favorites.includes(recipe.id) : false;
 
@@ -3297,7 +3312,7 @@ function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFa
                                 )}
                                 <button
                                   className="plannerMiniButton"
-                                  onClick={() => recipe ? openRecipeCard(recipe.id, recipes) : setActivePage("Dinner Combinations")}
+                                  onClick={() => recipe ? openRecipeCard(recipe.id, recipes) : setPlannerDinnerViewer(dinnerMeal)}
                                 >
                                   View
                                 </button>
@@ -3321,6 +3336,59 @@ function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFa
           );
         })}
       </div>
+
+      {plannerDinnerViewer && (
+        <div className="plannerDinnerModalOverlay" role="dialog" aria-modal="true" aria-label={`${plannerDinnerViewer.title} dinner combination`}>
+          <article className="plannerDinnerModal">
+            <button
+              type="button"
+              className="plannerDinnerModalClose"
+              onClick={() => setPlannerDinnerViewer(null)}
+              aria-label="Close dinner combination"
+            >
+              ×
+            </button>
+
+            <span className="dinnerCombinationMealBadge">Meal #{plannerDinnerViewer.number}</span>
+            <h2>{plannerDinnerViewer.title}</h2>
+            <p className="dinnerCombinationSubtitle">{plannerDinnerViewer.subtitle}</p>
+
+            {plannerDinnerViewer.image && (
+              <img
+                className="plannerDinnerModalImage"
+                src={`${import.meta.env.BASE_URL}${plannerDinnerViewer.image}`}
+                alt={`${plannerDinnerViewer.title} dinner combination`}
+              />
+            )}
+
+            <section className="plannerDinnerModalDetails">
+              <h3>Main Dish:</h3>
+              <p><strong>{plannerDinnerViewer.mainDish}</strong> — {plannerDinnerViewer.mainServing}</p>
+
+              <h3>Sides:</h3>
+              <ul>
+                {(plannerDinnerViewer.sides || []).map((side) => (
+                  <li key={`${plannerDinnerViewer.id}-${side.name}`}><strong>{side.name}</strong> — {side.serving}</li>
+                ))}
+              </ul>
+
+              <h3>Estimated nutrition for the whole meal:</h3>
+              <p>
+                {plannerDinnerViewer.calories || "—"} calories | {plannerDinnerViewer.protein || "—"}g protein | {plannerDinnerViewer.carbs || "—"}g carbs | {plannerDinnerViewer.fat || "—"}g fat | {plannerDinnerViewer.fiber || "—"}g fiber
+              </p>
+            </section>
+
+            <details className="dinnerCombinationHeating" open>
+              <summary>Heating & freezer notes</summary>
+              <div>
+                <p><strong>Freezer life:</strong> {plannerDinnerViewer.freezerLife}</p>
+                <p><strong>Oven:</strong> {plannerDinnerViewer.ovenInstructions}</p>
+                <p><strong>Microwave:</strong> {plannerDinnerViewer.microwaveInstructions}</p>
+              </div>
+            </details>
+          </article>
+        </div>
+      )}
     </main>
   );
 }
@@ -3471,9 +3539,61 @@ function PantryStaplesPage({ pantry, setPantry }) {
 
 
 function ShoppingListPage({ plan, checked, setChecked, servings, pantry, setActivePage }) {
+  const recipeIdSet = useMemo(() => new Set(recipes.map((recipe) => recipe.id)), []);
+  const dinnerCombinationById = useMemo(
+    () => Object.fromEntries(dinnerCombinations.map((meal) => [meal.id, meal])),
+    []
+  );
+
+  const recipeOnlyPlan = useMemo(() => {
+    const normalized = normalizeTwoWeekPlan(plan);
+    const next = emptyTwoWeekPlan();
+
+    PLANNER_SLOTS.forEach((slot) => {
+      next[slot.key] = (normalized[slot.key] || []).filter((itemId) => recipeIdSet.has(itemId));
+    });
+
+    return next;
+  }, [plan, recipeIdSet]);
+
+  const dinnerCombinationShoppingReferences = useMemo(() => {
+    const normalized = normalizeTwoWeekPlan(plan);
+    const references = [];
+
+    PLANNER_SLOTS.forEach((slot) => {
+      (normalized[slot.key] || []).forEach((itemId) => {
+        const meal = dinnerCombinationById[itemId];
+        if (!meal) return;
+
+        references.push({
+          name: `Meal #${meal.number}: ${meal.title}`,
+          qty: 1,
+          unit: "meal",
+          aisle: "Dinner Combinations",
+        });
+        references.push({
+          name: `Main: ${meal.mainDish}`,
+          qty: 1,
+          unit: meal.mainServing || "serving",
+          aisle: "Dinner Combinations",
+        });
+        (meal.sides || []).forEach((side) => {
+          references.push({
+            name: `Side: ${side.name}`,
+            qty: 1,
+            unit: side.serving || "serving",
+            aisle: "Dinner Combinations",
+          });
+        });
+      });
+    });
+
+    return references;
+  }, [plan, dinnerCombinationById]);
+
   const list = useMemo(
-    () => buildShoppingList(plan, recipes, servings),
-    [plan, servings]
+    () => [...buildShoppingList(recipeOnlyPlan, recipes, servings), ...dinnerCombinationShoppingReferences],
+    [recipeOnlyPlan, servings, dinnerCombinationShoppingReferences]
   );
 
   const { needed, pantry: pantryItems } = useMemo(
