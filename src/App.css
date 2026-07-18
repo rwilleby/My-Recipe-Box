@@ -19315,3 +19315,92 @@ nav button,
   position: relative !important;
   z-index: 1 !important;
 }
+
+
+/* =========================================================
+   PAGE NOTES POPUP ABOVE PAGE CONTENT FIX
+   Ensures PAGE NOTES opens downward over cards, grids, and page content.
+   Header/dropdown menus still remain above the page notes popup.
+   ========================================================= */
+
+/* The hero must be allowed to visibly overflow when Page Notes opens. */
+.pageTopHeroImage,
+.pageTopHeroImage.hasHeroText,
+.pageTopHeroImage.pageHeroDepth464,
+.pageTopHeroImage.cookingMethodHeroLarge,
+.pageTopHeroImage.summerCookoutsHeroDepth {
+  position: relative !important;
+  overflow: visible !important;
+  z-index: 5000 !important;
+}
+
+/* PAGE NOTES button and popup sit above all normal page content. */
+.pageTopHeroImage .pageNotesStrip,
+.pageNotesStrip {
+  position: absolute !important;
+  z-index: 6000 !important;
+  overflow: visible !important;
+}
+
+.pageTopHeroImage .pageNotesPopup,
+.pageNotesPopup,
+.pageHelpPopup.pageNotesPopup {
+  position: absolute !important;
+  top: calc(100% + 10px) !important;
+  bottom: auto !important;
+  z-index: 9000 !important;
+  overflow: visible !important;
+  isolation: isolate !important;
+}
+
+/* Normal page content must stay below the hero/page-notes stacking layer. */
+.pageShell,
+.section,
+.productsIUsePage,
+.productsIUseGrid,
+.productsIUseCard,
+.referenceGuidesFeaturePage,
+.referenceGuidePanel,
+.dinnerCombinationsPage,
+.dinnerCombinationGrid,
+.dinnerCombinationCard,
+.collectionDetailPage,
+.aboutRecipesPage,
+.heroTopicPage {
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+/* The site header and its dropdown menus remain the top layer. */
+.siteHeader,
+.headerShell,
+.headerInner,
+.mainHeader,
+.topHeader {
+  position: relative !important;
+  overflow: visible !important;
+  z-index: 15000 !important;
+}
+
+.siteHeader .dropdownMenu,
+.siteHeader .navGroupMenu,
+.siteHeader .submenu,
+.siteHeader [role="menu"] {
+  z-index: 20000 !important;
+}
+
+/* Mobile popup behavior stays readable and above page content. */
+@media (max-width: 760px) {
+  .pageTopHeroImage .pageNotesPopup,
+  .pageNotesPopup,
+  .pageHelpPopup.pageNotesPopup {
+    position: fixed !important;
+    left: 16px !important;
+    right: 16px !important;
+    top: auto !important;
+    bottom: 18px !important;
+    width: auto !important;
+    max-width: none !important;
+    z-index: 20000 !important;
+  }
+}
