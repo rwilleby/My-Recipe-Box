@@ -19610,3 +19610,233 @@ nav button,
     row-gap: 8px !important;
   }
 }
+
+
+/* =========================================================
+   FINAL HEADER MENU + PAGE NOTES RESET
+   Fixes:
+   1) Top menu labels stacking/overlapping.
+   2) PAGE NOTES popup appearing behind page content.
+   ========================================================= */
+
+/* Header stays above the page, but children return to normal flow. */
+.siteHeader,
+.headerShell,
+.headerInner,
+.mainHeader,
+.topHeader {
+  position: relative !important;
+  z-index: 60000 !important;
+  overflow: visible !important;
+  isolation: isolate !important;
+}
+
+/* Restore top menu rows to ordinary horizontal flow. */
+.siteHeader nav,
+.headerNav,
+.siteNav,
+.mainNav,
+.navMenu {
+  position: relative !important;
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: clamp(10px, 1vw, 18px) !important;
+  overflow: visible !important;
+  white-space: nowrap !important;
+  transform: none !important;
+}
+
+/* Restore top-level menu groups/items so labels do not stack. */
+.siteHeader .navGroup,
+.siteHeader .navItem,
+.siteHeader .dropdown,
+.headerNav .navGroup,
+.headerNav .navItem,
+.headerNav .dropdown,
+.siteNav .navGroup,
+.siteNav .navItem,
+.siteNav .dropdown,
+.mainNav .navGroup,
+.mainNav .navItem,
+.mainNav .dropdown,
+.navMenu .navGroup,
+.navMenu .navItem,
+.navMenu .dropdown {
+  position: relative !important;
+  display: inline-flex !important;
+  flex: 0 0 auto !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: auto !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  height: auto !important;
+  left: auto !important;
+  right: auto !important;
+  top: auto !important;
+  bottom: auto !important;
+  transform: none !important;
+  margin: 0 !important;
+  overflow: visible !important;
+}
+
+/* Restore top-level clickable labels. */
+.siteHeader .dropdownToggle,
+.siteHeader nav > button,
+.siteHeader nav > a,
+.headerNav button,
+.headerNav a,
+.siteNav button,
+.siteNav a,
+.mainNav button,
+.mainNav a,
+.navMenu button,
+.navMenu a {
+  position: relative !important;
+  display: inline-flex !important;
+  flex: 0 0 auto !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: auto !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  height: auto !important;
+  left: auto !important;
+  right: auto !important;
+  top: auto !important;
+  bottom: auto !important;
+  transform: none !important;
+  margin: 0 !important;
+  white-space: nowrap !important;
+  line-height: 1.1 !important;
+  z-index: auto !important;
+}
+
+/* Only actual dropdown panels may float over the hero. */
+.siteHeader .dropdownMenu,
+.siteHeader .navGroupMenu,
+.siteHeader .submenu,
+.siteHeader [role="menu"],
+.headerNav .dropdownMenu,
+.siteNav .dropdownMenu,
+.mainNav .dropdownMenu,
+.navMenu .dropdownMenu {
+  position: absolute !important;
+  top: calc(100% + 8px) !important;
+  left: 0 !important;
+  right: auto !important;
+  bottom: auto !important;
+  transform: none !important;
+  z-index: 70000 !important;
+  width: max-content !important;
+  min-width: 260px !important;
+  max-width: min(92vw, 560px) !important;
+  overflow: visible !important;
+}
+
+/* If the last dropdown is near the edge, keep it on-screen. */
+.siteHeader .navGroup:last-child .dropdownMenu,
+.siteHeader .dropdown:last-child .dropdownMenu,
+.headerNav .navGroup:last-child .dropdownMenu,
+.siteNav .navGroup:last-child .dropdownMenu,
+.mainNav .navGroup:last-child .dropdownMenu,
+.navMenu .navGroup:last-child .dropdownMenu {
+  left: auto !important;
+  right: 0 !important;
+}
+
+/* Condensed menu typography only; no layout side effects. */
+.siteHeader nav,
+.siteHeader nav button,
+.siteHeader nav a,
+.headerNav,
+.headerNav button,
+.headerNav a,
+.siteNav,
+.siteNav button,
+.siteNav a,
+.mainNav,
+.mainNav button,
+.mainNav a,
+.navMenu,
+.navMenu button,
+.navMenu a,
+.dropdownMenu,
+.dropdownMenu button,
+.dropdownMenu a {
+  font-family: "Arial Narrow", "Aptos Narrow", "Roboto Condensed", "Liberation Sans Narrow", "Helvetica Neue Condensed", Arial, sans-serif !important;
+  font-stretch: condensed !important;
+  letter-spacing: 0.01em !important;
+}
+
+/* PAGE NOTES becomes a fixed overlay so page cards/grids cannot cover it. */
+.pageTopHeroImage .pageNotesPopup,
+.pageNotesPopup,
+.pageHelpPopup.pageNotesPopup {
+  position: fixed !important;
+  left: clamp(44px, 5.5vw, 76px) !important;
+  top: min(48vh, 430px) !important;
+  right: auto !important;
+  bottom: auto !important;
+  transform: none !important;
+  width: min(620px, calc(100vw - 88px)) !important;
+  max-height: min(46vh, 460px) !important;
+  overflow-y: auto !important;
+  z-index: 55000 !important;
+}
+
+/* Keep normal page content below PAGE NOTES. */
+.pageShell,
+.section,
+.productsIUsePage,
+.productsIUseGrid,
+.productsIUseCard,
+.referenceGuidesFeaturePage,
+.referenceGuidePanel,
+.dinnerCombinationsPage,
+.dinnerCombinationGrid,
+.dinnerCombinationCard,
+.collectionDetailPage,
+.aboutRecipesPage,
+.heroTopicPage {
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+.pageTopHeroImage,
+.pageTopHeroImage.hasHeroText,
+.pageTopHeroImage.pageHeroDepth464,
+.pageTopHeroImage.cookingMethodHeroLarge,
+.pageTopHeroImage.summerCookoutsHeroDepth {
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+@media (max-width: 980px) {
+  .siteHeader nav,
+  .headerNav,
+  .siteNav,
+  .mainNav,
+  .navMenu {
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    row-gap: 8px !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .pageTopHeroImage .pageNotesPopup,
+  .pageNotesPopup,
+  .pageHelpPopup.pageNotesPopup {
+    left: 16px !important;
+    right: 16px !important;
+    top: auto !important;
+    bottom: 18px !important;
+    width: auto !important;
+    max-height: min(70vh, 520px) !important;
+    z-index: 65000 !important;
+  }
+}
