@@ -3500,18 +3500,21 @@ function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFa
       {plannerDinnerViewer && (
         <div className="plannerDinnerModalOverlay" role="dialog" aria-modal="true" aria-label={`${plannerDinnerViewer.title} dinner combination`}>
           <article className="plannerDinnerModal">
-            <button
-              type="button"
-              className="plannerDinnerModalClose"
-              onClick={() => setPlannerDinnerViewer(null)}
-              aria-label="Close dinner combination"
-            >
-              ×
-            </button>
-
-            <span className="dinnerCombinationMealBadge">Meal #{plannerDinnerViewer.number}</span>
-            <h2>{plannerDinnerViewer.title}</h2>
-            <p className="dinnerCombinationSubtitle">{plannerDinnerViewer.subtitle}</p>
+            <header className="plannerDinnerModalHeader">
+              <div className="plannerDinnerModalTitleBlock">
+                <span className="dinnerCombinationMealBadge">Meal #{plannerDinnerViewer.number}</span>
+                <h2>{plannerDinnerViewer.title}</h2>
+                <p className="dinnerCombinationSubtitle">{plannerDinnerViewer.subtitle}</p>
+              </div>
+              <button
+                type="button"
+                className="plannerDinnerModalClose"
+                onClick={() => setPlannerDinnerViewer(null)}
+                aria-label="Close dinner combination"
+              >
+                ×
+              </button>
+            </header>
 
             <DinnerCombinationImage
               meal={plannerDinnerViewer}

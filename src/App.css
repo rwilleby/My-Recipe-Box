@@ -20236,3 +20236,114 @@ nav button,
     grid-template-columns: 1fr !important;
   }
 }
+
+/* =========================================================
+   WEEKLY DINNER PLANNER VIEW MODAL TOP VISIBILITY FIX
+   Keeps the modal above the menu bar and keeps the meal number/title/close
+   visible at the top of the scrollable popup.
+   ========================================================= */
+.plannerDinnerModalOverlay {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 2147483000 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 24px !important;
+  overflow-y: auto !important;
+  background: rgba(17, 24, 39, 0.42) !important;
+  overscroll-behavior: contain !important;
+}
+
+.plannerDinnerModal {
+  position: relative !important;
+  width: min(760px, calc(100vw - 40px)) !important;
+  max-height: calc(100svh - 48px) !important;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+  margin: auto !important;
+  padding: 0 22px 22px !important;
+  background: #ffffff !important;
+  border: 1px solid rgba(20, 83, 45, 0.18) !important;
+  border-radius: 18px !important;
+  box-shadow: 0 24px 70px rgba(17, 24, 39, 0.28) !important;
+  scrollbar-gutter: stable !important;
+}
+
+.plannerDinnerModalHeader {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 10 !important;
+  display: grid !important;
+  grid-template-columns: 1fr auto !important;
+  gap: 16px !important;
+  align-items: start !important;
+  margin: 0 -22px 16px !important;
+  padding: 20px 22px 14px !important;
+  background: #ffffff !important;
+  border-bottom: 1px solid rgba(20, 83, 45, 0.12) !important;
+  border-radius: 18px 18px 0 0 !important;
+}
+
+.plannerDinnerModalTitleBlock {
+  min-width: 0 !important;
+}
+
+.plannerDinnerModalHeader .dinnerCombinationMealBadge {
+  display: inline-flex !important;
+  margin: 0 0 8px !important;
+}
+
+.plannerDinnerModalHeader h2,
+.plannerDinnerModal h2 {
+  margin: 0 0 6px !important;
+  padding-right: 0 !important;
+}
+
+.plannerDinnerModalHeader .dinnerCombinationSubtitle,
+.plannerDinnerModal .dinnerCombinationSubtitle {
+  margin: 0 !important;
+}
+
+.plannerDinnerModalClose {
+  position: relative !important;
+  top: auto !important;
+  right: auto !important;
+  flex: 0 0 auto !important;
+  width: 38px !important;
+  height: 38px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  background: #f3f4f6 !important;
+  color: #374151 !important;
+  cursor: pointer !important;
+  font-size: 26px !important;
+  line-height: 1 !important;
+}
+
+@media (max-height: 760px) {
+  .plannerDinnerModalOverlay {
+    align-items: flex-start !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .plannerDinnerModalOverlay {
+    padding: 12px !important;
+  }
+
+  .plannerDinnerModal {
+    width: calc(100vw - 24px) !important;
+    max-height: calc(100svh - 24px) !important;
+    padding: 0 18px 18px !important;
+  }
+
+  .plannerDinnerModalHeader {
+    margin: 0 -18px 14px !important;
+    padding: 18px 18px 12px !important;
+    gap: 12px !important;
+  }
+}
