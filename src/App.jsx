@@ -5705,6 +5705,8 @@ function ReferenceGuidesPage() {
 
   const activeTab = selectedGuide.tabs?.find((tab) => tab.id === selectedTabId);
   const sections = activeTab?.sections || selectedGuide.sections || [];
+  const primarySections = sections.filter((section) => section.type === "table");
+  const noteSections = sections.filter((section) => section.type !== "table");
 
   return (
     <main className="pageShell referenceGuidesFeaturePage">
@@ -5766,11 +5768,19 @@ function ReferenceGuidesPage() {
           )}
 
           <div className="referenceGuidePanelBody">
-            <div className="referenceGuideSections">
-              {sections.map((section, index) => (
-                <ReferenceGuideSection key={`${selectedGuide.id}-${selectedTabId}-${index}`} section={section} />
+            <div className="referenceGuideSections referenceGuidePrimarySections">
+              {primarySections.map((section, index) => (
+                <ReferenceGuideSection key={`${selectedGuide.id}-${selectedTabId}-primary-${index}`} section={section} />
               ))}
             </div>
+
+            {noteSections.length > 0 && (
+              <div className="referenceGuideBottomNotes" aria-label={`${selectedGuide.title} tips and notes`}>
+                {noteSections.map((section, index) => (
+                  <ReferenceGuideSection key={`${selectedGuide.id}-${selectedTabId}-note-${index}`} section={section} />
+                ))}
+              </div>
+            )}
           </div>
 
           <footer className="referenceGuideFooter">

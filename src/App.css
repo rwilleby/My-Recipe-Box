@@ -17677,3 +17677,55 @@ textarea {
 .disclaimerExplanationBlock.formal h3 {
   color: #14532D !important;
 }
+
+
+/* =========================================================
+   REFERENCE GUIDES — FULL-WIDTH TABLES + BOTTOM NOTES
+   Main tables read full-width; tips and note boxes sit underneath.
+   ========================================================= */
+
+.referenceGuidePrimarySections {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 18px !important;
+  align-items: start !important;
+}
+
+.referenceGuidePrimarySections .referenceGuideCard {
+  width: 100% !important;
+}
+
+.referenceGuidePrimarySections .referenceGuideCard table {
+  min-width: 0 !important;
+}
+
+.referenceGuideBottomNotes {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 16px !important;
+  margin-top: 22px !important;
+  padding-top: 18px !important;
+  border-top: 1px solid rgba(20, 83, 45, 0.14) !important;
+}
+
+.referenceGuideBottomNotes .referenceGuideCard,
+.referenceGuideBottomNotes .referenceGuideInfoBox {
+  width: 100% !important;
+}
+
+.referenceGuideBottomNotes .referenceGuideInfoBox {
+  align-self: stretch !important;
+}
+
+.referenceGuideBottomNotes .referenceGuideTipsList {
+  padding-bottom: 16px !important;
+}
+
+@media (max-width: 760px) {
+  .referenceGuideBottomNotes {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+    margin-top: 18px !important;
+    padding-top: 16px !important;
+  }
+}
