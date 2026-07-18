@@ -3119,7 +3119,6 @@ function dinnerMealImageCandidates(meal) {
   if (!meal) return [];
   const paddedMealNumber = String(meal.number || "").padStart(3, "0");
   const candidates = [
-    meal.image,
     paddedMealNumber ? `images/dinner-combinations/meal-${paddedMealNumber}.JPG` : "",
     paddedMealNumber ? `images/dinner-combinations/meal-${paddedMealNumber}.jpg` : "",
     paddedMealNumber ? `images/dinner-combinations/MEAL-${paddedMealNumber}.JPG` : "",
@@ -3128,6 +3127,7 @@ function dinnerMealImageCandidates(meal) {
     paddedMealNumber ? `images/dinner-combinations/MEAL-${paddedMealNumber}.JPEG` : "",
     paddedMealNumber ? `images/dinner-combinations/meal-${paddedMealNumber}.png` : "",
     paddedMealNumber ? `images/dinner-combinations/MEAL-${paddedMealNumber}.png` : "",
+    meal.image,
   ].filter(Boolean);
 
   return [...new Set(candidates)];
@@ -3272,6 +3272,27 @@ function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFa
     }
 
     return `${estimatedCost.roundedCostPerServing} per serving · ${estimatedCost.roundedRecipeCost} total · ${estimatedCost.costCategory}`;
+  }
+
+  function plannerDinnerRecipeButtons(meal) {
+    if (!meal) return [];
+
+    return [
+      { label: meal.mainDish, type: "Main Dish", recipeId: meal.mainRecipeId },
+      ...(meal.sides || []).map((side) => ({
+        label: side.name,
+        type: "Side Dish",
+        recipeId: side.recipeId,
+      })),
+    ];
+  }
+
+  function openDinnerRecipeCard(recipeId) {
+    const recipe = resolvePlannerRecipe(recipeId);
+    if (!recipe) return;
+
+    setPlannerDinnerViewer(null);
+    openRecipeCard(recipe.id, recipes);
   }
 
   return (
@@ -3514,6 +3535,30 @@ function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFa
               <p>
                 {plannerDinnerViewer.calories || "—"} calories | {plannerDinnerViewer.protein || "—"}g protein | {plannerDinnerViewer.carbs || "—"}g carbs | {plannerDinnerViewer.fat || "—"}g fat | {plannerDinnerViewer.fiber || "—"}g fiber
               </p>
+            </section>
+
+            <section className="plannerDinnerModalRecipeButtons" aria-label={`Recipe cards for ${plannerDinnerViewer.title}`}>
+              <h3>Recipe Cards</h3>
+              <div className="plannerDinnerModalRecipeButtonGrid">
+                {plannerDinnerRecipeButtons(plannerDinnerViewer).map((button) => {
+                  const linkedRecipe = resolvePlannerRecipe(button.recipeId);
+
+                  return (
+                    <button
+                      type="button"
+                      key={`${plannerDinnerViewer.id}-${button.type}-${button.label}`}
+                      className={linkedRecipe ? "plannerDinnerRecipeButton hasRecipeMatch" : "plannerDinnerRecipeButton missingRecipeMatch"}
+                      onClick={() => linkedRecipe && openDinnerRecipeCard(linkedRecipe.id)}
+                      disabled={!linkedRecipe}
+                      title={linkedRecipe ? `Open ${linkedRecipe.title}` : "Recipe card not linked yet"}
+                    >
+                      <span>{button.type}</span>
+                      <strong>{linkedRecipe ? `${linkedRecipe.id} · ${linkedRecipe.title}` : button.label}</strong>
+                      {!linkedRecipe && <small>Card not linked yet</small>}
+                    </button>
+                  );
+                })}
+              </div>
             </section>
 
             <details className="dinnerCombinationHeating" open>
