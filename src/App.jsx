@@ -606,6 +606,65 @@ function splitShoppingListByPantry(list, pantry) {
   );
 }
 
+const SUPPORTING_PAGE_HERO_IMAGES = [
+  "images/heroes/hero-mission.png",
+  "images/heroes/hero-page-free-to-use.jpg",
+  "images/heroes/hero-page-complete-dinners.jpg",
+  "images/heroes/hero-page-reference-guides.jpg",
+  "images/heroes/hero-page-disclaimers.jpg",
+  "images/heroes/hero-page-construction.jpg",
+  "images/heroes/hero-page-browse-recipes.jpg",
+  "images/heroes/hero-weekly-plan.png",
+  "images/heroes/hero-page-salad-jars.jpg",
+  "images/heroes/hero-page-slow-cooker.jpg",
+  "images/heroes/hero-page-summer-cookouts.jpg",
+  "images/heroes/hero-page-healthy-dinners.jpg",
+  "images/heroes/hero-page-comfort-food.jpg",
+  "images/heroes/hero-page-30-minute-meals.jpg",
+  "images/heroes/hero-weekly-dinner-planner.png",
+  "images/heroes/hero-page-grocery-list.jpg",
+  "images/heroes/hero-page-your-pantry.jpg",
+  "images/heroes/hero-page-favorite-recipes.jpg",
+  "images/heroes/hero-storage.png",
+  "images/heroes/hero-page-cooking-tools.jpg",
+  "images/heroes/hero-page-healthy-substitutions.jpg",
+  "images/heroes/hero-page-about-us.jpg",
+  "images/heroes/hero-air-fryer.png",
+  "images/heroes/hero-recipes.png",
+  "images/heroes/hero-submit-recipe.jpg",
+  "images/heroes/hero-oven.png",
+  "images/heroes/hero-page-ai-generated.jpg",
+  "images/heroes/hero-smoker.jpg",
+  "images/heroes/hero-page-affiliate.jpg",
+  "images/heroes/hero-page-crockpot.jpg",
+  "images/heroes/hero-grill.png",
+  "images/heroes/hero-page-air-fryer.jpg",
+  "images/heroes/hero-page-oven.jpg",
+  "images/heroes/hero-page-microwaves.jpg",
+  "images/heroes/hero-page-gas-grills.jpg",
+  "images/heroes/hero-page-pellet-smoker.jpg",
+  "images/heroes/hero-page-storage.jpg",
+];
+
+const preloadedHeroImageUrls = new Set();
+
+function assetUrl(path) {
+  if (!path) return "";
+  return `${import.meta.env.BASE_URL}${path}`;
+}
+
+function preloadHeroImage(path, priority = "low") {
+  if (!path || typeof window === "undefined") return;
+  const url = assetUrl(path);
+  if (preloadedHeroImageUrls.has(url)) return;
+  preloadedHeroImageUrls.add(url);
+
+  const image = new Image();
+  image.decoding = "async";
+  image.fetchPriority = priority;
+  image.src = url;
+}
+
 const AUTO_IMAGE_PREFIXES = new Set([
   "AM", "AS", "CC", "CO", "CR", "DN", "DS", "HB", "HBP", "IT", "JJ", "KR", "LF",
   "MR", "MX", "PM", "QP", "CS", "RS", "SB", "SD", "SF", "SG", "SW"
@@ -5207,10 +5266,13 @@ function PageHeroImage({ src, alt = "", title = "", eyebrow = "", text = "", ico
     <>
       <section className={`pageTopHeroImage${title ? " hasHeroText" : ""}${className ? ` ${className}` : ""}`}>
       <img
-        src={`${import.meta.env.BASE_URL}${src}`}
+        key={src}
+        src={assetUrl(src)}
         alt={alt}
         loading="eager"
         decoding="async"
+        fetchPriority="high"
+        data-page-hero-image="true"
       />
       {title && (
         <div className="pageHeroTextOverlay">
@@ -7215,6 +7277,24 @@ export default function App() {
   useEffect(() => saveJSON(STORAGE_KEYS.servings, servings), [servings]);
   useEffect(() => saveJSON(STORAGE_KEYS.checked, checked), [checked]);
   useEffect(() => saveJSON(STORAGE_KEYS.pantry, pantry), [pantry]);
+
+  useEffect(() => {
+    const preloadAllSupportingHeroes = () => {
+      SUPPORTING_PAGE_HERO_IMAGES.forEach((imagePath, index) => {
+        window.setTimeout(() => preloadHeroImage(imagePath, "low"), index * 45);
+      });
+    };
+
+    if ("requestIdleCallback" in window) {
+      const idleId = window.requestIdleCallback(preloadAllSupportingHeroes, {
+        timeout: 1600,
+      });
+      return () => window.cancelIdleCallback?.(idleId);
+    }
+
+    const timer = window.setTimeout(preloadAllSupportingHeroes, 800);
+    return () => window.clearTimeout(timer);
+  }, []);
 
   function toggleFavorite(id) {
     setFavorites((current) =>

@@ -19947,3 +19947,32 @@ nav button,
     transform: none !important;
   }
 }
+
+
+/* =========================================================
+   PAGE HERO IMAGE LOADING / RENDER SPEED FIX
+   Keeps the hero area stable while the image is fetched and makes the image
+   paint immediately once available. The actual fetch priority is handled in
+   App.jsx with fetchPriority="high" plus background preloading.
+   ========================================================= */
+
+.pageTopHeroImage {
+  background-color: #ffffff !important;
+  isolation: isolate !important;
+}
+
+.pageTopHeroImage > img[data-page-hero-image="true"] {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  backface-visibility: hidden !important;
+  transform: translateZ(0) !important;
+}
+
+.pageTopHeroImage.pageHeroDepth464 > img[data-page-hero-image="true"],
+.pageTopHeroImage.hasHeroText > img[data-page-hero-image="true"] {
+  object-fit: cover !important;
+  object-position: center center !important;
+}
