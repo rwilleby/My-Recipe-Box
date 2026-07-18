@@ -19679,3 +19679,123 @@ nav button,
   letter-spacing: 0.03em !important;
   text-transform: uppercase !important;
 }
+
+
+/* =========================================================
+   HERO PAGE NOTES FINAL POSITION + PURPLE BUBBLE REMOVAL
+   Removes purple eyebrow bubbles and moves PAGE NOTES to upper right.
+   ========================================================= */
+
+.pageTopHeroImage .pageHeroEyebrow,
+.pageHeroEyebrow {
+  display: none !important;
+}
+
+.pageTopHeroImage.hasHeroText .pageHeroTextOverlay {
+  top: 42% !important;
+  transform: translateY(-50%) !important;
+  padding-bottom: 0 !important;
+}
+
+.pageTopHeroImage .pageNotesStrip,
+.pageNotesStrip {
+  position: absolute !important;
+  left: auto !important;
+  right: clamp(28px, 4.2vw, 64px) !important;
+  top: clamp(18px, 2.4vw, 34px) !important;
+  bottom: auto !important;
+  transform: none !important;
+  width: auto !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  z-index: 50000 !important;
+  overflow: visible !important;
+}
+
+.pageTopHeroImage .pageNotesPopup,
+.pageNotesPopup,
+.pageHelpPopup.pageNotesPopup {
+  position: absolute !important;
+  right: 0 !important;
+  left: auto !important;
+  top: calc(100% + 10px) !important;
+  bottom: auto !important;
+  transform: none !important;
+  width: min(560px, 72vw) !important;
+  max-height: min(62vh, 520px) !important;
+  overflow-y: auto !important;
+  z-index: 70000 !important;
+}
+
+.pageTopHeroImage,
+.pageTopHeroImage.hasHeroText,
+.pageTopHeroImage.pageHeroDepth464,
+.pageTopHeroImage.cookingMethodHeroLarge,
+.pageTopHeroImage.summerCookoutsHeroDepth {
+  overflow: visible !important;
+  z-index: 30000 !important;
+}
+
+.dinnerCombinationImagePlaceholder {
+  width: 100% !important;
+  aspect-ratio: 4 / 3 !important;
+  display: grid !important;
+  place-items: center !important;
+  gap: 4px !important;
+  border: 1px dashed rgba(20, 83, 45, 0.28) !important;
+  border-radius: 12px !important;
+  background: #f8faf7 !important;
+  color: #6B7280 !important;
+  text-align: center !important;
+  font-family: var(--rrb-body-font, Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif) !important;
+  font-size: 12px !important;
+  padding: 12px !important;
+}
+
+.dinnerCombinationImagePlaceholder strong {
+  color: #14532D !important;
+  font-size: 14px !important;
+}
+
+.emptyState h2,
+.emptyState p {
+  color: #374151 !important;
+}
+
+.favoritesDinnerCombinationList {
+  margin-top: 24px !important;
+}
+
+.favoritesDinnerCombinationList h2 {
+  margin: 0 0 14px !important;
+  color: #111827 !important;
+  font-family: var(--rrb-heading-font, Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif) !important;
+  font-size: 22px !important;
+  font-weight: 700 !important;
+}
+
+@media (max-width: 760px) {
+  .pageTopHeroImage .pageNotesStrip,
+  .pageNotesStrip {
+    right: 20px !important;
+    top: 14px !important;
+  }
+
+  .pageTopHeroImage .pageNotesPopup,
+  .pageNotesPopup,
+  .pageHelpPopup.pageNotesPopup {
+    position: fixed !important;
+    left: 16px !important;
+    right: 16px !important;
+    top: auto !important;
+    bottom: 18px !important;
+    width: auto !important;
+    max-width: none !important;
+    z-index: 95000 !important;
+  }
+
+  .pageTopHeroImage.hasHeroText .pageHeroTextOverlay {
+    top: 48% !important;
+  }
+}
