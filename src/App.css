@@ -17729,3 +17729,24 @@ textarea {
     padding-top: 16px !important;
   }
 }
+
+
+/* =========================================================
+   REFERENCE GUIDES — FULL-WIDTH BOTTOM TIPS + NOTES
+   Tips and note boxes now run the full right-panel column width.
+   ========================================================= */
+
+.referenceGuideBottomNotes {
+  grid-template-columns: 1fr !important;
+  width: 100% !important;
+}
+
+.referenceGuideBottomNotes .referenceGuideCard,
+.referenceGuideBottomNotes .referenceGuideInfoBox {
+  grid-column: 1 / -1 !important;
+  width: 100% !important;
+}
+
+.referenceGuideBottomNotes .referenceGuideCard table {
+  width: 100% !important;
+}
