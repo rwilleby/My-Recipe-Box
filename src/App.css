@@ -19171,3 +19171,80 @@ nav button,
 .dinnerRecipePopupItem > button.missingRecipeMatch {
   opacity: 0.76 !important;
 }
+
+
+/* =========================================================
+   HEADER DROPDOWNS OVER HERO FIX
+   Ensures top menu dropdowns layer above supporting-page hero images.
+   ========================================================= */
+
+.siteHeader,
+.siteHeader *,
+.headerShell,
+.headerShell *,
+.headerInner,
+.headerInner *,
+.mainHeader,
+.mainHeader *,
+.topHeader,
+.topHeader * {
+  overflow: visible !important;
+}
+
+.siteHeader,
+.headerShell,
+.headerInner,
+.mainHeader,
+.topHeader {
+  position: relative !important;
+  z-index: 10000 !important;
+  isolation: isolate !important;
+}
+
+.siteHeader nav,
+.siteHeader .navGroup,
+.siteHeader .navItem,
+.siteHeader .dropdown,
+.siteHeader .dropdownToggle,
+.siteHeader .dropdownMenu,
+.siteHeader .navDropdown,
+.siteHeader .menuDropdown,
+.headerNav,
+.headerNav *,
+.siteNav,
+.siteNav *,
+.mainNav,
+.mainNav *,
+.navMenu,
+.navMenu *,
+.navDropdown,
+.dropdownMenu,
+.menuDropdown {
+  overflow: visible !important;
+  z-index: 10010 !important;
+}
+
+.dropdownMenu,
+.navDropdown,
+.menuDropdown,
+.siteHeader [role="menu"],
+.siteHeader [data-dropdown],
+.siteHeader .navGroupMenu,
+.siteHeader .submenu {
+  position: absolute !important;
+  z-index: 10020 !important;
+}
+
+/* Keep hero layers below header/dropdowns. */
+.pageTopHeroImage,
+.pageTopHeroImage.hasHeroText,
+.pageTopHeroImage.pageHeroDepth464,
+.pageTopHeroImage.cookingMethodHeroLarge,
+.pageTopHeroImage.summerCookoutsHeroDepth {
+  z-index: 1 !important;
+}
+
+.pageTopHeroImage .pageNotesStrip,
+.pageNotesPopup {
+  z-index: 50 !important;
+}
