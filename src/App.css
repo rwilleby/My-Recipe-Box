@@ -19137,3 +19137,37 @@ nav button,
     grid-template-columns: 1fr !important;
   }
 }
+
+
+/* =========================================================
+   DINNER COMBINATIONS — IMAGE + RECIPEID LINK REFINEMENTS
+   Existing recipe cards open as real recipe-card popups when recipeId exists.
+   ========================================================= */
+
+.dinnerCombinationNutritionLabel {
+  margin: 0 0 -6px !important;
+  color: #6B7280 !important;
+  font-family: var(--rrb-body-font, Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif) !important;
+  font-size: 12px !important;
+  line-height: 1.2 !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.03em !important;
+}
+
+.dinnerRecipePopupItem > button.hasRecipeMatch {
+  border-color: rgba(20, 83, 45, 0.34) !important;
+}
+
+.dinnerRecipePopupItem > button.hasRecipeMatch:hover {
+  background: #14532D !important;
+  color: #ffffff !important;
+}
+
+.dinnerRecipePopupItem > button.hasRecipeMatch:hover span {
+  color: rgba(255, 255, 255, 0.82) !important;
+}
+
+.dinnerRecipePopupItem > button.missingRecipeMatch {
+  opacity: 0.76 !important;
+}

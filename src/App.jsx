@@ -5168,14 +5168,18 @@ function HeroTopicPage({
 
 
 
-function DinnerCombinationCard({ meal, onAddMealToPlan }) {
+function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard }) {
   const [activeRecipePopup, setActiveRecipePopup] = useState(null);
   const [selectedPlannerDay, setSelectedPlannerDay] = useState("week1-Mon");
   const [addedMessage, setAddedMessage] = useState("");
 
   const recipeButtons = [
-    { label: meal.mainDish, type: "Main Dish" },
-    ...(meal.sides || []).map((side) => ({ label: side.name, type: "Side Dish" })),
+    { label: meal.mainDish, type: "Main Dish", recipeId: meal.mainRecipeId },
+    ...(meal.sides || []).map((side) => ({
+      label: side.name,
+      type: "Side Dish",
+      recipeId: side.recipeId,
+    })),
   ];
 
   function nutritionValue(value, suffix = "") {
@@ -5187,6 +5191,15 @@ function DinnerCombinationCard({ meal, onAddMealToPlan }) {
     onAddMealToPlan(meal.id, selectedPlannerDay);
     setAddedMessage(`Added to ${plannerSlotLabel(selectedPlannerDay)}.`);
     window.setTimeout(() => setAddedMessage(""), 2600);
+  }
+
+  function handleRecipeButton(button) {
+    if (button.recipeId) {
+      openRecipeCard(button.recipeId, recipes);
+      return;
+    }
+
+    setActiveRecipePopup(activeRecipePopup === button.label ? null : button.label);
   }
 
   return (
@@ -5233,7 +5246,8 @@ function DinnerCombinationCard({ meal, onAddMealToPlan }) {
         </section>
       </div>
 
-      <div className="dinnerCombinationNutrition" aria-label={`Estimated nutrition for ${meal.title}`}>
+      <div className="dinnerCombinationNutritionLabel">Estimated nutrition for the whole meal</div>
+      <div className="dinnerCombinationNutrition" aria-label={`Estimated whole meal nutrition for ${meal.title}`}>
         <span><strong>{nutritionValue(meal.calories)}</strong><small>calories</small></span>
         <span><strong>{nutritionValue(meal.protein, "g")}</strong><small>protein</small></span>
         <span><strong>{nutritionValue(meal.carbs, "g")}</strong><small>carbs</small></span>
@@ -5241,20 +5255,21 @@ function DinnerCombinationCard({ meal, onAddMealToPlan }) {
         <span><strong>{nutritionValue(meal.fiber, "g")}</strong><small>fiber</small></span>
       </div>
 
-      <section className="dinnerCombinationRecipeButtons" aria-label={`Recipe card popups for ${meal.title}`}>
+      <section className="dinnerCombinationRecipeButtons" aria-label={`Recipe card buttons for ${meal.title}`}>
         <h4>Recipe Cards</h4>
         <div className="dinnerCombinationRecipeButtonGrid">
           {recipeButtons.map((button) => (
             <div className="dinnerRecipePopupItem" key={`${meal.id}-${button.type}-${button.label}`}>
               <button
                 type="button"
-                onClick={() => setActiveRecipePopup(activeRecipePopup === button.label ? null : button.label)}
+                className={button.recipeId ? "hasRecipeMatch" : "missingRecipeMatch"}
+                onClick={() => handleRecipeButton(button)}
               >
                 <span>{button.type}</span>
                 {button.label}
               </button>
 
-              {activeRecipePopup === button.label && (
+              {!button.recipeId && activeRecipePopup === button.label && (
                 <div className="dinnerRecipeMiniPopup" role="dialog" aria-label={`${button.label} recipe card`}>
                   <button
                     type="button"
@@ -5266,7 +5281,7 @@ function DinnerCombinationCard({ meal, onAddMealToPlan }) {
                   </button>
                   <h5>{button.label}</h5>
                   <p>
-                    This is ready to connect to the matching recipe-card popup once that individual recipe card is available in the library.
+                    A matching recipe card is not linked yet. Add a recipeId for this item in dinnerCombinations.js when the card is available.
                   </p>
                 </div>
               )}
@@ -5306,7 +5321,7 @@ function DinnerCombinationCard({ meal, onAddMealToPlan }) {
   );
 }
 
-function DinnerCombinationsPage({ setActivePage, setFilter, setPlan }) {
+function DinnerCombinationsPage({ setActivePage, setFilter, setPlan, openRecipeCard }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [proteinFilter, setProteinFilter] = useState("all");
   const [sideFilter, setSideFilter] = useState("all");
@@ -5432,7 +5447,7 @@ function DinnerCombinationsPage({ setActivePage, setFilter, setPlan }) {
       {filteredMeals.length > 0 ? (
         <section className="dinnerCombinationGrid" aria-label="Dinner combination results">
           {filteredMeals.map((meal) => (
-            <DinnerCombinationCard key={meal.id} meal={meal} onAddMealToPlan={addDinnerMealToPlan} />
+            <DinnerCombinationCard key={meal.id} meal={meal} onAddMealToPlan={addDinnerMealToPlan} openRecipeCard={openRecipeCard} />
           ))}
         </section>
       ) : (
@@ -7111,7 +7126,7 @@ export default function App() {
             text="These dinner combinations are designed to help you quickly choose practical meals with a main dish, sides, portion guidance, and estimated nutrition. They can be used for weekly planning, freezer meal prep, or simple dinner ideas for smaller households.\n\nNutrition values are estimates and may vary based on brands, portions, and preparation methods."
             className="pageHeroDepth464"
           />
-          <DinnerCombinationsPage setActivePage={setActivePage} setFilter={setFilter} setPlan={setPlan} />
+          <DinnerCombinationsPage setActivePage={setActivePage} setFilter={setFilter} setPlan={setPlan} openRecipeCard={openRecipeCard} />
         </>
       )}
       {activePage === "Crockpot Recipes" && (
