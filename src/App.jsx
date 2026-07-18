@@ -4783,11 +4783,303 @@ function PlaceholderInfoPage({ eyebrow, title, text, setActivePage }) {
 }
 
 
+
+function getPageHelpSteps(pageTitle = "", pageEyebrow = "") {
+  const normalizedTitle = String(pageTitle).trim();
+  const normalizedEyebrow = String(pageEyebrow).trim();
+
+  const specificSteps = {
+    "Dinner Combinations": [
+      {
+        label: "Search Meals",
+        text: "Use the search box to find a dinner by meal title, main dish, side dish, or ingredient idea.",
+      },
+      {
+        label: "Use Filters",
+        text: "Filter the list by protein type, side type, lower-calorie meals, or higher-protein meals to narrow the choices.",
+      },
+      {
+        label: "View Recipes",
+        text: "Use the recipe buttons on each card to jump to matching recipe cards for the main dish or sides.",
+      },
+      {
+        label: "Check Nutrition",
+        text: "Review the estimated nutrition row to compare calories, protein, carbs, fat, and fiber before planning.",
+      },
+      {
+        label: "Plan Ahead",
+        text: "Use the meal combinations as dinner ideas, freezer-meal inspiration, or starting points for your weekly meal plan.",
+      },
+    ],
+    "Reference Guides": [
+      {
+        label: "Pick a Guide",
+        text: "Choose a topic from the guide list to open the matching reference information on the right.",
+      },
+      {
+        label: "Use Tabs",
+        text: "Some guides include internal tabs so you can switch between categories such as volume, weight, metric, or butter.",
+      },
+      {
+        label: "Read Tables",
+        text: "The main tables are shown first and use the full panel width so measurements and details are easier to scan.",
+      },
+      {
+        label: "Check Notes",
+        text: "Tips and notes appear below the main tables so extra guidance is available without crowding the core information.",
+      },
+      {
+        label: "Print Later",
+        text: "Use the print option when you want a paper copy for the kitchen. Download and full-page options can be added later.",
+      },
+    ],
+    "Boring Disclaimer Stuff": [
+      {
+        label: "Open Topics",
+        text: "Select any numbered policy topic to expand that section and read the related details.",
+      },
+      {
+        label: "Scan Headings",
+        text: "Each topic is organized into numbered sub-sections so you can quickly find the policy area you need.",
+      },
+      {
+        label: "Read Summary",
+        text: "The first paragraph gives the practical explanation in plain language before the more formal policy text.",
+      },
+      {
+        label: "Review Details",
+        text: "Formal policy language follows each summary when you need the complete explanation.",
+      },
+      {
+        label: "Check Updates",
+        text: "Review the effective date and revisit the page when policies, features, affiliate links, or privacy practices change.",
+      },
+    ],
+    "Policies, Disclaimers & Legal Information": [
+      {
+        label: "Open Topics",
+        text: "Select any numbered policy topic to expand that section and read the related details.",
+      },
+      {
+        label: "Scan Headings",
+        text: "Each topic is organized into numbered sub-sections so you can quickly find the policy area you need.",
+      },
+      {
+        label: "Read Summary",
+        text: "The first paragraph gives the practical explanation in plain language before the more formal policy text.",
+      },
+      {
+        label: "Review Details",
+        text: "Formal policy language follows each summary when you need the complete explanation.",
+      },
+      {
+        label: "Check Updates",
+        text: "Review the effective date and revisit the page when policies, features, affiliate links, or privacy practices change.",
+      },
+    ],
+    "Browse Our Library": [
+      {
+        label: "Search",
+        text: "Use search to look for recipe names, ingredients, cooking methods, or meal ideas.",
+      },
+      {
+        label: "Filter",
+        text: "Use category and page controls to narrow the recipe library to the kind of food you want.",
+      },
+      {
+        label: "Open Cards",
+        text: "Select a recipe card to view the full card, print it, download it, or review the details.",
+      },
+      {
+        label: "Save Favorites",
+        text: "Save recipes you like so they are easier to find later in your Favorites page.",
+      },
+      {
+        label: "Plan Meals",
+        text: "Use recipes from the library as building blocks for your weekly meal plan and grocery list.",
+      },
+    ],
+  };
+
+  if (specificSteps[normalizedTitle]) return specificSteps[normalizedTitle];
+
+  if (normalizedEyebrow === "COOKING METHODS") {
+    return [
+      {
+        label: "Start Here",
+        text: `Use this page to find ideas built around ${normalizedTitle.toLowerCase()} and the equipment you already use.`,
+      },
+      {
+        label: "Review Tips",
+        text: "Watch for cooking notes about timing, temperature, setup, cleanup, and practical adjustments.",
+      },
+      {
+        label: "Pick Recipes",
+        text: "Choose meals that match your available time, ingredients, portion needs, and comfort level.",
+      },
+      {
+        label: "Adjust Safely",
+        text: "Appliances vary, so check doneness, use safe temperatures, and follow the manufacturer’s instructions.",
+      },
+      {
+        label: "Save Ideas",
+        text: "Save useful recipes or tips so you can return to them when planning future meals.",
+      },
+    ];
+  }
+
+  if (normalizedEyebrow === "COLLECTIONS") {
+    return [
+      {
+        label: "Browse Ideas",
+        text: `Use this collection to quickly find ${normalizedTitle.toLowerCase()} ideas without searching the entire recipe library.`,
+      },
+      {
+        label: "Compare Meals",
+        text: "Review the meal style, sides, portions, and practical notes to decide what fits your household.",
+      },
+      {
+        label: "Open Recipes",
+        text: "Use recipe links or buttons to view the matching recipe cards when they are available.",
+      },
+      {
+        label: "Plan Ahead",
+        text: "Add promising meals to your planning routine, freezer-prep list, or upcoming grocery trip.",
+      },
+      {
+        label: "Customize",
+        text: "Treat each collection as a starting point and adjust ingredients, sides, or portions to fit your needs.",
+      },
+    ];
+  }
+
+  if (normalizedEyebrow === "PLANNING") {
+    return [
+      {
+        label: "Review",
+        text: "Start by reviewing the items, recipes, meals, or lists already shown on this page.",
+      },
+      {
+        label: "Organize",
+        text: "Use the page tools to keep your pantry, favorites, meal plans, or grocery list easier to manage.",
+      },
+      {
+        label: "Update",
+        text: "Add, remove, check off, or adjust items as your cooking plans change.",
+      },
+      {
+        label: "Plan Meals",
+        text: "Use the saved information to reduce last-minute decisions and make shopping easier.",
+      },
+      {
+        label: "Browser Only",
+        text: "Saved planning information is stored in this browser only and is not automatically shared between devices.",
+      },
+    ];
+  }
+
+  if (normalizedEyebrow === "TIPS & ORGANIZATION") {
+    return [
+      {
+        label: "Choose Topic",
+        text: "Use this page to focus on one helpful cooking, reference, product, or organization topic.",
+      },
+      {
+        label: "Read First",
+        text: "Start with the page introduction so you know what kind of help the page is designed to provide.",
+      },
+      {
+        label: "Apply Tips",
+        text: "Use the practical tips as guidance and adjust them to your kitchen, equipment, and cooking routine.",
+      },
+      {
+        label: "Save Time",
+        text: "Look for ideas that simplify prep, storage, cleanup, shopping, or repeated cooking tasks.",
+      },
+      {
+        label: "Check Details",
+        text: "Review safety, product, and policy notes when the page includes recommendations or outside links.",
+      },
+    ];
+  }
+
+  return [
+    {
+      label: "Read Intro",
+      text: "Start with the page headline and short introduction to understand what this page is designed to help you do.",
+    },
+    {
+      label: "Explore",
+      text: "Review the cards, lists, links, tools, or sections on the page and choose the option that fits your need.",
+    },
+    {
+      label: "Use Buttons",
+      text: "When buttons or controls are available, use them to open recipes, filter results, print, download, or move to the next step.",
+    },
+    {
+      label: "Save Time",
+      text: "Use the page as a practical shortcut for planning meals, organizing recipes, or finding helpful kitchen information.",
+    },
+    {
+      label: "Check Notes",
+      text: "Review any notes, estimates, disclaimers, or safety reminders before relying on the information.",
+    },
+  ];
+}
+
+function PageHelpButtonStrip({ pageTitle, pageEyebrow }) {
+  const [activeStepIndex, setActiveStepIndex] = useState(null);
+  const steps = getPageHelpSteps(pageTitle, pageEyebrow);
+
+  if (!pageTitle || !steps?.length) return null;
+
+  return (
+    <section className="pageHelpStrip" aria-label={`How to use ${pageTitle}`}>
+      <div className="pageHelpButtons">
+        {steps.map((step, index) => {
+          const isActive = activeStepIndex === index;
+
+          return (
+            <div className="pageHelpItem" key={`${pageTitle}-${step.label}`}>
+              <button
+                type="button"
+                className={`pageHelpButton${isActive ? " active" : ""}`}
+                onClick={() => setActiveStepIndex(isActive ? null : index)}
+                aria-expanded={isActive}
+              >
+                <span className="pageHelpNumber">{index + 1}</span>
+                <span>{step.label}</span>
+              </button>
+
+              {isActive && (
+                <div className="pageHelpPopup" role="dialog" aria-label={step.label}>
+                  <button
+                    type="button"
+                    className="pageHelpClose"
+                    onClick={() => setActiveStepIndex(null)}
+                    aria-label="Close tip"
+                  >
+                    ×
+                  </button>
+                  <h3>{step.label}</h3>
+                  <p>{step.text}</p>
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+
 function PageHeroImage({ src, alt = "", title = "", eyebrow = "", text = "", icon = "", className = "" }) {
   if (!src) return null;
 
   return (
-    <section className={`pageTopHeroImage${title ? " hasHeroText" : ""}${className ? ` ${className}` : ""}`}>
+    <>
+      <section className={`pageTopHeroImage${title ? " hasHeroText" : ""}${className ? ` ${className}` : ""}`}>
       <img
         src={`${import.meta.env.BASE_URL}${src}`}
         alt={alt}
@@ -4815,7 +5107,9 @@ function PageHeroImage({ src, alt = "", title = "", eyebrow = "", text = "", ico
           )}
         </div>
       )}
-    </section>
+      </section>
+      {title && <PageHelpButtonStrip pageTitle={title} pageEyebrow={eyebrow} />}
+    </>
   );
 }
 
