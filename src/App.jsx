@@ -5334,14 +5334,7 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard }) {
   }
 
   function handleRecipeButton(button) {
-    const linkedRecipe = findLinkedRecipe(button.recipeId);
-
-    if (linkedRecipe) {
-      openRecipeCard(linkedRecipe.id, recipes);
-      return;
-    }
-
-    setActiveRecipePopup(activeRecipePopup === button.label ? null : button.label);
+    setActiveRecipePopup((current) => (current === button.label ? null : button.label));
   }
 
   function handleMealImageError() {
@@ -5411,6 +5404,7 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard }) {
           {recipeButtons.map((button) => {
             const linkedRecipe = findLinkedRecipe(button.recipeId);
             const hasRecipeMatch = Boolean(linkedRecipe);
+            const isOpen = activeRecipePopup === button.label;
 
             return (
               <div className="dinnerRecipePopupItem" key={`${meal.id}-${button.type}-${button.label}`}>
@@ -5418,26 +5412,53 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard }) {
                   type="button"
                   className={hasRecipeMatch ? "hasRecipeMatch" : "missingRecipeMatch"}
                   onClick={() => handleRecipeButton(button)}
-                  title={hasRecipeMatch ? `Open ${linkedRecipe.title}` : "Recipe card not linked yet"}
+                  title={hasRecipeMatch ? `Preview ${linkedRecipe.title}` : "Recipe card not linked yet"}
                 >
                   <span>{button.type}</span>
                   {button.label}
                 </button>
 
-                {!hasRecipeMatch && activeRecipePopup === button.label && (
-                  <div className="dinnerRecipeMiniPopup" role="dialog" aria-label={`${button.label} recipe card`}>
+                {isOpen && (
+                  <div className="dinnerRecipeMiniPopup" role="dialog" aria-label={`${button.label} recipe card preview`}>
                     <button
                       type="button"
                       className="dinnerRecipeMiniClose"
                       onClick={() => setActiveRecipePopup(null)}
-                      aria-label="Close recipe card note"
+                      aria-label="Close recipe card preview"
                     >
                       ×
                     </button>
-                    <h5>{button.label}</h5>
-                    <p>
-                      A matching recipe card is not linked yet. Add a valid recipeId for this item in dinnerCombinations.js when the card is available.
-                    </p>
+
+                    {hasRecipeMatch ? (
+                      <>
+                        <h5>{linkedRecipe.title}</h5>
+                        <p>
+                          <strong>{linkedRecipe.id}</strong>
+                          {linkedRecipe.category ? ` · ${linkedRecipe.category}` : ""}
+                          {linkedRecipe.time ? ` · ${linkedRecipe.time} minutes` : ""}
+                        </p>
+                        <p>
+                          This item is linked to an existing recipe card in the library.
+                        </p>
+                        <button
+                          type="button"
+                          className="dinnerRecipeOpenFullButton"
+                          onClick={() => {
+                            setActiveRecipePopup(null);
+                            openRecipeCard(linkedRecipe.id, recipes);
+                          }}
+                        >
+                          Open Full Recipe Card
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <h5>{button.label}</h5>
+                        <p>
+                          A matching recipe card is not linked yet. Add a valid recipeId for this item in dinnerCombinations.js when the card is available.
+                        </p>
+                      </>
+                    )}
                   </div>
                 )}
               </div>
