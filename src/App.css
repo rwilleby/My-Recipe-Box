@@ -19248,3 +19248,70 @@ nav button,
 .pageNotesPopup {
   z-index: 50 !important;
 }
+
+
+/* =========================================================
+   HEADER DROPDOWN POSITION FIX
+   Corrects prior over-broad z-index rules that caused menu labels
+   to stack on top of each other. Top menu stays in normal layout;
+   only actual dropdown panels layer above the hero.
+   ========================================================= */
+
+/* Keep the top navigation in its normal flex/grid flow. */
+.siteHeader nav,
+.siteHeader .headerNav,
+.siteHeader .siteNav,
+.siteHeader .mainNav,
+.siteHeader .navMenu,
+.siteHeader .navGroup,
+.siteHeader .navItem,
+.siteHeader .dropdown,
+.siteHeader .dropdownToggle,
+.headerNav,
+.siteNav,
+.mainNav,
+.navMenu,
+.navGroup,
+.navItem,
+.dropdown,
+.dropdownToggle {
+  position: relative !important;
+  display: revert-layer;
+  overflow: visible !important;
+}
+
+/* Undo accidental absolute positioning on any top-level menu wrapper. */
+.siteHeader .menuDropdown,
+.siteHeader .navDropdown {
+  position: static !important;
+}
+
+/* Only the actual dropdown panel/list should be absolute and above the hero. */
+.siteHeader .dropdownMenu,
+.siteHeader .navGroupMenu,
+.siteHeader .submenu,
+.siteHeader [role="menu"] {
+  position: absolute !important;
+  z-index: 20000 !important;
+}
+
+/* Header remains above hero, but without forcing every child into a stacking conflict. */
+.siteHeader,
+.headerShell,
+.headerInner,
+.mainHeader,
+.topHeader {
+  position: relative !important;
+  z-index: 15000 !important;
+  overflow: visible !important;
+}
+
+/* Hero stays below header/dropdowns. */
+.pageTopHeroImage,
+.pageTopHeroImage.hasHeroText,
+.pageTopHeroImage.pageHeroDepth464,
+.pageTopHeroImage.cookingMethodHeroLarge,
+.pageTopHeroImage.summerCookoutsHeroDepth {
+  position: relative !important;
+  z-index: 1 !important;
+}
