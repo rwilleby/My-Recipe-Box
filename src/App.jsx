@@ -3538,21 +3538,6 @@ function PantryStaplesPage({ pantry, setPantry }) {
 }
 
 
-
-function EmptyState({ title, text, actionLabel = "", onAction = null }) {
-  return (
-    <section className="emptyState">
-      <h2>{title}</h2>
-      {text && <p>{text}</p>}
-      {actionLabel && onAction && (
-        <button type="button" className="primary" onClick={onAction}>
-          {actionLabel}
-        </button>
-      )}
-    </section>
-  );
-}
-
 function ShoppingListPage({ plan, checked, setChecked, servings, pantry, setActivePage }) {
   const recipeIdSet = useMemo(() => new Set(recipes.map((recipe) => recipe.id)), []);
   const dinnerCombinationById = useMemo(
@@ -3574,7 +3559,6 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, setActi
   const dinnerCombinationShoppingReferences = useMemo(() => {
     const normalized = normalizeTwoWeekPlan(plan);
     const references = [];
-    const mealServings = Number(servings) || 2;
 
     PLANNER_SLOTS.forEach((slot) => {
       (normalized[slot.key] || []).forEach((itemId) => {
@@ -3584,20 +3568,20 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, setActi
         references.push({
           name: `Meal #${meal.number}: ${meal.title}`,
           qty: 1,
-          unit: `${mealServings}-person meal`,
+          unit: "meal",
           aisle: "Dinner Combinations",
         });
         references.push({
           name: `Main: ${meal.mainDish}`,
-          qty: mealServings,
-          unit: `servings × ${meal.mainServing || "1 serving"}`,
+          qty: 1,
+          unit: meal.mainServing || "serving",
           aisle: "Dinner Combinations",
         });
         (meal.sides || []).forEach((side) => {
           references.push({
             name: `Side: ${side.name}`,
-            qty: mealServings,
-            unit: `servings × ${side.serving || "1 serving"}`,
+            qty: 1,
+            unit: side.serving || "serving",
             aisle: "Dinner Combinations",
           });
         });
@@ -3605,7 +3589,7 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, setActi
     });
 
     return references;
-  }, [plan, dinnerCombinationById, servings]);
+  }, [plan, dinnerCombinationById]);
 
   const list = useMemo(
     () => [...buildShoppingList(recipeOnlyPlan, recipes, servings), ...dinnerCombinationShoppingReferences],
@@ -3955,9 +3939,7 @@ function FavoritesPage({
   addToPlan,
   openRecipeCard,
 }) {
-  const savedIds = Array.isArray(favorites) ? favorites : [];
-  const saved = recipes.filter((r) => savedIds.includes(r.id));
-  const savedDinnerCombinations = dinnerCombinations.filter((meal) => savedIds.includes(meal.id));
+  const saved = recipes.filter((r) => favorites.includes(r.id));
 
   return (
     <main className="pageShell">
@@ -3969,58 +3951,25 @@ function FavoritesPage({
         </div>
       </div>
 
-      {saved.length === 0 && savedDinnerCombinations.length === 0 ? (
+      {saved.length === 0 ? (
         <EmptyState
           title="No favorites yet"
           text="Tap the heart on any recipe card to save it here."
         />
       ) : (
-        <>
-          {saved.length > 0 && (
-            <div className="recipeGrid">
-              {saved.map((recipe) => (
-                <RecipeCard
-                  key={recipe.id}
-                  recipe={recipe}
-                  favorites={savedIds}
-                  toggleFavorite={toggleFavorite}
-                  addToPlan={addToPlan}
-                  openRecipeCard={openRecipeCard}
-                  cardList={saved}
-                />
-              ))}
-            </div>
-          )}
-
-          {savedDinnerCombinations.length > 0 && (
-            <section className="favoritesDinnerCombinationList">
-              <h2>Saved Dinner Combinations</h2>
-              <div className="dinnerCombinationGrid">
-                {savedDinnerCombinations.map((meal) => (
-                  <article className="dinnerCombinationCard" key={meal.id}>
-                    <div className="dinnerCombinationMealBadge">Meal #{meal.number}</div>
-                    <h3>{meal.title}</h3>
-                    <p className="dinnerCombinationSubtitle">{meal.subtitle}</p>
-                    <div className="dinnerCombinationDetails">
-                      <section>
-                        <h4>Main Dish:</h4>
-                        <p><strong>{meal.mainDish}</strong> — {meal.mainServing}</p>
-                      </section>
-                      <section>
-                        <h4>Sides:</h4>
-                        <ul>
-                          {(meal.sides || []).map((side) => (
-                            <li key={`${meal.id}-${side.name}`}><strong>{side.name}</strong> — {side.serving}</li>
-                          ))}
-                        </ul>
-                      </section>
-                    </div>
-                  </article>
-                ))}
-              </div>
-            </section>
-          )}
-        </>
+        <div className="recipeGrid">
+          {saved.map((recipe) => (
+            <RecipeCard
+              key={recipe.id}
+              recipe={recipe}
+              favorites={favorites}
+              toggleFavorite={toggleFavorite}
+              addToPlan={addToPlan}
+              openRecipeCard={openRecipeCard}
+              cardList={saved}
+            />
+          ))}
+        </div>
       )}
     </main>
   );
@@ -5349,20 +5298,14 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard }) {
   const paddedMealNumber = String(meal.number).padStart(3, "0");
   const mealImageCandidates = [
     meal.image,
-    `images/dinner-combinations/meal-${paddedMealNumber}.jpg`,
-    `images/dinner-combinations/MEAL-${paddedMealNumber}.jpg`,
-    `images/dinner-combinations/Meal-${paddedMealNumber}.jpg`,
     `images/dinner-combinations/meal-${paddedMealNumber}.JPG`,
     `images/dinner-combinations/MEAL-${paddedMealNumber}.JPG`,
+    `images/dinner-combinations/meal-${paddedMealNumber}.jpg`,
+    `images/dinner-combinations/MEAL-${paddedMealNumber}.jpg`,
     `images/dinner-combinations/meal-${paddedMealNumber}.jpeg`,
-    `images/dinner-combinations/MEAL-${paddedMealNumber}.jpeg`,
+    `images/dinner-combinations/MEAL-${paddedMealNumber}.JPEG`,
     `images/dinner-combinations/meal-${paddedMealNumber}.png`,
     `images/dinner-combinations/MEAL-${paddedMealNumber}.png`,
-    `images/dinner-combinations/meal-${paddedMealNumber}.webp`,
-    `images/dinner-combinations/meal-${meal.number}.jpg`,
-    `images/dinner-combinations/MEAL-${meal.number}.jpg`,
-    `images/dinner-combinations/Meal ${paddedMealNumber}.jpg`,
-    `images/dinner-combinations/MEAL ${paddedMealNumber}.jpg`,
   ].filter(Boolean);
 
   const activeMealImage = mealImageFailed ? "" : (mealImageCandidates[mealImageIndex] || mealImageCandidates[0]);
@@ -5399,10 +5342,7 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard }) {
   function handleMealImageError() {
     setMealImageIndex((current) => {
       const next = current + 1;
-      if (next < mealImageCandidates.length) {
-        return next;
-      }
-
+      if (next < mealImageCandidates.length) return next;
       setMealImageFailed(true);
       return current;
     });
@@ -5418,14 +5358,15 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard }) {
             <img
               src={`${import.meta.env.BASE_URL}${activeMealImage}`}
               alt={`${meal.title} dinner combination with ${meal.subtitle.replace(/^With\s+/i, "")}`}
-              loading="lazy"
+              loading="eager"
               decoding="async"
+              fetchPriority="high"
               onError={handleMealImageError}
             />
           ) : (
             <div className="dinnerCombinationImagePlaceholder">
-              <strong>Meal image</strong>
-              <span>Upload meal-{paddedMealNumber}.jpg</span>
+              <span>Meal #{meal.number}</span>
+              <small>Image file not found</small>
             </div>
           )}
         </div>

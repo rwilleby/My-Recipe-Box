@@ -19682,34 +19682,20 @@ nav button,
 
 
 /* =========================================================
-   HERO PAGE NOTES FINAL POSITION + PURPLE BUBBLE REMOVAL
-   Removes purple eyebrow bubbles and moves PAGE NOTES to upper right.
+   PAGE NOTES RIGHT-ALIGNED POPDOWN + IMAGE SPEED FIX
    ========================================================= */
 
-.pageTopHeroImage .pageHeroEyebrow,
-.pageHeroEyebrow {
-  display: none !important;
-}
-
-.pageTopHeroImage.hasHeroText .pageHeroTextOverlay {
-  top: 42% !important;
-  transform: translateY(-50%) !important;
-  padding-bottom: 0 !important;
-}
-
+/* Page Notes button stays upper-right; popup right edge aligns with button right edge and extends left. */
 .pageTopHeroImage .pageNotesStrip,
 .pageNotesStrip {
   position: absolute !important;
+  right: clamp(44px, 5.5vw, 76px) !important;
   left: auto !important;
-  right: clamp(28px, 4.2vw, 64px) !important;
-  top: clamp(18px, 2.4vw, 34px) !important;
+  top: clamp(26px, 4vw, 44px) !important;
   bottom: auto !important;
   transform: none !important;
   width: auto !important;
-  max-width: none !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  z-index: 50000 !important;
+  z-index: 40000 !important;
   overflow: visible !important;
 }
 
@@ -19722,57 +19708,65 @@ nav button,
   top: calc(100% + 10px) !important;
   bottom: auto !important;
   transform: none !important;
-  width: min(560px, 72vw) !important;
-  max-height: min(62vh, 520px) !important;
+  width: min(620px, calc(100vw - 110px)) !important;
+  max-height: min(64vh, 520px) !important;
   overflow-y: auto !important;
-  z-index: 70000 !important;
+  z-index: 41000 !important;
+  background: #ffffff !important;
 }
 
+/* Keep Page Notes over the hero and page content, but below header dropdown menus. */
 .pageTopHeroImage,
 .pageTopHeroImage.hasHeroText,
 .pageTopHeroImage.pageHeroDepth464,
 .pageTopHeroImage.cookingMethodHeroLarge,
 .pageTopHeroImage.summerCookoutsHeroDepth {
+  position: relative !important;
   overflow: visible !important;
   z-index: 30000 !important;
 }
 
+.pageShell,
+.productsIUseGrid,
+.productsIUseCard,
+.dinnerCombinationGrid,
+.dinnerCombinationCard,
+.referenceGuidePanel,
+.collectionDetailPage,
+.heroTopicPage {
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+/* Hero images: give browser less layout work. */
+.pageTopHeroImage img {
+  content-visibility: auto;
+}
+
+/* Dinner Combination image placeholder if an image is missing. */
 .dinnerCombinationImagePlaceholder {
-  width: 100% !important;
-  aspect-ratio: 4 / 3 !important;
   display: grid !important;
   place-items: center !important;
   gap: 4px !important;
-  border: 1px dashed rgba(20, 83, 45, 0.28) !important;
+  width: 100% !important;
+  aspect-ratio: 4 / 3 !important;
   border-radius: 12px !important;
+  border: 1px solid rgba(20, 83, 45, 0.18) !important;
   background: #f8faf7 !important;
-  color: #6B7280 !important;
-  text-align: center !important;
-  font-family: var(--rrb-body-font, Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif) !important;
-  font-size: 12px !important;
-  padding: 12px !important;
-}
-
-.dinnerCombinationImagePlaceholder strong {
   color: #14532D !important;
+  font-family: var(--rrb-body-font, Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif) !important;
+  text-align: center !important;
+}
+
+.dinnerCombinationImagePlaceholder span {
   font-size: 14px !important;
-}
-
-.emptyState h2,
-.emptyState p {
-  color: #374151 !important;
-}
-
-.favoritesDinnerCombinationList {
-  margin-top: 24px !important;
-}
-
-.favoritesDinnerCombinationList h2 {
-  margin: 0 0 14px !important;
-  color: #111827 !important;
-  font-family: var(--rrb-heading-font, Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif) !important;
-  font-size: 22px !important;
   font-weight: 700 !important;
+}
+
+.dinnerCombinationImagePlaceholder small {
+  color: #6B7280 !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
 }
 
 @media (max-width: 760px) {
@@ -19788,14 +19782,10 @@ nav button,
     position: fixed !important;
     left: 16px !important;
     right: 16px !important;
-    top: auto !important;
-    bottom: 18px !important;
+    top: 92px !important;
+    bottom: auto !important;
     width: auto !important;
-    max-width: none !important;
+    max-height: calc(100vh - 120px) !important;
     z-index: 95000 !important;
-  }
-
-  .pageTopHeroImage.hasHeroText .pageHeroTextOverlay {
-    top: 48% !important;
   }
 }
