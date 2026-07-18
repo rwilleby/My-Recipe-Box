@@ -1788,7 +1788,7 @@ function RecipeCard({
 }) {
   const isBrowseCard = displayMode === "card";
   const browseTags = isBrowseCard ? getRecipeBrowseTags(recipe) : [];
-  const isFavorite = favorites.includes(recipe.id);
+  const isFavorite = Array.isArray(favorites) && favorites.includes(recipe.id);
 
   return (
     <article className={isBrowseCard ? "recipeCard recipeCardFullImage" : "recipeCard"}>
@@ -1934,7 +1934,7 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
 
   if (!viewer || !recipe) return null;
 
-  const isFavorite = favorites.includes(recipe.id);
+  const isFavorite = Array.isArray(favorites) && favorites.includes(recipe.id);
   const imageCandidates = fullCardImageCandidates(recipe);
   const imagePath = imageCandidates[imageIndex];
   const hasMultiple = viewerIds.length > 1;
@@ -3114,6 +3114,76 @@ function RecipesPage({
   );
 }
 
+
+function dinnerMealImageCandidates(meal) {
+  if (!meal) return [];
+  const paddedMealNumber = String(meal.number || "").padStart(3, "0");
+  const candidates = [
+    meal.image,
+    paddedMealNumber ? `images/dinner-combinations/meal-${paddedMealNumber}.JPG` : "",
+    paddedMealNumber ? `images/dinner-combinations/meal-${paddedMealNumber}.jpg` : "",
+    paddedMealNumber ? `images/dinner-combinations/MEAL-${paddedMealNumber}.JPG` : "",
+    paddedMealNumber ? `images/dinner-combinations/MEAL-${paddedMealNumber}.jpg` : "",
+    paddedMealNumber ? `images/dinner-combinations/meal-${paddedMealNumber}.jpeg` : "",
+    paddedMealNumber ? `images/dinner-combinations/MEAL-${paddedMealNumber}.JPEG` : "",
+    paddedMealNumber ? `images/dinner-combinations/meal-${paddedMealNumber}.png` : "",
+    paddedMealNumber ? `images/dinner-combinations/MEAL-${paddedMealNumber}.png` : "",
+  ].filter(Boolean);
+
+  return [...new Set(candidates)];
+}
+
+function DinnerCombinationImage({ meal, className = "", loading = "lazy", fetchPriority = "auto" }) {
+  const [imageIndex, setImageIndex] = useState(0);
+  const [imageFailed, setImageFailed] = useState(false);
+  const candidates = dinnerMealImageCandidates(meal);
+  const imagePath = imageFailed ? "" : candidates[imageIndex];
+
+  useEffect(() => {
+    setImageIndex(0);
+    setImageFailed(false);
+  }, [meal?.id]);
+
+  function handleError() {
+    setImageIndex((current) => {
+      const next = current + 1;
+      if (next < candidates.length) return next;
+      setImageFailed(true);
+      return current;
+    });
+  }
+
+  if (!imagePath) {
+    return (
+      <div className={`dinnerCombinationImageFallback ${className}`.trim()}>
+        <span>Meal #{meal?.number || ""}</span>
+      </div>
+    );
+  }
+
+  return (
+    <img
+      className={className}
+      src={`${import.meta.env.BASE_URL}${imagePath}`}
+      alt={`${meal?.title || "Dinner combination"} meal photo`}
+      loading={loading}
+      decoding="async"
+      fetchPriority={fetchPriority}
+      onError={handleError}
+    />
+  );
+}
+
+function EmptyState({ title, text, children }) {
+  return (
+    <section className="emptyState">
+      <h2>{title}</h2>
+      {text && <p>{text}</p>}
+      {children}
+    </section>
+  );
+}
+
 function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFavorite, openRecipeCard, setActivePage }) {
   const normalizedPlan = useMemo(() => normalizeTwoWeekPlan(plan), [plan]);
   const [selectedSlot, setSelectedSlot] = useState("week1-Mon");
@@ -3311,12 +3381,22 @@ function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFa
                                 {recipe ? (
                                   <small>{recipe.id} · {recipe.category} · {recipe.time} min · serves {servings}</small>
                                 ) : (
-                                  <div className="plannerDinnerComboReference">
-                                    <small>{plannerItem.id.toUpperCase()} · Dinner Combination · {plannerItem.calories || "—"} calories</small>
-                                    <span><strong>Main:</strong> {plannerItem.mainDish} — {plannerItem.mainServing}</span>
-                                    {(plannerItem.sides || []).map((side) => (
-                                      <span key={`${recipeId}-${side.name}`}><strong>Side:</strong> {side.name} — {side.serving}</span>
-                                    ))}
+                                  <div className="plannerDinnerComboReference plannerDinnerComboReferenceWithImage">
+                                    <div className="plannerDinnerComboThumbWrap">
+                                      <DinnerCombinationImage
+                                        meal={plannerItem}
+                                        className="plannerDinnerComboThumb"
+                                        loading="lazy"
+                                        fetchPriority="low"
+                                      />
+                                    </div>
+                                    <div className="plannerDinnerComboText">
+                                      <small>{plannerItem.id.toUpperCase()} · Dinner Combination · {plannerItem.calories || "—"} calories</small>
+                                      <span><strong>Main:</strong> {plannerItem.mainDish} — {plannerItem.mainServing}</span>
+                                      {(plannerItem.sides || []).map((side) => (
+                                        <span key={`${recipeId}-${side.name}`}><strong>Side:</strong> {side.name} — {side.serving}</span>
+                                      ))}
+                                    </div>
                                   </div>
                                 )}
                               </div>
@@ -3356,7 +3436,7 @@ function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFa
                             const recipe = resolvePlannerRecipe(recipeId);
                             const dinnerMeal = resolvePlannerDinnerMeal(recipeId);
                             if (!recipe && !dinnerMeal) return null;
-                            const isSaved = recipe ? favorites.includes(recipe.id) : false;
+                            const isSaved = recipe ? Array.isArray(favorites) && favorites.includes(recipe.id) : false;
 
                             return (
                               <div className="plannerTableActionSet" key={`${slotKey}-${recipeId}-${index}-actions`}>
@@ -3412,13 +3492,12 @@ function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFa
             <h2>{plannerDinnerViewer.title}</h2>
             <p className="dinnerCombinationSubtitle">{plannerDinnerViewer.subtitle}</p>
 
-            {plannerDinnerViewer.image && (
-              <img
-                className="plannerDinnerModalImage"
-                src={`${import.meta.env.BASE_URL}${plannerDinnerViewer.image}`}
-                alt={`${plannerDinnerViewer.title} dinner combination`}
-              />
-            )}
+            <DinnerCombinationImage
+              meal={plannerDinnerViewer}
+              className="plannerDinnerModalImage"
+              loading="eager"
+              fetchPriority="high"
+            />
 
             <section className="plannerDinnerModalDetails">
               <h3>Main Dish:</h3>
@@ -3998,7 +4077,8 @@ function FavoritesPage({
   addToPlan,
   openRecipeCard,
 }) {
-  const saved = recipes.filter((r) => favorites.includes(r.id));
+  const safeFavorites = Array.isArray(favorites) ? favorites : [];
+  const saved = recipes.filter((r) => safeFavorites.includes(r.id));
 
   return (
     <main className="pageShell">
@@ -5358,17 +5438,7 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard }) {
   const [mealImageFailed, setMealImageFailed] = useState(false);
 
   const paddedMealNumber = String(meal.number).padStart(3, "0");
-  const mealImageCandidates = [
-    meal.image,
-    `images/dinner-combinations/meal-${paddedMealNumber}.JPG`,
-    `images/dinner-combinations/MEAL-${paddedMealNumber}.JPG`,
-    `images/dinner-combinations/meal-${paddedMealNumber}.jpg`,
-    `images/dinner-combinations/MEAL-${paddedMealNumber}.jpg`,
-    `images/dinner-combinations/meal-${paddedMealNumber}.jpeg`,
-    `images/dinner-combinations/MEAL-${paddedMealNumber}.JPEG`,
-    `images/dinner-combinations/meal-${paddedMealNumber}.png`,
-    `images/dinner-combinations/MEAL-${paddedMealNumber}.png`,
-  ].filter(Boolean);
+  const mealImageCandidates = dinnerMealImageCandidates(meal);
 
   const activeMealImage = mealImageFailed ? "" : (mealImageCandidates[mealImageIndex] || mealImageCandidates[0]);
 
@@ -7254,9 +7324,10 @@ function FeatureStrip() {
 
 export default function App() {
   const [activePage, setActivePage] = useState("Home");
-  const [favorites, setFavorites] = useState(() =>
-    loadJSON(STORAGE_KEYS.favorites, [])
-  );
+  const [favorites, setFavorites] = useState(() => {
+    const storedFavorites = loadJSON(STORAGE_KEYS.favorites, []);
+    return Array.isArray(storedFavorites) ? storedFavorites : [];
+  });
   const [plan, setPlan] = useState(() =>
     normalizeTwoWeekPlan(loadJSON(STORAGE_KEYS.plan, emptyTwoWeekPlan()))
   );
@@ -7297,11 +7368,13 @@ export default function App() {
   }, []);
 
   function toggleFavorite(id) {
-    setFavorites((current) =>
-      current.includes(id)
-        ? current.filter((item) => item !== id)
-        : [...current, id]
-    );
+    if (!id) return;
+    setFavorites((current) => {
+      const safeCurrent = Array.isArray(current) ? current : [];
+      return safeCurrent.includes(id)
+        ? safeCurrent.filter((item) => item !== id)
+        : [...safeCurrent, id];
+    });
   }
 
   function addToPlan(recipeId) {
