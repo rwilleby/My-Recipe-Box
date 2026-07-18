@@ -3516,24 +3516,28 @@ function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFa
               </button>
             </header>
 
-            <DinnerCombinationImage
-              meal={plannerDinnerViewer}
-              className="plannerDinnerModalImage"
-              loading="eager"
-              fetchPriority="high"
-            />
+            <section className="plannerDinnerModalSummaryGrid">
+              <DinnerCombinationImage
+                meal={plannerDinnerViewer}
+                className="plannerDinnerModalImage plannerDinnerModalImageCompact"
+                loading="eager"
+                fetchPriority="high"
+              />
 
-            <section className="plannerDinnerModalDetails">
-              <h3>Main Dish:</h3>
-              <p><strong>{plannerDinnerViewer.mainDish}</strong> — {plannerDinnerViewer.mainServing}</p>
+              <section className="plannerDinnerModalDetails plannerDinnerModalMenuText">
+                <h3>Main Dish:</h3>
+                <p><strong>{plannerDinnerViewer.mainDish}</strong> — {plannerDinnerViewer.mainServing}</p>
 
-              <h3>Sides:</h3>
-              <ul>
-                {(plannerDinnerViewer.sides || []).map((side) => (
-                  <li key={`${plannerDinnerViewer.id}-${side.name}`}><strong>{side.name}</strong> — {side.serving}</li>
-                ))}
-              </ul>
+                <h3>Sides:</h3>
+                <ul>
+                  {(plannerDinnerViewer.sides || []).map((side) => (
+                    <li key={`${plannerDinnerViewer.id}-${side.name}`}><strong>{side.name}</strong> — {side.serving}</li>
+                  ))}
+                </ul>
+              </section>
+            </section>
 
+            <section className="plannerDinnerModalNutrition">
               <h3>Estimated nutrition for the whole meal:</h3>
               <p>
                 {plannerDinnerViewer.calories || "—"} calories | {plannerDinnerViewer.protein || "—"}g protein | {plannerDinnerViewer.carbs || "—"}g carbs | {plannerDinnerViewer.fat || "—"}g fat | {plannerDinnerViewer.fiber || "—"}g fiber

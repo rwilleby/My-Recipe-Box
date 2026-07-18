@@ -20347,3 +20347,202 @@ nav button,
     gap: 12px !important;
   }
 }
+
+/* =========================================================
+   WEEKLY DINNER PLANNER COMPACT VIEW MODAL
+   Keeps the meal popup shorter: image on the left, menu text on the right,
+   nutrition below. This prevents the top from hiding under the menu bar.
+   ========================================================= */
+.plannerDinnerModalOverlay {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 2147483000 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 18px 24px !important;
+  overflow: auto !important;
+  background: rgba(17, 24, 39, 0.42) !important;
+  overscroll-behavior: contain !important;
+}
+
+.plannerDinnerModal {
+  position: relative !important;
+  width: min(820px, calc(100vw - 48px)) !important;
+  max-height: calc(100svh - 36px) !important;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+  margin: auto !important;
+  padding: 0 20px 18px !important;
+  background: #ffffff !important;
+  border: 1px solid rgba(20, 83, 45, 0.18) !important;
+  border-radius: 18px !important;
+  box-shadow: 0 24px 70px rgba(17, 24, 39, 0.28) !important;
+  scrollbar-gutter: stable !important;
+}
+
+.plannerDinnerModalHeader {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 20 !important;
+  display: grid !important;
+  grid-template-columns: 1fr auto !important;
+  gap: 14px !important;
+  align-items: start !important;
+  margin: 0 -20px 14px !important;
+  padding: 14px 20px 12px !important;
+  background: #ffffff !important;
+  border-bottom: 1px solid rgba(20, 83, 45, 0.12) !important;
+  border-radius: 18px 18px 0 0 !important;
+}
+
+.plannerDinnerModalHeader .dinnerCombinationMealBadge {
+  margin: 0 0 6px !important;
+}
+
+.plannerDinnerModalHeader h2,
+.plannerDinnerModal h2 {
+  margin: 0 0 4px !important;
+  font-size: clamp(28px, 3vw, 44px) !important;
+  line-height: 1.02 !important;
+}
+
+.plannerDinnerModalHeader .dinnerCombinationSubtitle,
+.plannerDinnerModal .dinnerCombinationSubtitle {
+  margin: 0 !important;
+  font-size: clamp(17px, 1.6vw, 24px) !important;
+  line-height: 1.2 !important;
+}
+
+.plannerDinnerModalClose {
+  width: 36px !important;
+  height: 36px !important;
+  font-size: 25px !important;
+}
+
+.plannerDinnerModalSummaryGrid {
+  display: grid !important;
+  grid-template-columns: minmax(220px, 0.5fr) minmax(0, 1fr) !important;
+  gap: 18px !important;
+  align-items: start !important;
+  margin: 0 0 14px !important;
+}
+
+.plannerDinnerModalImage.plannerDinnerModalImageCompact,
+.plannerDinnerModalImageCompact.dinnerCombinationImageFallback {
+  width: 100% !important;
+  min-height: 0 !important;
+  height: auto !important;
+  max-height: 220px !important;
+  aspect-ratio: 4 / 3 !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+  margin: 0 !important;
+  border-radius: 14px !important;
+  border: 1px solid rgba(20, 83, 45, 0.14) !important;
+  background: #f8faf7 !important;
+}
+
+.plannerDinnerModalMenuText {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.plannerDinnerModalMenuText h3,
+.plannerDinnerModalNutrition h3 {
+  margin: 0 0 6px !important;
+  color: #14532D !important;
+  font-family: var(--rrb-body-font, Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif) !important;
+  font-size: 13px !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.04em !important;
+}
+
+.plannerDinnerModalMenuText p,
+.plannerDinnerModalMenuText li,
+.plannerDinnerModalNutrition p {
+  margin: 0 0 10px !important;
+  color: #374151 !important;
+  font-size: 15px !important;
+  line-height: 1.35 !important;
+}
+
+.plannerDinnerModalMenuText ul {
+  display: grid !important;
+  gap: 7px !important;
+  margin: 0 !important;
+  padding-left: 18px !important;
+}
+
+.plannerDinnerModalNutrition {
+  margin: 0 0 14px !important;
+  padding: 12px 14px !important;
+  border: 1px solid rgba(20, 83, 45, 0.14) !important;
+  border-radius: 14px !important;
+  background: #f8faf7 !important;
+}
+
+.plannerDinnerModalNutrition p {
+  margin-bottom: 0 !important;
+  font-weight: 700 !important;
+}
+
+.plannerDinnerModalRecipeButtons {
+  margin: 0 0 12px !important;
+}
+
+.dinnerCombinationHeating {
+  margin-top: 10px !important;
+}
+
+@media (max-height: 760px) {
+  .plannerDinnerModalOverlay {
+    align-items: center !important;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+  }
+
+  .plannerDinnerModal {
+    max-height: calc(100svh - 20px) !important;
+  }
+
+  .plannerDinnerModalHeader {
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+    margin-bottom: 10px !important;
+  }
+
+  .plannerDinnerModalImage.plannerDinnerModalImageCompact,
+  .plannerDinnerModalImageCompact.dinnerCombinationImageFallback {
+    max-height: 170px !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .plannerDinnerModalOverlay {
+    align-items: flex-start !important;
+    padding: 12px !important;
+  }
+
+  .plannerDinnerModal {
+    width: calc(100vw - 24px) !important;
+    max-height: calc(100svh - 24px) !important;
+    padding: 0 16px 16px !important;
+  }
+
+  .plannerDinnerModalHeader {
+    margin: 0 -16px 12px !important;
+    padding: 12px 16px 10px !important;
+  }
+
+  .plannerDinnerModalSummaryGrid {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  .plannerDinnerModalImage.plannerDinnerModalImageCompact,
+  .plannerDinnerModalImageCompact.dinnerCombinationImageFallback {
+    max-height: 210px !important;
+  }
+}
