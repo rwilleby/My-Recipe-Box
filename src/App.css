@@ -18741,3 +18741,399 @@ nav button,
     transform: none !important;
   }
 }
+
+
+/* =========================================================
+   PAGE NOTES POPUP VISIBILITY FIX
+   Allows PAGE NOTES popup to open downward from hero into page content.
+   ========================================================= */
+
+.pageTopHeroImage.hasHeroText,
+.pageTopHeroImage.pageHeroDepth464,
+.pageTopHeroImage.cookingMethodHeroLarge,
+.pageTopHeroImage.summerCookoutsHeroDepth {
+  overflow: visible !important;
+  z-index: 20 !important;
+}
+
+.pageTopHeroImage .pageNotesPopup,
+.pageNotesPopup {
+  top: calc(100% + 10px) !important;
+  bottom: auto !important;
+  z-index: 500 !important;
+  max-height: min(60vh, 420px) !important;
+  overflow-y: auto !important;
+}
+
+.pageTopHeroImage + * {
+  position: relative;
+  z-index: 1;
+}
+
+/* =========================================================
+   DINNER COMBINATION CARD ORDER REBUILD
+   Meal badge, image/title row, details, nutrition, recipe popups,
+   meal-plan add button, heating notes.
+   ========================================================= */
+
+.dinnerCombinationGrid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 20px !important;
+}
+
+.dinnerCombinationCard,
+.dinnerCombinationCard.hasMealImage {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 13px !important;
+  border: 1px solid rgba(20, 83, 45, 0.14) !important;
+  border-radius: 16px !important;
+  background: #ffffff !important;
+  box-shadow: 0 10px 24px rgba(17, 24, 39, 0.06) !important;
+  padding: 16px !important;
+  overflow: visible !important;
+  position: relative !important;
+}
+
+.dinnerCombinationMealBadge {
+  justify-self: start !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  min-height: 28px !important;
+  border-radius: 999px !important;
+  background: #14532D !important;
+  color: #ffffff !important;
+  padding: 5px 12px !important;
+  font-family: var(--rrb-body-font, Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif) !important;
+  font-size: 13px !important;
+  line-height: 1 !important;
+  font-weight: 700 !important;
+}
+
+.dinnerCombinationHeader {
+  display: grid !important;
+  grid-template-columns: minmax(140px, 25%) minmax(0, 1fr) !important;
+  gap: 16px !important;
+  align-items: center !important;
+}
+
+.dinnerCombinationMedia {
+  display: block !important;
+  order: 0 !important;
+  min-width: 0 !important;
+}
+
+.dinnerCombinationMedia img {
+  display: block !important;
+  width: 100% !important;
+  aspect-ratio: 4 / 3 !important;
+  height: auto !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+  border-radius: 12px !important;
+  border: 1px solid rgba(20, 83, 45, 0.12) !important;
+  background: #f8faf7 !important;
+  box-shadow: none !important;
+}
+
+.dinnerCombinationTitleBlock {
+  min-width: 0 !important;
+}
+
+.dinnerCombinationTitleBlock h3,
+.dinnerCombinationCard h3 {
+  margin: 0 !important;
+  color: #111827 !important;
+  font-family: var(--rrb-heading-font, Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif) !important;
+  font-size: 22px !important;
+  line-height: 1.12 !important;
+  font-weight: 700 !important;
+}
+
+.dinnerCombinationSubtitle {
+  margin: 6px 0 0 !important;
+  color: #374151 !important;
+  font-family: var(--rrb-body-font, Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif) !important;
+  font-size: 15px !important;
+  line-height: 1.35 !important;
+  font-weight: 400 !important;
+}
+
+.dinnerCombinationDetails {
+  display: grid !important;
+  gap: 10px !important;
+  border-top: 1px solid rgba(20, 83, 45, 0.12) !important;
+  padding-top: 12px !important;
+}
+
+.dinnerCombinationDetails section {
+  border-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+.dinnerCombinationDetails h4 {
+  margin: 0 0 4px !important;
+  color: #14532D !important;
+  font-family: var(--rrb-body-font, Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif) !important;
+  font-size: 14px !important;
+  line-height: 1.2 !important;
+  font-weight: 700 !important;
+}
+
+.dinnerCombinationDetails p,
+.dinnerCombinationDetails li {
+  color: #374151 !important;
+  font-family: var(--rrb-body-font, Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif) !important;
+  font-size: 15px !important;
+  line-height: 1.4 !important;
+  font-weight: 400 !important;
+}
+
+.dinnerCombinationDetails strong {
+  color: #111827 !important;
+  font-weight: 700 !important;
+}
+
+.dinnerCombinationDetails ul {
+  display: grid !important;
+  gap: 4px !important;
+  margin: 0 !important;
+  padding-left: 18px !important;
+}
+
+.dinnerCombinationNutrition {
+  display: grid !important;
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  gap: 0 !important;
+  border-top: 1px solid rgba(20, 83, 45, 0.12) !important;
+  border-bottom: 1px solid rgba(20, 83, 45, 0.12) !important;
+  padding: 10px 0 !important;
+  margin: 0 !important;
+}
+
+.dinnerCombinationNutrition span {
+  display: grid !important;
+  place-items: center !important;
+  gap: 2px !important;
+  border: 0 !important;
+  border-right: 1px solid rgba(20, 83, 45, 0.12) !important;
+  background: transparent !important;
+  color: #374151 !important;
+  padding: 0 6px !important;
+  text-align: center !important;
+  font-family: var(--rrb-body-font, Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif) !important;
+}
+
+.dinnerCombinationNutrition span:last-child {
+  border-right: 0 !important;
+}
+
+.dinnerCombinationNutrition strong {
+  color: #14532D !important;
+  font-size: 16px !important;
+  line-height: 1 !important;
+  font-weight: 700 !important;
+}
+
+.dinnerCombinationNutrition small {
+  color: #374151 !important;
+  font-size: 11px !important;
+  line-height: 1.1 !important;
+  font-weight: 400 !important;
+}
+
+.dinnerCombinationRecipeButtons {
+  display: grid !important;
+  gap: 9px !important;
+  padding: 12px !important;
+  border: 1px solid rgba(20, 83, 45, 0.12) !important;
+  border-radius: 12px !important;
+  background: #f8faf7 !important;
+  position: relative !important;
+}
+
+.dinnerCombinationRecipeButtons h4 {
+  margin: 0 !important;
+  color: #14532D !important;
+  font-family: var(--rrb-heading-font, Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif) !important;
+  font-size: 18px !important;
+  line-height: 1.15 !important;
+  font-weight: 700 !important;
+}
+
+.dinnerCombinationRecipeButtonGrid {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 8px !important;
+}
+
+.dinnerRecipePopupItem {
+  position: relative !important;
+}
+
+.dinnerRecipePopupItem > button {
+  width: 100% !important;
+  min-height: 36px !important;
+  display: grid !important;
+  gap: 2px !important;
+  border: 1px solid rgba(20, 83, 45, 0.22) !important;
+  border-radius: 9px !important;
+  background: #ffffff !important;
+  color: #111827 !important;
+  padding: 8px 10px !important;
+  font-family: var(--rrb-body-font, Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif) !important;
+  font-size: 13px !important;
+  line-height: 1.15 !important;
+  font-weight: 700 !important;
+  text-align: left !important;
+  cursor: pointer !important;
+}
+
+.dinnerRecipePopupItem > button span {
+  color: #6B7280 !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+}
+
+.dinnerRecipeMiniPopup {
+  position: absolute !important;
+  left: 0 !important;
+  top: calc(100% + 8px) !important;
+  width: min(300px, 70vw) !important;
+  border: 1px solid rgba(20, 83, 45, 0.22) !important;
+  border-radius: 12px !important;
+  background: #ffffff !important;
+  color: #374151 !important;
+  box-shadow: 0 14px 34px rgba(17, 24, 39, 0.16) !important;
+  padding: 14px 40px 14px 14px !important;
+  z-index: 90 !important;
+}
+
+.dinnerRecipeMiniPopup h5 {
+  margin: 0 0 6px !important;
+  color: #111827 !important;
+  font-family: var(--rrb-heading-font, Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif) !important;
+  font-size: 18px !important;
+  font-weight: 700 !important;
+}
+
+.dinnerRecipeMiniPopup p {
+  margin: 0 !important;
+  color: #374151 !important;
+  font-family: var(--rrb-body-font, Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif) !important;
+  font-size: 13px !important;
+  line-height: 1.4 !important;
+}
+
+.dinnerRecipeMiniClose {
+  position: absolute !important;
+  top: 8px !important;
+  right: 9px !important;
+  width: 24px !important;
+  height: 24px !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  background: #f3f4f6 !important;
+  color: #374151 !important;
+  font-size: 17px !important;
+  cursor: pointer !important;
+}
+
+.dinnerCombinationPlannerAdd {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  gap: 10px !important;
+  align-items: end !important;
+  border: 1px solid rgba(20, 83, 45, 0.12) !important;
+  border-radius: 12px !important;
+  background: #ffffff !important;
+  padding: 12px !important;
+}
+
+.dinnerCombinationPlannerAdd label {
+  display: grid !important;
+  gap: 6px !important;
+  color: #374151 !important;
+  font-family: var(--rrb-body-font, Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif) !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+}
+
+.dinnerCombinationPlannerAdd select {
+  min-height: 38px !important;
+  border: 1px solid rgba(20, 83, 45, 0.2) !important;
+  border-radius: 9px !important;
+  background: #ffffff !important;
+  color: #111827 !important;
+  padding: 8px 10px !important;
+  font-family: var(--rrb-body-font, Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif) !important;
+  font-size: 14px !important;
+}
+
+.dinnerCombinationPlannerAdd button {
+  min-height: 38px !important;
+  border: 0 !important;
+  border-radius: 9px !important;
+  background: #14532D !important;
+  color: #ffffff !important;
+  padding: 8px 14px !important;
+  font-family: var(--rrb-body-font, Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif) !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+}
+
+.dinnerCombinationAddedMessage {
+  grid-column: 1 / -1 !important;
+  margin: 0 !important;
+  color: #14532D !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  font-family: var(--rrb-body-font, Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif) !important;
+}
+
+.dinnerCombinationHeating {
+  border-top: 1px solid rgba(20, 83, 45, 0.12) !important;
+  padding-top: 10px !important;
+  color: #374151 !important;
+  font-family: var(--rrb-body-font, Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif) !important;
+  font-size: 13px !important;
+}
+
+.dinnerCombinationHeating summary {
+  color: #14532D !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+}
+
+.dinnerCombinationHeating div {
+  display: grid !important;
+  gap: 6px !important;
+  margin-top: 10px !important;
+}
+
+.dinnerCombinationHeating p {
+  margin: 0 !important;
+}
+
+@media (max-width: 1180px) {
+  .dinnerCombinationGrid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .dinnerCombinationHeader {
+    grid-template-columns: 1fr !important;
+  }
+
+  .dinnerCombinationRecipeButtonGrid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .dinnerCombinationPlannerAdd {
+    grid-template-columns: 1fr !important;
+  }
+}

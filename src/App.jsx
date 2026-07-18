@@ -3233,12 +3233,18 @@ function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFa
                         ) : (
                           mealIds.map((recipeId, index) => {
                             const recipe = recipes.find((item) => item.id === recipeId);
-                            if (!recipe) return null;
+                            const dinnerMeal = dinnerCombinations.find((item) => item.id === recipeId);
+                            const plannerItem = recipe || dinnerMeal;
+                            if (!plannerItem) return null;
 
                             return (
                               <div className="plannerTableMealTitle" key={`${slotKey}-${recipeId}-${index}`}>
-                                <strong>{recipe.title}</strong>
-                                <small>{recipe.id} · {recipe.category} · {recipe.time} min · serves {servings}</small>
+                                <strong>{plannerItem.title}</strong>
+                                {recipe ? (
+                                  <small>{recipe.id} · {recipe.category} · {recipe.time} min · serves {servings}</small>
+                                ) : (
+                                  <small>{plannerItem.id.toUpperCase()} · Dinner Combination · {plannerItem.calories || "—"} calories</small>
+                                )}
                               </div>
                             );
                           })
@@ -3251,11 +3257,12 @@ function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFa
                         ) : (
                           mealIds.map((recipeId, index) => {
                             const recipe = recipes.find((item) => item.id === recipeId);
-                            if (!recipe) return null;
+                            const dinnerMeal = dinnerCombinations.find((item) => item.id === recipeId);
+                            if (!recipe && !dinnerMeal) return null;
 
                             return (
                               <span key={`${slotKey}-${recipeId}-${index}-nutrition`}>
-                                {plannerEstimatedCostText(recipe)}
+                                {recipe ? plannerEstimatedCostText(recipe) : "Dinner combination cost estimate not available"}
                               </span>
                             );
                           })
@@ -3273,21 +3280,24 @@ function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFa
                         ) : (
                           mealIds.map((recipeId, index) => {
                             const recipe = recipes.find((item) => item.id === recipeId);
-                            if (!recipe) return null;
-                            const isSaved = favorites.includes(recipe.id);
+                            const dinnerMeal = dinnerCombinations.find((item) => item.id === recipeId);
+                            if (!recipe && !dinnerMeal) return null;
+                            const isSaved = recipe ? favorites.includes(recipe.id) : false;
 
                             return (
                               <div className="plannerTableActionSet" key={`${slotKey}-${recipeId}-${index}-actions`}>
-                                <button
-                                  className={isSaved ? "plannerHeart saved" : "plannerHeart"}
-                                  onClick={() => toggleFavorite(recipe.id)}
-                                  aria-label={isSaved ? "Remove from favorites" : "Add to favorites"}
-                                >
-                                  ♥
-                                </button>
+                                {recipe && (
+                                  <button
+                                    className={isSaved ? "plannerHeart saved" : "plannerHeart"}
+                                    onClick={() => toggleFavorite(recipe.id)}
+                                    aria-label={isSaved ? "Remove from favorites" : "Add to favorites"}
+                                  >
+                                    ♥
+                                  </button>
+                                )}
                                 <button
                                   className="plannerMiniButton"
-                                  onClick={() => openRecipeCard(recipe.id, recipes)}
+                                  onClick={() => recipe ? openRecipeCard(recipe.id, recipes) : setActivePage("Dinner Combinations")}
                                 >
                                   View
                                 </button>
@@ -5158,92 +5168,145 @@ function HeroTopicPage({
 
 
 
-function DinnerCombinationCard({ meal, onOpenRecipeSearch }) {
+function DinnerCombinationCard({ meal, onAddMealToPlan }) {
+  const [activeRecipePopup, setActiveRecipePopup] = useState(null);
+  const [selectedPlannerDay, setSelectedPlannerDay] = useState("week1-Mon");
+  const [addedMessage, setAddedMessage] = useState("");
+
   const recipeButtons = [
     { label: meal.mainDish, type: "Main Dish" },
     ...(meal.sides || []).map((side) => ({ label: side.name, type: "Side Dish" })),
   ];
 
+  function nutritionValue(value, suffix = "") {
+    if (value === null || value === undefined || value === "") return "—";
+    return `${value}${suffix}`;
+  }
+
+  function addThisMealToPlan() {
+    onAddMealToPlan(meal.id, selectedPlannerDay);
+    setAddedMessage(`Added to ${plannerSlotLabel(selectedPlannerDay)}.`);
+    window.setTimeout(() => setAddedMessage(""), 2600);
+  }
+
   return (
     <article className={`dinnerCombinationCard${meal.image ? " hasMealImage" : ""}`}>
-      <div className="dinnerCombinationContent">
-        <div className="dinnerCombinationCardTop">
-          <span className="dinnerCombinationNumber">Meal #{meal.number}</span>
-          <span className="dinnerCombinationTag">Dinner Combination</span>
-        </div>
+      <div className="dinnerCombinationMealBadge">Meal #{meal.number}</div>
 
-        <h3>{meal.title}</h3>
-        <p className="dinnerCombinationSubtitle">{meal.subtitle}</p>
-
-        <div className="dinnerCombinationDetails">
-          <section>
-            <h4>Main Dish:</h4>
-            <p>
-              <strong>{meal.mainDish}</strong>
-              <span> — {meal.mainServing}</span>
-            </p>
-          </section>
-
-          <section>
-            <h4>Sides:</h4>
-            <ul>
-              {meal.sides.map((side) => (
-                <li key={`${meal.id}-${side.name}`}>
-                  <strong>{side.name}</strong>
-                  <span> — {side.serving}</span>
-                </li>
-              ))}
-            </ul>
-          </section>
-        </div>
-
-        <div className="dinnerCombinationNutrition" aria-label={`Estimated nutrition for ${meal.title}`}>
-          <span><strong>{meal.calories}</strong><small>calories</small></span>
-          <span><strong>{meal.protein}g</strong><small>protein</small></span>
-          <span><strong>{meal.carbs}g</strong><small>carbs</small></span>
-          <span><strong>{meal.fat}g</strong><small>fat</small></span>
-          <span><strong>{meal.fiber}g</strong><small>fiber</small></span>
-        </div>
-
-        <details className="dinnerCombinationHeating">
-          <summary>Heating & freezer notes</summary>
-          <div>
-            <p><strong>Freezer life:</strong> {meal.freezerLife}</p>
-            <p><strong>Oven:</strong> {meal.ovenInstructions}</p>
-            <p><strong>Microwave:</strong> {meal.microwaveInstructions}</p>
+      <div className="dinnerCombinationHeader">
+        {meal.image && (
+          <div className="dinnerCombinationMedia">
+            <img
+              src={`${import.meta.env.BASE_URL}${meal.image}`}
+              alt={`${meal.title} dinner combination with ${meal.subtitle.replace(/^With\s+/i, "")}`}
+              loading="lazy"
+              decoding="async"
+            />
           </div>
-        </details>
+        )}
+
+        <div className="dinnerCombinationTitleBlock">
+          <h3>{meal.title}</h3>
+          <p className="dinnerCombinationSubtitle">{meal.subtitle}</p>
+        </div>
       </div>
 
-      {meal.image && (
-        <aside className="dinnerCombinationMedia">
-          <img
-            src={`${import.meta.env.BASE_URL}${meal.image}`}
-            alt={`${meal.title} dinner combination with ${meal.subtitle.replace(/^With\s+/i, "")}`}
-            loading="lazy"
-            decoding="async"
-          />
+      <div className="dinnerCombinationDetails">
+        <section>
+          <h4>Main Dish:</h4>
+          <p>
+            <strong>{meal.mainDish}</strong>
+            <span> — {meal.mainServing}</span>
+          </p>
+        </section>
 
-          <div className="dinnerCombinationRecipeButtons" aria-label={`Recipe searches for ${meal.title}`}>
-            <h4>Recipe Cards</h4>
-            {recipeButtons.map((button) => (
+        <section>
+          <h4>Sides:</h4>
+          <ul>
+            {(meal.sides || []).map((side) => (
+              <li key={`${meal.id}-${side.name}`}>
+                <strong>{side.name}</strong>
+                <span> — {side.serving}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </div>
+
+      <div className="dinnerCombinationNutrition" aria-label={`Estimated nutrition for ${meal.title}`}>
+        <span><strong>{nutritionValue(meal.calories)}</strong><small>calories</small></span>
+        <span><strong>{nutritionValue(meal.protein, "g")}</strong><small>protein</small></span>
+        <span><strong>{nutritionValue(meal.carbs, "g")}</strong><small>carbs</small></span>
+        <span><strong>{nutritionValue(meal.fat, "g")}</strong><small>fat</small></span>
+        <span><strong>{nutritionValue(meal.fiber, "g")}</strong><small>fiber</small></span>
+      </div>
+
+      <section className="dinnerCombinationRecipeButtons" aria-label={`Recipe card popups for ${meal.title}`}>
+        <h4>Recipe Cards</h4>
+        <div className="dinnerCombinationRecipeButtonGrid">
+          {recipeButtons.map((button) => (
+            <div className="dinnerRecipePopupItem" key={`${meal.id}-${button.type}-${button.label}`}>
               <button
-                key={`${meal.id}-${button.type}-${button.label}`}
                 type="button"
-                onClick={() => onOpenRecipeSearch(button.label)}
+                onClick={() => setActiveRecipePopup(activeRecipePopup === button.label ? null : button.label)}
               >
                 <span>{button.type}</span>
                 {button.label}
               </button>
+
+              {activeRecipePopup === button.label && (
+                <div className="dinnerRecipeMiniPopup" role="dialog" aria-label={`${button.label} recipe card`}>
+                  <button
+                    type="button"
+                    className="dinnerRecipeMiniClose"
+                    onClick={() => setActiveRecipePopup(null)}
+                    aria-label="Close recipe card note"
+                  >
+                    ×
+                  </button>
+                  <h5>{button.label}</h5>
+                  <p>
+                    This is ready to connect to the matching recipe-card popup once that individual recipe card is available in the library.
+                  </p>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="dinnerCombinationPlannerAdd" aria-label={`Add ${meal.title} to meal plan`}>
+        <label>
+          <span>Add meal to plan day</span>
+          <select value={selectedPlannerDay} onChange={(event) => setSelectedPlannerDay(event.target.value)}>
+            {PLANNER_WEEKS.map((week) => (
+              <optgroup key={week.id} label={week.title}>
+                {WEEK_DAYS.map((day) => (
+                  <option key={`${week.id}-${day}`} value={`${week.id}-${day}`}>
+                    {week.title} — {day}
+                  </option>
+                ))}
+              </optgroup>
             ))}
-          </div>
-        </aside>
-      )}
+          </select>
+        </label>
+        <button type="button" onClick={addThisMealToPlan}>Add Meal</button>
+        {addedMessage && <p className="dinnerCombinationAddedMessage">{addedMessage}</p>}
+      </section>
+
+      <details className="dinnerCombinationHeating">
+        <summary>Heating & freezer notes</summary>
+        <div>
+          <p><strong>Freezer life:</strong> {meal.freezerLife}</p>
+          <p><strong>Oven:</strong> {meal.ovenInstructions}</p>
+          <p><strong>Microwave:</strong> {meal.microwaveInstructions}</p>
+        </div>
+      </details>
     </article>
   );
 }
 
-function DinnerCombinationsPage({ setActivePage, setFilter }) {
+function DinnerCombinationsPage({ setActivePage, setFilter, setPlan }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [proteinFilter, setProteinFilter] = useState("all");
   const [sideFilter, setSideFilter] = useState("all");
@@ -5280,6 +5343,16 @@ function DinnerCombinationsPage({ setActivePage, setFilter }) {
   function openRecipeSearch(recipeName) {
     setFilter(recipeName);
     setActivePage("Recipes");
+  }
+
+  function addDinnerMealToPlan(mealId, slotKey) {
+    if (!mealId || !slotKey) return;
+
+    setPlan((current) => {
+      const next = normalizeTwoWeekPlan(current);
+      next[slotKey] = [...(next[slotKey] || []), mealId];
+      return next;
+    });
   }
 
   return (
@@ -5359,7 +5432,7 @@ function DinnerCombinationsPage({ setActivePage, setFilter }) {
       {filteredMeals.length > 0 ? (
         <section className="dinnerCombinationGrid" aria-label="Dinner combination results">
           {filteredMeals.map((meal) => (
-            <DinnerCombinationCard key={meal.id} meal={meal} onOpenRecipeSearch={openRecipeSearch} />
+            <DinnerCombinationCard key={meal.id} meal={meal} onAddMealToPlan={addDinnerMealToPlan} />
           ))}
         </section>
       ) : (
@@ -7038,7 +7111,7 @@ export default function App() {
             text="These dinner combinations are designed to help you quickly choose practical meals with a main dish, sides, portion guidance, and estimated nutrition. They can be used for weekly planning, freezer meal prep, or simple dinner ideas for smaller households.\n\nNutrition values are estimates and may vary based on brands, portions, and preparation methods."
             className="pageHeroDepth464"
           />
-          <DinnerCombinationsPage setActivePage={setActivePage} setFilter={setFilter} />
+          <DinnerCombinationsPage setActivePage={setActivePage} setFilter={setFilter} setPlan={setPlan} />
         </>
       )}
       {activePage === "Crockpot Recipes" && (
