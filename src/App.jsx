@@ -5162,6 +5162,12 @@ function HeroTopicPage({
 
 
 
+function formatDinnerNutritionValue(value, suffix = "") {
+  const numericValue = Number(value);
+  if (!Number.isFinite(numericValue)) return "—";
+  return `${numericValue}${suffix}`;
+}
+
 function DinnerCombinationCard({ meal, onOpenRecipeSearch }) {
   const recipeButtons = [
     { label: meal.mainDish, type: "Main Dish" },
@@ -5202,11 +5208,11 @@ function DinnerCombinationCard({ meal, onOpenRecipeSearch }) {
         </div>
 
         <div className="dinnerCombinationNutrition" aria-label={`Estimated nutrition for ${meal.title}`}>
-          <span><strong>{meal.calories}</strong><small>calories</small></span>
-          <span><strong>{meal.protein}g</strong><small>protein</small></span>
-          <span><strong>{meal.carbs}g</strong><small>carbs</small></span>
-          <span><strong>{meal.fat}g</strong><small>fat</small></span>
-          <span><strong>{meal.fiber}g</strong><small>fiber</small></span>
+          <span><strong>{formatDinnerNutritionValue(meal.calories)}</strong><small>calories</small></span>
+          <span><strong>{formatDinnerNutritionValue(meal.protein, "g")}</strong><small>protein</small></span>
+          <span><strong>{formatDinnerNutritionValue(meal.carbs, "g")}</strong><small>carbs</small></span>
+          <span><strong>{formatDinnerNutritionValue(meal.fat, "g")}</strong><small>fat</small></span>
+          <span><strong>{formatDinnerNutritionValue(meal.fiber, "g")}</strong><small>fiber</small></span>
         </div>
 
         <details className="dinnerCombinationHeating">
@@ -5262,11 +5268,11 @@ function DinnerCombinationsPage({ setActivePage, setFilter }) {
       .filter((meal) => !normalizedSearch || getDinnerCombinationSearchText(meal).includes(normalizedSearch))
       .filter((meal) => proteinFilter === "all" || (meal.tags || []).includes(proteinFilter))
       .filter((meal) => sideFilter === "all" || (meal.tags || []).includes(sideFilter))
-      .filter((meal) => !lowerCalorieOnly || Number(meal.calories) < 600)
-      .filter((meal) => !higherProteinOnly || Number(meal.protein) >= 30)
+      .filter((meal) => !lowerCalorieOnly || (Number.isFinite(Number(meal.calories)) && Number(meal.calories) < 600))
+      .filter((meal) => !higherProteinOnly || (Number.isFinite(Number(meal.protein)) && Number(meal.protein) >= 30))
       .sort((a, b) => {
-        if (sortMode === "calories-low") return Number(a.calories) - Number(b.calories);
-        if (sortMode === "protein-high") return Number(b.protein) - Number(a.protein);
+        if (sortMode === "calories-low") return (Number.isFinite(Number(a.calories)) ? Number(a.calories) : 9999) - (Number.isFinite(Number(b.calories)) ? Number(b.calories) : 9999);
+        if (sortMode === "protein-high") return (Number.isFinite(Number(b.protein)) ? Number(b.protein) : -1) - (Number.isFinite(Number(a.protein)) ? Number(a.protein) : -1);
         if (sortMode === "title") return a.title.localeCompare(b.title);
         return Number(a.number) - Number(b.number);
       });

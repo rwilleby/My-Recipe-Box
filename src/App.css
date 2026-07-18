@@ -18547,3 +18547,13 @@ nav button,
   min-width: 18px !important;
   font-size: 10px !important;
 }
+
+
+/* =========================================================
+   DINNER COMBINATIONS 001-102 DATA LOAD
+   Allows unknown nutrition values to display cleanly as dashes.
+   ========================================================= */
+
+.dinnerCombinationNutrition strong {
+  min-width: 1.4em !important;
+}
