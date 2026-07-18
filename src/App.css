@@ -19875,3 +19875,53 @@ nav button,
     z-index: 95000 !important;
   }
 }
+
+/* =========================================================
+   PAGE NOTES POPUP — SPECIFICITY OVERRIDE FIX
+   The older numbered help-button rules used higher-specificity selectors like
+   .pageTopHeroImage .pageHelpItem:nth-child(1) .pageHelpPopup, so they could
+   beat the newer .pageNotesPopup right-edge rules even though the newer rules
+   appeared later. This selector intentionally matches the actual PAGE NOTES
+   markup with higher specificity and pins the popup to the right edge of the
+   button, opening down and toward the middle of the page.
+   ========================================================= */
+
+.pageTopHeroImage .pageHelpItem.pageNotesItem .pageHelpPopup.pageNotesPopup,
+.pageTopHeroImage .pageHelpItem.pageNotesItem:nth-child(1) .pageHelpPopup.pageNotesPopup,
+.pageTopHeroImage .pageNotesItem .pageHelpPopup.pageNotesPopup,
+.pageHelpItem.pageNotesItem .pageHelpPopup.pageNotesPopup {
+  position: absolute !important;
+  left: auto !important;
+  right: 0 !important;
+  top: calc(100% + 10px) !important;
+  bottom: auto !important;
+  transform: none !important;
+  width: min(560px, calc(100vw - 48px)) !important;
+  max-width: calc(100vw - 48px) !important;
+  max-height: min(62vh, 520px) !important;
+  overflow-y: auto !important;
+  z-index: 95000 !important;
+}
+
+.pageTopHeroImage .pageHelpItem.pageNotesItem .pageHelpPopup.pageNotesPopup {
+  inset-inline-start: auto !important;
+  inset-inline-end: 0 !important;
+}
+
+@media (max-width: 760px) {
+  .pageTopHeroImage .pageHelpItem.pageNotesItem .pageHelpPopup.pageNotesPopup,
+  .pageTopHeroImage .pageHelpItem.pageNotesItem:nth-child(1) .pageHelpPopup.pageNotesPopup,
+  .pageTopHeroImage .pageNotesItem .pageHelpPopup.pageNotesPopup,
+  .pageHelpItem.pageNotesItem .pageHelpPopup.pageNotesPopup {
+    position: fixed !important;
+    left: 16px !important;
+    right: 16px !important;
+    top: auto !important;
+    bottom: 18px !important;
+    width: auto !important;
+    max-width: none !important;
+    max-height: min(70vh, 520px) !important;
+    transform: none !important;
+    z-index: 95000 !important;
+  }
+}
