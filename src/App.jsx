@@ -7306,8 +7306,9 @@ These pages are designed to be easy to scan, print, or revisit when needed. They
       />
 
       <footer className="footer">
-        Robert’s Recipe Box uses AI-generated recipe collections as practical
-        planning tools. Favorites and plans are saved in this browser only.
+        Robert’s Recipe Box uses AI-generated recipes as practical
+        planning tools. Favorites and meal plans are saved in this browser only.
+        Some product links may earn a small commission at no extra cost to you.
       </footer>
     </div>
   );
