@@ -19925,3 +19925,25 @@ nav button,
     z-index: 95000 !important;
   }
 }
+
+/* =========================================================
+   PAGE HERO TEXT — ALIGN TOP WITH PAGE NOTES BUTTON
+   Moves the hero copy block up so the top of the text area starts
+   on the same visual line as the PAGE NOTES button on every page hero.
+   ========================================================= */
+
+.pageTopHeroImage.hasHeroText .pageHeroTextOverlay,
+.pageTopHeroImage .pageHeroTextOverlay {
+  top: clamp(18px, 2.4vw, 34px) !important;
+  bottom: auto !important;
+  transform: none !important;
+}
+
+@media (max-width: 760px) {
+  .pageTopHeroImage.hasHeroText .pageHeroTextOverlay,
+  .pageTopHeroImage .pageHeroTextOverlay {
+    top: 48px !important;
+    bottom: auto !important;
+    transform: none !important;
+  }
+}
