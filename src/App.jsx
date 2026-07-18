@@ -5805,37 +5805,44 @@ const DISCLAIMER_ACCORDION_SECTIONS = [
       {
         title: "1.1 AI-Generated Recipes",
         simple: ["The recipes on Robert’s Recipe Box are created with the help of artificial intelligence, but they are guided by Robert’s ideas and decisions. Robert selects the type of meal, ingredients, flavors, number of servings, cooking method, and practical goals for each recipe."],
-        formal: ["Recipes and related content published on Robert’s Recipe Box may be generated, developed, organized, revised, or formatted with the assistance of artificial intelligence. Artificial intelligence may occasionally produce inaccurate, incomplete, inconsistent, or impractical information. Although reasonable efforts may be made to review and improve the content before publication, no representation or warranty is made that every recipe or instruction is completely accurate, error-free, or suitable for every user."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["Recipes and related content published on Robert’s Recipe Box may be generated, developed, organized, revised, illustrated, or formatted with the assistance of artificial intelligence. Artificial intelligence may occasionally produce inaccurate, incomplete, inconsistent, or impractical information. Although reasonable efforts may be made to review and improve content before publication, no representation or warranty is made that every recipe or instruction is completely accurate, error-free, tested, or suitable for every user."],
       },
       {
         title: "1.2 Original Recipe Development",
-        simple: ["The recipes are developed specifically for Robert’s Recipe Box and are not intentionally copied from another website, cookbook, restaurant, or food company. Similarities may still occur because many recipes use familiar ingredients and traditional cooking methods."],
-        formal: ["Recipes published on Robert’s Recipe Box are independently generated or developed and are not intentionally reproduced from copyrighted recipes, publications, websites, or proprietary commercial formulas. Similarities in ingredient combinations, cooking techniques, recipe names, or commonly used instructions may occur because many dishes are based on traditional, widely known, or functional culinary practices."],
+        simple: ["The recipes are developed specifically for Robert’s Recipe Box and are not intentionally copied from another website, cookbook, restaurant, or food company. Similarities may occur because many recipes use familiar ingredients and traditional cooking methods."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["Recipes published on Robert’s Recipe Box are independently generated or developed and are not intentionally reproduced from copyrighted recipes, publications, websites, or proprietary commercial formulas. Similarities in ingredients, measurements, cooking techniques, recipe names, or commonly used directions may occur because many dishes are based on traditional, widely known, functional, or commonly practiced culinary methods."],
       },
       {
         title: "1.3 Recipe Testing",
-        simple: ["Not every recipe may have been personally cooked and tested before it appears on the website. Review the ingredients and directions carefully and make reasonable adjustments when something does not appear right for your kitchen or equipment."],
-        formal: ["Unless specifically stated otherwise, users should not assume that every recipe has been independently prepared, tested, verified, or evaluated under controlled conditions. Users are responsible for reviewing all ingredients, quantities, preparation steps, temperatures, and cooking times before beginning a recipe. Robert’s Recipe Box makes no guarantee that a recipe will perform as described under every set of conditions."],
+        simple: ["Not every recipe may have been personally cooked and tested before it appears on the website. Visitors should review the ingredients and directions carefully and use reasonable judgment before preparing a recipe."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["Unless specifically stated otherwise, users should not assume that every recipe has been independently prepared, tested, verified, or evaluated under controlled conditions. Users are responsible for reviewing all ingredients, quantities, preparation steps, temperatures, cooking times, storage instructions, and equipment requirements before beginning a recipe. Robert’s Recipe Box does not guarantee that a recipe will perform as described under every set of conditions."],
       },
       {
         title: "1.4 Cooking Results May Vary",
-        simple: ["Two people can follow the same recipe and still get slightly different results. Appliances, cookware, ingredient brands, weather, experience, and personal preferences can all affect the finished dish."],
-        formal: ["Cooking results may vary because of differences in ingredient brands, freshness, substitutions, appliances, cookware, oven calibration, elevation, humidity, portion size, preparation methods, and individual cooking experience. Descriptions, photographs, serving suggestions, and expected results are provided for general reference and do not constitute a guarantee of appearance, flavor, texture, quality, or performance."],
+        simple: ["Two people can follow the same recipe and still get different results. Appliances, cookware, ingredient brands, weather, experience, and personal preferences can all affect the finished dish."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["Cooking results may vary because of differences in ingredient brands, ingredient freshness, substitutions, appliances, cookware, oven calibration, elevation, humidity, portion size, preparation methods, and individual cooking experience. Descriptions, photographs, serving suggestions, and expected results are provided for general reference and do not guarantee appearance, flavor, texture, quality, or performance."],
       },
       {
         title: "1.5 Ingredient Substitutions",
-        simple: ["Substitutions can be useful, but changing an ingredient may also change the flavor, texture, nutrition, cooking time, or safety of the recipe. Use substitutions carefully."],
-        formal: ["Suggested substitutions are provided as general guidance only. Robert’s Recipe Box does not guarantee that a substituted ingredient will produce the same flavor, texture, appearance, cooking behavior, nutritional content, allergen status, or food-safety outcome as the original ingredient. Users assume responsibility for evaluating and using all substitutions."],
+        simple: ["Substitutions can be useful, but changing an ingredient may also change the flavor, texture, nutrition, cooking time, allergen content, or safety of the recipe."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["Suggested substitutions are provided as general guidance only. Robert’s Recipe Box does not guarantee that a substituted ingredient will produce the same flavor, texture, appearance, cooking behavior, nutritional content, allergen status, or food-safety outcome as the original ingredient. Users accept responsibility for evaluating and using all substitutions."],
       },
       {
         title: "1.6 Measurements and Conversions",
-        simple: ["Measurements, weights, temperatures, and conversions are meant to be practical kitchen references. Small differences may occur because ingredients and measuring tools are not always identical."],
-        formal: ["Measurements, weights, temperatures, yields, and unit conversions are provided as estimates unless expressly identified as exact. Variations may occur because of rounding, ingredient density, measuring technique, equipment accuracy, and differences between customary and metric systems. Users should independently verify measurements when precision is important."],
+        simple: ["Measurements, weights, temperatures, and conversions are intended to be practical kitchen references. Small differences may occur because ingredients, measuring tools, and conversion methods are not always identical."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["Measurements, weights, temperatures, yields, and unit conversions are estimates unless expressly identified as exact. Variations may occur because of rounding, ingredient density, measuring technique, equipment accuracy, and differences between customary and metric systems. Users should independently verify measurements whenever precision is important."],
       },
       {
         title: "1.7 Serving Sizes and Yields",
         simple: ["Serving sizes are estimates. The actual number of servings will depend on appetite, portion size, side dishes, and how the food is divided."],
-        formal: ["All stated yields, portions, and serving sizes are estimates and may not reflect the amount consumed or required by a particular person or household. Robert’s Recipe Box makes no guarantee that a recipe will produce a specific number, weight, or volume of servings."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["All stated yields, portions, and serving sizes are estimates and may not reflect the amount consumed or required by a particular person or household. Robert’s Recipe Box does not guarantee that a recipe will produce a specific number, weight, or volume of servings."],
       },
     ],
   },
@@ -5845,37 +5852,50 @@ const DISCLAIMER_ACCORDION_SECTIONS = [
       {
         title: "2.1 General Food-Safety Responsibility",
         simple: ["Safe cooking begins with the person preparing the food. Wash your hands, keep surfaces clean, separate raw foods from ready-to-eat foods, and use good judgment throughout the cooking process."],
-        formal: ["Users are solely responsible for following appropriate food-handling, sanitation, preparation, storage, cooking, and serving practices. Robert’s Recipe Box is not responsible for foodborne illness, contamination, spoilage, injury, or loss resulting from improper handling, preparation, storage, or consumption of food."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["Users are solely responsible for following appropriate food-handling, sanitation, preparation, storage, cooking, and serving practices. Robert’s Recipe Box is not responsible for foodborne illness, contamination, spoilage, injury, or loss resulting from improper handling, preparation, storage, serving, or consumption of food."],
       },
       {
         title: "2.2 Safe Internal Temperatures",
-        simple: ["Cooking times are only a guide. Use a reliable food thermometer to make sure meat, poultry, seafood, eggs, casseroles, and reheated foods reach a safe internal temperature."],
-        formal: ["Cooking times and temperatures appearing in recipes are provided as general guidance. Users must independently confirm that foods have reached an internal temperature appropriate for safe consumption. The appearance, color, texture, or stated cooking time of a food item should not be relied upon as the sole indication of doneness or safety."],
+        simple: ["Cooking times are only a guide. Use a reliable food thermometer to make sure meat, poultry, seafood, eggs, casseroles, leftovers, and reheated foods reach an appropriate internal temperature."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["Cooking times and temperatures appearing in recipes are provided as general guidance. Users must independently confirm that foods have reached an internal temperature appropriate for safe consumption. Appearance, color, texture, or stated cooking time should not be relied upon as the sole indication of doneness or safety."],
       },
       {
         title: "2.3 Cross-Contamination",
         simple: ["Raw meat, poultry, seafood, and eggs can spread bacteria to hands, utensils, cutting boards, countertops, and other foods. Keep raw and cooked foods separated and clean everything thoroughly."],
-        formal: ["Users are responsible for preventing cross-contamination by properly separating raw and ready-to-eat foods and by cleaning and sanitizing hands, surfaces, utensils, cutting boards, appliances, and storage containers. Robert’s Recipe Box assumes no responsibility for contamination resulting from the user’s handling practices or kitchen environment."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["Users are responsible for preventing cross-contamination by separating raw and ready-to-eat foods and by cleaning and sanitizing hands, surfaces, utensils, cutting boards, appliances, and storage containers. Robert’s Recipe Box assumes no responsibility for contamination resulting from a user’s handling practices or kitchen environment."],
       },
       {
         title: "2.4 Refrigeration and Food Storage",
-        simple: ["Storage times are general guidelines, not guarantees. Refrigerate food promptly, keep the refrigerator at a safe temperature, and discard anything that looks, smells, or seems questionable."],
-        formal: ["Refrigeration and storage recommendations are estimates and may vary depending on ingredient condition, preparation method, storage temperature, packaging, handling, and appliance performance. Users are responsible for determining whether food remains safe to consume. When spoilage, contamination, temperature abuse, or improper storage is suspected, the food should be discarded."],
+        simple: ["Storage times are general guidelines, not guarantees. Refrigerate food promptly and discard anything that looks, smells, or otherwise appears questionable."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["Refrigeration and storage recommendations are estimates and may vary depending on ingredient condition, preparation method, storage temperature, packaging, handling, and appliance performance. Users are responsible for determining whether food remains safe to consume. Food should be discarded whenever spoilage, contamination, temperature abuse, or improper storage is suspected."],
       },
       {
         title: "2.5 Freezing and Thawing",
-        simple: ["Freezing can make meal preparation easier, but foods must be packaged, frozen, thawed, and reheated correctly. Some ingredients may also change texture after freezing."],
-        formal: ["Freezing, freezer-storage, thawing, and make-ahead instructions are provided as general guidance. Robert’s Recipe Box does not guarantee the safety, quality, texture, appearance, or storage life of frozen food. Users are responsible for using food-safe packaging, maintaining appropriate freezer temperatures, thawing foods safely, and evaluating the condition of food before consumption."],
+        simple: ["Freezing can make meal preparation easier, but foods must be packaged, frozen, thawed, and reheated correctly. Some foods may also change texture or appearance after freezing."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["Freezing, freezer-storage, thawing, and make-ahead instructions are provided as general guidance. Robert’s Recipe Box does not guarantee the safety, quality, texture, appearance, or storage life of frozen food. Users are responsible for using food-safe packaging, maintaining appropriate freezer temperatures, thawing food safely, and evaluating its condition before consumption."],
       },
       {
         title: "2.6 Reheating Leftovers and Prepared Meals",
         simple: ["Leftovers and prepared meals should be reheated thoroughly and evenly. Stir or rotate foods when needed and check the temperature in more than one location."],
-        formal: ["Reheating instructions are estimates and may vary by appliance, portion size, container, food density, and starting temperature. Users are responsible for ensuring that reheated foods reach an appropriate internal temperature and are heated evenly before consumption."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["Reheating instructions are estimates and may vary by appliance, portion size, container, food density, and starting temperature. Users are responsible for ensuring that reheated food reaches an appropriate internal temperature and is heated evenly before consumption."],
       },
       {
         title: "2.7 Appliance and Equipment Safety",
         simple: ["Always follow the instructions that came with your oven, air fryer, microwave, slow cooker, grill, smoker, pressure cooker, vacuum sealer, or other kitchen equipment."],
-        formal: ["Any appliance settings, cooking methods, or equipment recommendations appearing on Robert’s Recipe Box are general suggestions only. Users must follow all manufacturer instructions, warnings, operating limits, maintenance requirements, and safety procedures. Robert’s Recipe Box is not responsible for personal injury, fire, burns, equipment failure, property damage, or other loss resulting from the use or misuse of any appliance, utensil, container, or kitchen product."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["Appliance settings, cooking methods, and equipment recommendations appearing on Robert’s Recipe Box are general suggestions only. Users must follow all manufacturer instructions, warnings, operating limits, maintenance requirements, and safety procedures. Robert’s Recipe Box is not responsible for personal injury, fire, burns, equipment failure, property damage, or other losses resulting from the use or misuse of an appliance, utensil, container, or kitchen product."],
+      },
+      {
+        title: "2.8 Product Recalls and Safety Notices",
+        simple: ["Product information on the website may become outdated. Visitors should check with manufacturers, retailers, and appropriate government recall services for current safety information."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["Robert’s Recipe Box is not a real-time product-recall or safety-notification service. Users are responsible for checking current manufacturer notices, government recall databases, product warnings, operating instructions, and safety information before using an ingredient, appliance, container, utensil, or other product."],
       },
     ],
   },
@@ -5885,181 +5905,649 @@ const DISCLAIMER_ACCORDION_SECTIONS = [
       {
         title: "3.1 Food Allergies",
         simple: ["Always read every product label yourself. Ingredients and manufacturing practices can change, even when you have purchased the same product before."],
-        formal: ["Robert’s Recipe Box cannot guarantee that any recipe, ingredient, product, or preparation method is free from allergens. Users are responsible for reviewing ingredient labels, allergen statements, cross-contact warnings, and manufacturing information before preparing or consuming any food."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["Robert’s Recipe Box cannot guarantee that any recipe, ingredient, product, preparation area, or cooking method is free from allergens. Users are responsible for reviewing ingredient labels, allergen statements, cross-contact warnings, manufacturing information, and preparation conditions before preparing or consuming food."],
       },
       {
         title: "3.2 Food Sensitivities and Intolerances",
-        simple: ["An ingredient that is safe for one person may cause discomfort or a reaction in another. Adjust recipes only after considering your own dietary needs and tolerances."],
-        formal: ["Information concerning food sensitivities, intolerances, or ingredient alternatives is provided for general informational purposes only. It is not a substitute for individualized medical or dietary advice. Users should consult a qualified healthcare professional regarding personal dietary restrictions or reactions."],
+        simple: ["An ingredient that is safe for one person may cause discomfort or a reaction in another. Recipes should be adjusted only after considering individual dietary needs and tolerances."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["Information concerning food sensitivities, intolerances, and ingredient alternatives is provided for general informational purposes only. It is not a substitute for individualized medical or dietary advice. Users should consult a qualified healthcare professional regarding personal dietary restrictions or reactions."],
       },
       {
         title: "3.3 Nutrition Information",
-        simple: ["Calories, carbohydrates, protein, fat, sodium, and other nutrition numbers are estimates. Actual values will depend on the exact ingredients, brands, portions, and preparation methods used."],
-        formal: ["Nutritional information is calculated or estimated from available ingredient data and may not be independently verified. Actual nutritional values may vary because of product brands, ingredient substitutions, portion sizes, preparation methods, cooking losses, data-source differences, and manufacturer changes. No guarantee is made regarding the accuracy or completeness of nutritional information."],
+        simple: ["Calories, carbohydrates, protein, fat, sodium, and other nutrition numbers are estimates. Actual values depend on the exact ingredients, brands, portions, and preparation methods used."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["Nutritional information may be calculated or estimated from available ingredient data and may not be independently verified. Actual nutritional values may vary because of product brands, substitutions, portion sizes, preparation methods, cooking losses, database differences, and manufacturer changes. No guarantee is made regarding the accuracy or completeness of nutritional information."],
       },
       {
         title: "3.4 Medical and Dietary Advice",
-        simple: ["The website provides cooking information, not medical care. A recipe should not replace advice from a doctor, registered dietitian, or other qualified professional."],
-        formal: ["Nothing on Robert’s Recipe Box is intended to diagnose, treat, cure, or prevent any disease or medical condition. Website content does not constitute medical, nutritional, therapeutic, or professional dietary advice. Users should consult an appropriately qualified healthcare provider before making decisions related to medical conditions, medications, allergies, weight management, or specialized diets."],
+        simple: ["Robert’s Recipe Box provides cooking information, not medical care. A recipe should not replace advice from a doctor, registered dietitian, or other qualified professional."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["Nothing on Robert’s Recipe Box is intended to diagnose, treat, cure, or prevent a disease or medical condition. Website content does not constitute medical, nutritional, therapeutic, or professional dietary advice. Users should consult an appropriately qualified healthcare provider before making decisions involving medical conditions, medications, allergies, weight management, or specialized diets."],
       },
       {
         title: "3.5 Special-Diet Descriptions",
         simple: ["Terms such as low-carb, high-protein, lower-sodium, diabetic-friendly, heart-healthy, gluten-free, or lighter may help describe a recipe, but they are not medical guarantees."],
-        formal: ["Dietary descriptions and category labels are general informational classifications and may not satisfy every medical, nutritional, religious, or personal dietary standard. Users are responsible for independently determining whether a recipe and its ingredients are appropriate for their specific requirements."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["Dietary descriptions and category labels are general informational classifications and may not satisfy every medical, nutritional, religious, ethical, or personal dietary standard. Users are responsible for independently determining whether a recipe and its ingredients are appropriate for their requirements."],
       },
       {
         title: "3.6 Manufacturer Ingredient Changes",
-        simple: ["Food companies sometimes change their recipes, packaging, serving sizes, nutrition facts, and allergen warnings without notice. Check the current package instead of relying only on website information."],
-        formal: ["Manufacturers and retailers may revise product formulations, packaging, nutrition information, serving sizes, allergen disclosures, warnings, and manufacturing processes at any time. Robert’s Recipe Box is not responsible for changes made by third parties or for outdated product information."],
+        simple: ["Food companies sometimes change their recipes, packaging, serving sizes, nutrition facts, and allergen warnings without notice. Always check the current package."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["Manufacturers and retailers may revise product formulations, packaging, nutrition information, serving sizes, allergen disclosures, warnings, and manufacturing processes at any time. Robert’s Recipe Box is not responsible for changes made by third parties or for product information that becomes outdated."],
       },
     ],
   },
   {
-    title: "4. Costs, Products and Affiliate Links",
+    title: "4. Costs, Products, Affiliates and Advertising",
     items: [
       {
         title: "4.1 Recipe Cost Estimates",
-        simple: ["Recipe costs are intended to help users compare meals and make informed choices. They are estimates, not promises of what the ingredients will cost at a particular store."],
-        formal: ["Ingredient costs, recipe totals, and per-serving cost calculations are estimates based on selected pricing assumptions. Actual costs may vary by geographic location, retailer, brand, package size, season, availability, inflation, taxes, promotions, coupons, loyalty programs, and shopping practices. Robert’s Recipe Box makes no guarantee that a recipe can be prepared for the stated amount."],
+        simple: ["Recipe costs are intended to help visitors compare meals and make informed choices. They are estimates, not promises of what ingredients will cost at a particular store."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["Ingredient costs, recipe totals, and per-serving calculations are estimates based on selected pricing assumptions. Actual costs may vary by location, retailer, brand, package size, season, availability, inflation, taxes, promotions, coupons, loyalty programs, and shopping practices. Robert’s Recipe Box does not guarantee that a recipe can be prepared for the stated amount."],
       },
       {
         title: "4.2 Product Recommendations",
-        simple: ["Robert’s Recipe Box may suggest cookware, appliances, containers, ingredients, or kitchen tools that appear useful for a particular task. A recommendation does not guarantee that the product will be right for every user."],
-        formal: ["Product recommendations reflect general opinions, personal experience, research, or practical observations available at the time of publication. They do not constitute a warranty, endorsement, or guarantee of quality, performance, safety, durability, suitability, or value. Users are responsible for evaluating products before purchasing or using them."],
+        simple: ["Robert’s Recipe Box may suggest cookware, appliances, containers, ingredients, or tools that appear useful for a particular task. A recommendation does not guarantee that a product will be right for every user."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["Product recommendations may reflect personal experience, research, publicly available information, manufacturer specifications, or practical observations available at the time of publication. A recommendation does not constitute a warranty or guarantee of quality, safety, performance, durability, suitability, or value. Users are responsible for evaluating products before purchasing or using them."],
       },
       {
         title: "4.3 Affiliate Links",
-        simple: ["Some product links may earn Robert’s Recipe Box a small commission when a purchase is made. This generally does not increase the price paid by the customer."],
-        formal: ["Robert’s Recipe Box may participate in affiliate marketing programs and may receive compensation from qualifying purchases made through designated links. The presence of an affiliate link does not alter the user’s responsibility to evaluate the product, seller, price, warranty, return policy, and suitability before purchasing."],
+        simple: ["Some product links may earn Robert’s Recipe Box a commission when a purchase is made. This generally does not add a separate charge to the customer’s purchase."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["Robert’s Recipe Box may participate in affiliate marketing programs and receive compensation from qualifying purchases made through designated links. Affiliate relationships will be disclosed as required. Visitors remain responsible for evaluating the product, seller, price, warranty, return policy, and suitability before purchasing.", "A short disclosure should also appear close to affiliate links or recommendations, such as:", "“I may earn a commission from purchases made through this link.”"],
       },
       {
-        title: "4.4 Prices and Availability",
-        simple: ["Online prices, sales, shipping costs, and product availability can change quickly. A product shown on the website may be unavailable or priced differently when the link is opened."],
-        formal: ["Product prices, availability, discounts, delivery estimates, and promotional offers are controlled by third-party retailers and may change without notice. Robert’s Recipe Box does not guarantee the accuracy or continued availability of any price, product, discount, or purchasing opportunity."],
+        title: "4.4 Amazon Associates Disclosure",
+        simple: ["Amazon product links may be used to help visitors locate recommended ingredients, cookware, storage products, appliances, and other kitchen items."],
+        formalLabel: "Required Amazon disclosure:",
+        formal: ["As an Amazon Associate I earn from qualifying purchases.", "This statement should be displayed clearly on the website whenever Robert’s Recipe Box actively participates in the Amazon Associates Program."],
       },
       {
-        title: "4.5 Third-Party Retailers",
-        simple: ["When you leave Robert’s Recipe Box and shop on another website, that company is responsible for the order, payment, shipping, return, warranty, and customer service."],
-        formal: ["Purchases made through third-party retailers are transactions solely between the purchaser and the retailer. Robert’s Recipe Box is not responsible for payment processing, order fulfillment, product condition, shipping, delivery, warranties, returns, refunds, privacy practices, customer service, or disputes involving third-party sellers."],
+        title: "4.5 Sponsored Content",
+        simple: ["A manufacturer, retailer, advertiser, or other organization may occasionally pay for or support certain content."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["Sponsored or paid content will be identified using reasonably clear language such as “Sponsored,” “Advertisement,” or “Paid Partnership.” Compensation does not guarantee a favorable opinion, review, rating, or recommendation."],
+      },
+      {
+        title: "4.6 Free, Loaned or Discounted Products",
+        simple: ["A product may occasionally be provided free, loaned, or sold at a discount for evaluation. That relationship will be disclosed when it could affect how a visitor considers the recommendation."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["Receipt of a free, loaned, or discounted product does not guarantee publication or positive coverage. Robert’s Recipe Box will make reasonable efforts to disclose material relationships associated with product reviews or recommendations."],
+      },
+      {
+        title: "4.7 Reviews, Testimonials and Individual Results",
+        simple: ["A favorable review or testimonial reflects an individual experience. Another person may receive different performance, value, durability, or results."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["Reviews, ratings, testimonials, and personal experiences do not guarantee that every user will receive the same or similar results. Robert’s Recipe Box does not guarantee that a testimonial is representative of the experience generally expected by all users."],
+      },
+      {
+        title: "4.8 Prices and Availability",
+        simple: ["Online prices, sales, shipping charges, and product availability can change quickly. A product may be unavailable or priced differently when its link is opened."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["Prices, discounts, availability, delivery estimates, and promotions are controlled by third-party retailers and may change without notice. The retailer’s product page and checkout process control the final price, availability, taxes, delivery costs, and transaction details."],
+      },
+      {
+        title: "4.9 Third-Party Retailers",
+        simple: ["When a visitor leaves Robert’s Recipe Box and shops on another website, that company is responsible for the order, payment, shipping, return, warranty, and customer service."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["Purchases made through third-party retailers are transactions between the purchaser and the retailer. Robert’s Recipe Box is not responsible for payment processing, order fulfillment, product condition, shipping, delivery, warranties, returns, refunds, privacy practices, customer service, or disputes involving third-party sellers."],
+      },
+      {
+        title: "4.10 Editorial Independence",
+        simple: ["Advertising and affiliate income may help support the website, but compensation does not automatically determine which products are recommended."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["Robert’s Recipe Box aims to distinguish personal opinions from factual product information and to disclose material commercial relationships. Compensation does not create a guarantee of favorable editorial treatment."],
       },
     ],
   },
   {
-    title: "5. Website Accuracy, Availability and External Information",
+    title: "5. Privacy, Cookies and Communications",
     items: [
       {
-        title: "5.1 Informational Use",
-        simple: ["The website is designed for general home-cooking, meal-planning, and educational use. It should be treated as a helpful resource rather than a professional service."],
-        formal: ["All content provided by Robert’s Recipe Box is for general informational and educational purposes only. The website does not provide professional culinary, medical, nutritional, legal, financial, engineering, or safety services."],
+        title: "5.1 Information Visitors Provide",
+        simple: ["Visitors may voluntarily provide information when sending a message, subscribing to updates, submitting a recipe or photograph, reporting a problem, requesting permission, or using another interactive feature."],
+        formalLabel: "Formal privacy policy:",
+        formal: ["Information voluntarily provided may include a name, email address, message, recipe, photograph, preferences, and any other information the visitor chooses to submit. Visitors should not send passwords, payment-card information, medical records, government identification numbers, or other highly sensitive information through a general website form or ordinary email."],
       },
       {
-        title: "5.2 Accuracy and Errors",
+        title: "5.2 Information Collected Automatically",
+        simple: ["Some technical information may be collected automatically when someone visits the website."],
+        formalLabel: "Formal privacy policy:",
+        formal: ["The website host, analytics providers, affiliate programs, advertising services, or other service providers may collect information such as an Internet Protocol address, browser type, device type, operating system, approximate location, referring page, pages viewed, links selected, access times, and general diagnostic information."],
+      },
+      {
+        title: "5.3 Favorites, Meal Plans and Grocery Lists",
+        simple: ["Favorites, pantry selections, meal plans, and grocery lists may be saved in the visitor’s browser or on the visitor’s device."],
+        formalLabel: "Formal privacy policy:",
+        formal: ["Locally stored information may not be transmitted to Robert’s Recipe Box. Clearing browser data, changing devices, reinstalling software, removing website permissions, or using private-browsing settings may delete saved information. Robert’s Recipe Box does not guarantee permanent storage or recovery of locally saved information."],
+      },
+      {
+        title: "5.4 Cookies and Similar Technologies",
+        simple: ["Cookies and browser storage can help the website remember preferences, operate features, understand general usage, and support affiliate links."],
+        formalLabel: "Formal privacy policy:",
+        formal: ["Robert’s Recipe Box and its service providers may use cookies, browser storage, pixels, tags, or similar technologies for website operation, preference storage, analytics, security, advertising, and affiliate tracking. Visitors may be able to block or delete these technologies through browser settings, but doing so may prevent some features from functioning properly.", "Where legally required, additional cookie choices or consent controls may be provided."],
+      },
+      {
+        title: "5.5 How Information May Be Used",
+        simple: ["Information may be used to answer questions, operate the website, provide requested communications, improve features, review submissions, and protect the website."],
+        formalLabel: "Formal privacy policy:",
+        formal: ["Information may be processed to respond to requests, maintain website functionality, provide requested emails, improve recipes and navigation, evaluate traffic, identify errors, prevent fraud or abuse, comply with legal obligations, and protect the rights, property, and safety of Robert’s Recipe Box and its visitors."],
+      },
+      {
+        title: "5.6 Service Providers and Information Sharing",
+        simple: ["Outside providers may help operate website hosting, analytics, email, security, forms, affiliate links, calendars, and other features."],
+        formalLabel: "Formal privacy policy:",
+        formal: ["Information may be disclosed to service providers when reasonably necessary to perform services for Robert’s Recipe Box. Information may also be disclosed with the visitor’s consent, in response to valid legal process, to investigate fraud or security concerns, to protect legal rights or safety, or in connection with a transfer or reorganization of the website.", "Robert’s Recipe Box does not sell personal information for money.", "If the website later begins an activity legally defined as selling or sharing personal data, the Privacy Policy and available choices will be updated as required."],
+      },
+      {
+        title: "5.7 Email Communications",
+        simple: ["Visitors who voluntarily subscribe may receive recipe updates, announcements, website news, or occasional promotional messages."],
+        formalLabel: "Formal privacy policy:",
+        formal: ["Marketing emails will provide a method for unsubscribing. Administrative responses may still be sent when necessary to answer a request or administer a feature. Robert’s Recipe Box will not request passwords, banking information, or complete payment-card details through ordinary email."],
+      },
+      {
+        title: "5.8 Information Retention and Security",
+        simple: ["Personal information will generally be kept only as long as reasonably necessary for the purpose for which it was collected."],
+        formalLabel: "Formal privacy policy:",
+        formal: ["Reasonable administrative, technical, and organizational precautions may be used to protect personal information. No website, email transmission, storage system, or internet connection can be guaranteed completely secure. Information may be retained as necessary to respond to requests, maintain appropriate records, resolve disputes, enforce policies, protect the website, or satisfy legal obligations."],
+      },
+      {
+        title: "5.9 Privacy Rights and Requests",
+        simple: ["Depending on where a visitor lives and which laws apply, the visitor may have rights concerning access, correction, deletion, portability, and certain uses of personal information."],
+        formalLabel: "Formal privacy policy:",
+        formal: ["Applicable privacy rights may include the right to confirm processing, request access, correct inaccuracies, request deletion, obtain certain information in a portable format, withdraw consent, opt out of certain activities, and appeal certain privacy-request decisions.", "Requests should be sent online to:", "recipes@handsontech.cc", "Robert’s Recipe Box may request reasonable information to verify the identity and authority of the person submitting the request. Information collected for verification will be used for that purpose."],
+      },
+      {
+        title: "5.10 Texas Privacy Rights",
+        simple: ["Texas residents may have rights under the Texas Data Privacy and Security Act when that law applies to the website and the information being processed."],
+        formalLabel: "Formal privacy policy:",
+        formal: ["Robert’s Recipe Box will respond to applicable Texas privacy requests in accordance with legal requirements. A Texas resident may submit a request or appeal a privacy decision by emailing recipes@handsontech.cc. Robert’s Recipe Box will not unlawfully discriminate against a visitor for exercising an applicable privacy right."],
+      },
+      {
+        title: "5.11 Children’s Privacy",
+        simple: ["Robert’s Recipe Box is intended for a general audience and is not directed to children under 13."],
+        formalLabel: "Formal privacy policy:",
+        formal: ["Robert’s Recipe Box does not knowingly request or collect personal information from children under 13. A parent or legal guardian who believes that a child has submitted personal information should contact recipes@handsontech.cc to request review and removal.", "Visitors under 13 should not submit forms, photographs, recipes, comments, account information, or other personal information. Teenagers should obtain permission from a parent or guardian before submitting content."],
+      },
+      {
+        title: "5.12 Third-Party Websites and International Visitors",
+        simple: ["Outside websites have their own privacy practices, and information submitted from outside the United States may be processed in the United States."],
+        formalLabel: "Formal privacy policy:",
+        formal: ["This Privacy Policy does not control the practices of retailers, manufacturers, social networks, analytics providers, embedded services, or other third parties. Visitors should review third-party privacy policies before providing information or completing a transaction.", "Robert’s Recipe Box is operated from Texas, United States. International visitors are responsible for determining whether use of the website is appropriate under the laws applicable to them."],
+      },
+    ],
+  },
+  {
+    title: "6. Website Accuracy, Availability and External Information",
+    items: [
+      {
+        title: "6.1 Informational Use",
+        simple: ["The website is designed for general home-cooking, meal-planning, and educational use. It should be treated as a helpful resource rather than a professional service."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["Content provided by Robert’s Recipe Box is for general informational and educational purposes only. The website does not provide professional culinary, medical, nutritional, legal, financial, engineering, repair, or safety services."],
+      },
+      {
+        title: "6.2 Accuracy and Errors",
         simple: ["Reasonable care may be taken when preparing the website, but mistakes can happen. A recipe may contain a typo, missing step, incorrect number, or outdated detail."],
+        formalLabel: "Formal policy and disclaimer:",
         formal: ["Robert’s Recipe Box does not warrant that website content is complete, accurate, current, reliable, or free from errors or omissions. The website owner reserves the right to correct, revise, remove, or update content at any time without prior notice."],
       },
       {
-        title: "5.3 No Guaranteed Results",
-        simple: ["A recipe, meal plan, kitchen tool, or shopping suggestion may work well for one household and not for another. The website cannot promise a particular result."],
-        formal: ["Robert’s Recipe Box makes no express or implied warranty regarding cooking results, financial savings, health outcomes, meal-planning success, product performance, user satisfaction, or any other result arising from reliance on website content."],
+        title: "6.3 No Guaranteed Results",
+        simple: ["A recipe, meal plan, kitchen tool, or shopping suggestion may work well for one household and not for another."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["Robert’s Recipe Box makes no express or implied guarantee regarding cooking results, financial savings, health outcomes, meal-planning success, product performance, user satisfaction, or any other result arising from use of or reliance on website content."],
       },
       {
-        title: "5.4 External Links",
-        simple: ["Some pages may link to outside websites for products, information, or additional resources. Robert’s Recipe Box does not control those websites."],
-        formal: ["External links are provided solely for convenience and informational purposes. Robert’s Recipe Box does not control, monitor, endorse, or accept responsibility for third-party content, security, availability, advertising, privacy policies, terms of service, products, or business practices."],
+        title: "6.4 External Links",
+        simple: ["Some pages may link to outside websites for products, information, videos, or additional resources. Robert’s Recipe Box does not control those websites."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["External links are provided for convenience and informational purposes. Robert’s Recipe Box does not control, monitor, endorse, or accept responsibility for third-party content, security, availability, advertising, privacy practices, terms, products, or business operations."],
       },
       {
-        title: "5.5 Website Availability",
-        simple: ["The website may occasionally be updated, changed, interrupted, or unavailable. Certain recipes, downloads, or features may also be removed or replaced."],
-        formal: ["Robert’s Recipe Box does not guarantee continuous, uninterrupted, secure, or error-free access to the website. Content, pages, downloads, services, and features may be modified, suspended, restricted, or discontinued at any time without notice."],
+        title: "6.5 Website Availability",
+        simple: ["The website may occasionally be updated, interrupted, changed, or unavailable. Certain recipes, downloads, or features may also be removed or replaced."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["Robert’s Recipe Box does not guarantee continuous, uninterrupted, secure, or error-free access. Content, pages, downloads, services, and features may be modified, suspended, restricted, or discontinued at any time."],
       },
       {
-        title: "5.6 Under-Construction Features",
-        simple: ["Some pages and tools may still be under development. They may contain temporary information, incomplete features, or links that do not yet lead to a finished page."],
-        formal: ["Content identified as under construction, in development, experimental, preliminary, or coming soon may be incomplete, unavailable, or subject to substantial revision. Users should not rely on such content as final or fully functional."],
+        title: "6.6 Under-Construction Features",
+        simple: ["Some pages and tools may still be under development and may contain temporary information or incomplete features."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["Content identified as under construction, experimental, preliminary, in development, or coming soon may be incomplete, unavailable, inaccurate, or subject to substantial revision. Visitors should not rely on such content as final or fully functional."],
       },
       {
-        title: "5.7 Changes to Website Terms and Content",
-        simple: ["Recipes, policies, costs, nutrition estimates, recommendations, and website features may be revised as the site grows and improves."],
-        formal: ["Robert’s Recipe Box reserves the right to modify these disclaimers and any website content at any time without prior notice. Continued use of the website after changes are published constitutes acceptance of the revised terms to the extent permitted by applicable law."],
-      },
-    ],
-  },
-  {
-    title: "6. Ownership and Permitted Use",
-    items: [
-      {
-        title: "6.1 Free Personal Use",
-        simple: ["Visitors may use, print, and download Robert’s Recipe Box recipes for their own household and personal cooking needs."],
-        formal: ["Unless otherwise stated, users are granted a limited, nonexclusive, revocable right to view, print, and download recipe materials for personal, noncommercial use. This permission does not transfer ownership of the content or grant permission for commercial exploitation."],
+        title: "6.7 Changes to Website Content and Policies",
+        simple: ["Recipes, policies, costs, nutrition estimates, recommendations, and website features may be revised as the site grows and changes."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["Robert’s Recipe Box reserves the right to modify website content and policies at any time. Revised policies will be posted with an updated effective date when appropriate. Continued use after an update constitutes acceptance of the revised policies to the extent permitted by law."],
       },
       {
-        title: "6.2 Commercial Use and Redistribution",
-        simple: ["Free personal use does not mean the recipe cards, photographs, website designs, or downloads can be sold, repackaged, or posted elsewhere as someone else’s work."],
-        formal: ["Website content, downloads, recipe-card designs, written materials, photographs, graphics, logos, branding, and other original elements may not be sold, licensed, reproduced in bulk, republished, redistributed, altered for resale, or incorporated into commercial products without prior written permission."],
-      },
-      {
-        title: "6.3 Copyright and Website Content",
-        simple: ["Individual ingredient lists may contain familiar cooking information, but the website’s wording, organization, photographs, graphics, and recipe-card designs are part of Robert’s Recipe Box."],
-        formal: ["To the extent permitted by law, original text, design elements, photographs, illustrations, graphics, page layouts, compilations, downloads, and branding published on Robert’s Recipe Box are protected by applicable intellectual-property laws. No rights are granted except those expressly stated in these terms."],
-      },
-      {
-        title: "6.4 Trademarks and Brand Names",
-        simple: ["Product, restaurant, and company names may be mentioned to help identify a flavor, ingredient, or item. Those names still belong to their respective owners."],
-        formal: ["All third-party trademarks, service marks, product names, restaurant names, logos, and brand references are the property of their respective owners. Their appearance on Robert’s Recipe Box is for identification or descriptive purposes only and does not imply sponsorship, affiliation, authorization, or endorsement."],
-      },
-      {
-        title: "6.5 Copycat-Style Recipes",
-        simple: ["A copycat-style recipe is Robert’s Recipe Box’s own attempt to create a similar flavor or experience. It is not the restaurant’s or manufacturer’s official recipe."],
-        formal: ["Copycat-style, inspired-by, or restaurant-style recipes are independent interpretations and are not represented as official, authentic, proprietary, or authorized recipes of any restaurant, manufacturer, chef, or trademark owner. All referenced trademarks remain the property of their respective owners."],
-      },
-      {
-        title: "6.6 User Printing and Downloads",
-        simple: ["Downloads are provided for convenience, but users are responsible for their own printer settings, paper, devices, storage, and use of the files."],
-        formal: ["Robert’s Recipe Box does not guarantee that printable materials or downloads will display, print, save, or function identically on every device, browser, printer, operating system, or software application. Users assume responsibility for downloading, storing, opening, printing, and using all files."],
+        title: "6.8 Geographic Limitations",
+        simple: ["Product availability, measurements, terminology, ingredients, food-safety recommendations, and laws may differ outside the United States."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["Website content is generally prepared from a United States perspective. Robert’s Recipe Box does not guarantee that its information, products, measurements, or recommendations are appropriate or legally available in every location."],
       },
     ],
   },
   {
-    title: "7. Responsibility and Limitation of Liability",
+    title: "7. Technology, Downloads and Automated Features",
     items: [
       {
-        title: "7.1 User Responsibility",
+        title: "7.1 Browser and Device Compatibility",
+        simple: ["The website may display or operate differently depending on the browser, device, screen size, operating system, extensions, or software version."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["Robert’s Recipe Box does not guarantee compatibility with every browser, device, operating system, accessibility setting, extension, or software configuration. Users are responsible for maintaining suitable devices, software, internet access, and security protections."],
+      },
+      {
+        title: "7.2 Saved Information and Data Loss",
+        simple: ["Favorites, meal plans, pantry selections, grocery lists, and other saved information may be lost because of browser settings, device changes, or technical problems."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["Robert’s Recipe Box does not guarantee the availability, permanence, accuracy, recovery, or backup of user-created or locally stored information. Users should maintain separate copies of any information that is important to them."],
+      },
+      {
+        title: "7.3 Automated Tools and Calculations",
+        simple: ["Serving adjustments, grocery quantities, nutrition figures, costs, substitutions, and conversions are intended to save time, but automated results can contain errors."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["Automated calculations and generated outputs may be incomplete, duplicated, outdated, rounded, or incorrect. Users must review results before shopping, cooking, changing a diet, purchasing a product, or otherwise relying upon them."],
+      },
+      {
+        title: "7.4 Calendars and Reminders",
+        simple: ["Calendar events, reminders, and meal-plan exports are provided for convenience. Visitors should confirm that the correct date, time, recipe, and reminder were saved."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["Robert’s Recipe Box does not guarantee that calendar information will import, display, synchronize, or trigger correctly. The user is responsible for confirming dates, times, time zones, recurrence settings, reminders, and calendar synchronization."],
+      },
+      {
+        title: "7.5 Printing and Formatting",
+        simple: ["Printed recipe cards and guides may look different depending on the printer, paper, margins, scaling, ink, browser, and software settings."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["Robert’s Recipe Box does not guarantee exact sizing, color reproduction, placement, compatibility, or print quality. Users should review print-preview settings before printing and are responsible for paper, ink, equipment, and printing costs."],
+      },
+      {
+        title: "7.6 Downloaded Files and Harmful Code",
+        simple: ["Downloads are provided for convenience and should be opened only on devices with appropriate security protections."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["Although reasonable precautions may be taken, Robert’s Recipe Box does not guarantee that every page, file, link, download, or third-party service will always be free from defects, interruption, viruses, malware, or other harmful code. Users assume responsibility for device security and file compatibility."],
+      },
+      {
+        title: "7.7 Third-Party Technology",
+        simple: ["The website may rely on hosting providers, analytics services, calendars, email tools, retailers, embedded media, and other outside technology."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["The performance, availability, security, and continued operation of third-party technology are controlled by the relevant provider. Robert’s Recipe Box is not responsible for interruptions, changes, errors, or losses caused by a third-party service."],
+      },
+    ],
+  },
+  {
+    title: "8. Ownership and Permitted Use",
+    items: [
+      {
+        title: "8.1 Free Personal Use",
+        simple: ["Visitors may view, print, and download designated Robert’s Recipe Box recipes for their own household and personal cooking needs."],
+        formalLabel: "Formal policy:",
+        formal: ["Visitors receive a limited, nonexclusive, revocable right to view, print, and download designated materials for lawful personal and noncommercial use. This permission does not transfer ownership or grant commercial-use rights."],
+      },
+      {
+        title: "8.2 Commercial Use and Redistribution",
+        simple: ["Free personal use does not mean that recipe cards, photographs, website designs, or downloads can be sold, repackaged, or posted elsewhere as someone else’s work."],
+        formalLabel: "Formal policy:",
+        formal: ["Without prior written permission, website content may not be sold, licensed, reproduced in bulk, republished, redistributed, altered for resale, incorporated into commercial products, or used to create a competing recipe collection."],
+      },
+      {
+        title: "8.3 Copyright and Website Content",
+        simple: ["Individual ingredients and familiar cooking methods may be widely used, but the website’s original wording, organization, photographs, graphics, and recipe-card designs belong to Robert’s Recipe Box to the extent protected by law."],
+        formalLabel: "Formal policy:",
+        formal: ["Original text, photographs, illustrations, graphics, page layouts, recipe-card designs, compilations, downloads, and branding published on Robert’s Recipe Box are protected by applicable intellectual-property laws to the extent those laws apply. No rights are granted except those expressly stated in these policies."],
+      },
+      {
+        title: "8.4 Trademarks and Brand Names",
+        simple: ["Product, restaurant, and company names may be mentioned to identify a flavor, ingredient, product, or style. Those names belong to their respective owners."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["Third-party trademarks, service marks, product names, restaurant names, logos, and brand references remain the property of their respective owners. Their appearance on Robert’s Recipe Box is for identification or descriptive purposes and does not imply sponsorship, affiliation, authorization, or endorsement."],
+      },
+      {
+        title: "8.5 Copycat-Style Recipes",
+        simple: ["A copycat-style recipe is an independent attempt to create a similar flavor or experience. It is not the restaurant’s or manufacturer’s official recipe."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["Copycat-style, inspired-by, or restaurant-style recipes are independent interpretations and are not represented as official, authentic, proprietary, or authorized recipes of a restaurant, manufacturer, chef, or trademark owner."],
+      },
+      {
+        title: "8.6 Printing and Downloads",
+        simple: ["Downloads may be used for personal cooking, planning, and household reference, but the files may not be resold or redistributed as a separate collection."],
+        formalLabel: "Formal policy:",
+        formal: ["Users may retain reasonable personal copies of designated downloads. Branding and ownership notices may not be removed for redistribution, and files may not be uploaded to another public recipe library or commercial platform without written permission."],
+      },
+      {
+        title: "8.7 Permission Requests",
+        simple: ["Schools, nonprofit groups, senior organizations, cooking clubs, and community programs may request permission for uses beyond ordinary personal use."],
+        formalLabel: "Formal policy:",
+        formal: ["Permission requests should identify the requested material, proposed use, number of copies, organization, distribution method, and whether a fee will be charged. Requests should be sent to recipes@handsontech.cc. Permission is not granted unless provided in writing."],
+      },
+    ],
+  },
+  {
+    title: "9. User Submissions and Community Features",
+    items: [
+      {
+        title: "9.1 Ownership and Permission",
+        simple: ["Visitors should submit only recipes, photographs, comments, and other material they created or have permission to share."],
+        formalLabel: "Formal policy:",
+        formal: ["By submitting material, the submitter represents that the material does not violate copyright, trademark, privacy, publicity, contractual, or other rights and that the submitter has authority to grant the permissions described in this policy."],
+      },
+      {
+        title: "9.2 Submitted Recipes",
+        simple: ["A submitted recipe should contain enough accurate information to allow it to be reviewed and should identify important allergens, equipment, safety concerns, and whether the recipe has been tested."],
+        formalLabel: "Formal policy:",
+        formal: ["Robert’s Recipe Box may review, rewrite, reorganize, shorten, expand, test, illustrate, photograph, publish, decline, or remove a submitted recipe. Submission does not guarantee publication, compensation, attribution in a particular format, or continued availability."],
+      },
+      {
+        title: "9.3 Submitted Photographs",
+        simple: ["The submitter must have the right to use each submitted photograph and permission from identifiable people appearing in it."],
+        formalLabel: "Formal policy:",
+        formal: ["The submitter is responsible for obtaining appropriate permission from identifiable individuals or, when applicable, the parent or guardian of a minor. Photographs should not display unnecessary addresses, documents, account information, license plates, or other private details."],
+      },
+      {
+        title: "9.4 License to Use Submissions",
+        simple: ["Submitters retain whatever ownership rights they legally hold, but Robert’s Recipe Box needs permission to review, edit, display, and promote material submitted for publication."],
+        formalLabel: "Formal policy:",
+        formal: ["By submitting material for possible publication, the submitter grants Robert’s Recipe Box a nonexclusive, worldwide, royalty-free license to review, reproduce, edit, format, adapt, display, publish, distribute, archive, and promote the material in connection with the website and related communications."],
+      },
+      {
+        title: "9.5 Community Conduct",
+        simple: ["Comments and community features should remain helpful, respectful, lawful, and relevant to cooking and the website."],
+        formalLabel: "Formal policy:",
+        formal: ["Users may not submit harassment, threats, hate speech, discrimination, defamation, obscene material, dangerous instructions, deliberately deceptive claims, spam, malware, undisclosed advertising, private personal information, or infringing content."],
+      },
+      {
+        title: "9.6 Moderation and Removal",
+        simple: ["Robert’s Recipe Box may edit, decline, hide, or remove user-submitted material when necessary to maintain the website."],
+        formalLabel: "Formal policy:",
+        formal: ["Robert’s Recipe Box reserves the right, but does not assume an obligation, to review, moderate, reject, edit, restrict, or remove submissions at any time. Publication does not guarantee a submission’s accuracy, originality, safety, or suitability."],
+      },
+      {
+        title: "9.7 Accuracy of User Contributions",
+        simple: ["A recipe or suggestion submitted by another visitor may not have been independently tested or verified."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["Robert’s Recipe Box does not guarantee the accuracy, originality, completeness, safety, or reliability of user-submitted content. Visitors who choose to use a submission do so at their own discretion and remain responsible for evaluating it."],
+      },
+      {
+        title: "9.8 Privacy of Submissions",
+        simple: ["Information intended for publication may become publicly visible. Do not submit anything that should remain confidential."],
+        formalLabel: "Formal policy:",
+        formal: ["Contact information supplied privately for administrative purposes will be handled under the Privacy Policy. Names, biographies, recipes, photographs, comments, and other information intended for publication may become publicly accessible."],
+      },
+      {
+        title: "9.9 Copyright Concerns",
+        simple: ["A person who believes that material on Robert’s Recipe Box infringes a copyright may report it for review."],
+        formalLabel: "Formal policy:",
+        formal: ["A copyright complaint should identify the copyrighted work, identify the material in question, provide the complaining party’s contact information, explain the basis of the complaint, confirm that the supplied information is accurate, and include a physical or electronic signature.", "Copyright concerns should be sent to:", "recipes@handsontech.cc", "Credible complaints may result in temporary or permanent removal while the matter is reviewed."],
+      },
+    ],
+  },
+  {
+    title: "10. Accessibility",
+    items: [
+      {
+        title: "10.1 Accessibility Commitment",
+        simple: ["Robert’s Recipe Box wants its recipes, planning tools, downloads, and supporting information to be usable by as many people as reasonably possible."],
+        formalLabel: "Formal accessibility policy:",
+        formal: ["The website will make reasonable ongoing efforts to improve accessibility and usability for people using different devices, input methods, display settings, and assistive technologies."],
+      },
+      {
+        title: "10.2 Accessibility Practices",
+        simple: ["The website aims to use clear headings, readable type, keyboard-accessible controls, useful image descriptions, visible focus indicators, and understandable links and buttons."],
+        formalLabel: "Formal accessibility policy:",
+        formal: ["Robert’s Recipe Box will work toward practices consistent with WCAG 2.2 Level AA where reasonably applicable, including text alternatives, keyboard access, sufficient contrast, responsive layouts, understandable controls, form labels, accessible accordions, and reduced reliance on color alone."],
+      },
+      {
+        title: "10.3 Accessibility Limitations",
+        simple: ["Some older recipe-card images, downloads, third-party pages, embedded content, archived materials, and experimental features may not yet be fully accessible."],
+        formalLabel: "Formal accessibility policy:",
+        formal: ["This statement describes an ongoing goal and does not guarantee that every page, image, download, document, or third-party feature will satisfy every accessibility guideline at all times. Robert’s Recipe Box does not control the accessibility of outside websites."],
+      },
+      {
+        title: "10.4 Accessibility Assistance",
+        simple: ["Visitors who have difficulty accessing a recipe, download, form, or feature may request assistance or an alternative format."],
+        formalLabel: "Formal accessibility policy:",
+        formal: ["Accessibility concerns should identify the relevant page or recipe, describe the problem, identify the browser or device when known, and explain the requested assistance.", "Requests should be sent to:", "recipes@handsontech.cc", "Reasonable efforts will be made to understand and address reported barriers."],
+      },
+    ],
+  },
+  {
+    title: "11. Responsibility and Limitation of Liability",
+    items: [
+      {
+        title: "11.1 User Responsibility",
         simple: ["Every kitchen, household, diet, and situation is different. Users must decide whether a recipe, ingredient, product, or cooking method is appropriate for them."],
-        formal: ["Use of Robert’s Recipe Box is voluntary and at the user’s own discretion and risk. Users are responsible for evaluating all recipes, ingredients, directions, appliances, products, and recommendations in light of their own abilities, health conditions, dietary requirements, household circumstances, and equipment."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["Use of Robert’s Recipe Box is voluntary and at the user’s discretion and risk. Users are responsible for evaluating all recipes, ingredients, instructions, appliances, products, downloads, and recommendations in light of their abilities, dietary requirements, health conditions, household circumstances, and equipment."],
       },
       {
-        title: "7.2 Assumption of Risk",
-        simple: ["Cooking naturally involves heat, sharp objects, electricity, raw ingredients, heavy cookware, and other possible hazards. Use proper care and common sense."],
-        formal: ["By using website content, users acknowledge and accept the ordinary and foreseeable risks associated with cooking, food preparation, appliances, knives, heat sources, outdoor cooking equipment, electrical equipment, food storage, and food consumption."],
+        title: "11.2 Assumption of Risk",
+        simple: ["Cooking naturally involves heat, sharp objects, electricity, raw ingredients, heavy cookware, outdoor equipment, and other hazards."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["By using website content, users acknowledge and accept the ordinary and foreseeable risks associated with cooking, food preparation, appliances, knives, heat sources, grills, smokers, electrical equipment, food storage, and food consumption."],
       },
       {
-        title: "7.3 Limitation of Liability",
+        title: "11.3 No Professional Relationship",
+        simple: ["Visiting the website, sending a message, or using a recipe does not create a professional or advisory relationship."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["No physician-patient, dietitian-client, attorney-client, consultant-client, fiduciary, contractual, or other professional relationship is created solely by accessing the website, submitting a question, or using website content."],
+      },
+      {
+        title: "11.4 Limitation of Liability",
         simple: ["Robert’s Recipe Box provides information and suggestions but cannot be responsible for every decision, action, or result that occurs after someone uses the website."],
-        formal: ["To the fullest extent permitted by applicable law, Robert’s Recipe Box and its owner shall not be liable for any direct, indirect, incidental, consequential, special, exemplary, or other damages arising from or related to the use of, inability to use, or reliance upon website content. This includes, without limitation, personal injury, allergic reaction, illness, foodborne illness, property damage, equipment damage, financial loss, data loss, or unsatisfactory cooking results."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["To the fullest extent permitted by applicable law, Robert’s Recipe Box and its owner shall not be liable for direct, indirect, incidental, consequential, special, exemplary, punitive, or other damages arising from use of, inability to use, or reliance upon website content.", "This limitation includes, without limitation, personal injury, allergic reaction, illness, foodborne illness, property damage, equipment damage, financial loss, data loss, missed reminders, product problems, or unsatisfactory cooking results.", "Where a limitation is not legally permitted, liability will be limited only to the extent allowed by applicable law."],
       },
       {
-        title: "7.4 Children in the Kitchen",
-        simple: ["Children should have appropriate adult supervision when cooking, especially around knives, hot surfaces, appliances, grills, and raw ingredients."],
-        formal: ["Recipes and website content are not intended to replace responsible adult supervision. Parents, guardians, and supervising adults are solely responsible for determining which activities are appropriate for a child and for providing continuous supervision, instruction, and safety precautions."],
+        title: "11.5 Children in the Kitchen",
+        simple: ["Children should receive appropriate adult supervision when cooking, especially around knives, hot surfaces, appliances, grills, and raw ingredients."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["Recipes and website content do not replace responsible adult supervision. Parents, guardians, and supervising adults are solely responsible for determining which activities are appropriate for a child and for providing supervision, instruction, and safety precautions."],
       },
       {
-        title: "7.5 Emergency and Professional Assistance",
-        simple: ["The website should never be used during an emergency instead of contacting the proper professional, emergency service, poison-control center, doctor, veterinarian, fire department, or appliance manufacturer."],
-        formal: ["Robert’s Recipe Box is not an emergency, medical, poison-control, fire-safety, appliance-repair, or professional advisory service. In the event of suspected poisoning, allergic reaction, fire, gas leak, electrical problem, serious injury, foodborne illness, or other emergency, users should immediately contact the appropriate emergency service or qualified professional."],
+        title: "11.6 Emergency and Professional Assistance",
+        simple: ["The website should never be used during an emergency instead of contacting the appropriate professional or emergency service."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["Robert’s Recipe Box is not an emergency, medical, poison-control, fire-safety, appliance-repair, or professional advisory service. In the event of suspected poisoning, allergic reaction, fire, gas leak, electrical problem, serious injury, foodborne illness, or other emergency, users should contact the appropriate emergency service or qualified professional immediately."],
       },
       {
-        title: "7.6 Indemnification",
-        simple: ["Users are expected to use the website responsibly and legally. A person who misuses the content should not transfer the consequences of that misuse to Robert’s Recipe Box."],
-        formal: ["To the extent permitted by applicable law, users agree to indemnify and hold harmless Robert’s Recipe Box and its owner from claims, liabilities, damages, losses, costs, or expenses arising from the user’s misuse of the website, violation of these terms, infringement of another party’s rights, or unlawful use or redistribution of website content."],
+        title: "11.7 Indemnification",
+        simple: ["Visitors are expected to use the website responsibly and legally. A person who misuses the website should not transfer the consequences of that misuse to Robert’s Recipe Box."],
+        formalLabel: "Formal policy:",
+        formal: ["To the extent permitted by applicable law, users agree to indemnify and hold harmless Robert’s Recipe Box and its owner from claims, liabilities, damages, losses, costs, or expenses arising from misuse of the website, violation of these policies, infringement of another party’s rights, a user submission, or unlawful use or redistribution of website content."],
+      },
+    ],
+  },
+  {
+    title: "12. Website Administration and Communications",
+    items: [
+      {
+        title: "12.1 Contact-Form and Email Responses",
+        simple: ["Visitors are welcome to submit questions, corrections, and suggestions, but a response cannot be guaranteed."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["Submitting a message does not guarantee a response, a particular response time, publication, individualized advice, or acceptance of a request. Messages may be prioritized, archived, or declined at the website owner’s discretion."],
       },
       {
-        title: "7.7 Acceptance of These Disclaimers",
-        simple: ["By continuing to use Robert’s Recipe Box, visitors acknowledge that they have had the opportunity to read and understand these disclaimers."],
-        formal: ["Use of Robert’s Recipe Box constitutes acknowledgment and acceptance of these disclaimers and limitations to the extent permitted by applicable law. Users who do not agree with these terms should discontinue use of the website and its content."],
+        title: "12.2 Unsolicited Ideas and Proposals",
+        simple: ["Visitors should not submit confidential business ideas, proprietary product concepts, or other information they expect to remain confidential."],
+        formalLabel: "Formal policy:",
+        formal: ["Unless a separate written confidentiality agreement exists, unsolicited ideas, suggestions, recipes, product concepts, and business proposals will not be treated as confidential or proprietary. Submission does not create an obligation to compensate, develop, publish, or use the idea."],
+      },
+      {
+        title: "12.3 Website Ownership Changes",
+        simple: ["The website or its related operations may eventually be transferred, reorganized, sold, or discontinued."],
+        formalLabel: "Formal policy:",
+        formal: ["Website content, agreements, information, and operational responsibilities may be transferred as part of a sale, succession, merger, reorganization, or other transfer, subject to applicable legal requirements."],
+      },
+      {
+        title: "12.4 Suspension or Termination of Access",
+        simple: ["Access may be restricted when someone misuses the website or threatens its security, operation, or users."],
+        formalLabel: "Formal policy:",
+        formal: ["Robert’s Recipe Box may restrict or terminate access to the website or a particular feature when reasonably necessary to prevent fraud, abuse, unlawful conduct, intellectual-property violations, security threats, or violations of these policies."],
+      },
+      {
+        title: "12.5 Events Outside Reasonable Control",
+        simple: ["Website operation may be affected by storms, utility failures, service-provider outages, equipment failures, government actions, security events, or other circumstances outside reasonable control."],
+        formalLabel: "Formal policy and disclaimer:",
+        formal: ["Robert’s Recipe Box is not responsible for delay, interruption, loss, or failure caused by events beyond its reasonable control, including natural disasters, utility failures, labor disputes, internet outages, third-party service failures, cyberattacks, government actions, or equipment failures."],
+      },
+    ],
+  },
+  {
+    title: "13. General Legal Terms",
+    items: [
+      {
+        title: "13.1 Governing Law",
+        simple: ["Robert’s Recipe Box is operated from Texas."],
+        formalLabel: "Formal policy:",
+        formal: ["These policies and use of the website are intended to be governed by the laws of the State of Texas, without regard to conflict-of-law principles, except where another law is required to apply."],
+      },
+      {
+        title: "13.2 Legal Venue",
+        simple: ["Most concerns should first be submitted directly to Robert’s Recipe Box so there is an opportunity to review and address them."],
+        formalLabel: "Formal policy:",
+        formal: ["Unless applicable law requires otherwise, legal proceedings concerning the website shall be brought in a court of competent jurisdiction located in Texas.", "These policies do not require private arbitration and do not contain a class-action waiver."],
+      },
+      {
+        title: "13.3 Severability",
+        simple: ["If one part of these policies cannot legally be enforced, the remaining sections should continue to apply."],
+        formalLabel: "Formal policy:",
+        formal: ["If any provision is held invalid, unlawful, or unenforceable, that provision will be limited or removed to the minimum extent necessary, and the remaining provisions will remain in effect."],
+      },
+      {
+        title: "13.4 No Waiver",
+        simple: ["A decision not to enforce a rule on one occasion does not permanently remove the right to enforce it later."],
+        formalLabel: "Formal policy:",
+        formal: ["Failure to enforce a provision does not constitute a waiver of that provision or any other right."],
+      },
+      {
+        title: "13.5 Assignment",
+        simple: ["Visitors may not transfer their rights under these policies to another party without permission."],
+        formalLabel: "Formal policy:",
+        formal: ["Robert’s Recipe Box may assign or transfer its rights and responsibilities in connection with a transfer, succession, reorganization, or sale of the website or related operations."],
+      },
+      {
+        title: "13.6 Entire Agreement",
+        simple: ["The policies published on the website work together and form the general rules governing use of Robert’s Recipe Box."],
+        formalLabel: "Formal policy:",
+        formal: ["This page, together with any feature-specific notices or agreements, constitutes the general agreement concerning website use and supersedes prior general statements covering the same subject."],
+      },
+      {
+        title: "13.7 Changes to These Policies",
+        simple: ["These policies may need to change as the website adds features, affiliate programs, community tools, or outside services."],
+        formalLabel: "Formal policy:",
+        formal: ["Revised policies may be published at any time with an updated effective date. Material changes may also be highlighted when appropriate. Continued use of the website after an update constitutes acceptance of the revised policies to the extent permitted by law."],
+      },
+      {
+        title: "13.8 Acceptance of Policies",
+        simple: ["By continuing to use Robert’s Recipe Box, visitors acknowledge that they have had an opportunity to read these policies."],
+        formalLabel: "Formal policy:",
+        formal: ["Access to or use of Robert’s Recipe Box constitutes acknowledgment and acceptance of these policies to the extent permitted by applicable law. Visitors who do not agree should discontinue use of the website."],
+      },
+    ],
+  },
+  {
+    title: "14. Contact Information",
+    items: [
+      {
+        title: "14.1 Website Contact",
+        simple: ["Robert’s Recipe Box operates online. Questions, corrections, permission requests, privacy requests, accessibility concerns, copyright notices, and other website communications should be submitted by email.", "Robert’s Recipe Box", "Email: recipes@handsontech.cc", "Mailing address: 2310 Trotter Drive, Katy, Texas 77493", "Operations: Online only"],
+        formalLabel: "Formal contact policy:",
+        formal: ["Electronic requests and inquiries should be submitted to recipes@handsontech.cc. Providing a mailing address does not establish a public office, retail location, customer-service counter, or location open to visitors."],
+      },
+      {
+        title: "14.2 Policy Effective Date",
+        simple: ["These policies are effective beginning July 1, 2026."],
+        formalLabel: "Formal policy:",
+        formal: ["The effective date shown at the top of this page identifies the current published version. Visitors should review the page periodically for updates."],
       },
     ],
   },
 ];
+
+const DISCLAIMER_PAGE_INTRO = ["Robert’s Recipe Box is intended to make cooking, meal planning, and finding useful kitchen information easier and more enjoyable. This page explains the policies, responsibilities, limitations, privacy practices, and permitted uses associated with the website.", "Each numbered topic may be displayed as an expandable section. Select any topic to read its complete explanation.", "Use of Robert’s Recipe Box constitutes acknowledgment of these policies to the extent permitted by applicable law. Visitors who do not agree with these policies should discontinue use of the website."];
+
+function DisclaimersPage({ setActivePage }) {
+  const [openDisclaimerSections, setOpenDisclaimerSections] = useState(() => new Set(["1. Recipes and Website Content"]));
+
+  function toggleDisclaimerSection(sectionTitle) {
+    setOpenDisclaimerSections((current) => {
+      const next = new Set(current);
+      if (next.has(sectionTitle)) {
+        next.delete(sectionTitle);
+      } else {
+        next.add(sectionTitle);
+      }
+      return next;
+    });
+  }
+
+  return (
+    <main className="pageShell disclaimersAccordionPage">
+      <section className="disclaimersIntroCard">
+        <div className="aiBadge">POLICIES, DISCLAIMERS & LEGAL INFORMATION</div>
+        <h1>Policies, Disclaimers & Legal Information</h1>
+        <p className="disclaimerEffectiveDate">Effective date: July 1, 2026</p>
+        {DISCLAIMER_PAGE_INTRO.map((paragraph, index) => (
+          <p key={index}>{paragraph}</p>
+        ))}
+      </section>
+
+      <section className="disclaimerAccordionList" aria-label="Policy and disclaimer topics">
+        {DISCLAIMER_ACCORDION_SECTIONS.map((section) => {
+          const isOpen = openDisclaimerSections.has(section.title);
+
+          return (
+            <article className="disclaimerAccordionSection" key={section.title}>
+              <button
+                type="button"
+                className="disclaimerAccordionTrigger"
+                onClick={() => toggleDisclaimerSection(section.title)}
+                aria-expanded={isOpen}
+              >
+                <span>{section.title}</span>
+                <span className="disclaimerAccordionArrow" aria-hidden="true">
+                  {isOpen ? "▾" : "▸"}
+                </span>
+              </button>
+
+              {isOpen && (
+                <div className="disclaimerAccordionPanel">
+                  {section.items.map((item) => (
+                    <section className="disclaimerSubsection" key={item.title}>
+                      <h2>{item.title}</h2>
+
+                      <div className="disclaimerExplanationBlock simple">
+                        {item.simple.map((paragraph, index) => (
+                          <p key={index}>{paragraph}</p>
+                        ))}
+                      </div>
+
+                      <div className="disclaimerExplanationBlock formal">
+                        <h3>{item.formalLabel}</h3>
+                        {item.formal.map((paragraph, index) => (
+                          <p key={index}>{paragraph}</p>
+                        ))}
+                      </div>
+                    </section>
+                  ))}
+                </div>
+              )}
+            </article>
+          );
+        })}
+      </section>
+    </main>
+  );
+}
+
+
 
 function DisclaimersPage({ setActivePage }) {
   const [openDisclaimerSections, setOpenDisclaimerSections] = useState(() => new Set(["1. Recipes and Website Content"]));

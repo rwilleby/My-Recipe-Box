@@ -17649,3 +17649,31 @@ textarea {
     padding: 12px 13px;
   }
 }
+
+
+/* =========================================================
+   POLICIES, DISCLAIMERS & LEGAL INFORMATION UPDATE
+   Expands the accordion page to the new policy set.
+   ========================================================= */
+
+.disclaimerEffectiveDate {
+  color: #14532D !important;
+  font-weight: 700 !important;
+  margin-bottom: 10px !important;
+}
+
+.disclaimersIntroCard p + p {
+  margin-top: 10px !important;
+}
+
+.disclaimerExplanationBlock.simple h3 {
+  display: none !important;
+}
+
+.disclaimerExplanationBlock.simple {
+  background: #f8faf7 !important;
+}
+
+.disclaimerExplanationBlock.formal h3 {
+  color: #14532D !important;
+}
