@@ -17927,3 +17927,296 @@ textarea {
     max-width: none;
   }
 }
+
+
+/* =========================================================
+   PAGE HELP BUTTONS — SMALL, FOUR, INSIDE HERO IMAGE
+   Places page help buttons inside the lower part of supporting hero images.
+   ========================================================= */
+
+.pageTopHeroImage .pageHelpStrip {
+  position: absolute !important;
+  left: 50% !important;
+  bottom: clamp(14px, 2.2vw, 24px) !important;
+  transform: translateX(-50%) !important;
+  width: min(82%, 980px) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  z-index: 8 !important;
+}
+
+.pageTopHeroImage .pageHelpButtons {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 10px !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.pageTopHeroImage .pageHelpItem {
+  position: relative !important;
+  min-width: 0 !important;
+}
+
+.pageTopHeroImage .pageHelpButton {
+  min-height: 42px !important;
+  width: 100% !important;
+  display: grid !important;
+  grid-template-columns: 28px minmax(0, 1fr) !important;
+  gap: 8px !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 7px 10px !important;
+  border: 1px solid rgba(20, 83, 45, 0.3) !important;
+  border-radius: 12px !important;
+  background: rgba(255, 255, 255, 0.94) !important;
+  box-shadow: 0 8px 18px rgba(17, 24, 39, 0.08) !important;
+  color: #14532D !important;
+  font-family: var(--rrb-body-font, Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif) !important;
+  font-size: 12px !important;
+  line-height: 1.05 !important;
+  font-weight: 700 !important;
+  text-align: center !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.035em !important;
+}
+
+.pageTopHeroImage .pageHelpButton:hover,
+.pageTopHeroImage .pageHelpButton.active {
+  border-color: #14532D !important;
+  background: #ffffff !important;
+}
+
+.pageTopHeroImage .pageHelpNumber {
+  width: 28px !important;
+  height: 28px !important;
+  display: grid !important;
+  place-items: center !important;
+  border-radius: 999px !important;
+  background: #14532D !important;
+  color: #ffffff !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+}
+
+.pageTopHeroImage .pageHelpPopup {
+  position: absolute !important;
+  left: 50% !important;
+  right: auto !important;
+  top: auto !important;
+  bottom: calc(100% + 10px) !important;
+  transform: translateX(-50%) !important;
+  width: min(310px, 82vw) !important;
+  border: 1px solid rgba(20, 83, 45, 0.22) !important;
+  border-radius: 12px !important;
+  background: #ffffff !important;
+  color: #374151 !important;
+  box-shadow: 0 18px 40px rgba(17, 24, 39, 0.18) !important;
+  padding: 14px 40px 14px 14px !important;
+  z-index: 60 !important;
+}
+
+.pageTopHeroImage .pageHelpItem:nth-child(1) .pageHelpPopup {
+  left: 0 !important;
+  transform: none !important;
+}
+
+.pageTopHeroImage .pageHelpItem:nth-child(4) .pageHelpPopup {
+  left: auto !important;
+  right: 0 !important;
+  transform: none !important;
+}
+
+.pageTopHeroImage .pageHelpPopup h3 {
+  margin: 0 0 5px !important;
+  color: #111827 !important;
+  font-family: var(--rrb-heading-font, Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif) !important;
+  font-size: 18px !important;
+  line-height: 1.15 !important;
+  font-weight: 700 !important;
+}
+
+.pageTopHeroImage .pageHelpPopup p {
+  margin: 0 !important;
+  color: #374151 !important;
+  font-family: var(--rrb-body-font, Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif) !important;
+  font-size: 13px !important;
+  line-height: 1.4 !important;
+  font-weight: 400 !important;
+}
+
+.pageTopHeroImage .pageHelpClose {
+  position: absolute !important;
+  top: 7px !important;
+  right: 9px !important;
+  width: 26px !important;
+  height: 26px !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  background: #f3f4f6 !important;
+  color: #374151 !important;
+  cursor: pointer !important;
+  font-size: 18px !important;
+  line-height: 1 !important;
+}
+
+.pageTopHeroImage .pageHelpClose:hover {
+  background: #14532D !important;
+  color: #ffffff !important;
+}
+
+/* Remove the old below-hero spacing behavior now that help buttons live inside the hero. */
+.pageHelpStrip:not(.pageTopHeroImage .pageHelpStrip) {
+  margin-bottom: 0 !important;
+}
+
+/* Keep enough visual room for hero copy on pages that have longer text. */
+.pageTopHeroImage.hasHeroText .pageHeroTextOverlay {
+  padding-bottom: 58px !important;
+}
+
+@media (max-width: 980px) {
+  .pageTopHeroImage .pageHelpStrip {
+    width: calc(100% - 40px) !important;
+    bottom: 12px !important;
+  }
+
+  .pageTopHeroImage .pageHelpButtons {
+    gap: 8px !important;
+  }
+
+  .pageTopHeroImage .pageHelpButton {
+    min-height: 38px !important;
+    grid-template-columns: 24px minmax(0, 1fr) !important;
+    gap: 6px !important;
+    padding: 6px 8px !important;
+    font-size: 11px !important;
+    letter-spacing: 0.025em !important;
+  }
+
+  .pageTopHeroImage .pageHelpNumber {
+    width: 24px !important;
+    height: 24px !important;
+    font-size: 12px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .pageTopHeroImage .pageHelpStrip {
+    position: static !important;
+    transform: none !important;
+    width: calc(100% - 32px) !important;
+    margin: -10px auto 16px !important;
+    overflow-x: auto !important;
+  }
+
+  .pageTopHeroImage .pageHelpButtons {
+    display: flex !important;
+    min-width: max-content !important;
+    gap: 8px !important;
+    padding-bottom: 6px !important;
+  }
+
+  .pageTopHeroImage .pageHelpItem {
+    width: 170px !important;
+  }
+
+  .pageTopHeroImage .pageHelpPopup {
+    position: fixed !important;
+    left: 16px !important;
+    right: 16px !important;
+    top: auto !important;
+    bottom: 18px !important;
+    transform: none !important;
+    width: auto !important;
+    max-width: none !important;
+  }
+
+  .pageTopHeroImage.hasHeroText .pageHeroTextOverlay {
+    padding-bottom: 0 !important;
+  }
+}
+
+
+/* =========================================================
+   HEADER MENU NARROW FONT UPDATE
+   Tightens only the top navigation menu to reduce horizontal space.
+   ========================================================= */
+
+.siteNav,
+.siteNav *,
+.mainNav,
+.mainNav *,
+.navGroup,
+.navGroup *,
+.navItem,
+.navItem *,
+.navMenu,
+.navMenu *,
+.dropdownToggle,
+.dropdownToggle *,
+.headerNav,
+.headerNav *,
+.topNav,
+.topNav * {
+  font-family: "Arial Narrow", "Aptos Narrow", "Roboto Condensed", "Liberation Sans Narrow", "Helvetica Neue Condensed", Arial, sans-serif !important;
+}
+
+.siteNav button,
+.siteNav a,
+.mainNav button,
+.mainNav a,
+.navGroup button,
+.navGroup a,
+.navItem button,
+.navItem a,
+.navMenu button,
+.navMenu a,
+.dropdownToggle,
+.headerNav button,
+.headerNav a,
+.topNav button,
+.topNav a {
+  font-stretch: condensed !important;
+  letter-spacing: 0.015em !important;
+  font-weight: 700 !important;
+  white-space: nowrap !important;
+}
+
+/* Reduce horizontal breathing room a little, without changing the menu structure. */
+.siteNav,
+.mainNav,
+.headerNav,
+.topNav {
+  gap: clamp(10px, 1.15vw, 18px) !important;
+}
+
+.siteNav button,
+.siteNav a,
+.mainNav button,
+.mainNav a,
+.navGroup button,
+.navGroup a,
+.navItem button,
+.navItem a,
+.navMenu button,
+.navMenu a,
+.headerNav button,
+.headerNav a,
+.topNav button,
+.topNav a {
+  padding-left: clamp(5px, 0.55vw, 10px) !important;
+  padding-right: clamp(5px, 0.55vw, 10px) !important;
+}
+
+/* Keep dropdown menu text readable while still narrow. */
+.dropdownMenu,
+.dropdownMenu *,
+.navDropdown,
+.navDropdown *,
+.menuDropdown,
+.menuDropdown * {
+  font-family: "Arial Narrow", "Aptos Narrow", "Roboto Condensed", "Liberation Sans Narrow", "Helvetica Neue Condensed", Arial, sans-serif !important;
+  letter-spacing: 0.01em !important;
+}

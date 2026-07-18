@@ -5029,7 +5029,7 @@ function getPageHelpSteps(pageTitle = "", pageEyebrow = "") {
 
 function PageHelpButtonStrip({ pageTitle, pageEyebrow }) {
   const [activeStepIndex, setActiveStepIndex] = useState(null);
-  const steps = getPageHelpSteps(pageTitle, pageEyebrow);
+  const steps = getPageHelpSteps(pageTitle, pageEyebrow).slice(0, 4);
 
   if (!pageTitle || !steps?.length) return null;
 
@@ -5107,8 +5107,8 @@ function PageHeroImage({ src, alt = "", title = "", eyebrow = "", text = "", ico
           )}
         </div>
       )}
+        {title && <PageHelpButtonStrip pageTitle={title} pageEyebrow={eyebrow} />}
       </section>
-      {title && <PageHelpButtonStrip pageTitle={title} pageEyebrow={eyebrow} />}
     </>
   );
 }
