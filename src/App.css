@@ -22150,3 +22150,17 @@ nav button,
     text-align: left;
   }
 }
+
+
+/* Header cleanup: remove unused account/search area and let menu sit cleanly beside logo */
+.topbar {
+  background: #ffffff !important;
+}
+
+.topActions {
+  display: none !important;
+}
+
+.navLinks.dropdownNav {
+  margin-left: clamp(12px, 2vw, 32px) !important;
+}

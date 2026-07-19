@@ -1164,10 +1164,6 @@ function Header({ activePage, setActivePage }) {
         ))}
       </nav>
 
-      <div className="topActions">
-        <span>⌕</span>
-        <span className="avatar">◉ Robert⌄</span>
-      </div>
     </header>
   );
 }
