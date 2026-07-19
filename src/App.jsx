@@ -1001,74 +1001,61 @@ function fullCardImageCandidates(recipe) {
 function Header({ activePage, setActivePage }) {
   const navGroups = [
     {
-      label: "ABOUT US",
+      label: "ABOUT",
       items: [
         { label: "WELCOME TO OUR SITE", page: "About" },
-        { label: "AI-GENERATED, NEVER COPIED", page: "About Recipes", level: 1 },
-        { label: "FREE TO USE, PRINT OR DOWNLOAD", page: "Free To Use", level: 1 },
+        { label: "ABOUT THE RECIPES", page: "About Recipes" },
+        { label: "PRODUCTS I USE", page: "Products I Use" },
+        { label: "AFFILIATE MARKETING", page: "Affiliate Marketing" },
+        { label: "SUBMIT YOUR RECIPES", page: "Submit Recipes" },
         { label: "CONTACT ME", page: "Contact Me" },
-        { label: "BORING DISCLAIMER STUFF", page: "Disclaimers" },
-        { label: "UNDER CONSTRUCTION", page: "Under Construction" },
+        { label: "DISCLAIMERS", page: "Disclaimers" },
       ],
     },
     {
       label: "OUR RECIPES",
       items: [
-        { label: "BROWSE OUR LIBRARY", page: "Recipes" },
-      ],
-    },
-    {
-      label: "COLLECTIONS",
-      items: [
+        { label: "BROWSE ALL RECIPES", page: "Recipes" },
         { label: "DINNER COMBINATIONS", page: "Dinner Combinations" },
-        { label: "SLOW COOKER MEALS", page: "Slow Cooker Favorites" },
-        { label: "SUMMER COOKOUTS", page: "Summer Cookouts" },
-        { label: "HEALTHY DINNERS", page: "Healthy Dinners" },
-        { label: "COMFORT FOODS", page: "Comfort Foods" },
-        { label: "SALAD JARS", page: "Salad Jars" },
-        { label: "EASY 30-MINUTE MEALS", page: "Easy 30-Minute Meals" },
+        { label: "QUICK & EASY FREEZER", page: "Freezer-Friendly Meals" },
+        { label: "COLLECTIONS", page: "Collections" },
+        { label: "SLOW COOKER MEALS", page: "Slow Cooker Favorites", level: 1 },
+        { label: "SUMMER COOKOUTS", page: "Summer Cookouts", level: 1 },
+        { label: "HEALTHY DINNERS", page: "Healthy Dinners", level: 1 },
+        { label: "COMFORT FOODS", page: "Comfort Foods", level: 1 },
+        { label: "30-MINUTE MEALS", page: "Easy 30-Minute Meals", level: 1 },
+        { label: "SALAD JAR LUNCHES", page: "Salad Jars", level: 1 },
+        { label: "MY FAVORITES", page: "Favorites" },
       ],
     },
     {
-      label: "COOKING METHODS",
+      label: "YOUR KITCHEN",
       items: [
-        { label: "AIR FRYER MEALS", page: "Air Fryer Recipes" },
-        { label: "CROCKPOT MEALS", page: "Crockpot Recipes" },
-        { label: "OVEN MEALS", page: "Oven Recipes" },
-        { label: "MICROWAVE MEALS", page: "Microwave Recipes" },
-        { label: "GAS GRILL MEALS", page: "Gas Grill Recipes" },
-        { label: "PELLET SMOKER MEALS", page: "Smoker Recipes" },
-      ],
-    },
-    {
-      label: "PLANNING",
-      items: [
-        { label: "YOUR PANTRY", labelOnly: true },
-        { label: "PANTRY STAPLES", page: "Pantry Staples", level: 1 },
-        { label: "ORGANIZING YOUR PANTRY", page: "Pantry Organization", level: 1 },
+        { label: "YOUR MEAL PLANNER", page: "Meal Planner" },
         { label: "YOUR FAVORITES", page: "Favorites" },
-        { label: "YOUR WEEKLY DINNER PLANNER", page: "Meal Planner" },
-        { label: "YOUR GROCERY LIST", page: "Shopping Lists" },
+        { label: "KITCHEN INVENTORY", labelOnly: true },
+        { label: "YOUR REFRIGERATOR", page: "Kitchen Refrigerator", level: 1 },
+        { label: "YOUR FREEZER", page: "Kitchen Freezer", level: 1 },
+        { label: "YOUR PANTRY", page: "Pantry Staples", level: 1 },
+        { label: "YOUR SHOPPING LIST", page: "Shopping Lists" },
       ],
     },
     {
-      label: "TIPS & ORGANIZATION",
+      label: "LEARNING ZONE",
       items: [
-        { label: "TIPS: BREAD-MAKING", page: "Bread Tips" },
-        { label: "SMOKING MEATS", page: "About Smoking" },
-        { label: "GRILLING", page: "Grilling Tips" },
-        { label: "FREEZING MEALS", page: "Freezer Tips" },
-        { label: "PACKAGING OPTIONS", page: "Packaging Options", level: 1 },
+        { label: "COOKING METHODS", page: "Cooking Methods" },
+        { label: "GRILLING", page: "Grilling Tips", level: 1 },
+        { label: "SMOKING", page: "About Smoking", level: 1 },
+        { label: "BAKING", page: "Oven Recipes", level: 1 },
         { label: "HEALTHY SUBSTITUTIONS", page: "Grocery Picks" },
+        { label: "FOOD SAFETY", page: "Safe Cooking Rules" },
         { label: "REFERENCE GUIDES", page: "Reference Guides" },
+        { label: "FREEZING AND REHEATING", page: "Freezer Tips" },
         { label: "COOKING TOOLS & PRODUCTS", page: "Products I Use" },
-        { label: "STORAGE & ORGANIZATION", page: "Storage Organization" },
-        { label: "SUBMIT FAMILY RECIPES", page: "Submit Recipes" },
-        { label: "AFFILIATE MARKETING", page: "Affiliate Marketing" },
+        { label: "STORAGE AND ORGANIZATION", page: "Storage Organization" },
       ],
     },
-  ];
-  function openPage(page) {
+  ];  function openPage(page) {
     if (!page) return;
     setActivePage(page);
   }
@@ -8034,6 +8021,46 @@ Use this collection to organize recipes that fit prep-ahead cooking, planned lef
             eyebrow="PLANNING"
             title="Organizing Your Pantry"
             text="Use this area for pantry organization ideas, shelf-stable storage notes, container recommendations, and ways to make meal planning easier from the ingredients already on hand."
+            setActivePage={setActivePage}
+          />
+        </>
+      )}
+      {activePage === "Kitchen Refrigerator" && (
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-page-your-pantry.jpg"
+            alt="Kitchen inventory setup with fresh ingredients, containers, checklist, and notebook"
+            eyebrow="YOUR KITCHEN"
+            title="Your Refrigerator"
+            text="Your refrigerator inventory can help you track fresh ingredients, leftovers, sauces, dairy, produce, and ready-to-use meal components before they are forgotten. A quick refrigerator check can make weekly meal planning and grocery shopping easier.
+
+This page is a practical holding place for refrigerator inventory notes, freshness reminders, and ideas for using perishable foods before they expire."
+            className="pageHeroDepth464"
+/>
+          <PlaceholderInfoPage
+            eyebrow="YOUR KITCHEN"
+            title="Your Refrigerator"
+            text="Use this area for refrigerator inventory, fresh food reminders, leftovers, sauces, dairy, produce, and quick-use items that should be planned into meals soon."
+            setActivePage={setActivePage}
+          />
+        </>
+      )}
+      {activePage === "Kitchen Freezer" && (
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-storage.png"
+            alt="Freezer storage setup with containers, labels, bags, and meal-prep notes"
+            eyebrow="YOUR KITCHEN"
+            title="Your Freezer"
+            text="Your freezer inventory can help you keep track of frozen dinners, meats, vegetables, sauces, breads, meal-prep blocks, and leftovers. Knowing what is already frozen makes it easier to plan meals without buying duplicates.
+
+This page is a practical holding place for freezer inventory notes, reheating reminders, portion tracking, and make-ahead meal organization."
+            className="pageHeroDepth464"
+/>
+          <PlaceholderInfoPage
+            eyebrow="YOUR KITCHEN"
+            title="Your Freezer"
+            text="Use this area for freezer inventory, frozen meal portions, vacuum-sealed foods, meal-prep blocks, reheating notes, and items that should be used soon."
             setActivePage={setActivePage}
           />
         </>

@@ -20831,3 +20831,16 @@ nav button,
   background: #E6A817 !important;
   color: #000000 !important;
 }
+
+
+/* =========================================================
+   CLIFF NOTES BUTTON — HALF-SIZE LABEL ADJUSTMENT
+   Reduces the CLIFF NOTES text to half of the previous 20px size.
+   ========================================================= */
+
+.pageTopHeroImage .pageNotesButton,
+.pageNotesButton {
+  font-size: 10px !important;
+  font-weight: 800 !important;
+  line-height: 1.05 !important;
+}
