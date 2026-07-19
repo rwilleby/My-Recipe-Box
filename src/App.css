@@ -20917,3 +20917,126 @@ nav button,
   background: #E6A817 !important;
   color: #000000 !important;
 }
+
+
+/* =========================================================
+   FINAL MENU / ABOUT / BROWSE RECIPE LIBRARY CLEANUP
+   Removes purple badges, tightens browse controls, and updates
+   photo-break frame styling for uploaded Welcome photos.
+   ========================================================= */
+
+.aiBadge,
+.pageHeroEyebrow {
+  display: none !important;
+}
+
+.aboutLetterIntroNoHeadline {
+  padding-top: 0 !important;
+}
+
+.aboutLetterIntroNoHeadline p:first-child {
+  margin-top: 0 !important;
+}
+
+.aboutLetterPhotoBreak {
+  background: linear-gradient(180deg, #fffefb 0%, #f8f5ed 100%) !important;
+  border: 1px solid rgba(17, 24, 39, 0.12) !important;
+  box-shadow: 0 14px 30px rgba(17, 24, 39, 0.08) !important;
+}
+
+.aboutLetterPhotoBreak img {
+  padding: 8px !important;
+  background: #f7f1e5 !important;
+  border: 1px solid rgba(96, 75, 47, 0.28) !important;
+  border-radius: 14px !important;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.7), 0 10px 24px rgba(0,0,0,0.13) !important;
+}
+
+.browseRecipesPage .browseHeaderRow,
+.browseRecipesPage .browseIntro {
+  display: none !important;
+}
+
+.browseControlsSingleLine,
+.browseRecipesPage .browseControlsRow.browseControlsSingleLine {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 12px !important;
+  flex-wrap: nowrap !important;
+  width: 100% !important;
+  margin-top: 0 !important;
+  margin-bottom: 22px !important;
+}
+
+.browseControlsSingleLine .browseFilters {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+}
+
+.browseControlsSingleLine .browseSortWrap {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  flex: 0 0 auto !important;
+  margin: 0 !important;
+}
+
+.browseControlsSingleLine .browseSortWrap label {
+  margin: 0 !important;
+  white-space: nowrap !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.05em !important;
+  color: #4b5563 !important;
+}
+
+.browseControlsSingleLine select,
+.browseControlsSingleLine input {
+  min-height: 44px !important;
+  height: 44px !important;
+  border-radius: 14px !important;
+  font-size: 14px !important;
+}
+
+.browseControlsSingleLine .browseSearchWrap {
+  flex: 0 1 360px !important;
+  min-width: 240px !important;
+  margin: 0 !important;
+}
+
+.navLinks.dropdownNav > .navDropdown > .navDropdownMenu button,
+.navLinks.dropdownNav > .navDropdown > .navDropdownMenu .navDropdownItem {
+  line-height: 0.98 !important;
+  min-height: 27px !important;
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
+}
+
+@media (max-width: 980px) {
+  .browseControlsSingleLine,
+  .browseRecipesPage .browseControlsRow.browseControlsSingleLine {
+    flex-wrap: wrap !important;
+  }
+  .browseControlsSingleLine .browseFilters,
+  .browseControlsSingleLine .browseSearchWrap {
+    flex: 1 1 100% !important;
+    min-width: 0 !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .browseControlsSingleLine .browseFilters {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+  .browseControlsSingleLine .browseSortWrap {
+    width: 100% !important;
+  }
+  .browseControlsSingleLine .browseSortWrap select {
+    flex: 1 1 auto !important;
+  }
+}

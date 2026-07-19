@@ -850,11 +850,11 @@ const ABOUT_STORY_PHOTOS = [
     alt: "Robert holding Pete as a small puppy",
   },
   {
-    src: "images/about/robert-pete-pool.jpg",
+    src: "images/about/welcome-family-photo.jpg",
     alt: "Robert in the pool with Pete",
   },
   {
-    src: "images/about/robert-pete-puppy.jpg",
+    src: "images/about/welcome-pete-photo.jpg",
     alt: "Robert resting with Pete as a puppy",
   },
 ];
@@ -1005,9 +1005,8 @@ function Header({ activePage, setActivePage }) {
       items: [
         { label: "WELCOME TO OUR SITE", page: "About" },
         { label: "ABOUT OUR RECIPES", page: "About Recipes" },
-        { label: "PRODUCTS I RECOMMEND", page: "Products I Use" },
         { label: "AFFILIATE MARKETING", page: "Affiliate Marketing" },
-        { label: "SUBMIT YOUR RECIPES", page: "Submit Recipes" },
+        { label: "SUBMIT YOUR FAMILY RECIPES", page: "Submit Recipes" },
         { label: "CONTACT ME", page: "Contact Me" },
         { label: "DISCLAIMERS", page: "Disclaimers" },
       ],
@@ -1015,7 +1014,7 @@ function Header({ activePage, setActivePage }) {
     {
       label: "OUR RECIPES",
       items: [
-        { label: "BROWSE OUR RECIPES", page: "Recipes" },
+        { label: "BROWSE OUR RECIPE LIBRARY", page: "Recipes" },
         { label: "DINNER COMBINATIONS", page: "Dinner Combinations" },
         { label: "QUICK & EASY FREEZER", page: "Freezer-Friendly Meals" },
         { label: "COLLECTIONS", page: "Collections" },
@@ -1023,16 +1022,15 @@ function Header({ activePage, setActivePage }) {
         { label: "SUMMER COOKOUTS", page: "Summer Cookouts", level: 1 },
         { label: "HEALTHY DINNERS", page: "Healthy Dinners", level: 1 },
         { label: "COMFORT FOODS", page: "Comfort Foods", level: 1 },
-        { label: "30-MINUTE MEALS", page: "Easy 30-Minute Meals", level: 1 },
+        { label: "EASY 30-MINUTE MEALS", page: "Easy 30-Minute Meals", level: 1 },
         { label: "SALAD JAR LUNCHES", page: "Salad Jars", level: 1 },
-        { label: "MY FAVORITES", page: "Favorites" },
       ],
     },
     {
       label: "YOUR KITCHEN",
       items: [
-        { label: "YOUR MEAL PLANNER", page: "Meal Planner" },
-        { label: "YOUR FAVORITES", page: "Favorites" },
+        { label: "YOUR WEEKLY MEAL PLANNER", page: "Meal Planner" },
+        { label: "YOUR FAVORITE RECIPES", page: "Favorites" },
         { label: "KITCHEN INVENTORY", labelOnly: true },
         { label: "YOUR REFRIGERATOR", page: "Kitchen Refrigerator", level: 1 },
         { label: "YOUR FREEZER", page: "Kitchen Freezer", level: 1 },
@@ -1043,10 +1041,11 @@ function Header({ activePage, setActivePage }) {
     {
       label: "LEARNING ZONE",
       items: [
-        { label: "COOKING METHODS", page: "Cooking Methods" },
-        { label: "GRILLING", page: "Grilling Tips", level: 1 },
-        { label: "SMOKING", page: "About Smoking", level: 1 },
-        { label: "BAKING", page: "Oven Recipes", level: 1 },
+        { label: "COOKING TIPS", page: "Cooking Methods" },
+        { label: "TIPS: GAS GRILLS", page: "Gas Grill Recipes", level: 1 },
+        { label: "TIPS: PELLET SMOKERS", page: "Smoker Recipes", level: 1 },
+        { label: "TIPS: OVENS", page: "Oven Recipes", level: 1 },
+        { label: "TIPS: BREAD MAKING", page: "Bread Tips", level: 1 },
         { label: "HEALTHY SUBSTITUTIONS", page: "Grocery Picks" },
         { label: "FOOD SAFETY", page: "Safe Cooking Rules" },
         { label: "REFERENCE GUIDES", page: "Reference Guides" },
@@ -1267,7 +1266,7 @@ function Hero({ setActivePage }) {
 
         <div className="heroButtons">
           <button className="primary" onClick={() => setActivePage("Recipes")}>
-            ▣ Browse Recipes
+            ▣ Browse Our Recipe Library
           </button>
           <button
             className="secondary"
@@ -2565,7 +2564,7 @@ function ProductsIUseCarousel({ setActivePage }) {
   return (
     <section className="homeFeatureCard productsIUseCard">
       <div className="homeMiniSectionHeader">
-        <h2>Products I Use</h2>
+        <h2>Products I Recommend</h2>
       </div>
 
       <div className="productUseFeatureWrap">
@@ -3038,10 +3037,58 @@ function RecipesPage({
 
   return (
     <main className="pageShell browseRecipesPage">
-      <div className="browseHeaderRow">
-        <div className="browseIntro">
-          <h1>Browse Recipes</h1>
-          <p>Explore AI-generated recipes and meal ideas.</p>
+      <div className="browseControlsRow browseControlsSingleLine">
+        <div className="browseSortWrap">
+          <label htmlFor="browse-sort">SORT BY</label>
+          <select id="browse-sort" value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+            <option value="newest">Newest</option>
+            <option value="az">A–Z</option>
+            <option value="time-low">Time: Low to High</option>
+            <option value="time-high">Time: High to Low</option>
+            <option value="servings-low">Servings: Low to High</option>
+            <option value="servings-high">Servings: High to Low</option>
+          </select>
+        </div>
+
+        <div className="browseFilters">
+          <select
+            value={selectedCategory}
+            onChange={(e) => {
+              setSelectedCategory(e.target.value);
+              setFilter(e.target.value);
+            }}
+            aria-label="All Categories"
+          >
+            <option value="">ALL CATEGORIES</option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.name}>
+                {category.name}
+              </option>
+            ))}
+          </select>
+
+          <select
+            value={selectedCookingMethod}
+            onChange={(e) => setSelectedCookingMethod(e.target.value)}
+            aria-label="All Cooking Methods"
+          >
+            <option value="">ALL COOKING METHODS</option>
+            <option value="quick">Quick & Easy</option>
+            <option value="baked">Baked</option>
+            <option value="skillet">Skillet</option>
+            <option value="slowcooker">Slow Cooker</option>
+          </select>
+
+          <select
+            value={selectedDietaryNeed}
+            onChange={(e) => setSelectedDietaryNeed(e.target.value)}
+            aria-label="All Dietary Needs"
+          >
+            <option value="">ALL DIETARY NEEDS</option>
+            <option value="glutenfree">Gluten Free</option>
+            <option value="lowcarb">Low Carb</option>
+            <option value="lighter">Lighter Options</option>
+          </select>
         </div>
 
         <div className="browseSearchWrap">
@@ -3052,60 +3099,6 @@ function RecipesPage({
             placeholder="Search recipes..."
             aria-label="Search recipes"
           />
-        </div>
-      </div>
-
-      <div className="browseControlsRow">
-        <div className="browseFilters">
-          <select
-            value={selectedCategory}
-            onChange={(e) => {
-              setSelectedCategory(e.target.value);
-              setFilter(e.target.value);
-            }}
-          >
-            <option value="">All Categories</option>
-            {categories.map((category) => (
-              <option key={category.id} value={category.name}>
-                {category.name}
-              </option>
-            ))}
-          </select>
-
-          <select value={selectedCookingMethod} onChange={(e) => setSelectedCookingMethod(e.target.value)}>
-            <option value="">All Cooking Methods</option>
-            <option value="quick">Quick & Easy</option>
-            <option value="baked">Baked</option>
-            <option value="skillet">Skillet</option>
-            <option value="slowcooker">Slow Cooker</option>
-          </select>
-
-          <select value={selectedMealType} onChange={(e) => setSelectedMealType(e.target.value)}>
-            <option value="">All Meal Types</option>
-            <option value="dinner">Dinner</option>
-            <option value="lunch">Lunch</option>
-            <option value="sidedish">Side Dish</option>
-            <option value="dessert">Dessert</option>
-          </select>
-
-          <select value={selectedDietaryNeed} onChange={(e) => setSelectedDietaryNeed(e.target.value)}>
-            <option value="">All Dietary Needs</option>
-            <option value="glutenfree">Gluten Free</option>
-            <option value="lowcarb">Low Carb</option>
-            <option value="lighter">Lighter Options</option>
-          </select>
-        </div>
-
-        <div className="browseSortWrap">
-          <label htmlFor="browse-sort">Sort By:</label>
-          <select id="browse-sort" value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
-            <option value="newest">Newest</option>
-            <option value="az">A–Z</option>
-            <option value="time-low">Time: Low to High</option>
-            <option value="time-high">Time: High to Low</option>
-            <option value="servings-low">Servings: Low to High</option>
-            <option value="servings-high">Servings: High to Low</option>
-          </select>
         </div>
       </div>
 
@@ -4236,7 +4229,7 @@ function ProductsIUsePage({ setActivePage }) {
       <section className="aboutRecipesHero productsIUseHero">
         <div>
           <div className="aiBadge">TOOLS & PRODUCTS</div>
-          <h1>Products I Use</h1>
+          <h1>Products I Recommend</h1>
           <p>
             A simple reference page for the containers, pans, jars, storage
             tools, and kitchen products I like to keep in mind for recipe cards,
@@ -4286,7 +4279,7 @@ function ProductsIUsePage({ setActivePage }) {
           Return Home
         </button>
         <button className="secondary" onClick={() => setActivePage("Recipes")}>
-          Browse Recipes
+          Browse Our Recipe Library
         </button>
         <button className="secondary" onClick={() => setActivePage("Recommendations")}>
           Recommendations
@@ -4299,7 +4292,7 @@ function ProductsIUsePage({ setActivePage }) {
 function RecommendationsPage({ setActivePage }) {
   const recommendationCards = [
     {
-      title: "Kitchen Tools & Products",
+      title: "Products I Recommend",
       text: "Helpful kitchen gadgets, small appliances, and practical tools for easier everyday cooking.",
       icon: "▣",
       note: "Future home for affiliate-friendly product recommendations.",
@@ -4770,7 +4763,7 @@ function HowToUsePage({ setActivePage }) {
 
       <div className="aboutRecipesActions">
         <button className="primary" onClick={() => setActivePage("Recipes")}>
-          Browse Recipes
+          Browse Our Recipe Library
         </button>
         <button className="secondary" onClick={() => setActivePage("Meal Planner")}>
           Start Meal Planning
@@ -4790,7 +4783,7 @@ function AboutRecipesPage({ setActivePage }) {
       <section className="aboutRecipesHero">
         <div>
           <div className="aiBadge">ABOUT OUR RECIPES</div>
-          <h1>About the Recipes</h1>
+          <h1>About Our Recipes</h1>
           <p>
             Robert’s Recipe Box is built around practical meals, familiar foods,
             AI-assisted recipe development under my direction, recipe-card
@@ -4888,7 +4881,7 @@ function AboutRecipesPage({ setActivePage }) {
 
       <div className="aboutRecipesActions">
         <button className="primary" onClick={() => setActivePage("Recipes")}>
-          Browse Recipes
+          Browse Our Recipe Library
         </button>
         <button className="secondary" onClick={() => setActivePage("Meal Planner")}>
           Start Meal Planning
@@ -4907,9 +4900,7 @@ function AboutPage({ setActivePage }) {
   return (
     <main className="pageShell aboutLetterPage aboutUnifiedPage">
       <article className="aboutLetterArticle">
-        <section className="aboutLetterIntro">
-          <div className="aiBadge">WELCOME TO OUR SITE</div>
-          <h1>Welcome to Robert’s Recipe Box</h1>
+        <section className="aboutLetterIntro aboutLetterIntroNoHeadline">
           <p>
             Welcome to my free recipe-card and meal-planning site. I use it every
             week for my own meal planning, and I designed it especially for
@@ -4937,8 +4928,8 @@ function AboutPage({ setActivePage }) {
 
         <figure className="aboutLetterPhotoBreak">
           <img
-            src={`${import.meta.env.BASE_URL}images/about/robert-pete-pool.jpg`}
-            alt="Robert with Pete"
+            src={`${import.meta.env.BASE_URL}images/about/welcome-family-photo.jpg`}
+            alt="Family photo on a country path"
             loading="lazy"
             decoding="async"
           />
@@ -4980,8 +4971,8 @@ function AboutPage({ setActivePage }) {
 
         <figure className="aboutLetterPhotoBreak aboutLetterPhotoBreakRight">
           <img
-            src={`${import.meta.env.BASE_URL}images/about/robert-pete-puppy.jpg`}
-            alt="Pete as a puppy"
+            src={`${import.meta.env.BASE_URL}images/about/welcome-pete-photo.jpg`}
+            alt="Golden retriever standing in the yard"
             loading="lazy"
             decoding="async"
           />
@@ -5081,7 +5072,7 @@ function AboutSmokingPage({ setActivePage }) {
 
       <div className="aboutRecipesActions">
         <button className="primary" onClick={() => setActivePage("Recipes")}>
-          Browse Recipes
+          Browse Our Recipe Library
         </button>
         <button className="secondary" onClick={() => setActivePage("About")}>
           Our Mission
@@ -5111,7 +5102,7 @@ function UnderConstructionPage({ setActivePage }) {
           Return Home
         </button>
         <button className="secondary" onClick={() => setActivePage("Recipes")}>
-          Browse Recipes
+          Browse Our Recipe Library
         </button>
       </div>
     </main>
@@ -5131,7 +5122,7 @@ function PlaceholderInfoPage({ eyebrow, title, text, setActivePage }) {
 
       <div className="aboutRecipesActions">
         <button className="primary" onClick={() => setActivePage("Recipes")}>
-          Browse Recipes
+          Browse Our Recipe Library
         </button>
         <button className="secondary" onClick={() => setActivePage("How To Use")}>
           How to Use This Site
@@ -5236,7 +5227,7 @@ function getPageHelpSteps(pageTitle = "", pageEyebrow = "") {
         text: "Review the effective date and revisit the page when policies, features, affiliate links, or privacy practices change.",
       },
     ],
-    "Browse Our Library": [
+    "Browse Our Recipe Library": [
       {
         label: "Search",
         text: "Use search to look for recipe names, ingredients, cooking methods, or meal ideas.",
@@ -5479,7 +5470,7 @@ function HeroTopicPage({
   heroAlt,
   setActivePage,
   primaryPage = "Recipes",
-  primaryLabel = "Browse Recipes",
+  primaryLabel = "Browse Our Recipe Library",
   secondaryPage = "How To Use",
   secondaryLabel = "How to Use This Site",
   heroClassName = "pageHeroDepth464",
@@ -7289,7 +7280,7 @@ function DisclaimersPage({ setActivePage }) {
     <main className="pageShell disclaimersAccordionPage">
       <section className="disclaimersIntroCard">
         <div className="aiBadge">POLICIES, DISCLAIMERS & LEGAL INFORMATION</div>
-        <h1>Policies, Disclaimers & Legal Information</h1>
+        <h1>Disclaimers</h1>
         <p className="disclaimerEffectiveDate">Effective date: July 1, 2026</p>
         {DISCLAIMER_PAGE_INTRO.map((paragraph, index) => (
           <p key={index}>{paragraph}</p>
@@ -7396,7 +7387,7 @@ function CollectionDetailPage({
 
       <div className="aboutRecipesActions">
         <button className="primary" onClick={() => setActivePage("Recipes")}>
-          Browse Recipes
+          Browse Our Recipe Library
         </button>
         <button className="secondary" onClick={() => setActivePage("Admin Recipes")}>
           Open Admin Classifier
@@ -7672,7 +7663,7 @@ These pages are designed to be easy to scan, print, or revisit when needed. They
             src="images/heroes/hero-page-disclaimers.jpg"
             alt="Disclaimer page setup with disclaimer notebook, glasses, scales, recipe box, and clipboard"
             eyebrow="ABOUT US"
-            title="Boring Disclaimer Stuff"
+            title="Disclaimers"
             text="Every website needs a little fine print, even one devoted to recipes and home cooking. This section explains the general terms, privacy information, nutritional limitations, affiliate disclosures, copyright details, and other policies connected with using Robert’s Recipe Box.\n\nThe goal is not to make the site feel complicated. These notices simply explain what visitors should know, how certain information is handled, and where personal judgment or professional advice may still be needed."
             className="pageHeroDepth464"
 />
@@ -7698,7 +7689,7 @@ These pages are designed to be easy to scan, print, or revisit when needed. They
             src="images/heroes/hero-page-browse-recipes.jpg"
             alt="Browse recipes setup with recipe box, pasta dish, salad, notebook, and recipe category clipboard"
             eyebrow="OUR RECIPES"
-            title="Browse Our Library"
+            title="Browse Our Recipe Library"
             text="Explore the Robert’s Recipe Box library and find something that sounds good for your next meal. Recipes can be discovered through categories, collections, cooking methods, meal types, seasonal ideas, and other helpful groupings.\n\nWhether you already know exactly what you want or are simply browsing for inspiration, the library is designed to make it easier to compare choices. New recipes and collections will continue to be added as the website grows."
             className="pageHeroDepth464"
 />
@@ -8115,7 +8106,7 @@ This page is a practical holding place for freezer inventory notes, reheating re
             src="images/heroes/hero-page-cooking-tools.jpg"
             alt="Cooking tools and products setup with utensils, measuring cups, grater, mixing bowl, and skillet"
             eyebrow="TIPS & ORGANIZATION"
-            title="Cooking Tools & Products"
+            title="Products I Recommend"
             text="The right kitchen tool can save time, improve consistency, or make an unpleasant task easier. The wrong tool may take up space without providing enough benefit to justify its cost.\n\nThis section highlights products that may be genuinely useful for preparation, cooking, storage, serving, and cleanup. Recommendations are based on practical function and suitability for an everyday home kitchen rather than collecting unnecessary gadgets."
             className="pageHeroDepth464"
 />
@@ -8313,7 +8304,7 @@ This page is a practical holding place for freezer inventory notes, reheating re
           />
           <PlaceholderInfoPage
             eyebrow="TIPS & TECHNIQUES"
-            title="Submit Your Recipes"
+            title="Submit Your Family Recipes"
             text="This page will explain how visitors can suggest recipe ideas, family favorites, copycat-style meals, or practical cooking tips for future consideration."
             setActivePage={setActivePage}
             recipes={classifiedRecipes}
@@ -8355,7 +8346,7 @@ This page is a practical holding place for freezer inventory notes, reheating re
           text="An organized kitchen makes it easier to find ingredients, use the equipment you own, and prepare meals without unnecessary frustration. Better storage can also reduce wasted food and prevent supplies from being forgotten.\n\nExplore ideas for pantries, refrigerators, freezers, cookware, utensils, spices, recipes, and meal-preparation supplies. The goal is not a perfect showroom kitchen, but a practical space that works better for the people using it."
           setActivePage={setActivePage}
           primaryPage="Products I Use"
-          primaryLabel="Products I Use"
+          primaryLabel="Products I Recommend"
         />
       )}
       {activePage === "Other Interests" && (
