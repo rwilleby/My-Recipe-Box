@@ -21040,3 +21040,164 @@ nav button,
     flex: 1 1 auto !important;
   }
 }
+
+/* =========================================================
+   FINAL BROWSE LIBRARY FILTER ROW + HOME DINNER IMAGE FIX
+   Keeps recipe filters in one compact row and restores the
+   Dinner Combinations rotating images inside the existing card.
+   ========================================================= */
+
+.browseRecipesPage .browseControlsRow.browseControlsSingleLine {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-wrap: nowrap !important;
+  gap: 10px !important;
+  width: 100% !important;
+  max-width: 1280px !important;
+  margin: 0 auto 18px !important;
+  padding: 0 24px !important;
+  box-sizing: border-box !important;
+}
+
+.browseRecipesPage .browseControlsSingleLine .browseSortWrap,
+.browseRecipesPage .browseControlsSingleLine .browseFilters,
+.browseRecipesPage .browseControlsSingleLine .browseSearchWrap {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  flex-wrap: nowrap !important;
+  margin: 0 !important;
+  min-width: 0 !important;
+}
+
+.browseRecipesPage .browseControlsSingleLine .browseSortWrap {
+  flex: 0 0 auto !important;
+  gap: 8px !important;
+}
+
+.browseRecipesPage .browseControlsSingleLine .browseFilters {
+  flex: 0 0 auto !important;
+  gap: 10px !important;
+}
+
+.browseRecipesPage .browseControlsSingleLine .browseSearchWrap {
+  flex: 0 1 320px !important;
+  width: 320px !important;
+  max-width: 320px !important;
+  height: 44px !important;
+  min-height: 44px !important;
+  max-height: 44px !important;
+  padding: 0 14px !important;
+  border-radius: 14px !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+}
+
+.browseRecipesPage .browseControlsSingleLine .browseSearchWrap input {
+  height: 42px !important;
+  min-height: 42px !important;
+  max-height: 42px !important;
+  line-height: 42px !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.browseRecipesPage .browseControlsSingleLine select {
+  height: 44px !important;
+  min-height: 44px !important;
+  max-height: 44px !important;
+  min-width: 190px !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.browseRecipesPage .browseControlsSingleLine .browseSortWrap select {
+  min-width: 150px !important;
+}
+
+.dinnerCombinationsFeatureCard .featuredSelectionImage,
+.dinnerCombinationsFeatureCard .dinnerCombinationsFeatureImage {
+  position: relative !important;
+  width: 100% !important;
+  max-width: 280px !important;
+  height: 185px !important;
+  min-height: 185px !important;
+  max-height: 185px !important;
+  overflow: hidden !important;
+  background: #ffffff !important;
+  border-radius: 18px !important;
+}
+
+.dinnerCombinationsFeatureCard .featuredDinnerImageStack {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  overflow: hidden !important;
+}
+
+.dinnerCombinationsFeatureCard img.featuredDinnerImage,
+.dinnerCombinationsFeatureCard .featuredDinnerImage {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  min-width: 100% !important;
+  min-height: 100% !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+  opacity: 0 !important;
+  transition: opacity 2.6s ease-in-out !important;
+  display: block !important;
+  visibility: visible !important;
+}
+
+.dinnerCombinationsFeatureCard img.featuredDinnerImage.active,
+.dinnerCombinationsFeatureCard .featuredDinnerImage.active {
+  opacity: 1 !important;
+  z-index: 2 !important;
+}
+
+.dinnerCombinationsFeatureCard .dinnerCombinationImageFallback.featuredDinnerImage {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: #f8faf7 !important;
+  color: #14532d !important;
+  font-weight: 800 !important;
+  border: 1px solid rgba(20, 83, 45, 0.18) !important;
+}
+
+@media (max-width: 1180px) {
+  .browseRecipesPage .browseControlsRow.browseControlsSingleLine {
+    flex-wrap: wrap !important;
+    justify-content: flex-start !important;
+  }
+
+  .browseRecipesPage .browseControlsSingleLine .browseSearchWrap {
+    flex: 1 1 100% !important;
+    width: 100% !important;
+    max-width: none !important;
+  }
+}
+
+@media (max-width: 720px) {
+  .browseRecipesPage .browseControlsSingleLine .browseFilters {
+    flex: 1 1 100% !important;
+    flex-wrap: wrap !important;
+  }
+
+  .browseRecipesPage .browseControlsSingleLine select,
+  .browseRecipesPage .browseControlsSingleLine .browseSortWrap,
+  .browseRecipesPage .browseControlsSingleLine .browseSortWrap select {
+    flex: 1 1 100% !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+}

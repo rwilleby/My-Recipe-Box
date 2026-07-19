@@ -2511,7 +2511,7 @@ function FeaturedSelectionPanel({ setActivePage }) {
 
     const timer = window.setInterval(() => {
       setActiveIndex((current) => (current + 1) % featuredMeals.length);
-    }, 5200);
+    }, 9000);
 
     return () => window.clearInterval(timer);
   }, [featuredMeals.length]);
@@ -2537,8 +2537,8 @@ function FeaturedSelectionPanel({ setActivePage }) {
                 key={meal.id}
                 meal={meal}
                 className={`featuredDinnerImage${index === activeIndex ? " active" : ""}`}
-                loading={index === 0 ? "eager" : "lazy"}
-                fetchPriority={index === 0 ? "high" : "auto"}
+                loading="eager"
+                fetchPriority="high"
               />
             ))}
           </div>
