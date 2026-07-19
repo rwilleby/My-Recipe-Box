@@ -432,6 +432,8 @@ function makeRecipe(entry) {
 }
 
 const recipeRows = [
+  ["AM-001", "Salisbury Steak"],
+  ["AM-002", "Beef Tips"],
   ["AS-001", "Beef & Broccoli"],
   ["AS-002", "Beijing Beef"],
   ["AS-003", "Mongolian Beef"],
