@@ -850,11 +850,11 @@ const ABOUT_STORY_PHOTOS = [
     alt: "Robert holding Pete as a small puppy",
   },
   {
-    src: "images/about/welcome-family-photo.jpg",
+    src: "images/about/welcome-family-framed-photo.jpg",
     alt: "Robert in the pool with Pete",
   },
   {
-    src: "images/about/welcome-pete-photo.jpg",
+    src: "images/about/welcome-pete-framed-photo.jpg",
     alt: "Robert resting with Pete as a puppy",
   },
 ];
@@ -4928,7 +4928,7 @@ function AboutPage({ setActivePage }) {
 
         <figure className="aboutLetterPhotoBreak">
           <img
-            src={`${import.meta.env.BASE_URL}images/about/welcome-family-photo.jpg`}
+            src={`${import.meta.env.BASE_URL}images/about/welcome-family-framed-photo.jpg`}
             alt="Family photo on a country path"
             loading="lazy"
             decoding="async"
@@ -4971,7 +4971,7 @@ function AboutPage({ setActivePage }) {
 
         <figure className="aboutLetterPhotoBreak aboutLetterPhotoBreakRight">
           <img
-            src={`${import.meta.env.BASE_URL}images/about/welcome-pete-photo.jpg`}
+            src={`${import.meta.env.BASE_URL}images/about/welcome-pete-framed-photo.jpg`}
             alt="Golden retriever standing in the yard"
             loading="lazy"
             decoding="async"
