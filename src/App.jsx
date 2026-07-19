@@ -784,7 +784,7 @@ const HERO_INFO_BUTTONS = [
 const PRODUCTS_I_USE = [
   {
     title: "Aluminum Mini Bread Pans",
-    image: "images/products/aluminum-mini-bread-pans.jpg",
+    image: "images/products/hero-amazon-mini-meals.png",
     note: "Small disposable pans for mini loaves, freezer portions, gift breads, and make-ahead meals.",
     affiliateUrl: "https://www.amazon.com/dp/B0DQ4VVWSB?ref_=ppx_hzsearch_conn_dt_b_fed_asin_title_4&th=1",
   },
@@ -796,13 +796,13 @@ const PRODUCTS_I_USE = [
   },
   {
     title: "Aluminum Cupcake Pans",
-    image: "images/products/aluminum-cupcake-pans.jpg",
+    image: "images/products/hero-amazon-cupcakes.png",
     note: "Disposable cupcake or muffin pans for small-batch baking, easy cleanup, and portioned treats.",
     affiliateUrl: "https://www.amazon.com/dp/B06XTYFZH6?ref_=ppx_hzsearch_conn_dt_b_fed_asin_title_24&th=1",
   },
   {
     title: "Aluminum Mini Cake Pans",
-    image: "images/products/aluminum-mini-cake-pans.jpg",
+    image: "images/products/hero-amazon-mini-cakes.png",
     note: "Small disposable cake pans for desserts, small loaves, gifting, and freezer-friendly portions.",
     affiliateUrl: "https://www.amazon.com/dp/B0DQ4WFXBT?ref_=ppx_hzsearch_conn_dt_b_fed_asin_title_1&th=1",
   },
@@ -813,52 +813,52 @@ const PRODUCTS_I_USE = [
   },
   {
     title: "Ball 4-Ounce Jars",
-    image: "images/products/ball-4oz-jars.jpg",
+    image: "images/products/hero-amazon-pickles.png",
     note: "Useful jars for small desserts, sauces, overnight oats, fruit portions, and pantry organization.",
   },
   {
     title: "Ball 8-Ounce Jars",
-    image: "images/products/ball-8oz-jars.jpg",
+    image: "images/products/hero-amazon-mini-jars.png",
     note: "Everyday jars for leftovers, soups, salads, snacks, sauces, and small make-ahead portions.",
   },
   {
     title: "Baguette Bread Pan",
-    image: "images/products/bread-baguette-pan.jpg",
+    image: "images/products/hero-amazon-baguette.png",
     note: "A perforated bread pan for baking baguettes, sub rolls, and crustier homemade breads.",
     affiliateUrl: "https://www.amazon.com/dp/B0912CCQSN?ref_=ppx_hzsearch_conn_dt_b_fed_asin_title_7&th=1",
   },
   {
     title: "Bread Machine",
-    image: "images/products/bread-machine.jpg",
+    image: "images/products/hero-amazon-bread-machine.png",
     note: "A countertop bread machine for simple homemade bread, dough cycles, and small-batch baking.",
   },
   {
     title: "Pullman Bread Pan",
-    image: "images/products/bread-pullman-pan.jpg",
+    image: "images/products/hero-amazon-pullman.png",
     note: "A lidded loaf pan for sandwich bread, square loaves, and consistent homemade slices.",
     affiliateUrl: "https://www.amazon.com/dp/B0D7D53QDG?ref_=ppx_hzsearch_conn_dt_b_fed_asin_title_7",
   },
   {
     title: "8-Ounce Deli Containers",
-    image: "images/products/plastic-storage-8oz.jpg",
+    image: "images/products/hero-amazon-8oz-deli.png",
     note: "Small plastic containers for sauces, fruit, snacks, toppings, and small leftovers.",
     affiliateUrl: "https://www.amazon.com/dp/B0DX8LVYXV?ref_=ppx_hzsearch_conn_dt_b_fed_asin_title_3&th=1",
   },
   {
     title: "16-Ounce Deli Containers",
-    image: "images/products/plastic-storage-16oz.jpg",
+    image: "images/products/hero-amazon-16oz-deli.png",
     note: "Mid-size containers for leftovers, soups, chopped ingredients, and freezer portions.",
     affiliateUrl: "https://www.amazon.com/dp/B0DX7M3Y66?ref_=ppx_hzsearch_conn_dt_b_fed_asin_title_5&th=1",
   },
   {
     title: "32-Ounce Deli Containers",
-    image: "images/products/plastic-storage-32oz.jpg",
+    image: "images/products/hero-amazon-32oz-deli.png",
     note: "Larger containers for soups, sauces, meal-prep portions, and freezer storage.",
     affiliateUrl: "https://www.amazon.com/dp/B0DX7L9RSN?ref_=ppx_hzsearch_conn_dt_b_fed_asin_title_5&th=1",
   },
   {
     title: "Silicone Freezer Trays",
-    image: "images/products/silicone-freezer-trays.jpg",
+    image: "images/products/hero-amazon-silicone.png",
     note: "Portion trays for freezing soups, sauces, broth, cooked meats, and individual meal components.",
   },
   {
@@ -5301,9 +5301,10 @@ function ProductsIUsePage({ setActivePage }) {
                 decoding="async"
               />
             </div>
-            <div>
+            <div className="productsIUsePageContent">
               <h2>{product.title}</h2>
               <p>{product.note}</p>
+              <p className="productsIUseProductInfo">Product information and Amazon listing are available through the link in the upper-right corner.</p>
             </div>
           </article>
         ))}

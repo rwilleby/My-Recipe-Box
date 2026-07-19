@@ -22268,3 +22268,160 @@ nav button,
     max-width: none !important;
   }
 }
+
+/* =========================================================
+   PRODUCTS I RECOMMEND — TWO-COLUMN PRODUCT LIST
+   Updated product cards with hero image left and product details right.
+   ========================================================= */
+
+.productsIUsePageGrid {
+  max-width: 1180px !important;
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 18px !important;
+  align-items: stretch !important;
+}
+
+.productsIUsePageCard {
+  position: relative !important;
+  display: grid !important;
+  grid-template-columns: minmax(210px, 44%) minmax(0, 1fr) !important;
+  grid-template-rows: auto !important;
+  min-height: 220px !important;
+  background: #ffffff !important;
+  border: 1px solid var(--line) !important;
+  border-radius: 18px !important;
+  overflow: hidden !important;
+  box-shadow: 0 10px 28px rgba(17, 24, 39, .055) !important;
+}
+
+.productsIUsePageImage {
+  min-height: 220px !important;
+  height: 100% !important;
+  padding: 0 !important;
+  background: #f7f3ec !important;
+  border-right: 1px solid #ece6dc !important;
+  border-bottom: 0 !important;
+  display: block !important;
+  overflow: hidden !important;
+}
+
+.productsIUsePageImage img {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+  display: block !important;
+  transform: none !important;
+}
+
+.productsIUsePageContent,
+.productsIUsePageCard div:last-child.productsIUsePageContent {
+  padding: 28px 48px 24px 24px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: flex-start !important;
+  text-align: left !important;
+}
+
+.productsIUsePageCard h2 {
+  width: 100% !important;
+  margin: 0 0 10px !important;
+  color: #111827 !important;
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif !important;
+  font-size: 22px !important;
+  line-height: 1.08 !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.01em !important;
+  text-align: left !important;
+}
+
+.productsIUsePageCard p {
+  width: 100% !important;
+  margin: 0 !important;
+  color: #374151 !important;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif !important;
+  font-size: 14px !important;
+  line-height: 1.42 !important;
+  text-align: left !important;
+}
+
+.productsIUseProductInfo {
+  margin-top: 12px !important;
+  padding-top: 10px !important;
+  border-top: 1px solid #edf1ed !important;
+  color: #6b7280 !important;
+  font-size: 12.5px !important;
+  line-height: 1.35 !important;
+}
+
+.productsIUseAmazonCorner {
+  position: absolute !important;
+  top: 12px !important;
+  right: 12px !important;
+  z-index: 12 !important;
+  width: 42px !important;
+  height: 42px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: #ff9900 !important;
+  border-radius: 999px !important;
+  box-shadow: 0 4px 12px rgba(17, 24, 39, .18) !important;
+  text-decoration: none !important;
+  overflow: hidden !important;
+}
+
+.productsIUseAmazonCorner::before,
+.productsIUseAmazonCorner span {
+  display: none !important;
+}
+
+.productsIUseAmazonIcon {
+  width: 30px !important;
+  height: 30px !important;
+  display: block !important;
+  border-radius: 7px !important;
+  box-shadow: none !important;
+  background: #ffffff !important;
+}
+
+.productsIUseAmazonCorner:hover {
+  background: #ffb23f !important;
+  transform: translateY(-1px) !important;
+}
+
+@media (max-width: 980px) {
+  .productsIUsePageGrid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .productsIUsePageCard {
+    grid-template-columns: minmax(210px, 38%) minmax(0, 1fr) !important;
+  }
+}
+
+@media (max-width: 680px) {
+  .productsIUsePageCard {
+    grid-template-columns: 1fr !important;
+  }
+
+  .productsIUsePageImage {
+    min-height: 210px !important;
+    height: 210px !important;
+    border-right: 0 !important;
+    border-bottom: 1px solid #ece6dc !important;
+  }
+
+  .productsIUsePageContent,
+  .productsIUsePageCard div:last-child.productsIUsePageContent {
+    padding: 20px 20px 22px !important;
+  }
+
+  .productsIUsePageCard h2 {
+    font-size: 20px !important;
+  }
+}
