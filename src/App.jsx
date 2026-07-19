@@ -21,6 +21,14 @@ import {
   getDefaultRefrigeratorItems,
   slugifyRefrigeratorItem,
 } from "./data/refrigeratorInventory";
+import {
+  DEFAULT_FREEZER_LOCATIONS,
+  FREEZER_CATEGORIES,
+  FREEZER_FILTERS,
+  FREEZER_STATUS_OPTIONS,
+  getDefaultFreezerItems,
+  slugifyFreezerItem,
+} from "./data/freezerInventory";
 import { loadJSON, saveJSON } from "./utils/storage";
 import {
   buildShoppingList,
@@ -35,6 +43,7 @@ const STORAGE_KEYS = {
   checked: "rrb_checkedShoppingItems",
   pantry: "rrb_pantryStaples",
   refrigerator: "rrb_refrigeratorInventory",
+  freezer: "rrb_freezerInventory",
 };
 
 const CATEGORY_ICON_IMAGES = {
@@ -1041,7 +1050,7 @@ function Header({ activePage, setActivePage }) {
         { label: "YOUR FAVORITE RECIPES", page: "Favorites" },
         { label: "KITCHEN INVENTORY", labelOnly: true },
         { label: "REFRIGERATOR INVENTORY", page: "Kitchen Refrigerator", level: 1 },
-        { label: "YOUR FREEZER", page: "Kitchen Freezer", level: 1 },
+        { label: "FREEZER INVENTORY", page: "Kitchen Freezer", level: 1 },
         { label: "YOUR PANTRY", page: "Pantry Staples", level: 1 },
         { label: "YOUR GROCERY LIST", page: "Shopping Lists" },
       ],
@@ -4231,7 +4240,528 @@ function RefrigeratorInventoryPage({ refrigerator, setRefrigerator, setActivePag
   );
 }
 
-function ShoppingListPage({ plan, checked, setChecked, servings, pantry, refrigerator, setActivePage }) {
+
+function normalizeFreezerState(value) {
+  return {
+    items: value && typeof value.items === "object" && !Array.isArray(value.items) ? value.items : {},
+    customItems: Array.isArray(value?.customItems) ? value.customItems : [],
+    customLocations: Array.isArray(value?.customLocations) ? value.customLocations : [],
+  };
+}
+
+function getFreezerUseByDaysRemaining(dateValue) {
+  if (!dateValue) return null;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const target = new Date(`${dateValue}T00:00:00`);
+  if (Number.isNaN(target.getTime())) return null;
+  return Math.ceil((target.getTime() - today.getTime()) / 86400000);
+}
+
+function freezerItemShouldUseSoon(entry) {
+  if (!entry) return false;
+  if (entry.useSoon || entry.status === "Use soon" || entry.status === "Thaw for this week") return true;
+  const daysRemaining = getFreezerUseByDaysRemaining(entry.useByDate);
+  return entry.onHand && daysRemaining !== null && daysRemaining <= 14;
+}
+
+function buildFreezerGroceryItems(freezer) {
+  const safe = normalizeFreezerState(freezer);
+  const defaultItems = getDefaultFreezerItems();
+  const customItems = safe.customItems.map((item) => ({
+    ...item,
+    categoryTitle:
+      FREEZER_CATEGORIES.find((category) => category.id === item.categoryId)?.title ||
+      "Freezer Inventory",
+    custom: true,
+  }));
+
+  return [...defaultItems, ...customItems]
+    .map((item) => ({ ...item, ...(safe.items[item.id] || {}) }))
+    .filter((item) => item.grocery || item.status === "Running low" || item.status === "One remaining")
+    .map((item) => ({
+      name: item.name,
+      qty: Number.parseFloat(item.quantity) || 1,
+      unit: item.packageSize || item.unit || "item",
+      aisle: "Freezer Inventory",
+    }));
+}
+
+function FreezerInventoryPage({ freezer, setFreezer, setActivePage }) {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterMode, setFilterMode] = useState("all");
+  const [locationFilter, setLocationFilter] = useState("all");
+  const [expandedCategories, setExpandedCategories] = useState(() => new Set([FREEZER_CATEGORIES[0]?.id || "meat-poultry"]));
+  const [customFormCategory, setCustomFormCategory] = useState(null);
+  const [customLocationName, setCustomLocationName] = useState("");
+  const [customForm, setCustomForm] = useState({
+    name: "",
+    quantity: "",
+    unit: "",
+    packageSize: "",
+    dateFrozen: "",
+    useByDate: "",
+    location: "Kitchen freezer",
+    status: "Plenty on hand",
+    notes: "",
+  });
+
+  const importInputId = "freezer-inventory-import-file";
+  const safeFreezer = normalizeFreezerState(freezer);
+  const defaultItems = useMemo(() => getDefaultFreezerItems(), []);
+  const locations = [...new Set([...DEFAULT_FREEZER_LOCATIONS, ...safeFreezer.customLocations])];
+  const customItems = safeFreezer.customItems.map((item) => ({
+    ...item,
+    categoryTitle:
+      FREEZER_CATEGORIES.find((category) => category.id === item.categoryId)?.title ||
+      "Custom Items",
+    custom: true,
+  }));
+  const allItems = [...defaultItems, ...customItems].map((item) => ({
+    ...item,
+    ...(safeFreezer.items[item.id] || {}),
+    status: safeFreezer.items[item.id]?.status || "Plenty on hand",
+    location: safeFreezer.items[item.id]?.location || item.location || "Kitchen freezer",
+  }));
+
+  const summary = {
+    onHand: allItems.filter((item) => item.onHand).length,
+    useSoon: allItems.filter(freezerItemShouldUseSoon).length,
+    low: allItems.filter((item) => item.status === "Running low" || item.status === "One remaining").length,
+    grocery: buildFreezerGroceryItems(safeFreezer).length,
+  };
+
+  const normalizedSearch = searchTerm.trim().toLowerCase();
+  const visibleItems = allItems.filter((item) => {
+    const matchesSearch = normalizedSearch ? item.name.toLowerCase().includes(normalizedSearch) : true;
+    if (!matchesSearch) return false;
+    if (locationFilter !== "all" && (item.location || "Kitchen freezer") !== locationFilter) return false;
+    if (filterMode === "checked") return !!item.onHand;
+    if (filterMode === "soon") return freezerItemShouldUseSoon(item);
+    if (filterMode === "low") return item.status === "Running low" || item.status === "One remaining";
+    if (filterMode === "grocery") return !!item.grocery || item.status === "Running low" || item.status === "One remaining";
+    return true;
+  });
+
+  const visibleByCategory = FREEZER_CATEGORIES.map((category) => ({
+    ...category,
+    items: visibleItems.filter((item) => item.categoryId === category.id),
+    checkedCount: allItems.filter((item) => item.categoryId === category.id && item.onHand).length,
+  }));
+
+  function updateItem(itemId, patch) {
+    setFreezer((current) => {
+      const safe = normalizeFreezerState(current);
+      return {
+        ...safe,
+        items: {
+          ...safe.items,
+          [itemId]: {
+            ...(safe.items[itemId] || {}),
+            ...patch,
+          },
+        },
+      };
+    });
+  }
+
+  function toggleCategory(categoryId) {
+    setExpandedCategories((current) => {
+      const next = new Set(current);
+      next.has(categoryId) ? next.delete(categoryId) : next.add(categoryId);
+      return next;
+    });
+  }
+
+  function expandAllCategories() {
+    setExpandedCategories(new Set(FREEZER_CATEGORIES.map((category) => category.id)));
+  }
+
+  function collapseAllCategories() {
+    setExpandedCategories(new Set());
+  }
+
+  function addCustomLocation() {
+    const trimmed = customLocationName.trim();
+    if (!trimmed) return;
+    setFreezer((current) => {
+      const safe = normalizeFreezerState(current);
+      return {
+        ...safe,
+        customLocations: [...new Set([...safe.customLocations, trimmed])],
+      };
+    });
+    setCustomLocationName("");
+  }
+
+  function addCustomItem(categoryId) {
+    const name = customForm.name.trim();
+    if (!name) return;
+    const id = `custom-freezer-${Date.now()}-${slugifyFreezerItem(name)}`;
+    const category = FREEZER_CATEGORIES.find((item) => item.id === categoryId) || FREEZER_CATEGORIES[0];
+    setFreezer((current) => {
+      const safe = normalizeFreezerState(current);
+      return {
+        ...safe,
+        customItems: [
+          ...safe.customItems,
+          { id, name, categoryId: category.id, categoryTitle: category.title, custom: true },
+        ],
+        items: {
+          ...safe.items,
+          [id]: {
+            onHand: true,
+            quantity: customForm.quantity,
+            unit: customForm.unit,
+            packageSize: customForm.packageSize,
+            dateFrozen: customForm.dateFrozen,
+            useByDate: customForm.useByDate,
+            location: customForm.location,
+            status: customForm.status,
+            notes: customForm.notes,
+          },
+        },
+      };
+    });
+    setCustomForm({
+      name: "",
+      quantity: "",
+      unit: "",
+      packageSize: "",
+      dateFrozen: "",
+      useByDate: "",
+      location: "Kitchen freezer",
+      status: "Plenty on hand",
+      notes: "",
+    });
+    setCustomFormCategory(null);
+  }
+
+  function editCustomItem(item) {
+    const nextName = window.prompt("Edit custom freezer item name", item.name);
+    if (!nextName || !nextName.trim()) return;
+    setFreezer((current) => {
+      const safe = normalizeFreezerState(current);
+      return {
+        ...safe,
+        customItems: safe.customItems.map((customItem) =>
+          customItem.id === item.id ? { ...customItem, name: nextName.trim() } : customItem
+        ),
+      };
+    });
+  }
+
+  function removeCustomItem(itemId) {
+    if (!window.confirm("Remove this custom freezer item?")) return;
+    setFreezer((current) => {
+      const safe = normalizeFreezerState(current);
+      const nextItems = { ...safe.items };
+      delete nextItems[itemId];
+      return {
+        ...safe,
+        customItems: safe.customItems.filter((item) => item.id !== itemId),
+        items: nextItems,
+      };
+    });
+  }
+
+  function printInventory() {
+    window.print();
+  }
+
+  function exportInventory() {
+    const blob = new Blob([JSON.stringify(safeFreezer, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `roberts-recipe-box-freezer-inventory-${new Date().toISOString().slice(0, 10)}.json`;
+    link.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function importInventory(event) {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const parsed = JSON.parse(String(reader.result || "{}"));
+        setFreezer(normalizeFreezerState(parsed));
+      } catch (error) {
+        window.alert("That freezer inventory file could not be imported.");
+      }
+      event.target.value = "";
+    };
+    reader.readAsText(file);
+  }
+
+  function clearInventory() {
+    if (!window.confirm("Clear the entire freezer inventory? This removes checked items, custom items, locations, and saved freezer notes from this browser.")) return;
+    setFreezer({ items: {}, customItems: [], customLocations: [] });
+  }
+
+  function renderFreezerItem(item) {
+    const useSoon = freezerItemShouldUseSoon(item);
+    return (
+      <div className={useSoon ? "freezerItemRow useSoon" : "freezerItemRow"} key={item.id}>
+        <label className="freezerCheckCell">
+          <input
+            type="checkbox"
+            checked={!!item.onHand}
+            onChange={(event) => updateItem(item.id, { onHand: event.target.checked })}
+          />
+          <span>On hand</span>
+        </label>
+
+        <div className="freezerNameCell">
+          <strong>{item.name}</strong>
+          <small>{item.categoryTitle}</small>
+          {useSoon && <em>Use Soon</em>}
+        </div>
+
+        <input
+          type="text"
+          inputMode="decimal"
+          value={item.quantity || ""}
+          onChange={(event) => updateItem(item.id, { quantity: event.target.value })}
+          placeholder="Qty"
+          aria-label={`${item.name} quantity`}
+        />
+
+        <input
+          type="text"
+          value={item.packageSize || ""}
+          onChange={(event) => updateItem(item.id, { packageSize: event.target.value })}
+          placeholder="Package"
+          aria-label={`${item.name} package size`}
+        />
+
+        <label className="freezerDateField">
+          <span>Frozen</span>
+          <input
+            type="date"
+            value={item.dateFrozen || ""}
+            onChange={(event) => updateItem(item.id, { dateFrozen: event.target.value })}
+          />
+        </label>
+
+        <label className="freezerDateField">
+          <span>Use by</span>
+          <input
+            type="date"
+            value={item.useByDate || ""}
+            onChange={(event) => updateItem(item.id, { useByDate: event.target.value })}
+          />
+        </label>
+
+        <select
+          value={item.location || "Kitchen freezer"}
+          onChange={(event) => updateItem(item.id, { location: event.target.value })}
+          aria-label={`${item.name} freezer location`}
+        >
+          {locations.map((location) => <option key={location} value={location}>{location}</option>)}
+        </select>
+
+        <select
+          value={item.status || "Plenty on hand"}
+          onChange={(event) => updateItem(item.id, { status: event.target.value })}
+          aria-label={`${item.name} status`}
+        >
+          {FREEZER_STATUS_OPTIONS.map((status) => <option key={status} value={status}>{status}</option>)}
+        </select>
+
+        <label className="freezerUseSoonCheck">
+          <input
+            type="checkbox"
+            checked={!!item.useSoon}
+            onChange={(event) => updateItem(item.id, { useSoon: event.target.checked })}
+          />
+          <span>Use Soon</span>
+        </label>
+
+        <button
+          type="button"
+          className={item.grocery || item.status === "Running low" || item.status === "One remaining" ? "freezerGroceryButton active" : "freezerGroceryButton"}
+          onClick={() => updateItem(item.id, { grocery: !item.grocery })}
+        >
+          {item.grocery ? "On List" : "Add"}
+        </button>
+
+        {item.custom && (
+          <div className="freezerCustomActions">
+            <button type="button" onClick={() => editCustomItem(item)}>Edit</button>
+            <button type="button" onClick={() => removeCustomItem(item.id)}>Remove</button>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  const printDate = new Date().toLocaleDateString();
+  const printItemsByCategory = FREEZER_CATEGORIES.map((category) => ({
+    ...category,
+    items: allItems.filter((item) => item.categoryId === category.id && item.onHand),
+  })).filter((category) => category.items.length);
+
+  return (
+    <main className="pageShell freezerInventoryPage">
+      <section className="freezerIntroBlock">
+        <h1>FREEZER INVENTORY</h1>
+        <p>
+          Keep track of what is stored in your freezer, when it was frozen, and what should be
+          used next. Check the foods you currently have, enter quantities, and add anything
+          running low to your grocery list.
+        </p>
+      </section>
+
+      <section className="freezerSummaryGrid" aria-label="Freezer inventory summary">
+        <div className="freezerSummaryBox"><small>Total Items on Hand</small><strong>{summary.onHand}</strong></div>
+        <div className="freezerSummaryBox"><small>Use Soon</small><strong>{summary.useSoon}</strong></div>
+        <div className="freezerSummaryBox"><small>Running Low</small><strong>{summary.low}</strong></div>
+        <div className="freezerSummaryBox"><small>Added to Grocery List</small><strong>{summary.grocery}</strong></div>
+      </section>
+
+      <section className="freezerToolbar freezerNoPrint">
+        <label>
+          <span>Search Inventory</span>
+          <input
+            type="search"
+            value={searchTerm}
+            onChange={(event) => setSearchTerm(event.target.value)}
+            placeholder="Search freezer items..."
+          />
+        </label>
+        <label>
+          <span>Filter</span>
+          <select value={filterMode} onChange={(event) => setFilterMode(event.target.value)}>
+            {FREEZER_FILTERS.map((filter) => <option key={filter.id} value={filter.id}>{filter.label}</option>)}
+          </select>
+        </label>
+        <label>
+          <span>Location</span>
+          <select value={locationFilter} onChange={(event) => setLocationFilter(event.target.value)}>
+            <option value="all">All freezer locations</option>
+            {locations.map((location) => <option key={location} value={location}>{location}</option>)}
+          </select>
+        </label>
+        <button type="button" className="secondary" onClick={expandAllCategories}>Expand All</button>
+        <button type="button" className="secondary" onClick={collapseAllCategories}>Collapse All</button>
+      </section>
+
+      <section className="freezerActions freezerNoPrint">
+        <button type="button" className="primary" onClick={printInventory}>Print Inventory</button>
+        <button type="button" className="secondary" onClick={exportInventory}>Export Inventory</button>
+        <label className="freezerImportButton">
+          <input id={importInputId} type="file" accept="application/json,.json" onChange={importInventory} />
+          Import Inventory
+        </label>
+        <button type="button" className="secondary" onClick={() => setActivePage("Shopping Lists")}>View Grocery List</button>
+        <button type="button" className="dangerButton" onClick={clearInventory}>Clear Inventory</button>
+      </section>
+
+      <section className="freezerLocationTools freezerNoPrint">
+        <label>
+          <span>Add Custom Freezer Location</span>
+          <input
+            type="text"
+            value={customLocationName}
+            onChange={(event) => setCustomLocationName(event.target.value)}
+            placeholder="Example: garage upright top shelf"
+          />
+        </label>
+        <button type="button" className="secondary" onClick={addCustomLocation}>Save Location</button>
+      </section>
+
+      <section className="freezerPrintHeader">
+        <h1>FREEZER INVENTORY</h1>
+        <p>Printed {printDate}</p>
+      </section>
+
+      <div className="freezerAccordionList">
+        {visibleByCategory.map((category) => {
+          const isExpanded = expandedCategories.has(category.id);
+          return (
+            <section className="freezerAccordionSection" key={category.id}>
+              <button
+                type="button"
+                className="freezerAccordionButton"
+                onClick={() => toggleCategory(category.id)}
+                aria-expanded={isExpanded}
+              >
+                <span>{isExpanded ? "▾" : "▸"}</span>
+                <strong>{category.title}</strong>
+                <em>{category.checkedCount} checked</em>
+              </button>
+
+              {isExpanded && (
+                <div className="freezerAccordionBody">
+                  <div className="freezerTableHeader freezerNoPrint" aria-hidden="true">
+                    <span>Have</span><span>Item</span><span>Qty</span><span>Package</span><span>Frozen</span><span>Use By</span><span>Location</span><span>Status</span><span>Soon</span><span>List</span>
+                  </div>
+
+                  {category.items.length ? (
+                    category.items.map(renderFreezerItem)
+                  ) : (
+                    <p className="freezerEmptyCategory">No items match the current filters.</p>
+                  )}
+
+                  <div className="freezerCustomPanel freezerNoPrint">
+                    {customFormCategory === category.id ? (
+                      <div className="freezerCustomForm">
+                        <input type="text" value={customForm.name} onChange={(event) => setCustomForm((current) => ({ ...current, name: event.target.value }))} placeholder="Custom item name" aria-label="Custom freezer item name" />
+                        <input type="text" value={customForm.quantity} onChange={(event) => setCustomForm((current) => ({ ...current, quantity: event.target.value }))} placeholder="Qty" aria-label="Custom freezer item quantity" />
+                        <input type="text" value={customForm.packageSize} onChange={(event) => setCustomForm((current) => ({ ...current, packageSize: event.target.value }))} placeholder="Package size" aria-label="Custom freezer item package size" />
+                        <label><span>Frozen</span><input type="date" value={customForm.dateFrozen} onChange={(event) => setCustomForm((current) => ({ ...current, dateFrozen: event.target.value }))} /></label>
+                        <label><span>Use by</span><input type="date" value={customForm.useByDate} onChange={(event) => setCustomForm((current) => ({ ...current, useByDate: event.target.value }))} /></label>
+                        <select value={customForm.location} onChange={(event) => setCustomForm((current) => ({ ...current, location: event.target.value }))} aria-label="Custom freezer item location">
+                          {locations.map((location) => <option key={location} value={location}>{location}</option>)}
+                        </select>
+                        <select value={customForm.status} onChange={(event) => setCustomForm((current) => ({ ...current, status: event.target.value }))} aria-label="Custom freezer item status">
+                          {FREEZER_STATUS_OPTIONS.map((status) => <option key={status} value={status}>{status}</option>)}
+                        </select>
+                        <textarea value={customForm.notes} onChange={(event) => setCustomForm((current) => ({ ...current, notes: event.target.value }))} placeholder="Optional notes" />
+                        <button type="button" className="primary" onClick={() => addCustomItem(category.id)}>Save Custom Item</button>
+                        <button type="button" className="secondary" onClick={() => setCustomFormCategory(null)}>Cancel</button>
+                      </div>
+                    ) : (
+                      <button type="button" className="secondary" onClick={() => setCustomFormCategory(category.id)}>Add Custom Item</button>
+                    )}
+                  </div>
+                </div>
+              )}
+            </section>
+          );
+        })}
+      </div>
+
+      <section className="freezerPrintOnly freezerPrintList">
+        {printItemsByCategory.length ? printItemsByCategory.map((category) => (
+          <section key={category.id}>
+            <h2>{category.title}</h2>
+            <table>
+              <thead><tr><th>Item</th><th>Qty</th><th>Package</th><th>Date Frozen</th><th>Use By</th><th>Location</th><th>Status</th></tr></thead>
+              <tbody>
+                {category.items.map((item) => (
+                  <tr key={item.id}>
+                    <td>{item.name}</td>
+                    <td>{item.quantity || ""}</td>
+                    <td>{item.packageSize || item.unit || ""}</td>
+                    <td>{item.dateFrozen || ""}</td>
+                    <td>{item.useByDate || ""}</td>
+                    <td>{item.location || ""}</td>
+                    <td>{item.status || ""}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </section>
+        )) : <p>No freezer items are currently marked on hand.</p>}
+      </section>
+    </main>
+  );
+}
+
+function ShoppingListPage({ plan, checked, setChecked, servings, pantry, refrigerator, freezer, setActivePage }) {
   const recipeIdSet = useMemo(() => new Set(recipes.map((recipe) => recipe.id)), []);
   const dinnerCombinationById = useMemo(
     () => Object.fromEntries(dinnerCombinations.map((meal) => [meal.id, meal])),
@@ -4288,14 +4818,19 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, refrige
     () => buildRefrigeratorGroceryItems(refrigerator),
     [refrigerator]
   );
+  const freezerShoppingItems = useMemo(
+    () => buildFreezerGroceryItems(freezer),
+    [freezer]
+  );
 
   const list = useMemo(
     () => mergeShoppingListEntries([
       ...buildShoppingList(recipeOnlyPlan, recipes, servings),
       ...dinnerCombinationShoppingReferences,
       ...refrigeratorShoppingItems,
+      ...freezerShoppingItems,
     ]),
-    [recipeOnlyPlan, servings, dinnerCombinationShoppingReferences, refrigeratorShoppingItems]
+    [recipeOnlyPlan, servings, dinnerCombinationShoppingReferences, refrigeratorShoppingItems, freezerShoppingItems]
   );
 
   const { needed, pantry: pantryItems } = useMemo(
@@ -7934,6 +8469,9 @@ export default function App() {
   const [refrigerator, setRefrigerator] = useState(() =>
     normalizeRefrigeratorState(loadJSON(STORAGE_KEYS.refrigerator, { items: {}, customItems: [] }))
   );
+  const [freezer, setFreezer] = useState(() =>
+    normalizeFreezerState(loadJSON(STORAGE_KEYS.freezer, { items: {}, customItems: [], customLocations: [] }))
+  );
   const [filter, setFilter] = useState("");
   const [cardViewer, setCardViewer] = useState(null);
   const [recipeClassifications, setRecipeClassifications] = useState(() =>
@@ -7951,6 +8489,7 @@ export default function App() {
   useEffect(() => saveJSON(STORAGE_KEYS.checked, checked), [checked]);
   useEffect(() => saveJSON(STORAGE_KEYS.pantry, pantry), [pantry]);
   useEffect(() => saveJSON(STORAGE_KEYS.refrigerator, refrigerator), [refrigerator]);
+  useEffect(() => saveJSON(STORAGE_KEYS.freezer, freezer), [freezer]);
   useEffect(
     () => saveRecipeClassifications(recipeClassifications),
     [recipeClassifications]
@@ -8023,6 +8562,8 @@ export default function App() {
     setPantry,
     refrigerator,
     setRefrigerator,
+    freezer,
+    setFreezer,
     classifiedRecipes,
   };
 
@@ -8515,18 +9056,13 @@ Use this section to mark what is already in the refrigerator, record quantities 
             src="images/heroes/hero-storage.png"
             alt="Freezer storage setup with containers, labels, bags, and meal-prep notes"
             eyebrow="YOUR KITCHEN"
-            title="Your Freezer"
+            title="Freezer Inventory"
             text="Your freezer inventory can help you keep track of frozen dinners, meats, vegetables, sauces, breads, meal-prep blocks, and leftovers. Knowing what is already frozen makes it easier to plan meals without buying duplicates.
 
-This page is a practical holding place for freezer inventory notes, reheating reminders, portion tracking, and make-ahead meal organization."
+Use this section to check what is on hand, record dates, mark foods that should be used soon, and send low-stock items to your grocery list."
             className="pageHeroDepth464"
 />
-          <PlaceholderInfoPage
-            eyebrow="YOUR KITCHEN"
-            title="Your Freezer"
-            text="Use this area for freezer inventory, frozen meal portions, vacuum-sealed foods, meal-prep blocks, reheating notes, and items that should be used soon."
-            setActivePage={setActivePage}
-          />
+          <FreezerInventoryPage {...pageProps} />
         </>
       )}
       {activePage === "Packaging Options" && (

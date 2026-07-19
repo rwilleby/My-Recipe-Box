@@ -21701,3 +21701,452 @@ nav button,
     grid-column: 1 / -1;
   }
 }
+
+/* FREEZER INVENTORY PAGE */
+.freezerInventoryPage {
+  padding-bottom: 56px;
+}
+
+.freezerIntroBlock {
+  background: #ffffff;
+  border: 1px solid rgba(20, 83, 45, 0.12);
+  border-radius: 24px;
+  padding: 28px 32px;
+  box-shadow: 0 20px 42px rgba(17, 24, 39, 0.06);
+  margin-bottom: 22px;
+}
+
+.freezerIntroBlock h1,
+.freezerPrintHeader h1 {
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  font-size: 28px;
+  line-height: 1.08;
+  margin: 0 0 10px;
+  color: #111827;
+}
+
+.freezerIntroBlock p {
+  max-width: 920px;
+  font-size: 15px;
+  line-height: 1.65;
+  color: #374151;
+  margin: 0;
+}
+
+.freezerSummaryGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin: 0 0 22px;
+}
+
+.freezerSummaryBox {
+  background: #f8faf8;
+  border: 1px solid rgba(20, 83, 45, 0.14);
+  border-radius: 18px;
+  padding: 16px 18px;
+}
+
+.freezerSummaryBox small {
+  display: block;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+.freezerSummaryBox strong {
+  display: block;
+  margin-top: 4px;
+  font-size: 26px;
+  color: #14532d;
+}
+
+.freezerToolbar,
+.freezerActions,
+.freezerLocationTools {
+  display: flex;
+  align-items: end;
+  gap: 12px;
+  flex-wrap: wrap;
+  background: #ffffff;
+  border: 1px solid rgba(20, 83, 45, 0.12);
+  border-radius: 20px;
+  padding: 16px;
+  margin-bottom: 18px;
+  box-shadow: 0 14px 30px rgba(17, 24, 39, 0.04);
+}
+
+.freezerToolbar label,
+.freezerLocationTools label,
+.freezerCustomForm label,
+.freezerDateField {
+  display: grid;
+  gap: 5px;
+  min-width: 190px;
+}
+
+.freezerToolbar span,
+.freezerLocationTools span,
+.freezerCustomForm span,
+.freezerDateField span {
+  font-size: 12px;
+  font-weight: 800;
+  color: #4b5563;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.freezerToolbar input,
+.freezerToolbar select,
+.freezerLocationTools input,
+.freezerItemRow input,
+.freezerItemRow select,
+.freezerCustomForm input,
+.freezerCustomForm select,
+.freezerCustomForm textarea {
+  border: 1px solid rgba(20, 83, 45, 0.16);
+  border-radius: 12px;
+  padding: 10px 11px;
+  font: inherit;
+  color: #111827;
+  background: #ffffff;
+  min-height: 42px;
+}
+
+.freezerToolbar input[type="search"] {
+  width: min(320px, 100%);
+}
+
+.freezerActions button,
+.freezerActions label,
+.freezerToolbar button,
+.freezerLocationTools button,
+.freezerCustomPanel button,
+.freezerGroceryButton,
+.freezerCustomActions button {
+  min-height: 42px;
+  border: 0;
+  border-radius: 999px;
+  padding: 10px 16px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.freezerActions .primary,
+.freezerCustomPanel .primary {
+  background: #14532d;
+  color: #ffffff;
+}
+
+.freezerActions .secondary,
+.freezerToolbar .secondary,
+.freezerLocationTools .secondary,
+.freezerCustomPanel .secondary,
+.freezerImportButton {
+  background: #eef2f0;
+  color: #14532d;
+}
+
+.freezerActions .dangerButton {
+  background: #f3e8e8;
+  color: #7f1d1d;
+}
+
+.freezerImportButton input {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+.freezerAccordionList {
+  display: grid;
+  gap: 14px;
+}
+
+.freezerAccordionSection {
+  background: #ffffff;
+  border: 1px solid rgba(20, 83, 45, 0.14);
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 0 18px 36px rgba(17, 24, 39, 0.05);
+}
+
+.freezerAccordionButton {
+  width: 100%;
+  border: 0;
+  background: #fbfaf5;
+  color: #111827;
+  display: grid;
+  grid-template-columns: 28px 1fr auto;
+  gap: 10px;
+  align-items: center;
+  padding: 16px 20px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.freezerAccordionButton strong {
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  font-size: 20px;
+}
+
+.freezerAccordionButton em {
+  font-style: normal;
+  font-size: 12px;
+  font-weight: 800;
+  color: #14532d;
+  background: rgba(20, 83, 45, 0.1);
+  padding: 6px 10px;
+  border-radius: 999px;
+}
+
+.freezerAccordionBody {
+  padding: 14px 16px 18px;
+}
+
+.freezerTableHeader,
+.freezerItemRow {
+  display: grid;
+  grid-template-columns: 92px minmax(150px, 1.4fr) 80px 110px 126px 126px minmax(140px, 1fr) minmax(150px, 1fr) 92px 74px auto;
+  gap: 8px;
+  align-items: center;
+}
+
+.freezerTableHeader {
+  padding: 0 8px 8px;
+  color: #6b7280;
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.freezerItemRow {
+  padding: 10px 8px;
+  border-top: 1px solid rgba(17, 24, 39, 0.08);
+}
+
+.freezerItemRow.useSoon {
+  background: rgba(230, 168, 23, 0.11);
+}
+
+.freezerCheckCell,
+.freezerUseSoonCheck {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  font-weight: 800;
+  color: #374151;
+}
+
+.freezerCheckCell input,
+.freezerUseSoonCheck input {
+  width: 18px;
+  height: 18px;
+}
+
+.freezerNameCell {
+  display: grid;
+  gap: 2px;
+}
+
+.freezerNameCell strong {
+  font-size: 14px;
+  color: #111827;
+}
+
+.freezerNameCell small,
+.freezerNameCell em {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.freezerNameCell em {
+  color: #7a4e00;
+  font-weight: 900;
+  font-style: normal;
+}
+
+.freezerDateField {
+  min-width: 0;
+}
+
+.freezerDateField input {
+  min-width: 0;
+  width: 100%;
+}
+
+.freezerGroceryButton {
+  background: #eef2f0;
+  color: #14532d;
+  padding-inline: 12px;
+}
+
+.freezerGroceryButton.active {
+  background: #14532d;
+  color: #ffffff;
+}
+
+.freezerCustomActions {
+  display: flex;
+  gap: 6px;
+}
+
+.freezerCustomActions button {
+  background: #f3f4f6;
+  color: #374151;
+  padding-inline: 10px;
+}
+
+.freezerEmptyCategory {
+  padding: 12px 8px;
+  color: #6b7280;
+  margin: 0;
+}
+
+.freezerCustomPanel {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed rgba(20, 83, 45, 0.18);
+}
+
+.freezerCustomForm {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  align-items: end;
+}
+
+.freezerCustomForm textarea {
+  grid-column: span 2;
+  min-height: 42px;
+  resize: vertical;
+}
+
+.freezerPrintHeader,
+.freezerPrintOnly {
+  display: none;
+}
+
+@media (max-width: 1100px) {
+  .freezerSummaryGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .freezerTableHeader {
+    display: none;
+  }
+
+  .freezerItemRow {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    padding: 14px 8px;
+  }
+
+  .freezerNameCell,
+  .freezerCheckCell,
+  .freezerCustomActions {
+    grid-column: 1 / -1;
+  }
+
+  .freezerCustomForm {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .freezerIntroBlock {
+    padding: 22px 20px;
+  }
+
+  .freezerIntroBlock h1 {
+    font-size: 26px;
+  }
+
+  .freezerSummaryGrid,
+  .freezerCustomForm {
+    grid-template-columns: 1fr;
+  }
+
+  .freezerToolbar,
+  .freezerActions,
+  .freezerLocationTools {
+    align-items: stretch;
+  }
+
+  .freezerToolbar label,
+  .freezerLocationTools label,
+  .freezerToolbar input,
+  .freezerToolbar select,
+  .freezerActions button,
+  .freezerActions label,
+  .freezerLocationTools button {
+    width: 100%;
+  }
+
+  .freezerAccordionButton {
+    grid-template-columns: 24px 1fr;
+  }
+
+  .freezerAccordionButton em {
+    grid-column: 2;
+    width: fit-content;
+  }
+
+  .freezerItemRow {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media print {
+  .topbar,
+  .pageTopHeroImage,
+  .footer,
+  .freezerNoPrint,
+  .freezerAccordionList,
+  .freezerIntroBlock,
+  .freezerSummaryGrid {
+    display: none !important;
+  }
+
+  .freezerInventoryPage {
+    padding: 0 !important;
+  }
+
+  .freezerPrintHeader,
+  .freezerPrintOnly {
+    display: block !important;
+  }
+
+  .freezerPrintHeader h1 {
+    margin-bottom: 0.25in;
+  }
+
+  .freezerPrintList h2 {
+    font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+    font-size: 16pt;
+    margin: 0.2in 0 0.08in;
+  }
+
+  .freezerPrintList table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 0.18in;
+    font-size: 9pt;
+  }
+
+  .freezerPrintList th,
+  .freezerPrintList td {
+    border: 1px solid #d1d5db;
+    padding: 5px 6px;
+    text-align: left;
+  }
+}
