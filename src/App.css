@@ -20774,3 +20774,27 @@ nav button,
   background: transparent !important;
   color: #4b5563 !important;
 }
+
+
+/* =========================================================
+   CLIFF NOTES LABEL + YELLOW QUESTION MARK
+   Renames PAGE NOTES visual treatment without changing popup behavior.
+   ========================================================= */
+
+.pageTopHeroImage .pageNotesQuestion,
+.pageNotesQuestion {
+  background: #E6A817 !important;
+  color: #000000 !important;
+}
+
+.pageTopHeroImage .pageNotesButton,
+.pageNotesButton {
+  border-color: rgba(230, 168, 23, 0.46) !important;
+}
+
+.pageTopHeroImage .pageNotesButton:hover,
+.pageTopHeroImage .pageNotesButton.active,
+.pageNotesButton:hover,
+.pageNotesButton.active {
+  border-color: #E6A817 !important;
+}

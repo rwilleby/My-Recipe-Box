@@ -5406,7 +5406,7 @@ function PageHelpButtonStrip({ pageTitle, pageEyebrow }) {
   if (!pageTitle || !steps?.length) return null;
 
   return (
-    <section className="pageHelpStrip pageNotesStrip" aria-label={`Page notes for ${pageTitle}`}>
+    <section className="pageHelpStrip pageNotesStrip" aria-label={`Cliff notes for ${pageTitle}`}>
       <div className="pageHelpItem pageNotesItem">
         <button
           type="button"
@@ -5415,11 +5415,11 @@ function PageHelpButtonStrip({ pageTitle, pageEyebrow }) {
           aria-expanded={isOpen}
         >
           <span className="pageHelpNumber pageNotesQuestion">?</span>
-          <span>Page Notes</span>
+          <span>Cliff Notes</span>
         </button>
 
         {isOpen && (
-          <div className="pageHelpPopup pageNotesPopup" role="dialog" aria-label="How to best use this page">
+          <div className="pageHelpPopup pageNotesPopup" role="dialog" aria-label="Cliff notes: how to best use this page">
             <button
               type="button"
               className="pageHelpClose"
