@@ -21201,3 +21201,503 @@ nav button,
     min-width: 0 !important;
   }
 }
+
+
+/* =========================================================
+   WELCOME PAGE QUOTE BREAKS WITHOUT PHOTO PLACEHOLDERS
+   Removes the letter photo slots and keeps the quote moments.
+   ========================================================= */
+.aboutLetterQuoteBreak {
+  display: block !important;
+  margin: 34px 0 !important;
+  padding: 26px 34px !important;
+  background: linear-gradient(180deg, #fffefb 0%, #f8f5ed 100%) !important;
+  border: 1px solid rgba(17, 24, 39, 0.12) !important;
+  border-radius: 24px !important;
+  box-shadow: 0 14px 30px rgba(17, 24, 39, 0.08) !important;
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif !important;
+  font-size: 28px !important;
+  line-height: 1.18 !important;
+  font-weight: 700 !important;
+  color: #111827 !important;
+}
+
+.aboutLetterQuoteBreak::before {
+  content: "\201C";
+  color: #E6A817 !important;
+  font-size: 44px !important;
+  line-height: 0 !important;
+  margin-right: 6px !important;
+  vertical-align: -0.18em !important;
+}
+
+.aboutLetterQuoteBreak::after {
+  content: "\201D";
+  color: #E6A817 !important;
+  font-size: 44px !important;
+  line-height: 0 !important;
+  margin-left: 6px !important;
+  vertical-align: -0.18em !important;
+}
+
+.aboutLetterQuoteBreakRight {
+  text-align: right !important;
+}
+
+@media (max-width: 700px) {
+  .aboutLetterQuoteBreak,
+  .aboutLetterQuoteBreakRight {
+    text-align: left !important;
+    font-size: 22px !important;
+    padding: 22px 24px !important;
+    margin: 26px 0 !important;
+  }
+}
+
+/* ================================
+   REFRIGERATOR INVENTORY PAGE
+   ================================ */
+
+.refrigeratorInventoryPage {
+  padding-bottom: 52px;
+}
+
+.refrigeratorHeader .aiBadge {
+  display: none !important;
+}
+
+.fridgeSummaryGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin: 0 0 22px;
+}
+
+.fridgeSummaryBox {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 16px 18px;
+  box-shadow: 0 10px 26px rgba(17, 24, 39, .04);
+}
+
+.fridgeSummaryBox small {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.fridgeSummaryBox strong {
+  display: block;
+  margin-top: 7px;
+  color: var(--green);
+  font-size: 30px;
+  line-height: 1;
+}
+
+.fridgeUseSoonPanel {
+  background: #fffdf8;
+  border: 1px solid #e6dccb;
+  border-radius: 18px;
+  padding: 18px;
+  margin-bottom: 20px;
+  box-shadow: 0 12px 30px rgba(17, 24, 39, .04);
+}
+
+.fridgeUseSoonHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.fridgeUseSoonHeader h2 {
+  margin: 0;
+  color: var(--green);
+  font-size: 21px;
+  letter-spacing: .07em;
+}
+
+.fridgeUseSoonHeader p,
+.fridgeUseSoonEmpty {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.fridgeUseSoonHeader strong {
+  color: var(--green);
+  white-space: nowrap;
+}
+
+.fridgeUseSoonList {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.fridgeUseSoonItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: #ffffff;
+  border: 1px solid #eadfcb;
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+
+.fridgeUseSoonItem strong,
+.fridgeUseSoonItem small,
+.fridgeUseSoonItem em {
+  display: block;
+}
+
+.fridgeUseSoonItem strong {
+  color: #111827;
+  font-size: 14px;
+}
+
+.fridgeUseSoonItem small,
+.fridgeUseSoonItem em {
+  color: var(--muted);
+  font-size: 12px;
+  font-style: normal;
+}
+
+.fridgeUseSoonActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: flex-end;
+}
+
+.fridgeUseSoonActions button {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #ffffff;
+  color: var(--green);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 7px 10px;
+}
+
+.fridgeFiltersBar {
+  display: grid;
+  grid-template-columns: minmax(240px, 1fr) 220px auto;
+  gap: 12px;
+  align-items: end;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 16px;
+  margin-bottom: 20px;
+  box-shadow: 0 12px 30px rgba(17, 24, 39, .04);
+}
+
+.fridgeFiltersBar label,
+.fridgeCustomForm label,
+.fridgeDateField {
+  display: grid;
+  gap: 5px;
+}
+
+.fridgeFiltersBar span,
+.fridgeCustomForm span,
+.fridgeDateField span {
+  color: #374151;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+.fridgeFiltersBar input,
+.fridgeFiltersBar select,
+.fridgeCustomForm input,
+.fridgeCustomForm select,
+.fridgeCustomForm textarea,
+.fridgeQtyInput,
+.fridgeUnitInput,
+.fridgeDateField input,
+.fridgeStatusSelect {
+  width: 100%;
+  min-height: 38px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #ffffff;
+  color: #111827;
+  font: inherit;
+  font-size: 14px;
+  padding: 8px 10px;
+}
+
+.fridgeInventoryLayout {
+  display: grid;
+  grid-template-columns: 250px minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.fridgeCategoryNav {
+  display: grid;
+  gap: 8px;
+  position: sticky;
+  top: 118px;
+}
+
+.fridgeCategoryNav button {
+  min-height: 40px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #ffffff;
+  color: #374151;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.15;
+  padding: 10px 12px;
+  text-align: left;
+}
+
+.fridgeCategoryNav button.active {
+  background: var(--green);
+  border-color: var(--green);
+  color: #ffffff;
+}
+
+.fridgeItemsPanel {
+  min-width: 0;
+}
+
+.fridgeItemsHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.fridgeItemsHeader h2 {
+  margin: 0;
+  color: #111827;
+  font-size: 22px;
+}
+
+.fridgeItemsHeader p {
+  margin: 3px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.fridgeCustomForm {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 14px;
+  margin-bottom: 14px;
+}
+
+.fridgeCustomForm textarea {
+  min-height: 76px;
+  resize: vertical;
+}
+
+.fridgeCustomForm textarea,
+.fridgeCustomForm button {
+  grid-column: span 2;
+}
+
+.fridgeItemTableHeader,
+.fridgeItemRow {
+  display: grid;
+  grid-template-columns: 130px minmax(150px, 1.35fr) 78px 86px 124px 124px 132px 78px 34px;
+  gap: 8px;
+  align-items: center;
+}
+
+.fridgeItemTableHeader {
+  padding: 0 12px 8px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.fridgeItemGroup {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 14px;
+  box-shadow: 0 10px 26px rgba(17, 24, 39, .04);
+}
+
+.fridgeItemGroup h3 {
+  margin: 0;
+  padding: 12px 14px;
+  background: #f8f5ef;
+  border-bottom: 1px solid var(--line);
+  color: var(--green);
+  font-size: 16px;
+  letter-spacing: .04em;
+}
+
+.fridgeItemRow {
+  padding: 10px 12px;
+  border-bottom: 1px solid #f0ece4;
+}
+
+.fridgeItemRow:last-child {
+  border-bottom: 0;
+}
+
+.fridgeItemRow.useSoon {
+  background: #fffaf0;
+}
+
+.fridgeCheckCell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #374151;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.fridgeCheckCell input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--green);
+}
+
+.fridgeNameCell strong,
+.fridgeNameCell small,
+.fridgeNameCell em {
+  display: block;
+}
+
+.fridgeNameCell strong {
+  color: #111827;
+  font-size: 14px;
+}
+
+.fridgeNameCell small,
+.fridgeNameCell em {
+  color: var(--muted);
+  font-size: 11px;
+  font-style: normal;
+}
+
+.fridgeGroceryButton,
+.fridgeRemoveButton {
+  min-height: 36px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #ffffff;
+  color: var(--green);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 850;
+  padding: 6px 9px;
+}
+
+.fridgeGroceryButton.active {
+  background: var(--green);
+  border-color: var(--green);
+  color: #ffffff;
+}
+
+.fridgeRemoveButton {
+  color: #8a1f1f;
+  font-size: 18px;
+  line-height: 1;
+}
+
+@media (max-width: 1180px) {
+  .fridgeInventoryLayout {
+    grid-template-columns: 1fr;
+  }
+
+  .fridgeCategoryNav {
+    display: flex;
+    overflow-x: auto;
+    position: static;
+    padding-bottom: 4px;
+  }
+
+  .fridgeCategoryNav button {
+    flex: 0 0 auto;
+    min-width: 190px;
+  }
+
+  .fridgeItemTableHeader {
+    display: none;
+  }
+
+  .fridgeItemRow {
+    grid-template-columns: 150px minmax(160px, 1fr) repeat(2, 90px);
+  }
+
+  .fridgeDateField,
+  .fridgeStatusSelect,
+  .fridgeGroceryButton,
+  .fridgeRemoveButton {
+    grid-column: span 1;
+  }
+}
+
+@media (max-width: 780px) {
+  .fridgeSummaryGrid,
+  .fridgeUseSoonList,
+  .fridgeFiltersBar,
+  .fridgeCustomForm {
+    grid-template-columns: 1fr;
+  }
+
+  .fridgeCustomForm textarea,
+  .fridgeCustomForm button {
+    grid-column: auto;
+  }
+
+  .fridgeItemsHeader,
+  .fridgeUseSoonHeader,
+  .fridgeUseSoonItem {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .fridgeItemRow {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .fridgeNameCell,
+  .fridgeCheckCell {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 520px) {
+  .fridgeItemRow {
+    grid-template-columns: 1fr;
+  }
+
+  .fridgeQtyInput,
+  .fridgeUnitInput,
+  .fridgeDateField,
+  .fridgeStatusSelect,
+  .fridgeGroceryButton,
+  .fridgeRemoveButton {
+    grid-column: 1 / -1;
+  }
+}

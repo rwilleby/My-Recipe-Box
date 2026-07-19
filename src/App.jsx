@@ -14,6 +14,13 @@ import {
   getDinnerCombinationSearchText,
 } from "./data/dinnerCombinations.js";
 import { getRecipeCostEstimate, RECIPE_COST_NOTE, RECIPE_COST_TAGLINE } from "./data/recipeCosts";
+import {
+  REFRIGERATOR_CATEGORIES,
+  REFRIGERATOR_FILTERS,
+  REFRIGERATOR_STATUS_OPTIONS,
+  getDefaultRefrigeratorItems,
+  slugifyRefrigeratorItem,
+} from "./data/refrigeratorInventory";
 import { loadJSON, saveJSON } from "./utils/storage";
 import {
   buildShoppingList,
@@ -27,6 +34,7 @@ const STORAGE_KEYS = {
   servings: "rrb_servingSize",
   checked: "rrb_checkedShoppingItems",
   pantry: "rrb_pantryStaples",
+  refrigerator: "rrb_refrigeratorInventory",
 };
 
 const CATEGORY_ICON_IMAGES = {
@@ -1032,7 +1040,7 @@ function Header({ activePage, setActivePage }) {
         { label: "YOUR WEEKLY MEAL PLANNER", page: "Meal Planner" },
         { label: "YOUR FAVORITE RECIPES", page: "Favorites" },
         { label: "KITCHEN INVENTORY", labelOnly: true },
-        { label: "YOUR REFRIGERATOR", page: "Kitchen Refrigerator", level: 1 },
+        { label: "REFRIGERATOR INVENTORY", page: "Kitchen Refrigerator", level: 1 },
         { label: "YOUR FREEZER", page: "Kitchen Freezer", level: 1 },
         { label: "YOUR PANTRY", page: "Pantry Staples", level: 1 },
         { label: "YOUR GROCERY LIST", page: "Shopping Lists" },
@@ -3759,7 +3767,471 @@ function PantryStaplesPage({ pantry, setPantry }) {
 }
 
 
-function ShoppingListPage({ plan, checked, setChecked, servings, pantry, setActivePage }) {
+
+function normalizeRefrigeratorState(value) {
+  if (!value || typeof value !== "object") {
+    return { items: {}, customItems: [] };
+  }
+
+  return {
+    items: value.items && typeof value.items === "object" ? value.items : {},
+    customItems: Array.isArray(value.customItems) ? value.customItems : [],
+  };
+}
+
+function getUseByDaysRemaining(useByDate) {
+  if (!useByDate) return null;
+
+  const target = new Date(`${useByDate}T00:00:00`);
+  if (Number.isNaN(target.getTime())) return null;
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return Math.ceil((target.getTime() - today.getTime()) / 86400000);
+}
+
+function refrigeratorItemShouldUseSoon(entry) {
+  if (!entry) return false;
+  if (entry.status === "Use Soon") return true;
+
+  const daysRemaining = getUseByDaysRemaining(entry.useByDate);
+  return entry.inFridge && daysRemaining !== null && daysRemaining <= 3;
+}
+
+function buildRefrigeratorGroceryItems(refrigerator) {
+  const safe = normalizeRefrigeratorState(refrigerator);
+  const defaultItems = getDefaultRefrigeratorItems();
+  const customItems = safe.customItems.map((item) => ({
+    ...item,
+    categoryTitle:
+      REFRIGERATOR_CATEGORIES.find((category) => category.id === item.categoryId)?.title ||
+      "Refrigerator Inventory",
+    custom: true,
+  }));
+
+  return [...defaultItems, ...customItems]
+    .map((item) => ({ ...item, ...(safe.items[item.id] || {}) }))
+    .filter((item) => item.grocery || item.status === "Running Low" || item.status === "Out")
+    .map((item) => ({
+      name: item.name,
+      qty: Number.parseFloat(item.quantity) || 1,
+      unit: item.unit || "item",
+      aisle: "Refrigerator Inventory",
+    }));
+}
+
+function mergeShoppingListEntries(items) {
+  const merged = new Map();
+
+  items.forEach((item) => {
+    if (!item?.name) return;
+    const unit = item.unit || "item";
+    const aisle = item.aisle || "Grocery List";
+    const key = `${String(item.name).trim().toLowerCase()}|${String(unit).trim().toLowerCase()}`;
+    const existing = merged.get(key);
+
+    if (!existing) {
+      merged.set(key, { ...item, unit, aisle });
+      return;
+    }
+
+    const currentQty = Number.parseFloat(existing.qty);
+    const nextQty = Number.parseFloat(item.qty);
+    merged.set(key, {
+      ...existing,
+      qty: Number.isFinite(currentQty) && Number.isFinite(nextQty)
+        ? currentQty + nextQty
+        : existing.qty || item.qty || 1,
+      aisle: existing.aisle === aisle ? aisle : `${existing.aisle} / ${aisle}`,
+    });
+  });
+
+  return [...merged.values()];
+}
+
+function RefrigeratorInventoryPage({ refrigerator, setRefrigerator, setActivePage }) {
+  const [selectedCategoryId, setSelectedCategoryId] = useState(
+    REFRIGERATOR_CATEGORIES[0]?.id || "fresh-produce"
+  );
+  const [filterMode, setFilterMode] = useState("all");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [customFormOpen, setCustomFormOpen] = useState(false);
+  const [customForm, setCustomForm] = useState({
+    name: "",
+    quantity: "",
+    unit: "",
+    openedDate: "",
+    useByDate: "",
+    status: "Available",
+    notes: "",
+  });
+
+  const safeInventory = normalizeRefrigeratorState(refrigerator);
+  const selectedCategory =
+    REFRIGERATOR_CATEGORIES.find((category) => category.id === selectedCategoryId) ||
+    REFRIGERATOR_CATEGORIES[0];
+  const defaultItems = useMemo(() => getDefaultRefrigeratorItems(), []);
+  const customItems = safeInventory.customItems.map((item) => ({
+    ...item,
+    categoryTitle:
+      REFRIGERATOR_CATEGORIES.find((category) => category.id === item.categoryId)?.title ||
+      "Custom Items",
+    group: "Custom Items",
+    custom: true,
+  }));
+  const allItems = [...defaultItems, ...customItems];
+  const enrichedItems = allItems.map((item) => ({
+    ...item,
+    ...(safeInventory.items[item.id] || {}),
+    status: safeInventory.items[item.id]?.status || "Available",
+  }));
+
+  const groceryItems = buildRefrigeratorGroceryItems(safeInventory);
+  const useSoonItems = enrichedItems
+    .filter(refrigeratorItemShouldUseSoon)
+    .sort((a, b) => {
+      const daysA = getUseByDaysRemaining(a.useByDate);
+      const daysB = getUseByDaysRemaining(b.useByDate);
+      if (daysA === null && daysB === null) return a.name.localeCompare(b.name);
+      if (daysA === null) return 1;
+      if (daysB === null) return -1;
+      return daysA - daysB;
+    });
+
+  const summary = {
+    inFridge: enrichedItems.filter((item) => item.inFridge).length,
+    runningLow: enrichedItems.filter((item) => item.status === "Running Low").length,
+    useSoon: useSoonItems.length,
+    grocery: groceryItems.length,
+  };
+
+  const visibleItems = enrichedItems.filter((item) => {
+    const matchesSearch = searchTerm.trim()
+      ? item.name.toLowerCase().includes(searchTerm.trim().toLowerCase())
+      : item.categoryId === selectedCategory?.id;
+
+    if (!matchesSearch) return false;
+
+    if (filterMode === "in") return !!item.inFridge;
+    if (filterMode === "low") return item.status === "Running Low";
+    if (filterMode === "soon") return refrigeratorItemShouldUseSoon(item);
+    if (filterMode === "out") return item.status === "Out";
+    if (filterMode === "grocery") return !!item.grocery || item.status === "Running Low" || item.status === "Out";
+    return true;
+  });
+
+  const visibleGroups = visibleItems.reduce((acc, item) => {
+    const key = searchTerm.trim() ? item.categoryTitle : item.group || "Items";
+    return {
+      ...acc,
+      [key]: [...(acc[key] || []), item],
+    };
+  }, {});
+
+  function updateItem(itemId, updates) {
+    setRefrigerator((current) => {
+      const safe = normalizeRefrigeratorState(current);
+      return {
+        ...safe,
+        items: {
+          ...safe.items,
+          [itemId]: {
+            ...(safe.items[itemId] || {}),
+            ...updates,
+          },
+        },
+      };
+    });
+  }
+
+  function addCustomItem() {
+    const name = customForm.name.trim();
+    if (!name) return;
+
+    const category = selectedCategory || REFRIGERATOR_CATEGORIES[0];
+    const id = `custom-${category.id}-${slugifyRefrigeratorItem(name)}-${Date.now()}`;
+
+    setRefrigerator((current) => {
+      const safe = normalizeRefrigeratorState(current);
+      return {
+        ...safe,
+        customItems: [
+          ...safe.customItems,
+          {
+            id,
+            name,
+            categoryId: category.id,
+            group: "Custom Items",
+            custom: true,
+          },
+        ],
+        items: {
+          ...safe.items,
+          [id]: {
+            inFridge: true,
+            quantity: customForm.quantity,
+            unit: customForm.unit,
+            openedDate: customForm.openedDate,
+            useByDate: customForm.useByDate,
+            status: customForm.status || "Available",
+            notes: customForm.notes,
+          },
+        },
+      };
+    });
+
+    setCustomForm({
+      name: "",
+      quantity: "",
+      unit: "",
+      openedDate: "",
+      useByDate: "",
+      status: "Available",
+      notes: "",
+    });
+    setCustomFormOpen(false);
+  }
+
+  function removeCustomItem(itemId) {
+    setRefrigerator((current) => {
+      const safe = normalizeRefrigeratorState(current);
+      const nextItems = { ...safe.items };
+      delete nextItems[itemId];
+
+      return {
+        ...safe,
+        items: nextItems,
+        customItems: safe.customItems.filter((item) => item.id !== itemId),
+      };
+    });
+  }
+
+  function renderItemRow(item) {
+    const daysRemaining = getUseByDaysRemaining(item.useByDate);
+    const useSoon = refrigeratorItemShouldUseSoon(item);
+
+    return (
+      <div className={useSoon ? "fridgeItemRow useSoon" : "fridgeItemRow"} key={item.id}>
+        <label className="fridgeCheckCell">
+          <input
+            type="checkbox"
+            checked={!!item.inFridge}
+            onChange={(event) => updateItem(item.id, { inFridge: event.target.checked })}
+          />
+          <span>In Refrigerator</span>
+        </label>
+
+        <div className="fridgeNameCell">
+          <strong>{item.name}</strong>
+          {item.custom && <small>Custom item</small>}
+          {useSoon && <em>Use soon reminder{daysRemaining !== null ? ` · ${daysRemaining} day${daysRemaining === 1 ? "" : "s"}` : ""}</em>}
+        </div>
+
+        <input
+          className="fridgeQtyInput"
+          type="text"
+          inputMode="decimal"
+          value={item.quantity || ""}
+          onChange={(event) => updateItem(item.id, { quantity: event.target.value })}
+          placeholder="Qty"
+          aria-label={`${item.name} quantity`}
+        />
+
+        <input
+          className="fridgeUnitInput"
+          type="text"
+          value={item.unit || ""}
+          onChange={(event) => updateItem(item.id, { unit: event.target.value })}
+          placeholder="Unit"
+          aria-label={`${item.name} unit`}
+        />
+
+        <label className="fridgeDateField">
+          <span>Opened</span>
+          <input
+            type="date"
+            value={item.openedDate || ""}
+            onChange={(event) => updateItem(item.id, { openedDate: event.target.value })}
+          />
+        </label>
+
+        <label className="fridgeDateField">
+          <span>Use by</span>
+          <input
+            type="date"
+            value={item.useByDate || ""}
+            onChange={(event) => updateItem(item.id, { useByDate: event.target.value })}
+          />
+        </label>
+
+        <select
+          className="fridgeStatusSelect"
+          value={item.status || "Available"}
+          onChange={(event) => updateItem(item.id, { status: event.target.value })}
+          aria-label={`${item.name} status`}
+        >
+          {REFRIGERATOR_STATUS_OPTIONS.map((status) => (
+            <option key={status} value={status}>{status}</option>
+          ))}
+        </select>
+
+        <button
+          type="button"
+          className={item.grocery || item.status === "Running Low" || item.status === "Out" ? "fridgeGroceryButton active" : "fridgeGroceryButton"}
+          onClick={() => updateItem(item.id, { grocery: !item.grocery })}
+        >
+          {item.grocery ? "On List" : "Add"}
+        </button>
+
+        {item.custom && (
+          <button
+            type="button"
+            className="fridgeRemoveButton"
+            onClick={() => removeCustomItem(item.id)}
+            aria-label={`Remove ${item.name}`}
+          >
+            ×
+          </button>
+        )}
+      </div>
+    );
+  }
+
+  return (
+    <main className="pageShell refrigeratorInventoryPage">
+      <div className="pageHeader refrigeratorHeader">
+        <div>
+          <h1>REFRIGERATOR INVENTORY</h1>
+          <p>
+            Track refrigerated foods, leftovers, quantities, opened dates, and use-by reminders.
+            Mark what you already have, flag items that should be used soon, and send low-stock
+            items to your grocery list before they are forgotten.
+          </p>
+        </div>
+      </div>
+
+      <section className="fridgeSummaryGrid" aria-label="Refrigerator inventory summary">
+        <div className="fridgeSummaryBox"><small>Items in Refrigerator</small><strong>{summary.inFridge}</strong></div>
+        <div className="fridgeSummaryBox"><small>Running Low</small><strong>{summary.runningLow}</strong></div>
+        <div className="fridgeSummaryBox"><small>Use Soon</small><strong>{summary.useSoon}</strong></div>
+        <div className="fridgeSummaryBox"><small>Added to Grocery List</small><strong>{summary.grocery}</strong></div>
+      </section>
+
+      <section className="fridgeUseSoonPanel">
+        <div className="fridgeUseSoonHeader">
+          <div>
+            <h2>USE SOON</h2>
+            <p>Organizational reminders only. Always use your own judgment about food safety.</p>
+          </div>
+          <strong>{useSoonItems.length} items</strong>
+        </div>
+
+        {useSoonItems.length === 0 ? (
+          <p className="fridgeUseSoonEmpty">No refrigerator items are currently marked use soon.</p>
+        ) : (
+          <div className="fridgeUseSoonList">
+            {useSoonItems.slice(0, 12).map((item) => (
+              <div className="fridgeUseSoonItem" key={item.id}>
+                <div>
+                  <strong>{item.name}</strong>
+                  <small>{item.quantity || "—"} {item.unit || ""} · {item.categoryTitle}</small>
+                  <em>{item.useByDate ? `Use by ${item.useByDate}` : "Marked Use Soon"}</em>
+                </div>
+                <div className="fridgeUseSoonActions">
+                  <button type="button" onClick={() => updateItem(item.id, { inFridge: false, status: "Available" })}>Mark Used</button>
+                  <button type="button" onClick={() => updateItem(item.id, { grocery: true })}>Add to List</button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
+
+      <section className="fridgeFiltersBar">
+        <label>
+          <span>Search</span>
+          <input
+            type="search"
+            value={searchTerm}
+            onChange={(event) => setSearchTerm(event.target.value)}
+            placeholder="Search refrigerator items..."
+          />
+        </label>
+        <label>
+          <span>Filter</span>
+          <select value={filterMode} onChange={(event) => setFilterMode(event.target.value)}>
+            {REFRIGERATOR_FILTERS.map((filter) => (
+              <option key={filter.id} value={filter.id}>{filter.label}</option>
+            ))}
+          </select>
+        </label>
+        <button type="button" className="secondary" onClick={() => setActivePage("Shopping Lists")}>View Grocery List</button>
+      </section>
+
+      <div className="fridgeInventoryLayout">
+        <aside className="fridgeCategoryNav" aria-label="Refrigerator categories">
+          {REFRIGERATOR_CATEGORIES.map((category) => (
+            <button
+              key={category.id}
+              type="button"
+              className={selectedCategoryId === category.id ? "active" : ""}
+              onClick={() => setSelectedCategoryId(category.id)}
+            >
+              {category.title}
+            </button>
+          ))}
+        </aside>
+
+        <section className="fridgeItemsPanel">
+          <div className="fridgeItemsHeader">
+            <div>
+              <h2>{searchTerm.trim() ? "Search Results" : selectedCategory?.title}</h2>
+              <p>{visibleItems.length} items shown</p>
+            </div>
+            <button type="button" className="primary" onClick={() => setCustomFormOpen((open) => !open)}>
+              ADD CUSTOM ITEM
+            </button>
+          </div>
+
+          {customFormOpen && (
+            <div className="fridgeCustomForm">
+              <input type="text" value={customForm.name} onChange={(event) => setCustomForm((current) => ({ ...current, name: event.target.value }))} placeholder="Item name" />
+              <select value={selectedCategoryId} onChange={(event) => setSelectedCategoryId(event.target.value)}>
+                {REFRIGERATOR_CATEGORIES.map((category) => <option key={category.id} value={category.id}>{category.title}</option>)}
+              </select>
+              <input type="text" value={customForm.quantity} onChange={(event) => setCustomForm((current) => ({ ...current, quantity: event.target.value }))} placeholder="Qty" />
+              <input type="text" value={customForm.unit} onChange={(event) => setCustomForm((current) => ({ ...current, unit: event.target.value }))} placeholder="Unit" />
+              <label><span>Opened</span><input type="date" value={customForm.openedDate} onChange={(event) => setCustomForm((current) => ({ ...current, openedDate: event.target.value }))} /></label>
+              <label><span>Use by</span><input type="date" value={customForm.useByDate} onChange={(event) => setCustomForm((current) => ({ ...current, useByDate: event.target.value }))} /></label>
+              <select value={customForm.status} onChange={(event) => setCustomForm((current) => ({ ...current, status: event.target.value }))}>
+                {REFRIGERATOR_STATUS_OPTIONS.map((status) => <option key={status} value={status}>{status}</option>)}
+              </select>
+              <textarea value={customForm.notes} onChange={(event) => setCustomForm((current) => ({ ...current, notes: event.target.value }))} placeholder="Optional notes" />
+              <button type="button" className="primary" onClick={addCustomItem}>Save Custom Item</button>
+            </div>
+          )}
+
+          <div className="fridgeItemTableHeader" aria-hidden="true">
+            <span>Have</span><span>Item</span><span>Qty</span><span>Unit</span><span>Opened</span><span>Use By</span><span>Status</span><span>List</span>
+          </div>
+
+          {Object.entries(visibleGroups).length === 0 ? (
+            <EmptyState title="No refrigerator items found" text="Try another category, filter, or search term." />
+          ) : (
+            Object.entries(visibleGroups).map(([groupName, items]) => (
+              <section className="fridgeItemGroup" key={groupName}>
+                <h3>{groupName}</h3>
+                {items.map(renderItemRow)}
+              </section>
+            ))
+          )}
+        </section>
+      </div>
+    </main>
+  );
+}
+
+function ShoppingListPage({ plan, checked, setChecked, servings, pantry, refrigerator, setActivePage }) {
   const recipeIdSet = useMemo(() => new Set(recipes.map((recipe) => recipe.id)), []);
   const dinnerCombinationById = useMemo(
     () => Object.fromEntries(dinnerCombinations.map((meal) => [meal.id, meal])),
@@ -3812,9 +4284,18 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, setActi
     return references;
   }, [plan, dinnerCombinationById]);
 
+  const refrigeratorShoppingItems = useMemo(
+    () => buildRefrigeratorGroceryItems(refrigerator),
+    [refrigerator]
+  );
+
   const list = useMemo(
-    () => [...buildShoppingList(recipeOnlyPlan, recipes, servings), ...dinnerCombinationShoppingReferences],
-    [recipeOnlyPlan, servings, dinnerCombinationShoppingReferences]
+    () => mergeShoppingListEntries([
+      ...buildShoppingList(recipeOnlyPlan, recipes, servings),
+      ...dinnerCombinationShoppingReferences,
+      ...refrigeratorShoppingItems,
+    ]),
+    [recipeOnlyPlan, servings, dinnerCombinationShoppingReferences, refrigeratorShoppingItems]
   );
 
   const { needed, pantry: pantryItems } = useMemo(
@@ -4125,6 +4606,9 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, setActi
                 <strong>{pantryItems.length} items</strong>
                 <button className="secondary smallSecondary" onClick={() => setActivePage("Pantry Staples")}>
                   Edit Pantry Staples
+                </button>
+                <button className="secondary smallSecondary" onClick={() => setActivePage("Kitchen Refrigerator")}>
+                  Edit Refrigerator
                 </button>
               </div>
             </div>
@@ -4926,15 +5410,9 @@ function AboutPage({ setActivePage }) {
           </p>
         </section>
 
-        <figure className="aboutLetterPhotoBreak">
-          <img
-            src={`${import.meta.env.BASE_URL}images/about/welcome-family-framed-photo.jpg`}
-            alt="Family photo on a country path"
-            loading="lazy"
-            decoding="async"
-          />
-          <figcaption>Built around real home cooking, practical planning, and everyday meals.</figcaption>
-        </figure>
+        <blockquote className="aboutLetterQuoteBreak">
+          Built around real home cooking, practical planning, and everyday meals.
+        </blockquote>
 
         <section className="aboutLetterSection">
           <h2>What I wanted to build</h2>
@@ -4969,15 +5447,9 @@ function AboutPage({ setActivePage }) {
           </p>
         </section>
 
-        <figure className="aboutLetterPhotoBreak aboutLetterPhotoBreakRight">
-          <img
-            src={`${import.meta.env.BASE_URL}images/about/welcome-pete-framed-photo.jpg`}
-            alt="Golden retriever standing in the yard"
-            loading="lazy"
-            decoding="async"
-          />
-          <figcaption>A personal project, built one practical idea at a time.</figcaption>
-        </figure>
+        <blockquote className="aboutLetterQuoteBreak aboutLetterQuoteBreakRight">
+          A personal project, built one practical idea at a time.
+        </blockquote>
 
         <section className="aboutLetterSection">
           <h2>How the recipes are created</h2>
@@ -7459,6 +7931,9 @@ export default function App() {
   const [pantry, setPantry] = useState(() =>
     loadJSON(STORAGE_KEYS.pantry, {})
   );
+  const [refrigerator, setRefrigerator] = useState(() =>
+    normalizeRefrigeratorState(loadJSON(STORAGE_KEYS.refrigerator, { items: {}, customItems: [] }))
+  );
   const [filter, setFilter] = useState("");
   const [cardViewer, setCardViewer] = useState(null);
   const [recipeClassifications, setRecipeClassifications] = useState(() =>
@@ -7475,6 +7950,7 @@ export default function App() {
   useEffect(() => saveJSON(STORAGE_KEYS.servings, servings), [servings]);
   useEffect(() => saveJSON(STORAGE_KEYS.checked, checked), [checked]);
   useEffect(() => saveJSON(STORAGE_KEYS.pantry, pantry), [pantry]);
+  useEffect(() => saveJSON(STORAGE_KEYS.refrigerator, refrigerator), [refrigerator]);
   useEffect(
     () => saveRecipeClassifications(recipeClassifications),
     [recipeClassifications]
@@ -7545,6 +8021,8 @@ export default function App() {
     setChecked,
     pantry,
     setPantry,
+    refrigerator,
+    setRefrigerator,
     classifiedRecipes,
   };
 
@@ -8022,18 +8500,13 @@ Use this collection to organize recipes that fit prep-ahead cooking, planned lef
             src="images/heroes/hero-page-your-pantry.jpg"
             alt="Kitchen inventory setup with fresh ingredients, containers, checklist, and notebook"
             eyebrow="YOUR KITCHEN"
-            title="Your Refrigerator"
+            title="Refrigerator Inventory"
             text="Your refrigerator inventory can help you track fresh ingredients, leftovers, sauces, dairy, produce, and ready-to-use meal components before they are forgotten. A quick refrigerator check can make weekly meal planning and grocery shopping easier.
 
-This page is a practical holding place for refrigerator inventory notes, freshness reminders, and ideas for using perishable foods before they expire."
+Use this section to mark what is already in the refrigerator, record quantities and use-by dates, and send low-stock items to your grocery list."
             className="pageHeroDepth464"
 />
-          <PlaceholderInfoPage
-            eyebrow="YOUR KITCHEN"
-            title="Your Refrigerator"
-            text="Use this area for refrigerator inventory, fresh food reminders, leftovers, sauces, dairy, produce, and quick-use items that should be planned into meals soon."
-            setActivePage={setActivePage}
-          />
+          <RefrigeratorInventoryPage {...pageProps} />
         </>
       )}
       {activePage === "Kitchen Freezer" && (
