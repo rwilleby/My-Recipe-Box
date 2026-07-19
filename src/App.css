@@ -20798,3 +20798,36 @@ nav button,
 .pageNotesButton.active {
   border-color: #E6A817 !important;
 }
+
+
+/* =========================================================
+   CLIFF NOTES BUTTON SIZE REFINEMENT
+   Larger bold label, narrower button, preserve popup behavior.
+   ========================================================= */
+
+.pageTopHeroImage .pageNotesButton,
+.pageNotesButton {
+  width: 99px !important;
+  min-width: 99px !important;
+  max-width: 99px !important;
+  height: auto !important;
+  min-height: 34px !important;
+  grid-template-columns: 18px minmax(0, 1fr) !important;
+  gap: 5px !important;
+  padding: 4px 6px !important;
+  font-size: 20px !important;
+  font-weight: 800 !important;
+  line-height: 0.92 !important;
+  letter-spacing: 0.005em !important;
+}
+
+.pageTopHeroImage .pageNotesQuestion,
+.pageNotesQuestion {
+  width: 18px !important;
+  height: 18px !important;
+  min-width: 18px !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  background: #E6A817 !important;
+  color: #000000 !important;
+}
