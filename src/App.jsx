@@ -670,6 +670,7 @@ const SUPPORTING_PAGE_HERO_IMAGES = [
   "images/heroes/hero-page-storage.jpg",
   "images/heroes/hero-page-family.png",
   "images/heroes/hero-page-freezer-inv.png",
+  "images/heroes/hero-page-freezer-meals.png",
   "images/heroes/hero-page-refrigerator-inv.png",
   "images/heroes/hero-page-freeze-reheat.png",
   "images/heroes/hero-page-food-safety.png",
@@ -1051,7 +1052,7 @@ function Header({ activePage, setActivePage }) {
       items: [
         { label: "BROWSE OUR RECIPE LIBRARY", page: "Recipes" },
         { label: "DINNER COMBINATIONS", page: "Dinner Combinations" },
-        { label: "QUICK & EASY FREEZER", page: "Freezer-Friendly Meals" },
+        { label: "QUICK & EASY FREEZER MEALS", page: "Freezer-Friendly Meals" },
         { label: "COLLECTIONS", page: "Collections" },
         { label: "SLOW COOKER MEALS", page: "Slow Cooker Favorites", level: 1 },
         { label: "SUMMER COOKOUTS", page: "Summer Cookouts", level: 1 },
@@ -8924,17 +8925,17 @@ Use this collection to assign individual recipe cards that belong in a complete-
       {activePage === "Freezer-Friendly Meals" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-page-freezing-meals.jpg"
-            alt="Freezer meal setup with containers, labels, recipe cards, and prepared food"
+            src="images/heroes/hero-page-freezer-meals.png"
+            alt="Freezer meals and make-ahead dinner containers with labels, recipe cards, and reheating notes"
             eyebrow="COLLECTIONS"
-            title="Freezer-Friendly Meals"
+            title="Quick & Easy Freezer Meals"
             text="Freezer-friendly meals are helpful when you want to cook once and make future dinners easier. This collection can include recipes that freeze well as full meals, meal components, sauces, proteins, casseroles, soups, or prepared portions.
 
 Use this page to group recipes that can be made ahead, labeled, frozen, thawed safely, and finished later with dependable results."
             className="pageHeroDepth464"
           />
           <CollectionDetailPage
-            title="Freezer-Friendly Meals"
+            title="Quick & Easy Freezer Meals"
             text="A collection page for recipes that are useful for freezer prep, batch cooking, and future meals."
             setActivePage={setActivePage}
             recipes={classifiedRecipes}
