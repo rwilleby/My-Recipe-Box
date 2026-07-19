@@ -1126,13 +1126,6 @@ function Header({ activePage, setActivePage }) {
       </nav>
 
       <div className="topActions">
-        <button
-          className="adminAccessButton"
-          type="button"
-          onClick={() => setActivePage("Admin Recipes")}
-        >
-          Admin
-        </button>
         <span>⌕</span>
         <span className="avatar">◉ Robert⌄</span>
       </div>
@@ -2903,6 +2896,16 @@ function Home({
       </section>
 
       <CollectionStrip setActivePage={setActivePage} />
+
+      <div className="homeAdminAccessWrap" aria-label="Administrative tools">
+        <button
+          className="adminAccessButton homeAdminAccessButton"
+          type="button"
+          onClick={() => setActivePage("Admin Recipes")}
+        >
+          Admin
+        </button>
+      </div>
     </>
   );
 }

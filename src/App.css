@@ -20588,3 +20588,91 @@ nav button,
     font-size: 11px;
   }
 }
+
+
+/* =========================================================
+   ADMIN BUTTON + HOMEPAGE HERO POPUP STACKING PATCH
+   Keeps Admin access low-prominence and forces hero info popups above page content.
+   ========================================================= */
+
+.topbar .adminAccessButton {
+  display: none !important;
+}
+
+.homeAdminAccessWrap {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 100% !important;
+  padding: 6px 0 18px !important;
+  margin: -4px 0 0 !important;
+}
+
+.homeAdminAccessButton {
+  min-width: 0 !important;
+  width: auto !important;
+  border: 1px solid #cbd5df !important;
+  border-radius: 999px !important;
+  background: #eef2f6 !important;
+  color: #64748b !important;
+  box-shadow: none !important;
+  padding: 3px 7px !important;
+  font-size: 8px !important;
+  line-height: 1 !important;
+  letter-spacing: .06em !important;
+  opacity: .78 !important;
+}
+
+.homeAdminAccessButton:hover,
+.homeAdminAccessButton:focus-visible {
+  background: #e2e8f0 !important;
+  color: #475569 !important;
+  border-color: #94a3b8 !important;
+  opacity: 1 !important;
+}
+
+/* The homepage hero instruction popups must float above every following home section. */
+.hero {
+  position: relative !important;
+  overflow: visible !important;
+  z-index: 1200 !important;
+  isolation: auto !important;
+}
+
+.heroRotator,
+.heroOverlay,
+.heroCopy,
+.heroInfoButtons,
+.heroInfoButtonWrap {
+  overflow: visible !important;
+}
+
+.heroInfoButtons {
+  z-index: 1300 !important;
+}
+
+.heroInfoButtonWrap .heroInfoPopup,
+.heroInfoPopup {
+  z-index: 95000 !important;
+  pointer-events: auto !important;
+}
+
+.transparencyLine,
+.homeCategorySection,
+.homeRolodexShowcaseSection,
+.collectionStrip,
+.section:not(.hero) {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 820px) {
+  .homeAdminAccessWrap {
+    padding-bottom: 14px !important;
+  }
+
+  .homeAdminAccessButton {
+    padding: 3px 7px !important;
+    font-size: 8px !important;
+  }
+}
