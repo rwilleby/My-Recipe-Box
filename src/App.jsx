@@ -1004,8 +1004,8 @@ function Header({ activePage, setActivePage }) {
       label: "ABOUT",
       items: [
         { label: "WELCOME TO OUR SITE", page: "About" },
-        { label: "ABOUT THE RECIPES", page: "About Recipes" },
-        { label: "PRODUCTS I USE", page: "Products I Use" },
+        { label: "ABOUT OUR RECIPES", page: "About Recipes" },
+        { label: "PRODUCTS I RECOMMEND", page: "Products I Use" },
         { label: "AFFILIATE MARKETING", page: "Affiliate Marketing" },
         { label: "SUBMIT YOUR RECIPES", page: "Submit Recipes" },
         { label: "CONTACT ME", page: "Contact Me" },
@@ -1015,7 +1015,7 @@ function Header({ activePage, setActivePage }) {
     {
       label: "OUR RECIPES",
       items: [
-        { label: "BROWSE ALL RECIPES", page: "Recipes" },
+        { label: "BROWSE OUR RECIPES", page: "Recipes" },
         { label: "DINNER COMBINATIONS", page: "Dinner Combinations" },
         { label: "QUICK & EASY FREEZER", page: "Freezer-Friendly Meals" },
         { label: "COLLECTIONS", page: "Collections" },
@@ -1037,7 +1037,7 @@ function Header({ activePage, setActivePage }) {
         { label: "YOUR REFRIGERATOR", page: "Kitchen Refrigerator", level: 1 },
         { label: "YOUR FREEZER", page: "Kitchen Freezer", level: 1 },
         { label: "YOUR PANTRY", page: "Pantry Staples", level: 1 },
-        { label: "YOUR SHOPPING LIST", page: "Shopping Lists" },
+        { label: "YOUR GROCERY LIST", page: "Shopping Lists" },
       ],
     },
     {
@@ -4789,7 +4789,7 @@ function AboutRecipesPage({ setActivePage }) {
     <main className="pageShell aboutRecipesPage">
       <section className="aboutRecipesHero">
         <div>
-          <div className="aiBadge">ABOUT THE RECIPES</div>
+          <div className="aiBadge">ABOUT OUR RECIPES</div>
           <h1>About the Recipes</h1>
           <p>
             Robert’s Recipe Box is built around practical meals, familiar foods,

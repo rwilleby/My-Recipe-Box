@@ -20844,3 +20844,76 @@ nav button,
   font-weight: 800 !important;
   line-height: 1.05 !important;
 }
+
+
+/* =========================================================
+   MENU + CLIFF NOTES REFINEMENT UPDATE
+   Final overrides for requested spacing, labels, and button proportions.
+   ========================================================= */
+
+/* Move the main menu closer to the logo side without changing the logo. */
+.topbar {
+  gap: 14px !important;
+}
+
+.topbar > .navLinks.dropdownNav,
+.navLinks.dropdownNav {
+  justify-content: flex-start !important;
+  flex: 0 1 auto !important;
+  gap: clamp(10px, 1vw, 18px) !important;
+  margin-left: 0 !important;
+}
+
+.topbar > .topActions {
+  margin-left: auto !important;
+}
+
+/* Tighten dropdown menu line spacing and row height. */
+.navLinks.dropdownNav > .navDropdown > .navDropdownMenu {
+  padding: 6px !important;
+}
+
+.navLinks.dropdownNav > .navDropdown > .navDropdownMenu button,
+.navLinks.dropdownNav > .navDropdown > .navDropdownMenu .navDropdownItem {
+  min-height: 29px !important;
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+  line-height: 1.05 !important;
+}
+
+.navLinks.dropdownNav > .navDropdown > .navDropdownMenu .navDropdownLevel1 {
+  padding-left: 24px !important;
+}
+
+.navLinks.dropdownNav > .navDropdown > .navDropdownMenu .navDropdownLevel1::before {
+  left: 11px !important;
+}
+
+/* CLIFF NOTES: 1/3 larger than the prior 10px, wider to keep text on one line. */
+.pageTopHeroImage .pageNotesButton,
+.pageNotesButton {
+  width: 138px !important;
+  min-width: 138px !important;
+  max-width: 138px !important;
+  min-height: 34px !important;
+  height: auto !important;
+  grid-template-columns: 18px minmax(0, 1fr) !important;
+  gap: 6px !important;
+  padding: 4px 9px !important;
+  font-size: 13.5px !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+  letter-spacing: 0.01em !important;
+  white-space: nowrap !important;
+}
+
+.pageTopHeroImage .pageNotesQuestion,
+.pageNotesQuestion {
+  width: 18px !important;
+  height: 18px !important;
+  min-width: 18px !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  background: #E6A817 !important;
+  color: #000000 !important;
+}
