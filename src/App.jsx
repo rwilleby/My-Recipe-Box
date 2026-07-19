@@ -954,7 +954,11 @@ function recipeImageCandidates(recipe) {
   if (recipe.id && AUTO_IMAGE_PREFIXES.has(prefix)) {
     candidates.push(`images/heroes/${recipe.id}.png`);
     candidates.push(`images/heroes/${recipe.id} .png`);
+    candidates.push(`images/recipes/${recipe.id}.jpg`);
+    candidates.push(`images/recipes/${recipe.id}.JPG`);
     candidates.push(`images/recipes/${recipe.id}.png`);
+    candidates.push(`images/recipes/${recipe.id} .jpg`);
+    candidates.push(`images/recipes/${recipe.id} .JPG`);
     candidates.push(`images/recipes/${recipe.id} .png`);
   }
 
@@ -974,7 +978,11 @@ function previewCardImageCandidates(recipe) {
   if (recipe.image) candidates.push(recipe.image);
 
   if (recipe.id && AUTO_IMAGE_PREFIXES.has(prefix)) {
+    candidates.push(`images/recipes/${recipe.id}.jpg`);
+    candidates.push(`images/recipes/${recipe.id}.JPG`);
     candidates.push(`images/recipes/${recipe.id}.png`);
+    candidates.push(`images/recipes/${recipe.id} .jpg`);
+    candidates.push(`images/recipes/${recipe.id} .JPG`);
     candidates.push(`images/recipes/${recipe.id} .png`);
   }
 
@@ -997,7 +1005,11 @@ function fullCardImageCandidates(recipe) {
 
   if (recipe.id && AUTO_IMAGE_PREFIXES.has(prefix)) {
     candidates.push(`images/recipes/${recipe.id}.png`);
+    candidates.push(`images/recipes/${recipe.id}.jpg`);
+    candidates.push(`images/recipes/${recipe.id}.JPG`);
     candidates.push(`images/recipes/${recipe.id} .png`);
+    candidates.push(`images/recipes/${recipe.id} .jpg`);
+    candidates.push(`images/recipes/${recipe.id} .JPG`);
   }
 
   if (recipe.id && AUTO_IMAGE_PREFIXES.has(prefix)) {
