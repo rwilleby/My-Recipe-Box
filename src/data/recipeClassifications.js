@@ -1,8 +1,9 @@
 // src/data/recipeClassifications.js
 // Robert's Recipe Box — recipe classification system
 //
-// This file supplies the permanent classification vocabulary and safe helpers.
-// Existing recipes continue to work even before classifications are assigned.
+// This file supplies the permanent classification vocabulary, default recipe
+// classifications, and safe helpers. Existing recipes continue to work even
+// before classifications are assigned.
 
 export const RECIPE_COLLECTIONS = [
   "Slow Cooker Favorites",
@@ -54,6 +55,31 @@ export const COOKING_METHODS = [
 
 export const CLASSIFICATION_STORAGE_KEY = "rrb_admin_recipe_classifications";
 
+export const DEFAULT_RECIPE_CLASSIFICATIONS = {
+  "AS-001": {
+    "primaryCategory": "Asian Cuisine",
+    "collections": [],
+    "attributes": [
+      "Beef"
+    ],
+    "cookingMethods": [
+      "Stovetop",
+      "Microwave"
+    ]
+  },
+  "AS-002": {
+    "primaryCategory": "Asian Cuisine",
+    "collections": [],
+    "attributes": [
+      "Beef"
+    ],
+    "cookingMethods": [
+      "Microwave",
+      "Stovetop"
+    ]
+  }
+};
+
 export function emptyRecipeClassification(recipe) {
   return {
     primaryCategory: recipe?.category || "",
@@ -79,18 +105,28 @@ export function normalizeRecipeClassification(recipe, saved = {}) {
 }
 
 export function mergeRecipeClassifications(recipes, classifications = {}) {
+  const mergedClassifications = {
+    ...DEFAULT_RECIPE_CLASSIFICATIONS,
+    ...classifications,
+  };
+
   return recipes.map((recipe) => ({
     ...recipe,
-    ...normalizeRecipeClassification(recipe, classifications[recipe.id]),
+    ...normalizeRecipeClassification(recipe, mergedClassifications[recipe.id]),
   }));
 }
 
 export function loadRecipeClassifications() {
   try {
     const saved = window.localStorage.getItem(CLASSIFICATION_STORAGE_KEY);
-    return saved ? JSON.parse(saved) : {};
+    const savedClassifications = saved ? JSON.parse(saved) : {};
+
+    return {
+      ...DEFAULT_RECIPE_CLASSIFICATIONS,
+      ...savedClassifications,
+    };
   } catch {
-    return {};
+    return { ...DEFAULT_RECIPE_CLASSIFICATIONS };
   }
 }
 
