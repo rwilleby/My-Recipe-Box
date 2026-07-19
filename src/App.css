@@ -22425,3 +22425,117 @@ nav button,
     font-size: 20px !important;
   }
 }
+
+
+/* =========================================================
+   PRODUCTS I RECOMMEND HORIZONTAL IMAGE CARD REFINEMENT
+   Shows more of each uploaded horizontal hero-style product image,
+   then places the title and short text underneath. Desktop uses
+   three columns so the page shows more products with less vertical drag.
+   ========================================================= */
+
+.productsIUsePageGrid {
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 20px !important;
+  align-items: stretch !important;
+}
+
+.productsIUsePageCard {
+  position: relative !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+  min-height: 0 !important;
+  border-radius: 18px !important;
+}
+
+.productsIUsePageImage {
+  width: 100% !important;
+  aspect-ratio: 16 / 9 !important;
+  height: auto !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  border-bottom: 1px solid #edf1ed !important;
+  background: #f8f5ee !important;
+  display: block !important;
+}
+
+.productsIUsePageImage img {
+  width: 100% !important;
+  height: 100% !important;
+  display: block !important;
+  object-fit: cover !important;
+  object-position: center !important;
+}
+
+.productsIUsePageContent,
+.productsIUsePageCard div:last-child {
+  padding: 12px 14px 14px !important;
+  text-align: left !important;
+}
+
+.productsIUsePageContent h2,
+.productsIUsePageCard h2 {
+  margin: 0 0 6px !important;
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif !important;
+  font-weight: 700 !important;
+  font-size: 19px !important;
+  line-height: 1.12 !important;
+  color: #111827 !important;
+}
+
+.productsIUsePageContent p,
+.productsIUsePageCard p {
+  margin: 0 !important;
+  font-size: 13px !important;
+  line-height: 1.35 !important;
+  color: #374151 !important;
+}
+
+.productsIUsePageContent p:not(.productsIUseProductInfo) {
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+}
+
+.productsIUseProductInfo {
+  display: none !important;
+}
+
+.productsIUseAmazonCorner {
+  position: absolute !important;
+  top: 10px !important;
+  right: 10px !important;
+  z-index: 4 !important;
+  width: 42px !important;
+  height: 42px !important;
+  border-radius: 999px !important;
+  display: grid !important;
+  place-items: center !important;
+  background: #fff7ed !important;
+  border: 1px solid rgba(230, 126, 34, .45) !important;
+  box-shadow: 0 8px 18px rgba(17, 24, 39, .12) !important;
+}
+
+.productsIUseAmazonIcon {
+  width: 28px !important;
+  height: auto !important;
+  display: block !important;
+}
+
+@media (max-width: 1100px) {
+  .productsIUsePageGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .productsIUsePageGrid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .productsIUsePageImage {
+    aspect-ratio: 16 / 9 !important;
+  }
+}
