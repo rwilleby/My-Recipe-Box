@@ -675,6 +675,7 @@ const SUPPORTING_PAGE_HERO_IMAGES = [
   "images/heroes/hero-page-freeze-reheat.png",
   "images/heroes/hero-page-food-safety.png",
   "images/heroes/hero-page-breadmaking.png",
+  "images/heroes/hero-page-connect.png",
 ];
 
 const preloadedHeroImageUrls = new Set();
@@ -8600,8 +8601,8 @@ export default function App() {
       {activePage === "Contact Me" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-mission.png"
-            alt="Recipe box, notebook, and kitchen organization setup"
+            src="images/heroes/hero-page-connect.png"
+            alt="Contact cards, notebook, recipe box, plant, measuring spoons, and coffee on a pale kitchen surface"
             eyebrow="ABOUT US"
             title="Contact Me"
             text="Have a question about the website, a suggestion for a new feature, or an idea for a recipe you would like to see? You are always welcome to send me a message. Feedback from visitors helps me understand what is useful and what could be improved.\n\nYou may also contact me about corrections, technical problems, family-recipe submissions, or general questions about Robert’s Recipe Box. I may not have every answer, but I will do my best to respond and help."
