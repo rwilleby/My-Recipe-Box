@@ -1,18 +1,5 @@
 import { useMemo, useState, useEffect } from "react";
 import { categories, recipes } from "./data/recipes";
-import AdminRecipeClassifier from "./components/AdminRecipeClassifier";
-import {
-  loadRecipeClassifications,
-  mergeRecipeClassifications,
-  recipeMatchesCollection,
-  saveRecipeClassifications,
-} from "./data/recipeClassifications";
-import {
-  DINNER_PROTEIN_FILTERS,
-  DINNER_SIDE_FILTERS,
-  dinnerCombinations,
-  getDinnerCombinationSearchText,
-} from "./data/dinnerCombinations.js";
 import { getRecipeCostEstimate, RECIPE_COST_NOTE, RECIPE_COST_TAGLINE } from "./data/recipeCosts";
 import { loadJSON, saveJSON } from "./utils/storage";
 import {
@@ -101,7 +88,7 @@ const HOME_CATEGORY_LABELS = {
 };
 
 const HOME_CATEGORY_FALLBACKS = {
-  AM: { id: "AM", name: "American Cuisine", count: 0, icon: "plate" },
+  AM: { id: "AM", name: "American Cuisine", count: 0, icon: "🍽️" },
   AS: { id: "AS", name: "Asian Cuisine", count: 0, icon: "🍜" },
   CC: { id: "CC", name: "Cheesecakes", count: 0, icon: "🍰" },
   CO: { id: "CO", name: "Cobblers", count: 0, icon: "🥧" },
@@ -116,9 +103,9 @@ const HOME_CATEGORY_FALLBACKS = {
   MX: { id: "MX", name: "Mexican Cuisine", count: 0, icon: "🌮" },
   PM: { id: "PM", name: "Protein Muffins", count: 0, icon: "🧁" },
   QP: { id: "QP", name: "Quiche & Pies", count: 0, icon: "🥧" },
-  CS: { id: "CS", name: "Casseroles", count: 0, icon: "pan" },
+  CS: { id: "CS", name: "Casseroles", count: 0, icon: "🥘" },
   SB: { id: "SB", name: "Salads & Bowls", count: 0, icon: "🥗" },
-  SD: { id: "SD", name: "Side Dishes", count: 0, icon: "pot" },
+  SD: { id: "SD", name: "Side Dishes", count: 0, icon: "🍲" },
   SF: { id: "SF", name: "Seafood Dishes", count: 0, icon: "🐟" },
   SG: { id: "SG", name: "Smoked & Grilled Meats", count: 0, icon: "🔥" },
   SW: { id: "SW", name: "Sandwiches", count: 0, icon: "🥪" },
@@ -613,65 +600,6 @@ function splitShoppingListByPantry(list, pantry) {
   );
 }
 
-const SUPPORTING_PAGE_HERO_IMAGES = [
-  "images/heroes/hero-mission.png",
-  "images/heroes/hero-page-free-to-use.jpg",
-  "images/heroes/hero-page-complete-dinners.jpg",
-  "images/heroes/hero-page-reference-guides.jpg",
-  "images/heroes/hero-page-disclaimers.jpg",
-  "images/heroes/hero-page-construction.jpg",
-  "images/heroes/hero-page-browse-recipes.jpg",
-  "images/heroes/hero-weekly-plan.png",
-  "images/heroes/hero-page-salad-jars.jpg",
-  "images/heroes/hero-page-slow-cooker.jpg",
-  "images/heroes/hero-page-summer-cookouts.jpg",
-  "images/heroes/hero-page-healthy-dinners.jpg",
-  "images/heroes/hero-page-comfort-food.jpg",
-  "images/heroes/hero-page-30-minute-meals.jpg",
-  "images/heroes/hero-weekly-dinner-planner.png",
-  "images/heroes/hero-page-grocery-list.jpg",
-  "images/heroes/hero-page-your-pantry.jpg",
-  "images/heroes/hero-page-favorite-recipes.jpg",
-  "images/heroes/hero-storage.png",
-  "images/heroes/hero-page-cooking-tools.jpg",
-  "images/heroes/hero-page-healthy-substitutions.jpg",
-  "images/heroes/hero-page-about-us.jpg",
-  "images/heroes/hero-air-fryer.png",
-  "images/heroes/hero-recipes.png",
-  "images/heroes/hero-submit-recipe.jpg",
-  "images/heroes/hero-oven.png",
-  "images/heroes/hero-page-ai-generated.jpg",
-  "images/heroes/hero-smoker.jpg",
-  "images/heroes/hero-page-affiliate.jpg",
-  "images/heroes/hero-page-crockpot.jpg",
-  "images/heroes/hero-grill.png",
-  "images/heroes/hero-page-air-fryer.jpg",
-  "images/heroes/hero-page-oven.jpg",
-  "images/heroes/hero-page-microwaves.jpg",
-  "images/heroes/hero-page-gas-grills.jpg",
-  "images/heroes/hero-page-pellet-smoker.jpg",
-  "images/heroes/hero-page-storage.jpg",
-];
-
-const preloadedHeroImageUrls = new Set();
-
-function assetUrl(path) {
-  if (!path) return "";
-  return `${import.meta.env.BASE_URL}${path}`;
-}
-
-function preloadHeroImage(path, priority = "low") {
-  if (!path || typeof window === "undefined") return;
-  const url = assetUrl(path);
-  if (preloadedHeroImageUrls.has(url)) return;
-  preloadedHeroImageUrls.add(url);
-
-  const image = new Image();
-  image.decoding = "async";
-  image.fetchPriority = priority;
-  image.src = url;
-}
-
 const AUTO_IMAGE_PREFIXES = new Set([
   "AM", "AS", "CC", "CO", "CR", "DN", "DS", "HB", "HBP", "IT", "JJ", "KR", "LF",
   "MR", "MX", "PM", "QP", "CS", "RS", "SB", "SD", "SF", "SG", "SW"
@@ -1001,72 +929,53 @@ function fullCardImageCandidates(recipe) {
 function Header({ activePage, setActivePage }) {
   const navGroups = [
     {
-      label: "ABOUT US",
+      label: "OUR MISSION",
       items: [
-        { label: "WELCOME TO OUR SITE", page: "About" },
-        { label: "CONTACT ME", page: "Contact Me" },
-        { label: "BORING DISCLAIMER STUFF", page: "Disclaimers" },
-        { label: "UNDER CONSTRUCTION", page: "Under Construction" },
-      ],
-    },
-    {
-      label: "OUR RECIPES",
-      items: [
-        { label: "AI-GENERATED, NEVER COPIED", page: "About Recipes" },
-        { label: "FREE TO USE, PRINT OR DOWNLOAD", page: "Free To Use" },
-        { label: "BROWSE OUR LIBRARY", page: "Recipes" },
-      ],
-    },
-    {
-      label: "COLLECTIONS",
-      items: [
-        { label: "DINNER COMBINATIONS", page: "Dinner Combinations" },
-        { label: "SLOW COOKER MEALS", page: "Slow Cooker Favorites" },
-        { label: "SUMMER COOKOUTS", page: "Summer Cookouts" },
-        { label: "HEALTHY DINNERS", page: "Healthy Dinners" },
-        { label: "SALAD JARS", page: "Salad Jars" },
-        { label: "COMFORT FOODS", page: "Comfort Foods" },
-        { label: "EASY 30-MINUTE MEALS", page: "Easy 30-Minute Meals" },
-        { label: "SUNDAY MEALS", page: "Sunday Meals" },
-        { label: "COMPLETE DINNERS", page: "Complete Dinners" },
-        { label: "FREEZER-FRIENDLY MEALS", page: "Freezer-Friendly Meals" },
-        { label: "MEALS FOR TWO", page: "Meals for Two" },
-        { label: "MAKE-AHEAD MEALS", page: "Make-Ahead Meals" },
+        { label: "WHY I STARTED THIS PAGE", page: "About" },
+        { label: "WHO IS ROBERT", page: "Who Is Robert" },
+        { label: "WHAT ARE MY GOALS", page: "My Goals" },
       ],
     },
     {
       label: "COOKING METHODS",
       items: [
-        { label: "AIR FRYERS", page: "Air Fryer Recipes" },
-        { label: "CROCKPOT", page: "Crockpot Recipes" },
-        { label: "OVENS", page: "Oven Recipes" },
-        { label: "MICROWAVES", page: "Microwave Recipes" },
-        { label: "GAS GRILLS", page: "Gas Grill Recipes" },
-        { label: "PELLET SMOKERS", page: "Smoker Recipes" },
+        { label: "AIR FRYER RECIPES", page: "Air Fryer Recipes" },
+        { label: "OVEN RECIPES", page: "Oven Recipes" },
+        { label: "MICROWAVE RECIPES", page: "Microwave Recipes" },
+        { label: "GAS GRILL RECIPES", page: "Gas Grill Recipes" },
+        { label: "SMOKER & PELLET GRILL RECIPES", page: "Smoker Recipes" },
       ],
     },
     {
-      label: "PLANNING",
+      label: "OUR RECIPES",
+      items: [
+        { label: "HOW TO USE THIS SITE", page: "How To Use" },
+        { label: "BROWSE ALL RECIPES", page: "Recipes" },
+        { label: "SUGGESTED MEAL PLANS", page: "Suggested Meal Plans" },
+        { label: "PLAN YOUR MEALS", page: "Meal Planner" },
+      ],
+    },
+    {
+      label: "YOUR LISTS",
       items: [
         { label: "YOUR PANTRY", page: "Pantry Staples" },
         { label: "YOUR FAVORITES", page: "Favorites" },
-        { label: "YOUR WEEKLY DINNER PLANNER", page: "Meal Planner" },
-        { label: "YOUR GROCERY LIST", page: "Shopping Lists" },
+        { label: "YOUR MEAL PLAN", page: "Meal Planner" },
+        { label: "YOUR SHOPPING LIST", page: "Shopping Lists" },
       ],
     },
     {
-      label: "TIPS & ORGANIZATION",
+      label: "TIPS & TECHNIQUES",
       items: [
-        { label: "TIPS: BREADMAKING", page: "Bread Tips" },
-        { label: "TIPS: SMOKING MEATS", page: "About Smoking" },
-        { label: "TIPS: GRILLING", page: "Grilling Tips" },
-        { label: "TIPS: FREEZING MEALS", page: "Freezer Tips" },
-        { label: "HEALTHY SUBSTITUTIONS", page: "Grocery Picks" },
-        { label: "REFERENCE GUIDES", page: "Reference Guides" },
-        { label: "COOKING TOOLS & PRODUCTS", page: "Products I Use" },
+        { label: "BAKING YOUR OWN BREADS", page: "Bread Tips" },
+        { label: "SMOKING YOUR OWN MEATS", page: "About Smoking" },
+        { label: "FREEZER TECHNIQUES", page: "Freezer Tips" },
+        { label: "HEALTHY GROCERY SUBSTITUTIONS", page: "Grocery Picks" },
+        { label: "SUBMIT YOUR RECIPES", page: "Submit Recipes" },
+        { label: "SAFE COOKING RULES", page: "Safe Cooking Rules" },
+        { label: "TOOLS & PRODUCTS", page: "Products I Use" },
         { label: "STORAGE & ORGANIZATION", page: "Storage Organization" },
-        { label: "SUBMIT FAMILY RECIPES", page: "Submit Recipes" },
-        { label: "AFFILIATE MARKETING", page: "Affiliate Marketing" },
+        { label: "OTHER INTERESTS", page: "Other Interests" },
       ],
     },
   ];
@@ -1800,7 +1709,7 @@ function RecipeCard({
 }) {
   const isBrowseCard = displayMode === "card";
   const browseTags = isBrowseCard ? getRecipeBrowseTags(recipe) : [];
-  const isFavorite = Array.isArray(favorites) && favorites.includes(recipe.id);
+  const isFavorite = favorites.includes(recipe.id);
 
   return (
     <article className={isBrowseCard ? "recipeCard recipeCardFullImage" : "recipeCard"}>
@@ -1946,7 +1855,7 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
 
   if (!viewer || !recipe) return null;
 
-  const isFavorite = Array.isArray(favorites) && favorites.includes(recipe.id);
+  const isFavorite = favorites.includes(recipe.id);
   const imageCandidates = fullCardImageCandidates(recipe);
   const imagePath = imageCandidates[imageIndex];
   const hasMultiple = viewerIds.length > 1;
@@ -2490,52 +2399,47 @@ function getRandomRecipes(list = [], count = 12) {
   return copy.slice(0, count);
 }
 
-function FeaturedSelectionPanel({ setActivePage }) {
-  const featuredMeals = useMemo(() => getRandomRecipes(dinnerCombinations, 4), []);
+function FeaturedSelectionPanel({ openRecipeCard }) {
+  const featuredRecipes = useMemo(() => recipes.slice(0, 12), []);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [imageIndex, setImageIndex] = useState(0);
 
-  const activeMeal = featuredMeals[activeIndex] || featuredMeals[0];
+  const recipe = featuredRecipes[activeIndex] || featuredRecipes[0];
+  const imageCandidates = recipe ? heroFoodImageCandidates(recipe) : [];
+  const imagePath = imageCandidates[imageIndex];
 
   useEffect(() => {
-    if (featuredMeals.length <= 1) return undefined;
+    setImageIndex(0);
+  }, [recipe?.id]);
 
-    const timer = window.setInterval(() => {
-      setActiveIndex((current) => (current + 1) % featuredMeals.length);
-    }, 5200);
-
-    return () => window.clearInterval(timer);
-  }, [featuredMeals.length]);
-
-  if (!activeMeal) return null;
+  if (!recipe) return null;
 
   return (
-    <section className="homeFeatureCard featuredSelectionCard dinnerCombinationsFeatureCard">
+    <section className="homeFeatureCard featuredSelectionCard">
       <div className="homeMiniSectionHeader">
-        <h2>Dinner Combinations</h2>
+        <h2>Featured Selection</h2>
       </div>
 
       <button
         type="button"
-        className="featuredSelectionButton dinnerCombinationsFeatureButton"
-        onClick={() => setActivePage("Dinner Combinations")}
-        aria-label="Open Dinner Combinations"
+        className="featuredSelectionButton"
+        onClick={() => openRecipeCard(recipe.id, featuredRecipes)}
+        aria-label={`Open ${recipe.title} recipe card`}
       >
-        <div className="featuredSelectionImage dinnerCombinationsFeatureImage">
-          <div className="featuredDinnerImageStack" aria-hidden="true">
-            {featuredMeals.map((meal, index) => (
-              <DinnerCombinationImage
-                key={meal.id}
-                meal={meal}
-                className={`featuredDinnerImage${index === activeIndex ? " active" : ""}`}
-                loading={index === 0 ? "eager" : "lazy"}
-                fetchPriority={index === 0 ? "high" : "auto"}
-              />
-            ))}
-          </div>
+        <div className="featuredSelectionImage">
+          {imagePath ? (
+            <img
+              src={`${import.meta.env.BASE_URL}${imagePath}`}
+              alt={recipe.title}
+              loading="lazy"
+              decoding="async"
+              onError={() => setImageIndex((current) => current + 1)}
+            />
+          ) : (
+            <span>{recipe.emoji || "🍽️"}</span>
+          )}
         </div>
-        <strong>
-          Meal #{String(activeMeal.number).padStart(3, "0")} — {activeMeal.title}
-        </strong>
+        <strong>{recipe.title}</strong>
       </button>
     </section>
   );
@@ -2598,280 +2502,176 @@ function ProductsIUseCarousel({ setActivePage }) {
 }
 
 
-
-const ROLODEX_COMPOSITE_SLIDES = [
-  {
-    id: "ROLO-AS-002",
-    title: "Asian Cuisine: Beijing Beef",
-    image: "images/rolodex/ROLO-AS-002.jpg",
-    categoryFilter: "Asian Cuisine",
-  },
-  {
-    id: "ROLO-AS-011",
-    title: "Asian Cuisine: Kung Pao Chicken",
-    image: "images/rolodex/ROLO-AS-011.jpg",
-    categoryFilter: "Asian Cuisine",
-  },
-  {
-    id: "ROLO-AS-022",
-    title: "Asian Cuisine: Chicken Egg Rolls",
-    image: "images/rolodex/ROLO-AS-022.jpg",
-    categoryFilter: "Asian Cuisine",
-  },
-  {
-    id: "ROLO-HB-001",
-    title: "Hamburgers: Big Mac Style Burger",
-    image: "images/rolodex/ROLO-HB-001.jpg",
-    categoryFilter: "Hamburgers",
-  },
-  {
-    id: "ROLO-HB-007",
-    title: "Hamburgers: Steakhouse Burger",
-    image: "images/rolodex/ROLO-HB-007.jpg",
-    categoryFilter: "Hamburgers",
-  },
-  {
-    id: "ROLO-HB-031",
-    title: "Hamburgers: Lipsey Burger",
-    image: "images/rolodex/ROLO-HB-031.jpg",
-    categoryFilter: "Hamburgers",
-  },
-  {
-    id: "ROLO-IT-001",
-    title: "Italian Cuisine: Chicken Alfredo",
-    image: "images/rolodex/ROLO-IT-001.jpg",
-    categoryFilter: "Italian Cuisine",
-  },
-  {
-    id: "ROLO-IT-011",
-    title: "Italian Cuisine: Spaghetti & Meatballs",
-    image: "images/rolodex/ROLO-IT-011.jpg",
-    categoryFilter: "Italian Cuisine",
-  },
-  {
-    id: "ROLO-IT-031",
-    title: "Italian Cuisine: Shrimp Scampi",
-    image: "images/rolodex/ROLO-IT-031.jpg",
-    categoryFilter: "Italian Cuisine",
-  },
-  {
-    id: "ROLO-MX-003",
-    title: "Mexican Cuisine: Taco Meat & Cheese",
-    image: "images/rolodex/ROLO-MX-003.jpg",
-    categoryFilter: "Mexican Cuisine",
-  },
-  {
-    id: "ROLO-MX-012",
-    title: "Mexican Cuisine: Tamale Pie",
-    image: "images/rolodex/ROLO-MX-012.jpg",
-    categoryFilter: "Mexican Cuisine",
-  },
-  {
-    id: "ROLO-MX-025",
-    title: "Mexican Cuisine: Beef Fajita Rice Bowls",
-    image: "images/rolodex/ROLO-MX-025.jpg",
-    categoryFilter: "Mexican Cuisine",
-  },
-  {
-    id: "ROLO-SB-001",
-    title: "Salads & Bowls: Asian Chicken Crunch",
-    image: "images/rolodex/ROLO-SB-001.jpg",
-    categoryFilter: "Salads & Bowls",
-  },
-  {
-    id: "ROLO-SB-008",
-    title: "Salads & Bowls: Hi-Protein Chicken Salad",
-    image: "images/rolodex/ROLO-SB-008.jpg",
-    categoryFilter: "Salads & Bowls",
-  },
-  {
-    id: "ROLO-SD-007",
-    title: "Side Dishes: Macaroni & Cheese",
-    image: "images/rolodex/ROLO-SD-007.jpg",
-    categoryFilter: "Side Dishes",
-  },
-  {
-    id: "ROLO-SD-022",
-    title: "Side Dishes: Coleslaw",
-    image: "images/rolodex/ROLO-SD-022.jpg",
-    categoryFilter: "Side Dishes",
-  },
-  {
-    id: "ROLO-SF-001",
-    title: "Seafood Dishes: Baked Coconut Shrimp",
-    image: "images/rolodex/ROLO-SF-001.jpg",
-    categoryFilter: "Seafood Dishes",
-  },
-  {
-    id: "ROLO-SF-008",
-    title: "Seafood Dishes: Teriyaki Salmon",
-    image: "images/rolodex/ROLO-SF-008.jpg",
-    categoryFilter: "Seafood Dishes",
-  },
-  {
-    id: "ROLO-SF-016",
-    title: "Seafood Dishes: Seafood Gumbo",
-    image: "images/rolodex/ROLO-SF-016.jpg",
-    categoryFilter: "Seafood Dishes",
-  },
-  {
-    id: "ROLO-SG-009",
-    title: "Smoked & Grilled Meats: Sliced Pork Butt",
-    image: "images/rolodex/ROLO-SG-009.jpg",
-    categoryFilter: "Smoked & Grilled Meats",
-  },
-];
-
-function RecipeRolodex({ setActivePage, setFilter }) {
+function RecipeRolodex({ openRecipeCard }) {
+  const [selectedCategory, setSelectedCategory] = useState("MASTER_RANDOM");
   const [activeIndex, setActiveIndex] = useState(0);
-  const [failedImageIds, setFailedImageIds] = useState({});
-  const rolodexSlides = ROLODEX_COMPOSITE_SLIDES;
-  const activeSlide = rolodexSlides[activeIndex] || rolodexSlides[0];
-  const activeSlideImagePath = activeSlide?.image?.replace(/^\/+/, "") || "";
-  const activeSlideImageUrl = activeSlideImagePath
-    ? `${import.meta.env.BASE_URL}${activeSlideImagePath}`
-    : "";
-  const activeImageFailed = activeSlide ? failedImageIds[activeSlide.id] : false;
+  const [imageIndex, setImageIndex] = useState(0);
+
+  const rolodexRecipes = useMemo(() => {
+    const selectedCategoryObject = categories.find(
+      (category) => category.name === selectedCategory || category.id === selectedCategory
+    );
+
+    const filteredRecipes =
+      selectedCategory === "MASTER_RANDOM"
+        ? recipes
+        : recipes.filter((recipe) => (
+            recipe.category === selectedCategory ||
+            recipe.categoryCode === selectedCategoryObject?.id ||
+            recipe.id?.startsWith(`${selectedCategoryObject?.id}-`)
+          ));
+
+    return getRandomRecipes(filteredRecipes, 12);
+  }, [selectedCategory]);
+
+  const activeRecipe = rolodexRecipes[activeIndex] || rolodexRecipes[0];
+  const imageCandidates = activeRecipe ? previewCardImageCandidates(activeRecipe) : [];
+  const imagePath = imageCandidates[imageIndex];
 
   useEffect(() => {
-    if (!rolodexSlides.length) return;
+    setActiveIndex(0);
+    setImageIndex(0);
+  }, [selectedCategory]);
+
+  useEffect(() => {
+    setImageIndex(0);
+  }, [activeRecipe?.id]);
+
+  useEffect(() => {
+    if (!rolodexRecipes.length) return;
 
     const timer = window.setInterval(() => {
-      setActiveIndex((current) => (current + 1) % rolodexSlides.length);
+      setActiveIndex((current) => (current + 1) % rolodexRecipes.length);
     }, 7000);
 
     return () => window.clearInterval(timer);
-  }, [rolodexSlides.length]);
+  }, [rolodexRecipes.length]);
 
   function goToOffset(offset) {
-    if (!rolodexSlides.length) return;
+    if (!rolodexRecipes.length) return;
 
     setActiveIndex((current) =>
-      (current + offset + rolodexSlides.length) % rolodexSlides.length
+      (current + offset + rolodexRecipes.length) % rolodexRecipes.length
     );
   }
 
-  function viewActiveRecipes() {
-    if (!activeSlide) return;
-
-    const matchingCategory = categories.find(
-      (category) =>
-        category.id === activeSlide.id ||
-        category.name === activeSlide.categoryFilter ||
-        category.name === activeSlide.title
-    );
-
-    setFilter(matchingCategory?.name || activeSlide.categoryFilter || "All");
-    setActivePage("Recipes");
-  }
-
-  if (!activeSlide) {
+  if (!activeRecipe) {
     return (
-      <aside className="homeRolodex homeRolodexComposite" aria-label="Recipe card rolodex">
+      <aside className="homeRolodex" aria-label="Recipe card rolodex">
         <div className="homeRolodexHeader">
           <div>
             <span>Recipe Card Rolodex</span>
-            <strong>No Rolodex images found</strong>
+            <strong>No cards found</strong>
           </div>
+
+          <select
+            className="homeRolodexSelect"
+            value={selectedCategory}
+            onChange={(event) => setSelectedCategory(event.target.value)}
+            aria-label="Choose recipe card category"
+          >
+            <option value="MASTER_RANDOM">Random Variety</option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.name}>
+                {category.name}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div className="homeRolodexMissing">
-          <strong>No composite Rolodex images are currently listed.</strong>
-          <span>Edit ROLODEX_COMPOSITE_SLIDES in App.jsx to add images.</span>
+          <strong>No recipe cards found for this category.</strong>
+          <span>Try another category.</span>
         </div>
       </aside>
     );
   }
 
   return (
-    <aside className="homeRolodex homeRolodexComposite" aria-label="Recipe card rolodex">
+    <aside className="homeRolodex" aria-label="Recipe card rolodex">
       <div className="homeRolodexHeader">
         <div>
           <span>Recipe Card Rolodex</span>
-          <strong>{activeSlide.title}</strong>
+          <strong>{activeRecipe.title}</strong>
         </div>
 
         <div className="homeRolodexControls">
-          <button
-            type="button"
-            className="homeRolodexViewButton"
-            onClick={viewActiveRecipes}
-            aria-label={`View ${activeSlide.title} recipes`}
+          <select
+            className="homeRolodexSelect"
+            value={selectedCategory}
+            onChange={(event) => setSelectedCategory(event.target.value)}
+            aria-label="Choose recipe card category"
           >
-            View Recipes
-          </button>
+            <option value="MASTER_RANDOM">Random Variety</option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.name}>
+                {category.name}
+              </option>
+            ))}
+          </select>
 
           <small>
-            {activeIndex + 1} of {rolodexSlides.length}
+            {activeIndex + 1} of {rolodexRecipes.length}
           </small>
         </div>
       </div>
 
-      <div className="homeRolodexStage homeRolodexCompositeStage">
+      <div className="homeRolodexStage">
+        <img
+          className="homeRolodexHolderArt"
+          src={`${import.meta.env.BASE_URL}images/ui/hero-rolodex-.png`}
+          alt=""
+          aria-hidden="true"
+          loading="lazy"
+          decoding="async"
+        />
+
         <button
-          type="button"
           className="homeRolodexNav"
           onClick={() => goToOffset(-1)}
-          aria-label="Previous Rolodex image"
+          aria-label="Previous recipe card"
         >
           ‹
         </button>
 
         <button
-          type="button"
-          className="homeRolodexCompositeImageButton"
-          onClick={viewActiveRecipes}
-          aria-label={`View ${activeSlide.title} recipes`}
+          className="homeRolodexCard"
+          onClick={() => openRecipeCard(activeRecipe.id, rolodexRecipes)}
+          aria-label={`Open ${activeRecipe.title} recipe card`}
         >
-          {activeSlideImageUrl && !activeImageFailed ? (
+          {imagePath ? (
             <img
-              key={activeSlide.id}
-              className="homeRolodexCompositeImage"
-              src={activeSlideImageUrl}
-              alt={`${activeSlide.title} Rolodex recipe card collection`}
+              src={`${import.meta.env.BASE_URL}${imagePath}`}
+              alt={`${activeRecipe.id} ${activeRecipe.title} recipe card`}
               loading="lazy"
               decoding="async"
-              onLoad={() =>
-                setFailedImageIds((current) => ({
-                  ...current,
-                  [activeSlide.id]: false,
-                }))
-              }
-              onError={() =>
-                setFailedImageIds((current) => ({
-                  ...current,
-                  [activeSlide.id]: true,
-                }))
-              }
+              onError={() => setImageIndex((current) => current + 1)}
             />
           ) : (
-            <div className="homeRolodexCompositeFallback">
-              <strong>{activeSlide.title}</strong>
-              <span>Composite image not found.</span>
-              <code>{activeSlideImagePath}</code>
+            <div className="homeRolodexMissing">
+              <strong>Recipe card image not found.</strong>
+              <span>Expected: images/recipes/{activeRecipe.id}.png</span>
             </div>
           )}
         </button>
 
         <button
-          type="button"
           className="homeRolodexNav"
           onClick={() => goToOffset(1)}
-          aria-label="Next Rolodex image"
+          aria-label="Next recipe card"
         >
           ›
         </button>
       </div>
 
       <div className="homeRolodexDots" aria-hidden="true">
-        {rolodexSlides.map((slide, index) => (
-          <span key={slide.id} className={index === activeIndex ? "active" : ""} />
+        {rolodexRecipes.map((recipe, index) => (
+          <span key={recipe.id} className={index === activeIndex ? "active" : ""} />
         ))}
       </div>
     </aside>
   );
 }
-
 
 function Home({
   favorites,
@@ -2890,27 +2690,17 @@ function Home({
       <section className="section homeRolodexShowcaseSection">
         <div className="homeRolodexShowcaseLayout">
           <aside className="homeShowcaseLeftColumn">
-            <FeaturedSelectionPanel setActivePage={setActivePage} />
+            <FeaturedSelectionPanel openRecipeCard={openRecipeCard} />
             <ProductsIUseCarousel setActivePage={setActivePage} />
           </aside>
 
           <div className="homeShowcaseRolodexColumn">
-            <RecipeRolodex setActivePage={setActivePage} setFilter={setFilter} />
+            <RecipeRolodex openRecipeCard={openRecipeCard} />
           </div>
         </div>
       </section>
 
       <CollectionStrip setActivePage={setActivePage} />
-
-      <div className="homeAdminAccessWrap" aria-label="Administrative tools">
-        <button
-          className="adminAccessButton homeAdminAccessButton"
-          type="button"
-          onClick={() => setActivePage("Admin Recipes")}
-        >
-          Admin
-        </button>
-      </div>
     </>
   );
 }
@@ -3141,89 +2931,10 @@ function RecipesPage({
   );
 }
 
-
-function dinnerMealImageCandidates(meal) {
-  if (!meal) return [];
-  const paddedMealNumber = String(meal.number || "").padStart(3, "0");
-  const candidates = [
-    paddedMealNumber ? `images/dinner-combinations/meal-${paddedMealNumber}.JPG` : "",
-    paddedMealNumber ? `images/dinner-combinations/meal-${paddedMealNumber}.jpg` : "",
-    paddedMealNumber ? `images/dinner-combinations/MEAL-${paddedMealNumber}.JPG` : "",
-    paddedMealNumber ? `images/dinner-combinations/MEAL-${paddedMealNumber}.jpg` : "",
-    paddedMealNumber ? `images/dinner-combinations/meal-${paddedMealNumber}.jpeg` : "",
-    paddedMealNumber ? `images/dinner-combinations/MEAL-${paddedMealNumber}.JPEG` : "",
-    paddedMealNumber ? `images/dinner-combinations/meal-${paddedMealNumber}.png` : "",
-    paddedMealNumber ? `images/dinner-combinations/MEAL-${paddedMealNumber}.png` : "",
-    meal.image,
-  ].filter(Boolean);
-
-  return [...new Set(candidates)];
-}
-
-function DinnerCombinationImage({ meal, className = "", loading = "lazy", fetchPriority = "auto" }) {
-  const [imageIndex, setImageIndex] = useState(0);
-  const [imageFailed, setImageFailed] = useState(false);
-  const candidates = dinnerMealImageCandidates(meal);
-  const imagePath = imageFailed ? "" : candidates[imageIndex];
-
-  useEffect(() => {
-    setImageIndex(0);
-    setImageFailed(false);
-  }, [meal?.id]);
-
-  function handleError() {
-    setImageIndex((current) => {
-      const next = current + 1;
-      if (next < candidates.length) return next;
-      setImageFailed(true);
-      return current;
-    });
-  }
-
-  if (!imagePath) {
-    return (
-      <div className={`dinnerCombinationImageFallback ${className}`.trim()}>
-        <span>Meal #{meal?.number || ""}</span>
-      </div>
-    );
-  }
-
-  return (
-    <img
-      className={className}
-      src={`${import.meta.env.BASE_URL}${imagePath}`}
-      alt={`${meal?.title || "Dinner combination"} meal photo`}
-      loading={loading}
-      decoding="async"
-      fetchPriority={fetchPriority}
-      onError={handleError}
-    />
-  );
-}
-
-function EmptyState({ title, text, children }) {
-  return (
-    <section className="emptyState">
-      <h2>{title}</h2>
-      {text && <p>{text}</p>}
-      {children}
-    </section>
-  );
-}
-
 function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFavorite, openRecipeCard, setActivePage }) {
   const normalizedPlan = useMemo(() => normalizeTwoWeekPlan(plan), [plan]);
   const [selectedSlot, setSelectedSlot] = useState("week1-Mon");
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const [plannerDinnerViewer, setPlannerDinnerViewer] = useState(null);
-
-  function resolvePlannerRecipe(recipeId) {
-    return recipes.find((item) => item.id === recipeId) || null;
-  }
-
-  function resolvePlannerDinnerMeal(recipeId) {
-    return dinnerCombinations.find((item) => item.id === recipeId) || null;
-  }
 
   const filteredPlannerRecipes = useMemo(() => {
     if (selectedCategory === "All") return recipes;
@@ -3240,6 +2951,8 @@ function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFa
       );
     });
   }, [selectedCategory]);
+
+  const totalMeals = plannedMealCount(normalizedPlan);
 
   function addRecipe(recipeId, slotKey = selectedSlot) {
     if (!recipeId || !slotKey) return;
@@ -3291,50 +3004,24 @@ function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFa
     );
   }
 
-  function plannerEstimatedCostText(recipe) {
-    const estimatedCost = getRecipeEstimatedCost(recipe);
-
-    if (!estimatedCost?.displayCost) {
-      return "Cost estimate under review";
-    }
-
-    return `${estimatedCost.roundedCostPerServing} per serving · ${estimatedCost.roundedRecipeCost} total · ${estimatedCost.costCategory}`;
-  }
-
-  function plannerDinnerRecipeButtons(meal) {
-    if (!meal) return [];
-
-    return [
-      { label: meal.mainDish, type: "Main Dish", recipeId: meal.mainRecipeId },
-      ...(meal.sides || []).map((side) => ({
-        label: side.name,
-        type: "Side Dish",
-        recipeId: side.recipeId,
-      })),
-    ];
-  }
-
-  function openDinnerRecipeCard(recipeId) {
-    const recipe = resolvePlannerRecipe(recipeId);
-    if (!recipe) return;
-
-    setPlannerDinnerViewer(null);
-    openRecipeCard(recipe.id, recipes);
-  }
-
   return (
-    <main className="pageShell plannerDashboard weeklyDinnerPlannerPage">
-      <div className="plannerQuickActionsBar">
-        <div className="plannerQuickActionsButtons" aria-label="Quick actions">
-          <button className="secondary" onClick={copyWeekOneToWeekTwo}>Copy Week 1 to Week 2</button>
-          <button className="secondary" onClick={() => clearWeek("week1")}>Clear Week 1</button>
-          <button className="secondary" onClick={() => clearWeek("week2")}>Clear Week 2</button>
-          <button className="secondary" onClick={clearPlan}>Clear Planner</button>
+    <main className="pageShell plannerDashboard">
+      <div className="plannerHeroHeader">
+        <div>
+          <div className="aiBadge">TWO-WEEK DINNER PLANNER</div>
+          <h1>Weekly dinner planner</h1>
+          <p>
+            Plan dinners for two weeks, build one combined shopping list, and save extra portions for future freezer meals.
+          </p>
         </div>
-        <ServingSelector servings={servings} setServings={setServings} />
+
+        <div className="plannerTopActions">
+          <button className="secondary" onClick={clearPlan}>Clear Planner</button>
+          <ServingSelector servings={servings} setServings={setServings} />
+        </div>
       </div>
 
-      <div className="plannerAddPanel plannerFullWidthControls">
+      <div className="plannerAddPanel">
         <select
           value={selectedSlot}
           onChange={(event) => setSelectedSlot(event.target.value)}
@@ -3376,12 +3063,15 @@ function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFa
         </select>
       </div>
 
-      <div className="plannerCompactTables plannerCompactTablesFullWidth">
-        {PLANNER_WEEKS.map((week) => {
-          return (
-            <section className="plannerCompactWeek" key={week.id}>
-              <div className="plannerWeekHeader plannerCompactWeekHeader simplifiedPlannerWeekHeader">
-                <h2>{week.title}</h2>
+      <div className="twoWeekPlannerLayout">
+        <div className="plannerWeeksGrid">
+          {PLANNER_WEEKS.map((week) => (
+            <section className="plannerWeekPanel" key={week.id}>
+              <div className="plannerWeekHeader">
+                <div>
+                  <h2>{week.title}</h2>
+                  <span>{week.subtitle}</span>
+                </div>
                 <button
                   className="weekAddButton"
                   onClick={() => setSelectedSlot(firstEmptySlotForWeek(week.id))}
@@ -3390,105 +3080,45 @@ function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFa
                 </button>
               </div>
 
-              <div className="plannerTableHeader" aria-hidden="true">
-                <span>Day</span>
-                <span>Dinner Plan</span>
-                <span>Estimated Cost</span>
-                <span>Actions</span>
-              </div>
-
-              <div className="plannerCompactTableRows">
+              <div className="plannerDayStack">
                 {WEEK_DAYS.map((day) => {
                   const slotKey = `${week.id}-${day}`;
                   const mealIds = normalizedPlan[slotKey] || [];
 
                   return (
-                    <section className="plannerTableRow" key={slotKey}>
-                      <div className="plannerTableDay">
+                    <section className="plannerDayRow" key={slotKey}>
+                      <div className="plannerDayLabel">
                         <strong>{day}</strong>
                       </div>
 
-                      <div className="plannerTableMeals plannerTableMealsWide">
+                      <div className="plannerMealArea">
                         {mealIds.length === 0 ? (
                           <button
-                            className="plannerEmptyMeal plannerTableEmpty"
+                            className="plannerEmptyMeal"
                             onClick={() => setSelectedSlot(slotKey)}
                           >
                             + Add dinner
                           </button>
                         ) : (
                           mealIds.map((recipeId, index) => {
-                            const recipe = resolvePlannerRecipe(recipeId);
-                            const dinnerMeal = resolvePlannerDinnerMeal(recipeId);
-                            const plannerItem = recipe || dinnerMeal;
-                            if (!plannerItem) return null;
+                            const recipe = recipes.find((item) => item.id === recipeId);
+                            if (!recipe) return null;
+                            const isSaved = favorites.includes(recipe.id);
 
                             return (
-                              <div className="plannerTableMealTitle" key={`${slotKey}-${recipeId}-${index}`}>
-                                <strong>{plannerItem.title}</strong>
-                                {recipe ? (
-                                  <small>{recipe.id} · {recipe.category} · {recipe.time} min · serves {servings}</small>
-                                ) : (
-                                  <div className="plannerDinnerComboReference plannerDinnerComboReferenceWithImage">
-                                    <div className="plannerDinnerComboThumbWrap">
-                                      <DinnerCombinationImage
-                                        meal={plannerItem}
-                                        className="plannerDinnerComboThumb"
-                                        loading="lazy"
-                                        fetchPriority="low"
-                                      />
-                                    </div>
-                                    <div className="plannerDinnerComboText">
-                                      <small>{plannerItem.id.toUpperCase()} · Dinner Combination · {plannerItem.calories || "—"} calories</small>
-                                      <span><strong>Main:</strong> {plannerItem.mainDish} — {plannerItem.mainServing}</span>
-                                      {(plannerItem.sides || []).map((side) => (
-                                        <span key={`${recipeId}-${side.name}`}><strong>Side:</strong> {side.name} — {side.serving}</span>
-                                      ))}
-                                    </div>
-                                  </div>
-                                )}
-                              </div>
-                            );
-                          })
-                        )}
-                      </div>
+                              <article className="plannerMealRow" key={`${slotKey}-${recipeId}-${index}`}>
+                                <div className="plannerMealThumb">
+                                  <RecipeImage recipe={recipe} />
+                                </div>
 
-                      <div className="plannerTableEstimatedCost">
-                        {mealIds.length === 0 ? (
-                          <span className="plannerTableMuted">Estimated cost appears after you add a dinner.</span>
-                        ) : (
-                          mealIds.map((recipeId, index) => {
-                            const recipe = resolvePlannerRecipe(recipeId);
-                            const dinnerMeal = resolvePlannerDinnerMeal(recipeId);
-                            if (!recipe && !dinnerMeal) return null;
+                                <div className="plannerMealInfo">
+                                  <strong>{recipe.title}</strong>
+                                  <small>
+                                    {recipe.id} · {recipe.category} · {recipe.time} min · {servings} servings
+                                  </small>
+                                </div>
 
-                            return (
-                              <span key={`${slotKey}-${recipeId}-${index}-nutrition`}>
-                                {recipe ? plannerEstimatedCostText(recipe) : "Dinner combination cost estimate not available"}
-                              </span>
-                            );
-                          })
-                        )}
-                      </div>
-
-                      <div className="plannerTableActions">
-                        {mealIds.length === 0 ? (
-                          <button
-                            className="plannerMiniButton"
-                            onClick={() => setSelectedSlot(slotKey)}
-                          >
-                            Add
-                          </button>
-                        ) : (
-                          mealIds.map((recipeId, index) => {
-                            const recipe = resolvePlannerRecipe(recipeId);
-                            const dinnerMeal = resolvePlannerDinnerMeal(recipeId);
-                            if (!recipe && !dinnerMeal) return null;
-                            const isSaved = recipe ? Array.isArray(favorites) && favorites.includes(recipe.id) : false;
-
-                            return (
-                              <div className="plannerTableActionSet" key={`${slotKey}-${recipeId}-${index}-actions`}>
-                                {recipe && (
+                                <div className="plannerMealActions">
                                   <button
                                     className={isSaved ? "plannerHeart saved" : "plannerHeart"}
                                     onClick={() => toggleFavorite(recipe.id)}
@@ -3496,21 +3126,21 @@ function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFa
                                   >
                                     ♥
                                   </button>
-                                )}
-                                <button
-                                  className="plannerMiniButton"
-                                  onClick={() => recipe ? openRecipeCard(recipe.id, recipes) : setPlannerDinnerViewer(dinnerMeal)}
-                                >
-                                  View
-                                </button>
-                                <button
-                                  className="plannerRemoveButton"
-                                  onClick={() => removeRecipe(slotKey, index)}
-                                  aria-label="Remove recipe"
-                                >
-                                  ×
-                                </button>
-                              </div>
+                                  <button
+                                    className="plannerMiniButton"
+                                    onClick={() => openRecipeCard(recipe.id, recipes)}
+                                  >
+                                    View
+                                  </button>
+                                  <button
+                                    className="plannerRemoveButton"
+                                    onClick={() => removeRecipe(slotKey, index)}
+                                    aria-label="Remove recipe"
+                                  >
+                                    ×
+                                  </button>
+                                </div>
+                              </article>
                             );
                           })
                         )}
@@ -3520,92 +3150,35 @@ function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFa
                 })}
               </div>
             </section>
-          );
-        })}
-      </div>
-
-      {plannerDinnerViewer && (
-        <div className="plannerDinnerModalOverlay" role="dialog" aria-modal="true" aria-label={`${plannerDinnerViewer.title} dinner combination`}>
-          <article className="plannerDinnerModal">
-            <header className="plannerDinnerModalHeader">
-              <div className="plannerDinnerModalTitleBlock">
-                <span className="dinnerCombinationMealBadge">Meal #{plannerDinnerViewer.number}</span>
-                <h2>{plannerDinnerViewer.title}</h2>
-                <p className="dinnerCombinationSubtitle">{plannerDinnerViewer.subtitle}</p>
-              </div>
-              <button
-                type="button"
-                className="plannerDinnerModalClose"
-                onClick={() => setPlannerDinnerViewer(null)}
-                aria-label="Close dinner combination"
-              >
-                ×
-              </button>
-            </header>
-
-            <section className="plannerDinnerModalSummaryGrid">
-              <DinnerCombinationImage
-                meal={plannerDinnerViewer}
-                className="plannerDinnerModalImage plannerDinnerModalImageCompact"
-                loading="eager"
-                fetchPriority="high"
-              />
-
-              <section className="plannerDinnerModalDetails plannerDinnerModalMenuText">
-                <h3>Main Dish:</h3>
-                <p><strong>{plannerDinnerViewer.mainDish}</strong> — {plannerDinnerViewer.mainServing}</p>
-
-                <h3>Sides:</h3>
-                <ul>
-                  {(plannerDinnerViewer.sides || []).map((side) => (
-                    <li key={`${plannerDinnerViewer.id}-${side.name}`}><strong>{side.name}</strong> — {side.serving}</li>
-                  ))}
-                </ul>
-              </section>
-            </section>
-
-            <section className="plannerDinnerModalNutrition">
-              <h3>Estimated nutrition for the whole meal:</h3>
-              <p>
-                {plannerDinnerViewer.calories || "—"} calories | {plannerDinnerViewer.protein || "—"}g protein | {plannerDinnerViewer.carbs || "—"}g carbs | {plannerDinnerViewer.fat || "—"}g fat | {plannerDinnerViewer.fiber || "—"}g fiber
-              </p>
-            </section>
-
-            <section className="plannerDinnerModalRecipeButtons" aria-label={`Recipe cards for ${plannerDinnerViewer.title}`}>
-              <h3>Recipe Cards</h3>
-              <div className="plannerDinnerModalRecipeButtonGrid">
-                {plannerDinnerRecipeButtons(plannerDinnerViewer).map((button) => {
-                  const linkedRecipe = resolvePlannerRecipe(button.recipeId);
-
-                  return (
-                    <button
-                      type="button"
-                      key={`${plannerDinnerViewer.id}-${button.type}-${button.label}`}
-                      className={linkedRecipe ? "plannerDinnerRecipeButton hasRecipeMatch" : "plannerDinnerRecipeButton missingRecipeMatch"}
-                      onClick={() => linkedRecipe && openDinnerRecipeCard(linkedRecipe.id)}
-                      disabled={!linkedRecipe}
-                      title={linkedRecipe ? `Open ${linkedRecipe.title}` : "Recipe card not linked yet"}
-                    >
-                      <span>{button.type}</span>
-                      <strong>{linkedRecipe ? `${linkedRecipe.id} · ${linkedRecipe.title}` : button.label}</strong>
-                      {!linkedRecipe && <small>Card not linked yet</small>}
-                    </button>
-                  );
-                })}
-              </div>
-            </section>
-
-            <details className="dinnerCombinationHeating" open>
-              <summary>Heating & freezer notes</summary>
-              <div>
-                <p><strong>Freezer life:</strong> {plannerDinnerViewer.freezerLife}</p>
-                <p><strong>Oven:</strong> {plannerDinnerViewer.ovenInstructions}</p>
-                <p><strong>Microwave:</strong> {plannerDinnerViewer.microwaveInstructions}</p>
-              </div>
-            </details>
-          </article>
+          ))}
         </div>
-      )}
+
+        <aside className="plannerSidePanel">
+          <section className="plannerSideCard">
+            <h2>Quick Actions</h2>
+            <button onClick={copyWeekOneToWeekTwo}>Copy Week 1 to Week 2</button>
+            <button onClick={() => clearWeek("week1")}>Clear Week 1</button>
+            <button onClick={() => clearWeek("week2")}>Clear Week 2</button>
+          </section>
+
+          <section className="plannerSideCard plannerStatCard">
+            <h2>Shopping List</h2>
+            <small>Combined for both weeks</small>
+            <strong>{totalMeals}</strong>
+            <span>planned meals</span>
+          </section>
+
+          <section className="plannerSideCard">
+            <h2>Planning Tip</h2>
+            <p className="plannerSideNote">
+              Use your two-week plan to cook once, eat once, and freeze one meal
+              for a future week.
+            </p>
+            <button onClick={() => setActivePage("Freezer Tips")}>Review Freezer Tips</button>
+            <button onClick={() => setActivePage("Grocery Picks")}>Review Smart Grocery Picks</button>
+          </section>
+        </aside>
+      </div>
     </main>
   );
 }
@@ -3756,61 +3329,9 @@ function PantryStaplesPage({ pantry, setPantry }) {
 
 
 function ShoppingListPage({ plan, checked, setChecked, servings, pantry, setActivePage }) {
-  const recipeIdSet = useMemo(() => new Set(recipes.map((recipe) => recipe.id)), []);
-  const dinnerCombinationById = useMemo(
-    () => Object.fromEntries(dinnerCombinations.map((meal) => [meal.id, meal])),
-    []
-  );
-
-  const recipeOnlyPlan = useMemo(() => {
-    const normalized = normalizeTwoWeekPlan(plan);
-    const next = emptyTwoWeekPlan();
-
-    PLANNER_SLOTS.forEach((slot) => {
-      next[slot.key] = (normalized[slot.key] || []).filter((itemId) => recipeIdSet.has(itemId));
-    });
-
-    return next;
-  }, [plan, recipeIdSet]);
-
-  const dinnerCombinationShoppingReferences = useMemo(() => {
-    const normalized = normalizeTwoWeekPlan(plan);
-    const references = [];
-
-    PLANNER_SLOTS.forEach((slot) => {
-      (normalized[slot.key] || []).forEach((itemId) => {
-        const meal = dinnerCombinationById[itemId];
-        if (!meal) return;
-
-        references.push({
-          name: `Meal #${meal.number}: ${meal.title}`,
-          qty: 1,
-          unit: "meal",
-          aisle: "Dinner Combinations",
-        });
-        references.push({
-          name: `Main: ${meal.mainDish}`,
-          qty: 1,
-          unit: meal.mainServing || "serving",
-          aisle: "Dinner Combinations",
-        });
-        (meal.sides || []).forEach((side) => {
-          references.push({
-            name: `Side: ${side.name}`,
-            qty: 1,
-            unit: side.serving || "serving",
-            aisle: "Dinner Combinations",
-          });
-        });
-      });
-    });
-
-    return references;
-  }, [plan, dinnerCombinationById]);
-
   const list = useMemo(
-    () => [...buildShoppingList(recipeOnlyPlan, recipes, servings), ...dinnerCombinationShoppingReferences],
-    [recipeOnlyPlan, servings, dinnerCombinationShoppingReferences]
+    () => buildShoppingList(plan, recipes, servings),
+    [plan, servings]
   );
 
   const { needed, pantry: pantryItems } = useMemo(
@@ -4156,8 +3677,7 @@ function FavoritesPage({
   addToPlan,
   openRecipeCard,
 }) {
-  const safeFavorites = Array.isArray(favorites) ? favorites : [];
-  const saved = recipes.filter((r) => safeFavorites.includes(r.id));
+  const saved = recipes.filter((r) => favorites.includes(r.id));
 
   return (
     <main className="pageShell">
@@ -4894,135 +4414,116 @@ function AboutRecipesPage({ setActivePage }) {
 
 function AboutPage({ setActivePage }) {
   return (
-    <main className="pageShell aboutLetterPage aboutUnifiedPage">
-      <article className="aboutLetterArticle">
-        <section className="aboutLetterIntro">
-          <div className="aiBadge">WELCOME TO OUR SITE</div>
-          <h1>Welcome to Robert’s Recipe Box</h1>
+    <main className="pageShell letterPageShell">
+      <article className="readerLetterCard">
+        <header className="readerLetterHeader">
+          <div className="readerLetterLogoBlock">
+            <img
+              className="readerLetterLogo"
+              src={`${import.meta.env.BASE_URL}images/ui/rrb-logo-wide.png`}
+              alt="Robert's Recipe Box"
+            />
+            <div className="readerLetterTagline">Plan. Cook. Eat. Freeze. Save!</div>
+          </div>
+
+          <div className="readerLetterMeta">
+            <span>Our Mission</span>
+            <span>Robert’s Recipe Box</span>
+          </div>
+        </header>
+
+        <div className="readerLetterRule" />
+
+        <section className="readerLetterBody">
+          <div className="readerLetterOrnament" aria-hidden="true">❦</div>
+          <h1>Why I Started This Page</h1>
+
+          <p className="readerGreeting">Dear Reader,</p>
+
           <p>
-            Welcome to my free recipe-card and meal-planning site. I use it every
-            week for my own meal planning, and I designed it especially for
-            seniors, couples, empty nesters, and smaller households who want
-            practical meals, useful leftovers, freezer-friendly ideas, and
-            organized grocery lists.
+            I started Robert’s Recipe Box because I know how challenging it can be
+            to plan meals that are simple, affordable, and actually
+            enjoyable—especially when you are cooking for one, two, or just a few.
           </p>
+
+          <p>
+            My wife and I had tried a few subscription meal plans, and I liked the
+            basic idea: choose a meal, have the ingredients organized, and follow
+            clear instructions. The problem was that we did not always like the
+            meals being offered. I found myself thinking that if I was going to
+            cook, I wanted to cook something we actually enjoyed.
+          </p>
+
+          <p>
+            At the same time, eating out was becoming more expensive. Even fast
+            food could add up quickly for two people once drinks, tax, delivery
+            fees, or tips were included. That made me start comparing the cost of
+            buying a meal with the cost of making a similar meal at home.
+          </p>
+
+          <p>
+            In many cases, we could prepare four servings at home for about the
+            same price—or sometimes less—than buying two restaurant or fast-food
+            meals. That meant dinner for two today and another meal for later in
+            the week or the freezer.
+          </p>
+
+          <p>
+            I created this site to help seniors, couples, empty nesters, and
+            smaller households find an easier, less stressful way to get dinner on
+            the table without wasting food or money.
+          </p>
+
+          <p>
+            Here, you will find practical meal ideas, recipe cards, copycat-style
+            meals, grocery-list help, freezer tips, and simple planning tools made
+            for the way many of us actually cook and live today.
+          </p>
+
+          <p>
+            My goal is to help you stretch your budget, make meals you genuinely
+            enjoy, prepare enough for dinner and another meal, and build a small
+            supply of freezer meals that can save time and bring peace of mind.
+          </p>
+
+          <p>
+            If this site can make your time in the kitchen simpler, your meals
+            more satisfying, and your days a little easier, then Robert’s Recipe
+            Box has done exactly what I hoped it would do.
+          </p>
+
+          <p>
+            Thank you for being here. I am glad you are part of this journey.
+          </p>
+
+          <div className="readerSignatureBlock">
+            <p>Sincerely,</p>
+            <div className="readerSignature">Robert</div>
+            <p>
+              Robert Willeby<br />
+              Robert’s Recipe Box
+            </p>
+          </div>
         </section>
 
-        <section className="aboutLetterSection">
-          <h2>Why I started this site</h2>
-          <p>
-            Robert’s Recipe Box started after my wife and I tried a few
-            subscription meal plans. I liked the basic idea: choose a meal,
-            receive the ingredients, and follow clear instructions. The problem
-            was that we did not always like the meals being offered.
-          </p>
-          <p>
-            I found myself wishing I could use that same organized approach while
-            cooking the foods we actually enjoy. At the same time, the cost of
-            eating out kept rising. Even fast food, which once felt inexpensive
-            and convenient, was becoming surprisingly expensive.
-          </p>
-        </section>
+        <div className="readerLetterRule bottom" />
 
-        <figure className="aboutLetterPhotoBreak">
-          <img
-            src={`${import.meta.env.BASE_URL}images/about/robert-pete-pool.jpg`}
-            alt="Robert with Pete"
-            loading="lazy"
-            decoding="async"
-          />
-          <figcaption>Built around real home cooking, practical planning, and everyday meals.</figcaption>
-        </figure>
-
-        <section className="aboutLetterSection">
-          <h2>What I wanted to build</h2>
-          <p>
-            I wanted a place where recipes could be organized like useful recipe
-            cards, not buried inside long articles. I wanted meals that could be
-            planned ahead, printed, saved, adjusted, and reused in a practical
-            way.
-          </p>
-          <p>
-            The goal is simple: help people plan what to cook, keep track of what
-            they like, make better grocery lists, use leftovers wisely, and freeze
-            extra portions for another day. For a smaller household, one recipe
-            can often become dinner today and another prepared meal for later.
-          </p>
-        </section>
-
-        <section className="aboutLetterSection">
-          <h2>Who this site is for</h2>
-          <p>
-            This site is especially useful for seniors, older couples, empty
-            nesters, and smaller households. Many traditional recipes make more
-            food than two people need, while cooking a completely different meal
-            every night can take too much planning, shopping, preparation, and
-            cleanup.
-          </p>
-          <p>
-            Robert’s Recipe Box is meant to offer another option. It is designed
-            for practical home cooking: familiar meals, realistic portions,
-            organized grocery lists, useful leftovers, freezer-friendly thinking,
-            and simple ways to save money where possible.
-          </p>
-        </section>
-
-        <figure className="aboutLetterPhotoBreak aboutLetterPhotoBreakRight">
-          <img
-            src={`${import.meta.env.BASE_URL}images/about/robert-pete-puppy.jpg`}
-            alt="Pete as a puppy"
-            loading="lazy"
-            decoding="async"
-          />
-          <figcaption>A personal project, built one practical idea at a time.</figcaption>
-        </figure>
-
-        <section className="aboutLetterSection">
-          <h2>How the recipes are created</h2>
-          <p>
-            I use AI assistance to generate recipe ideas and recipe-card content,
-            but the direction comes from me. I choose the meal idea, cooking
-            method, serving goal, flavor direction, practical needs, and how I
-            want the recipe to fit into the site.
-          </p>
-          <p>
-            The recipes are not copied from other websites, restaurants, brands,
-            or cookbooks. They are created as practical, AI-assisted recipe-card
-            ideas under my direction. Some may be inspired by familiar foods,
-            restaurant-style meals, or common home-cooking favorites, but the goal
-            is always to make something useful for this site.
-          </p>
-        </section>
-
-        <section className="aboutLetterSection">
-          <h2>What I hope this becomes</h2>
-          <p>
-            My hope is that Robert’s Recipe Box becomes a simple, useful place to
-            plan meals, browse ideas, save favorites, print recipe cards, build
-            grocery lists, and think ahead about leftovers and freezer meals.
-          </p>
-          <p>
-            It is not meant to be fancy. It is meant to be practical. If it helps
-            someone cook at home more often, waste less food, save a little money,
-            or feel more organized in the kitchen, then it is doing what I hoped
-            it would do.
-          </p>
-        </section>
-
-        <section className="aboutLetterClosing">
-          <p>
-            Thank you for visiting Robert’s Recipe Box. I hope you find something
-            here that makes planning, cooking, shopping, and saving meals a little
-            easier.
-          </p>
-          <p className="aboutLetterSignature">
-            Robert
-          </p>
-        </section>
+        <footer className="readerLetterActions">
+          <button className="primary" onClick={() => setActivePage("Recipes")}>
+            Browse Recipes
+          </button>
+          <button className="secondary" onClick={() => setActivePage("How To Use")}>
+            How to Use This Site
+          </button>
+          <button className="secondary" onClick={() => setActivePage("About Recipes")}>
+            About the Recipes
+          </button>
+        </footer>
       </article>
     </main>
   );
 }
+
 
 
 function AboutSmokingPage({ setActivePage }) {
@@ -5131,332 +4632,18 @@ function PlaceholderInfoPage({ eyebrow, title, text, setActivePage }) {
 }
 
 
-
-function getPageHelpSteps(pageTitle = "", pageEyebrow = "") {
-  const normalizedTitle = String(pageTitle).trim();
-  const normalizedEyebrow = String(pageEyebrow).trim();
-
-  const specificSteps = {
-    "Dinner Combinations": [
-      {
-        label: "Search Meals",
-        text: "Use the search box to find a dinner by meal title, main dish, side dish, or ingredient idea.",
-      },
-      {
-        label: "Use Filters",
-        text: "Filter the list by protein type, side type, lower-calorie meals, or higher-protein meals to narrow the choices.",
-      },
-      {
-        label: "View Recipes",
-        text: "Use the recipe buttons on each card to jump to matching recipe cards for the main dish or sides.",
-      },
-      {
-        label: "Check Nutrition",
-        text: "Review the estimated nutrition row to compare calories, protein, carbs, fat, and fiber before planning.",
-      },
-      {
-        label: "Plan Ahead",
-        text: "Use the meal combinations as dinner ideas, freezer-meal inspiration, or starting points for your weekly meal plan.",
-      },
-    ],
-    "Reference Guides": [
-      {
-        label: "Pick a Guide",
-        text: "Choose a topic from the guide list to open the matching reference information on the right.",
-      },
-      {
-        label: "Use Tabs",
-        text: "Some guides include internal tabs so you can switch between categories such as volume, weight, metric, or butter.",
-      },
-      {
-        label: "Read Tables",
-        text: "The main tables are shown first and use the full panel width so measurements and details are easier to scan.",
-      },
-      {
-        label: "Check Notes",
-        text: "Tips and notes appear below the main tables so extra guidance is available without crowding the core information.",
-      },
-      {
-        label: "Print Later",
-        text: "Use the print option when you want a paper copy for the kitchen. Download and full-page options can be added later.",
-      },
-    ],
-    "Boring Disclaimer Stuff": [
-      {
-        label: "Open Topics",
-        text: "Select any numbered policy topic to expand that section and read the related details.",
-      },
-      {
-        label: "Scan Headings",
-        text: "Each topic is organized into numbered sub-sections so you can quickly find the policy area you need.",
-      },
-      {
-        label: "Read Summary",
-        text: "The first paragraph gives the practical explanation in plain language before the more formal policy text.",
-      },
-      {
-        label: "Review Details",
-        text: "Formal policy language follows each summary when you need the complete explanation.",
-      },
-      {
-        label: "Check Updates",
-        text: "Review the effective date and revisit the page when policies, features, affiliate links, or privacy practices change.",
-      },
-    ],
-    "Policies, Disclaimers & Legal Information": [
-      {
-        label: "Open Topics",
-        text: "Select any numbered policy topic to expand that section and read the related details.",
-      },
-      {
-        label: "Scan Headings",
-        text: "Each topic is organized into numbered sub-sections so you can quickly find the policy area you need.",
-      },
-      {
-        label: "Read Summary",
-        text: "The first paragraph gives the practical explanation in plain language before the more formal policy text.",
-      },
-      {
-        label: "Review Details",
-        text: "Formal policy language follows each summary when you need the complete explanation.",
-      },
-      {
-        label: "Check Updates",
-        text: "Review the effective date and revisit the page when policies, features, affiliate links, or privacy practices change.",
-      },
-    ],
-    "Browse Our Library": [
-      {
-        label: "Search",
-        text: "Use search to look for recipe names, ingredients, cooking methods, or meal ideas.",
-      },
-      {
-        label: "Filter",
-        text: "Use category and page controls to narrow the recipe library to the kind of food you want.",
-      },
-      {
-        label: "Open Cards",
-        text: "Select a recipe card to view the full card, print it, download it, or review the details.",
-      },
-      {
-        label: "Save Favorites",
-        text: "Save recipes you like so they are easier to find later in your Favorites page.",
-      },
-      {
-        label: "Plan Meals",
-        text: "Use recipes from the library as building blocks for your weekly meal plan and grocery list.",
-      },
-    ],
-  };
-
-  if (specificSteps[normalizedTitle]) return specificSteps[normalizedTitle];
-
-  if (normalizedEyebrow === "COOKING METHODS") {
-    return [
-      {
-        label: "Start Here",
-        text: `Use this page to find ideas built around ${normalizedTitle.toLowerCase()} and the equipment you already use.`,
-      },
-      {
-        label: "Review Tips",
-        text: "Watch for cooking notes about timing, temperature, setup, cleanup, and practical adjustments.",
-      },
-      {
-        label: "Pick Recipes",
-        text: "Choose meals that match your available time, ingredients, portion needs, and comfort level.",
-      },
-      {
-        label: "Adjust Safely",
-        text: "Appliances vary, so check doneness, use safe temperatures, and follow the manufacturer’s instructions.",
-      },
-      {
-        label: "Save Ideas",
-        text: "Save useful recipes or tips so you can return to them when planning future meals.",
-      },
-    ];
-  }
-
-  if (normalizedEyebrow === "COLLECTIONS") {
-    return [
-      {
-        label: "Browse Ideas",
-        text: `Use this collection to quickly find ${normalizedTitle.toLowerCase()} ideas without searching the entire recipe library.`,
-      },
-      {
-        label: "Compare Meals",
-        text: "Review the meal style, sides, portions, and practical notes to decide what fits your household.",
-      },
-      {
-        label: "Open Recipes",
-        text: "Use recipe links or buttons to view the matching recipe cards when they are available.",
-      },
-      {
-        label: "Plan Ahead",
-        text: "Add promising meals to your planning routine, freezer-prep list, or upcoming grocery trip.",
-      },
-      {
-        label: "Customize",
-        text: "Treat each collection as a starting point and adjust ingredients, sides, or portions to fit your needs.",
-      },
-    ];
-  }
-
-  if (normalizedEyebrow === "PLANNING") {
-    return [
-      {
-        label: "Review",
-        text: "Start by reviewing the items, recipes, meals, or lists already shown on this page.",
-      },
-      {
-        label: "Organize",
-        text: "Use the page tools to keep your pantry, favorites, meal plans, or grocery list easier to manage.",
-      },
-      {
-        label: "Update",
-        text: "Add, remove, check off, or adjust items as your cooking plans change.",
-      },
-      {
-        label: "Plan Meals",
-        text: "Use the saved information to reduce last-minute decisions and make shopping easier.",
-      },
-      {
-        label: "Browser Only",
-        text: "Saved planning information is stored in this browser only and is not automatically shared between devices.",
-      },
-    ];
-  }
-
-  if (normalizedEyebrow === "TIPS & ORGANIZATION") {
-    return [
-      {
-        label: "Choose Topic",
-        text: "Use this page to focus on one helpful cooking, reference, product, or organization topic.",
-      },
-      {
-        label: "Read First",
-        text: "Start with the page introduction so you know what kind of help the page is designed to provide.",
-      },
-      {
-        label: "Apply Tips",
-        text: "Use the practical tips as guidance and adjust them to your kitchen, equipment, and cooking routine.",
-      },
-      {
-        label: "Save Time",
-        text: "Look for ideas that simplify prep, storage, cleanup, shopping, or repeated cooking tasks.",
-      },
-      {
-        label: "Check Details",
-        text: "Review safety, product, and policy notes when the page includes recommendations or outside links.",
-      },
-    ];
-  }
-
-  return [
-    {
-      label: "Read Intro",
-      text: "Start with the page headline and short introduction to understand what this page is designed to help you do.",
-    },
-    {
-      label: "Explore",
-      text: "Review the cards, lists, links, tools, or sections on the page and choose the option that fits your need.",
-    },
-    {
-      label: "Use Buttons",
-      text: "When buttons or controls are available, use them to open recipes, filter results, print, download, or move to the next step.",
-    },
-    {
-      label: "Save Time",
-      text: "Use the page as a practical shortcut for planning meals, organizing recipes, or finding helpful kitchen information.",
-    },
-    {
-      label: "Check Notes",
-      text: "Review any notes, estimates, disclaimers, or safety reminders before relying on the information.",
-    },
-  ];
-}
-
-function PageHelpButtonStrip({ pageTitle, pageEyebrow }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const steps = getPageHelpSteps(pageTitle, pageEyebrow).slice(0, 4);
-
-  if (!pageTitle || !steps?.length) return null;
-
-  return (
-    <section className="pageHelpStrip pageNotesStrip" aria-label={`Page notes for ${pageTitle}`}>
-      <div className="pageHelpItem pageNotesItem">
-        <button
-          type="button"
-          className={`pageHelpButton pageNotesButton${isOpen ? " active" : ""}`}
-          onClick={() => setIsOpen((current) => !current)}
-          aria-expanded={isOpen}
-        >
-          <span className="pageHelpNumber pageNotesQuestion">?</span>
-          <span>Page Notes</span>
-        </button>
-
-        {isOpen && (
-          <div className="pageHelpPopup pageNotesPopup" role="dialog" aria-label="How to best use this page">
-            <button
-              type="button"
-              className="pageHelpClose"
-              onClick={() => setIsOpen(false)}
-              aria-label="Close page notes"
-            >
-              ×
-            </button>
-            <h3>How to best use this page</h3>
-            <ul>
-              {steps.map((step) => (
-                <li key={`${pageTitle}-${step.label}`}>{step.text}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </div>
-    </section>
-  );
-}
-
-
-function PageHeroImage({ src, alt = "", title = "", eyebrow = "", text = "", icon = "", className = "" }) {
+function PageHeroImage({ src, alt = "" }) {
   if (!src) return null;
 
   return (
-    <>
-      <section className={`pageTopHeroImage${title ? " hasHeroText" : ""}${className ? ` ${className}` : ""}`}>
+    <section className="pageTopHeroImage">
       <img
-        key={src}
-        src={assetUrl(src)}
+        src={`${import.meta.env.BASE_URL}${src}`}
         alt={alt}
         loading="eager"
         decoding="async"
-        fetchPriority="high"
-        data-page-hero-image="true"
       />
-      {title && (
-        <div className="pageHeroTextOverlay">
-          {eyebrow && <div className="pageHeroEyebrow">{eyebrow}</div>}
-          <h1>
-            {icon && <span className="pageHeroIcon" aria-hidden="true">{icon}</span>}
-            {title}
-          </h1>
-          {text && (
-            <div className="pageHeroIntroText">
-              {String(text)
-                .replace(/\\\\n/g, "\\n")
-                .replace(/\\n/g, "\n")
-                .split(/\n\s*\n/)
-                .filter((paragraph) => paragraph.trim().length > 0)
-                .map((paragraph, index) => (
-                  <p key={index}>{paragraph.trim()}</p>
-                ))}
-            </div>
-          )}
-        </div>
-      )}
-        {title && <PageHelpButtonStrip pageTitle={title} pageEyebrow={eyebrow} />}
-      </section>
-    </>
+    </section>
   );
 }
 
@@ -5471,1886 +4658,155 @@ function HeroTopicPage({
   primaryLabel = "Browse Recipes",
   secondaryPage = "How To Use",
   secondaryLabel = "How to Use This Site",
-  heroClassName = "pageHeroDepth464",
 }) {
   return (
-    <>
-      <PageHeroImage
-        src={heroImage}
-        alt={heroAlt}
-        eyebrow={eyebrow}
-        title={title}
-        text={text}
-        className={heroClassName}
-      />
+    <main className="pageShell aboutRecipesPage heroTopicPage">
+      <PageHeroImage src={heroImage} alt={heroAlt} />
 
-      <main className="pageShell aboutRecipesPage heroTopicPage">
-        <section className="aboutRecipesHero heroTopicIntro">
-          <div>
-            <div className="aiBadge">{eyebrow}</div>
-            <h1>{title}</h1>
-            <p>{text}</p>
-          </div>
-        </section>
-
-        <div className="aboutRecipesActions">
-          <button className="primary" onClick={() => setActivePage(primaryPage)}>
-            {primaryLabel}
-          </button>
-          <button className="secondary" onClick={() => setActivePage(secondaryPage)}>
-            {secondaryLabel}
-          </button>
-        </div>
-      </main>
-    </>
-  );
-}
-
-
-
-
-function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard }) {
-  const [activeRecipePopup, setActiveRecipePopup] = useState(null);
-  const [selectedPlannerDay, setSelectedPlannerDay] = useState("week1-Mon");
-  const [addedMessage, setAddedMessage] = useState("");
-  const [mealImageIndex, setMealImageIndex] = useState(0);
-  const [mealImageFailed, setMealImageFailed] = useState(false);
-
-  const paddedMealNumber = String(meal.number).padStart(3, "0");
-  const mealImageCandidates = dinnerMealImageCandidates(meal);
-
-  const activeMealImage = mealImageFailed ? "" : (mealImageCandidates[mealImageIndex] || mealImageCandidates[0]);
-
-  const recipeButtons = [
-    { label: meal.mainDish, type: "Main Dish", recipeId: meal.mainRecipeId },
-    ...(meal.sides || []).map((side) => ({
-      label: side.name,
-      type: "Side Dish",
-      recipeId: side.recipeId,
-    })),
-  ];
-
-  function nutritionValue(value, suffix = "") {
-    if (value === null || value === undefined || value === "") return "—";
-    return `${value}${suffix}`;
-  }
-
-  function addThisMealToPlan() {
-    onAddMealToPlan(meal.id, selectedPlannerDay);
-    setAddedMessage(`Added to ${plannerSlotLabel(selectedPlannerDay)}.`);
-    window.setTimeout(() => setAddedMessage(""), 2600);
-  }
-
-  function findLinkedRecipe(recipeId) {
-    if (!recipeId) return null;
-    return recipes.find((recipe) => recipe.id === recipeId) || null;
-  }
-
-  function handleRecipeButton(button) {
-    setActiveRecipePopup((current) => (current === button.label ? null : button.label));
-  }
-
-  function handleMealImageError() {
-    setMealImageIndex((current) => {
-      const next = current + 1;
-      if (next < mealImageCandidates.length) return next;
-      setMealImageFailed(true);
-      return current;
-    });
-  }
-
-  return (
-    <article className={`dinnerCombinationCard${activeMealImage ? " hasMealImage" : ""}`}>
-      <div className="dinnerCombinationMealBadge">Meal #{meal.number}</div>
-
-      <div className="dinnerCombinationHeader">
-        <div className="dinnerCombinationMedia">
-          {activeMealImage ? (
-            <img
-              src={`${import.meta.env.BASE_URL}${activeMealImage}`}
-              alt={`${meal.title} dinner combination with ${meal.subtitle.replace(/^With\s+/i, "")}`}
-              loading="eager"
-              decoding="async"
-              fetchPriority="high"
-              onError={handleMealImageError}
-            />
-          ) : (
-            <div className="dinnerCombinationImagePlaceholder">
-              <span>Meal #{meal.number}</span>
-              <small>Image file not found</small>
-            </div>
-          )}
-        </div>
-
-        <div className="dinnerCombinationTitleBlock">
-          <h3>{meal.title}</h3>
-          <p className="dinnerCombinationSubtitle">{meal.subtitle}</p>
-        </div>
-      </div>
-
-      <div className="dinnerCombinationDetails">
-        <section>
-          <h4>Main Dish:</h4>
-          <p>
-            <strong>{meal.mainDish}</strong>
-            <span> — {meal.mainServing}</span>
-          </p>
-        </section>
-
-        <section>
-          <h4>Sides:</h4>
-          <ul>
-            {(meal.sides || []).map((side) => (
-              <li key={`${meal.id}-${side.name}`}>
-                <strong>{side.name}</strong>
-                <span> — {side.serving}</span>
-              </li>
-            ))}
-          </ul>
-        </section>
-      </div>
-
-      <div className="dinnerCombinationNutritionLabel">Estimated nutrition for the whole meal</div>
-      <div className="dinnerCombinationNutrition" aria-label={`Estimated whole meal nutrition for ${meal.title}`}>
-        <span><strong>{nutritionValue(meal.calories)}</strong><small>calories</small></span>
-        <span><strong>{nutritionValue(meal.protein, "g")}</strong><small>protein</small></span>
-        <span><strong>{nutritionValue(meal.carbs, "g")}</strong><small>carbs</small></span>
-        <span><strong>{nutritionValue(meal.fat, "g")}</strong><small>fat</small></span>
-        <span><strong>{nutritionValue(meal.fiber, "g")}</strong><small>fiber</small></span>
-      </div>
-
-      <section className="dinnerCombinationRecipeButtons" aria-label={`Recipe card buttons for ${meal.title}`}>
-        <h4>Recipe Cards</h4>
-        <div className="dinnerCombinationRecipeButtonGrid">
-          {recipeButtons.map((button) => {
-            const linkedRecipe = findLinkedRecipe(button.recipeId);
-            const hasRecipeMatch = Boolean(linkedRecipe);
-            const isOpen = activeRecipePopup === button.label;
-
-            return (
-              <div className="dinnerRecipePopupItem" key={`${meal.id}-${button.type}-${button.label}`}>
-                <button
-                  type="button"
-                  className={hasRecipeMatch ? "hasRecipeMatch" : "missingRecipeMatch"}
-                  onClick={() => handleRecipeButton(button)}
-                  title={hasRecipeMatch ? `Preview ${linkedRecipe.title}` : "Recipe card not linked yet"}
-                >
-                  <span>{button.type}</span>
-                  {button.label}
-                </button>
-
-                {isOpen && (
-                  <div className="dinnerRecipeMiniPopup" role="dialog" aria-label={`${button.label} recipe card preview`}>
-                    <button
-                      type="button"
-                      className="dinnerRecipeMiniClose"
-                      onClick={() => setActiveRecipePopup(null)}
-                      aria-label="Close recipe card preview"
-                    >
-                      ×
-                    </button>
-
-                    {hasRecipeMatch ? (
-                      <>
-                        <h5>{linkedRecipe.title}</h5>
-                        <p>
-                          <strong>{linkedRecipe.id}</strong>
-                          {linkedRecipe.category ? ` · ${linkedRecipe.category}` : ""}
-                          {linkedRecipe.time ? ` · ${linkedRecipe.time} minutes` : ""}
-                        </p>
-                        <p>
-                          This item is linked to an existing recipe card in the library.
-                        </p>
-                        <button
-                          type="button"
-                          className="dinnerRecipeOpenFullButton"
-                          onClick={() => {
-                            setActiveRecipePopup(null);
-                            openRecipeCard(linkedRecipe.id, recipes);
-                          }}
-                        >
-                          Open Full Recipe Card
-                        </button>
-                      </>
-                    ) : (
-                      <>
-                        <h5>{button.label}</h5>
-                        <p>
-                          A matching recipe card is not linked yet. Add a valid recipeId for this item in dinnerCombinations.js when the card is available.
-                        </p>
-                      </>
-                    )}
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
-      </section>
-
-      <section className="dinnerCombinationPlannerAdd" aria-label={`Add ${meal.title} to meal plan`}>
-        <label>
-          <span>Add meal to plan day</span>
-          <select value={selectedPlannerDay} onChange={(event) => setSelectedPlannerDay(event.target.value)}>
-            {PLANNER_WEEKS.map((week) => (
-              <optgroup key={week.id} label={week.title}>
-                {WEEK_DAYS.map((day) => (
-                  <option key={`${week.id}-${day}`} value={`${week.id}-${day}`}>
-                    {week.title} — {day}
-                  </option>
-                ))}
-              </optgroup>
-            ))}
-          </select>
-        </label>
-        <button type="button" onClick={addThisMealToPlan}>Add Meal</button>
-        {addedMessage && <p className="dinnerCombinationAddedMessage">{addedMessage}</p>}
-      </section>
-
-      <details className="dinnerCombinationHeating">
-        <summary>Heating & freezer notes</summary>
+      <section className="aboutRecipesHero heroTopicIntro">
         <div>
-          <p><strong>Freezer life:</strong> {meal.freezerLife}</p>
-          <p><strong>Oven:</strong> {meal.ovenInstructions}</p>
-          <p><strong>Microwave:</strong> {meal.microwaveInstructions}</p>
+          <div className="aiBadge">{eyebrow}</div>
+          <h1>{title}</h1>
+          <p>{text}</p>
         </div>
-      </details>
-    </article>
-  );
-}
-
-function DinnerCombinationsPage({ setActivePage, setFilter, setPlan, openRecipeCard }) {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [proteinFilter, setProteinFilter] = useState("all");
-  const [sideFilter, setSideFilter] = useState("all");
-  const [lowerCalorieOnly, setLowerCalorieOnly] = useState(false);
-  const [higherProteinOnly, setHigherProteinOnly] = useState(false);
-  const [sortMode, setSortMode] = useState("meal-number");
-
-  const filteredMeals = useMemo(() => {
-    const normalizedSearch = searchTerm.trim().toLowerCase();
-
-    return dinnerCombinations
-      .filter((meal) => !normalizedSearch || getDinnerCombinationSearchText(meal).includes(normalizedSearch))
-      .filter((meal) => proteinFilter === "all" || (meal.tags || []).includes(proteinFilter))
-      .filter((meal) => sideFilter === "all" || (meal.tags || []).includes(sideFilter))
-      .filter((meal) => !lowerCalorieOnly || Number(meal.calories) < 600)
-      .filter((meal) => !higherProteinOnly || Number(meal.protein) >= 30)
-      .sort((a, b) => {
-        if (sortMode === "calories-low") return Number(a.calories) - Number(b.calories);
-        if (sortMode === "protein-high") return Number(b.protein) - Number(a.protein);
-        if (sortMode === "title") return a.title.localeCompare(b.title);
-        return Number(a.number) - Number(b.number);
-      });
-  }, [higherProteinOnly, lowerCalorieOnly, proteinFilter, searchTerm, sideFilter, sortMode]);
-
-  function clearDinnerCombinationFilters() {
-    setSearchTerm("");
-    setProteinFilter("all");
-    setSideFilter("all");
-    setLowerCalorieOnly(false);
-    setHigherProteinOnly(false);
-    setSortMode("meal-number");
-  }
-
-  function openRecipeSearch(recipeName) {
-    setFilter(recipeName);
-    setActivePage("Recipes");
-  }
-
-  function addDinnerMealToPlan(mealId, slotKey) {
-    if (!mealId || !slotKey) return;
-
-    setPlan((current) => {
-      const next = normalizeTwoWeekPlan(current);
-      next[slotKey] = [...(next[slotKey] || []), mealId];
-      return next;
-    });
-  }
-
-  return (
-    <main className="pageShell dinnerCombinationsPage">
-<section className="dinnerCombinationControls" aria-label="Dinner combination filters">
-        <label className="dinnerCombinationSearch">
-          <span>Search meals</span>
-          <input
-            type="search"
-            value={searchTerm}
-            onChange={(event) => setSearchTerm(event.target.value)}
-            placeholder="Search meals, main dishes, or sides…"
-          />
-        </label>
-
-        <label>
-          <span>Protein</span>
-          <select value={proteinFilter} onChange={(event) => setProteinFilter(event.target.value)}>
-            <option value="all">All Proteins</option>
-            {DINNER_PROTEIN_FILTERS.map((filter) => (
-              <option key={filter} value={filter}>
-                {filter.charAt(0).toUpperCase() + filter.slice(1)}
-              </option>
-            ))}
-          </select>
-        </label>
-
-        <label>
-          <span>Side Type</span>
-          <select value={sideFilter} onChange={(event) => setSideFilter(event.target.value)}>
-            <option value="all">All Side Types</option>
-            {DINNER_SIDE_FILTERS.map((filter) => (
-              <option key={filter} value={filter}>
-                {filter.charAt(0).toUpperCase() + filter.slice(1)}
-              </option>
-            ))}
-          </select>
-        </label>
-
-        <div className="dinnerCombinationChecks">
-          <label>
-            <input
-              type="checkbox"
-              checked={lowerCalorieOnly}
-              onChange={(event) => setLowerCalorieOnly(event.target.checked)}
-            />
-            Under 600 Calories
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              checked={higherProteinOnly}
-              onChange={(event) => setHigherProteinOnly(event.target.checked)}
-            />
-            30g+ Protein
-          </label>
-        </div>
-
-        <label>
-          <span>Sort</span>
-          <select value={sortMode} onChange={(event) => setSortMode(event.target.value)}>
-            <option value="meal-number">Meal Number</option>
-            <option value="title">Title</option>
-            <option value="calories-low">Lowest Calories</option>
-            <option value="protein-high">Highest Protein</option>
-          </select>
-        </label>
-
-        <button type="button" onClick={clearDinnerCombinationFilters}>Clear</button>
       </section>
 
-      <div className="dinnerCombinationResultsBar">
-        <strong>{filteredMeals.length}</strong>
-        <span>{filteredMeals.length === 1 ? "meal combination" : "meal combinations"} shown</span>
+      <div className="aboutRecipesActions">
+        <button className="primary" onClick={() => setActivePage(primaryPage)}>
+          {primaryLabel}
+        </button>
+        <button className="secondary" onClick={() => setActivePage(secondaryPage)}>
+          {secondaryLabel}
+        </button>
       </div>
-
-      {filteredMeals.length > 0 ? (
-        <section className="dinnerCombinationGrid" aria-label="Dinner combination results">
-          {filteredMeals.map((meal) => (
-            <DinnerCombinationCard key={meal.id} meal={meal} onAddMealToPlan={addDinnerMealToPlan} openRecipeCard={openRecipeCard} />
-          ))}
-        </section>
-      ) : (
-        <section className="dinnerCombinationEmpty">
-          <h2>No dinner combinations found</h2>
-          <p>Try clearing a filter or searching for a different main dish or side dish.</p>
-        </section>
-      )}
     </main>
   );
 }
 
 
 
-const REFERENCE_GUIDES = [
-  {
-    id: "weights-measures",
-    title: "Weights & Measures",
-    icon: "scale",
-    description:
-      "Quick reference for common kitchen measurements, conversions, and equivalents.",
-    lastUpdated: "July 17, 2026",
-    tabs: [
-      {
-        id: "volume",
-        label: "Volume",
-        sections: [
-          {
-            type: "table",
-            title: "Volume Equivalents",
-            columns: ["Measurement", "Equivalent", "Metric"],
-            rows: [
-              ["1 tablespoon", "3 teaspoons", "15 ml"],
-              ["1/8 cup", "2 tablespoons", "30 ml"],
-              ["1/4 cup", "4 tablespoons", "60 ml"],
-              ["1/3 cup", "5 tablespoons + 1 teaspoon", "80 ml"],
-              ["1/2 cup", "8 tablespoons", "120 ml"],
-              ["2/3 cup", "10 tablespoons + 2 teaspoons", "160 ml"],
-              ["3/4 cup", "12 tablespoons", "180 ml"],
-              ["1 cup", "16 tablespoons", "240 ml"],
-            ],
-          },
-          {
-            type: "table",
-            title: "Liquid Equivalents",
-            columns: ["Measurement", "Fluid Ounces", "Metric"],
-            rows: [
-              ["1 cup", "8 fl oz", "240 ml"],
-              ["1 pint", "16 fl oz", "480 ml"],
-              ["1 quart", "32 fl oz", "960 ml"],
-              ["1/2 gallon", "64 fl oz", "1.9 L"],
-              ["1 gallon", "128 fl oz", "3.8 L"],
-            ],
-          },
-          {
-            type: "tips",
-            title: "Quick Kitchen Equivalents",
-            items: [
-              "1 pinch is a small amount held between thumb and forefinger.",
-              "1 dash is generally about 1/8 teaspoon.",
-              "1 stick of butter equals 1/2 cup or 8 tablespoons.",
-              "1 cup of shredded cheese is about 4 ounces.",
-              "1 cup of all-purpose flour is about 120 grams when spooned and leveled.",
-            ],
-          },
-        ],
-      },
-      {
-        id: "weight",
-        label: "Weight",
-        sections: [
-          {
-            type: "table",
-            title: "Common U.S. Weights",
-            columns: ["Weight", "Ounces", "Grams"],
-            rows: [
-              ["1/4 pound", "4 oz", "113 g"],
-              ["1/2 pound", "8 oz", "227 g"],
-              ["3/4 pound", "12 oz", "340 g"],
-              ["1 pound", "16 oz", "454 g"],
-              ["1 1/2 pounds", "24 oz", "680 g"],
-              ["2 pounds", "32 oz", "907 g"],
-            ],
-          },
-          {
-            type: "info",
-            title: "Measuring Dry Ingredients",
-            text:
-              "For flour and similar dry ingredients, spoon the ingredient into the measuring cup and level it with a straight edge. Scooping directly from the bag can pack the ingredient and increase the amount.",
-          },
-        ],
-      },
-      {
-        id: "metric",
-        label: "Metric",
-        sections: [
-          {
-            type: "table",
-            title: "Common Metric Conversions",
-            columns: ["U.S. Measure", "Metric Approximation", "Notes"],
-            rows: [
-              ["1 teaspoon", "5 ml", "Liquid volume"],
-              ["1 tablespoon", "15 ml", "Liquid volume"],
-              ["1 cup", "240 ml", "Liquid volume"],
-              ["1 ounce", "28 g", "Weight"],
-              ["1 pound", "454 g", "Weight"],
-              ["350°F", "177°C", "Often rounded to 175°C"],
-            ],
-          },
-        ],
-      },
-      {
-        id: "butter",
-        label: "Butter",
-        sections: [
-          {
-            type: "table",
-            title: "Butter Equivalents",
-            columns: ["Butter", "Tablespoons", "Cups"],
-            rows: [
-              ["1/2 stick", "4 tablespoons", "1/4 cup"],
-              ["1 stick", "8 tablespoons", "1/2 cup"],
-              ["2 sticks", "16 tablespoons", "1 cup"],
-              ["4 sticks", "32 tablespoons", "2 cups"],
-            ],
-          },
-        ],
-      },
-      {
-        id: "liquid",
-        label: "Liquid Measurements",
-        sections: [
-          {
-            type: "table",
-            title: "Cup, Pint, Quart & Gallon",
-            columns: ["Measurement", "Equivalent", "Metric Approximation"],
-            rows: [
-              ["2 cups", "1 pint", "480 ml"],
-              ["4 cups", "1 quart", "960 ml"],
-              ["2 quarts", "1/2 gallon", "1.9 L"],
-              ["4 quarts", "1 gallon", "3.8 L"],
-            ],
-          },
-        ],
-      },
-    ],
-  },
-  {
-    id: "cooking-temperatures",
-    title: "Cooking Temperatures",
-    icon: "thermometer",
-    description:
-      "Safe minimum internal temperatures and common doneness reminders for everyday cooking.",
-    lastUpdated: "July 17, 2026",
-    sections: [
-      {
-        type: "table",
-        title: "Safe Minimum Internal Temperatures",
-        columns: ["Food", "Temperature", "Notes"],
-        rows: [
-          ["Poultry", "165°F", "Chicken, turkey, casseroles with poultry"],
-          ["Ground meats", "160°F", "Beef, pork, veal, lamb"],
-          ["Seafood", "145°F", "Fish should be opaque and flake easily"],
-          ["Whole cuts of beef, pork, veal, lamb", "145°F + rest", "Rest at least 3 minutes"],
-          ["Egg dishes", "160°F", "Includes casseroles and custards"],
-          ["Leftovers", "165°F", "Reheat thoroughly"],
-        ],
-      },
-      {
-        type: "tips",
-        title: "Temperature Tips",
-        items: [
-          "Use an instant-read thermometer for the most reliable results.",
-          "Check the thickest part of the food and avoid touching bone or the pan.",
-          "Carryover cooking can raise the temperature slightly after food is removed from heat.",
-        ],
-      },
-    ],
-  },
-  {
-    id: "oven-conversions",
-    title: "Oven Conversions",
-    icon: "oven",
-    description:
-      "Common oven temperature conversions and practical notes for baking and roasting.",
-    lastUpdated: "July 17, 2026",
-    sections: [
-      {
-        type: "table",
-        title: "Fahrenheit to Celsius",
-        columns: ["Fahrenheit", "Celsius", "Common Use"],
-        rows: [
-          ["250°F", "120°C", "Low and slow"],
-          ["300°F", "150°C", "Gentle baking"],
-          ["325°F", "165°C", "Casseroles, cakes"],
-          ["350°F", "175°C", "General baking"],
-          ["375°F", "190°C", "Roasting, cookies"],
-          ["400°F", "205°C", "Roasting vegetables"],
-          ["425°F", "220°C", "High roasting"],
-          ["450°F", "230°C", "Pizza, quick browning"],
-        ],
-      },
-      {
-        type: "info",
-        title: "Convection Note",
-        text:
-          "For convection baking, many recipes work best when the temperature is reduced by about 25°F, but always follow your oven manual and watch food closely the first time.",
-      },
-    ],
-  },
-  {
-    id: "pan-sizes",
-    title: "Pan & Baking Dish Sizes",
-    icon: "pan",
-    description:
-      "Common pan sizes, approximate capacity, and practical substitution reminders.",
-    lastUpdated: "July 17, 2026",
-    sections: [
-      {
-        type: "table",
-        title: "Common Baking Dish Sizes",
-        columns: ["Pan or Dish", "Approx. Capacity", "Common Uses"],
-        rows: [
-          ["8 × 8 inch square", "2 quarts", "Brownies, small casseroles"],
-          ["9 × 9 inch square", "2.5 quarts", "Bars, small bakes"],
-          ["9 × 13 inch baking dish", "3 quarts", "Casseroles, sheet cakes"],
-          ["9 inch pie plate", "4 cups", "Pies, quiche"],
-          ["Loaf pan", "6 to 8 cups", "Quick breads, meatloaf"],
-          ["12-cup muffin pan", "Standard", "Muffins, cupcakes"],
-        ],
-      },
-      {
-        type: "tips",
-        title: "Pan Substitution Tips",
-        items: [
-          "Changing pan size can change baking time and thickness.",
-          "A shallower pan usually bakes faster; a deeper pan may need more time.",
-          "Avoid filling pans more than about two-thirds full unless the recipe says otherwise.",
-        ],
-      },
-    ],
-  },
-  {
-    id: "ingredient-weights",
-    title: "Ingredient Weights",
-    icon: "weight",
-    description:
-      "Approximate weights for common ingredients used in everyday home cooking.",
-    lastUpdated: "July 17, 2026",
-    sections: [
-      {
-        type: "table",
-        title: "Approximate Ingredient Weights",
-        columns: ["Ingredient", "Common Measure", "Approx. Weight"],
-        rows: [
-          ["All-purpose flour", "1 cup", "120 g"],
-          ["Granulated sugar", "1 cup", "200 g"],
-          ["Brown sugar, packed", "1 cup", "213 g"],
-          ["Powdered sugar", "1 cup", "120 g"],
-          ["Butter", "1 tablespoon", "14 g"],
-          ["Shredded cheddar", "1 cup", "113 g"],
-          ["Rice, uncooked", "1 cup", "185 g"],
-          ["Rolled oats", "1 cup", "90 g"],
-        ],
-      },
-      {
-        type: "info",
-        title: "Accuracy Note",
-        text:
-          "Ingredient weights can vary by brand, humidity, grind, and how the ingredient is measured. A kitchen scale gives the most consistent results.",
-      },
-    ],
-  },
-  {
-    id: "refrigerator-freezer",
-    title: "Refrigerator & Freezer Guide",
-    icon: "snowflake",
-    description:
-      "Practical storage-time reminders for refrigerated and frozen foods.",
-    lastUpdated: "July 17, 2026",
-    sections: [
-      {
-        type: "table",
-        title: "Refrigerator Storage",
-        columns: ["Food", "Typical Storage Time", "Notes"],
-        rows: [
-          ["Cooked leftovers", "3 to 4 days", "Store promptly in shallow containers"],
-          ["Cooked poultry", "3 to 4 days", "Keep covered and chilled"],
-          ["Raw ground meat", "1 to 2 days", "Cook or freeze soon"],
-          ["Raw poultry", "1 to 2 days", "Keep sealed on a lower shelf"],
-          ["Soups and stews", "3 to 4 days", "Cool quickly before storing"],
-        ],
-      },
-      {
-        type: "table",
-        title: "Freezer Storage",
-        columns: ["Food", "Best Quality Time", "Notes"],
-        rows: [
-          ["Cooked meals", "2 to 3 months", "Wrap well and label"],
-          ["Raw ground meat", "3 to 4 months", "Freeze flat when possible"],
-          ["Raw poultry pieces", "9 months", "Use freezer-safe packaging"],
-          ["Soups and stews", "2 to 3 months", "Leave headspace for expansion"],
-          ["Breads and rolls", "2 to 3 months", "Wrap tightly"],
-        ],
-      },
-    ],
-  },
-  {
-    id: "serving-portions",
-    title: "Serving & Portion Guide",
-    icon: "plate",
-    description:
-      "Simple portion estimates for planning meals, leftovers, and grocery quantities.",
-    lastUpdated: "July 17, 2026",
-    sections: [
-      {
-        type: "table",
-        title: "General Serving Estimates",
-        columns: ["Food", "Typical Serving", "Planning Note"],
-        rows: [
-          ["Boneless meat or poultry", "4 to 6 oz cooked", "Allow more for hearty appetites"],
-          ["Fish fillet", "4 to 6 oz", "Depends on side dishes"],
-          ["Pasta, dry", "2 oz", "About 1 cup cooked"],
-          ["Rice, dry", "1/4 cup", "About 3/4 cup cooked"],
-          ["Vegetables", "1/2 to 1 cup", "Varies by meal"],
-          ["Soup", "1 to 1 1/2 cups", "More for main dish soup"],
-        ],
-      },
-      {
-        type: "tips",
-        title: "Planning Tips",
-        items: [
-          "Plan larger servings when leftovers are part of the goal.",
-          "For mixed dishes, portion size depends on richness and side dishes.",
-          "Smaller households can cook full recipes and freeze extra portions for later.",
-        ],
-      },
-    ],
-  },
-  {
-    id: "substitutions",
-    title: "Common Substitutions",
-    icon: "swap",
-    description:
-      "Useful substitutions for common ingredients when you are missing an item or adjusting a recipe.",
-    lastUpdated: "July 17, 2026",
-    sections: [
-      {
-        type: "table",
-        title: "Everyday Substitutions",
-        columns: ["Ingredient Needed", "Possible Substitute", "Notes"],
-        rows: [
-          ["1 cup buttermilk", "1 cup milk + 1 Tbsp lemon juice or vinegar", "Let stand 5 minutes"],
-          ["1 tablespoon cornstarch", "2 tablespoons all-purpose flour", "Best for sauces"],
-          ["1 cup sour cream", "1 cup plain Greek yogurt", "Works in many dips and toppings"],
-          ["1 cup brown sugar", "1 cup white sugar + 1 Tbsp molasses", "Mix well"],
-          ["1 teaspoon baking powder", "1/4 tsp baking soda + 1/2 tsp cream of tartar", "Use promptly"],
-        ],
-      },
-      {
-        type: "info",
-        title: "Substitution Reminder",
-        text:
-          "Substitutions can change flavor, texture, browning, or moisture. Use them as practical options, not always as exact replacements.",
-      },
-    ],
-  },
-  {
-    id: "small-appliances",
-    title: "Air Fryer, Slow Cooker & Pressure Cooker",
-    icon: "pot",
-    description:
-      "Quick appliance reminders for timing, safety, and best results.",
-    lastUpdated: "July 17, 2026",
-    sections: [
-      {
-        type: "tips",
-        title: "Air Fryer Tips",
-        items: [
-          "Avoid overcrowding the basket so hot air can circulate.",
-          "Shake or turn food for more even browning.",
-          "Start checking early because models vary.",
-        ],
-      },
-      {
-        type: "tips",
-        title: "Slow Cooker Tips",
-        items: [
-          "Keep the lid closed as much as possible.",
-          "Cut dense vegetables evenly so they cook at the same pace.",
-          "Use enough liquid for the recipe, but remember slow cookers trap moisture.",
-        ],
-      },
-      {
-        type: "tips",
-        title: "Pressure Cooker Tips",
-        items: [
-          "Do not overfill the cooker.",
-          "Allow time for pressure build-up and release when planning the meal.",
-          "Use the release method recommended in the recipe.",
-        ],
-      },
-    ],
-  },
-  {
-    id: "smoking-grilling",
-    title: "Smoking & Grilling Guide",
-    icon: "grill",
-    description:
-      "Practical reminders for outdoor cooking, temperature control, resting, and safe doneness.",
-    lastUpdated: "July 17, 2026",
-    sections: [
-      {
-        type: "table",
-        title: "Outdoor Cooking Reminders",
-        columns: ["Topic", "Guidance", "Why It Matters"],
-        rows: [
-          ["Preheating", "Preheat grills and smokers before cooking", "Improves timing and searing"],
-          ["Thermometer", "Use internal temperature, not just time", "Improves safety and consistency"],
-          ["Resting", "Rest larger meats before slicing", "Helps juices redistribute"],
-          ["Smoke", "Use clean, steady smoke", "Avoids harsh flavors"],
-          ["Zones", "Use direct and indirect heat when grilling", "Helps prevent burning"],
-        ],
-      },
-      {
-        type: "tips",
-        title: "Quick Tips",
-        items: [
-          "Keep the lid closed when smoking to maintain temperature.",
-          "Trim excess fat but leave enough for moisture and flavor.",
-          "Slice brisket and similar meats against the grain.",
-        ],
-      },
-    ],
-  },
-];
-
-
-function ReferenceGuideIcon({ type, size = "normal" }) {
-  const commonProps = {
-    className: `referenceGuideSvgIcon ${size === "large" ? "large" : ""}`,
-    viewBox: "0 0 48 48",
-    fill: "none",
-    xmlns: "http://www.w3.org/2000/svg",
-    "aria-hidden": "true",
-    focusable: "false",
-  };
-
-  switch (type) {
-    case "scale":
-      return (
-        <svg {...commonProps}>
-          <path d="M24 7v34" />
-          <path d="M14 13h20" />
-          <path d="M24 10l-12 8" />
-          <path d="M24 10l12 8" />
-          <path d="M10 20l-5 11h10l-5-11z" />
-          <path d="M38 20l-5 11h10l-5-11z" />
-          <path d="M16 41h16" />
-        </svg>
-      );
-    case "thermometer":
-      return (
-        <svg {...commonProps}>
-          <path d="M25 7a5 5 0 0 0-10 0v22a10 10 0 1 0 10 0V7z" />
-          <path d="M20 31V14" />
-          <path d="M20 38a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" />
-          <path d="M30 12h8" />
-          <path d="M30 20h6" />
-        </svg>
-      );
-    case "oven":
-      return (
-        <svg {...commonProps}>
-          <rect x="8" y="9" width="32" height="30" rx="3" />
-          <path d="M8 17h32" />
-          <path d="M15 13h.2" />
-          <path d="M22 13h.2" />
-          <path d="M29 13h.2" />
-          <path d="M14 24h20v10H14z" />
-          <path d="M17 27h14" />
-        </svg>
-      );
-    case "pan":
-      return (
-        <svg {...commonProps}>
-          <path d="M9 24h24a9 9 0 0 1-9 9h-6a9 9 0 0 1-9-9z" />
-          <path d="M33 24h9" />
-          <path d="M13 20c2-3 6-5 11-5s9 2 11 5" />
-          <path d="M17 13c0-2 2-4 4-4h6c2 0 4 2 4 4" />
-        </svg>
-      );
-    case "weight":
-      return (
-        <svg {...commonProps}>
-          <path d="M17 17h14l4 23H13l4-23z" />
-          <path d="M18 17a6 6 0 0 1 12 0" />
-          <path d="M24 25v9" />
-          <path d="M20 29h8" />
-        </svg>
-      );
-    case "snowflake":
-      return (
-        <svg {...commonProps}>
-          <path d="M24 7v34" />
-          <path d="M10 15l28 18" />
-          <path d="M38 15L10 33" />
-          <path d="M18 10l6 6 6-6" />
-          <path d="M18 38l6-6 6 6" />
-          <path d="M9 23l8-2-2-8" />
-          <path d="M39 25l-8 2 2 8" />
-        </svg>
-      );
-    case "plate":
-      return (
-        <svg {...commonProps}>
-          <circle cx="24" cy="24" r="13" />
-          <circle cx="24" cy="24" r="7" />
-          <path d="M8 10v28" />
-          <path d="M5 10v10" />
-          <path d="M11 10v10" />
-          <path d="M40 10v28" />
-          <path d="M36 10c0 8 4 10 4 10" />
-        </svg>
-      );
-    case "swap":
-      return (
-        <svg {...commonProps}>
-          <path d="M10 17h23" />
-          <path d="M28 11l6 6-6 6" />
-          <path d="M38 31H15" />
-          <path d="M20 25l-6 6 6 6" />
-        </svg>
-      );
-    case "pot":
-      return (
-        <svg {...commonProps}>
-          <path d="M12 20h24v17H12V20z" />
-          <path d="M10 20h28" />
-          <path d="M16 20c0-5 4-9 8-9s8 4 8 9" />
-          <path d="M8 25h4" />
-          <path d="M36 25h4" />
-          <path d="M19 28h10" />
-        </svg>
-      );
-    case "grill":
-      return (
-        <svg {...commonProps}>
-          <path d="M12 19h24a12 12 0 0 1-24 0z" />
-          <path d="M16 19v-4" />
-          <path d="M24 19v-5" />
-          <path d="M32 19v-4" />
-          <path d="M18 31l-5 9" />
-          <path d="M30 31l5 9" />
-          <path d="M18 40h12" />
-          <path d="M36 19h6" />
-        </svg>
-      );
-    default:
-      return (
-        <svg {...commonProps}>
-          <circle cx="24" cy="24" r="14" />
-          <path d="M18 24h12" />
-          <path d="M24 18v12" />
-        </svg>
-      );
-  }
-}
-
-
-function ReferenceGuideSection({ section }) {
-  if (section.type === "table") {
-    return (
-      <section className="referenceGuideCard">
-        <h3>{section.title}</h3>
-        <div className="referenceGuideTableWrap">
-          <table>
-            <thead>
-              <tr>
-                {section.columns.map((column) => (
-                  <th key={column}>{column}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {section.rows.map((row, rowIndex) => (
-                <tr key={rowIndex}>
-                  {row.map((cell, cellIndex) => (
-                    <td key={cellIndex}>{cell}</td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
-    );
-  }
-
-  if (section.type === "tips") {
-    return (
-      <section className="referenceGuideCard">
-        <h3>{section.title}</h3>
-        <ul className="referenceGuideTipsList">
-          {section.items.map((item) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
-      </section>
-    );
-  }
-
-  return (
-    <section className="referenceGuideInfoBox">
-      <div className="referenceGuideInfoIcon" aria-hidden="true">💡</div>
-      <div>
-        <h3>{section.title}</h3>
-        <p>{section.text}</p>
-      </div>
-    </section>
-  );
-}
-
-function ReferenceGuidesPage() {
-  const [selectedGuideId, setSelectedGuideId] = useState("weights-measures");
-  const selectedGuide =
-    REFERENCE_GUIDES.find((guide) => guide.id === selectedGuideId) || REFERENCE_GUIDES[0];
-  const [selectedTabId, setSelectedTabId] = useState(selectedGuide.tabs?.[0]?.id || "overview");
-
-  useEffect(() => {
-    setSelectedTabId(selectedGuide.tabs?.[0]?.id || "overview");
-  }, [selectedGuideId, selectedGuide.tabs]);
-
-  const activeTab = selectedGuide.tabs?.find((tab) => tab.id === selectedTabId);
-  const sections = activeTab?.sections || selectedGuide.sections || [];
-  const primarySections = sections.filter((section) => section.type === "table");
-  const noteSections = sections.filter((section) => section.type !== "table");
-
-  return (
-    <main className="pageShell referenceGuidesFeaturePage">
-      <section className="referenceGuidesLayout" aria-label="Reference guides">
-        <aside className="referenceGuidesNav" aria-label="Reference guide list">
-          <div className="referenceGuidesBrandBlock">
-            <div className="referenceGuidesBrandTitle">Robert’s Recipe Box</div>
-            <div className="referenceGuidesBrandSubtitle">Reference Guides</div>
-          </div>
-
-          <div className="referenceGuideButtonList" role="tablist" aria-label="Choose a reference guide">
-            {REFERENCE_GUIDES.map((guide) => (
-              <button
-                key={guide.id}
-                type="button"
-                className={`referenceGuideNavButton${guide.id === selectedGuide.id ? " active" : ""}`}
-                onClick={() => setSelectedGuideId(guide.id)}
-                role="tab"
-                aria-selected={guide.id === selectedGuide.id}
-              >
-                <ReferenceGuideIcon type={guide.icon} />
-                <span>{guide.title}</span>
-              </button>
-            ))}
-          </div>
-
-          <div className="referenceGuideNavNote">
-            <span aria-hidden="true">★</span>
-            <p>Click any guide to view details. Print or download options appear below the guide.</p>
-          </div>
-        </aside>
-
-        <section className="referenceGuidePanel" aria-live="polite">
-          <div className="referenceGuidePanelHeader">
-            <div>
-              <h2>
-                <ReferenceGuideIcon type={selectedGuide.icon} size="large" />
-                {selectedGuide.title}
-              </h2>
-              <p>{selectedGuide.description}</p>
-            </div>
-          </div>
-
-          {selectedGuide.tabs && (
-            <div className="referenceGuideTabs" role="tablist" aria-label={`${selectedGuide.title} categories`}>
-              {selectedGuide.tabs.map((tab) => (
-                <button
-                  key={tab.id}
-                  type="button"
-                  className={tab.id === selectedTabId ? "active" : ""}
-                  onClick={() => setSelectedTabId(tab.id)}
-                  role="tab"
-                  aria-selected={tab.id === selectedTabId}
-                >
-                  {tab.label}
-                </button>
-              ))}
-            </div>
-          )}
-
-          <div className="referenceGuidePanelBody">
-            <div className="referenceGuideSections referenceGuidePrimarySections">
-              {primarySections.map((section, index) => (
-                <ReferenceGuideSection key={`${selectedGuide.id}-${selectedTabId}-primary-${index}`} section={section} />
-              ))}
-            </div>
-
-            {noteSections.length > 0 && (
-              <div className="referenceGuideBottomNotes" aria-label={`${selectedGuide.title} tips and notes`}>
-                {noteSections.map((section, index) => (
-                  <ReferenceGuideSection key={`${selectedGuide.id}-${selectedTabId}-note-${index}`} section={section} />
-                ))}
-              </div>
-            )}
-          </div>
-
-          <footer className="referenceGuideFooter">
-            <div className="referenceGuideActions">
-              <button type="button" onClick={() => window.print()}>
-                <span aria-hidden="true">🖨️</span>
-                Print This Guide
-              </button>
-              <button type="button" className="referenceGuidePlaceholderButton" disabled title="PDF download files will be added later.">
-                <span aria-hidden="true">⬇️</span>
-                Download PDF Coming Soon
-              </button>
-              <button type="button" className="referenceGuidePlaceholderButton" disabled title="Full-page views will be added later.">
-                <span aria-hidden="true">↗</span>
-                Open as Full Page Coming Soon
-              </button>
-            </div>
-            <p>Robert’s Recipe Box Reference Guides • Last updated: {selectedGuide.lastUpdated}</p>
-          </footer>
-        </section>
-      </section>
-    </main>
-  );
-}
-
-
-
-const DISCLAIMER_ACCORDION_SECTIONS = [
-  {
-    title: "1. Recipes and Website Content",
-    items: [
-      {
-        title: "1.1 AI-Generated Recipes",
-        simple: ["The recipes on Robert’s Recipe Box are created with the help of artificial intelligence, but they are guided by Robert’s ideas and decisions. Robert selects the type of meal, ingredients, flavors, number of servings, cooking method, and practical goals for each recipe."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["Recipes and related content published on Robert’s Recipe Box may be generated, developed, organized, revised, illustrated, or formatted with the assistance of artificial intelligence. Artificial intelligence may occasionally produce inaccurate, incomplete, inconsistent, or impractical information. Although reasonable efforts may be made to review and improve content before publication, no representation or warranty is made that every recipe or instruction is completely accurate, error-free, tested, or suitable for every user."],
-      },
-      {
-        title: "1.2 Original Recipe Development",
-        simple: ["The recipes are developed specifically for Robert’s Recipe Box and are not intentionally copied from another website, cookbook, restaurant, or food company. Similarities may occur because many recipes use familiar ingredients and traditional cooking methods."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["Recipes published on Robert’s Recipe Box are independently generated or developed and are not intentionally reproduced from copyrighted recipes, publications, websites, or proprietary commercial formulas. Similarities in ingredients, measurements, cooking techniques, recipe names, or commonly used directions may occur because many dishes are based on traditional, widely known, functional, or commonly practiced culinary methods."],
-      },
-      {
-        title: "1.3 Recipe Testing",
-        simple: ["Not every recipe may have been personally cooked and tested before it appears on the website. Visitors should review the ingredients and directions carefully and use reasonable judgment before preparing a recipe."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["Unless specifically stated otherwise, users should not assume that every recipe has been independently prepared, tested, verified, or evaluated under controlled conditions. Users are responsible for reviewing all ingredients, quantities, preparation steps, temperatures, cooking times, storage instructions, and equipment requirements before beginning a recipe. Robert’s Recipe Box does not guarantee that a recipe will perform as described under every set of conditions."],
-      },
-      {
-        title: "1.4 Cooking Results May Vary",
-        simple: ["Two people can follow the same recipe and still get different results. Appliances, cookware, ingredient brands, weather, experience, and personal preferences can all affect the finished dish."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["Cooking results may vary because of differences in ingredient brands, ingredient freshness, substitutions, appliances, cookware, oven calibration, elevation, humidity, portion size, preparation methods, and individual cooking experience. Descriptions, photographs, serving suggestions, and expected results are provided for general reference and do not guarantee appearance, flavor, texture, quality, or performance."],
-      },
-      {
-        title: "1.5 Ingredient Substitutions",
-        simple: ["Substitutions can be useful, but changing an ingredient may also change the flavor, texture, nutrition, cooking time, allergen content, or safety of the recipe."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["Suggested substitutions are provided as general guidance only. Robert’s Recipe Box does not guarantee that a substituted ingredient will produce the same flavor, texture, appearance, cooking behavior, nutritional content, allergen status, or food-safety outcome as the original ingredient. Users accept responsibility for evaluating and using all substitutions."],
-      },
-      {
-        title: "1.6 Measurements and Conversions",
-        simple: ["Measurements, weights, temperatures, and conversions are intended to be practical kitchen references. Small differences may occur because ingredients, measuring tools, and conversion methods are not always identical."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["Measurements, weights, temperatures, yields, and unit conversions are estimates unless expressly identified as exact. Variations may occur because of rounding, ingredient density, measuring technique, equipment accuracy, and differences between customary and metric systems. Users should independently verify measurements whenever precision is important."],
-      },
-      {
-        title: "1.7 Serving Sizes and Yields",
-        simple: ["Serving sizes are estimates. The actual number of servings will depend on appetite, portion size, side dishes, and how the food is divided."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["All stated yields, portions, and serving sizes are estimates and may not reflect the amount consumed or required by a particular person or household. Robert’s Recipe Box does not guarantee that a recipe will produce a specific number, weight, or volume of servings."],
-      },
-    ],
-  },
-  {
-    title: "2. Cooking and Food Safety",
-    items: [
-      {
-        title: "2.1 General Food-Safety Responsibility",
-        simple: ["Safe cooking begins with the person preparing the food. Wash your hands, keep surfaces clean, separate raw foods from ready-to-eat foods, and use good judgment throughout the cooking process."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["Users are solely responsible for following appropriate food-handling, sanitation, preparation, storage, cooking, and serving practices. Robert’s Recipe Box is not responsible for foodborne illness, contamination, spoilage, injury, or loss resulting from improper handling, preparation, storage, serving, or consumption of food."],
-      },
-      {
-        title: "2.2 Safe Internal Temperatures",
-        simple: ["Cooking times are only a guide. Use a reliable food thermometer to make sure meat, poultry, seafood, eggs, casseroles, leftovers, and reheated foods reach an appropriate internal temperature."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["Cooking times and temperatures appearing in recipes are provided as general guidance. Users must independently confirm that foods have reached an internal temperature appropriate for safe consumption. Appearance, color, texture, or stated cooking time should not be relied upon as the sole indication of doneness or safety."],
-      },
-      {
-        title: "2.3 Cross-Contamination",
-        simple: ["Raw meat, poultry, seafood, and eggs can spread bacteria to hands, utensils, cutting boards, countertops, and other foods. Keep raw and cooked foods separated and clean everything thoroughly."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["Users are responsible for preventing cross-contamination by separating raw and ready-to-eat foods and by cleaning and sanitizing hands, surfaces, utensils, cutting boards, appliances, and storage containers. Robert’s Recipe Box assumes no responsibility for contamination resulting from a user’s handling practices or kitchen environment."],
-      },
-      {
-        title: "2.4 Refrigeration and Food Storage",
-        simple: ["Storage times are general guidelines, not guarantees. Refrigerate food promptly and discard anything that looks, smells, or otherwise appears questionable."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["Refrigeration and storage recommendations are estimates and may vary depending on ingredient condition, preparation method, storage temperature, packaging, handling, and appliance performance. Users are responsible for determining whether food remains safe to consume. Food should be discarded whenever spoilage, contamination, temperature abuse, or improper storage is suspected."],
-      },
-      {
-        title: "2.5 Freezing and Thawing",
-        simple: ["Freezing can make meal preparation easier, but foods must be packaged, frozen, thawed, and reheated correctly. Some foods may also change texture or appearance after freezing."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["Freezing, freezer-storage, thawing, and make-ahead instructions are provided as general guidance. Robert’s Recipe Box does not guarantee the safety, quality, texture, appearance, or storage life of frozen food. Users are responsible for using food-safe packaging, maintaining appropriate freezer temperatures, thawing food safely, and evaluating its condition before consumption."],
-      },
-      {
-        title: "2.6 Reheating Leftovers and Prepared Meals",
-        simple: ["Leftovers and prepared meals should be reheated thoroughly and evenly. Stir or rotate foods when needed and check the temperature in more than one location."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["Reheating instructions are estimates and may vary by appliance, portion size, container, food density, and starting temperature. Users are responsible for ensuring that reheated food reaches an appropriate internal temperature and is heated evenly before consumption."],
-      },
-      {
-        title: "2.7 Appliance and Equipment Safety",
-        simple: ["Always follow the instructions that came with your oven, air fryer, microwave, slow cooker, grill, smoker, pressure cooker, vacuum sealer, or other kitchen equipment."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["Appliance settings, cooking methods, and equipment recommendations appearing on Robert’s Recipe Box are general suggestions only. Users must follow all manufacturer instructions, warnings, operating limits, maintenance requirements, and safety procedures. Robert’s Recipe Box is not responsible for personal injury, fire, burns, equipment failure, property damage, or other losses resulting from the use or misuse of an appliance, utensil, container, or kitchen product."],
-      },
-      {
-        title: "2.8 Product Recalls and Safety Notices",
-        simple: ["Product information on the website may become outdated. Visitors should check with manufacturers, retailers, and appropriate government recall services for current safety information."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["Robert’s Recipe Box is not a real-time product-recall or safety-notification service. Users are responsible for checking current manufacturer notices, government recall databases, product warnings, operating instructions, and safety information before using an ingredient, appliance, container, utensil, or other product."],
-      },
-    ],
-  },
-  {
-    title: "3. Allergies, Nutrition and Special Diets",
-    items: [
-      {
-        title: "3.1 Food Allergies",
-        simple: ["Always read every product label yourself. Ingredients and manufacturing practices can change, even when you have purchased the same product before."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["Robert’s Recipe Box cannot guarantee that any recipe, ingredient, product, preparation area, or cooking method is free from allergens. Users are responsible for reviewing ingredient labels, allergen statements, cross-contact warnings, manufacturing information, and preparation conditions before preparing or consuming food."],
-      },
-      {
-        title: "3.2 Food Sensitivities and Intolerances",
-        simple: ["An ingredient that is safe for one person may cause discomfort or a reaction in another. Recipes should be adjusted only after considering individual dietary needs and tolerances."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["Information concerning food sensitivities, intolerances, and ingredient alternatives is provided for general informational purposes only. It is not a substitute for individualized medical or dietary advice. Users should consult a qualified healthcare professional regarding personal dietary restrictions or reactions."],
-      },
-      {
-        title: "3.3 Nutrition Information",
-        simple: ["Calories, carbohydrates, protein, fat, sodium, and other nutrition numbers are estimates. Actual values depend on the exact ingredients, brands, portions, and preparation methods used."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["Nutritional information may be calculated or estimated from available ingredient data and may not be independently verified. Actual nutritional values may vary because of product brands, substitutions, portion sizes, preparation methods, cooking losses, database differences, and manufacturer changes. No guarantee is made regarding the accuracy or completeness of nutritional information."],
-      },
-      {
-        title: "3.4 Medical and Dietary Advice",
-        simple: ["Robert’s Recipe Box provides cooking information, not medical care. A recipe should not replace advice from a doctor, registered dietitian, or other qualified professional."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["Nothing on Robert’s Recipe Box is intended to diagnose, treat, cure, or prevent a disease or medical condition. Website content does not constitute medical, nutritional, therapeutic, or professional dietary advice. Users should consult an appropriately qualified healthcare provider before making decisions involving medical conditions, medications, allergies, weight management, or specialized diets."],
-      },
-      {
-        title: "3.5 Special-Diet Descriptions",
-        simple: ["Terms such as low-carb, high-protein, lower-sodium, diabetic-friendly, heart-healthy, gluten-free, or lighter may help describe a recipe, but they are not medical guarantees."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["Dietary descriptions and category labels are general informational classifications and may not satisfy every medical, nutritional, religious, ethical, or personal dietary standard. Users are responsible for independently determining whether a recipe and its ingredients are appropriate for their requirements."],
-      },
-      {
-        title: "3.6 Manufacturer Ingredient Changes",
-        simple: ["Food companies sometimes change their recipes, packaging, serving sizes, nutrition facts, and allergen warnings without notice. Always check the current package."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["Manufacturers and retailers may revise product formulations, packaging, nutrition information, serving sizes, allergen disclosures, warnings, and manufacturing processes at any time. Robert’s Recipe Box is not responsible for changes made by third parties or for product information that becomes outdated."],
-      },
-    ],
-  },
-  {
-    title: "4. Costs, Products, Affiliates and Advertising",
-    items: [
-      {
-        title: "4.1 Recipe Cost Estimates",
-        simple: ["Recipe costs are intended to help visitors compare meals and make informed choices. They are estimates, not promises of what ingredients will cost at a particular store."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["Ingredient costs, recipe totals, and per-serving calculations are estimates based on selected pricing assumptions. Actual costs may vary by location, retailer, brand, package size, season, availability, inflation, taxes, promotions, coupons, loyalty programs, and shopping practices. Robert’s Recipe Box does not guarantee that a recipe can be prepared for the stated amount."],
-      },
-      {
-        title: "4.2 Product Recommendations",
-        simple: ["Robert’s Recipe Box may suggest cookware, appliances, containers, ingredients, or tools that appear useful for a particular task. A recommendation does not guarantee that a product will be right for every user."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["Product recommendations may reflect personal experience, research, publicly available information, manufacturer specifications, or practical observations available at the time of publication. A recommendation does not constitute a warranty or guarantee of quality, safety, performance, durability, suitability, or value. Users are responsible for evaluating products before purchasing or using them."],
-      },
-      {
-        title: "4.3 Affiliate Links",
-        simple: ["Some product links may earn Robert’s Recipe Box a commission when a purchase is made. This generally does not add a separate charge to the customer’s purchase."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["Robert’s Recipe Box may participate in affiliate marketing programs and receive compensation from qualifying purchases made through designated links. Affiliate relationships will be disclosed as required. Visitors remain responsible for evaluating the product, seller, price, warranty, return policy, and suitability before purchasing.", "A short disclosure should also appear close to affiliate links or recommendations, such as:", "“I may earn a commission from purchases made through this link.”"],
-      },
-      {
-        title: "4.4 Amazon Associates Disclosure",
-        simple: ["Amazon product links may be used to help visitors locate recommended ingredients, cookware, storage products, appliances, and other kitchen items."],
-        formalLabel: "Required Amazon disclosure:",
-        formal: ["As an Amazon Associate I earn from qualifying purchases.", "This statement should be displayed clearly on the website whenever Robert’s Recipe Box actively participates in the Amazon Associates Program."],
-      },
-      {
-        title: "4.5 Sponsored Content",
-        simple: ["A manufacturer, retailer, advertiser, or other organization may occasionally pay for or support certain content."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["Sponsored or paid content will be identified using reasonably clear language such as “Sponsored,” “Advertisement,” or “Paid Partnership.” Compensation does not guarantee a favorable opinion, review, rating, or recommendation."],
-      },
-      {
-        title: "4.6 Free, Loaned or Discounted Products",
-        simple: ["A product may occasionally be provided free, loaned, or sold at a discount for evaluation. That relationship will be disclosed when it could affect how a visitor considers the recommendation."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["Receipt of a free, loaned, or discounted product does not guarantee publication or positive coverage. Robert’s Recipe Box will make reasonable efforts to disclose material relationships associated with product reviews or recommendations."],
-      },
-      {
-        title: "4.7 Reviews, Testimonials and Individual Results",
-        simple: ["A favorable review or testimonial reflects an individual experience. Another person may receive different performance, value, durability, or results."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["Reviews, ratings, testimonials, and personal experiences do not guarantee that every user will receive the same or similar results. Robert’s Recipe Box does not guarantee that a testimonial is representative of the experience generally expected by all users."],
-      },
-      {
-        title: "4.8 Prices and Availability",
-        simple: ["Online prices, sales, shipping charges, and product availability can change quickly. A product may be unavailable or priced differently when its link is opened."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["Prices, discounts, availability, delivery estimates, and promotions are controlled by third-party retailers and may change without notice. The retailer’s product page and checkout process control the final price, availability, taxes, delivery costs, and transaction details."],
-      },
-      {
-        title: "4.9 Third-Party Retailers",
-        simple: ["When a visitor leaves Robert’s Recipe Box and shops on another website, that company is responsible for the order, payment, shipping, return, warranty, and customer service."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["Purchases made through third-party retailers are transactions between the purchaser and the retailer. Robert’s Recipe Box is not responsible for payment processing, order fulfillment, product condition, shipping, delivery, warranties, returns, refunds, privacy practices, customer service, or disputes involving third-party sellers."],
-      },
-      {
-        title: "4.10 Editorial Independence",
-        simple: ["Advertising and affiliate income may help support the website, but compensation does not automatically determine which products are recommended."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["Robert’s Recipe Box aims to distinguish personal opinions from factual product information and to disclose material commercial relationships. Compensation does not create a guarantee of favorable editorial treatment."],
-      },
-    ],
-  },
-  {
-    title: "5. Privacy, Cookies and Communications",
-    items: [
-      {
-        title: "5.1 Information Visitors Provide",
-        simple: ["Visitors may voluntarily provide information when sending a message, subscribing to updates, submitting a recipe or photograph, reporting a problem, requesting permission, or using another interactive feature."],
-        formalLabel: "Formal privacy policy:",
-        formal: ["Information voluntarily provided may include a name, email address, message, recipe, photograph, preferences, and any other information the visitor chooses to submit. Visitors should not send passwords, payment-card information, medical records, government identification numbers, or other highly sensitive information through a general website form or ordinary email."],
-      },
-      {
-        title: "5.2 Information Collected Automatically",
-        simple: ["Some technical information may be collected automatically when someone visits the website."],
-        formalLabel: "Formal privacy policy:",
-        formal: ["The website host, analytics providers, affiliate programs, advertising services, or other service providers may collect information such as an Internet Protocol address, browser type, device type, operating system, approximate location, referring page, pages viewed, links selected, access times, and general diagnostic information."],
-      },
-      {
-        title: "5.3 Favorites, Meal Plans and Grocery Lists",
-        simple: ["Favorites, pantry selections, meal plans, and grocery lists may be saved in the visitor’s browser or on the visitor’s device."],
-        formalLabel: "Formal privacy policy:",
-        formal: ["Locally stored information may not be transmitted to Robert’s Recipe Box. Clearing browser data, changing devices, reinstalling software, removing website permissions, or using private-browsing settings may delete saved information. Robert’s Recipe Box does not guarantee permanent storage or recovery of locally saved information."],
-      },
-      {
-        title: "5.4 Cookies and Similar Technologies",
-        simple: ["Cookies and browser storage can help the website remember preferences, operate features, understand general usage, and support affiliate links."],
-        formalLabel: "Formal privacy policy:",
-        formal: ["Robert’s Recipe Box and its service providers may use cookies, browser storage, pixels, tags, or similar technologies for website operation, preference storage, analytics, security, advertising, and affiliate tracking. Visitors may be able to block or delete these technologies through browser settings, but doing so may prevent some features from functioning properly.", "Where legally required, additional cookie choices or consent controls may be provided."],
-      },
-      {
-        title: "5.5 How Information May Be Used",
-        simple: ["Information may be used to answer questions, operate the website, provide requested communications, improve features, review submissions, and protect the website."],
-        formalLabel: "Formal privacy policy:",
-        formal: ["Information may be processed to respond to requests, maintain website functionality, provide requested emails, improve recipes and navigation, evaluate traffic, identify errors, prevent fraud or abuse, comply with legal obligations, and protect the rights, property, and safety of Robert’s Recipe Box and its visitors."],
-      },
-      {
-        title: "5.6 Service Providers and Information Sharing",
-        simple: ["Outside providers may help operate website hosting, analytics, email, security, forms, affiliate links, calendars, and other features."],
-        formalLabel: "Formal privacy policy:",
-        formal: ["Information may be disclosed to service providers when reasonably necessary to perform services for Robert’s Recipe Box. Information may also be disclosed with the visitor’s consent, in response to valid legal process, to investigate fraud or security concerns, to protect legal rights or safety, or in connection with a transfer or reorganization of the website.", "Robert’s Recipe Box does not sell personal information for money.", "If the website later begins an activity legally defined as selling or sharing personal data, the Privacy Policy and available choices will be updated as required."],
-      },
-      {
-        title: "5.7 Email Communications",
-        simple: ["Visitors who voluntarily subscribe may receive recipe updates, announcements, website news, or occasional promotional messages."],
-        formalLabel: "Formal privacy policy:",
-        formal: ["Marketing emails will provide a method for unsubscribing. Administrative responses may still be sent when necessary to answer a request or administer a feature. Robert’s Recipe Box will not request passwords, banking information, or complete payment-card details through ordinary email."],
-      },
-      {
-        title: "5.8 Information Retention and Security",
-        simple: ["Personal information will generally be kept only as long as reasonably necessary for the purpose for which it was collected."],
-        formalLabel: "Formal privacy policy:",
-        formal: ["Reasonable administrative, technical, and organizational precautions may be used to protect personal information. No website, email transmission, storage system, or internet connection can be guaranteed completely secure. Information may be retained as necessary to respond to requests, maintain appropriate records, resolve disputes, enforce policies, protect the website, or satisfy legal obligations."],
-      },
-      {
-        title: "5.9 Privacy Rights and Requests",
-        simple: ["Depending on where a visitor lives and which laws apply, the visitor may have rights concerning access, correction, deletion, portability, and certain uses of personal information."],
-        formalLabel: "Formal privacy policy:",
-        formal: ["Applicable privacy rights may include the right to confirm processing, request access, correct inaccuracies, request deletion, obtain certain information in a portable format, withdraw consent, opt out of certain activities, and appeal certain privacy-request decisions.", "Requests should be sent online to:", "recipes@handsontech.cc", "Robert’s Recipe Box may request reasonable information to verify the identity and authority of the person submitting the request. Information collected for verification will be used for that purpose."],
-      },
-      {
-        title: "5.10 Texas Privacy Rights",
-        simple: ["Texas residents may have rights under the Texas Data Privacy and Security Act when that law applies to the website and the information being processed."],
-        formalLabel: "Formal privacy policy:",
-        formal: ["Robert’s Recipe Box will respond to applicable Texas privacy requests in accordance with legal requirements. A Texas resident may submit a request or appeal a privacy decision by emailing recipes@handsontech.cc. Robert’s Recipe Box will not unlawfully discriminate against a visitor for exercising an applicable privacy right."],
-      },
-      {
-        title: "5.11 Children’s Privacy",
-        simple: ["Robert’s Recipe Box is intended for a general audience and is not directed to children under 13."],
-        formalLabel: "Formal privacy policy:",
-        formal: ["Robert’s Recipe Box does not knowingly request or collect personal information from children under 13. A parent or legal guardian who believes that a child has submitted personal information should contact recipes@handsontech.cc to request review and removal.", "Visitors under 13 should not submit forms, photographs, recipes, comments, account information, or other personal information. Teenagers should obtain permission from a parent or guardian before submitting content."],
-      },
-      {
-        title: "5.12 Third-Party Websites and International Visitors",
-        simple: ["Outside websites have their own privacy practices, and information submitted from outside the United States may be processed in the United States."],
-        formalLabel: "Formal privacy policy:",
-        formal: ["This Privacy Policy does not control the practices of retailers, manufacturers, social networks, analytics providers, embedded services, or other third parties. Visitors should review third-party privacy policies before providing information or completing a transaction.", "Robert’s Recipe Box is operated from Texas, United States. International visitors are responsible for determining whether use of the website is appropriate under the laws applicable to them."],
-      },
-    ],
-  },
-  {
-    title: "6. Website Accuracy, Availability and External Information",
-    items: [
-      {
-        title: "6.1 Informational Use",
-        simple: ["The website is designed for general home-cooking, meal-planning, and educational use. It should be treated as a helpful resource rather than a professional service."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["Content provided by Robert’s Recipe Box is for general informational and educational purposes only. The website does not provide professional culinary, medical, nutritional, legal, financial, engineering, repair, or safety services."],
-      },
-      {
-        title: "6.2 Accuracy and Errors",
-        simple: ["Reasonable care may be taken when preparing the website, but mistakes can happen. A recipe may contain a typo, missing step, incorrect number, or outdated detail."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["Robert’s Recipe Box does not warrant that website content is complete, accurate, current, reliable, or free from errors or omissions. The website owner reserves the right to correct, revise, remove, or update content at any time without prior notice."],
-      },
-      {
-        title: "6.3 No Guaranteed Results",
-        simple: ["A recipe, meal plan, kitchen tool, or shopping suggestion may work well for one household and not for another."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["Robert’s Recipe Box makes no express or implied guarantee regarding cooking results, financial savings, health outcomes, meal-planning success, product performance, user satisfaction, or any other result arising from use of or reliance on website content."],
-      },
-      {
-        title: "6.4 External Links",
-        simple: ["Some pages may link to outside websites for products, information, videos, or additional resources. Robert’s Recipe Box does not control those websites."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["External links are provided for convenience and informational purposes. Robert’s Recipe Box does not control, monitor, endorse, or accept responsibility for third-party content, security, availability, advertising, privacy practices, terms, products, or business operations."],
-      },
-      {
-        title: "6.5 Website Availability",
-        simple: ["The website may occasionally be updated, interrupted, changed, or unavailable. Certain recipes, downloads, or features may also be removed or replaced."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["Robert’s Recipe Box does not guarantee continuous, uninterrupted, secure, or error-free access. Content, pages, downloads, services, and features may be modified, suspended, restricted, or discontinued at any time."],
-      },
-      {
-        title: "6.6 Under-Construction Features",
-        simple: ["Some pages and tools may still be under development and may contain temporary information or incomplete features."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["Content identified as under construction, experimental, preliminary, in development, or coming soon may be incomplete, unavailable, inaccurate, or subject to substantial revision. Visitors should not rely on such content as final or fully functional."],
-      },
-      {
-        title: "6.7 Changes to Website Content and Policies",
-        simple: ["Recipes, policies, costs, nutrition estimates, recommendations, and website features may be revised as the site grows and changes."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["Robert’s Recipe Box reserves the right to modify website content and policies at any time. Revised policies will be posted with an updated effective date when appropriate. Continued use after an update constitutes acceptance of the revised policies to the extent permitted by law."],
-      },
-      {
-        title: "6.8 Geographic Limitations",
-        simple: ["Product availability, measurements, terminology, ingredients, food-safety recommendations, and laws may differ outside the United States."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["Website content is generally prepared from a United States perspective. Robert’s Recipe Box does not guarantee that its information, products, measurements, or recommendations are appropriate or legally available in every location."],
-      },
-    ],
-  },
-  {
-    title: "7. Technology, Downloads and Automated Features",
-    items: [
-      {
-        title: "7.1 Browser and Device Compatibility",
-        simple: ["The website may display or operate differently depending on the browser, device, screen size, operating system, extensions, or software version."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["Robert’s Recipe Box does not guarantee compatibility with every browser, device, operating system, accessibility setting, extension, or software configuration. Users are responsible for maintaining suitable devices, software, internet access, and security protections."],
-      },
-      {
-        title: "7.2 Saved Information and Data Loss",
-        simple: ["Favorites, meal plans, pantry selections, grocery lists, and other saved information may be lost because of browser settings, device changes, or technical problems."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["Robert’s Recipe Box does not guarantee the availability, permanence, accuracy, recovery, or backup of user-created or locally stored information. Users should maintain separate copies of any information that is important to them."],
-      },
-      {
-        title: "7.3 Automated Tools and Calculations",
-        simple: ["Serving adjustments, grocery quantities, nutrition figures, costs, substitutions, and conversions are intended to save time, but automated results can contain errors."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["Automated calculations and generated outputs may be incomplete, duplicated, outdated, rounded, or incorrect. Users must review results before shopping, cooking, changing a diet, purchasing a product, or otherwise relying upon them."],
-      },
-      {
-        title: "7.4 Calendars and Reminders",
-        simple: ["Calendar events, reminders, and meal-plan exports are provided for convenience. Visitors should confirm that the correct date, time, recipe, and reminder were saved."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["Robert’s Recipe Box does not guarantee that calendar information will import, display, synchronize, or trigger correctly. The user is responsible for confirming dates, times, time zones, recurrence settings, reminders, and calendar synchronization."],
-      },
-      {
-        title: "7.5 Printing and Formatting",
-        simple: ["Printed recipe cards and guides may look different depending on the printer, paper, margins, scaling, ink, browser, and software settings."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["Robert’s Recipe Box does not guarantee exact sizing, color reproduction, placement, compatibility, or print quality. Users should review print-preview settings before printing and are responsible for paper, ink, equipment, and printing costs."],
-      },
-      {
-        title: "7.6 Downloaded Files and Harmful Code",
-        simple: ["Downloads are provided for convenience and should be opened only on devices with appropriate security protections."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["Although reasonable precautions may be taken, Robert’s Recipe Box does not guarantee that every page, file, link, download, or third-party service will always be free from defects, interruption, viruses, malware, or other harmful code. Users assume responsibility for device security and file compatibility."],
-      },
-      {
-        title: "7.7 Third-Party Technology",
-        simple: ["The website may rely on hosting providers, analytics services, calendars, email tools, retailers, embedded media, and other outside technology."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["The performance, availability, security, and continued operation of third-party technology are controlled by the relevant provider. Robert’s Recipe Box is not responsible for interruptions, changes, errors, or losses caused by a third-party service."],
-      },
-    ],
-  },
-  {
-    title: "8. Ownership and Permitted Use",
-    items: [
-      {
-        title: "8.1 Free Personal Use",
-        simple: ["Visitors may view, print, and download designated Robert’s Recipe Box recipes for their own household and personal cooking needs."],
-        formalLabel: "Formal policy:",
-        formal: ["Visitors receive a limited, nonexclusive, revocable right to view, print, and download designated materials for lawful personal and noncommercial use. This permission does not transfer ownership or grant commercial-use rights."],
-      },
-      {
-        title: "8.2 Commercial Use and Redistribution",
-        simple: ["Free personal use does not mean that recipe cards, photographs, website designs, or downloads can be sold, repackaged, or posted elsewhere as someone else’s work."],
-        formalLabel: "Formal policy:",
-        formal: ["Without prior written permission, website content may not be sold, licensed, reproduced in bulk, republished, redistributed, altered for resale, incorporated into commercial products, or used to create a competing recipe collection."],
-      },
-      {
-        title: "8.3 Copyright and Website Content",
-        simple: ["Individual ingredients and familiar cooking methods may be widely used, but the website’s original wording, organization, photographs, graphics, and recipe-card designs belong to Robert’s Recipe Box to the extent protected by law."],
-        formalLabel: "Formal policy:",
-        formal: ["Original text, photographs, illustrations, graphics, page layouts, recipe-card designs, compilations, downloads, and branding published on Robert’s Recipe Box are protected by applicable intellectual-property laws to the extent those laws apply. No rights are granted except those expressly stated in these policies."],
-      },
-      {
-        title: "8.4 Trademarks and Brand Names",
-        simple: ["Product, restaurant, and company names may be mentioned to identify a flavor, ingredient, product, or style. Those names belong to their respective owners."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["Third-party trademarks, service marks, product names, restaurant names, logos, and brand references remain the property of their respective owners. Their appearance on Robert’s Recipe Box is for identification or descriptive purposes and does not imply sponsorship, affiliation, authorization, or endorsement."],
-      },
-      {
-        title: "8.5 Copycat-Style Recipes",
-        simple: ["A copycat-style recipe is an independent attempt to create a similar flavor or experience. It is not the restaurant’s or manufacturer’s official recipe."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["Copycat-style, inspired-by, or restaurant-style recipes are independent interpretations and are not represented as official, authentic, proprietary, or authorized recipes of a restaurant, manufacturer, chef, or trademark owner."],
-      },
-      {
-        title: "8.6 Printing and Downloads",
-        simple: ["Downloads may be used for personal cooking, planning, and household reference, but the files may not be resold or redistributed as a separate collection."],
-        formalLabel: "Formal policy:",
-        formal: ["Users may retain reasonable personal copies of designated downloads. Branding and ownership notices may not be removed for redistribution, and files may not be uploaded to another public recipe library or commercial platform without written permission."],
-      },
-      {
-        title: "8.7 Permission Requests",
-        simple: ["Schools, nonprofit groups, senior organizations, cooking clubs, and community programs may request permission for uses beyond ordinary personal use."],
-        formalLabel: "Formal policy:",
-        formal: ["Permission requests should identify the requested material, proposed use, number of copies, organization, distribution method, and whether a fee will be charged. Requests should be sent to recipes@handsontech.cc. Permission is not granted unless provided in writing."],
-      },
-    ],
-  },
-  {
-    title: "9. User Submissions and Community Features",
-    items: [
-      {
-        title: "9.1 Ownership and Permission",
-        simple: ["Visitors should submit only recipes, photographs, comments, and other material they created or have permission to share."],
-        formalLabel: "Formal policy:",
-        formal: ["By submitting material, the submitter represents that the material does not violate copyright, trademark, privacy, publicity, contractual, or other rights and that the submitter has authority to grant the permissions described in this policy."],
-      },
-      {
-        title: "9.2 Submitted Recipes",
-        simple: ["A submitted recipe should contain enough accurate information to allow it to be reviewed and should identify important allergens, equipment, safety concerns, and whether the recipe has been tested."],
-        formalLabel: "Formal policy:",
-        formal: ["Robert’s Recipe Box may review, rewrite, reorganize, shorten, expand, test, illustrate, photograph, publish, decline, or remove a submitted recipe. Submission does not guarantee publication, compensation, attribution in a particular format, or continued availability."],
-      },
-      {
-        title: "9.3 Submitted Photographs",
-        simple: ["The submitter must have the right to use each submitted photograph and permission from identifiable people appearing in it."],
-        formalLabel: "Formal policy:",
-        formal: ["The submitter is responsible for obtaining appropriate permission from identifiable individuals or, when applicable, the parent or guardian of a minor. Photographs should not display unnecessary addresses, documents, account information, license plates, or other private details."],
-      },
-      {
-        title: "9.4 License to Use Submissions",
-        simple: ["Submitters retain whatever ownership rights they legally hold, but Robert’s Recipe Box needs permission to review, edit, display, and promote material submitted for publication."],
-        formalLabel: "Formal policy:",
-        formal: ["By submitting material for possible publication, the submitter grants Robert’s Recipe Box a nonexclusive, worldwide, royalty-free license to review, reproduce, edit, format, adapt, display, publish, distribute, archive, and promote the material in connection with the website and related communications."],
-      },
-      {
-        title: "9.5 Community Conduct",
-        simple: ["Comments and community features should remain helpful, respectful, lawful, and relevant to cooking and the website."],
-        formalLabel: "Formal policy:",
-        formal: ["Users may not submit harassment, threats, hate speech, discrimination, defamation, obscene material, dangerous instructions, deliberately deceptive claims, spam, malware, undisclosed advertising, private personal information, or infringing content."],
-      },
-      {
-        title: "9.6 Moderation and Removal",
-        simple: ["Robert’s Recipe Box may edit, decline, hide, or remove user-submitted material when necessary to maintain the website."],
-        formalLabel: "Formal policy:",
-        formal: ["Robert’s Recipe Box reserves the right, but does not assume an obligation, to review, moderate, reject, edit, restrict, or remove submissions at any time. Publication does not guarantee a submission’s accuracy, originality, safety, or suitability."],
-      },
-      {
-        title: "9.7 Accuracy of User Contributions",
-        simple: ["A recipe or suggestion submitted by another visitor may not have been independently tested or verified."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["Robert’s Recipe Box does not guarantee the accuracy, originality, completeness, safety, or reliability of user-submitted content. Visitors who choose to use a submission do so at their own discretion and remain responsible for evaluating it."],
-      },
-      {
-        title: "9.8 Privacy of Submissions",
-        simple: ["Information intended for publication may become publicly visible. Do not submit anything that should remain confidential."],
-        formalLabel: "Formal policy:",
-        formal: ["Contact information supplied privately for administrative purposes will be handled under the Privacy Policy. Names, biographies, recipes, photographs, comments, and other information intended for publication may become publicly accessible."],
-      },
-      {
-        title: "9.9 Copyright Concerns",
-        simple: ["A person who believes that material on Robert’s Recipe Box infringes a copyright may report it for review."],
-        formalLabel: "Formal policy:",
-        formal: ["A copyright complaint should identify the copyrighted work, identify the material in question, provide the complaining party’s contact information, explain the basis of the complaint, confirm that the supplied information is accurate, and include a physical or electronic signature.", "Copyright concerns should be sent to:", "recipes@handsontech.cc", "Credible complaints may result in temporary or permanent removal while the matter is reviewed."],
-      },
-    ],
-  },
-  {
-    title: "10. Accessibility",
-    items: [
-      {
-        title: "10.1 Accessibility Commitment",
-        simple: ["Robert’s Recipe Box wants its recipes, planning tools, downloads, and supporting information to be usable by as many people as reasonably possible."],
-        formalLabel: "Formal accessibility policy:",
-        formal: ["The website will make reasonable ongoing efforts to improve accessibility and usability for people using different devices, input methods, display settings, and assistive technologies."],
-      },
-      {
-        title: "10.2 Accessibility Practices",
-        simple: ["The website aims to use clear headings, readable type, keyboard-accessible controls, useful image descriptions, visible focus indicators, and understandable links and buttons."],
-        formalLabel: "Formal accessibility policy:",
-        formal: ["Robert’s Recipe Box will work toward practices consistent with WCAG 2.2 Level AA where reasonably applicable, including text alternatives, keyboard access, sufficient contrast, responsive layouts, understandable controls, form labels, accessible accordions, and reduced reliance on color alone."],
-      },
-      {
-        title: "10.3 Accessibility Limitations",
-        simple: ["Some older recipe-card images, downloads, third-party pages, embedded content, archived materials, and experimental features may not yet be fully accessible."],
-        formalLabel: "Formal accessibility policy:",
-        formal: ["This statement describes an ongoing goal and does not guarantee that every page, image, download, document, or third-party feature will satisfy every accessibility guideline at all times. Robert’s Recipe Box does not control the accessibility of outside websites."],
-      },
-      {
-        title: "10.4 Accessibility Assistance",
-        simple: ["Visitors who have difficulty accessing a recipe, download, form, or feature may request assistance or an alternative format."],
-        formalLabel: "Formal accessibility policy:",
-        formal: ["Accessibility concerns should identify the relevant page or recipe, describe the problem, identify the browser or device when known, and explain the requested assistance.", "Requests should be sent to:", "recipes@handsontech.cc", "Reasonable efforts will be made to understand and address reported barriers."],
-      },
-    ],
-  },
-  {
-    title: "11. Responsibility and Limitation of Liability",
-    items: [
-      {
-        title: "11.1 User Responsibility",
-        simple: ["Every kitchen, household, diet, and situation is different. Users must decide whether a recipe, ingredient, product, or cooking method is appropriate for them."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["Use of Robert’s Recipe Box is voluntary and at the user’s discretion and risk. Users are responsible for evaluating all recipes, ingredients, instructions, appliances, products, downloads, and recommendations in light of their abilities, dietary requirements, health conditions, household circumstances, and equipment."],
-      },
-      {
-        title: "11.2 Assumption of Risk",
-        simple: ["Cooking naturally involves heat, sharp objects, electricity, raw ingredients, heavy cookware, outdoor equipment, and other hazards."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["By using website content, users acknowledge and accept the ordinary and foreseeable risks associated with cooking, food preparation, appliances, knives, heat sources, grills, smokers, electrical equipment, food storage, and food consumption."],
-      },
-      {
-        title: "11.3 No Professional Relationship",
-        simple: ["Visiting the website, sending a message, or using a recipe does not create a professional or advisory relationship."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["No physician-patient, dietitian-client, attorney-client, consultant-client, fiduciary, contractual, or other professional relationship is created solely by accessing the website, submitting a question, or using website content."],
-      },
-      {
-        title: "11.4 Limitation of Liability",
-        simple: ["Robert’s Recipe Box provides information and suggestions but cannot be responsible for every decision, action, or result that occurs after someone uses the website."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["To the fullest extent permitted by applicable law, Robert’s Recipe Box and its owner shall not be liable for direct, indirect, incidental, consequential, special, exemplary, punitive, or other damages arising from use of, inability to use, or reliance upon website content.", "This limitation includes, without limitation, personal injury, allergic reaction, illness, foodborne illness, property damage, equipment damage, financial loss, data loss, missed reminders, product problems, or unsatisfactory cooking results.", "Where a limitation is not legally permitted, liability will be limited only to the extent allowed by applicable law."],
-      },
-      {
-        title: "11.5 Children in the Kitchen",
-        simple: ["Children should receive appropriate adult supervision when cooking, especially around knives, hot surfaces, appliances, grills, and raw ingredients."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["Recipes and website content do not replace responsible adult supervision. Parents, guardians, and supervising adults are solely responsible for determining which activities are appropriate for a child and for providing supervision, instruction, and safety precautions."],
-      },
-      {
-        title: "11.6 Emergency and Professional Assistance",
-        simple: ["The website should never be used during an emergency instead of contacting the appropriate professional or emergency service."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["Robert’s Recipe Box is not an emergency, medical, poison-control, fire-safety, appliance-repair, or professional advisory service. In the event of suspected poisoning, allergic reaction, fire, gas leak, electrical problem, serious injury, foodborne illness, or other emergency, users should contact the appropriate emergency service or qualified professional immediately."],
-      },
-      {
-        title: "11.7 Indemnification",
-        simple: ["Visitors are expected to use the website responsibly and legally. A person who misuses the website should not transfer the consequences of that misuse to Robert’s Recipe Box."],
-        formalLabel: "Formal policy:",
-        formal: ["To the extent permitted by applicable law, users agree to indemnify and hold harmless Robert’s Recipe Box and its owner from claims, liabilities, damages, losses, costs, or expenses arising from misuse of the website, violation of these policies, infringement of another party’s rights, a user submission, or unlawful use or redistribution of website content."],
-      },
-    ],
-  },
-  {
-    title: "12. Website Administration and Communications",
-    items: [
-      {
-        title: "12.1 Contact-Form and Email Responses",
-        simple: ["Visitors are welcome to submit questions, corrections, and suggestions, but a response cannot be guaranteed."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["Submitting a message does not guarantee a response, a particular response time, publication, individualized advice, or acceptance of a request. Messages may be prioritized, archived, or declined at the website owner’s discretion."],
-      },
-      {
-        title: "12.2 Unsolicited Ideas and Proposals",
-        simple: ["Visitors should not submit confidential business ideas, proprietary product concepts, or other information they expect to remain confidential."],
-        formalLabel: "Formal policy:",
-        formal: ["Unless a separate written confidentiality agreement exists, unsolicited ideas, suggestions, recipes, product concepts, and business proposals will not be treated as confidential or proprietary. Submission does not create an obligation to compensate, develop, publish, or use the idea."],
-      },
-      {
-        title: "12.3 Website Ownership Changes",
-        simple: ["The website or its related operations may eventually be transferred, reorganized, sold, or discontinued."],
-        formalLabel: "Formal policy:",
-        formal: ["Website content, agreements, information, and operational responsibilities may be transferred as part of a sale, succession, merger, reorganization, or other transfer, subject to applicable legal requirements."],
-      },
-      {
-        title: "12.4 Suspension or Termination of Access",
-        simple: ["Access may be restricted when someone misuses the website or threatens its security, operation, or users."],
-        formalLabel: "Formal policy:",
-        formal: ["Robert’s Recipe Box may restrict or terminate access to the website or a particular feature when reasonably necessary to prevent fraud, abuse, unlawful conduct, intellectual-property violations, security threats, or violations of these policies."],
-      },
-      {
-        title: "12.5 Events Outside Reasonable Control",
-        simple: ["Website operation may be affected by storms, utility failures, service-provider outages, equipment failures, government actions, security events, or other circumstances outside reasonable control."],
-        formalLabel: "Formal policy and disclaimer:",
-        formal: ["Robert’s Recipe Box is not responsible for delay, interruption, loss, or failure caused by events beyond its reasonable control, including natural disasters, utility failures, labor disputes, internet outages, third-party service failures, cyberattacks, government actions, or equipment failures."],
-      },
-    ],
-  },
-  {
-    title: "13. General Legal Terms",
-    items: [
-      {
-        title: "13.1 Governing Law",
-        simple: ["Robert’s Recipe Box is operated from Texas."],
-        formalLabel: "Formal policy:",
-        formal: ["These policies and use of the website are intended to be governed by the laws of the State of Texas, without regard to conflict-of-law principles, except where another law is required to apply."],
-      },
-      {
-        title: "13.2 Legal Venue",
-        simple: ["Most concerns should first be submitted directly to Robert’s Recipe Box so there is an opportunity to review and address them."],
-        formalLabel: "Formal policy:",
-        formal: ["Unless applicable law requires otherwise, legal proceedings concerning the website shall be brought in a court of competent jurisdiction located in Texas.", "These policies do not require private arbitration and do not contain a class-action waiver."],
-      },
-      {
-        title: "13.3 Severability",
-        simple: ["If one part of these policies cannot legally be enforced, the remaining sections should continue to apply."],
-        formalLabel: "Formal policy:",
-        formal: ["If any provision is held invalid, unlawful, or unenforceable, that provision will be limited or removed to the minimum extent necessary, and the remaining provisions will remain in effect."],
-      },
-      {
-        title: "13.4 No Waiver",
-        simple: ["A decision not to enforce a rule on one occasion does not permanently remove the right to enforce it later."],
-        formalLabel: "Formal policy:",
-        formal: ["Failure to enforce a provision does not constitute a waiver of that provision or any other right."],
-      },
-      {
-        title: "13.5 Assignment",
-        simple: ["Visitors may not transfer their rights under these policies to another party without permission."],
-        formalLabel: "Formal policy:",
-        formal: ["Robert’s Recipe Box may assign or transfer its rights and responsibilities in connection with a transfer, succession, reorganization, or sale of the website or related operations."],
-      },
-      {
-        title: "13.6 Entire Agreement",
-        simple: ["The policies published on the website work together and form the general rules governing use of Robert’s Recipe Box."],
-        formalLabel: "Formal policy:",
-        formal: ["This page, together with any feature-specific notices or agreements, constitutes the general agreement concerning website use and supersedes prior general statements covering the same subject."],
-      },
-      {
-        title: "13.7 Changes to These Policies",
-        simple: ["These policies may need to change as the website adds features, affiliate programs, community tools, or outside services."],
-        formalLabel: "Formal policy:",
-        formal: ["Revised policies may be published at any time with an updated effective date. Material changes may also be highlighted when appropriate. Continued use of the website after an update constitutes acceptance of the revised policies to the extent permitted by law."],
-      },
-      {
-        title: "13.8 Acceptance of Policies",
-        simple: ["By continuing to use Robert’s Recipe Box, visitors acknowledge that they have had an opportunity to read these policies."],
-        formalLabel: "Formal policy:",
-        formal: ["Access to or use of Robert’s Recipe Box constitutes acknowledgment and acceptance of these policies to the extent permitted by applicable law. Visitors who do not agree should discontinue use of the website."],
-      },
-    ],
-  },
-  {
-    title: "14. Contact Information",
-    items: [
-      {
-        title: "14.1 Website Contact",
-        simple: ["Robert’s Recipe Box operates online. Questions, corrections, permission requests, privacy requests, accessibility concerns, copyright notices, and other website communications should be submitted by email.", "Robert’s Recipe Box", "Email: recipes@handsontech.cc", "Mailing address: 2310 Trotter Drive, Katy, Texas 77493", "Operations: Online only"],
-        formalLabel: "Formal contact policy:",
-        formal: ["Electronic requests and inquiries should be submitted to recipes@handsontech.cc. Providing a mailing address does not establish a public office, retail location, customer-service counter, or location open to visitors."],
-      },
-      {
-        title: "14.2 Policy Effective Date",
-        simple: ["These policies are effective beginning July 1, 2026."],
-        formalLabel: "Formal policy:",
-        formal: ["The effective date shown at the top of this page identifies the current published version. Visitors should review the page periodically for updates."],
-      },
-    ],
-  },
-];
-
-const DISCLAIMER_PAGE_INTRO = ["Robert’s Recipe Box is intended to make cooking, meal planning, and finding useful kitchen information easier and more enjoyable. This page explains the policies, responsibilities, limitations, privacy practices, and permitted uses associated with the website.", "Each numbered topic may be displayed as an expandable section. Select any topic to read its complete explanation.", "Use of Robert’s Recipe Box constitutes acknowledgment of these policies to the extent permitted by applicable law. Visitors who do not agree with these policies should discontinue use of the website."];
 
 function DisclaimersPage({ setActivePage }) {
-  const [openDisclaimerSections, setOpenDisclaimerSections] = useState(() => new Set(["1. Recipes and Website Content"]));
-
-  function toggleDisclaimerSection(sectionTitle) {
-    setOpenDisclaimerSections((current) => {
-      const next = new Set(current);
-      if (next.has(sectionTitle)) {
-        next.delete(sectionTitle);
-      } else {
-        next.add(sectionTitle);
-      }
-      return next;
-    });
-  }
-
   return (
-    <main className="pageShell disclaimersAccordionPage">
-      <section className="disclaimersIntroCard">
-        <div className="aiBadge">POLICIES, DISCLAIMERS & LEGAL INFORMATION</div>
-        <h1>Policies, Disclaimers & Legal Information</h1>
-        <p className="disclaimerEffectiveDate">Effective date: July 1, 2026</p>
-        {DISCLAIMER_PAGE_INTRO.map((paragraph, index) => (
-          <p key={index}>{paragraph}</p>
-        ))}
+    <main className="pageShell aboutRecipesPage disclaimersPage">
+      <section className="aboutRecipesHero">
+        <div>
+          <div className="aiBadge">DISCLAIMERS & TECHNICAL INFORMATION</div>
+          <h1>Disclaimers & Technical Information</h1>
+          <p>
+            Robert’s Recipe Box is a practical recipe-card and meal-planning
+            website. The information on this site is intended for general
+            planning, cooking, and household organization purposes.
+          </p>
+        </div>
       </section>
 
-      <section className="disclaimerAccordionList" aria-label="Policy and disclaimer topics">
-        {DISCLAIMER_ACCORDION_SECTIONS.map((section) => {
-          const isOpen = openDisclaimerSections.has(section.title);
+      <div className="aboutRecipesGrid disclaimersGrid">
+        <article className="aboutRecipesCard">
+          <h2>AI-Assisted Recipes</h2>
+          <p>
+            Recipes in Robert’s Recipe Box are created with the assistance of
+            artificial intelligence under Robert’s direction. Robert chooses the
+            meal idea, serving goals, cooking method, flavors, practical needs,
+            and recipe-card format.
+          </p>
+          <p>
+            The recipes are not copied from other websites, restaurants, brands,
+            or cookbooks. Copycat-style recipes are homemade interpretations
+            inspired by familiar meals, products, or restaurant-style foods.
+          </p>
+        </article>
 
-          return (
-            <article className="disclaimerAccordionSection" key={section.title}>
-              <button
-                type="button"
-                className="disclaimerAccordionTrigger"
-                onClick={() => toggleDisclaimerSection(section.title)}
-                aria-expanded={isOpen}
-              >
-                <span>{section.title}</span>
-                <span className="disclaimerAccordionArrow" aria-hidden="true">
-                  {isOpen ? "▾" : "▸"}
-                </span>
-              </button>
+        <article className="aboutRecipesCard">
+          <h2>Not Professional Advice</h2>
+          <p>
+            Robert is not presenting this website as professional culinary,
+            medical, nutritional, financial, or food-safety advice. Visitors
+            should use reasonable judgment and review each recipe before cooking.
+          </p>
+        </article>
 
-              {isOpen && (
-                <div className="disclaimerAccordionPanel">
-                  {section.items.map((item) => (
-                    <section className="disclaimerSubsection" key={item.title}>
-                      <h2>{item.title}</h2>
+        <article className="aboutRecipesCard">
+          <h2>Recipe Testing</h2>
+          <p>
+            Recipes and recipe cards are reviewed for practicality, but not every
+            recipe may have been personally prepared in Robert’s kitchen before
+            being published. Cooking times, temperatures, textures, and finished
+            results may vary.
+          </p>
+        </article>
 
-                      <div className="disclaimerExplanationBlock simple">
-                        {item.simple.map((paragraph, index) => (
-                          <p key={index}>{paragraph}</p>
-                        ))}
-                      </div>
+        <article className="aboutRecipesCard">
+          <h2>Nutrition Estimates</h2>
+          <p>
+            Nutrition values are estimates only. Actual values will vary based on
+            ingredient brands, package sizes, substitutions, preparation methods,
+            and portion sizes.
+          </p>
+          <p>
+            Anyone with diabetes, kidney disease, heart disease, food allergies,
+            swallowing concerns, medically required dietary restrictions, or other
+            health concerns should follow the guidance of a physician or
+            registered dietitian.
+          </p>
+        </article>
 
-                      <div className="disclaimerExplanationBlock formal">
-                        <h3>{item.formalLabel}</h3>
-                        {item.formal.map((paragraph, index) => (
-                          <p key={index}>{paragraph}</p>
-                        ))}
-                      </div>
-                    </section>
-                  ))}
-                </div>
-              )}
-            </article>
-          );
-        })}
-      </section>
+        <article className="aboutRecipesCard">
+          <h2>Cost Estimates</h2>
+          <p>
+            Recipe costs are planning estimates based on typical store-brand
+            pricing and ingredient-use calculations. Actual grocery costs may
+            vary by store, location, brand, package size, shopping method, sales,
+            substitutions, and ingredients already on hand.
+          </p>
+        </article>
+
+        <article className="aboutRecipesCard">
+          <h2>Food Safety</h2>
+          <p>
+            Visitors are responsible for safe food handling, cooking, cooling,
+            freezing, thawing, reheating, and storage. Always verify that meat,
+            poultry, seafood, eggs, casseroles, and reheated foods reach safe
+            internal temperatures before serving.
+          </p>
+        </article>
+
+        <article className="aboutRecipesCard">
+          <h2>Affiliate Links</h2>
+          <p>
+            Some pages may include optional product recommendations or affiliate
+            links. If a purchase is made through an affiliate link, the site may
+            earn a small commission at no additional cost to the shopper. These
+            links are optional and are not required to use the website.
+          </p>
+        </article>
+
+        <article className="aboutRecipesCard aboutQuoteCard">
+          <h2>Use Your Judgment</h2>
+          <p>
+            <strong>
+              Robert’s Recipe Box is meant to help with practical meal planning.
+              Review recipes, adjust ingredients, check cooking temperatures, and
+              choose the options that work best for your household.
+            </strong>
+          </p>
+        </article>
+      </div>
+
+      <div className="aboutRecipesActions">
+        <button className="primary" onClick={() => setActivePage("Home")}>
+          Return Home
+        </button>
+        <button className="secondary" onClick={() => setActivePage("Recipes")}>
+          Browse Recipes
+        </button>
+      </div>
     </main>
   );
 }
 
 
-
-
-
-function CollectionDetailPage({
-  title,
-  text,
-  setActivePage,
-  recipes: classifiedRecipes = [],
-  favorites = [],
-  toggleFavorite = () => {},
-  addToPlan = () => {},
-  openRecipeCard = () => {},
-}) {
-  const collectionRecipes = classifiedRecipes.filter((recipe) =>
-    recipeMatchesCollection(recipe, title)
-  );
-
+function CollectionDetailPage({ title, text, setActivePage }) {
   return (
     <main className="pageShell aboutRecipesPage collectionDetailPage">
       <section className="aboutRecipesHero">
@@ -7361,34 +4817,9 @@ function CollectionDetailPage({
         </div>
       </section>
 
-      {collectionRecipes.length ? (
-        <div className="recipeGrid browseRecipeGrid collectionRecipeGrid">
-          {collectionRecipes.map((recipe) => (
-            <RecipeCard
-              key={recipe.id}
-              recipe={recipe}
-              favorites={favorites}
-              toggleFavorite={toggleFavorite}
-              addToPlan={addToPlan}
-              openRecipeCard={openRecipeCard}
-              cardList={collectionRecipes}
-              displayMode="card"
-            />
-          ))}
-        </div>
-      ) : (
-        <EmptyState
-          title={`No recipes assigned to ${title} yet`}
-          text="Open the Admin Recipe Classification page and check this collection for the recipes you want displayed here."
-        />
-      )}
-
       <div className="aboutRecipesActions">
         <button className="primary" onClick={() => setActivePage("Recipes")}>
           Browse Recipes
-        </button>
-        <button className="secondary" onClick={() => setActivePage("Admin Recipes")}>
-          Open Admin Classifier
         </button>
         <button className="secondary" onClick={() => setActivePage("Meal Planner")}>
           Plan Your Meals
@@ -7441,10 +4872,9 @@ function FeatureStrip() {
 
 export default function App() {
   const [activePage, setActivePage] = useState("Home");
-  const [favorites, setFavorites] = useState(() => {
-    const storedFavorites = loadJSON(STORAGE_KEYS.favorites, []);
-    return Array.isArray(storedFavorites) ? storedFavorites : [];
-  });
+  const [favorites, setFavorites] = useState(() =>
+    loadJSON(STORAGE_KEYS.favorites, [])
+  );
   const [plan, setPlan] = useState(() =>
     normalizeTwoWeekPlan(loadJSON(STORAGE_KEYS.plan, emptyTwoWeekPlan()))
   );
@@ -7459,51 +4889,19 @@ export default function App() {
   );
   const [filter, setFilter] = useState("");
   const [cardViewer, setCardViewer] = useState(null);
-  const [recipeClassifications, setRecipeClassifications] = useState(() =>
-    loadRecipeClassifications()
-  );
-
-  const classifiedRecipes = useMemo(
-    () => mergeRecipeClassifications(recipes, recipeClassifications),
-    [recipeClassifications]
-  );
 
   useEffect(() => saveJSON(STORAGE_KEYS.favorites, favorites), [favorites]);
   useEffect(() => saveJSON(STORAGE_KEYS.plan, plan), [plan]);
   useEffect(() => saveJSON(STORAGE_KEYS.servings, servings), [servings]);
   useEffect(() => saveJSON(STORAGE_KEYS.checked, checked), [checked]);
   useEffect(() => saveJSON(STORAGE_KEYS.pantry, pantry), [pantry]);
-  useEffect(
-    () => saveRecipeClassifications(recipeClassifications),
-    [recipeClassifications]
-  );
-
-  useEffect(() => {
-    const preloadAllSupportingHeroes = () => {
-      SUPPORTING_PAGE_HERO_IMAGES.forEach((imagePath, index) => {
-        window.setTimeout(() => preloadHeroImage(imagePath, "low"), index * 45);
-      });
-    };
-
-    if ("requestIdleCallback" in window) {
-      const idleId = window.requestIdleCallback(preloadAllSupportingHeroes, {
-        timeout: 1600,
-      });
-      return () => window.cancelIdleCallback?.(idleId);
-    }
-
-    const timer = window.setTimeout(preloadAllSupportingHeroes, 800);
-    return () => window.clearTimeout(timer);
-  }, []);
 
   function toggleFavorite(id) {
-    if (!id) return;
-    setFavorites((current) => {
-      const safeCurrent = Array.isArray(current) ? current : [];
-      return safeCurrent.includes(id)
-        ? safeCurrent.filter((item) => item !== id)
-        : [...safeCurrent, id];
-    });
+    setFavorites((current) =>
+      current.includes(id)
+        ? current.filter((item) => item !== id)
+        : [...current, id]
+    );
   }
 
   function addToPlan(recipeId) {
@@ -7543,546 +4941,83 @@ export default function App() {
     setChecked,
     pantry,
     setPantry,
-    classifiedRecipes,
   };
 
   return (
     <div className="app">
       <Header activePage={activePage} setActivePage={setActivePage} />
 
-      {activePage === "Admin Recipes" && (
-        <AdminRecipeClassifier
-          recipes={recipes}
-          categories={categories}
-          classifications={recipeClassifications}
-          setClassifications={setRecipeClassifications}
-          onClose={() => setActivePage("Home")}
-        />
-      )}
-
       {activePage === "Home" && <Home {...pageProps} />}
-      {activePage === "Contact Me" && (
-        <>
-          <PageHeroImage
-            src="images/heroes/hero-mission.png"
-            alt="Recipe box, notebook, and kitchen organization setup"
-            eyebrow="ABOUT US"
-            title="Contact Me"
-            text="Have a question about the website, a suggestion for a new feature, or an idea for a recipe you would like to see? You are always welcome to send me a message. Feedback from visitors helps me understand what is useful and what could be improved.\n\nYou may also contact me about corrections, technical problems, family-recipe submissions, or general questions about Robert’s Recipe Box. I may not have every answer, but I will do my best to respond and help."
-          />
-          <PlaceholderInfoPage
-            eyebrow="ABOUT US"
-            title="Contact Me"
-            text="This page will include a simple way to contact Robert about recipe ideas, corrections, suggestions, or questions about Robert’s Recipe Box."
-            setActivePage={setActivePage}
-            recipes={classifiedRecipes}
-            favorites={favorites}
-            toggleFavorite={toggleFavorite}
-            addToPlan={addToPlan}
-            openRecipeCard={openRecipeCard}
-          />
-        </>
-      )}
-      {activePage === "Free To Use" && (
-        <>
-          <PageHeroImage
-            src="images/heroes/hero-page-free-to-use.jpg"
-            alt="Free to use recipe planning setup with chicken dinner, recipe box, recipe plan clipboard, and notebook"
-            eyebrow="OUR RECIPES"
-            title="Free To Use, Print or Download"
-            text="The recipes on this website are provided for personal use at no charge. You may read them online, print copies for your kitchen, download recipe cards, or save your favorites so they are easier to find the next time you need them.\n\nThe purpose of the site is to make practical cooking information accessible and convenient. Use the recipes in the way that best fits your household, and feel free to make reasonable adjustments for taste, portion size, equipment, or available ingredients."
-            className="pageHeroDepth464"
-/>
-          <PlaceholderInfoPage
-            eyebrow="OUR RECIPES"
-            title="Free To Use, Print or Download"
-            text="Robert’s Recipe Box is free to use. Recipes, cards, meal-planning ideas, shopping-list tools, and practical information are intended to remain available without a subscription."
-            setActivePage={setActivePage}
-            recipes={classifiedRecipes}
-            favorites={favorites}
-            toggleFavorite={toggleFavorite}
-            addToPlan={addToPlan}
-            openRecipeCard={openRecipeCard}
-          />
-        </>
-      )}
-      {activePage === "Dinner Combinations" && (
-        <>
-          <PageHeroImage
-            src="images/heroes/hero-page-complete-dinners.jpg"
-            alt="Complete dinner setup with steak, sides, recipe box, clipboard, and iced tea"
-            eyebrow="COLLECTIONS"
-            title="Dinner Combinations"
-            text="These dinner combinations are designed to help you quickly choose practical meals with a main dish, sides, portion guidance, and estimated nutrition. They can be used for weekly planning, freezer meal prep, or simple dinner ideas for smaller households.\n\nNutrition values are estimates and may vary based on brands, portions, and preparation methods."
-            className="pageHeroDepth464"
-          />
-          <DinnerCombinationsPage setActivePage={setActivePage} setFilter={setFilter} setPlan={setPlan} openRecipeCard={openRecipeCard} />
-        </>
-      )}
-      {activePage === "Crockpot Recipes" && (
-        <HeroTopicPage
-          eyebrow="COOKING METHODS"
-          title="Crockpot Recipes"
-          heroImage="images/heroes/hero-page-crockpot.jpg"
-          heroAlt="Crockpot with slow-cooked meal, checklist, notebook, coffee, and potted plant"
-          text="The Crockpot is one of the easiest ways to prepare a comforting meal with limited last-minute work. Ingredients can often be assembled earlier in the day, leaving the slow cooker to gently cook meats, vegetables, sauces, soups, or stews.\n\nThese recipes are designed for convenience, tenderness, and dependable flavor. They are useful for busy weekdays, make-ahead meals, larger portions, and dishes that improve as the ingredients slowly cook together."
-          setActivePage={setActivePage}
-        />
-      )}
-      {activePage === "Grilling Tips" && (
-        <HeroTopicPage
-          eyebrow="TIPS & ORGANIZATION"
-          title="Tips: Grilling"
-          heroImage="images/heroes/hero-grill.png"
-          heroAlt="Gas grill with grilled meats and vegetables"
-          text="Successful grilling begins before the food reaches the cooking grate. Preparation, preheating, clean grates, correct heat zones, and a basic understanding of timing can make a noticeable difference in the finished meal.\n\nThese tips cover direct and indirect cooking, flare-ups, turning, marinades, safe internal temperatures, resting, and other common questions. The goal is to help you grill more confidently and produce consistent results."
-          setActivePage={setActivePage}
-        />
-      )}
-      {activePage === "Reference Guides" && (
-        <>
-          <PageHeroImage
-            src="images/heroes/hero-page-reference-guides.jpg"
-            alt="Kitchen reference guides setup with measuring cups, conversion chart, cookbooks, and utensils"
-            eyebrow="TIPS & ORGANIZATION"
-            title="Reference Guides"
-            text="Cooking often involves small questions that are difficult to remember in the middle of preparing a meal. Reference guides provide quick answers for measurements, temperatures, storage times, substitutions, portions, equipment, and common cooking terms.
-
-These pages are designed to be easy to scan, print, or revisit when needed. They can serve as a practical kitchen reference without requiring you to search through a long article for one simple answer."
-            className="pageHeroDepth464"
-          />
-          <ReferenceGuidesPage />
-        </>
-      )}
-
-      {activePage === "Disclaimers" && (
-        <>
-          <PageHeroImage
-            src="images/heroes/hero-page-disclaimers.jpg"
-            alt="Disclaimer page setup with disclaimer notebook, glasses, scales, recipe box, and clipboard"
-            eyebrow="ABOUT US"
-            title="Boring Disclaimer Stuff"
-            text="Every website needs a little fine print, even one devoted to recipes and home cooking. This section explains the general terms, privacy information, nutritional limitations, affiliate disclosures, copyright details, and other policies connected with using Robert’s Recipe Box.\n\nThe goal is not to make the site feel complicated. These notices simply explain what visitors should know, how certain information is handled, and where personal judgment or professional advice may still be needed."
-            className="pageHeroDepth464"
-/>
-          <DisclaimersPage setActivePage={setActivePage} />
-        </>
-      )}
-      {activePage === "Under Construction" && (
-        <>
-          <PageHeroImage
-            src="images/heroes/hero-page-construction.jpg"
-            alt="Under construction page setup with hard hat, construction sign, recipe box, and notebook"
-            eyebrow="ABOUT US"
-            title="Under Construction"
-            text="This section of Robert’s Recipe Box is still being planned, written, tested, or assembled. Some pages may be incomplete while new recipes, tools, images, and features are being added to the website.\n\nPlease check back again as the site continues to grow. The goal is to build each section carefully rather than rush unfinished material online, so some areas may take a little longer to complete."
-            className="pageHeroDepth464"
-/>
-          <UnderConstructionPage setActivePage={setActivePage} />
-        </>
-      )}
+      {activePage === "Disclaimers" && <DisclaimersPage setActivePage={setActivePage} />}
+      {activePage === "Under Construction" && <UnderConstructionPage setActivePage={setActivePage} />}
       {activePage === "Recipes" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-page-browse-recipes.jpg"
-            alt="Browse recipes setup with recipe box, pasta dish, salad, notebook, and recipe category clipboard"
-            eyebrow="OUR RECIPES"
-            title="Browse Our Library"
-            text="Explore the Robert’s Recipe Box library and find something that sounds good for your next meal. Recipes can be discovered through categories, collections, cooking methods, meal types, seasonal ideas, and other helpful groupings.\n\nWhether you already know exactly what you want or are simply browsing for inspiration, the library is designed to make it easier to compare choices. New recipes and collections will continue to be added as the website grows."
-            className="pageHeroDepth464"
-/>
+            src="images/heroes/hero-recipes.png"
+            alt="Recipe card organization setup on a kitchen counter"
+          />
           <RecipesPage {...pageProps} />
         </>
       )}
-      {activePage === "Collections" && (
-        <>
-          <PageHeroImage
-            src="images/heroes/hero-weekly-plan.png"
-            alt="Weekly meal planner with fresh vegetables"
-            eyebrow="COLLECTIONS"
-            title="Collections"
-            text="Recipe collections bring related meals and cooking ideas together in one convenient place. Instead of searching through the entire library, you can choose a collection that matches your schedule, the season, your preferred appliance, or the kind of food you feel like eating.\n\nSome collections focus on speed and convenience, while others are built around comfort, nutrition, outdoor cooking, or complete meal combinations. Each one offers a practical starting point when you need inspiration."
-          />
-          <CollectionsPage setActivePage={setActivePage} />
-        </>
-      )}
-      {activePage === "Salad Jars" && (
-        <>
-          <PageHeroImage
-            src="images/heroes/hero-page-salad-jars.jpg"
-            alt="Salad jars meal planning setup with mason jar salads, recipe box, notebook, and clipboard"
-            eyebrow="COLLECTIONS"
-            title="Salad Jars"
-            text="Salad jars make it easier to prepare fresh meals in advance without ending up with a soggy salad. By layering dressing, sturdy vegetables, proteins, grains, and delicate greens in the correct order, the ingredients remain separated until serving.\n\nThis collection includes practical combinations for lunches, light dinners, meal preparation, and grab-and-go meals. Shake the jar or pour everything into a bowl when you are ready to eat."
-            className="pageHeroDepth464"
-          />
-          <CollectionDetailPage
-            title="Salad Jars"
-            text="A collection page for make-ahead salad jars, fresh lunches, and easy grab-and-go meal prep ideas. More recipes and filters will be added here."
-            setActivePage={setActivePage}
-            recipes={classifiedRecipes}
-            favorites={favorites}
-            toggleFavorite={toggleFavorite}
-            addToPlan={addToPlan}
-            openRecipeCard={openRecipeCard}
-          />
-        </>
-      )}
+      {activePage === "Collections" && <CollectionsPage setActivePage={setActivePage} />}
       {activePage === "Slow Cooker Favorites" && (
-        <>
-          <PageHeroImage
-            src="images/heroes/hero-page-slow-cooker.jpg"
-            alt="Slow cooker meal setup with crockpot, sides, rolls, recipe box, and slow cooker meal plan clipboard"
-            eyebrow="COLLECTIONS"
-            title="Slow Cooker Favorites"
-            text="Slow cooker meals are ideal for days when you want dinner cooking while you handle everything else. Many recipes require only a little preparation before the Crockpot takes over and slowly develops the flavor.\n\nThis collection includes comforting meats, soups, stews, casseroles, and other dependable meals. They are especially useful for busy weekdays, relaxed weekends, meal preparation, and dishes that benefit from long, gentle cooking."
-            className="pageHeroDepth464"
-/>
-          <CollectionDetailPage
-            title="Slow Cooker Favorites"
-            text="A collection page for easy slow-cooker meals and set-it-and-forget-it dinner ideas. More recipes and filters will be added here."
-            setActivePage={setActivePage}
-            recipes={classifiedRecipes}
-            favorites={favorites}
-            toggleFavorite={toggleFavorite}
-            addToPlan={addToPlan}
-            openRecipeCard={openRecipeCard}
-          />
-        </>
+        <CollectionDetailPage
+          title="Slow Cooker Favorites"
+          text="A collection page for easy slow-cooker meals and set-it-and-forget-it dinner ideas. More recipes and filters will be added here."
+          setActivePage={setActivePage}
+        />
       )}
       {activePage === "Summer Cookouts" && (
-        <>
-          <PageHeroImage
-            src="images/heroes/hero-page-summer-cookouts.jpg"
-            alt="Summer cookout setup with burger, hot dog, corn, baked beans, coleslaw, and recipe box"
-            eyebrow="COLLECTIONS"
-            title="Summer Cookouts"
-            text="Summer cookouts are about good food, fresh air, and spending time with family and friends. This collection brings together grilled meats, easy side dishes, cool salads, drinks, desserts, and other recipes that work well for outdoor meals.\n\nUse these ideas for backyard dinners, holiday weekends, poolside gatherings, neighborhood get-togethers, or a quiet evening on the patio. Many of the recipes can be prepared ahead so you spend less time in the kitchen."
-                      className="pageHeroDepth464"
-/>
-          <CollectionDetailPage
-            title="Summer Cookouts"
-            text="A collection page for grill-friendly meals, warm-weather favorites, cookouts, and simple outdoor dinners. More recipes and filters will be added here."
-            setActivePage={setActivePage}
-            recipes={classifiedRecipes}
-            favorites={favorites}
-            toggleFavorite={toggleFavorite}
-            addToPlan={addToPlan}
-            openRecipeCard={openRecipeCard}
-          />
-        </>
+        <CollectionDetailPage
+          title="Summer Cookouts"
+          text="A collection page for grill-friendly meals, warm-weather favorites, cookouts, and simple outdoor dinners. More recipes and filters will be added here."
+          setActivePage={setActivePage}
+        />
       )}
       {activePage === "Healthy Dinners" && (
-        <>
-          <PageHeroImage
-            src="images/heroes/hero-page-healthy-dinners.jpg"
-            alt="Healthy dinner setup with grilled chicken, salad, grains, recipe box, and meal plan clipboard"
-            eyebrow="COLLECTIONS"
-            title="Healthy Dinners"
-            text="Healthy dinners should still be filling, flavorful, and enjoyable to eat. This collection focuses on practical meals made with balanced ingredients, sensible portions, leaner proteins, vegetables, whole grains, or lighter preparation methods.\n\nThe goal is not to remove every comfort or follow a single strict diet. These recipes simply provide better-balanced options that can fit more easily into an everyday eating plan without making dinner feel like a punishment."
-            className="pageHeroDepth464"
-/>
-          <CollectionDetailPage
-            title="Healthy Dinners"
-            text="A collection page for lighter, practical dinner ideas with flexible options for lower-calorie, lower-carb, and higher-protein meals. More recipes and filters will be added here."
-            setActivePage={setActivePage}
-            recipes={classifiedRecipes}
-            favorites={favorites}
-            toggleFavorite={toggleFavorite}
-            addToPlan={addToPlan}
-            openRecipeCard={openRecipeCard}
-          />
-        </>
+        <CollectionDetailPage
+          title="Healthy Dinners"
+          text="A collection page for lighter, practical dinner ideas with flexible options for lower-calorie, lower-carb, and higher-protein meals. More recipes and filters will be added here."
+          setActivePage={setActivePage}
+        />
       )}
       {activePage === "Comfort Foods" && (
-        <>
-          <PageHeroImage
-            src="images/heroes/hero-page-comfort-food.jpg"
-            alt="Comfort food meal setup with meatloaf, mashed potatoes, green beans, rolls, macaroni, and recipe box"
-            eyebrow="COLLECTIONS"
-            title="Comfort Foods"
-            text="Comfort food means something a little different to everyone, but it usually begins with familiar flavors and a satisfying meal. This collection includes hearty casseroles, creamy dishes, slow-cooked favorites, homestyle dinners, and other recipes that feel dependable.\n\nThese meals are especially welcome on cooler evenings, quiet weekends, difficult days, or any time you want something warm and familiar. Some are traditional favorites, while others offer a new version of a well-loved dish."
-            className="pageHeroDepth464"
-/>
-          <CollectionDetailPage
-            title="Comfort Foods"
-            text="A collection page for familiar classics, cozy family-style meals, and practical comfort-food recipes. More recipes and filters will be added here."
-            setActivePage={setActivePage}
-            recipes={classifiedRecipes}
-            favorites={favorites}
-            toggleFavorite={toggleFavorite}
-            addToPlan={addToPlan}
-            openRecipeCard={openRecipeCard}
-          />
-        </>
+        <CollectionDetailPage
+          title="Comfort Foods"
+          text="A collection page for familiar classics, cozy family-style meals, and practical comfort-food recipes. More recipes and filters will be added here."
+          setActivePage={setActivePage}
+        />
       )}
       {activePage === "Easy 30-Minute Meals" && (
-        <>
-          <PageHeroImage
-            src="images/heroes/hero-page-30-minute-meals.jpg"
-            alt="Easy 30-minute meal planning setup with chicken, salad, recipe cards, and a meal plan clipboard"
-            eyebrow="COLLECTIONS"
-            title="Easy 30-Minute Meals"
-            text="Busy evenings do not always leave time for complicated preparation or long cooking times. These recipes are designed to help you place a satisfying meal on the table in about 30 minutes, using straightforward ingredients and efficient methods.\n\nThe collection includes skillet meals, quick pastas, air-fryer recipes, simple grilled dishes, fast casseroles, and other practical options. Actual times may vary, but every recipe is selected with convenience in mind."
-            className="pageHeroDepth464"
-/>
-          <CollectionDetailPage
-            title="Easy 30-Minute Meals"
-            text="A collection page for fast weeknight meals and simple dinners that come together quickly. More recipes and filters will be added here."
-            setActivePage={setActivePage}
-            recipes={classifiedRecipes}
-            favorites={favorites}
-            toggleFavorite={toggleFavorite}
-            addToPlan={addToPlan}
-            openRecipeCard={openRecipeCard}
-          />
-        </>
-      )}
-      {activePage === "Sunday Meals" && (
-        <>
-          <PageHeroImage
-            src="images/heroes/hero-weekly-plan.png"
-            alt="Sunday meal planning setup with recipes, dinner, and family-style sides"
-            eyebrow="COLLECTIONS"
-            title="Sunday Meals"
-            text="Sunday meals are the recipes that feel a little more settled, familiar, and worth gathering around. This collection can include homestyle dinners, make-ahead mains, slow-cooked meals, casseroles, and dependable family favorites.
-
-Use this page to group the recipes you want for relaxed weekends, family visits, holiday-style dinners, or meals that leave useful leftovers for the week ahead."
-            className="pageHeroDepth464"
-          />
-          <CollectionDetailPage
-            title="Sunday Meals"
-            text="A collection page for relaxed weekend dinners, family-style meals, and dependable Sunday favorites."
-            setActivePage={setActivePage}
-            recipes={classifiedRecipes}
-            favorites={favorites}
-            toggleFavorite={toggleFavorite}
-            addToPlan={addToPlan}
-            openRecipeCard={openRecipeCard}
-          />
-        </>
-      )}
-      {activePage === "Complete Dinners" && (
-        <>
-          <PageHeroImage
-            src="images/heroes/hero-page-complete-dinners.jpg"
-            alt="Complete dinner setup with main dish, sides, recipe box, and meal-planning clipboard"
-            eyebrow="COLLECTIONS"
-            title="Complete Dinners"
-            text="Complete dinners bring together recipes that work well as a full meal idea. These may include hearty mains, practical sides, freezer-friendly options, or meals that are especially easy to plan for two to six servings.
-
-Use this collection to assign individual recipe cards that belong in a complete-dinner planning group without duplicating recipes or changing their official category codes."
-            className="pageHeroDepth464"
-          />
-          <CollectionDetailPage
-            title="Complete Dinners"
-            text="A collection page for recipes that work especially well as part of a complete dinner plan."
-            setActivePage={setActivePage}
-            recipes={classifiedRecipes}
-            favorites={favorites}
-            toggleFavorite={toggleFavorite}
-            addToPlan={addToPlan}
-            openRecipeCard={openRecipeCard}
-          />
-        </>
-      )}
-      {activePage === "Freezer-Friendly Meals" && (
-        <>
-          <PageHeroImage
-            src="images/heroes/hero-page-freezing-meals.jpg"
-            alt="Freezer meal setup with containers, labels, recipe cards, and prepared food"
-            eyebrow="COLLECTIONS"
-            title="Freezer-Friendly Meals"
-            text="Freezer-friendly meals are helpful when you want to cook once and make future dinners easier. This collection can include recipes that freeze well as full meals, meal components, sauces, proteins, casseroles, soups, or prepared portions.
-
-Use this page to group recipes that can be made ahead, labeled, frozen, thawed safely, and finished later with dependable results."
-            className="pageHeroDepth464"
-          />
-          <CollectionDetailPage
-            title="Freezer-Friendly Meals"
-            text="A collection page for recipes that are useful for freezer prep, batch cooking, and future meals."
-            setActivePage={setActivePage}
-            recipes={classifiedRecipes}
-            favorites={favorites}
-            toggleFavorite={toggleFavorite}
-            addToPlan={addToPlan}
-            openRecipeCard={openRecipeCard}
-          />
-        </>
-      )}
-      {activePage === "Meals for Two" && (
-        <>
-          <PageHeroImage
-            src="images/heroes/hero-page-meal-plans.jpg"
-            alt="Meal planning for two setup with recipe cards, dinner plates, and grocery notes"
-            eyebrow="COLLECTIONS"
-            title="Meals for Two"
-            text="Meals for two are especially useful for smaller households, empty nesters, and anyone who wants practical portions without excessive leftovers. Some recipes may already fit two servings, while others may be easy to divide, freeze, or repurpose.
-
-Use this collection to organize recipes that work well for two-person dinners, planned leftovers, or smaller batch cooking."
-            className="pageHeroDepth464"
-          />
-          <CollectionDetailPage
-            title="Meals for Two"
-            text="A collection page for practical smaller-household recipes and two-person dinner planning."
-            setActivePage={setActivePage}
-            recipes={classifiedRecipes}
-            favorites={favorites}
-            toggleFavorite={toggleFavorite}
-            addToPlan={addToPlan}
-            openRecipeCard={openRecipeCard}
-          />
-        </>
-      )}
-      {activePage === "Make-Ahead Meals" && (
-        <>
-          <PageHeroImage
-            src="images/heroes/hero-page-make-ahead-meals.jpg"
-            alt="Make-ahead meal setup with prepared food, storage containers, labels, and recipe notes"
-            eyebrow="COLLECTIONS"
-            title="Make-Ahead Meals"
-            text="Make-ahead meals help reduce last-minute cooking pressure by moving part of the work earlier. These recipes may be assembled ahead, partly cooked, portioned, chilled, frozen, or prepared as components for faster dinners later.
-
-Use this collection to organize recipes that fit prep-ahead cooking, planned leftovers, freezer portions, or simple weeknight finishing."
-            className="pageHeroDepth464"
-          />
-          <CollectionDetailPage
-            title="Make-Ahead Meals"
-            text="A collection page for recipes that can be prepared ahead, assembled early, or finished quickly later."
-            setActivePage={setActivePage}
-            recipes={classifiedRecipes}
-            favorites={favorites}
-            toggleFavorite={toggleFavorite}
-            addToPlan={addToPlan}
-            openRecipeCard={openRecipeCard}
-          />
-        </>
+        <CollectionDetailPage
+          title="Easy 30-Minute Meals"
+          text="A collection page for fast weeknight meals and simple dinners that come together quickly. More recipes and filters will be added here."
+          setActivePage={setActivePage}
+        />
       )}
       {activePage === "Meal Planner" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-weekly-dinner-planner.png"
-            alt="Weekly dinner planner hero with meal-planning notebook, checklist clipboard, coffee, and a potted plant on a light marble counter"
-            eyebrow="TWO-WEEK DINNER PLANNER"
-            title="Your Weekly Dinner Planner"
-            text="Meal planning can make the week feel more organized without removing flexibility. Select meals for specific days, account for leftovers, plan around appointments, and decide which foods need to be thawed or prepared in advance.\n\nYour plan can be as detailed or as simple as you prefer. Even choosing four or five dinners before grocery shopping can reduce stress, limit impulse purchases, and make it easier to use the food already in your home."
+            src="images/heroes/hero-meal-plan.png"
+            alt="Meal planning notebook with vegetables and dinner ingredients"
           />
           <PlannerPage {...pageProps} />
         </>
       )}
-      {activePage === "Shopping Lists" && (
-        <>
-          <PageHeroImage
-            src="images/heroes/hero-page-grocery-list.jpg"
-            alt="Grocery list setup with clipboard, shopping bag, notebook, coffee, and fresh groceries"
-            eyebrow="PLANNING"
-            title="Your Grocery List"
-            text="A clear grocery list helps turn a meal plan into an organized shopping trip. Add the ingredients needed for upcoming recipes, review the items already in your pantry, and avoid purchasing products you do not actually need.\n\nGrouping similar items together can make shopping faster and reduce forgotten ingredients. Your list can also help control impulse purchases, compare costs, and keep household staples from running out unexpectedly."
-            className="pageHeroDepth464"
-/>
-          <ShoppingListPage {...pageProps} />
-        </>
-      )}
-      {activePage === "Pantry Staples" && (
-        <>
-          <PageHeroImage
-            src="images/heroes/hero-page-your-pantry.jpg"
-            alt="Pantry planning setup with labeled pantry containers, canned goods, checklist, and notebook"
-            eyebrow="PLANNING"
-            title="Your Pantry"
-            text="A well-organized pantry makes it easier to see what you already own and what needs to be replaced. Keeping track of canned goods, dry ingredients, spices, baking supplies, sauces, and staples can prevent duplicate purchases and forgotten food.\n\nUse this section as a practical inventory and planning tool. When you know what is available, it becomes easier to choose recipes, use ingredients before they expire, and prepare meals without another trip to the store."
-            className="pageHeroDepth464"
-/>
-          <PantryStaplesPage {...pageProps} />
-        </>
-      )}
-      {activePage === "Favorites" && (
-        <>
-          <PageHeroImage
-            src="images/heroes/hero-page-favorite-recipes.jpg"
-            alt="Favorite recipe setup with recipe box, favorite recipe card, notebook, and kitchen decor"
-            eyebrow="PLANNING"
-            title="Your Favorites"
-            icon="♥"
-            text="Your Favorites provides one convenient place to save the recipes you enjoy most or want to prepare again. Instead of searching through the full library every time, you can return directly to meals that already caught your attention.\n\nOver time, this section can become your own personalized recipe collection. Save dependable family meals, special-occasion favorites, recipes you want to try, and dishes that work especially well with your schedule or equipment."
-            className="pageHeroDepth464"
-/>
-          <FavoritesPage {...pageProps} />
-        </>
-      )}
-      {activePage === "Recommendations" && (
-        <>
-          <PageHeroImage
-            src="images/heroes/hero-storage.png"
-            alt="Pantry storage containers, spices, and kitchen organization setup"
-            eyebrow="TIPS & ORGANIZATION"
-            title="Recommendations"
-            text="Helpful kitchen products, practical tools, and useful items that support cooking and organization."
-          />
-          <RecommendationsPage {...pageProps} />
-        </>
-      )}
-      {activePage === "Products I Use" && (
-        <>
-          <PageHeroImage
-            src="images/heroes/hero-page-cooking-tools.jpg"
-            alt="Cooking tools and products setup with utensils, measuring cups, grater, mixing bowl, and skillet"
-            eyebrow="TIPS & ORGANIZATION"
-            title="Cooking Tools & Products"
-            text="The right kitchen tool can save time, improve consistency, or make an unpleasant task easier. The wrong tool may take up space without providing enough benefit to justify its cost.\n\nThis section highlights products that may be genuinely useful for preparation, cooking, storage, serving, and cleanup. Recommendations are based on practical function and suitability for an everyday home kitchen rather than collecting unnecessary gadgets."
-            className="pageHeroDepth464"
-/>
-          <ProductsIUsePage setActivePage={setActivePage} />
-        </>
-      )}
-      {activePage === "Grocery Picks" && (
-        <>
-          <PageHeroImage
-            src="images/heroes/hero-page-healthy-substitutions.jpg"
-            alt="Healthy substitutions setup with cauliflower, tofu, zucchini noodles, beans, grains, yogurt, and greens"
-            eyebrow="TIPS & ORGANIZATION"
-            title="Healthy Substitutions"
-            text="Healthier cooking does not always require replacing the entire recipe. Small adjustments to ingredients, portions, cooking methods, or side dishes can make a familiar meal better suited to your goals.\n\nThis section includes practical substitutions for fats, sugar, sodium, refined carbohydrates, and higher-calorie ingredients. Not every replacement works in every recipe, so the suggestions also consider flavor, texture, and cooking performance."
-            className="pageHeroDepth464"
-/>
-          <GroceryPicksPage {...pageProps} />
-        </>
-      )}
-      {activePage === "Smart Grocery Picks" && (
-        <>
-          <PageHeroImage
-            src="images/heroes/hero-page-healthy-substitutions.jpg"
-            alt="Healthy substitutions setup with cauliflower, tofu, zucchini noodles, beans, grains, yogurt, and greens"
-            eyebrow="TIPS & ORGANIZATION"
-            title="Healthy Substitutions"
-            text="Healthier cooking does not always require replacing the entire recipe. Small adjustments to ingredients, portions, cooking methods, or side dishes can make a familiar meal better suited to your goals.\n\nThis section includes practical substitutions for fats, sugar, sodium, refined carbohydrates, and higher-calorie ingredients. Not every replacement works in every recipe, so the suggestions also consider flavor, texture, and cooking performance."
-            className="pageHeroDepth464"
-/>
-          <GroceryPicksPage {...pageProps} />
-        </>
-      )}
-      {activePage === "Freezer Tips" && (
-        <>
-          <PageHeroImage
-            src="images/heroes/hero-storage.png"
-            alt="Pantry storage containers, spices, and kitchen organization setup"
-            eyebrow="TIPS & ORGANIZATION"
-            title="Tips: Freezing Meals"
-            text="Freezing meals can save time, reduce waste, and make busy days easier, but good results depend on proper preparation and packaging. Some foods freeze beautifully, while others require small changes to preserve their texture and flavor.\n\nThis section covers containers, freezer bags, vacuum sealing, portioning, cooling, labeling, storage times, safe thawing, reheating, and final preparation. Clear instructions can help make frozen meals feel more like freshly prepared food."
-          />
-          <FreezerTipsPage {...pageProps} />
-        </>
-      )}
+      {activePage === "Shopping Lists" && <ShoppingListPage {...pageProps} />}
+      {activePage === "Pantry Staples" && <PantryStaplesPage {...pageProps} />}
+      {activePage === "Favorites" && <FavoritesPage {...pageProps} />}
+      {activePage === "Recommendations" && <RecommendationsPage {...pageProps} />}
+      {activePage === "Products I Use" && <ProductsIUsePage setActivePage={setActivePage} />}
+      {activePage === "Grocery Picks" && <GroceryPicksPage {...pageProps} />}
+      {activePage === "Smart Grocery Picks" && <GroceryPicksPage {...pageProps} />}
+      {activePage === "Freezer Tips" && <FreezerTipsPage {...pageProps} />}
       {activePage === "About" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-page-about-us.jpg"
-            alt="Framed family photos, coffee cup, and small plant on a light kitchen counter"
-            eyebrow="ABOUT US"
-            title="Welcome to Our Site"
-            text="Come on in and take a look around Robert’s Recipe Box. Whether you are searching for tonight’s dinner, planning meals for the week, trying a new cooking method, or simply looking for a little inspiration, we hope you find something useful.\n\nThe site is designed to be comfortable and easy to explore. Browse the recipes, save your favorites, review the cooking tips, or use the planning tools to create a routine that works better for your household."
-            className="pageHeroDepth464"
-/>
+            src="images/heroes/hero-mission.png"
+            alt="Recipe box, binder, and kitchen organization setup"
+          />
           <AboutPage setActivePage={setActivePage} initialSection="main" />
         </>
       )}
@@ -8111,9 +5046,9 @@ Use this collection to organize recipes that fit prep-ahead cooking, planned lef
         <HeroTopicPage
           eyebrow="COOKING METHODS"
           title="Air Fryer Recipes"
-          heroImage="images/heroes/hero-page-air-fryer.jpg"
-          heroAlt="Air fryer with fries, cooked bites, towel, and potted herb"
-          text="Air fryers can create crisp, flavorful food with less oil and often less cleanup than traditional frying. They are especially useful for smaller portions, quick meals, reheating certain leftovers, and preparing foods without heating a full-size oven.\n\nThis collection includes meats, vegetables, side dishes, snacks, and other recipes suited to circulating hot air. Because air fryers vary, cooking times may need small adjustments based on the model and basket size."
+          heroImage="images/heroes/hero-air-fryer.png"
+          heroAlt="Air fryer with wings and potatoes on a kitchen counter"
+          text="This page will collect practical air fryer recipes, shortcuts, reheating ideas, and small-household cooking tips."
           setActivePage={setActivePage}
         />
       )}
@@ -8121,9 +5056,9 @@ Use this collection to organize recipes that fit prep-ahead cooking, planned lef
         <HeroTopicPage
           eyebrow="COOKING METHODS"
           title="Oven Recipes"
-          heroImage="images/heroes/hero-page-oven.jpg"
-          heroAlt="Oven cooking setup with casserole, oven tips clipboard, utensils, coffee, and notebook"
-          text="The oven remains one of the most versatile tools in the kitchen. It can bake, roast, broil, brown, warm, and finish everything from casseroles and meats to vegetables, breads, and desserts.\n\nThis section includes recipes for everyday dinners as well as special occasions. Clear temperatures and timing guidance will help you plan the meal, although ovens can vary and food should always be checked for doneness."
+          heroImage="images/heroes/hero-oven.png"
+          heroAlt="Baked casserole with tomatoes, basil, and kitchen herbs"
+          text="This page will collect practical oven-baked meals, casseroles, sheet-pan dinners, sides, and make-ahead recipe ideas."
           setActivePage={setActivePage}
         />
       )}
@@ -8131,9 +5066,9 @@ Use this collection to organize recipes that fit prep-ahead cooking, planned lef
         <HeroTopicPage
           eyebrow="COOKING METHODS"
           title="Microwave Recipes"
-          heroImage="images/heroes/hero-page-microwaves.jpg"
-          heroAlt="Microwave cooking setup with bowl of food, towel, and potted plant"
-          text="Microwaves are usually associated with reheating leftovers, but they can also prepare simple meals, side dishes, sauces, vegetables, snacks, and individual portions. Used properly, they can save time and reduce the number of pans that need washing.\n\nThis section focuses on practical microwave uses rather than pretending it replaces every other appliance. Power levels and cooking times may vary, so recipes may require adjustment for your specific microwave."
+          heroImage="images/heroes/hero-microwave.png"
+          heroAlt="Microwave with a warm bowl of food on a kitchen counter"
+          text="This page will collect simple microwave cooking ideas, reheating tips, small portions, and quick meal shortcuts."
           setActivePage={setActivePage}
         />
       )}
@@ -8141,9 +5076,9 @@ Use this collection to organize recipes that fit prep-ahead cooking, planned lef
         <HeroTopicPage
           eyebrow="COOKING METHODS"
           title="Gas Grill Recipes"
-          heroImage="images/heroes/hero-page-gas-grills.jpg"
-          heroAlt="Gas grill with grilled burgers and vegetables on a light kitchen counter"
-          text="Gas grills provide fast heat, convenient temperature control, and the familiar flavor of outdoor cooking. They work well for meats, vegetables, sandwiches, flatbreads, side dishes, and complete meals prepared away from the indoor kitchen.\n\nThese recipes and tips will help with preheating, direct and indirect heat, flare-ups, turning, timing, and safe doneness. With a little practice, a gas grill can become one of the most dependable cooking tools you own."
+          heroImage="images/heroes/hero-grill.png"
+          heroAlt="Gas grill with grilled meats and vegetables"
+          text="This page will collect gas-grill recipes, warm-weather meals, quick grilling ideas, and practical outdoor cooking tips."
           setActivePage={setActivePage}
         />
       )}
@@ -8151,35 +5086,21 @@ Use this collection to organize recipes that fit prep-ahead cooking, planned lef
         <HeroTopicPage
           eyebrow="COOKING METHODS"
           title="Smoker & Pellet Grill Recipes"
-          heroImage="images/heroes/hero-page-pellet-smoker.jpg"
-          heroAlt="Pellet smoker with brisket, sliced smoked meat, pellets, towel, and potted plant"
-          text="Pellet smokers make it possible to cook meats and other foods with steady heat and wood-smoke flavor. They are especially well suited to low-and-slow cooking, but many models can also roast, bake, grill, and finish foods at higher temperatures.\n\nThis section includes recipes and guidance for seasoning, pellet selection, cooking temperatures, wrapping, moisture, resting, and serving. The emphasis is on practical home cooking rather than professional barbecue competition techniques."
+          heroImage="images/heroes/hero-smoker.png"
+          heroAlt="Pellet smoker with sliced brisket on a cutting board"
+          text="This page will collect smoked meats, pellet-grill ideas, smoker tips, wood-pellet flavor notes, and practical barbecue planning ideas."
           setActivePage={setActivePage}
           primaryPage="About Smoking"
           primaryLabel="About Smoking & Grilling"
         />
       )}
 {activePage === "Cooking Methods" && (
-        <>
-          <PageHeroImage
-            src="images/heroes/hero-air-fryer.png"
-            alt="Air fryer with wings and potatoes on a kitchen counter"
-            eyebrow="COOKING METHODS"
-            title="Cooking Methods"
-            text="Different cooking methods can produce very different results, even when the ingredients are similar. This section organizes recipes according to the appliance or equipment used, making it easier to find meals that fit your kitchen and your available time.\n\nChoose the method you enjoy most, or use these pages to become more comfortable with equipment you do not use often. Each section may also include practical tips for temperatures, timing, preparation, and cleanup."
-          />
-          <PlaceholderInfoPage
-            eyebrow="COOKING METHODS"
-            title="Cooking Methods"
-            text="This page will help visitors browse recipes by appliance or method, including air fryer, oven, microwave, gas grill, smoker, stovetop, slow cooker, and other practical cooking options."
-            setActivePage={setActivePage}
-            recipes={classifiedRecipes}
-            favorites={favorites}
-            toggleFavorite={toggleFavorite}
-            addToPlan={addToPlan}
-            openRecipeCard={openRecipeCard}
-          />
-        </>
+        <PlaceholderInfoPage
+          eyebrow="COOKING METHODS"
+          title="Cooking Methods"
+          text="This page will help visitors browse recipes by appliance or method, including air fryer, oven, microwave, gas grill, smoker, stovetop, slow cooker, and other practical cooking options."
+          setActivePage={setActivePage}
+        />
       )}
       {activePage === "Suggested Meal Plans" && (
         <HeroTopicPage
@@ -8194,168 +5115,54 @@ Use this collection to organize recipes that fit prep-ahead cooking, planned lef
         />
       )}
       {activePage === "Bread Tips" && (
-        <>
-          <PageHeroImage
-            src="images/heroes/hero-recipes.png"
-            alt="Recipe box and kitchen organization setup"
-            eyebrow="TIPS & ORGANIZATION"
-            title="Tips: Breadmaking"
-            text="Breadmaking can seem intimidating, but most breads depend on a few basic ingredients and repeatable steps. Understanding yeast, flour, liquid temperature, kneading, rising, shaping, and baking will make the process easier to manage.\n\nThese tips are intended for both bread machines and traditional preparation. They can help explain why dough behaves differently from one day to another and how small adjustments can improve the finished loaf or roll."
-          />
-          <PlaceholderInfoPage
-            eyebrow="TIPS & TECHNIQUES"
-            title="Baking Your Own Breads"
-            text="This page will include practical bread-baking tips, freezer ideas, recipe-card guidance, and simple ways to bake breads and rolls at home."
-            setActivePage={setActivePage}
-            recipes={classifiedRecipes}
-            favorites={favorites}
-            toggleFavorite={toggleFavorite}
-            addToPlan={addToPlan}
-            openRecipeCard={openRecipeCard}
-          />
-        </>
+        <PlaceholderInfoPage
+          eyebrow="TIPS & TECHNIQUES"
+          title="Baking Your Own Breads"
+          text="This page will include practical bread-baking tips, freezer ideas, recipe-card guidance, and simple ways to bake breads and rolls at home."
+          setActivePage={setActivePage}
+        />
       )}
       {activePage === "Submit Recipes" && (
-        <>
-          <PageHeroImage
-            src="images/heroes/hero-submit-recipe.jpg"
-            alt="Recipe cards, notebook, utensils, coffee, and kitchen organization setup"
-            eyebrow="TIPS & ORGANIZATION"
-            title="Submit Family Recipes"
-            text="Family recipes often carry stories and memories that are just as important as the ingredients. A handwritten card, a holiday dish, or a meal someone prepared for years can become difficult to preserve if it is never organized or recorded.\n\nUse this page to share a favorite family recipe or food memory. Submitted recipes may be reviewed, clarified, formatted, and adapted so they can be preserved in a clean and useful form."
-          />
-          <PlaceholderInfoPage
-            eyebrow="TIPS & TECHNIQUES"
-            title="Submit Your Recipes"
-            text="This page will explain how visitors can suggest recipe ideas, family favorites, copycat-style meals, or practical cooking tips for future consideration."
-            setActivePage={setActivePage}
-            recipes={classifiedRecipes}
-            favorites={favorites}
-            toggleFavorite={toggleFavorite}
-            addToPlan={addToPlan}
-            openRecipeCard={openRecipeCard}
-          />
-        </>
+        <PlaceholderInfoPage
+          eyebrow="TIPS & TECHNIQUES"
+          title="Submit Your Recipes"
+          text="This page will explain how visitors can suggest recipe ideas, family favorites, copycat-style meals, or practical cooking tips for future consideration."
+          setActivePage={setActivePage}
+        />
       )}
       {activePage === "Safe Cooking Rules" && (
-        <>
-          <PageHeroImage
-            src="images/heroes/hero-oven.png"
-            alt="Baked casserole with tomatoes, basil, and kitchen herbs"
-            eyebrow="TIPS & ORGANIZATION"
-            title="Safe Cooking Rules"
-            text="Basic food-safety reminders for cooking, cooling, freezing, thawing, reheating, and checking safe internal temperatures."
-          />
-          <PlaceholderInfoPage
-            eyebrow="TIPS & TECHNIQUES"
-            title="Safe Cooking Rules"
-            text="This page will collect basic food-safety reminders for cooking, cooling, freezing, thawing, reheating, and checking safe internal temperatures."
-            setActivePage={setActivePage}
-            recipes={classifiedRecipes}
-            favorites={favorites}
-            toggleFavorite={toggleFavorite}
-            addToPlan={addToPlan}
-            openRecipeCard={openRecipeCard}
-          />
-        </>
+        <PlaceholderInfoPage
+          eyebrow="TIPS & TECHNIQUES"
+          title="Safe Cooking Rules"
+          text="This page will collect basic food-safety reminders for cooking, cooling, freezing, thawing, reheating, and checking safe internal temperatures."
+          setActivePage={setActivePage}
+        />
       )}
       {activePage === "Storage Organization" && (
         <HeroTopicPage
           eyebrow="TIPS & TECHNIQUES"
           title="Storage & Organization"
-          heroImage="images/heroes/hero-page-storage.jpg"
-          heroAlt="Storage and organization setup with labeled containers, pantry items, basket, and kitchen notes"
-          text="An organized kitchen makes it easier to find ingredients, use the equipment you own, and prepare meals without unnecessary frustration. Better storage can also reduce wasted food and prevent supplies from being forgotten.\n\nExplore ideas for pantries, refrigerators, freezers, cookware, utensils, spices, recipes, and meal-preparation supplies. The goal is not a perfect showroom kitchen, but a practical space that works better for the people using it."
+          heroImage="images/heroes/hero-storage.png"
+          heroAlt="Pantry storage containers, baskets, spices, and herbs"
+          text="This page will include ideas for organizing recipes, pantry staples, freezer meals, storage containers, labels, and kitchen tools."
           setActivePage={setActivePage}
           primaryPage="Products I Use"
           primaryLabel="Products I Use"
         />
       )}
       {activePage === "Other Interests" && (
-        <>
-          <PageHeroImage
-            src="images/heroes/hero-mission.png"
-            alt="Recipe box, notebook, and kitchen organization setup"
-            eyebrow="TIPS & ORGANIZATION"
-            title="Other Interests"
-            text="Additional practical topics, experiments, tools, and ideas that do not fit neatly into the main recipe sections."
-          />
-          <PlaceholderInfoPage
-            eyebrow="TIPS & TECHNIQUES"
-            title="Other Interests"
-            text="This page will hold additional practical topics, experiments, tools, and ideas that do not fit neatly into the main recipe sections."
-            setActivePage={setActivePage}
-            recipes={classifiedRecipes}
-            favorites={favorites}
-            toggleFavorite={toggleFavorite}
-            addToPlan={addToPlan}
-            openRecipeCard={openRecipeCard}
-          />
-        </>
+        <PlaceholderInfoPage
+          eyebrow="TIPS & TECHNIQUES"
+          title="Other Interests"
+          text="This page will hold additional practical topics, experiments, tools, and ideas that do not fit neatly into the main recipe sections."
+          setActivePage={setActivePage}
+        />
       )}
-      {activePage === "How To Use" && (
-        <>
-          <PageHeroImage
-            src="images/heroes/hero-recipes.png"
-            alt="Recipe card organization setup on a kitchen counter"
-            eyebrow="OUR RECIPES"
-            title="How to Use This Site"
-            text="Get the most from the recipe library, meal-planning tools, shopping lists, favorites, and practical kitchen features."
-          />
-          <HowToUsePage setActivePage={setActivePage} />
-        </>
-      )}
-      {activePage === "About Recipes" && (
-        <>
-          <PageHeroImage
-            src="images/heroes/hero-page-ai-generated.jpg"
-            alt="AI-generated recipes setup with recipe box, chicken dinner, notebook, and planning clipboard"
-            eyebrow="OUR RECIPES"
-            title="AI-Generated, Never Copied"
-            text="The recipes on Robert’s Recipe Box are created with the help of artificial intelligence under Robert’s direction. He chooses the meal type, ingredients, flavor profile, number of servings, cooking method, practical goals, and other details that shape each recipe.\n\nThe recipes are not copied and pasted from other food websites or cookbooks. They are developed as original recipe concepts, then reviewed, adjusted, organized, and presented in a consistent format intended to be useful in a real home kitchen."
-            className="pageHeroDepth464"
-/>
-          <AboutRecipesPage setActivePage={setActivePage} />
-        </>
-      )}
-      {activePage === "About Smoking" && (
-        <>
-          <PageHeroImage
-            src="images/heroes/hero-smoker.jpg"
-            alt="Pellet smoker with sliced brisket on a cutting board"
-            eyebrow="TIPS & ORGANIZATION"
-            title="Tips: Smoking Meats"
-            text="Smoking meat combines seasoning, controlled heat, smoke, time, and patience. Understanding how those elements work together can help you produce meat that is tender, flavorful, and safely cooked without relying only on the clock.\n\nThis section covers wood pellets, temperatures, bark development, moisture, wrapping, resting, slicing, and common problems. The advice is written for home cooks who want dependable results rather than professional barbecue competition techniques."
-          />
-          <AboutSmokingPage setActivePage={setActivePage} />
-        </>
-      )}
+      {activePage === "How To Use" && <HowToUsePage setActivePage={setActivePage} />}
+      {activePage === "About Recipes" && <AboutRecipesPage setActivePage={setActivePage} />}
+      {activePage === "About Smoking" && <AboutSmokingPage setActivePage={setActivePage} />}
 
-      
-      {activePage === "Affiliate Marketing" && (
-        <>
-          <PageHeroImage
-            src="images/heroes/hero-page-affiliate.jpg"
-            alt="Affiliate marketing setup with laptop dashboard, notebook, coffee, and affiliate partner checklist"
-            eyebrow="TIPS & ORGANIZATION"
-            title="Affiliate Marketing"
-            text="Some pages on Robert’s Recipe Box may include links to products sold by outside retailers. When a visitor makes a qualifying purchase through certain links, the website may receive a small commission without increasing the customer’s price.\n\nAffiliate relationships help support website expenses, recipe development, and future improvements. Product mentions should still be based on usefulness and relevance, and visitors are never required to purchase anything to use the site."
-            className="pageHeroDepth464"
-/>
-          <PlaceholderInfoPage
-            eyebrow="TIPS & ORGANIZATION"
-            title="Affiliate Marketing"
-            text="This page will explain affiliate links, product recommendations, and how Robert’s Recipe Box may earn a small commission from qualifying purchases at no additional cost to the visitor."
-            setActivePage={setActivePage}
-            recipes={classifiedRecipes}
-            favorites={favorites}
-            toggleFavorite={toggleFavorite}
-            addToPlan={addToPlan}
-            openRecipeCard={openRecipeCard}
-          />
-        </>
-      )}
-<RecipeCardViewer
+      <RecipeCardViewer
         viewer={cardViewer}
         onClose={() => setCardViewer(null)}
         setViewer={setCardViewer}
@@ -8364,7 +5171,8 @@ Use this collection to organize recipes that fit prep-ahead cooking, planned lef
       />
 
       <footer className="footer">
-        Robert’s Recipe Box uses AI-generated recipes and organization as a practical planning tool. Favorites and meal plans are saved in this browser only and are not shared between your devices. Some product links may earn a small commission at no extra cost to you, however, you are not required to purchase anything to use my site.
+        Robert’s Recipe Box uses AI-generated recipe collections as practical
+        planning tools. Favorites and plans are saved in this browser only.
       </footer>
     </div>
   );
