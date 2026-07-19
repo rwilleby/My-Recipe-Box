@@ -668,6 +668,12 @@ const SUPPORTING_PAGE_HERO_IMAGES = [
   "images/heroes/hero-page-gas-grills.jpg",
   "images/heroes/hero-page-pellet-smoker.jpg",
   "images/heroes/hero-page-storage.jpg",
+  "images/heroes/hero-page-family.png",
+  "images/heroes/hero-page-freezer-inv.png",
+  "images/heroes/hero-page-refrigerator-inv.png",
+  "images/heroes/hero-page-freeze-reheat.png",
+  "images/heroes/hero-page-food-safety.png",
+  "images/heroes/hero-page-breadmaking.png",
 ];
 
 const preloadedHeroImageUrls = new Set();
@@ -9046,8 +9052,8 @@ Use this collection to organize recipes that fit prep-ahead cooking, planned lef
       {activePage === "Kitchen Refrigerator" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-page-your-pantry.jpg"
-            alt="Kitchen inventory setup with fresh ingredients, containers, checklist, and notebook"
+            src="images/heroes/hero-page-refrigerator-inv.png"
+            alt="Refrigerator inventory setup with fresh foods, notebook, produce, dairy, eggs, and meal-prep containers"
             eyebrow="YOUR KITCHEN"
             title="Refrigerator Inventory"
             text="Your refrigerator inventory can help you track fresh ingredients, leftovers, sauces, dairy, produce, and ready-to-use meal components before they are forgotten. A quick refrigerator check can make weekly meal planning and grocery shopping easier.
@@ -9061,8 +9067,8 @@ Use this section to mark what is already in the refrigerator, record quantities 
       {activePage === "Kitchen Freezer" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-storage.png"
-            alt="Freezer storage setup with containers, labels, bags, and meal-prep notes"
+            src="images/heroes/hero-page-freezer-inv.png"
+            alt="Freezer inventory setup with labeled frozen meals, freezer bags, clipboard, and food storage notes"
             eyebrow="YOUR KITCHEN"
             title="Freezer Inventory"
             text="Your freezer inventory can help you keep track of frozen dinners, meats, vegetables, sauces, breads, meal-prep blocks, and leftovers. Knowing what is already frozen makes it easier to plan meals without buying duplicates.
@@ -9159,10 +9165,11 @@ Use this section to check what is on hand, record dates, mark foods that should 
       {activePage === "Freezer Tips" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-storage.png"
-            alt="Pantry storage containers, spices, and kitchen organization setup"
+            src="images/heroes/hero-page-freeze-reheat.png"
+            alt="Freeze and reheat setup with labeled frozen meals, plated lasagna, clipboard instructions, coffee, and meal storage"
             eyebrow="TIPS & ORGANIZATION"
             title="Tips: Freezing Meals"
+            className="pageHeroDepth464"
             text="Freezing meals can save time, reduce waste, and make busy days easier, but good results depend on proper preparation and packaging. Some foods freeze beautifully, while others require small changes to preserve their texture and flavor.\n\nThis section covers containers, freezer bags, vacuum sealing, portioning, cooling, labeling, storage times, safe thawing, reheating, and final preparation. Clear instructions can help make frozen meals feel more like freshly prepared food."
           />
           <FreezerTipsPage {...pageProps} />
@@ -9291,10 +9298,11 @@ Use this section to check what is on hand, record dates, mark foods that should 
       {activePage === "Bread Tips" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-recipes.png"
-            alt="Recipe box and kitchen organization setup"
+            src="images/heroes/hero-page-breadmaking.png"
+            alt="Breadmaking setup with sliced loaf, dough, flour, yeast, loaf pan, measuring spoons, and kitchen towel"
             eyebrow="TIPS & ORGANIZATION"
             title="Tips: Breadmaking"
+            className="pageHeroDepth464"
             text="Breadmaking can seem intimidating, but most breads depend on a few basic ingredients and repeatable steps. Understanding yeast, flour, liquid temperature, kneading, rising, shaping, and baking will make the process easier to manage.\n\nThese tips are intended for both bread machines and traditional preparation. They can help explain why dough behaves differently from one day to another and how small adjustments can improve the finished loaf or roll."
           />
           <PlaceholderInfoPage
@@ -9313,10 +9321,11 @@ Use this section to check what is on hand, record dates, mark foods that should 
       {activePage === "Submit Recipes" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-submit-recipe.jpg"
-            alt="Recipe cards, notebook, utensils, coffee, and kitchen organization setup"
+            src="images/heroes/hero-page-family.png"
+            alt="Family recipe setup with vintage recipe binder, handwritten cards, coffee, potted plant, bread, and old family photograph"
             eyebrow="TIPS & ORGANIZATION"
-            title="Submit Family Recipes"
+            title="Submit Your Family Recipes"
+            className="pageHeroDepth464"
             text="Family recipes often carry stories and memories that are just as important as the ingredients. A handwritten card, a holiday dish, or a meal someone prepared for years can become difficult to preserve if it is never organized or recorded.\n\nUse this page to share a favorite family recipe or food memory. Submitted recipes may be reviewed, clarified, formatted, and adapted so they can be preserved in a clean and useful form."
           />
           <PlaceholderInfoPage
@@ -9335,10 +9344,11 @@ Use this section to check what is on hand, record dates, mark foods that should 
       {activePage === "Safe Cooking Rules" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-oven.png"
-            alt="Baked casserole with tomatoes, basil, and kitchen herbs"
+            src="images/heroes/hero-page-food-safety.png"
+            alt="Food-safety setup with meal-prep containers, salad, digital thermometer, coffee, and kitchen towel"
             eyebrow="TIPS & ORGANIZATION"
             title="Safe Cooking Rules"
+            className="pageHeroDepth464"
             text="Basic food-safety reminders for cooking, cooling, freezing, thawing, reheating, and checking safe internal temperatures."
           />
           <PlaceholderInfoPage
