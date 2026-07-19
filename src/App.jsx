@@ -1,5 +1,12 @@
 import { useMemo, useState, useEffect } from "react";
 import { categories, recipes } from "./data/recipes";
+import AdminRecipeClassifier from "./components/AdminRecipeClassifier";
+import {
+  loadRecipeClassifications,
+  mergeRecipeClassifications,
+  recipeMatchesCollection,
+  saveRecipeClassifications,
+} from "./data/recipeClassifications";
 import {
   DINNER_PROTEIN_FILTERS,
   DINNER_SIDE_FILTERS,
@@ -1020,6 +1027,11 @@ function Header({ activePage, setActivePage }) {
         { label: "SALAD JARS", page: "Salad Jars" },
         { label: "COMFORT FOODS", page: "Comfort Foods" },
         { label: "EASY 30-MINUTE MEALS", page: "Easy 30-Minute Meals" },
+        { label: "SUNDAY MEALS", page: "Sunday Meals" },
+        { label: "COMPLETE DINNERS", page: "Complete Dinners" },
+        { label: "FREEZER-FRIENDLY MEALS", page: "Freezer-Friendly Meals" },
+        { label: "MEALS FOR TWO", page: "Meals for Two" },
+        { label: "MAKE-AHEAD MEALS", page: "Make-Ahead Meals" },
       ],
     },
     {
@@ -1114,6 +1126,13 @@ function Header({ activePage, setActivePage }) {
       </nav>
 
       <div className="topActions">
+        <button
+          className="adminAccessButton"
+          type="button"
+          onClick={() => setActivePage("Admin Recipes")}
+        >
+          Admin
+        </button>
         <span>⌕</span>
         <span className="avatar">◉ Robert⌄</span>
       </div>
@@ -7310,7 +7329,20 @@ function DisclaimersPage({ setActivePage }) {
 
 
 
-function CollectionDetailPage({ title, text, setActivePage }) {
+function CollectionDetailPage({
+  title,
+  text,
+  setActivePage,
+  recipes: classifiedRecipes = [],
+  favorites = [],
+  toggleFavorite = () => {},
+  addToPlan = () => {},
+  openRecipeCard = () => {},
+}) {
+  const collectionRecipes = classifiedRecipes.filter((recipe) =>
+    recipeMatchesCollection(recipe, title)
+  );
+
   return (
     <main className="pageShell aboutRecipesPage collectionDetailPage">
       <section className="aboutRecipesHero">
@@ -7321,9 +7353,34 @@ function CollectionDetailPage({ title, text, setActivePage }) {
         </div>
       </section>
 
+      {collectionRecipes.length ? (
+        <div className="recipeGrid browseRecipeGrid collectionRecipeGrid">
+          {collectionRecipes.map((recipe) => (
+            <RecipeCard
+              key={recipe.id}
+              recipe={recipe}
+              favorites={favorites}
+              toggleFavorite={toggleFavorite}
+              addToPlan={addToPlan}
+              openRecipeCard={openRecipeCard}
+              cardList={collectionRecipes}
+              displayMode="card"
+            />
+          ))}
+        </div>
+      ) : (
+        <EmptyState
+          title={`No recipes assigned to ${title} yet`}
+          text="Open the Admin Recipe Classification page and check this collection for the recipes you want displayed here."
+        />
+      )}
+
       <div className="aboutRecipesActions">
         <button className="primary" onClick={() => setActivePage("Recipes")}>
           Browse Recipes
+        </button>
+        <button className="secondary" onClick={() => setActivePage("Admin Recipes")}>
+          Open Admin Classifier
         </button>
         <button className="secondary" onClick={() => setActivePage("Meal Planner")}>
           Plan Your Meals
@@ -7394,12 +7451,24 @@ export default function App() {
   );
   const [filter, setFilter] = useState("");
   const [cardViewer, setCardViewer] = useState(null);
+  const [recipeClassifications, setRecipeClassifications] = useState(() =>
+    loadRecipeClassifications()
+  );
+
+  const classifiedRecipes = useMemo(
+    () => mergeRecipeClassifications(recipes, recipeClassifications),
+    [recipeClassifications]
+  );
 
   useEffect(() => saveJSON(STORAGE_KEYS.favorites, favorites), [favorites]);
   useEffect(() => saveJSON(STORAGE_KEYS.plan, plan), [plan]);
   useEffect(() => saveJSON(STORAGE_KEYS.servings, servings), [servings]);
   useEffect(() => saveJSON(STORAGE_KEYS.checked, checked), [checked]);
   useEffect(() => saveJSON(STORAGE_KEYS.pantry, pantry), [pantry]);
+  useEffect(
+    () => saveRecipeClassifications(recipeClassifications),
+    [recipeClassifications]
+  );
 
   useEffect(() => {
     const preloadAllSupportingHeroes = () => {
@@ -7466,11 +7535,22 @@ export default function App() {
     setChecked,
     pantry,
     setPantry,
+    classifiedRecipes,
   };
 
   return (
     <div className="app">
       <Header activePage={activePage} setActivePage={setActivePage} />
+
+      {activePage === "Admin Recipes" && (
+        <AdminRecipeClassifier
+          recipes={recipes}
+          categories={categories}
+          classifications={recipeClassifications}
+          setClassifications={setRecipeClassifications}
+          onClose={() => setActivePage("Home")}
+        />
+      )}
 
       {activePage === "Home" && <Home {...pageProps} />}
       {activePage === "Contact Me" && (
@@ -7487,6 +7567,11 @@ export default function App() {
             title="Contact Me"
             text="This page will include a simple way to contact Robert about recipe ideas, corrections, suggestions, or questions about Robert’s Recipe Box."
             setActivePage={setActivePage}
+            recipes={classifiedRecipes}
+            favorites={favorites}
+            toggleFavorite={toggleFavorite}
+            addToPlan={addToPlan}
+            openRecipeCard={openRecipeCard}
           />
         </>
       )}
@@ -7505,6 +7590,11 @@ export default function App() {
             title="Free To Use, Print or Download"
             text="Robert’s Recipe Box is free to use. Recipes, cards, meal-planning ideas, shopping-list tools, and practical information are intended to remain available without a subscription."
             setActivePage={setActivePage}
+            recipes={classifiedRecipes}
+            favorites={favorites}
+            toggleFavorite={toggleFavorite}
+            addToPlan={addToPlan}
+            openRecipeCard={openRecipeCard}
           />
         </>
       )}
@@ -7622,6 +7712,11 @@ These pages are designed to be easy to scan, print, or revisit when needed. They
             title="Salad Jars"
             text="A collection page for make-ahead salad jars, fresh lunches, and easy grab-and-go meal prep ideas. More recipes and filters will be added here."
             setActivePage={setActivePage}
+            recipes={classifiedRecipes}
+            favorites={favorites}
+            toggleFavorite={toggleFavorite}
+            addToPlan={addToPlan}
+            openRecipeCard={openRecipeCard}
           />
         </>
       )}
@@ -7639,6 +7734,11 @@ These pages are designed to be easy to scan, print, or revisit when needed. They
             title="Slow Cooker Favorites"
             text="A collection page for easy slow-cooker meals and set-it-and-forget-it dinner ideas. More recipes and filters will be added here."
             setActivePage={setActivePage}
+            recipes={classifiedRecipes}
+            favorites={favorites}
+            toggleFavorite={toggleFavorite}
+            addToPlan={addToPlan}
+            openRecipeCard={openRecipeCard}
           />
         </>
       )}
@@ -7656,6 +7756,11 @@ These pages are designed to be easy to scan, print, or revisit when needed. They
             title="Summer Cookouts"
             text="A collection page for grill-friendly meals, warm-weather favorites, cookouts, and simple outdoor dinners. More recipes and filters will be added here."
             setActivePage={setActivePage}
+            recipes={classifiedRecipes}
+            favorites={favorites}
+            toggleFavorite={toggleFavorite}
+            addToPlan={addToPlan}
+            openRecipeCard={openRecipeCard}
           />
         </>
       )}
@@ -7673,6 +7778,11 @@ These pages are designed to be easy to scan, print, or revisit when needed. They
             title="Healthy Dinners"
             text="A collection page for lighter, practical dinner ideas with flexible options for lower-calorie, lower-carb, and higher-protein meals. More recipes and filters will be added here."
             setActivePage={setActivePage}
+            recipes={classifiedRecipes}
+            favorites={favorites}
+            toggleFavorite={toggleFavorite}
+            addToPlan={addToPlan}
+            openRecipeCard={openRecipeCard}
           />
         </>
       )}
@@ -7690,6 +7800,11 @@ These pages are designed to be easy to scan, print, or revisit when needed. They
             title="Comfort Foods"
             text="A collection page for familiar classics, cozy family-style meals, and practical comfort-food recipes. More recipes and filters will be added here."
             setActivePage={setActivePage}
+            recipes={classifiedRecipes}
+            favorites={favorites}
+            toggleFavorite={toggleFavorite}
+            addToPlan={addToPlan}
+            openRecipeCard={openRecipeCard}
           />
         </>
       )}
@@ -7707,6 +7822,131 @@ These pages are designed to be easy to scan, print, or revisit when needed. They
             title="Easy 30-Minute Meals"
             text="A collection page for fast weeknight meals and simple dinners that come together quickly. More recipes and filters will be added here."
             setActivePage={setActivePage}
+            recipes={classifiedRecipes}
+            favorites={favorites}
+            toggleFavorite={toggleFavorite}
+            addToPlan={addToPlan}
+            openRecipeCard={openRecipeCard}
+          />
+        </>
+      )}
+      {activePage === "Sunday Meals" && (
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-weekly-plan.png"
+            alt="Sunday meal planning setup with recipes, dinner, and family-style sides"
+            eyebrow="COLLECTIONS"
+            title="Sunday Meals"
+            text="Sunday meals are the recipes that feel a little more settled, familiar, and worth gathering around. This collection can include homestyle dinners, make-ahead mains, slow-cooked meals, casseroles, and dependable family favorites.
+
+Use this page to group the recipes you want for relaxed weekends, family visits, holiday-style dinners, or meals that leave useful leftovers for the week ahead."
+            className="pageHeroDepth464"
+          />
+          <CollectionDetailPage
+            title="Sunday Meals"
+            text="A collection page for relaxed weekend dinners, family-style meals, and dependable Sunday favorites."
+            setActivePage={setActivePage}
+            recipes={classifiedRecipes}
+            favorites={favorites}
+            toggleFavorite={toggleFavorite}
+            addToPlan={addToPlan}
+            openRecipeCard={openRecipeCard}
+          />
+        </>
+      )}
+      {activePage === "Complete Dinners" && (
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-page-complete-dinners.jpg"
+            alt="Complete dinner setup with main dish, sides, recipe box, and meal-planning clipboard"
+            eyebrow="COLLECTIONS"
+            title="Complete Dinners"
+            text="Complete dinners bring together recipes that work well as a full meal idea. These may include hearty mains, practical sides, freezer-friendly options, or meals that are especially easy to plan for two to six servings.
+
+Use this collection to assign individual recipe cards that belong in a complete-dinner planning group without duplicating recipes or changing their official category codes."
+            className="pageHeroDepth464"
+          />
+          <CollectionDetailPage
+            title="Complete Dinners"
+            text="A collection page for recipes that work especially well as part of a complete dinner plan."
+            setActivePage={setActivePage}
+            recipes={classifiedRecipes}
+            favorites={favorites}
+            toggleFavorite={toggleFavorite}
+            addToPlan={addToPlan}
+            openRecipeCard={openRecipeCard}
+          />
+        </>
+      )}
+      {activePage === "Freezer-Friendly Meals" && (
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-page-freezing-meals.jpg"
+            alt="Freezer meal setup with containers, labels, recipe cards, and prepared food"
+            eyebrow="COLLECTIONS"
+            title="Freezer-Friendly Meals"
+            text="Freezer-friendly meals are helpful when you want to cook once and make future dinners easier. This collection can include recipes that freeze well as full meals, meal components, sauces, proteins, casseroles, soups, or prepared portions.
+
+Use this page to group recipes that can be made ahead, labeled, frozen, thawed safely, and finished later with dependable results."
+            className="pageHeroDepth464"
+          />
+          <CollectionDetailPage
+            title="Freezer-Friendly Meals"
+            text="A collection page for recipes that are useful for freezer prep, batch cooking, and future meals."
+            setActivePage={setActivePage}
+            recipes={classifiedRecipes}
+            favorites={favorites}
+            toggleFavorite={toggleFavorite}
+            addToPlan={addToPlan}
+            openRecipeCard={openRecipeCard}
+          />
+        </>
+      )}
+      {activePage === "Meals for Two" && (
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-page-meal-plans.jpg"
+            alt="Meal planning for two setup with recipe cards, dinner plates, and grocery notes"
+            eyebrow="COLLECTIONS"
+            title="Meals for Two"
+            text="Meals for two are especially useful for smaller households, empty nesters, and anyone who wants practical portions without excessive leftovers. Some recipes may already fit two servings, while others may be easy to divide, freeze, or repurpose.
+
+Use this collection to organize recipes that work well for two-person dinners, planned leftovers, or smaller batch cooking."
+            className="pageHeroDepth464"
+          />
+          <CollectionDetailPage
+            title="Meals for Two"
+            text="A collection page for practical smaller-household recipes and two-person dinner planning."
+            setActivePage={setActivePage}
+            recipes={classifiedRecipes}
+            favorites={favorites}
+            toggleFavorite={toggleFavorite}
+            addToPlan={addToPlan}
+            openRecipeCard={openRecipeCard}
+          />
+        </>
+      )}
+      {activePage === "Make-Ahead Meals" && (
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-page-make-ahead-meals.jpg"
+            alt="Make-ahead meal setup with prepared food, storage containers, labels, and recipe notes"
+            eyebrow="COLLECTIONS"
+            title="Make-Ahead Meals"
+            text="Make-ahead meals help reduce last-minute cooking pressure by moving part of the work earlier. These recipes may be assembled ahead, partly cooked, portioned, chilled, frozen, or prepared as components for faster dinners later.
+
+Use this collection to organize recipes that fit prep-ahead cooking, planned leftovers, freezer portions, or simple weeknight finishing."
+            className="pageHeroDepth464"
+          />
+          <CollectionDetailPage
+            title="Make-Ahead Meals"
+            text="A collection page for recipes that can be prepared ahead, assembled early, or finished quickly later."
+            setActivePage={setActivePage}
+            recipes={classifiedRecipes}
+            favorites={favorites}
+            toggleFavorite={toggleFavorite}
+            addToPlan={addToPlan}
+            openRecipeCard={openRecipeCard}
           />
         </>
       )}
@@ -7925,6 +8165,11 @@ These pages are designed to be easy to scan, print, or revisit when needed. They
             title="Cooking Methods"
             text="This page will help visitors browse recipes by appliance or method, including air fryer, oven, microwave, gas grill, smoker, stovetop, slow cooker, and other practical cooking options."
             setActivePage={setActivePage}
+            recipes={classifiedRecipes}
+            favorites={favorites}
+            toggleFavorite={toggleFavorite}
+            addToPlan={addToPlan}
+            openRecipeCard={openRecipeCard}
           />
         </>
       )}
@@ -7954,6 +8199,11 @@ These pages are designed to be easy to scan, print, or revisit when needed. They
             title="Baking Your Own Breads"
             text="This page will include practical bread-baking tips, freezer ideas, recipe-card guidance, and simple ways to bake breads and rolls at home."
             setActivePage={setActivePage}
+            recipes={classifiedRecipes}
+            favorites={favorites}
+            toggleFavorite={toggleFavorite}
+            addToPlan={addToPlan}
+            openRecipeCard={openRecipeCard}
           />
         </>
       )}
@@ -7971,6 +8221,11 @@ These pages are designed to be easy to scan, print, or revisit when needed. They
             title="Submit Your Recipes"
             text="This page will explain how visitors can suggest recipe ideas, family favorites, copycat-style meals, or practical cooking tips for future consideration."
             setActivePage={setActivePage}
+            recipes={classifiedRecipes}
+            favorites={favorites}
+            toggleFavorite={toggleFavorite}
+            addToPlan={addToPlan}
+            openRecipeCard={openRecipeCard}
           />
         </>
       )}
@@ -7988,6 +8243,11 @@ These pages are designed to be easy to scan, print, or revisit when needed. They
             title="Safe Cooking Rules"
             text="This page will collect basic food-safety reminders for cooking, cooling, freezing, thawing, reheating, and checking safe internal temperatures."
             setActivePage={setActivePage}
+            recipes={classifiedRecipes}
+            favorites={favorites}
+            toggleFavorite={toggleFavorite}
+            addToPlan={addToPlan}
+            openRecipeCard={openRecipeCard}
           />
         </>
       )}
@@ -8017,6 +8277,11 @@ These pages are designed to be easy to scan, print, or revisit when needed. They
             title="Other Interests"
             text="This page will hold additional practical topics, experiments, tools, and ideas that do not fit neatly into the main recipe sections."
             setActivePage={setActivePage}
+            recipes={classifiedRecipes}
+            favorites={favorites}
+            toggleFavorite={toggleFavorite}
+            addToPlan={addToPlan}
+            openRecipeCard={openRecipeCard}
           />
         </>
       )}
@@ -8074,6 +8339,11 @@ These pages are designed to be easy to scan, print, or revisit when needed. They
             title="Affiliate Marketing"
             text="This page will explain affiliate links, product recommendations, and how Robert’s Recipe Box may earn a small commission from qualifying purchases at no additional cost to the visitor."
             setActivePage={setActivePage}
+            recipes={classifiedRecipes}
+            favorites={favorites}
+            toggleFavorite={toggleFavorite}
+            addToPlan={addToPlan}
+            openRecipeCard={openRecipeCard}
           />
         </>
       )}
