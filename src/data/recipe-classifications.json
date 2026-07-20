@@ -1,0 +1,180 @@
+{
+  "AS-001": {
+    "primaryCategory": "Asian Cuisine",
+    "collections": [],
+    "attributes": [
+      "Beef"
+    ],
+    "cookingMethods": [
+      "Stovetop",
+      "Microwave"
+    ]
+  },
+  "AS-002": {
+    "primaryCategory": "Asian Cuisine",
+    "collections": [],
+    "attributes": [
+      "Beef"
+    ],
+    "cookingMethods": [
+      "Microwave",
+      "Stovetop"
+    ]
+  },
+  "MX-021": {
+    "primaryCategory": "Mexican Cuisine",
+    "collections": [],
+    "attributes": [],
+    "cookingMethods": [
+      "Oven"
+    ]
+  },
+  "MX-022": {
+    "primaryCategory": "Mexican Cuisine",
+    "collections": [],
+    "attributes": [],
+    "cookingMethods": [
+      "Oven"
+    ]
+  },
+  "MX-024": {
+    "primaryCategory": "Mexican Cuisine",
+    "collections": [],
+    "attributes": [],
+    "cookingMethods": [
+      "Oven"
+    ]
+  },
+  "MX-033": {
+    "primaryCategory": "Mexican Cuisine",
+    "collections": [],
+    "attributes": [],
+    "cookingMethods": [
+      "Oven"
+    ]
+  },
+  "SD-034": {
+    "primaryCategory": "Side Dishes",
+    "collections": [],
+    "attributes": [],
+    "cookingMethods": [
+      "Oven"
+    ]
+  },
+  "SB-020": {
+    "primaryCategory": "Salads & Bowls",
+    "collections": [],
+    "attributes": [
+      "Lunch"
+    ],
+    "cookingMethods": []
+  },
+  "SB-001": {
+    "primaryCategory": "Salads & Bowls",
+    "collections": [],
+    "attributes": [
+      "Lunch"
+    ],
+    "cookingMethods": []
+  },
+  "SB-002": {
+    "primaryCategory": "Salads & Bowls",
+    "collections": [],
+    "attributes": [
+      "Lunch"
+    ],
+    "cookingMethods": []
+  },
+  "SB-003": {
+    "primaryCategory": "Salads & Bowls",
+    "collections": [],
+    "attributes": [
+      "Lunch"
+    ],
+    "cookingMethods": []
+  },
+  "SB-004": {
+    "primaryCategory": "Salads & Bowls",
+    "collections": [],
+    "attributes": [
+      "Lunch"
+    ],
+    "cookingMethods": []
+  },
+  "SB-005": {
+    "primaryCategory": "Salads & Bowls",
+    "collections": [],
+    "attributes": [
+      "Lunch"
+    ],
+    "cookingMethods": []
+  },
+  "SB-006": {
+    "primaryCategory": "Salads & Bowls",
+    "collections": [],
+    "attributes": [
+      "Dessert"
+    ],
+    "cookingMethods": []
+  },
+  "SB-007": {
+    "primaryCategory": "Salads & Bowls",
+    "collections": [],
+    "attributes": [
+      "Lunch"
+    ],
+    "cookingMethods": []
+  },
+  "SB-008": {
+    "primaryCategory": "Salads & Bowls",
+    "collections": [],
+    "attributes": [
+      "Lunch"
+    ],
+    "cookingMethods": []
+  },
+  "SB-009": {
+    "primaryCategory": "Salads & Bowls",
+    "collections": [],
+    "attributes": [
+      "Lunch"
+    ],
+    "cookingMethods": []
+  },
+  "AM-051": {
+    "primaryCategory": "American Cuisine",
+    "collections": [],
+    "attributes": [],
+    "cookingMethods": []
+  },
+  "AM-052": {
+    "primaryCategory": "American Cuisine",
+    "collections": [],
+    "attributes": [],
+    "cookingMethods": []
+  },
+  "IT-025": {
+    "primaryCategory": "Italian Cuisine",
+    "collections": [],
+    "attributes": [],
+    "cookingMethods": []
+  },
+  "IT-040": {
+    "primaryCategory": "Italian Cuisine",
+    "collections": [],
+    "attributes": [],
+    "cookingMethods": []
+  },
+  "AM-054": {
+    "primaryCategory": "American Cuisine",
+    "collections": [],
+    "attributes": [],
+    "cookingMethods": []
+  },
+  "IT-012": {
+    "primaryCategory": "Italian Cuisine",
+    "collections": [],
+    "attributes": [],
+    "cookingMethods": []
+  }
+}
