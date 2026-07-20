@@ -2745,7 +2745,7 @@ function FeaturedSelectionPanel({ setActivePage }) {
   return (
     <section className="homeFeatureCard featuredSelectionCard dinnerCombinationsFeatureCard">
       <div className="homeMiniSectionHeader">
-        <h2>Dinner Recommendations</h2>
+        <h2>Dinner-Combos</h2>
       </div>
 
       <button
@@ -2788,7 +2788,7 @@ function ProductsIUseCarousel({ setActivePage }) {
   return (
     <section className="homeFeatureCard productsIUseCard">
       <div className="homeMiniSectionHeader">
-        <h2>Products I Recommend</h2>
+        <h2>Kitchen Tools</h2>
       </div>
 
       <div className="productUseFeatureWrap">
@@ -3020,7 +3020,7 @@ function RecipeRolodex({ setActivePage, setFilter }) {
   return (
     <aside className="homeRolodex homeRolodexComposite" aria-label="Recipe card rolodex">
       <div className="homeRolodexHeader homeRolodexHeaderCentered">
-        <strong className="homeRolodexSectionTitle">Recipe Card Rolodex</strong>
+        <strong className="homeRolodexSectionTitle">Robert's Recipe Rolodex</strong>
       </div>
 
       <div className="homeRolodexStage homeRolodexCompositeStage">
@@ -3121,10 +3121,10 @@ function HomeRecipeCounters({ classifiedRecipes = [] }) {
   ).size;
 
   const counters = [
-    { label: "Recipes", value: recipeCount, className: "recipes" },
-    { label: "Complete Meals", value: completeMealCount, className: "complete" },
-    { label: "Freezer-Friendly", value: freezerFriendlyCount, className: "freezer" },
-    { label: "Collections", value: collectionCount, className: "collections" },
+    { label: "Recipes", value: recipeCount, className: "recipes", icon: "♨" },
+    { label: "Complete Meals", value: completeMealCount, className: "complete", icon: "🍴" },
+    { label: "Freezer-Friendly", value: freezerFriendlyCount, className: "freezer", icon: "❄" },
+    { label: "Collections", value: collectionCount, className: "collections", icon: "▰" },
   ];
 
   return (
@@ -3133,9 +3133,10 @@ function HomeRecipeCounters({ classifiedRecipes = [] }) {
         {counters.map((counter) => (
           <div className="homeCounterItem" key={counter.label}>
             <span className={`homeCounterCircle ${counter.className}`}>
+              <span className="homeCounterIcon" aria-hidden="true">{counter.icon}</span>
               <strong>{counter.value}</strong>
+              <small>{counter.label}</small>
             </span>
-            <small>{counter.label}</small>
           </div>
         ))}
       </div>
