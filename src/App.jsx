@@ -9652,25 +9652,196 @@ Use this section to check what is on hand, record dates, mark foods that should 
             <header className="gasGrillGuideHeader">
               <span className="gasGrillGuideKicker">Microwave Care & Cooking Guide</span>
               <h2 id="microwave-guide-title">Taking Care of and Cooking in Your Microwave Oven</h2>
-              <p>A microwave oven is useful for much more than reheating coffee or warming leftovers. When used correctly, it can quickly steam vegetables, thaw frozen foods, soften ingredients, and prepare complete meals. Keeping the oven clean and using proper containers will also help it operate safely and efficiently.</p>
+              <p>A microwave oven is useful for much more than reheating coffee or warming leftovers. When used correctly, it can quickly steam vegetables, thaw frozen foods, soften ingredients and prepare complete meals. Keeping the oven clean and using the proper containers will also help it operate safely and efficiently.</p>
             </header>
-            <div className="gasGrillGuideGrid">
-              <section><h3>Before You Start</h3><p>Read the owner’s manual because wattage, power levels, preset programs, and cooking times vary by model. Use cookware clearly marked microwave-safe.</p><p>Avoid metal, unauthorized foil, metallic trim, foam, unmarked takeout containers, damaged cookware, and plastic storage containers not designed for heating. Never operate an empty microwave.</p></section>
-              <section><h3>Cover Food While Cooking</h3><p>Loosely cover food with a microwave-safe lid, plate, paper towel, or vented cover to retain moisture, reduce splattering, and improve even heating.</p><p>Do not completely seal the container. Lift the edge farthest from you first so steam escapes away from your face and hands.</p></section>
-              <section><h3>Cook Food Evenly</h3><ul><li>Arrange food in a ring around the outside of the dish.</li><li>Place thicker portions toward the outer edge.</li><li>Cut food into similar-sized pieces.</li><li>Stir, rotate, turn, or rearrange halfway through.</li><li>Allow proper standing time after cooking.</li></ul></section>
-              <section><h3>Use the Power Levels</h3><p>Full power works well for boiling water, heating beverages, vegetables, and many leftovers. Lower power provides gentler, more even heating for defrosting meat, melting butter or chocolate, dairy sauces, eggs, bread, dense casseroles, cream cheese, and ice cream.</p></section>
-              <section><h3>Reheating Leftovers</h3><p>Transfer food to a microwave-safe dish, spread it evenly, and break apart large portions. Add a little water, broth, or sauce to foods that may dry out.</p><p>Cover and heat in short intervals, stirring or rotating each time. Leftovers should reach 165°F throughout, followed by a brief standing time before checking.</p></section>
-              <section><h3>Defrosting Food</h3><p>Remove store packaging, foam trays, twist ties, and absorbent pads. Use the defrost setting or about 20% to 30% power, turning and separating the food as it thaws.</p><p>Cook meat, poultry, seafood, and other perishables immediately after microwave thawing.</p></section>
-              <section><h3>Cooking Vegetables</h3><p>Place fresh or frozen vegetables in a microwave-safe dish with a small amount of water. Cover and cook until tender, stirring or rearranging as needed.</p><p>Use only enough water to create steam and let vegetables stand briefly before uncovering.</p></section>
-              <section><h3>Cooking Eggs Safely</h3><p>Never microwave an egg in its shell. Pierce yolks and membranes for eggs cooked out of the shell, use reduced power, and cook in short intervals.</p><p>Stir scrambled eggs during cooking and remove while slightly moist. Egg dishes should reach 160°F.</p></section>
-              <section><h3>Heating Liquids</h3><p>Liquids may become superheated without appearing to boil and can erupt when moved or stirred. Avoid overheating, do not fill containers to the top, stir before and during heating, let them stand, and handle carefully.</p><p>Always stir and test soups, sauces, beverages, and baby foods before serving.</p></section>
-              <section><h3>Foods Needing Special Care</h3><p>Pierce potatoes, sweet potatoes, sausages, hot dogs, whole squash, and egg yolks so steam can escape. Never heat completely sealed jars, bottles, or containers.</p><p>Follow tested instructions for unfamiliar foods such as whole grapes or hot peppers.</p></section>
-              <section><h3>Prevent Splatter and Odors</h3><p>Cover food and wipe spills promptly. For odors, steam a microwave-safe bowl of water with lemon slices, let it stand with the door closed, then wipe the interior. Do not let the bowl boil dry.</p></section>
-              <section><h3>Clean the Interior</h3><p>Unplug countertop models when practical. Clean with warm water and mild dish soap, a soft cloth, or a baking-soda solution.</p><p>Avoid abrasives and excess water near vents or electrical parts. Wash the turntable and support ring, and keep the door, seal, and frame clean.</p></section>
-              <section><h3>Clean the Exterior</h3><p>Wipe controls with a lightly dampened cloth and dry promptly. Never spray cleaner directly onto electronic controls.</p><p>Use the appropriate cleaner for the finish and keep air vents free of grease, dust, and stored objects.</p></section>
-              <section><h3>Over-the-Range Models</h3><p>Clean or replace grease filters as directed. Recirculating models may also have charcoal filters that must be replaced.</p><p>Do not cook on the range without the microwave’s grease filters properly installed.</p></section>
-              <section><h3>When to Stop Using It</h3><ul><li>The door does not close securely.</li><li>The door, hinges, latch, or seal is damaged.</li><li>It sparks when no metal is present.</li><li>It makes unusual electrical noises.</li><li>Smoke or burning odor continues after cleaning.</li><li>The coating is badly damaged.</li><li>The turntable stops rotating properly.</li><li>It repeatedly trips a breaker.</li></ul><p>Do not remove the outer cabinet or attempt internal repairs; high-voltage components can remain dangerous even when unplugged.</p></section>
-              <section><h3>Everyday Microwave Habits</h3><ul><li>Use microwave-safe cookware.</li><li>Cover food loosely.</li><li>Stir and rotate during cooking.</li><li>Use lower power for delicate or dense foods.</li><li>Allow standing time.</li><li>Use a thermometer when safety matters.</li><li>Clean spills, seals, vents, and filters regularly.</li></ul></section>
+
+            <div className="gasGrillGuideGrid microwaveGuideGrid">
+              <section>
+                <h3>Before You Start</h3>
+                <p>Read the owner’s manual for your specific microwave. Wattage, power levels, preset programs and recommended cooking times can vary considerably between models.</p>
+                <p>Use cookware clearly marked <strong>microwave-safe</strong>. Glass, ceramic, paper and approved plastic containers are commonly used, but not every container made from these materials is suitable for microwave cooking.</p>
+                <p>Avoid using:</p>
+                <ul>
+                  <li>Metal pans or utensils</li>
+                  <li>Aluminum foil unless specifically permitted</li>
+                  <li>Dishes with metallic paint or trim</li>
+                  <li>Foam containers</li>
+                  <li>Takeout containers not marked microwave-safe</li>
+                  <li>Cracked, chipped or damaged cookware</li>
+                  <li>Plastic storage containers not designed for heating</li>
+                </ul>
+                <p>Never operate an empty microwave. With no food or liquid to absorb the microwave energy, the appliance may be damaged.</p>
+              </section>
+
+              <section>
+                <h3>Cover Food While Cooking</h3>
+                <p>Loosely cover food with a microwave-safe lid, plate, paper towel or vented cover. Covering food helps retain moisture, reduces splattering and encourages more even heating.</p>
+                <p>Do not completely seal the container. Steam must have a place to escape.</p>
+                <p>When removing a cover, lift the edge farthest away from you first so hot steam is directed away from your face and hands.</p>
+              </section>
+
+              <section>
+                <h3>Cook Food Evenly</h3>
+                <p>Microwaves can create hot and cold spots. For more even results:</p>
+                <ul>
+                  <li>Arrange food in a ring around the outside of the dish.</li>
+                  <li>Place thicker portions toward the outer edge.</li>
+                  <li>Cut foods into similar-sized pieces.</li>
+                  <li>Stir, rotate or turn food during cooking.</li>
+                  <li>Rearrange individual portions halfway through cooking.</li>
+                  <li>Allow food to stand after the microwave stops.</li>
+                </ul>
+                <p>Standing time is part of the cooking process. Heat continues to move through the food after it is removed from the microwave.</p>
+              </section>
+
+              <section>
+                <h3>Learn to Use the Power Levels</h3>
+                <p>Full power is useful for boiling water, heating beverages, cooking vegetables and reheating many foods. Lower power settings provide gentler, more even heating.</p>
+                <p>Try reduced power for:</p>
+                <ul>
+                  <li>Defrosting meat</li>
+                  <li>Melting butter or chocolate</li>
+                  <li>Heating dairy-based sauces</li>
+                  <li>Cooking eggs</li>
+                  <li>Warming bread</li>
+                  <li>Reheating dense casseroles</li>
+                  <li>Softening cream cheese or ice cream</li>
+                </ul>
+                <p>Using a lower power level for a longer time often produces better results than repeatedly heating food at full power.</p>
+              </section>
+
+              <section>
+                <h3>Reheating Leftovers</h3>
+                <p>Transfer leftovers to a microwave-safe dish and spread the food into an even layer. Break apart large portions whenever possible.</p>
+                <p>Add a small amount of water, broth or sauce to foods that may dry out. Cover the dish, leaving a small vent for steam.</p>
+                <p>Heat in short intervals, stirring or rotating between each interval. Check several places in the food because the center may still be cool even when the edges are hot.</p>
+                <p>Leftovers should be reheated until they reach <strong>165°F</strong> throughout. Allow the food to stand briefly before checking the temperature with a food thermometer.</p>
+              </section>
+
+              <section>
+                <h3>Defrosting Food</h3>
+                <p>Remove store packaging, foam trays, twist ties and absorbent pads before defrosting food.</p>
+                <p>Use the microwave’s defrost setting or approximately 20% to 30% power. Turn, rotate or separate the food as it begins to thaw.</p>
+                <p>Small or thin areas may start cooking before thicker sections are completely thawed. Shielding a small area with a limited amount of foil may be permitted by some manufacturers, but follow your microwave’s instructions carefully.</p>
+                <p>Cook meat, poultry, seafood and other perishable foods immediately after microwave thawing. Some areas may have become warm enough for bacteria to multiply.</p>
+              </section>
+
+              <section>
+                <h3>Cooking Vegetables</h3>
+                <p>Microwaves are especially useful for steaming fresh or frozen vegetables.</p>
+                <p>Place vegetables in a microwave-safe dish with a small amount of water. Cover and cook until tender, stirring or rearranging as needed.</p>
+                <p>Use only enough water to create steam. Vegetables already containing plenty of moisture may require little or no additional water.</p>
+                <p>Let the vegetables stand briefly before uncovering. Season after cooking unless the recipe directs otherwise.</p>
+              </section>
+
+              <section>
+                <h3>Cooking Eggs Safely</h3>
+                <p>Never microwave an egg in its shell. Pressure can build inside and cause it to explode.</p>
+                <p>Pierce egg yolks and membranes before cooking eggs out of the shell. Use reduced power and short cooking intervals because eggs continue to firm during standing time.</p>
+                <p>Scrambled eggs should be stirred during cooking. Remove them while they still look slightly moist, then allow the remaining heat to finish cooking them.</p>
+                <p>Egg dishes and casseroles containing eggs should reach <strong>160°F</strong>.</p>
+              </section>
+
+              <section>
+                <h3>Heating Liquids</h3>
+                <p>Liquids heated in a microwave can become extremely hot without appearing to boil. They may suddenly erupt when moved, stirred or combined with another ingredient.</p>
+                <p>To reduce the risk:</p>
+                <ul>
+                  <li>Avoid overheating liquids.</li>
+                  <li>Do not fill the container to the top.</li>
+                  <li>Stir before and partway through heating.</li>
+                  <li>Let the container stand briefly before moving it.</li>
+                  <li>Handle the container carefully.</li>
+                  <li>Keep your face and hands away from the opening.</li>
+                </ul>
+                <p>Always stir and test the temperature of soups, sauces, beverages and baby foods before serving.</p>
+              </section>
+
+              <section>
+                <h3>Foods That Need Special Care</h3>
+                <p>Pierce foods with skins or membranes before cooking so steam can escape. Examples include:</p>
+                <ul>
+                  <li>Potatoes</li>
+                  <li>Sweet potatoes</li>
+                  <li>Sausages</li>
+                  <li>Hot dogs</li>
+                  <li>Whole squash</li>
+                  <li>Egg yolks</li>
+                </ul>
+                <p>Do not heat completely sealed jars, bottles or containers.</p>
+                <p>Whole grapes, hot peppers and certain other foods can react unpredictably in a microwave. Follow a tested microwave recipe rather than experimenting with unfamiliar foods.</p>
+              </section>
+
+              <section>
+                <h3>Preventing Splatters and Odors</h3>
+                <p>Covering food is the easiest way to prevent baked-on splatters.</p>
+                <p>Wipe up spills soon after they occur. Allowing grease and food residue to build up can create odors, smoke and uneven heating.</p>
+                <p>For lingering odors, place a microwave-safe bowl containing water and lemon slices inside the oven. Heat until the water produces steam, let it stand with the door closed for several minutes and then wipe the interior.</p>
+                <p>Do not allow the bowl to boil dry.</p>
+              </section>
+
+              <section>
+                <h3>Cleaning the Interior</h3>
+                <p>Unplug a countertop microwave before cleaning when practical. Follow the owner’s manual for built-in and over-the-range models.</p>
+                <p>Clean the interior with:</p>
+                <ul>
+                  <li>Warm water and mild dish soap</li>
+                  <li>A soft cloth or nonabrasive sponge</li>
+                  <li>A baking-soda-and-water solution for stubborn odors or residue</li>
+                </ul>
+                <p>Avoid abrasive pads, harsh cleaners and excessive water around vents or electrical components.</p>
+                <p>Remove the turntable and support ring and wash them according to the manufacturer’s instructions. Make sure they are dry and properly seated before using the oven again.</p>
+                <p>Keep the door, door seal and surrounding frame clean. Food buildup in these areas may prevent the door from closing correctly.</p>
+              </section>
+
+              <section>
+                <h3>Cleaning the Exterior</h3>
+                <p>Wipe control panels with a lightly dampened cloth and dry them promptly. Do not spray cleaner directly onto electronic controls.</p>
+                <p>Use a cleaner recommended for the appliance’s exterior finish. Stainless-steel surfaces should be wiped in the direction of the grain.</p>
+                <p>Keep air vents free of grease, dust and stored objects.</p>
+              </section>
+
+              <section>
+                <h3>Caring for an Over-the-Range Microwave</h3>
+                <p>Over-the-range microwaves often serve as ventilation hoods as well as cooking appliances.</p>
+                <p>Clean or replace the grease filters according to the owner’s manual. A grease-covered filter reduces airflow and may create odors.</p>
+                <p>Models that recirculate air back into the kitchen may also contain a charcoal filter. These filters usually must be replaced rather than washed.</p>
+                <p>Do not cook on the range without the microwave’s grease filters properly installed.</p>
+              </section>
+
+              <section>
+                <h3>When to Stop Using the Microwave</h3>
+                <p>Stop using the microwave and have it inspected when:</p>
+                <ul>
+                  <li>The door does not close securely.</li>
+                  <li>The door, hinges, latch or seal is damaged.</li>
+                  <li>The appliance sparks when no metal is present.</li>
+                  <li>It makes unusual electrical noises.</li>
+                  <li>Smoke or a burning odor continues after cleaning.</li>
+                  <li>The interior coating is badly damaged.</li>
+                  <li>The turntable no longer rotates properly.</li>
+                  <li>The appliance repeatedly trips a breaker.</li>
+                </ul>
+                <p>Do not attempt to remove the outer cabinet or repair internal microwave components yourself. High-voltage parts can remain dangerous even after the appliance has been unplugged.</p>
+              </section>
+
+              <section>
+                <h3>Everyday Microwave Habits</h3>
+                <p>For better results and a longer appliance life:</p>
+                <ul>
+                  <li>Use microwave-safe cookware.</li>
+                  <li>Cover food loosely.</li>
+                  <li>Stir and rotate food during cooking.</li>
+                  <li>Use lower power for delicate or dense foods.</li>
+                  <li>Allow proper standing time.</li>
+                  <li>Check food with a thermometer when safety matters.</li>
+                  <li>Clean spills before they harden.</li>
+                  <li>Keep the door seal and vents clean.</li>
+                  <li>Maintain over-the-range filters.</li>
+                  <li>Follow the instructions for your specific model.</li>
+                </ul>
+                <p>Used thoughtfully, a microwave oven can be one of the quickest, cleanest and most convenient cooking tools in the kitchen.</p>
+              </section>
             </div>
           </article>
         </HeroTopicPage>
