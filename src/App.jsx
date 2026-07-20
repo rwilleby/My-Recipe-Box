@@ -781,17 +781,6 @@ const HERO_INFO_BUTTONS = [
 
 
 
-
-const HOME_KITCHEN_TOOL_SLIDES = [
-  { title: "32-Ounce Deli Containers", image: "images/products/hero-amazon-32oz-deli-a.png" },
-  { title: "Baguette Bread Pan", image: "images/products/hero-amazon-baguette-a.png" },
-  { title: "Cupcake & Muffin Pans", image: "images/products/hero-amazon-cupcakes-a.png" },
-  { title: "Mini Canning Jars", image: "images/products/hero-amazon-mini-jars-a.png" },
-  { title: "Mini Meal Pans", image: "images/products/hero-amazon-mini-meals-a.png" },
-  { title: "Pullman Bread Pan", image: "images/products/hero-amazon-pullman-a.png" },
-  { title: "Silicone Freezer Trays", image: "images/products/hero-amazon-silicone-a.png" },
-];
-
 const PRODUCTS_I_USE = [
   {
     title: "Aluminum Mini Bread Pans",
@@ -2891,13 +2880,13 @@ function FeaturedSelectionPanel({ setActivePage }) {
 
 function ProductsIUseCarousel({ setActivePage }) {
   const [activeIndex, setActiveIndex] = useState(0);
-  const activeProduct = HOME_KITCHEN_TOOL_SLIDES[activeIndex % HOME_KITCHEN_TOOL_SLIDES.length];
+  const activeProduct = PRODUCTS_I_USE[activeIndex % PRODUCTS_I_USE.length];
 
   useEffect(() => {
-    if (HOME_KITCHEN_TOOL_SLIDES.length <= 1) return undefined;
+    if (PRODUCTS_I_USE.length <= 1) return undefined;
 
     const timer = window.setInterval(() => {
-      setActiveIndex((current) => (current + 1) % HOME_KITCHEN_TOOL_SLIDES.length);
+      setActiveIndex((current) => (current + 1) % PRODUCTS_I_USE.length);
     }, 9000);
 
     return () => window.clearInterval(timer);
@@ -2919,7 +2908,7 @@ function ProductsIUseCarousel({ setActivePage }) {
       >
         <div className="featuredSelectionImage kitchenToolsFeatureImage">
           <div className="featuredKitchenToolImageStack" aria-hidden="true">
-            {HOME_KITCHEN_TOOL_SLIDES.map((product, index) => (
+            {PRODUCTS_I_USE.map((product, index) => (
               <img
                 key={`${product.title}-${index}`}
                 className={`featuredKitchenToolImage${index === activeIndex ? " active" : ""}`}
@@ -3128,17 +3117,26 @@ function RecipeRolodex({ setActivePage, setFilter }) {
         <strong className="homeRolodexSectionTitle">Robert's Rolodex Files</strong>
       </div>
 
-      <div className="homeRolodexStage homeRolodexCompositeStage homeRolodexAutoStage">
+      <div className="homeRolodexStage homeRolodexCompositeStage">
         <button
           type="button"
-          className="homeRolodexCompositeImageButton homeRolodexCompositeImageButtonLarge"
+          className="homeRolodexNav"
+          onClick={() => goToOffset(-1)}
+          aria-label="Previous Rolodex image"
+        >
+          ‹
+        </button>
+
+        <button
+          type="button"
+          className="homeRolodexCompositeImageButton"
           onClick={viewActiveRecipes}
           aria-label={`View ${activeSlide.title} recipes`}
         >
           {activeSlideImageUrl && !activeImageFailed ? (
             <img
               key={activeSlide.id}
-              className="homeRolodexCompositeImage homeRolodexCompositeImageLarge"
+              className="homeRolodexCompositeImage"
               src={activeSlideImageUrl}
               alt={`${activeSlide.title} Rolodex recipe card collection`}
               loading="lazy"
@@ -3164,6 +3162,21 @@ function RecipeRolodex({ setActivePage, setFilter }) {
             </div>
           )}
         </button>
+
+        <button
+          type="button"
+          className="homeRolodexNav"
+          onClick={() => goToOffset(1)}
+          aria-label="Next Rolodex image"
+        >
+          ›
+        </button>
+      </div>
+
+      <div className="homeRolodexDots" aria-hidden="true">
+        {rolodexSlides.map((slide, index) => (
+          <span key={slide.id} className={index === activeIndex ? "active" : ""} />
+        ))}
       </div>
     </aside>
   );
