@@ -23716,266 +23716,187 @@ body.rrbPopupOpen {
 
 
 /* =========================================================
-   HOME SHOWCASE: SQUARE SIDE SLIDESHOWS + VERSION 3 COUNTERS
+   MEALBALANCE FRAMEWORK
+   Independent recipe-comparison badges, details, filters, and information.
    ========================================================= */
 
-/* Preserve the 25 / 50 / 25 desktop relationship while making both side cards square. */
-.homeThreeColumnShowcase {
-  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr) !important;
-  gap: 12px !important;
-  align-items: stretch !important;
-}
-
-.homeThreeColumnShowcase .homeFeatureCard.featuredSelectionCard,
-.homeThreeColumnShowcase .homeFeatureCard.productsIUseCard {
-  width: 100% !important;
-  height: auto !important;
-  min-height: 0 !important;
-  aspect-ratio: 1 / 1 !important;
-  display: flex !important;
-  flex-direction: column !important;
-}
-
-.homeThreeColumnShowcase .homeShowcaseRolodexColumn .homeRolodex {
-  height: 100% !important;
-  min-height: 0 !important;
-}
-
-.homeThreeColumnShowcase .homeMiniSectionHeader,
-.homeThreeColumnShowcase .homeRolodexHeader {
-  flex: 0 0 58px !important;
-  min-height: 58px !important;
-  height: 58px !important;
-}
-
-.homeThreeColumnShowcase .homeMiniSectionHeader h2,
-.homeThreeColumnShowcase .homeRolodexSectionTitle {
-  font-family: var(--rrb-editorial-heading-font, Georgia, serif) !important;
-  font-size: clamp(18px, 1.55vw, 25px) !important;
-  line-height: 1.05 !important;
-  text-transform: none !important;
-}
-
-.homeThreeColumnShowcase .featuredSelectionButton,
-.homeThreeColumnShowcase .productUseFeatureWrap,
-.homeThreeColumnShowcase .productUseFeatureTile {
-  flex: 1 1 auto !important;
-  min-height: 0 !important;
-}
-
-.homeThreeColumnShowcase .featuredSelectionImage,
-.homeThreeColumnShowcase .productUseFeatureImage {
-  width: calc(100% - 28px) !important;
-  height: auto !important;
-  min-height: 0 !important;
-  max-height: none !important;
-  aspect-ratio: 1 / 0.76 !important;
-  margin-top: 10px !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
-  border-radius: 18px !important;
-  overflow: hidden !important;
-}
-
-.homeThreeColumnShowcase .featuredSelectionButton strong,
-.homeThreeColumnShowcase .productUseFeatureTile strong {
-  width: calc(100% - 28px) !important;
-  min-height: 42px !important;
-  margin: 10px auto 0 !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  font-size: clamp(12px, .95vw, 15px) !important;
-}
-
-/* Product slideshow fades exactly like the Combo-meals slideshow. */
-.productUseFadeStack {
-  position: relative !important;
-  isolation: isolate !important;
-}
-
-.productUseFadeImage {
-  position: absolute !important;
-  inset: 0 !important;
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
-  object-position: center !important;
-  opacity: 0 !important;
-  transition: opacity 1.45s ease-in-out !important;
-  display: block !important;
-}
-
-.productUseFadeImage.active {
-  opacity: 1 !important;
-  z-index: 2 !important;
-}
-
-/* Version 3 counter row: 1/4 inch below the Rolodex row. */
-.homeCounterVersion3 {
-  margin-top: 24px !important;
-  padding: 0 5.5vw 12px !important;
-  background: var(--cream) !important;
-}
-
-.homeCounterVersion3 .homeCounterRow {
-  display: flex !important;
-  justify-content: center !important;
-  align-items: stretch !important;
-  gap: clamp(18px, 2.8vw, 42px) !important;
-  flex-wrap: nowrap !important;
-  overflow: visible !important;
-}
-
-.homeCounterVersion3 .homeCounterItem {
-  display: block !important;
-  min-width: 0 !important;
-}
-
-.homeCounterBadge {
-  width: clamp(92px, 8.4vw, 128px);
-  aspect-ratio: 0.78 / 1;
-  border: 2px solid currentColor;
-  border-radius: 48% / 20%;
-  overflow: hidden;
-  background: #ffffff;
-  display: grid;
-  grid-template-rows: 36% 64%;
-  color: #7f1d1d;
-}
-
-.homeCounterBadge.complete { color: #4b7616; }
-.homeCounterBadge.freezer { color: #123f7a; }
-.homeCounterBadge.collections { color: #d79a00; }
-
-.homeCounterBand {
-  display: grid;
-  place-items: center;
-  background: currentColor;
-  color: #ffffff;
-  border-bottom: 2px solid currentColor;
-}
-
-.homeCounterBand span {
-  color: #ffffff !important;
-  font-size: clamp(22px, 2vw, 32px);
-  line-height: 1;
-  filter: grayscale(1) brightness(0) invert(1);
-}
-
-.homeCounterBody {
-  display: flex;
-  flex-direction: column;
+.mealBalanceBadge {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 5px;
-  padding: 7px 8px 10px;
-  background: #ffffff;
+  width: max-content;
+  min-height: 25px;
+  padding: 3px 9px;
+  border: 1px solid rgba(20, 83, 45, 0.42);
+  border-radius: 999px;
+  background: #f7faf7;
+  color: #174f2e;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  font-size: 11px;
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
 }
 
-.homeCounterBody strong {
-  color: currentColor;
-  font-family: Georgia, "Iowan Old Style", serif;
-  font-size: clamp(30px, 3vw, 46px);
-  line-height: .95;
+.mealBalanceBadge.unrated {
+  border-color: #d8d4cc;
+  background: #fbfaf7;
+  color: #5f6368;
+}
+
+.recipeMealBalanceBadge {
+  margin: -2px 0 8px;
+}
+
+.browseRecipeGrid .recipeMealBalanceBadge {
+  margin: 0 0 9px;
+}
+
+.mealBalanceDetails {
+  color: #374151;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  font-size: 13px;
+  line-height: 1.3;
+}
+
+.mealBalanceDetails strong {
+  color: #174f2e;
+  font-family: inherit;
   font-weight: 700;
 }
 
-.homeCounterRule {
-  width: 68%;
-  height: 1px;
-  background: #d4d4d4;
+.cardViewerMealBalanceRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 7px;
 }
 
-.homeCounterBody small {
-  color: #111827 !important;
-  font-size: clamp(8px, .72vw, 11px) !important;
-  line-height: 1.05 !important;
-  font-weight: 800 !important;
-  letter-spacing: .02em !important;
-  text-align: center !important;
-  text-transform: uppercase !important;
-  white-space: normal !important;
+.mealBalanceInfo {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  z-index: 45;
 }
 
-@media (max-width: 820px) {
-  .homeThreeColumnShowcase {
-    grid-template-columns: 1fr 1fr !important;
+.mealBalanceInfoButton {
+  min-height: 28px;
+  padding: 0 9px;
+  border: 1px solid #d9e6dc;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #174f2e;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  font-size: 11px;
+  line-height: 1;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.mealBalanceInfoButton:hover,
+.mealBalanceInfoButton:focus-visible {
+  border-color: #14532d;
+  background: #f7faf7;
+}
+
+.mealBalanceInfoBubble {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: min(390px, 84vw);
+  padding: 14px 38px 14px 15px;
+  border: 1px solid #d9e6dc;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #374151;
+  box-shadow: 0 16px 40px rgba(17, 24, 39, 0.16);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  font-size: 12.5px;
+  line-height: 1.42;
+  text-align: left;
+  white-space: normal;
+}
+
+.mealBalanceInfoBubble > button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: #f1f3f2;
+  color: #111827;
+  font-size: 17px;
+  line-height: 1;
+}
+
+.mealBalanceFilterWrap {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+}
+
+.mealBalanceFilterWrap select {
+  min-width: 210px;
+}
+
+.plannerMealTitleWithBalance {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.plannerMealBalanceBadge,
+.dinnerRecipeMealBalanceBadge {
+  flex: 0 0 auto;
+}
+
+.comboMealBalanceDetails {
+  margin-top: 7px;
+}
+
+.dinnerCombinationTitleBlock .comboMealBalanceDetails,
+.plannerDinnerModalTitleBlock .comboMealBalanceDetails {
+  color: #4b5563;
+}
+
+@media (max-width: 900px) {
+  .mealBalanceFilterWrap {
+    width: 100%;
   }
 
-  .homeShowcaseRolodexColumn {
-    grid-column: 1 / -1 !important;
-    grid-row: 1 !important;
-  }
-
-  .homeDinnerRecommendationsColumn {
-    grid-column: 1 !important;
-    grid-row: 2 !important;
-  }
-
-  .homeProductsColumn {
-    grid-column: 2 !important;
-    grid-row: 2 !important;
-  }
-
-  .homeThreeColumnShowcase .homeFeatureCard.featuredSelectionCard,
-  .homeThreeColumnShowcase .homeFeatureCard.productsIUseCard {
-    aspect-ratio: 1 / 1 !important;
-  }
-
-  .homeCounterVersion3 .homeCounterRow {
-    gap: 14px !important;
+  .mealBalanceFilterWrap select {
+    flex: 1 1 auto;
+    min-width: 0;
   }
 }
 
 @media (max-width: 560px) {
-  .homeThreeColumnShowcase {
-    grid-template-columns: 1fr !important;
+  .mealBalanceBadge {
+    min-height: 23px;
+    padding: 3px 8px;
+    font-size: 10.5px;
   }
 
-  .homeShowcaseRolodexColumn,
-  .homeDinnerRecommendationsColumn,
-  .homeProductsColumn {
-    grid-column: 1 !important;
+  .cardViewerMealBalanceRow {
+    align-items: flex-start;
+    flex-direction: column;
   }
 
-  .homeShowcaseRolodexColumn { grid-row: 1 !important; }
-  .homeDinnerRecommendationsColumn { grid-row: 2 !important; }
-  .homeProductsColumn { grid-row: 3 !important; }
-
-  .homeThreeColumnShowcase .homeFeatureCard.featuredSelectionCard,
-  .homeThreeColumnShowcase .homeFeatureCard.productsIUseCard {
-    width: min(100%, 430px) !important;
-    justify-self: center !important;
+  .mealBalanceFilterWrap {
+    align-items: stretch;
+    flex-direction: column;
   }
 
-  .homeCounterVersion3 {
-    margin-top: 18px !important;
-    padding-left: 12px !important;
-    padding-right: 12px !important;
-  }
-
-  .homeCounterVersion3 .homeCounterRow {
-    display: grid !important;
-    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-    gap: 6px !important;
-  }
-
-  .homeCounterBadge {
-    width: 100%;
-    max-width: 88px;
-    margin: 0 auto;
-  }
-
-  .homeCounterBand span {
-    font-size: 19px;
-  }
-
-  .homeCounterBody strong {
-    font-size: 25px;
-  }
-
-  .homeCounterBody small {
-    font-size: 7px !important;
+  .mealBalanceInfoBubble {
+    left: 0;
+    right: auto;
+    width: min(88vw, 360px);
   }
 }

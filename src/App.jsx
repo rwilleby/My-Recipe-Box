@@ -1075,6 +1075,104 @@ function constructionCalloutImageCandidates(recipe) {
   ];
 }
 
+
+const MEAL_BALANCE_VERSION = "MB-1.0";
+
+const MEAL_BALANCE_RANGES = [
+  { min: 1, max: 2, label: "Very Light" },
+  { min: 3, max: 4, label: "Balanced" },
+  { min: 5, max: 6, label: "Moderate" },
+  { min: 7, max: 8, label: "Rich" },
+  { min: 9, max: 10, label: "Indulgent" },
+];
+
+function getMealBalanceScore(item) {
+  const rawScore = item?.mealBalance?.score;
+  const score = typeof rawScore === "number" ? rawScore : Number(rawScore);
+  return Number.isInteger(score) && score >= 1 && score <= 10 ? score : null;
+}
+
+function getMealBalanceLabel(item) {
+  const score = getMealBalanceScore(item);
+  if (score === null) return "Not Yet Rated";
+
+  const suppliedLabel = String(item?.mealBalance?.label || "").trim();
+  if (suppliedLabel && suppliedLabel.toLowerCase() !== "not yet rated") {
+    return suppliedLabel;
+  }
+
+  return MEAL_BALANCE_RANGES.find((range) => score >= range.min && score <= range.max)?.label || "Not Yet Rated";
+}
+
+function isMealBalanceRated(item) {
+  return getMealBalanceScore(item) !== null && item?.mealBalance?.status !== "unrated";
+}
+
+function mealBalanceMatchesFilter(item, filterValue) {
+  if (!filterValue || filterValue === "all") return true;
+
+  const score = getMealBalanceScore(item);
+  if (filterValue === "unrated") return score === null || !isMealBalanceRated(item);
+  if (score === null || !isMealBalanceRated(item)) return false;
+
+  const [minimum, maximum] = filterValue.split("-").map(Number);
+  return score >= minimum && score <= maximum;
+}
+
+function MealBalanceBadge({ item, showUnrated = false, className = "" }) {
+  const score = getMealBalanceScore(item);
+  const rated = isMealBalanceRated(item);
+
+  if (!rated && !showUnrated) return null;
+
+  const text = rated ? `MB ${score}` : "Not Yet Rated";
+  const classes = ["mealBalanceBadge", rated ? "rated" : "unrated", className]
+    .filter(Boolean)
+    .join(" ");
+
+  return (
+    <span className={classes} title={rated ? `MealBalance ${score} — ${getMealBalanceLabel(item)}` : "MealBalance: Not Yet Rated"}>
+      {text}
+    </span>
+  );
+}
+
+function MealBalanceDetails({ item, prefix = "MealBalance", className = "" }) {
+  const score = getMealBalanceScore(item);
+  const rated = isMealBalanceRated(item);
+
+  return (
+    <div className={["mealBalanceDetails", className].filter(Boolean).join(" ")}>
+      <strong>{prefix}:</strong>{" "}
+      {rated ? `MB ${score} — ${getMealBalanceLabel(item)}` : "Not Yet Rated"}
+    </div>
+  );
+}
+
+function MealBalanceInfo({ compact = false }) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <span className={compact ? "mealBalanceInfo compact" : "mealBalanceInfo"}>
+      <button
+        type="button"
+        className="mealBalanceInfoButton"
+        onClick={() => setOpen((current) => !current)}
+        aria-expanded={open}
+        aria-label="About MealBalance"
+      >
+        MB info
+      </button>
+      {open && (
+        <span className="mealBalanceInfoBubble" role="tooltip">
+          <button type="button" onClick={() => setOpen(false)} aria-label="Close MealBalance information">×</button>
+          MealBalance is Robert’s Recipe Box’s independent nutritional comparison system. Ratings are estimates based on nutrition information per serving. MealBalance is not affiliated with or based on any commercial diet program and is provided for general informational purposes only.
+        </span>
+      )}
+    </span>
+  );
+}
+
 const NAV_GROUPS = [
   {
     label: "ABOUT",
@@ -2010,6 +2108,7 @@ function RecipeCard({
         </span>
 
         <h3>{recipe.title}</h3>
+        <MealBalanceBadge item={recipe} className="recipeMealBalanceBadge" />
 
         {isBrowseCard ? (
           <>
@@ -2268,6 +2367,10 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
           <div>
             <span className="cardViewerCode">{recipe.id}</span>
             <h2>{recipe.title}</h2>
+            <div className="cardViewerMealBalanceRow">
+              <MealBalanceDetails item={recipe} />
+              <MealBalanceInfo compact />
+            </div>
           </div>
 
           <div className="cardViewerHeaderActions compact">
@@ -2735,7 +2838,7 @@ function FeaturedSelectionPanel({ setActivePage }) {
 
     const timer = window.setInterval(() => {
       setActiveIndex((current) => (current + 1) % featuredMeals.length);
-    }, 6000);
+    }, 9000);
 
     return () => window.clearInterval(timer);
   }, [featuredMeals.length]);
@@ -2745,7 +2848,7 @@ function FeaturedSelectionPanel({ setActivePage }) {
   return (
     <section className="homeFeatureCard featuredSelectionCard dinnerCombinationsFeatureCard">
       <div className="homeMiniSectionHeader">
-        <h2>Combo-meals</h2>
+        <h2>Dinner Recommendations</h2>
       </div>
 
       <button
@@ -2775,20 +2878,9 @@ function FeaturedSelectionPanel({ setActivePage }) {
   );
 }
 
-
 function ProductsIUseCarousel({ setActivePage }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const product = PRODUCTS_I_USE[activeIndex % PRODUCTS_I_USE.length];
-
-  useEffect(() => {
-    if (PRODUCTS_I_USE.length <= 1) return undefined;
-
-    const timer = window.setInterval(() => {
-      setActiveIndex((current) => (current + 1) % PRODUCTS_I_USE.length);
-    }, 6000);
-
-    return () => window.clearInterval(timer);
-  }, []);
 
   function goToProduct(offset) {
     setActiveIndex((current) =>
@@ -2799,7 +2891,7 @@ function ProductsIUseCarousel({ setActivePage }) {
   return (
     <section className="homeFeatureCard productsIUseCard">
       <div className="homeMiniSectionHeader">
-        <h2>Kitchen Tools</h2>
+        <h2>Products I Recommend</h2>
       </div>
 
       <div className="productUseFeatureWrap">
@@ -2818,17 +2910,13 @@ function ProductsIUseCarousel({ setActivePage }) {
           onClick={() => setActivePage("Products I Use")}
           aria-label={`View product details for ${product.title}`}
         >
-          <div className="productUseFeatureImage productUseFadeStack" aria-hidden="true">
-            {PRODUCTS_I_USE.map((item, index) => (
-              <img
-                key={item.title}
-                className={index === activeIndex ? "productUseFadeImage active" : "productUseFadeImage"}
-                src={`${import.meta.env.BASE_URL}${item.image}`}
-                alt=""
-                loading={index === 0 ? "eager" : "lazy"}
-                decoding="async"
-              />
-            ))}
+          <div className="productUseFeatureImage">
+            <img
+              src={`${import.meta.env.BASE_URL}${product.image}`}
+              alt=""
+              loading="lazy"
+              decoding="async"
+            />
           </div>
           <strong>{product.title}</strong>
         </button>
@@ -3019,7 +3107,7 @@ function RecipeRolodex({ setActivePage, setFilter }) {
       <aside className="homeRolodex homeRolodexComposite" aria-label="Recipe card rolodex">
         <div className="homeRolodexHeader">
           <div>
-            <span>Robert's Rolodex</span>
+            <span>Recipe Card Rolodex</span>
             <strong>No Rolodex images found</strong>
           </div>
         </div>
@@ -3035,7 +3123,7 @@ function RecipeRolodex({ setActivePage, setFilter }) {
   return (
     <aside className="homeRolodex homeRolodexComposite" aria-label="Recipe card rolodex">
       <div className="homeRolodexHeader homeRolodexHeaderCentered">
-        <strong className="homeRolodexSectionTitle">Robert's Rolodex</strong>
+        <strong className="homeRolodexSectionTitle">Recipe Card Rolodex</strong>
       </div>
 
       <div className="homeRolodexStage homeRolodexCompositeStage">
@@ -3104,7 +3192,6 @@ function RecipeRolodex({ setActivePage, setFilter }) {
 }
 
 
-
 function HomeRecipeCounters({ classifiedRecipes = [] }) {
   const recipeList = Array.isArray(classifiedRecipes) ? classifiedRecipes : [];
 
@@ -3137,27 +3224,21 @@ function HomeRecipeCounters({ classifiedRecipes = [] }) {
   ).size;
 
   const counters = [
-    { label: "Recipes", value: recipeCount, className: "recipes", icon: "♨" },
-    { label: "Complete Meals", value: completeMealCount, className: "complete", icon: "🍴" },
-    { label: "Freezer", value: freezerFriendlyCount, className: "freezer", icon: "❄" },
-    { label: "Collections", value: collectionCount, className: "collections", icon: "📁" },
+    { label: "Recipes", value: recipeCount, className: "recipes" },
+    { label: "Complete Meals", value: completeMealCount, className: "complete" },
+    { label: "Freezer-Friendly", value: freezerFriendlyCount, className: "freezer" },
+    { label: "Collections", value: collectionCount, className: "collections" },
   ];
 
   return (
-    <section className="homeCounterSection homeCounterVersion3" aria-label="Recipe library totals">
+    <section className="homeCounterSection" aria-label="Recipe library totals">
       <div className="homeCounterRow">
         {counters.map((counter) => (
           <div className="homeCounterItem" key={counter.label}>
-            <div className={`homeCounterBadge ${counter.className}`}>
-              <div className="homeCounterBand" aria-hidden="true">
-                <span>{counter.icon}</span>
-              </div>
-              <div className="homeCounterBody">
-                <strong>{counter.value}</strong>
-                <span className="homeCounterRule" aria-hidden="true" />
-                <small>{counter.label}</small>
-              </div>
-            </div>
+            <span className={`homeCounterCircle ${counter.className}`}>
+              <strong>{counter.value}</strong>
+            </span>
+            <small>{counter.label}</small>
           </div>
         ))}
       </div>
@@ -3224,6 +3305,7 @@ function RecipesPage({
   const [selectedCookingMethod, setSelectedCookingMethod] = useState("");
   const [selectedMealType, setSelectedMealType] = useState("");
   const [selectedDietaryNeed, setSelectedDietaryNeed] = useState("");
+  const [selectedMealBalance, setSelectedMealBalance] = useState("all");
   const [sortBy, setSortBy] = useState("newest");
   const [page, setPage] = useState(1);
 
@@ -3246,7 +3328,9 @@ function RecipesPage({
         recipe.categoryCode === selectedCategoryObject?.id ||
         recipe.id?.startsWith(`${selectedCategoryObject?.id}-`);
 
-      return matchesQuery && matchesCategory;
+      const matchesMealBalance = mealBalanceMatchesFilter(recipe, selectedMealBalance);
+
+      return matchesQuery && matchesCategory && matchesMealBalance;
     });
 
     const sorted = [...list];
@@ -3271,11 +3355,11 @@ function RecipesPage({
     }
 
     return sorted;
-  }, [query, selectedCategory, selectedCookingMethod, selectedMealType, selectedDietaryNeed, sortBy]);
+  }, [query, selectedCategory, selectedCookingMethod, selectedMealType, selectedDietaryNeed, selectedMealBalance, sortBy]);
 
   useEffect(() => {
     setPage(1);
-  }, [query, selectedCategory, selectedCookingMethod, selectedMealType, selectedDietaryNeed, sortBy]);
+  }, [query, selectedCategory, selectedCookingMethod, selectedMealType, selectedDietaryNeed, selectedMealBalance, sortBy]);
 
   const perPage = 12;
   const totalPages = Math.max(1, Math.ceil(filteredRecipes.length / perPage));
@@ -3375,6 +3459,23 @@ function RecipesPage({
             <option value="lowcarb">Low Carb</option>
             <option value="lighter">Lighter Options</option>
           </select>
+
+          <div className="mealBalanceFilterWrap">
+            <select
+              value={selectedMealBalance}
+              onChange={(event) => setSelectedMealBalance(event.target.value)}
+              aria-label="MealBalance rating"
+            >
+              <option value="all">All MealBalance Ratings</option>
+              <option value="1-2">MB 1–2 · Very Light</option>
+              <option value="3-4">MB 3–4 · Balanced</option>
+              <option value="5-6">MB 5–6 · Moderate</option>
+              <option value="7-8">MB 7–8 · Rich</option>
+              <option value="9-10">MB 9–10 · Indulgent</option>
+              <option value="unrated">Not Yet Rated</option>
+            </select>
+            <MealBalanceInfo compact />
+          </div>
         </div>
 
         <div className="browseSearchWrap">
@@ -3660,7 +3761,7 @@ function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFa
           </option>
           {filteredPlannerRecipes.map((recipe) => (
             <option key={recipe.id} value={recipe.id}>
-              {recipe.id} — {recipe.title}
+              {recipe.id} — {recipe.title}{isMealBalanceRated(recipe) ? ` · MB ${getMealBalanceScore(recipe)}` : ""}
             </option>
           ))}
         </select>
@@ -3715,7 +3816,10 @@ function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFa
 
                             return (
                               <div className="plannerTableMealTitle" key={`${slotKey}-${recipeId}-${index}`}>
-                                <strong>{plannerItem.title}</strong>
+                                <div className="plannerMealTitleWithBalance">
+                                  <strong>{plannerItem.title}</strong>
+                                  <MealBalanceBadge item={plannerItem} className="plannerMealBalanceBadge" />
+                                </div>
                                 {recipe ? (
                                   <small>{recipe.id} · {recipe.category} · {recipe.time} min · serves {servings}</small>
                                 ) : (
@@ -3822,6 +3926,7 @@ function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFa
                 <span className="dinnerCombinationMealBadge">Meal #{plannerDinnerViewer.number}</span>
                 <h2>{plannerDinnerViewer.title}</h2>
                 <p className="dinnerCombinationSubtitle">{plannerDinnerViewer.subtitle}</p>
+                <MealBalanceDetails item={plannerDinnerViewer} prefix="Combo Meal Balance" className="comboMealBalanceDetails" />
               </div>
               <button
                 type="button"
@@ -7194,6 +7299,7 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard }) {
         <div className="dinnerCombinationTitleBlock">
           <h3>{meal.title}</h3>
           <p className="dinnerCombinationSubtitle">{meal.subtitle}</p>
+          <MealBalanceDetails item={meal} prefix="Combo Meal Balance" className="comboMealBalanceDetails" />
         </div>
       </div>
 
@@ -7262,6 +7368,7 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard }) {
                     {hasRecipeMatch ? (
                       <>
                         <h5>{linkedRecipe.title}</h5>
+                        <MealBalanceBadge item={linkedRecipe} className="dinnerRecipeMealBalanceBadge" />
                         <p>
                           <strong>{linkedRecipe.id}</strong>
                           {linkedRecipe.category ? ` · ${linkedRecipe.category}` : ""}
