@@ -2848,7 +2848,7 @@ function FeaturedSelectionPanel({ setActivePage }) {
   return (
     <section className="homeFeatureCard featuredSelectionCard dinnerCombinationsFeatureCard">
       <div className="homeMiniSectionHeader">
-        <h2>Dinner Recommendations</h2>
+        <h2>Combo-Meals</h2>
       </div>
 
       <button
@@ -2880,60 +2880,51 @@ function FeaturedSelectionPanel({ setActivePage }) {
 
 function ProductsIUseCarousel({ setActivePage }) {
   const [activeIndex, setActiveIndex] = useState(0);
-  const product = PRODUCTS_I_USE[activeIndex % PRODUCTS_I_USE.length];
+  const activeProduct = PRODUCTS_I_USE[activeIndex % PRODUCTS_I_USE.length];
 
-  function goToProduct(offset) {
-    setActiveIndex((current) =>
-      (current + offset + PRODUCTS_I_USE.length) % PRODUCTS_I_USE.length
-    );
-  }
+  useEffect(() => {
+    if (PRODUCTS_I_USE.length <= 1) return undefined;
+
+    const timer = window.setInterval(() => {
+      setActiveIndex((current) => (current + 1) % PRODUCTS_I_USE.length);
+    }, 9000);
+
+    return () => window.clearInterval(timer);
+  }, []);
+
+  if (!activeProduct) return null;
 
   return (
-    <section className="homeFeatureCard productsIUseCard">
+    <section className="homeFeatureCard productsIUseCard kitchenToolsFeatureCard">
       <div className="homeMiniSectionHeader">
-        <h2>Products I Recommend</h2>
+        <h2>Kitchen Tools</h2>
       </div>
 
-      <div className="productUseFeatureWrap">
-        <button
-          type="button"
-          className="productUseArrow productUseArrowLeft"
-          onClick={() => goToProduct(-1)}
-          aria-label="Previous product"
-        >
-          ‹
-        </button>
-
-        <button
-          type="button"
-          className="productUseFeatureTile"
-          onClick={() => setActivePage("Products I Use")}
-          aria-label={`View product details for ${product.title}`}
-        >
-          <div className="productUseFeatureImage">
-            <img
-              src={`${import.meta.env.BASE_URL}${product.image}`}
-              alt=""
-              loading="lazy"
-              decoding="async"
-            />
+      <button
+        type="button"
+        className="featuredSelectionButton kitchenToolsFeatureButton"
+        onClick={() => setActivePage("Products I Use")}
+        aria-label={`View kitchen tool details for ${activeProduct.title}`}
+      >
+        <div className="featuredSelectionImage kitchenToolsFeatureImage">
+          <div className="featuredKitchenToolImageStack" aria-hidden="true">
+            {PRODUCTS_I_USE.map((product, index) => (
+              <img
+                key={`${product.title}-${index}`}
+                className={`featuredKitchenToolImage${index === activeIndex ? " active" : ""}`}
+                src={`${import.meta.env.BASE_URL}${product.image}`}
+                alt=""
+                loading="lazy"
+                decoding="async"
+              />
+            ))}
           </div>
-          <strong>{product.title}</strong>
-        </button>
-
-        <button
-          type="button"
-          className="productUseArrow productUseArrowRight"
-          onClick={() => goToProduct(1)}
-          aria-label="Next product"
-        >
-          ›
-        </button>
-      </div>
+        </div>
+        <strong>{activeProduct.title}</strong>
+      </button>
     </section>
   );
 }
-
 
 
 const ROLODEX_COMPOSITE_SLIDES = [
@@ -3107,7 +3098,7 @@ function RecipeRolodex({ setActivePage, setFilter }) {
       <aside className="homeRolodex homeRolodexComposite" aria-label="Recipe card rolodex">
         <div className="homeRolodexHeader">
           <div>
-            <span>Recipe Card Rolodex</span>
+            <span>Robert's Rolodex Files</span>
             <strong>No Rolodex images found</strong>
           </div>
         </div>
@@ -3123,7 +3114,7 @@ function RecipeRolodex({ setActivePage, setFilter }) {
   return (
     <aside className="homeRolodex homeRolodexComposite" aria-label="Recipe card rolodex">
       <div className="homeRolodexHeader homeRolodexHeaderCentered">
-        <strong className="homeRolodexSectionTitle">Recipe Card Rolodex</strong>
+        <strong className="homeRolodexSectionTitle">Robert's Rolodex Files</strong>
       </div>
 
       <div className="homeRolodexStage homeRolodexCompositeStage">
