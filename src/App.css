@@ -23302,3 +23302,44 @@ nav button,
     max-height: 36vh !important;
   }
 }
+
+/* =========================================================
+   RECIPE VIEWER 3/4-SIZE + BUILD YOUR SALAD UPDATE
+   Keeps the full recipe-card popup smaller so the page hero remains visible.
+   ========================================================= */
+
+.cardViewer {
+  width: min(72vw, 915px) !important;
+  max-height: 88vh !important;
+}
+
+.cardViewerImageWrap img {
+  max-height: 56vh !important;
+}
+
+.constructionCalloutButton,
+.viewerActionConstruction {
+  white-space: nowrap;
+}
+
+@media (max-width: 1000px) {
+  .cardViewer {
+    width: min(88vw, 820px) !important;
+    max-height: 90vh !important;
+  }
+
+  .cardViewerImageWrap img {
+    max-height: 54vh !important;
+  }
+}
+
+@media (max-width: 720px) {
+  .cardViewer {
+    width: min(94vw, 680px) !important;
+    max-height: 92vh !important;
+  }
+
+  .cardViewerImageWrap img {
+    max-height: 48vh !important;
+  }
+}

@@ -1035,8 +1035,16 @@ function fullCardImageCandidates(recipe) {
   return [...new Set(candidates)];
 }
 
+function isSaladJarRecipe(recipe) {
+  if (!recipe?.id) return false;
+  const match = String(recipe.id).match(/^SB-(\d{3})$/i);
+  if (!match) return false;
+  const number = Number(match[1]);
+  return number >= 1 && number <= 19;
+}
+
 function constructionCalloutImageCandidates(recipe) {
-  if (!recipe?.id) return [];
+  if (!isSaladJarRecipe(recipe)) return [];
 
   const calloutId = `${recipe.id}c`;
   return [
@@ -1889,7 +1897,7 @@ function ConstructionCalloutButton({ recipe }) {
         className="constructionCalloutButton"
         onClick={() => setOpen(true)}
       >
-        Construction
+        Build Your Salad
       </button>
 
       {open && (
@@ -1898,22 +1906,22 @@ function ConstructionCalloutButton({ recipe }) {
             className="constructionCalloutModal"
             role="dialog"
             aria-modal="true"
-            aria-label={`${recipe.id} construction call-out`}
+            aria-label={`${recipe.id} build your salad guide`}
             onClick={(event) => event.stopPropagation()}
           >
             <div className="constructionCalloutHeader">
               <div>
                 <small>{recipe.id}c</small>
-                <strong>Salad Jar Construction</strong>
+                <strong>Build Your Salad</strong>
               </div>
-              <button type="button" onClick={closePopup} aria-label="Close construction image">×</button>
+              <button type="button" onClick={closePopup} aria-label="Close build your salad image">×</button>
             </div>
 
             <div className="constructionCalloutStage">
               {imagePath ? (
                 <img
                   src={`${import.meta.env.BASE_URL}${imagePath}`}
-                  alt={`${recipe.id} salad jar construction call-out`}
+                  alt={`${recipe.id} build your salad guide`}
                   decoding="async"
                   onError={() => {
                     setImageIndex((current) => {
@@ -1926,7 +1934,7 @@ function ConstructionCalloutButton({ recipe }) {
                 />
               ) : (
                 <div className="constructionCalloutMissing">
-                  <strong>Construction image not found.</strong>
+                  <strong>Build Your Salad image not found.</strong>
                   <span>Upload public/images/recipes/{recipe.id}c.jpg</span>
                 </div>
               )}
@@ -1998,7 +2006,7 @@ function RecipeCard({
               )}
               <SmartTipsButton recipe={recipe} />
               <MyRecipeNotesButton recipe={recipe} />
-              {viewerContext === "Salad Jars" && (
+              {isSaladJarRecipe(recipe) && (
                 <ConstructionCalloutButton recipe={recipe} />
               )}
             </div>
@@ -2051,6 +2059,9 @@ function RecipeCard({
                 </button>
               )}
               <SmartTipsButton recipe={recipe} />
+              {isSaladJarRecipe(recipe) && (
+                <ConstructionCalloutButton recipe={recipe} />
+              )}
             </div>
           </>
         )}
@@ -2113,7 +2124,7 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
   const note = getRecipePersonalNote(recipe);
   const cookingOptions = getRecipeCookingOptions(recipe);
   const estimatedCost = getRecipeEstimatedCost(recipe);
-  const showConstruction = viewer?.context === "Salad Jars";
+  const showConstruction = isSaladJarRecipe(recipe);
   const constructionImageCandidates = constructionCalloutImageCandidates(recipe);
   const constructionImagePath = constructionImageFailed
     ? ""
@@ -2309,7 +2320,7 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
                 {openPanel === "cooking" && "Cooking Options"}
                 {openPanel === "tips" && "Smart Tips"}
                 {openPanel === "notes" && "My Notes"}
-                {openPanel === "construction" && "Salad Jar Construction"}
+                {openPanel === "construction" && "Build Your Salad"}
                 {openPanel === "cost" && "Estimated Cost"}
               </strong>
               <button type="button" onClick={() => setOpenPanel(null)} aria-label="Close popup">
@@ -2358,7 +2369,7 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
                 {constructionImagePath ? (
                   <img
                     src={`${import.meta.env.BASE_URL}${constructionImagePath}`}
-                    alt={`${recipe.id} salad jar construction call-out`}
+                    alt={`${recipe.id} build your salad guide`}
                     decoding="async"
                     onError={() => {
                       setConstructionImageIndex((current) => {
@@ -2371,7 +2382,7 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
                   />
                 ) : (
                   <div className="viewerConstructionMissing">
-                    <strong>Construction call-out image not found.</strong>
+                    <strong>Build Your Salad image not found.</strong>
                     <span>Expected a sister file such as images/recipes/{recipe.id}c.jpg</span>
                   </div>
                 )}
@@ -2499,7 +2510,7 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
                 type="button"
                 onClick={() => togglePanel("construction")}
               >
-                Construction
+                Build Your Salad
               </button>
             )}
 
