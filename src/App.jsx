@@ -8786,8 +8786,8 @@ These pages are designed to be easy to scan, print, or revisit when needed. They
       {activePage === "Collections" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-weekly-plan.png"
-            alt="Weekly meal planner with fresh vegetables"
+            src="images/heroes/hero-page-collections.png"
+            alt="Recipe collections setup with a recipe box, plated dinner, salad, rolls, coffee, and notebook"
             eyebrow="COLLECTIONS"
             title="Collections"
             text="Recipe collections bring related meals and cooking ideas together in one convenient place. Instead of searching through the entire library, you can choose a collection that matches your schedule, the season, your preferred appliance, or the kind of food you feel like eating.\n\nSome collections focus on speed and convenience, while others are built around comfort, nutrition, outdoor cooking, or complete meal combinations. Each one offers a practical starting point when you need inspiration."
