@@ -23571,3 +23571,145 @@ body.rrbPopupOpen .topbar {
 body.rrbPopupOpen {
   overflow: hidden;
 }
+
+/* =========================================================
+   HOME SHOWCASE ALIGNMENT REFINEMENT
+   Equal title bands, shorter 25/50/25 panels, and counters directly below.
+   ========================================================= */
+
+.homeRolodexShowcaseSection {
+  padding-top: 18px !important;
+  padding-bottom: 0 !important;
+}
+
+.homeThreeColumnShowcase {
+  gap: 12px !important;
+  align-items: stretch !important;
+}
+
+/* All three section titles sit on one shared horizontal line. */
+.homeThreeColumnShowcase .homeMiniSectionHeader,
+.homeThreeColumnShowcase .homeRolodexHeader {
+  min-height: 58px !important;
+  height: 58px !important;
+  margin: 0 !important;
+  padding: 0 14px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  border-bottom: 1px solid var(--line) !important;
+  background: #ffffff !important;
+}
+
+.homeThreeColumnShowcase .homeMiniSectionHeader h2,
+.homeRolodexSectionTitle {
+  margin: 0 !important;
+  color: #111827 !important;
+  font-family: var(--rrb-editorial-heading-font, Georgia, "Iowan Old Style", serif) !important;
+  font-size: clamp(18px, 1.45vw, 24px) !important;
+  line-height: 1.05 !important;
+  letter-spacing: -0.025em !important;
+  font-weight: 700 !important;
+  text-transform: none !important;
+  text-align: center !important;
+}
+
+.homeRolodexHeaderCentered {
+  justify-content: center !important;
+}
+
+.homeRolodexHeaderCentered > * {
+  width: 100%;
+  text-align: center !important;
+}
+
+/* Remove any legacy controls/counts from the Rolodex header. */
+.homeThreeColumnShowcase .homeRolodexControls,
+.homeThreeColumnShowcase .homeRolodexViewButton,
+.homeThreeColumnShowcase .homeRolodexHeader small,
+.homeThreeColumnShowcase .homeRolodexHeader span {
+  display: none !important;
+}
+
+/* Shorter panels so the counter row begins at the requested red-line position. */
+.homeThreeColumnShowcase .homeFeatureCard.featuredSelectionCard,
+.homeThreeColumnShowcase .homeFeatureCard.productsIUseCard,
+.homeThreeColumnShowcase .homeShowcaseRolodexColumn .homeRolodex {
+  min-height: 360px !important;
+  height: 360px !important;
+}
+
+.homeThreeColumnShowcase .homeFeatureCard {
+  padding: 0 14px 12px !important;
+}
+
+.homeThreeColumnShowcase .featuredSelectionButton,
+.homeThreeColumnShowcase .productUseFeatureWrap {
+  min-height: 0 !important;
+}
+
+.homeThreeColumnShowcase .featuredSelectionImage,
+.homeThreeColumnShowcase .productUseFeatureImage {
+  width: calc(100% - 18px) !important;
+  min-height: 210px !important;
+  max-height: 232px !important;
+  margin-top: 12px !important;
+}
+
+.homeThreeColumnShowcase .featuredSelectionButton strong,
+.homeThreeColumnShowcase .productUseFeatureTile strong {
+  width: calc(100% - 18px) !important;
+  margin-top: auto !important;
+  padding-top: 8px !important;
+}
+
+.homeThreeColumnShowcase .homeRolodexStage {
+  min-height: 0 !important;
+  height: calc(100% - 86px) !important;
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+}
+
+.homeThreeColumnShowcase .homeRolodexCompositeImage {
+  max-height: 250px !important;
+}
+
+.homeThreeColumnShowcase .homeRolodexDots {
+  min-height: 28px !important;
+  padding: 6px 12px 8px !important;
+}
+
+/* Move counters immediately below the three-panel row. */
+.homeCounterSection {
+  padding-top: 4px !important;
+  padding-bottom: 6px !important;
+}
+
+.homeCounterSection + .homeAdminAccessWrap {
+  padding-top: 0 !important;
+}
+
+@media (max-width: 1100px) {
+  .homeThreeColumnShowcase .homeFeatureCard.featuredSelectionCard,
+  .homeThreeColumnShowcase .homeFeatureCard.productsIUseCard,
+  .homeThreeColumnShowcase .homeShowcaseRolodexColumn .homeRolodex {
+    min-height: 330px !important;
+    height: 330px !important;
+  }
+
+  .homeThreeColumnShowcase .featuredSelectionImage,
+  .homeThreeColumnShowcase .productUseFeatureImage {
+    min-height: 175px !important;
+    max-height: 195px !important;
+  }
+}
+
+@media (max-width: 820px) {
+  .homeThreeColumnShowcase .homeFeatureCard.featuredSelectionCard,
+  .homeThreeColumnShowcase .homeFeatureCard.productsIUseCard,
+  .homeThreeColumnShowcase .homeShowcaseRolodexColumn .homeRolodex {
+    height: auto !important;
+    min-height: 300px !important;
+  }
+}

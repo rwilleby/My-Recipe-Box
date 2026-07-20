@@ -3019,26 +3019,8 @@ function RecipeRolodex({ setActivePage, setFilter }) {
 
   return (
     <aside className="homeRolodex homeRolodexComposite" aria-label="Recipe card rolodex">
-      <div className="homeRolodexHeader">
-        <div>
-          <span>Recipe Card Rolodex</span>
-          <strong>{activeSlide.title}</strong>
-        </div>
-
-        <div className="homeRolodexControls">
-          <button
-            type="button"
-            className="homeRolodexViewButton"
-            onClick={viewActiveRecipes}
-            aria-label={`View ${activeSlide.title} recipes`}
-          >
-            View Recipes
-          </button>
-
-          <small>
-            {activeIndex + 1} of {rolodexSlides.length}
-          </small>
-        </div>
+      <div className="homeRolodexHeader homeRolodexHeaderCentered">
+        <strong className="homeRolodexSectionTitle">Recipe Card Rolodex</strong>
       </div>
 
       <div className="homeRolodexStage homeRolodexCompositeStage">
