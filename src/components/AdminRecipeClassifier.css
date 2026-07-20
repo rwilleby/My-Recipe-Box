@@ -267,3 +267,222 @@
     flex: 1 1 100%;
   }
 }
+
+/* ================================================================
+   GROUP RECIPE CLASSIFICATION
+   ================================================================ */
+
+.adminClassifierModeTabs {
+  display: inline-flex;
+  gap: 6px;
+  padding: 5px;
+  margin-bottom: 18px;
+  border: 1px solid #d9d9d9;
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.adminClassifierModeTabs button {
+  min-height: 40px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #374151;
+  font-weight: 700;
+}
+
+.adminClassifierModeTabs button.active {
+  background: #14532d;
+  color: #ffffff;
+}
+
+.adminClassifierModeTabs button span {
+  display: inline-grid;
+  place-items: center;
+  min-width: 22px;
+  min-height: 22px;
+  margin-left: 7px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.2);
+  font-size: 12px;
+}
+
+.adminBulkPickerActions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px;
+  margin-top: 10px;
+}
+
+.adminBulkPickerActions button {
+  min-height: 34px;
+  border: 1px solid #d9d9d9;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #14532d;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.adminBulkPickerActions button:disabled,
+.adminClassifierActions button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.adminRecipeList.groupMode {
+  gap: 6px;
+}
+
+.adminBulkRecipeRow {
+  display: grid;
+  grid-template-columns: 22px 70px minmax(0, 1fr);
+  gap: 8px;
+  align-items: start;
+  padding: 9px 10px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: #f7f7f7;
+  color: #374151;
+  cursor: pointer;
+}
+
+.adminBulkRecipeRow:hover {
+  border-color: #b7d2bd;
+}
+
+.adminBulkRecipeRow.selected {
+  border-color: #14532d;
+  background: #f0f7f2;
+  color: #14532d;
+}
+
+.adminBulkRecipeRow input {
+  width: 17px;
+  height: 17px;
+  margin: 1px 0 0;
+  accent-color: #14532d;
+}
+
+.adminBulkRecipeRow span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.adminBulkSelectedHeader h2 {
+  margin-bottom: 6px;
+}
+
+.adminBulkNotice {
+  margin-bottom: 20px;
+  padding: 13px 15px;
+  border: 1px solid #d9eadc;
+  border-radius: 10px;
+  background: #f7fcf8;
+  color: #14532d;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.adminBulkHelp {
+  margin: 0 0 12px;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.adminBulkAssignmentList {
+  display: grid;
+  gap: 8px;
+}
+
+.adminBulkAssignmentRow {
+  display: grid;
+  grid-template-columns: minmax(160px, 1fr) minmax(300px, auto);
+  gap: 14px;
+  align-items: center;
+  min-height: 46px;
+  padding: 7px 9px;
+  border: 1px solid #edf0ea;
+  border-radius: 9px;
+  background: #fbfaf7;
+}
+
+.adminBulkAssignmentRow > strong {
+  color: #111827;
+  font-size: 14px;
+}
+
+.adminBulkChoiceButtons {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 5px;
+}
+
+.adminBulkChoiceButtons button {
+  min-height: 32px;
+  padding: 0 9px;
+  border: 1px solid #d6d6d6;
+  border-radius: 7px;
+  background: #ffffff;
+  color: #4b5563;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.adminBulkChoiceButtons button.active {
+  border-color: #14532d;
+  background: #14532d;
+  color: #ffffff;
+}
+
+.adminBulkChoiceButtons button:nth-child(3).active {
+  border-color: #9b2c2c;
+  background: #9b2c2c;
+}
+
+.adminBulkActions {
+  position: sticky;
+  bottom: 10px;
+  z-index: 8;
+  margin: 6px -8px -8px;
+  padding: 14px;
+  border: 1px solid #d9d9d9;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 -8px 24px rgba(15, 23, 42, 0.08);
+  backdrop-filter: blur(8px);
+}
+
+@media (max-width: 900px) {
+  .adminClassifierModeTabs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+  }
+
+  .adminBulkAssignmentRow {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .adminBulkPickerActions,
+  .adminBulkChoiceButtons {
+    grid-template-columns: 1fr;
+  }
+
+  .adminClassifierModeTabs {
+    grid-template-columns: 1fr;
+  }
+
+  .adminBulkRecipeRow {
+    grid-template-columns: 22px 58px minmax(0, 1fr);
+  }
+
+  .adminBulkActions {
+    position: static;
+  }
+}

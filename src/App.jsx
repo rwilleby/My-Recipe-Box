@@ -1065,6 +1065,7 @@ const NAV_GROUPS = [
       { label: "COMFORT FOODS", page: "Comfort Foods" },
       { label: "EASY 30-MINUTE MEALS", page: "Easy 30-Minute Meals" },
       { label: "SALAD JAR LUNCHES", page: "Salad Jars" },
+      { label: "CASSEROLES", page: "Casseroles" },
     ],
   },
   {
@@ -2447,6 +2448,20 @@ function CollectionStrip({ setActivePage }) {
       page: "Easy 30-Minute Meals",
       image: "images/collections/30-minute.jpg",
       imageAlt: "Quick skillet pasta meal",
+    },
+    {
+      title: "Salad Jars",
+      text: "Layered make-ahead salads for fresh grab-and-go lunches.",
+      page: "Salad Jars",
+      image: "images/heroes/hero-page-salad-jars.jpg",
+      imageAlt: "Layered salad jars prepared for make-ahead lunches",
+    },
+    {
+      title: "Casseroles",
+      text: "Comforting baked meals that are practical for leftovers and freezing.",
+      page: "Casseroles",
+      image: "images/heroes/hero-page-comfort-food.jpg",
+      imageAlt: "Family-style baked casserole meal",
     },
   ];
 
@@ -6320,6 +6335,12 @@ function getPageHelpSteps(pageTitle = "", pageEyebrow = "") {
       "Leave enough room to shake the jar or transfer the salad into a bowl before eating.",
       "Keep the jars refrigerated and follow the shortest safe storage time for the ingredients included.",
     ],
+    "Casseroles": [
+      "Browse baked meals that combine a main dish, sauce, vegetables, pasta, rice, potatoes, or other ingredients in one practical recipe.",
+      "Review the serving size and pan size before cooking because many casseroles are designed for leftovers or freezer portions.",
+      "Use a food thermometer when the casserole contains meat, poultry, eggs, or previously cooked ingredients that must be reheated safely.",
+      "Cool and package extra portions promptly, then label them with the recipe name, date, servings, and reheating directions.",
+    ],
     "Your Weekly Meal Planner": [
       "Choose a week and day, then add individual recipes or complete dinner combinations to the planner.",
       "Use the category controls to narrow the recipe choices before adding meals.",
@@ -9119,6 +9140,30 @@ These pages are designed to be easy to scan, print, or revisit when needed. They
           />
         </>
       )}
+      {activePage === "Casseroles" && (
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-page-comfort-food.jpg"
+            alt="Family-style casseroles and baked meals ready for serving"
+            eyebrow="COLLECTIONS"
+            title="Casseroles"
+            text="Casseroles bring complete meals together in one practical baking dish. They are useful for family dinners, planned leftovers, make-ahead cooking, and freezer meals.
+
+This collection gathers comforting baked recipes that are easy to portion, store, reheat, and combine with a salad, vegetable, bread, or other simple side."
+            className="pageHeroDepth464"
+          />
+          <CollectionDetailPage
+            title="Casseroles"
+            text="Browse hearty baked meals, make-ahead dishes, and freezer-friendly casserole recipes."
+            setActivePage={setActivePage}
+            recipes={classifiedRecipes}
+            favorites={favorites}
+            toggleFavorite={toggleFavorite}
+            addToPlan={addToPlan}
+            openRecipeCard={openRecipeCard}
+          />
+        </>
+      )}
       {activePage === "Slow Cooker Favorites" && (
         <>
           <PageHeroImage
@@ -9524,7 +9569,7 @@ Use this section to check what is on hand, record dates, mark foods that should 
             src="images/heroes/hero-page-freeze-reheat.png"
             alt="Freeze and reheat setup with labeled frozen meals, plated lasagna, clipboard instructions, coffee, and meal storage"
             eyebrow="TIPS & ORGANIZATION"
-            title="Tips: Freezing Meals"
+            title="Freezing & Reheating Meals"
             className="pageHeroDepth464"
             text="Freezing meals can save time, reduce waste, and make busy days easier, but good results depend on proper preparation and packaging. Some foods freeze beautifully, while others require small changes to preserve their texture and flavor.\n\nThis section covers containers, freezer bags, vacuum sealing, portioning, cooling, labeling, storage times, safe thawing, reheating, and final preparation. Clear instructions can help make frozen meals feel more like freshly prepared food."
           />
@@ -9604,7 +9649,7 @@ Use this section to check what is on hand, record dates, mark foods that should 
       {activePage === "Oven Recipes" && (
         <HeroTopicPage
           eyebrow="COOKING METHODS"
-          title="Oven Recipes"
+          title="Tips: Gas & Electric Ovens"
           heroImage="images/heroes/hero-page-oven.jpg"
           heroAlt="Oven cooking setup with casserole, oven tips clipboard, utensils, coffee, and notebook"
           text="The oven remains one of the most versatile tools in the kitchen. It can bake, roast, broil, brown, warm, and finish everything from casseroles and meats to vegetables, breads, and desserts.\n\nThis section includes recipes for everyday dinners as well as special occasions. Clear temperatures and timing guidance will help you plan the meal, although ovens can vary and food should always be checked for doneness."
@@ -9849,7 +9894,7 @@ Use this section to check what is on hand, record dates, mark foods that should 
       {activePage === "Gas Grill Recipes" && (
         <HeroTopicPage
           eyebrow="COOKING METHODS"
-          title="Gas Grill Recipes"
+          title="Tips: Gas Grills"
           heroImage="images/heroes/hero-page-gas-grills.jpg"
           heroAlt="Gas grill with grilled burgers and vegetables on a light kitchen counter"
           text="Gas grills provide fast heat, convenient temperature control, and the familiar flavor of outdoor cooking. They work well for meats, vegetables, sandwiches, flatbreads, side dishes, and complete meals prepared away from the indoor kitchen.\n\nThese recipes and tips will help with preheating, direct and indirect heat, flare-ups, turning, timing, and safe doneness. With a little practice, a gas grill can become one of the most dependable cooking tools you own."
@@ -9894,7 +9939,7 @@ Use this section to check what is on hand, record dates, mark foods that should 
       {activePage === "Smoker Recipes" && (
         <HeroTopicPage
           eyebrow="COOKING METHODS"
-          title="Smoker & Pellet Grill Recipes"
+          title="Tips: Smoker & Pellet Grills"
           heroImage="images/heroes/hero-page-pellet-smoker.jpg"
           heroAlt="Pellet smoker with brisket, sliced smoked meat, pellets, towel, and potted plant"
           text="Pellet smokers make it possible to cook meats and other foods with steady heat and wood-smoke flavor. They are especially well suited to low-and-slow cooking, but many models can also roast, bake, grill, and finish foods at higher temperatures.\n\nThis section includes recipes and guidance for seasoning, pellet selection, cooking temperatures, wrapping, moisture, resting, and serving. The emphasis is on practical home cooking rather than professional barbecue competition techniques."
@@ -10052,13 +10097,13 @@ Use this section to check what is on hand, record dates, mark foods that should 
             src="images/heroes/hero-page-food-safety.png"
             alt="Food-safety setup with meal-prep containers, salad, digital thermometer, coffee, and kitchen towel"
             eyebrow="TIPS & ORGANIZATION"
-            title="Safe Cooking Rules"
+            title="Food Safety"
             className="pageHeroDepth464"
             text="Basic food-safety reminders for cooking, cooling, freezing, thawing, reheating, and checking safe internal temperatures."
           />
           <PlaceholderInfoPage
             eyebrow="TIPS & TECHNIQUES"
-            title="Safe Cooking Rules"
+            title="Food Safety"
             text="This page will collect basic food-safety reminders for cooking, cooling, freezing, thawing, reheating, and checking safe internal temperatures."
             setActivePage={setActivePage}
             recipes={classifiedRecipes}
