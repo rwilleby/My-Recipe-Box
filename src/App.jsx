@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect } from "react";
+import { createContext, useContext, useMemo, useState, useEffect } from "react";
 import { categories, recipes } from "./data/recipes";
 import AdminRecipeClassifier from "./components/AdminRecipeClassifier";
 import {
@@ -1035,63 +1035,79 @@ function fullCardImageCandidates(recipe) {
   return [...new Set(candidates)];
 }
 
+const NAV_GROUPS = [
+  {
+    label: "ABOUT",
+    items: [
+      { label: "WELCOME TO OUR SITE", page: "About" },
+      { label: "ABOUT OUR RECIPES", page: "About Recipes" },
+      { label: "AFFILIATE MARKETING", page: "Affiliate Marketing" },
+      { label: "SUBMIT YOUR FAMILY RECIPES", page: "Submit Recipes" },
+      { label: "CONTACT ME", page: "Contact Me" },
+      { label: "DISCLAIMERS", page: "Disclaimers" },
+    ],
+  },
+  {
+    label: "OUR RECIPES",
+    items: [
+      { label: "BROWSE OUR RECIPE LIBRARY", page: "Recipes" },
+      { label: "DINNER COMBINATIONS", page: "Dinner Combinations" },
+      { label: "QUICK & EASY FREEZER MEALS", page: "Freezer-Friendly Meals" },
+    ],
+  },
+  {
+    label: "COLLECTIONS",
+    items: [
+      { label: "BROWSE ALL COLLECTIONS", page: "Collections" },
+      { label: "SLOW COOKER MEALS", page: "Slow Cooker Favorites" },
+      { label: "SUMMER COOKOUTS", page: "Summer Cookouts" },
+      { label: "HEALTHY DINNERS", page: "Healthy Dinners" },
+      { label: "COMFORT FOODS", page: "Comfort Foods" },
+      { label: "EASY 30-MINUTE MEALS", page: "Easy 30-Minute Meals" },
+      { label: "SALAD JAR LUNCHES", page: "Salad Jars" },
+    ],
+  },
+  {
+    label: "YOUR KITCHEN",
+    items: [
+      { label: "YOUR WEEKLY MEAL PLANNER", page: "Meal Planner" },
+      { label: "YOUR FAVORITE RECIPES", page: "Favorites" },
+      { label: "KITCHEN INVENTORY", labelOnly: true },
+      { label: "REFRIGERATOR INVENTORY", page: "Kitchen Refrigerator" },
+      { label: "FREEZER INVENTORY", page: "Kitchen Freezer" },
+      { label: "PANTRY INVENTORY", page: "Pantry Staples" },
+      { label: "YOUR GROCERY LIST", page: "Shopping Lists" },
+    ],
+  },
+  {
+    label: "TIPS & GUIDES",
+    items: [
+      { label: "TIPS: GAS GRILLS", page: "Gas Grill Recipes" },
+      { label: "TIPS: PELLET SMOKERS", page: "Smoker Recipes" },
+      { label: "TIPS: OVENS", page: "Oven Recipes" },
+      { label: "TIPS: BREAD MAKING", page: "Bread Tips" },
+      { label: "HEALTHY SUBSTITUTIONS", page: "Grocery Picks" },
+      { label: "FOOD SAFETY", page: "Safe Cooking Rules" },
+      { label: "REFERENCE GUIDES", page: "Reference Guides" },
+      { label: "FREEZING AND REHEATING", page: "Freezer Tips" },
+      { label: "COOKING TOOLS & PRODUCTS", page: "Products I Use" },
+      { label: "STORAGE AND ORGANIZATION", page: "Storage Organization" },
+    ],
+  },
+];
+
+const PAGE_NAVIGATION_ORDER = NAV_GROUPS.flatMap((group) =>
+  group.items.filter((item) => item.page).map((item) => item.page)
+);
+
+const PageNavigationContext = createContext({
+  activePage: "Home",
+  setActivePage: () => {},
+});
+
 function Header({ activePage, setActivePage }) {
-  const navGroups = [
-    {
-      label: "ABOUT",
-      items: [
-        { label: "WELCOME TO OUR SITE", page: "About" },
-        { label: "ABOUT OUR RECIPES", page: "About Recipes" },
-        { label: "AFFILIATE MARKETING", page: "Affiliate Marketing" },
-        { label: "SUBMIT YOUR FAMILY RECIPES", page: "Submit Recipes" },
-        { label: "CONTACT ME", page: "Contact Me" },
-        { label: "DISCLAIMERS", page: "Disclaimers" },
-      ],
-    },
-    {
-      label: "OUR RECIPES",
-      items: [
-        { label: "BROWSE OUR RECIPE LIBRARY", page: "Recipes" },
-        { label: "DINNER COMBINATIONS", page: "Dinner Combinations" },
-        { label: "QUICK & EASY FREEZER MEALS", page: "Freezer-Friendly Meals" },
-        { label: "COLLECTIONS", page: "Collections" },
-        { label: "SLOW COOKER MEALS", page: "Slow Cooker Favorites", level: 1 },
-        { label: "SUMMER COOKOUTS", page: "Summer Cookouts", level: 1 },
-        { label: "HEALTHY DINNERS", page: "Healthy Dinners", level: 1 },
-        { label: "COMFORT FOODS", page: "Comfort Foods", level: 1 },
-        { label: "EASY 30-MINUTE MEALS", page: "Easy 30-Minute Meals", level: 1 },
-        { label: "SALAD JAR LUNCHES", page: "Salad Jars", level: 1 },
-      ],
-    },
-    {
-      label: "YOUR KITCHEN",
-      items: [
-        { label: "YOUR WEEKLY MEAL PLANNER", page: "Meal Planner" },
-        { label: "YOUR FAVORITE RECIPES", page: "Favorites" },
-        { label: "KITCHEN INVENTORY", labelOnly: true },
-        { label: "REFRIGERATOR INVENTORY", page: "Kitchen Refrigerator", level: 1 },
-        { label: "FREEZER INVENTORY", page: "Kitchen Freezer", level: 1 },
-        { label: "YOUR PANTRY", page: "Pantry Staples", level: 1 },
-        { label: "YOUR GROCERY LIST", page: "Shopping Lists" },
-      ],
-    },
-    {
-      label: "LEARNING ZONE",
-      items: [
-        { label: "COOKING TIPS", page: "Cooking Methods" },
-        { label: "TIPS: GAS GRILLS", page: "Gas Grill Recipes", level: 1 },
-        { label: "TIPS: PELLET SMOKERS", page: "Smoker Recipes", level: 1 },
-        { label: "TIPS: OVENS", page: "Oven Recipes", level: 1 },
-        { label: "TIPS: BREAD MAKING", page: "Bread Tips", level: 1 },
-        { label: "HEALTHY SUBSTITUTIONS", page: "Grocery Picks" },
-        { label: "FOOD SAFETY", page: "Safe Cooking Rules" },
-        { label: "REFERENCE GUIDES", page: "Reference Guides" },
-        { label: "FREEZING AND REHEATING", page: "Freezer Tips" },
-        { label: "COOKING TOOLS & PRODUCTS", page: "Products I Use" },
-        { label: "STORAGE AND ORGANIZATION", page: "Storage Organization" },
-      ],
-    },
-  ];  function openPage(page) {
+  const navGroups = NAV_GROUPS;
+  function openPage(page) {
     if (!page) return;
     setActivePage(page);
   }
@@ -6403,12 +6419,36 @@ function getPageHelpSteps(pageTitle = "", pageEyebrow = "") {
 
 function PageHelpButtonStrip({ pageTitle, pageEyebrow }) {
   const [isOpen, setIsOpen] = useState(false);
+  const { activePage, setActivePage } = useContext(PageNavigationContext);
   const steps = getPageHelpSteps(pageTitle, pageEyebrow).slice(0, 4);
+  const currentIndex = PAGE_NAVIGATION_ORDER.indexOf(activePage);
+  const previousPage = currentIndex > 0 ? PAGE_NAVIGATION_ORDER[currentIndex - 1] : null;
+  const nextPage =
+    currentIndex >= 0 && currentIndex < PAGE_NAVIGATION_ORDER.length - 1
+      ? PAGE_NAVIGATION_ORDER[currentIndex + 1]
+      : null;
 
   if (!pageTitle || !steps?.length) return null;
 
+  function navigateTo(page) {
+    if (!page) return;
+    setIsOpen(false);
+    setActivePage(page);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
   return (
-    <section className="pageHelpStrip pageNotesStrip" aria-label={`Cliff notes for ${pageTitle}`}>
+    <section className="pageHelpStrip pageNotesStrip" aria-label={`Page navigation and Cliff Notes for ${pageTitle}`}>
+      <button
+        type="button"
+        className="pageSequenceButton pageSequencePrev"
+        onClick={() => navigateTo(previousPage)}
+        disabled={!previousPage}
+        aria-label="Go to previous menu page"
+      >
+        Prev
+      </button>
+
       <div className="pageHelpItem pageNotesItem">
         <button
           type="button"
@@ -6439,6 +6479,16 @@ function PageHelpButtonStrip({ pageTitle, pageEyebrow }) {
           </div>
         )}
       </div>
+
+      <button
+        type="button"
+        className="pageSequenceButton pageSequenceNext"
+        onClick={() => navigateTo(nextPage)}
+        disabled={!nextPage}
+        aria-label="Go to next menu page"
+      >
+        Next
+      </button>
     </section>
   );
 }
@@ -8585,8 +8635,9 @@ export default function App() {
   };
 
   return (
-    <div className="app">
-      <Header activePage={activePage} setActivePage={setActivePage} />
+    <PageNavigationContext.Provider value={{ activePage, setActivePage }}>
+      <div className="app">
+        <Header activePage={activePage} setActivePage={setActivePage} />
 
       {activePage === "Admin Recipes" && (
         <AdminRecipeClassifier
@@ -9474,6 +9525,7 @@ Use this section to check what is on hand, record dates, mark foods that should 
       <footer className="footer">
         Robert’s Recipe Box uses AI-generated recipes and organization as a practical planning tool. Favorites and meal plans are saved in this browser only and are not shared between your devices. Some product links may earn a small commission at no extra cost to you, however, you are not required to purchase anything to use my site.
       </footer>
-    </div>
+      </div>
+    </PageNavigationContext.Provider>
   );
 }

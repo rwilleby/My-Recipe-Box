@@ -22539,3 +22539,113 @@ nav button,
     aspect-ratio: 16 / 9 !important;
   }
 }
+
+
+/* =========================================================
+   MAIN MENU + PAGE SEQUENCE CONTROLS — CURRENT BASE 2
+   - Collections is a top-level menu.
+   - Dropdown entries align evenly with no submenu indentation.
+   - Prev / Cliff Notes / Next sit together at the lower-left of page heroes.
+   ========================================================= */
+
+.navLinks.dropdownNav > .navDropdown > .navDropdownMenu .navDropdownItem,
+.navLinks.dropdownNav > .navDropdown > .navDropdownMenu .navDropdownLevel0,
+.navLinks.dropdownNav > .navDropdown > .navDropdownMenu .navDropdownLevel1 {
+  padding-left: 11px !important;
+  font-size: 1em !important;
+}
+
+.navLinks.dropdownNav > .navDropdown > .navDropdownMenu .navDropdownLevel1::before {
+  content: none !important;
+  display: none !important;
+}
+
+.pageTopHeroImage .pageHelpStrip.pageNotesStrip,
+.pageHelpStrip.pageNotesStrip,
+.pageTopHeroImage .pageNotesStrip,
+.pageNotesStrip {
+  left: clamp(28px, 5.5vw, 76px) !important;
+  right: auto !important;
+  bottom: 12px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 7px !important;
+}
+
+.pageSequenceButton {
+  height: 28px !important;
+  min-height: 28px !important;
+  min-width: 58px !important;
+  padding: 0 12px !important;
+  border: 1px solid rgba(20, 83, 45, 0.42) !important;
+  border-radius: 8px !important;
+  background: rgba(255, 255, 255, 0.94) !important;
+  color: var(--green) !important;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  text-transform: uppercase !important;
+  box-shadow: 0 5px 14px rgba(17, 24, 39, 0.1) !important;
+}
+
+.pageSequenceButton:hover:not(:disabled) {
+  border-color: var(--green) !important;
+  background: #ffffff !important;
+}
+
+.pageSequenceButton:disabled {
+  opacity: 0.38 !important;
+  cursor: not-allowed !important;
+  box-shadow: none !important;
+}
+
+.pageTopHeroImage .pageHelpButton.pageNotesButton,
+.pageHelpButton.pageNotesButton,
+.pageTopHeroImage .pageNotesButton,
+.pageNotesButton {
+  min-width: 146px !important;
+  height: 28px !important;
+  min-height: 28px !important;
+}
+
+.pageTopHeroImage .pageHelpItem.pageNotesItem .pageHelpPopup.pageNotesPopup,
+.pageHelpItem.pageNotesItem .pageHelpPopup.pageNotesPopup,
+.pageTopHeroImage .pageNotesPopup,
+.pageNotesPopup {
+  left: 0 !important;
+  right: auto !important;
+}
+
+@media (max-width: 720px) {
+  .pageTopHeroImage .pageHelpStrip.pageNotesStrip,
+  .pageHelpStrip.pageNotesStrip,
+  .pageTopHeroImage .pageNotesStrip,
+  .pageNotesStrip {
+    left: 18px !important;
+    right: 18px !important;
+    gap: 5px !important;
+  }
+
+  .pageSequenceButton {
+    min-width: 50px !important;
+    padding: 0 8px !important;
+    font-size: 11px !important;
+  }
+
+  .pageTopHeroImage .pageHelpButton.pageNotesButton,
+  .pageHelpButton.pageNotesButton,
+  .pageTopHeroImage .pageNotesButton,
+  .pageNotesButton {
+    min-width: 126px !important;
+    font-size: 12px !important;
+  }
+
+  .pageTopHeroImage .pageHelpItem.pageNotesItem .pageHelpPopup.pageNotesPopup,
+  .pageHelpItem.pageNotesItem .pageHelpPopup.pageNotesPopup,
+  .pageTopHeroImage .pageNotesPopup,
+  .pageNotesPopup {
+    width: min(520px, calc(100vw - 36px)) !important;
+  }
+}
