@@ -23962,3 +23962,76 @@ body.rrbPopupOpen {
     margin-top: 12px !important;
   }
 }
+
+/* =========================================================
+   HOME SHOWCASE MINOR REFINEMENTS — JULY 2026
+   Thinner headline bars, updated Kitchen Tools images,
+   and a larger automatic Rolodex without manual arrows.
+   ========================================================= */
+
+/* Reduce the three headline bars to roughly two-thirds of their former 58px height. */
+.homeThreeColumnShowcase .homeMiniSectionHeader,
+.homeThreeColumnShowcase .homeRolodexHeader {
+  min-height: 39px !important;
+  height: 39px !important;
+  padding: 0 12px !important;
+}
+
+/* Preserve readable type inside the thinner bars. */
+.homeThreeColumnShowcase .homeMiniSectionHeader h2,
+.homeThreeColumnShowcase .homeRolodexSectionTitle {
+  font-size: clamp(15px, 1.08vw, 19px) !important;
+  line-height: 1 !important;
+}
+
+/* Let the automatic Rolodex use the space formerly occupied by arrows and dots. */
+.homeThreeColumnShowcase .homeRolodexAutoStage {
+  width: 100% !important;
+  height: calc(100% - 39px) !important;
+  padding: 6px 4px 8px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.homeThreeColumnShowcase .homeRolodexCompositeImageButtonLarge {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.homeThreeColumnShowcase .homeRolodexCompositeImageLarge {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  max-height: 306px !important;
+  object-fit: contain !important;
+  object-position: center !important;
+}
+
+/* These controls are intentionally removed; retain this safeguard for older markup. */
+.homeThreeColumnShowcase .homeRolodexNav,
+.homeThreeColumnShowcase .homeRolodexDots {
+  display: none !important;
+}
+
+@media (max-width: 1100px) {
+  .homeThreeColumnShowcase .homeRolodexCompositeImageLarge {
+    max-height: 276px !important;
+  }
+}
+
+@media (max-width: 820px) {
+  .homeThreeColumnShowcase .homeMiniSectionHeader,
+  .homeThreeColumnShowcase .homeRolodexHeader {
+    min-height: 38px !important;
+    height: 38px !important;
+  }
+
+  .homeThreeColumnShowcase .homeRolodexAutoStage {
+    height: auto !important;
+    min-height: 255px !important;
+  }
+}
