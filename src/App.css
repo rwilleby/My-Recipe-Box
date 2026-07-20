@@ -23241,3 +23241,64 @@ nav button,
     padding: 10px;
   }
 }
+
+/* =========================================================
+   SALAD JAR CONSTRUCTION POPUP — HALF-SIZE UPDATE
+   Reduces the card popup and viewer construction image without
+   changing the Construction button or sister-file naming.
+   ========================================================= */
+
+.constructionCalloutModal {
+  width: min(92vw, 490px) !important;
+  max-height: 82vh !important;
+}
+
+.constructionCalloutHeader {
+  padding: 10px 13px !important;
+}
+
+.constructionCalloutHeader strong {
+  font-size: 16px !important;
+}
+
+.constructionCalloutHeader button {
+  width: 32px !important;
+  height: 32px !important;
+  font-size: 22px !important;
+}
+
+.constructionCalloutStage {
+  min-height: 150px !important;
+  padding: 10px !important;
+}
+
+.constructionCalloutStage img {
+  max-width: 100% !important;
+  max-height: 62vh !important;
+}
+
+.viewerConstructionSheet img {
+  max-width: 50% !important;
+  max-height: min(42vh, 310px) !important;
+}
+
+@media (max-width: 640px) {
+  .constructionCalloutModal {
+    width: min(92vw, 430px) !important;
+    max-height: 84vh !important;
+  }
+
+  .constructionCalloutStage {
+    min-height: 130px !important;
+    padding: 8px !important;
+  }
+
+  .constructionCalloutStage img {
+    max-height: 56vh !important;
+  }
+
+  .viewerConstructionSheet img {
+    max-width: 72% !important;
+    max-height: 36vh !important;
+  }
+}
