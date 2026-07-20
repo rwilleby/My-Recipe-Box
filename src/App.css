@@ -23343,3 +23343,212 @@ nav button,
     max-height: 48vh !important;
   }
 }
+
+/* =========================================================
+   HOME 25 / 50 / 25 SHOWCASE + COMPACT COUNTER ROW
+   Dinner Recommendations | Rolodex | Products with 1/8-inch gutters.
+   Replaces the five home collection buttons with 3/8-inch counters.
+   ========================================================= */
+
+.homeThreeColumnShowcase {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr) !important;
+  gap: 12px !important; /* approximately 1/8 inch at 96dpi */
+  align-items: stretch !important;
+}
+
+.homeDinnerRecommendationsColumn,
+.homeShowcaseRolodexColumn,
+.homeProductsColumn {
+  min-width: 0;
+  height: 100%;
+}
+
+.homeThreeColumnShowcase .homeFeatureCard,
+.homeThreeColumnShowcase .homeRolodex {
+  height: 100% !important;
+  min-height: 0 !important;
+}
+
+.homeThreeColumnShowcase .homeFeatureCard.featuredSelectionCard,
+.homeThreeColumnShowcase .homeFeatureCard.productsIUseCard {
+  min-height: 430px !important;
+}
+
+.homeThreeColumnShowcase .homeShowcaseRolodexColumn .homeRolodex {
+  min-height: 430px !important;
+}
+
+.homeThreeColumnShowcase .featuredSelectionImage,
+.homeThreeColumnShowcase .productUseFeatureImage {
+  width: calc(100% - 28px) !important;
+  max-width: none !important;
+  min-height: 245px !important;
+  aspect-ratio: auto !important;
+}
+
+.homeThreeColumnShowcase .featuredSelectionButton strong,
+.homeThreeColumnShowcase .productUseFeatureTile strong {
+  width: calc(100% - 28px) !important;
+  max-width: none !important;
+}
+
+.homeThreeColumnShowcase .productUseArrowLeft {
+  left: 10px !important;
+}
+
+.homeThreeColumnShowcase .productUseArrowRight {
+  right: 10px !important;
+}
+
+.homeCounterSection {
+  padding: 14px 5.5vw 10px;
+  background: var(--cream);
+}
+
+.homeCounterRow {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: nowrap;
+  gap: clamp(24px, 4vw, 58px);
+  overflow: hidden;
+}
+
+.homeCounterItem {
+  min-width: 74px;
+  display: grid;
+  justify-items: center;
+  gap: 5px;
+  text-align: center;
+}
+
+.homeCounterCircle {
+  width: 36px;
+  height: 36px;
+  border: 1.5px solid currentColor;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #ffffff;
+}
+
+.homeCounterCircle strong {
+  color: currentColor;
+  font-family: var(--rrb-body-font, Inter, system-ui, sans-serif);
+  font-size: 13px;
+  line-height: 1;
+  font-weight: 800;
+}
+
+.homeCounterCircle.recipes { color: #7f1d1d; }
+.homeCounterCircle.complete { color: #667429; }
+.homeCounterCircle.freezer { color: #163f6b; }
+.homeCounterCircle.collections { color: #b88716; }
+
+.homeCounterItem small {
+  color: #27313d;
+  font-size: 9px;
+  line-height: 1.05;
+  font-weight: 750;
+  letter-spacing: .045em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* The former five-button collection strip is intentionally removed from Home JSX.
+   It remains available on the full Collections page. */
+
+.homeCounterSection + .homeAdminAccessWrap {
+  padding-top: 2px;
+}
+
+@media (max-width: 1100px) {
+  .homeThreeColumnShowcase {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr) !important;
+    gap: 12px !important;
+  }
+
+  .homeThreeColumnShowcase .homeFeatureCard.featuredSelectionCard,
+  .homeThreeColumnShowcase .homeFeatureCard.productsIUseCard,
+  .homeThreeColumnShowcase .homeShowcaseRolodexColumn .homeRolodex {
+    min-height: 360px !important;
+  }
+
+  .homeThreeColumnShowcase .featuredSelectionImage,
+  .homeThreeColumnShowcase .productUseFeatureImage {
+    min-height: 190px !important;
+  }
+
+  .homeCounterRow {
+    gap: clamp(18px, 4vw, 42px);
+  }
+}
+
+@media (max-width: 820px) {
+  .homeThreeColumnShowcase {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  .homeShowcaseRolodexColumn {
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+
+  .homeDinnerRecommendationsColumn {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .homeProductsColumn {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .homeThreeColumnShowcase .homeFeatureCard.featuredSelectionCard,
+  .homeThreeColumnShowcase .homeFeatureCard.productsIUseCard {
+    min-height: 290px !important;
+  }
+
+  .homeThreeColumnShowcase .featuredSelectionImage,
+  .homeThreeColumnShowcase .productUseFeatureImage {
+    min-height: 165px !important;
+  }
+}
+
+@media (max-width: 560px) {
+  .homeThreeColumnShowcase {
+    grid-template-columns: 1fr !important;
+  }
+
+  .homeShowcaseRolodexColumn,
+  .homeDinnerRecommendationsColumn,
+  .homeProductsColumn {
+    grid-column: 1;
+  }
+
+  .homeShowcaseRolodexColumn { grid-row: 1; }
+  .homeDinnerRecommendationsColumn { grid-row: 2; }
+  .homeProductsColumn { grid-row: 3; }
+
+  .homeCounterSection {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .homeCounterRow {
+    justify-content: space-between;
+    gap: 6px;
+  }
+
+  .homeCounterItem {
+    min-width: 0;
+    flex: 1 1 25%;
+  }
+
+  .homeCounterItem small {
+    max-width: 68px;
+    white-space: normal;
+    font-size: 8px;
+  }
+}

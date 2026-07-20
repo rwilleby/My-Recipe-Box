@@ -2723,7 +2723,7 @@ function FeaturedSelectionPanel({ setActivePage }) {
   return (
     <section className="homeFeatureCard featuredSelectionCard dinnerCombinationsFeatureCard">
       <div className="homeMiniSectionHeader">
-        <h2>Dinner Combinations</h2>
+        <h2>Dinner Recommendations</h2>
       </div>
 
       <button
@@ -3085,6 +3085,60 @@ function RecipeRolodex({ setActivePage, setFilter }) {
 }
 
 
+function HomeRecipeCounters({ classifiedRecipes = [] }) {
+  const recipeList = Array.isArray(classifiedRecipes) ? classifiedRecipes : [];
+
+  const recipeCount = recipeList.length;
+  const completeMealCount = recipeList.filter((recipe) => {
+    const collections = Array.isArray(recipe.collections) ? recipe.collections : [];
+    return collections.some((name) =>
+      ["complete meals", "complete dinners"].includes(String(name).trim().toLowerCase())
+    );
+  }).length;
+  const freezerFriendlyCount = recipeList.filter((recipe) => {
+    const collections = Array.isArray(recipe.collections) ? recipe.collections : [];
+    const attributes = Array.isArray(recipe.attributes) ? recipe.attributes : [];
+    return (
+      recipe.freezerFriendly === true ||
+      collections.some((name) =>
+        ["freezer-friendly", "freezer friendly", "quick & easy freezer meals"].includes(
+          String(name).trim().toLowerCase()
+        )
+      ) ||
+      attributes.some((name) =>
+        ["freezer-friendly", "freezer friendly"].includes(String(name).trim().toLowerCase())
+      )
+    );
+  }).length;
+  const collectionCount = new Set(
+    recipeList.flatMap((recipe) =>
+      Array.isArray(recipe.collections) ? recipe.collections.filter(Boolean) : []
+    )
+  ).size;
+
+  const counters = [
+    { label: "Recipes", value: recipeCount, className: "recipes" },
+    { label: "Complete Meals", value: completeMealCount, className: "complete" },
+    { label: "Freezer-Friendly", value: freezerFriendlyCount, className: "freezer" },
+    { label: "Collections", value: collectionCount, className: "collections" },
+  ];
+
+  return (
+    <section className="homeCounterSection" aria-label="Recipe library totals">
+      <div className="homeCounterRow">
+        {counters.map((counter) => (
+          <div className="homeCounterItem" key={counter.label}>
+            <span className={`homeCounterCircle ${counter.className}`}>
+              <strong>{counter.value}</strong>
+            </span>
+            <small>{counter.label}</small>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function Home({
   favorites,
   toggleFavorite,
@@ -3092,6 +3146,7 @@ function Home({
   openRecipeCard,
   setActivePage,
   setFilter,
+  classifiedRecipes,
 }) {
   return (
     <>
@@ -3100,19 +3155,22 @@ function Home({
       <CategoryGrid setFilter={setFilter} setActivePage={setActivePage} />
 
       <section className="section homeRolodexShowcaseSection">
-        <div className="homeRolodexShowcaseLayout">
-          <aside className="homeShowcaseLeftColumn">
+        <div className="homeRolodexShowcaseLayout homeThreeColumnShowcase">
+          <div className="homeDinnerRecommendationsColumn">
             <FeaturedSelectionPanel setActivePage={setActivePage} />
-            <ProductsIUseCarousel setActivePage={setActivePage} />
-          </aside>
+          </div>
 
           <div className="homeShowcaseRolodexColumn">
             <RecipeRolodex setActivePage={setActivePage} setFilter={setFilter} />
           </div>
+
+          <div className="homeProductsColumn">
+            <ProductsIUseCarousel setActivePage={setActivePage} />
+          </div>
         </div>
       </section>
 
-      <CollectionStrip setActivePage={setActivePage} />
+      <HomeRecipeCounters classifiedRecipes={classifiedRecipes} />
 
       <div className="homeAdminAccessWrap" aria-label="Administrative tools">
         <button
