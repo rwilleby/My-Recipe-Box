@@ -2735,7 +2735,7 @@ function FeaturedSelectionPanel({ setActivePage }) {
 
     const timer = window.setInterval(() => {
       setActiveIndex((current) => (current + 1) % featuredMeals.length);
-    }, 9000);
+    }, 6000);
 
     return () => window.clearInterval(timer);
   }, [featuredMeals.length]);
@@ -2745,7 +2745,7 @@ function FeaturedSelectionPanel({ setActivePage }) {
   return (
     <section className="homeFeatureCard featuredSelectionCard dinnerCombinationsFeatureCard">
       <div className="homeMiniSectionHeader">
-        <h2>COMBO-MEALS</h2>
+        <h2>Combo-meals</h2>
       </div>
 
       <button
@@ -2775,9 +2775,20 @@ function FeaturedSelectionPanel({ setActivePage }) {
   );
 }
 
+
 function ProductsIUseCarousel({ setActivePage }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const product = PRODUCTS_I_USE[activeIndex % PRODUCTS_I_USE.length];
+
+  useEffect(() => {
+    if (PRODUCTS_I_USE.length <= 1) return undefined;
+
+    const timer = window.setInterval(() => {
+      setActiveIndex((current) => (current + 1) % PRODUCTS_I_USE.length);
+    }, 6000);
+
+    return () => window.clearInterval(timer);
+  }, []);
 
   function goToProduct(offset) {
     setActiveIndex((current) =>
@@ -2788,7 +2799,7 @@ function ProductsIUseCarousel({ setActivePage }) {
   return (
     <section className="homeFeatureCard productsIUseCard">
       <div className="homeMiniSectionHeader">
-        <h2>KITCHEN TOOLS</h2>
+        <h2>Kitchen Tools</h2>
       </div>
 
       <div className="productUseFeatureWrap">
@@ -2807,13 +2818,17 @@ function ProductsIUseCarousel({ setActivePage }) {
           onClick={() => setActivePage("Products I Use")}
           aria-label={`View product details for ${product.title}`}
         >
-          <div className="productUseFeatureImage">
-            <img
-              src={`${import.meta.env.BASE_URL}${product.image}`}
-              alt=""
-              loading="lazy"
-              decoding="async"
-            />
+          <div className="productUseFeatureImage productUseFadeStack" aria-hidden="true">
+            {PRODUCTS_I_USE.map((item, index) => (
+              <img
+                key={item.title}
+                className={index === activeIndex ? "productUseFadeImage active" : "productUseFadeImage"}
+                src={`${import.meta.env.BASE_URL}${item.image}`}
+                alt=""
+                loading={index === 0 ? "eager" : "lazy"}
+                decoding="async"
+              />
+            ))}
           </div>
           <strong>{product.title}</strong>
         </button>
@@ -3004,7 +3019,7 @@ function RecipeRolodex({ setActivePage, setFilter }) {
       <aside className="homeRolodex homeRolodexComposite" aria-label="Recipe card rolodex">
         <div className="homeRolodexHeader">
           <div>
-            <span>Recipe Card Rolodex</span>
+            <span>Robert's Rolodex</span>
             <strong>No Rolodex images found</strong>
           </div>
         </div>
@@ -3020,7 +3035,7 @@ function RecipeRolodex({ setActivePage, setFilter }) {
   return (
     <aside className="homeRolodex homeRolodexComposite" aria-label="Recipe card rolodex">
       <div className="homeRolodexHeader homeRolodexHeaderCentered">
-        <strong className="homeRolodexSectionTitle">ROBERT'S ROLODEX</strong>
+        <strong className="homeRolodexSectionTitle">Robert's Rolodex</strong>
       </div>
 
       <div className="homeRolodexStage homeRolodexCompositeStage">
@@ -3089,6 +3104,7 @@ function RecipeRolodex({ setActivePage, setFilter }) {
 }
 
 
+
 function HomeRecipeCounters({ classifiedRecipes = [] }) {
   const recipeList = Array.isArray(classifiedRecipes) ? classifiedRecipes : [];
 
@@ -3121,21 +3137,27 @@ function HomeRecipeCounters({ classifiedRecipes = [] }) {
   ).size;
 
   const counters = [
-    { label: "Recipes", value: recipeCount, className: "recipes" },
-    { label: "Complete Meals", value: completeMealCount, className: "complete" },
-    { label: "Freezer-Friendly", value: freezerFriendlyCount, className: "freezer" },
-    { label: "Collections", value: collectionCount, className: "collections" },
+    { label: "Recipes", value: recipeCount, className: "recipes", icon: "♨" },
+    { label: "Complete Meals", value: completeMealCount, className: "complete", icon: "🍴" },
+    { label: "Freezer", value: freezerFriendlyCount, className: "freezer", icon: "❄" },
+    { label: "Collections", value: collectionCount, className: "collections", icon: "📁" },
   ];
 
   return (
-    <section className="homeCounterSection" aria-label="Recipe library totals">
+    <section className="homeCounterSection homeCounterVersion3" aria-label="Recipe library totals">
       <div className="homeCounterRow">
         {counters.map((counter) => (
           <div className="homeCounterItem" key={counter.label}>
-            <span className={`homeCounterCircle ${counter.className}`}>
-              <strong>{counter.value}</strong>
-            </span>
-            <small>{counter.label}</small>
+            <div className={`homeCounterBadge ${counter.className}`}>
+              <div className="homeCounterBand" aria-hidden="true">
+                <span>{counter.icon}</span>
+              </div>
+              <div className="homeCounterBody">
+                <strong>{counter.value}</strong>
+                <span className="homeCounterRule" aria-hidden="true" />
+                <small>{counter.label}</small>
+              </div>
+            </div>
           </div>
         ))}
       </div>
