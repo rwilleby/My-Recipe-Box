@@ -3004,7 +3004,7 @@ function RecipeRolodex({ setActivePage, setFilter }) {
       <aside className="homeRolodex homeRolodexComposite" aria-label="Recipe card rolodex">
         <div className="homeRolodexHeader">
           <div>
-            <span>Recipe Card Rolodex</span>
+            <span>Robert's Recipe Rolodex</span>
             <strong>No Rolodex images found</strong>
           </div>
         </div>
@@ -3089,6 +3089,7 @@ function RecipeRolodex({ setActivePage, setFilter }) {
 }
 
 
+
 function HomeRecipeCounters({ classifiedRecipes = [] }) {
   const recipeList = Array.isArray(classifiedRecipes) ? classifiedRecipes : [];
 
@@ -3121,22 +3122,20 @@ function HomeRecipeCounters({ classifiedRecipes = [] }) {
   ).size;
 
   const counters = [
-    { label: "Recipes", value: recipeCount, className: "recipes", icon: "♨" },
-    { label: "Complete Meals", value: completeMealCount, className: "complete", icon: "🍴" },
-    { label: "Freezer-Friendly", value: freezerFriendlyCount, className: "freezer", icon: "❄" },
-    { label: "Collections", value: collectionCount, className: "collections", icon: "▰" },
+    { label: "Recipes", value: recipeCount, className: "recipes" },
+    { label: "Complete Meals", value: completeMealCount, className: "complete" },
+    { label: "Freezer-Friendly Recipes", value: freezerFriendlyCount, className: "freezer" },
+    { label: "Collections", value: collectionCount, className: "collections" },
   ];
 
   return (
-    <section className="homeCounterSection" aria-label="Recipe library totals">
-      <div className="homeCounterRow">
+    <section className="homeCounterSection homeCounterSectionInline" aria-label="Recipe library totals">
+      <h2 className="homeCounterHeading">Everything You Need for Delicious Meals, Every Day</h2>
+      <div className="homeCounterInlineRow">
         {counters.map((counter) => (
-          <div className="homeCounterItem" key={counter.label}>
-            <span className={`homeCounterCircle ${counter.className}`}>
-              <span className="homeCounterIcon" aria-hidden="true">{counter.icon}</span>
-              <strong>{counter.value}</strong>
-              <small>{counter.label}</small>
-            </span>
+          <div className={`homeCounterInlineItem ${counter.className}`} key={counter.label}>
+            <strong>{counter.value}</strong>
+            <small>{counter.label}</small>
           </div>
         ))}
       </div>
