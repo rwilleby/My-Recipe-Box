@@ -22649,3 +22649,135 @@ nav button,
     width: min(520px, calc(100vw - 36px)) !important;
   }
 }
+
+/* =========================================================
+   GAS GRILL CARE & COOKING GUIDE
+   Detailed guide added to the bottom of the Tips: Gas Grills page.
+   ========================================================= */
+.gasGrillGuide {
+  max-width: 1180px;
+  margin: 26px auto 0;
+  padding: clamp(22px, 3vw, 34px);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: var(--shadow);
+}
+
+.gasGrillGuideHeader {
+  max-width: 900px;
+  margin-bottom: 24px;
+}
+
+.gasGrillGuideKicker {
+  display: inline-block;
+  margin-bottom: 8px;
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.gasGrillGuideHeader h2 {
+  margin: 0 0 12px;
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  font-size: clamp(26px, 2.4vw, 34px);
+  line-height: 1.12;
+  color: #111827;
+}
+
+.gasGrillGuideHeader p,
+.gasGrillGuide section p,
+.gasGrillGuide li,
+.gasGrillGuideClosing {
+  color: #374151;
+  font-size: 15px;
+  line-height: 1.58;
+}
+
+.gasGrillGuideGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.gasGrillGuideGrid > section {
+  padding: 18px;
+  border: 1px solid #e8e4dc;
+  border-radius: 13px;
+  background: #fbfaf7;
+}
+
+.gasGrillGuide h3 {
+  margin: 0 0 9px;
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  font-size: 20px;
+  line-height: 1.15;
+  color: var(--green);
+}
+
+.gasGrillGuide p {
+  margin: 0;
+}
+
+.gasGrillGuide p + p {
+  margin-top: 10px;
+}
+
+.gasGrillGuide ul,
+.gasGrillGuide ol {
+  margin: 0;
+  padding-left: 21px;
+  display: grid;
+  gap: 6px;
+}
+
+.gasGrillGuideGrid ol + p,
+.gasGrillGuideGrid ul + p {
+  margin-top: 10px;
+}
+
+.gasGrillChecklist {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 18px;
+  padding: 20px;
+  border: 1px solid #cfe2d2;
+  border-radius: 14px;
+  background: #f3faf5;
+}
+
+.gasGrillChecklist > div {
+  min-width: 0;
+}
+
+.gasGrillGuideClosing {
+  margin: 20px 0 0;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+  font-weight: 600;
+}
+
+@media (max-width: 820px) {
+  .gasGrillGuideGrid,
+  .gasGrillChecklist {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .gasGrillGuide {
+    padding: 18px;
+    border-radius: 14px;
+  }
+
+  .gasGrillGuideGrid > section {
+    padding: 15px;
+  }
+
+  .gasGrillGuideHeader h2 {
+    font-size: 25px;
+  }
+}

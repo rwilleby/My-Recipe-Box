@@ -6548,6 +6548,7 @@ function HeroTopicPage({
   secondaryPage = "How To Use",
   secondaryLabel = "How to Use This Site",
   heroClassName = "pageHeroDepth464",
+  children = null,
 }) {
   return (
     <>
@@ -6568,6 +6569,8 @@ function HeroTopicPage({
             <p>{text}</p>
           </div>
         </section>
+
+        {children}
 
         <div className="aboutRecipesActions">
           <button className="primary" onClick={() => setActivePage(primaryPage)}>
@@ -9301,7 +9304,42 @@ Use this section to check what is on hand, record dates, mark foods that should 
           heroAlt="Gas grill with grilled burgers and vegetables on a light kitchen counter"
           text="Gas grills provide fast heat, convenient temperature control, and the familiar flavor of outdoor cooking. They work well for meats, vegetables, sandwiches, flatbreads, side dishes, and complete meals prepared away from the indoor kitchen.\n\nThese recipes and tips will help with preheating, direct and indirect heat, flare-ups, turning, timing, and safe doneness. With a little practice, a gas grill can become one of the most dependable cooking tools you own."
           setActivePage={setActivePage}
-        />
+        >
+          <article className="gasGrillGuide" aria-labelledby="gas-grill-guide-title">
+            <header className="gasGrillGuideHeader">
+              <span className="gasGrillGuideKicker">Gas Grill Care & Cooking Guide</span>
+              <h2 id="gas-grill-guide-title">Taking Care of and Cooking on a Gas Grill</h2>
+              <p>A gas grill is convenient, easy to control, and perfect for everything from quick weeknight dinners to summer cookouts. Regular cleaning, proper maintenance, and a few basic cooking techniques will help your grill perform better, last longer, and produce more flavorful food.</p>
+            </header>
+
+            <div className="gasGrillGuideGrid">
+              <section><h3>Before Each Use</h3><p>Open the grill lid before turning on the gas. Check the propane tank, hose, regulator, and connections for visible damage. Confirm that the grease tray and drip pan are in place and not overflowing.</p><p>Preheat with the lid closed for 10 to 15 minutes. Once hot, clean the grates with a grill-safe scraper or brush. Lightly oil the food rather than pouring oil directly onto the grates.</p></section>
+              <section><h3>Lighting the Grill Safely</h3><p>Always open the lid before lighting. Turn on the gas supply slowly, ignite the first burner according to the manufacturer’s instructions, then light the remaining burners.</p><p>If the grill does not ignite promptly, turn off the burners and gas supply. Leave the lid open and wait several minutes before trying again. Never lean directly over the grill while lighting it.</p></section>
+              <section><h3>Direct Heat</h3><p>Place food directly over lit burners for quick-cooking foods such as hamburgers, hot dogs, steaks, chops, boneless chicken, shrimp, and vegetables. Direct heat produces strong browning and grill marks.</p></section>
+              <section><h3>Indirect Heat</h3><p>Place food away from lit burners for whole chickens, bone-in chicken, ribs, roasts, meatloaf, and large cuts of pork or beef. Keep the lid closed so the grill works more like an outdoor oven.</p></section>
+              <section><h3>Create Multiple Heat Zones</h3><p>Keep one area hotter for searing and another cooler for finishing. Move food to the cooler side when it begins cooking too quickly or starts to flare. This is especially helpful for chicken, thick steaks, sausages, and foods with sugary sauces.</p></section>
+              <section><h3>Keep the Lid Closed</h3><p>Frequently opening the lid releases heat and increases cooking time. Keep it closed whenever possible, especially for thick cuts, bone-in meats, and indirect cooking. Open only to turn, move, sauce, or check the food.</p></section>
+              <section><h3>Prevent Food from Sticking</h3><p>Start with clean, fully preheated grates. Pat food dry, lightly coat it with oil, and let it cook undisturbed until it releases naturally. Avoid repeatedly flipping or moving food.</p></section>
+              <section><h3>Managing Flare-Ups</h3><ol><li>Move food to a cooler part of the grill.</li><li>Close the lid briefly.</li><li>Reduce the burner setting if needed.</li><li>Remove excess grease after the grill cools.</li></ol><p>Do not spray water onto a gas grill; it can spread grease, damage hot parts, and create steam burns.</p></section>
+              <section><h3>Sauces and Marinades</h3><p>Discard marinade that touched raw meat unless it is boiled thoroughly before reuse. Brush sweet barbecue sauces on during the final few minutes because sugar burns quickly.</p></section>
+              <section><h3>Check Doneness</h3><p>Use an instant-read thermometer in the thickest part, avoiding bone. Cook poultry to at least 165°F and cook ground meats thoroughly. Clean the probe after checking raw or partially cooked food.</p></section>
+              <section><h3>Let Meat Rest</h3><p>Allow meat to rest before slicing so juices redistribute. Small cuts may need only a few minutes; larger steaks, roasts, and whole chickens benefit from a longer rest.</p></section>
+              <section><h3>Cleaning After Cooking</h3><p>Run the grill on high for several minutes with the lid closed, then turn off the burners and gas. Clean warm grates carefully. Once cool, empty the drip pan, remove grease buildup, wipe exterior surfaces, and check burner openings.</p></section>
+              <section><h3>Deep Cleaning</h3><p>Several times each season, disconnect the propane tank and clean the grates, heat shields, burner covers, and grease tray according to the manufacturer’s instructions. Clear clogged burner ports without enlarging them and inspect burners for rust, cracks, or uneven flames.</p></section>
+              <section><h3>Checking for Gas Leaks</h3><p>With burners off, apply dish soap and water to the tank-regulator connection and slowly open the tank valve. Growing bubbles may indicate a leak. Close the gas immediately and do not light the grill until corrected. Never use a flame to test for leaks.</p></section>
+              <section><h3>Propane Tank Care</h3><p>Store tanks outdoors and upright, away from heat, sparks, flames, and enclosed living spaces. Close the valve after every use. Transport tanks upright and secured, and never leave one inside a hot vehicle.</p></section>
+              <section><h3>Protecting the Grill</h3><p>Use a fitted cover only after the grill is fully cool. Place the grill on a stable, level, nonflammable surface away from siding, railings, branches, roof overhangs, and combustible materials. Never operate it indoors, in a garage, or in a poorly ventilated area.</p></section>
+              <section><h3>Helpful Grilling Habits</h3><ul><li>Use separate plates and utensils for raw and cooked food.</li><li>Prepare ingredients and tools before lighting.</li><li>Use long-handled grilling tools.</li><li>Clean grease buildup regularly.</li><li>Keep children and pets away.</li><li>Never leave a lit grill unattended.</li></ul></section>
+            </div>
+
+            <section className="gasGrillChecklist">
+              <div><h3>Before Cooking</h3><ul><li>Open the lid.</li><li>Check the tank, hose, and connections.</li><li>Confirm the grease tray is clean.</li><li>Preheat the grill.</li><li>Clean the grates.</li><li>Create hot and cool zones.</li></ul></div>
+              <div><h3>After Cooking</h3><ul><li>Burn off loose residue.</li><li>Clean the warm grates.</li><li>Turn off the burners.</li><li>Close the propane-tank valve.</li><li>Empty the grease tray when cool.</li><li>Cover only after fully cooled.</li></ul></div>
+            </section>
+
+            <p className="gasGrillGuideClosing">With consistent cleaning and careful heat control, a gas grill can provide years of reliable service and make outdoor cooking easier, safer, and more enjoyable.</p>
+          </article>
+        </HeroTopicPage>
       )}
       {activePage === "Smoker Recipes" && (
         <HeroTopicPage
