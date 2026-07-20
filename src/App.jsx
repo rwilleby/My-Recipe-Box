@@ -1035,6 +1035,23 @@ function fullCardImageCandidates(recipe) {
   return [...new Set(candidates)];
 }
 
+function constructionCalloutImageCandidates(recipe) {
+  if (!recipe?.id) return [];
+
+  const calloutId = `${recipe.id}c`;
+  return [
+    `images/recipes/${calloutId}.png`,
+    `images/recipes/${calloutId}.jpg`,
+    `images/recipes/${calloutId}.JPG`,
+    `images/recipes/${calloutId} .png`,
+    `images/recipes/${calloutId} .jpg`,
+    `images/recipes/${calloutId} .JPG`,
+    `images/callouts/${calloutId}.png`,
+    `images/callouts/${calloutId}.jpg`,
+    `images/callouts/${calloutId}.JPG`,
+  ];
+}
+
 const NAV_GROUPS = [
   {
     label: "ABOUT",
@@ -1862,6 +1879,7 @@ function RecipeCard({
   showPlannerButton = true,
   viewButtonText = "View Recipe",
   displayMode = "hero",
+  viewerContext = "",
 }) {
   const isBrowseCard = displayMode === "card";
   const browseTags = isBrowseCard ? getRecipeBrowseTags(recipe) : [];
@@ -1872,7 +1890,7 @@ function RecipeCard({
       {isBrowseCard ? (
         <FullRecipeCardPreview
           recipe={recipe}
-          onOpen={() => openRecipeCard(recipe.id, cardList)}
+          onOpen={() => openRecipeCard(recipe.id, cardList, viewerContext)}
         />
       ) : (
         <RecipeImage recipe={recipe} />
@@ -1900,7 +1918,7 @@ function RecipeCard({
             <div className="recipeActions browseRecipeActions">
               <button
                 className="viewCard"
-                onClick={() => openRecipeCard(recipe.id, cardList)}
+                onClick={() => openRecipeCard(recipe.id, cardList, viewerContext)}
               >
                 {viewButtonText}
               </button>
@@ -1990,6 +2008,8 @@ function getRecipeEstimatedCost(recipe) {
 
 function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorite }) {
   const [imageIndex, setImageIndex] = useState(0);
+  const [constructionImageIndex, setConstructionImageIndex] = useState(0);
+  const [constructionImageFailed, setConstructionImageFailed] = useState(false);
   const [openPanel, setOpenPanel] = useState(null);
 
   const viewerIds = viewer?.recipeIds?.length
@@ -2006,6 +2026,8 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
 
   useEffect(() => {
     setImageIndex(0);
+    setConstructionImageIndex(0);
+    setConstructionImageFailed(false);
     setOpenPanel(null);
   }, [recipe?.id]);
 
@@ -2019,6 +2041,11 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
   const note = getRecipePersonalNote(recipe);
   const cookingOptions = getRecipeCookingOptions(recipe);
   const estimatedCost = getRecipeEstimatedCost(recipe);
+  const showConstruction = viewer?.context === "Salad Jars";
+  const constructionImageCandidates = constructionCalloutImageCandidates(recipe);
+  const constructionImagePath = constructionImageFailed
+    ? ""
+    : constructionImageCandidates[constructionImageIndex];
 
   function goToOffset(offset) {
     if (!hasMultiple) return;
@@ -2210,6 +2237,7 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
                 {openPanel === "cooking" && "Cooking Options"}
                 {openPanel === "tips" && "Smart Tips"}
                 {openPanel === "notes" && "My Notes"}
+                {openPanel === "construction" && "Salad Jar Construction"}
                 {openPanel === "cost" && "Estimated Cost"}
               </strong>
               <button type="button" onClick={() => setOpenPanel(null)} aria-label="Close popup">
@@ -2249,6 +2277,32 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
                     <strong>Higher protein:</strong> {tips.protein}
                   </li>
                 </ul>
+              </div>
+            )}
+
+
+            {openPanel === "construction" && showConstruction && (
+              <div className="viewerBottomSheetContent viewerConstructionSheet">
+                {constructionImagePath ? (
+                  <img
+                    src={`${import.meta.env.BASE_URL}${constructionImagePath}`}
+                    alt={`${recipe.id} salad jar construction call-out`}
+                    decoding="async"
+                    onError={() => {
+                      setConstructionImageIndex((current) => {
+                        const next = current + 1;
+                        if (next < constructionImageCandidates.length) return next;
+                        setConstructionImageFailed(true);
+                        return current;
+                      });
+                    }}
+                  />
+                ) : (
+                  <div className="viewerConstructionMissing">
+                    <strong>Construction call-out image not found.</strong>
+                    <span>Expected a sister file such as images/recipes/{recipe.id}c.png</span>
+                  </div>
+                )}
               </div>
             )}
 
@@ -2366,6 +2420,16 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
             >
               My Notes
             </button>
+
+            {showConstruction && (
+              <button
+                className={openPanel === "construction" ? "viewerActionButton viewerActionConstruction active" : "viewerActionButton viewerActionConstruction"}
+                type="button"
+                onClick={() => togglePanel("construction")}
+              >
+                Construction
+              </button>
+            )}
 
 
             <button
@@ -8750,6 +8814,7 @@ function CollectionDetailPage({
               addToPlan={addToPlan}
               openRecipeCard={openRecipeCard}
               cardList={collectionRecipes}
+              viewerContext={title}
               displayMode="card"
             />
           ))}
@@ -8906,10 +8971,11 @@ export default function App() {
     setActivePage("Meal Planner");
   }
 
-  function openRecipeCard(recipeId, sourceRecipes = recipes) {
+  function openRecipeCard(recipeId, sourceRecipes = recipes, context = "") {
     setCardViewer({
       recipeId,
       recipeIds: sourceRecipes.map((recipe) => recipe.id),
+      context,
     });
   }
 
