@@ -2745,7 +2745,7 @@ function FeaturedSelectionPanel({ setActivePage }) {
   return (
     <section className="homeFeatureCard featuredSelectionCard dinnerCombinationsFeatureCard">
       <div className="homeMiniSectionHeader">
-        <h2>Dinner Recommendations</h2>
+        <h2>COMBO-MEALS</h2>
       </div>
 
       <button
@@ -2788,7 +2788,7 @@ function ProductsIUseCarousel({ setActivePage }) {
   return (
     <section className="homeFeatureCard productsIUseCard">
       <div className="homeMiniSectionHeader">
-        <h2>Products I Recommend</h2>
+        <h2>KITCHEN TOOLS</h2>
       </div>
 
       <div className="productUseFeatureWrap">
@@ -3020,7 +3020,7 @@ function RecipeRolodex({ setActivePage, setFilter }) {
   return (
     <aside className="homeRolodex homeRolodexComposite" aria-label="Recipe card rolodex">
       <div className="homeRolodexHeader homeRolodexHeaderCentered">
-        <strong className="homeRolodexSectionTitle">Recipe Card Rolodex</strong>
+        <strong className="homeRolodexSectionTitle">ROBERT'S ROLODEX</strong>
       </div>
 
       <div className="homeRolodexStage homeRolodexCompositeStage">

@@ -23713,3 +23713,125 @@ body.rrbPopupOpen {
     min-height: 300px !important;
   }
 }
+
+/* =========================================================
+   HOME SHOWCASE PROPORTIONAL THREE-PANEL UPDATE
+   Keeps COMBO-MEALS / ROBERT'S ROLODEX / KITCHEN TOOLS
+   in a stable 25% / 50% / 25% layout with matching heights.
+   ========================================================= */
+
+.homeRolodexShowcaseSection {
+  --home-showcase-height: clamp(330px, 30vw, 520px);
+}
+
+.homeThreeColumnShowcase {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr) !important;
+  grid-template-rows: var(--home-showcase-height) !important;
+  gap: 12px !important;
+  align-items: stretch !important;
+}
+
+.homeDinnerRecommendationsColumn,
+.homeShowcaseRolodexColumn,
+.homeProductsColumn {
+  min-width: 0 !important;
+  height: 100% !important;
+}
+
+.homeThreeColumnShowcase .homeFeatureCard.featuredSelectionCard,
+.homeThreeColumnShowcase .homeFeatureCard.productsIUseCard,
+.homeThreeColumnShowcase .homeShowcaseRolodexColumn .homeRolodex {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  box-sizing: border-box !important;
+}
+
+.homeThreeColumnShowcase .homeMiniSectionHeader,
+.homeThreeColumnShowcase .homeRolodexHeader {
+  flex: 0 0 58px !important;
+  min-height: 58px !important;
+  height: 58px !important;
+}
+
+.homeThreeColumnShowcase .featuredSelectionButton,
+.homeThreeColumnShowcase .productUseFeatureWrap,
+.homeThreeColumnShowcase .homeRolodexStage {
+  min-height: 0 !important;
+}
+
+.homeThreeColumnShowcase .featuredSelectionButton,
+.homeThreeColumnShowcase .productUseFeatureWrap {
+  flex: 1 1 auto !important;
+  overflow: hidden !important;
+}
+
+.homeThreeColumnShowcase .featuredSelectionImage,
+.homeThreeColumnShowcase .productUseFeatureImage {
+  width: calc(100% - 18px) !important;
+  height: calc(var(--home-showcase-height) - 134px) !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  aspect-ratio: auto !important;
+}
+
+.homeThreeColumnShowcase .homeRolodexStage {
+  height: calc(var(--home-showcase-height) - 86px) !important;
+  flex: 1 1 auto !important;
+}
+
+.homeThreeColumnShowcase .homeRolodexCompositeImage,
+.homeThreeColumnShowcase .homeRolodexCompositeImageButton {
+  max-height: 100% !important;
+}
+
+@media (max-width: 1100px) {
+  .homeRolodexShowcaseSection {
+    --home-showcase-height: clamp(300px, 40vw, 430px);
+  }
+}
+
+@media (max-width: 820px) {
+  .homeThreeColumnShowcase {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-template-rows: var(--home-showcase-height) var(--home-showcase-height) !important;
+  }
+
+  .homeShowcaseRolodexColumn {
+    grid-column: 1 / -1 !important;
+    grid-row: 1 !important;
+  }
+
+  .homeDinnerRecommendationsColumn {
+    grid-column: 1 !important;
+    grid-row: 2 !important;
+  }
+
+  .homeProductsColumn {
+    grid-column: 2 !important;
+    grid-row: 2 !important;
+  }
+}
+
+@media (max-width: 560px) {
+  .homeRolodexShowcaseSection {
+    --home-showcase-height: clamp(290px, 92vw, 390px);
+  }
+
+  .homeThreeColumnShowcase {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: repeat(3, var(--home-showcase-height)) !important;
+  }
+
+  .homeShowcaseRolodexColumn,
+  .homeDinnerRecommendationsColumn,
+  .homeProductsColumn {
+    grid-column: 1 !important;
+  }
+
+  .homeShowcaseRolodexColumn { grid-row: 1 !important; }
+  .homeDinnerRecommendationsColumn { grid-row: 2 !important; }
+  .homeProductsColumn { grid-row: 3 !important; }
+}
