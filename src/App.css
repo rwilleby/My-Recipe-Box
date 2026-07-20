@@ -23029,3 +23029,9 @@ nav button,
     width: 100%;
   }
 }
+
+
+/* AIR FRYER AND MICROWAVE GUIDE POLISH */
+.greenHeartList { list-style: none !important; padding-left: 0 !important; }
+.greenHeartList li { position: relative; padding-left: 22px; }
+.greenHeartList li::before { content: "♥"; position: absolute; left: 0; top: 0; color: var(--green); font-size: 13px; }
