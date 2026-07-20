@@ -1065,7 +1065,6 @@ const NAV_GROUPS = [
       { label: "COMFORT FOODS", page: "Comfort Foods" },
       { label: "EASY 30-MINUTE MEALS", page: "Easy 30-Minute Meals" },
       { label: "SALAD JAR LUNCHES", page: "Salad Jars" },
-      { label: "CASSEROLES", page: "Casseroles" },
     ],
   },
   {
@@ -1283,7 +1282,7 @@ function HeroInfoButtons({ setActivePage }) {
   );
 }
 
-function Hero({ setActivePage }) {
+function Hero({ setActivePage, recipes: heroRecipes = recipes }) {
   const [heroIndex, setHeroIndex] = useState(0);
 
   useEffect(() => {
@@ -1293,6 +1292,31 @@ function Hero({ setActivePage }) {
 
     return () => window.clearInterval(timer);
   }, []);
+
+  const heroRecipeList = Array.isArray(heroRecipes) ? heroRecipes : recipes;
+  const recipeCount = heroRecipeList.length;
+  const completeMealCount = heroRecipeList.filter((recipe) =>
+    (recipe.collections || []).some((collection) =>
+      ["Complete Meals", "Complete Dinners"].includes(collection)
+    )
+  ).length;
+  const freezerFriendlyCount = heroRecipeList.filter((recipe) =>
+    recipe.freezerFriendly === true ||
+    (recipe.collections || []).some((collection) =>
+      ["Freezer-Friendly", "Freezer-Friendly Meals"].includes(collection)
+    ) ||
+    (recipe.attributes || []).includes("Freezer Friendly")
+  ).length;
+  const collectionCount = new Set(
+    heroRecipeList.flatMap((recipe) => recipe.collections || [])
+  ).size;
+
+  const counterItems = [
+    { label: "Recipes", value: recipeCount, icon: "▤", tone: "recipes" },
+    { label: "Complete Meals", value: completeMealCount, icon: "🍽", tone: "meals" },
+    { label: "Freezer-Friendly", value: freezerFriendlyCount, icon: "❄", tone: "freezer" },
+    { label: "Collections", value: collectionCount, icon: "▦", tone: "collections" },
+  ];
 
   return (
     <section className="hero">
@@ -1315,6 +1339,21 @@ function Hero({ setActivePage }) {
 
       <div className="heroCopy">
         <div className="aiBadge">✧ AI-POWERED RECIPE PLANNING ✧</div>
+
+        <div className="heroRecipeCounters" aria-label="Recipe library totals">
+          {counterItems.map((item) => (
+            <div
+              className={`heroRecipeCounter heroRecipeCounter-${item.tone}`}
+              key={item.label}
+            >
+              <span className="heroRecipeCounterIcon" aria-hidden="true">
+                {item.icon}
+              </span>
+              <strong>{item.value.toLocaleString()}</strong>
+              <span className="heroRecipeCounterLabel">{item.label}</span>
+            </div>
+          ))}
+        </div>
 
         <h1>Plan. Cook. Eat. Freeze. Save.</h1>
 
@@ -2449,20 +2488,6 @@ function CollectionStrip({ setActivePage }) {
       image: "images/collections/30-minute.jpg",
       imageAlt: "Quick skillet pasta meal",
     },
-    {
-      title: "Salad Jars",
-      text: "Layered make-ahead salads for fresh grab-and-go lunches.",
-      page: "Salad Jars",
-      image: "images/heroes/hero-page-salad-jars.jpg",
-      imageAlt: "Layered salad jars prepared for make-ahead lunches",
-    },
-    {
-      title: "Casseroles",
-      text: "Comforting baked meals that are practical for leftovers and freezing.",
-      page: "Casseroles",
-      image: "images/heroes/hero-page-comfort-food.jpg",
-      imageAlt: "Family-style baked casserole meal",
-    },
   ];
 
   return (
@@ -2960,10 +2985,11 @@ function Home({
   openRecipeCard,
   setActivePage,
   setFilter,
+  classifiedRecipes,
 }) {
   return (
     <>
-      <Hero setActivePage={setActivePage} />
+      <Hero setActivePage={setActivePage} recipes={classifiedRecipes} />
       <TransparencyLine setActivePage={setActivePage} />
       <CategoryGrid setFilter={setFilter} setActivePage={setActivePage} />
 
@@ -6335,12 +6361,6 @@ function getPageHelpSteps(pageTitle = "", pageEyebrow = "") {
       "Leave enough room to shake the jar or transfer the salad into a bowl before eating.",
       "Keep the jars refrigerated and follow the shortest safe storage time for the ingredients included.",
     ],
-    "Casseroles": [
-      "Browse baked meals that combine a main dish, sauce, vegetables, pasta, rice, potatoes, or other ingredients in one practical recipe.",
-      "Review the serving size and pan size before cooking because many casseroles are designed for leftovers or freezer portions.",
-      "Use a food thermometer when the casserole contains meat, poultry, eggs, or previously cooked ingredients that must be reheated safely.",
-      "Cool and package extra portions promptly, then label them with the recipe name, date, servings, and reheating directions.",
-    ],
     "Your Weekly Meal Planner": [
       "Choose a week and day, then add individual recipes or complete dinner combinations to the planner.",
       "Use the category controls to narrow the recipe choices before adding meals.",
@@ -9131,30 +9151,6 @@ These pages are designed to be easy to scan, print, or revisit when needed. They
           <CollectionDetailPage
             title="Salad Jars"
             text="A collection page for make-ahead salad jars, fresh lunches, and easy grab-and-go meal prep ideas. More recipes and filters will be added here."
-            setActivePage={setActivePage}
-            recipes={classifiedRecipes}
-            favorites={favorites}
-            toggleFavorite={toggleFavorite}
-            addToPlan={addToPlan}
-            openRecipeCard={openRecipeCard}
-          />
-        </>
-      )}
-      {activePage === "Casseroles" && (
-        <>
-          <PageHeroImage
-            src="images/heroes/hero-page-comfort-food.jpg"
-            alt="Family-style casseroles and baked meals ready for serving"
-            eyebrow="COLLECTIONS"
-            title="Casseroles"
-            text="Casseroles bring complete meals together in one practical baking dish. They are useful for family dinners, planned leftovers, make-ahead cooking, and freezer meals.
-
-This collection gathers comforting baked recipes that are easy to portion, store, reheat, and combine with a salad, vegetable, bread, or other simple side."
-            className="pageHeroDepth464"
-          />
-          <CollectionDetailPage
-            title="Casseroles"
-            text="Browse hearty baked meals, make-ahead dishes, and freezer-friendly casserole recipes."
             setActivePage={setActivePage}
             recipes={classifiedRecipes}
             favorites={favorites}
