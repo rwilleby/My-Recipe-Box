@@ -23552,3 +23552,22 @@ nav button,
     font-size: 8px;
   }
 }
+
+/* =========================================================
+   POPUP FOCUS MODE
+   Hide page hero sections while recipe-card popups are open,
+   while keeping the sticky site header visible above the overlay.
+   ========================================================= */
+
+body.rrbPopupOpen .hero,
+body.rrbPopupOpen .pageTopHeroImage {
+  display: none !important;
+}
+
+body.rrbPopupOpen .topbar {
+  z-index: 2200 !important;
+}
+
+body.rrbPopupOpen {
+  overflow: hidden;
+}

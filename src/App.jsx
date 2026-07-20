@@ -1035,6 +1035,24 @@ function fullCardImageCandidates(recipe) {
   return [...new Set(candidates)];
 }
 
+let popupPageModeUsers = 0;
+
+function usePopupPageMode(isOpen) {
+  useEffect(() => {
+    if (!isOpen || typeof document === "undefined") return undefined;
+
+    popupPageModeUsers += 1;
+    document.body.classList.add("rrbPopupOpen");
+
+    return () => {
+      popupPageModeUsers = Math.max(0, popupPageModeUsers - 1);
+      if (popupPageModeUsers === 0) {
+        document.body.classList.remove("rrbPopupOpen");
+      }
+    };
+  }, [isOpen]);
+}
+
 function isSaladJarRecipe(recipe) {
   if (!recipe?.id) return false;
   const match = String(recipe.id).match(/^SB-(\d{3})$/i);
@@ -1737,6 +1755,7 @@ function getRecipeCookingOptions(recipe) {
 function SmartTipsButton({ recipe, position = "inline" }) {
   const [open, setOpen] = useState(false);
   const tips = getRecipeSmartTips(recipe);
+  usePopupPageMode(open);
 
   const wrapperClass =
     position === "viewerTop"
@@ -1839,6 +1858,7 @@ function getRecipePersonalNote(recipe) {
 function MyRecipeNotesButton({ recipe, position = "inline" }) {
   const [open, setOpen] = useState(false);
   const note = getRecipePersonalNote(recipe);
+  usePopupPageMode(open);
 
   const wrapperClass =
     position === "viewerTop"
@@ -1877,6 +1897,7 @@ function MyRecipeNotesButton({ recipe, position = "inline" }) {
 function ConstructionCalloutButton({ recipe }) {
   const [open, setOpen] = useState(false);
   const [imageIndex, setImageIndex] = useState(0);
+  usePopupPageMode(open);
   const [imageFailed, setImageFailed] = useState(false);
   const candidates = constructionCalloutImageCandidates(recipe);
   const imagePath = imageFailed ? "" : candidates[imageIndex];
@@ -2094,6 +2115,7 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
   const [constructionImageIndex, setConstructionImageIndex] = useState(0);
   const [constructionImageFailed, setConstructionImageFailed] = useState(false);
   const [openPanel, setOpenPanel] = useState(null);
+  usePopupPageMode(Boolean(viewer));
 
   const viewerIds = viewer?.recipeIds?.length
     ? viewer.recipeIds
