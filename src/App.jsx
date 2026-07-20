@@ -9545,6 +9545,147 @@ Use this section to check what is on hand, record dates, mark foods that should 
             addToPlan={addToPlan}
             openRecipeCard={openRecipeCard}
           />
+          <article className="gasGrillGuide foodSafetyGuide" aria-labelledby="food-safety-guide-title">
+            <header className="gasGrillGuideHeader">
+              <span className="gasGrillGuideKicker">Food Handling, Cooking & Storage Guide</span>
+              <h2 id="food-safety-guide-title">Food Safety Rules for Handling, Cooking, and Storage</h2>
+              <p>Safe food handling helps prevent cross-contamination, spoilage, and foodborne illness. Harmful bacteria cannot always be seen, smelled, or tasted, so food should be handled safely from the time it is purchased until it is served or stored.</p>
+              <p>The four basic food-safety rules are <strong>Clean, Separate, Cook, and Chill</strong>.</p>
+            </header>
+
+            <div className="gasGrillGuideGrid">
+              <section><h3>Clean Hands, Equipment, and Surfaces</h3>
+<p>Wash your hands with soap and running water before preparing food and after handling raw meat, poultry, seafood, eggs, garbage, pets, or anything else that may carry germs.</p>
+<p>Wash cutting boards, knives, dishes, utensils, counters, and other work surfaces with hot, soapy water after each use.</p>
+<p>Use clean dishcloths and towels. Replace or wash them frequently because damp cloths and sponges can spread bacteria around the kitchen.</p>
+<p>Rinse fresh fruits and vegetables under clean running water before cutting, peeling, cooking, or eating them. Do not use soap, bleach, or household cleaning products on food.</p>
+<p>Do not wash raw chicken, turkey, or other poultry. Splashing water can spread bacteria from the poultry to sinks, counters, utensils, and nearby foods.</p>
+</section>
+              <section><h3>Prevent Cross-Contamination</h3>
+<p>Keep raw meat, poultry, seafood, and eggs separate from foods that are ready to eat.</p>
+<p>Use separate cutting boards when possible—one for raw meat and poultry and another for vegetables, bread, fruit, cheese, and cooked foods.</p>
+<p>Never place cooked food back onto a plate or tray that previously held raw meat, poultry, seafood, or eggs unless the plate has first been thoroughly washed.</p>
+<p>Store raw meat, poultry, and seafood in sealed containers or leakproof bags. Place them on the lowest refrigerator shelf so juices cannot drip onto other foods.</p>
+<p>Use clean utensils when tasting or serving food. Do not reuse a spoon after tasting unless it has been washed.</p>
+</section>
+              <section><h3>Handle Groceries Safely</h3>
+<p>Select refrigerated and frozen foods near the end of the shopping trip.</p>
+<p>Keep raw meat, poultry, and seafood separated from other groceries. Place them in individual bags to help contain leaks.</p>
+<p>Take perishable groceries home promptly. During hot weather or long trips, transport them in an insulated cooler with ice or frozen gel packs.</p>
+<p>Check packages for tears, leaks, broken seals, swelling, rust, or severe dents. Do not purchase canned goods that are bulging, leaking, or deeply dented along a seam.</p>
+</section>
+              <section><h3>Thaw Food Safely</h3>
+<p>Never thaw meat, poultry, seafood, or other perishable foods on the kitchen counter.</p>
+<p>Use one of these safe thawing methods:</p>
+<h4>Refrigerator Thawing</h4>
+<p>Place the food in a container to catch any liquid and allow it to thaw slowly in the refrigerator. This is generally the safest method.</p>
+<h4>Cold-Water Thawing</h4>
+<p>Place the food in a leakproof package and submerge it in cold water. Change the water approximately every 30 minutes. Cook the food immediately after thawing.</p>
+<h4>Microwave Thawing</h4>
+<p>Use the microwave’s defrost setting and cook the food immediately after thawing because portions may begin to warm or cook during the process.</p>
+<p>Food may also be cooked directly from frozen when the cooking method and recipe allow it, although additional cooking time will usually be required. Food should not be thawed or marinated at room temperature.</p>
+</section>
+              <section><h3>Marinate Food Safely</h3>
+<p>Always marinate meat, poultry, and seafood in the refrigerator, not on the counter.</p>
+<p>Do not reuse marinade that has touched raw food unless it is first brought to a full boil. A safer option is to reserve a separate portion of unused marinade for brushing or serving.</p>
+</section>
+              <section><h3>Cook Food to a Safe Temperature</h3>
+<p>Appearance, texture, and cooking time alone cannot confirm that food is safe. Use a clean food thermometer and check the thickest part of the food without touching bone, heavy fat, or the cooking pan.</p>
+<h4>Minimum Internal Temperatures</h4>
+<ul><li><strong>Whole cuts of beef, pork, veal, lamb, bison, or goat:</strong> 145°F, followed by at least a 3-minute rest</li><li><strong>Ground beef, pork, veal, lamb, and sausage:</strong> 160°F</li><li><strong>Chicken, turkey, duck, and other poultry:</strong> 165°F</li><li><strong>Ground poultry:</strong> 165°F</li><li><strong>Stuffing and casseroles:</strong> 165°F</li><li><strong>Egg dishes:</strong> 160°F</li><li><strong>Fish:</strong> 145°F, or until the flesh is opaque and separates easily with a fork</li><li><strong>Shrimp, lobster, crab, and scallops:</strong> Cook until the flesh is pearly white and opaque</li><li><strong>Clams, mussels, and oysters:</strong> Cook until the shells open; discard shells that remain closed</li><li><strong>Leftovers:</strong> 165°F</li></ul>
+<p>These temperatures reflect current federal food-safety guidance.</p>
+<p>Clean the food thermometer before and after each use.</p>
+<p>For thin foods such as hamburger patties or chicken breasts, insert the thermometer from the side when necessary so the sensing area reaches the center.</p>
+</section>
+              <section><h3>Microwave Cooking</h3>
+<p>Arrange food evenly and cover it when appropriate to help retain moisture and distribute heat.</p>
+<p>Rotate or stir food during cooking to reduce cold spots.</p>
+<p>Follow package instructions, including any required standing time after cooking. Standing time allows heat to continue moving through the food.</p>
+<p>Check the temperature in several locations, especially when reheating casseroles, soups, meats, and frozen meals. Microwaved leftovers should reach 165°F.</p>
+</section>
+              <section><h3>Slow Cookers and Warming Appliances</h3>
+<p>Thaw meat and poultry before placing them in a slow cooker unless the appliance manufacturer and recipe specifically permit cooking from frozen.</p>
+<p>Cut large pieces into smaller portions when needed so they heat safely and evenly.</p>
+<p>Keep the lid in place as much as possible during cooking.</p>
+<p>A slow cooker may be used to keep fully cooked food hot, but it should not be used to reheat cold leftovers unless the manufacturer specifically states that it is safe for that purpose. Reheat leftovers to 165°F first, then transfer them to the preheated slow cooker for holding.</p>
+</section>
+              <section><h3>Keep Hot Food Hot and Cold Food Cold</h3>
+<p>The food-safety temperature danger zone is between <strong>40°F and 140°F</strong>, where bacteria can multiply rapidly.</p>
+<p>Keep hot food at <strong>140°F or above</strong> using a warming tray, slow cooker, chafing dish, or another appropriate heat source.</p>
+<p>Keep cold food at <strong>40°F or below</strong> by refrigerating it or placing serving dishes over ice.</p>
+</section>
+              <section><h3>Follow the Two-Hour Rule</h3>
+<p>Refrigerate or freeze perishable foods within two hours of cooking, purchasing, or serving.</p>
+<p>When the surrounding temperature is above 90°F—including outdoor cookouts, hot garages, or parked vehicles—refrigerate perishable food within one hour.</p>
+<p>Discard food that has remained at unsafe temperatures longer than these limits. Do not taste it to determine whether it is safe.</p>
+</section>
+              <section><h3>Cool Food Properly</h3>
+<p>Divide large quantities of soup, chili, stew, meat, pasta, and casseroles into smaller portions.</p>
+<p>Place leftovers in shallow containers so they cool more quickly.</p>
+<p>Large cuts of meat may be divided into smaller pieces before refrigeration.</p>
+<p>Do not leave food on the counter for several hours to cool. Refrigerate it promptly in suitable containers.</p>
+<p>Avoid tightly packing a warm refrigerator with large containers because cold air needs room to circulate.</p>
+</section>
+              <section><h3>Refrigerator and Freezer Temperatures</h3>
+<p>Keep the refrigerator at <strong>40°F or below</strong>.</p>
+<p>Keep the freezer at <strong>0°F or below</strong>.</p>
+<p>Place an appliance thermometer inside each unit and check it periodically. The refrigerator control setting does not always show the actual temperature.</p>
+<p>Avoid overfilling the refrigerator. Cold air must circulate around the food.</p>
+<p>A freezer may be packed more tightly, but vents should remain unobstructed.</p>
+</section>
+              <section><h3>Storing Leftovers</h3>
+<p>Refrigerate leftovers promptly in clean, covered containers.</p>
+<p>Label containers with the food name and the date prepared.</p>
+<p>Most cooked leftovers, soups, stews, casseroles, pizza, and cooked meat or poultry should be eaten or frozen within <strong>three to four days</strong>.</p>
+<p>Reheat leftovers to an internal temperature of 165°F.</p>
+<p>Bring leftover sauces, soups, and gravies to a boil when reheating them.</p>
+<p>Reheat only the amount needed whenever practical. Repeated cycles of warming and cooling reduce quality and increase the chance of unsafe handling.</p>
+</section>
+              <section><h3>General Refrigerator Storage Times</h3>
+<p>These are common home-storage guidelines:</p>
+<ul><li><strong>Raw ground meat and ground poultry:</strong> 1 to 2 days</li><li><strong>Raw chicken or turkey:</strong> 1 to 2 days</li><li><strong>Fresh steaks, chops, and roasts:</strong> 3 to 5 days</li><li><strong>Fresh fish:</strong> commonly 1 to 3 days, depending on the type</li><li><strong>Opened luncheon meat:</strong> 3 to 5 days</li><li><strong>Cooked meat and poultry:</strong> 3 to 4 days</li><li><strong>Soups, stews, casseroles, and pizza:</strong> 3 to 4 days</li><li><strong>Hard-cooked eggs:</strong> 1 week</li><li><strong>Raw shell eggs:</strong> 3 to 5 weeks</li></ul>
+<p>Storage recommendations vary by product. Follow package dates and manufacturer instructions when they are more restrictive.</p>
+</section>
+              <section><h3>Freezer Storage</h3>
+<p>Freezing at 0°F keeps properly handled food safe for extended periods, but quality may decline over time.</p>
+<p>Wrap food tightly in freezer-safe packaging or airtight containers. Remove as much air as practical to reduce freezer burn.</p>
+<p>Label each package with the food name, amount, and freezing date.</p>
+<p>Freeze foods in meal-sized portions so only the amount needed must be thawed.</p>
+<p>Freezer burn affects quality but does not automatically make food unsafe.</p>
+</section>
+              <section><h3>Safe Serving at Parties and Cookouts</h3>
+<p>Use smaller serving dishes and replace them with freshly chilled or heated food rather than leaving large quantities out for long periods.</p>
+<p>Keep cold dishes over ice and replenish the ice as needed.</p>
+<p>Use chafing dishes, warming trays, or slow cookers to keep hot food at 140°F or above.</p>
+<p>Provide separate utensils for each dish.</p>
+<p>Keep raw grilling foods and their utensils away from cooked foods.</p>
+<p>Use one plate for raw meat going to the grill and a clean plate for the cooked food coming back.</p>
+<p>Discard perishable food that has exceeded the two-hour limit, or the one-hour limit when temperatures are above 90°F.</p>
+</section>
+              <section><h3>Power Outages</h3>
+<p>Keep refrigerator and freezer doors closed as much as possible.</p>
+<p>An unopened refrigerator generally keeps food cold for about four hours.</p>
+<p>A full unopened freezer may maintain a safe temperature for approximately 48 hours, while a half-full freezer may maintain it for approximately 24 hours.</p>
+<p>Frozen food that still contains ice crystals or remains at 40°F or below may generally be cooked or refrozen.</p>
+<p>Discard perishable refrigerated food that has remained above 40°F for two hours or longer. Never taste food to test its safety.</p>
+</section>
+              <section><h3>Watch for Signs of Spoilage</h3>
+<p>Discard food with mold, unusual discoloration, leaking or swollen packaging, unexpected bubbling, a slimy texture, or an unusual odor.</p>
+<p>However, food can contain harmful germs even when it looks and smells normal. Proper handling, temperatures, and storage times remain the most reliable safeguards.</p>
+<p>Do not taste questionable food. When its safety is uncertain, throw it away.</p>
+</section>
+              <section><h3>People at Greater Risk</h3>
+<p>Older adults, young children, pregnant people, and people with weakened immune systems are more likely to become seriously ill from foodborne germs.</p>
+<p>Extra caution should be taken with raw or undercooked meat, poultry, seafood, eggs, sprouts, unpasteurized dairy products, refrigerated smoked seafood, and other higher-risk foods.</p>
+</section>
+              <section><h3>Basic Rule to Remember</h3>
+<p>When handling food:</p>
+<p><strong>Keep it clean. Keep raw and cooked foods separate. Cook it thoroughly. Chill it promptly. When in doubt, throw it out.</strong></p>
+</section>
+            </div>
+
+            <p className="gasGrillGuideClosing"><strong>Keep it clean. Keep raw and cooked foods separate. Cook it thoroughly. Chill it promptly. When in doubt, throw it out.</strong></p>
+          </article>
         </>
       )}
       {activePage === "Storage Organization" && (
