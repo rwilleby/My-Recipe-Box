@@ -1111,63 +1111,7 @@ const PageNavigationContext = createContext({
   setActivePage: () => {},
 });
 
-function HeaderRecipeCounters({ recipeData = recipes }) {
-  const counters = useMemo(() => {
-    const safeRecipes = Array.isArray(recipeData) ? recipeData : [];
-    const normalizedCollectionNames = safeRecipes.flatMap((recipe) =>
-      Array.isArray(recipe.collections) ? recipe.collections : []
-    );
-
-    const recipeCount = safeRecipes.length;
-    const completeMealCount = safeRecipes.filter((recipe) => {
-      const collections = Array.isArray(recipe.collections) ? recipe.collections : [];
-      return collections.some((collection) =>
-        ["complete meals", "complete dinners"].includes(String(collection).trim().toLowerCase())
-      );
-    }).length;
-    const freezerFriendlyCount = safeRecipes.filter((recipe) => {
-      const collections = Array.isArray(recipe.collections) ? recipe.collections : [];
-      const attributes = Array.isArray(recipe.attributes) ? recipe.attributes : [];
-      const collectionMatch = collections.some((collection) =>
-        ["freezer-friendly", "freezer friendly", "freezer meals", "quick & easy freezer meals"].includes(
-          String(collection).trim().toLowerCase()
-        )
-      );
-      const attributeMatch = attributes.some((attribute) =>
-        ["freezer-friendly", "freezer friendly"].includes(String(attribute).trim().toLowerCase())
-      );
-      return collectionMatch || attributeMatch || recipe.freezerFriendly === true;
-    }).length;
-    const collectionCount = new Set(
-      normalizedCollectionNames.map((collection) => String(collection).trim()).filter(Boolean)
-    ).size;
-
-    return [
-      { key: "recipes", icon: "▤", value: recipeCount, label: "RECIPES" },
-      { key: "meals", icon: "✓", value: completeMealCount, label: "COMPLETE MEALS" },
-      { key: "freezer", icon: "❄", value: freezerFriendlyCount, label: "FREEZER" },
-      { key: "collections", icon: "◉", value: collectionCount, label: "COLLECTIONS" },
-    ];
-  }, [recipeData]);
-
-  return (
-    <div className="headerRecipeCounters" aria-label="Recipe library totals">
-      {counters.map((counter) => (
-        <div
-          className={`headerRecipeCounter headerRecipeCounter-${counter.key}`}
-          key={counter.key}
-          title={`${counter.label}: ${counter.value}`}
-        >
-          <span className="headerRecipeCounterIcon" aria-hidden="true">{counter.icon}</span>
-          <strong>{counter.value}</strong>
-          <small>{counter.label}</small>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function Header({ activePage, setActivePage, recipeData = recipes }) {
+function Header({ activePage, setActivePage }) {
   const navGroups = NAV_GROUPS;
   function openPage(page) {
     if (!page) return;
@@ -1250,7 +1194,6 @@ function Header({ activePage, setActivePage, recipeData = recipes }) {
         ))}
       </nav>
 
-      <HeaderRecipeCounters recipeData={recipeData} />
     </header>
   );
 }
@@ -8996,7 +8939,7 @@ export default function App() {
   return (
     <PageNavigationContext.Provider value={{ activePage, setActivePage }}>
       <div className="app">
-        <Header activePage={activePage} setActivePage={setActivePage} recipeData={classifiedRecipes} />
+        <Header activePage={activePage} setActivePage={setActivePage} />
 
       {activePage === "Admin Recipes" && (
         <AdminRecipeClassifier
