@@ -1072,16 +1072,24 @@ const NAV_GROUPS = [
     items: [
       { label: "YOUR WEEKLY MEAL PLANNER", page: "Meal Planner" },
       { label: "YOUR FAVORITE RECIPES", page: "Favorites" },
-      { label: "KITCHEN INVENTORY", labelOnly: true },
       { label: "REFRIGERATOR INVENTORY", page: "Kitchen Refrigerator" },
       { label: "FREEZER INVENTORY", page: "Kitchen Freezer" },
       { label: "PANTRY INVENTORY", page: "Pantry Staples" },
+    ],
+  },
+  {
+    label: "SHOPPING",
+    items: [
       { label: "YOUR GROCERY LIST", page: "Shopping Lists" },
+      { label: "COOKING TOOLS & PRODUCTS", page: "Products I Use" },
+      { label: "STORAGE & ORGANIZATION", page: "Storage Organization" },
     ],
   },
   {
     label: "TIPS & GUIDES",
     items: [
+      { label: "TIPS: AIR FRYERS", page: "Air Fryer Recipes" },
+      { label: "TIPS: MICROWAVE OVENS", page: "Microwave Recipes" },
       { label: "TIPS: GAS GRILLS", page: "Gas Grill Recipes" },
       { label: "TIPS: PELLET SMOKERS", page: "Smoker Recipes" },
       { label: "TIPS: OVENS", page: "Oven Recipes" },
@@ -1090,8 +1098,6 @@ const NAV_GROUPS = [
       { label: "FOOD SAFETY", page: "Safe Cooking Rules" },
       { label: "REFERENCE GUIDES", page: "Reference Guides" },
       { label: "FREEZING AND REHEATING", page: "Freezer Tips" },
-      { label: "COOKING TOOLS & PRODUCTS", page: "Products I Use" },
-      { label: "STORAGE AND ORGANIZATION", page: "Storage Organization" },
     ],
   },
 ];
@@ -5250,7 +5256,16 @@ function FavoritesPage({
 
 function CollectionsPage({ setActivePage }) {
   return (
-    <main className="pageShell">
+    <>
+      <PageHeroImage
+        src="images/heroes/hero-page-collections.png"
+        alt="Curated recipe collections with recipe cards, meal ideas, and planning notes"
+        eyebrow="COLLECTIONS"
+        title="Collections"
+        text="Browse curated groups of recipes organized around cooking methods, seasons, meal styles, and practical needs. Choose a collection when you want inspiration without searching the entire recipe library."
+        className="pageHeroDepth464"
+      />
+      <main className="pageShell">
       <div className="pageHeader">
         <div>
           <div className="aiBadge">CURATED BY AI</div>
@@ -5265,6 +5280,7 @@ function CollectionsPage({ setActivePage }) {
       <CollectionStrip setActivePage={setActivePage} />
       <FeatureStrip />
     </main>
+    </>
   );
 }
 
@@ -6178,6 +6194,245 @@ function getPageHelpSteps(pageTitle = "", pageEyebrow = "") {
   const normalizedTitle = String(pageTitle).trim();
   const normalizedEyebrow = String(pageEyebrow).trim();
 
+  const suppliedPageNotes = {
+    "Welcome to Our Site": [
+      "Read the welcome message to learn why Robert’s Recipe Box was created and who it is designed to help.",
+      "Review the story behind the site and its focus on practical meals, smaller households, useful leftovers, and freezer planning.",
+      "Use the page links and main menu to continue to recipes, planning tools, cooking tips, or other helpful sections.",
+      "Return here whenever you want a reminder of the purpose and approach behind Robert’s Recipe Box.",
+    ],
+    "About Our Recipes": [
+      "Read this page to understand how the recipes are created, organized, reviewed, and presented.",
+      "Learn how AI assistance is used under Robert’s direction to develop practical recipe ideas and recipe cards.",
+      "Review the information about serving sizes, planned leftovers, freezer meals, substitutions, and smaller-household cooking.",
+      "Always read a complete recipe before cooking and adjust ingredients, timing, and temperatures using reasonable cooking judgment.",
+    ],
+    "Affiliate Marketing": [
+      "Read this page to understand how affiliate links may help support Robert’s Recipe Box.",
+      "Product recommendations are optional and are not required to use the recipes, planning tools, or other website features.",
+      "Select a product link to review its current price, size, features, availability, seller, and return information.",
+      "Compare products carefully before purchasing because listings, prices, and product details may change.",
+    ],
+    "Submit Your Family Recipes": [
+      "Use this page to suggest a family recipe, favorite meal, cooking idea, or practical kitchen tip for consideration.",
+      "Include the recipe name, ingredients, directions, serving size, and any helpful family history or preparation notes.",
+      "Review your information before submitting it so measurements, temperatures, and cooking steps are as clear as possible.",
+      "Submitted recipes may be edited, reorganized, tested, or adapted to fit the website’s recipe-card format.",
+    ],
+    "Contact Me": [
+      "Use this page to send recipe questions, corrections, website feedback, or general comments.",
+      "Include the recipe name, card number, page title, or menu section whenever possible.",
+      "Describe the question or problem clearly and include only the information needed for a response.",
+      "Do not submit passwords, financial details, medical records, or other sensitive personal information.",
+    ],
+    "Disclaimers": [
+      "Select the policy or disclaimer topic that relates to the information you need.",
+      "Read the plain-language explanation first, then review the complete details when necessary.",
+      "Pay particular attention to notices about AI-generated recipes, nutrition estimates, food safety, affiliate links, privacy, and copyright.",
+      "Revisit this page periodically because website features, policies, and outside services may change.",
+    ],
+    "Browse Our Recipe Library": [
+      "Use the search box to look for a recipe name, ingredient, cuisine, cooking method, or meal idea.",
+      "Use the category, cooking-method, dietary, and sorting controls to narrow the recipe list.",
+      "Select a recipe card to open the complete card, review additional options, print it, or download it.",
+      "Save recipes with the heart button or add them to your meal planner for future use.",
+    ],
+    "Dinner Combinations": [
+      "Browse complete meal ideas that combine a main dish with recommended side dishes.",
+      "Use the search and filter controls to narrow the list by main dish, protein, side, or meal style.",
+      "Select the linked recipe buttons to open the recipe cards used in each dinner combination.",
+      "Use these meals as flexible starting points and substitute dishes based on your tastes, ingredients, and schedule.",
+    ],
+    "Quick & Easy Freezer Meals": [
+      "Browse recipes that are especially useful for preparing now and serving later.",
+      "Check whether each meal should be frozen before cooking, after cooking, or as separate meal components.",
+      "Package meals in practical portions and label them with the recipe name, date, servings, and finishing instructions.",
+      "Follow safe cooling, freezing, thawing, cooking, and reheating practices for every meal.",
+    ],
+    "Collections": [
+      "Use this page to see all featured recipe collections in one convenient location.",
+      "Select the collection that best matches your schedule, cooking method, meal style, or current needs.",
+      "Open a collection to view its recommended recipes and meal ideas.",
+      "Return here whenever you want inspiration without searching the entire recipe library.",
+    ],
+    "Slow Cooker Favorites": [
+      "Browse meals designed for slow, mostly hands-off cooking in a Crockpot or slow cooker.",
+      "Read the complete recipe before beginning and confirm the required cooker size, setting, and cooking time.",
+      "Avoid lifting the lid unnecessarily because heat loss can increase the cooking time.",
+      "Check meat and poultry for safe doneness rather than relying only on the estimated cooking time.",
+    ],
+    "Summer Cookouts": [
+      "Browse meal ideas suited to grilling, smoking, picnics, and outdoor gatherings.",
+      "Review the suggested entrées, sides, salads, breads, and desserts when planning a complete cookout menu.",
+      "Plan ahead for preparation time, cooking space, refrigeration, serving temperature, and cleanup.",
+      "Keep cold foods cold, hot foods hot, and follow safe outdoor food-handling practices.",
+    ],
+    "Healthy Dinners": [
+      "Browse meals featuring balanced ingredients, vegetables, leaner proteins, or lighter cooking methods.",
+      "Review the ingredients, serving size, nutrition estimate, and suggested substitutions before choosing a meal.",
+      "Combine entrées with suitable vegetables, salads, grains, or other sides to create a complete dinner.",
+      "Adjust recipes according to your personal dietary needs and any professional medical or nutrition guidance.",
+    ],
+    "Comfort Foods": [
+      "Browse familiar casseroles, baked meals, soups, hearty entrées, breads, and traditional favorites.",
+      "Check the serving size because many comfort-food recipes are well suited to leftovers or freezer portions.",
+      "Pair richer dishes with vegetables, salads, or lighter sides when building a complete meal.",
+      "Review each recipe’s storage and reheating notes before saving extra portions.",
+    ],
+    "Easy 30-Minute Meals": [
+      "Browse recipes that can generally be prepared and cooked in about 30 minutes.",
+      "Read the complete recipe and gather the ingredients and equipment before starting.",
+      "Use thawed, pre-cut, or previously prepared ingredients when recommended to save time.",
+      "Allow additional time when changing serving sizes, making substitutions, or trying an unfamiliar technique.",
+    ],
+    "Salad Jars": [
+      "Browse layered salad ideas designed for convenient make-ahead lunches.",
+      "Place dressing and heavier wet ingredients near the bottom and delicate greens toward the top.",
+      "Leave enough room to shake the jar or transfer the salad into a bowl before eating.",
+      "Keep the jars refrigerated and follow the shortest safe storage time for the ingredients included.",
+    ],
+    "Your Weekly Meal Planner": [
+      "Choose a week and day, then add individual recipes or complete dinner combinations to the planner.",
+      "Use the category controls to narrow the recipe choices before adding meals.",
+      "Review the planned meals, estimated costs, serving information, and recipe links for each day.",
+      "Update or clear the planner as your schedule changes, then use the finished plan to create your grocery list.",
+    ],
+    "Favorites": [
+      "Use this page to quickly find recipes you previously saved with the heart button.",
+      "Select a favorite to open its recipe card, review its details, or add it to your meal planner.",
+      "Select the heart again when you want to remove a recipe from your favorites.",
+      "Favorites are stored in the current browser and may not automatically appear on another device.",
+    ],
+    "Refrigerator Inventory": [
+      "Mark the foods currently in your refrigerator and enter quantities, opened dates, use-by dates, and status notes.",
+      "Use the category, search, and filter controls to find items that are running low, out, or should be used soon.",
+      "Add low-stock items directly to your grocery list before they are forgotten.",
+      "Update the inventory regularly and use your own judgment when deciding whether refrigerated food remains safe.",
+    ],
+    "Freezer Inventory": [
+      "Record the foods currently stored in each freezer, including quantities, package sizes, dates, and locations.",
+      "Use the search, filter, location, and category controls to find particular items or foods that should be used soon.",
+      "Add custom foods and freezer locations when the prepared lists do not match your storage setup.",
+      "Print, export, or update the inventory regularly so older foods can be used before newer additions.",
+    ],
+    "Pantry Inventory": [
+      "Choose the minimum, medium, or fully stocked pantry level that best matches your cooking routine.",
+      "Check the shelf-stable ingredients and storage supplies you currently keep on hand.",
+      "Use the category groups to review spices, sauces, grains, canned goods, baking supplies, and freezer supplies.",
+      "Keep the list current so pantry ingredients can be separated from items you still need to purchase.",
+    ],
+    "Your Grocery List": [
+      "Add recipes to the meal planner to automatically build a combined grocery list.",
+      "Review the needed items and the ingredients already marked as available in your pantry.",
+      "Check off items while shopping and review any suggested grocery alternatives when available.",
+      "Print the list before shopping or return to your inventories to correct items that you already have.",
+    ],
+    "Tips: Air Fryers": [
+      "Review the setup, preheating, basket-loading, timing, cleaning, and maintenance guidance before using your air fryer.",
+      "Follow the appliance manufacturer’s instructions and leave room for hot air to circulate around the food.",
+      "Turn, shake, or rotate food when needed and begin checking near the early end of the cooking range.",
+      "Verify safe doneness with a reliable thermometer when cooking meat, poultry, seafood, or reheated foods.",
+    ],
+    "Tips: Microwave Ovens": [
+      "Review the cookware, covering, stirring, standing-time, reheating, cleaning, and safety guidance before using your microwave.",
+      "Use microwave-safe containers and avoid metal, foil, and sealed containers unless specifically permitted.",
+      "Stir, rotate, and check food in several places because microwaves can create uneven hot and cold spots.",
+      "Follow package directions and verify that reheated leftovers reach a safe temperature throughout.",
+    ],
+    "Gas Grill Recipes": [
+      "Review the preparation, preheating, heat-zone, cooking, cleaning, and maintenance guidance before using your grill.",
+      "Follow the grill manufacturer’s instructions for fuel connections, startup, shutdown, and safe placement.",
+      "Use direct or indirect heat according to the food being cooked and watch carefully for flare-ups.",
+      "Check meat and poultry with a reliable thermometer rather than relying only on time or appearance.",
+    ],
+    "Pellet Smoker Recipes": [
+      "Review the startup, cooking, shutdown, cleaning, and pellet-storage guidance before using your smoker.",
+      "Use clean, dry, food-grade pellets and follow the smoker manufacturer’s operating instructions.",
+      "Allow for changes in cooking time caused by weather, meat size, temperature settings, and smoker performance.",
+      "Cook according to safe internal temperature and allow meat to rest when the recipe recommends it.",
+    ],
+    "Oven Recipes": [
+      "Review the oven-care, rack-position, preheating, cookware, and cooking guidance before beginning.",
+      "Position the racks before the oven becomes hot and use the temperature recommended by the recipe.",
+      "Begin checking food near the early end of the cooking range because ovens and baking dishes vary.",
+      "Keep the oven clean, avoid blocking vents, and verify safe doneness with a thermometer when needed.",
+    ],
+    "Tips: Breadmaking": [
+      "Review the guidance for measuring, mixing, kneading, proofing, shaping, baking, cooling, and storing bread.",
+      "Confirm whether the recipe is intended for hand mixing, a stand mixer, a bread machine, or a particular pan.",
+      "Judge the dough by its appearance and texture because flour, humidity, temperature, and equipment can affect it.",
+      "Read the complete recipe before beginning so all resting, rising, baking, and cooling periods fit your schedule.",
+    ],
+    "Healthy Substitutions": [
+      "Browse ingredient and product alternatives that may reduce calories, carbohydrates, sodium, or preparation time.",
+      "Review how each substitution may affect flavor, texture, cooking time, and portion size.",
+      "Use the suggested brands as examples to compare rather than as required purchases.",
+      "Choose substitutions that fit your tastes, budget, dietary needs, and professional medical guidance.",
+    ],
+    "Food Safety": [
+      "Review the guidance for handling, preparing, cooking, cooling, storing, freezing, thawing, and reheating food.",
+      "Wash hands and work surfaces and keep raw foods separated from foods that are ready to eat.",
+      "Use reliable thermometers and refrigerate perishable food promptly after cooking or serving.",
+      "When the safety of food is uncertain, discard it rather than tasting it to decide whether it is safe.",
+    ],
+    "Reference Guides": [
+      "Select a guide from the topic list to open the reference information you need.",
+      "Use the internal tabs when available to switch between measurements, temperatures, storage information, substitutions, or other categories.",
+      "Scan the tables for quick answers and review the notes below them for additional explanation.",
+      "Print useful guides when you want a paper reference that can remain in the kitchen.",
+    ],
+    "Freezing and Reheating": [
+      "Review which foods freeze well, which require special handling, and which are generally better served fresh.",
+      "Cool prepared food safely before packaging it in freezer-safe bags, containers, pans, jars, or portion trays.",
+      "Label each package with its contents, freezing date, serving quantity, and reheating directions.",
+      "Thaw and reheat food safely and confirm that it is hot throughout before serving.",
+    ],
+    "Products I Recommend": [
+      "Browse the pans, containers, jars, appliances, and storage products recommended for recipes and meal preparation.",
+      "Select the product link or Amazon symbol to review the current product listing.",
+      "Confirm the size, capacity, materials, compatibility, price, seller, and return policy before purchasing.",
+      "Product links may be affiliate links, but purchases are never required to use Robert’s Recipe Box.",
+    ],
+    "Storage and Organization": [
+      "Browse practical ideas for organizing pantry items, refrigerated foods, freezer meals, leftovers, containers, and kitchen supplies.",
+      "Choose storage methods based on the food, available space, expected storage time, and how the item will be used later.",
+      "Label containers clearly and organize older foods where they will be noticed and used first.",
+      "Use the recommended products and systems as flexible ideas rather than requirements for using the website.",
+    ],
+  };
+
+  const suppliedAliases = {
+    "About the Recipes": "About Our Recipes",
+    "Policies, Disclaimers & Legal Information": "Disclaimers",
+    "Boring Disclaimer Stuff": "Disclaimers",
+    "Quick & Easy Freezer-Friendly Meals": "Quick & Easy Freezer Meals",
+    "Browse All Collections": "Collections",
+    "Salad Jar Lunches": "Salad Jars",
+    "Meal Planner": "Your Weekly Meal Planner",
+    "Favorite Recipes": "Favorites",
+    "Kitchen Refrigerator": "Refrigerator Inventory",
+    "Kitchen Freezer": "Freezer Inventory",
+    "Pantry Staples": "Pantry Inventory",
+    "Shopping Lists": "Your Grocery List",
+    "Air Fryer Recipes": "Tips: Air Fryers",
+    "Microwave Recipes": "Tips: Microwave Ovens",
+    "Smoker Recipes": "Pellet Smoker Recipes",
+    "Bread Tips": "Tips: Breadmaking",
+    "Grocery Picks": "Healthy Substitutions",
+    "Safe Cooking Rules": "Food Safety",
+    "Freezer Tips": "Freezing and Reheating",
+    "Products I Use": "Products I Recommend",
+    "Storage Organization": "Storage and Organization",
+  };
+
+  const suppliedKey = suppliedAliases[normalizedTitle] || normalizedTitle;
+  if (suppliedPageNotes[suppliedKey]) {
+    return suppliedPageNotes[suppliedKey].map((text, index) => ({
+      label: `Tip ${index + 1}`,
+      text,
+    }));
+  }
+
   const specificSteps = {
     "Dinner Combinations": [
       {
@@ -6570,7 +6825,22 @@ function HeroTopicPage({
           </div>
         </section>
 
-        {children}
+        {children || (
+          <div className="aboutRecipesGrid heroTopicPracticalGrid">
+            <article className="aboutRecipesCard">
+              <h2>Start With the Basics</h2>
+              <p>Read the page introduction and review the equipment, ingredients, setup, and timing before you begin.</p>
+            </article>
+            <article className="aboutRecipesCard">
+              <h2>Use Practical Judgment</h2>
+              <p>Appliances and kitchens vary. Begin checking early, make small adjustments, and use a thermometer whenever safe doneness matters.</p>
+            </article>
+            <article className="aboutRecipesCard">
+              <h2>Keep It Useful</h2>
+              <p>Use the ideas on this page as flexible guidance for smaller portions, planned leftovers, easier cleanup, and meals that fit your routine.</p>
+            </article>
+          </div>
+        )}
 
         <div className="aboutRecipesActions">
           <button className="primary" onClick={() => setActivePage(primaryPage)}>
@@ -9269,7 +9539,7 @@ Use this section to check what is on hand, record dates, mark foods that should 
       {activePage === "Air Fryer Recipes" && (
         <HeroTopicPage
           eyebrow="COOKING METHODS"
-          title="Air Fryer Recipes"
+          title="Tips: Air Fryers"
           heroImage="images/heroes/hero-page-air-fryer.jpg"
           heroAlt="Air fryer with fries, cooked bites, towel, and potted herb"
           text="Air fryers can create crisp, flavorful food with less oil and often less cleanup than traditional frying. They are especially useful for smaller portions, quick meals, reheating certain leftovers, and preparing foods without heating a full-size oven.\n\nThis collection includes meats, vegetables, side dishes, snacks, and other recipes suited to circulating hot air. Because air fryers vary, cooking times may need small adjustments based on the model and basket size."
@@ -9317,7 +9587,7 @@ Use this section to check what is on hand, record dates, mark foods that should 
       {activePage === "Microwave Recipes" && (
         <HeroTopicPage
           eyebrow="COOKING METHODS"
-          title="Microwave Recipes"
+          title="Tips: Microwave Ovens"
           heroImage="images/heroes/hero-page-microwaves.jpg"
           heroAlt="Microwave cooking setup with bowl of food, towel, and potted plant"
           text="Microwaves are usually associated with reheating leftovers, but they can also prepare simple meals, side dishes, sauces, vegetables, snacks, and individual portions. Used properly, they can save time and reduce the number of pans that need washing.\n\nThis section focuses on practical microwave uses rather than pretending it replaces every other appliance. Power levels and cooking times may vary, so recipes may require adjustment for your specific microwave."

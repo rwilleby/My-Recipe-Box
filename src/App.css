@@ -22813,3 +22813,26 @@ nav button,
     grid-column: auto;
   }
 }
+
+
+/* =========================================================
+   COLLECTIONS POPUPS — OPEN DOWNWARD
+   ========================================================= */
+.homeCollectionPopup {
+  top: calc(100% + 14px) !important;
+  bottom: auto !important;
+}
+
+.homeCollectionPopup::after {
+  top: -8px !important;
+  bottom: auto !important;
+  border: 0 !important;
+  border-left: 1px solid #d9eadc !important;
+  border-top: 1px solid #d9eadc !important;
+}
+
+/* Short practical blocks used on hero-only topic pages. */
+.heroTopicPracticalGrid {
+  margin-top: 0;
+  margin-bottom: 4px;
+}
