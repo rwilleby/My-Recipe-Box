@@ -10,6 +10,7 @@ export const RECIPE_COLLECTIONS = [
   "Summer Cookouts",
   "Healthy Dinners",
   "Comfort Foods",
+  "Casseroles",
   "Easy 30-Minute Meals",
   "Sunday Meals",
   "Complete Dinners",
