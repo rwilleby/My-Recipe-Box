@@ -11,6 +11,7 @@ export const RECIPE_COLLECTIONS = [
   "Healthy Dinners",
   "Comfort Foods",
   "Casseroles",
+  "Salad Jars",
   "Easy 30-Minute Meals",
   "Sunday Meals",
   "Complete Dinners",
