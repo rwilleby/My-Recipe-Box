@@ -2724,111 +2724,365 @@ function getRandomRecipes(list = [], count = 12) {
   return copy.slice(0, count);
 }
 
-function FeaturedSelectionPanel({ setActivePage }) {
-  const featuredMeals = useMemo(() => getRandomRecipes(dinnerCombinations, 4), []);
-  const [activeIndex, setActiveIndex] = useState(0);
 
-  const activeMeal = featuredMeals[activeIndex] || featuredMeals[0];
+const HOME_DINNER_SPOTLIGHTS = [
+  {
+    key: "comfort",
+    title: "Comfort Classics",
+    description: "Hearty favorites the whole family will love.",
+    mealNumber: 80,
+  },
+  {
+    key: "balanced",
+    title: "Healthy Balanced",
+    description: "Nutritious combos that do not skimp on flavor.",
+    mealNumber: 47,
+  },
+  {
+    key: "quick",
+    title: "Quick & Easy Weeknights",
+    description: "Fast, flavorful meals perfect for busy nights.",
+    mealNumber: 33,
+  },
+];
 
-  useEffect(() => {
-    if (featuredMeals.length <= 1) return undefined;
+const HOME_PRODUCT_SPOTLIGHTS = [
+  {
+    key: "prep",
+    title: "Meal Prep Solutions",
+    description: "Storage and prep tools that make cooking easier.",
+    productIndex: 0,
+  },
+  {
+    key: "kitchen",
+    title: "Kitchen Favorites",
+    description: "Useful everyday tools I reach for all the time.",
+    productIndex: 8,
+  },
+  {
+    key: "pantry",
+    title: "Pantry Essentials",
+    description: "Containers and jars that help keep staples organized.",
+    productIndex: 6,
+  },
+];
 
-    const timer = window.setInterval(() => {
-      setActiveIndex((current) => (current + 1) % featuredMeals.length);
-    }, 9000);
+const ROLODEX_STACK_SLIDES = [
+  {
+    id: "MX-003",
+    title: "Taco Meat & Cheese",
+    categoryFilter: "Mexican Cuisine",
+    accent: "MX-003 ★ Mexican Cuisine",
+  },
+  {
+    id: "AM-006",
+    title: "Pot Roast with Veggies",
+    categoryFilter: "American Cuisine",
+    accent: "AM-006 ★ American Cuisine",
+  },
+  {
+    id: "IT-001",
+    title: "Chicken Alfredo",
+    categoryFilter: "Italian Cuisine",
+    accent: "IT-001 ★ Italian Cuisine",
+  },
+  {
+    id: "SD-007",
+    title: "Macaroni & Cheese",
+    categoryFilter: "Side Dishes",
+    accent: "SD-007 ★ Side Dishes",
+  },
+  {
+    id: "SG-009",
+    title: "Sliced Pork Butt",
+    categoryFilter: "Smoked & Grilled Meats",
+    accent: "SG-009 ★ Smoked & Grilled Meats",
+  },
+];
 
-    return () => window.clearInterval(timer);
-  }, [featuredMeals.length]);
+function findRecipeById(recipeId) {
+  return recipes.find((recipe) => recipe.id === recipeId) || null;
+}
 
-  if (!activeMeal) return null;
+function getRolodexStackImagePath(slide) {
+  if (!slide?.id) return "";
+
+  const recipe = findRecipeById(slide.id);
+  if (recipe?.cardImage) return String(recipe.cardImage).replace(/^\/+/, "");
+  if (recipe?.heroImage) return String(recipe.heroImage).replace(/^\/+/, "");
+
+  return `images/recipes/${slide.id}.png`;
+}
+
+function DinnerRecommendationsShowcase({ setActivePage }) {
+  const spotlightMeals = useMemo(
+    () =>
+      HOME_DINNER_SPOTLIGHTS.map((item) => ({
+        ...item,
+        meal:
+          dinnerCombinations.find((combo) => combo.number === item.mealNumber) ||
+          dinnerCombinations[0] ||
+          null,
+      })),
+    []
+  );
 
   return (
-    <section className="homeFeatureCard featuredSelectionCard dinnerCombinationsFeatureCard">
-      <div className="homeMiniSectionHeader">
-        <h2>Dinner Recommendations</h2>
+    <section className="homeShowcasePanel homeDinnerShowcasePanel">
+      <div className="homeShowcasePanelHeader">
+        <h2>Dinner Combinations</h2>
+        <p>
+          Complete meal ideas
+          <br />
+          that go great together.
+          <br />
+          Simple. Balanced.
+          <br />
+          Delicious.
+        </p>
+      </div>
+
+      <div className="homeDinnerSpotlightList">
+        {spotlightMeals.map((item) => (
+          <button
+            key={item.key}
+            type="button"
+            className="homeDinnerSpotlightCard"
+            onClick={() => setActivePage("Dinner Combinations")}
+          >
+            <div className="homeDinnerSpotlightImage" aria-hidden="true">
+              {item.meal ? (
+                <DinnerCombinationImage meal={item.meal} loading="lazy" fetchPriority="low" />
+              ) : (
+                <div className="homeDinnerSpotlightFallback">Meal image</div>
+              )}
+            </div>
+
+            <div className="homeDinnerSpotlightContent">
+              <strong>{item.title}</strong>
+              <span>{item.description}</span>
+            </div>
+
+            <span className="homeShowcaseChevron" aria-hidden="true">
+              ›
+            </span>
+          </button>
+        ))}
       </div>
 
       <button
         type="button"
-        className="featuredSelectionButton dinnerCombinationsFeatureButton"
+        className="homeShowcaseFooterButton"
         onClick={() => setActivePage("Dinner Combinations")}
-        aria-label="Open Dinner Combinations"
       >
-        <div className="featuredSelectionImage dinnerCombinationsFeatureImage">
-          <div className="featuredDinnerImageStack" aria-hidden="true">
-            {featuredMeals.map((meal, index) => (
-              <DinnerCombinationImage
-                key={meal.id}
-                meal={meal}
-                className={`featuredDinnerImage${index === activeIndex ? " active" : ""}`}
-                loading="eager"
-                fetchPriority="high"
-              />
-            ))}
-          </div>
-        </div>
-        <strong>
-          Meal #{String(activeMeal.number).padStart(3, "0")} — {activeMeal.title}
-        </strong>
+        View All Combinations
       </button>
     </section>
   );
 }
 
-function ProductsIUseCarousel({ setActivePage }) {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const product = PRODUCTS_I_USE[activeIndex % PRODUCTS_I_USE.length];
-
-  function goToProduct(offset) {
-    setActiveIndex((current) =>
-      (current + offset + PRODUCTS_I_USE.length) % PRODUCTS_I_USE.length
-    );
-  }
+function ProductsRecommendShowcase({ setActivePage }) {
+  const spotlightProducts = HOME_PRODUCT_SPOTLIGHTS.map((item) => ({
+    ...item,
+    product: PRODUCTS_I_USE[item.productIndex] || PRODUCTS_I_USE[0],
+  }));
 
   return (
-    <section className="homeFeatureCard productsIUseCard">
-      <div className="homeMiniSectionHeader">
-        <h2>Products I Recommend</h2>
+    <section className="homeShowcasePanel homeProductsShowcasePanel">
+      <div className="homeShowcasePanelHeader">
+        <h2>Products</h2>
+        <p>
+          Our favorite tools
+          <br />
+          and storage solutions
+          <br />
+          to make cooking
+          <br />
+          and prepping easier.
+        </p>
       </div>
 
-      <div className="productUseFeatureWrap">
+      <div className="homeProductSpotlightList">
+        {spotlightProducts.map((item) => (
+          <button
+            key={item.key}
+            type="button"
+            className="homeProductSpotlightCard"
+            onClick={() => setActivePage("Products I Use")}
+          >
+            <div className="homeProductSpotlightImage" aria-hidden="true">
+              <img
+                src={`${import.meta.env.BASE_URL}${item.product.image}`}
+                alt=""
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+
+            <div className="homeProductSpotlightContent">
+              <strong>{item.title}</strong>
+            </div>
+
+            <span className="homeShowcaseChevron" aria-hidden="true">
+              ›
+            </span>
+          </button>
+        ))}
+      </div>
+
+      <button
+        type="button"
+        className="homeShowcaseFooterButton"
+        onClick={() => setActivePage("Products I Use")}
+      >
+        Shop All Products
+      </button>
+    </section>
+  );
+}
+
+function RecipeRolodexCarousel({ setActivePage, setFilter }) {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [failedImageIds, setFailedImageIds] = useState({});
+  const slides = ROLODEX_STACK_SLIDES;
+  const activeSlide = slides[activeIndex] || slides[0];
+
+  useEffect(() => {
+    if (slides.length <= 1) return undefined;
+
+    const timer = window.setInterval(() => {
+      setActiveIndex((current) => (current + 1) % slides.length);
+    }, 7000);
+
+    return () => window.clearInterval(timer);
+  }, [slides.length]);
+
+  function goToOffset(offset) {
+    if (!slides.length) return;
+
+    setActiveIndex((current) => (current + offset + slides.length) % slides.length);
+  }
+
+  function browseRolodex(targetSlide = activeSlide) {
+    if (!targetSlide) return;
+    setFilter(targetSlide.categoryFilter || "All");
+    setActivePage("Recipes");
+  }
+
+  const visibleOffsets = [-2, -1, 0, 1, 2];
+
+  return (
+    <section className="homeShowcasePanel homeRolodexShowcasePanelV2" aria-label="Recipe Rolodex carousel">
+      <div className="homeShowcasePanelHeader homeRolodexPanelHeader">
+        <h2>Rolodex</h2>
+        <p>
+          Flip through hundreds of tried-and-true recipes
+          <br />
+          just like a real recipe box.
+        </p>
+      </div>
+
+      <div className="homeRolodexCarouselShell">
         <button
           type="button"
-          className="productUseArrow productUseArrowLeft"
-          onClick={() => goToProduct(-1)}
-          aria-label="Previous product"
+          className="homeShowcaseArrow homeShowcaseArrowLeft"
+          onClick={() => goToOffset(-1)}
+          aria-label="Previous Rolodex recipe"
         >
           ‹
         </button>
 
-        <button
-          type="button"
-          className="productUseFeatureTile"
-          onClick={() => setActivePage("Products I Use")}
-          aria-label={`View product details for ${product.title}`}
-        >
-          <div className="productUseFeatureImage">
-            <img
-              src={`${import.meta.env.BASE_URL}${product.image}`}
-              alt=""
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
-          <strong>{product.title}</strong>
-        </button>
+        <div className="homeRolodexCarouselViewport">
+          {visibleOffsets.map((offset) => {
+            const index = (activeIndex + offset + slides.length) % slides.length;
+            const slide = slides[index];
+            const slideImagePath = getRolodexStackImagePath(slide);
+            const slideImageUrl = slideImagePath
+              ? `${import.meta.env.BASE_URL}${slideImagePath}`
+              : "";
+            const imageFailed = failedImageIds[slide.id] === true;
+            const positionClass =
+              offset === 0
+                ? "is-center"
+                : offset === -1
+                  ? "is-left-1"
+                  : offset === 1
+                    ? "is-right-1"
+                    : offset === -2
+                      ? "is-left-2"
+                      : "is-right-2";
+
+            return (
+              <button
+                key={`${slide.id}-${offset}`}
+                type="button"
+                className={`homeRolodexStackCard ${positionClass}`}
+                onClick={() => {
+                  if (offset === 0) {
+                    browseRolodex(slide);
+                  } else {
+                    setActiveIndex(index);
+                  }
+                }}
+                aria-label={offset === 0 ? `Browse ${slide.title}` : `Show ${slide.title}`}
+              >
+                {slideImageUrl && !imageFailed ? (
+                  <img
+                    src={slideImageUrl}
+                    alt={slide.title}
+                    loading="lazy"
+                    decoding="async"
+                    onLoad={() =>
+                      setFailedImageIds((current) => ({
+                        ...current,
+                        [slide.id]: false,
+                      }))
+                    }
+                    onError={() =>
+                      setFailedImageIds((current) => ({
+                        ...current,
+                        [slide.id]: true,
+                      }))
+                    }
+                  />
+                ) : (
+                  <div className="homeRolodexStackFallback">
+                    <span>{slide.accent}</span>
+                    <strong>{slide.title}</strong>
+                  </div>
+                )}
+              </button>
+            );
+          })}
+        </div>
 
         <button
           type="button"
-          className="productUseArrow productUseArrowRight"
-          onClick={() => goToProduct(1)}
-          aria-label="Next product"
+          className="homeShowcaseArrow homeShowcaseArrowRight"
+          onClick={() => goToOffset(1)}
+          aria-label="Next Rolodex recipe"
         >
           ›
         </button>
       </div>
+
+      <button
+        type="button"
+        className="homeShowcaseFooterButton homeRolodexBrowseButton"
+        onClick={() => browseRolodex()}
+      >
+        Browse Rolodex
+      </button>
     </section>
   );
+}
+
+function FeaturedSelectionPanel({ setActivePage }) {
+  return <DinnerRecommendationsShowcase setActivePage={setActivePage} />;
+}
+
+function ProductsIUseCarousel({ setActivePage }) {
+  return <ProductsRecommendShowcase setActivePage={setActivePage} />;
 }
 
 
@@ -2957,136 +3211,9 @@ const ROLODEX_COMPOSITE_SLIDES = [
 ];
 
 function RecipeRolodex({ setActivePage, setFilter }) {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [failedImageIds, setFailedImageIds] = useState({});
-  const rolodexSlides = ROLODEX_COMPOSITE_SLIDES;
-  const activeSlide = rolodexSlides[activeIndex] || rolodexSlides[0];
-  const activeSlideImagePath = activeSlide?.image?.replace(/^\/+/, "") || "";
-  const activeSlideImageUrl = activeSlideImagePath
-    ? `${import.meta.env.BASE_URL}${activeSlideImagePath}`
-    : "";
-  const activeImageFailed = activeSlide ? failedImageIds[activeSlide.id] : false;
-
-  useEffect(() => {
-    if (!rolodexSlides.length) return;
-
-    const timer = window.setInterval(() => {
-      setActiveIndex((current) => (current + 1) % rolodexSlides.length);
-    }, 7000);
-
-    return () => window.clearInterval(timer);
-  }, [rolodexSlides.length]);
-
-  function goToOffset(offset) {
-    if (!rolodexSlides.length) return;
-
-    setActiveIndex((current) =>
-      (current + offset + rolodexSlides.length) % rolodexSlides.length
-    );
-  }
-
-  function viewActiveRecipes() {
-    if (!activeSlide) return;
-
-    const matchingCategory = categories.find(
-      (category) =>
-        category.id === activeSlide.id ||
-        category.name === activeSlide.categoryFilter ||
-        category.name === activeSlide.title
-    );
-
-    setFilter(matchingCategory?.name || activeSlide.categoryFilter || "All");
-    setActivePage("Recipes");
-  }
-
-  if (!activeSlide) {
-    return (
-      <aside className="homeRolodex homeRolodexComposite" aria-label="Recipe card rolodex">
-        <div className="homeRolodexHeader">
-          <div>
-            <span>Recipe Card Rolodex</span>
-            <strong>No Rolodex images found</strong>
-          </div>
-        </div>
-
-        <div className="homeRolodexMissing">
-          <strong>No composite Rolodex images are currently listed.</strong>
-          <span>Edit ROLODEX_COMPOSITE_SLIDES in App.jsx to add images.</span>
-        </div>
-      </aside>
-    );
-  }
-
-  return (
-    <aside className="homeRolodex homeRolodexComposite" aria-label="Recipe card rolodex">
-      <div className="homeRolodexHeader homeRolodexHeaderCentered">
-        <strong className="homeRolodexSectionTitle">Recipe Card Rolodex</strong>
-      </div>
-
-      <div className="homeRolodexStage homeRolodexCompositeStage">
-        <button
-          type="button"
-          className="homeRolodexNav"
-          onClick={() => goToOffset(-1)}
-          aria-label="Previous Rolodex image"
-        >
-          ‹
-        </button>
-
-        <button
-          type="button"
-          className="homeRolodexCompositeImageButton"
-          onClick={viewActiveRecipes}
-          aria-label={`View ${activeSlide.title} recipes`}
-        >
-          {activeSlideImageUrl && !activeImageFailed ? (
-            <img
-              key={activeSlide.id}
-              className="homeRolodexCompositeImage"
-              src={activeSlideImageUrl}
-              alt={`${activeSlide.title} Rolodex recipe card collection`}
-              loading="lazy"
-              decoding="async"
-              onLoad={() =>
-                setFailedImageIds((current) => ({
-                  ...current,
-                  [activeSlide.id]: false,
-                }))
-              }
-              onError={() =>
-                setFailedImageIds((current) => ({
-                  ...current,
-                  [activeSlide.id]: true,
-                }))
-              }
-            />
-          ) : (
-            <div className="homeRolodexCompositeFallback">
-              <strong>{activeSlide.title}</strong>
-              <span>Composite image not found.</span>
-              <code>{activeSlideImagePath}</code>
-            </div>
-          )}
-        </button>
-
-        <button
-          type="button"
-          className="homeRolodexNav"
-          onClick={() => goToOffset(1)}
-          aria-label="Next Rolodex image"
-        >
-          ›
-        </button>
-      </div>
-
-      <div className="homeRolodexDots" aria-hidden="true">
-        {rolodexSlides.map((slide, index) => (
-          <span key={slide.id} className={index === activeIndex ? "active" : ""} />
-        ))}
-      </div>
-    </aside>
-  );
+  return <RecipeRolodexCarousel setActivePage={setActivePage} setFilter={setFilter} />;
 }
+
 
 
 function HomeRecipeCounters({ classifiedRecipes = [] }) {
@@ -3121,21 +3248,44 @@ function HomeRecipeCounters({ classifiedRecipes = [] }) {
   ).size;
 
   const counters = [
-    { label: "Recipes", value: recipeCount, className: "recipes" },
-    { label: "Complete Meals", value: completeMealCount, className: "complete" },
-    { label: "Freezer-Friendly", value: freezerFriendlyCount, className: "freezer" },
-    { label: "Collections", value: collectionCount, className: "collections" },
+    {
+      label: <>RECIPES</>,
+      value: recipeCount,
+      className: "recipes",
+      icon: "👨‍🍳",
+    },
+    {
+      label: <>COMPLETE<br />MEALS</>,
+      value: completeMealCount,
+      className: "complete",
+      icon: "🍽️",
+    },
+    {
+      label: <>FREEZER-<br />FRIENDLY</>,
+      value: freezerFriendlyCount,
+      className: "freezer",
+      icon: "❄️",
+    },
+    {
+      label: <>COLLECTIONS</>,
+      value: collectionCount,
+      className: "collections",
+      icon: "📁",
+    },
   ];
 
   return (
-    <section className="homeCounterSection" aria-label="Recipe library totals">
-      <div className="homeCounterRow">
+    <section className="homeCounterSection homeCounterSectionGraphic" aria-label="Recipe library totals">
+      <div className="homeCounterRow homeCounterRowGraphic">
         {counters.map((counter) => (
-          <div className="homeCounterItem" key={counter.label}>
-            <span className={`homeCounterCircle ${counter.className}`}>
+          <div className="homeCounterGraphicItem" key={String(counter.className)}>
+            <span className={`homeCounterGraphicCircle ${counter.className}`}>
+              <span className="homeCounterGraphicIcon" aria-hidden="true">
+                {counter.icon}
+              </span>
               <strong>{counter.value}</strong>
+              <small>{counter.label}</small>
             </span>
-            <small>{counter.label}</small>
           </div>
         ))}
       </div>
@@ -3158,8 +3308,8 @@ function Home({
       <TransparencyLine setActivePage={setActivePage} />
       <CategoryGrid setFilter={setFilter} setActivePage={setActivePage} />
 
-      <section className="section homeRolodexShowcaseSection">
-        <div className="homeRolodexShowcaseLayout homeThreeColumnShowcase">
+      <section className="section homeShowcaseSectionV2">
+        <div className="homeShowcaseLayoutV2">
           <div className="homeDinnerRecommendationsColumn">
             <FeaturedSelectionPanel setActivePage={setActivePage} />
           </div>
