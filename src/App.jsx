@@ -1282,7 +1282,7 @@ function HeroInfoButtons({ setActivePage }) {
   );
 }
 
-function Hero({ setActivePage, recipes: heroRecipes = recipes }) {
+function Hero({ setActivePage }) {
   const [heroIndex, setHeroIndex] = useState(0);
 
   useEffect(() => {
@@ -1292,31 +1292,6 @@ function Hero({ setActivePage, recipes: heroRecipes = recipes }) {
 
     return () => window.clearInterval(timer);
   }, []);
-
-  const heroRecipeList = Array.isArray(heroRecipes) ? heroRecipes : recipes;
-  const recipeCount = heroRecipeList.length;
-  const completeMealCount = heroRecipeList.filter((recipe) =>
-    (recipe.collections || []).some((collection) =>
-      ["Complete Meals", "Complete Dinners"].includes(collection)
-    )
-  ).length;
-  const freezerFriendlyCount = heroRecipeList.filter((recipe) =>
-    recipe.freezerFriendly === true ||
-    (recipe.collections || []).some((collection) =>
-      ["Freezer-Friendly", "Freezer-Friendly Meals"].includes(collection)
-    ) ||
-    (recipe.attributes || []).includes("Freezer Friendly")
-  ).length;
-  const collectionCount = new Set(
-    heroRecipeList.flatMap((recipe) => recipe.collections || [])
-  ).size;
-
-  const counterItems = [
-    { label: "Recipes", value: recipeCount, icon: "▤", tone: "recipes" },
-    { label: "Complete Meals", value: completeMealCount, icon: "🍽", tone: "meals" },
-    { label: "Freezer-Friendly", value: freezerFriendlyCount, icon: "❄", tone: "freezer" },
-    { label: "Collections", value: collectionCount, icon: "▦", tone: "collections" },
-  ];
 
   return (
     <section className="hero">
@@ -1339,21 +1314,6 @@ function Hero({ setActivePage, recipes: heroRecipes = recipes }) {
 
       <div className="heroCopy">
         <div className="aiBadge">✧ AI-POWERED RECIPE PLANNING ✧</div>
-
-        <div className="heroRecipeCounters" aria-label="Recipe library totals">
-          {counterItems.map((item) => (
-            <div
-              className={`heroRecipeCounter heroRecipeCounter-${item.tone}`}
-              key={item.label}
-            >
-              <span className="heroRecipeCounterIcon" aria-hidden="true">
-                {item.icon}
-              </span>
-              <strong>{item.value.toLocaleString()}</strong>
-              <span className="heroRecipeCounterLabel">{item.label}</span>
-            </div>
-          ))}
-        </div>
 
         <h1>Plan. Cook. Eat. Freeze. Save.</h1>
 
@@ -2985,11 +2945,10 @@ function Home({
   openRecipeCard,
   setActivePage,
   setFilter,
-  classifiedRecipes,
 }) {
   return (
     <>
-      <Hero setActivePage={setActivePage} recipes={classifiedRecipes} />
+      <Hero setActivePage={setActivePage} />
       <TransparencyLine setActivePage={setActivePage} />
       <CategoryGrid setFilter={setFilter} setActivePage={setActivePage} />
 
