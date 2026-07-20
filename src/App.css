@@ -22781,3 +22781,23 @@ nav button,
     font-size: 25px;
   }
 }
+
+
+/* Pellet-smoker guide additions */
+.pelletSmokerGuide h4 {
+  margin: 16px 0 7px;
+  color: #14532d;
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  font-size: 17px;
+  line-height: 1.2;
+}
+
+.pelletSmokerGuideGrid > section:last-child {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 760px) {
+  .pelletSmokerGuideGrid > section:last-child {
+    grid-column: auto;
+  }
+}
