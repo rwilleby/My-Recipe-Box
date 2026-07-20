@@ -1040,13 +1040,10 @@ function constructionCalloutImageCandidates(recipe) {
 
   const calloutId = `${recipe.id}c`;
   return [
-    `images/recipes/${calloutId}.png`,
     `images/recipes/${calloutId}.jpg`,
     `images/recipes/${calloutId}.JPG`,
-    `images/recipes/${calloutId} .png`,
     `images/recipes/${calloutId} .jpg`,
     `images/recipes/${calloutId} .JPG`,
-    `images/callouts/${calloutId}.png`,
     `images/callouts/${calloutId}.jpg`,
     `images/callouts/${calloutId}.JPG`,
   ];
@@ -1869,6 +1866,78 @@ function MyRecipeNotesButton({ recipe, position = "inline" }) {
 }
 
 
+function ConstructionCalloutButton({ recipe }) {
+  const [open, setOpen] = useState(false);
+  const [imageIndex, setImageIndex] = useState(0);
+  const [imageFailed, setImageFailed] = useState(false);
+  const candidates = constructionCalloutImageCandidates(recipe);
+  const imagePath = imageFailed ? "" : candidates[imageIndex];
+
+  useEffect(() => {
+    setImageIndex(0);
+    setImageFailed(false);
+  }, [recipe?.id]);
+
+  function closePopup() {
+    setOpen(false);
+  }
+
+  return (
+    <div className="constructionCalloutWrap">
+      <button
+        type="button"
+        className="constructionCalloutButton"
+        onClick={() => setOpen(true)}
+      >
+        Construction
+      </button>
+
+      {open && (
+        <div className="constructionCalloutOverlay" onClick={closePopup}>
+          <div
+            className="constructionCalloutModal"
+            role="dialog"
+            aria-modal="true"
+            aria-label={`${recipe.id} construction call-out`}
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="constructionCalloutHeader">
+              <div>
+                <small>{recipe.id}c</small>
+                <strong>Salad Jar Construction</strong>
+              </div>
+              <button type="button" onClick={closePopup} aria-label="Close construction image">×</button>
+            </div>
+
+            <div className="constructionCalloutStage">
+              {imagePath ? (
+                <img
+                  src={`${import.meta.env.BASE_URL}${imagePath}`}
+                  alt={`${recipe.id} salad jar construction call-out`}
+                  decoding="async"
+                  onError={() => {
+                    setImageIndex((current) => {
+                      const next = current + 1;
+                      if (next < candidates.length) return next;
+                      setImageFailed(true);
+                      return current;
+                    });
+                  }}
+                />
+              ) : (
+                <div className="constructionCalloutMissing">
+                  <strong>Construction image not found.</strong>
+                  <span>Upload public/images/recipes/{recipe.id}c.jpg</span>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function RecipeCard({
   recipe,
   favorites,
@@ -1929,6 +1998,9 @@ function RecipeCard({
               )}
               <SmartTipsButton recipe={recipe} />
               <MyRecipeNotesButton recipe={recipe} />
+              {viewerContext === "Salad Jars" && (
+                <ConstructionCalloutButton recipe={recipe} />
+              )}
             </div>
 
             <div className="browseRecipeMetaFooter">
@@ -2300,7 +2372,7 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
                 ) : (
                   <div className="viewerConstructionMissing">
                     <strong>Construction call-out image not found.</strong>
-                    <span>Expected a sister file such as images/recipes/{recipe.id}c.png</span>
+                    <span>Expected a sister file such as images/recipes/{recipe.id}c.jpg</span>
                   </div>
                 )}
               </div>

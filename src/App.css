@@ -23104,3 +23104,140 @@ nav button,
     max-height: 50vh;
   }
 }
+
+/* =========================================================
+   SALAD JAR CARD CONSTRUCTION BUTTON + POPUP
+   Shows beside My Notes on Salad Jars collection cards.
+   ========================================================= */
+
+.browseRecipeActions .constructionCalloutWrap {
+  grid-column: 1 / -1;
+}
+
+.constructionCalloutButton {
+  width: 100%;
+  min-height: 34px;
+  border: 1px solid #d5c58e;
+  border-radius: 8px;
+  background: #fffdf4;
+  color: #74551d;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.constructionCalloutButton:hover {
+  border-color: #b18a20;
+  background: #fff9df;
+}
+
+.constructionCalloutOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1400;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(17, 24, 39, .72);
+}
+
+.constructionCalloutModal {
+  width: min(94vw, 980px);
+  max-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, .32);
+}
+
+.constructionCalloutHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--line);
+  background: #fbfaf7;
+}
+
+.constructionCalloutHeader div {
+  display: grid;
+  gap: 2px;
+}
+
+.constructionCalloutHeader small {
+  color: #74551d;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.constructionCalloutHeader strong {
+  color: #111827;
+  font-size: 19px;
+}
+
+.constructionCalloutHeader button {
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #ffffff;
+  color: #111827;
+  font-size: 26px;
+  line-height: 1;
+}
+
+.constructionCalloutStage {
+  min-height: 260px;
+  padding: 18px;
+  overflow: auto;
+  background: #f6f4ef;
+  display: grid;
+  place-items: center;
+}
+
+.constructionCalloutStage img {
+  max-width: 100%;
+  max-height: 76vh;
+  object-fit: contain;
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.constructionCalloutMissing {
+  width: 100%;
+  min-height: 220px;
+  display: grid;
+  place-items: center;
+  gap: 8px;
+  padding: 24px;
+  border: 1px dashed #c9b98e;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #6b7280;
+  text-align: center;
+}
+
+.constructionCalloutMissing strong {
+  color: #74551d;
+}
+
+@media (max-width: 640px) {
+  .constructionCalloutOverlay {
+    padding: 10px;
+  }
+
+  .constructionCalloutModal {
+    width: 100%;
+    max-height: 95vh;
+    border-radius: 12px;
+  }
+
+  .constructionCalloutStage {
+    min-height: 200px;
+    padding: 10px;
+  }
+}
