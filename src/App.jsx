@@ -4297,10 +4297,9 @@ function getFreezerUseByDaysRemaining(dateValue) {
 }
 
 function freezerItemShouldUseSoon(entry) {
-  if (!entry) return false;
-  if (entry.useSoon || entry.status === "Use soon" || entry.status === "Thaw for this week") return true;
+  if (!entry?.onHand) return false;
   const daysRemaining = getFreezerUseByDaysRemaining(entry.useByDate);
-  return entry.onHand && daysRemaining !== null && daysRemaining <= 14;
+  return daysRemaining !== null && daysRemaining <= 14;
 }
 
 function buildFreezerGroceryItems(freezer) {
@@ -4316,13 +4315,47 @@ function buildFreezerGroceryItems(freezer) {
 
   return [...defaultItems, ...customItems]
     .map((item) => ({ ...item, ...(safe.items[item.id] || {}) }))
-    .filter((item) => item.grocery || item.status === "Running low" || item.status === "One remaining")
+    .filter((item) =>
+      item.grocery ||
+      item.status === "Running low" ||
+      item.status === "One remaining" ||
+      freezerItemShouldUseSoon(item)
+    )
     .map((item) => ({
       name: item.name,
       qty: Number.parseFloat(item.quantity) || 1,
       unit: item.packageSize || item.unit || "item",
       aisle: "Freezer Inventory",
     }));
+}
+
+const FREEZER_PACKAGE_OPTIONS = [
+  "",
+  "Individual portion",
+  "1 cup",
+  "2 cups",
+  "4 cups",
+  "8 oz",
+  "12 oz",
+  "16 oz",
+  "24 oz",
+  "32 oz",
+  "1 lb",
+  "2 lb",
+  "3 lb",
+  "5 lb",
+  "Quart freezer bag",
+  "Gallon freezer bag",
+  "Vacuum-sealed bag",
+  "Foil pan",
+  "Deli container",
+  "Original package",
+];
+
+function freezerPackageOptions(currentValue = "") {
+  return currentValue && !FREEZER_PACKAGE_OPTIONS.includes(currentValue)
+    ? [currentValue, ...FREEZER_PACKAGE_OPTIONS]
+    : FREEZER_PACKAGE_OPTIONS;
 }
 
 function FreezerInventoryPage({ freezer, setFreezer, setActivePage }) {
@@ -4540,24 +4573,30 @@ function FreezerInventoryPage({ freezer, setFreezer, setActivePage }) {
 
   function renderFreezerItem(item) {
     const useSoon = freezerItemShouldUseSoon(item);
+    const shouldBuy =
+      item.grocery ||
+      item.status === "Running low" ||
+      item.status === "One remaining" ||
+      useSoon;
+
     return (
       <div className={useSoon ? "freezerItemRow useSoon" : "freezerItemRow"} key={item.id}>
-        <label className="freezerCheckCell">
+        <label className="freezerCheckCell" aria-label={`${item.name} on hand`}>
           <input
             type="checkbox"
             checked={!!item.onHand}
             onChange={(event) => updateItem(item.id, { onHand: event.target.checked })}
           />
-          <span>On hand</span>
         </label>
 
         <div className="freezerNameCell">
           <strong>{item.name}</strong>
           <small>{item.categoryTitle}</small>
-          {useSoon && <em>Use Soon</em>}
+          {useSoon && <em>Use By Soon</em>}
         </div>
 
         <input
+          className="freezerQtyInput"
           type="text"
           inputMode="decimal"
           value={item.quantity || ""}
@@ -4566,63 +4605,63 @@ function FreezerInventoryPage({ freezer, setFreezer, setActivePage }) {
           aria-label={`${item.name} quantity`}
         />
 
-        <input
-          type="text"
+        <select
+          className="freezerPackageSelect"
           value={item.packageSize || ""}
           onChange={(event) => updateItem(item.id, { packageSize: event.target.value })}
-          placeholder="Package"
           aria-label={`${item.name} package size`}
-        />
-
-        <label className="freezerDateField">
-          <span>Frozen</span>
-          <input
-            type="date"
-            value={item.dateFrozen || ""}
-            onChange={(event) => updateItem(item.id, { dateFrozen: event.target.value })}
-          />
-        </label>
-
-        <label className="freezerDateField">
-          <span>Use by</span>
-          <input
-            type="date"
-            value={item.useByDate || ""}
-            onChange={(event) => updateItem(item.id, { useByDate: event.target.value })}
-          />
-        </label>
-
-        <select
-          value={item.location || "Kitchen freezer"}
-          onChange={(event) => updateItem(item.id, { location: event.target.value })}
-          aria-label={`${item.name} freezer location`}
         >
-          {locations.map((location) => <option key={location} value={location}>{location}</option>)}
+          {freezerPackageOptions(item.packageSize).map((option) => (
+            <option key={option || "blank"} value={option}>
+              {option || "Select package"}
+            </option>
+          ))}
         </select>
 
-        <select
-          value={item.status || "Plenty on hand"}
-          onChange={(event) => updateItem(item.id, { status: event.target.value })}
-          aria-label={`${item.name} status`}
-        >
-          {FREEZER_STATUS_OPTIONS.map((status) => <option key={status} value={status}>{status}</option>)}
-        </select>
+        <div className="freezerStackedCell freezerDatesCell">
+          <label className="freezerDateField">
+            <span>Frozen</span>
+            <input
+              type="date"
+              value={item.dateFrozen || ""}
+              onChange={(event) => updateItem(item.id, { dateFrozen: event.target.value })}
+            />
+          </label>
+          <label className="freezerDateField">
+            <span>Use by</span>
+            <input
+              type="date"
+              value={item.useByDate || ""}
+              onChange={(event) => updateItem(item.id, { useByDate: event.target.value })}
+            />
+          </label>
+        </div>
 
-        <label className="freezerUseSoonCheck">
-          <input
-            type="checkbox"
-            checked={!!item.useSoon}
-            onChange={(event) => updateItem(item.id, { useSoon: event.target.checked })}
-          />
-          <span>Use Soon</span>
-        </label>
+        <div className="freezerStackedCell freezerLocationStatusCell">
+          <select
+            value={item.location || "Kitchen freezer"}
+            onChange={(event) => updateItem(item.id, { location: event.target.value })}
+            aria-label={`${item.name} freezer location`}
+          >
+            {locations.map((location) => <option key={location} value={location}>{location}</option>)}
+          </select>
+
+          <select
+            value={item.status || "Plenty on hand"}
+            onChange={(event) => updateItem(item.id, { status: event.target.value })}
+            aria-label={`${item.name} status`}
+          >
+            {FREEZER_STATUS_OPTIONS.map((status) => <option key={status} value={status}>{status}</option>)}
+          </select>
+        </div>
 
         <button
           type="button"
-          className={item.grocery || item.status === "Running low" || item.status === "One remaining" ? "freezerGroceryButton active" : "freezerGroceryButton"}
+          className={item.grocery ? "freezerGroceryButton active" : shouldBuy ? "freezerGroceryButton suggested" : "freezerGroceryButton"}
           onClick={() => updateItem(item.id, { grocery: !item.grocery })}
+          title={useSoon && !item.grocery ? "Use-by date suggests replacing this item soon" : undefined}
         >
-          {item.grocery ? "On List" : "Add"}
+          {item.grocery ? "Added" : "Add"}
         </button>
 
         {item.custom && (
@@ -4643,15 +4682,6 @@ function FreezerInventoryPage({ freezer, setFreezer, setActivePage }) {
 
   return (
     <main className="pageShell freezerInventoryPage">
-      <section className="freezerIntroBlock">
-        <h1>FREEZER INVENTORY</h1>
-        <p>
-          Keep track of what is stored in your freezer, when it was frozen, and what should be
-          used next. Check the foods you currently have, enter quantities, and add anything
-          running low to your grocery list.
-        </p>
-      </section>
-
       <section className="freezerSummaryGrid" aria-label="Freezer inventory summary">
         <div className="freezerSummaryBox"><small>Total Items on Hand</small><strong>{summary.onHand}</strong></div>
         <div className="freezerSummaryBox"><small>Use Soon</small><strong>{summary.useSoon}</strong></div>
@@ -4695,19 +4725,16 @@ function FreezerInventoryPage({ freezer, setFreezer, setActivePage }) {
         </label>
         <button type="button" className="secondary" onClick={() => setActivePage("Shopping Lists")}>View Grocery List</button>
         <button type="button" className="dangerButton" onClick={clearInventory}>Clear Inventory</button>
-      </section>
-
-      <section className="freezerLocationTools freezerNoPrint">
-        <label>
-          <span>Add Custom Freezer Location</span>
+        <div className="freezerInlineLocationTool">
           <input
             type="text"
             value={customLocationName}
             onChange={(event) => setCustomLocationName(event.target.value)}
-            placeholder="Example: garage upright top shelf"
+            placeholder="Add custom freezer location"
+            aria-label="Add custom freezer location"
           />
-        </label>
-        <button type="button" className="secondary" onClick={addCustomLocation}>Save Location</button>
+          <button type="button" className="secondary" onClick={addCustomLocation}>Save Location</button>
+        </div>
       </section>
 
       <section className="freezerPrintHeader">
@@ -4734,7 +4761,7 @@ function FreezerInventoryPage({ freezer, setFreezer, setActivePage }) {
               {isExpanded && (
                 <div className="freezerAccordionBody">
                   <div className="freezerTableHeader freezerNoPrint" aria-hidden="true">
-                    <span>Have</span><span>Item</span><span>Qty</span><span>Package</span><span>Frozen</span><span>Use By</span><span>Location</span><span>Status</span><span>Soon</span><span>List</span>
+                    <span>On Hand</span><span>Item</span><span>Qty</span><span>Package</span><span>Frozen / Use By</span><span>Location / Status</span><span>Buy</span>
                   </div>
 
                   {category.items.length ? (
@@ -4748,7 +4775,9 @@ function FreezerInventoryPage({ freezer, setFreezer, setActivePage }) {
                       <div className="freezerCustomForm">
                         <input type="text" value={customForm.name} onChange={(event) => setCustomForm((current) => ({ ...current, name: event.target.value }))} placeholder="Custom item name" aria-label="Custom freezer item name" />
                         <input type="text" value={customForm.quantity} onChange={(event) => setCustomForm((current) => ({ ...current, quantity: event.target.value }))} placeholder="Qty" aria-label="Custom freezer item quantity" />
-                        <input type="text" value={customForm.packageSize} onChange={(event) => setCustomForm((current) => ({ ...current, packageSize: event.target.value }))} placeholder="Package size" aria-label="Custom freezer item package size" />
+                        <select value={customForm.packageSize} onChange={(event) => setCustomForm((current) => ({ ...current, packageSize: event.target.value }))} aria-label="Custom freezer item package size">
+                          {FREEZER_PACKAGE_OPTIONS.map((option) => <option key={option || "blank"} value={option}>{option || "Select package"}</option>)}
+                        </select>
                         <label><span>Frozen</span><input type="date" value={customForm.dateFrozen} onChange={(event) => setCustomForm((current) => ({ ...current, dateFrozen: event.target.value }))} /></label>
                         <label><span>Use by</span><input type="date" value={customForm.useByDate} onChange={(event) => setCustomForm((current) => ({ ...current, useByDate: event.target.value }))} /></label>
                         <select value={customForm.location} onChange={(event) => setCustomForm((current) => ({ ...current, location: event.target.value }))} aria-label="Custom freezer item location">

@@ -22836,3 +22836,196 @@ nav button,
   margin-top: 0;
   margin-bottom: 4px;
 }
+
+
+/* =========================================================
+   FREEZER INVENTORY COMPACT COLUMN UPDATE
+   ========================================================= */
+.freezerTableHeader,
+.freezerItemRow {
+  grid-template-columns:
+    64px
+    minmax(170px, 1.5fr)
+    40px
+    132px
+    minmax(142px, .9fr)
+    minmax(155px, 1fr)
+    72px;
+  gap: 9px;
+}
+
+.freezerCheckCell {
+  justify-content: center;
+}
+
+.freezerCheckCell span,
+.freezerUseSoonCheck {
+  display: none;
+}
+
+.freezerQtyInput {
+  width: 40px;
+  min-width: 40px;
+  padding-left: 6px !important;
+  padding-right: 6px !important;
+  text-align: center;
+}
+
+.freezerPackageSelect {
+  width: 100%;
+  min-width: 0;
+}
+
+.freezerStackedCell {
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+}
+
+.freezerStackedCell .freezerDateField {
+  min-width: 0;
+  gap: 3px;
+}
+
+.freezerStackedCell input,
+.freezerStackedCell select {
+  width: 100%;
+  min-width: 0;
+  min-height: 38px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+}
+
+.freezerDatesCell,
+.freezerLocationStatusCell {
+  align-self: stretch;
+}
+
+.freezerGroceryButton {
+  background: #f4c84a;
+  color: #3f3300;
+  border: 1px solid #d5a91d;
+}
+
+.freezerGroceryButton:hover {
+  background: #ebbd31;
+}
+
+.freezerGroceryButton.suggested {
+  background: #f4c84a;
+  color: #3f3300;
+  border-color: #d5a91d;
+}
+
+.freezerGroceryButton.active {
+  background: #15803d;
+  color: #ffffff;
+  border-color: #15803d;
+}
+
+.freezerCustomActions {
+  grid-column: 1 / -1;
+  justify-content: flex-end;
+}
+
+.freezerActions {
+  align-items: center;
+}
+
+.freezerInlineLocationTool {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 2px;
+  flex: 1 1 390px;
+}
+
+.freezerInlineLocationTool input {
+  flex: 1 1 240px;
+  min-width: 190px;
+  min-height: 42px;
+  border: 1px solid rgba(20, 83, 45, 0.16);
+  border-radius: 999px;
+  padding: 10px 15px;
+  font: inherit;
+  background: #ffffff;
+}
+
+.freezerInlineLocationTool .secondary {
+  white-space: nowrap;
+}
+
+@media (max-width: 1250px) {
+  .freezerTableHeader {
+    display: none;
+  }
+
+  .freezerItemRow {
+    grid-template-columns: 64px minmax(180px, 1fr) 46px minmax(130px, .7fr);
+    align-items: start;
+  }
+
+  .freezerNameCell {
+    grid-column: 2 / -1;
+  }
+
+  .freezerDatesCell,
+  .freezerLocationStatusCell {
+    grid-column: span 2;
+  }
+
+  .freezerGroceryButton {
+    grid-column: 4;
+  }
+}
+
+@media (max-width: 780px) {
+  .freezerActions {
+    align-items: stretch;
+  }
+
+  .freezerInlineLocationTool {
+    flex: 1 1 100%;
+    width: 100%;
+  }
+
+  .freezerItemRow {
+    grid-template-columns: 52px minmax(0, 1fr);
+  }
+
+  .freezerCheckCell {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .freezerNameCell {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .freezerQtyInput,
+  .freezerPackageSelect,
+  .freezerDatesCell,
+  .freezerLocationStatusCell,
+  .freezerGroceryButton {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+
+  .freezerQtyInput {
+    min-width: 0;
+    text-align: left;
+  }
+}
+
+@media (max-width: 520px) {
+  .freezerInlineLocationTool {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .freezerInlineLocationTool input,
+  .freezerInlineLocationTool .secondary {
+    width: 100%;
+  }
+}
