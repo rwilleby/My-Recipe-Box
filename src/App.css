@@ -23035,3 +23035,32 @@ nav button,
 .greenHeartList { list-style: none !important; padding-left: 0 !important; }
 .greenHeartList li { position: relative; padding-left: 22px; }
 .greenHeartList li::before { content: "♥"; position: absolute; left: 0; top: 0; color: var(--green); font-size: 13px; }
+
+/* =========================================================
+   HEADER LEFT-ALIGNMENT UPDATE
+   Moves the desktop logo and navigation group left so the visible logo
+   aligns with the home-page hero copy while preserving their spacing.
+   ========================================================= */
+
+@media (min-width: 1101px) {
+  .topbar {
+    padding-left: 0;
+    padding-right: 5.5vw;
+  }
+
+  .brandLogoButton {
+    margin-left: -18px;
+  }
+}
+
+/* Preserve the existing tablet and mobile header positioning. */
+@media (max-width: 1100px) {
+  .topbar {
+    padding-left: 5.5vw;
+    padding-right: 5.5vw;
+  }
+
+  .brandLogoButton {
+    margin-left: 0;
+  }
+}
