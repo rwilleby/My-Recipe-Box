@@ -2745,7 +2745,7 @@ function FeaturedSelectionPanel({ setActivePage }) {
   return (
     <section className="homeFeatureCard featuredSelectionCard dinnerCombinationsFeatureCard">
       <div className="homeMiniSectionHeader">
-        <h2>Dinner-Combos</h2>
+        <h2>Dinner Recommendations</h2>
       </div>
 
       <button
@@ -2788,7 +2788,7 @@ function ProductsIUseCarousel({ setActivePage }) {
   return (
     <section className="homeFeatureCard productsIUseCard">
       <div className="homeMiniSectionHeader">
-        <h2>Kitchen Tools</h2>
+        <h2>Products I Recommend</h2>
       </div>
 
       <div className="productUseFeatureWrap">
@@ -3004,7 +3004,7 @@ function RecipeRolodex({ setActivePage, setFilter }) {
       <aside className="homeRolodex homeRolodexComposite" aria-label="Recipe card rolodex">
         <div className="homeRolodexHeader">
           <div>
-            <span>Robert's Recipe Rolodex</span>
+            <span>Recipe Card Rolodex</span>
             <strong>No Rolodex images found</strong>
           </div>
         </div>
@@ -3020,7 +3020,7 @@ function RecipeRolodex({ setActivePage, setFilter }) {
   return (
     <aside className="homeRolodex homeRolodexComposite" aria-label="Recipe card rolodex">
       <div className="homeRolodexHeader homeRolodexHeaderCentered">
-        <strong className="homeRolodexSectionTitle">Robert's Recipe Rolodex</strong>
+        <strong className="homeRolodexSectionTitle">Recipe Card Rolodex</strong>
       </div>
 
       <div className="homeRolodexStage homeRolodexCompositeStage">
@@ -3089,7 +3089,6 @@ function RecipeRolodex({ setActivePage, setFilter }) {
 }
 
 
-
 function HomeRecipeCounters({ classifiedRecipes = [] }) {
   const recipeList = Array.isArray(classifiedRecipes) ? classifiedRecipes : [];
 
@@ -3124,17 +3123,18 @@ function HomeRecipeCounters({ classifiedRecipes = [] }) {
   const counters = [
     { label: "Recipes", value: recipeCount, className: "recipes" },
     { label: "Complete Meals", value: completeMealCount, className: "complete" },
-    { label: "Freezer-Friendly Recipes", value: freezerFriendlyCount, className: "freezer" },
+    { label: "Freezer-Friendly", value: freezerFriendlyCount, className: "freezer" },
     { label: "Collections", value: collectionCount, className: "collections" },
   ];
 
   return (
-    <section className="homeCounterSection homeCounterSectionInline" aria-label="Recipe library totals">
-      <h2 className="homeCounterHeading">Everything You Need for Delicious Meals, Every Day</h2>
-      <div className="homeCounterInlineRow">
+    <section className="homeCounterSection" aria-label="Recipe library totals">
+      <div className="homeCounterRow">
         {counters.map((counter) => (
-          <div className={`homeCounterInlineItem ${counter.className}`} key={counter.label}>
-            <strong>{counter.value}</strong>
+          <div className="homeCounterItem" key={counter.label}>
+            <span className={`homeCounterCircle ${counter.className}`}>
+              <strong>{counter.value}</strong>
+            </span>
             <small>{counter.label}</small>
           </div>
         ))}
