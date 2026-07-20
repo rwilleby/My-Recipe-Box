@@ -405,6 +405,49 @@ function defaultCost(price = "$$") {
   };
 }
 
+
+const MEAL_BALANCE_LABELS = [
+  { min: 1, max: 2, label: "Very Light" },
+  { min: 3, max: 4, label: "Balanced" },
+  { min: 5, max: 6, label: "Moderate" },
+  { min: 7, max: 8, label: "Rich" },
+  { min: 9, max: 10, label: "Indulgent" },
+];
+
+function mealBalanceLabel(score) {
+  return MEAL_BALANCE_LABELS.find((range) => score >= range.min && score <= range.max)?.label || "Moderate";
+}
+
+function estimateMealBalance(categoryCode, title) {
+  const normalized = String(title || "").toLowerCase();
+  const has = (...terms) => terms.some((term) => normalized.includes(term));
+
+  const categoryBase = {
+    AM: 6, AS: 5, CC: 9, CO: 8, CR: 9, CS: 7, DN: 9, DS: 8,
+    HB: 7, HBP: 7, IT: 6, JJ: 6, KR: 8, LF: 7, MR: 3, MX: 6,
+    PM: 4, QP: 7, RS: 2, SB: 3, SD: 5, SF: 4, SG: 7, SW: 6,
+  };
+
+  let score = categoryBase[categoryCode] ?? 5;
+
+  if (has("salad", "vegetable", "asparagus", "cabbage", "okra", "brussel", "green bean", "broccoli", "cauliflower")) score -= 2;
+  if (has("grilled", "roasted", "baked", "boiled", "steamed", "lemon", "garlic", "teriyaki")) score -= 1;
+  if (has("protein", "light", "lean", "fresh fruit", "sugar free", "low carb")) score -= 1;
+
+  if (has("fried", "country fried", "chicken fried", "crispy", "breaded")) score += 2;
+  if (has("cheese", "cheesy", "cream", "creamy", "alfredo", "bisque", "gravy")) score += 1;
+  if (has("bacon", "sausage", "pork belly", "brisket", "ribs", "meatloaf", "pot roast")) score += 1;
+  if (has("cake", "cheesecake", "cobbler", "donut", "cinnamon roll", "fudge", "brownie", "pie")) score += 2;
+  if (has("double", "loaded", "supreme", "stuffed", "smothered")) score += 1;
+
+  score = Math.max(1, Math.min(10, Math.round(score)));
+  return {
+    score,
+    label: mealBalanceLabel(score),
+    status: "estimated",
+  };
+}
+
 function makeRecipe(entry) {
   const [id, title, options = {}] = entry;
   const categoryCode = options.categoryCode || codePrefix(id);
@@ -428,6 +471,7 @@ function makeRecipe(entry) {
     cost: options.cost || defaultCost(price),
     ingredients: options.ingredients || defaultIngredients(categoryCode, title, id),
     mediaLinks: options.mediaLinks || undefined,
+    mealBalance: options.mealBalance || estimateMealBalance(categoryCode, title),
   };
 }
 
