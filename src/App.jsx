@@ -111,10 +111,10 @@ const HOME_CATEGORY_LABELS = {
   PM: "Protein Muffins",
   QP: "Quiche & Pies",
   CS: "Casseroles",
-  SB: "Salads & Bowls",
+  SB: "Salads",
   SD: "Side Dishes",
   SF: "Seafood",
-  SG: "Smoked/Grilled",
+  SG: "Meats",
   SW: "Sandwiches",
 };
 
@@ -1224,12 +1224,35 @@ const PageNavigationContext = createContext({
 });
 
 function Header({ activePage, setActivePage }) {
-  const headerLinks = [
-    { label: "ABOUT US", page: "About" },
-    { label: "RECIPES", page: "Recipes" },
-    { label: "MEAL PLANNING", page: "Meal Planner" },
-    { label: "SHOPPING", page: "Shopping Lists" },
-    { label: "RESOURCES", page: "Reference Guides" },
+  const headerGroups = [
+    {
+      label: "ABOUT US",
+      page: "About",
+      items: NAV_GROUPS.find((group) => group.label === "ABOUT")?.items || [],
+    },
+    {
+      label: "RECIPES",
+      page: "Recipes",
+      items: [
+        ...(NAV_GROUPS.find((group) => group.label === "OUR RECIPES")?.items || []),
+        ...(NAV_GROUPS.find((group) => group.label === "COLLECTIONS")?.items || []),
+      ],
+    },
+    {
+      label: "MEAL PLANNING",
+      page: "Meal Planner",
+      items: NAV_GROUPS.find((group) => group.label === "YOUR KITCHEN")?.items || [],
+    },
+    {
+      label: "SHOPPING",
+      page: "Shopping Lists",
+      items: NAV_GROUPS.find((group) => group.label === "SHOPPING")?.items || [],
+    },
+    {
+      label: "RESOURCES",
+      page: "Reference Guides",
+      items: NAV_GROUPS.find((group) => group.label === "TIPS & GUIDES")?.items || [],
+    },
   ];
 
   return (
@@ -1247,26 +1270,41 @@ function Header({ activePage, setActivePage }) {
         />
         <span className="brandLogoWords">
           <strong>Robert's Recipe Box</strong>
-          <small>RECIPES • MEAL PLANNING • GROCERY LISTS</small>
+          <small>RECIPES • MEAL PLANNING • GROCERY LISTS • TIPS</small>
         </span>
       </button>
 
       <nav className="navLinks simpleHeaderNav" aria-label="Main navigation">
-        {headerLinks.map((item) => (
-          <button
-            key={item.label}
-            className={activePage === item.page ? "simpleHeaderNavButton active" : "simpleHeaderNavButton"}
-            type="button"
-            onClick={() => setActivePage(item.page)}
-          >
-            {item.label}
-          </button>
+        {headerGroups.map((group) => (
+          <div className="simpleHeaderNavItem" key={group.label}>
+            <button
+              className={activePage === group.page ? "simpleHeaderNavButton active" : "simpleHeaderNavButton"}
+              type="button"
+              onClick={() => setActivePage(group.page)}
+              aria-haspopup="menu"
+            >
+              <span>{group.label}</span>
+              <span className="simpleHeaderNavChevron" aria-hidden="true">⌄</span>
+            </button>
+            <div className="simpleHeaderSubmenu" role="menu" aria-label={`${group.label} submenu`}>
+              {group.items.map((item) => (
+                <button
+                  key={`${group.label}-${item.label}`}
+                  type="button"
+                  role="menuitem"
+                  className={activePage === item.page ? "active" : ""}
+                  onClick={() => setActivePage(item.page)}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+          </div>
         ))}
       </nav>
     </header>
   );
 }
-
 
 
 function getHeroInfoTargetPage(title) {
@@ -1476,6 +1514,24 @@ function CategoryGrid({ setFilter, setActivePage }) {
   );
 }
 
+function getComboMealBalanceScore(meal) {
+  const suppliedScore = getMealBalanceScore(meal);
+  if (suppliedScore !== null) return suppliedScore;
+
+  const calories = Number(meal?.calories) || 0;
+  const fat = Number(meal?.fat) || 0;
+  const carbs = Number(meal?.carbs) || 0;
+  const sodium = Number(meal?.sodium) || 0;
+
+  let score = 1;
+  score += calories >= 450 ? 2 : calories >= 300 ? 1 : 0;
+  score += fat >= 25 ? 2 : fat >= 15 ? 1 : 0;
+  score += sodium >= 800 ? 2 : sodium >= 500 ? 1 : 0;
+  score += carbs >= 55 ? 1 : 0;
+
+  return Math.max(1, Math.min(10, score));
+}
+
 function HomeComboMealStrip({ setActivePage }) {
   const homeComboMeals = useMemo(
     () => uniqueRecordsByPermanentId(dinnerCombinations).slice(0, 6),
@@ -1508,6 +1564,13 @@ function HomeComboMealStrip({ setActivePage }) {
                 className="homeComboMealImageAsset"
                 loading="lazy"
               />
+              <span
+                className="homeComboMealBalanceBadge"
+                title={`MealBalance ${getComboMealBalanceScore(meal)}`}
+                aria-label={`MealBalance ${getComboMealBalanceScore(meal)}`}
+              >
+                {getComboMealBalanceScore(meal)}
+              </span>
             </div>
             <span>
               <strong>{meal.title}</strong>

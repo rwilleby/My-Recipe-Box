@@ -25108,3 +25108,188 @@ body.rrbPopupOpen {
     font-size: 10px !important;
   }
 }
+
+/* =========================================================
+   HEADER / CATEGORY / COMBO-MEAL REFINEMENT — JULY 2026
+   Dropdown menus, one-row categories, aligned hero controls,
+   and MealBalance markers on featured Combo-Meals.
+   ========================================================= */
+
+/* Updated tagline remains a single balanced line. */
+.compactTopbar .brandLogoWords small {
+  white-space: nowrap !important;
+}
+
+/* Restore the five dropdown submenus while keeping the compact header. */
+.simpleHeaderNav {
+  overflow: visible !important;
+}
+
+.simpleHeaderNavItem {
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+  height: 100% !important;
+}
+
+.simpleHeaderNavButton {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  font-family: "Arial Narrow", "Aptos Narrow", "Roboto Condensed", Arial, sans-serif !important;
+  font-size: 14.85px !important;
+  font-stretch: condensed !important;
+  font-weight: 400 !important;
+  letter-spacing: .015em !important;
+  text-decoration: none !important;
+}
+
+.simpleHeaderNavChevron {
+  display: inline-block !important;
+  font-size: .9em !important;
+  line-height: 1 !important;
+  transform: translateY(-1px) !important;
+}
+
+.simpleHeaderSubmenu {
+  position: absolute !important;
+  top: calc(100% + 3px) !important;
+  left: -12px !important;
+  z-index: 99999 !important;
+  display: grid !important;
+  min-width: 230px !important;
+  padding: 8px !important;
+  border: 1px solid #d9ddd9 !important;
+  border-radius: 8px !important;
+  background: rgba(255, 255, 255, .99) !important;
+  box-shadow: 0 12px 28px rgba(20, 48, 30, .14) !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transform: translateY(-5px) !important;
+  transition: opacity .16s ease, transform .16s ease, visibility .16s ease !important;
+}
+
+.simpleHeaderNavItem:hover > .simpleHeaderSubmenu,
+.simpleHeaderNavItem:focus-within > .simpleHeaderSubmenu {
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  transform: translateY(0) !important;
+}
+
+.simpleHeaderSubmenu button {
+  width: 100% !important;
+  border: 0 !important;
+  border-radius: 5px !important;
+  background: transparent !important;
+  color: #24332a !important;
+  padding: 7px 9px !important;
+  font-family: "Arial Narrow", "Aptos Narrow", "Roboto Condensed", Arial, sans-serif !important;
+  font-size: 12.5px !important;
+  line-height: 1.15 !important;
+  font-weight: 400 !important;
+  letter-spacing: .01em !important;
+  text-align: left !important;
+  white-space: nowrap !important;
+  cursor: pointer !important;
+}
+
+.simpleHeaderSubmenu button:hover,
+.simpleHeaderSubmenu button:focus-visible,
+.simpleHeaderSubmenu button.active {
+  background: #eef5ef !important;
+  color: #153f29 !important;
+}
+
+/* Begin the button row on the exact same left edge as the hero copy. */
+.heroInfoButtons {
+  left: 4.5vw !important;
+  margin-left: 0 !important;
+}
+
+/* Keep all ten category buttons in one unbroken row at every width.
+   Narrow screens scroll horizontally rather than wrapping. */
+.homeCategoryGrid,
+.categoryGrid.homeCategoryGrid {
+  display: grid !important;
+  grid-auto-flow: column !important;
+  grid-template-columns: none !important;
+  grid-auto-columns: 70px !important;
+  width: max-content !important;
+  max-width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  gap: clamp(10px, 1.2vw, 18px) !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  overscroll-behavior-inline: contain !important;
+  scrollbar-width: thin !important;
+  justify-content: start !important;
+  padding-bottom: 4px !important;
+}
+
+/* MealBalance number in the top-right corner of each featured image. */
+.homeComboMealImage {
+  position: relative !important;
+}
+
+.homeComboMealBalanceBadge {
+  position: absolute !important;
+  top: 12px !important;   /* approximately 1/8 inch */
+  right: 12px !important; /* approximately 1/8 inch */
+  z-index: 5 !important;
+  width: 24px !important;
+  height: 24px !important;
+  border-radius: 50% !important;
+  display: grid !important;
+  place-items: center !important;
+  border: 2px solid rgba(255, 255, 255, .96) !important;
+  background: #14532d !important;
+  color: #fff !important;
+  box-shadow: 0 2px 7px rgba(0, 0, 0, .22) !important;
+  font-family: Inter, system-ui, sans-serif !important;
+  font-size: 11px !important;
+  line-height: 1 !important;
+  font-weight: 700 !important;
+}
+
+@media (min-width: 901px) and (max-width: 1220px) {
+  .simpleHeaderNavButton {
+    font-size: 11.7px !important;
+  }
+
+  .simpleHeaderSubmenu button {
+    font-size: 11.5px !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .simpleHeaderNav {
+    overflow-x: auto !important;
+    overflow-y: visible !important;
+  }
+
+  .simpleHeaderNavItem {
+    flex: 0 0 auto !important;
+  }
+
+  .simpleHeaderNavButton {
+    font-size: 11px !important;
+  }
+
+  .simpleHeaderSubmenu {
+    position: fixed !important;
+    top: auto !important;
+    left: 12px !important;
+    right: 12px !important;
+    width: auto !important;
+    min-width: 0 !important;
+  }
+
+  .homeCategoryGrid,
+  .categoryGrid.homeCategoryGrid {
+    grid-auto-columns: 58px !important;
+    justify-content: start !important;
+  }
+}
