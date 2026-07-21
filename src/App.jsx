@@ -6,6 +6,7 @@ import {
   mergeRecipeClassifications,
   recipeMatchesCollection,
   saveRecipeClassifications,
+  RECIPE_COLLECTIONS,
 } from "./data/recipeClassifications";
 import {
   DINNER_PROTEIN_FILTERS,
@@ -713,34 +714,12 @@ const HERO_IMAGES = [
 
 const HERO_INFO_BUTTONS = [
   {
-    title: "Why Robert’s Recipe Box Is Free",
-    line1: "ALWAYS FREE",
-    line2: "TO USE",
-    textParts: [
-      "Robert’s Recipe Box is designed to be a helpful, easy-to-use cooking resource without a required subscription. You can browse recipes, save favorites, plan meals, and build shopping lists at no charge.",
-      "My goal is to make meal planning simpler for seniors, couples, empty nesters, and smaller households.",
-      "Some pages may include optional product recommendations or affiliate links. Those links may help support the cost of maintaining and improving the website. However, you are NEVER required to make a purchase to use Robert’s Recipe Box.",
-    ],
-  },
-  {
-    title: "Browse Our Recipe Library",
+    title: "Browse Our Recipes",
     line1: "BROWSE OUR",
     line2: "RECIPES",
     textParts: [
-      "Explore our recipe cards organized into easy-to-browse food categories.",
-      "You can search for a specific recipe, meal idea, ingredient, or type of cuisine. Open any recipe card to review the ingredients, directions, servings, and nutrition information.",
-      "Use the recipe viewer to move forward or backward through a collection. You can also print or download recipe cards for use in your kitchen.",
-      "New recipes and categories will continue to be added as the website grows.",
-    ],
-  },
-  {
-    title: "Save Your Favorite Recipes",
-    line1: "SELECT YOUR",
-    line2: "FAVORITES",
-    textParts: [
-      "Tap the heart on any recipe to add it to your personal Favorites collection. Saving favorites makes recipes you enjoy easier to find the next time you visit.",
-      "Your favorites are stored in the browser on the device you are currently using. No account, password, or paid membership is required. Favorites saved on one device may not automatically appear on another device.",
-      "You can add or remove recipes from your Favorites list at any time.",
+      "Explore the complete recipe-card library by category, meal type, cooking method, or search.",
+      "Open any recipe card to review ingredients, directions, servings, nutrition, and MealBalance information.",
     ],
   },
   {
@@ -748,38 +727,33 @@ const HERO_INFO_BUTTONS = [
     line1: "PLAN YOUR",
     line2: "WEEKLY MEALS",
     textParts: [
-      "Use the meal planner to organize dinners for one or two weeks at a time. Choose recipes from the library and place them on the days that work best for you. Add main and side dishes for each day.",
-      "Plan fresh meals, planned leftovers, simple meals, and freezer meals together.",
-      "Recipes can be arranged around your schedule, household size, and cooking routine. A thoughtful plan can reduce repeat shopping, unused ingredients, and last-minute meal decisions.",
-      "When your plan is ready, use it to create one combined grocery list.",
+      "Choose recipes and organize your dinners across one or two weeks.",
+      "Plan fresh meals, leftovers, freezer meals, main dishes, and side dishes in one place.",
     ],
   },
   {
-    title: "Create Your Grocery List",
+    title: "Make Your Grocery List",
     line1: "MAKE YOUR",
     line2: "GROCERY LIST",
     textParts: [
-      "Your selected meal-plan recipes can be combined into one organized grocery list. Repeated ingredients are grouped together to make shopping easier.",
-      "Review your pantry staples before buying items you may already have at home. The list can help separate needed groceries from ingredients already in your pantry. And, you can check off items while shopping or print a condensed list before leaving home.",
-      "Actual quantities may need minor adjustments based on brands, package sizes, and substitutions.",
-    ],
-  },
-  {
-    title: "Practical Tips & Suggestions",
-    line1: "TIPS &",
-    line2: "SUGGESTIONS",
-    textParts: [
-      "Find practical ideas for cooking, meal planning, food storage, and freezer preparation.",
-      "Review optional lower-calorie, lower-carb, lower-sodium, and higher-protein suggestions.",
-      "Learn ways to divide recipes into useful portions for one- or two-person households.",
-      "Explore tips for planned leftovers, reheating meals, and freezing extra servings safely.",
-      "You may also find helpful grocery substitutions, kitchen-product ideas, and organization tips.",
-      "Use the suggestions that fit your tastes, budget, equipment, and personal needs.",
+      "Combine ingredients from your planned meals into one organized shopping list.",
+      "Review pantry staples, remove items you already have, and check off groceries as you shop.",
     ],
   },
 ];
 
 
+
+
+const HOME_KITCHEN_TOOL_SLIDES = [
+  { title: "32-Ounce Deli Containers", image: "images/products/hero-amazon-32oz-deli-a.png" },
+  { title: "Baguette Bread Pan", image: "images/products/hero-amazon-baguette-a.png" },
+  { title: "Cupcake & Muffin Pans", image: "images/products/hero-amazon-cupcakes-a.png" },
+  { title: "Mini Canning Jars", image: "images/products/hero-amazon-mini-jars-a.png" },
+  { title: "Mini Meal Pans", image: "images/products/hero-amazon-mini-meals-a.png" },
+  { title: "Pullman Bread Pan", image: "images/products/hero-amazon-pullman-a.png" },
+  { title: "Silicone Freezer Trays", image: "images/products/hero-amazon-silicone-a.png" },
+];
 
 const PRODUCTS_I_USE = [
   {
@@ -1272,10 +1246,15 @@ function Header({ activePage, setActivePage }) {
         aria-label="Go home"
       >
         <img
-          className="brandLogoImage"
-          src={`${import.meta.env.BASE_URL}images/ui/rrb-logo-wide.png`}
-          alt="Robert's Recipe Box"
+          className="brandLogoMark"
+          src={`${import.meta.env.BASE_URL}images/ui/rrb-recipe-box-mark.png`}
+          alt=""
+          aria-hidden="true"
         />
+        <span className="brandLogoWords">
+          <strong>Robert's Recipe Box</strong>
+          <small>RECIPES • MEAL PLANNING • GROCERY LISTS</small>
+        </span>
       </button>
 
       <nav className="navLinks dropdownNav" aria-label="Main navigation">
@@ -1340,9 +1319,11 @@ function Header({ activePage, setActivePage }) {
 
 function getHeroInfoTargetPage(title) {
   switch (title) {
+    case "Browse Our Recipes":
+      return "Recipes";
     case "Plan Your Weekly Meals":
       return "Meal Planner";
-    case "Create Your Grocery List":
+    case "Make Your Grocery List":
       return "Shopping Lists";
     default:
       return "Under Construction";
@@ -1351,10 +1332,12 @@ function getHeroInfoTargetPage(title) {
 
 function getHeroInfoMoreInfoLabel(title) {
   switch (title) {
+    case "Browse Our Recipes":
+      return "Browse Our Recipes";
     case "Plan Your Weekly Meals":
-      return "Plan Your Meals";
-    case "Create Your Grocery List":
-      return "Go To Your Shopping List";
+      return "Plan Your Weekly Meals";
+    case "Make Your Grocery List":
+      return "Make Your Grocery List";
     default:
       return "Read More";
   }
@@ -1457,23 +1440,7 @@ function Hero({ setActivePage }) {
 
         <p>Welcome to my free recipe-card and meal-planning site. I use it every week for my own meal planning, and I designed it especially for seniors, couples, empty nesters, and smaller households who want practical meals, useful leftovers, freezer-friendly ideas, and organized grocery lists. <strong>Shop smarter. Save more.</strong></p>
 
-        <div className="heroButtons">
-          <button className="primary" onClick={() => setActivePage("Recipes")}>
-            ▣ Browse Our Recipe Library
-          </button>
-          <button
-            className="secondary"
-            onClick={() => setActivePage("Meal Planner")}
-          >
-            ▣ Start Meal Planning
-          </button>
-          <button
-            className="secondary freezerHeroButton"
-            onClick={() => setActivePage("Freezer Tips")}
-          >
-            ▣ Freezer Tips
-          </button>
-        </div>
+
       </div>
       <HeroInfoButtons setActivePage={setActivePage} />
 
@@ -1500,7 +1467,7 @@ function TransparencyLine({ setActivePage }) {
 
 function CategoryGrid({ setFilter, setActivePage }) {
   const categoryLookup = new Map(categories.map((category) => [category.id, category]));
-  const homeCategories = HOME_CATEGORY_CODES.map((code) => {
+  const homeCategories = HOME_CATEGORY_CODES.slice(0, 10).map((code) => {
     const fallback = HOME_CATEGORY_FALLBACKS[code];
     const existing = categoryLookup.get(code);
 
@@ -1529,7 +1496,7 @@ function CategoryGrid({ setFilter, setActivePage }) {
         {homeCategories.map((cat) => (
           <button
             key={cat.id}
-            className={HOME_CATEGORY_CODES.indexOf(cat.id) >= 10 ? "categoryTile homeCategoryTile secondRowCategoryTile" : "categoryTile homeCategoryTile"}
+            className="categoryTile homeCategoryTile"
             onClick={() => openCategory(cat)}
             aria-label={`View ${cat.displayName} recipes`}
           >
@@ -1556,6 +1523,51 @@ function CategoryGrid({ setFilter, setActivePage }) {
     </section>
   );
 }
+
+function HomeComboMealStrip({ setActivePage }) {
+  const homeComboMeals = useMemo(
+    () => uniqueRecordsByPermanentId(dinnerCombinations).slice(0, 6),
+    []
+  );
+
+  if (!homeComboMeals.length) return null;
+
+  return (
+    <section className="section homeComboMealStrip" aria-label="Featured combo meals">
+      <div className="sectionTitle homeComboMealStripHeader">
+        <h2>Featured Combo-Meals</h2>
+        <button type="button" onClick={() => setActivePage("Dinner Combinations")}>
+          View all combo-meals ›
+        </button>
+      </div>
+
+      <div className="homeComboMealGrid">
+        {homeComboMeals.map((meal) => (
+          <button
+            type="button"
+            className="homeComboMealCard"
+            key={meal.id}
+            onClick={() => setActivePage("Dinner Combinations")}
+            aria-label={`View combo meal ${meal.number}: ${meal.title}`}
+          >
+            <div className="homeComboMealImage">
+              <DinnerCombinationImage
+                meal={meal}
+                className="homeComboMealImageAsset"
+                loading="lazy"
+              />
+            </div>
+            <span>
+              <strong>{meal.title}</strong>
+              <small>{meal.subtitle}</small>
+            </span>
+          </button>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 
 function RecipeImage({ recipe }) {
   const candidates = recipeImageCandidates(recipe);
@@ -2880,13 +2892,13 @@ function FeaturedSelectionPanel({ setActivePage }) {
 
 function ProductsIUseCarousel({ setActivePage }) {
   const [activeIndex, setActiveIndex] = useState(0);
-  const activeProduct = PRODUCTS_I_USE[activeIndex % PRODUCTS_I_USE.length];
+  const activeProduct = HOME_KITCHEN_TOOL_SLIDES[activeIndex % HOME_KITCHEN_TOOL_SLIDES.length];
 
   useEffect(() => {
-    if (PRODUCTS_I_USE.length <= 1) return undefined;
+    if (HOME_KITCHEN_TOOL_SLIDES.length <= 1) return undefined;
 
     const timer = window.setInterval(() => {
-      setActiveIndex((current) => (current + 1) % PRODUCTS_I_USE.length);
+      setActiveIndex((current) => (current + 1) % HOME_KITCHEN_TOOL_SLIDES.length);
     }, 9000);
 
     return () => window.clearInterval(timer);
@@ -2908,7 +2920,7 @@ function ProductsIUseCarousel({ setActivePage }) {
       >
         <div className="featuredSelectionImage kitchenToolsFeatureImage">
           <div className="featuredKitchenToolImageStack" aria-hidden="true">
-            {PRODUCTS_I_USE.map((product, index) => (
+            {HOME_KITCHEN_TOOL_SLIDES.map((product, index) => (
               <img
                 key={`${product.title}-${index}`}
                 className={`featuredKitchenToolImage${index === activeIndex ? " active" : ""}`}
@@ -3117,26 +3129,26 @@ function RecipeRolodex({ setActivePage, setFilter }) {
         <strong className="homeRolodexSectionTitle">Robert's Rolodex Files</strong>
       </div>
 
-      <div className="homeRolodexStage homeRolodexCompositeStage">
+      <div className="homeRolodexStage homeRolodexCompositeStage homeRolodexAutoStage">
         <button
           type="button"
-          className="homeRolodexNav"
+          className="homeRolodexNav homeRolodexNavLeft"
           onClick={() => goToOffset(-1)}
-          aria-label="Previous Rolodex image"
+          aria-label="Show previous Rolodex card collection"
         >
           ‹
         </button>
 
         <button
           type="button"
-          className="homeRolodexCompositeImageButton"
+          className="homeRolodexCompositeImageButton homeRolodexCompositeImageButtonLarge"
           onClick={viewActiveRecipes}
           aria-label={`View ${activeSlide.title} recipes`}
         >
           {activeSlideImageUrl && !activeImageFailed ? (
             <img
               key={activeSlide.id}
-              className="homeRolodexCompositeImage"
+              className="homeRolodexCompositeImage homeRolodexCompositeImageLarge"
               src={activeSlideImageUrl}
               alt={`${activeSlide.title} Rolodex recipe card collection`}
               loading="lazy"
@@ -3165,53 +3177,74 @@ function RecipeRolodex({ setActivePage, setFilter }) {
 
         <button
           type="button"
-          className="homeRolodexNav"
+          className="homeRolodexNav homeRolodexNavRight"
           onClick={() => goToOffset(1)}
-          aria-label="Next Rolodex image"
+          aria-label="Show next Rolodex card collection"
         >
           ›
         </button>
-      </div>
-
-      <div className="homeRolodexDots" aria-hidden="true">
-        {rolodexSlides.map((slide, index) => (
-          <span key={slide.id} className={index === activeIndex ? "active" : ""} />
-        ))}
       </div>
     </aside>
   );
 }
 
 
-function HomeRecipeCounters({ classifiedRecipes = [] }) {
-  const recipeList = Array.isArray(classifiedRecipes) ? classifiedRecipes : [];
+function uniqueRecordsByPermanentId(records = []) {
+  const uniqueRecords = new Map();
 
-  const recipeCount = recipeList.length;
-  const completeMealCount = recipeList.filter((recipe) => {
-    const collections = Array.isArray(recipe.collections) ? recipe.collections : [];
-    return collections.some((name) =>
-      ["complete meals", "complete dinners"].includes(String(name).trim().toLowerCase())
-    );
-  }).length;
-  const freezerFriendlyCount = recipeList.filter((recipe) => {
-    const collections = Array.isArray(recipe.collections) ? recipe.collections : [];
-    const attributes = Array.isArray(recipe.attributes) ? recipe.attributes : [];
+  records.forEach((record) => {
+    const permanentId = String(record?.id || record?.code || "").trim();
+    if (permanentId && !uniqueRecords.has(permanentId)) {
+      uniqueRecords.set(permanentId, record);
+    }
+  });
+
+  return [...uniqueRecords.values()];
+}
+
+function HomeRecipeCounters({ classifiedRecipes = [] }) {
+  // Counter totals deliberately use the complete, unfiltered source datasets.
+  // They are independent of search, category filters, pagination, routes, and visible cards.
+  const allUniqueRecipes = uniqueRecordsByPermanentId(recipes);
+  const allUniqueCompleteMeals = uniqueRecordsByPermanentId(dinnerCombinations);
+  const classifiedRecipeLookup = new Map(
+    uniqueRecordsByPermanentId(classifiedRecipes).map((recipe) => [
+      String(recipe.id || recipe.code).trim(),
+      recipe,
+    ])
+  );
+
+  const freezerFriendlyNames = new Set([
+    "freezer-friendly",
+    "freezer friendly",
+    "freezer-friendly meals",
+    "quick & easy freezer meals",
+  ]);
+
+  const freezerFriendlyCount = allUniqueRecipes.filter((recipe) => {
+    const classifiedRecipe = classifiedRecipeLookup.get(
+      String(recipe.id || recipe.code).trim()
+    ) || recipe;
+    const collections = Array.isArray(classifiedRecipe.collections)
+      ? classifiedRecipe.collections
+      : [];
+    const attributes = Array.isArray(classifiedRecipe.attributes)
+      ? classifiedRecipe.attributes
+      : [];
+
     return (
-      recipe.freezerFriendly === true ||
-      collections.some((name) =>
-        ["freezer-friendly", "freezer friendly", "quick & easy freezer meals"].includes(
-          String(name).trim().toLowerCase()
-        )
-      ) ||
-      attributes.some((name) =>
-        ["freezer-friendly", "freezer friendly"].includes(String(name).trim().toLowerCase())
+      classifiedRecipe.freezerFriendly === true ||
+      classifiedRecipe.freezable === true ||
+      [...collections, ...attributes].some((name) =>
+        freezerFriendlyNames.has(String(name).trim().toLowerCase())
       )
     );
   }).length;
+
+  const recipeCount = allUniqueRecipes.length;
+  const completeMealCount = allUniqueCompleteMeals.length;
   const collectionCount = new Set(
-    recipeList.flatMap((recipe) =>
-      Array.isArray(recipe.collections) ? recipe.collections.filter(Boolean) : []
-    )
+    RECIPE_COLLECTIONS.map((name) => String(name).trim().toLowerCase()).filter(Boolean)
   ).size;
 
   const counters = [
@@ -3225,11 +3258,12 @@ function HomeRecipeCounters({ classifiedRecipes = [] }) {
     <section className="homeCounterSection" aria-label="Recipe library totals">
       <div className="homeCounterRow">
         {counters.map((counter) => (
-          <div className="homeCounterItem" key={counter.label}>
-            <span className={`homeCounterCircle ${counter.className}`}>
+          <div className={`homeCounterItem ${counter.className}`} key={counter.label}>
+            <span className="homeCounterBadge" aria-hidden="true">
+              <span className="homeCounterIcon" />
               <strong>{counter.value}</strong>
+              <small>{counter.label}</small>
             </span>
-            <small>{counter.label}</small>
           </div>
         ))}
       </div>
@@ -3249,8 +3283,19 @@ function Home({
   return (
     <>
       <Hero setActivePage={setActivePage} />
-      <TransparencyLine setActivePage={setActivePage} />
+      <HomeComboMealStrip setActivePage={setActivePage} />
       <CategoryGrid setFilter={setFilter} setActivePage={setActivePage} />
+      <HomeRecipeCounters classifiedRecipes={classifiedRecipes} />
+
+      <div className="homeAdminAccessWrap" aria-label="Administrative tools">
+        <button
+          className="adminAccessButton homeAdminAccessButton"
+          type="button"
+          onClick={() => setActivePage("Admin Recipes")}
+        >
+          Admin
+        </button>
+      </div>
 
       <section className="section homeRolodexShowcaseSection">
         <div className="homeRolodexShowcaseLayout homeThreeColumnShowcase">
@@ -3268,17 +3313,7 @@ function Home({
         </div>
       </section>
 
-      <HomeRecipeCounters classifiedRecipes={classifiedRecipes} />
 
-      <div className="homeAdminAccessWrap" aria-label="Administrative tools">
-        <button
-          className="adminAccessButton homeAdminAccessButton"
-          type="button"
-          onClick={() => setActivePage("Admin Recipes")}
-        >
-          Admin
-        </button>
-      </div>
     </>
   );
 }
@@ -10646,7 +10681,15 @@ Use this section to check what is on hand, record dates, mark foods that should 
       />
 
       <footer className="footer">
-        Robert’s Recipe Box uses AI-generated recipes and organization as a practical planning tool. Favorites and meal plans are saved in this browser only and are not shared between your devices. Some product links may earn a small commission at no extra cost to you, however, you are not required to purchase anything to use my site.
+        <span>
+          Robert’s Recipe Box uses AI-generated recipes and organization as a practical planning tool. Favorites and meal plans are saved in this browser only and are not shared between your devices. Some product links may earn a small commission at no extra cost to you; however, you are not required to purchase anything to use my site.
+        </span>
+        <small className="footerHonestyLine">
+          Honesty: I use AI assistance to generate recipes. I’m not a chef. I do not copy recipes from others; I tell AI what I want and use it as a practical recipe-development tool.{" "}
+          <button type="button" onClick={() => setActivePage("Disclaimers")}>
+            Read my disclaimers.
+          </button>
+        </small>
       </footer>
       </div>
     </PageNavigationContext.Provider>
