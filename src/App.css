@@ -24926,3 +24926,185 @@ body.rrbPopupOpen {
     gap: 10px !important;
   }
 }
+
+/* =========================================================
+   HEADER + HOME LAYOUT FINE-TUNING — JULY 2026
+   Requested visual refinements only; no data logic changes.
+   ========================================================= */
+
+/* 1–4. Slightly larger recipe-box mark, expanded tagline, larger left-shifted
+   menu aligned with the bottom of the brand title. */
+@media (min-width: 901px) {
+  .topbar.compactTopbar,
+  .compactTopbar {
+    grid-template-columns: max-content minmax(0, 1fr) !important;
+    column-gap: 72px !important; /* approximately 3/4 inch */
+  }
+
+  .compactTopbar > .brandLogoButton {
+    grid-template-columns: 90px auto !important;
+    gap: 13px !important;
+  }
+
+  .compactTopbar .brandLogoMark {
+    width: 90px !important;
+    height: 63px !important;
+  }
+
+  .compactTopbar .brandLogoWords small {
+    width: 100% !important;
+    font-size: clamp(9px, .76vw, 11.5px) !important;
+    font-weight: 700 !important;
+    letter-spacing: .035em !important;
+    justify-content: space-between !important;
+  }
+
+  .simpleHeaderNav {
+    justify-content: flex-start !important;
+    align-self: center !important;
+    padding-bottom: 0 !important;
+    margin-top: 25px !important;
+    gap: clamp(18px, 1.7vw, 28px) !important;
+  }
+
+  .simpleHeaderNavButton {
+    font-size: 16.5px !important;
+    line-height: 1 !important;
+  }
+}
+
+/* 5. Hero action row begins exactly at the hero-copy edge and uses half-height controls. */
+.heroInfoButtons {
+  left: 5.5vw !important;
+  right: auto !important;
+  width: auto !important;
+  max-width: min(760px, 72vw) !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  justify-content: flex-start !important;
+  gap: 8px !important;
+}
+
+.heroInfoButton {
+  min-height: 34px !important;
+  height: 34px !important;
+  padding: 2px 10px !important;
+  border-radius: 7px !important;
+  font-size: 9px !important;
+  line-height: 1 !important;
+}
+
+.heroInfoStepNumber {
+  width: 20px !important;
+  height: 20px !important;
+  min-width: 20px !important;
+  min-height: 20px !important;
+  font-size: 10px !important;
+}
+
+/* 6. Fill each Combo-Meal image window more completely. The small controlled
+   zoom removes excess white canvas at the top without altering source files. */
+.homeComboMealImage {
+  background: #f6f4ef !important;
+}
+
+.homeComboMealImageAsset,
+.homeComboMealImage img {
+  object-fit: cover !important;
+  object-position: center 55% !important;
+  transform: scale(1.12) !important;
+  transform-origin: center center !important;
+}
+
+/* 7. Keep all ten home category icons on one desktop/tablet row. */
+@media (min-width: 901px) {
+  .homeCategoryGrid,
+  .categoryGrid.homeCategoryGrid {
+    width: min(100%, 980px) !important;
+    grid-template-columns: repeat(10, minmax(54px, 70px)) !important;
+    column-gap: clamp(10px, 1.2vw, 18px) !important;
+    row-gap: 0 !important;
+    justify-content: center !important;
+  }
+}
+
+/* 9. Quieter Admin control and smaller, lighter footer microcopy. */
+.homeAdminAccessButton {
+  min-height: 22px !important;
+  padding: 2px 10px !important;
+  border-color: #d9dde3 !important;
+  background: #f8f9fa !important;
+  color: #a0a6af !important;
+  font-size: 8.5px !important;
+  font-weight: 600 !important;
+}
+
+.homeAdminAccessButton:hover,
+.homeAdminAccessButton:focus-visible {
+  color: #858b94 !important;
+  border-color: #cdd2d9 !important;
+  background: #f5f6f7 !important;
+}
+
+.footer,
+.footer p,
+.footer span,
+.footer small,
+.footer button,
+.footer a,
+.footerHonestyLine,
+.footerHonestyLine button {
+  color: #9da3ab !important;
+  font-size: 11px !important;
+  line-height: 1.35 !important;
+}
+
+/* Keep the larger menu practical on medium-width screens without returning
+   the category icons to two rows. */
+@media (min-width: 901px) and (max-width: 1220px) {
+  .topbar.compactTopbar,
+  .compactTopbar {
+    column-gap: 38px !important;
+  }
+
+  .compactTopbar > .brandLogoButton {
+    grid-template-columns: 82px auto !important;
+  }
+
+  .compactTopbar .brandLogoMark {
+    width: 82px !important;
+    height: 58px !important;
+  }
+
+  .simpleHeaderNav {
+    gap: 14px !important;
+  }
+
+  .simpleHeaderNavButton {
+    font-size: 13px !important;
+  }
+
+  .homeCategoryGrid,
+  .categoryGrid.homeCategoryGrid {
+    grid-template-columns: repeat(10, minmax(50px, 62px)) !important;
+    column-gap: 8px !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .heroInfoButton {
+    height: auto !important;
+    min-height: 34px !important;
+  }
+
+  .footer,
+  .footer p,
+  .footer span,
+  .footer small,
+  .footer button,
+  .footer a,
+  .footerHonestyLine,
+  .footerHonestyLine button {
+    font-size: 10px !important;
+  }
+}
