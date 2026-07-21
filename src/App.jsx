@@ -10682,8 +10682,8 @@ Use this section to check what is on hand, record dates, mark foods that should 
         <span>
           Robert’s Recipe Box uses AI-generated recipes and organization as a practical planning tool. Favorites and meal plans are saved in this browser only and are not shared between your devices. Some product links may earn a small commission at no extra cost to you; however, you are not required to purchase anything to use my site.
         </span>
-        <small className="footerHonestyLine">
-          Honesty: I use AI assistance to generate recipes. I’m not a chef. I do not copy recipes from others; I tell AI what I want and use it as a practical recipe-development tool.{" "}
+        <small className="footerCopyrightLine">Copyright 2026, All rights reserved.</small>
+        <small className="footerDisclaimerLine">
           <button type="button" onClick={() => setActivePage("Disclaimers")}>
             Read my disclaimers.
           </button>
