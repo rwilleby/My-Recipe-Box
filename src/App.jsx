@@ -1224,22 +1224,16 @@ const PageNavigationContext = createContext({
 });
 
 function Header({ activePage, setActivePage }) {
-  const navGroups = NAV_GROUPS;
-  function openPage(page) {
-    if (!page) return;
-    setActivePage(page);
-  }
-
-  function firstNavigablePage(group) {
-    return group.items.find((item) => item.page)?.page || "Home";
-  }
-
-  function groupIsActive(group) {
-    return group.items.some((item) => item.page && activePage === item.page);
-  }
+  const headerLinks = [
+    { label: "ABOUT US", page: "About" },
+    { label: "RECIPES", page: "Recipes" },
+    { label: "MEAL PLANNING", page: "Meal Planner" },
+    { label: "SHOPPING", page: "Shopping Lists" },
+    { label: "RESOURCES", page: "Reference Guides" },
+  ];
 
   return (
-    <header className="topbar">
+    <header className="topbar compactTopbar">
       <button
         className="brand brandLogoButton"
         onClick={() => setActivePage("Home")}
@@ -1257,60 +1251,18 @@ function Header({ activePage, setActivePage }) {
         </span>
       </button>
 
-      <nav className="navLinks dropdownNav" aria-label="Main navigation">
-        {navGroups.map((group) => (
-          <div
-            className={groupIsActive(group) ? "navDropdown active" : "navDropdown"}
-            key={group.label}
+      <nav className="navLinks simpleHeaderNav" aria-label="Main navigation">
+        {headerLinks.map((item) => (
+          <button
+            key={item.label}
+            className={activePage === item.page ? "simpleHeaderNavButton active" : "simpleHeaderNavButton"}
+            type="button"
+            onClick={() => setActivePage(item.page)}
           >
-            <button
-              className="navDropdownButton"
-              type="button"
-              onClick={() => openPage(firstNavigablePage(group))}
-              aria-haspopup="true"
-            >
-              {group.label}
-              <span aria-hidden="true">⌄</span>
-            </button>
-
-            <div className="navDropdownMenu">
-              {group.items.map((item, index) => {
-                const itemClasses = [
-                  "navDropdownItem",
-                  item.level ? `navDropdownLevel${item.level}` : "navDropdownLevel0",
-                  activePage === item.page ? "active" : "",
-                  item.labelOnly ? "navDropdownLabel" : "",
-                ]
-                  .filter(Boolean)
-                  .join(" ");
-
-                if (item.labelOnly) {
-                  return (
-                    <div
-                      key={`${group.label}-${item.label}-${index}`}
-                      className={itemClasses}
-                    >
-                      {item.label}
-                    </div>
-                  );
-                }
-
-                return (
-                  <button
-                    key={`${group.label}-${item.label}-${index}`}
-                    className={itemClasses}
-                    type="button"
-                    onClick={() => openPage(item.page)}
-                  >
-                    {item.label}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
+            {item.label}
+          </button>
         ))}
       </nav>
-
     </header>
   );
 }
@@ -3296,23 +3248,6 @@ function Home({
           Admin
         </button>
       </div>
-
-      <section className="section homeRolodexShowcaseSection">
-        <div className="homeRolodexShowcaseLayout homeThreeColumnShowcase">
-          <div className="homeDinnerRecommendationsColumn">
-            <FeaturedSelectionPanel setActivePage={setActivePage} />
-          </div>
-
-          <div className="homeShowcaseRolodexColumn">
-            <RecipeRolodex setActivePage={setActivePage} setFilter={setFilter} />
-          </div>
-
-          <div className="homeProductsColumn">
-            <ProductsIUseCarousel setActivePage={setActivePage} />
-          </div>
-        </div>
-      </section>
-
 
     </>
   );

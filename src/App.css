@@ -24554,3 +24554,375 @@ body.rrbPopupOpen {
     min-height: 42px !important;
   }
 }
+
+/* =========================================================
+   HEADER + HOME LAYOUT REFINEMENT — JULY 2026
+   Compact header, left-aligned hero actions, one-row home modules.
+   ========================================================= */
+
+/* 1–3. Compact header: smaller mark, one-line title, matched slogan width,
+   and a simple five-item navigation aligned to the slogan baseline. */
+.topbar.compactTopbar,
+.compactTopbar {
+  min-height: 72px !important;
+  height: 72px !important;
+  padding: 0 5.5vw !important;
+  display: grid !important;
+  grid-template-columns: minmax(500px, 1fr) auto !important;
+  align-items: center !important;
+  column-gap: clamp(20px, 3vw, 52px) !important;
+  overflow: visible !important;
+}
+
+.compactTopbar > .brandLogoButton {
+  min-width: 0 !important;
+  max-width: none !important;
+  width: max-content !important;
+  display: grid !important;
+  grid-template-columns: 82px auto !important;
+  gap: 12px !important;
+  align-items: center !important;
+  padding: 0 !important;
+}
+
+.compactTopbar .brandLogoMark {
+  width: 82px !important;
+  height: 57px !important;
+  object-fit: contain !important;
+}
+
+.compactTopbar .brandLogoWords {
+  display: grid !important;
+  gap: 4px !important;
+  align-content: center !important;
+}
+
+.compactTopbar .brandLogoWords strong {
+  font-size: clamp(25px, 2.2vw, 36px) !important;
+  line-height: .95 !important;
+  white-space: nowrap !important;
+}
+
+.compactTopbar .brandLogoWords small {
+  width: 100% !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  color: #667085 !important;
+  font-size: clamp(7px, .55vw, 9px) !important;
+  line-height: 1 !important;
+  letter-spacing: .015em !important;
+  white-space: nowrap !important;
+}
+
+.simpleHeaderNav {
+  min-height: 0 !important;
+  height: auto !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: clamp(15px, 1.8vw, 28px) !important;
+  align-self: end !important;
+  padding-bottom: 16px !important;
+  overflow: visible !important;
+}
+
+.simpleHeaderNavButton {
+  border: 0 !important;
+  background: transparent !important;
+  color: #111827 !important;
+  padding: 0 !important;
+  font-family: Inter, system-ui, sans-serif !important;
+  font-size: 11px !important;
+  line-height: 1 !important;
+  font-weight: 700 !important;
+  letter-spacing: .015em !important;
+  white-space: nowrap !important;
+  cursor: pointer !important;
+}
+
+.simpleHeaderNavButton:hover,
+.simpleHeaderNavButton:focus-visible,
+.simpleHeaderNavButton.active {
+  color: #153f29 !important;
+  text-decoration: underline !important;
+  text-underline-offset: 5px !important;
+}
+
+/* 4. Keep the existing hero image transition; align the three actions
+   with the hero headline/body-copy left edge. */
+.heroInfoButtons {
+  width: min(930px, calc(100% - 11vw)) !important;
+  max-width: 930px !important;
+  margin-left: 5.5vw !important;
+  margin-right: auto !important;
+  justify-content: start !important;
+}
+
+/* 5. Six compact combo-meal cards across one desktop row. */
+.homeComboMealStrip {
+  padding-top: 18px !important;
+  padding-bottom: 16px !important;
+}
+
+.homeComboMealGrid {
+  grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+  gap: 10px !important;
+}
+
+.homeComboMealImage {
+  aspect-ratio: 1.55 / 1 !important;
+}
+
+.homeComboMealCard > span {
+  min-height: 62px !important;
+  padding: 8px 9px 10px !important;
+}
+
+.homeComboMealCard strong {
+  font-size: 13px !important;
+}
+
+.homeComboMealCard small {
+  font-size: 9.5px !important;
+}
+
+/* 6. Center the ten category icons below the combo meals with a compact
+   quarter- to three-eighth-inch visual gutter. */
+.homeCategorySection {
+  padding-top: 16px !important;
+  padding-bottom: 14px !important;
+}
+
+.homeCategoryGrid,
+.categoryGrid.homeCategoryGrid {
+  width: max-content !important;
+  max-width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  grid-template-columns: repeat(10, 70px) !important;
+  gap: clamp(24px, 2.25vw, 36px) !important;
+  justify-content: center !important;
+}
+
+.homeCategoryTile,
+.categoryTile.homeCategoryTile {
+  width: 70px !important;
+  min-width: 70px !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 3px 0 !important;
+}
+
+.homeCategoryGrid .categoryIconImage,
+.homeCategoryGrid .categoryIconFallback {
+  width: 46px !important;
+  height: 46px !important;
+  min-width: 46px !important;
+  min-height: 46px !important;
+}
+
+.homeCategoryGrid .categoryTile strong {
+  font-size: 9px !important;
+  line-height: 1.08 !important;
+  text-align: center !important;
+}
+
+/* 7. Counters use category-icon scale. Type sits outside and centered below. */
+.homeCounterSection {
+  padding-top: 8px !important;
+  padding-bottom: 2px !important;
+}
+
+.homeCounterRow {
+  gap: clamp(24px, 2.25vw, 36px) !important;
+  justify-content: center !important;
+}
+
+.homeCounterItem {
+  width: 70px !important;
+  min-width: 70px !important;
+}
+
+.homeCounterBadge {
+  width: 70px !important;
+  height: auto !important;
+  min-height: 0 !important;
+  display: grid !important;
+  grid-template-rows: 46px auto auto !important;
+  justify-items: center !important;
+  overflow: visible !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.homeCounterBadge::before,
+.homeCounterBadge::after {
+  display: none !important;
+}
+
+.homeCounterIcon {
+  position: relative !important;
+  inset: auto !important;
+  width: 46px !important;
+  height: 46px !important;
+  border-radius: 50% !important;
+  display: grid !important;
+  place-items: center !important;
+  color: #fff !important;
+  background: var(--counter-color) !important;
+}
+
+.homeCounterBadge strong {
+  position: static !important;
+  color: var(--counter-color) !important;
+  font-size: 18px !important;
+  line-height: 1 !important;
+  margin-top: 5px !important;
+}
+
+.homeCounterBadge small {
+  position: static !important;
+  width: 88px !important;
+  max-width: 88px !important;
+  color: #4b5563 !important;
+  font-size: 8px !important;
+  line-height: 1.05 !important;
+  text-align: center !important;
+  margin-top: 3px !important;
+}
+
+.homeCounterSection + .homeAdminAccessWrap {
+  padding-top: 8px !important;
+  padding-bottom: 14px !important;
+}
+
+/* 8. The former three-column Combo-Meals / Rolodex / Kitchen Tools showcase
+   is removed in App.jsx. */
+
+/* 9. All footer microcopy, including links, is gray. */
+.footer,
+.footer span,
+.footer small,
+.footer button,
+.footer a,
+.footerHonestyLine,
+.footerHonestyLine button {
+  color: #7a7f87 !important;
+}
+
+@media (max-width: 1180px) {
+  .topbar.compactTopbar,
+  .compactTopbar {
+    grid-template-columns: minmax(400px, 1fr) auto !important;
+    column-gap: 18px !important;
+  }
+
+  .compactTopbar > .brandLogoButton {
+    grid-template-columns: 70px auto !important;
+  }
+
+  .compactTopbar .brandLogoMark {
+    width: 70px !important;
+    height: 50px !important;
+  }
+
+  .compactTopbar .brandLogoWords strong {
+    font-size: 28px !important;
+  }
+
+  .simpleHeaderNav {
+    gap: 14px !important;
+  }
+
+  .simpleHeaderNavButton {
+    font-size: 10px !important;
+  }
+
+  .homeCategoryGrid,
+  .categoryGrid.homeCategoryGrid {
+    grid-template-columns: repeat(5, 70px) !important;
+    row-gap: 16px !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .topbar.compactTopbar,
+  .compactTopbar {
+    height: auto !important;
+    min-height: 0 !important;
+    grid-template-columns: 1fr !important;
+    padding-top: 7px !important;
+    padding-bottom: 8px !important;
+    row-gap: 7px !important;
+  }
+
+  .compactTopbar > .brandLogoButton {
+    width: max-content !important;
+    max-width: 100% !important;
+  }
+
+  .simpleHeaderNav {
+    width: 100% !important;
+    justify-content: flex-start !important;
+    align-self: auto !important;
+    padding-bottom: 0 !important;
+    overflow-x: auto !important;
+  }
+
+  .heroInfoButtons {
+    width: calc(100% - 11vw) !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+
+  .homeComboMealGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .compactTopbar > .brandLogoButton {
+    grid-template-columns: 58px minmax(0, 1fr) !important;
+    gap: 9px !important;
+  }
+
+  .compactTopbar .brandLogoMark {
+    width: 58px !important;
+    height: 44px !important;
+  }
+
+  .compactTopbar .brandLogoWords strong {
+    font-size: 21px !important;
+  }
+
+  .compactTopbar .brandLogoWords small {
+    font-size: 6.5px !important;
+  }
+
+  .heroInfoButtons {
+    grid-template-columns: 1fr !important;
+  }
+
+  .homeComboMealGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .homeCategoryGrid,
+  .categoryGrid.homeCategoryGrid {
+    grid-template-columns: repeat(5, 58px) !important;
+    gap: 14px 10px !important;
+  }
+
+  .homeCategoryTile,
+  .categoryTile.homeCategoryTile,
+  .homeCounterItem {
+    width: 58px !important;
+    min-width: 58px !important;
+  }
+
+  .homeCounterRow {
+    gap: 10px !important;
+  }
+}
