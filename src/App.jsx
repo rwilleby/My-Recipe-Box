@@ -3696,7 +3696,6 @@ function Home({
   return (
     <>
       <Hero setActivePage={setActivePage} />
-      <HomePhotoFeatureSection setActivePage={setActivePage} />
       <HomeComboMealStrip
         setActivePage={setActivePage}
         openRecipeCard={openRecipeCard}
@@ -3704,6 +3703,7 @@ function Home({
         toggleFavorite={toggleFavorite}
         setPlan={setPlan}
       />
+      <HomePhotoFeatureSection setActivePage={setActivePage} />
       <CategoryGrid setFilter={setFilter} setActivePage={setActivePage} />
       <HomeRecipeCounters classifiedRecipes={classifiedRecipes} />
 
