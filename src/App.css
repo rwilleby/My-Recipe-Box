@@ -27472,3 +27472,54 @@ body.rrbPopupOpen {
     gap: 4px !important;
   }
 }
+/* =========================================================
+   JULY 2026 — HOMEPAGE SECTION HEADING CONSISTENCY
+   AND NEUTRAL COUNTER COLOR
+   ========================================================= */
+
+/* 1. Make the three homepage section headings use the same
+   size and treatment as Featured Combo-Meals. */
+.homePhotoFeatureHeader h2,
+.homeComboMealStripHeader h2,
+.homeCategoryQuickLinksTitle h2 {
+  margin: 0 !important;
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif !important;
+  font-size: 20px !important;
+  line-height: 1.15 !important;
+  font-weight: 700 !important;
+  color: #111827 !important;
+}
+
+/* Keep the supporting text under the first two headings consistent. */
+.homePhotoFeatureHeader p,
+.homeComboMealStripHeader p {
+  margin: 4px 0 0 !important;
+  color: #6b7280 !important;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif !important;
+  font-size: 12px !important;
+  line-height: 1.35 !important;
+  font-weight: 400 !important;
+}
+
+/* Preserve the centered Cuisine Quick Links heading. */
+.homeCategoryQuickLinksTitle {
+  justify-content: center !important;
+  text-align: center !important;
+}
+
+/* 2. Set all counter circles to a 50% tint of #8A817C.
+   Exact midpoint with white: #C4C0BE. */
+.homeCounterItem.recipes .homeCounterBadge,
+.homeCounterItem.complete .homeCounterBadge,
+.homeCounterItem.freezer .homeCounterBadge,
+.homeCounterItem.collections .homeCounterBadge {
+  --counter-color: #C4C0BE !important;
+  background: #C4C0BE !important;
+  border-color: #C4C0BE !important;
+}
+
+/* Keep the symbols readable on the softened neutral circles. */
+.homeCounterIcon {
+  color: #ffffff !important;
+  text-shadow: 0 1px 1px rgba(72, 67, 64, .16) !important;
+}
