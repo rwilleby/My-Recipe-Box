@@ -25590,3 +25590,123 @@ body.rrbPopupOpen {
   .homeQuickLink:nth-child(even) { border-right: 0; }
   .homeQuickLink:not(:nth-last-child(-n+2)) { border-bottom: 1px solid #e5e2db; }
 }
+
+
+/* =========================================================
+   HERO ACTION ALIGNMENT + GRAY QUICK-LINK ICONS — JULY 2026
+   One shared hero-copy coordinate system prevents button drift.
+   ========================================================= */
+
+/* The headline, paragraph, and actions now share the same parent wrapper. */
+.heroCopy {
+  position: relative !important;
+}
+
+.heroCopy > .heroInfoButtons {
+  position: static !important;
+  inset: auto !important;
+  left: auto !important;
+  right: auto !important;
+  top: auto !important;
+  bottom: auto !important;
+  width: 100% !important;
+  max-width: none !important;
+  margin: 22px 0 0 !important;
+  padding: 0 !important;
+  transform: none !important;
+  justify-content: flex-start !important;
+  align-self: stretch !important;
+}
+
+.heroCopy > .heroInfoButtons .heroInfoButtonWrap {
+  min-width: 0 !important;
+}
+
+/* Seven compact quick links styled like the category icon row. */
+.homeQuickLinks {
+  width: max-content !important;
+  max-width: calc(100% - 32px) !important;
+  margin: 16px auto 10px !important;
+  display: grid !important;
+  grid-template-columns: repeat(7, 92px) !important;
+  gap: clamp(14px, 1.65vw, 26px) !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  padding: 4px 2px 8px !important;
+  scrollbar-width: thin !important;
+}
+
+.homeQuickLink {
+  width: 92px !important;
+  min-width: 92px !important;
+  min-height: 0 !important;
+  display: grid !important;
+  justify-items: center !important;
+  align-content: start !important;
+  gap: 5px !important;
+  padding: 3px 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  color: #30363b !important;
+  box-shadow: none !important;
+}
+
+.homeQuickLink:hover,
+.homeQuickLink:focus-visible {
+  background: transparent !important;
+}
+
+.homeQuickLinkIcon {
+  width: 48px !important;
+  height: 48px !important;
+  min-height: 48px !important;
+  display: grid !important;
+  place-items: center !important;
+  border-radius: 11px !important;
+  background: #8b9298 !important;
+  color: #ffffff !important;
+  border: 1px solid #7e858b !important;
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: 25px !important;
+  line-height: 1 !important;
+  font-weight: 400 !important;
+  box-shadow: none !important;
+}
+
+.homeQuickLink strong {
+  max-width: 92px !important;
+  font-size: 9.5px !important;
+  line-height: 1.08 !important;
+  font-weight: 600 !important;
+  text-align: center !important;
+}
+
+.homeQuickLink small {
+  max-width: 92px !important;
+  color: #8a9096 !important;
+  font-size: 8.5px !important;
+  line-height: 1.08 !important;
+  text-align: center !important;
+}
+
+@media (max-width: 700px) {
+  .heroCopy > .heroInfoButtons {
+    margin-top: 16px !important;
+  }
+
+  .homeQuickLinks {
+    width: max-content !important;
+    max-width: calc(100% - 20px) !important;
+    grid-template-columns: repeat(7, 78px) !important;
+    gap: 12px !important;
+  }
+
+  .homeQuickLink {
+    width: 78px !important;
+    min-width: 78px !important;
+  }
+}

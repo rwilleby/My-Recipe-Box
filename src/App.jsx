@@ -1430,9 +1430,8 @@ function Hero({ setActivePage }) {
 
         <p>Welcome to my free recipe-card and meal-planning site. I use it every week for my own meal planning, and I designed it especially for seniors, couples, empty nesters, and smaller households who want practical meals, useful leftovers, freezer-friendly ideas, and organized grocery lists. <strong>Shop smarter. Save more.</strong></p>
 
-
+        <HeroInfoButtons setActivePage={setActivePage} />
       </div>
-      <HeroInfoButtons setActivePage={setActivePage} />
 
     </section>
   );
@@ -1440,14 +1439,13 @@ function Hero({ setActivePage }) {
 
 function HomeQuickLinks({ setActivePage, setFilter }) {
   const links = [
-    { label: "All Recipes", note: "Browse the library", icon: "🍲", action: () => setActivePage("Recipes") },
+    { label: "All Recipes", note: "Browse the library", icon: "♨", action: () => setActivePage("Recipes") },
     { label: "Meal Planning", note: "Plan your week", icon: "▦", action: () => setActivePage("Meal Planner") },
-    { label: "Grocery Lists", note: "Organized & easy", icon: "🛒", action: () => setActivePage("Shopping Lists") },
+    { label: "Grocery Lists", note: "Organized & easy", icon: "⌑", action: () => setActivePage("Shopping Lists") },
     { label: "Freezer Meals", note: "Make ahead", icon: "❄", action: () => setActivePage("Freezer-Friendly Meals") },
-    { label: "Leftovers", note: "Reduce waste", icon: "♨", action: () => setActivePage("Kitchen Refrigerator") },
+    { label: "Leftovers", note: "Reduce waste", icon: "⌁", action: () => setActivePage("Kitchen Refrigerator") },
     { label: "Recipes for Two", note: "Right-sized meals", icon: "♙♙", action: () => setActivePage("Recipes") },
     { label: "Seniors & Easy", note: "Simple & practical", icon: "♡", action: () => setActivePage("Easy 30-Minute Meals") },
-    { label: "Side Dishes", note: "Complete your meal", icon: "⌒", action: () => { setFilter("Side Dishes"); setActivePage("Recipes"); } },
   ];
 
   return (
