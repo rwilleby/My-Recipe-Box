@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo, useState, useEffect } from "react";
+import { createContext, useContext, useMemo, useState, useEffect, useRef } from "react";
 import { categories, recipes } from "./data/recipes";
 import AdminRecipeClassifier from "./components/AdminRecipeClassifier";
 import {
@@ -1152,7 +1152,7 @@ const NAV_GROUPS = [
   {
     label: "ABOUT",
     items: [
-      { label: "WELCOME TO OUR SITE", page: "About" },
+      { label: "ABOUT ROBERT’S RECIPE BOX", page: "About" },
       { label: "ABOUT OUR RECIPES", page: "About Recipes" },
       { label: "MEALBALANCE GUIDE", page: "MealBalance Guide" },
       { label: "AFFILIATE MARKETING", page: "Affiliate Marketing" },
@@ -1230,7 +1230,7 @@ const PageNavigationContext = createContext({
 function Header({ activePage, setActivePage }) {
   const headerGroups = [
     {
-      label: "ABOUT US",
+      label: "ABOUT ROBERT’S RECIPE BOX",
       page: "About",
       items: NAV_GROUPS.find((group) => group.label === "ABOUT")?.items || [],
     },
@@ -6774,120 +6774,304 @@ function AboutRecipesPage({ setActivePage }) {
 
 
 
-function AboutPage({ setActivePage }) {
+const MEAL_JOURNEY_STEPS = [
+  {
+    number: 1,
+    id: "choose",
+    title: "Choose",
+    description: "Browse recipes and find meals your family will enjoy.",
+    image: "images/about/meal-journey-choose.jpg",
+    imageAlt: "Recipe cards and finished meals ready to browse",
+    features: [
+      "Easy search and filters",
+      "Recipe photos and reviews",
+      "MealBalance ratings",
+      "Save to Favorites",
+    ],
+    buttonLabel: "Browse Recipes",
+    page: "Recipes",
+  },
+  {
+    number: 2,
+    id: "plan",
+    title: "Plan",
+    description: "Add recipes to your weekly meal plan and organize your menu.",
+    image: "images/about/meal-journey-plan.jpg",
+    imageAlt: "Weekly meal planner with recipe cards and calendar",
+    features: [
+      "Weekly meal planner",
+      "Drag-and-drop recipes",
+      "Serving adjustments",
+      "Automatic leftover planning",
+    ],
+    buttonLabel: "Open Meal Planner",
+    page: "Meal Planner",
+  },
+  {
+    number: 3,
+    id: "shop",
+    title: "Shop",
+    description: "Create a combined shopping list and shop with confidence.",
+    image: "images/about/meal-journey-shop.jpg",
+    imageAlt: "Organized grocery list with fresh groceries",
+    features: [
+      "Combined weekly shopping list",
+      "Pantry check-off",
+      "Store aisle groups",
+      "Print or phone-ready list",
+    ],
+    buttonLabel: "Build a Shopping List",
+    page: "Shopping Lists",
+  },
+  {
+    number: 4,
+    id: "prepare",
+    title: "Prepare",
+    description: "Gather ingredients and prepare meals step by step.",
+    image: "images/about/meal-journey-prepare.jpg",
+    imageAlt: "Ingredients and kitchen tools arranged for meal preparation",
+    features: [
+      "Step-by-step directions",
+      "Time-saving preparation tips",
+      "Kitchen tool guidance",
+      "Make-ahead suggestions",
+    ],
+    buttonLabel: "Explore Preparation Guides",
+    page: "Reference Guides",
+  },
+  {
+    number: 5,
+    id: "portion",
+    title: "Portion",
+    description: "Portion meals into practical refrigerator- or freezer-safe containers.",
+    image: "images/about/meal-journey-portion.jpg",
+    imageAlt: "Prepared food divided into practical meal containers",
+    features: [
+      "Portion-size guidance",
+      "Container recommendations",
+      "MealBalance per serving",
+      "Batch-cooking tips",
+    ],
+    buttonLabel: "View Portion Guides",
+    page: "Storage Organization",
+  },
+  {
+    number: 6,
+    id: "freeze",
+    title: "Freeze",
+    description: "Label, date, and freeze meals for future use.",
+    image: "images/about/meal-journey-freeze.jpg",
+    imageAlt: "Labeled freezer meals ready for storage",
+    features: [
+      "Freezer label templates",
+      "Freeze dates and best-by guidance",
+      "Foods that freeze well",
+      "Quick-freezing tips",
+    ],
+    buttonLabel: "View Freezing Guides",
+    page: "Freezer Tips",
+  },
+  {
+    number: 7,
+    id: "store",
+    title: "Store",
+    description: "Keep meals organized so they are easy to find and use.",
+    image: "images/about/meal-journey-store.jpg",
+    imageAlt: "Organized freezer storage with labeled meal containers",
+    features: [
+      "Freezer inventory tools",
+      "Storage-system ideas",
+      "Shelf-life guidance",
+      "What-to-use-first reminders",
+    ],
+    buttonLabel: "Explore Storage Guides",
+    page: "Storage Organization",
+  },
+  {
+    number: 8,
+    id: "reheat",
+    title: "Reheat",
+    description: "Use the best reheating method for safe, high-quality results.",
+    image: "images/about/meal-journey-reheat.jpg",
+    imageAlt: "Prepared meal being safely reheated",
+    features: [
+      "Recipe-specific reheating instructions",
+      "Microwave, oven, stovetop, air-fryer, and slow-cooker methods",
+      "Thawing guidance",
+      "Food-safety reminders",
+    ],
+    buttonLabel: "View Reheating Guides",
+    page: "Freezer Tips",
+  },
+  {
+    number: 9,
+    id: "enjoy",
+    title: "Enjoy",
+    description: "Serve a homemade meal with less stress and more time together.",
+    image: "images/about/meal-journey-enjoy.jpg",
+    imageAlt: "Homemade dinner served at a welcoming family table",
+    features: [
+      "Serving suggestions",
+      "Side-dish ideas",
+      "Make-it-a-meal recommendations",
+      "Family-friendly presentation ideas",
+    ],
+    buttonLabel: "Find Your Next Meal",
+    page: "Recipes",
+  },
+];
+
+const ABOUT_DIFFERENCE_FEATURES = [
+  "MealBalance ratings",
+  "Weekly meal planning",
+  "Automatic shopping lists",
+  "Freezer-friendly guidance",
+  "Container and portion recommendations",
+  "Storage organization",
+  "Recipe-specific reheating instructions",
+  "Practical kitchen resources",
+];
+
+function AboutJourneyImage({ step }) {
+  const [failed, setFailed] = useState(false);
+
+  if (failed) {
+    return (
+      <div className="aboutJourneyImagePlaceholder" role="img" aria-label={step.imageAlt}>
+        <span>{String(step.number).padStart(2, "0")}</span>
+        <strong>{step.title}</strong>
+        <small>Replace with {step.image.split("/").pop()}</small>
+      </div>
+    );
+  }
+
   return (
-    <main className="pageShell aboutLetterPage aboutUnifiedPage">
-      <article className="aboutLetterArticle">
-        <section className="aboutLetterIntro aboutLetterIntroNoHeadline">
-          <p>
-            Welcome to my free recipe-card and meal-planning site. I use it every
-            week for my own meal planning, and I designed it especially for
-            seniors, couples, empty nesters, and smaller households who want
-            practical meals, useful leftovers, freezer-friendly ideas, and
-            organized grocery lists.
-          </p>
-        </section>
+    <img
+      className="aboutJourneyImage"
+      src={`${import.meta.env.BASE_URL}${step.image}`}
+      alt={step.imageAlt}
+      loading="lazy"
+      decoding="async"
+      onError={() => setFailed(true)}
+    />
+  );
+}
 
-        <section className="aboutLetterSection">
-          <h2>Why I started this site</h2>
+function AboutRecipeBoxPage({ setActivePage }) {
+  return (
+    <main className="pageShell aboutRecipeBoxPage">
+      <section className="aboutRecipeBoxIntro">
+        <div>
+          <div className="aiBadge">THE COMPLETE MEAL JOURNEY</div>
+          <h2>More Than a Recipe Website</h2>
           <p>
-            Robert’s Recipe Box started after my wife and I tried a few
-            subscription meal plans. I liked the basic idea: choose a meal,
-            receive the ingredients, and follow clear instructions. The problem
-            was that we did not always like the meals being offered.
+            Most recipe websites stop after showing you how to cook a meal. Robert’s Recipe Box
+            is designed to help you through the entire process—from discovering recipes and
+            planning your week to shopping, preparing, freezing, organizing, reheating, and serving.
           </p>
-          <p>
-            I found myself wishing I could use that same organized approach while
-            cooking the foods we actually enjoy. At the same time, the cost of
-            eating out kept rising. Even fast food, which once felt inexpensive
-            and convenient, was becoming surprisingly expensive.
-          </p>
-        </section>
+        </div>
+        <blockquote>Cook once. Eat better all week.</blockquote>
+      </section>
 
-        <blockquote className="aboutLetterQuoteBreak">
-          Built around real home cooking, practical planning, and everyday meals.
-        </blockquote>
+      <section className="aboutJourneySection" aria-labelledby="about-journey-title">
+        <header className="aboutSectionHeader">
+          <h2 id="about-journey-title">Your Complete Meal Journey</h2>
+          <p>Choose → Plan → Shop → Prepare → Portion → Freeze → Store → Reheat → Enjoy</p>
+        </header>
 
-        <section className="aboutLetterSection">
-          <h2>What I wanted to build</h2>
-          <p>
-            I wanted a place where recipes could be organized like useful recipe
-            cards, not buried inside long articles. I wanted meals that could be
-            planned ahead, printed, saved, adjusted, and reused in a practical
-            way.
-          </p>
-          <p>
-            The goal is simple: help people plan what to cook, keep track of what
-            they like, make better grocery lists, use leftovers wisely, and freeze
-            extra portions for another day. For a smaller household, one recipe
-            can often become dinner today and another prepared meal for later.
-          </p>
-        </section>
+        <div className="aboutJourneyList">
+          {MEAL_JOURNEY_STEPS.map((step, index) => (
+            <article
+              className={`aboutJourneyStep${index % 2 ? " reverse" : ""}`}
+              key={step.id}
+            >
+              <div className="aboutJourneyVisual">
+                <AboutJourneyImage step={step} />
+              </div>
 
-        <section className="aboutLetterSection">
-          <h2>Who this site is for</h2>
-          <p>
-            This site is especially useful for seniors, older couples, empty
-            nesters, and smaller households. Many traditional recipes make more
-            food than two people need, while cooking a completely different meal
-            every night can take too much planning, shopping, preparation, and
-            cleanup.
-          </p>
-          <p>
-            Robert’s Recipe Box is meant to offer another option. It is designed
-            for practical home cooking: familiar meals, realistic portions,
-            organized grocery lists, useful leftovers, freezer-friendly thinking,
-            and simple ways to save money where possible.
-          </p>
-        </section>
+              <div className="aboutJourneyCopy">
+                <div className="aboutJourneyTitleRow">
+                  <span className="aboutJourneyNumber">{step.number}</span>
+                  <div>
+                    <p className="aboutJourneyLabel">Step {step.number}</p>
+                    <h3>{step.title}</h3>
+                  </div>
+                </div>
 
-        <blockquote className="aboutLetterQuoteBreak aboutLetterQuoteBreakRight">
-          A personal project, built one practical idea at a time.
-        </blockquote>
+                <p className="aboutJourneyDescription">{step.description}</p>
 
-        <section className="aboutLetterSection">
-          <h2>How the recipes are created</h2>
-          <p>
-            I use AI assistance to generate recipe ideas and recipe-card content,
-            but the direction comes from me. I choose the meal idea, cooking
-            method, serving goal, flavor direction, practical needs, and how I
-            want the recipe to fit into the site.
-          </p>
-          <p>
-            The recipes are not copied from other websites, restaurants, brands,
-            or cookbooks. They are created as practical, AI-assisted recipe-card
-            ideas under my direction. Some may be inspired by familiar foods,
-            restaurant-style meals, or common home-cooking favorites, but the goal
-            is always to make something useful for this site.
-          </p>
-        </section>
+                <div className="aboutJourneyFeatures">
+                  <h4>You’ll find</h4>
+                  <ul>
+                    {step.features.map((feature) => (
+                      <li key={`${step.id}-${feature}`}>{feature}</li>
+                    ))}
+                  </ul>
+                </div>
 
-        <section className="aboutLetterSection">
-          <h2>What I hope this becomes</h2>
-          <p>
-            My hope is that Robert’s Recipe Box becomes a simple, useful place to
-            plan meals, browse ideas, save favorites, print recipe cards, build
-            grocery lists, and think ahead about leftovers and freezer meals.
-          </p>
-          <p>
-            It is not meant to be fancy. It is meant to be practical. If it helps
-            someone cook at home more often, waste less food, save a little money,
-            or feel more organized in the kitchen, then it is doing what I hoped
-            it would do.
-          </p>
-        </section>
+                <button
+                  type="button"
+                  className="primary aboutJourneyButton"
+                  onClick={() => {
+                    setActivePage(step.page);
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  }}
+                >
+                  {step.buttonLabel}
+                </button>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
 
-        <section className="aboutLetterClosing">
+      <section className="aboutDifferenceSection" aria-labelledby="about-difference-title">
+        <header className="aboutSectionHeader">
+          <h2 id="about-difference-title">What Makes Robert’s Recipe Box Different</h2>
+          <p>Practical tools that connect recipes to the rest of everyday meal preparation.</p>
+        </header>
+
+        <div className="aboutDifferenceGrid">
+          {ABOUT_DIFFERENCE_FEATURES.map((feature) => (
+            <article className="aboutDifferenceCard" key={feature}>
+              <span aria-hidden="true">✓</span>
+              <h3>{feature}</h3>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="aboutRobertSection">
+        <div className="aboutRobertImagePlaceholder" role="img" aria-label="Placeholder for an approved photograph of Robert">
+          <span>Robert</span>
+          <small>Approved personal photograph goes here</small>
+        </div>
+        <div>
+          <p className="aboutJourneyLabel">THE PERSON BEHIND THE SITE</p>
+          <h2>About Robert</h2>
           <p>
-            Thank you for visiting Robert’s Recipe Box. I hope you find something
-            here that makes planning, cooking, shopping, and saving meals a little
-            easier.
+            Robert’s Recipe Box was created to make everyday cooking more organized,
+            practical, and enjoyable. The goal is to bring recipes, meal planning,
+            shopping, preparation, freezer storage, and reheating guidance together
+            in one easy-to-use place.
           </p>
-          <p className="aboutLetterSignature">
-            Robert
-          </p>
-        </section>
-      </article>
+        </div>
+      </section>
+
+      <section className="aboutRecipeBoxCta">
+        <div>
+          <h2>Ready to begin your meal journey?</h2>
+          <p>Start by finding a recipe your family will enjoy.</p>
+        </div>
+        <div className="aboutRecipeBoxCtaButtons">
+          <button type="button" className="primary" onClick={() => setActivePage("Recipes")}>
+            Browse Recipes
+          </button>
+          <button type="button" className="secondary" onClick={() => setActivePage("Meal Planner")}>
+            Start Meal Planning
+          </button>
+        </div>
+      </section>
     </main>
   );
 }
@@ -10341,6 +10525,132 @@ function FeatureStrip() {
   );
 }
 
+const WELCOME_JOURNEY_STORAGE_KEY = "rrb-welcome-journey-dismissed-v1";
+
+function WelcomeJourneyModal({ isOpen, onClose, setActivePage }) {
+  const dialogRef = useRef(null);
+  const closeButtonRef = useRef(null);
+  const previousFocusRef = useRef(null);
+
+  usePopupPageMode(isOpen);
+
+  useEffect(() => {
+    if (!isOpen) return undefined;
+
+    previousFocusRef.current = document.activeElement;
+    const dialog = dialogRef.current;
+    const focusableSelector =
+      'button:not([disabled]), a[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+    window.requestAnimationFrame(() => closeButtonRef.current?.focus());
+
+    function handleKeyDown(event) {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        onClose();
+        return;
+      }
+
+      if (event.key !== "Tab" || !dialog) return;
+
+      const focusable = [...dialog.querySelectorAll(focusableSelector)].filter(
+        (element) => element.offsetParent !== null
+      );
+
+      if (!focusable.length) {
+        event.preventDefault();
+        dialog.focus();
+        return;
+      }
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      const previous = previousFocusRef.current;
+      window.requestAnimationFrame(() => previous?.focus?.());
+    };
+  }, [isOpen, onClose]);
+
+  if (!isOpen) return null;
+
+  function openPage(page) {
+    onClose();
+    setActivePage(page);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  return (
+    <div
+      className="welcomeJourneyOverlay"
+      role="presentation"
+      onMouseDown={onClose}
+    >
+      <section
+        ref={dialogRef}
+        className="welcomeJourneyModal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="welcome-journey-title"
+        aria-describedby="welcome-journey-description"
+        tabIndex={-1}
+        onMouseDown={(event) => event.stopPropagation()}
+      >
+        <button
+          ref={closeButtonRef}
+          type="button"
+          className="welcomeJourneyClose"
+          onClick={onClose}
+          aria-label="Close welcome message"
+        >
+          ×
+        </button>
+
+        <div className="welcomeJourneyContent">
+          <p className="welcomeJourneyKicker">MORE THAN RECIPES.</p>
+          <h2 id="welcome-journey-title">Welcome to Robert’s Recipe Box</h2>
+          <p id="welcome-journey-description">
+            Choose recipes, plan your week, build your shopping list, prepare meals,
+            freeze with confidence, and reheat with great results.
+          </p>
+
+          <div className="welcomeJourneyPath" aria-label="Choose, Plan, Shop, Prepare, Freeze, Reheat, Enjoy">
+            <span>Choose</span><b>→</b>
+            <span>Plan</span><b>→</b>
+            <span>Shop</span><b>→</b>
+            <span>Prepare</span><b>→</b>
+            <span>Freeze</span><b>→</b>
+            <span>Reheat</span><b>→</b>
+            <span>Enjoy</span>
+          </div>
+
+          <div className="welcomeJourneyActions">
+            <button type="button" className="primary" onClick={() => openPage("About")}>
+              See How It Works
+            </button>
+            <button type="button" className="secondary" onClick={() => openPage("Recipes")}>
+              Browse Recipes
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+
 export default function App() {
   const [activePage, setActivePage] = useState("Home");
   const [favorites, setFavorites] = useState(() => {
@@ -10367,6 +10677,7 @@ export default function App() {
   );
   const [filter, setFilter] = useState("");
   const [cardViewer, setCardViewer] = useState(null);
+  const [welcomeJourneyOpen, setWelcomeJourneyOpen] = useState(false);
   const [recipeClassifications, setRecipeClassifications] = useState(() =>
     loadRecipeClassifications()
   );
@@ -10389,6 +10700,21 @@ export default function App() {
   );
 
   useEffect(() => {
+    let dismissed = false;
+
+    try {
+      dismissed = window.localStorage.getItem(WELCOME_JOURNEY_STORAGE_KEY) === "true";
+    } catch {
+      dismissed = false;
+    }
+
+    if (dismissed) return undefined;
+
+    const timer = window.setTimeout(() => setWelcomeJourneyOpen(true), 450);
+    return () => window.clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
     const preloadAllSupportingHeroes = () => {
       SUPPORTING_PAGE_HERO_IMAGES.forEach((imagePath, index) => {
         window.setTimeout(() => preloadHeroImage(imagePath, "low"), index * 45);
@@ -10405,6 +10731,16 @@ export default function App() {
     const timer = window.setTimeout(preloadAllSupportingHeroes, 800);
     return () => window.clearTimeout(timer);
   }, []);
+
+  function dismissWelcomeJourney() {
+    try {
+      window.localStorage.setItem(WELCOME_JOURNEY_STORAGE_KEY, "true");
+    } catch {
+      // The modal still closes even when storage is unavailable.
+    }
+
+    setWelcomeJourneyOpen(false);
+  }
 
   function toggleFavorite(id) {
     if (!id) return;
@@ -11064,13 +11400,13 @@ Use this section to check what is on hand, record dates, mark foods that should 
         <>
           <PageHeroImage
             src="images/heroes/hero-page-about-us.jpg"
-            alt="Framed family photos, coffee cup, and small plant on a light kitchen counter"
-            eyebrow="ABOUT US"
-            title="Welcome to Our Site"
-            text="Come on in and take a look around Robert’s Recipe Box. Whether you are searching for tonight’s dinner, planning meals for the week, trying a new cooking method, or simply looking for a little inspiration, we hope you find something useful.\n\nThe site is designed to be comfortable and easy to explore. Browse the recipes, save your favorites, review the cooking tips, or use the planning tools to create a routine that works better for your household."
-            className="pageHeroDepth464"
-/>
-          <AboutPage setActivePage={setActivePage} initialSection="main" />
+            alt="Recipe box, meal-planning notes, and kitchen tools on a light kitchen counter"
+            eyebrow="ABOUT ROBERT’S RECIPE BOX"
+            title="About Robert’s Recipe Box"
+            text="A complete meal journey—from choosing a recipe to enjoying a homemade meal.\n\nRobert’s Recipe Box helps with the entire meal process—not just the recipe. Choose what to make, plan your week, shop efficiently, prepare and portion meals, freeze them properly, and reheat them with confidence."
+            className="pageHeroDepth464 aboutRecipeBoxHero"
+          />
+          <AboutRecipeBoxPage setActivePage={setActivePage} />
         </>
       )}
       {activePage === "Who Is Robert" && (
@@ -11870,7 +12206,13 @@ The score is not a judgment and it is not medical or dietary advice. It is one p
           />
         </>
       )}
-<RecipeCardViewer
+      <WelcomeJourneyModal
+        isOpen={welcomeJourneyOpen}
+        onClose={dismissWelcomeJourney}
+        setActivePage={setActivePage}
+      />
+
+      <RecipeCardViewer
         viewer={cardViewer}
         onClose={() => setCardViewer(null)}
         setViewer={setCardViewer}

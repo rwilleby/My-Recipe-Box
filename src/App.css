@@ -28599,3 +28599,572 @@ body.rrbPopupOpen {
 .pageNotesStrip.cliffNotesDisabled .pageNotesPopup {
   display: none !important;
 }
+/* =========================================================
+   ABOUT ROBERT'S RECIPE BOX — COMPLETE MEAL JOURNEY PAGE
+   ========================================================= */
+
+.aboutRecipeBoxHero .pageHeroTextOverlay h1 {
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif !important;
+  font-size: 28px !important;
+  line-height: 1.1 !important;
+  font-weight: 700 !important;
+}
+
+.aboutRecipeBoxPage {
+  padding-top: 28px;
+  padding-bottom: 52px;
+}
+
+.aboutRecipeBoxPage h2 {
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  font-size: 22px;
+  line-height: 1.15;
+  font-weight: 700;
+}
+
+.aboutRecipeBoxPage h3 {
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  font-size: 20px;
+  line-height: 1.15;
+  font-weight: 700;
+}
+
+.aboutRecipeBoxPage p,
+.aboutRecipeBoxPage li {
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.aboutRecipeBoxIntro {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(260px, .55fr);
+  gap: clamp(24px, 4vw, 52px);
+  align-items: center;
+  margin-bottom: 42px;
+  padding: clamp(24px, 3vw, 36px);
+  border: 1px solid rgba(20, 83, 45, .14);
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 12px 28px rgba(17, 24, 39, .06);
+}
+
+.aboutRecipeBoxIntro h2,
+.aboutRecipeBoxIntro p {
+  margin-top: 0;
+}
+
+.aboutRecipeBoxIntro p {
+  margin-bottom: 0;
+  color: #374151;
+}
+
+.aboutRecipeBoxIntro blockquote {
+  margin: 0;
+  padding: 22px 24px;
+  border-left: 4px solid var(--green);
+  border-radius: 0 14px 14px 0;
+  background: #f5f8ef;
+  color: var(--green);
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  font-size: 24px;
+  line-height: 1.25;
+  font-weight: 700;
+}
+
+.aboutSectionHeader {
+  max-width: 900px;
+  margin: 0 auto 22px;
+  text-align: center;
+}
+
+.aboutSectionHeader h2,
+.aboutSectionHeader p {
+  margin-top: 0;
+}
+
+.aboutSectionHeader h2 {
+  margin-bottom: 7px;
+}
+
+.aboutSectionHeader p {
+  margin-bottom: 0;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.aboutJourneySection {
+  margin-bottom: 48px;
+}
+
+.aboutJourneyList {
+  display: grid;
+  gap: 18px;
+}
+
+.aboutJourneyStep {
+  display: grid;
+  grid-template-columns: minmax(280px, .9fr) minmax(0, 1.1fr);
+  grid-template-areas: "visual copy";
+  gap: clamp(24px, 4vw, 54px);
+  align-items: center;
+  padding: clamp(18px, 2.5vw, 28px);
+  border: 1px solid rgba(20, 83, 45, .14);
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 10px 26px rgba(17, 24, 39, .055);
+}
+
+.aboutJourneyStep.reverse {
+  grid-template-columns: minmax(0, 1.1fr) minmax(280px, .9fr);
+  grid-template-areas: "copy visual";
+}
+
+.aboutJourneyVisual {
+  grid-area: visual;
+  min-width: 0;
+}
+
+.aboutJourneyCopy {
+  grid-area: copy;
+  min-width: 0;
+}
+
+.aboutJourneyImage,
+.aboutJourneyImagePlaceholder {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 14px;
+  object-fit: cover;
+  background: #f2efe9;
+}
+
+.aboutJourneyImagePlaceholder {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 5px;
+  padding: 20px;
+  border: 1px dashed rgba(20, 83, 45, .3);
+  color: #435248;
+  text-align: center;
+}
+
+.aboutJourneyImagePlaceholder span {
+  color: #7A9A3D;
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.aboutJourneyImagePlaceholder strong {
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  font-size: 20px;
+}
+
+.aboutJourneyImagePlaceholder small {
+  color: #7b837e;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 12px;
+}
+
+.aboutJourneyTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-bottom: 10px;
+}
+
+.aboutJourneyNumber {
+  flex: 0 0 auto;
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--green);
+  color: #ffffff;
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.aboutJourneyLabel {
+  margin: 0 0 2px !important;
+  color: #7A9A3D;
+  font-size: 12px !important;
+  line-height: 1 !important;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.aboutJourneyTitleRow h3,
+.aboutJourneyDescription {
+  margin-top: 0;
+}
+
+.aboutJourneyTitleRow h3 {
+  margin-bottom: 0;
+}
+
+.aboutJourneyDescription {
+  margin-bottom: 13px;
+  color: #374151;
+}
+
+.aboutJourneyFeatures {
+  margin-bottom: 15px;
+}
+
+.aboutJourneyFeatures h4 {
+  margin: 0 0 7px;
+  color: #173d28;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .045em;
+  text-transform: uppercase;
+}
+
+.aboutJourneyFeatures ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.aboutJourneyFeatures li {
+  position: relative;
+  padding-left: 18px;
+  color: #4b5563;
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.aboutJourneyFeatures li::before {
+  content: "♥";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #7A9A3D;
+  font-size: 11px;
+}
+
+.aboutJourneyButton {
+  min-height: 38px;
+  padding: 8px 15px;
+  font-size: 14px;
+}
+
+.aboutDifferenceSection {
+  margin-bottom: 44px;
+}
+
+.aboutDifferenceGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.aboutDifferenceCard {
+  min-height: 108px;
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  padding: 16px;
+  border: 1px solid rgba(20, 83, 45, .14);
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 7px 18px rgba(17, 24, 39, .045);
+}
+
+.aboutDifferenceCard > span {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #eef4e4;
+  color: #6f8e34;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.aboutDifferenceCard h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.aboutRobertSection {
+  display: grid;
+  grid-template-columns: minmax(220px, .35fr) minmax(0, 1fr);
+  gap: clamp(26px, 4vw, 52px);
+  align-items: center;
+  margin-bottom: 40px;
+  padding: clamp(22px, 3vw, 34px);
+  border: 1px solid rgba(20, 83, 45, .14);
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 10px 24px rgba(17, 24, 39, .05);
+}
+
+.aboutRobertImagePlaceholder {
+  min-height: 220px;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 6px;
+  padding: 20px;
+  border: 1px dashed rgba(20, 83, 45, .3);
+  border-radius: 14px;
+  background: #f5f3ee;
+  color: #435248;
+  text-align: center;
+}
+
+.aboutRobertImagePlaceholder span {
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.aboutRobertImagePlaceholder small {
+  color: #7b837e;
+  font-size: 12px;
+}
+
+.aboutRobertSection h2,
+.aboutRobertSection p {
+  margin-top: 0;
+}
+
+.aboutRobertSection p:last-child {
+  margin-bottom: 0;
+}
+
+.aboutRecipeBoxCta {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: center;
+  padding: clamp(22px, 3vw, 34px);
+  border-radius: 18px;
+  background: #f4f7ef;
+  border: 1px solid rgba(122, 154, 61, .3);
+}
+
+.aboutRecipeBoxCta h2,
+.aboutRecipeBoxCta p {
+  margin-top: 0;
+}
+
+.aboutRecipeBoxCta h2 {
+  margin-bottom: 5px;
+}
+
+.aboutRecipeBoxCta p {
+  margin-bottom: 0;
+}
+
+.aboutRecipeBoxCtaButtons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* =========================================================
+   FIRST-VISIT WELCOME MODAL
+   ========================================================= */
+
+.welcomeJourneyOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 5000;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background: rgba(17, 24, 39, .72);
+}
+
+.welcomeJourneyModal {
+  position: relative;
+  width: min(92vw, 760px);
+  max-height: calc(100dvh - 36px);
+  overflow-y: auto;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 30px 90px rgba(0, 0, 0, .36);
+}
+
+.welcomeJourneyClose {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: #ffffff;
+  color: #111827;
+  font-size: 27px;
+  line-height: 1;
+}
+
+.welcomeJourneyContent {
+  padding: clamp(28px, 5vw, 48px);
+  text-align: center;
+}
+
+.welcomeJourneyKicker {
+  margin: 0 0 8px;
+  color: #7A9A3D;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.welcomeJourneyContent h2 {
+  margin: 0 44px 10px;
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  font-size: 24px;
+  line-height: 1.15;
+  font-weight: 700;
+}
+
+.welcomeJourneyContent > p:not(.welcomeJourneyKicker) {
+  max-width: 620px;
+  margin: 0 auto 20px;
+  color: #4b5563;
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.welcomeJourneyPath {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+  flex-wrap: wrap;
+  margin: 0 auto 24px;
+  padding: 14px;
+  border-radius: 12px;
+  background: #f4f7ef;
+  color: #173d28;
+}
+
+.welcomeJourneyPath span {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.welcomeJourneyPath b {
+  color: #7A9A3D;
+  font-weight: 700;
+}
+
+.welcomeJourneyActions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 980px) {
+  .aboutDifferenceGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .aboutJourneyStep,
+  .aboutJourneyStep.reverse {
+    grid-template-columns: minmax(240px, .85fr) minmax(0, 1.15fr);
+    grid-template-areas: "visual copy";
+  }
+}
+
+@media (max-width: 700px) {
+  .aboutRecipeBoxHero .pageHeroTextOverlay h1 {
+    font-size: 26px !important;
+  }
+
+  .aboutRecipeBoxPage {
+    padding-top: 18px;
+  }
+
+  .aboutRecipeBoxPage h2 {
+    font-size: 20px;
+  }
+
+  .aboutRecipeBoxPage h3 {
+    font-size: 18px;
+  }
+
+  .aboutRecipeBoxIntro,
+  .aboutRobertSection {
+    grid-template-columns: 1fr;
+  }
+
+  .aboutRecipeBoxIntro blockquote {
+    font-size: 20px;
+  }
+
+  .aboutJourneyStep,
+  .aboutJourneyStep.reverse {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "visual"
+      "copy";
+    padding: 16px;
+  }
+
+  .aboutJourneyFeatures ul {
+    grid-template-columns: 1fr;
+  }
+
+  .aboutDifferenceGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .aboutRecipeBoxCta {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .aboutRecipeBoxCtaButtons,
+  .aboutRecipeBoxCtaButtons button {
+    width: 100%;
+  }
+
+  .welcomeJourneyOverlay {
+    padding: 8px;
+  }
+
+  .welcomeJourneyModal {
+    width: 100%;
+    max-height: calc(100dvh - 16px);
+    border-radius: 13px;
+  }
+
+  .welcomeJourneyContent {
+    padding: 28px 18px 22px;
+  }
+
+  .welcomeJourneyContent h2 {
+    margin-left: 36px;
+    margin-right: 36px;
+    font-size: 22px;
+  }
+
+  .welcomeJourneyActions,
+  .welcomeJourneyActions button {
+    width: 100%;
+  }
+}
