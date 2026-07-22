@@ -28123,3 +28123,25 @@ body.rrbPopupOpen {
     width: auto !important;
   }
 }
+/* =========================================================
+   JULY 2026 — NEW HOMEPAGE HERO ROTATION IMAGE SERIES
+   ========================================================= */
+
+/* Preserve the existing cross-fade transition while using the
+   new seven-image full-width homepage hero series. */
+.heroRotatorImage {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+}
+
+/* The uploaded images already include generous text-safe space
+   on the left, so no additional dark overlay is needed. */
+.heroOverlay {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, .04) 0%,
+    rgba(255, 255, 255, 0) 58%
+  ) !important;
+}

@@ -704,12 +704,13 @@ const AUTO_IMAGE_PREFIXES = new Set([
 ]);
 
 const HERO_IMAGES = [
-  "images/thumbs/heroes/hero-grill-wide.jpg",
-  "images/thumbs/heroes/hero-pasta-wide.jpg",
-  "images/thumbs/heroes/hero-salad-wide.jpg",
-  "images/thumbs/heroes/hero-brisket-wide.jpg",
-  "images/thumbs/heroes/hero-cake-wide.jpg",
-  "images/thumbs/heroes/hero-shrimp-wide.jpg",
+  "images/heroes/main-hero-01.jpg",
+  "images/heroes/main-hero-02.jpg",
+  "images/heroes/main-hero-03.jpg",
+  "images/heroes/main-hero-04.jpg",
+  "images/heroes/main-hero-05.jpg",
+  "images/heroes/main-hero-06.jpg",
+  "images/heroes/main-hero-07.jpg",
 ];
 
 const HERO_INFO_BUTTONS = [
