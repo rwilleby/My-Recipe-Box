@@ -7005,134 +7005,101 @@ const PAGE_POPUP_COPY = {
   Home: {
     title: "Welcome to Robert's Recipe Box",
     intro:
-      "Robert's Recipe Box is more than a collection of recipes—it's a growing resource for home cooks who enjoy great food, practical cooking tips, meal planning, and kitchen organization. Whether you're looking for tonight's dinner, planning meals for the week, or stocking your freezer, you'll find ideas to make cooking easier and more enjoyable.",
+      "Discover recipes, meal-planning ideas, kitchen tips, and practical resources to make home cooking easier and more enjoyable.",
     bullets: [
-      "Hundreds of organized recipes",
-      "Meal planning tools",
-      "Freezer-friendly meal ideas",
-      "Kitchen organization tips",
-      "Product recommendations",
-      "Helpful cooking resources",
+      "Browse hundreds of organized recipes.",
+      "Explore helpful tools, guides, and product recommendations.",
     ],
     tip:
-      "Start by browsing Recipes, or use the search feature to quickly find a favorite dish or ingredient.",
+      "Start with the Recipes page or use Search to quickly find a favorite dish.",
   },
   "Browse Our Recipe Library": {
     title: "Browse Our Recipe Library",
     intro:
-      "Welcome to the heart of Robert's Recipe Box. While not every recipe has been personally tested in my kitchen, each one has been carefully selected and reviewed for inclusion in my personal recipe library. Recipes are organized into easy-to-browse categories and presented in a consistent format to help you cook with confidence—whether you're preparing a quick weeknight dinner or a special meal for family and friends.",
+      "Browse a carefully organized collection of recipes selected for my personal recipe library.",
     bullets: [
-      "Hundreds of organized recipes",
-      "Step-by-step cooking instructions",
-      "Prep and cook times",
-      "Nutrition information (when available)",
-      "Freezer and storage recommendations",
-      "Meal Balance ratings",
+      "Find recipes by category, ingredient, or cooking method.",
+      "View prep times, storage tips, and Meal Balance ratings.",
     ],
     tip:
-      "Use the search and filter tools together to quickly narrow recipes by category, ingredient, cooking method, dietary preference, or other criteria.",
+      "Use Search and Filters together to quickly narrow your choices.",
   },
   "Your Weekly Dinner Planner": {
     title: "Meal Planning",
     intro:
-      "Planning ahead makes mealtime easier, reduces grocery costs, and helps eliminate the daily question of \"What's for dinner?\" This section brings together practical tools and ideas to simplify meal planning for busy households.",
+      "Take the guesswork out of \"What's for dinner?\" with practical meal-planning ideas.",
     bullets: [
-      "Weekly meal plans",
-      "Grocery list ideas",
-      "Freezer meal suggestions",
-      "Batch cooking inspiration",
-      "Family meal ideas",
-      "Seasonal meal collections",
+      "Build weekly meal plans.",
+      "Discover freezer-friendly and make-ahead meals.",
     ],
     tip:
-      "Plan just a few meals at a time and build your schedule around leftovers and freezer meals.",
+      "Planning just a few meals ahead can save both time and money.",
   },
   "Understanding MealBalance": {
     title: "Meal Balance",
     intro:
-      "Meal Balance is Robert's Recipe Box's easy-to-understand guide for building satisfying, well-balanced meals. Rather than focusing only on calories, Meal Balance considers portion size, protein, vegetables, carbohydrates, healthy fats, and overall meal satisfaction.",
+      "Meal Balance provides a simple way to compare recipes and build more satisfying meals.",
     bullets: [
-      "Meal Balance ratings",
-      "Serving suggestions",
-      "Portion guidance",
-      "Balanced meal ideas",
-      "Nutrition information when available",
+      "Understand each recipe's overall balance.",
+      "Compare recipes at a glance.",
     ],
     tip:
-      "Meal Balance ratings are designed to help you compare recipes—not replace your personal dietary needs or your healthcare provider's advice.",
+      "Meal Balance is a guide, not a substitute for professional dietary advice.",
   },
   "Quick & Easy Freezer Meals": {
     title: "Freezer Meals",
     intro:
-      "A well-stocked freezer can make busy days much less stressful. This section focuses on recipes, storage methods, and planning ideas that help you prepare meals ahead of time without sacrificing quality or flavor.",
+      "Prepare meals ahead of time and keep your freezer stocked with ready-to-enjoy favorites.",
     bullets: [
-      "Freezer-friendly recipes",
-      "Storage recommendations",
-      "Reheating instructions",
-      "Batch cooking ideas",
-      "Portioning suggestions",
-      "Freezer organization tips",
+      "Discover freezer-friendly recipes.",
+      "Learn proper storage and reheating methods.",
     ],
     tip:
-      "Label every container with the recipe name and date to make freezer meals easy to identify later.",
+      "Label every container with the recipe name and date.",
   },
   "Storage & Organization": {
     title: "Kitchen Organization",
     intro:
-      "An organized kitchen saves time, reduces waste, and makes cooking more enjoyable. Here you'll find ideas for organizing everything from your pantry to your freezer using practical storage solutions.",
+      "Create a more efficient kitchen with practical storage and organization ideas.",
     bullets: [
-      "Pantry organization",
-      "Refrigerator storage",
-      "Freezer organization",
-      "Food storage recommendations",
-      "Kitchen equipment ideas",
-      "Organization guides",
+      "Organize your pantry, refrigerator, and freezer.",
+      "Find products that simplify food storage.",
     ],
     tip:
-      "Organize foods by category so ingredients are easier to find and less likely to be forgotten.",
+      "Group similar items together to make them easier to find.",
   },
   "Products I Recommend": {
     title: "Recommended Products",
     intro:
-      "Over the years, I've found certain kitchen tools and storage products that simply work well. This section highlights products I personally use or believe offer good value for home cooks.",
+      "Browse kitchen tools and storage products that I recommend for everyday home cooking.",
     bullets: [
-      "Kitchen tools",
-      "Food storage products",
-      "Small appliances",
-      "Meal prep supplies",
-      "Pantry organization products",
-      "Helpful cooking accessories",
+      "Discover practical kitchen equipment.",
+      "Find storage solutions that help keep food fresh.",
     ],
     tip:
-      "Product recommendations are selected because they're practical, durable, and useful—not because every kitchen needs every item.",
+      "Buy quality items you'll use often rather than filling your kitchen with gadgets.",
   },
   "Welcome to Our Site": {
     title: "About Robert's Recipe Box",
     intro:
-      "Robert's Recipe Box began as a personal recipe collection and has grown into a resource for sharing favorite recipes, cooking ideas, and practical kitchen knowledge with others who enjoy cooking at home.",
+      "Learn how this website grew from a personal recipe collection into a resource for home cooks.",
     bullets: [
-      "The story behind the website",
-      "How recipes are selected",
-      "Website features",
-      "Frequently asked questions",
-      "Future plans for the site",
+      "Read the story behind the site.",
+      "Learn how recipes are selected and organized.",
     ],
     tip:
-      "New recipes, features, and resources are added regularly, so be sure to check back often.",
+      "New recipes and features are added regularly, so visit often.",
   },
   "Contact Me": {
     title: "Contact",
     intro:
-      "Have a question, found an error, or have a recipe suggestion? I'd enjoy hearing from you. Your comments and feedback help make Robert's Recipe Box even better.",
+      "I'd love to hear your questions, suggestions, and feedback about the website.",
     bullets: [
-      "Contact information",
-      "Feedback form",
-      "Recipe suggestions",
-      "General questions",
-      "Website comments",
+      "Report recipe or website issues.",
+      "Share ideas and recipe suggestions.",
     ],
     tip:
-      "If you discover an issue with a recipe or page, please let me know so I can review and improve it.",
+      "Your feedback helps make Robert's Recipe Box even better.",
   },
 };
 
@@ -7152,17 +7119,13 @@ function getPagePopupCopy(pageTitle, pageEyebrow) {
     return {
       title: "Kitchen Tips",
       intro:
-        "Sometimes the smallest cooking tips make the biggest difference. This section collects practical ideas, shortcuts, and techniques that can save time, improve results, and make everyday cooking more enjoyable.",
+        "Learn practical cooking techniques and kitchen shortcuts that make everyday cooking easier.",
       bullets: [
-        "Cooking techniques",
-        "Ingredient substitutions",
-        "Kitchen shortcuts",
-        "Food safety information",
-        "Time-saving ideas",
-        "Helpful cooking guides",
+        "Improve your cooking skills.",
+        "Save time with proven kitchen tips.",
       ],
       tip:
-        "Even experienced cooks can discover new techniques that make favorite recipes easier to prepare.",
+        "Even small techniques can make a big difference.",
     };
   }
 
