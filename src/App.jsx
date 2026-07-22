@@ -1440,26 +1440,90 @@ function Hero({ setActivePage }) {
   );
 }
 
-function HomeQuickLinks({ setActivePage, setFilter }) {
-  const links = [
-    { label: "All Recipes", note: "Browse the library", icon: "♨", action: () => setActivePage("Recipes") },
-    { label: "Meal Planning", note: "Plan your week", icon: "▦", action: () => setActivePage("Meal Planner") },
-    { label: "Grocery Lists", note: "Organized & easy", icon: "⌑", action: () => setActivePage("Shopping Lists") },
-    { label: "Freezer Meals", note: "Make ahead", icon: "❄", action: () => setActivePage("Freezer-Friendly Meals") },
-    { label: "Leftovers", note: "Reduce waste", icon: "⌁", action: () => setActivePage("Kitchen Refrigerator") },
-    { label: "Recipes for Two", note: "Right-sized meals", icon: "♙♙", action: () => setActivePage("Recipes") },
-    { label: "Seniors & Easy", note: "Simple & practical", icon: "♡", action: () => setActivePage("Easy 30-Minute Meals") },
-  ];
+const HOME_PHOTO_FEATURES = [
+  {
+    title: "Browse Recipes",
+    description: "Explore the complete recipe-card library.",
+    image: "images/heroes/hero-page-browse-recipes.jpg",
+    page: "Recipes",
+  },
+  {
+    title: "Meal Planning",
+    description: "Organize meals for the coming week.",
+    image: "images/heroes/hero-weekly-dinner-planner.png",
+    page: "Meal Planner",
+  },
+  {
+    title: "Shopping",
+    description: "Build an organized grocery list.",
+    image: "images/heroes/hero-page-grocery-list.jpg",
+    page: "Shopping Lists",
+  },
+  {
+    title: "Cooking Guides",
+    description: "Review practical cooking tips and guides.",
+    image: "images/heroes/hero-page-reference-guides.jpg",
+    page: "Reference Guides",
+  },
+  {
+    title: "Freezer Meals",
+    description: "Plan, package, freeze, and reheat meals.",
+    image: "images/heroes/hero-page-freezer-meals.png",
+    page: "Freezer-Friendly Meals",
+  },
+  {
+    title: "About Robert",
+    description: "Learn why Robert’s Recipe Box was created.",
+    image: "images/heroes/hero-page-about-us.jpg",
+    page: "About",
+  },
+];
 
+function HomePhotoFeatureSection({ setActivePage }) {
   return (
-    <section className="homeQuickLinks" aria-label="Quick recipe and planning links">
-      {links.map((link) => (
-        <button type="button" className="homeQuickLink" key={link.label} onClick={link.action}>
-          <span className="homeQuickLinkIcon" aria-hidden="true">{link.icon}</span>
-          <strong>{link.label}</strong>
-          <small>{link.note}</small>
-        </button>
-      ))}
+    <section
+      className="section homePhotoFeatureSection"
+      aria-labelledby="home-photo-features-title"
+    >
+      <div className="sectionTitle homePhotoFeatureHeader">
+        <div>
+          <h2 id="home-photo-features-title">
+            Everything You Need for Smarter Home Cooking
+          </h2>
+          <p>
+            Recipes, meal planning, shopping tools, cooking help, and practical
+            freezer organization.
+          </p>
+        </div>
+      </div>
+
+      <div className="homePhotoFeatureGrid">
+        {HOME_PHOTO_FEATURES.map((feature) => (
+          <button
+            key={feature.title}
+            type="button"
+            className="homePhotoFeatureTile"
+            onClick={() => setActivePage(feature.page)}
+            aria-label={`Open ${feature.title}`}
+          >
+            <span className="homePhotoFeatureImage">
+              <img
+                src={`${import.meta.env.BASE_URL}${feature.image}`}
+                alt=""
+                aria-hidden="true"
+                loading="lazy"
+                decoding="async"
+              />
+            </span>
+
+            <span className="homePhotoFeatureText">
+              <strong>{feature.title}</strong>
+              <small>{feature.description}</small>
+              <span className="homePhotoFeatureArrow" aria-hidden="true">›</span>
+            </span>
+          </button>
+        ))}
+      </div>
     </section>
   );
 }
@@ -1558,57 +1622,124 @@ function getComboMealBalanceScore(meal) {
   return Math.max(1, Math.min(10, score));
 }
 
+function FeaturedComboMealModal({ meal, onClose }) {
+  usePopupPageMode(Boolean(meal));
+
+  useEffect(() => {
+    if (!meal) return undefined;
+
+    function handleKeyDown(event) {
+      if (event.key === "Escape") onClose();
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [meal, onClose]);
+
+  if (!meal) return null;
+
+  return (
+    <div
+      className="featuredComboModalOverlay"
+      role="presentation"
+      onMouseDown={onClose}
+    >
+      <div
+        className="featuredComboModal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="featured-combo-modal-title"
+        onMouseDown={(event) => event.stopPropagation()}
+      >
+        <div className="featuredComboModalHeader">
+          <div>
+            <small>Combo-Meal #{String(meal.number).padStart(3, "0")}</small>
+            <h2 id="featured-combo-modal-title">{meal.title}</h2>
+            {meal.subtitle && <p>{meal.subtitle}</p>}
+          </div>
+
+          <button
+            type="button"
+            className="featuredComboModalClose"
+            onClick={onClose}
+            aria-label="Close Combo-Meal"
+          >
+            ×
+          </button>
+        </div>
+
+        <div className="featuredComboModalImage">
+          <DinnerCombinationImage
+            meal={meal}
+            className="featuredComboModalImageAsset"
+            loading="eager"
+            fetchPriority="high"
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function HomeComboMealStrip({ setActivePage }) {
   const homeComboMeals = useMemo(
     () => uniqueRecordsByPermanentId(dinnerCombinations).slice(0, 6),
     []
   );
+  const [selectedMeal, setSelectedMeal] = useState(null);
 
   if (!homeComboMeals.length) return null;
 
   return (
-    <section className="section homeComboMealStrip" aria-label="Featured combo meals">
-      <div className="sectionTitle homeComboMealStripHeader">
-        <h2>Featured Combo-Meals</h2>
-        <button type="button" onClick={() => setActivePage("Dinner Combinations")}>
-          View all combo-meals ›
-        </button>
-      </div>
-
-      <div className="homeComboMealGrid">
-        {homeComboMeals.map((meal) => (
-          <button
-            type="button"
-            className="homeComboMealCard"
-            key={meal.id}
-            onClick={() => setActivePage("Dinner Combinations")}
-            aria-label={`View combo meal ${meal.number}: ${meal.title}`}
-          >
-            <div className="homeComboMealImage">
-              <DinnerCombinationImage
-                meal={meal}
-                className="homeComboMealImageAsset"
-                loading="lazy"
-              />
-            </div>
-            <span className="homeComboMealText">
-              <strong>{meal.title}</strong>
-              <small>{meal.subtitle}</small>
-              <span
-                className="homeComboMealBalanceBadge"
-                title={`MealBalance ${getComboMealBalanceScore(meal)}`}
-                aria-label={`MealBalance ${getComboMealBalanceScore(meal)}`}
-              >
-                {getComboMealBalanceScore(meal)}
-              </span>
-            </span>
+    <>
+      <section className="section homeComboMealStrip" aria-label="Featured combo meals">
+        <div className="sectionTitle homeComboMealStripHeader">
+          <h2>Featured Combo-Meals</h2>
+          <button type="button" onClick={() => setActivePage("Dinner Combinations")}>
+            View all combo-meals ›
           </button>
-        ))}
-      </div>
-    </section>
+        </div>
+
+        <div className="homeComboMealGrid">
+          {homeComboMeals.map((meal) => (
+            <button
+              type="button"
+              className="homeComboMealCard"
+              key={meal.id}
+              onClick={() => setSelectedMeal(meal)}
+              aria-label={`Open combo meal ${meal.number}: ${meal.title}`}
+            >
+              <div className="homeComboMealImage">
+                <DinnerCombinationImage
+                  meal={meal}
+                  className="homeComboMealImageAsset"
+                  loading="lazy"
+                />
+              </div>
+
+              <span className="homeComboMealText">
+                <strong>{meal.title}</strong>
+                <small>{meal.subtitle}</small>
+                <span
+                  className="homeComboMealBalanceBadge"
+                  title={`MealBalance ${getComboMealBalanceScore(meal)}`}
+                  aria-label={`MealBalance ${getComboMealBalanceScore(meal)}`}
+                >
+                  {getComboMealBalanceScore(meal)}
+                </span>
+              </span>
+            </button>
+          ))}
+        </div>
+      </section>
+
+      <FeaturedComboMealModal
+        meal={selectedMeal}
+        onClose={() => setSelectedMeal(null)}
+      />
+    </>
   );
 }
-
 
 function RecipeImage({ recipe }) {
   const candidates = recipeImageCandidates(recipe);
@@ -3324,7 +3455,7 @@ function Home({
   return (
     <>
       <Hero setActivePage={setActivePage} />
-      <HomeQuickLinks setActivePage={setActivePage} setFilter={setFilter} />
+      <HomePhotoFeatureSection setActivePage={setActivePage} />
       <HomeComboMealStrip setActivePage={setActivePage} />
       <CategoryGrid setFilter={setFilter} setActivePage={setActivePage} />
       <HomeRecipeCounters classifiedRecipes={classifiedRecipes} />

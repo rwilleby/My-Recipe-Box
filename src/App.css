@@ -26066,3 +26066,278 @@ body.rrbPopupOpen {
     min-width: 0 !important;
   }
 }
+/* =========================================================
+   HOMEPAGE PHOTO FEATURES + FEATURED COMBO-MEAL MODAL
+   Keeps the restored pre–Mega Menu header/navigation.
+   ========================================================= */
+
+.homePhotoFeatureSection {
+  padding-top: 18px;
+  padding-bottom: 14px;
+}
+
+.homePhotoFeatureHeader {
+  align-items: flex-end;
+  margin-bottom: 12px;
+}
+
+.homePhotoFeatureHeader > div {
+  min-width: 0;
+}
+
+.homePhotoFeatureHeader h2 {
+  margin: 0;
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  font-size: 20px;
+  line-height: 1.15;
+}
+
+.homePhotoFeatureHeader p {
+  margin: 4px 0 0;
+  color: #6b7280;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.homePhotoFeatureGrid,
+.homeComboMealGrid {
+  display: grid !important;
+  grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+  gap: 12px !important;
+  align-items: stretch;
+}
+
+.homePhotoFeatureTile,
+.homeComboMealCard {
+  position: relative;
+  min-width: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background: #ffffff;
+  box-shadow: 0 7px 18px rgba(17, 24, 39, 0.07);
+  text-align: left;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    border-color 180ms ease;
+}
+
+.homePhotoFeatureTile:hover,
+.homeComboMealCard:hover {
+  transform: translateY(-3px);
+  border-color: #cbd8cd;
+  box-shadow: 0 12px 25px rgba(17, 24, 39, 0.12);
+}
+
+.homePhotoFeatureImage,
+.homeComboMealImage {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1.42 / 1;
+  overflow: hidden;
+  background: #f4f1eb;
+}
+
+.homePhotoFeatureImage img,
+.homeComboMealImageAsset {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  transition: transform 260ms ease;
+}
+
+.homePhotoFeatureTile:hover .homePhotoFeatureImage img,
+.homeComboMealCard:hover .homeComboMealImageAsset {
+  transform: scale(1.025);
+}
+
+.homePhotoFeatureText,
+.homeComboMealText {
+  position: relative;
+  display: block;
+  min-height: 86px;
+  padding: 11px 12px 12px;
+  background: #ffffff;
+}
+
+.homePhotoFeatureText strong,
+.homeComboMealText strong {
+  display: block;
+  padding-right: 24px;
+  color: #111827;
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  font-size: 15px;
+  line-height: 1.12;
+}
+
+.homePhotoFeatureText small,
+.homeComboMealText small {
+  display: block;
+  margin-top: 5px;
+  padding-right: 20px;
+  color: #6b7280;
+  font-size: 11.5px;
+  line-height: 1.25;
+}
+
+.homePhotoFeatureArrow {
+  position: absolute;
+  right: 11px;
+  bottom: 9px;
+  color: var(--green);
+  font-size: 22px;
+  line-height: 1;
+}
+
+.homeComboMealBalanceBadge {
+  right: 9px !important;
+  bottom: 9px !important;
+}
+
+.homeComboMealStrip {
+  padding-top: 12px;
+  padding-bottom: 16px;
+}
+
+.featuredComboModalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 4000;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(17, 24, 39, 0.76);
+  animation: featuredComboOverlayIn 160ms ease both;
+}
+
+.featuredComboModal {
+  width: min(94vw, 1180px);
+  max-height: 94vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.38);
+  animation: featuredComboModalIn 190ms ease both;
+}
+
+.featuredComboModalHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 22px;
+  padding: 15px 18px;
+  border-bottom: 1px solid var(--line);
+  background: #fbfaf7;
+}
+
+.featuredComboModalHeader small {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--green);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.featuredComboModalHeader h2 {
+  margin: 0;
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  font-size: 25px;
+  line-height: 1.08;
+}
+
+.featuredComboModalHeader p {
+  margin: 4px 0 0;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.featuredComboModalClose {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: #ffffff;
+  color: #111827;
+  font-size: 27px;
+  line-height: 1;
+}
+
+.featuredComboModalImage {
+  min-height: 0;
+  padding: 18px;
+  overflow: auto;
+  background: #f4f1eb;
+}
+
+.featuredComboModalImageAsset {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  max-height: calc(94vh - 120px);
+  margin: 0 auto;
+  object-fit: contain;
+  border-radius: 9px;
+  background: #ffffff;
+  box-shadow: 0 12px 32px rgba(17, 24, 39, 0.16);
+}
+
+@keyframes featuredComboOverlayIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes featuredComboModalIn {
+  from { opacity: 0; transform: translateY(8px) scale(0.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media (max-width: 1150px) {
+  .homePhotoFeatureGrid,
+  .homeComboMealGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .homePhotoFeatureGrid,
+  .homeComboMealGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .featuredComboModalOverlay {
+    padding: 10px;
+  }
+
+  .featuredComboModal {
+    width: 100%;
+    max-height: 96vh;
+    border-radius: 13px;
+  }
+
+  .featuredComboModalHeader {
+    padding: 12px 13px;
+  }
+
+  .featuredComboModalImage {
+    padding: 10px;
+  }
+}
+
+@media (max-width: 460px) {
+  .homePhotoFeatureGrid,
+  .homeComboMealGrid {
+    grid-template-columns: 1fr !important;
+  }
+}
