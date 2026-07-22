@@ -1701,7 +1701,7 @@ function getComboMealBalanceScore(meal) {
 function FeaturedComboMealModal({
   meal,
   onClose,
-  setActivePage,
+  onViewMeal,
   openRecipeCard,
   favorites,
   toggleFavorite,
@@ -1734,7 +1734,7 @@ function FeaturedComboMealModal({
 
   function openMealPage() {
     onClose();
-    setActivePage("Dinner Combinations");
+    onViewMeal(meal);
   }
 
   function openLinkedRecipe(recipeId) {
@@ -1824,17 +1824,90 @@ function FeaturedComboMealModal({
   );
 }
 
+function FeaturedComboMealCardModal({
+  meal,
+  onClose,
+  setPlan,
+  openRecipeCard,
+}) {
+  usePopupPageMode(Boolean(meal));
+
+  useEffect(() => {
+    if (!meal) return undefined;
+
+    function handleKeyDown(event) {
+      if (event.key === "Escape") onClose();
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [meal, onClose]);
+
+  if (!meal) return null;
+
+  function addMealToPlan(mealId, slotKey) {
+    if (!mealId || !slotKey) return;
+
+    setPlan((current) => {
+      const next = normalizeTwoWeekPlan(current);
+      next[slotKey] = [...(next[slotKey] || []), mealId];
+      return next;
+    });
+  }
+
+  return (
+    <div
+      className="featuredComboCardOverlay"
+      role="presentation"
+      onMouseDown={onClose}
+    >
+      <div
+        className="featuredComboCardDialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="featured-combo-card-title"
+        onMouseDown={(event) => event.stopPropagation()}
+      >
+        <header className="featuredComboCardDialogHeader">
+          <div>
+            <small>Combo-Meal #{String(meal.number).padStart(3, "0")}</small>
+            <h2 id="featured-combo-card-title">{meal.title}</h2>
+          </div>
+          <button
+            type="button"
+            className="featuredComboCardDialogClose"
+            onClick={onClose}
+            aria-label="Close Combo-Meal card"
+          >
+            ×
+          </button>
+        </header>
+
+        <div className="featuredComboCardDialogBody">
+          <DinnerCombinationCard
+            meal={meal}
+            onAddMealToPlan={addMealToPlan}
+            openRecipeCard={openRecipeCard}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function HomeComboMealStrip({
   setActivePage,
   openRecipeCard,
   favorites,
   toggleFavorite,
+  setPlan,
 }) {
   const homeComboMeals = useMemo(
     () => uniqueRecordsByPermanentId(dinnerCombinations).slice(0, 6),
     []
   );
   const [selectedMeal, setSelectedMeal] = useState(null);
+  const [selectedMealCard, setSelectedMealCard] = useState(null);
 
   if (!homeComboMeals.length) return null;
 
@@ -1889,10 +1962,17 @@ function HomeComboMealStrip({
       <FeaturedComboMealModal
         meal={selectedMeal}
         onClose={() => setSelectedMeal(null)}
-        setActivePage={setActivePage}
+        onViewMeal={setSelectedMealCard}
         openRecipeCard={openRecipeCard}
         favorites={favorites}
         toggleFavorite={toggleFavorite}
+      />
+
+      <FeaturedComboMealCardModal
+        meal={selectedMealCard}
+        onClose={() => setSelectedMealCard(null)}
+        setPlan={setPlan}
+        openRecipeCard={openRecipeCard}
       />
     </>
   );
@@ -3611,6 +3691,7 @@ function Home({
   setActivePage,
   setFilter,
   classifiedRecipes,
+  setPlan,
 }) {
   return (
     <>
@@ -3621,6 +3702,7 @@ function Home({
         openRecipeCard={openRecipeCard}
         favorites={favorites}
         toggleFavorite={toggleFavorite}
+        setPlan={setPlan}
       />
       <CategoryGrid setFilter={setFilter} setActivePage={setActivePage} />
       <HomeRecipeCounters classifiedRecipes={classifiedRecipes} />

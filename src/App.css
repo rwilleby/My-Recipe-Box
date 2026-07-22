@@ -27783,3 +27783,123 @@ body.rrbPopupOpen {
     font-size: 7px !important;
   }
 }
+/* =========================================================
+   JULY 2026 — SUBMENU HOVER BRIDGE + DIRECT COMBO CARD VIEW
+   ========================================================= */
+
+/* Keep the submenu reachable while the pointer crosses the small
+   visual gap between the main navigation item and its dropdown. */
+.simpleHeaderNavItem {
+  position: relative !important;
+}
+
+.simpleHeaderSubmenu::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -14px;
+  height: 14px;
+  background: transparent;
+}
+
+.simpleHeaderSubmenu {
+  top: calc(100% - 1px) !important;
+}
+
+/* Actual Combo-Meal card shown after clicking COMBO-MEAL / View Meal. */
+.featuredComboCardOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 4200;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(17, 24, 39, .78);
+  animation: featuredComboOverlayIn 160ms ease both;
+}
+
+.featuredComboCardDialog {
+  width: min(96vw, 1380px);
+  max-height: 95vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 18px;
+  background: #f7f6f2;
+  box-shadow: 0 30px 100px rgba(0, 0, 0, .4);
+  animation: featuredComboModalIn 190ms ease both;
+}
+
+.featuredComboCardDialogHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--line);
+  background: #ffffff;
+}
+
+.featuredComboCardDialogHeader small {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--green);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.featuredComboCardDialogHeader h2 {
+  margin: 0;
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  font-size: 24px;
+  line-height: 1.1;
+}
+
+.featuredComboCardDialogClose {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: #ffffff;
+  color: #111827;
+  font-size: 27px;
+  line-height: 1;
+}
+
+.featuredComboCardDialogBody {
+  min-height: 0;
+  overflow: auto;
+  padding: 16px;
+}
+
+.featuredComboCardDialogBody .dinnerCombinationCard {
+  width: 100%;
+  margin: 0;
+}
+
+@media (max-width: 760px) {
+  .featuredComboCardOverlay {
+    padding: 8px;
+  }
+
+  .featuredComboCardDialog {
+    width: 100%;
+    max-height: 97vh;
+    border-radius: 12px;
+  }
+
+  .featuredComboCardDialogHeader {
+    padding: 11px 12px;
+  }
+
+  .featuredComboCardDialogBody {
+    padding: 8px;
+  }
+}
