@@ -1,0 +1,22 @@
+ABOUT ROBERT'S RECIPE BOX — REPLACEABLE IMAGE ASSETS
+
+The page is fully functional without these files. If an image is missing,
+the page displays a styled, accessible placeholder.
+
+Add approved JPG images using these exact filenames:
+
+meal-journey-choose.jpg
+meal-journey-plan.jpg
+meal-journey-shop.jpg
+meal-journey-prepare.jpg
+meal-journey-portion.jpg
+meal-journey-freeze.jpg
+meal-journey-store.jpg
+meal-journey-reheat.jpg
+meal-journey-enjoy.jpg
+
+Place them in:
+public/images/about/
+
+The About Robert personal photograph is intentionally shown as an editable
+HTML/CSS placeholder. No generic stock portrait was added.
