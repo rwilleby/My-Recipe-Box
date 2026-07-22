@@ -28058,3 +28058,68 @@ body.rrbPopupOpen {
   line-height: 1.35 !important;
   font-weight: 400 !important;
 }
+/* =========================================================
+   JULY 2026 — HOMEPAGE CLIFF NOTES STANDARD
+   ========================================================= */
+
+/* The three numbered homepage hero buttons are removed in JSX.
+   Place the same PREV / CLIFF NOTES / NEXT strip used on supporting pages
+   at the lower-right edge of the rotating homepage hero. */
+.hero {
+  position: relative !important;
+}
+
+.hero > .pageHelpStrip.pageNotesStrip,
+.hero > .pageNotesStrip {
+  position: absolute !important;
+  left: auto !important;
+  right: clamp(28px, 5.5vw, 76px) !important;
+  top: auto !important;
+  bottom: 12px !important;
+  width: auto !important;
+  max-width: calc(100% - 56px) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  transform: none !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 7px !important;
+  z-index: 12 !important;
+  overflow: visible !important;
+}
+
+/* Open the homepage Cliff Notes popup upward so it stays inside the hero. */
+.hero .pageHelpItem.pageNotesItem .pageHelpPopup.pageNotesPopup,
+.hero .pageNotesPopup {
+  left: auto !important;
+  right: 0 !important;
+  top: auto !important;
+  bottom: calc(100% + 8px) !important;
+  transform: none !important;
+}
+
+/* Give the hero copy enough clearance above the new controls. */
+.heroCopy {
+  padding-bottom: clamp(42px, 5vw, 64px) !important;
+}
+
+@media (max-width: 700px) {
+  .hero > .pageHelpStrip.pageNotesStrip,
+  .hero > .pageNotesStrip {
+    left: 18px !important;
+    right: 18px !important;
+    max-width: none !important;
+    gap: 5px !important;
+  }
+
+  .hero .pageHelpItem.pageNotesItem .pageHelpPopup.pageNotesPopup,
+  .hero .pageNotesPopup {
+    position: fixed !important;
+    left: 16px !important;
+    right: 16px !important;
+    top: auto !important;
+    bottom: 18px !important;
+    width: auto !important;
+  }
+}

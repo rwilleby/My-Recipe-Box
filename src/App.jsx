@@ -1214,9 +1214,12 @@ const NAV_GROUPS = [
   },
 ];
 
-const PAGE_NAVIGATION_ORDER = NAV_GROUPS.flatMap((group) =>
-  group.items.filter((item) => item.page).map((item) => item.page)
-);
+const PAGE_NAVIGATION_ORDER = [
+  "Home",
+  ...NAV_GROUPS.flatMap((group) =>
+    group.items.filter((item) => item.page).map((item) => item.page)
+  ),
+];
 
 const PageNavigationContext = createContext({
   activePage: "Home",
@@ -1437,9 +1440,9 @@ function Hero({ setActivePage }) {
 
         <p>Welcome to my free recipe-card and meal-planning site. I use it every week for my own meal planning, and I designed it especially for seniors, couples, empty nesters, and smaller households who want practical meals, useful leftovers, freezer-friendly ideas, and organized grocery lists. <strong>Shop smarter. Save more.</strong></p>
 
-        <HeroInfoButtons setActivePage={setActivePage} />
       </div>
 
+      <PageHelpButtonStrip pageTitle="Home" pageEyebrow="HOME" />
     </section>
   );
 }
