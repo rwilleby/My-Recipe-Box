@@ -27644,3 +27644,142 @@ body.rrbPopupOpen {
     grid-template-columns: auto minmax(0, 1fr) !important;
   }
 }
+/* =========================================================
+   JULY 2026 — RECIPE LIBRARY FREEZER-TOOLBAR-STYLE CONTROLS
+   ========================================================= */
+
+.browseInventoryStyleToolbar {
+  display: grid !important;
+  grid-template-columns:
+    minmax(120px, .8fr)
+    minmax(140px, 1fr)
+    minmax(150px, 1fr)
+    minmax(190px, 1.35fr)
+    minmax(140px, 1fr)
+    minmax(170px, 1.15fr)
+    minmax(95px, .55fr) !important;
+  gap: clamp(7px, .75vw, 12px) !important;
+  align-items: end !important;
+  width: 100% !important;
+  margin-bottom: 12px !important;
+  padding: 12px 14px !important;
+  border: 1px solid rgba(20, 83, 45, .12) !important;
+  border-radius: 18px !important;
+  background: #ffffff !important;
+  box-shadow: 0 10px 24px rgba(17, 24, 39, .05) !important;
+  box-sizing: border-box !important;
+}
+
+.browseToolbarField,
+.browseToolbarInfo {
+  display: grid !important;
+  gap: 5px !important;
+  min-width: 0 !important;
+}
+
+.browseToolbarField > span,
+.browseToolbarInfo > span {
+  color: #4b5563 !important;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif !important;
+  font-size: clamp(8px, .7vw, 10px) !important;
+  line-height: 1 !important;
+  font-weight: 700 !important;
+  letter-spacing: .045em !important;
+  text-transform: uppercase !important;
+  white-space: nowrap !important;
+}
+
+.browseInventoryStyleToolbar select,
+.browseInventoryStyleToolbar input {
+  width: 100% !important;
+  min-width: 0 !important;
+  height: clamp(30px, 2.5vw, 36px) !important;
+  padding: 5px clamp(6px, .65vw, 10px) !important;
+  border: 1px solid #d4ddd6 !important;
+  border-radius: 9px !important;
+  background: #ffffff !important;
+  color: #1f2937 !important;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif !important;
+  font-size: clamp(8px, .76vw, 11px) !important;
+  line-height: 1 !important;
+  box-sizing: border-box !important;
+  text-overflow: ellipsis !important;
+}
+
+.browseInventoryStyleToolbar select:focus,
+.browseInventoryStyleToolbar input:focus {
+  border-color: rgba(20, 83, 45, .45) !important;
+  outline: 2px solid rgba(20, 83, 45, .12) !important;
+  outline-offset: 0 !important;
+}
+
+.browseToolbarSearch input::placeholder {
+  color: #9ca3af !important;
+}
+
+.browseToolbarInfo {
+  align-self: end !important;
+}
+
+.browseToolbarInfo .mealBalanceInfo,
+.browseToolbarInfo .mealBalanceInfoCompact,
+.browseToolbarInfo details {
+  width: 100% !important;
+  min-width: 0 !important;
+  height: clamp(30px, 2.5vw, 36px) !important;
+  margin: 0 !important;
+}
+
+.browseToolbarInfo summary,
+.browseToolbarInfo button {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  padding: 5px 8px !important;
+  border-radius: 9px !important;
+  font-size: clamp(8px, .76vw, 11px) !important;
+  white-space: nowrap !important;
+  box-sizing: border-box !important;
+}
+
+/* Suppress the older browse control strip if any stale markup remains. */
+.browseControlsStack {
+  display: none !important;
+}
+
+@media (max-width: 1050px) {
+  .browseInventoryStyleToolbar {
+    grid-template-columns:
+      minmax(90px, .8fr)
+      minmax(100px, 1fr)
+      minmax(110px, 1fr)
+      minmax(145px, 1.25fr)
+      minmax(105px, 1fr)
+      minmax(125px, 1.1fr)
+      minmax(78px, .55fr) !important;
+    gap: 6px !important;
+    padding: 9px 10px !important;
+  }
+}
+
+@media (max-width: 720px) {
+  .browseInventoryStyleToolbar {
+    grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
+    gap: 4px !important;
+    padding: 7px !important;
+  }
+
+  .browseToolbarField > span,
+  .browseToolbarInfo > span {
+    font-size: 7px !important;
+  }
+
+  .browseInventoryStyleToolbar select,
+  .browseInventoryStyleToolbar input,
+  .browseToolbarInfo summary,
+  .browseToolbarInfo button {
+    height: 28px !important;
+    padding: 3px 4px !important;
+    font-size: 7px !important;
+  }
+}

@@ -3754,88 +3754,95 @@ function RecipesPage({
 
   return (
     <main className="pageShell browseRecipesPage">
-      <div className="browseControlsStack">
-        <div className="browseControlsRow browseControlsPrimaryRow">
-          <div className="browseSortWrap">
-            <label htmlFor="browse-sort">SORT BY</label>
-            <select id="browse-sort" value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
-              <option value="newest">NEWEST</option>
-              <option value="az">A–Z</option>
-              <option value="time-low">TIME: LOW TO HIGH</option>
-              <option value="time-high">TIME: HIGH TO LOW</option>
-              <option value="servings-low">SERVINGS: LOW TO HIGH</option>
-              <option value="servings-high">SERVINGS: HIGH TO LOW</option>
-            </select>
-          </div>
+      <section className="browseInventoryStyleToolbar" aria-label="Recipe library sorting and filters">
+        <label className="browseToolbarField">
+          <span>Sort By</span>
+          <select value={sortBy} onChange={(event) => setSortBy(event.target.value)}>
+            <option value="newest">Newest</option>
+            <option value="az">A–Z</option>
+            <option value="time-low">Time: Low to High</option>
+            <option value="time-high">Time: High to Low</option>
+            <option value="servings-low">Servings: Low to High</option>
+            <option value="servings-high">Servings: High to Low</option>
+          </select>
+        </label>
 
+        <label className="browseToolbarField">
+          <span>Cuisine</span>
           <select
             value={selectedCategory}
-            onChange={(e) => {
-              setSelectedCategory(e.target.value);
-              setFilter(e.target.value);
+            onChange={(event) => {
+              setSelectedCategory(event.target.value);
+              setFilter(event.target.value);
             }}
-            aria-label="All Categories"
           >
-            <option value="">ALL CATEGORIES</option>
+            <option value="">All Cuisines</option>
             {categories.map((category) => (
               <option key={category.id} value={category.name}>
                 {category.name}
               </option>
             ))}
           </select>
+        </label>
 
+        <label className="browseToolbarField">
+          <span>Cooking Method</span>
           <select
             value={selectedCookingMethod}
-            onChange={(e) => setSelectedCookingMethod(e.target.value)}
-            aria-label="All Cooking Methods"
+            onChange={(event) => setSelectedCookingMethod(event.target.value)}
           >
-            <option value="">ALL COOKING METHODS</option>
-            <option value="quick">QUICK & EASY</option>
-            <option value="baked">BAKED</option>
-            <option value="skillet">SKILLET</option>
-            <option value="slowcooker">SLOW COOKER</option>
+            <option value="">All Cooking Methods</option>
+            <option value="quick">Quick & Easy</option>
+            <option value="baked">Baked</option>
+            <option value="skillet">Skillet</option>
+            <option value="slowcooker">Slow Cooker</option>
           </select>
+        </label>
 
-          <div className="browseSearchWrap">
-            <span className="browseSearchIcon">⌕</span>
-            <input
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search recipes..."
-              aria-label="Search recipes"
-            />
-          </div>
-        </div>
+        <label className="browseToolbarField browseToolbarSearch">
+          <span>Search</span>
+          <input
+            type="search"
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder="Search recipes..."
+          />
+        </label>
 
-        <div className="browseControlsRow browseControlsSecondaryRow">
+        <label className="browseToolbarField">
+          <span>Dietary</span>
           <select
             value={selectedDietaryNeed}
-            onChange={(e) => setSelectedDietaryNeed(e.target.value)}
-            aria-label="All Dietary Needs"
+            onChange={(event) => setSelectedDietaryNeed(event.target.value)}
           >
-            <option value="">ALL DIETARY NEEDS</option>
-            <option value="glutenfree">GLUTEN FREE</option>
-            <option value="lowcarb">LOW CARB</option>
-            <option value="lighter">LIGHTER OPTIONS</option>
+            <option value="">All Dietary Needs</option>
+            <option value="glutenfree">Gluten Free</option>
+            <option value="lowcarb">Low Carb</option>
+            <option value="lighter">Lighter Options</option>
           </select>
+        </label>
 
+        <label className="browseToolbarField">
+          <span>MealBalance</span>
           <select
             value={selectedMealBalance}
             onChange={(event) => setSelectedMealBalance(event.target.value)}
-            aria-label="MealBalance rating"
           >
-            <option value="all">ALL MEALBALANCE RATINGS</option>
-            <option value="1-2">MB 1–2 · VERY LIGHT</option>
-            <option value="3-4">MB 3–4 · BALANCED</option>
-            <option value="5-6">MB 5–6 · MODERATE</option>
-            <option value="7-8">MB 7–8 · RICH</option>
-            <option value="9-10">MB 9–10 · INDULGENT</option>
-            <option value="unrated">NOT YET RATED</option>
+            <option value="all">All MealBalance Ratings</option>
+            <option value="1-2">MB 1–2 · Very Light</option>
+            <option value="3-4">MB 3–4 · Balanced</option>
+            <option value="5-6">MB 5–6 · Moderate</option>
+            <option value="7-8">MB 7–8 · Rich</option>
+            <option value="9-10">MB 9–10 · Indulgent</option>
+            <option value="unrated">Not Yet Rated</option>
           </select>
+        </label>
 
+        <div className="browseToolbarInfo">
+          <span>MB Info</span>
           <MealBalanceInfo compact />
         </div>
-      </div>
+      </section>
       <div className="browseResultsRow">
         <strong>{filteredRecipes.length} recipes found</strong>
         {totalPages > 1 && (
