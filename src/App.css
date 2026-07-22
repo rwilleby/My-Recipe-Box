@@ -28585,3 +28585,17 @@ body.rrbPopupOpen {
     font-size: 18px !important;
   }
 }
+/* =========================================================
+   JULY 2026 — TEMPORARILY DISABLE ALL CLIFF NOTES POP-UPS
+   ========================================================= */
+
+/* The Cliff Notes copy remains preserved in App.jsx, but the middle
+   Cliff Notes control and every popup are disabled for now. */
+.pageNotesStrip.cliffNotesDisabled {
+  gap: 7px !important;
+}
+
+.pageNotesStrip.cliffNotesDisabled .pageNotesItem,
+.pageNotesStrip.cliffNotesDisabled .pageNotesPopup {
+  display: none !important;
+}
