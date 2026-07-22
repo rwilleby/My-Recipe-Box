@@ -1483,52 +1483,125 @@ const HOME_PHOTO_FEATURES = [
   },
 ];
 
-function HomePhotoFeatureSection({ setActivePage }) {
+function HomePhotoFeatureModal({ feature, onClose, setActivePage }) {
+  usePopupPageMode(Boolean(feature));
+
+  useEffect(() => {
+    if (!feature) return undefined;
+
+    function handleKeyDown(event) {
+      if (event.key === "Escape") onClose();
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [feature, onClose]);
+
+  if (!feature) return null;
+
+  function openFeaturePage() {
+    onClose();
+    setActivePage(feature.page);
+  }
+
   return (
-    <section
-      className="section homePhotoFeatureSection"
-      aria-labelledby="home-photo-features-title"
+    <div
+      className="homeFeatureModalOverlay"
+      role="presentation"
+      onMouseDown={onClose}
     >
-      <div className="sectionTitle homePhotoFeatureHeader">
-        <div>
-          <h2 id="home-photo-features-title">
-            Everything You Need for Smarter Home Cooking
-          </h2>
-          <p>
-            Recipes, meal planning, shopping tools, cooking help, and practical
-            freezer organization.
-          </p>
+      <div
+        className="homeFeatureModal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="home-feature-modal-title"
+        onMouseDown={(event) => event.stopPropagation()}
+      >
+        <button
+          type="button"
+          className="homeFeatureModalClose"
+          onClick={onClose}
+          aria-label="Close feature preview"
+        >
+          ×
+        </button>
+
+        <img
+          className="homeFeatureModalImage"
+          src={`${import.meta.env.BASE_URL}${feature.image}`}
+          alt={feature.title}
+          loading="eager"
+          decoding="async"
+        />
+
+        <div className="homeFeatureModalText">
+          <h2 id="home-feature-modal-title">{feature.title}</h2>
+          <p>{feature.description}</p>
+          <button type="button" onClick={openFeaturePage}>
+            Explore {feature.title} ›
+          </button>
         </div>
       </div>
+    </div>
+  );
+}
 
-      <div className="homePhotoFeatureGrid">
-        {HOME_PHOTO_FEATURES.map((feature) => (
-          <button
-            key={feature.title}
-            type="button"
-            className="homePhotoFeatureTile"
-            onClick={() => setActivePage(feature.page)}
-            aria-label={`Open ${feature.title}`}
-          >
-            <span className="homePhotoFeatureImage">
-              <img
-                src={`${import.meta.env.BASE_URL}${feature.image}`}
-                alt=""
-                aria-hidden="true"
-                loading="lazy"
-                decoding="async"
-              />
-            </span>
+function HomePhotoFeatureSection({ setActivePage }) {
+  const [selectedFeature, setSelectedFeature] = useState(null);
 
-            <span className="homePhotoFeatureText">
-              <strong>{feature.title}</strong>
-              <small>{feature.description}</small>
-              <span className="homePhotoFeatureArrow" aria-hidden="true">›</span>
-            </span>
-          </button>
-        ))}
-      </div>
-    </section>
+  return (
+    <>
+      <section
+        className="section homePhotoFeatureSection"
+        aria-labelledby="home-photo-features-title"
+      >
+        <div className="sectionTitle homePhotoFeatureHeader">
+          <div>
+            <h2 id="home-photo-features-title">
+              Everything You Need for Smarter Home Cooking
+            </h2>
+            <p>
+              Recipes, meal planning, shopping tools, cooking help, and practical
+              freezer organization.
+            </p>
+          </div>
+        </div>
+
+        <div className="homePhotoFeatureGrid">
+          {HOME_PHOTO_FEATURES.map((feature) => (
+            <button
+              key={feature.title}
+              type="button"
+              className="homePhotoFeatureTile"
+              onClick={() => setSelectedFeature(feature)}
+              aria-label={`Preview ${feature.title}`}
+            >
+              <span className="homePhotoFeatureImage">
+                <img
+                  src={`${import.meta.env.BASE_URL}${feature.image}`}
+                  alt=""
+                  aria-hidden="true"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </span>
+
+              <span className="homePhotoFeatureText">
+                <strong>{feature.title}</strong>
+                <small>{feature.description}</small>
+                <span className="homePhotoFeatureArrow" aria-hidden="true">›</span>
+              </span>
+            </button>
+          ))}
+        </div>
+      </section>
+
+      <HomePhotoFeatureModal
+        feature={selectedFeature}
+        onClose={() => setSelectedFeature(null)}
+        setActivePage={setActivePage}
+      />
+    </>
   );
 }
 
@@ -1571,9 +1644,8 @@ function CategoryGrid({ setFilter, setActivePage }) {
 
   return (
     <section className="section homeCategorySection">
-      <div className="sectionTitle homeCategoryTitle">
-        <h2>Browse by Category</h2>
-        <button onClick={() => setActivePage("Recipes")}>View all categories ›</button>
+      <div className="sectionTitle homeCategoryTitle homeCategoryQuickLinksTitle">
+        <h2>Cuisine Quick Links</h2>
       </div>
 
       <div className="categoryGrid homeCategoryGrid">

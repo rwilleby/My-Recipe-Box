@@ -27091,3 +27091,199 @@ body.rrbPopupOpen {
   font-size: 30px !important;
   transform: none !important;
 }
+/* =========================================================
+   JULY 2026 — CUISINE QUICK LINKS, COUNTER REVERSION,
+   AND HOME FEATURE POPUP
+   ========================================================= */
+
+/* 1. Centered category sub-head matching Featured Combo-Meals. */
+.homeCategorySection {
+  padding-top: clamp(18px, 2.2vw, 28px) !important;
+}
+
+.homeCategoryQuickLinksTitle {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 100% !important;
+  margin-bottom: 14px !important;
+  text-align: center !important;
+}
+
+.homeCategoryQuickLinksTitle h2 {
+  margin: 0 !important;
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif !important;
+  font-size: 20px !important;
+  line-height: 1.15 !important;
+  color: #111827 !important;
+}
+
+/* 2. Revert counter circles to the immediately previous filled version. */
+.homeCounterBadge {
+  width: 57px !important;
+  height: 57px !important;
+  min-width: 57px !important;
+  min-height: 57px !important;
+  display: grid !important;
+  place-items: center !important;
+  overflow: hidden !important;
+  border: 2px solid var(--counter-color) !important;
+  border-radius: 50% !important;
+  background: var(--counter-color) !important;
+  box-shadow: 0 2px 7px rgba(31, 41, 55, .1) !important;
+}
+
+.homeCounterIcon {
+  width: 100% !important;
+  height: 100% !important;
+  display: grid !important;
+  place-items: center !important;
+  color: #fff !important;
+  font-size: 34px !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+}
+
+.homeCounterItem.recipes .homeCounterIcon::before {
+  content: "♨" !important;
+  font-size: 31px !important;
+  font-weight: 700 !important;
+  transform: translateY(-1px) !important;
+}
+
+.homeCounterItem.complete .homeCounterIcon::before {
+  content: "🍴" !important;
+  font-size: 29px !important;
+  filter: grayscale(1) brightness(0) invert(1) !important;
+}
+
+.homeCounterItem.freezer .homeCounterIcon::before {
+  content: "❄" !important;
+  font-size: 35px !important;
+  font-weight: 700 !important;
+}
+
+.homeCounterItem.collections .homeCounterIcon::before {
+  content: "▰" !important;
+  font-size: 31px !important;
+  transform: rotate(-3deg) !important;
+}
+
+/* 3. Everything-section photographic popup. */
+.homeFeatureModalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 4100;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(17, 24, 39, .76);
+  animation: homeFeatureOverlayIn 160ms ease both;
+}
+
+.homeFeatureModal {
+  position: relative;
+  width: min(92vw, 760px);
+  max-height: 92vh;
+  overflow: auto;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 28px 90px rgba(0, 0, 0, .38);
+  animation: homeFeatureModalIn 190ms ease both;
+}
+
+.homeFeatureModalClose {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid rgba(255,255,255,.75);
+  border-radius: 50%;
+  background: rgba(255,255,255,.94);
+  color: #111827;
+  font-size: 27px;
+  line-height: 1;
+  box-shadow: 0 4px 14px rgba(17,24,39,.16);
+}
+
+.homeFeatureModalImage {
+  display: block;
+  width: 100%;
+  max-height: 66vh;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 18px 18px 0 0;
+}
+
+.homeFeatureModalText {
+  padding: 18px 20px 20px;
+  text-align: center;
+}
+
+.homeFeatureModalText h2 {
+  margin: 0;
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  font-size: 24px;
+  line-height: 1.1;
+  color: #111827;
+}
+
+.homeFeatureModalText p {
+  margin: 7px auto 15px;
+  max-width: 540px;
+  color: #6b7280;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.homeFeatureModalText button {
+  min-height: 38px;
+  padding: 8px 16px;
+  border: 1px solid var(--green);
+  border-radius: 9px;
+  background: var(--green);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.homeFeatureModalText button:hover,
+.homeFeatureModalText button:focus-visible {
+  background: #0f4626;
+}
+
+@keyframes homeFeatureOverlayIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes homeFeatureModalIn {
+  from { opacity: 0; transform: translateY(8px) scale(.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media (max-width: 700px) {
+  .homeFeatureModalOverlay {
+    padding: 10px;
+  }
+
+  .homeFeatureModal {
+    width: 100%;
+    max-height: 96vh;
+    border-radius: 13px;
+  }
+
+  .homeFeatureModalImage {
+    max-height: 58vh;
+    border-radius: 13px 13px 0 0;
+  }
+
+  .homeFeatureModalText {
+    padding: 15px;
+  }
+}
