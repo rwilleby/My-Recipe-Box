@@ -1476,10 +1476,10 @@ const HOME_PHOTO_FEATURES = [
     page: "Freezer-Friendly Meals",
   },
   {
-    title: "About Robert",
-    description: "Learn why Robert’s Recipe Box was created.",
+    title: "Saving Time",
+    description: "Use practical planning, prep, freezing, and leftovers to make cooking easier.",
     image: "images/home-features/hero-process-06-saving.png",
-    page: "About",
+    page: "Easy 30-Minute Meals",
   },
 ];
 
