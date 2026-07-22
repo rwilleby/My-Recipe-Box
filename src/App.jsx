@@ -1153,6 +1153,7 @@ const NAV_GROUPS = [
     items: [
       { label: "WELCOME TO OUR SITE", page: "About" },
       { label: "ABOUT OUR RECIPES", page: "About Recipes" },
+      { label: "MEALBALANCE GUIDE", page: "MealBalance Guide" },
       { label: "AFFILIATE MARKETING", page: "Affiliate Marketing" },
       { label: "SUBMIT YOUR FAMILY RECIPES", page: "Submit Recipes" },
       { label: "CONTACT ME", page: "Contact Me" },
@@ -1164,19 +1165,18 @@ const NAV_GROUPS = [
     items: [
       { label: "BROWSE OUR RECIPE LIBRARY", page: "Recipes" },
       { label: "DINNER COMBINATIONS", page: "Dinner Combinations" },
-      { label: "QUICK & EASY FREEZER MEALS", page: "Freezer-Friendly Meals" },
+      { label: "QUICK & EASY FREEZER MEALS", page: "Freezer-Friendly Meals", level: 1 },
     ],
   },
   {
     label: "COLLECTIONS",
     items: [
-      { label: "BROWSE ALL COLLECTIONS", page: "Collections" },
-      { label: "SLOW COOKER MEALS", page: "Slow Cooker Favorites" },
-      { label: "SUMMER COOKOUTS", page: "Summer Cookouts" },
-      { label: "HEALTHY DINNERS", page: "Healthy Dinners" },
-      { label: "COMFORT FOODS", page: "Comfort Foods" },
-      { label: "EASY 30-MINUTE MEALS", page: "Easy 30-Minute Meals" },
-      { label: "SALAD JAR LUNCHES", page: "Salad Jars" },
+      { label: "SLOW COOKER MEALS", page: "Slow Cooker Favorites", level: 1 },
+      { label: "SUMMER COOKOUTS", page: "Summer Cookouts", level: 1 },
+      { label: "HEALTHY DINNERS", page: "Healthy Dinners", level: 1 },
+      { label: "COMFORT FOODS", page: "Comfort Foods", level: 1 },
+      { label: "EASY 30-MINUTE MEALS", page: "Easy 30-Minute Meals", level: 1 },
+      { label: "SALAD JAR LUNCHES", page: "Salad Jars", level: 1 },
     ],
   },
   {
@@ -1292,7 +1292,10 @@ function Header({ activePage, setActivePage }) {
                   key={`${group.label}-${item.label}`}
                   type="button"
                   role="menuitem"
-                  className={activePage === item.page ? "active" : ""}
+                  className={[
+                    activePage === item.page ? "active" : "",
+                    item.level ? `simpleHeaderSubmenuLevel${item.level}` : "",
+                  ].filter(Boolean).join(" ")}
                   onClick={() => setActivePage(item.page)}
                 >
                   {item.label}
@@ -3455,20 +3458,20 @@ function RecipesPage({
 
   return (
     <main className="pageShell browseRecipesPage">
-      <div className="browseControlsRow browseControlsSingleLine">
-        <div className="browseSortWrap">
-          <label htmlFor="browse-sort">SORT BY</label>
-          <select id="browse-sort" value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
-            <option value="newest">Newest</option>
-            <option value="az">A–Z</option>
-            <option value="time-low">Time: Low to High</option>
-            <option value="time-high">Time: High to Low</option>
-            <option value="servings-low">Servings: Low to High</option>
-            <option value="servings-high">Servings: High to Low</option>
-          </select>
-        </div>
+      <div className="browseControlsStack">
+        <div className="browseControlsRow browseControlsPrimaryRow">
+          <div className="browseSortWrap">
+            <label htmlFor="browse-sort">SORT BY</label>
+            <select id="browse-sort" value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+              <option value="newest">NEWEST</option>
+              <option value="az">A–Z</option>
+              <option value="time-low">TIME: LOW TO HIGH</option>
+              <option value="time-high">TIME: HIGH TO LOW</option>
+              <option value="servings-low">SERVINGS: LOW TO HIGH</option>
+              <option value="servings-high">SERVINGS: HIGH TO LOW</option>
+            </select>
+          </div>
 
-        <div className="browseFilters">
           <select
             value={selectedCategory}
             onChange={(e) => {
@@ -3491,52 +3494,52 @@ function RecipesPage({
             aria-label="All Cooking Methods"
           >
             <option value="">ALL COOKING METHODS</option>
-            <option value="quick">Quick & Easy</option>
-            <option value="baked">Baked</option>
-            <option value="skillet">Skillet</option>
-            <option value="slowcooker">Slow Cooker</option>
+            <option value="quick">QUICK & EASY</option>
+            <option value="baked">BAKED</option>
+            <option value="skillet">SKILLET</option>
+            <option value="slowcooker">SLOW COOKER</option>
           </select>
 
+          <div className="browseSearchWrap">
+            <span className="browseSearchIcon">⌕</span>
+            <input
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search recipes..."
+              aria-label="Search recipes"
+            />
+          </div>
+        </div>
+
+        <div className="browseControlsRow browseControlsSecondaryRow">
           <select
             value={selectedDietaryNeed}
             onChange={(e) => setSelectedDietaryNeed(e.target.value)}
             aria-label="All Dietary Needs"
           >
             <option value="">ALL DIETARY NEEDS</option>
-            <option value="glutenfree">Gluten Free</option>
-            <option value="lowcarb">Low Carb</option>
-            <option value="lighter">Lighter Options</option>
+            <option value="glutenfree">GLUTEN FREE</option>
+            <option value="lowcarb">LOW CARB</option>
+            <option value="lighter">LIGHTER OPTIONS</option>
           </select>
 
-          <div className="mealBalanceFilterWrap">
-            <select
-              value={selectedMealBalance}
-              onChange={(event) => setSelectedMealBalance(event.target.value)}
-              aria-label="MealBalance rating"
-            >
-              <option value="all">All MealBalance Ratings</option>
-              <option value="1-2">MB 1–2 · Very Light</option>
-              <option value="3-4">MB 3–4 · Balanced</option>
-              <option value="5-6">MB 5–6 · Moderate</option>
-              <option value="7-8">MB 7–8 · Rich</option>
-              <option value="9-10">MB 9–10 · Indulgent</option>
-              <option value="unrated">Not Yet Rated</option>
-            </select>
-            <MealBalanceInfo compact />
-          </div>
-        </div>
+          <select
+            value={selectedMealBalance}
+            onChange={(event) => setSelectedMealBalance(event.target.value)}
+            aria-label="MealBalance rating"
+          >
+            <option value="all">ALL MEALBALANCE RATINGS</option>
+            <option value="1-2">MB 1–2 · VERY LIGHT</option>
+            <option value="3-4">MB 3–4 · BALANCED</option>
+            <option value="5-6">MB 5–6 · MODERATE</option>
+            <option value="7-8">MB 7–8 · RICH</option>
+            <option value="9-10">MB 9–10 · INDULGENT</option>
+            <option value="unrated">NOT YET RATED</option>
+          </select>
 
-        <div className="browseSearchWrap">
-          <span className="browseSearchIcon">⌕</span>
-          <input
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search recipes..."
-            aria-label="Search recipes"
-          />
+          <MealBalanceInfo compact />
         </div>
       </div>
-
       <div className="browseResultsRow">
         <strong>{filteredRecipes.length} recipes found</strong>
         {totalPages > 1 && (
@@ -7271,6 +7274,46 @@ function HeroTopicPage({
 
 
 
+function MealBalanceGuidePage({ setActivePage }) {
+  return (
+    <main className="pageShell mealBalanceGuidePage">
+      <section className="mealBalanceGuideIntro">
+        <div className="mealBalanceGuideScore">MB</div>
+        <div>
+          <div className="aiBadge">A PRACTICAL COMPARISON GUIDE</div>
+          <h2>What MealBalance is</h2>
+          <p>MealBalance is Robert’s Recipe Box’s simple 1–10 guide for comparing recipes and complete meals. It is intended to help you quickly see whether an option is generally lighter, balanced, moderate, rich, or indulgent when you are deciding what fits the rest of your day or week.</p>
+        </div>
+      </section>
+
+      <section className="mealBalanceGuideGrid">
+        <article><strong>MB 1–2</strong><h3>Very Light</h3><p>Generally lighter portions or foods with fewer calorie-dense ingredients.</p></article>
+        <article><strong>MB 3–4</strong><h3>Balanced</h3><p>A practical everyday range with a moderate overall nutritional profile.</p></article>
+        <article><strong>MB 5–6</strong><h3>Moderate</h3><p>More substantial meals that may include richer sauces, starches, or larger portions.</p></article>
+        <article><strong>MB 7–8</strong><h3>Rich</h3><p>Meals that are usually higher in calories, fat, sodium, or concentrated ingredients.</p></article>
+        <article><strong>MB 9–10</strong><h3>Indulgent</h3><p>Especially rich dishes best understood as treats or occasional choices.</p></article>
+      </section>
+
+      <section className="mealBalanceGuideDetails">
+        <article>
+          <h2>How the score is derived</h2>
+          <p>The rating is an editorial estimate that considers the available per-serving nutrition, including calories, protein, carbohydrates, fat, and sodium. Recipe type, cooking method, portion size, sauces, added fats, and other richness indicators may also be considered when complete nutrition data is unavailable.</p>
+          <p>Because brands, ingredient substitutions, serving sizes, and cooking methods differ, the score should be treated as an approximate comparison rather than an exact nutritional calculation.</p>
+        </article>
+        <article>
+          <h2>What MealBalance is not</h2>
+          <p>MealBalance is not a medical diagnosis, weight-loss program, diet prescription, or substitute for advice from a physician or registered dietitian. A lower number does not automatically make a recipe “good,” and a higher number does not make it “bad.”</p>
+          <p>It is simply one extra guide to help you compare choices, consider portions, pair richer dishes with lighter sides, and make decisions that fit your own needs.</p>
+        </article>
+      </section>
+
+      <div className="mealBalanceGuideActions">
+        <button className="primary" type="button" onClick={() => setActivePage("Recipes")}>Browse Recipes by MealBalance</button>
+      </div>
+    </main>
+  );
+}
+
 function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard }) {
   const [activeRecipePopup, setActiveRecipePopup] = useState(null);
   const [selectedPlannerDay, setSelectedPlannerDay] = useState("week1-Mon");
@@ -9347,19 +9390,23 @@ export default function App() {
             alt="Contact cards, notebook, recipe box, plant, measuring spoons, and coffee on a pale kitchen surface"
             eyebrow="ABOUT US"
             title="Contact Me"
+            className="contactPageHero pageHeroDepth464"
             text="Have a question about the website, a suggestion for a new feature, or an idea for a recipe you would like to see? You are always welcome to send me a message. Feedback from visitors helps me understand what is useful and what could be improved.\n\nYou may also contact me about corrections, technical problems, family-recipe submissions, or general questions about Robert’s Recipe Box. I may not have every answer, but I will do my best to respond and help."
           />
-          <PlaceholderInfoPage
-            eyebrow="ABOUT US"
-            title="Contact Me"
-            text="This page will include a simple way to contact Robert about recipe ideas, corrections, suggestions, or questions about Robert’s Recipe Box."
-            setActivePage={setActivePage}
-            recipes={classifiedRecipes}
-            favorites={favorites}
-            toggleFavorite={toggleFavorite}
-            addToPlan={addToPlan}
-            openRecipeCard={openRecipeCard}
-          />
+          <main className="pageShell contactPageContent">
+            <section className="contactActionPanel" aria-labelledby="contact-action-title">
+              <div>
+                <div className="aiBadge">GET IN TOUCH</div>
+                <h2 id="contact-action-title">Contact Robert’s Recipe Box</h2>
+                <p>Questions, corrections, recipe suggestions, family-recipe submissions, and website feedback are welcome. Choose the contact method that works best for you.</p>
+              </div>
+              <div className="contactActionButtons">
+                <a className="contactActionButton email" href="mailto:recipes@handsontech.cc">✉ Email Robert</a>
+                <a className="contactActionButton facebook" href="https://www.facebook.com/" target="_blank" rel="noreferrer">f Facebook</a>
+                <a className="contactActionButton instagram" href="https://www.instagram.com/" target="_blank" rel="noreferrer">◎ Instagram</a>
+              </div>
+            </section>
+          </main>
         </>
       )}
       {activePage === "Free To Use" && (
@@ -10421,17 +10468,26 @@ Use this section to check what is on hand, record dates, mark foods that should 
             className="pageHeroDepth464"
             text="Family recipes often carry stories and memories that are just as important as the ingredients. A handwritten card, a holiday dish, or a meal someone prepared for years can become difficult to preserve if it is never organized or recorded.\n\nUse this page to share a favorite family recipe or food memory. Submitted recipes may be reviewed, clarified, formatted, and adapted so they can be preserved in a clean and useful form."
           />
-          <PlaceholderInfoPage
-            eyebrow="TIPS & TECHNIQUES"
-            title="Submit Your Family Recipes"
-            text="This page will explain how visitors can suggest recipe ideas, family favorites, copycat-style meals, or practical cooking tips for future consideration."
-            setActivePage={setActivePage}
-            recipes={classifiedRecipes}
-            favorites={favorites}
-            toggleFavorite={toggleFavorite}
-            addToPlan={addToPlan}
-            openRecipeCard={openRecipeCard}
-          />
+          <main className="pageShell familyRecipeSubmissionPage">
+            <section className="familyRecipeSubmissionPanel">
+              <div className="familyRecipeSubmissionImageWrap">
+                <img
+                  src={`${import.meta.env.BASE_URL}images/family/npg-001-salisbury-steak.png`}
+                  alt="Example family recipe card for Nancy's Salisbury Steak"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div className="familyRecipeSubmissionCopy">
+                <div className="aiBadge">PRESERVE A FAMILY FAVORITE</div>
+                <h2>What you can send</h2>
+                <p>You may send a clear photograph or scan of the original handwritten or printed recipe, the recipe name, the family member’s name, and any story or memory you would like preserved with it. A family photograph may also be included when you have permission to share it.</p>
+                <p>Please include any corrections, serving notes, special techniques, or missing details that may not be clear on the original card. The recipe can then be reviewed, organized, and formatted into a Robert’s Recipe Box family-recipe card for possible addition to the collection.</p>
+                <p>Only submit recipes and photographs that you own or have permission to share. Personal addresses, phone numbers, or other private information should be removed before sending.</p>
+                <a className="primary familyRecipeEmailButton" href="mailto:recipes@handsontech.cc?subject=Family%20Recipe%20Submission">Email a Family Recipe</a>
+              </div>
+            </section>
+          </main>
         </>
       )}
       {activePage === "Safe Cooking Rules" && (
@@ -10655,6 +10711,21 @@ Use this section to check what is on hand, record dates, mark foods that should 
             className="pageHeroDepth464"
 />
           <AboutRecipesPage setActivePage={setActivePage} />
+        </>
+      )}
+      {activePage === "MealBalance Guide" && (
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-page-ai-generated.jpg"
+            alt="Recipe planning and nutrition comparison setup"
+            eyebrow="OUR RECIPES"
+            title="Understanding MealBalance"
+            text="MealBalance is a simple comparison guide designed to help you look at recipes and complete meals in context. It provides an estimated 1–10 score so you can quickly compare lighter, moderate, rich, and indulgent choices.
+
+The score is not a judgment and it is not medical or dietary advice. It is one practical tool for considering portions, meal combinations, and the balance of choices across a day or week."
+            className="pageHeroDepth464"
+          />
+          <MealBalanceGuidePage setActivePage={setActivePage} />
         </>
       )}
       {activePage === "About Smoking" && (

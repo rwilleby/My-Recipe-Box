@@ -25710,3 +25710,359 @@ body.rrbPopupOpen {
     min-width: 78px !important;
   }
 }
+
+/* =========================================================
+   JULY 2026 — PAGE NAVIGATION, CONTACT, FAMILY RECIPES,
+   MEALBALANCE GUIDE, TWO-ROW RECIPE FILTERS, MENU REFINEMENT
+   ========================================================= */
+
+/* 1. Move Prev / Cliff Notes / Next to the lower-right of every page hero. */
+.pageTopHeroImage .pageHelpStrip.pageNotesStrip,
+.pageHelpStrip.pageNotesStrip,
+.pageTopHeroImage .pageNotesStrip,
+.pageNotesStrip {
+  left: auto !important;
+  right: clamp(28px, 5.5vw, 76px) !important;
+  justify-content: flex-end !important;
+}
+
+.pageTopHeroImage .pageHelpItem.pageNotesItem .pageHelpPopup.pageNotesPopup,
+.pageHelpItem.pageNotesItem .pageHelpPopup.pageNotesPopup,
+.pageTopHeroImage .pageNotesPopup,
+.pageNotesPopup {
+  left: auto !important;
+  right: 0 !important;
+}
+
+/* 2. Contact hero: show more of the top of the artwork/recipe box. */
+.pageTopHeroImage.contactPageHero > img[data-page-hero-image="true"] {
+  object-position: center 24% !important;
+}
+
+.contactPageContent {
+  padding-top: 26px !important;
+  padding-bottom: 34px !important;
+}
+
+.contactActionPanel {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(280px, .75fr);
+  gap: clamp(24px, 4vw, 56px);
+  align-items: center;
+  padding: clamp(24px, 3vw, 38px);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: var(--shadow);
+}
+
+.contactActionPanel h2,
+.familyRecipeSubmissionCopy h2,
+.mealBalanceGuidePage h2 {
+  margin: 10px 0 12px;
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  color: var(--green);
+}
+
+.contactActionPanel p,
+.familyRecipeSubmissionCopy p,
+.mealBalanceGuidePage p {
+  line-height: 1.65;
+}
+
+.contactActionButtons {
+  display: grid;
+  gap: 12px;
+}
+
+.contactActionButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 10px 18px;
+  border: 1px solid rgba(20, 83, 45, .3);
+  border-radius: 12px;
+  background: #f8fbf8;
+  color: var(--green);
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform .15s ease, background .15s ease, border-color .15s ease;
+}
+
+.contactActionButton:hover,
+.contactActionButton:focus-visible {
+  transform: translateY(-1px);
+  border-color: var(--green);
+  background: #eef6ef;
+}
+
+/* 3. Hold dropdowns for two seconds after the pointer leaves. */
+.simpleHeaderSubmenu {
+  transition:
+    opacity .16s ease 2s,
+    transform .16s ease 2s,
+    visibility 0s linear 2.16s !important;
+}
+
+.simpleHeaderNavItem:hover > .simpleHeaderSubmenu,
+.simpleHeaderNavItem:focus-within > .simpleHeaderSubmenu {
+  transition-delay: 0s !important;
+}
+
+/* Visual separators between the five main menu groups. */
+.simpleHeaderNavItem:not(:last-child)::after {
+  content: "|";
+  display: inline-block;
+  margin: 0 8px;
+  color: #9ca3af;
+  font-weight: 400;
+}
+
+/* Indent every Recipes submenu entry that follows Dinner Combinations. */
+.simpleHeaderSubmenu button.simpleHeaderSubmenuLevel1 {
+  padding-left: 24px !important;
+  color: #4b5b51 !important;
+  position: relative;
+}
+
+.simpleHeaderSubmenu button.simpleHeaderSubmenuLevel1::before {
+  content: "–";
+  position: absolute;
+  left: 10px;
+  color: #95a097;
+}
+
+/* 4. Family recipe submission example and instructions. */
+.familyRecipeSubmissionPage {
+  padding-top: 30px !important;
+  padding-bottom: 42px !important;
+}
+
+.familyRecipeSubmissionPanel {
+  display: grid;
+  grid-template-columns: minmax(320px, 1.05fr) minmax(320px, .95fr);
+  gap: clamp(28px, 4vw, 56px);
+  align-items: center;
+  padding: clamp(20px, 3vw, 34px);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: var(--shadow);
+}
+
+.familyRecipeSubmissionImageWrap {
+  overflow: hidden;
+  border-radius: 14px;
+  border: 1px solid rgba(96, 75, 47, .25);
+  background: #f5eee0;
+}
+
+.familyRecipeSubmissionImageWrap img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.familyRecipeEmailButton {
+  display: inline-flex;
+  margin-top: 8px;
+  text-decoration: none;
+}
+
+/* 5. MealBalance explainer page. */
+.mealBalanceGuidePage {
+  padding-top: 28px !important;
+  padding-bottom: 44px !important;
+}
+
+.mealBalanceGuideIntro {
+  display: grid;
+  grid-template-columns: 92px 1fr;
+  gap: 22px;
+  align-items: center;
+  padding: clamp(22px, 3vw, 34px);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: var(--shadow);
+}
+
+.mealBalanceGuideScore {
+  width: 82px;
+  height: 82px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--green);
+  color: #fff;
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.mealBalanceGuideGrid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 22px;
+}
+
+.mealBalanceGuideGrid article,
+.mealBalanceGuideDetails article {
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #fff;
+}
+
+.mealBalanceGuideGrid strong {
+  display: inline-block;
+  color: var(--green);
+  font-size: 17px;
+}
+
+.mealBalanceGuideGrid h3 {
+  margin: 6px 0 8px;
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+}
+
+.mealBalanceGuideDetails {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 18px;
+}
+
+.mealBalanceGuideActions {
+  display: flex;
+  justify-content: center;
+  margin-top: 22px;
+}
+
+/* 6. Browse Our Recipe Library: authoritative two-row control layout. */
+.browseRecipesPage .browseControlsStack {
+  display: grid;
+  gap: 10px;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto 20px;
+  padding: 0 24px;
+  box-sizing: border-box;
+}
+
+.browseRecipesPage .browseControlsStack .browseControlsRow {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-wrap: nowrap !important;
+  gap: 10px !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.browseRecipesPage .browseControlsPrimaryRow .browseSortWrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
+}
+
+.browseRecipesPage .browseControlsPrimaryRow .browseSortWrap label {
+  margin: 0;
+  white-space: nowrap;
+  color: #4b5563;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .05em;
+}
+
+.browseRecipesPage .browseControlsStack select,
+.browseRecipesPage .browseControlsStack .browseSearchWrap {
+  height: 44px !important;
+  min-height: 44px !important;
+  border-radius: 14px !important;
+  box-sizing: border-box !important;
+}
+
+.browseRecipesPage .browseControlsStack select {
+  min-width: 190px;
+  font-size: 13px !important;
+}
+
+.browseRecipesPage .browseControlsPrimaryRow .browseSortWrap select {
+  min-width: 150px;
+}
+
+.browseRecipesPage .browseControlsPrimaryRow .browseSearchWrap {
+  display: flex;
+  align-items: center;
+  flex: 1 1 300px;
+  max-width: 360px;
+  min-width: 230px;
+  margin: 0 !important;
+  overflow: hidden;
+}
+
+.browseRecipesPage .browseControlsSecondaryRow {
+  justify-content: center !important;
+}
+
+.browseRecipesPage .browseControlsSecondaryRow .mealBalanceInfo {
+  flex: 0 0 auto;
+}
+
+@media (max-width: 1000px) {
+  .contactActionPanel,
+  .familyRecipeSubmissionPanel,
+  .mealBalanceGuideDetails {
+    grid-template-columns: 1fr;
+  }
+
+  .mealBalanceGuideGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .browseRecipesPage .browseControlsStack .browseControlsRow {
+    flex-wrap: wrap !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .pageTopHeroImage .pageHelpStrip.pageNotesStrip,
+  .pageHelpStrip.pageNotesStrip,
+  .pageTopHeroImage .pageNotesStrip,
+  .pageNotesStrip {
+    left: 18px !important;
+    right: 18px !important;
+  }
+
+  .simpleHeaderNavItem:not(:last-child)::after {
+    margin: 0 4px;
+  }
+
+  .mealBalanceGuideIntro {
+    grid-template-columns: 1fr;
+  }
+
+  .mealBalanceGuideGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .browseRecipesPage .browseControlsStack {
+    padding: 0 12px;
+  }
+
+  .browseRecipesPage .browseControlsStack .browseControlsRow,
+  .browseRecipesPage .browseControlsPrimaryRow .browseSortWrap {
+    align-items: stretch !important;
+    flex-direction: column !important;
+  }
+
+  .browseRecipesPage .browseControlsStack select,
+  .browseRecipesPage .browseControlsPrimaryRow .browseSearchWrap {
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+  }
+}
