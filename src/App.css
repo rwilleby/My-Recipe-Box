@@ -28033,3 +28033,28 @@ body.rrbPopupOpen {
     min-width: 102px !important;
   }
 }
+/* =========================================================
+   JULY 2026 — RESOURCES MENU + CUISINE QUICK LINKS COPY
+   ========================================================= */
+
+.homeCategoryQuickLinksTitle {
+  justify-content: center !important;
+  text-align: center !important;
+}
+
+.homeCategoryQuickLinksTitle > div {
+  min-width: 0;
+}
+
+.homeCategoryQuickLinksTitle h2 {
+  margin: 0 !important;
+}
+
+.homeCategoryQuickLinksTitle p {
+  margin: 4px 0 0 !important;
+  color: #6b7280 !important;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif !important;
+  font-size: 12px !important;
+  line-height: 1.35 !important;
+  font-weight: 400 !important;
+}

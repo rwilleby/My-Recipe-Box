@@ -1187,6 +1187,8 @@ const NAV_GROUPS = [
       { label: "REFRIGERATOR INVENTORY", page: "Kitchen Refrigerator" },
       { label: "FREEZER INVENTORY", page: "Kitchen Freezer" },
       { label: "PANTRY INVENTORY", page: "Pantry Staples" },
+      { label: "HEALTHY SUBSTITUTIONS", page: "Grocery Picks" },
+      { label: "FREEZING & REHEATING", page: "Freezer Tips" },
     ],
   },
   {
@@ -1200,16 +1202,14 @@ const NAV_GROUPS = [
   {
     label: "TIPS & GUIDES",
     items: [
-      { label: "TIPS: AIR FRYERS", page: "Air Fryer Recipes" },
-      { label: "TIPS: MICROWAVE OVENS", page: "Microwave Recipes" },
-      { label: "TIPS: GAS GRILLS", page: "Gas Grill Recipes" },
-      { label: "TIPS: PELLET SMOKERS", page: "Smoker Recipes" },
-      { label: "TIPS: OVENS", page: "Oven Recipes" },
-      { label: "TIPS: BREAD MAKING", page: "Bread Tips" },
-      { label: "HEALTHY SUBSTITUTIONS", page: "Grocery Picks" },
       { label: "FOOD SAFETY", page: "Safe Cooking Rules" },
       { label: "REFERENCE GUIDES", page: "Reference Guides" },
-      { label: "FREEZING AND REHEATING", page: "Freezer Tips" },
+      { label: "TIPS: AIR FRYERS", page: "Air Fryer Recipes", level: 1 },
+      { label: "TIPS: MICROWAVE OVENS", page: "Microwave Recipes", level: 1 },
+      { label: "TIPS: GAS/ELECTRIC OVENS", page: "Oven Recipes", level: 1 },
+      { label: "TIPS: GAS/ELECTRIC GRIDDLES", page: "Griddle Recipes", level: 1 },
+      { label: "TIPS: GAS GRILLS", page: "Gas Grill Recipes", level: 1 },
+      { label: "TIPS: PELLET SMOKERS", page: "Smoker Recipes", level: 1 },
     ],
   },
 ];
@@ -1651,7 +1651,10 @@ function CategoryGrid({ setFilter, setActivePage }) {
   return (
     <section className="section homeCategorySection">
       <div className="sectionTitle homeCategoryTitle homeCategoryQuickLinksTitle">
-        <h2>Cuisine Quick Links</h2>
+        <div>
+          <h2>Cuisine Quick Links</h2>
+          <p>Jump directly to the cuisines and recipe groups you use most often.</p>
+        </div>
       </div>
 
       <div className="categoryGrid homeCategoryGrid">
@@ -10781,6 +10784,17 @@ Use this section to check what is on hand, record dates, mark foods that should 
           </article>
         </HeroTopicPage>
       )}
+      {activePage === "Griddle Recipes" && (
+        <HeroTopicPage
+          eyebrow="COOKING METHODS"
+          title="Tips: Gas & Electric Griddles"
+          heroImage="images/heroes/hero-grill.png"
+          heroAlt="Flat-top griddle cooking setup with breakfast foods and utensils"
+          text="Gas and electric griddles provide a broad, even cooking surface for breakfast foods, burgers, sandwiches, vegetables, seafood, and complete meals. They are especially useful when several foods need to cook at the same time without crowding a skillet.\n\nThis section will cover preheating, temperature zones, seasoning and cleaning the surface, managing grease, preventing sticking, and cooking safely on both outdoor gas griddles and indoor electric griddles."
+          setActivePage={setActivePage}
+        />
+      )}
+
       {activePage === "Gas Grill Recipes" && (
         <HeroTopicPage
           eyebrow="COOKING METHODS"
