@@ -1842,7 +1842,12 @@ function HomeComboMealStrip({
     <>
       <section className="section homeComboMealStrip" aria-label="Featured combo meals">
         <div className="sectionTitle homeComboMealStripHeader">
-          <h2>Featured Combo-Meals</h2>
+          <div>
+            <h2>Featured Combo-Meals</h2>
+            <p>
+              Ready-made dinner combinations that pair a main dish with practical sides.
+            </p>
+          </div>
           <button type="button" onClick={() => setActivePage("Dinner Combinations")}>
             View all combo-meals ›
           </button>
