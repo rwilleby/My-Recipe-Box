@@ -1223,275 +1223,40 @@ const PageNavigationContext = createContext({
   setActivePage: () => {},
 });
 
-const MEGA_MENU_CONFIG = [
-  {
-    label: "Home",
-    page: "Home",
-    columns: [],
-  },
-  {
-    label: "Recipes",
-    page: "Recipes",
-    columns: [
-      {
-        heading: "Browse",
-        items: [
-          { label: "Browse Our Recipe Library", page: "Recipes" },
-          { label: "Dinner Combinations", page: "Dinner Combinations" },
-          { label: "Quick & Easy Freezer Meals", page: "Freezer-Friendly Meals" },
-        ],
-      },
-      {
-        heading: "Popular Collections",
-        items: [
-          { label: "Comfort Foods", page: "Comfort Foods" },
-          { label: "Easy 30-Minute Meals", page: "Easy 30-Minute Meals" },
-          { label: "Healthy Dinners", page: "Healthy Dinners" },
-          { label: "Summer Cookouts", page: "Summer Cookouts" },
-        ],
-      },
-      {
-        heading: "Specialty Recipes",
-        items: [
-          { label: "Slow Cooker Meals", page: "Slow Cooker Favorites" },
-          { label: "Salad Jar Lunches", page: "Salad Jars" },
-          { label: "Smoked & Grilled Meats", page: "Smoker Recipes" },
-          { label: "Side Dishes", page: "Recipes" },
-        ],
-      },
-    ],
-  },
-  {
-    label: "Meal Planning",
-    page: "Meal Planner",
-    columns: [
-      {
-        heading: "Plan",
-        items: [
-          { label: "Weekly Meal Planner", page: "Meal Planner" },
-          { label: "Dinner Combinations", page: "Dinner Combinations" },
-          { label: "Favorite Recipes", page: "Favorites" },
-        ],
-      },
-      {
-        heading: "Kitchen Inventory",
-        items: [
-          { label: "Refrigerator Inventory", page: "Kitchen Refrigerator" },
-          { label: "Freezer Inventory", page: "Kitchen Freezer" },
-          { label: "Pantry Inventory", page: "Pantry Staples" },
-        ],
-      },
-      {
-        heading: "Make Food Go Further",
-        items: [
-          { label: "Freezer-Friendly Meals", page: "Freezer-Friendly Meals" },
-          { label: "Freezing & Reheating", page: "Freezer Tips" },
-          { label: "Recipes for Two", page: "Recipes" },
-        ],
-      },
-    ],
-  },
-  {
-    label: "Shopping",
-    page: "Shopping Lists",
-    columns: [
-      {
-        heading: "Lists & Planning",
-        items: [
-          { label: "Your Grocery List", page: "Shopping Lists" },
-          { label: "Pantry Inventory", page: "Pantry Staples" },
-          { label: "Healthy Substitutions", page: "Grocery Picks" },
-        ],
-      },
-      {
-        heading: "Kitchen Products",
-        items: [
-          { label: "Cooking Tools & Products", page: "Products I Use" },
-          { label: "Storage & Organization", page: "Storage Organization" },
-        ],
-      },
-    ],
-  },
-  {
-    label: "Learn",
-    page: "Reference Guides",
-    columns: [
-      {
-        heading: "Cooking Guides",
-        items: [
-          { label: "Air Fryers", page: "Air Fryer Recipes" },
-          { label: "Microwave Ovens", page: "Microwave Recipes" },
-          { label: "Gas Grills", page: "Gas Grill Recipes" },
-          { label: "Pellet Smokers", page: "Smoker Recipes" },
-        ],
-      },
-      {
-        heading: "Kitchen Know-How",
-        items: [
-          { label: "Ovens", page: "Oven Recipes" },
-          { label: "Bread Making", page: "Bread Tips" },
-          { label: "Food Safety", page: "Safe Cooking Rules" },
-          { label: "Reference Guides", page: "Reference Guides" },
-        ],
-      },
-      {
-        heading: "Helpful Information",
-        items: [
-          { label: "Understanding MealBalance", page: "MealBalance Guide" },
-          { label: "Freezing & Reheating", page: "Freezer Tips" },
-          { label: "Healthy Substitutions", page: "Grocery Picks" },
-        ],
-      },
-    ],
-  },
-  {
-    label: "About",
-    page: "About",
-    columns: [
-      {
-        heading: "Robert's Recipe Box",
-        items: [
-          { label: "Welcome to Our Site", page: "About" },
-          { label: "About Our Recipes", page: "About Recipes" },
-          { label: "Contact Me", page: "Contact Me" },
-        ],
-      },
-      {
-        heading: "Participate",
-        items: [
-          { label: "Submit Your Family Recipes", page: "Submit Recipes" },
-          { label: "Affiliate Marketing", page: "Affiliate Marketing" },
-        ],
-      },
-      {
-        heading: "Policies",
-        items: [
-          { label: "Disclaimers", page: "Disclaimers" },
-          { label: "MealBalance Guide", page: "MealBalance Guide" },
-        ],
-      },
-    ],
-  },
-];
-
-function MegaMenu({ activePage, setActivePage }) {
-  const [openMenu, setOpenMenu] = useState(null);
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [mobileSection, setMobileSection] = useState(null);
-
-  const goToPage = (page) => {
-    setActivePage(page);
-    setOpenMenu(null);
-    setMobileOpen(false);
-    setMobileSection(null);
-  };
-
-  return (
-    <nav className="megaMenu" aria-label="Main navigation">
-      <button
-        type="button"
-        className="megaMenuToggle"
-        aria-expanded={mobileOpen}
-        aria-controls="mobile-navigation-panel"
-        onClick={() => setMobileOpen((current) => !current)}
-      >
-        <span aria-hidden="true">☰</span>
-        <span>Menu</span>
-      </button>
-
-      <div className="megaMenuDesktop">
-        {MEGA_MENU_CONFIG.map((group) => {
-          const hasPanel = group.columns.length > 0;
-          const isOpen = openMenu === group.label;
-          return (
-            <div
-              className="megaMenuGroup"
-              key={group.label}
-              onMouseEnter={() => hasPanel && setOpenMenu(group.label)}
-              onMouseLeave={() => setOpenMenu(null)}
-            >
-              <button
-                type="button"
-                className={activePage === group.page ? "megaMenuTopLink active" : "megaMenuTopLink"}
-                onClick={() => hasPanel ? setOpenMenu(isOpen ? null : group.label) : goToPage(group.page)}
-                aria-expanded={hasPanel ? isOpen : undefined}
-                aria-haspopup={hasPanel ? "true" : undefined}
-              >
-                {group.label}
-                {hasPanel && <span className="megaMenuChevron" aria-hidden="true">⌄</span>}
-              </button>
-
-              {hasPanel && (
-                <div className={isOpen ? "megaMenuPanel open" : "megaMenuPanel"}>
-                  <div className="megaMenuPanelInner">
-                    {group.columns.map((column) => (
-                      <section className="megaMenuColumn" key={`${group.label}-${column.heading}`}>
-                        <h3>{column.heading}</h3>
-                        {column.items.map((item) => (
-                          <button
-                            type="button"
-                            key={`${group.label}-${column.heading}-${item.label}`}
-                            onClick={() => goToPage(item.page)}
-                          >
-                            {item.label}
-                            <span aria-hidden="true">›</span>
-                          </button>
-                        ))}
-                      </section>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          );
-        })}
-      </div>
-
-      <div id="mobile-navigation-panel" className={mobileOpen ? "megaMenuMobile open" : "megaMenuMobile"}>
-        {MEGA_MENU_CONFIG.map((group) => {
-          const hasChildren = group.columns.length > 0;
-          const expanded = mobileSection === group.label;
-          return (
-            <div className="megaMenuMobileGroup" key={`mobile-${group.label}`}>
-              <div className="megaMenuMobileHeading">
-                <button type="button" onClick={() => goToPage(group.page)}>{group.label}</button>
-                {hasChildren && (
-                  <button
-                    type="button"
-                    className="megaMenuMobileExpand"
-                    aria-label={`${expanded ? "Collapse" : "Expand"} ${group.label}`}
-                    aria-expanded={expanded}
-                    onClick={() => setMobileSection(expanded ? null : group.label)}
-                  >
-                    {expanded ? "−" : "+"}
-                  </button>
-                )}
-              </div>
-              {hasChildren && expanded && (
-                <div className="megaMenuMobileItems">
-                  {group.columns.map((column) => (
-                    <section key={`mobile-${group.label}-${column.heading}`}>
-                      <h3>{column.heading}</h3>
-                      {column.items.map((item) => (
-                        <button type="button" key={`mobile-${group.label}-${item.label}`} onClick={() => goToPage(item.page)}>
-                          {item.label}
-                        </button>
-                      ))}
-                    </section>
-                  ))}
-                </div>
-              )}
-            </div>
-          );
-        })}
-      </div>
-    </nav>
-  );
-}
-
 function Header({ activePage, setActivePage }) {
+  const headerGroups = [
+    {
+      label: "ABOUT US",
+      page: "About",
+      items: NAV_GROUPS.find((group) => group.label === "ABOUT")?.items || [],
+    },
+    {
+      label: "RECIPES",
+      page: "Recipes",
+      items: [
+        ...(NAV_GROUPS.find((group) => group.label === "OUR RECIPES")?.items || []),
+        ...(NAV_GROUPS.find((group) => group.label === "COLLECTIONS")?.items || []),
+      ],
+    },
+    {
+      label: "MEAL PLANNING",
+      page: "Meal Planner",
+      items: NAV_GROUPS.find((group) => group.label === "YOUR KITCHEN")?.items || [],
+    },
+    {
+      label: "SHOPPING",
+      page: "Shopping Lists",
+      items: NAV_GROUPS.find((group) => group.label === "SHOPPING")?.items || [],
+    },
+    {
+      label: "RESOURCES",
+      page: "Reference Guides",
+      items: NAV_GROUPS.find((group) => group.label === "TIPS & GUIDES")?.items || [],
+    },
+  ];
+
   return (
-    <header className="topbar compactTopbar megaHeader">
+    <header className="topbar compactTopbar">
       <button
         className="brand brandLogoButton"
         onClick={() => setActivePage("Home")}
@@ -1509,7 +1274,37 @@ function Header({ activePage, setActivePage }) {
         </span>
       </button>
 
-      <MegaMenu activePage={activePage} setActivePage={setActivePage} />
+      <nav className="navLinks simpleHeaderNav" aria-label="Main navigation">
+        {headerGroups.map((group) => (
+          <div className="simpleHeaderNavItem" key={group.label}>
+            <button
+              className={activePage === group.page ? "simpleHeaderNavButton active" : "simpleHeaderNavButton"}
+              type="button"
+              onClick={() => setActivePage(group.page)}
+              aria-haspopup="menu"
+            >
+              <span>{group.label}</span>
+              <span className="simpleHeaderNavChevron" aria-hidden="true">⌄</span>
+            </button>
+            <div className="simpleHeaderSubmenu" role="menu" aria-label={`${group.label} submenu`}>
+              {group.items.map((item) => (
+                <button
+                  key={`${group.label}-${item.label}`}
+                  type="button"
+                  role="menuitem"
+                  className={[
+                    activePage === item.page ? "active" : "",
+                    item.level ? `simpleHeaderSubmenuLevel${item.level}` : "",
+                  ].filter(Boolean).join(" ")}
+                  onClick={() => setActivePage(item.page)}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        ))}
+      </nav>
     </header>
   );
 }
@@ -1645,80 +1440,29 @@ function Hero({ setActivePage }) {
   );
 }
 
-const HOME_FEATURE_CARDS = [
-  {
-    title: "Browse Recipes",
-    description: "Find practical recipes for everyday cooking and special meals.",
-    image: "images/home-features/browse-recipes.jpg",
-    page: "Recipes",
-  },
-  {
-    title: "Meal Planning",
-    description: "Build a weekly plan around your schedule, portions, and leftovers.",
-    image: "images/home-features/meal-planning.jpg",
-    page: "Meal Planner",
-  },
-  {
-    title: "Shopping",
-    description: "Turn your meal plan into a clear, organized grocery list.",
-    image: "images/home-features/shopping.jpg",
-    page: "Shopping Lists",
-  },
-  {
-    title: "Cooking Guides",
-    description: "Use practical guides for appliances, techniques, timing, and safety.",
-    image: "images/home-features/cooking-guides.jpg",
-    page: "Reference Guides",
-  },
-  {
-    title: "Freezer Meals",
-    description: "Prepare, store, freeze, and reheat meals with less waste.",
-    image: "images/home-features/freezer-meals.jpg",
-    page: "Freezer-Friendly Meals",
-  },
-  {
-    title: "About Robert",
-    description: "Learn why Robert's Recipe Box was created and how the recipes are developed.",
-    image: "images/home-features/about-robert-placeholder.jpg",
-    page: "About",
-  },
-];
+function HomeQuickLinks({ setActivePage, setFilter }) {
+  const links = [
+    { label: "All Recipes", note: "Browse the library", icon: "♨", action: () => setActivePage("Recipes") },
+    { label: "Meal Planning", note: "Plan your week", icon: "▦", action: () => setActivePage("Meal Planner") },
+    { label: "Grocery Lists", note: "Organized & easy", icon: "⌑", action: () => setActivePage("Shopping Lists") },
+    { label: "Freezer Meals", note: "Make ahead", icon: "❄", action: () => setActivePage("Freezer-Friendly Meals") },
+    { label: "Leftovers", note: "Reduce waste", icon: "⌁", action: () => setActivePage("Kitchen Refrigerator") },
+    { label: "Recipes for Two", note: "Right-sized meals", icon: "♙♙", action: () => setActivePage("Recipes") },
+    { label: "Seniors & Easy", note: "Simple & practical", icon: "♡", action: () => setActivePage("Easy 30-Minute Meals") },
+  ];
 
-function HomeFeatureCards({ setActivePage }) {
   return (
-    <section className="section homeFeatureSection" aria-labelledby="home-feature-heading">
-      <div className="sectionTitle homeFeatureSectionTitle">
-        <h2 id="home-feature-heading">Everything You Need for Smarter Home Cooking</h2>
-      </div>
-      <div className="homeFeatureGrid">
-        {HOME_FEATURE_CARDS.map((card) => (
-          <button
-            type="button"
-            className="homeFeatureCard"
-            key={card.title}
-            onClick={() => setActivePage(card.page)}
-            aria-label={`${card.title}: ${card.description}`}
-          >
-            <img
-              src={`${import.meta.env.BASE_URL}${card.image}`}
-              alt=""
-              aria-hidden="true"
-              loading="lazy"
-              decoding="async"
-            />
-            <span className="homeFeatureOverlay" aria-hidden="true" />
-            <span className="homeFeatureCopy">
-              <strong>{card.title}</strong>
-              <small>{card.description}</small>
-              <span className="homeFeatureArrow" aria-hidden="true">→</span>
-            </span>
-          </button>
-        ))}
-      </div>
+    <section className="homeQuickLinks" aria-label="Quick recipe and planning links">
+      {links.map((link) => (
+        <button type="button" className="homeQuickLink" key={link.label} onClick={link.action}>
+          <span className="homeQuickLinkIcon" aria-hidden="true">{link.icon}</span>
+          <strong>{link.label}</strong>
+          <small>{link.note}</small>
+        </button>
+      ))}
     </section>
   );
 }
-
 
 function TransparencyLine({ setActivePage }) {
   return (
@@ -3580,8 +3324,8 @@ function Home({
   return (
     <>
       <Hero setActivePage={setActivePage} />
+      <HomeQuickLinks setActivePage={setActivePage} setFilter={setFilter} />
       <HomeComboMealStrip setActivePage={setActivePage} />
-      <HomeFeatureCards setActivePage={setActivePage} />
       <CategoryGrid setFilter={setFilter} setActivePage={setActivePage} />
       <HomeRecipeCounters classifiedRecipes={classifiedRecipes} />
 
