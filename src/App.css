@@ -28501,3 +28501,87 @@ body.rrbPopupOpen {
     width: auto !important;
   }
 }
+/* =========================================================
+   JULY 2026 — HERO CLIFF NOTES CUSTOM COPY
+   ========================================================= */
+
+.pageNotesPopup {
+  width: min(560px, calc(100vw - 36px)) !important;
+  max-height: min(72vh, 720px) !important;
+  overflow-y: auto !important;
+}
+
+.pageNotesCustomCopy h3 {
+  margin: 0 30px 10px 0 !important;
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif !important;
+  font-size: 20px !important;
+  line-height: 1.15 !important;
+  color: #173d28 !important;
+}
+
+.pageNotesIntro {
+  margin: 0 0 14px !important;
+  color: #374151 !important;
+  font-size: 13px !important;
+  line-height: 1.5 !important;
+}
+
+.pageNotesCustomCopy h4 {
+  margin: 0 0 8px !important;
+  color: #173d28 !important;
+  font-size: 12px !important;
+  line-height: 1.1 !important;
+  text-transform: uppercase !important;
+  letter-spacing: .045em !important;
+}
+
+.pageNotesHeartList {
+  display: grid !important;
+  gap: 7px !important;
+  margin: 0 0 14px !important;
+  padding: 0 !important;
+  list-style: none !important;
+}
+
+.pageNotesHeartList li {
+  display: grid !important;
+  grid-template-columns: 17px minmax(0, 1fr) !important;
+  gap: 7px !important;
+  align-items: start !important;
+  margin: 0 !important;
+  color: #374151 !important;
+  font-size: 12.5px !important;
+  line-height: 1.35 !important;
+}
+
+.pageNotesHeart {
+  color: #7A9A3D !important;
+  font-size: 12px !important;
+  line-height: 1.35 !important;
+}
+
+.pageNotesTip {
+  margin: 0 !important;
+  padding: 10px 12px !important;
+  border-left: 3px solid #7A9A3D !important;
+  border-radius: 0 8px 8px 0 !important;
+  background: #f5f8ef !important;
+  color: #374151 !important;
+  font-size: 12.5px !important;
+  line-height: 1.45 !important;
+}
+
+.pageNotesTip strong {
+  color: #173d28 !important;
+}
+
+@media (max-width: 700px) {
+  .pageNotesPopup {
+    width: auto !important;
+    max-height: calc(100vh - 36px) !important;
+  }
+
+  .pageNotesCustomCopy h3 {
+    font-size: 18px !important;
+  }
+}
