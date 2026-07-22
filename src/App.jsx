@@ -1448,37 +1448,37 @@ const HOME_PHOTO_FEATURES = [
   {
     title: "Browse Recipes",
     description: "Explore the complete recipe-card library.",
-    image: "images/heroes/hero-page-browse-recipes.jpg",
+    image: "images/home-features/hero-process-01-recipes.png",
     page: "Recipes",
   },
   {
     title: "Meal Planning",
     description: "Organize meals for the coming week.",
-    image: "images/heroes/hero-weekly-dinner-planner.png",
+    image: "images/home-features/hero-process-02-planning.png",
     page: "Meal Planner",
   },
   {
     title: "Shopping",
     description: "Build an organized grocery list.",
-    image: "images/heroes/hero-page-grocery-list.jpg",
+    image: "images/home-features/hero-process-03-shopping.png",
     page: "Shopping Lists",
   },
   {
     title: "Cooking Guides",
     description: "Review practical cooking tips and guides.",
-    image: "images/heroes/hero-page-reference-guides.jpg",
+    image: "images/home-features/hero-process-04-cooking.png",
     page: "Reference Guides",
   },
   {
     title: "Freezer Meals",
     description: "Plan, package, freeze, and reheat meals.",
-    image: "images/heroes/hero-page-freezer-meals.png",
+    image: "images/home-features/hero-process-05-freezing.png",
     page: "Freezer-Friendly Meals",
   },
   {
     title: "About Robert",
     description: "Learn why Robert’s Recipe Box was created.",
-    image: "images/heroes/hero-page-about-us.jpg",
+    image: "images/home-features/hero-process-06-saving.png",
     page: "About",
   },
 ];

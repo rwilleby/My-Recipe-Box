@@ -26956,3 +26956,138 @@ body.rrbPopupOpen {
     grid-row: auto !important;
   }
 }
+/* =========================================================
+   JULY 2026 — HOME FEATURE IMAGES, OUTLINE COUNTERS,
+   AND ONE-ROW RESPONSIVE CARD STRIPS
+   ========================================================= */
+
+/* Use the six uploaded photographic process images without overlays. */
+.homePhotoFeatureImage img {
+  object-fit: cover !important;
+  object-position: center !important;
+}
+
+/* Keep both six-card homepage rows on one line at every width.
+   Cards shrink fluidly with the viewport rather than wrapping. */
+.homePhotoFeatureGrid,
+.homeComboMealGrid {
+  display: grid !important;
+  grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+  gap: clamp(6px, 0.8vw, 12px) !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  overflow: visible !important;
+}
+
+.homePhotoFeatureTile,
+.homeComboMealCard {
+  min-width: 0 !important;
+  width: 100% !important;
+}
+
+.homePhotoFeatureImage,
+.homeComboMealImage {
+  aspect-ratio: 1.42 / 1 !important;
+}
+
+.homePhotoFeatureText,
+.homeComboMealText {
+  min-height: clamp(58px, 6.8vw, 86px) !important;
+  padding: clamp(6px, 0.8vw, 11px) clamp(6px, 0.85vw, 12px) !important;
+}
+
+.homePhotoFeatureText strong,
+.homeComboMealText strong {
+  font-size: clamp(10px, 1.05vw, 15px) !important;
+  line-height: 1.1 !important;
+}
+
+.homePhotoFeatureText small,
+.homeComboMealText small {
+  margin-top: clamp(2px, 0.35vw, 5px) !important;
+  font-size: clamp(8px, 0.8vw, 11.5px) !important;
+  line-height: 1.18 !important;
+}
+
+.homePhotoFeatureArrow {
+  right: clamp(5px, 0.7vw, 11px) !important;
+  bottom: clamp(5px, 0.6vw, 9px) !important;
+  font-size: clamp(14px, 1.4vw, 22px) !important;
+}
+
+.homeComboMealBalanceBadge {
+  right: clamp(5px, 0.65vw, 9px) !important;
+  bottom: clamp(5px, 0.65vw, 9px) !important;
+  width: clamp(19px, 2vw, 25px) !important;
+  height: clamp(19px, 2vw, 25px) !important;
+  font-size: clamp(9px, 0.9vw, 12px) !important;
+}
+
+/* Remove the old wrapping rules for these two six-card rows. */
+@media (max-width: 1150px) {
+  .homePhotoFeatureGrid,
+  .homeComboMealGrid {
+    grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .homePhotoFeatureGrid,
+  .homeComboMealGrid {
+    grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 460px) {
+  .homePhotoFeatureGrid,
+  .homeComboMealGrid {
+    grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+  }
+
+  .homePhotoFeatureText small,
+  .homeComboMealText small {
+    display: none !important;
+  }
+
+  .homePhotoFeatureText,
+  .homeComboMealText {
+    min-height: 42px !important;
+  }
+}
+
+/* Change the four counter symbols to a lighter outline treatment
+   so they do not compete visually with the category icons. */
+.homeCounterBadge {
+  background: #ffffff !important;
+  border: 1.5px solid color-mix(in srgb, var(--counter-color) 72%, #ffffff) !important;
+  box-shadow: none !important;
+}
+
+.homeCounterIcon {
+  color: var(--counter-color) !important;
+  font-weight: 400 !important;
+}
+
+.homeCounterItem.recipes .homeCounterIcon::before {
+  content: "♨" !important;
+  font-size: 31px !important;
+  font-weight: 400 !important;
+}
+
+.homeCounterItem.complete .homeCounterIcon::before {
+  content: "♢" !important;
+  font-size: 31px !important;
+  filter: none !important;
+}
+
+.homeCounterItem.freezer .homeCounterIcon::before {
+  content: "❄" !important;
+  font-size: 32px !important;
+  font-weight: 300 !important;
+}
+
+.homeCounterItem.collections .homeCounterIcon::before {
+  content: "▱" !important;
+  font-size: 30px !important;
+  transform: none !important;
+}
