@@ -27523,3 +27523,124 @@ body.rrbPopupOpen {
   color: #ffffff !important;
   text-shadow: 0 1px 1px rgba(72, 67, 64, .16) !important;
 }
+/* =========================================================
+   JULY 2026 — COUNTER COLOR + SINGLE-LINE RECIPE FILTER BAR
+   ========================================================= */
+
+/* 1. Counter circles: 75% tint of #C9A77C mixed with 25% white.
+   Applied color: #D7BD9D. */
+.homeCounterItem.recipes .homeCounterBadge,
+.homeCounterItem.complete .homeCounterBadge,
+.homeCounterItem.freezer .homeCounterBadge,
+.homeCounterItem.collections .homeCounterBadge {
+  --counter-color: #D7BD9D !important;
+  background: #D7BD9D !important;
+  border-color: #D7BD9D !important;
+}
+
+/* Keep symbols readable against the lighter neutral background. */
+.homeCounterIcon {
+  color: #ffffff !important;
+  text-shadow: 0 1px 1px rgba(90, 72, 54, .18) !important;
+}
+
+/* 2. Browse Our Recipe Library:
+   put all seven controls on one equally divided horizontal row. */
+.browseControlsStack {
+  display: grid !important;
+  grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
+  gap: clamp(4px, .55vw, 8px) !important;
+  align-items: center !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  padding: clamp(7px, .8vw, 10px) !important;
+}
+
+/* Flatten the existing two JSX rows into one visual grid row. */
+.browseControlsPrimaryRow,
+.browseControlsSecondaryRow {
+  display: contents !important;
+}
+
+/* Every control receives the same share of the available width. */
+.browseControlsStack > .browseControlsRow > *,
+.browseControlsStack .browseSortWrap,
+.browseControlsStack .browseSearchWrap,
+.browseControlsStack select,
+.browseControlsStack input,
+.browseControlsStack details,
+.browseControlsStack .mealBalanceInfo,
+.browseControlsStack .mealBalanceInfoCompact {
+  min-width: 0 !important;
+  width: 100% !important;
+  max-width: none !important;
+  box-sizing: border-box !important;
+}
+
+/* Keep SORT BY compact inside its equal-width cell. */
+.browseSortWrap {
+  display: grid !important;
+  grid-template-columns: auto minmax(0, 1fr) !important;
+  align-items: center !important;
+  gap: clamp(3px, .35vw, 6px) !important;
+}
+
+.browseSortWrap label {
+  font-size: clamp(7px, .65vw, 10px) !important;
+  white-space: nowrap !important;
+}
+
+/* Fluid control sizing keeps the full strip on one line. */
+.browseControlsStack select,
+.browseControlsStack input {
+  height: clamp(28px, 2.55vw, 34px) !important;
+  padding: 4px clamp(4px, .55vw, 8px) !important;
+  font-size: clamp(7.5px, .72vw, 11px) !important;
+  line-height: 1 !important;
+  text-overflow: ellipsis !important;
+}
+
+.browseSearchWrap input {
+  padding-left: clamp(20px, 2vw, 30px) !important;
+}
+
+.browseSearchIcon {
+  left: clamp(6px, .75vw, 10px) !important;
+  font-size: clamp(9px, .9vw, 13px) !important;
+}
+
+/* Keep the MB information control compact and aligned with selects. */
+.browseControlsSecondaryRow .mealBalanceInfo,
+.browseControlsSecondaryRow .mealBalanceInfoCompact,
+.browseControlsSecondaryRow details {
+  height: clamp(28px, 2.55vw, 34px) !important;
+  min-height: 0 !important;
+  align-self: center !important;
+}
+
+.browseControlsSecondaryRow details > summary,
+.browseControlsSecondaryRow .mealBalanceInfo button,
+.browseControlsSecondaryRow .mealBalanceInfoCompact button {
+  min-height: 100% !important;
+  height: 100% !important;
+  padding: 4px clamp(4px, .55vw, 8px) !important;
+  font-size: clamp(7.5px, .72vw, 11px) !important;
+  white-space: nowrap !important;
+}
+
+/* Override earlier wrapping media queries: always remain one row. */
+@media (max-width: 980px),
+       (max-width: 620px) {
+  .browseControlsStack {
+    grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
+  }
+
+  .browseControlsPrimaryRow,
+  .browseControlsSecondaryRow {
+    display: contents !important;
+  }
+
+  .browseSortWrap {
+    grid-template-columns: auto minmax(0, 1fr) !important;
+  }
+}
