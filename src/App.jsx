@@ -1640,6 +1640,12 @@ function CategoryGrid({ setFilter, setActivePage }) {
     const matchingCategory = categories.find((item) => item.id === category.id);
     setFilter(matchingCategory?.name || category.name);
     setActivePage("Recipes");
+
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+      });
+    });
   }
 
   return (
@@ -3920,10 +3926,6 @@ function RecipesPage({
           </select>
         </label>
 
-        <div className="browseToolbarInfo">
-          <span>MB Info</span>
-          <MealBalanceInfo compact />
-        </div>
       </section>
       <div className="browseResultsRow">
         <strong>{filteredRecipes.length} recipes found</strong>

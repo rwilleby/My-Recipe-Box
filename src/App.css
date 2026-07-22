@@ -27903,3 +27903,133 @@ body.rrbPopupOpen {
     padding: 8px;
   }
 }
+/* =========================================================
+   JULY 2026 — CATEGORY SCROLL, VIEWPORT-SAFE COMBO POPUPS,
+   SIX-CONTROL RECIPE TOOLBAR, AND NARROWER CLIFF NOTES
+   ========================================================= */
+
+/* 2. Keep all Featured Combo-Meal popups fully inside the viewport. */
+.featuredComboModalOverlay,
+.featuredComboCardOverlay {
+  align-items: center !important;
+  justify-items: center !important;
+  padding: 8px !important;
+  overflow: hidden !important;
+}
+
+.featuredComboModal {
+  width: min(calc(100vw - 16px), 1480px) !important;
+  max-width: calc(100vw - 16px) !important;
+  height: auto !important;
+  max-height: calc(100dvh - 16px) !important;
+  overflow: hidden !important;
+}
+
+.featuredComboModalHeader {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 3 !important;
+  flex: 0 0 auto !important;
+}
+
+.featuredComboModalImage {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  overflow: auto !important;
+  padding: 10px 14px !important;
+}
+
+.featuredComboModalImageAsset {
+  max-height: calc(100dvh - 190px) !important;
+  width: auto !important;
+  max-width: 100% !important;
+  object-fit: contain !important;
+}
+
+.featuredComboModalActions {
+  flex: 0 0 auto !important;
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  gap: 7px !important;
+  padding: 9px 12px 12px !important;
+}
+
+.featuredComboModalActions button {
+  min-height: 46px !important;
+  padding: 6px 8px !important;
+}
+
+.featuredComboModalActions button span {
+  font-size: 9px !important;
+}
+
+.featuredComboModalActions button strong {
+  font-size: 12px !important;
+}
+
+.featuredComboCardDialog {
+  width: min(calc(100vw - 16px), 1540px) !important;
+  max-width: calc(100vw - 16px) !important;
+  max-height: calc(100dvh - 16px) !important;
+  overflow: hidden !important;
+}
+
+.featuredComboCardDialogHeader {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 3 !important;
+  flex: 0 0 auto !important;
+}
+
+.featuredComboCardDialogBody {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  overflow: auto !important;
+  padding: 10px !important;
+}
+
+.featuredComboCardDialogBody .dinnerCombinationCard {
+  margin: 0 !important;
+}
+
+/* 3. Six equal controls remain on one row after removing MB Info. */
+.browseInventoryStyleToolbar {
+  grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+}
+
+@media (max-width: 1050px),
+       (max-width: 720px) {
+  .browseInventoryStyleToolbar {
+    grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+  }
+}
+
+/* 4. Reduce PREV / CLIFF NOTES / NEXT widths by about 1/4 inch. */
+.pageSequenceButton {
+  min-width: 34px !important;
+  padding-left: 6px !important;
+  padding-right: 6px !important;
+}
+
+.pageTopHeroImage .pageHelpButton.pageNotesButton,
+.pageHelpButton.pageNotesButton,
+.pageTopHeroImage .pageNotesButton,
+.pageNotesButton {
+  min-width: 122px !important;
+  padding-left: 8px !important;
+  padding-right: 8px !important;
+}
+
+@media (max-width: 720px) {
+  .pageSequenceButton {
+    min-width: 30px !important;
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+  }
+
+  .pageTopHeroImage .pageHelpButton.pageNotesButton,
+  .pageHelpButton.pageNotesButton,
+  .pageTopHeroImage .pageNotesButton,
+  .pageNotesButton {
+    min-width: 102px !important;
+  }
+}
