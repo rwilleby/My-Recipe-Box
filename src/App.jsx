@@ -1241,7 +1241,11 @@ function Header({ activePage, setActivePage }) {
     {
       label: "MEAL PLANNING",
       page: "Meal Planner",
-      items: NAV_GROUPS.find((group) => group.label === "YOUR KITCHEN")?.items || [],
+      items: (NAV_GROUPS.find((group) => group.label === "YOUR KITCHEN")?.items || []).map((item) =>
+        ["Kitchen Refrigerator", "Kitchen Freezer", "Pantry Staples"].includes(item.page)
+          ? { ...item, level: 1 }
+          : item
+      ),
     },
     {
       label: "SHOPPING",
@@ -1622,7 +1626,14 @@ function getComboMealBalanceScore(meal) {
   return Math.max(1, Math.min(10, score));
 }
 
-function FeaturedComboMealModal({ meal, onClose }) {
+function FeaturedComboMealModal({
+  meal,
+  onClose,
+  setActivePage,
+  openRecipeCard,
+  favorites,
+  toggleFavorite,
+}) {
   usePopupPageMode(Boolean(meal));
 
   useEffect(() => {
@@ -1637,6 +1648,30 @@ function FeaturedComboMealModal({ meal, onClose }) {
   }, [meal, onClose]);
 
   if (!meal) return null;
+
+  const linkedRecipeButtons = [
+    { label: "Main Dish", recipeId: meal.mainRecipeId, name: meal.mainDish },
+    ...(meal.sides || []).slice(0, 2).map((side, index) => ({
+      label: `Side ${index + 1}`,
+      recipeId: side.recipeId,
+      name: side.name,
+    })),
+  ];
+
+  const isFavorite = Array.isArray(favorites) && favorites.includes(meal.id);
+
+  function openMealPage() {
+    onClose();
+    setActivePage("Dinner Combinations");
+  }
+
+  function openLinkedRecipe(recipeId) {
+    if (!recipeId) return;
+    const linkedRecipe = recipes.find((recipe) => recipe.id === recipeId);
+    if (!linkedRecipe) return;
+    onClose();
+    openRecipeCard(linkedRecipe.id, recipes);
+  }
 
   return (
     <div
@@ -1676,12 +1711,53 @@ function FeaturedComboMealModal({ meal, onClose }) {
             fetchPriority="high"
           />
         </div>
+
+        <div className="featuredComboModalActions" aria-label={`${meal.title} links`}>
+          <button type="button" onClick={openMealPage}>
+            <span>Combo-Meal</span>
+            <strong>View Meal</strong>
+          </button>
+
+          {linkedRecipeButtons.map((item) => {
+            const linkedRecipe = item.recipeId
+              ? recipes.find((recipe) => recipe.id === item.recipeId)
+              : null;
+
+            return (
+              <button
+                type="button"
+                key={`${meal.id}-${item.label}`}
+                onClick={() => openLinkedRecipe(item.recipeId)}
+                disabled={!linkedRecipe}
+                title={linkedRecipe ? `Open ${linkedRecipe.title}` : "Recipe card not linked yet"}
+              >
+                <span>{item.label}</span>
+                <strong>{linkedRecipe ? linkedRecipe.title : item.name || "Not linked"}</strong>
+              </button>
+            );
+          })}
+
+          <button
+            type="button"
+            className={isFavorite ? "featuredComboFavorite saved" : "featuredComboFavorite"}
+            onClick={() => toggleFavorite(meal.id)}
+            aria-label={isFavorite ? "Remove Combo-Meal from favorites" : "Add Combo-Meal to favorites"}
+          >
+            <span>Favorite</span>
+            <strong aria-hidden="true">♥</strong>
+          </button>
+        </div>
       </div>
     </div>
   );
 }
 
-function HomeComboMealStrip({ setActivePage }) {
+function HomeComboMealStrip({
+  setActivePage,
+  openRecipeCard,
+  favorites,
+  toggleFavorite,
+}) {
   const homeComboMeals = useMemo(
     () => uniqueRecordsByPermanentId(dinnerCombinations).slice(0, 6),
     []
@@ -1736,10 +1812,15 @@ function HomeComboMealStrip({ setActivePage }) {
       <FeaturedComboMealModal
         meal={selectedMeal}
         onClose={() => setSelectedMeal(null)}
+        setActivePage={setActivePage}
+        openRecipeCard={openRecipeCard}
+        favorites={favorites}
+        toggleFavorite={toggleFavorite}
       />
     </>
   );
 }
+
 
 function RecipeImage({ recipe }) {
   const candidates = recipeImageCandidates(recipe);
@@ -3433,6 +3514,8 @@ function HomeRecipeCounters({ classifiedRecipes = [] }) {
           <div className={`homeCounterItem ${counter.className}`} key={counter.label}>
             <span className="homeCounterBadge" aria-hidden="true">
               <span className="homeCounterIcon" />
+            </span>
+            <span className="homeCounterText">
               <strong>{counter.value}</strong>
               <small>{counter.label}</small>
             </span>
@@ -3456,7 +3539,12 @@ function Home({
     <>
       <Hero setActivePage={setActivePage} />
       <HomePhotoFeatureSection setActivePage={setActivePage} />
-      <HomeComboMealStrip setActivePage={setActivePage} />
+      <HomeComboMealStrip
+        setActivePage={setActivePage}
+        openRecipeCard={openRecipeCard}
+        favorites={favorites}
+        toggleFavorite={toggleFavorite}
+      />
       <CategoryGrid setFilter={setFilter} setActivePage={setActivePage} />
       <HomeRecipeCounters classifiedRecipes={classifiedRecipes} />
 
@@ -7661,9 +7749,14 @@ function DinnerCombinationsPage({ setActivePage, setFilter, setPlan, openRecipeC
   const [searchTerm, setSearchTerm] = useState("");
   const [proteinFilter, setProteinFilter] = useState("all");
   const [sideFilter, setSideFilter] = useState("all");
+  const [cuisineFilter, setCuisineFilter] = useState("all");
+  const [freezerFilter, setFreezerFilter] = useState("all");
+  const [mealBalanceFilter, setMealBalanceFilter] = useState("all");
+  const [cookingMethodFilter, setCookingMethodFilter] = useState("all");
   const [lowerCalorieOnly, setLowerCalorieOnly] = useState(false);
   const [higherProteinOnly, setHigherProteinOnly] = useState(false);
   const [sortMode, setSortMode] = useState("meal-number");
+  const [viewMode, setViewMode] = useState("list");
 
   const filteredMeals = useMemo(() => {
     const normalizedSearch = searchTerm.trim().toLowerCase();
@@ -7672,28 +7765,62 @@ function DinnerCombinationsPage({ setActivePage, setFilter, setPlan, openRecipeC
       .filter((meal) => !normalizedSearch || getDinnerCombinationSearchText(meal).includes(normalizedSearch))
       .filter((meal) => proteinFilter === "all" || (meal.tags || []).includes(proteinFilter))
       .filter((meal) => sideFilter === "all" || (meal.tags || []).includes(sideFilter))
+      .filter((meal) => {
+        if (cuisineFilter === "all") return true;
+        return getDinnerCombinationSearchText(meal).includes(cuisineFilter);
+      })
+      .filter((meal) => {
+        if (freezerFilter === "all") return true;
+        const freezerFriendly =
+          (meal.tags || []).some((tag) => String(tag).toLowerCase().includes("freezer")) ||
+          Boolean(meal.freezerLife);
+        return freezerFilter === "yes" ? freezerFriendly : !freezerFriendly;
+      })
+      .filter((meal) => {
+        if (mealBalanceFilter === "all") return true;
+        const score = getComboMealBalanceScore(meal);
+        if (mealBalanceFilter === "1-3") return score >= 1 && score <= 3;
+        if (mealBalanceFilter === "4-6") return score >= 4 && score <= 6;
+        if (mealBalanceFilter === "7-10") return score >= 7 && score <= 10;
+        return true;
+      })
+      .filter((meal) => {
+        if (cookingMethodFilter === "all") return true;
+        return getDinnerCombinationSearchText(meal).includes(cookingMethodFilter);
+      })
       .filter((meal) => !lowerCalorieOnly || Number(meal.calories) < 600)
       .filter((meal) => !higherProteinOnly || Number(meal.protein) >= 30)
       .sort((a, b) => {
-        if (sortMode === "calories-low") return Number(a.calories) - Number(b.calories);
-        if (sortMode === "protein-high") return Number(b.protein) - Number(a.protein);
+        if (sortMode === "calories-low") return Number(a.calories || Infinity) - Number(b.calories || Infinity);
+        if (sortMode === "meal-balance") return getComboMealBalanceScore(a) - getComboMealBalanceScore(b);
+        if (sortMode === "recent") return Number(b.number) - Number(a.number);
         if (sortMode === "title") return a.title.localeCompare(b.title);
         return Number(a.number) - Number(b.number);
       });
-  }, [higherProteinOnly, lowerCalorieOnly, proteinFilter, searchTerm, sideFilter, sortMode]);
+  }, [
+    cookingMethodFilter,
+    cuisineFilter,
+    freezerFilter,
+    higherProteinOnly,
+    lowerCalorieOnly,
+    mealBalanceFilter,
+    proteinFilter,
+    searchTerm,
+    sideFilter,
+    sortMode,
+  ]);
 
   function clearDinnerCombinationFilters() {
     setSearchTerm("");
     setProteinFilter("all");
     setSideFilter("all");
+    setCuisineFilter("all");
+    setFreezerFilter("all");
+    setMealBalanceFilter("all");
+    setCookingMethodFilter("all");
     setLowerCalorieOnly(false);
     setHigherProteinOnly(false);
     setSortMode("meal-number");
-  }
-
-  function openRecipeSearch(recipeName) {
-    setFilter(recipeName);
-    setActivePage("Recipes");
   }
 
   function addDinnerMealToPlan(mealId, slotKey) {
@@ -7708,71 +7835,138 @@ function DinnerCombinationsPage({ setActivePage, setFilter, setPlan, openRecipeC
 
   return (
     <main className="pageShell dinnerCombinationsPage">
-<section className="dinnerCombinationControls" aria-label="Dinner combination filters">
-        <label className="dinnerCombinationSearch">
-          <span>Search meals</span>
-          <input
-            type="search"
-            value={searchTerm}
-            onChange={(event) => setSearchTerm(event.target.value)}
-            placeholder="Search meals, main dishes, or sides…"
-          />
-        </label>
-
-        <label>
-          <span>Protein</span>
-          <select value={proteinFilter} onChange={(event) => setProteinFilter(event.target.value)}>
-            <option value="all">All Proteins</option>
-            {DINNER_PROTEIN_FILTERS.map((filter) => (
-              <option key={filter} value={filter}>
-                {filter.charAt(0).toUpperCase() + filter.slice(1)}
-              </option>
-            ))}
-          </select>
-        </label>
-
-        <label>
-          <span>Side Type</span>
-          <select value={sideFilter} onChange={(event) => setSideFilter(event.target.value)}>
-            <option value="all">All Side Types</option>
-            {DINNER_SIDE_FILTERS.map((filter) => (
-              <option key={filter} value={filter}>
-                {filter.charAt(0).toUpperCase() + filter.slice(1)}
-              </option>
-            ))}
-          </select>
-        </label>
-
-        <div className="dinnerCombinationChecks">
-          <label>
+      <section className="dinnerCombinationToolbar" aria-label="Dinner combination browsing toolbar">
+        <div className="dinnerToolbarPrimary">
+          <label className="dinnerCombinationSearch">
+            <span>Search</span>
             <input
-              type="checkbox"
-              checked={lowerCalorieOnly}
-              onChange={(event) => setLowerCalorieOnly(event.target.checked)}
+              type="search"
+              value={searchTerm}
+              onChange={(event) => setSearchTerm(event.target.value)}
+              placeholder="Search meals, main dishes, or sides…"
             />
-            Under 600 Calories
           </label>
+
           <label>
-            <input
-              type="checkbox"
-              checked={higherProteinOnly}
-              onChange={(event) => setHigherProteinOnly(event.target.checked)}
-            />
-            30g+ Protein
+            <span>Sort</span>
+            <select value={sortMode} onChange={(event) => setSortMode(event.target.value)}>
+              <option value="meal-number">Meal #</option>
+              <option value="title">Name (A–Z)</option>
+              <option value="meal-balance">MealBalance</option>
+              <option value="calories-low">Calories</option>
+              <option value="recent">Recently Added</option>
+            </select>
+          </label>
+
+          <label>
+            <span>Main Protein</span>
+            <select value={proteinFilter} onChange={(event) => setProteinFilter(event.target.value)}>
+              <option value="all">All Proteins</option>
+              {DINNER_PROTEIN_FILTERS.map((filter) => (
+                <option key={filter} value={filter}>
+                  {filter.charAt(0).toUpperCase() + filter.slice(1)}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <label>
+            <span>Cuisine</span>
+            <select value={cuisineFilter} onChange={(event) => setCuisineFilter(event.target.value)}>
+              <option value="all">All Cuisines</option>
+              <option value="american">American</option>
+              <option value="asian">Asian</option>
+              <option value="italian">Italian</option>
+              <option value="mexican">Mexican</option>
+              <option value="southern">Southern</option>
+            </select>
+          </label>
+
+          <label>
+            <span>Cooking Method</span>
+            <select value={cookingMethodFilter} onChange={(event) => setCookingMethodFilter(event.target.value)}>
+              <option value="all">All Methods</option>
+              <option value="baked">Baked</option>
+              <option value="grilled">Grilled</option>
+              <option value="smoked">Smoked</option>
+              <option value="fried">Fried</option>
+              <option value="slow cooker">Slow Cooker</option>
+            </select>
           </label>
         </div>
 
-        <label>
-          <span>Sort</span>
-          <select value={sortMode} onChange={(event) => setSortMode(event.target.value)}>
-            <option value="meal-number">Meal Number</option>
-            <option value="title">Title</option>
-            <option value="calories-low">Lowest Calories</option>
-            <option value="protein-high">Highest Protein</option>
-          </select>
-        </label>
+        <div className="dinnerToolbarSecondary">
+          <label>
+            <span>Side Type</span>
+            <select value={sideFilter} onChange={(event) => setSideFilter(event.target.value)}>
+              <option value="all">All Side Types</option>
+              {DINNER_SIDE_FILTERS.map((filter) => (
+                <option key={filter} value={filter}>
+                  {filter.charAt(0).toUpperCase() + filter.slice(1)}
+                </option>
+              ))}
+            </select>
+          </label>
 
-        <button type="button" onClick={clearDinnerCombinationFilters}>Clear</button>
+          <label>
+            <span>Freezer Friendly</span>
+            <select value={freezerFilter} onChange={(event) => setFreezerFilter(event.target.value)}>
+              <option value="all">All Meals</option>
+              <option value="yes">Freezer Friendly</option>
+              <option value="no">Not Marked Freezer Friendly</option>
+            </select>
+          </label>
+
+          <label>
+            <span>MealBalance</span>
+            <select value={mealBalanceFilter} onChange={(event) => setMealBalanceFilter(event.target.value)}>
+              <option value="all">All Ratings</option>
+              <option value="1-3">1–3</option>
+              <option value="4-6">4–6</option>
+              <option value="7-10">7–10</option>
+            </select>
+          </label>
+
+          <div className="dinnerCombinationChecks">
+            <label>
+              <input
+                type="checkbox"
+                checked={lowerCalorieOnly}
+                onChange={(event) => setLowerCalorieOnly(event.target.checked)}
+              />
+              Under 600 Calories
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                checked={higherProteinOnly}
+                onChange={(event) => setHigherProteinOnly(event.target.checked)}
+              />
+              30g+ Protein
+            </label>
+          </div>
+
+          <div className="dinnerViewToggle" aria-label="Dinner combination view">
+            <button
+              type="button"
+              className={viewMode === "list" ? "active" : ""}
+              onClick={() => setViewMode("list")}
+            >
+              List
+            </button>
+            <button
+              type="button"
+              className={viewMode === "grid" ? "active" : ""}
+              onClick={() => setViewMode("grid")}
+            >
+              Compact
+            </button>
+          </div>
+
+          <button type="button" className="dinnerToolbarClear" onClick={clearDinnerCombinationFilters}>
+            Clear
+          </button>
+        </div>
       </section>
 
       <div className="dinnerCombinationResultsBar">
@@ -7781,9 +7975,17 @@ function DinnerCombinationsPage({ setActivePage, setFilter, setPlan, openRecipeC
       </div>
 
       {filteredMeals.length > 0 ? (
-        <section className="dinnerCombinationGrid" aria-label="Dinner combination results">
+        <section
+          className={`dinnerCombinationGrid dinnerCombinationGrid--${viewMode}`}
+          aria-label="Dinner combination results"
+        >
           {filteredMeals.map((meal) => (
-            <DinnerCombinationCard key={meal.id} meal={meal} onAddMealToPlan={addDinnerMealToPlan} openRecipeCard={openRecipeCard} />
+            <DinnerCombinationCard
+              key={meal.id}
+              meal={meal}
+              onAddMealToPlan={addDinnerMealToPlan}
+              openRecipeCard={openRecipeCard}
+            />
           ))}
         </section>
       ) : (
@@ -7795,7 +7997,6 @@ function DinnerCombinationsPage({ setActivePage, setFilter, setPlan, openRecipeC
     </main>
   );
 }
-
 
 
 const REFERENCE_GUIDES = [

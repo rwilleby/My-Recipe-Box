@@ -26341,3 +26341,618 @@ body.rrbPopupOpen {
     grid-template-columns: 1fr !important;
   }
 }
+/* =========================================================
+   JULY 2026 — MENU, COUNTERS, FEATURED COMBO MODAL,
+   AND FULL-WIDTH DINNER COMBO LIST
+   ========================================================= */
+
+/* 1. Remove the delayed submenu close. */
+.simpleHeaderSubmenu {
+  transition:
+    opacity .16s ease,
+    transform .16s ease,
+    visibility .16s ease !important;
+  transition-delay: 0s !important;
+}
+
+.simpleHeaderNavItem:hover > .simpleHeaderSubmenu,
+.simpleHeaderNavItem:focus-within > .simpleHeaderSubmenu {
+  transition-delay: 0s !important;
+}
+
+/* Indented Meal Planning inventory entries use the existing level class. */
+.simpleHeaderSubmenu button.simpleHeaderSubmenuLevel1 {
+  padding-left: 24px !important;
+}
+
+/* 2. Smaller counter circles with larger symbols and text beneath. */
+.homeCounterRow {
+  gap: clamp(18px, 3vw, 38px) !important;
+}
+
+.homeCounterItem {
+  min-width: 76px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 6px !important;
+}
+
+.homeCounterBadge {
+  width: 57px !important;
+  height: 57px !important;
+  min-width: 57px !important;
+  min-height: 57px !important;
+  display: grid !important;
+  place-items: center !important;
+  overflow: hidden !important;
+  border: 2px solid var(--counter-color) !important;
+  border-radius: 50% !important;
+  background: var(--counter-color) !important;
+  box-shadow: 0 2px 7px rgba(31, 41, 55, .1) !important;
+}
+
+.homeCounterIcon {
+  width: 100% !important;
+  height: 100% !important;
+  display: grid !important;
+  place-items: center !important;
+  color: #fff !important;
+  font-size: 34px !important;
+  line-height: 1 !important;
+}
+
+.homeCounterItem.complete .homeCounterIcon::before {
+  font-size: 29px !important;
+}
+
+.homeCounterItem.freezer .homeCounterIcon::before {
+  font-size: 35px !important;
+}
+
+.homeCounterItem.collections .homeCounterIcon::before {
+  font-size: 31px !important;
+}
+
+.homeCounterText {
+  display: grid;
+  justify-items: center;
+  gap: 1px;
+  text-align: center;
+}
+
+.homeCounterText strong {
+  color: #1f2937;
+  font-size: 15px;
+  line-height: 1;
+}
+
+.homeCounterText small {
+  color: #6b7280;
+  font-size: 10px;
+  line-height: 1.1;
+}
+
+/* 3. Featured Combo-Meal modal action row. */
+.featuredComboModalActions {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 9px;
+  padding: 12px 18px 18px;
+  border-top: 1px solid var(--line);
+  background: #fff;
+}
+
+.featuredComboModalActions button {
+  min-width: 0;
+  min-height: 52px;
+  padding: 8px 10px;
+  border: 1px solid #cfd9d1;
+  border-radius: 10px;
+  background: #f8fbf8;
+  color: #173d28;
+  text-align: left;
+}
+
+.featuredComboModalActions button:hover:not(:disabled),
+.featuredComboModalActions button:focus-visible:not(:disabled) {
+  border-color: var(--green);
+  background: #eef6ef;
+}
+
+.featuredComboModalActions button:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+}
+
+.featuredComboModalActions button span {
+  display: block;
+  margin-bottom: 2px;
+  color: #6b7280;
+  font-size: 10px;
+  line-height: 1.1;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.featuredComboModalActions button strong {
+  display: block;
+  overflow: hidden;
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  font-size: 13px;
+  line-height: 1.15;
+  text-overflow: ellipsis;
+}
+
+.featuredComboFavorite {
+  text-align: center !important;
+}
+
+.featuredComboFavorite strong {
+  color: #9ca3af;
+  font-size: 24px !important;
+  line-height: 1 !important;
+}
+
+.featuredComboFavorite.saved strong {
+  color: #b4232c;
+}
+
+/* 5. Compact browsing toolbar. */
+.dinnerCombinationToolbar {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 14px;
+  padding: 12px;
+  border: 1px solid rgba(20, 83, 45, .14);
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 8px 22px rgba(17, 24, 39, .05);
+}
+
+.dinnerToolbarPrimary,
+.dinnerToolbarSecondary {
+  display: grid;
+  grid-template-columns: minmax(220px, 1.45fr) repeat(4, minmax(130px, .8fr));
+  gap: 9px;
+  align-items: end;
+}
+
+.dinnerToolbarSecondary {
+  grid-template-columns: repeat(3, minmax(145px, .8fr)) minmax(210px, 1fr) auto auto;
+}
+
+.dinnerCombinationToolbar label {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.dinnerCombinationToolbar label > span {
+  color: #4b5563;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.dinnerCombinationToolbar input,
+.dinnerCombinationToolbar select {
+  width: 100%;
+  min-width: 0;
+  height: 34px;
+  padding: 5px 8px;
+  border: 1px solid #d4ddd6;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 12px;
+}
+
+.dinnerCombinationChecks {
+  min-height: 34px;
+  display: flex !important;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.dinnerCombinationChecks label {
+  display: flex !important;
+  align-items: center;
+  gap: 5px;
+  color: #4b5563;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.dinnerViewToggle {
+  display: inline-flex;
+  height: 34px;
+  padding: 2px;
+  border: 1px solid #d4ddd6;
+  border-radius: 9px;
+  background: #f4f7f4;
+}
+
+.dinnerViewToggle button {
+  padding: 4px 10px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: #536158;
+  font-size: 11px;
+}
+
+.dinnerViewToggle button.active {
+  background: #fff;
+  color: #14532d;
+  box-shadow: 0 1px 4px rgba(17, 24, 39, .1);
+}
+
+.dinnerToolbarClear {
+  height: 34px;
+  padding: 0 13px;
+  border: 1px solid #cfd9d1;
+  border-radius: 8px;
+  background: #f8fbf8;
+  color: #173d28;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* Full-width single-column dinner catalog. */
+.dinnerCombinationGrid,
+.dinnerCombinationGrid--list {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: 14px !important;
+}
+
+.dinnerCombinationCard {
+  position: relative;
+  display: grid !important;
+  grid-template-columns: 250px minmax(0, 1.4fr) minmax(270px, .85fr) !important;
+  grid-template-areas:
+    "left nutrition nutrition"
+    "left recipes planner"
+    "left heating heating" !important;
+  column-gap: 18px !important;
+  row-gap: 10px !important;
+  align-items: start !important;
+  padding: 14px 16px !important;
+  min-height: 0 !important;
+}
+
+.dinnerCombinationMealBadge {
+  position: absolute !important;
+  top: 10px !important;
+  left: 10px !important;
+  z-index: 2;
+}
+
+.dinnerCombinationHeader {
+  grid-area: left !important;
+  display: block !important;
+  min-width: 0;
+}
+
+.dinnerCombinationMedia {
+  width: 100% !important;
+  height: 150px !important;
+  margin-bottom: 9px;
+  overflow: hidden;
+  border-radius: 11px;
+}
+
+.dinnerCombinationMedia img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+.dinnerCombinationTitleBlock h3 {
+  margin: 0 0 3px !important;
+  font-size: 19px !important;
+  line-height: 1.08 !important;
+}
+
+.dinnerCombinationSubtitle {
+  margin: 0 0 5px !important;
+  font-size: 11.5px !important;
+  line-height: 1.25 !important;
+}
+
+.comboMealBalanceDetails {
+  margin-top: 5px !important;
+}
+
+.dinnerCombinationDetails {
+  grid-area: left !important;
+  align-self: end;
+  display: grid !important;
+  gap: 5px !important;
+  margin-top: 260px !important;
+}
+
+.dinnerCombinationDetails section {
+  margin: 0 !important;
+}
+
+.dinnerCombinationDetails h4,
+.dinnerCombinationRecipeButtons h4 {
+  margin: 0 0 3px !important;
+  font-size: 11px !important;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+}
+
+.dinnerCombinationDetails p,
+.dinnerCombinationDetails ul {
+  margin: 0 !important;
+  font-size: 11.5px !important;
+  line-height: 1.3 !important;
+}
+
+.dinnerCombinationNutritionLabel {
+  grid-area: nutrition !important;
+  margin: 0 0 -3px !important;
+  font-size: 10px !important;
+}
+
+.dinnerCombinationNutrition {
+  grid-area: nutrition !important;
+  align-self: end;
+  display: grid !important;
+  grid-template-columns: repeat(5, minmax(70px, 1fr)) !important;
+  gap: 8px !important;
+  margin-top: 18px !important;
+}
+
+.dinnerCombinationNutrition span {
+  min-height: 48px !important;
+  padding: 6px 8px !important;
+}
+
+.dinnerCombinationNutrition strong {
+  font-size: 16px !important;
+}
+
+.dinnerCombinationNutrition small {
+  font-size: 9px !important;
+}
+
+.dinnerCombinationRecipeButtons {
+  grid-area: recipes !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.dinnerCombinationRecipeButtonGrid {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 7px !important;
+}
+
+.dinnerCombinationRecipeButtonGrid > div > button {
+  min-height: 48px !important;
+  padding: 6px 8px !important;
+  font-size: 11px !important;
+}
+
+.dinnerCombinationPlannerAdd {
+  grid-area: planner !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  gap: 7px !important;
+  align-items: end !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.dinnerCombinationPlannerAdd label {
+  min-width: 0;
+}
+
+.dinnerCombinationPlannerAdd label > span {
+  font-size: 10px !important;
+}
+
+.dinnerCombinationPlannerAdd select,
+.dinnerCombinationPlannerAdd > button {
+  height: 34px !important;
+  font-size: 11px !important;
+}
+
+.dinnerCombinationAddedMessage {
+  grid-column: 1 / -1;
+  margin: 0 !important;
+  font-size: 10px !important;
+}
+
+.dinnerCombinationHeating {
+  grid-area: heating !important;
+  margin: 0 !important;
+  padding-top: 5px !important;
+  border-top: 1px solid #e5ebe6;
+}
+
+.dinnerCombinationHeating summary {
+  font-size: 11px !important;
+}
+
+.dinnerCombinationGrid--grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+
+.dinnerCombinationGrid--grid .dinnerCombinationCard {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  grid-template-areas:
+    "left"
+    "nutrition"
+    "recipes"
+    "planner"
+    "heating" !important;
+}
+
+.dinnerCombinationGrid--grid .dinnerCombinationDetails {
+  margin-top: 0 !important;
+  grid-area: left !important;
+}
+
+@media (max-width: 1100px) {
+  .dinnerToolbarPrimary,
+  .dinnerToolbarSecondary {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .dinnerCombinationCard {
+    grid-template-columns: 220px minmax(0, 1fr) !important;
+    grid-template-areas:
+      "left nutrition"
+      "left recipes"
+      "left planner"
+      "left heating" !important;
+  }
+
+  .featuredComboModalActions {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .dinnerToolbarPrimary,
+  .dinnerToolbarSecondary {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .dinnerCombinationCard,
+  .dinnerCombinationGrid--grid .dinnerCombinationCard {
+    grid-template-columns: 1fr !important;
+    grid-template-areas:
+      "left"
+      "nutrition"
+      "recipes"
+      "planner"
+      "heating" !important;
+  }
+
+  .dinnerCombinationDetails {
+    margin-top: 0 !important;
+  }
+
+  .dinnerCombinationNutrition {
+    grid-template-columns: repeat(5, minmax(54px, 1fr)) !important;
+    overflow-x: auto;
+  }
+
+  .dinnerCombinationRecipeButtonGrid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .dinnerCombinationPlannerAdd {
+    grid-template-columns: 1fr !important;
+  }
+
+  .featuredComboModalActions {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .dinnerToolbarPrimary,
+  .dinnerToolbarSecondary {
+    grid-template-columns: 1fr;
+  }
+
+  .featuredComboModalActions {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* Final placement correction for the full-width list zones. */
+.dinnerCombinationCard {
+  grid-template-areas: none !important;
+  grid-template-rows: auto auto auto !important;
+}
+
+.dinnerCombinationHeader {
+  grid-column: 1 !important;
+  grid-row: 1 / span 2 !important;
+}
+
+.dinnerCombinationDetails {
+  grid-column: 1 !important;
+  grid-row: 3 !important;
+  margin-top: 0 !important;
+}
+
+.dinnerCombinationNutritionLabel,
+.dinnerCombinationNutrition {
+  grid-column: 2 / 4 !important;
+  grid-row: 1 !important;
+}
+
+.dinnerCombinationRecipeButtons {
+  grid-column: 2 !important;
+  grid-row: 2 !important;
+}
+
+.dinnerCombinationPlannerAdd {
+  grid-column: 3 !important;
+  grid-row: 2 !important;
+}
+
+.dinnerCombinationHeating {
+  grid-column: 2 / 4 !important;
+  grid-row: 3 !important;
+}
+
+@media (max-width: 1100px) {
+  .dinnerCombinationHeader {
+    grid-column: 1 !important;
+    grid-row: 1 / span 3 !important;
+  }
+
+  .dinnerCombinationDetails {
+    grid-column: 1 !important;
+    grid-row: 4 !important;
+  }
+
+  .dinnerCombinationNutritionLabel,
+  .dinnerCombinationNutrition {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+  }
+
+  .dinnerCombinationRecipeButtons {
+    grid-column: 2 !important;
+    grid-row: 2 !important;
+  }
+
+  .dinnerCombinationPlannerAdd {
+    grid-column: 2 !important;
+    grid-row: 3 !important;
+  }
+
+  .dinnerCombinationHeating {
+    grid-column: 2 !important;
+    grid-row: 4 !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .dinnerCombinationHeader,
+  .dinnerCombinationDetails,
+  .dinnerCombinationNutritionLabel,
+  .dinnerCombinationNutrition,
+  .dinnerCombinationRecipeButtons,
+  .dinnerCombinationPlannerAdd,
+  .dinnerCombinationHeating {
+    grid-column: 1 !important;
+    grid-row: auto !important;
+  }
+}
