@@ -25439,3 +25439,154 @@ body.rrbPopupOpen {
     max-width: calc(100% - 48px) !important;
   }
 }
+
+
+/* =========================================================
+   HOME QUICK-LINK STRIP + COMBO CARD REFINEMENT — JULY 2026
+   Aligns hero controls, narrows page heroes, adds a compact
+   navigation strip, and moves MealBalance into card copy.
+   ========================================================= */
+
+/* 1. Align the first hero button with the hero body-copy edge. */
+.heroInfoButtons {
+  left: 4.5vw !important;
+  right: auto !important;
+  width: min(760px, calc(100% - 9vw)) !important;
+  max-width: calc(100% - 9vw) !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+/* 2. Compact quick-link ribbon inserted between hero and Combo-Meals. */
+.homeQuickLinks {
+  width: min(92%, 1440px);
+  margin: 14px auto 8px;
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  border: 1px solid #dedbd3;
+  border-radius: 14px;
+  background: rgba(255,255,255,.96);
+  box-shadow: 0 3px 14px rgba(34, 49, 40, .06);
+  overflow: hidden;
+}
+
+.homeQuickLink {
+  min-width: 0;
+  min-height: 108px;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 5px;
+  padding: 12px 8px;
+  border: 0;
+  border-right: 1px solid #e5e2db;
+  background: transparent;
+  color: #202a24;
+  cursor: pointer;
+}
+
+.homeQuickLink:last-child { border-right: 0; }
+.homeQuickLink:hover,
+.homeQuickLink:focus-visible { background: #f6f8f5; }
+
+.homeQuickLinkIcon {
+  min-height: 38px;
+  display: grid;
+  place-items: center;
+  color: #1f5a38;
+  font-family: Georgia, serif;
+  font-size: 32px;
+  line-height: 1;
+  font-weight: 400;
+}
+
+.homeQuickLink strong {
+  font-size: 13px;
+  line-height: 1.15;
+  font-weight: 700;
+  text-align: center;
+}
+
+.homeQuickLink small {
+  color: #6b7280;
+  font-size: 10.5px;
+  line-height: 1.15;
+  text-align: center;
+}
+
+/* 3. Test a 10% narrower treatment for all large page heroes. */
+.hero,
+.pageTopHeroImage,
+.pageTopHeroImage.hasHeroText,
+.pageTopHeroImage.pageHeroDepth464,
+.pageTopHeroImage.cookingMethodHeroLarge,
+.pageTopHeroImage.summerCookoutsHeroDepth {
+  width: 90% !important;
+  max-width: 90% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* 4. Slightly reduce the Featured Combo-Meals heading. */
+.homeComboMealStripHeader h2 {
+  font-size: clamp(19px, 1.65vw, 25px) !important;
+  line-height: 1.1 !important;
+}
+
+/* 5. Place MealBalance in the lower-right of the white copy area. */
+.homeComboMealCard > .homeComboMealText {
+  position: relative !important;
+  display: grid !important;
+  align-content: start !important;
+  min-height: 86px !important;
+  padding-right: 36px !important;
+}
+
+.homeComboMealText .homeComboMealBalanceBadge {
+  position: absolute !important;
+  top: auto !important;
+  right: 8px !important;
+  bottom: 8px !important;
+  width: 24px !important;
+  height: 24px !important;
+  z-index: 4 !important;
+}
+
+@media (max-width: 1050px) {
+  .homeQuickLinks {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .homeQuickLink:nth-child(4) { border-right: 0; }
+  .homeQuickLink:nth-child(-n+4) { border-bottom: 1px solid #e5e2db; }
+}
+
+@media (max-width: 700px) {
+  .hero,
+  .pageTopHeroImage,
+  .pageTopHeroImage.hasHeroText,
+  .pageTopHeroImage.pageHeroDepth464,
+  .pageTopHeroImage.cookingMethodHeroLarge,
+  .pageTopHeroImage.summerCookoutsHeroDepth {
+    width: 96% !important;
+    max-width: 96% !important;
+  }
+
+  .heroInfoButtons {
+    left: 4.5vw !important;
+    width: calc(100% - 9vw) !important;
+    max-width: calc(100% - 9vw) !important;
+  }
+
+  .homeQuickLinks {
+    width: 96%;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .homeQuickLink {
+    min-height: 94px;
+  }
+
+  .homeQuickLink:nth-child(odd) { border-right: 1px solid #e5e2db; }
+  .homeQuickLink:nth-child(even) { border-right: 0; }
+  .homeQuickLink:not(:nth-last-child(-n+2)) { border-bottom: 1px solid #e5e2db; }
+}

@@ -1438,6 +1438,31 @@ function Hero({ setActivePage }) {
   );
 }
 
+function HomeQuickLinks({ setActivePage, setFilter }) {
+  const links = [
+    { label: "All Recipes", note: "Browse the library", icon: "🍲", action: () => setActivePage("Recipes") },
+    { label: "Meal Planning", note: "Plan your week", icon: "▦", action: () => setActivePage("Meal Planner") },
+    { label: "Grocery Lists", note: "Organized & easy", icon: "🛒", action: () => setActivePage("Shopping Lists") },
+    { label: "Freezer Meals", note: "Make ahead", icon: "❄", action: () => setActivePage("Freezer-Friendly Meals") },
+    { label: "Leftovers", note: "Reduce waste", icon: "♨", action: () => setActivePage("Kitchen Refrigerator") },
+    { label: "Recipes for Two", note: "Right-sized meals", icon: "♙♙", action: () => setActivePage("Recipes") },
+    { label: "Seniors & Easy", note: "Simple & practical", icon: "♡", action: () => setActivePage("Easy 30-Minute Meals") },
+    { label: "Side Dishes", note: "Complete your meal", icon: "⌒", action: () => { setFilter("Side Dishes"); setActivePage("Recipes"); } },
+  ];
+
+  return (
+    <section className="homeQuickLinks" aria-label="Quick recipe and planning links">
+      {links.map((link) => (
+        <button type="button" className="homeQuickLink" key={link.label} onClick={link.action}>
+          <span className="homeQuickLinkIcon" aria-hidden="true">{link.icon}</span>
+          <strong>{link.label}</strong>
+          <small>{link.note}</small>
+        </button>
+      ))}
+    </section>
+  );
+}
+
 function TransparencyLine({ setActivePage }) {
   return (
     <div className="transparencyLine">
@@ -1564,6 +1589,10 @@ function HomeComboMealStrip({ setActivePage }) {
                 className="homeComboMealImageAsset"
                 loading="lazy"
               />
+            </div>
+            <span className="homeComboMealText">
+              <strong>{meal.title}</strong>
+              <small>{meal.subtitle}</small>
               <span
                 className="homeComboMealBalanceBadge"
                 title={`MealBalance ${getComboMealBalanceScore(meal)}`}
@@ -1571,10 +1600,6 @@ function HomeComboMealStrip({ setActivePage }) {
               >
                 {getComboMealBalanceScore(meal)}
               </span>
-            </div>
-            <span>
-              <strong>{meal.title}</strong>
-              <small>{meal.subtitle}</small>
             </span>
           </button>
         ))}
@@ -3298,6 +3323,7 @@ function Home({
   return (
     <>
       <Hero setActivePage={setActivePage} />
+      <HomeQuickLinks setActivePage={setActivePage} setFilter={setFilter} />
       <HomeComboMealStrip setActivePage={setActivePage} />
       <CategoryGrid setFilter={setFilter} setActivePage={setActivePage} />
       <HomeRecipeCounters classifiedRecipes={classifiedRecipes} />
