@@ -7013,12 +7013,25 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, refrige
               </div>
             ) : (
               <div className="shoppingGrid">
-                {Object.entries(groupedPantry).map(([aisle, items]) => (
-                  <section className="shoppingGroup" key={aisle}>
-                    <h2>{aisle}</h2>
-                    {items.map(renderPantryItem)}
-                  </section>
-                ))}
+                {Object.entries(groupedPantry).map(([aisle, items]) => {
+                  const isComboMealIngredients = aisle === "Combo Meal Ingredients";
+                  return (
+                    <section
+                      className={isComboMealIngredients ? "shoppingGroup comboMealIngredientsGroup" : "shoppingGroup"}
+                      key={aisle}
+                    >
+                      {isComboMealIngredients ? (
+                        <div className="shoppingGroupStreamlinedHeader">
+                          <h2>Combo Meal Ingredients</h2>
+                          <p>Ingredients already available from pantry or inventory checks.</p>
+                        </div>
+                      ) : (
+                        <h2>{aisle}</h2>
+                      )}
+                      {items.map(renderPantryItem)}
+                    </section>
+                  );
+                })}
               </div>
             )}
           </section>
@@ -7236,10 +7249,10 @@ function ProductsIUsePage({ setActivePage, productCategories, setProductCategori
         <p>{visibleProducts.length} product{visibleProducts.length === 1 ? "" : "s"} shown</p>
       </section>
 
-      <div className="productsIUsePageGrid productsTwoColumnGrid">
+      <div className="productsIUsePageGrid productsOneColumnGrid">
         {visibleProducts.map((product) => (
-          <article className="productsIUsePageCard productsHorizontalCard productsCardThreeArea" key={product.title}>
-            <div className="productsIUsePageImage productsCardImageArea">
+          <article className="productsIUsePageCard productsSingleColumnCard" key={product.title}>
+            <div className="productsIUsePageImage productsSingleColumnImage">
               <img
                 src={`${import.meta.env.BASE_URL}${product.image}`}
                 alt={product.title}
@@ -7248,29 +7261,12 @@ function ProductsIUsePage({ setActivePage, productCategories, setProductCategori
               />
             </div>
 
-            <div className="productsIUsePageContent productsCardInfoArea">
-              <div className="productCategoryRow">
-                <label>
-                  <span>Category</span>
-                  <select
-                    value={product.category}
-                    onChange={(event) => updateProductCategory(product.title, event.target.value)}
-                    aria-label={`Category for ${product.title}`}
-                  >
-                    {PRODUCT_CATEGORIES.map((category) => (
-                      <option key={category} value={category}>{category}</option>
-                    ))}
-                  </select>
-                </label>
-              </div>
-
+            <div className="productsIUsePageContent productsSingleColumnContent">
               <h2>{product.title}</h2>
               <p>{product.note}</p>
-            </div>
 
-            <div className="productsCardAffiliateArea">
               <a
-                className="productsIUseAmazonButton"
+                className="productsIUseAmazonButton productsSingleColumnAffiliate"
                 href={getProductAffiliateUrl(product)}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -7285,6 +7281,21 @@ function ProductsIUsePage({ setActivePage, productCategories, setProductCategori
                 />
                 <span>View Product</span>
               </a>
+
+              <div className="productCategoryRow productsSingleColumnCategory">
+                <label>
+                  <span>Category</span>
+                  <select
+                    value={product.category}
+                    onChange={(event) => updateProductCategory(product.title, event.target.value)}
+                    aria-label={`Category for ${product.title}`}
+                  >
+                    {PRODUCT_CATEGORIES.map((category) => (
+                      <option key={category} value={category}>{category}</option>
+                    ))}
+                  </select>
+                </label>
+              </div>
             </div>
           </article>
         ))}

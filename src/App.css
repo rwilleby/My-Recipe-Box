@@ -31623,3 +31623,141 @@ body.rrbPopupOpen {
   margin: 0 !important;
 }
 
+/* =========================================================
+   COMBO MEAL INGREDIENTS + ONE-COLUMN COOKING TOOLS
+   ========================================================= */
+
+/* Treat Combo Meal Ingredients like the streamlined sections above it. */
+.pantryListSection .comboMealIngredientsGroup {
+  width: 100% !important;
+  grid-column: 1 / -1 !important;
+  padding: 0 10px 7px !important;
+  border-radius: 12px !important;
+}
+
+.shoppingGroupStreamlinedHeader {
+  display: flex !important;
+  align-items: baseline !important;
+  gap: 10px !important;
+  min-height: 34px !important;
+  margin: 0 0 5px !important;
+  padding: 7px 0 6px !important;
+  border-bottom: 2px solid rgba(20, 83, 45, .22) !important;
+}
+
+.shoppingGroupStreamlinedHeader h2 {
+  flex: 0 0 auto !important;
+  margin: 0 !important;
+  color: #14532d !important;
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif !important;
+  font-size: 17px !important;
+  line-height: 1.1 !important;
+  font-weight: 700 !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+}
+
+.shoppingGroupStreamlinedHeader p {
+  min-width: 0 !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  color: #6b7280 !important;
+  font: 400 12px/1.2 Inter, system-ui, sans-serif !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+/* Cooking Tools: one product per row. */
+.productsOneColumnGrid {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 15px !important;
+}
+
+.productsSingleColumnCard {
+  display: grid !important;
+  grid-template-columns: minmax(230px, 30%) minmax(0, 1fr) !important;
+  gap: 0 !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(20, 83, 45, .14) !important;
+  border-radius: 14px !important;
+  background: #ffffff !important;
+  box-shadow: 0 8px 22px rgba(17, 24, 39, .05) !important;
+}
+
+.productsSingleColumnImage {
+  min-height: 230px !important;
+  display: grid !important;
+  place-items: center !important;
+  padding: 12px !important;
+  border-right: 1px solid rgba(20, 83, 45, .1) !important;
+  background: #fbfaf7 !important;
+}
+
+.productsSingleColumnImage img {
+  width: 100% !important;
+  height: 100% !important;
+  max-height: 260px !important;
+  object-fit: contain !important;
+}
+
+.productsSingleColumnContent {
+  min-width: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  padding: 18px 20px !important;
+}
+
+.productsSingleColumnContent h2 {
+  margin: 0 0 8px !important;
+  color: #111827 !important;
+  font: 700 22px/1.15 Georgia, serif !important;
+}
+
+.productsSingleColumnContent > p {
+  margin: 0 0 14px !important;
+  color: #4b5563 !important;
+  font: 400 14px/1.5 Inter, system-ui, sans-serif !important;
+}
+
+.productsSingleColumnAffiliate {
+  margin: 0 0 14px !important;
+  align-self: flex-start !important;
+}
+
+.productsSingleColumnCategory {
+  width: min(420px, 100%) !important;
+  margin-top: auto !important;
+}
+
+.productsSingleColumnCategory label {
+  display: grid !important;
+  gap: 5px !important;
+}
+
+.productsSingleColumnCategory select {
+  width: 100% !important;
+}
+
+@media (max-width: 760px) {
+  .shoppingGroupStreamlinedHeader {
+    display: grid !important;
+    gap: 2px !important;
+  }
+
+  .shoppingGroupStreamlinedHeader p {
+    white-space: normal !important;
+  }
+
+  .productsSingleColumnCard {
+    grid-template-columns: 1fr !important;
+  }
+
+  .productsSingleColumnImage {
+    min-height: 200px !important;
+    border-right: 0 !important;
+    border-bottom: 1px solid rgba(20, 83, 45, .1) !important;
+  }
+}
+
