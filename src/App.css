@@ -30330,3 +30330,39 @@ body.rrbPopupOpen {
     font-size: 9px !important;
   }
 }
+/* =========================================================
+   FOOD SAFETY PROMPT + REFERENCE GUIDE MERGE REFINEMENTS
+   ========================================================= */
+
+/* Match the prompt to the bottom Keep it clean line. */
+.foodSafetyAccordionPrompt {
+  margin: 0 0 10px !important;
+  max-width: none !important;
+  color: #173d28 !important;
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif !important;
+  font-size: 13px !important;
+  line-height: 1.2 !important;
+  font-weight: 700 !important;
+  text-align: center !important;
+}
+
+/* Eight compact Reference Guide buttons on one desktop row. */
+.referenceGuideTopButtonList {
+  grid-template-columns: repeat(8, minmax(0, 1fr)) !important;
+}
+
+@media (max-width: 1050px) {
+  .referenceGuideTopButtonList {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .foodSafetyAccordionPrompt {
+    font-size: 12px !important;
+  }
+
+  .referenceGuideTopButtonList {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}

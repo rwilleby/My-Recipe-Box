@@ -9401,10 +9401,10 @@ const REFERENCE_GUIDES = [
   },
   {
     id: "cooking-temperatures",
-    title: "Cooking Temperatures",
+    title: "Cooking Temp & Conversions",
     icon: "thermometer",
     description:
-      "Safe minimum internal temperatures and common doneness reminders for everyday cooking.",
+      "Safe minimum internal temperatures, Fahrenheit-to-Celsius conversions, and practical oven reminders.",
     lastUpdated: "July 17, 2026",
     sections: [
       {
@@ -9421,25 +9421,6 @@ const REFERENCE_GUIDES = [
         ],
       },
       {
-        type: "tips",
-        title: "Temperature Tips",
-        items: [
-          "Use an instant-read thermometer for the most reliable results.",
-          "Check the thickest part of the food and avoid touching bone or the pan.",
-          "Carryover cooking can raise the temperature slightly after food is removed from heat.",
-        ],
-      },
-    ],
-  },
-  {
-    id: "oven-conversions",
-    title: "Oven Conversions",
-    icon: "oven",
-    description:
-      "Common oven temperature conversions and practical notes for baking and roasting.",
-    lastUpdated: "July 17, 2026",
-    sections: [
-      {
         type: "table",
         title: "Fahrenheit to Celsius",
         columns: ["Fahrenheit", "Celsius", "Common Use"],
@@ -9455,6 +9436,15 @@ const REFERENCE_GUIDES = [
         ],
       },
       {
+        type: "tips",
+        title: "Temperature Tips",
+        items: [
+          "Use an instant-read thermometer for the most reliable results.",
+          "Check the thickest part of the food and avoid touching bone or the pan.",
+          "Carryover cooking can raise the temperature slightly after food is removed from heat.",
+        ],
+      },
+      {
         type: "info",
         title: "Convection Note",
         text:
@@ -9464,7 +9454,7 @@ const REFERENCE_GUIDES = [
   },
   {
     id: "pan-sizes",
-    title: "Pan & Baking Dish Sizes",
+    title: "Pan & Dish Sizes",
     icon: "pan",
     description:
       "Common pan sizes, approximate capacity, and practical substitution reminders.",
@@ -9527,7 +9517,7 @@ const REFERENCE_GUIDES = [
   },
   {
     id: "refrigerator-freezer",
-    title: "Refrigerator & Freezer Guide",
+    title: "Refrigerators & Freezers",
     icon: "snowflake",
     description:
       "Practical storage-time reminders for refrigerated and frozen foods.",
@@ -9561,7 +9551,7 @@ const REFERENCE_GUIDES = [
   },
   {
     id: "serving-portions",
-    title: "Serving & Portion Guide",
+    title: "Servings & Portions",
     icon: "plate",
     description:
       "Simple portion estimates for planning meals, leftovers, and grocery quantities.",
@@ -9621,7 +9611,7 @@ const REFERENCE_GUIDES = [
   },
   {
     id: "smoking-grilling",
-    title: "Smoking & Grilling Guide",
+    title: "Smoking & Grilling",
     icon: "grill",
     description:
       "Practical reminders for outdoor cooking, temperature control, resting, and safe doneness.",
@@ -9840,14 +9830,13 @@ function ReferenceGuideSection({ section }) {
 
 const REFERENCE_GUIDE_BUTTON_LINES = {
   "weights-measures": ["Weights &", "Measures"],
-  "cooking-temperatures": ["Cooking", "Temperatures"],
-  "oven-conversions": ["Oven", "Conversions"],
-  "pan-sizes": ["Pan & Baking", "Dish Sizes"],
+  "cooking-temperatures": ["Cooking Temp &", "Conversions"],
+  "pan-sizes": ["Pan & Dish", "Sizes"],
   "ingredient-weights": ["Ingredient", "Weights"],
-  "refrigerator-freezer": ["Refrigerator &", "Freezer Guide"],
-  "serving-portions": ["Serving &", "Portion Guide"],
+  "refrigerator-freezer": ["Refrigerators &", "Freezers"],
+  "serving-portions": ["Servings &", "Portions"],
   substitutions: ["Common", "Substitutions"],
-  "smoking-grilling": ["Smoking &", "Grilling Guide"],
+  "smoking-grilling": ["Smoking &", "Grilling"],
 };
 
 function ReferenceGuideButtonLabel({ guide }) {
