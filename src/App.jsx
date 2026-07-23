@@ -11977,8 +11977,8 @@ These pages are designed to be easy to scan, print, or revisit when needed. They
       {activePage === "Privacy & Your Data" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-page-about-us.jpg"
-            alt="Robert’s Recipe Box privacy and browser-data information"
+            src="images/heroes/privacy-your-data-hero.jpg"
+            alt="Recipe box, tablet with a privacy shield, padlock, coffee mug, and plant on a pale marble counter"
             eyebrow="ABOUT US"
             title="Privacy & Your Data"
             text="Robert’s Recipe Box was designed to provide useful recipe-planning tools without requiring a visitor account, email address, subscription, or password. Supported personal information is kept in the visitor’s browser whenever practical.
