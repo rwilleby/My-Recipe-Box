@@ -6504,12 +6504,6 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, refrige
         const meal = dinnerCombinationById[itemId];
         if (!meal) return;
 
-        references.push({
-          name: `Meal #${meal.number}: ${meal.title}`,
-          qty: 1,
-          unit: "meal",
-          aisle: "Dinner Combinations",
-        });
         const preparedRequirements = getComboPreparedRequirements(meal);
         if (preparedRequirements.length === 0) {
           references.push({
@@ -6783,27 +6777,29 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, refrige
 
   function renderNeededItem(item) {
     const key = `${item.name}-${item.unit}-${item.aisle}`;
+    const reference = findGroceryReference(item.name);
 
     return (
-      <div key={key} className="shoppingItemWrap">
+      <div key={key} className="shoppingItemWrap shoppingThinRow">
         <label
-          className={checked[key] ? "checked shoppingItem" : "shoppingItem"}
+          className={checked[key] ? "checked shoppingItem shoppingProductCell" : "shoppingItem shoppingProductCell"}
         >
           <input
             type="checkbox"
             checked={!!checked[key]}
             onChange={() => toggleItem(key)}
           />
-
           <span>{item.name}</span>
-          <small>
-            {formatQty(item.qty)} {item.unit}
-          </small>
         </label>
 
-        <label className="shoppingItemComment">
-          <span>Comments or suggestions</span>
-          <textarea
+        <div className="shoppingPortionCell" aria-label={`${item.name} portion size`}>
+          {formatQty(item.qty)} {item.unit}
+        </div>
+
+        <label className="shoppingItemComment shoppingCommentCell">
+          <span className="visuallyHidden">Comments or suggestions for {item.name}</span>
+          <input
+            type="text"
             value={shoppingComments[key] || ""}
             onChange={(event) =>
               setShoppingComments((current) => ({
@@ -6811,12 +6807,26 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, refrige
                 [key]: event.target.value,
               }))
             }
-            placeholder="Brand, size, substitution, store, or other note…"
+            placeholder="Comments, brand, size, substitution, or store…"
             aria-label={`Comments or suggestions for ${item.name}`}
           />
         </label>
 
-        {renderGroceryReference(item)}
+        <div className={reference ? "shoppingSuggestionCell hasSuggestion" : "shoppingSuggestionCell"}>
+          {reference ? (
+            <>
+              <div>
+                <strong>{reference.name}</strong>
+                <small>{reference.examples.slice(0, 2).join(" · ")}</small>
+              </div>
+              <button type="button" onClick={() => setActivePage("Grocery Picks")}>
+                Review
+              </button>
+            </>
+          ) : (
+            <small>No suggested pick</small>
+          )}
+        </div>
       </div>
     );
   }
@@ -6873,8 +6883,11 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, refrige
         <>
         <div className="preparedShoppingSections">
           <section className="shoppingListSection preparedOnHandSection">
-            <div className="shoppingListSectionHeader">
-              <div><h2>ALREADY ON HAND</h2><p>Prepared components covered by freezer inventory or manually verified.</p></div>
+            <div className="shoppingListSectionHeader preparedStreamlinedHeader">
+              <div>
+                <h2>Already On Hand</h2>
+                <p>Prepared components covered by freezer inventory or manually verified.</p>
+              </div>
               <strong>{preparedOnHand.length}</strong>
             </div>
             {preparedOnHand.length ? preparedOnHand.map((requirement) => {
