@@ -3701,10 +3701,10 @@ const MEAL_JOURNEY_STEPS = [
     number: 1,
     id: "choose",
     title: "Choose",
-    description: "Browse recipes and find meals your family will enjoy.",
+    description: "Browse recipes and find meals that match your tastes, serving size and cooking style.",
     image: "images/about/meal-journey-choose.jpg",
-    imageAlt: "Recipe cards and finished meals ready to browse",
-    features: ["Search and filters", "Recipe cards", "MealBalance ratings", "Favorites"],
+    imageAlt: "Laptop or tablet displaying recipes in a bright home kitchen",
+    features: ["Search and filters", "Recipe photos", "MealBalance ratings", "Save favorites"],
     buttonLabel: "Browse Recipes",
     page: "Recipes",
   },
@@ -3712,10 +3712,10 @@ const MEAL_JOURNEY_STEPS = [
     number: 2,
     id: "plan",
     title: "Plan",
-    description: "Add recipes to your weekly meal plan and organize your menu.",
+    description: "Arrange recipes into a practical weekly or two-week meal plan.",
     image: "images/about/meal-journey-plan.jpg",
-    imageAlt: "Weekly meal planner with recipe cards and a calendar",
-    features: ["Weekly planner", "Recipe selections", "Serving adjustments", "Leftover planning"],
+    imageAlt: "Weekly meal planner with recipes arranged by day",
+    features: ["Weekly planning", "Serving adjustments", "Combination meals", "Leftover planning"],
     buttonLabel: "Open Meal Planner",
     page: "Meal Planner",
   },
@@ -3723,10 +3723,10 @@ const MEAL_JOURNEY_STEPS = [
     number: 3,
     id: "shop",
     title: "Shop",
-    description: "Create a combined shopping list and shop with confidence.",
+    description: "Turn selected meals into one organized grocery list.",
     image: "images/about/meal-journey-shop.jpg",
-    imageAlt: "Organized grocery list with fresh groceries",
-    features: ["Combined grocery list", "Pantry check-off", "Aisle groups", "Print-ready list"],
+    imageAlt: "Grocery shopping with an organized list and fresh ingredients",
+    features: ["Combined ingredients", "Pantry check", "Grocery categories", "Printable or mobile list"],
     buttonLabel: "Build a Shopping List",
     page: "Shopping Lists",
   },
@@ -3734,10 +3734,10 @@ const MEAL_JOURNEY_STEPS = [
     number: 4,
     id: "prepare",
     title: "Prepare",
-    description: "Gather ingredients and prepare meals step by step.",
+    description: "Prepare ingredients efficiently before cooking.",
     image: "images/about/meal-journey-prepare.jpg",
-    imageAlt: "Ingredients and tools arranged for meal preparation",
-    features: ["Recipe directions", "Preparation tips", "Tool guidance", "Make-ahead ideas"],
+    imageAlt: "Fresh ingredients being prepared on a clean kitchen counter",
+    features: ["Step-by-step directions", "Preparation tips", "Equipment guidance", "Make-ahead options"],
     buttonLabel: "Explore Preparation Guides",
     page: "Reference Guides",
   },
@@ -3745,10 +3745,10 @@ const MEAL_JOURNEY_STEPS = [
     number: 5,
     id: "portion",
     title: "Portion",
-    description: "Divide meals into practical refrigerator- or freezer-safe containers.",
+    description: "Divide meals into practical serving sizes.",
     image: "images/about/meal-journey-portion.jpg",
-    imageAlt: "Prepared food divided into practical meal containers",
-    features: ["Portion guidance", "Container ideas", "Per-serving balance", "Batch-cooking tips"],
+    imageAlt: "Cooked meals being divided into practical storage containers",
+    features: ["Serving guidance", "Container suggestions", "Two-person portions", "Batch preparation"],
     buttonLabel: "View Portion Guides",
     page: "Storage Organization",
   },
@@ -3756,10 +3756,10 @@ const MEAL_JOURNEY_STEPS = [
     number: 6,
     id: "freeze",
     title: "Freeze",
-    description: "Label, date, and freeze meals for future use.",
+    description: "Package and freeze meals for later.",
     image: "images/about/meal-journey-freeze.jpg",
-    imageAlt: "Labeled freezer meals ready for storage",
-    features: ["Labeling guidance", "Freeze dates", "Freezer-friendly foods", "Quick-freezing tips"],
+    imageAlt: "Labeled meal containers being placed into a freezer",
+    features: ["Freezer-safe packaging", "Label & date guidance", "Best-by information", "Freezing instructions"],
     buttonLabel: "View Freezing Guides",
     page: "Freezer Tips",
   },
@@ -3767,10 +3767,10 @@ const MEAL_JOURNEY_STEPS = [
     number: 7,
     id: "store",
     title: "Store",
-    description: "Keep meals organized so they are easy to find and use.",
+    description: "Keep meals organized and easy to locate.",
     image: "images/about/meal-journey-store.jpg",
-    imageAlt: "Organized freezer storage with labeled meal containers",
-    features: ["Freezer inventory", "Storage systems", "Shelf-life guidance", "Use-first reminders"],
+    imageAlt: "Neatly organized freezer with labeled meal containers",
+    features: ["Freezer organization", "Meal inventory", "Storage recommendations", "Use-first guidance"],
     buttonLabel: "Explore Storage Guides",
     page: "Storage Organization",
   },
@@ -3778,10 +3778,10 @@ const MEAL_JOURNEY_STEPS = [
     number: 8,
     id: "reheat",
     title: "Reheat",
-    description: "Use the best reheating method for safe, high-quality results.",
+    description: "Use the best reheating method for each meal.",
     image: "images/about/meal-journey-reheat.jpg",
-    imageAlt: "Prepared meal being safely reheated",
-    features: ["Reheating directions", "Appliance methods", "Thawing guidance", "Food-safety reminders"],
+    imageAlt: "A prepared meal being reheated in a home kitchen",
+    features: ["Microwave guidance", "Oven instructions", "Air fryer options", "Safe thawing guidance"],
     buttonLabel: "View Reheating Guides",
     page: "Freezer Tips",
   },
@@ -3789,10 +3789,10 @@ const MEAL_JOURNEY_STEPS = [
     number: 9,
     id: "enjoy",
     title: "Enjoy",
-    description: "Serve a homemade meal with less stress and more time together.",
+    description: "Serve homemade meals with less work and less waste.",
     image: "images/about/meal-journey-enjoy.jpg",
-    imageAlt: "Homemade dinner served at a welcoming table",
-    features: ["Serving suggestions", "Side-dish ideas", "Complete-meal ideas", "Family-friendly presentation"],
+    imageAlt: "Finished homemade dinner served on a plate at the table",
+    features: ["Serving suggestions", "Side-dish pairings", "Complete dinners", "More time together"],
     buttonLabel: "Find Your Next Meal",
     page: "Recipes",
   },
@@ -3843,18 +3843,36 @@ function MealJourneyContent({ setActivePage, compact = false }) {
   return (
     <div className={compact ? "mealJourneyContent compact" : "mealJourneyContent"}>
       <header className="mealJourneyHeader">
-        <h2>Your Complete Meal Journey</h2>
-        <p>
-          Robert’s Recipe Box helps with the entire meal process—not just the recipe.
-          Choose what to make, plan your week, shop efficiently, prepare and portion meals,
-          freeze them properly, keep them organized, and reheat them with confidence.
-        </p>
-        <strong>Cook once. Eat better all week.</strong>
+        <h2>{compact ? "Use this as your Cliff Notes to using our site" : "Your Complete Meal Journey"}</h2>
+        {compact ? (
+          <>
+            <p>
+              Robert’s Recipe Box can be used as simply or as completely as you choose.
+            </p>
+            <p>
+              Browse recipes, build complete meals and create a grocery list—or use the entire
+              system to plan, prepare, portion, freeze, organize, store, and reheat meals.
+            </p>
+            <strong>Use the parts that work best for you.</strong>
+          </>
+        ) : (
+          <>
+            <p>
+              Robert’s Recipe Box helps with the entire meal process—not just the recipe.
+              Choose what to make, plan your week, shop efficiently, prepare and portion meals,
+              freeze them properly, keep them organized, and reheat them with confidence.
+            </p>
+            <strong>Cook once. Eat better all week.</strong>
+          </>
+        )}
       </header>
 
       <div className="mealJourneyRows">
         {MEAL_JOURNEY_STEPS.map((step, index) => (
-          <article className={`mealJourneyRow${index % 2 ? " reverse" : ""}`} key={step.id}>
+          <article
+            className={`mealJourneyRow${compact ? " compactRow" : index % 2 ? " reverse" : ""}`}
+            key={step.id}
+          >
             <div className="mealJourneyVisual">
               <MealJourneyImage step={step} />
             </div>
@@ -3873,9 +3891,11 @@ function MealJourneyContent({ setActivePage, compact = false }) {
                 ))}
               </ul>
 
-              <button type="button" className="secondary mealJourneyAction" onClick={() => openPage(step.page)}>
-                {step.buttonLabel}
-              </button>
+              {!compact && (
+                <button type="button" className="secondary mealJourneyAction" onClick={() => openPage(step.page)}>
+                  {step.buttonLabel}
+                </button>
+              )}
             </div>
           </article>
         ))}
@@ -3897,6 +3917,7 @@ function HomeMealJourneyAccordion({ setActivePage }) {
   function closeJourney() {
     if (detailsRef.current) detailsRef.current.open = false;
     setIsOpen(false);
+
     window.requestAnimationFrame(() => {
       summaryRef.current?.focus();
       summaryRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -3904,7 +3925,7 @@ function HomeMealJourneyAccordion({ setActivePage }) {
   }
 
   return (
-    <section className="homeMealJourneySection" aria-label="How Robert’s Recipe Box works">
+    <section className="homeMealJourneySection" aria-label="A quick overview of Robert’s Recipe Box">
       <details ref={detailsRef} className="homeMealJourneyDetails" onToggle={handleToggle}>
         <summary
           ref={summaryRef}
@@ -3913,23 +3934,24 @@ function HomeMealJourneyAccordion({ setActivePage }) {
           aria-controls={panelId}
         >
           <span className="homeMealJourneyToggleText">
-            <strong>{isOpen ? "Hide the Meal Journey" : "Using our system"}</strong>
-            <small>Choose → Plan → Shop → Prepare → Portion → Freeze → Store → Reheat → Enjoy</small>
+            <strong>{isOpen ? "Hide This Window" : "A Quick Overview"}</strong>
+            {!isOpen && (
+              <small>
+                Choose → Plan → Shop → Prepare → Portion → Freeze → Store → Reheat → Enjoy...
+                or you can just visit our Recipe Library and explore
+              </small>
+            )}
           </span>
-          <span className="homeMealJourneyChevron" aria-hidden="true">⌄</span>
+          <span className="homeMealJourneyChevron" aria-hidden="true">
+            {isOpen ? "⌃" : "⌄"}
+          </span>
         </summary>
 
         <div id={panelId} className="homeMealJourneyPanel">
           <MealJourneyContent setActivePage={setActivePage} compact />
 
-          <div className="homeMealJourneyMore">
-            <button type="button" className="textLinkButton" onClick={() => setActivePage("About")}>
-              Learn more about Robert’s Recipe Box
-            </button>
-          </div>
-
           <button type="button" className="homeMealJourneyClose" onClick={closeJourney}>
-            <span>Close Meal Journey</span>
+            <span>Close and Continue Browsing</span>
             <span aria-hidden="true">⌃</span>
           </button>
         </div>
