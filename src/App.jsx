@@ -12126,30 +12126,14 @@ Use this section to check what is on hand, record dates, mark foods that should 
             src="images/heroes/hero-page-food-safety.png"
             alt="Food-safety setup with meal-prep containers, salad, digital thermometer, coffee, and kitchen towel"
             eyebrow="TIPS & ORGANIZATION"
-            title="Food Safety"
-            className="pageHeroDepth464"
-            text="Basic food-safety reminders for cooking, cooling, freezing, thawing, reheating, and checking safe internal temperatures."
+            title="Food Safety Rules for Handling, Cooking, and Storage"
+            className="pageHeroDepth464 foodSafetyPageHero"
+            text="Safe food handling helps prevent cross-contamination, spoilage, and foodborne illness. Harmful bacteria cannot always be seen, smelled, or tasted, so food should be handled safely from the time it is purchased until it is served or stored.\n\nThe four basic food-safety rules are Clean, Separate, Cook, and Chill."
           />
-          <PlaceholderInfoPage
-            eyebrow="TIPS & TECHNIQUES"
-            title="Food Safety"
-            text="This page will collect basic food-safety reminders for cooking, cooling, freezing, thawing, reheating, and checking safe internal temperatures."
-            setActivePage={setActivePage}
-            recipes={classifiedRecipes}
-            favorites={favorites}
-            toggleFavorite={toggleFavorite}
-            addToPlan={addToPlan}
-            openRecipeCard={openRecipeCard}
-          />
-          <article className="gasGrillGuide foodSafetyGuide" aria-labelledby="food-safety-guide-title">
-            <header className="gasGrillGuideHeader">
-              <span className="gasGrillGuideKicker">Food Handling, Cooking & Storage Guide</span>
-              <h2 id="food-safety-guide-title">Food Safety Rules for Handling, Cooking, and Storage</h2>
-              <p>Safe food handling helps prevent cross-contamination, spoilage, and foodborne illness. Harmful bacteria cannot always be seen, smelled, or tasted, so food should be handled safely from the time it is purchased until it is served or stored.</p>
-              <p>The four basic food-safety rules are <strong>Clean, Separate, Cook, and Chill</strong>.</p>
-            </header>
 
-            <div className="gasGrillGuideGrid foodSafetyAccordion">
+          <article className="foodSafetyGuide" aria-labelledby="food-safety-guide-title">
+            <h2 id="food-safety-guide-title" className="visuallyHidden">Food Safety Guide Sections</h2>
+            <div className="foodSafetyAccordion">
               
               <details className="foodSafetyAccordionItem">
                 <summary>

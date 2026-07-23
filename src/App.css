@@ -29977,3 +29977,56 @@ body.rrbPopupOpen {
     transition: none !important;
   }
 }
+/* =========================================================
+   FOOD SAFETY HERO + ACCORDION POSITIONING REFINEMENTS
+   ========================================================= */
+
+.foodSafetyPageHero + .foodSafetyGuide {
+  margin-top: 0 !important;
+}
+
+.foodSafetyGuide {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 14px 5.5vw 34px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: #ffffff !important;
+  box-shadow: none !important;
+}
+
+.foodSafetyAccordion {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+}
+
+.foodSafetyGuide .gasGrillGuideClosing {
+  margin: 24px auto 0 !important;
+  text-align: center !important;
+  max-width: 980px !important;
+  color: #173d28 !important;
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif !important;
+  font-size: 18px !important;
+  line-height: 1.4 !important;
+}
+
+.foodSafetyPageHero .pageHeroTextOverlay h1 {
+  max-width: 720px !important;
+}
+
+.foodSafetyPageHero .pageHeroIntroText {
+  max-width: 760px !important;
+}
+
+@media (max-width: 700px) {
+  .foodSafetyGuide {
+    padding: 10px 24px 28px !important;
+  }
+
+  .foodSafetyGuide .gasGrillGuideClosing {
+    margin-top: 18px !important;
+    font-size: 16px !important;
+  }
+}
