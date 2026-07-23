@@ -31297,3 +31297,222 @@ body.rrbPopupOpen {
     grid-column: 1 / -1 !important;
   }
 }
+
+/* =========================================================
+   SHOPPING LIST — REFINED SECTION HEADERS & 25/20/30/25 ROWS
+   ========================================================= */
+
+/* Shared section subheads: initial caps, sentence inline, one 2px rule. */
+.shoppingListSection .shoppingStreamlinedHeader,
+.preparedShoppingSections .shoppingStreamlinedHeader {
+  min-height: 38px !important;
+  display: flex !important;
+  align-items: baseline !important;
+  justify-content: space-between !important;
+  gap: 14px !important;
+  margin: 0 !important;
+  padding: 7px 10px 8px !important;
+  border: 0 !important;
+  border-bottom: 2px solid rgba(20, 83, 45, .22) !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.shoppingListSection .shoppingStreamlinedHeader > div:first-child,
+.preparedShoppingSections .shoppingStreamlinedHeader > div:first-child {
+  min-width: 0 !important;
+  display: flex !important;
+  align-items: baseline !important;
+  gap: 10px !important;
+}
+
+.shoppingListSection .shoppingStreamlinedHeader h2,
+.preparedShoppingSections .shoppingStreamlinedHeader h2 {
+  flex: 0 0 auto !important;
+  margin: 0 !important;
+  color: #14532d !important;
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif !important;
+  font-size: 17px !important;
+  line-height: 1.1 !important;
+  font-weight: 700 !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+}
+
+.shoppingListSection .shoppingStreamlinedHeader p,
+.preparedShoppingSections .shoppingStreamlinedHeader p {
+  min-width: 0 !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  color: #6b7280 !important;
+  font: 400 12px/1.2 Inter, system-ui, sans-serif !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+.shoppingListSection .shoppingStreamlinedHeader > strong,
+.preparedShoppingSections .shoppingStreamlinedHeader > strong,
+.shoppingListSection .shoppingStreamlinedHeader .pantryHeaderActions > strong {
+  flex: 0 0 auto !important;
+  color: #4b5563 !important;
+  font: 700 12px/1 Inter, system-ui, sans-serif !important;
+}
+
+/* Remove the old duplicate header hairlines and backgrounds. */
+.preparedOnHandSection .preparedStreamlinedHeader,
+.shoppingListSectionHeader {
+  border-top: 0 !important;
+  box-shadow: none !important;
+}
+
+.pantryStreamlinedHeader .pantryHeaderActions {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  margin-left: auto !important;
+}
+
+.pantryStreamlinedHeader .smallSecondary {
+  min-height: 27px !important;
+  padding: 4px 7px !important;
+  font-size: 9px !important;
+}
+
+/* Desktop row allocation:
+   Product 25% | Portion 20% | Comments 30% | Suggested Picks 25% */
+.shoppingListSection:not(.pantryListSection) .shoppingThinRow {
+  grid-template-columns:
+    minmax(0, 25fr)
+    minmax(0, 20fr)
+    minmax(0, 30fr)
+    minmax(0, 25fr) !important;
+  gap: 7px !important;
+  align-items: end !important;
+  min-height: 38px !important;
+  padding: 3px 0 !important;
+}
+
+.shoppingProductCell {
+  align-self: center !important;
+}
+
+.shoppingProductCell > span {
+  font-size: 13px !important;
+  line-height: 1.15 !important;
+}
+
+.shoppingPortionCell {
+  align-self: center !important;
+  padding: 0 !important;
+  color: #4b5563 !important;
+  font-size: 12px !important;
+  line-height: 1.15 !important;
+  font-weight: 600 !important;
+  text-align: center !important;
+}
+
+.shoppingCommentCell,
+.shoppingSuggestionCell {
+  align-self: end !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  height: 30px !important;
+  min-height: 30px !important;
+}
+
+.shoppingCommentCell input {
+  width: 100% !important;
+  height: 30px !important;
+  min-height: 30px !important;
+  padding: 0 8px !important;
+  border-radius: 6px !important;
+  font-size: 11px !important;
+}
+
+.shoppingSuggestionCell {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  align-items: center !important;
+  padding: 3px 5px 3px 8px !important;
+  border-radius: 6px !important;
+}
+
+.shoppingSuggestionCell strong {
+  font-size: 10px !important;
+  line-height: 1.05 !important;
+}
+
+.shoppingSuggestionCell small {
+  font-size: 9px !important;
+  line-height: 1.05 !important;
+}
+
+.shoppingSuggestionCell button {
+  height: 24px !important;
+  min-height: 24px !important;
+  padding: 3px 7px !important;
+  font-size: 9px !important;
+}
+
+/* Keep rows highly compressed while preserving readable type. */
+.shoppingListSection:not(.pantryListSection) .shoppingGroup {
+  padding: 7px 10px !important;
+}
+
+.shoppingListSection:not(.pantryListSection) .shoppingGroup h2 {
+  margin: 0 0 5px !important;
+  font-size: 15px !important;
+}
+
+@media (max-width: 1000px) {
+  .shoppingListSection .shoppingStreamlinedHeader > div:first-child,
+  .preparedShoppingSections .shoppingStreamlinedHeader > div:first-child {
+    display: grid !important;
+    gap: 2px !important;
+  }
+
+  .shoppingListSection .shoppingStreamlinedHeader p,
+  .preparedShoppingSections .shoppingStreamlinedHeader p {
+    white-space: normal !important;
+  }
+
+  .shoppingListSection:not(.pantryListSection) .shoppingThinRow {
+    grid-template-columns:
+      minmax(170px, 25fr)
+      minmax(115px, 20fr)
+      minmax(210px, 30fr)
+      minmax(180px, 25fr) !important;
+    overflow-x: auto !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .shoppingListSection .shoppingStreamlinedHeader,
+  .preparedShoppingSections .shoppingStreamlinedHeader {
+    align-items: start !important;
+  }
+
+  .shoppingListSection .shoppingStreamlinedHeader h2,
+  .preparedShoppingSections .shoppingStreamlinedHeader h2 {
+    font-size: 16px !important;
+  }
+
+  .pantryStreamlinedHeader .pantryHeaderActions {
+    flex-wrap: wrap !important;
+    justify-content: flex-end !important;
+  }
+
+  .shoppingListSection:not(.pantryListSection) .shoppingThinRow {
+    grid-template-columns: minmax(0, 1fr) 95px !important;
+    gap: 5px 7px !important;
+  }
+
+  .shoppingPortionCell {
+    text-align: center !important;
+  }
+
+  .shoppingCommentCell,
+  .shoppingSuggestionCell {
+    grid-column: 1 / -1 !important;
+  }
+}

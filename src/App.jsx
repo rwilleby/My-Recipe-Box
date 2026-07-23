@@ -6883,7 +6883,7 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, refrige
         <>
         <div className="preparedShoppingSections">
           <section className="shoppingListSection preparedOnHandSection">
-            <div className="shoppingListSectionHeader preparedStreamlinedHeader">
+            <div className="shoppingListSectionHeader preparedStreamlinedHeader shoppingStreamlinedHeader">
               <div>
                 <h2>Already On Hand</h2>
                 <p>Prepared components covered by freezer inventory or manually verified.</p>
@@ -6903,8 +6903,11 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, refrige
           </section>
 
           <section className="shoppingListSection preparedMissingSection">
-            <div className="shoppingListSectionHeader">
-              <div><h2>PROTEINS OR COMPONENTS TO BUY</h2><p>Choose how to handle unavailable prepared components.</p></div>
+            <div className="shoppingListSectionHeader shoppingStreamlinedHeader">
+              <div>
+                <h2>Proteins or Components to Buy</h2>
+                <p>Choose how to handle unavailable prepared components.</p>
+              </div>
               <strong>{preparedMissing.length}</strong>
             </div>
             {preparedMissing.length ? preparedMissing.map((requirement) => {
@@ -6933,7 +6936,13 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, refrige
           </section>
 
           <section className="shoppingListSection preparedBatchSection">
-            <div className="shoppingListSectionHeader"><div><h2>BATCH PREP NEEDED</h2><p>Components selected for advance cooking.</p></div><strong>{preparedToBatch.length}</strong></div>
+            <div className="shoppingListSectionHeader shoppingStreamlinedHeader">
+              <div>
+                <h2>Batch Prep Needed</h2>
+                <p>Components selected for advance cooking.</p>
+              </div>
+              <strong>{preparedToBatch.length}</strong>
+            </div>
             {preparedToBatch.map((item) => {
               const component = getPreparedComponent(item.componentId, preparedInventory);
               return <div className="preparedShoppingItem batch" key={item.componentId}><span className="preparedStatusDot" /><div><strong>{component?.name || item.componentId}</strong><small>Prepare {item.packagesRequired} package(s)</small></div></div>;
@@ -6953,9 +6962,9 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, refrige
 
         <div className="shoppingListSections">
           <section className="shoppingListSection">
-            <div className="shoppingListSectionHeader">
+            <div className="shoppingListSectionHeader shoppingStreamlinedHeader">
               <div>
-                <h2>NEEDED ITEMS</h2>
+                <h2>Needed Items</h2>
                 <p>Open boxes are items to buy.</p>
               </div>
               <strong>{needed.length} items</strong>
@@ -6979,9 +6988,9 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, refrige
           </section>
 
           <section className="shoppingListSection pantryListSection">
-            <div className="shoppingListSectionHeader">
+            <div className="shoppingListSectionHeader shoppingStreamlinedHeader pantryStreamlinedHeader">
               <div>
-                <h2>ALREADY IN PANTRY</h2>
+                <h2>Already in Pantry</h2>
                 <p>Filled black boxes are already in your pantry.</p>
               </div>
               <div className="pantryHeaderActions">
