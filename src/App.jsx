@@ -54,6 +54,7 @@ const STORAGE_KEYS = {
   preparedReservations: "rrb_preparedComponentReservations",
   componentDecisions: "rrb_preparedComponentDecisions",
   shoppingComments: "rrb_shoppingItemComments",
+  productCategories: "rrb_productCategoryAssignments",
 };
 
 const CATEGORY_ICON_IMAGES = {
@@ -765,6 +766,40 @@ const HOME_KITCHEN_TOOL_SLIDES = [
   { title: "Silicone Freezer Trays", image: "images/products/hero-amazon-silicone-a.png" },
 ];
 
+const PRODUCT_CATEGORIES = [
+  "Cookware",
+  "Bakeware",
+  "Small Kitchen Appliances",
+  "Outdoor Cooking",
+  "Knives & Cutlery",
+  "Food Preparation",
+  "Cooking Utensils",
+  "Kitchen Gadgets",
+  "Mixing & Measuring",
+  "Baking Tools",
+  "Food Storage",
+  "Freezer Storage",
+  "Meal Prep",
+  "Pantry Organization",
+  "Vacuum Sealing & Food Preservation",
+  "Serving & Entertaining",
+  "Coffee & Beverage",
+  "Kitchen Cleaning",
+  "Kitchen Safety",
+  "Buying Guides",
+];
+
+function getDefaultProductCategory(product) {
+  const title = String(product?.title || "").toLowerCase();
+  if (title.includes("vacuum sealer")) return "Vacuum Sealing & Food Preservation";
+  if (title.includes("freezer tray")) return "Freezer Storage";
+  if (title.includes("deli container")) return "Meal Prep";
+  if (title.includes("jar")) return "Food Storage";
+  if (title.includes("bread machine")) return "Small Kitchen Appliances";
+  if (title.includes("pan")) return "Bakeware";
+  return "Kitchen Gadgets";
+}
+
 const PRODUCTS_I_USE = [
   {
     title: "Aluminum Mini Bread Pans",
@@ -1390,8 +1425,7 @@ const NAV_GROUPS = [
     label: "SHOPPING",
     items: [
       { label: "YOUR GROCERY LIST", page: "Shopping Lists" },
-      { label: "COOKING TOOLS & PRODUCTS", page: "Products I Use" },
-      { label: "STORAGE & ORGANIZATION", page: "Storage Organization" },
+      { label: "COOKING TOOLS, STORAGE & ORGANIZATION", page: "Products I Use" },
     ],
   },
   {
@@ -7134,41 +7168,56 @@ function getProductAffiliateUrl(product) {
   return product.affiliateUrl || "https://www.amazon.com/";
 }
 
-function ProductsIUsePage({ setActivePage }) {
+function ProductsIUsePage({ setActivePage, productCategories, setProductCategories }) {
+  const [selectedCategory, setSelectedCategory] = useState("All Categories");
+
+  const categorizedProducts = PRODUCTS_I_USE.map((product) => ({
+    ...product,
+    category: productCategories?.[product.title] || getDefaultProductCategory(product),
+  }));
+
+  const visibleProducts =
+    selectedCategory === "All Categories"
+      ? categorizedProducts
+      : categorizedProducts.filter((product) => product.category === selectedCategory);
+
+  function updateProductCategory(productTitle, category) {
+    setProductCategories((current) => ({
+      ...(current || {}),
+      [productTitle]: category,
+    }));
+  }
+
   return (
     <main className="pageShell productsIUsePage">
       <section className="aboutRecipesHero productsIUseHero">
         <div>
-          <div className="aiBadge">TOOLS & PRODUCTS</div>
-          <h1>Products I Recommend</h1>
+          <div className="aiBadge">TOOLS, STORAGE & ORGANIZATION</div>
+          <h1>Cooking Tools, Storage & Organization</h1>
           <p>
-            A simple reference page for the containers, pans, jars, storage
-            tools, and kitchen products I like to keep in mind for recipe cards,
-            planned leftovers, freezer meals, and small-household cooking.
+            Browse practical cookware, bakeware, appliances, preparation tools,
+            food-storage products, freezer supplies, meal-prep containers, and
+            organization products selected for everyday home cooking.
           </p>
         </div>
       </section>
 
-      <div className="productsIUsePageGrid">
-        {PRODUCTS_I_USE.map((product) => (
-          <article className="productsIUsePageCard" key={product.title}>
-            <a
-              className="productsIUseAmazonCorner"
-              href={getProductAffiliateUrl(product)}
-              target="_blank"
-              rel="noopener noreferrer"
-              
-              aria-label={`View ${product.title} on Amazon`}
-              title="View on Amazon"
-            >
-              <img
-                className="productsIUseAmazonIcon"
-                src={`${import.meta.env.BASE_URL}images/ui/amazon-smile.png`}
-                alt=""
-                loading="lazy"
-                decoding="async"
-              />
-            </a>
+      <section className="productsCategoryToolbar" aria-label="Product category controls">
+        <label>
+          <span>View Category</span>
+          <select value={selectedCategory} onChange={(event) => setSelectedCategory(event.target.value)}>
+            <option value="All Categories">All Categories</option>
+            {PRODUCT_CATEGORIES.map((category) => (
+              <option key={category} value={category}>{category}</option>
+            ))}
+          </select>
+        </label>
+        <p>{visibleProducts.length} product{visibleProducts.length === 1 ? "" : "s"} shown</p>
+      </section>
+
+      <div className="productsIUsePageGrid productsTwoColumnGrid">
+        {visibleProducts.map((product) => (
+          <article className="productsIUsePageCard productsHorizontalCard" key={product.title}>
             <div className="productsIUsePageImage">
               <img
                 src={`${import.meta.env.BASE_URL}${product.image}`}
@@ -7177,10 +7226,42 @@ function ProductsIUsePage({ setActivePage }) {
                 decoding="async"
               />
             </div>
+
             <div className="productsIUsePageContent">
+              <div className="productCategoryRow">
+                <label>
+                  <span>Category</span>
+                  <select
+                    value={product.category}
+                    onChange={(event) => updateProductCategory(product.title, event.target.value)}
+                    aria-label={`Category for ${product.title}`}
+                  >
+                    {PRODUCT_CATEGORIES.map((category) => (
+                      <option key={category} value={category}>{category}</option>
+                    ))}
+                  </select>
+                </label>
+              </div>
+
               <h2>{product.title}</h2>
               <p>{product.note}</p>
-              <p className="productsIUseProductInfo">Product information and Amazon listing are available through the link in the upper-right corner.</p>
+
+              <a
+                className="productsIUseAmazonButton"
+                href={getProductAffiliateUrl(product)}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`View ${product.title} on Amazon`}
+              >
+                <img
+                  className="productsIUseAmazonIcon"
+                  src={`${import.meta.env.BASE_URL}images/ui/amazon-smile.png`}
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                />
+                <span>View Product</span>
+              </a>
             </div>
           </article>
         ))}
@@ -7201,10 +7282,11 @@ function ProductsIUsePage({ setActivePage }) {
   );
 }
 
+
 function RecommendationsPage({ setActivePage }) {
   const recommendationCards = [
     {
-      title: "Products I Recommend",
+      title: "Cooking Tools, Storage & Organization",
       text: "Helpful kitchen gadgets, small appliances, and practical tools for easier everyday cooking.",
       icon: "▣",
       note: "Future home for affiliate-friendly product recommendations.",
@@ -11492,6 +11574,10 @@ export default function App() {
     const stored = loadJSON(STORAGE_KEYS.shoppingComments, {});
     return stored && typeof stored === "object" ? stored : {};
   });
+  const [productCategories, setProductCategories] = useState(() => {
+    const stored = loadJSON(STORAGE_KEYS.productCategories, {});
+    return stored && typeof stored === "object" ? stored : {};
+  });
   const [leftoversRecipe, setLeftoversRecipe] = useState(null);
   const [filter, setFilter] = useState("");
   const [cardViewer, setCardViewer] = useState(null);
@@ -11515,6 +11601,7 @@ export default function App() {
   useEffect(() => saveJSON(STORAGE_KEYS.preparedReservations, preparedReservations), [preparedReservations]);
   useEffect(() => saveJSON(STORAGE_KEYS.componentDecisions, componentDecisions), [componentDecisions]);
   useEffect(() => saveJSON(STORAGE_KEYS.shoppingComments, shoppingComments), [shoppingComments]);
+  useEffect(() => saveJSON(STORAGE_KEYS.productCategories, productCategories), [productCategories]);
 
   useEffect(() => {
     const next = buildPreparedReservationsFromPlan(plan, dinnerCombinations);
@@ -11613,6 +11700,8 @@ export default function App() {
     setComponentDecisions,
     shoppingComments,
     setShoppingComments,
+    productCategories,
+    setProductCategories,
     classifiedRecipes,
   };
 
@@ -12190,11 +12279,11 @@ Use this section to check what is on hand, record dates, mark foods that should 
             src="images/heroes/hero-page-cooking-tools.jpg"
             alt="Cooking tools and products setup with utensils, measuring cups, grater, mixing bowl, and skillet"
             eyebrow="TIPS & ORGANIZATION"
-            title="Products I Recommend"
+            title="Cooking Tools, Storage & Organization"
             text="The right kitchen tool can save time, improve consistency, or make an unpleasant task easier. The wrong tool may take up space without providing enough benefit to justify its cost.\n\nThis section highlights products that may be genuinely useful for preparation, cooking, storage, serving, and cleanup. Recommendations are based on practical function and suitability for an everyday home kitchen rather than collecting unnecessary gadgets."
             className="pageHeroDepth464"
 />
-          <ProductsIUsePage setActivePage={setActivePage} />
+          <ProductsIUsePage {...pageProps} />
         </>
       )}
       {activePage === "Grocery Picks" && (

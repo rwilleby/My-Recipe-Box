@@ -30817,3 +30817,150 @@ body.rrbPopupOpen {
     grid-template-columns: 1fr !important;
   }
 }
+
+/* =========================================================
+   COOKING TOOLS, STORAGE & ORGANIZATION
+   ========================================================= */
+
+.productsCategoryToolbar {
+  display: flex !important;
+  align-items: end !important;
+  justify-content: space-between !important;
+  gap: 16px !important;
+  margin: 0 0 16px !important;
+  padding: 14px 16px !important;
+  border: 1px solid rgba(20, 83, 45, .14) !important;
+  border-radius: 13px !important;
+  background: #ffffff !important;
+}
+.productsCategoryToolbar label {
+  display: grid !important;
+  gap: 5px !important;
+}
+.productsCategoryToolbar label > span,
+.productCategoryRow label > span {
+  color: #4b5563 !important;
+  font: 700 11px/1.1 Inter, system-ui, sans-serif !important;
+  text-transform: uppercase !important;
+  letter-spacing: .035em !important;
+}
+.productsCategoryToolbar select,
+.productCategoryRow select {
+  min-height: 38px !important;
+  border: 1px solid rgba(20, 83, 45, .2) !important;
+  border-radius: 8px !important;
+  background: #ffffff !important;
+  color: #111827 !important;
+  padding: 7px 9px !important;
+  font: 600 12px/1.2 Inter, system-ui, sans-serif !important;
+}
+.productsCategoryToolbar p {
+  margin: 0 !important;
+  color: #6b7280 !important;
+  font: 600 12px/1.2 Inter, system-ui, sans-serif !important;
+}
+
+.productsTwoColumnGrid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 14px !important;
+}
+
+.productsHorizontalCard {
+  min-width: 0 !important;
+  display: grid !important;
+  grid-template-columns: minmax(150px, 38%) minmax(0, 1fr) !important;
+  gap: 0 !important;
+  align-items: stretch !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(20, 83, 45, .14) !important;
+  border-radius: 14px !important;
+  background: #ffffff !important;
+  box-shadow: 0 8px 22px rgba(17, 24, 39, .05) !important;
+}
+
+.productsHorizontalCard .productsIUsePageImage {
+  min-height: 220px !important;
+  display: grid !important;
+  place-items: center !important;
+  padding: 10px !important;
+  border-right: 1px solid rgba(20, 83, 45, .1) !important;
+  background: #fbfaf7 !important;
+}
+.productsHorizontalCard .productsIUsePageImage img {
+  width: 100% !important;
+  height: 100% !important;
+  max-height: 230px !important;
+  object-fit: contain !important;
+}
+
+.productsHorizontalCard .productsIUsePageContent {
+  min-width: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  padding: 14px !important;
+}
+.productsHorizontalCard .productsIUsePageContent h2 {
+  margin: 9px 0 7px !important;
+  color: #111827 !important;
+  font: 700 18px/1.15 Georgia, serif !important;
+}
+.productsHorizontalCard .productsIUsePageContent p {
+  margin: 0 !important;
+  color: #4b5563 !important;
+  font: 400 13px/1.45 Inter, system-ui, sans-serif !important;
+}
+.productCategoryRow {
+  width: 100% !important;
+}
+.productCategoryRow label {
+  display: grid !important;
+  gap: 4px !important;
+}
+.productCategoryRow select {
+  width: 100% !important;
+  min-width: 0 !important;
+  font-size: 11px !important;
+}
+
+.productsIUseAmazonButton {
+  margin-top: auto !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 7px !important;
+  min-height: 34px !important;
+  padding: 7px 10px !important;
+  border: 1px solid rgba(20, 83, 45, .18) !important;
+  border-radius: 8px !important;
+  background: #f8faf7 !important;
+  color: #14532d !important;
+  text-decoration: none !important;
+  font: 700 11px/1 Inter, system-ui, sans-serif !important;
+}
+.productsIUseAmazonButton .productsIUseAmazonIcon {
+  width: 22px !important;
+  height: 22px !important;
+  object-fit: contain !important;
+}
+
+@media (max-width: 1050px) {
+  .productsTwoColumnGrid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 620px) {
+  .productsCategoryToolbar {
+    align-items: stretch !important;
+    flex-direction: column !important;
+  }
+  .productsHorizontalCard {
+    grid-template-columns: 1fr !important;
+  }
+  .productsHorizontalCard .productsIUsePageImage {
+    min-height: 190px !important;
+    border-right: 0 !important;
+    border-bottom: 1px solid rgba(20, 83, 45, .1) !important;
+  }
+}
