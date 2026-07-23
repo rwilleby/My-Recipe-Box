@@ -29365,3 +29365,150 @@ body.rrbPopupOpen {
     font-size: 10px !important;
   }
 }
+/* =========================================================
+   RECIPE TOOLBAR + HOMEPAGE QUICK OVERVIEW REFINEMENTS
+   ========================================================= */
+
+/* 1. Five-column Recipe Library toolbar after removing Dietary. */
+.browseInventoryStyleToolbar {
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  gap: clamp(10px, 1.15vw, 16px) !important;
+}
+
+.browseToolbarField > span,
+.browseToolbarInfo > span {
+  font-size: clamp(10px, .82vw, 12px) !important;
+}
+
+.browseInventoryStyleToolbar select,
+.browseInventoryStyleToolbar input,
+.browseToolbarInfo summary,
+.browseToolbarInfo button {
+  height: clamp(34px, 2.8vw, 40px) !important;
+  padding: 6px clamp(8px, .8vw, 12px) !important;
+  font-size: clamp(10px, .88vw, 13px) !important;
+}
+
+@media (max-width: 1050px),
+       (max-width: 720px) {
+  .browseInventoryStyleToolbar {
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  }
+}
+
+/* 2. Match the homepage hero and Featured Combo-Meals horizontal edges. */
+.homeMealJourneySection {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 14px 5.5vw 4px !important;
+}
+
+/* 4. Align all compact journey text with the top of the image.
+   Description spans the full text width; hearts sit below it. */
+.mealJourneyContent.compact .mealJourneyRow.compactRow {
+  grid-template-columns: minmax(240px, 31%) minmax(0, 69%) !important;
+  grid-template-rows: auto auto 1fr !important;
+  grid-template-areas:
+    "visual title"
+    "visual description"
+    "visual features" !important;
+  gap: 6px 18px !important;
+  align-items: start !important;
+  min-height: 156px !important;
+}
+
+.mealJourneyContent.compact .mealJourneyVisual {
+  align-self: stretch !important;
+}
+
+.mealJourneyContent.compact .mealJourneyImage,
+.mealJourneyContent.compact .mealJourneyImagePlaceholder {
+  height: 100% !important;
+  min-height: 132px !important;
+  max-height: 156px !important;
+}
+
+.mealJourneyContent.compact .mealJourneyTitleRow {
+  align-self: start !important;
+  justify-self: stretch !important;
+  margin: 0 !important;
+}
+
+.mealJourneyContent.compact .mealJourneyDescription {
+  align-self: start !important;
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+}
+
+.mealJourneyContent.compact .mealJourneyFeatureList {
+  align-self: start !important;
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 5px 14px !important;
+  width: 100% !important;
+  margin-top: 5px !important;
+}
+
+@media (max-width: 1080px) {
+  .mealJourneyContent.compact .mealJourneyRow.compactRow {
+    grid-template-columns: minmax(220px, 36%) minmax(0, 64%) !important;
+    grid-template-areas:
+      "visual title"
+      "visual description"
+      "visual features" !important;
+  }
+
+  .mealJourneyContent.compact .mealJourneyFeatureList {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .homeMealJourneySection {
+    padding: 10px 24px 2px !important;
+  }
+
+  .browseInventoryStyleToolbar {
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 5px !important;
+  }
+
+  .browseToolbarField > span,
+  .browseToolbarInfo > span {
+    font-size: 8px !important;
+  }
+
+  .browseInventoryStyleToolbar select,
+  .browseInventoryStyleToolbar input,
+  .browseToolbarInfo summary,
+  .browseToolbarInfo button {
+    height: 30px !important;
+    padding: 4px 5px !important;
+    font-size: 8px !important;
+  }
+
+  .mealJourneyContent.compact .mealJourneyRow.compactRow {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto !important;
+    grid-template-areas:
+      "visual"
+      "title"
+      "description"
+      "features" !important;
+    gap: 9px !important;
+  }
+
+  .mealJourneyContent.compact .mealJourneyImage,
+  .mealJourneyContent.compact .mealJourneyImagePlaceholder {
+    height: auto !important;
+    max-height: none !important;
+    aspect-ratio: 16 / 9 !important;
+  }
+
+  .mealJourneyContent.compact .mealJourneyFeatureList {
+    grid-template-columns: 1fr !important;
+    margin-top: 2px !important;
+  }
+}

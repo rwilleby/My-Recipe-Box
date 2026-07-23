@@ -3843,7 +3843,7 @@ function MealJourneyContent({ setActivePage, compact = false }) {
   return (
     <div className={compact ? "mealJourneyContent compact" : "mealJourneyContent"}>
       <header className="mealJourneyHeader">
-        <h2>{compact ? "Use this as your Cliff Notes to using our site" : "Your Complete Meal Journey"}</h2>
+        <h2>{compact ? "Use this as your quick reference source to using our site" : "Your Complete Meal Journey"}</h2>
         {compact ? (
           <>
             <p>
@@ -4173,19 +4173,6 @@ function RecipesPage({
             onChange={(event) => setQuery(event.target.value)}
             placeholder="Search recipes..."
           />
-        </label>
-
-        <label className="browseToolbarField">
-          <span>Dietary</span>
-          <select
-            value={selectedDietaryNeed}
-            onChange={(event) => setSelectedDietaryNeed(event.target.value)}
-          >
-            <option value="">All Dietary Needs</option>
-            <option value="glutenfree">Gluten Free</option>
-            <option value="lowcarb">Low Carb</option>
-            <option value="lighter">Lighter Options</option>
-          </select>
         </label>
 
         <label className="browseToolbarField">
