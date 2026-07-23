@@ -7239,8 +7239,8 @@ function ProductsIUsePage({ setActivePage, productCategories, setProductCategori
 
       <div className="productsIUsePageGrid productsTwoColumnGrid">
         {visibleProducts.map((product) => (
-          <article className="productsIUsePageCard productsHorizontalCard" key={product.title}>
-            <div className="productsIUsePageImage">
+          <article className="productsIUsePageCard productsHorizontalCard productsCardThreeArea" key={product.title}>
+            <div className="productsIUsePageImage productsCardImageArea">
               <img
                 src={`${import.meta.env.BASE_URL}${product.image}`}
                 alt={product.title}
@@ -7249,7 +7249,7 @@ function ProductsIUsePage({ setActivePage, productCategories, setProductCategori
               />
             </div>
 
-            <div className="productsIUsePageContent">
+            <div className="productsIUsePageContent productsCardInfoArea">
               <div className="productCategoryRow">
                 <label>
                   <span>Category</span>
@@ -7267,7 +7267,9 @@ function ProductsIUsePage({ setActivePage, productCategories, setProductCategori
 
               <h2>{product.title}</h2>
               <p>{product.note}</p>
+            </div>
 
+            <div className="productsCardAffiliateArea">
               <a
                 className="productsIUseAmazonButton"
                 href={getProductAffiliateUrl(product)}
