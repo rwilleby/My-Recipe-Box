@@ -32047,3 +32047,233 @@ body.rrbPopupOpen {
     min-height: 178px !important;
   }
 }
+
+/* =========================================================
+   PRODUCT CONTROLS BOTTOM ALIGNMENT + DINNER AREAS A–F
+   ========================================================= */
+
+/* Cooking Tools: controls sit in the lower-right and align with image bottom. */
+.productsCompactCard {
+  align-items: stretch !important;
+}
+
+.productsCompactContent {
+  position: relative !important;
+  min-height: 166px !important;
+  padding: 13px 15px 54px !important;
+}
+
+.productsCompactControls {
+  position: absolute !important;
+  right: 15px !important;
+  bottom: 10px !important;
+  left: auto !important;
+  display: flex !important;
+  align-items: flex-end !important;
+  justify-content: flex-end !important;
+  gap: 8px !important;
+  margin: 0 !important;
+}
+
+.productsCompactCategory {
+  width: 240px !important;
+}
+
+.productsCompactCategory select,
+.productsCompactAffiliate {
+  height: 34px !important;
+  min-height: 34px !important;
+}
+
+/* Dinner Combination: dedicated A–F information areas. */
+.dinnerCombinationAreaLayout {
+  display: grid !important;
+  grid-template-columns: minmax(280px, 27%) minmax(250px, 27%) minmax(0, 1fr) !important;
+  grid-template-areas:
+    "photo name nutrition"
+    "photo dishes groceries"
+    "actions actions actions" !important;
+  gap: 10px !important;
+  align-items: stretch !important;
+}
+
+.dinnerArea {
+  min-width: 0 !important;
+  border: 1px solid rgba(20, 83, 45, .13) !important;
+  border-radius: 11px !important;
+  background: #ffffff !important;
+  padding: 10px !important;
+}
+
+.dinnerAreaPhoto {
+  grid-area: photo !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+.dinnerAreaPhoto .dinnerCombinationMedia,
+.dinnerAreaPhoto .dinnerCombinationMedia img {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.dinnerAreaPhoto .dinnerCombinationMedia img {
+  min-height: 250px !important;
+  aspect-ratio: auto !important;
+  object-fit: cover !important;
+  border: 0 !important;
+  border-radius: 10px !important;
+}
+
+.dinnerAreaName {
+  grid-area: name !important;
+  display: grid !important;
+  align-content: start !important;
+  gap: 4px !important;
+}
+
+.dinnerAreaName h3 {
+  margin: 0 !important;
+  color: #111827 !important;
+  font: 700 24px/1.05 Georgia, "Iowan Old Style", serif !important;
+}
+
+.dinnerAreaName .dinnerCombinationSubtitle {
+  margin: 0 !important;
+  font-size: 13px !important;
+}
+
+.dinnerAreaDishes {
+  grid-area: dishes !important;
+}
+
+.dinnerAreaDishes .dinnerCombinationStackedMeal {
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  gap: 5px !important;
+}
+
+.dinnerAreaDishes .dinnerCombinationStackedMeal p {
+  grid-template-columns: 62px minmax(0, 1fr) auto !important;
+  font-size: 12px !important;
+}
+
+.dinnerAreaGroceries {
+  grid-area: groceries !important;
+  padding: 8px !important;
+}
+
+.dinnerAreaGroceries .comboComponentRequirements.compact {
+  margin: 0 !important;
+  gap: 5px !important;
+}
+
+.dinnerAreaGroceries .comboComponentRequirements.compact > div {
+  padding: 6px 8px !important;
+}
+
+.dinnerAreaGroceries .comboComponentRequirements.compact h3 {
+  font-size: 13px !important;
+}
+
+.dinnerAreaNutrition {
+  grid-area: nutrition !important;
+  padding: 8px 10px !important;
+}
+
+.dinnerAreaNutrition .dinnerCombinationNutritionLabel {
+  margin: 0 0 6px !important;
+  font-size: 11px !important;
+}
+
+.dinnerAreaNutrition .dinnerCombinationNutrition {
+  padding: 7px 0 !important;
+}
+
+.dinnerAreaNutrition .dinnerCombinationNutrition strong {
+  font-size: 15px !important;
+}
+
+.dinnerAreaNutrition .dinnerCombinationNutrition small {
+  font-size: 9px !important;
+}
+
+.dinnerAreaActions {
+  grid-area: actions !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) 240px !important;
+  gap: 10px !important;
+  padding: 8px !important;
+}
+
+.dinnerAreaActions .dinnerCombinationRecipeButtons {
+  padding: 8px !important;
+}
+
+.dinnerAreaActions .dinnerCombinationPlannerAdd {
+  align-self: stretch !important;
+}
+
+.dinnerCombinationHeating {
+  width: 100% !important;
+  margin-top: 8px !important;
+  padding: 8px 10px 0 !important;
+  border-top: 2px solid rgba(20, 83, 45, .14) !important;
+}
+
+.dinnerCombinationHeating summary {
+  font-size: 13px !important;
+}
+
+.dinnerCombinationHeating div {
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 10px !important;
+}
+
+@media (max-width: 1100px) {
+  .dinnerCombinationAreaLayout {
+    grid-template-columns: minmax(250px, 34%) minmax(0, 1fr) !important;
+    grid-template-areas:
+      "photo name"
+      "photo dishes"
+      "nutrition groceries"
+      "actions actions" !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .productsCompactContent {
+    padding-bottom: 13px !important;
+  }
+
+  .productsCompactControls {
+    position: static !important;
+    justify-content: flex-start !important;
+    flex-wrap: wrap !important;
+    margin-top: 12px !important;
+  }
+
+  .productsCompactCategory {
+    width: min(240px, 100%) !important;
+  }
+
+  .dinnerCombinationAreaLayout {
+    grid-template-columns: 1fr !important;
+    grid-template-areas:
+      "photo"
+      "name"
+      "dishes"
+      "groceries"
+      "nutrition"
+      "actions" !important;
+  }
+
+  .dinnerAreaActions {
+    grid-template-columns: 1fr !important;
+  }
+
+  .dinnerCombinationHeating div {
+    grid-template-columns: 1fr !important;
+  }
+}

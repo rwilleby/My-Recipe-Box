@@ -9650,30 +9650,34 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard, favorite
         </button>
       )}
 
-      <div className="dinnerCombinationHeader">
-        <div className="dinnerCombinationMedia">
-          {activeMealImage ? (
-            <img
-              src={`${import.meta.env.BASE_URL}${activeMealImage}`}
-              alt={`${meal.title} dinner combination with ${meal.subtitle.replace(/^With\s+/i, "")}`}
-              loading="eager"
-              decoding="async"
-              fetchPriority="high"
-              onError={handleMealImageError}
-            />
-          ) : (
-            <div className="dinnerCombinationImagePlaceholder">
-              <span>Meal #{meal.number}</span>
-              <small>Image file not found</small>
-            </div>
-          )}
-        </div>
+      <div className="dinnerCombinationAreaLayout">
+        <section className="dinnerArea dinnerAreaPhoto" aria-label="Meal photo">
+          <div className="dinnerCombinationMedia">
+            {activeMealImage ? (
+              <img
+                src={`${import.meta.env.BASE_URL}${activeMealImage}`}
+                alt={`${meal.title} dinner combination with ${meal.subtitle.replace(/^With\s+/i, "")}`}
+                loading="eager"
+                decoding="async"
+                fetchPriority="high"
+                onError={handleMealImageError}
+              />
+            ) : (
+              <div className="dinnerCombinationImagePlaceholder">
+                <span>Meal #{meal.number}</span>
+                <small>Image file not found</small>
+              </div>
+            )}
+          </div>
+        </section>
 
-        <div className="dinnerCombinationTitleBlock">
+        <section className="dinnerArea dinnerAreaName" aria-label="Meal name">
           <h3>{meal.title}</h3>
           <p className="dinnerCombinationSubtitle">{meal.subtitle}</p>
           <MealBalanceDetails item={meal} prefix="Combo Meal Balance" className="comboMealBalanceDetails" />
+        </section>
 
+        <section className="dinnerArea dinnerAreaDishes" aria-label="Main and side dishes">
           <div className="dinnerCombinationStackedMeal">
             <p>
               <span>Main Dish</span>
@@ -9688,116 +9692,23 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard, favorite
               </p>
             ))}
           </div>
-        </div>
-      </div>
+        </section>
 
-      <div className="dinnerCombinationNutritionLabel">Estimated nutrition for the whole meal</div>
-      <div className="dinnerCombinationNutrition" aria-label={`Estimated whole meal nutrition for ${meal.title}`}>
-        <span><strong>{nutritionValue(meal.calories)}</strong><small>calories</small></span>
-        <span><strong>{nutritionValue(meal.protein, "g")}</strong><small>protein</small></span>
-        <span><strong>{nutritionValue(meal.carbs, "g")}</strong><small>carbs</small></span>
-        <span><strong>{nutritionValue(meal.fat, "g")}</strong><small>fat</small></span>
-        <span><strong>{nutritionValue(meal.fiber, "g")}</strong><small>fiber</small></span>
-      </div>
-
-      <section className="dinnerCombinationRecipeButtons" aria-label={`Recipe card buttons for ${meal.title}`}>
-        <h4>Recipe Cards</h4>
-        <div className="dinnerCombinationRecipeButtonGrid">
-          {recipeButtons.map((button) => {
-            const linkedRecipe = findLinkedRecipe(button.recipeId);
-            const hasRecipeMatch = Boolean(linkedRecipe);
-            const isOpen = activeRecipePopup === button.label;
-
-            return (
-              <div className="dinnerRecipePopupItem" key={`${meal.id}-${button.type}-${button.label}`}>
-                <button
-                  type="button"
-                  className={hasRecipeMatch ? "hasRecipeMatch" : "missingRecipeMatch"}
-                  onClick={() => handleRecipeButton(button)}
-                  title={hasRecipeMatch ? `Preview ${linkedRecipe.title}` : "Recipe card not linked yet"}
-                >
-                  <span>{button.type}</span>
-                  {button.label}
-                </button>
-
-                {isOpen && (
-                  <div className="dinnerRecipeMiniPopup" role="dialog" aria-label={`${button.label} recipe card preview`}>
-                    <button
-                      type="button"
-                      className="dinnerRecipeMiniClose"
-                      onClick={() => setActiveRecipePopup(null)}
-                      aria-label="Close recipe card preview"
-                    >
-                      ×
-                    </button>
-
-                    {hasRecipeMatch ? (
-                      <>
-                        <h5>{linkedRecipe.title}</h5>
-                        <MealBalanceBadge item={linkedRecipe} className="dinnerRecipeMealBalanceBadge" />
-                        <p>
-                          <strong>{linkedRecipe.id}</strong>
-                          {linkedRecipe.category ? ` · ${linkedRecipe.category}` : ""}
-                          {linkedRecipe.time ? ` · ${linkedRecipe.time} minutes` : ""}
-                        </p>
-                        <p>
-                          This item is linked to an existing recipe card in the library.
-                        </p>
-                        <button
-                          type="button"
-                          className="dinnerRecipeOpenFullButton"
-                          onClick={() => {
-                            setActiveRecipePopup(null);
-                            openRecipeCard(linkedRecipe.id, recipes);
-                          }}
-                        >
-                          Open Full Recipe Card
-                        </button>
-                      </>
-                    ) : (
-                      <>
-                        <h5>{button.label}</h5>
-                        <p>
-                          A matching recipe card is not linked yet. Add a valid recipeId for this item in dinnerCombinations.js when the card is available.
-                        </p>
-                      </>
-                    )}
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
-      </section>
-
-      <section className="dinnerCombinationPlannerAdd" aria-label={`Add ${meal.title} to meal plan`}>
-        <label>
-          <span>Add meal to plan day</span>
-          <select value={selectedPlannerDay} onChange={(event) => setSelectedPlannerDay(event.target.value)}>
-            {PLANNER_WEEKS.map((week) => (
-              <optgroup key={week.id} label={week.title}>
-                {WEEK_DAYS.map((day) => (
-                  <option key={`${week.id}-${day}`} value={`${week.id}-${day}`}>
-                    {week.title} — {day}
-                  </option>
-                ))}
-              </optgroup>
-            ))}
-          </select>
-        </label>
-        <button type="button" onClick={addThisMealToPlan}>Add Meal</button>
-        {addedMessage && <p className="dinnerCombinationAddedMessage">{addedMessage}</p>}
-      </section>
-
-                {(preparedRequirements.length > 0 || regularGroceryIngredients.length > 0) && (
-            <section className="comboComponentRequirements compact" aria-label="Combo Meal component requirements">
+        <section className="dinnerArea dinnerAreaGroceries" aria-label="Grocery ingredients">
+          {(preparedRequirements.length > 0 || regularGroceryIngredients.length > 0) ? (
+            <div className="comboComponentRequirements compact">
               {preparedRequirements.length > 0 && (
                 <div className="comboPreparedComponents">
                   <h3>Prepared Components</h3>
                   <div className="comboCompactIngredientRows">
                     {preparedRequirements.map((requirement) => {
                       const component = PREPARED_COMPONENTS.find((item) => item.id === requirement.componentId);
-                      return <p key={requirement.componentId}><strong>{component?.name || requirement.componentId}</strong><span>{requirement.packagesRequired} package · {requirement.servingSizePerPackage} servings</span></p>;
+                      return (
+                        <p key={requirement.componentId}>
+                          <strong>{component?.name || requirement.componentId}</strong>
+                          <span>{requirement.packagesRequired} package · {requirement.servingSizePerPackage} servings</span>
+                        </p>
+                      );
                     })}
                   </div>
                 </div>
@@ -9806,14 +9717,113 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard, favorite
                 <div className="comboRegularGroceryIngredients">
                   <h3>Regular Grocery Ingredients</h3>
                   <div className="comboCompactIngredientRows">
-                    {regularGroceryIngredients.map((item) => <p key={`${item.name}-${item.unit}`}><strong>{item.name}</strong><span>{item.qty} {item.unit}</span></p>)}
+                    {regularGroceryIngredients.map((item) => (
+                      <p key={`${item.name}-${item.unit}`}>
+                        <strong>{item.name}</strong>
+                        <span>{item.qty} {item.unit}</span>
+                      </p>
+                    ))}
                   </div>
                 </div>
               )}
-            </section>
+            </div>
+          ) : (
+            <p className="dinnerAreaEmpty">No separate grocery ingredients listed.</p>
           )}
+        </section>
 
-<details className="dinnerCombinationHeating">
+        <section className="dinnerArea dinnerAreaNutrition" aria-label={`Estimated whole meal nutrition for ${meal.title}`}>
+          <div className="dinnerCombinationNutritionLabel">Estimated nutrition for the whole meal</div>
+          <div className="dinnerCombinationNutrition">
+            <span><strong>{nutritionValue(meal.calories)}</strong><small>calories</small></span>
+            <span><strong>{nutritionValue(meal.protein, "g")}</strong><small>protein</small></span>
+            <span><strong>{nutritionValue(meal.carbs, "g")}</strong><small>carbs</small></span>
+            <span><strong>{nutritionValue(meal.fat, "g")}</strong><small>fat</small></span>
+            <span><strong>{nutritionValue(meal.fiber, "g")}</strong><small>fiber</small></span>
+          </div>
+        </section>
+
+        <section className="dinnerArea dinnerAreaActions">
+          <section className="dinnerCombinationRecipeButtons" aria-label={`Recipe card buttons for ${meal.title}`}>
+            <h4>Recipe Cards</h4>
+            <div className="dinnerCombinationRecipeButtonGrid">
+              {recipeButtons.map((button) => {
+                const linkedRecipe = findLinkedRecipe(button.recipeId);
+                const hasRecipeMatch = Boolean(linkedRecipe);
+                const isOpen = activeRecipePopup === button.label;
+
+                return (
+                  <div className="dinnerRecipePopupItem" key={`${meal.id}-${button.type}-${button.label}`}>
+                    <button
+                      type="button"
+                      className={hasRecipeMatch ? "hasRecipeMatch" : "missingRecipeMatch"}
+                      onClick={() => handleRecipeButton(button)}
+                      title={hasRecipeMatch ? `Preview ${linkedRecipe.title}` : "Recipe card not linked yet"}
+                    >
+                      <span>{button.type}</span>
+                      {button.label}
+                    </button>
+
+                    {isOpen && (
+                      <div className="dinnerRecipeMiniPopup" role="dialog" aria-label={`${button.label} recipe card preview`}>
+                        <button type="button" className="dinnerRecipeMiniClose" onClick={() => setActiveRecipePopup(null)} aria-label="Close recipe card preview">×</button>
+                        {hasRecipeMatch ? (
+                          <>
+                            <h5>{linkedRecipe.title}</h5>
+                            <MealBalanceBadge item={linkedRecipe} className="dinnerRecipeMealBalanceBadge" />
+                            <p>
+                              <strong>{linkedRecipe.id}</strong>
+                              {linkedRecipe.category ? ` · ${linkedRecipe.category}` : ""}
+                              {linkedRecipe.time ? ` · ${linkedRecipe.time} minutes` : ""}
+                            </p>
+                            <p>This item is linked to an existing recipe card in the library.</p>
+                            <button
+                              type="button"
+                              className="dinnerRecipeOpenFullButton"
+                              onClick={() => {
+                                setActiveRecipePopup(null);
+                                openRecipeCard(linkedRecipe.id, recipes);
+                              }}
+                            >
+                              Open Full Recipe Card
+                            </button>
+                          </>
+                        ) : (
+                          <>
+                            <h5>{button.label}</h5>
+                            <p>A matching recipe card is not linked yet. Add a valid recipeId for this item in dinnerCombinations.js when the card is available.</p>
+                          </>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+
+          <section className="dinnerCombinationPlannerAdd" aria-label={`Add ${meal.title} to meal plan`}>
+            <label>
+              <span>Add meal to plan day</span>
+              <select value={selectedPlannerDay} onChange={(event) => setSelectedPlannerDay(event.target.value)}>
+                {PLANNER_WEEKS.map((week) => (
+                  <optgroup key={week.id} label={week.title}>
+                    {WEEK_DAYS.map((day) => (
+                      <option key={`${week.id}-${day}`} value={`${week.id}-${day}`}>
+                        {week.title} — {day}
+                      </option>
+                    ))}
+                  </optgroup>
+                ))}
+              </select>
+            </label>
+            <button type="button" onClick={addThisMealToPlan}>Add Meal</button>
+            {addedMessage && <p className="dinnerCombinationAddedMessage">{addedMessage}</p>}
+          </section>
+        </section>
+      </div>
+
+      <details className="dinnerCombinationHeating">
         <summary>Heating & freezer notes</summary>
         <div>
           <p><strong>Freezer life:</strong> {meal.freezerLife}</p>
