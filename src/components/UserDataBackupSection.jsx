@@ -5,7 +5,7 @@ import {
   restoreRecipeBoxBackup,
 } from "../utils/recipeBoxBackup";
 
-export default function UserDataBackupSection({ onRestored }) {
+export default function UserDataBackupSection({ onRestored, onLearnMore }) {
   const fileInputRef = useRef(null);
   const dialogRef = useRef(null);
   const [pendingBackup, setPendingBackup] = useState(null);
@@ -89,6 +89,12 @@ export default function UserDataBackupSection({ onRestored }) {
       <p className="userDataReminder">
         Keep your backup file somewhere safe, such as your Documents folder, a USB drive, iCloud Drive, Google Drive, Dropbox, or OneDrive. New changes made after a backup will not be included unless you create another backup.
       </p>
+
+      {onLearnMore && (
+        <button type="button" className="userDataLearnMore" onClick={onLearnMore}>
+          Learn more about privacy and how your Recipe Box data is handled.
+        </button>
+      )}
 
       <div className={`userDataMessage userDataMessage-${messageType}`} role={messageType === "error" ? "alert" : "status"} aria-live="polite" aria-atomic="true">
         {message}
