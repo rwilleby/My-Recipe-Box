@@ -31609,3 +31609,17 @@ body.rrbPopupOpen {
     padding: 14px !important;
   }
 }
+
+/* Shopping List: remove the visible comments label and bottom-align the input. */
+.shoppingCommentCell {
+  display: flex !important;
+  align-items: flex-end !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.shoppingCommentCell input {
+  display: block !important;
+  margin: 0 !important;
+}
+

@@ -6797,7 +6797,6 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, refrige
         </div>
 
         <label className="shoppingItemComment shoppingCommentCell">
-          <span className="visuallyHidden">Comments or suggestions for {item.name}</span>
           <input
             type="text"
             value={shoppingComments[key] || ""}
