@@ -30069,3 +30069,157 @@ body.rrbPopupOpen {
     font-size: 10px !important;
   }
 }
+/* =========================================================
+   REFERENCE GUIDES — TOP BUTTON NAVIGATION
+   ========================================================= */
+
+.referenceGuidesFeaturePage {
+  padding-top: 18px !important;
+}
+
+.referenceGuidesLayout.referenceGuidesTopLayout {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 14px !important;
+}
+
+.referenceGuidesTopNav {
+  position: static !important;
+  width: 100% !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+}
+
+.referenceGuideTopButtonList {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+  width: 100% !important;
+  overflow: visible !important;
+  padding: 0 !important;
+}
+
+.referenceGuideTopButton {
+  flex: 1 1 150px !important;
+  min-width: 120px !important;
+  min-height: 40px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  grid-template-columns: none !important;
+  gap: 0 !important;
+  padding: 8px 12px !important;
+  border-radius: 9px !important;
+  font-size: 13px !important;
+  line-height: 1.15 !important;
+  text-align: center !important;
+  white-space: normal !important;
+}
+
+.referenceGuideTopButton:hover {
+  transform: none !important;
+}
+
+.referenceGuideTopButton.active {
+  box-shadow: 0 5px 14px rgba(20, 83, 45, .18) !important;
+}
+
+.referenceGuidePanel {
+  width: 100% !important;
+}
+
+.referenceGuidePanelHeader h2 {
+  gap: 0 !important;
+}
+
+/* Hide all guide graphics in the top-navigation version. */
+.referenceGuidesTopLayout .referenceGuideSvgIcon,
+.referenceGuidesTopLayout .referenceGuideNavIcon {
+  display: none !important;
+}
+
+@media (max-width: 900px) {
+  .referenceGuideTopButtonList {
+    gap: 7px !important;
+  }
+
+  .referenceGuideTopButton {
+    flex: 1 1 calc(33.333% - 7px) !important;
+    min-width: 140px !important;
+  }
+}
+
+@media (max-width: 620px) {
+  .referenceGuidesFeaturePage {
+    padding-top: 12px !important;
+  }
+
+  .referenceGuideTopButtonList {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 6px !important;
+  }
+
+  .referenceGuideTopButton {
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 38px !important;
+    padding: 7px 8px !important;
+    font-size: 11px !important;
+  }
+}
+
+@media print {
+  .referenceGuidesTopNav {
+    display: none !important;
+  }
+}
+/* =========================================================
+   FOOD SAFETY ACCORDION — HEADLINE & CLOSING LINE REFINEMENTS
+   ========================================================= */
+
+.foodSafetyAccordionPrompt {
+  margin: 0 0 10px !important;
+  color: #4b5563 !important;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif !important;
+  font-size: 13px !important;
+  line-height: 1.25 !important;
+  font-weight: 600 !important;
+  text-align: left !important;
+}
+
+.foodSafetyAccordionItem summary {
+  font-size: 16px !important;
+  line-height: 1.15 !important;
+}
+
+.foodSafetyGuide .gasGrillGuideClosing {
+  max-width: none !important;
+  margin-top: 20px !important;
+  font-size: 13px !important;
+  line-height: 1.2 !important;
+  white-space: nowrap !important;
+}
+
+@media (max-width: 900px) {
+  .foodSafetyGuide .gasGrillGuideClosing {
+    white-space: normal !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .foodSafetyAccordionPrompt {
+    margin-bottom: 8px !important;
+    font-size: 12px !important;
+  }
+
+  .foodSafetyAccordionItem summary {
+    font-size: 15px !important;
+  }
+
+  .foodSafetyGuide .gasGrillGuideClosing {
+    font-size: 12px !important;
+    line-height: 1.25 !important;
+  }
+}

@@ -9892,42 +9892,28 @@ function ReferenceGuidesPage() {
 
   return (
     <main className="pageShell referenceGuidesFeaturePage">
-      <section className="referenceGuidesLayout" aria-label="Reference guides">
-        <aside className="referenceGuidesNav" aria-label="Reference guide list">
-          <div className="referenceGuidesBrandBlock">
-            <div className="referenceGuidesBrandTitle">Robert’s Recipe Box</div>
-            <div className="referenceGuidesBrandSubtitle">Reference Guides</div>
-          </div>
-
-          <div className="referenceGuideButtonList" role="tablist" aria-label="Choose a reference guide">
+      <section className="referenceGuidesLayout referenceGuidesTopLayout" aria-label="Reference guides">
+        <nav className="referenceGuidesTopNav" aria-label="Reference guide list">
+          <div className="referenceGuideButtonList referenceGuideTopButtonList" role="tablist" aria-label="Choose a reference guide">
             {REFERENCE_GUIDES.map((guide) => (
               <button
                 key={guide.id}
                 type="button"
-                className={`referenceGuideNavButton${guide.id === selectedGuide.id ? " active" : ""}`}
+                className={`referenceGuideNavButton referenceGuideTopButton${guide.id === selectedGuide.id ? " active" : ""}`}
                 onClick={() => setSelectedGuideId(guide.id)}
                 role="tab"
                 aria-selected={guide.id === selectedGuide.id}
               >
-                <ReferenceGuideIcon type={guide.icon} />
                 <span>{guide.title}</span>
               </button>
             ))}
           </div>
-
-          <div className="referenceGuideNavNote">
-            <span aria-hidden="true">★</span>
-            <p>Click any guide to view details. Print or download options appear below the guide.</p>
-          </div>
-        </aside>
+        </nav>
 
         <section className="referenceGuidePanel" aria-live="polite">
           <div className="referenceGuidePanelHeader">
             <div>
-              <h2>
-                <ReferenceGuideIcon type={selectedGuide.icon} size="large" />
-                {selectedGuide.title}
-              </h2>
+              <h2>{selectedGuide.title}</h2>
               <p>{selectedGuide.description}</p>
             </div>
           </div>
@@ -12132,7 +12118,7 @@ Use this section to check what is on hand, record dates, mark foods that should 
           />
 
           <article className="foodSafetyGuide" aria-labelledby="food-safety-guide-title">
-            <h2 id="food-safety-guide-title" className="visuallyHidden">Food Safety Guide Sections</h2>
+            <h2 id="food-safety-guide-title" className="foodSafetyAccordionPrompt">Click the title to select your guide</h2>
             <div className="foodSafetyAccordion">
               
               <details className="foodSafetyAccordionItem">
@@ -12389,17 +12375,6 @@ Use this section to check what is on hand, record dates, mark foods that should 
                 <div className="foodSafetyAccordionContent">
 <p>Older adults, young children, pregnant people, and people with weakened immune systems are more likely to become seriously ill from foodborne germs.</p>
 <p>Extra caution should be taken with raw or undercooked meat, poultry, seafood, eggs, sprouts, unpasteurized dairy products, refrigerated smoked seafood, and other higher-risk foods.</p>
-                </div>
-              </details>
-              
-              <details className="foodSafetyAccordionItem">
-                <summary>
-                  <span>Basic Rule to Remember</span>
-                  <span className="foodSafetyAccordionChevron" aria-hidden="true">⌄</span>
-                </summary>
-                <div className="foodSafetyAccordionContent">
-<p>When handling food:</p>
-<p><strong>Keep it clean. Keep raw and cooked foods separate. Cook it thoroughly. Chill it promptly. When in doubt, throw it out.</strong></p>
                 </div>
               </details>
             </div>
