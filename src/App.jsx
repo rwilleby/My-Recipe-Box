@@ -11031,7 +11031,7 @@ export default function App() {
         <HeroTopicPage
           eyebrow="TIPS & ORGANIZATION"
           title="Tips: Grilling"
-          heroImage="images/heroes/hero-grill.png"
+          heroImage="images/heroes/hero-page-griddle.jpg"
           heroAlt="Gas grill with grilled meats and vegetables"
           text="Successful grilling begins before the food reaches the cooking grate. Preparation, preheating, clean grates, correct heat zones, and a basic understanding of timing can make a noticeable difference in the finished meal.\n\nThese tips cover direct and indirect cooking, flare-ups, turning, marinades, safe internal temperatures, resting, and other common questions. The goal is to help you grill more confidently and produce consistent results."
           setActivePage={setActivePage}
