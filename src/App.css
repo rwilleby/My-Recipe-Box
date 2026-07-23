@@ -31954,3 +31954,96 @@ body.rrbPopupOpen {
     width: min(240px, 100%) !important;
   }
 }
+
+/* =========================================================
+   PRODUCT IMAGE FILL + COMBO COMMENTS + FRACTION READABILITY
+   ========================================================= */
+
+/* Cooking Tools: fill the available image area while tightening each product row. */
+.productsCompactCard {
+  min-height: 166px !important;
+}
+
+.productsCompactImage {
+  min-height: 166px !important;
+  padding: 6px !important;
+  overflow: hidden !important;
+}
+
+.productsCompactImage img {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 154px !important;
+  max-height: none !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  border-radius: 8px !important;
+}
+
+.productsCompactContent {
+  gap: 8px !important;
+  padding: 13px 15px !important;
+}
+
+.productsCompactCategory {
+  width: min(250px, 46%) !important;
+}
+
+.productsCompactCategory > span {
+  font-size: 10px !important;
+}
+
+.productsCompactCategory select {
+  height: 34px !important;
+  min-height: 34px !important;
+  padding: 5px 8px !important;
+  font-size: 12px !important;
+}
+
+.productsCompactAffiliate {
+  min-width: 124px !important;
+  min-height: 34px !important;
+  height: 34px !important;
+  padding: 5px 10px !important;
+  font-size: 12px !important;
+}
+
+.productsCompactAffiliate .productsIUseAmazonIcon {
+  width: 20px !important;
+  height: 20px !important;
+}
+
+/* Combo Meal Ingredients: no visible comments label; use the full comments column. */
+.comboMealIngredientsGroup .pantryThinRow .shoppingCommentCell {
+  display: block !important;
+  align-self: end !important;
+  width: 100% !important;
+}
+
+.comboMealIngredientsGroup .pantryThinRow .shoppingCommentCell > span {
+  display: none !important;
+}
+
+.comboMealIngredientsGroup .pantryThinRow .shoppingCommentCell input {
+  width: 100% !important;
+  height: 34px !important;
+  min-height: 34px !important;
+  padding: 0 9px !important;
+  font-size: 11px !important;
+}
+
+.comboMealIngredientsGroup .pantryThinRow .shoppingSuggestionCell {
+  height: 34px !important;
+  min-height: 34px !important;
+  align-self: end !important;
+}
+
+@media (max-width: 760px) {
+  .productsCompactImage {
+    min-height: 190px !important;
+  }
+
+  .productsCompactImage img {
+    min-height: 178px !important;
+  }
+}

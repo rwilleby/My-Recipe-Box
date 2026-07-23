@@ -6604,6 +6604,10 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, refrige
     }));
   }
 
+  function formatShoppingQuantity(value) {
+    return String(formatQty(value)).replace(/\b(\d+)\s+(\d+\/\d+)\b/g, "$1 - $2");
+  }
+
   function printShoppingList() {
     const printWindow = window.open("", "_blank", "width=900,height=700");
 
@@ -6793,7 +6797,7 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, refrige
         </label>
 
         <div className="shoppingPortionCell" aria-label={`${item.name} portion size`}>
-          {formatQty(item.qty)} {item.unit}
+          {formatShoppingQuantity(item.qty)} {item.unit}
         </div>
 
         <label className="shoppingItemComment shoppingCommentCell">
@@ -6843,11 +6847,10 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, refrige
           </div>
 
           <div className="shoppingPortionCell" aria-label={`${item.name} portion size`}>
-            {formatQty(item.qty)} {item.unit}
+            {formatShoppingQuantity(item.qty)} {item.unit}
           </div>
 
           <label className="shoppingItemComment shoppingCommentCell">
-            <span className="visuallyHidden">Comments or suggestions for {item.name}</span>
             <input
               type="text"
               value={shoppingComments[key] || ""}
@@ -6887,7 +6890,7 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, refrige
           <span className="pantryFilledBox" aria-hidden="true" />
           <span>{item.name}</span>
           <small>
-            {formatQty(item.qty)} {item.unit}
+            {formatShoppingQuantity(item.qty)} {item.unit}
           </small>
         </div>
 
