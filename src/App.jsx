@@ -53,6 +53,7 @@ const STORAGE_KEYS = {
   preparedInventory: "rrb_preparedComponentInventory",
   preparedReservations: "rrb_preparedComponentReservations",
   componentDecisions: "rrb_preparedComponentDecisions",
+  shoppingComments: "rrb_shoppingItemComments",
 };
 
 const CATEGORY_ICON_IMAGES = {
@@ -2836,9 +2837,11 @@ function RecipeCard({
               <button
                 className={`heart browseCardHeart ${isFavorite ? "saved" : ""}`}
                 onClick={() => toggleFavorite(recipe.id)}
-                aria-label="Save favorite"
+                aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
+                title={isFavorite ? "Saved as a favorite" : "Add to favorites"}
               >
-                ♡
+                <span aria-hidden="true">{isFavorite ? "♥" : "♡"}</span>
+                <small>{isFavorite ? "FAVORITE" : "SAVE"}</small>
               </button>
             </div>
 
@@ -6440,7 +6443,7 @@ function FreezerInventoryPage({ freezer, setFreezer, setActivePage }) {
   );
 }
 
-function ShoppingListPage({ plan, checked, setChecked, servings, pantry, refrigerator, freezer, setActivePage, preparedInventory, preparedReservations, componentDecisions, setComponentDecisions }) {
+function ShoppingListPage({ plan, checked, setChecked, servings, pantry, refrigerator, freezer, setActivePage, preparedInventory, preparedReservations, componentDecisions, setComponentDecisions, shoppingComments, setShoppingComments }) {
   const recipeIdSet = useMemo(() => new Set(recipes.map((recipe) => recipe.id)), []);
   const dinnerCombinationById = useMemo(
     () => Object.fromEntries(dinnerCombinations.map((meal) => [meal.id, meal])),
@@ -6762,6 +6765,21 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, refrige
           <small>
             {formatQty(item.qty)} {item.unit}
           </small>
+        </label>
+
+        <label className="shoppingItemComment">
+          <span>Comments or suggestions</span>
+          <textarea
+            value={shoppingComments[key] || ""}
+            onChange={(event) =>
+              setShoppingComments((current) => ({
+                ...(current || {}),
+                [key]: event.target.value,
+              }))
+            }
+            placeholder="Brand, size, substitution, store, or other note…"
+            aria-label={`Comments or suggestions for ${item.name}`}
+          />
         </label>
 
         {renderGroceryReference(item)}
@@ -9481,29 +9499,22 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard, favorite
           <h3>{meal.title}</h3>
           <p className="dinnerCombinationSubtitle">{meal.subtitle}</p>
           <MealBalanceDetails item={meal} prefix="Combo Meal Balance" className="comboMealBalanceDetails" />
-        </div>
-      </div>
 
-      <div className="dinnerCombinationDetails">
-        <section>
-          <h4>Main Dish:</h4>
-          <p>
-            <strong>{meal.mainDish}</strong>
-            <span> — {meal.mainServing}</span>
-          </p>
-        </section>
-
-        <section>
-          <h4>Sides:</h4>
-          <ul>
+          <div className="dinnerCombinationStackedMeal">
+            <p>
+              <span>Main Dish</span>
+              <strong>{meal.mainDish}</strong>
+              <small>{meal.mainServing}</small>
+            </p>
             {(meal.sides || []).map((side) => (
-              <li key={`${meal.id}-${side.name}`}>
+              <p key={`${meal.id}-${side.name}`}>
+                <span>Side Dish</span>
                 <strong>{side.name}</strong>
-                <span> — {side.serving}</span>
-              </li>
+                <small>{side.serving}</small>
+              </p>
             ))}
-          </ul>
-        </section>
+          </div>
+        </div>
       </div>
 
       <div className="dinnerCombinationNutritionLabel">Estimated nutrition for the whole meal</div>
@@ -9605,20 +9616,24 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard, favorite
       </section>
 
                 {(preparedRequirements.length > 0 || regularGroceryIngredients.length > 0) && (
-            <section className="comboComponentRequirements" aria-label="Combo Meal component requirements">
+            <section className="comboComponentRequirements compact" aria-label="Combo Meal component requirements">
               {preparedRequirements.length > 0 && (
-                <div>
+                <div className="comboPreparedComponents">
                   <h3>Prepared Components</h3>
-                  {preparedRequirements.map((requirement) => {
-                    const component = PREPARED_COMPONENTS.find((item) => item.id === requirement.componentId);
-                    return <p key={requirement.componentId}><strong>{component?.name || requirement.componentId}</strong><span>{requirement.packagesRequired} package · {requirement.servingSizePerPackage} servings</span></p>;
-                  })}
+                  <div className="comboCompactIngredientRows">
+                    {preparedRequirements.map((requirement) => {
+                      const component = PREPARED_COMPONENTS.find((item) => item.id === requirement.componentId);
+                      return <p key={requirement.componentId}><strong>{component?.name || requirement.componentId}</strong><span>{requirement.packagesRequired} package · {requirement.servingSizePerPackage} servings</span></p>;
+                    })}
+                  </div>
                 </div>
               )}
               {regularGroceryIngredients.length > 0 && (
-                <div>
+                <div className="comboRegularGroceryIngredients">
                   <h3>Regular Grocery Ingredients</h3>
-                  {regularGroceryIngredients.map((item) => <p key={`${item.name}-${item.unit}`}><strong>{item.name}</strong><span>{item.qty} {item.unit}</span></p>)}
+                  <div className="comboCompactIngredientRows">
+                    {regularGroceryIngredients.map((item) => <p key={`${item.name}-${item.unit}`}><strong>{item.name}</strong><span>{item.qty} {item.unit}</span></p>)}
+                  </div>
                 </div>
               )}
             </section>
@@ -11473,6 +11488,10 @@ export default function App() {
     const stored = loadJSON(STORAGE_KEYS.componentDecisions, {});
     return stored && typeof stored === "object" ? stored : {};
   });
+  const [shoppingComments, setShoppingComments] = useState(() => {
+    const stored = loadJSON(STORAGE_KEYS.shoppingComments, {});
+    return stored && typeof stored === "object" ? stored : {};
+  });
   const [leftoversRecipe, setLeftoversRecipe] = useState(null);
   const [filter, setFilter] = useState("");
   const [cardViewer, setCardViewer] = useState(null);
@@ -11495,6 +11514,7 @@ export default function App() {
   useEffect(() => saveJSON(STORAGE_KEYS.preparedInventory, preparedInventory), [preparedInventory]);
   useEffect(() => saveJSON(STORAGE_KEYS.preparedReservations, preparedReservations), [preparedReservations]);
   useEffect(() => saveJSON(STORAGE_KEYS.componentDecisions, componentDecisions), [componentDecisions]);
+  useEffect(() => saveJSON(STORAGE_KEYS.shoppingComments, shoppingComments), [shoppingComments]);
 
   useEffect(() => {
     const next = buildPreparedReservationsFromPlan(plan, dinnerCombinations);
@@ -11591,6 +11611,8 @@ export default function App() {
     setPreparedReservations,
     componentDecisions,
     setComponentDecisions,
+    shoppingComments,
+    setShoppingComments,
     classifiedRecipes,
   };
 
@@ -12546,7 +12568,7 @@ Use this section to check what is on hand, record dates, mark foods that should 
         <HeroTopicPage
           eyebrow="COOKING METHODS"
           title="Tips: Gas & Electric Griddles"
-          heroImage="images/heroes/hero-grill.png"
+          heroImage="images/heroes/hero-page-griddle.jpg"
           heroAlt="Flat-top griddle cooking setup with breakfast foods and utensils"
           text="Gas and electric griddles provide a broad, even cooking surface for breakfast foods, burgers, sandwiches, vegetables, seafood, and complete meals. They are especially useful when several foods need to cook at the same time without crowding a skillet.\n\nThis section covers preheating, temperature zones, seasoning and cleaning the surface, managing grease, preventing sticking, and cooking safely on both outdoor gas griddles and indoor electric griddles."
           setActivePage={setActivePage}

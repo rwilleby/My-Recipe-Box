@@ -30605,3 +30605,215 @@ body.rrbPopupOpen {
   .preparedInventoryForm header { grid-column: auto; }
   .preparedInventoryFormActions { grid-column: auto; }
 }
+
+/* =========================================================
+   FAVORITE STATE, SHOPPING COMMENTS, GRIDDLE HERO & COMBO LAYOUT
+   ========================================================= */
+
+/* Browse Recipe Library: unmistakable saved-favorite state. */
+.browseRecipeGrid .browseCardHeart {
+  width: auto !important;
+  min-width: 76px !important;
+  height: 30px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 5px !important;
+  padding: 0 8px !important;
+  border: 1px solid rgba(232, 81, 112, .22) !important;
+  border-radius: 999px !important;
+  background: #ffffff !important;
+  color: #6b7280 !important;
+  font-size: 18px !important;
+}
+.browseRecipeGrid .browseCardHeart small {
+  display: inline !important;
+  color: currentColor !important;
+  font: 700 9px/1 Inter, system-ui, sans-serif !important;
+  letter-spacing: .04em !important;
+}
+.browseRecipeGrid .browseCardHeart.saved {
+  background: rgba(232, 81, 112, .1) !important;
+  border-color: rgba(232, 81, 112, .45) !important;
+  color: #e85170 !important;
+  box-shadow: 0 0 0 2px rgba(232, 81, 112, .08) !important;
+}
+
+/* Shopping List: NEEDED ITEMS uses one full-width column. */
+.shoppingListSection:not(.pantryListSection) .shoppingGrid {
+  grid-template-columns: 1fr !important;
+}
+.shoppingListSection:not(.pantryListSection) .shoppingGroup {
+  width: 100% !important;
+}
+.shoppingListSection:not(.pantryListSection) .shoppingItemWrap {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(240px, .7fr) !important;
+  gap: 10px 14px !important;
+  align-items: start !important;
+  padding: 8px 0 !important;
+  border-bottom: 1px solid #f1eee8 !important;
+}
+.shoppingListSection:not(.pantryListSection) .shoppingItemWrap:last-child {
+  border-bottom: 0 !important;
+}
+.shoppingListSection:not(.pantryListSection) .shoppingItem {
+  border-bottom: 0 !important;
+  padding: 7px 0 !important;
+}
+.shoppingItemComment {
+  display: grid !important;
+  gap: 4px !important;
+}
+.shoppingItemComment span {
+  color: #6b7280 !important;
+  font: 600 10px/1.1 Inter, system-ui, sans-serif !important;
+  text-transform: uppercase !important;
+  letter-spacing: .035em !important;
+}
+.shoppingItemComment textarea {
+  width: 100% !important;
+  min-height: 42px !important;
+  max-height: 90px !important;
+  resize: vertical !important;
+  border: 1px solid rgba(20, 83, 45, .16) !important;
+  border-radius: 8px !important;
+  background: #fbfcfa !important;
+  padding: 7px 9px !important;
+  color: #374151 !important;
+  font: 400 12px/1.3 Inter, system-ui, sans-serif !important;
+}
+.shoppingListSection:not(.pantryListSection) .shoppingSuggestionNote {
+  grid-column: 1 / -1 !important;
+  margin-top: 0 !important;
+}
+
+/* Dinner Combination: compressed stacked title block and full-width lower sections. */
+.dinnerCombinationHeader {
+  align-items: start !important;
+}
+.dinnerCombinationTitleBlock {
+  display: grid !important;
+  align-content: start !important;
+  gap: 5px !important;
+}
+.dinnerCombinationTitleBlock h3 {
+  margin: 0 !important;
+}
+.dinnerCombinationSubtitle {
+  margin: 0 !important;
+}
+.comboMealBalanceDetails {
+  margin: 0 !important;
+}
+.dinnerCombinationStackedMeal {
+  display: grid !important;
+  gap: 3px !important;
+  margin-top: 2px !important;
+  padding-top: 6px !important;
+  border-top: 1px solid rgba(20, 83, 45, .1) !important;
+}
+.dinnerCombinationStackedMeal p {
+  display: grid !important;
+  grid-template-columns: 64px minmax(0, 1fr) auto !important;
+  gap: 7px !important;
+  align-items: baseline !important;
+  margin: 0 !important;
+  color: #374151 !important;
+  font-family: Inter, system-ui, sans-serif !important;
+  font-size: 12px !important;
+  line-height: 1.2 !important;
+}
+.dinnerCombinationStackedMeal p > span {
+  color: #14532d !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+}
+.dinnerCombinationStackedMeal strong {
+  color: #111827 !important;
+  font-size: 12px !important;
+}
+.dinnerCombinationStackedMeal small {
+  color: #6b7280 !important;
+  font-size: 10px !important;
+  white-space: nowrap !important;
+}
+
+.comboComponentRequirements.compact {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 6px !important;
+  width: 100% !important;
+  margin: 7px 0 !important;
+}
+.comboComponentRequirements.compact > div {
+  width: 100% !important;
+  padding: 7px 9px !important;
+  border-radius: 9px !important;
+}
+.comboComponentRequirements.compact h3 {
+  margin: 0 0 4px !important;
+  font-size: 13px !important;
+  line-height: 1.1 !important;
+}
+.comboRegularGroceryIngredients {
+  grid-column: 1 / -1 !important;
+  width: 100% !important;
+}
+.comboCompactIngredientRows {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)) !important;
+  gap: 2px 10px !important;
+}
+.comboComponentRequirements.compact p {
+  display: flex !important;
+  justify-content: space-between !important;
+  gap: 7px !important;
+  margin: 0 !important;
+  padding: 2px 0 !important;
+  font-size: 10px !important;
+  line-height: 1.15 !important;
+}
+.comboComponentRequirements.compact p strong {
+  color: #111827 !important;
+  font-size: 10px !important;
+}
+.comboComponentRequirements.compact p span {
+  color: #6b7280 !important;
+  font-size: 9px !important;
+  white-space: nowrap !important;
+}
+.dinnerCombinationHeating {
+  width: 100% !important;
+  grid-column: 1 / -1 !important;
+  margin-top: 5px !important;
+  padding-top: 7px !important;
+}
+.dinnerCombinationHeating summary {
+  font-size: 12px !important;
+}
+.dinnerCombinationHeating div {
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 8px !important;
+  margin-top: 6px !important;
+}
+.dinnerCombinationHeating p {
+  font-size: 10px !important;
+  line-height: 1.25 !important;
+}
+
+/* Keep the actual uploaded Griddle hero image visible and properly cropped. */
+.griddleGuide,
+.pageTopHeroImage:has(+ .heroTopicPage .griddleGuide) {
+  --griddle-hero-ready: 1;
+}
+
+@media (max-width: 760px) {
+  .shoppingListSection:not(.pantryListSection) .shoppingItemWrap {
+    grid-template-columns: 1fr !important;
+  }
+  .dinnerCombinationHeating div {
+    grid-template-columns: 1fr !important;
+  }
+}
