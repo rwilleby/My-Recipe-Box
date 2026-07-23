@@ -32049,231 +32049,99 @@ body.rrbPopupOpen {
 }
 
 /* =========================================================
-   PRODUCT CONTROLS BOTTOM ALIGNMENT + DINNER AREAS A–F
+   YOUR RECIPE BOX DATA — BACKUP AND RESTORE
    ========================================================= */
-
-/* Cooking Tools: controls sit in the lower-right and align with image bottom. */
-.productsCompactCard {
-  align-items: stretch !important;
+.userDataSection {
+  margin-top: 34px;
+  padding: clamp(22px, 3vw, 32px);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .04);
+  scroll-margin-top: 110px;
 }
 
-.productsCompactContent {
-  position: relative !important;
-  min-height: 166px !important;
-  padding: 13px 15px 54px !important;
+.userDataSectionHeader h2 {
+  margin: 12px 0 0;
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  font-size: 22px;
+  line-height: 1.15;
+  color: #111827;
 }
 
-.productsCompactControls {
+.userDataPrivacyText,
+.userDataReminder {
+  max-width: 920px;
+  color: #374151;
+  line-height: 1.55;
+}
+
+.userDataPrivacyText { margin: 14px 0 18px; font-size: 15px; }
+.userDataReminder { margin: 14px 0 0; font-size: 13px; }
+.userDataActions { display: flex; flex-wrap: wrap; gap: 12px; }
+.userDataActions .primary,
+.userDataActions .secondary { min-height: 46px; }
+
+.visuallyHiddenFileInput {
   position: absolute !important;
-  right: 15px !important;
-  bottom: 10px !important;
-  left: auto !important;
-  display: flex !important;
-  align-items: flex-end !important;
-  justify-content: flex-end !important;
-  gap: 8px !important;
-  margin: 0 !important;
-}
-
-.productsCompactCategory {
-  width: 240px !important;
-}
-
-.productsCompactCategory select,
-.productsCompactAffiliate {
-  height: 34px !important;
-  min-height: 34px !important;
-}
-
-/* Dinner Combination: dedicated A–F information areas. */
-.dinnerCombinationAreaLayout {
-  display: grid !important;
-  grid-template-columns: minmax(280px, 27%) minmax(250px, 27%) minmax(0, 1fr) !important;
-  grid-template-areas:
-    "photo name nutrition"
-    "photo dishes groceries"
-    "actions actions actions" !important;
-  gap: 10px !important;
-  align-items: stretch !important;
-}
-
-.dinnerArea {
-  min-width: 0 !important;
-  border: 1px solid rgba(20, 83, 45, .13) !important;
-  border-radius: 11px !important;
-  background: #ffffff !important;
-  padding: 10px !important;
-}
-
-.dinnerAreaPhoto {
-  grid-area: photo !important;
+  width: 1px !important;
+  height: 1px !important;
   padding: 0 !important;
+  margin: -1px !important;
   overflow: hidden !important;
-}
-
-.dinnerAreaPhoto .dinnerCombinationMedia,
-.dinnerAreaPhoto .dinnerCombinationMedia img {
-  width: 100% !important;
-  height: 100% !important;
-}
-
-.dinnerAreaPhoto .dinnerCombinationMedia img {
-  min-height: 250px !important;
-  aspect-ratio: auto !important;
-  object-fit: cover !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
   border: 0 !important;
-  border-radius: 10px !important;
 }
 
-.dinnerAreaName {
-  grid-area: name !important;
-  display: grid !important;
-  align-content: start !important;
-  gap: 4px !important;
+.userDataMessage {
+  min-height: 24px;
+  margin-top: 14px;
+  padding-left: 28px;
+  position: relative;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.45;
+}
+.userDataMessage:empty { display: none; }
+.userDataMessage::before { position: absolute; left: 0; top: 0; font-weight: 800; }
+.userDataMessage-success { color: #14532d; }
+.userDataMessage-success::before { content: "✓"; }
+.userDataMessage-warning { color: #7c4a03; }
+.userDataMessage-warning::before { content: "!"; }
+.userDataMessage-error { color: #991b1b; }
+.userDataMessage-error::before { content: "×"; }
+
+.userDataDialog {
+  width: min(92vw, 620px);
+  padding: 0;
+  border: 0;
+  border-radius: 16px;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, .28);
+}
+.userDataDialog::backdrop { background: rgba(17, 24, 39, .68); }
+.userDataDialog form { padding: 26px; }
+.userDataDialog h2 {
+  margin: 0 0 10px;
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  font-size: 24px;
+}
+.userDataDialog p { margin: 0; color: #374151; line-height: 1.5; }
+.userDataDialogActions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+.dangerOutline { border-color: #b91c1c !important; color: #991b1b !important; }
+
+.userDataActions button:focus-visible,
+.userDataDialog button:focus-visible,
+.footerDisclaimerLine button:focus-visible {
+  outline: 3px solid rgba(20, 83, 45, .35);
+  outline-offset: 3px;
 }
 
-.dinnerAreaName h3 {
-  margin: 0 !important;
-  color: #111827 !important;
-  font: 700 24px/1.05 Georgia, "Iowan Old Style", serif !important;
-}
-
-.dinnerAreaName .dinnerCombinationSubtitle {
-  margin: 0 !important;
-  font-size: 13px !important;
-}
-
-.dinnerAreaDishes {
-  grid-area: dishes !important;
-}
-
-.dinnerAreaDishes .dinnerCombinationStackedMeal {
-  margin: 0 !important;
-  padding: 0 !important;
-  border: 0 !important;
-  gap: 5px !important;
-}
-
-.dinnerAreaDishes .dinnerCombinationStackedMeal p {
-  grid-template-columns: 62px minmax(0, 1fr) auto !important;
-  font-size: 12px !important;
-}
-
-.dinnerAreaGroceries {
-  grid-area: groceries !important;
-  padding: 8px !important;
-}
-
-.dinnerAreaGroceries .comboComponentRequirements.compact {
-  margin: 0 !important;
-  gap: 5px !important;
-}
-
-.dinnerAreaGroceries .comboComponentRequirements.compact > div {
-  padding: 6px 8px !important;
-}
-
-.dinnerAreaGroceries .comboComponentRequirements.compact h3 {
-  font-size: 13px !important;
-}
-
-.dinnerAreaNutrition {
-  grid-area: nutrition !important;
-  padding: 8px 10px !important;
-}
-
-.dinnerAreaNutrition .dinnerCombinationNutritionLabel {
-  margin: 0 0 6px !important;
-  font-size: 11px !important;
-}
-
-.dinnerAreaNutrition .dinnerCombinationNutrition {
-  padding: 7px 0 !important;
-}
-
-.dinnerAreaNutrition .dinnerCombinationNutrition strong {
-  font-size: 15px !important;
-}
-
-.dinnerAreaNutrition .dinnerCombinationNutrition small {
-  font-size: 9px !important;
-}
-
-.dinnerAreaActions {
-  grid-area: actions !important;
-  display: grid !important;
-  grid-template-columns: minmax(0, 1fr) 240px !important;
-  gap: 10px !important;
-  padding: 8px !important;
-}
-
-.dinnerAreaActions .dinnerCombinationRecipeButtons {
-  padding: 8px !important;
-}
-
-.dinnerAreaActions .dinnerCombinationPlannerAdd {
-  align-self: stretch !important;
-}
-
-.dinnerCombinationHeating {
-  width: 100% !important;
-  margin-top: 8px !important;
-  padding: 8px 10px 0 !important;
-  border-top: 2px solid rgba(20, 83, 45, .14) !important;
-}
-
-.dinnerCombinationHeating summary {
-  font-size: 13px !important;
-}
-
-.dinnerCombinationHeating div {
-  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  gap: 10px !important;
-}
-
-@media (max-width: 1100px) {
-  .dinnerCombinationAreaLayout {
-    grid-template-columns: minmax(250px, 34%) minmax(0, 1fr) !important;
-    grid-template-areas:
-      "photo name"
-      "photo dishes"
-      "nutrition groceries"
-      "actions actions" !important;
-  }
-}
-
-@media (max-width: 760px) {
-  .productsCompactContent {
-    padding-bottom: 13px !important;
-  }
-
-  .productsCompactControls {
-    position: static !important;
-    justify-content: flex-start !important;
-    flex-wrap: wrap !important;
-    margin-top: 12px !important;
-  }
-
-  .productsCompactCategory {
-    width: min(240px, 100%) !important;
-  }
-
-  .dinnerCombinationAreaLayout {
-    grid-template-columns: 1fr !important;
-    grid-template-areas:
-      "photo"
-      "name"
-      "dishes"
-      "groceries"
-      "nutrition"
-      "actions" !important;
-  }
-
-  .dinnerAreaActions {
-    grid-template-columns: 1fr !important;
-  }
-
-  .dinnerCombinationHeating div {
-    grid-template-columns: 1fr !important;
-  }
+@media (max-width: 620px) {
+  .userDataActions,
+  .userDataDialogActions { flex-direction: column; }
+  .userDataActions .primary,
+  .userDataActions .secondary,
+  .userDataDialogActions .primary,
+  .userDataDialogActions .secondary { width: 100%; }
 }

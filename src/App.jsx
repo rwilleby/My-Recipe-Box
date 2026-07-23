@@ -1,6 +1,7 @@
 import { createContext, useContext, useMemo, useState, useEffect, useRef } from "react";
 import { categories, recipes } from "./data/recipes";
 import AdminRecipeClassifier from "./components/AdminRecipeClassifier";
+import UserDataBackupSection from "./components/UserDataBackupSection";
 import {
   loadRecipeClassifications,
   mergeRecipeClassifications,
@@ -7099,6 +7100,7 @@ function FavoritesPage({
   addToPlan,
   openRecipeCard,
   setPlan,
+  onUserDataRestored,
 }) {
   const safeFavorites = Array.isArray(favorites) ? favorites : [];
   const savedRecipes = recipes.filter((recipe) => safeFavorites.includes(recipe.id));
@@ -7194,6 +7196,8 @@ function FavoritesPage({
             )}
           </>
         )}
+
+        <UserDataBackupSection onRestored={onUserDataRestored} />
       </main>
 
       <FeaturedComboMealModal
@@ -11724,6 +11728,31 @@ export default function App() {
     [recipeClassifications]
   );
 
+  function refreshRestoredUserData() {
+    const restoredFavorites = loadJSON(STORAGE_KEYS.favorites, []);
+    setFavorites(Array.isArray(restoredFavorites) ? restoredFavorites : []);
+    setPlan(normalizeTwoWeekPlan(loadJSON(STORAGE_KEYS.plan, emptyTwoWeekPlan())));
+    setServings(loadJSON(STORAGE_KEYS.servings, 4));
+    setChecked(loadJSON(STORAGE_KEYS.checked, {}));
+    setPantry(loadJSON(STORAGE_KEYS.pantry, {}));
+    setRefrigerator(normalizeRefrigeratorState(loadJSON(STORAGE_KEYS.refrigerator, { items: {}, customItems: [] })));
+    setFreezer(normalizeFreezerState(loadJSON(STORAGE_KEYS.freezer, { items: {}, customItems: [], customLocations: [] })));
+    setPreparedInventory(normalizePreparedInventory(loadJSON(STORAGE_KEYS.preparedInventory, EMPTY_PREPARED_INVENTORY)));
+
+    const restoredReservations = loadJSON(STORAGE_KEYS.preparedReservations, []);
+    setPreparedReservations(Array.isArray(restoredReservations) ? restoredReservations : []);
+
+    const restoredDecisions = loadJSON(STORAGE_KEYS.componentDecisions, {});
+    setComponentDecisions(restoredDecisions && typeof restoredDecisions === "object" ? restoredDecisions : {});
+
+    const restoredComments = loadJSON(STORAGE_KEYS.shoppingComments, {});
+    setShoppingComments(restoredComments && typeof restoredComments === "object" ? restoredComments : {});
+
+    const restoredCategories = loadJSON(STORAGE_KEYS.productCategories, {});
+    setProductCategories(restoredCategories && typeof restoredCategories === "object" ? restoredCategories : {});
+    setRecipeClassifications(loadRecipeClassifications());
+  }
+
   useEffect(() => {
     const preloadAllSupportingHeroes = () => {
       SUPPORTING_PAGE_HERO_IMAGES.forEach((imagePath, index) => {
@@ -11805,6 +11834,7 @@ export default function App() {
     productCategories,
     setProductCategories,
     classifiedRecipes,
+    onUserDataRestored: refreshRestoredUserData,
   };
 
   return (
@@ -13542,6 +13572,18 @@ The score is not a judgment and it is not medical or dietary advice. It is one p
         <small className="footerDisclaimerLine">
           <button type="button" onClick={() => setActivePage("Disclaimers")}>
             Read my disclaimers.
+          </button>
+          <span aria-hidden="true"> · </span>
+          <button
+            type="button"
+            onClick={() => {
+              setActivePage("Favorites");
+              window.setTimeout(() => {
+                document.getElementById("your-recipe-box-data")?.scrollIntoView({ behavior: "smooth", block: "start" });
+              }, 0);
+            }}
+          >
+            Manage or back up your Recipe Box data
           </button>
         </small>
       </footer>
