@@ -29564,3 +29564,94 @@ body.rrbPopupOpen {
     font-size: 21px !important;
   }
 }
+/* =========================================================
+   FAVORITES CATEGORY ICON + FAVORITES LIBRARY
+   ========================================================= */
+
+/* Keep Favorites the same visual size as the other category icons. */
+.homeFavoritesCategoryIcon {
+  object-fit: cover !important;
+  border-radius: 12px !important;
+}
+
+.homeFavoritesCategoryTile .categoryIconFallback {
+  display: none;
+}
+
+/* Add the new first icon while keeping the row compact. */
+@media (min-width: 1101px) {
+  .homeCategoryGrid {
+    grid-template-columns: repeat(11, minmax(0, 1fr)) !important;
+  }
+}
+
+.favoritesLibraryPage {
+  padding-bottom: 42px;
+}
+
+.favoritesLibrarySection + .favoritesLibrarySection {
+  margin-top: 34px;
+}
+
+.favoritesLibraryHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--line);
+}
+
+.favoritesLibraryHeader h2 {
+  margin: 0;
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  font-size: 22px;
+  line-height: 1.15;
+}
+
+.favoritesLibraryHeader > span {
+  min-width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  padding: 0 9px;
+  border-radius: 999px;
+  background: #eef4e4;
+  color: var(--green);
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.favoriteComboMealGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.favoriteComboMealCard {
+  width: 100%;
+}
+
+@media (max-width: 1000px) {
+  .favoriteComboMealGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .favoriteComboMealGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .favoritesLibraryHeader h2 {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 460px) {
+  .favoriteComboMealGrid {
+    grid-template-columns: 1fr;
+  }
+}

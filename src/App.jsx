@@ -1662,6 +1662,31 @@ function CategoryGrid({ setFilter, setActivePage }) {
       </div>
 
       <div className="categoryGrid homeCategoryGrid">
+        <button
+          type="button"
+          className="categoryTile homeCategoryTile homeFavoritesCategoryTile"
+          onClick={() => {
+            setActivePage("Favorites");
+            window.requestAnimationFrame(() => {
+              window.requestAnimationFrame(() => {
+                window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+              });
+            });
+          }}
+          aria-label="View favorite recipes and combo meals"
+        >
+          <img
+            className="categoryIconImage homeFavoritesCategoryIcon"
+            src={`${import.meta.env.BASE_URL}images/category-icons/favorites.png`}
+            alt=""
+            aria-hidden="true"
+            loading="eager"
+            decoding="async"
+          />
+          <span className="categoryIcon categoryIconFallback" aria-hidden="true">♥</span>
+          <strong>Favorites</strong>
+        </button>
+
         {homeCategories.map((cat) => (
           <button
             key={cat.id}
@@ -6292,41 +6317,120 @@ function FavoritesPage({
   toggleFavorite,
   addToPlan,
   openRecipeCard,
+  setPlan,
 }) {
   const safeFavorites = Array.isArray(favorites) ? favorites : [];
-  const saved = recipes.filter((r) => safeFavorites.includes(r.id));
+  const savedRecipes = recipes.filter((recipe) => safeFavorites.includes(recipe.id));
+  const savedComboMeals = uniqueRecordsByPermanentId(dinnerCombinations).filter((meal) =>
+    safeFavorites.includes(meal.id)
+  );
+  const [selectedMeal, setSelectedMeal] = useState(null);
+  const [selectedMealCard, setSelectedMealCard] = useState(null);
+  const hasFavorites = savedRecipes.length > 0 || savedComboMeals.length > 0;
 
   return (
-    <main className="pageShell">
-      <div className="pageHeader">
-        <div>
-          <div className="aiBadge">SAVED IN THIS BROWSER</div>
-          <h1>Favorites</h1>
-          <p>Recipes you saved on this device. No login or sync required.</p>
+    <>
+      <main className="pageShell favoritesLibraryPage">
+        <div className="pageHeader">
+          <div>
+            <div className="aiBadge">SAVED IN THIS BROWSER</div>
+            <h1>Favorites</h1>
+            <p>
+              Recipe cards and Combo-Meals saved on this device. No login or sync required.
+            </p>
+          </div>
         </div>
-      </div>
 
-      {saved.length === 0 ? (
-        <EmptyState
-          title="No favorites yet"
-          text="Tap the heart on any recipe card to save it here."
-        />
-      ) : (
-        <div className="recipeGrid">
-          {saved.map((recipe) => (
-            <RecipeCard
-              key={recipe.id}
-              recipe={recipe}
-              favorites={favorites}
-              toggleFavorite={toggleFavorite}
-              addToPlan={addToPlan}
-              openRecipeCard={openRecipeCard}
-              cardList={saved}
-            />
-          ))}
-        </div>
-      )}
-    </main>
+        {!hasFavorites ? (
+          <EmptyState
+            title="No favorites yet"
+            text="Tap the heart on any recipe card or Combo-Meal to save it here."
+          />
+        ) : (
+          <>
+            {savedRecipes.length > 0 && (
+              <section className="favoritesLibrarySection" aria-labelledby="favorite-recipes-title">
+                <header className="favoritesLibraryHeader">
+                  <h2 id="favorite-recipes-title">Favorite Recipe Cards</h2>
+                  <span>{savedRecipes.length}</span>
+                </header>
+
+                <div className="recipeGrid">
+                  {savedRecipes.map((recipe) => (
+                    <RecipeCard
+                      key={recipe.id}
+                      recipe={recipe}
+                      favorites={favorites}
+                      toggleFavorite={toggleFavorite}
+                      addToPlan={addToPlan}
+                      openRecipeCard={openRecipeCard}
+                      cardList={savedRecipes}
+                    />
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {savedComboMeals.length > 0 && (
+              <section className="favoritesLibrarySection" aria-labelledby="favorite-combos-title">
+                <header className="favoritesLibraryHeader">
+                  <h2 id="favorite-combos-title">Favorite Combo-Meals</h2>
+                  <span>{savedComboMeals.length}</span>
+                </header>
+
+                <div className="favoriteComboMealGrid">
+                  {savedComboMeals.map((meal) => (
+                    <button
+                      type="button"
+                      className="homeComboMealCard favoriteComboMealCard"
+                      key={meal.id}
+                      onClick={() => setSelectedMeal(meal)}
+                      aria-label={`Open favorite combo meal ${meal.number}: ${meal.title}`}
+                    >
+                      <div className="homeComboMealImage">
+                        <DinnerCombinationImage
+                          meal={meal}
+                          className="homeComboMealImageAsset"
+                          loading="lazy"
+                        />
+                      </div>
+
+                      <span className="homeComboMealText">
+                        <strong>{meal.title}</strong>
+                        <small>{meal.subtitle}</small>
+                        <span
+                          className="homeComboMealBalanceBadge"
+                          title={`MealBalance ${getComboMealBalanceScore(meal)}`}
+                          aria-label={`MealBalance ${getComboMealBalanceScore(meal)}`}
+                        >
+                          {getComboMealBalanceScore(meal)}
+                        </span>
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </section>
+            )}
+          </>
+        )}
+      </main>
+
+      <FeaturedComboMealModal
+        meal={selectedMeal}
+        onClose={() => setSelectedMeal(null)}
+        onViewMeal={setSelectedMealCard}
+        openRecipeCard={openRecipeCard}
+        favorites={favorites}
+        toggleFavorite={toggleFavorite}
+      />
+
+      <FeaturedComboMealCardModal
+        meal={selectedMealCard}
+        onClose={() => setSelectedMealCard(null)}
+        setPlan={setPlan}
+        openRecipeCard={openRecipeCard}
+      />
+    </>
   );
 }
 
