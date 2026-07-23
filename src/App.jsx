@@ -35,6 +35,11 @@ import {
   buildShoppingList,
   formatQty,
 } from "./utils/planning";
+import {
+  PREPARED_COMPONENTS,
+  PREPARED_COMPONENT_CATEGORIES,
+  PREPARED_COMPONENT_SCHEMA_VERSION,
+} from "./data/preparedComponents";
 import "./App.css";
 
 const STORAGE_KEYS = {
@@ -45,6 +50,9 @@ const STORAGE_KEYS = {
   pantry: "rrb_pantryStaples",
   refrigerator: "rrb_refrigeratorInventory",
   freezer: "rrb_freezerInventory",
+  preparedInventory: "rrb_preparedComponentInventory",
+  preparedReservations: "rrb_preparedComponentReservations",
+  componentDecisions: "rrb_preparedComponentDecisions",
 };
 
 const CATEGORY_ICON_IMAGES = {
@@ -1148,6 +1156,190 @@ function MealBalanceInfo({ compact = false }) {
   );
 }
 
+
+const EMPTY_PREPARED_INVENTORY = {
+  version: PREPARED_COMPONENT_SCHEMA_VERSION,
+  records: [],
+  customComponents: [],
+};
+
+function normalizePreparedInventory(value) {
+  if (!value || typeof value !== "object") return { ...EMPTY_PREPARED_INVENTORY };
+  return {
+    version: PREPARED_COMPONENT_SCHEMA_VERSION,
+    records: Array.isArray(value.records)
+      ? value.records.map((record) => ({
+          id: record.id || `pci-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+          componentId: String(record.componentId || ""),
+          packageSizeServings: Math.max(0, Number(record.packageSizeServings) || 0),
+          packagesAvailable: Math.max(0, Number(record.packagesAvailable) || 0),
+          storageLocation: record.storageLocation || "Kitchen freezer",
+          datePrepared: record.datePrepared || "",
+          useByDate: record.useByDate || "",
+          notes: record.notes || "",
+        }))
+      : [],
+    customComponents: Array.isArray(value.customComponents) ? value.customComponents : [],
+  };
+}
+
+function getAllPreparedComponents(preparedInventory) {
+  const safe = normalizePreparedInventory(preparedInventory);
+  const byId = new Map();
+  [...PREPARED_COMPONENTS, ...safe.customComponents].forEach((component) => {
+    if (component?.id) byId.set(component.id, component);
+  });
+  return [...byId.values()];
+}
+
+function getPreparedComponent(componentId, preparedInventory) {
+  return getAllPreparedComponents(preparedInventory).find((item) => item.id === componentId) || null;
+}
+
+function preparedComponentKeywordRequirement(meal) {
+  const text = `${meal?.title || ""} ${meal?.subtitle || ""} ${meal?.mainDish || ""}`.toLowerCase();
+  const matches = [
+    ["pulled pork", "pc-pulled-pork"],
+    ["brisket", "pc-smoked-brisket"],
+    ["taco", "pc-taco-meat"],
+    ["shredded chicken", "pc-shredded-chicken"],
+    ["chicken breast", "pc-cooked-chicken-breast"],
+    ["meatball", "pc-meatballs"],
+    ["chili", "pc-chili"],
+    ["marinara", "pc-marinara-sauce"],
+    ["pizza", "pc-pizza-dough"],
+  ];
+  const match = matches.find(([keyword]) => text.includes(keyword));
+  if (!match) return [];
+  return [{ componentId: match[1], packagesRequired: 1, servingSizePerPackage: 2 }];
+}
+
+function getComboPreparedRequirements(meal) {
+  if (Array.isArray(meal?.preparedComponents)) {
+    return meal.preparedComponents
+      .filter((item) => item?.componentId)
+      .map((item) => ({
+        componentId: item.componentId,
+        packagesRequired: Math.max(1, Number(item.packagesRequired) || 1),
+        servingSizePerPackage: Math.max(1, Number(item.servingSizePerPackage) || 2),
+      }));
+  }
+  return preparedComponentKeywordRequirement(meal);
+}
+
+function getComboRegularGroceryIngredients(meal) {
+  if (Array.isArray(meal?.groceryIngredients)) return meal.groceryIngredients;
+  const text = `${meal?.title || ""} ${meal?.mainDish || ""}`.toLowerCase();
+  if (text.includes("pulled pork")) {
+    return [
+      { name: "Hamburger buns", qty: 1, unit: "package", aisle: "Bread & Bakery" },
+      { name: "Coleslaw mix", qty: 1, unit: "bag", aisle: "Produce" },
+      { name: "Pickles", qty: 1, unit: "jar", aisle: "Condiments" },
+      { name: "Potatoes", qty: 4, unit: "each", aisle: "Produce" },
+    ];
+  }
+  return (meal?.sides || []).map((side) => ({
+    name: side.name,
+    qty: 1,
+    unit: side.serving || "serving",
+    aisle: "Combo Meal Ingredients",
+  }));
+}
+
+function buildPreparedReservationsFromPlan(plan, meals) {
+  const normalized = normalizeTwoWeekPlan(plan);
+  const mealById = Object.fromEntries((meals || []).map((meal) => [meal.id, meal]));
+  const reservations = [];
+  PLANNER_SLOTS.forEach((slot) => {
+    (normalized[slot.key] || []).forEach((mealId, index) => {
+      const meal = mealById[mealId];
+      if (!meal) return;
+      getComboPreparedRequirements(meal).forEach((requirement) => {
+        reservations.push({
+          id: `${slot.key}-${index}-${mealId}-${requirement.componentId}`,
+          slotKey: slot.key,
+          planIndex: index,
+          mealId,
+          componentId: requirement.componentId,
+          packagesReserved: requirement.packagesRequired,
+          servingSizePerPackage: requirement.servingSizePerPackage,
+        });
+      });
+    });
+  });
+  return reservations;
+}
+
+function preparedReservationTotals(reservations) {
+  return (Array.isArray(reservations) ? reservations : []).reduce((totals, item) => {
+    totals[item.componentId] = (totals[item.componentId] || 0) + Math.max(0, Number(item.packagesReserved) || 0);
+    return totals;
+  }, {});
+}
+
+function preparedAvailableTotals(preparedInventory) {
+  return normalizePreparedInventory(preparedInventory).records.reduce((totals, record) => {
+    totals[record.componentId] = (totals[record.componentId] || 0) + Math.max(0, Number(record.packagesAvailable) || 0);
+    return totals;
+  }, {});
+}
+
+function allocatePreparedReservations(preparedInventory, reservations) {
+  const safe = normalizePreparedInventory(preparedInventory);
+  const remainingByComponent = { ...preparedReservationTotals(reservations) };
+  return safe.records
+    .slice()
+    .sort((a, b) => String(a.datePrepared || "").localeCompare(String(b.datePrepared || "")))
+    .map((record) => {
+      const available = Math.max(0, Number(record.packagesAvailable) || 0);
+      const requested = remainingByComponent[record.componentId] || 0;
+      const reserved = Math.min(available, requested);
+      remainingByComponent[record.componentId] = Math.max(0, requested - reserved);
+      return { ...record, packagesReserved: reserved, packagesRemaining: Math.max(0, available - reserved) };
+    });
+}
+
+function consumePreparedPackages(preparedInventory, requirements) {
+  const needed = (requirements || []).reduce((totals, item) => {
+    totals[item.componentId] = (totals[item.componentId] || 0) + Math.max(0, Number(item.packagesRequired) || 0);
+    return totals;
+  }, {});
+  const safe = normalizePreparedInventory(preparedInventory);
+  const records = safe.records
+    .slice()
+    .sort((a, b) => String(a.datePrepared || "").localeCompare(String(b.datePrepared || "")))
+    .map((record) => {
+      const required = needed[record.componentId] || 0;
+      if (!required) return record;
+      const use = Math.min(required, Math.max(0, Number(record.packagesAvailable) || 0));
+      needed[record.componentId] = required - use;
+      return { ...record, packagesAvailable: Math.max(0, Number(record.packagesAvailable) - use) };
+    });
+  return { ...safe, records };
+}
+
+function preparedInventoryStatus(remaining) {
+  if (remaining <= 0) return "none";
+  if (remaining <= 1) return "low";
+  return "available";
+}
+
+function dispatchAddLeftovers(recipe) {
+  window.dispatchEvent(new CustomEvent("rrb:add-leftovers", { detail: { recipe } }));
+}
+
+function AddLeftoversToFreezerButton({ recipe, compact = false }) {
+  return (
+    <button
+      type="button"
+      className={compact ? "addLeftoversButton compact" : "addLeftoversButton"}
+      onClick={() => dispatchAddLeftovers(recipe)}
+    >
+      Add Leftovers to Freezer
+    </button>
+  );
+}
+
 const NAV_GROUPS = [
   {
     label: "ABOUT",
@@ -1186,6 +1378,7 @@ const NAV_GROUPS = [
       { label: "YOUR WEEKLY MEAL PLANNER", page: "Meal Planner" },
       { label: "YOUR FAVORITE RECIPES", page: "Favorites" },
       { label: "REFRIGERATOR INVENTORY", page: "Kitchen Refrigerator" },
+      { label: "PREPARED FREEZER INVENTORY", page: "Prepared Freezer Inventory" },
       { label: "FREEZER INVENTORY", page: "Kitchen Freezer" },
       { label: "PANTRY INVENTORY", page: "Pantry Staples" },
       { label: "HEALTHY SUBSTITUTIONS", page: "Grocery Picks" },
@@ -1246,7 +1439,7 @@ function Header({ activePage, setActivePage, favorites }) {
       label: "MEAL PLANNING",
       page: "Meal Planner",
       items: (NAV_GROUPS.find((group) => group.label === "YOUR KITCHEN")?.items || []).map((item) =>
-        ["Kitchen Refrigerator", "Kitchen Freezer", "Pantry Staples"].includes(item.page)
+        ["Kitchen Refrigerator", "Prepared Freezer Inventory", "Kitchen Freezer", "Pantry Staples"].includes(item.page)
           ? { ...item, level: 1 }
           : item
       ),
@@ -2625,6 +2818,7 @@ function RecipeCard({
                   Add to Planner
                 </button>
               )}
+              <AddLeftoversToFreezerButton recipe={recipe} compact />
               <SmartTipsButton recipe={recipe} />
               <MyRecipeNotesButton recipe={recipe} />
               {isSaladJarRecipe(recipe) && (
@@ -2679,6 +2873,7 @@ function RecipeCard({
                   Add to planner
                 </button>
               )}
+              <AddLeftoversToFreezerButton recipe={recipe} compact />
               <SmartTipsButton recipe={recipe} />
               {isSaladJarRecipe(recipe) && (
                 <ConstructionCalloutButton recipe={recipe} />
@@ -4379,7 +4574,7 @@ function EmptyState({ title, text, children }) {
   );
 }
 
-function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFavorite, openRecipeCard, setActivePage }) {
+function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFavorite, openRecipeCard, setActivePage, preparedInventory, setPreparedInventory }) {
   const normalizedPlan = useMemo(() => normalizeTwoWeekPlan(plan), [plan]);
   const [selectedSlot, setSelectedSlot] = useState("week1-Mon");
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -4425,6 +4620,20 @@ function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFa
       next[slotKey] = (next[slotKey] || []).filter((_, i) => i !== index);
       return next;
     });
+  }
+
+  function completePlannedMeal(slotKey, index, itemId) {
+    const dinnerMeal = resolvePlannerDinnerMeal(itemId);
+    if (dinnerMeal) {
+      const requirements = getComboPreparedRequirements(dinnerMeal);
+      if (requirements.length) {
+        setPreparedInventory((current) => consumePreparedPackages(current, requirements));
+      }
+    } else {
+      const recipe = resolvePlannerRecipe(itemId);
+      if (recipe) dispatchAddLeftovers(recipe);
+    }
+    removeRecipe(slotKey, index);
   }
 
   function clearPlan() {
@@ -4673,6 +4882,13 @@ function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFa
                                   onClick={() => recipe ? openRecipeCard(recipe.id, recipes) : setPlannerDinnerViewer(dinnerMeal)}
                                 >
                                   View
+                                </button>
+                                <button
+                                  className="plannerMiniButton plannerCookedButton"
+                                  onClick={() => completePlannedMeal(slotKey, index, recipeId)}
+                                  title={dinnerMeal ? "Complete meal and use reserved freezer packages" : "Complete meal and add leftovers"}
+                                >
+                                  Cooked
                                 </button>
                                 <button
                                   className="plannerRemoveButton"
@@ -4927,6 +5143,289 @@ function PantryStaplesPage({ pantry, setPantry }) {
 }
 
 
+
+
+function PreparedFreezerInventoryPage({
+  preparedInventory,
+  setPreparedInventory,
+  preparedReservations,
+  setActivePage,
+}) {
+  const safeInventory = normalizePreparedInventory(preparedInventory);
+  const components = getAllPreparedComponents(safeInventory);
+  const allocatedRecords = allocatePreparedReservations(safeInventory, preparedReservations);
+  const [editingId, setEditingId] = useState("");
+  const [showForm, setShowForm] = useState(false);
+  const [form, setForm] = useState({
+    componentId: components[0]?.id || "",
+    packageSizeServings: components[0]?.defaultPackageSize || 2,
+    packagesAvailable: 1,
+    storageLocation: "Kitchen freezer",
+    datePrepared: new Date().toISOString().slice(0, 10),
+    useByDate: "",
+    notes: "",
+  });
+
+  function resetForm() {
+    const first = components[0];
+    setEditingId("");
+    setForm({
+      componentId: first?.id || "",
+      packageSizeServings: first?.defaultPackageSize || 2,
+      packagesAvailable: 1,
+      storageLocation: "Kitchen freezer",
+      datePrepared: new Date().toISOString().slice(0, 10),
+      useByDate: "",
+      notes: "",
+    });
+  }
+
+  function saveRecord(event) {
+    event.preventDefault();
+    if (!form.componentId) return;
+    setPreparedInventory((current) => {
+      const safe = normalizePreparedInventory(current);
+      const record = {
+        id: editingId || `pci-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+        componentId: form.componentId,
+        packageSizeServings: Math.max(1, Number(form.packageSizeServings) || 1),
+        packagesAvailable: Math.max(0, Number(form.packagesAvailable) || 0),
+        storageLocation: form.storageLocation.trim() || "Kitchen freezer",
+        datePrepared: form.datePrepared || "",
+        useByDate: form.useByDate || "",
+        notes: form.notes.trim(),
+      };
+      return {
+        ...safe,
+        records: editingId
+          ? safe.records.map((item) => item.id === editingId ? record : item)
+          : [...safe.records, record],
+      };
+    });
+    resetForm();
+    setShowForm(false);
+  }
+
+  function editRecord(record) {
+    setEditingId(record.id);
+    setForm({
+      componentId: record.componentId,
+      packageSizeServings: record.packageSizeServings,
+      packagesAvailable: record.packagesAvailable,
+      storageLocation: record.storageLocation,
+      datePrepared: record.datePrepared,
+      useByDate: record.useByDate,
+      notes: record.notes || "",
+    });
+    setShowForm(true);
+  }
+
+  function deleteRecord(recordId) {
+    if (!window.confirm("Delete this prepared freezer inventory item?")) return;
+    setPreparedInventory((current) => {
+      const safe = normalizePreparedInventory(current);
+      return { ...safe, records: safe.records.filter((item) => item.id !== recordId) };
+    });
+  }
+
+  function changePackages(recordId, amount) {
+    setPreparedInventory((current) => {
+      const safe = normalizePreparedInventory(current);
+      return {
+        ...safe,
+        records: safe.records.map((record) =>
+          record.id === recordId
+            ? { ...record, packagesAvailable: Math.max(0, Number(record.packagesAvailable || 0) + amount) }
+            : record
+        ),
+      };
+    });
+  }
+
+  const totalAvailable = allocatedRecords.reduce((sum, record) => sum + record.packagesAvailable, 0);
+  const totalReserved = allocatedRecords.reduce((sum, record) => sum + record.packagesReserved, 0);
+  const totalRemaining = allocatedRecords.reduce((sum, record) => sum + record.packagesRemaining, 0);
+
+  return (
+    <main className="pageShell preparedInventoryPage">
+      <div className="pageHeader">
+        <div>
+          <div className="aiBadge">PREPARED COMPONENTS</div>
+          <h1>Freezer Inventory</h1>
+          <p>
+            Track prepared proteins, sauces, doughs, main dishes, sides, and other
+            freezer items by package. Planned Combo Meals reserve packages without
+            removing them until the meal is completed.
+          </p>
+        </div>
+        <div className="pageHeaderActions">
+          <button className="primary" type="button" onClick={() => { resetForm(); setShowForm(true); }}>
+            Add Inventory Item
+          </button>
+          <button className="secondary" type="button" onClick={() => setActivePage("Meal Planner")}>
+            Meal Planner
+          </button>
+        </div>
+      </div>
+
+      <section className="preparedInventorySummary" aria-label="Prepared freezer summary">
+        <div><small>Packages Available</small><strong>{totalAvailable}</strong></div>
+        <div><small>Packages Reserved</small><strong>{totalReserved}</strong></div>
+        <div><small>Remaining</small><strong>{totalRemaining}</strong></div>
+        <div><small>Components</small><strong>{new Set(allocatedRecords.map((item) => item.componentId)).size}</strong></div>
+      </section>
+
+      {showForm && (
+        <form className="preparedInventoryForm" onSubmit={saveRecord}>
+          <header>
+            <h2>{editingId ? "Edit Freezer Item" : "Add Prepared Freezer Item"}</h2>
+            <button type="button" className="modalCloseButton" onClick={() => { setShowForm(false); resetForm(); }}>×</button>
+          </header>
+          <label>
+            <span>Prepared component</span>
+            <select
+              value={form.componentId}
+              onChange={(event) => {
+                const component = components.find((item) => item.id === event.target.value);
+                setForm((current) => ({
+                  ...current,
+                  componentId: event.target.value,
+                  packageSizeServings: component?.defaultPackageSize || current.packageSizeServings,
+                }));
+              }}
+            >
+              {PREPARED_COMPONENT_CATEGORIES.map((category) => (
+                <optgroup key={category} label={category}>
+                  {components.filter((item) => item.category === category).map((component) => (
+                    <option key={component.id} value={component.id}>{component.name}</option>
+                  ))}
+                </optgroup>
+              ))}
+            </select>
+          </label>
+          <label><span>Servings per package</span><input type="number" min="1" step="1" value={form.packageSizeServings} onChange={(e) => setForm((c) => ({ ...c, packageSizeServings: e.target.value }))} /></label>
+          <label><span>Number of packages</span><input type="number" min="0" step="1" value={form.packagesAvailable} onChange={(e) => setForm((c) => ({ ...c, packagesAvailable: e.target.value }))} /></label>
+          <label><span>Freezer location</span><input value={form.storageLocation} onChange={(e) => setForm((c) => ({ ...c, storageLocation: e.target.value }))} list="prepared-freezer-locations" /></label>
+          <datalist id="prepared-freezer-locations">
+            <option value="Kitchen freezer" />
+            <option value="Garage freezer" />
+            <option value="Chest freezer" />
+            <option value="Upright freezer" />
+          </datalist>
+          <label><span>Date prepared</span><input type="date" value={form.datePrepared} onChange={(e) => setForm((c) => ({ ...c, datePrepared: e.target.value }))} /></label>
+          <label><span>Use-by date</span><input type="date" value={form.useByDate} onChange={(e) => setForm((c) => ({ ...c, useByDate: e.target.value }))} /></label>
+          <label className="preparedInventoryNotes"><span>Notes</span><textarea value={form.notes} onChange={(e) => setForm((c) => ({ ...c, notes: e.target.value }))} /></label>
+          <div className="preparedInventoryFormActions">
+            <button className="primary" type="submit">Save Item</button>
+            <button className="secondary" type="button" onClick={() => { setShowForm(false); resetForm(); }}>Cancel</button>
+          </div>
+        </form>
+      )}
+
+      {allocatedRecords.length === 0 ? (
+        <EmptyState
+          title="No prepared freezer items yet"
+          text="Add the first package of pulled pork, brisket, taco meat, sauce, dough, or another prepared component."
+        />
+      ) : (
+        <div className="preparedInventoryTableWrap">
+          <div className="preparedInventoryTable preparedInventoryHeader">
+            <span>Component</span><span>Category</span><span>Package Size</span>
+            <span>Available</span><span>Reserved</span><span>Remaining</span>
+            <span>Location</span><span>Date Prepared</span><span>Actions</span>
+          </div>
+          {allocatedRecords.map((record) => {
+            const component = getPreparedComponent(record.componentId, safeInventory);
+            const state = preparedInventoryStatus(record.packagesRemaining);
+            return (
+              <article className={`preparedInventoryTable preparedInventoryRow ${state}`} key={record.id}>
+                <div><strong>{component?.name || "Unknown component"}</strong>{record.notes && <small>{record.notes}</small>}</div>
+                <span>{component?.category || "Other Freezer Item"}</span>
+                <span>{record.packageSizeServings} servings</span>
+                <span>{record.packagesAvailable}</span>
+                <span>{record.packagesReserved}</span>
+                <span className="preparedRemaining">{record.packagesRemaining}</span>
+                <span>{record.storageLocation}</span>
+                <span>{record.datePrepared || "—"}</span>
+                <div className="preparedInventoryRowActions">
+                  <button type="button" onClick={() => changePackages(record.id, 1)}>+ Package</button>
+                  <button type="button" onClick={() => changePackages(record.id, -1)} disabled={record.packagesAvailable <= 0}>Use 1</button>
+                  <button type="button" onClick={() => editRecord(record)}>Edit</button>
+                  <button type="button" className="danger" onClick={() => deleteRecord(record.id)}>Delete</button>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      )}
+    </main>
+  );
+}
+
+function AddLeftoversModal({ recipe, onClose, preparedInventory, setPreparedInventory }) {
+  const components = getAllPreparedComponents(preparedInventory);
+  const suggestedComponent = components.find((component) =>
+    `${recipe?.title || ""}`.toLowerCase().includes(component.name.toLowerCase())
+  ) || components[0];
+  const [form, setForm] = useState({
+    componentId: suggestedComponent?.id || "",
+    totalServings: Number(recipe?.servings) || 4,
+    servingsPerPackage: suggestedComponent?.defaultPackageSize || 2,
+    packagesCreated: Math.floor((Number(recipe?.servings) || 4) / (suggestedComponent?.defaultPackageSize || 2)),
+    storageLocation: "Kitchen freezer",
+    datePrepared: new Date().toISOString().slice(0, 10),
+    useByDate: "",
+    notes: recipe ? `Prepared from ${recipe.id}: ${recipe.title}` : "",
+  });
+
+  useEffect(() => {
+    const suggested = Math.floor(Math.max(0, Number(form.totalServings) || 0) / Math.max(1, Number(form.servingsPerPackage) || 1));
+    setForm((current) => ({ ...current, packagesCreated: suggested }));
+  }, [form.totalServings, form.servingsPerPackage]);
+
+  if (!recipe) return null;
+
+  function save(event) {
+    event.preventDefault();
+    if (!form.componentId) return;
+    setPreparedInventory((current) => {
+      const safe = normalizePreparedInventory(current);
+      return {
+        ...safe,
+        records: [...safe.records, {
+          id: `pci-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+          componentId: form.componentId,
+          packageSizeServings: Math.max(1, Number(form.servingsPerPackage) || 1),
+          packagesAvailable: Math.max(0, Number(form.packagesCreated) || 0),
+          storageLocation: form.storageLocation || "Kitchen freezer",
+          datePrepared: form.datePrepared,
+          useByDate: form.useByDate,
+          notes: form.notes,
+        }],
+      };
+    });
+    onClose();
+  }
+
+  return (
+    <div className="preparedModalOverlay" role="presentation" onMouseDown={onClose}>
+      <form className="preparedModal" role="dialog" aria-modal="true" aria-labelledby="add-leftovers-title" onSubmit={save} onMouseDown={(e) => e.stopPropagation()}>
+        <header><div><span className="aiBadge">BATCH COOKING</span><h2 id="add-leftovers-title">Add Leftovers to Freezer</h2><p>{recipe.id} · {recipe.title}</p></div><button type="button" className="modalCloseButton" onClick={onClose}>×</button></header>
+        <div className="preparedModalGrid">
+          <label><span>Prepared component</span><select value={form.componentId} onChange={(e) => setForm((c) => ({ ...c, componentId: e.target.value }))}>{components.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label>
+          <label><span>Total cooked servings</span><input type="number" min="0" step="1" value={form.totalServings} onChange={(e) => setForm((c) => ({ ...c, totalServings: e.target.value }))} /></label>
+          <label><span>Servings per package</span><input type="number" min="1" step="1" value={form.servingsPerPackage} onChange={(e) => setForm((c) => ({ ...c, servingsPerPackage: e.target.value }))} /></label>
+          <label><span>Packages created</span><input type="number" min="0" step="1" value={form.packagesCreated} onChange={(e) => setForm((c) => ({ ...c, packagesCreated: e.target.value }))} /><small>Suggested from total servings; you may override it.</small></label>
+          <label><span>Storage location</span><input value={form.storageLocation} onChange={(e) => setForm((c) => ({ ...c, storageLocation: e.target.value }))} /></label>
+          <label><span>Preparation date</span><input type="date" value={form.datePrepared} onChange={(e) => setForm((c) => ({ ...c, datePrepared: e.target.value }))} /></label>
+          <label><span>Use-by date</span><input type="date" value={form.useByDate} onChange={(e) => setForm((c) => ({ ...c, useByDate: e.target.value }))} /></label>
+          <label className="preparedModalNotes"><span>Notes</span><textarea value={form.notes} onChange={(e) => setForm((c) => ({ ...c, notes: e.target.value }))} /></label>
+        </div>
+        <footer><button className="primary" type="submit">Add Packages to Freezer</button><button className="secondary" type="button" onClick={onClose}>Cancel</button></footer>
+      </form>
+    </div>
+  );
+}
 
 function normalizeRefrigeratorState(value) {
   if (!value || typeof value !== "object") {
@@ -5941,7 +6440,7 @@ function FreezerInventoryPage({ freezer, setFreezer, setActivePage }) {
   );
 }
 
-function ShoppingListPage({ plan, checked, setChecked, servings, pantry, refrigerator, freezer, setActivePage }) {
+function ShoppingListPage({ plan, checked, setChecked, servings, pantry, refrigerator, freezer, setActivePage, preparedInventory, preparedReservations, componentDecisions, setComponentDecisions }) {
   const recipeIdSet = useMemo(() => new Set(recipes.map((recipe) => recipe.id)), []);
   const dinnerCombinationById = useMemo(
     () => Object.fromEntries(dinnerCombinations.map((meal) => [meal.id, meal])),
@@ -5974,25 +6473,60 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, refrige
           unit: "meal",
           aisle: "Dinner Combinations",
         });
-        references.push({
-          name: `Main: ${meal.mainDish}`,
-          qty: 1,
-          unit: meal.mainServing || "serving",
-          aisle: "Dinner Combinations",
-        });
-        (meal.sides || []).forEach((side) => {
+        const preparedRequirements = getComboPreparedRequirements(meal);
+        if (preparedRequirements.length === 0) {
           references.push({
-            name: `Side: ${side.name}`,
+            name: `Main: ${meal.mainDish}`,
             qty: 1,
-            unit: side.serving || "serving",
+            unit: meal.mainServing || "serving",
             aisle: "Dinner Combinations",
           });
+        }
+        getComboRegularGroceryIngredients(meal).forEach((item) => {
+          references.push(item);
         });
       });
     });
 
     return references;
   }, [plan, dinnerCombinationById]);
+
+  const preparedRequirementSummary = useMemo(() => {
+    const normalized = normalizeTwoWeekPlan(plan);
+    const totals = {};
+    PLANNER_SLOTS.forEach((slot) => {
+      (normalized[slot.key] || []).forEach((mealId) => {
+        const meal = dinnerCombinationById[mealId];
+        if (!meal) return;
+        getComboPreparedRequirements(meal).forEach((requirement) => {
+          const current = totals[requirement.componentId] || {
+            componentId: requirement.componentId,
+            packagesRequired: 0,
+            servingSizePerPackage: requirement.servingSizePerPackage,
+          };
+          current.packagesRequired += requirement.packagesRequired;
+          totals[requirement.componentId] = current;
+        });
+      });
+    });
+    return Object.values(totals);
+  }, [plan, dinnerCombinationById]);
+
+  const preparedAvailability = useMemo(() => preparedAvailableTotals(preparedInventory), [preparedInventory]);
+  const preparedOnHand = preparedRequirementSummary.filter((item) => {
+    const decision = componentDecisions[item.componentId]?.action;
+    return decision === "on-hand" || (decision !== "buy" && decision !== "batch" && decision !== "substitute" && (preparedAvailability[item.componentId] || 0) >= item.packagesRequired);
+  });
+  const preparedMissing = preparedRequirementSummary.filter((item) => !preparedOnHand.includes(item));
+  const preparedToBuy = preparedMissing.filter((item) => componentDecisions[item.componentId]?.action === "buy");
+  const preparedToBatch = preparedMissing.filter((item) => componentDecisions[item.componentId]?.action === "batch");
+
+  function updateComponentDecision(componentId, patch) {
+    setComponentDecisions((current) => ({
+      ...(current || {}),
+      [componentId]: { ...(current?.[componentId] || {}), ...patch },
+    }));
+  }
 
   const refrigeratorShoppingItems = useMemo(
     () => buildRefrigeratorGroceryItems(refrigerator),
@@ -6278,12 +6812,80 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, refrige
         </div>
       </div>
 
-      {list.length === 0 ? (
+      {list.length === 0 && preparedRequirementSummary.length === 0 ? (
         <EmptyState
           title="Your shopping list is empty"
           text="Add recipes to your weekly planner to generate a grocery list."
         />
       ) : (
+        <>
+        <div className="preparedShoppingSections">
+          <section className="shoppingListSection preparedOnHandSection">
+            <div className="shoppingListSectionHeader">
+              <div><h2>ALREADY ON HAND</h2><p>Prepared components covered by freezer inventory or manually verified.</p></div>
+              <strong>{preparedOnHand.length}</strong>
+            </div>
+            {preparedOnHand.length ? preparedOnHand.map((requirement) => {
+              const component = getPreparedComponent(requirement.componentId, preparedInventory);
+              return (
+                <div className="preparedShoppingItem onHand" key={requirement.componentId}>
+                  <span className="preparedStatusDot" />
+                  <div><strong>{component?.name || requirement.componentId}</strong><small>{requirement.packagesRequired} package(s) required · {(preparedAvailability[requirement.componentId] || 0)} available</small></div>
+                  <span>On Hand</span>
+                </div>
+              );
+            }) : <p className="preparedShoppingEmpty">No prepared components are currently verified on hand.</p>}
+          </section>
+
+          <section className="shoppingListSection preparedMissingSection">
+            <div className="shoppingListSectionHeader">
+              <div><h2>PROTEINS OR COMPONENTS TO BUY</h2><p>Choose how to handle unavailable prepared components.</p></div>
+              <strong>{preparedMissing.length}</strong>
+            </div>
+            {preparedMissing.length ? preparedMissing.map((requirement) => {
+              const component = getPreparedComponent(requirement.componentId, preparedInventory);
+              const decision = componentDecisions[requirement.componentId] || {};
+              return (
+                <div className="preparedShoppingItem missing" key={requirement.componentId}>
+                  <span className="preparedStatusDot" />
+                  <div><strong>{component?.name || requirement.componentId}</strong><small>{requirement.packagesRequired} package(s) required · Not On Hand</small></div>
+                  <select value={decision.action || ""} onChange={(e) => updateComponentDecision(requirement.componentId, { action: e.target.value })} aria-label={`Action for ${component?.name || requirement.componentId}`}>
+                    <option value="">Choose action</option>
+                    <option value="buy">Add to grocery list</option>
+                    <option value="batch">Add to batch-prep list</option>
+                    <option value="on-hand">Mark as already on hand</option>
+                    <option value="substitute">Substitute another component</option>
+                  </select>
+                  {decision.action === "substitute" && (
+                    <select value={decision.substituteComponentId || ""} onChange={(e) => updateComponentDecision(requirement.componentId, { substituteComponentId: e.target.value })}>
+                      <option value="">Choose substitute</option>
+                      {getAllPreparedComponents(preparedInventory).filter((item) => item.id !== requirement.componentId).map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}
+                    </select>
+                  )}
+                </div>
+              );
+            }) : <p className="preparedShoppingEmpty">All required prepared components are available.</p>}
+          </section>
+
+          <section className="shoppingListSection preparedBatchSection">
+            <div className="shoppingListSectionHeader"><div><h2>BATCH PREP NEEDED</h2><p>Components selected for advance cooking.</p></div><strong>{preparedToBatch.length}</strong></div>
+            {preparedToBatch.map((item) => {
+              const component = getPreparedComponent(item.componentId, preparedInventory);
+              return <div className="preparedShoppingItem batch" key={item.componentId}><span className="preparedStatusDot" /><div><strong>{component?.name || item.componentId}</strong><small>Prepare {item.packagesRequired} package(s)</small></div></div>;
+            })}
+          </section>
+
+          {preparedToBuy.length > 0 && (
+            <section className="shoppingListSection preparedBuySection">
+              <div className="shoppingListSectionHeader"><div><h2>COMPONENTS SELECTED TO BUY</h2><p>These remain separate from prepared items already on hand.</p></div><strong>{preparedToBuy.length}</strong></div>
+              {preparedToBuy.map((item) => {
+                const component = getPreparedComponent(item.componentId, preparedInventory);
+                return <div className="preparedShoppingItem buy" key={item.componentId}><span className="preparedStatusDot" /><div><strong>{component?.name || item.componentId}</strong><small>Buy enough for {item.packagesRequired} prepared package(s)</small></div></div>;
+              })}
+            </section>
+          )}
+        </div>
+
         <div className="shoppingListSections">
           <section className="shoppingListSection">
             <div className="shoppingListSectionHeader">
@@ -6348,6 +6950,7 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, refrige
             )}
           </section>
         </div>
+        </>
       )}
     </main>
   );
@@ -8775,6 +9378,9 @@ function MealBalanceGuidePage({ setActivePage }) {
 }
 
 function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard, favorites, toggleFavorite }) {
+  const preparedRequirements = getComboPreparedRequirements(meal);
+  const regularGroceryIngredients = getComboRegularGroceryIngredients(meal);
+
   const [activeRecipePopup, setActiveRecipePopup] = useState(null);
   const [selectedPlannerDay, setSelectedPlannerDay] = useState("week1-Mon");
   const [addedMessage, setAddedMessage] = useState("");
@@ -8998,7 +9604,27 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard, favorite
         {addedMessage && <p className="dinnerCombinationAddedMessage">{addedMessage}</p>}
       </section>
 
-      <details className="dinnerCombinationHeating">
+                {(preparedRequirements.length > 0 || regularGroceryIngredients.length > 0) && (
+            <section className="comboComponentRequirements" aria-label="Combo Meal component requirements">
+              {preparedRequirements.length > 0 && (
+                <div>
+                  <h3>Prepared Components</h3>
+                  {preparedRequirements.map((requirement) => {
+                    const component = PREPARED_COMPONENTS.find((item) => item.id === requirement.componentId);
+                    return <p key={requirement.componentId}><strong>{component?.name || requirement.componentId}</strong><span>{requirement.packagesRequired} package · {requirement.servingSizePerPackage} servings</span></p>;
+                  })}
+                </div>
+              )}
+              {regularGroceryIngredients.length > 0 && (
+                <div>
+                  <h3>Regular Grocery Ingredients</h3>
+                  {regularGroceryIngredients.map((item) => <p key={`${item.name}-${item.unit}`}><strong>{item.name}</strong><span>{item.qty} {item.unit}</span></p>)}
+                </div>
+              )}
+            </section>
+          )}
+
+<details className="dinnerCombinationHeating">
         <summary>Heating & freezer notes</summary>
         <div>
           <p><strong>Freezer life:</strong> {meal.freezerLife}</p>
@@ -10836,6 +11462,18 @@ export default function App() {
   const [freezer, setFreezer] = useState(() =>
     normalizeFreezerState(loadJSON(STORAGE_KEYS.freezer, { items: {}, customItems: [], customLocations: [] }))
   );
+  const [preparedInventory, setPreparedInventory] = useState(() =>
+    normalizePreparedInventory(loadJSON(STORAGE_KEYS.preparedInventory, EMPTY_PREPARED_INVENTORY))
+  );
+  const [preparedReservations, setPreparedReservations] = useState(() => {
+    const stored = loadJSON(STORAGE_KEYS.preparedReservations, []);
+    return Array.isArray(stored) ? stored : [];
+  });
+  const [componentDecisions, setComponentDecisions] = useState(() => {
+    const stored = loadJSON(STORAGE_KEYS.componentDecisions, {});
+    return stored && typeof stored === "object" ? stored : {};
+  });
+  const [leftoversRecipe, setLeftoversRecipe] = useState(null);
   const [filter, setFilter] = useState("");
   const [cardViewer, setCardViewer] = useState(null);
   const [recipeClassifications, setRecipeClassifications] = useState(() =>
@@ -10854,6 +11492,24 @@ export default function App() {
   useEffect(() => saveJSON(STORAGE_KEYS.pantry, pantry), [pantry]);
   useEffect(() => saveJSON(STORAGE_KEYS.refrigerator, refrigerator), [refrigerator]);
   useEffect(() => saveJSON(STORAGE_KEYS.freezer, freezer), [freezer]);
+  useEffect(() => saveJSON(STORAGE_KEYS.preparedInventory, preparedInventory), [preparedInventory]);
+  useEffect(() => saveJSON(STORAGE_KEYS.preparedReservations, preparedReservations), [preparedReservations]);
+  useEffect(() => saveJSON(STORAGE_KEYS.componentDecisions, componentDecisions), [componentDecisions]);
+
+  useEffect(() => {
+    const next = buildPreparedReservationsFromPlan(plan, dinnerCombinations);
+    setPreparedReservations((current) =>
+      JSON.stringify(current) === JSON.stringify(next) ? current : next
+    );
+  }, [plan]);
+
+  useEffect(() => {
+    function handleAddLeftovers(event) {
+      if (event.detail?.recipe) setLeftoversRecipe(event.detail.recipe);
+    }
+    window.addEventListener("rrb:add-leftovers", handleAddLeftovers);
+    return () => window.removeEventListener("rrb:add-leftovers", handleAddLeftovers);
+  }, []);
   useEffect(
     () => saveRecipeClassifications(recipeClassifications),
     [recipeClassifications]
@@ -10929,6 +11585,12 @@ export default function App() {
     setRefrigerator,
     freezer,
     setFreezer,
+    preparedInventory,
+    setPreparedInventory,
+    preparedReservations,
+    setPreparedReservations,
+    componentDecisions,
+    setComponentDecisions,
     classifiedRecipes,
   };
 
@@ -11037,6 +11699,20 @@ export default function App() {
           setActivePage={setActivePage}
         />
       )}
+      {activePage === "Prepared Freezer Inventory" && (
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-page-freezer.jpg"
+            alt="Organized freezer with labeled prepared meal packages"
+            eyebrow="MEAL PLANNING"
+            title="Prepared Freezer Inventory"
+            text="Track prepared proteins, sauces, doughs, main dishes, sides, and other freezer components by package. Combo Meals reserve available packages so the same item cannot be planned twice."
+            className="pageHeroDepth464"
+          />
+          <PreparedFreezerInventoryPage {...pageProps} />
+        </>
+      )}
+
       {activePage === "Reference Guides" && (
         <>
           <PageHeroImage
@@ -12630,6 +13306,13 @@ The score is not a judgment and it is not medical or dietary advice. It is one p
           />
         </>
       )}
+      <AddLeftoversModal
+        recipe={leftoversRecipe}
+        onClose={() => setLeftoversRecipe(null)}
+        preparedInventory={preparedInventory}
+        setPreparedInventory={setPreparedInventory}
+      />
+
 <RecipeCardViewer
         viewer={cardViewer}
         onClose={() => setCardViewer(null)}
