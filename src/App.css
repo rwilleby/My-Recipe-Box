@@ -29840,3 +29840,140 @@ body.rrbPopupOpen {
     font-size: 8px !important;
   }
 }
+/* =========================================================
+   FOOD SAFETY PAGE — ACCORDION PRESENTATION
+   ========================================================= */
+
+.foodSafetyAccordion {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 10px !important;
+}
+
+.foodSafetyAccordionItem {
+  overflow: hidden !important;
+  border: 1px solid rgba(20, 83, 45, .16) !important;
+  border-radius: 12px !important;
+  background: #ffffff !important;
+  box-shadow: 0 5px 14px rgba(17, 24, 39, .04) !important;
+}
+
+.foodSafetyAccordionItem summary {
+  min-height: 50px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 16px !important;
+  padding: 12px 15px !important;
+  cursor: pointer !important;
+  list-style: none !important;
+  color: #173d28 !important;
+  background: #f8faf7 !important;
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif !important;
+  font-size: 18px !important;
+  line-height: 1.2 !important;
+  font-weight: 700 !important;
+  transition: background .16s ease, color .16s ease !important;
+}
+
+.foodSafetyAccordionItem summary::-webkit-details-marker {
+  display: none !important;
+}
+
+.foodSafetyAccordionItem summary::marker {
+  display: none !important;
+  content: "" !important;
+}
+
+.foodSafetyAccordionItem summary:hover {
+  background: #f1f6eb !important;
+}
+
+.foodSafetyAccordionItem summary:focus-visible {
+  outline: 3px solid rgba(122, 154, 61, .45) !important;
+  outline-offset: -3px !important;
+}
+
+.foodSafetyAccordionItem[open] summary {
+  border-bottom: 1px solid rgba(20, 83, 45, .12) !important;
+  background: #eef4e4 !important;
+}
+
+.foodSafetyAccordionChevron {
+  flex: 0 0 auto !important;
+  width: 28px !important;
+  height: 28px !important;
+  display: grid !important;
+  place-items: center !important;
+  border-radius: 50% !important;
+  background: #ffffff !important;
+  color: #56732a !important;
+  font-family: Inter, system-ui, sans-serif !important;
+  font-size: 18px !important;
+  line-height: 1 !important;
+  transition: transform .18s ease !important;
+}
+
+.foodSafetyAccordionItem[open] .foodSafetyAccordionChevron {
+  transform: rotate(180deg) !important;
+}
+
+.foodSafetyAccordionContent {
+  padding: 14px 16px 16px !important;
+  color: #374151 !important;
+}
+
+.foodSafetyAccordionContent > :first-child {
+  margin-top: 0 !important;
+}
+
+.foodSafetyAccordionContent > :last-child {
+  margin-bottom: 0 !important;
+}
+
+.foodSafetyAccordionContent h4 {
+  margin: 15px 0 6px !important;
+  color: #173d28 !important;
+  font-family: Inter, system-ui, sans-serif !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+}
+
+.foodSafetyAccordionContent p,
+.foodSafetyAccordionContent li {
+  font-size: 15px !important;
+  line-height: 1.55 !important;
+}
+
+.foodSafetyAccordionContent ul {
+  margin: 8px 0 12px !important;
+  padding-left: 22px !important;
+}
+
+@media (max-width: 700px) {
+  .foodSafetyAccordion {
+    gap: 8px !important;
+  }
+
+  .foodSafetyAccordionItem summary {
+    min-height: 46px !important;
+    padding: 10px 12px !important;
+    font-size: 16px !important;
+  }
+
+  .foodSafetyAccordionContent {
+    padding: 12px 13px 14px !important;
+  }
+
+  .foodSafetyAccordionContent p,
+  .foodSafetyAccordionContent li {
+    font-size: 14px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .foodSafetyAccordionChevron,
+  .foodSafetyAccordionItem summary {
+    transition: none !important;
+  }
+}
