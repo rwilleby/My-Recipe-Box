@@ -32145,3 +32145,158 @@ body.rrbPopupOpen {
   .userDataDialogActions .primary,
   .userDataDialogActions .secondary { width: 100%; }
 }
+
+/* ================================
+   PRIVACY & YOUR DATA SUPPORTING PAGE
+   ================================ */
+
+.privacyDataPage {
+  padding-top: 30px;
+}
+
+.privacyDataContent {
+  width: min(100%, 980px);
+  margin: 0 auto;
+  display: grid;
+  gap: 18px;
+}
+
+.privacyDataSection,
+.privacySummaryBox,
+.privacyPageNotice {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: clamp(20px, 3vw, 30px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .04);
+}
+
+.privacyDataSection h2,
+.privacySummaryBox h2 {
+  margin: 0 0 12px;
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  font-size: 22px;
+  line-height: 1.2;
+  color: #111827;
+}
+
+.privacyDataSection p,
+.privacyPageNotice p {
+  margin: 0 0 12px;
+  max-width: 78ch;
+  color: #374151;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.privacyDataSection p:last-child,
+.privacyPageNotice p:last-child {
+  margin-bottom: 0;
+}
+
+.privacyDataSection ul,
+.privacySummaryBox ul {
+  margin: 12px 0 16px;
+  padding-left: 24px;
+  color: #374151;
+  line-height: 1.55;
+}
+
+.privacyDataSection li,
+.privacySummaryBox li {
+  margin: 6px 0;
+}
+
+.privacySummaryBox {
+  border-left: 5px solid var(--green);
+  background: #f7fbf7;
+}
+
+.privacySummaryBox ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 28px;
+  margin-bottom: 0;
+  list-style: none;
+  padding-left: 0;
+}
+
+.privacySummaryBox li {
+  position: relative;
+  padding-left: 27px;
+}
+
+.privacySummaryBox li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--green);
+  font-weight: 800;
+}
+
+.privacyInlineButton,
+.userDataLearnMore {
+  border: 0;
+  background: transparent;
+  color: var(--green);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  padding: 4px 0;
+}
+
+.privacyInlineButton:hover,
+.userDataLearnMore:hover {
+  text-decoration-thickness: 2px;
+}
+
+.privacyInlineButton:focus-visible,
+.userDataLearnMore:focus-visible {
+  outline: 3px solid rgba(20, 83, 45, .3);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.userDataLearnMore {
+  display: inline-block;
+  margin-top: 8px;
+  text-align: left;
+  font-size: 14px;
+}
+
+.privacyContact {
+  color: #374151;
+  font-style: normal;
+  line-height: 1.7;
+}
+
+.privacyContact a {
+  color: var(--green);
+  font-weight: 700;
+}
+
+.privacyPageNotice {
+  background: #fbfaf7;
+}
+
+.privacyPageNotice strong {
+  display: block;
+  margin-bottom: 8px;
+  color: #111827;
+}
+
+@media (max-width: 720px) {
+  .privacyDataContent {
+    gap: 14px;
+  }
+
+  .privacyDataSection h2,
+  .privacySummaryBox h2 {
+    font-size: 20px;
+  }
+
+  .privacySummaryBox ul {
+    grid-template-columns: 1fr;
+  }
+}

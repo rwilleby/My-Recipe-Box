@@ -2,6 +2,7 @@ import { createContext, useContext, useMemo, useState, useEffect, useRef } from 
 import { categories, recipes } from "./data/recipes";
 import AdminRecipeClassifier from "./components/AdminRecipeClassifier";
 import UserDataBackupSection from "./components/UserDataBackupSection";
+import PrivacyYourDataPage from "./components/PrivacyYourDataPage";
 import {
   loadRecipeClassifications,
   mergeRecipeClassifications,
@@ -1387,6 +1388,7 @@ const NAV_GROUPS = [
       { label: "AFFILIATE MARKETING", page: "Affiliate Marketing" },
       { label: "SUBMIT YOUR FAMILY RECIPES", page: "Submit Recipes" },
       { label: "CONTACT ME", page: "Contact Me" },
+      { label: "PRIVACY & YOUR DATA", page: "Privacy & Your Data" },
       { label: "DISCLAIMERS", page: "Disclaimers" },
     ],
   },
@@ -7197,7 +7199,7 @@ function FavoritesPage({
           </>
         )}
 
-        <UserDataBackupSection onRestored={onUserDataRestored} />
+        <UserDataBackupSection onRestored={onUserDataRestored} onLearnMore={() => setActivePage("Privacy & Your Data")} />
       </main>
 
       <FeaturedComboMealModal
@@ -11972,6 +11974,22 @@ These pages are designed to be easy to scan, print, or revisit when needed. They
         </>
       )}
 
+      {activePage === "Privacy & Your Data" && (
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-page-about-us.jpg"
+            alt="Robert’s Recipe Box privacy and browser-data information"
+            eyebrow="ABOUT US"
+            title="Privacy & Your Data"
+            text="Robert’s Recipe Box was designed to provide useful recipe-planning tools without requiring a visitor account, email address, subscription, or password. Supported personal information is kept in the visitor’s browser whenever practical.
+
+This page explains what is saved locally, how Backup and Restore work, what outside services may process, and the practical limits of browser storage and online security."
+            className="pageHeroDepth464 privacyDataHero"
+          />
+          <PrivacyYourDataPage setActivePage={setActivePage} />
+        </>
+      )}
+
       {activePage === "Disclaimers" && (
         <>
           <PageHeroImage
@@ -13572,6 +13590,10 @@ The score is not a judgment and it is not medical or dietary advice. It is one p
         <small className="footerDisclaimerLine">
           <button type="button" onClick={() => setActivePage("Disclaimers")}>
             Read my disclaimers.
+          </button>
+          <span aria-hidden="true"> · </span>
+          <button type="button" onClick={() => setActivePage("Privacy & Your Data")}>
+            Privacy & Your Data
           </button>
           <span aria-hidden="true"> · </span>
           <button
