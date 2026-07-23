@@ -29313,3 +29313,55 @@ body.rrbPopupOpen {
     transition: none !important;
   }
 }
+/* =========================================================
+   ABOUT MENU RESTORE + ONE-LINE QUICK OVERVIEW CONTROL
+   ========================================================= */
+
+/* Keep the closed Quick Overview control on one horizontal line. */
+.homeMealJourneyToggle {
+  min-height: 48px !important;
+  padding: 8px 14px !important;
+}
+
+.homeMealJourneyToggleText {
+  display: flex !important;
+  align-items: baseline !important;
+  gap: 12px !important;
+  min-width: 0 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+}
+
+.homeMealJourneyToggleText strong {
+  flex: 0 0 auto !important;
+  font-size: 17px !important;
+  line-height: 1.1 !important;
+}
+
+.homeMealJourneyToggleText small {
+  min-width: 0 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  font-size: 11.5px !important;
+  line-height: 1.1 !important;
+}
+
+@media (max-width: 760px) {
+  .homeMealJourneyToggle {
+    min-height: 46px !important;
+    padding: 8px 11px !important;
+  }
+
+  .homeMealJourneyToggleText {
+    gap: 8px !important;
+  }
+
+  .homeMealJourneyToggleText strong {
+    font-size: 15px !important;
+  }
+
+  .homeMealJourneyToggleText small {
+    font-size: 10px !important;
+  }
+}
