@@ -3913,7 +3913,7 @@ function HomeMealJourneyAccordion({ setActivePage }) {
           aria-controls={panelId}
         >
           <span className="homeMealJourneyToggleText">
-            <strong>{isOpen ? "Hide the Meal Journey" : "See How Robert’s Recipe Box Works"}</strong>
+            <strong>{isOpen ? "Hide the Meal Journey" : "Using our system"}</strong>
             <small>Choose → Plan → Shop → Prepare → Portion → Freeze → Store → Reheat → Enjoy</small>
           </span>
           <span className="homeMealJourneyChevron" aria-hidden="true">⌄</span>

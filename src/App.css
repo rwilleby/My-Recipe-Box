@@ -28977,3 +28977,65 @@ body.rrbPopupOpen {
   .homeMealJourneyPanel { transition: none !important; animation: none !important; }
   html:focus-within { scroll-behavior: auto; }
 }
+/* =========================================================
+   MEAL JOURNEY ACCORDION — THINNER SINGLE-LINE CONTROL
+   ========================================================= */
+
+.homeMealJourneyToggle {
+  min-height: 48px !important;
+  padding: 8px 14px !important;
+  gap: 14px !important;
+}
+
+.homeMealJourneyToggleText {
+  display: flex !important;
+  align-items: baseline !important;
+  gap: 12px !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+}
+
+.homeMealJourneyToggleText strong {
+  flex: 0 0 auto !important;
+  font-size: 17px !important;
+  line-height: 1.1 !important;
+}
+
+.homeMealJourneyToggleText small {
+  min-width: 0 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  font-size: 12px !important;
+  line-height: 1.1 !important;
+}
+
+.homeMealJourneyChevron {
+  width: 30px !important;
+  height: 30px !important;
+  font-size: 20px !important;
+}
+
+@media (max-width: 760px) {
+  .homeMealJourneyToggle {
+    min-height: 46px !important;
+    padding: 8px 11px !important;
+  }
+
+  .homeMealJourneyToggleText {
+    gap: 8px !important;
+  }
+
+  .homeMealJourneyToggleText strong {
+    font-size: 15px !important;
+  }
+
+  .homeMealJourneyToggleText small {
+    font-size: 10px !important;
+  }
+
+  .homeMealJourneyChevron {
+    width: 28px !important;
+    height: 28px !important;
+    font-size: 18px !important;
+  }
+}
