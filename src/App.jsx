@@ -1227,7 +1227,7 @@ const PageNavigationContext = createContext({
   setActivePage: () => {},
 });
 
-function Header({ activePage, setActivePage }) {
+function Header({ activePage, setActivePage, favorites }) {
   const headerGroups = [
     {
       label: "ABOUT US",
@@ -1312,6 +1312,26 @@ function Header({ activePage, setActivePage }) {
             </div>
           </div>
         ))}
+
+        <button
+          type="button"
+          className={
+            activePage === "Favorites"
+              ? "simpleHeaderFavoriteButton active"
+              : "simpleHeaderFavoriteButton"
+          }
+          onClick={() => setActivePage("Favorites")}
+          aria-label={`Open Favorites${Array.isArray(favorites) && favorites.length ? `, ${favorites.length} saved items` : ""}`}
+          title="Favorites"
+        >
+          <span className="simpleHeaderFavoriteHeart" aria-hidden="true">♥</span>
+          <span className="simpleHeaderFavoriteLabel">FAVORITES</span>
+          {Array.isArray(favorites) && favorites.length > 0 && (
+            <span className="simpleHeaderFavoriteCount" aria-hidden="true">
+              {favorites.length}
+            </span>
+          )}
+        </button>
       </nav>
     </header>
   );
@@ -1867,6 +1887,8 @@ function FeaturedComboMealCardModal({
   onClose,
   setPlan,
   openRecipeCard,
+  favorites,
+  toggleFavorite,
 }) {
   usePopupPageMode(Boolean(meal));
 
@@ -1926,6 +1948,8 @@ function FeaturedComboMealCardModal({
             meal={meal}
             onAddMealToPlan={addMealToPlan}
             openRecipeCard={openRecipeCard}
+            favorites={favorites}
+            toggleFavorite={toggleFavorite}
           />
         </div>
       </div>
@@ -1965,35 +1989,50 @@ function HomeComboMealStrip({
         </div>
 
         <div className="homeComboMealGrid">
-          {homeComboMeals.map((meal) => (
-            <button
-              type="button"
-              className="homeComboMealCard"
-              key={meal.id}
-              onClick={() => setSelectedMeal(meal)}
-              aria-label={`Open combo meal ${meal.number}: ${meal.title}`}
-            >
-              <div className="homeComboMealImage">
-                <DinnerCombinationImage
-                  meal={meal}
-                  className="homeComboMealImageAsset"
-                  loading="lazy"
-                />
-              </div>
+          {homeComboMeals.map((meal) => {
+            const isFavorite = Array.isArray(favorites) && favorites.includes(meal.id);
 
-              <span className="homeComboMealText">
-                <strong>{meal.title}</strong>
-                <small>{meal.subtitle}</small>
-                <span
-                  className="homeComboMealBalanceBadge"
-                  title={`MealBalance ${getComboMealBalanceScore(meal)}`}
-                  aria-label={`MealBalance ${getComboMealBalanceScore(meal)}`}
+            return (
+              <div className="homeComboMealCardWrap" key={meal.id}>
+                <button
+                  type="button"
+                  className="homeComboMealCard"
+                  onClick={() => setSelectedMeal(meal)}
+                  aria-label={`Open combo meal ${meal.number}: ${meal.title}`}
                 >
-                  {getComboMealBalanceScore(meal)}
-                </span>
-              </span>
-            </button>
-          ))}
+                  <div className="homeComboMealImage">
+                    <DinnerCombinationImage
+                      meal={meal}
+                      className="homeComboMealImageAsset"
+                      loading="lazy"
+                    />
+                  </div>
+
+                  <span className="homeComboMealText">
+                    <strong>{meal.title}</strong>
+                    <small>{meal.subtitle}</small>
+                    <span
+                      className="homeComboMealBalanceBadge"
+                      title={`MealBalance ${getComboMealBalanceScore(meal)}`}
+                      aria-label={`MealBalance ${getComboMealBalanceScore(meal)}`}
+                    >
+                      {getComboMealBalanceScore(meal)}
+                    </span>
+                  </span>
+                </button>
+
+                <button
+                  type="button"
+                  className={isFavorite ? "homeComboMealFavorite saved" : "homeComboMealFavorite"}
+                  onClick={() => toggleFavorite(meal.id)}
+                  aria-label={isFavorite ? `Remove ${meal.title} from favorites` : `Add ${meal.title} to favorites`}
+                  title={isFavorite ? "Remove from favorites" : "Add to favorites"}
+                >
+                  <span aria-hidden="true">♥</span>
+                </button>
+              </div>
+            );
+          })}
         </div>
       </section>
 
@@ -2011,6 +2050,8 @@ function HomeComboMealStrip({
         onClose={() => setSelectedMealCard(null)}
         setPlan={setPlan}
         openRecipeCard={openRecipeCard}
+        favorites={favorites}
+        toggleFavorite={toggleFavorite}
       />
     </>
   );
@@ -6429,6 +6470,8 @@ function FavoritesPage({
         onClose={() => setSelectedMealCard(null)}
         setPlan={setPlan}
         openRecipeCard={openRecipeCard}
+        favorites={favorites}
+        toggleFavorite={toggleFavorite}
       />
     </>
   );
@@ -8731,7 +8774,7 @@ function MealBalanceGuidePage({ setActivePage }) {
   );
 }
 
-function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard }) {
+function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard, favorites, toggleFavorite }) {
   const [activeRecipePopup, setActiveRecipePopup] = useState(null);
   const [selectedPlannerDay, setSelectedPlannerDay] = useState("week1-Mon");
   const [addedMessage, setAddedMessage] = useState("");
@@ -8784,6 +8827,30 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard }) {
   return (
     <article className={`dinnerCombinationCard${activeMealImage ? " hasMealImage" : ""}`}>
       <div className="dinnerCombinationMealBadge">Meal #{meal.number}</div>
+
+      {typeof toggleFavorite === "function" && (
+        <button
+          type="button"
+          className={
+            Array.isArray(favorites) && favorites.includes(meal.id)
+              ? "dinnerCombinationFavoriteButton saved"
+              : "dinnerCombinationFavoriteButton"
+          }
+          onClick={() => toggleFavorite(meal.id)}
+          aria-label={
+            Array.isArray(favorites) && favorites.includes(meal.id)
+              ? `Remove ${meal.title} from favorites`
+              : `Add ${meal.title} to favorites`
+          }
+          title={
+            Array.isArray(favorites) && favorites.includes(meal.id)
+              ? "Remove from favorites"
+              : "Add to favorites"
+          }
+        >
+          <span aria-hidden="true">♥</span>
+        </button>
+      )}
 
       <div className="dinnerCombinationHeader">
         <div className="dinnerCombinationMedia">
@@ -8943,7 +9010,7 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard }) {
   );
 }
 
-function DinnerCombinationsPage({ setActivePage, setFilter, setPlan, openRecipeCard }) {
+function DinnerCombinationsPage({ setActivePage, setFilter, setPlan, openRecipeCard, favorites, toggleFavorite }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [proteinFilter, setProteinFilter] = useState("all");
   const [sideFilter, setSideFilter] = useState("all");
@@ -9183,6 +9250,8 @@ function DinnerCombinationsPage({ setActivePage, setFilter, setPlan, openRecipeC
               meal={meal}
               onAddMealToPlan={addDinnerMealToPlan}
               openRecipeCard={openRecipeCard}
+              favorites={favorites}
+              toggleFavorite={toggleFavorite}
             />
           ))}
         </section>
@@ -10900,7 +10969,7 @@ export default function App() {
   return (
     <PageNavigationContext.Provider value={{ activePage, setActivePage }}>
       <div className="app">
-        <Header activePage={activePage} setActivePage={setActivePage} />
+        <Header activePage={activePage} setActivePage={setActivePage} favorites={favorites} />
 
       {activePage === "Admin Recipes" && (
         <AdminRecipeClassifier
@@ -10972,7 +11041,14 @@ export default function App() {
             text="These dinner combinations are designed to help you quickly choose practical meals with a main dish, sides, portion guidance, and estimated nutrition. They can be used for weekly planning, freezer meal prep, or simple dinner ideas for smaller households.\n\nNutrition values are estimates and may vary based on brands, portions, and preparation methods."
             className="pageHeroDepth464"
           />
-          <DinnerCombinationsPage setActivePage={setActivePage} setFilter={setFilter} setPlan={setPlan} openRecipeCard={openRecipeCard} />
+          <DinnerCombinationsPage
+            setActivePage={setActivePage}
+            setFilter={setFilter}
+            setPlan={setPlan}
+            openRecipeCard={openRecipeCard}
+            favorites={favorites}
+            toggleFavorite={toggleFavorite}
+          />
         </>
       )}
       {activePage === "Crockpot Recipes" && (
