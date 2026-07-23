@@ -31761,3 +31761,196 @@ body.rrbPopupOpen {
   }
 }
 
+/* =========================================================
+   COMBO MEAL PANTRY ROWS + COMPACT PRODUCT CARDS
+   ========================================================= */
+
+/* Combo Meal Ingredients now follows the same four-column shopping row. */
+.comboMealIngredientsGroup .pantryThinRow {
+  display: grid !important;
+  grid-template-columns:
+    minmax(0, 25fr)
+    minmax(0, 20fr)
+    minmax(0, 30fr)
+    minmax(0, 25fr) !important;
+  gap: 6px !important;
+  align-items: end !important;
+  min-height: 36px !important;
+  padding: 3px 0 !important;
+  border-bottom: 1px solid #ece9e2 !important;
+}
+
+.comboMealIngredientsGroup .pantryThinRow:last-child {
+  border-bottom: 0 !important;
+}
+
+.comboMealIngredientsGroup .pantryThinRow .shoppingProductCell {
+  grid-template-columns: 18px minmax(0, 1fr) !important;
+}
+
+.comboMealIngredientsGroup .pantryFilledBox {
+  width: 14px !important;
+  height: 14px !important;
+  margin: 0 !important;
+}
+
+.comboMealIngredientsGroup .pantryThinRow .shoppingProductCell > span {
+  font-size: 12px !important;
+  line-height: 1.1 !important;
+}
+
+.comboMealIngredientsGroup .pantryThinRow .shoppingPortionCell {
+  text-align: center !important;
+  font-size: 11px !important;
+}
+
+.comboMealIngredientsGroup .pantryThinRow .shoppingCommentCell input,
+.comboMealIngredientsGroup .pantryThinRow .shoppingSuggestionCell {
+  height: 30px !important;
+  min-height: 30px !important;
+}
+
+/* Products sort by category, then alphabetically, and use compact cards. */
+.productsOneColumnGrid {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 12px !important;
+}
+
+.productsCompactCard {
+  min-width: 0 !important;
+  display: grid !important;
+  grid-template-columns: minmax(180px, 28%) minmax(0, 1fr) !important;
+  gap: 0 !important;
+  align-items: stretch !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(20, 83, 45, .14) !important;
+  border-radius: 14px !important;
+  background: #ffffff !important;
+  box-shadow: 0 8px 22px rgba(17, 24, 39, .05) !important;
+}
+
+.productsCompactImage {
+  min-height: 190px !important;
+  display: grid !important;
+  place-items: center !important;
+  padding: 10px !important;
+  border-right: 1px solid rgba(20, 83, 45, .1) !important;
+  background: #fbfaf7 !important;
+}
+
+.productsCompactImage img {
+  width: 100% !important;
+  height: 100% !important;
+  max-height: 205px !important;
+  object-fit: contain !important;
+}
+
+.productsCompactContent {
+  min-width: 0 !important;
+  display: grid !important;
+  grid-template-rows: minmax(0, 1fr) auto !important;
+  gap: 12px !important;
+  padding: 16px !important;
+}
+
+.productsCompactCopy {
+  min-width: 0 !important;
+  text-align: left !important;
+}
+
+.productsCompactCopy h2 {
+  margin: 0 0 7px !important;
+  color: #111827 !important;
+  font: 700 20px/1.15 Georgia, "Iowan Old Style", serif !important;
+  text-align: left !important;
+}
+
+.productsCompactCopy p {
+  margin: 0 !important;
+  max-width: 760px !important;
+  color: #4b5563 !important;
+  font: 400 13px/1.45 Inter, system-ui, sans-serif !important;
+  text-align: left !important;
+}
+
+.productsCompactControls {
+  display: flex !important;
+  align-items: end !important;
+  justify-content: flex-end !important;
+  gap: 8px !important;
+  margin-top: auto !important;
+}
+
+.productsCompactCategory {
+  display: grid !important;
+  gap: 3px !important;
+  width: min(230px, 42%) !important;
+}
+
+.productsCompactCategory > span {
+  color: #6b7280 !important;
+  font: 700 9px/1 Inter, system-ui, sans-serif !important;
+  text-transform: uppercase !important;
+  letter-spacing: .04em !important;
+}
+
+.productsCompactCategory select {
+  width: 100% !important;
+  min-width: 0 !important;
+  height: 30px !important;
+  min-height: 30px !important;
+  border: 1px solid rgba(20, 83, 45, .18) !important;
+  border-radius: 7px !important;
+  background: #fff !important;
+  padding: 4px 7px !important;
+  color: #374151 !important;
+  font: 600 10px/1 Inter, system-ui, sans-serif !important;
+}
+
+.productsCompactAffiliate {
+  width: auto !important;
+  min-width: 112px !important;
+  min-height: 30px !important;
+  height: 30px !important;
+  margin: 0 !important;
+  padding: 4px 8px !important;
+  gap: 5px !important;
+  border-radius: 7px !important;
+  font-size: 10px !important;
+}
+
+.productsCompactAffiliate .productsIUseAmazonIcon {
+  width: 18px !important;
+  height: 18px !important;
+}
+
+@media (max-width: 760px) {
+  .comboMealIngredientsGroup .pantryThinRow {
+    grid-template-columns: minmax(0, 1fr) 90px !important;
+  }
+
+  .comboMealIngredientsGroup .pantryThinRow .shoppingCommentCell,
+  .comboMealIngredientsGroup .pantryThinRow .shoppingSuggestionCell {
+    grid-column: 1 / -1 !important;
+  }
+
+  .productsCompactCard {
+    grid-template-columns: 1fr !important;
+  }
+
+  .productsCompactImage {
+    min-height: 180px !important;
+    border-right: 0 !important;
+    border-bottom: 1px solid rgba(20, 83, 45, .1) !important;
+  }
+
+  .productsCompactControls {
+    justify-content: flex-start !important;
+    flex-wrap: wrap !important;
+  }
+
+  .productsCompactCategory {
+    width: min(240px, 100%) !important;
+  }
+}

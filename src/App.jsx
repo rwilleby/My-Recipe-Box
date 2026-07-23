@@ -6830,8 +6830,56 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, refrige
     );
   }
 
-  function renderPantryItem(item) {
+  function renderPantryItem(item, compact = false) {
     const key = `${item.name}-${item.unit}-${item.aisle}-pantry`;
+    const reference = findGroceryReference(item.name);
+
+    if (compact) {
+      return (
+        <div key={key} className="shoppingItemWrap shoppingThinRow pantryThinRow">
+          <div className="shoppingItem pantryShoppingItem shoppingProductCell">
+            <span className="pantryFilledBox" aria-hidden="true" />
+            <span>{item.name}</span>
+          </div>
+
+          <div className="shoppingPortionCell" aria-label={`${item.name} portion size`}>
+            {formatQty(item.qty)} {item.unit}
+          </div>
+
+          <label className="shoppingItemComment shoppingCommentCell">
+            <span className="visuallyHidden">Comments or suggestions for {item.name}</span>
+            <input
+              type="text"
+              value={shoppingComments[key] || ""}
+              onChange={(event) =>
+                setShoppingComments((current) => ({
+                  ...(current || {}),
+                  [key]: event.target.value,
+                }))
+              }
+              placeholder="Comments, brand, size, substitution, or store…"
+              aria-label={`Comments or suggestions for ${item.name}`}
+            />
+          </label>
+
+          <div className={reference ? "shoppingSuggestionCell hasSuggestion" : "shoppingSuggestionCell"}>
+            {reference ? (
+              <>
+                <div>
+                  <strong>{reference.name}</strong>
+                  <small>{reference.examples.slice(0, 2).join(" · ")}</small>
+                </div>
+                <button type="button" onClick={() => setActivePage("Grocery Picks")}>
+                  Review
+                </button>
+              </>
+            ) : (
+              <small>No suggested pick</small>
+            )}
+          </div>
+        </div>
+      );
+    }
 
     return (
       <div key={key} className="shoppingItemWrap">
@@ -7028,7 +7076,7 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, refrige
                       ) : (
                         <h2>{aisle}</h2>
                       )}
-                      {items.map(renderPantryItem)}
+                      {items.map((item) => renderPantryItem(item, isComboMealIngredients))}
                     </section>
                   );
                 })}
@@ -7205,10 +7253,15 @@ function getProductAffiliateUrl(product) {
 function ProductsIUsePage({ setActivePage, productCategories, setProductCategories }) {
   const [selectedCategory, setSelectedCategory] = useState("All Categories");
 
-  const categorizedProducts = PRODUCTS_I_USE.map((product) => ({
-    ...product,
-    category: productCategories?.[product.title] || getDefaultProductCategory(product),
-  }));
+  const categorizedProducts = PRODUCTS_I_USE
+    .map((product) => ({
+      ...product,
+      category: productCategories?.[product.title] || getDefaultProductCategory(product),
+    }))
+    .sort((a, b) => {
+      const categoryCompare = a.category.localeCompare(b.category);
+      return categoryCompare || a.title.localeCompare(b.title);
+    });
 
   const visibleProducts =
     selectedCategory === "All Categories"
@@ -7251,8 +7304,8 @@ function ProductsIUsePage({ setActivePage, productCategories, setProductCategori
 
       <div className="productsIUsePageGrid productsOneColumnGrid">
         {visibleProducts.map((product) => (
-          <article className="productsIUsePageCard productsSingleColumnCard" key={product.title}>
-            <div className="productsIUsePageImage productsSingleColumnImage">
+          <article className="productsIUsePageCard productsCompactCard" key={product.title}>
+            <div className="productsIUsePageImage productsCompactImage">
               <img
                 src={`${import.meta.env.BASE_URL}${product.image}`}
                 alt={product.title}
@@ -7261,29 +7314,14 @@ function ProductsIUsePage({ setActivePage, productCategories, setProductCategori
               />
             </div>
 
-            <div className="productsIUsePageContent productsSingleColumnContent">
-              <h2>{product.title}</h2>
-              <p>{product.note}</p>
+            <div className="productsIUsePageContent productsCompactContent">
+              <div className="productsCompactCopy">
+                <h2>{product.title}</h2>
+                <p>{product.note}</p>
+              </div>
 
-              <a
-                className="productsIUseAmazonButton productsSingleColumnAffiliate"
-                href={getProductAffiliateUrl(product)}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`View ${product.title} on Amazon`}
-              >
-                <img
-                  className="productsIUseAmazonIcon"
-                  src={`${import.meta.env.BASE_URL}images/ui/amazon-smile.png`}
-                  alt=""
-                  loading="lazy"
-                  decoding="async"
-                />
-                <span>View Product</span>
-              </a>
-
-              <div className="productCategoryRow productsSingleColumnCategory">
-                <label>
+              <div className="productsCompactControls">
+                <label className="productsCompactCategory">
                   <span>Category</span>
                   <select
                     value={product.category}
@@ -7295,6 +7333,23 @@ function ProductsIUsePage({ setActivePage, productCategories, setProductCategori
                     ))}
                   </select>
                 </label>
+
+                <a
+                  className="productsIUseAmazonButton productsCompactAffiliate"
+                  href={getProductAffiliateUrl(product)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`View ${product.title} on Amazon`}
+                >
+                  <img
+                    className="productsIUseAmazonIcon"
+                    src={`${import.meta.env.BASE_URL}images/ui/amazon-smile.png`}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <span>View Product</span>
+                </a>
               </div>
             </div>
           </article>
