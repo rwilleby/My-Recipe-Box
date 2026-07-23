@@ -3869,35 +3869,43 @@ function MealJourneyContent({ setActivePage, compact = false }) {
 
       <div className="mealJourneyRows">
         {MEAL_JOURNEY_STEPS.map((step, index) => (
-          <article
-            className={`mealJourneyRow${compact ? " compactRow" : index % 2 ? " reverse" : ""}`}
+          <div
+            className={`mealJourneyStepGroup${compact ? " compactGroup" : ""}`}
             key={step.id}
           >
-            <div className="mealJourneyVisual">
-              <MealJourneyImage step={step} />
-            </div>
-
-            <div className="mealJourneyCopy">
-              <div className="mealJourneyTitleRow">
-                <span className="mealJourneyNumber">{step.number}</span>
-                <h3>{step.title}</h3>
+            <article
+              className={`mealJourneyRow${compact ? " compactRow" : index % 2 ? " reverse" : ""}`}
+            >
+              <div className="mealJourneyVisual">
+                <MealJourneyImage step={step} />
               </div>
 
-              <p className="mealJourneyDescription">{step.description}</p>
+              <div className="mealJourneyCopy">
+                <div className="mealJourneyTitleRow">
+                  <span className="mealJourneyNumber">{step.number}</span>
+                  <h3>{step.title}</h3>
+                </div>
 
-              <ul className="mealJourneyFeatureList">
-                {step.features.map((feature) => (
-                  <li key={`${step.id}-${feature}`}>{feature}</li>
-                ))}
-              </ul>
+                <p className="mealJourneyDescription">{step.description}</p>
 
-              {!compact && (
-                <button type="button" className="secondary mealJourneyAction" onClick={() => openPage(step.page)}>
-                  {step.buttonLabel}
-                </button>
-              )}
-            </div>
-          </article>
+                <ul className="mealJourneyFeatureList">
+                  {step.features.map((feature) => (
+                    <li key={`${step.id}-${feature}`}>{feature}</li>
+                  ))}
+                </ul>
+
+                {!compact && (
+                  <button type="button" className="secondary mealJourneyAction" onClick={() => openPage(step.page)}>
+                    {step.buttonLabel}
+                  </button>
+                )}
+              </div>
+            </article>
+
+            {compact && index < MEAL_JOURNEY_STEPS.length - 1 && (
+              <div className="mealJourneyFlowArrow" aria-hidden="true">↓</div>
+            )}
+          </div>
         ))}
       </div>
     </div>

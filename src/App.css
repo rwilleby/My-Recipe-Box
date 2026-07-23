@@ -29512,3 +29512,55 @@ body.rrbPopupOpen {
     margin-top: 2px !important;
   }
 }
+/* =========================================================
+   MEAL JOURNEY HEART LIST + FLOW ARROWS
+   ========================================================= */
+
+/* Keep every heart point in one flush-left column beneath the sentence. */
+.mealJourneyContent.compact .mealJourneyFeatureList {
+  grid-template-columns: 1fr !important;
+  justify-items: start !important;
+  align-items: start !important;
+  gap: 4px !important;
+  width: 100% !important;
+  margin: 6px 0 0 !important;
+  padding: 0 !important;
+}
+
+.mealJourneyContent.compact .mealJourneyFeatureList li {
+  width: 100% !important;
+  margin: 0 !important;
+  padding-left: 17px !important;
+  text-align: left !important;
+}
+
+/* Group each row with a centered downward flow indicator. */
+.mealJourneyStepGroup.compactGroup {
+  display: grid !important;
+  gap: 0 !important;
+}
+
+.mealJourneyFlowArrow {
+  display: grid !important;
+  place-items: center !important;
+  min-height: 28px !important;
+  color: #7A9A3D !important;
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif !important;
+  font-size: 24px !important;
+  line-height: 1 !important;
+  font-weight: 700 !important;
+  user-select: none !important;
+}
+
+@media (max-width: 1080px) {
+  .mealJourneyContent.compact .mealJourneyFeatureList {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .mealJourneyFlowArrow {
+    min-height: 24px !important;
+    font-size: 21px !important;
+  }
+}
