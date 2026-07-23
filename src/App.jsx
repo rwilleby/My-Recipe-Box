@@ -9620,43 +9620,6 @@ const REFERENCE_GUIDES = [
     ],
   },
   {
-    id: "small-appliances",
-    title: "Air Fryer, Slow Cooker & Pressure Cooker",
-    icon: "pot",
-    description:
-      "Quick appliance reminders for timing, safety, and best results.",
-    lastUpdated: "July 17, 2026",
-    sections: [
-      {
-        type: "tips",
-        title: "Air Fryer Tips",
-        items: [
-          "Avoid overcrowding the basket so hot air can circulate.",
-          "Shake or turn food for more even browning.",
-          "Start checking early because models vary.",
-        ],
-      },
-      {
-        type: "tips",
-        title: "Slow Cooker Tips",
-        items: [
-          "Keep the lid closed as much as possible.",
-          "Cut dense vegetables evenly so they cook at the same pace.",
-          "Use enough liquid for the recipe, but remember slow cookers trap moisture.",
-        ],
-      },
-      {
-        type: "tips",
-        title: "Pressure Cooker Tips",
-        items: [
-          "Do not overfill the cooker.",
-          "Allow time for pressure build-up and release when planning the meal.",
-          "Use the release method recommended in the recipe.",
-        ],
-      },
-    ],
-  },
-  {
     id: "smoking-grilling",
     title: "Smoking & Grilling Guide",
     icon: "grill",
@@ -9875,6 +9838,34 @@ function ReferenceGuideSection({ section }) {
   );
 }
 
+const REFERENCE_GUIDE_BUTTON_LINES = {
+  "weights-measures": ["Weights &", "Measures"],
+  "cooking-temperatures": ["Cooking", "Temperatures"],
+  "oven-conversions": ["Oven", "Conversions"],
+  "pan-sizes": ["Pan & Baking", "Dish Sizes"],
+  "ingredient-weights": ["Ingredient", "Weights"],
+  "refrigerator-freezer": ["Refrigerator &", "Freezer Guide"],
+  "serving-portions": ["Serving &", "Portion Guide"],
+  substitutions: ["Common", "Substitutions"],
+  "smoking-grilling": ["Smoking &", "Grilling Guide"],
+};
+
+function ReferenceGuideButtonLabel({ guide }) {
+  const lines = REFERENCE_GUIDE_BUTTON_LINES[guide.id] || [guide.title];
+
+  return (
+    <span className="referenceGuideTopButtonText">
+      {lines.map((line, index) => (
+        <span key={`${guide.id}-${line}`}>
+          {line}
+          {index < lines.length - 1 && <br />}
+        </span>
+      ))}
+    </span>
+  );
+}
+
+
 function ReferenceGuidesPage() {
   const [selectedGuideId, setSelectedGuideId] = useState("weights-measures");
   const selectedGuide =
@@ -9904,7 +9895,7 @@ function ReferenceGuidesPage() {
                 role="tab"
                 aria-selected={guide.id === selectedGuide.id}
               >
-                <span>{guide.title}</span>
+                <ReferenceGuideButtonLabel guide={guide} />
               </button>
             ))}
           </div>
@@ -11892,9 +11883,165 @@ Use this section to check what is on hand, record dates, mark foods that should 
           title="Tips: Gas & Electric Griddles"
           heroImage="images/heroes/hero-grill.png"
           heroAlt="Flat-top griddle cooking setup with breakfast foods and utensils"
-          text="Gas and electric griddles provide a broad, even cooking surface for breakfast foods, burgers, sandwiches, vegetables, seafood, and complete meals. They are especially useful when several foods need to cook at the same time without crowding a skillet.\n\nThis section will cover preheating, temperature zones, seasoning and cleaning the surface, managing grease, preventing sticking, and cooking safely on both outdoor gas griddles and indoor electric griddles."
+          text="Gas and electric griddles provide a broad, even cooking surface for breakfast foods, burgers, sandwiches, vegetables, seafood, and complete meals. They are especially useful when several foods need to cook at the same time without crowding a skillet.\n\nThis section covers preheating, temperature zones, seasoning and cleaning the surface, managing grease, preventing sticking, and cooking safely on both outdoor gas griddles and indoor electric griddles."
           setActivePage={setActivePage}
-        />
+        >
+          <article className="gasGrillGuide griddleGuide" aria-labelledby="griddle-guide-title">
+            <header className="gasGrillGuideHeader">
+              <span className="gasGrillGuideKicker">Griddle Care & Cooking Guide</span>
+              <h2 id="griddle-guide-title">Taking Care of and Cooking on a Gas or Electric Griddle</h2>
+              <p>A griddle provides a broad, flat cooking surface for breakfasts, burgers, sandwiches, vegetables, seafood, and complete meals. Careful preheating, heat-zone management, grease control, and regular cleaning improve cooking results and help protect the surface.</p>
+            </header>
+
+            <div className="gasGrillGuideGrid griddleGuideGrid">
+              <section>
+                <h3>Before Each Use</h3>
+                <ul>
+                  <li>Place the griddle on a stable, level, heat-resistant surface.</li>
+                  <li>Inspect gas connections, cords, controls, grease cups, and drip trays.</li>
+                  <li>Remove old food, excess oil, and anything blocking the grease channel.</li>
+                  <li>Keep paper, towels, packaging, and other combustibles away from the heat.</li>
+                </ul>
+              </section>
+
+              <section>
+                <h3>Preheat the Griddle</h3>
+                <p>Allow the cooking surface to reach a stable temperature before adding food. A properly heated surface improves browning and helps reduce sticking.</p>
+                <ul>
+                  <li>Use low heat for eggs, delicate fish, and holding cooked food briefly.</li>
+                  <li>Use medium heat for pancakes, vegetables, sandwiches, bacon, and sausage.</li>
+                  <li>Use higher heat for searing burgers, steaks, shrimp, and scallops.</li>
+                  <li>Do not leave an empty griddle on high heat for an extended period.</li>
+                </ul>
+              </section>
+
+              <section>
+                <h3>Create Heat Zones</h3>
+                <p>Multiple temperature zones make it easier to cook several foods at once and move food away from excessive heat.</p>
+                <ul>
+                  <li>Use a hotter area for searing and browning.</li>
+                  <li>Use a medium area for steady cooking.</li>
+                  <li>Use a cooler area for finishing or short-term holding.</li>
+                  <li>Move food between zones rather than allowing it to scorch.</li>
+                </ul>
+              </section>
+
+              <section>
+                <h3>Prevent Food from Sticking</h3>
+                <ul>
+                  <li>Begin with a clean, fully preheated surface.</li>
+                  <li>Pat food dry and apply only a thin coating of oil.</li>
+                  <li>Use a high-smoke-point oil for hotter cooking.</li>
+                  <li>Let food brown before trying to lift or turn it.</li>
+                </ul>
+              </section>
+
+              <section>
+                <h3>Use the Right Tools</h3>
+                <ul>
+                  <li>Use broad spatulas or turners approved for the cooking surface.</li>
+                  <li>Use tongs for vegetables, sausages, and larger pieces of food.</li>
+                  <li>Use a scraper carefully to move food and remove residue.</li>
+                  <li>Avoid sharp tools that can gouge or damage a coated electric griddle.</li>
+                </ul>
+              </section>
+
+              <section>
+                <h3>Breakfast Cooking</h3>
+                <ul>
+                  <li>Cook bacon and sausage first when their rendered fat will help season the surface.</li>
+                  <li>Use moderate heat for pancakes so the centers cook before the outside becomes too dark.</li>
+                  <li>Cook eggs on a lightly greased lower-temperature area.</li>
+                  <li>Keep finished items on a cooler section only long enough to finish the meal.</li>
+                </ul>
+              </section>
+
+              <section>
+                <h3>Burgers, Steaks, and Sandwiches</h3>
+                <ul>
+                  <li>Preheat thoroughly before searing meat.</li>
+                  <li>Leave space between portions so steam can escape.</li>
+                  <li>Use a food thermometer to confirm safe internal temperatures.</li>
+                  <li>Cook sandwiches over moderate heat so the bread browns while the filling warms.</li>
+                </ul>
+              </section>
+
+              <section>
+                <h3>Vegetables and Seafood</h3>
+                <ul>
+                  <li>Cut vegetables into similar sizes for even cooking.</li>
+                  <li>Use a small amount of oil and turn foods as they brown.</li>
+                  <li>Cook seafood on a clean section to avoid unwanted flavor transfer.</li>
+                  <li>Use moderate heat for delicate fish and higher heat for shrimp or scallops.</li>
+                </ul>
+              </section>
+
+              <section>
+                <h3>Manage Grease Safely</h3>
+                <ul>
+                  <li>Keep the grease channel and collection cup clear.</li>
+                  <li>Do not allow the grease container to overflow.</li>
+                  <li>Keep grease away from burners, controls, cords, and open flames.</li>
+                  <li>Never pour water onto a grease fire.</li>
+                </ul>
+              </section>
+
+              <section>
+                <h3>Avoid Cross-Contamination</h3>
+                <ul>
+                  <li>Keep raw proteins separate from cooked and ready-to-eat food.</li>
+                  <li>Use clean utensils and plates for finished food.</li>
+                  <li>Clean the surface before changing from raw proteins to other foods.</li>
+                  <li>Wash hands after handling raw meat, poultry, seafood, or eggs.</li>
+                </ul>
+              </section>
+
+              <section>
+                <h3>Clean After Cooking</h3>
+                <p>Cleaning is usually easiest while the surface is warm but no longer dangerously hot. Follow the manufacturer’s directions for the specific griddle.</p>
+                <ul>
+                  <li>Scrape food and grease toward the collection tray.</li>
+                  <li>Wipe the surface with paper towels or a clean cloth.</li>
+                  <li>Use water only when the manufacturer permits it.</li>
+                  <li>Never immerse electric controls, plugs, or cords in water.</li>
+                </ul>
+              </section>
+
+              <section>
+                <h3>Season a Steel Surface</h3>
+                <p>Outdoor steel griddles generally need seasoning. Coated electric griddles should not be seasoned unless the manufacturer directs otherwise.</p>
+                <ul>
+                  <li>Clean and dry the steel completely.</li>
+                  <li>Apply a very thin layer of approved oil.</li>
+                  <li>Heat the oil until it bonds to the surface and the smoke subsides.</li>
+                  <li>Repeat when necessary to maintain an even protective finish.</li>
+                </ul>
+              </section>
+
+              <section>
+                <h3>Storage and Weather Protection</h3>
+                <ul>
+                  <li>Allow the griddle to cool fully before covering or storing it.</li>
+                  <li>Protect outdoor griddles from rain and humidity.</li>
+                  <li>Store electric griddles indoors with the cord loosely coiled.</li>
+                  <li>Check steel surfaces for rust and restore the seasoning when necessary.</li>
+                </ul>
+              </section>
+
+              <section>
+                <h3>Basic Griddle Safety</h3>
+                <ul>
+                  <li>Never leave a hot griddle unattended.</li>
+                  <li>Keep children and pets away from the cooking area.</li>
+                  <li>Use dry oven mitts and long-handled tools.</li>
+                  <li>Turn off the burners, disconnect the gas, or unplug the appliance after use.</li>
+                </ul>
+              </section>
+            </div>
+
+            <p className="gasGrillGuideClosing">Preheat carefully, control the heat, keep grease moving toward the drain, and clean the surface after every use.</p>
+          </article>
+        </HeroTopicPage>
       )}
 
       {activePage === "Gas Grill Recipes" && (
