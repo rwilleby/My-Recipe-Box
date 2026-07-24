@@ -28,19 +28,22 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20.19.5
-          cache: npm
 
-      - name: Use stable npm
-        run: npm install --global npm@10.9.2
+      - name: Enable pnpm
+        shell: bash
+        run: |
+          corepack enable
+          corepack prepare pnpm@9.15.9 --activate
+          pnpm --version
 
       - name: Install dependencies
-        run: npm install --include=dev --no-audit --no-fund
+        run: pnpm install --no-frozen-lockfile
 
       - name: Verify Vite
-        run: npx vite --version
+        run: pnpm exec vite --version
 
       - name: Build website
-        run: npm run build
+        run: pnpm run build
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
