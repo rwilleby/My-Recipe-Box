@@ -1412,6 +1412,7 @@ const NAV_GROUPS = [
     label: "YOUR KITCHEN",
     items: [
       { label: "YOUR WEEKLY MEAL PLANNER", page: "Meal Planner" },
+      { label: "WEEKLY MEAL PLANNER — TEST", page: "Weekly Meal Planner Prototype" },
       { label: "YOUR FAVORITE RECIPES", page: "Favorites" },
       { label: "REFRIGERATOR INVENTORY", page: "Kitchen Refrigerator" },
       { label: "PREPARED FREEZER INVENTORY", page: "Prepared Freezer Inventory" },
@@ -11778,6 +11779,539 @@ function FeatureStrip() {
   );
 }
 
+
+const WEEKLY_PLANNER_PROTOTYPE_DAYS = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
+
+const WEEKLY_PLANNER_PROTOTYPE_ROWS = [
+  { key: "main", label: "Main Dish", accepts: ["main"] },
+  { key: "side1", label: "Side 1", accepts: ["side"] },
+  { key: "side2", label: "Side 2", accepts: ["side"] },
+  { key: "salad", label: "Salad", accepts: ["salad"] },
+  { key: "breadDessert", label: "Bread / Dessert", accepts: ["bread", "dessert"] },
+];
+
+const WEEKLY_PLANNER_PROTOTYPE_FILTERS = [
+  { key: "all", label: "All" },
+  { key: "main", label: "Main Dishes" },
+  { key: "side", label: "Side Dishes" },
+  { key: "salad", label: "Salads" },
+  { key: "bread", label: "Bread" },
+  { key: "dessert", label: "Desserts" },
+];
+
+const WEEKLY_PLANNER_PROTOTYPE_STORAGE_KEY = "rrb_weeklyPlannerPrototype";
+
+function weeklyPlannerPrototypeRecipeType(recipe) {
+  const code = String(recipe?.categoryCode || recipe?.id || "").split("-")[0].toUpperCase();
+  if (code === "SD") return "side";
+  if (code === "SB") return "salad";
+  if (["LF", "CR", "KR"].includes(code)) return "bread";
+  if (["CC", "CO", "DN", "DS", "JJ", "PM"].includes(code)) return "dessert";
+  return "main";
+}
+
+function weeklyPlannerPrototypeScore(recipe) {
+  const raw =
+    recipe?.mealBalance?.score ??
+    recipe?.mealBalanceScore ??
+    recipe?.mealBalance ??
+    recipe?.mb ??
+    0;
+  const score = Number(raw);
+  return Number.isFinite(score) ? Math.max(0, Math.min(10, Math.round(score))) : 0;
+}
+
+function weeklyPlannerPrototypeLabel(score) {
+  if (!score) return "Not Rated";
+  if (score <= 2) return "Very Light";
+  if (score <= 4) return "Balanced";
+  if (score <= 6) return "Moderate";
+  if (score <= 8) return "Rich";
+  return "Indulgent";
+}
+
+function weeklyPlannerPrototypeCategory(recipe) {
+  return (
+    recipe?.category ||
+    categories.find((category) => category.id === recipe?.categoryCode)?.name ||
+    recipe?.categoryCode ||
+    "Recipe"
+  );
+}
+
+function weeklyPlannerPrototypeImageCandidates(recipe) {
+  if (!recipe?.id) return ["images/recipes/AM-000.webp"];
+  return [
+    `images/thumbs/heroes/${recipe.id}.webp`,
+    `images/heroes/${recipe.id}.webp`,
+    `images/thumbs/recipes/${recipe.id}.webp`,
+    `images/recipes/${recipe.id}.webp`,
+    "images/recipes/AM-000.webp",
+  ];
+}
+
+function WeeklyPlannerPrototypeImage({ recipe, alt = "" }) {
+  const candidates = useMemo(
+    () => weeklyPlannerPrototypeImageCandidates(recipe),
+    [recipe?.id]
+  );
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => setIndex(0), [recipe?.id]);
+
+  return (
+    <img
+      src={`${import.meta.env.BASE_URL}${candidates[index]}`}
+      alt={alt}
+      draggable="false"
+      onError={() =>
+        setIndex((current) => Math.min(current + 1, candidates.length - 1))
+      }
+    />
+  );
+}
+
+function createEmptyWeeklyPlannerPrototype() {
+  return Object.fromEntries(
+    WEEKLY_PLANNER_PROTOTYPE_DAYS.map((day) => [
+      day,
+      Object.fromEntries(
+        WEEKLY_PLANNER_PROTOTYPE_ROWS.map((row) => [row.key, null])
+      ),
+    ])
+  );
+}
+
+function normalizeWeeklyPlannerPrototype(value) {
+  const empty = createEmptyWeeklyPlannerPrototype();
+  if (!value || typeof value !== "object") return empty;
+
+  WEEKLY_PLANNER_PROTOTYPE_DAYS.forEach((day) => {
+    WEEKLY_PLANNER_PROTOTYPE_ROWS.forEach((row) => {
+      const id = value?.[day]?.[row.key];
+      empty[day][row.key] =
+        typeof id === "string" && recipes.some((recipe) => recipe.id === id)
+          ? id
+          : null;
+    });
+  });
+
+  return empty;
+}
+
+function WeeklyMealPlannerPrototypePage({ setActivePage }) {
+  const [search, setSearch] = useState("");
+  const [category, setCategory] = useState("all");
+  const [quickFilter, setQuickFilter] = useState("all");
+  const [selectedRecipeId, setSelectedRecipeId] = useState(null);
+  const [dragPayload, setDragPayload] = useState(null);
+  const [planner, setPlanner] = useState(() =>
+    normalizeWeeklyPlannerPrototype(
+      loadJSON(WEEKLY_PLANNER_PROTOTYPE_STORAGE_KEY, null)
+    )
+  );
+
+  useEffect(() => {
+    saveJSON(WEEKLY_PLANNER_PROTOTYPE_STORAGE_KEY, planner);
+  }, [planner]);
+
+  const categoryOptions = useMemo(
+    () =>
+      [...new Set(recipes.map((recipe) => recipe.categoryCode).filter(Boolean))]
+        .sort()
+        .map((code) => ({
+          code,
+          label:
+            categories.find((categoryItem) => categoryItem.id === code)?.name ||
+            code,
+        })),
+    []
+  );
+
+  const trayRecipes = useMemo(() => {
+    const needle = search.trim().toLowerCase();
+
+    return recipes
+      .filter((recipe) => {
+        const type = weeklyPlannerPrototypeRecipeType(recipe);
+        const matchesSearch =
+          !needle ||
+          `${recipe.title} ${recipe.id} ${recipe.category}`.toLowerCase().includes(needle);
+        const matchesCategory =
+          category === "all" || recipe.categoryCode === category;
+        const matchesQuick =
+          quickFilter === "all" || type === quickFilter;
+        return matchesSearch && matchesCategory && matchesQuick;
+      })
+      .slice(0, 80);
+  }, [search, category, quickFilter]);
+
+  const recipeById = useMemo(
+    () => Object.fromEntries(recipes.map((recipe) => [recipe.id, recipe])),
+    []
+  );
+
+  const plannedRecipes = useMemo(
+    () =>
+      WEEKLY_PLANNER_PROTOTYPE_DAYS.flatMap((day) =>
+        WEEKLY_PLANNER_PROTOTYPE_ROWS.map((row) => planner[day][row.key])
+      )
+        .filter(Boolean)
+        .map((id) => recipeById[id])
+        .filter(Boolean),
+    [planner, recipeById]
+  );
+
+  const weeklyScore = useMemo(() => {
+    const scores = plannedRecipes
+      .map(weeklyPlannerPrototypeScore)
+      .filter((score) => score > 0);
+    if (!scores.length) return 0;
+    return Math.round(scores.reduce((sum, score) => sum + score, 0) / scores.length);
+  }, [plannedRecipes]);
+
+  const weeklyRecommendation = useMemo(() => {
+    if (!plannedRecipes.length) return "Add recipes to begin planning your week.";
+    if (weeklyScore <= 3) return "A light week. Add variety and enough satisfying choices.";
+    if (weeklyScore <= 6) return "Great variety this week.";
+    if (weeklyScore <= 8) return "A richer week. Consider balancing a few meals with lighter sides.";
+    return "An indulgent week. Mix in lighter meals and fresh vegetables.";
+  }, [plannedRecipes.length, weeklyScore]);
+
+  function slotAcceptsRecipe(rowKey, recipe) {
+    const row = WEEKLY_PLANNER_PROTOTYPE_ROWS.find((item) => item.key === rowKey);
+    return row?.accepts.includes(weeklyPlannerPrototypeRecipeType(recipe));
+  }
+
+  function placeRecipe(recipeId, day, rowKey, source = null) {
+    const recipe = recipeById[recipeId];
+    if (!recipe || !slotAcceptsRecipe(rowKey, recipe)) return;
+
+    setPlanner((current) => {
+      const next = normalizeWeeklyPlannerPrototype(current);
+
+      if (source?.day && source?.rowKey) {
+        next[source.day][source.rowKey] = null;
+      }
+
+      next[day][rowKey] = recipeId;
+      return next;
+    });
+    setSelectedRecipeId(null);
+  }
+
+  function removeRecipe(day, rowKey) {
+    setPlanner((current) => ({
+      ...current,
+      [day]: { ...current[day], [rowKey]: null },
+    }));
+  }
+
+  function clearDay(day) {
+    setPlanner((current) => ({
+      ...current,
+      [day]: Object.fromEntries(
+        WEEKLY_PLANNER_PROTOTYPE_ROWS.map((row) => [row.key, null])
+      ),
+    }));
+  }
+
+  function clearWeek() {
+    setPlanner(createEmptyWeeklyPlannerPrototype());
+    setSelectedRecipeId(null);
+  }
+
+  function handleSlotClick(day, rowKey) {
+    if (!selectedRecipeId) return;
+    placeRecipe(selectedRecipeId, day, rowKey);
+  }
+
+  function handleDrop(event, day, rowKey) {
+    event.preventDefault();
+    const payload = dragPayload || (() => {
+      try {
+        return JSON.parse(event.dataTransfer.getData("application/json"));
+      } catch {
+        return null;
+      }
+    })();
+
+    if (payload?.recipeId) {
+      placeRecipe(payload.recipeId, day, rowKey, payload.source);
+    }
+    setDragPayload(null);
+  }
+
+  function startDrag(event, recipeId, source = null) {
+    const payload = { recipeId, source };
+    setDragPayload(payload);
+    event.dataTransfer.effectAllowed = "move";
+    event.dataTransfer.setData("application/json", JSON.stringify(payload));
+  }
+
+  return (
+    <>
+      <PageHeroImage
+        src="images/heroes/hero-weekly-dinner-planner.webp"
+        alt="Weekly meal planner, recipe box, and organized dinner planning setup"
+        eyebrow="MEAL PLANNING PROTOTYPE"
+        title="Weekly Meal Planner"
+        text="Build a seven-day dinner plan by dragging recipes from the tray into each day. This prototype is isolated from the current meal planner and uses its own browser-only test data."
+        className="pageHeroDepth464 weeklyPlannerPrototypeHero"
+      />
+
+      <main className="pageShell weeklyPlannerPrototypePage">
+        <section className="weeklyPlannerPrototypeNotice" aria-label="Prototype notice">
+          <strong>Prototype page:</strong>
+          <span>
+            Changes made here do not alter your existing Meal Planner or recipe database.
+          </span>
+          <button type="button" onClick={() => setActivePage("Meal Planner")}>
+            Open Current Meal Planner
+          </button>
+        </section>
+
+        <div className="weeklyPlannerPrototypeWorkspace">
+          <aside className="weeklyPlannerPrototypeTray" aria-label="Recipe tray">
+            <div className="weeklyPlannerPrototypeTrayHeader">
+              <div>
+                <span className="aiBadge">RECIPE TRAY</span>
+                <h2>Choose Recipes</h2>
+              </div>
+              <small>{trayRecipes.length} shown</small>
+            </div>
+
+            <label className="weeklyPlannerPrototypeField">
+              <span>Search Recipes</span>
+              <input
+                type="search"
+                value={search}
+                onChange={(event) => setSearch(event.target.value)}
+                placeholder="Search title or code"
+              />
+            </label>
+
+            <label className="weeklyPlannerPrototypeField">
+              <span>Category</span>
+              <select
+                value={category}
+                onChange={(event) => setCategory(event.target.value)}
+              >
+                <option value="all">All Categories</option>
+                {categoryOptions.map((item) => (
+                  <option key={item.code} value={item.code}>
+                    {item.code} — {item.label}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <div className="weeklyPlannerPrototypeQuickFilters" role="group" aria-label="Quick filters">
+              {WEEKLY_PLANNER_PROTOTYPE_FILTERS.map((filterItem) => (
+                <button
+                  type="button"
+                  key={filterItem.key}
+                  className={quickFilter === filterItem.key ? "active" : ""}
+                  onClick={() => setQuickFilter(filterItem.key)}
+                >
+                  {filterItem.label}
+                </button>
+              ))}
+            </div>
+
+            <p className="weeklyPlannerPrototypeMobileHint">
+              On a phone, tap a recipe and then tap a compatible planner space.
+            </p>
+
+            <div className="weeklyPlannerPrototypeTrayList">
+              {trayRecipes.map((recipe) => {
+                const score = weeklyPlannerPrototypeScore(recipe);
+                const selected = selectedRecipeId === recipe.id;
+
+                return (
+                  <article
+                    key={recipe.id}
+                    className={[
+                      "weeklyPlannerPrototypeTrayCard",
+                      selected ? "selected" : "",
+                    ].filter(Boolean).join(" ")}
+                    draggable
+                    onDragStart={(event) => startDrag(event, recipe.id)}
+                    onClick={() =>
+                      setSelectedRecipeId((current) =>
+                        current === recipe.id ? null : recipe.id
+                      )
+                    }
+                  >
+                    <div className="weeklyPlannerPrototypeTrayThumb">
+                      <WeeklyPlannerPrototypeImage
+                        recipe={recipe}
+                        alt={`${recipe.title} plated dish`}
+                      />
+                      {score > 0 && (
+                        <span className="weeklyPlannerPrototypeMbCircle" title={`MealBalance ${score}`}>
+                          {score}
+                        </span>
+                      )}
+                    </div>
+                    <div className="weeklyPlannerPrototypeTrayCardBody">
+                      <strong>{recipe.title}</strong>
+                      <span>{recipe.id}</span>
+                      <small>{weeklyPlannerPrototypeCategory(recipe)}</small>
+                    </div>
+                    <span className={`weeklyPlannerPrototypeTypeBadge type-${weeklyPlannerPrototypeRecipeType(recipe)}`}>
+                      {weeklyPlannerPrototypeRecipeType(recipe)}
+                    </span>
+                  </article>
+                );
+              })}
+            </div>
+          </aside>
+
+          <section className="weeklyPlannerPrototypePlanner" aria-label="Seven day weekly meal planner">
+            <div className="weeklyPlannerPrototypePlannerHeader">
+              <div>
+                <span className="aiBadge">WEEKLY PLAN</span>
+                <h2>Sunday Through Saturday</h2>
+              </div>
+              <button type="button" className="weeklyPlannerPrototypeClearWeek" onClick={clearWeek}>
+                Clear Entire Week
+              </button>
+            </div>
+
+            <div className="weeklyPlannerPrototypeTableWrap">
+              <div className="weeklyPlannerPrototypeGrid">
+                <div className="weeklyPlannerPrototypeCorner">Meal</div>
+                {WEEKLY_PLANNER_PROTOTYPE_DAYS.map((day) => (
+                  <div className="weeklyPlannerPrototypeDayHeader" key={day}>
+                    <strong>{day}</strong>
+                    <button type="button" onClick={() => clearDay(day)}>
+                      Clear
+                    </button>
+                  </div>
+                ))}
+
+                {WEEKLY_PLANNER_PROTOTYPE_ROWS.map((row) => (
+                  <div className="weeklyPlannerPrototypeGridRow" key={row.key}>
+                    <div className="weeklyPlannerPrototypeRowLabel">{row.label}</div>
+                    {WEEKLY_PLANNER_PROTOTYPE_DAYS.map((day) => {
+                      const recipeId = planner[day][row.key];
+                      const recipe = recipeById[recipeId];
+                      const selectedRecipe = recipeById[selectedRecipeId];
+                      const canTapPlace =
+                        selectedRecipe && slotAcceptsRecipe(row.key, selectedRecipe);
+
+                      return (
+                        <div
+                          key={`${day}-${row.key}`}
+                          className={[
+                            "weeklyPlannerPrototypeSlot",
+                            recipe ? "filled" : "empty",
+                            canTapPlace ? "tapReady" : "",
+                          ].filter(Boolean).join(" ")}
+                          role="button"
+                          tabIndex={0}
+                          aria-label={`${day} ${row.label}${recipe ? `: ${recipe.title}` : ": empty"}`}
+                          onClick={() => handleSlotClick(day, row.key)}
+                          onKeyDown={(event) => {
+                            if (event.key === "Enter" || event.key === " ") {
+                              event.preventDefault();
+                              handleSlotClick(day, row.key);
+                            }
+                          }}
+                          onDragOver={(event) => event.preventDefault()}
+                          onDrop={(event) => handleDrop(event, day, row.key)}
+                        >
+                          {recipe ? (
+                            <article
+                              className="weeklyPlannerPrototypePlacedCard"
+                              draggable
+                              onDragStart={(event) =>
+                                startDrag(event, recipe.id, { day, rowKey: row.key })
+                              }
+                            >
+                              <WeeklyPlannerPrototypeImage
+                                recipe={recipe}
+                                alt={`${recipe.title} plated dish`}
+                              />
+                              <div>
+                                <strong>{recipe.title}</strong>
+                                <span>{recipe.id}</span>
+                              </div>
+                              <button
+                                type="button"
+                                aria-label={`Remove ${recipe.title} from ${day}`}
+                                onClick={(event) => {
+                                  event.stopPropagation();
+                                  removeRecipe(day, row.key);
+                                }}
+                              >
+                                ×
+                              </button>
+                            </article>
+                          ) : (
+                            <div className="weeklyPlannerPrototypeEmptySlot">
+                              <img
+                                src={`${import.meta.env.BASE_URL}images/recipes/AM-000.webp`}
+                                alt=""
+                                aria-hidden="true"
+                              />
+                              <span>{canTapPlace ? "Tap to add" : "Drop recipe"}</span>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="weeklyPlannerPrototypeSummary">
+              <section className="weeklyPlannerPrototypeBalance" aria-label="Weekly MealBalance summary">
+                <div
+                  className={`weeklyPlannerPrototypeGauge score-${weeklyScore || 0}`}
+                  aria-label={`Weekly MealBalance ${weeklyScore || "not rated"}`}
+                >
+                  <span>{weeklyScore || "—"}</span>
+                </div>
+                <div>
+                  <small>OVERALL WEEKLY MEALBALANCE</small>
+                  <h3>
+                    MealBalance: {weeklyScore || "—"} — {weeklyPlannerPrototypeLabel(weeklyScore)}
+                  </h3>
+                  <p>{weeklyRecommendation}</p>
+                </div>
+              </section>
+
+              <button
+                type="button"
+                className="weeklyPlannerPrototypeGroceryButton"
+                onClick={() =>
+                  window.alert(
+                    "Prototype only: grocery-list generation will combine ingredients in a future version."
+                  )
+                }
+              >
+                Generate Grocery List
+              </button>
+            </div>
+          </section>
+        </div>
+      </main>
+    </>
+  );
+}
+
+
 export default function App() {
   const [activePage, setActivePage] = useState("Home");
   const [favorites, setFavorites] = useState(() => {
@@ -11964,6 +12498,9 @@ export default function App() {
       )}
 
       {activePage === "Home" && <Home {...pageProps} />}
+      {activePage === "Weekly Meal Planner Prototype" && (
+        <WeeklyMealPlannerPrototypePage setActivePage={setActivePage} />
+      )}
       {activePage === "Contact Me" && (
         <>
           <PageHeroImage
