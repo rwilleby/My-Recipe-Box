@@ -32399,3 +32399,72 @@ body.rrbPopupOpen {
     filter: blur(16px);
   }
 }
+
+
+/* =========================================================
+   LARGE HERO TEXT — STRONGER SOFT WHITE HALO
+   Applies to the rotating home hero and every large page hero.
+   The glow is intentionally diffuse and has no visible box edge.
+   ========================================================= */
+.heroCopy,
+.pageHeroTextOverlay {
+  isolation: isolate !important;
+}
+
+.heroCopy::before,
+.pageHeroTextOverlay::before {
+  content: "" !important;
+  position: absolute !important;
+  z-index: -1 !important;
+  pointer-events: none !important;
+  left: clamp(-54px, -4vw, -30px) !important;
+  right: clamp(-90px, -6vw, -46px) !important;
+  top: clamp(-42px, -3vw, -22px) !important;
+  bottom: clamp(-48px, -3vw, -24px) !important;
+  border-radius: 50% !important;
+  background: radial-gradient(
+    ellipse at 38% 48%,
+    rgba(255,255,255,.98) 0%,
+    rgba(255,255,255,.93) 28%,
+    rgba(255,255,255,.72) 49%,
+    rgba(255,255,255,.38) 66%,
+    rgba(255,255,255,.12) 80%,
+    rgba(255,255,255,0) 100%
+  ) !important;
+  filter: blur(18px) !important;
+  opacity: 1 !important;
+}
+
+.heroCopy h1,
+.pageHeroTextOverlay h1 {
+  text-shadow:
+    0 0 4px rgba(255,255,255,1),
+    0 0 10px rgba(255,255,255,.98),
+    0 0 22px rgba(255,255,255,.92),
+    0 0 40px rgba(255,255,255,.68) !important;
+}
+
+.heroCopy p,
+.heroCopy p strong,
+.pageHeroTextOverlay p,
+.pageHeroTextOverlay p strong,
+.pageHeroIntroText,
+.pageHeroIntroText * {
+  text-shadow:
+    0 0 3px rgba(255,255,255,1),
+    0 0 8px rgba(255,255,255,1),
+    0 0 17px rgba(255,255,255,.96),
+    0 0 31px rgba(255,255,255,.84),
+    0 0 48px rgba(255,255,255,.58) !important;
+}
+
+@media (max-width: 760px) {
+  .heroCopy::before,
+  .pageHeroTextOverlay::before {
+    left: -28px !important;
+    right: -34px !important;
+    top: -22px !important;
+    bottom: -28px !important;
+    filter: blur(14px) !important;
+  }
+}
