@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Robert's Recipe Box — Meal Planner Test</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">Standalone Test Page</p>
+      <h1>Weekly Combo-Meal Planner</h1>
+      <p class="intro">Drag recipe thumbnails into a day, or select a recipe and use the Add button on phones and tablets.</p>
+    </div>
+    <div class="header-actions">
+      <button id="printPlanner" type="button">Print Planner</button>
+      <button id="clearPlanner" class="secondary" type="button">Clear Week</button>
+    </div>
+  </header>
+
+  <main class="planner-shell">
+    <aside class="recipe-panel" aria-label="Recipe tray">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow">Recipe Tray</p>
+          <h2>Choose a Dish</h2>
+        </div>
+        <span id="recipeCount" class="count-pill"></span>
+      </div>
+
+      <label class="search-label" for="recipeSearch">Search recipes</label>
+      <input id="recipeSearch" type="search" placeholder="Search by name or code">
+
+      <div class="filters" aria-label="Recipe filters">
+        <button class="filter active" type="button" data-filter="all">All</button>
+        <button class="filter" type="button" data-filter="main">Mains</button>
+        <button class="filter" type="button" data-filter="side">Sides</button>
+      </div>
+
+      <div id="recipeTray" class="recipe-tray"></div>
+    </aside>
+
+    <section class="planner-panel" aria-label="Weekly meal planner">
+      <div class="panel-heading planner-heading">
+        <div>
+          <p class="eyebrow">Dinner Planner</p>
+          <h2 id="weekLabel">This Week</h2>
+        </div>
+        <p class="save-status" id="saveStatus" aria-live="polite">Saved automatically</p>
+      </div>
+
+      <div id="weekGrid" class="week-grid"></div>
+    </section>
+  </main>
+
+  <dialog id="slotDialog">
+    <form method="dialog" class="dialog-card">
+      <button class="dialog-close" value="cancel" aria-label="Close">×</button>
+      <p class="eyebrow">Add Selected Recipe</p>
+      <h2 id="dialogRecipeName">Choose a location</h2>
+      <label for="dialogDay">Day</label>
+      <select id="dialogDay"></select>
+      <label for="dialogSlot">Meal position</label>
+      <select id="dialogSlot">
+        <option value="main">Main Dish</option>
+        <option value="side1">Side 1</option>
+        <option value="side2">Side 2</option>
+      </select>
+      <div class="dialog-actions">
+        <button value="cancel" class="secondary">Cancel</button>
+        <button id="confirmAdd" value="default">Add to Planner</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
