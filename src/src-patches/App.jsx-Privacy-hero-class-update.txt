@@ -1,0 +1,8 @@
+/*
+  PRIVACY & YOUR DATA HERO CLASS UPDATE
+
+  In the Privacy & Your Data PageHeroImage call, use this className.
+  Keep the existing privacy hero src, alt text, eyebrow, title, and text.
+*/
+
+className="pageHeroDepth464 pageHeroRightAnchored privacyDataHero"

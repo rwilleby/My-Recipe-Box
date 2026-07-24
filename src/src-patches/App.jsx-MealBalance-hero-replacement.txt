@@ -1,0 +1,22 @@
+/*
+  MEALBALANCE PAGE HERO REPLACEMENT
+
+  In src/App.jsx, replace the current MealBalance Guide PageHeroImage block
+  with this version.
+*/
+
+{activePage === "MealBalance Guide" && (
+  <>
+    <PageHeroImage
+      src="images/heroes/hero-page-mealbalance.jpg"
+      alt="Balanced meal with grilled chicken, vegetables, whole grains, fruit, and a MealBalance clipboard"
+      eyebrow="OUR RECIPES"
+      title="Understanding MealBalance"
+      text="MealBalance is a simple comparison guide designed to help you look at recipes and complete meals in context. It provides an estimated 1–10 score so you can quickly compare lighter, moderate, rich, and indulgent choices.
+
+The score is not a judgment and it is not medical or dietary advice. It is one practical tool for considering portions, meal combinations, and the balance of choices across a day or week."
+      className="pageHeroDepth464 pageHeroRightAnchored mealBalancePageHero"
+    />
+    <MealBalanceGuidePage setActivePage={setActivePage} />
+  </>
+)}
