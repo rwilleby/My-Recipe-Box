@@ -1,0 +1,43 @@
+/* BROWSE RECIPE LIBRARY */
+.browseRecipeGrid .browseRecipeActions{display:grid!important;grid-template-columns:1fr!important;gap:7px!important}
+.browseRecipeGrid .browseRecipePrimaryAction,.browseRecipeGrid .browseRecipePrimaryAction>button,.browseRecipeGrid .browseRecipePrimaryAction .addLeftoversButton{width:100%!important}
+.browseRecipeGrid .viewCard,.browseRecipeGrid .addPlan,.browseRecipeGrid .addLeftoversButton{min-height:36px!important;height:auto!important;margin:0!important;padding:8px 10px!important;font-size:12px!important;line-height:1.18!important;white-space:normal!important}
+.browseRecipeUtilityRow{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:7px!important}
+.browseRecipeUtilityRowThree{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+.browseRecipeUtilityRow>*,.browseRecipeUtilityRow button{min-width:0!important;width:100%!important}
+.browseRecipeUtilityRow .smartTipsButton,.browseRecipeUtilityRow .recipeNotesButton,.browseRecipeUtilityRow .constructionCalloutButton{min-height:34px!important;height:34px!important;margin:0!important;padding:5px 6px!important;font-size:10px!important;line-height:1.05!important;white-space:normal!important}
+.browseRecipeMetaFooter{display:grid!important;grid-template-columns:minmax(0,1fr) auto auto!important;align-items:center!important;gap:9px!important}
+.browseRecipeMetaItems{display:flex!important;align-items:center!important;gap:12px!important;min-width:0!important}
+.browseRecipeMealBalanceBadge.mealBalanceBadge{position:static!important;justify-self:center!important;margin:0!important;background:var(--green)!important;color:#fff!important;border-color:var(--green)!important}
+.browseRecipeMealBalanceBadge.mealBalanceBadge,.browseRecipeMealBalanceBadge.mealBalanceBadge *{color:#fff!important}
+.browseCardHeart{position:static!important;justify-self:end!important}
+
+/* DINNER COMBINATIONS */
+.dinnerCombinationGrid,.dinnerCombinationGrid--grid{display:grid!important;grid-template-columns:1fr!important;gap:18px!important}
+.dinnerCombinationCard,.dinnerCombinationCard.hasMealImage,.dinnerCombinationGrid--grid .dinnerCombinationCard{width:100%!important;display:grid!important;grid-template-columns:25% 30% 25% 20%!important;grid-template-areas:"hero title groceries planner" "recipes recipes nutrition nutrition" "heating heating heating heating"!important;gap:0!important;padding:0!important;overflow:hidden!important;border:1px solid rgba(20,83,45,.15)!important;border-radius:14px!important;background:#fff!important}
+.dinnerCombinationMedia{grid-area:hero!important;min-width:0!important;min-height:190px!important}
+.dinnerCombinationMedia img,.dinnerCombinationImage{width:100%!important;height:100%!important;min-height:190px!important;object-fit:cover!important;border:0!important;border-radius:0!important}
+.dinnerCombinationTitleBlock{grid-area:title!important;padding:16px!important;border-right:1px solid #e5ebe6!important}
+.dinnerCombinationIngredients,.dinnerCombinationGroceryIngredients,.dinnerCombinationRegularIngredients{grid-area:groceries!important;padding:16px!important;border-right:1px solid #e5ebe6!important}
+.dinnerCombinationPlannerAdd,.dinnerCombinationPlanner,.dinnerCombinationAddControls{grid-area:planner!important;display:grid!important;align-content:end!important;gap:8px!important;padding:16px!important}
+.dinnerCombinationPlannerAdd select,.dinnerCombinationPlannerAdd button,.dinnerCombinationPlanner select,.dinnerCombinationPlanner button{width:100%!important}
+.dinnerCombinationRecipeButtonGrid,.dinnerCombinationRecipes{grid-area:recipes!important;display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:9px!important;padding:14px 16px!important;border-top:1px solid #e5ebe6!important;border-right:1px solid #e5ebe6!important}
+.dinnerCombinationNutrition{grid-area:nutrition!important;padding:14px 16px!important;border-top:1px solid #e5ebe6!important}
+.dinnerCombinationHeating{grid-area:heating!important;width:100%!important;margin:0!important;padding:12px 16px!important;border-top:1px solid #e5ebe6!important;text-align:left!important}
+.dinnerCombinationHeating summary,.dinnerCombinationHeating button{width:100%!important;text-align:left!important}
+
+/* COOKING TOOLS */
+.productsCompactCard{align-items:stretch!important}
+.productsCompactContent{display:grid!important;grid-template-rows:minmax(0,1fr) auto!important;min-height:100%!important}
+.productsCompactControls{align-self:end!important;justify-self:end!important;display:flex!important;align-items:flex-end!important;justify-content:flex-end!important;gap:9px!important;width:100%!important;margin-top:auto!important}
+.productsCompactCategory,.productsCompactAffiliate{align-self:end!important;margin-bottom:0!important}
+
+@media(max-width:1000px){
+.dinnerCombinationCard,.dinnerCombinationCard.hasMealImage,.dinnerCombinationGrid--grid .dinnerCombinationCard{grid-template-columns:32% 38% 30%!important;grid-template-areas:"hero title planner" "groceries groceries groceries" "recipes recipes nutrition" "heating heating heating"!important}
+}
+@media(max-width:760px){
+.browseRecipeUtilityRow,.browseRecipeUtilityRowThree{grid-template-columns:1fr!important}
+.dinnerCombinationCard,.dinnerCombinationCard.hasMealImage,.dinnerCombinationGrid--grid .dinnerCombinationCard{grid-template-columns:1fr!important;grid-template-areas:"hero" "title" "groceries" "planner" "recipes" "nutrition" "heating"!important}
+.dinnerCombinationRecipeButtonGrid,.dinnerCombinationRecipes{grid-template-columns:1fr!important}
+.productsCompactControls{justify-self:stretch!important;justify-content:flex-start!important;flex-wrap:wrap!important}
+}

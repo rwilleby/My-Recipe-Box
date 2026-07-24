@@ -1,0 +1,68 @@
+// APP.JSX PATCH
+// Replace ConstructionCalloutButton and RecipeCard with the implementation
+// documented in README-APPLY.txt. This package is intentionally delivered
+// as a safe source patch because the current full App.jsx is stored in the
+// File Library rather than mounted as a complete local project.
+//
+// REQUIRED JSX CHANGES
+// 1. Add:
+//    function isHamburgerRecipe(recipe) {
+//      return String(recipe?.categoryCode || "").toUpperCase() === "HB";
+//    }
+//
+// 2. Generalize ConstructionCalloutButton so its label is:
+//    const isBurger = isHamburgerRecipe(recipe);
+//    const label = isBurger ? "Build Your Burger" : "Build Your Salad";
+//
+// 3. Show the builder button when:
+//    const showBuilderGuide = isSaladJarRecipe(recipe) || isHamburgerRecipe(recipe);
+//
+// 4. Replace the browse card action markup with:
+//
+// <div className="recipeActions browseRecipeActions">
+//   <button className="viewCard browseRecipePrimaryAction"
+//     onClick={() => openRecipeCard(recipe.id, cardList, viewerContext)}>
+//     View Full Size Recipe Card
+//   </button>
+//
+//   {showPlannerButton && (
+//     <button className="addPlan browseRecipePrimaryAction"
+//       onClick={() => addToPlan(recipe.id)}>
+//       Add This Recipe to the Meal Planner
+//     </button>
+//   )}
+//
+//   <div className="browseRecipePrimaryAction">
+//     <AddLeftoversToFreezerButton recipe={recipe} compact />
+//   </div>
+//
+//   <div className={showBuilderGuide
+//     ? "browseRecipeUtilityRow browseRecipeUtilityRowThree"
+//     : "browseRecipeUtilityRow"}>
+//     <SmartTipsButton recipe={recipe} />
+//     <MyRecipeNotesButton recipe={recipe} />
+//     {showBuilderGuide && <ConstructionCalloutButton recipe={recipe} />}
+//   </div>
+// </div>
+//
+// 5. Replace the browse metadata footer with:
+//
+// <div className="browseRecipeMetaFooter">
+//   <div className="meta browseRecipeMetaItems">
+//     <span>◷ {recipe.time} min</span>
+//     <span>SS {recipe.servings}</span>
+//   </div>
+//
+//   <MealBalanceBadge
+//     item={recipe}
+//     className="recipeMealBalanceBadge browseRecipeMealBalanceBadge"
+//   />
+//
+//   <button
+//     className={`heart browseCardHeart ${isFavorite ? "saved" : ""}`}
+//     onClick={() => toggleFavorite(recipe.id)}
+//     aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}>
+//     <span aria-hidden="true">{isFavorite ? "♥" : "♡"}</span>
+//     <small>{isFavorite ? "FAVORITE" : "SAVE"}</small>
+//   </button>
+// </div>
