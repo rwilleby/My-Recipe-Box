@@ -1144,7 +1144,7 @@ function MealBalanceBadge({ item, showUnrated = false, className = "" }) {
 
   if (!rated && !showUnrated) return null;
 
-  const text = rated ? String(score) : "Not Yet Rated";
+  const text = rated ? `MB ${score}` : "Not Yet Rated";
   const classes = ["mealBalanceBadge", rated ? "rated" : "unrated", className]
     .filter(Boolean)
     .join(" ");
@@ -2185,12 +2185,26 @@ function FeaturedComboMealCardModal({
   );
 }
 
-const HOME_COMBO_ROTATION_MS = 4 * 60 * 1000;
-const HOME_COMBO_STAGGER_MS = 1000;
-const HOME_COMBO_SLOT_COUNT = 6;
+const HOME_COMBO_MEAL_COUNT = 6;
+const HOME_COMBO_ROTATION_MS = 3 * 60 * 1000;
+const HOME_COMBO_STAGGER_MS = 500;
+const HOME_COMBO_FLIP_MS = 360;
 
-function shuffleRecords(records = []) {
-  const shuffled = [...records];
+function getComboCuisineKey(meal) {
+  const recipeCode = String(meal?.mainRecipeId || "").trim().toUpperCase();
+  const prefix = recipeCode.match(/^([A-Z]{2,3})-/)?.[1];
+  if (prefix) return prefix;
+
+  const searchable = `${meal?.title || ""} ${meal?.mainDish || ""}`.toLowerCase();
+  if (/italian|alfredo|pasta|lasagna|parmesan|marinara/.test(searchable)) return "IT";
+  if (/asian|teriyaki|stir[- ]?fry|lo mein|fried rice/.test(searchable)) return "AS";
+  if (/mexican|taco|enchilada|fajita|burrito/.test(searchable)) return "MX";
+  if (/seafood|fish|shrimp|salmon|tuna|cod/.test(searchable)) return "SF";
+  return "OTHER";
+}
+
+function shuffleHomeComboMeals(items) {
+  const shuffled = [...items];
   for (let index = shuffled.length - 1; index > 0; index -= 1) {
     const swapIndex = Math.floor(Math.random() * (index + 1));
     [shuffled[index], shuffled[swapIndex]] = [shuffled[swapIndex], shuffled[index]];
@@ -2198,52 +2212,37 @@ function shuffleRecords(records = []) {
   return shuffled;
 }
 
-function comboCuisineKey(meal) {
-  const mainCode = String(meal?.mainRecipeId || "").trim().toUpperCase();
-  if (mainCode && mainCode !== "AM-000") return mainCode.split("-")[0];
+function selectVariedHomeComboMeals(allMeals, currentMeals = []) {
+  const currentIds = new Set(currentMeals.map((meal) => meal.id));
+  const available = allMeals.filter((meal) => !currentIds.has(meal.id));
+  const source = available.length >= HOME_COMBO_MEAL_COUNT ? available : allMeals;
+  const groups = new Map();
 
-  const cuisineTag = (meal?.tags || []).find((tag) =>
-    /american|asian|chinese|italian|mexican|greek|indian|cajun|southern|mediterranean|thai|japanese/i.test(String(tag))
-  );
-
-  return cuisineTag ? String(cuisineTag).toLowerCase() : "other";
-}
-
-function selectVariedComboMeals(meals = [], count = HOME_COMBO_SLOT_COUNT, excludedIds = []) {
-  const excluded = new Set(excludedIds);
-  const available = uniqueRecordsByPermanentId(meals).filter((meal) => !excluded.has(meal.id));
-  const pools = new Map();
-
-  shuffleRecords(available).forEach((meal) => {
-    const key = comboCuisineKey(meal);
-    if (!pools.has(key)) pools.set(key, []);
-    pools.get(key).push(meal);
+  shuffleHomeComboMeals(source).forEach((meal) => {
+    const key = getComboCuisineKey(meal);
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(meal);
   });
 
   const selected = [];
-  let cuisineKeys = shuffleRecords([...pools.keys()]);
+  const groupEntries = shuffleHomeComboMeals([...groups.entries()]);
 
-  while (selected.length < count && cuisineKeys.length) {
-    const nextKeys = [];
-    cuisineKeys.forEach((key) => {
-      const pool = pools.get(key) || [];
-      if (selected.length < count && pool.length) selected.push(pool.shift());
-      if (pool.length) nextKeys.push(key);
-    });
-    cuisineKeys = shuffleRecords(nextKeys);
+  while (selected.length < HOME_COMBO_MEAL_COUNT && groupEntries.some(([, meals]) => meals.length)) {
+    for (const [, meals] of groupEntries) {
+      if (!meals.length || selected.length >= HOME_COMBO_MEAL_COUNT) continue;
+      selected.push(meals.shift());
+    }
   }
 
-  if (selected.length < count) {
+  if (selected.length < HOME_COMBO_MEAL_COUNT) {
     const selectedIds = new Set(selected.map((meal) => meal.id));
-    shuffleRecords(uniqueRecordsByPermanentId(meals)).forEach((meal) => {
-      if (selected.length < count && !selectedIds.has(meal.id)) {
-        selected.push(meal);
-        selectedIds.add(meal.id);
-      }
-    });
+    shuffleHomeComboMeals(allMeals)
+      .filter((meal) => !selectedIds.has(meal.id))
+      .slice(0, HOME_COMBO_MEAL_COUNT - selected.length)
+      .forEach((meal) => selected.push(meal));
   }
 
-  return selected.slice(0, count);
+  return selected.slice(0, HOME_COMBO_MEAL_COUNT);
 }
 
 function HomeComboMealStrip({
@@ -2253,61 +2252,65 @@ function HomeComboMealStrip({
   toggleFavorite,
   setPlan,
 }) {
-  const allComboMeals = useMemo(() => uniqueRecordsByPermanentId(dinnerCombinations), []);
-  const [homeComboMeals, setHomeComboMeals] = useState(() =>
-    selectVariedComboMeals(allComboMeals)
+  const allHomeComboMeals = useMemo(
+    () => uniqueRecordsByPermanentId(dinnerCombinations),
+    []
   );
-  const homeComboMealsRef = useRef(homeComboMeals);
-  const [flippingSlots, setFlippingSlots] = useState([]);
+  const [homeComboMeals, setHomeComboMeals] = useState(() =>
+    selectVariedHomeComboMeals(allHomeComboMeals)
+  );
+  const [flippingPositions, setFlippingPositions] = useState([]);
   const [selectedMeal, setSelectedMeal] = useState(null);
   const [selectedMealCard, setSelectedMealCard] = useState(null);
+  const staggerTimersRef = useRef([]);
 
   useEffect(() => {
-    homeComboMealsRef.current = homeComboMeals;
-  }, [homeComboMeals]);
+    function clearStaggerTimers() {
+      staggerTimersRef.current.forEach((timer) => window.clearTimeout(timer));
+      staggerTimersRef.current = [];
+    }
 
-  useEffect(() => {
-    if (allComboMeals.length <= HOME_COMBO_SLOT_COUNT) return undefined;
+    function rotateComboMeals() {
+      clearStaggerTimers();
 
-    const pendingTimers = new Set();
-    const schedule = (callback, delay) => {
-      const timer = window.setTimeout(() => {
-        pendingTimers.delete(timer);
-        callback();
-      }, delay);
-      pendingTimers.add(timer);
-      return timer;
-    };
+      setHomeComboMeals((currentMeals) => {
+        const nextMeals = selectVariedHomeComboMeals(allHomeComboMeals, currentMeals);
 
-    const rotateMeals = () => {
-      const currentIds = homeComboMealsRef.current.map((meal) => meal.id);
-      const replacements = selectVariedComboMeals(allComboMeals, HOME_COMBO_SLOT_COUNT, currentIds);
+        nextMeals.forEach((nextMeal, position) => {
+          const startTimer = window.setTimeout(() => {
+            setFlippingPositions((current) =>
+              current.includes(position) ? current : [...current, position]
+            );
 
-      replacements.forEach((replacement, slotIndex) => {
-        schedule(() => {
-          setFlippingSlots((current) => [...new Set([...current, slotIndex])]);
+            const swapTimer = window.setTimeout(() => {
+              setHomeComboMeals((current) => {
+                const updated = [...current];
+                updated[position] = nextMeal;
+                return updated;
+              });
 
-          schedule(() => {
-            setHomeComboMeals((current) => {
-              const next = [...current];
-              next[slotIndex] = replacement;
-              homeComboMealsRef.current = next;
-              return next;
-            });
-            setFlippingSlots((current) => current.filter((index) => index !== slotIndex));
-          }, 260);
-        }, slotIndex * HOME_COMBO_STAGGER_MS);
+              setFlippingPositions((current) =>
+                current.filter((item) => item !== position)
+              );
+            }, Math.round(HOME_COMBO_FLIP_MS / 2));
+
+            staggerTimersRef.current.push(swapTimer);
+          }, position * HOME_COMBO_STAGGER_MS);
+
+          staggerTimersRef.current.push(startTimer);
+        });
+
+        return currentMeals;
       });
-    };
+    }
 
-    const interval = window.setInterval(rotateMeals, HOME_COMBO_ROTATION_MS);
+    const rotationTimer = window.setInterval(rotateComboMeals, HOME_COMBO_ROTATION_MS);
 
     return () => {
-      window.clearInterval(interval);
-      pendingTimers.forEach((timer) => window.clearTimeout(timer));
-      pendingTimers.clear();
+      window.clearInterval(rotationTimer);
+      clearStaggerTimers();
     };
-  }, [allComboMeals]);
+  }, [allHomeComboMeals]);
 
   if (!homeComboMeals.length) return null;
 
@@ -2327,11 +2330,15 @@ function HomeComboMealStrip({
         </div>
 
         <div className="homeComboMealGrid">
-          {homeComboMeals.map((meal, index) => {
+          {homeComboMeals.map((meal, position) => {
             const isFavorite = Array.isArray(favorites) && favorites.includes(meal.id);
+            const isFlipping = flippingPositions.includes(position);
 
             return (
-              <div className={`homeComboMealCardWrap${flippingSlots.includes(index) ? " isFlipping" : ""}`} key={`${index}-${meal.id}`}>
+              <div
+                className={isFlipping ? "homeComboMealCardWrap isFlipping" : "homeComboMealCardWrap"}
+                key={`home-combo-position-${position}`}
+              >
                 <button
                   type="button"
                   className="homeComboMealCard"

@@ -32279,64 +32279,57 @@ body.rrbPopupOpen {
 }
 \n\n/* =========================================================\n   VERIFIED WEBP REPAIR + JULY 24 LAYOUT UPDATE\n   ========================================================= */\n\n/* Browse Recipe Library: three full-width actions and utility row. */\n.browseRecipeGrid .recipeCardFullImage .browseRecipeActions {\n  display: grid !important;\n  grid-template-columns: 1fr !important;\n  gap: 7px !important;\n}\n.browseRecipeGrid .recipeCardFullImage .browseRecipePrimaryAction,\n.browseRecipeGrid .recipeCardFullImage .browseRecipePrimaryAction > button,\n.browseRecipeGrid .recipeCardFullImage .browseRecipePrimaryAction .addLeftoversButton { width: 100% !important; }\n.browseRecipeGrid .recipeCardFullImage .viewCard,\n.browseRecipeGrid .recipeCardFullImage .addPlan,\n.browseRecipeGrid .recipeCardFullImage .addLeftoversButton {\n  min-height: 36px !important; height: auto !important; margin: 0 !important;\n  padding: 8px 10px !important; font-size: 12px !important; line-height: 1.18 !important; white-space: normal !important;\n}\n.browseRecipeUtilityRow { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 7px !important; }\n.browseRecipeUtilityRowThree { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }\n.browseRecipeUtilityRow > *, .browseRecipeUtilityRow button { min-width: 0 !important; width: 100% !important; }\n.browseRecipeUtilityRow .smartTipsButton,\n.browseRecipeUtilityRow .recipeNotesButton,\n.browseRecipeUtilityRow .constructionCalloutButton {\n  min-height: 34px !important; height: 34px !important; margin: 0 !important; padding: 5px 6px !important;\n  font-size: 10px !important; line-height: 1.05 !important; white-space: normal !important;\n}\n.browseRecipeMetaFooter { display: grid !important; grid-template-columns: minmax(0, 1fr) auto auto !important; align-items: center !important; gap: 9px !important; }\n.browseRecipeMetaItems { display: flex !important; align-items: center !important; gap: 12px !important; min-width: 0 !important; }\n.browseRecipeMealBalanceBadge.mealBalanceBadge { position: static !important; justify-self: center !important; margin: 0 !important; background: var(--green) !important; color: #fff !important; border-color: var(--green) !important; }\n.browseRecipeMealBalanceBadge.mealBalanceBadge, .browseRecipeMealBalanceBadge.mealBalanceBadge * { color: #fff !important; }\n.browseCardHeart { position: static !important; justify-self: end !important; }\n\n/* Dinner Combination full-width card: 25/30/25/20 first row, 50/50 second row. */\n.dinnerCombinationGrid, .dinnerCombinationGrid--grid { display: grid !important; grid-template-columns: 1fr !important; gap: 18px !important; }\n.dinnerCombinationCard { width: 100% !important; }\n.dinnerCombinationAreaLayout {\n  display: grid !important;\n  grid-template-columns: 25% 30% 25% 20% !important;\n  grid-template-areas:\n    "photo name groceries planner"\n    "photo dishes groceries planner"\n    "recipes recipes nutrition nutrition" !important;\n  gap: 0 !important; align-items: stretch !important;\n  border: 1px solid rgba(20,83,45,.15) !important; border-radius: 14px !important; overflow: visible !important; background: #fff !important;\n}\n.dinnerArea { border-radius: 0 !important; border-width: 0 1px 1px 0 !important; padding: 14px !important; }\n.dinnerAreaPhoto { grid-area: photo !important; }\n.dinnerAreaName { grid-area: name !important; }\n.dinnerAreaDishes { grid-area: dishes !important; }\n.dinnerAreaGroceries { grid-area: groceries !important; }\n.dinnerAreaNutrition { grid-area: nutrition !important; border-right: 0 !important; }\n.dinnerAreaActions { display: contents !important; }\n.dinnerAreaActions .dinnerCombinationRecipeButtons { grid-area: recipes !important; padding: 14px 16px !important; border-right: 1px solid #e5ebe6 !important; border-bottom: 0 !important; }\n.dinnerAreaActions .dinnerCombinationPlannerAdd { grid-area: planner !important; display: grid !important; align-content: end !important; gap: 8px !important; padding: 14px !important; border-bottom: 1px solid #e5ebe6 !important; }\n.dinnerAreaActions .dinnerCombinationPlannerAdd select, .dinnerAreaActions .dinnerCombinationPlannerAdd button { width: 100% !important; }\n.dinnerCombinationRecipeButtonGrid { grid-template-columns: repeat(3, minmax(0,1fr)) !important; }\n.dinnerCombinationHeating { width: 100% !important; margin: 0 !important; padding: 12px 16px !important; border-top: 0 !important; text-align: left !important; }\n.dinnerCombinationHeating summary { width: 100% !important; text-align: left !important; }\n.dinnerCombinationHeating div { grid-template-columns: repeat(3, minmax(0,1fr)) !important; }\n\n/* Cooking Tools controls anchored to the lower-right, aligned with image bottom. */\n.productsCompactCard { align-items: stretch !important; }\n.productsCompactContent { position: relative !important; min-height: 100% !important; padding-bottom: 58px !important; }\n.productsCompactControls { position: absolute !important; right: 15px !important; bottom: 10px !important; left: auto !important; display: flex !important; align-items: flex-end !important; justify-content: flex-end !important; gap: 8px !important; margin: 0 !important; }\n.productsCompactCategory select, .productsCompactAffiliate { margin-bottom: 0 !important; }\n\n@media (max-width: 1000px) {\n  .dinnerCombinationAreaLayout { grid-template-columns: 32% 38% 30% !important; grid-template-areas: "photo name planner" "photo dishes planner" "groceries groceries groceries" "recipes recipes nutrition" !important; }\n}\n@media (max-width: 760px) {\n  .browseRecipeUtilityRow, .browseRecipeUtilityRowThree { grid-template-columns: 1fr !important; }\n  .dinnerCombinationAreaLayout { grid-template-columns: 1fr !important; grid-template-areas: "photo" "name" "dishes" "groceries" "planner" "recipes" "nutrition" !important; }\n  .dinnerCombinationRecipeButtonGrid { grid-template-columns: 1fr !important; }\n  .dinnerCombinationHeating div { grid-template-columns: 1fr !important; }\n  .productsCompactContent { padding-bottom: 13px !important; }\n  .productsCompactControls { position: static !important; justify-content: flex-start !important; flex-wrap: wrap !important; margin-top: 12px !important; }\n}\n
 /* =========================================================
-   MAIN PAGE — 4-MINUTE STAGGERED COMBO ROTATION
-   + UNIFIED MEALBALANCE NUMBER CIRCLES
+   MAIN PAGE — 3-MINUTE STAGGERED COMBO ROTATION + COPY WIDTH
+   July 24, 2026
    ========================================================= */
+
+/* Keep the main welcome paragraph from becoming overly wide on large screens. */
+.heroCopy {
+  max-width: 930px !important;
+}
+
+.heroCopy > p {
+  width: 100% !important;
+  max-width: 900px !important;
+}
+
+/* Brief card flip. Each of the six positions starts 500ms after the prior one. */
 .homeComboMealCardWrap {
   perspective: 900px;
 }
 
 .homeComboMealCardWrap > .homeComboMealCard {
+  transform-style: preserve-3d;
   transform-origin: center center;
-  transition: transform 260ms ease, opacity 260ms ease;
+  transition: transform 360ms ease-in-out, opacity 180ms ease-in-out;
   backface-visibility: hidden;
 }
 
 .homeComboMealCardWrap.isFlipping > .homeComboMealCard {
-  transform: rotateY(88deg) scale(.98);
-  opacity: .18;
+  transform: rotateY(90deg);
+  opacity: .78;
+  pointer-events: none;
 }
 
-/* Match every rated MealBalance number to the Featured Combo-Meal badge. */
-.mealBalanceBadge.rated,
-.comboMealBalanceBadge,
-.dinnerRecipeMealBalanceBadge,
-.plannerMealBalanceBadge,
-.homeComboMealBalanceBadge {
-  box-sizing: border-box !important;
-  display: inline-grid !important;
-  place-items: center !important;
-  flex: 0 0 24px !important;
-  width: 24px !important;
-  min-width: 24px !important;
-  max-width: 24px !important;
-  height: 24px !important;
-  min-height: 24px !important;
-  padding: 0 !important;
-  border: 2px solid rgba(255, 255, 255, .96) !important;
-  border-radius: 50% !important;
-  background: #7A9A3D !important;
-  color: #fff !important;
-  box-shadow: 0 2px 7px rgba(0, 0, 0, .22) !important;
-  font-family: Inter, system-ui, sans-serif !important;
-  font-size: 11px !important;
-  line-height: 1 !important;
-  font-weight: 700 !important;
-  letter-spacing: 0 !important;
-  white-space: nowrap !important;
+.homeComboMealCardWrap.isFlipping > .homeComboMealFavorite {
+  opacity: 0;
+  pointer-events: none;
 }
 
-.mealBalanceBadge.unrated {
-  width: auto !important;
-  min-width: 0 !important;
-  max-width: none !important;
-  height: auto !important;
-  min-height: 25px !important;
-  padding: 3px 9px !important;
-  border-width: 1px !important;
-  border-color: #d8d4cc !important;
-  border-radius: 999px !important;
-  background: #fbfaf7 !important;
-  color: #5f6368 !important;
-  box-shadow: none !important;
+@media (prefers-reduced-motion: reduce) {
+  .homeComboMealCardWrap > .homeComboMealCard {
+    transition: opacity 120ms linear;
+  }
+
+  .homeComboMealCardWrap.isFlipping > .homeComboMealCard {
+    transform: none;
+    opacity: .35;
+  }
+}
+
+@media (max-width: 700px) {
+  .heroCopy,
+  .heroCopy > p {
+    max-width: 100% !important;
+  }
 }
