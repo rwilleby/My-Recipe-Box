@@ -1621,7 +1621,7 @@ th {
 
 /* ================================
    ROLODEX HOLDER ART UPDATE
-   Uses: public/images/ui/hero-rolodex-.png
+   Uses: public/images/ui/hero-rolodex-.webp
    ================================ */
 
 /* Recently Added now shows 2 cards so the Rolodex gets more room */
@@ -2605,7 +2605,7 @@ th {
 
 /* ================================
    HEADER LOGO IMAGE UPDATE
-   Uses: public/images/ui/rrb-logo-wide.png
+   Uses: public/images/ui/rrb-logo-wide.webp
    ================================ */
 
 .brandLogoButton {
@@ -3819,7 +3819,7 @@ th {
    MERGED FIX: FINAL HOME CATEGORY ICON GRID
    - 20 icons only, 2 rows of 10 on desktop
    - responsive icon scaling
-   - uses public/images/categories/CODE.png
+   - uses public/images/categories/CODE.webp
    - full category names only, no code initials
    ================================ */
 
@@ -4857,9 +4857,9 @@ th {
 
 /* ================================
    JPEG THUMBNAILS + HERO JPG UPDATE
-   - Browse/Rolodex previews use public/images/thumbs/*.jpg first.
-   - Homepage hero rotation uses public/images/heroes-jpg/*.jpg.
-   - Full viewer/print/download still prefer public/images/recipes/*.png.
+   - Browse/Rolodex previews use public/images/thumbs/*.webp first.
+   - Homepage hero rotation uses public/images/heroes-jpg/*.webp.
+   - Full viewer/print/download still prefer public/images/recipes/*.webp.
    ================================ */
 
 .recipeFullCardImage img,
@@ -4872,8 +4872,8 @@ th {
 /* ================================
    THUMBS SUBFOLDER PATH UPDATE
    Code now expects:
-   public/images/thumbs/recipes/CODE.jpg
-   public/images/thumbs/heroes/hero-name.jpg
+   public/images/thumbs/recipes/CODE.webp
+   public/images/thumbs/heroes/hero-name.webp
    ================================ */
 
 
@@ -5307,9 +5307,9 @@ th {
 /* ================================
    ROLODEX THUMBNAIL PERFORMANCE UPDATE
    Rolodex and Browse previews now use small JPEG thumbnails first:
-   public/images/thumbs/recipes/CODE.jpg
+   public/images/thumbs/recipes/CODE.webp
    Full viewer/print/download still prefer full PNG cards:
-   public/images/recipes/CODE.png
+   public/images/recipes/CODE.webp
    ================================ */
 
 .homeRolodexCard img,
@@ -23039,7 +23039,7 @@ nav button,
 /* =========================================================
    SALAD JAR CONSTRUCTION CALLOUT
    Adds a Construction button beside My Notes in the recipe viewer.
-   Sister files use the recipe id plus c, for example SB-003c.png.
+   Sister files use the recipe id plus c, for example SB-003c.webp.
    ========================================================= */
 
 .viewerActionConstruction {
@@ -32049,571 +32049,232 @@ body.rrbPopupOpen {
 }
 
 /* =========================================================
-   YOUR RECIPE BOX DATA — BACKUP AND RESTORE
+   PRODUCT CONTROLS BOTTOM ALIGNMENT + DINNER AREAS A–F
    ========================================================= */
-.userDataSection {
-  margin-top: 34px;
-  padding: clamp(22px, 3vw, 32px);
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  background: #ffffff;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, .04);
-  scroll-margin-top: 110px;
+
+/* Cooking Tools: controls sit in the lower-right and align with image bottom. */
+.productsCompactCard {
+  align-items: stretch !important;
 }
 
-.userDataSectionHeader h2 {
-  margin: 12px 0 0;
-  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif;
-  font-size: 22px;
-  line-height: 1.15;
-  color: #111827;
+.productsCompactContent {
+  position: relative !important;
+  min-height: 166px !important;
+  padding: 13px 15px 54px !important;
 }
 
-.userDataPrivacyText,
-.userDataReminder {
-  max-width: 920px;
-  color: #374151;
-  line-height: 1.55;
-}
-
-.userDataPrivacyText { margin: 14px 0 18px; font-size: 15px; }
-.userDataReminder { margin: 14px 0 0; font-size: 13px; }
-.userDataActions { display: flex; flex-wrap: wrap; gap: 12px; }
-.userDataActions .primary,
-.userDataActions .secondary { min-height: 46px; }
-
-.visuallyHiddenFileInput {
+.productsCompactControls {
   position: absolute !important;
-  width: 1px !important;
-  height: 1px !important;
+  right: 15px !important;
+  bottom: 10px !important;
+  left: auto !important;
+  display: flex !important;
+  align-items: flex-end !important;
+  justify-content: flex-end !important;
+  gap: 8px !important;
+  margin: 0 !important;
+}
+
+.productsCompactCategory {
+  width: 240px !important;
+}
+
+.productsCompactCategory select,
+.productsCompactAffiliate {
+  height: 34px !important;
+  min-height: 34px !important;
+}
+
+/* Dinner Combination: dedicated A–F information areas. */
+.dinnerCombinationAreaLayout {
+  display: grid !important;
+  grid-template-columns: minmax(280px, 27%) minmax(250px, 27%) minmax(0, 1fr) !important;
+  grid-template-areas:
+    "photo name nutrition"
+    "photo dishes groceries"
+    "actions actions actions" !important;
+  gap: 10px !important;
+  align-items: stretch !important;
+}
+
+.dinnerArea {
+  min-width: 0 !important;
+  border: 1px solid rgba(20, 83, 45, .13) !important;
+  border-radius: 11px !important;
+  background: #ffffff !important;
+  padding: 10px !important;
+}
+
+.dinnerAreaPhoto {
+  grid-area: photo !important;
   padding: 0 !important;
-  margin: -1px !important;
   overflow: hidden !important;
-  clip: rect(0, 0, 0, 0) !important;
-  white-space: nowrap !important;
+}
+
+.dinnerAreaPhoto .dinnerCombinationMedia,
+.dinnerAreaPhoto .dinnerCombinationMedia img {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.dinnerAreaPhoto .dinnerCombinationMedia img {
+  min-height: 250px !important;
+  aspect-ratio: auto !important;
+  object-fit: cover !important;
   border: 0 !important;
+  border-radius: 10px !important;
 }
 
-.userDataMessage {
-  min-height: 24px;
-  margin-top: 14px;
-  padding-left: 28px;
-  position: relative;
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 1.45;
+.dinnerAreaName {
+  grid-area: name !important;
+  display: grid !important;
+  align-content: start !important;
+  gap: 4px !important;
 }
-.userDataMessage:empty { display: none; }
-.userDataMessage::before { position: absolute; left: 0; top: 0; font-weight: 800; }
-.userDataMessage-success { color: #14532d; }
-.userDataMessage-success::before { content: "✓"; }
-.userDataMessage-warning { color: #7c4a03; }
-.userDataMessage-warning::before { content: "!"; }
-.userDataMessage-error { color: #991b1b; }
-.userDataMessage-error::before { content: "×"; }
 
-.userDataDialog {
-  width: min(92vw, 620px);
-  padding: 0;
-  border: 0;
-  border-radius: 16px;
-  box-shadow: 0 24px 80px rgba(0, 0, 0, .28);
+.dinnerAreaName h3 {
+  margin: 0 !important;
+  color: #111827 !important;
+  font: 700 24px/1.05 Georgia, "Iowan Old Style", serif !important;
 }
-.userDataDialog::backdrop { background: rgba(17, 24, 39, .68); }
-.userDataDialog form { padding: 26px; }
-.userDataDialog h2 {
-  margin: 0 0 10px;
-  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif;
-  font-size: 24px;
-}
-.userDataDialog p { margin: 0; color: #374151; line-height: 1.5; }
-.userDataDialogActions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
-.dangerOutline { border-color: #b91c1c !important; color: #991b1b !important; }
-
-.userDataActions button:focus-visible,
-.userDataDialog button:focus-visible,
-.footerDisclaimerLine button:focus-visible {
-  outline: 3px solid rgba(20, 83, 45, .35);
-  outline-offset: 3px;
-}
-
-@media (max-width: 620px) {
-  .userDataActions,
-  .userDataDialogActions { flex-direction: column; }
-  .userDataActions .primary,
-  .userDataActions .secondary,
-  .userDataDialogActions .primary,
-  .userDataDialogActions .secondary { width: 100%; }
-}
-
-/* ================================
-   PRIVACY & YOUR DATA SUPPORTING PAGE
-   ================================ */
-
-.privacyDataPage {
-  padding-top: 30px;
-}
-
-.privacyDataContent {
-  width: min(100%, 980px);
-  margin: 0 auto;
-  display: grid;
-  gap: 18px;
-}
-
-.privacyDataSection,
-.privacySummaryBox,
-.privacyPageNotice {
-  background: #ffffff;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: clamp(20px, 3vw, 30px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, .04);
-}
-
-.privacyDataSection h2,
-.privacySummaryBox h2 {
-  margin: 0 0 12px;
-  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif;
-  font-size: 22px;
-  line-height: 1.2;
-  color: #111827;
-}
-
-.privacyDataSection p,
-.privacyPageNotice p {
-  margin: 0 0 12px;
-  max-width: 78ch;
-  color: #374151;
-  font-size: 15px;
-  line-height: 1.65;
-}
-
-.privacyDataSection p:last-child,
-.privacyPageNotice p:last-child {
-  margin-bottom: 0;
-}
-
-.privacyDataSection ul,
-.privacySummaryBox ul {
-  margin: 12px 0 16px;
-  padding-left: 24px;
-  color: #374151;
-  line-height: 1.55;
-}
-
-.privacyDataSection li,
-.privacySummaryBox li {
-  margin: 6px 0;
-}
-
-.privacySummaryBox {
-  border-left: 5px solid var(--green);
-  background: #f7fbf7;
-}
-
-.privacySummaryBox ul {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px 28px;
-  margin-bottom: 0;
-  list-style: none;
-  padding-left: 0;
-}
-
-.privacySummaryBox li {
-  position: relative;
-  padding-left: 27px;
-}
-
-.privacySummaryBox li::before {
-  content: "✓";
-  position: absolute;
-  left: 0;
-  top: 0;
-  color: var(--green);
-  font-weight: 800;
-}
-
-.privacyInlineButton,
-.userDataLearnMore {
-  border: 0;
-  background: transparent;
-  color: var(--green);
-  font-weight: 700;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  padding: 4px 0;
-}
-
-.privacyInlineButton:hover,
-.userDataLearnMore:hover {
-  text-decoration-thickness: 2px;
-}
-
-.privacyInlineButton:focus-visible,
-.userDataLearnMore:focus-visible {
-  outline: 3px solid rgba(20, 83, 45, .3);
-  outline-offset: 3px;
-  border-radius: 4px;
-}
-
-.userDataLearnMore {
-  display: inline-block;
-  margin-top: 8px;
-  text-align: left;
-  font-size: 14px;
-}
-
-.privacyContact {
-  color: #374151;
-  font-style: normal;
-  line-height: 1.7;
-}
-
-.privacyContact a {
-  color: var(--green);
-  font-weight: 700;
-}
-
-.privacyPageNotice {
-  background: #fbfaf7;
-}
-
-.privacyPageNotice strong {
-  display: block;
-  margin-bottom: 8px;
-  color: #111827;
-}
-
-@media (max-width: 720px) {
-  .privacyDataContent {
-    gap: 14px;
-  }
 
-  .privacyDataSection h2,
-  .privacySummaryBox h2 {
-    font-size: 20px;
-  }
-
-  .privacySummaryBox ul {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* ================================
-   BACKUP CENTER + BACKUP REMINDER
-   ================================ */
-
-.userDataSectionHeader h3 {
-  margin: 7px 0 0;
-  color: var(--green);
-  font-size: 16px;
-  font-weight: 700;
-}
-
-.backupCenterGrid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-  margin: 20px 0;
-}
-
-.backupCenterCard,
-.backupReminderSettings {
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  background: #fbfaf7;
-  padding: 18px;
-}
-
-.backupCenterCard h3,
-.backupReminderSettings h3 {
-  margin: 0 0 12px;
-  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif;
-  font-size: 19px;
-  color: #111827;
-}
-
-.backupStatusList {
-  margin: 0;
-  display: grid;
-  gap: 12px;
-}
-
-.backupStatusList > div {
-  display: grid;
-  grid-template-columns: minmax(120px, .7fr) minmax(0, 1.3fr);
-  gap: 14px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #ece8df;
-}
-
-.backupStatusList > div:last-child {
-  border-bottom: 0;
-  padding-bottom: 0;
-}
-
-.backupStatusList dt {
-  font-size: 13px;
-  font-weight: 700;
-  color: #4b5563;
-}
-
-.backupStatusList dd {
-  margin: 0;
-  color: #111827;
-  font-size: 14px;
-  line-height: 1.45;
-}
-
-.backupStatusList dd small {
-  color: var(--muted);
-}
-
-.backupStatusBadge {
-  display: inline-flex;
-  align-items: center;
-  min-height: 28px;
-  padding: 4px 10px;
-  border-radius: 999px;
-  background: #eaf5ec;
-  color: var(--green);
-  font-weight: 700;
-}
-
-.backupStatusBadge.recommended {
-  background: #fff4df;
-  color: #7c4a03;
-}
-
-.backupIncludedList {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  gap: 9px;
-}
-
-.backupIncludedList li {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  padding-bottom: 9px;
-  border-bottom: 1px solid #ece8df;
-  color: #374151;
-  font-size: 14px;
-}
-
-.backupIncludedList li:last-child {
-  border-bottom: 0;
-  padding-bottom: 0;
-}
-
-.backupIncludedList strong {
-  color: var(--green);
-  white-space: nowrap;
-}
-
-.backupReminderSettings {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto minmax(180px, 240px);
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 18px;
-}
-
-.backupReminderSettings h3 {
-  margin-bottom: 5px;
-}
-
-.backupReminderSettings p {
-  margin: 0;
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.45;
-}
-
-.backupReminderSettings label {
-  font-size: 14px;
-  font-weight: 700;
-  color: #111827;
+.dinnerAreaName .dinnerCombinationSubtitle {
+  margin: 0 !important;
+  font-size: 13px !important;
 }
 
-.backupReminderSettings select {
-  width: 100%;
-  min-height: 44px;
-  border: 1px solid var(--line);
-  border-radius: 9px;
-  background: #fff;
-  padding: 0 12px;
-  color: #111827;
+.dinnerAreaDishes {
+  grid-area: dishes !important;
 }
 
-.backupReminderNotice {
-  position: fixed;
-  right: 24px;
-  bottom: 24px;
-  z-index: 1200;
-  width: min(430px, calc(100vw - 32px));
-  border: 1px solid #d8d2c7;
-  border-radius: 14px;
-  background: #fff;
-  box-shadow: 0 20px 58px rgba(17, 24, 39, .22);
-  padding: 20px;
+.dinnerAreaDishes .dinnerCombinationStackedMeal {
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  gap: 5px !important;
 }
 
-.backupReminderNotice.confirmation {
-  width: min(430px, calc(100vw - 32px));
-  padding: 14px 16px;
+.dinnerAreaDishes .dinnerCombinationStackedMeal p {
+  grid-template-columns: 62px minmax(0, 1fr) auto !important;
+  font-size: 12px !important;
 }
 
-.backupReminderNoticeHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 14px;
+.dinnerAreaGroceries {
+  grid-area: groceries !important;
+  padding: 8px !important;
 }
 
-.backupReminderNoticeHeader span {
-  color: var(--green);
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: .08em;
+.dinnerAreaGroceries .comboComponentRequirements.compact {
+  margin: 0 !important;
+  gap: 5px !important;
 }
 
-.backupReminderNoticeHeader h2 {
-  margin: 4px 0 0;
-  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif;
-  font-size: 22px;
-  line-height: 1.15;
+.dinnerAreaGroceries .comboComponentRequirements.compact > div {
+  padding: 6px 8px !important;
 }
 
-.backupReminderNotice p {
-  margin: 14px 0;
-  color: #374151;
-  font-size: 14px;
-  line-height: 1.55;
+.dinnerAreaGroceries .comboComponentRequirements.compact h3 {
+  font-size: 13px !important;
 }
 
-.backupReminderClose {
-  width: 36px;
-  height: 36px;
-  flex: 0 0 36px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: #fff;
-  color: #374151;
-  font-size: 24px;
-  line-height: 1;
+.dinnerAreaNutrition {
+  grid-area: nutrition !important;
+  padding: 8px 10px !important;
 }
 
-.backupReminderActions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 9px;
+.dinnerAreaNutrition .dinnerCombinationNutritionLabel {
+  margin: 0 0 6px !important;
+  font-size: 11px !important;
 }
 
-.backupReminderActions .primary,
-.backupReminderActions .secondary {
-  min-height: 40px;
-  padding: 0 14px;
-  font-size: 13px;
+.dinnerAreaNutrition .dinnerCombinationNutrition {
+  padding: 7px 0 !important;
 }
 
-.backupReminderTextButton,
-.backupReminderCenterLink {
-  border: 0;
-  background: transparent;
-  color: var(--green);
-  font-weight: 700;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  padding: 8px 0;
+.dinnerAreaNutrition .dinnerCombinationNutrition strong {
+  font-size: 15px !important;
 }
 
-.backupReminderCenterLink {
-  display: inline-block;
-  margin-top: 5px;
-  font-size: 13px;
+.dinnerAreaNutrition .dinnerCombinationNutrition small {
+  font-size: 9px !important;
 }
 
-.backupReminderConfirmation {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-  color: #14532d;
-  font-size: 14px;
-  font-weight: 650;
+.dinnerAreaActions {
+  grid-area: actions !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) 240px !important;
+  gap: 10px !important;
+  padding: 8px !important;
 }
 
-.backupReminderConfirmation button {
-  width: 30px;
-  height: 30px;
-  border: 0;
-  background: transparent;
-  color: #374151;
-  font-size: 22px;
+.dinnerAreaActions .dinnerCombinationRecipeButtons {
+  padding: 8px !important;
 }
 
-.backupReminderNotice button:focus-visible,
-.backupReminderSettings select:focus-visible {
-  outline: 3px solid rgba(20, 83, 45, .35);
-  outline-offset: 3px;
+.dinnerAreaActions .dinnerCombinationPlannerAdd {
+  align-self: stretch !important;
 }
 
-@media (max-width: 820px) {
-  .backupCenterGrid {
-    grid-template-columns: 1fr;
-  }
-
-  .backupReminderSettings {
-    grid-template-columns: 1fr;
-    align-items: stretch;
-  }
+.dinnerCombinationHeating {
+  width: 100% !important;
+  margin-top: 8px !important;
+  padding: 8px 10px 0 !important;
+  border-top: 2px solid rgba(20, 83, 45, .14) !important;
 }
-
-@media (max-width: 620px) {
-  .backupStatusList > div {
-    grid-template-columns: 1fr;
-    gap: 4px;
-  }
 
-  .backupReminderNotice {
-    right: 16px;
-    bottom: 16px;
-  }
-
-  .backupReminderActions {
-    flex-direction: column;
-  }
-
-  .backupReminderActions .primary,
-  .backupReminderActions .secondary,
-  .backupReminderTextButton {
-    width: 100%;
-  }
+.dinnerCombinationHeating summary {
+  font-size: 13px !important;
 }
-
-/* ================================
-   PRIVACY & YOUR DATA HERO ALIGNMENT
-   Keeps the privacy objects anchored to the right side of the banner.
-   This rule affects only the Privacy & Your Data supporting-page hero.
-   ================================ */
 
-.pageTopHeroImage.privacyDataHero > img[data-page-hero-image="true"] {
-  object-position: right center;
+.dinnerCombinationHeating div {
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 10px !important;
 }
 
 @media (max-width: 1100px) {
-  .pageTopHeroImage.privacyDataHero > img[data-page-hero-image="true"] {
-    object-position: 82% center;
+  .dinnerCombinationAreaLayout {
+    grid-template-columns: minmax(250px, 34%) minmax(0, 1fr) !important;
+    grid-template-areas:
+      "photo name"
+      "photo dishes"
+      "nutrition groceries"
+      "actions actions" !important;
   }
 }
 
-@media (max-width: 720px) {
-  .pageTopHeroImage.privacyDataHero > img[data-page-hero-image="true"] {
-    object-position: 78% center;
+@media (max-width: 760px) {
+  .productsCompactContent {
+    padding-bottom: 13px !important;
+  }
+
+  .productsCompactControls {
+    position: static !important;
+    justify-content: flex-start !important;
+    flex-wrap: wrap !important;
+    margin-top: 12px !important;
+  }
+
+  .productsCompactCategory {
+    width: min(240px, 100%) !important;
+  }
+
+  .dinnerCombinationAreaLayout {
+    grid-template-columns: 1fr !important;
+    grid-template-areas:
+      "photo"
+      "name"
+      "dishes"
+      "groceries"
+      "nutrition"
+      "actions" !important;
+  }
+
+  .dinnerAreaActions {
+    grid-template-columns: 1fr !important;
+  }
+
+  .dinnerCombinationHeating div {
+    grid-template-columns: 1fr !important;
   }
 }
+\n\n/* =========================================================\n   VERIFIED WEBP REPAIR + JULY 24 LAYOUT UPDATE\n   ========================================================= */\n\n/* Browse Recipe Library: three full-width actions and utility row. */\n.browseRecipeGrid .recipeCardFullImage .browseRecipeActions {\n  display: grid !important;\n  grid-template-columns: 1fr !important;\n  gap: 7px !important;\n}\n.browseRecipeGrid .recipeCardFullImage .browseRecipePrimaryAction,\n.browseRecipeGrid .recipeCardFullImage .browseRecipePrimaryAction > button,\n.browseRecipeGrid .recipeCardFullImage .browseRecipePrimaryAction .addLeftoversButton { width: 100% !important; }\n.browseRecipeGrid .recipeCardFullImage .viewCard,\n.browseRecipeGrid .recipeCardFullImage .addPlan,\n.browseRecipeGrid .recipeCardFullImage .addLeftoversButton {\n  min-height: 36px !important; height: auto !important; margin: 0 !important;\n  padding: 8px 10px !important; font-size: 12px !important; line-height: 1.18 !important; white-space: normal !important;\n}\n.browseRecipeUtilityRow { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 7px !important; }\n.browseRecipeUtilityRowThree { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }\n.browseRecipeUtilityRow > *, .browseRecipeUtilityRow button { min-width: 0 !important; width: 100% !important; }\n.browseRecipeUtilityRow .smartTipsButton,\n.browseRecipeUtilityRow .recipeNotesButton,\n.browseRecipeUtilityRow .constructionCalloutButton {\n  min-height: 34px !important; height: 34px !important; margin: 0 !important; padding: 5px 6px !important;\n  font-size: 10px !important; line-height: 1.05 !important; white-space: normal !important;\n}\n.browseRecipeMetaFooter { display: grid !important; grid-template-columns: minmax(0, 1fr) auto auto !important; align-items: center !important; gap: 9px !important; }\n.browseRecipeMetaItems { display: flex !important; align-items: center !important; gap: 12px !important; min-width: 0 !important; }\n.browseRecipeMealBalanceBadge.mealBalanceBadge { position: static !important; justify-self: center !important; margin: 0 !important; background: var(--green) !important; color: #fff !important; border-color: var(--green) !important; }\n.browseRecipeMealBalanceBadge.mealBalanceBadge, .browseRecipeMealBalanceBadge.mealBalanceBadge * { color: #fff !important; }\n.browseCardHeart { position: static !important; justify-self: end !important; }\n\n/* Dinner Combination full-width card: 25/30/25/20 first row, 50/50 second row. */\n.dinnerCombinationGrid, .dinnerCombinationGrid--grid { display: grid !important; grid-template-columns: 1fr !important; gap: 18px !important; }\n.dinnerCombinationCard { width: 100% !important; }\n.dinnerCombinationAreaLayout {\n  display: grid !important;\n  grid-template-columns: 25% 30% 25% 20% !important;\n  grid-template-areas:\n    "photo name groceries planner"\n    "photo dishes groceries planner"\n    "recipes recipes nutrition nutrition" !important;\n  gap: 0 !important; align-items: stretch !important;\n  border: 1px solid rgba(20,83,45,.15) !important; border-radius: 14px !important; overflow: visible !important; background: #fff !important;\n}\n.dinnerArea { border-radius: 0 !important; border-width: 0 1px 1px 0 !important; padding: 14px !important; }\n.dinnerAreaPhoto { grid-area: photo !important; }\n.dinnerAreaName { grid-area: name !important; }\n.dinnerAreaDishes { grid-area: dishes !important; }\n.dinnerAreaGroceries { grid-area: groceries !important; }\n.dinnerAreaNutrition { grid-area: nutrition !important; border-right: 0 !important; }\n.dinnerAreaActions { display: contents !important; }\n.dinnerAreaActions .dinnerCombinationRecipeButtons { grid-area: recipes !important; padding: 14px 16px !important; border-right: 1px solid #e5ebe6 !important; border-bottom: 0 !important; }\n.dinnerAreaActions .dinnerCombinationPlannerAdd { grid-area: planner !important; display: grid !important; align-content: end !important; gap: 8px !important; padding: 14px !important; border-bottom: 1px solid #e5ebe6 !important; }\n.dinnerAreaActions .dinnerCombinationPlannerAdd select, .dinnerAreaActions .dinnerCombinationPlannerAdd button { width: 100% !important; }\n.dinnerCombinationRecipeButtonGrid { grid-template-columns: repeat(3, minmax(0,1fr)) !important; }\n.dinnerCombinationHeating { width: 100% !important; margin: 0 !important; padding: 12px 16px !important; border-top: 0 !important; text-align: left !important; }\n.dinnerCombinationHeating summary { width: 100% !important; text-align: left !important; }\n.dinnerCombinationHeating div { grid-template-columns: repeat(3, minmax(0,1fr)) !important; }\n\n/* Cooking Tools controls anchored to the lower-right, aligned with image bottom. */\n.productsCompactCard { align-items: stretch !important; }\n.productsCompactContent { position: relative !important; min-height: 100% !important; padding-bottom: 58px !important; }\n.productsCompactControls { position: absolute !important; right: 15px !important; bottom: 10px !important; left: auto !important; display: flex !important; align-items: flex-end !important; justify-content: flex-end !important; gap: 8px !important; margin: 0 !important; }\n.productsCompactCategory select, .productsCompactAffiliate { margin-bottom: 0 !important; }\n\n@media (max-width: 1000px) {\n  .dinnerCombinationAreaLayout { grid-template-columns: 32% 38% 30% !important; grid-template-areas: "photo name planner" "photo dishes planner" "groceries groceries groceries" "recipes recipes nutrition" !important; }\n}\n@media (max-width: 760px) {\n  .browseRecipeUtilityRow, .browseRecipeUtilityRowThree { grid-template-columns: 1fr !important; }\n  .dinnerCombinationAreaLayout { grid-template-columns: 1fr !important; grid-template-areas: "photo" "name" "dishes" "groceries" "planner" "recipes" "nutrition" !important; }\n  .dinnerCombinationRecipeButtonGrid { grid-template-columns: 1fr !important; }\n  .dinnerCombinationHeating div { grid-template-columns: 1fr !important; }\n  .productsCompactContent { padding-bottom: 13px !important; }\n  .productsCompactControls { position: static !important; justify-content: flex-start !important; flex-wrap: wrap !important; margin-top: 12px !important; }\n}\n

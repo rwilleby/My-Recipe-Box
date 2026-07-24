@@ -2,7 +2,7 @@ import {
   createBackupDocument,
   validateBackupDocument,
   restoreBackupDocument,
-} from "./src/utils/backupService.js";
+} from "./utils/backupService.js";
 
 class MemoryStorage {
   constructor(seed = {}) { this.map = new Map(Object.entries(seed)); }

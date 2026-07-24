@@ -19,7 +19,7 @@ export const DINNER_SIDE_FILTERS = [
 export const dinnerCombinations = [
   {
     "id": "meal-001",
-    "image": "images/dinner-combinations/meal-001.JPG",
+    "image": "images/dinner-combinations/meal-001.webp",
     "number": 1,
     "title": "BBQ Pulled Chicken",
     "subtitle": "With Baked Beans & Cornbread Stuffing",
@@ -57,7 +57,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-002",
-    "image": "images/dinner-combinations/meal-002.JPG",
+    "image": "images/dinner-combinations/meal-002.webp",
     "number": 2,
     "title": "Salisbury Steak",
     "subtitle": "With Mashed Potatoes & Green Beans",
@@ -95,7 +95,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-003",
-    "image": "images/dinner-combinations/meal-003.JPG",
+    "image": "images/dinner-combinations/meal-003.webp",
     "number": 3,
     "title": "Chicken Alfredo",
     "subtitle": "With Broccoli & Garlic Parmesan Pasta",
@@ -132,7 +132,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-004",
-    "image": "images/dinner-combinations/meal-004.JPG",
+    "image": "images/dinner-combinations/meal-004.webp",
     "number": 4,
     "title": "Meatloaf with Brown Gravy",
     "subtitle": "With Macaroni & Cheese & Corn",
@@ -169,7 +169,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-005",
-    "image": "images/dinner-combinations/meal-005.JPG",
+    "image": "images/dinner-combinations/meal-005.webp",
     "number": 5,
     "title": "Teriyaki Chicken",
     "subtitle": "With Fried Rice & Stir-Fry Vegetables",
@@ -206,7 +206,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-006",
-    "image": "images/dinner-combinations/meal-006.JPG",
+    "image": "images/dinner-combinations/meal-006.webp",
     "number": 6,
     "title": "Beef Stroganoff",
     "subtitle": "With Egg Noodles & Peas & Carrots",
@@ -243,7 +243,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-007",
-    "image": "images/dinner-combinations/meal-007.JPG",
+    "image": "images/dinner-combinations/meal-007.webp",
     "number": 7,
     "title": "Chicken Enchilada Bake",
     "subtitle": "With Spanish Rice & Pinto Beans",
@@ -279,7 +279,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-008",
-    "image": "images/dinner-combinations/meal-008.JPG",
+    "image": "images/dinner-combinations/meal-008.webp",
     "number": 8,
     "title": "Baked Ziti",
     "subtitle": "With Garlic Green Beans & Roasted Zucchini",
@@ -315,7 +315,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-009",
-    "image": "images/dinner-combinations/meal-009.JPG",
+    "image": "images/dinner-combinations/meal-009.webp",
     "number": 9,
     "title": "Smothered Pork Chops",
     "subtitle": "With Rice Pilaf & Southern-Style Green Beans",
@@ -353,7 +353,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-010",
-    "image": "images/dinner-combinations/meal-010.JPG",
+    "image": "images/dinner-combinations/meal-010.webp",
     "number": 10,
     "title": "Chicken Pot Pie Filling",
     "subtitle": "With Mashed Potatoes & Buttered Corn",
@@ -388,7 +388,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-011",
-    "image": "images/dinner-combinations/meal-011.JPG",
+    "image": "images/dinner-combinations/meal-011.webp",
     "number": 11,
     "title": "Egg Noodles",
     "subtitle": "With Egg Noodles & Roasted Carrots",
@@ -424,7 +424,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-012",
-    "image": "images/dinner-combinations/meal-012.JPG",
+    "image": "images/dinner-combinations/meal-012.webp",
     "number": 12,
     "title": "Lemon Pepper Chicken",
     "subtitle": "With Rice Pilaf & Broccoli",
@@ -460,7 +460,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-013",
-    "image": "images/dinner-combinations/meal-013.JPG",
+    "image": "images/dinner-combinations/meal-013.webp",
     "number": 13,
     "title": "Taco Meat & Cheese",
     "subtitle": "With Mexican Rice & Refried Beans",
@@ -495,7 +495,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-014",
-    "image": "images/dinner-combinations/meal-014.JPG",
+    "image": "images/dinner-combinations/meal-014.webp",
     "number": 14,
     "title": "BBQ Meatballs",
     "subtitle": "With Scalloped Potatoes & Green Beans",
@@ -533,7 +533,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-015",
-    "image": "images/dinner-combinations/meal-015.JPG",
+    "image": "images/dinner-combinations/meal-015.webp",
     "number": 15,
     "title": "Chicken Parmesan",
     "subtitle": "With Spaghetti & Italian Vegetables",
@@ -569,7 +569,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-016",
-    "image": "images/dinner-combinations/meal-016.JPG",
+    "image": "images/dinner-combinations/meal-016.webp",
     "number": 16,
     "title": "Ham Steak",
     "subtitle": "With Sweet Potatoes & Green Beans",
@@ -607,7 +607,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-017",
-    "image": "images/dinner-combinations/meal-017.JPG",
+    "image": "images/dinner-combinations/meal-017.webp",
     "number": 17,
     "title": "Cajun Sausage & Chicken",
     "subtitle": "With Dirty Rice & Corn Maque Choux",
@@ -642,7 +642,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-018",
-    "image": "images/dinner-combinations/meal-018.JPG",
+    "image": "images/dinner-combinations/meal-018.webp",
     "number": 18,
     "title": "Turkey & Gravy",
     "subtitle": "With Stuffing & Mashed Potatoes",
@@ -678,7 +678,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-019",
-    "image": "images/dinner-combinations/meal-019.JPG",
+    "image": "images/dinner-combinations/meal-019.webp",
     "number": 19,
     "title": "Baked Cod",
     "subtitle": "With Rice Pilaf & Green Beans",
@@ -715,7 +715,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-020",
-    "image": "images/dinner-combinations/meal-020.JPG",
+    "image": "images/dinner-combinations/meal-020.webp",
     "number": 20,
     "title": "Baked Ham",
     "subtitle": "With Scalloped Potatoes & Green Beans",
@@ -753,7 +753,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-021",
-    "image": "images/dinner-combinations/meal-021.JPG",
+    "image": "images/dinner-combinations/meal-021.webp",
     "number": 21,
     "title": "Baked Ziti",
     "subtitle": "With Garlic Bread & Mixed Vegetables",
@@ -790,7 +790,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-022",
-    "image": "images/dinner-combinations/meal-022.JPG",
+    "image": "images/dinner-combinations/meal-022.webp",
     "number": 22,
     "title": "BBQ Chicken",
     "subtitle": "With Baked Beans & Cornbread",
@@ -827,7 +827,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-023",
-    "image": "images/dinner-combinations/meal-023.JPG",
+    "image": "images/dinner-combinations/meal-023.webp",
     "number": 23,
     "title": "BBQ Pulled Pork",
     "subtitle": "With Coleslaw & Baked Beans",
@@ -864,7 +864,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-024",
-    "image": "images/dinner-combinations/meal-024.JPG",
+    "image": "images/dinner-combinations/meal-024.webp",
     "number": 24,
     "title": "BBQ Ribs",
     "subtitle": "With Potato Salad & Cornbread",
@@ -902,7 +902,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-025",
-    "image": "images/dinner-combinations/meal-025.JPG",
+    "image": "images/dinner-combinations/meal-025.webp",
     "number": 25,
     "title": "Beef Pot Pie",
     "subtitle": "With Carrots & Green Beans",
@@ -938,7 +938,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-026",
-    "image": "images/dinner-combinations/meal-026.JPG",
+    "image": "images/dinner-combinations/meal-026.webp",
     "number": 26,
     "title": "Shepherd's Pie",
     "subtitle": "With Corn & Green Beans",
@@ -975,7 +975,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-027",
-    "image": "images/dinner-combinations/meal-027.JPG",
+    "image": "images/dinner-combinations/meal-027.webp",
     "number": 27,
     "title": "Spaghetti & Meat Sauce",
     "subtitle": "With Garlic Bread & Green Beans",
@@ -1012,7 +1012,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-028",
-    "image": "images/dinner-combinations/meal-028.JPG",
+    "image": "images/dinner-combinations/meal-028.webp",
     "number": 28,
     "title": "Veggie Lasagna",
     "subtitle": "With Garlic Bread & Broccoli",
@@ -1050,7 +1050,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-029",
-    "image": "images/dinner-combinations/meal-029.JPG",
+    "image": "images/dinner-combinations/meal-029.webp",
     "number": 29,
     "title": "Tuna Noodle Casserole",
     "subtitle": "With Peas & Carrots",
@@ -1087,7 +1087,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-030",
-    "image": "images/dinner-combinations/meal-030.JPG",
+    "image": "images/dinner-combinations/meal-030.webp",
     "number": 30,
     "title": "Chicken Tetrazzini",
     "subtitle": "With Broccoli & Garlic Bread",
@@ -1125,7 +1125,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-031",
-    "image": "images/dinner-combinations/meal-031.JPG",
+    "image": "images/dinner-combinations/meal-031.webp",
     "number": 31,
     "title": "Beef Tips & Gravy",
     "subtitle": "With Mashed Potatoes & Corn",
@@ -1164,7 +1164,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-032",
-    "image": "images/dinner-combinations/meal-032.JPG",
+    "image": "images/dinner-combinations/meal-032.webp",
     "number": 32,
     "title": "Lemon Pepper Cod",
     "subtitle": "With Rice Pilaf & Green Beans",
@@ -1203,7 +1203,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-033",
-    "image": "images/dinner-combinations/meal-033.JPG",
+    "image": "images/dinner-combinations/meal-033.webp",
     "number": 33,
     "title": "Chicken Parmesan",
     "subtitle": "With Spaghetti & Green Beans",
@@ -1240,7 +1240,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-034",
-    "image": "images/dinner-combinations/meal-034.JPG",
+    "image": "images/dinner-combinations/meal-034.webp",
     "number": 34,
     "title": "Creamy Chicken & Rice",
     "subtitle": "With Broccoli & Carrots",
@@ -1277,7 +1277,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-035",
-    "image": "images/dinner-combinations/meal-035.JPG",
+    "image": "images/dinner-combinations/meal-035.webp",
     "number": 35,
     "title": "Pork Chop",
     "subtitle": "With Mashed Potatoes & Green Beans",
@@ -1315,7 +1315,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-036",
-    "image": "images/dinner-combinations/meal-036.JPG",
+    "image": "images/dinner-combinations/meal-036.webp",
     "number": 36,
     "title": "Meatballs & Gravy",
     "subtitle": "With Egg Noodles & Peas",
@@ -1352,7 +1352,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-037",
-    "image": "images/dinner-combinations/meal-037.JPG",
+    "image": "images/dinner-combinations/meal-037.webp",
     "number": 37,
     "title": "Chicken Pot Pie",
     "subtitle": "With Carrots & Peas",
@@ -1386,7 +1386,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-038",
-    "image": "images/dinner-combinations/meal-038.JPG",
+    "image": "images/dinner-combinations/meal-038.webp",
     "number": 38,
     "title": "Country Fried Steak",
     "subtitle": "With Mashed Potatoes & Green Beans",
@@ -1424,7 +1424,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-039",
-    "image": "images/dinner-combinations/meal-039.JPG",
+    "image": "images/dinner-combinations/meal-039.webp",
     "number": 39,
     "title": "Fish - 2 pieces",
     "subtitle": "With French Fries & Coleslaw",
@@ -1459,7 +1459,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-040",
-    "image": "images/dinner-combinations/meal-040.JPG",
+    "image": "images/dinner-combinations/meal-040.webp",
     "number": 40,
     "title": "Beef Meatloaf",
     "subtitle": "With Mashed Potatoes & Corn",
@@ -1498,7 +1498,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-041",
-    "image": "images/dinner-combinations/meal-041.JPG",
+    "image": "images/dinner-combinations/meal-041.webp",
     "number": 41,
     "title": "Chicken Fajita",
     "subtitle": "With Rice & Black Beans",
@@ -1534,7 +1534,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-042",
-    "image": "images/dinner-combinations/meal-042.JPG",
+    "image": "images/dinner-combinations/meal-042.webp",
     "number": 42,
     "title": "Baked Salmon",
     "subtitle": "With Rice Pilaf & Asparagus",
@@ -1569,7 +1569,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-043",
-    "image": "images/dinner-combinations/meal-043.JPG",
+    "image": "images/dinner-combinations/meal-043.webp",
     "number": 43,
     "title": "Baked Chicken",
     "subtitle": "With Mashed Potatoes & Green Beans",
@@ -1607,7 +1607,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-044",
-    "image": "images/dinner-combinations/meal-044.JPG",
+    "image": "images/dinner-combinations/meal-044.webp",
     "number": 44,
     "title": "Honey Garlic Chicken",
     "subtitle": "With Fried Rice & Broccoli",
@@ -1646,7 +1646,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-045",
-    "image": "images/dinner-combinations/meal-045.JPG",
+    "image": "images/dinner-combinations/meal-045.webp",
     "number": 45,
     "title": "Sweet & Sour Chicken",
     "subtitle": "With Rice & Stir-Fry Vegetables",
@@ -1684,7 +1684,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-046",
-    "image": "images/dinner-combinations/meal-046.JPG",
+    "image": "images/dinner-combinations/meal-046.webp",
     "number": 46,
     "title": "Lemon Herb Chicken",
     "subtitle": "With Rice Pilaf & Asparagus",
@@ -1721,7 +1721,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-047",
-    "image": "images/dinner-combinations/meal-047.JPG",
+    "image": "images/dinner-combinations/meal-047.webp",
     "number": 47,
     "title": "Pork Tenderloin",
     "subtitle": "With Mashed Potatoes & Green Beans",
@@ -1759,7 +1759,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-048",
-    "image": "images/dinner-combinations/meal-048.JPG",
+    "image": "images/dinner-combinations/meal-048.webp",
     "number": 48,
     "title": "Chicken Stir-Fry",
     "subtitle": "With Rice & Mixed Vegetables",
@@ -1795,7 +1795,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-049",
-    "image": "images/dinner-combinations/meal-049.JPG",
+    "image": "images/dinner-combinations/meal-049.webp",
     "number": 49,
     "title": "Chicken Tenders - 3 pieces «",
     "subtitle": "With Macaroni & Cheese & Corn",
@@ -1832,7 +1832,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-050",
-    "image": "images/dinner-combinations/meal-050.JPG",
+    "image": "images/dinner-combinations/meal-050.webp",
     "number": 50,
     "title": "Roast Beef",
     "subtitle": "With Mashed Potatoes & Green Beans",
@@ -1870,7 +1870,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-051",
-    "image": "images/dinner-combinations/meal-051.JPG",
+    "image": "images/dinner-combinations/meal-051.webp",
     "number": 51,
     "title": "lurkey",
     "subtitle": "With stuffing & sreen Beans",
@@ -1905,7 +1905,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-052",
-    "image": "images/dinner-combinations/meal-052.JPG",
+    "image": "images/dinner-combinations/meal-052.webp",
     "number": 52,
     "title": "Shrimp Scampi",
     "subtitle": "With Rice & Broccoli",
@@ -1941,7 +1941,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-053",
-    "image": "images/dinner-combinations/meal-053.JPG",
+    "image": "images/dinner-combinations/meal-053.webp",
     "number": 53,
     "title": "Cheddar Meatloaf",
     "subtitle": "With Mashed Potatoes & Corn",
@@ -1978,7 +1978,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-054",
-    "image": "images/dinner-combinations/meal-054.JPG",
+    "image": "images/dinner-combinations/meal-054.webp",
     "number": 54,
     "title": ".0 Mein Noodles",
     "subtitle": "With Stir-Fry Vegetables & None Ren mcs for",
@@ -2015,7 +2015,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-055",
-    "image": "images/dinner-combinations/meal-055.JPG",
+    "image": "images/dinner-combinations/meal-055.webp",
     "number": 55,
     "title": "Chicken & Dumplings",
     "subtitle": "With Green Beans & None K",
@@ -2051,7 +2051,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-056",
-    "image": "images/dinner-combinations/meal-056.JPG",
+    "image": "images/dinner-combinations/meal-056.webp",
     "number": 56,
     "title": "Beef Pot Roast",
     "subtitle": "With Mashed Potatoes & Carrots",
@@ -2087,7 +2087,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-057",
-    "image": "images/dinner-combinations/meal-057.JPG",
+    "image": "images/dinner-combinations/meal-057.webp",
     "number": 57,
     "title": "is",
     "subtitle": "",
@@ -2112,7 +2112,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-058",
-    "image": "images/dinner-combinations/meal-058.JPG",
+    "image": "images/dinner-combinations/meal-058.webp",
     "number": 58,
     "title": "Baked Ham",
     "subtitle": "With Scalloped Potatoes & Corn",
@@ -2149,7 +2149,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-059",
-    "image": "images/dinner-combinations/meal-059.JPG",
+    "image": "images/dinner-combinations/meal-059.webp",
     "number": 59,
     "title": "with fod",
     "subtitle": "With Garlic Bread",
@@ -2180,7 +2180,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-060",
-    "image": "images/dinner-combinations/meal-060.JPG",
+    "image": "images/dinner-combinations/meal-060.webp",
     "number": 60,
     "title": "ns",
     "subtitle": "",
@@ -2205,7 +2205,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-061",
-    "image": "images/dinner-combinations/meal-061.JPG",
+    "image": "images/dinner-combinations/meal-061.webp",
     "number": 61,
     "title": "Shepherd's Pie",
     "subtitle": "With Green Beans & Corn",
@@ -2242,7 +2242,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-062",
-    "image": "images/dinner-combinations/meal-062.JPG",
+    "image": "images/dinner-combinations/meal-062.webp",
     "number": 62,
     "title": "Chicken Pot Pie",
     "subtitle": "With Carrots & Peas",
@@ -2276,7 +2276,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-063",
-    "image": "images/dinner-combinations/meal-063.JPG",
+    "image": "images/dinner-combinations/meal-063.webp",
     "number": 63,
     "title": "Lemon Pepper Chicken",
     "subtitle": "With Rice Pilaf & Broccoli",
@@ -2312,7 +2312,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-064",
-    "image": "images/dinner-combinations/meal-064.JPG",
+    "image": "images/dinner-combinations/meal-064.webp",
     "number": 64,
     "title": "Baked Turkey",
     "subtitle": "With Mashed Potatoes & Green Beans",
@@ -2350,7 +2350,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-065",
-    "image": "images/dinner-combinations/meal-065.JPG",
+    "image": "images/dinner-combinations/meal-065.webp",
     "number": 65,
     "title": "Spaghetti & Meat Sauce",
     "subtitle": "With Garlic Bread",
@@ -2382,7 +2382,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-066",
-    "image": "images/dinner-combinations/meal-066.JPG",
+    "image": "images/dinner-combinations/meal-066.webp",
     "number": 66,
     "title": "Chicken Parmigiana",
     "subtitle": "With Spaghetti & Green Beans",
@@ -2418,7 +2418,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-067",
-    "image": "images/dinner-combinations/meal-067.JPG",
+    "image": "images/dinner-combinations/meal-067.webp",
     "number": 67,
     "title": "Honey Mustard Chicken",
     "subtitle": "With Rice & Green Beans",
@@ -2454,7 +2454,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-068",
-    "image": "images/dinner-combinations/meal-068.JPG",
+    "image": "images/dinner-combinations/meal-068.webp",
     "number": 68,
     "title": "Bacon Cheeseburger Casserole",
     "subtitle": "With Tater Tots",
@@ -2485,7 +2485,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-069",
-    "image": "images/dinner-combinations/meal-069.JPG",
+    "image": "images/dinner-combinations/meal-069.webp",
     "number": 69,
     "title": "Garlic Butter Shrimp",
     "subtitle": "With Rice & Broccoli",
@@ -2520,7 +2520,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-070",
-    "image": "images/dinner-combinations/meal-070.JPG",
+    "image": "images/dinner-combinations/meal-070.webp",
     "number": 70,
     "title": "Veggie Lasagna",
     "subtitle": "With Garlic Bread",
@@ -2552,7 +2552,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-071",
-    "image": "images/dinner-combinations/meal-071.JPG",
+    "image": "images/dinner-combinations/meal-071.webp",
     "number": 71,
     "title": "Hamburger Steak with Mushroom Gravy",
     "subtitle": "With Mashed Potatoes & Groen Reanc - 1/9 cin",
@@ -2587,7 +2587,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-072",
-    "image": "images/dinner-combinations/meal-072.JPG",
+    "image": "images/dinner-combinations/meal-072.webp",
     "number": 72,
     "title": "Fiesta Chicken",
     "subtitle": "With Rice & Black Beans & Corn",
@@ -2622,7 +2622,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-073",
-    "image": "images/dinner-combinations/meal-073.JPG",
+    "image": "images/dinner-combinations/meal-073.webp",
     "number": 73,
     "title": "Egg Noodles",
     "subtitle": "With Egg Noodles & Green Beans",
@@ -2660,7 +2660,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-074",
-    "image": "images/dinner-combinations/meal-074.JPG",
+    "image": "images/dinner-combinations/meal-074.webp",
     "number": 74,
     "title": "Baked Cod",
     "subtitle": "With Rice Pilaf & Green Beans",
@@ -2697,7 +2697,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-075",
-    "image": "images/dinner-combinations/meal-075.JPG",
+    "image": "images/dinner-combinations/meal-075.webp",
     "number": 75,
     "title": "Southwest Chicken",
     "subtitle": "With Rice & Black Beans & Corn",
@@ -2732,7 +2732,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-076",
-    "image": "images/dinner-combinations/meal-076.JPG",
+    "image": "images/dinner-combinations/meal-076.webp",
     "number": 76,
     "title": "Pork Chops & Gravy",
     "subtitle": "With Mashed Potatoes & Corn",
@@ -2769,7 +2769,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-077",
-    "image": "images/dinner-combinations/meal-077.JPG",
+    "image": "images/dinner-combinations/meal-077.webp",
     "number": 77,
     "title": "Chicken Fajita",
     "subtitle": "With Rice & Black Beans",
@@ -2803,7 +2803,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-078",
-    "image": "images/dinner-combinations/meal-078.JPG",
+    "image": "images/dinner-combinations/meal-078.webp",
     "number": 78,
     "title": "Italian Meat Sauce",
     "subtitle": "With Penne Pasta & Garlic Bread",
@@ -2837,7 +2837,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-079",
-    "image": "images/dinner-combinations/meal-079.JPG",
+    "image": "images/dinner-combinations/meal-079.webp",
     "number": 79,
     "title": "Chicken Tetrazzini",
     "subtitle": "With Peas & None «",
@@ -2871,7 +2871,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-080",
-    "image": "images/dinner-combinations/meal-080.JPG",
+    "image": "images/dinner-combinations/meal-080.webp",
     "number": 80,
     "title": "Country Fried Steak",
     "subtitle": "With Mashed Potatoes & Corn",
@@ -2908,7 +2908,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-081",
-    "image": "images/dinner-combinations/meal-081.JPG",
+    "image": "images/dinner-combinations/meal-081.webp",
     "number": 81,
     "title": "Breaded Fish - 2 pieces",
     "subtitle": "With Fries & Cole Slaw & Tartar Sauce - «",
@@ -2942,7 +2942,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-082",
-    "image": "images/dinner-combinations/meal-082.JPG",
+    "image": "images/dinner-combinations/meal-082.webp",
     "number": 82,
     "title": "Honey Garlic Chicken",
     "subtitle": "With Fried Rice & Broccoli",
@@ -2979,7 +2979,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-083",
-    "image": "images/dinner-combinations/meal-083.JPG",
+    "image": "images/dinner-combinations/meal-083.webp",
     "number": 83,
     "title": "Chili Mac",
     "subtitle": "With Cornbread",
@@ -3011,7 +3011,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-084",
-    "image": "images/dinner-combinations/meal-084.JPG",
+    "image": "images/dinner-combinations/meal-084.webp",
     "number": 84,
     "title": "BBQ Meatloaf",
     "subtitle": "With Mashed Potatoes & Green Beans",
@@ -3049,7 +3049,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-085",
-    "image": "images/dinner-combinations/meal-085.JPG",
+    "image": "images/dinner-combinations/meal-085.webp",
     "number": 85,
     "title": "Baked Ziti",
     "subtitle": "With None . & Garlic Bread",
@@ -3083,7 +3083,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-086",
-    "image": "images/dinner-combinations/meal-086.JPG",
+    "image": "images/dinner-combinations/meal-086.webp",
     "number": 86,
     "title": "Baked Ham",
     "subtitle": "With Scalloped Potatoes & Corn",
@@ -3120,7 +3120,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-087",
-    "image": "images/dinner-combinations/meal-087.JPG",
+    "image": "images/dinner-combinations/meal-087.webp",
     "number": 87,
     "title": "Chicken & Dumplings",
     "subtitle": "With Green Beans",
@@ -3154,7 +3154,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-088",
-    "image": "images/dinner-combinations/meal-088.JPG",
+    "image": "images/dinner-combinations/meal-088.webp",
     "number": 88,
     "title": "Meatloaf",
     "subtitle": "With Mashed Potatoes & Green Beans",
@@ -3192,7 +3192,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-089",
-    "image": "images/dinner-combinations/meal-089.JPG",
+    "image": "images/dinner-combinations/meal-089.webp",
     "number": 89,
     "title": "Pot Roast",
     "subtitle": "With Potatoes & Carrots",
@@ -3227,7 +3227,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-090",
-    "image": "images/dinner-combinations/meal-090.JPG",
+    "image": "images/dinner-combinations/meal-090.webp",
     "number": 90,
     "title": "Buffalo Chicken Mac",
     "subtitle": "With Broccoli & Garlic Bread",
@@ -3262,7 +3262,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-091",
-    "image": "images/dinner-combinations/meal-091.JPG",
+    "image": "images/dinner-combinations/meal-091.webp",
     "number": 91,
     "title": "Sweet & Sour Chicken",
     "subtitle": "With Fried Rice & Green Beans",
@@ -3300,7 +3300,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-092",
-    "image": "images/dinner-combinations/meal-092.JPG",
+    "image": "images/dinner-combinations/meal-092.webp",
     "number": 92,
     "title": "Lemon Herb Chicken",
     "subtitle": "With Rice Pilaf & Broccoli",
@@ -3336,7 +3336,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-093",
-    "image": "images/dinner-combinations/meal-093.JPG",
+    "image": "images/dinner-combinations/meal-093.webp",
     "number": 93,
     "title": "Sausage & Peppers",
     "subtitle": "With Mashed Potatoes & Corn",
@@ -3373,7 +3373,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-094",
-    "image": "images/dinner-combinations/meal-094.JPG",
+    "image": "images/dinner-combinations/meal-094.webp",
     "number": 94,
     "title": "Roasted Turkey",
     "subtitle": "With Stuffing & Green Beans",
@@ -3410,7 +3410,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-095",
-    "image": "images/dinner-combinations/meal-095.JPG",
+    "image": "images/dinner-combinations/meal-095.webp",
     "number": 95,
     "title": "Beef Tips in Gravy",
     "subtitle": "With Egg Noodles & Peas",
@@ -3448,7 +3448,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-096",
-    "image": "images/dinner-combinations/meal-096.JPG",
+    "image": "images/dinner-combinations/meal-096.webp",
     "number": 96,
     "title": "Spinach Lasagna",
     "subtitle": "With Green Beans & Garlic Bread",
@@ -3485,7 +3485,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-097",
-    "image": "images/dinner-combinations/meal-097.JPG",
+    "image": "images/dinner-combinations/meal-097.webp",
     "number": 97,
     "title": "Turkey Tetrazzini",
     "subtitle": "With Peas & Alana",
@@ -3520,7 +3520,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-098",
-    "image": "images/dinner-combinations/meal-098.JPG",
+    "image": "images/dinner-combinations/meal-098.webp",
     "number": 98,
     "title": "Orange Chicken",
     "subtitle": "With Fried Rice",
@@ -3553,7 +3553,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-099",
-    "image": "images/dinner-combinations/meal-099.JPG",
+    "image": "images/dinner-combinations/meal-099.webp",
     "number": 99,
     "title": "Chicken Pot Pie",
     "subtitle": "With Alana",
@@ -3584,7 +3584,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-100",
-    "image": "images/dinner-combinations/meal-100.JPG",
+    "image": "images/dinner-combinations/meal-100.webp",
     "number": 100,
     "title": "Creamy Garlic Chicken",
     "subtitle": "With Rice",
@@ -3615,7 +3615,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-101",
-    "image": "images/dinner-combinations/meal-101.JPG",
+    "image": "images/dinner-combinations/meal-101.webp",
     "number": 101,
     "title": "Cheddar Meatloaf",
     "subtitle": "With Mashed Potatoes",
@@ -3648,7 +3648,7 @@ export const dinnerCombinations = [
   },
   {
     "id": "meal-102",
-    "image": "images/dinner-combinations/meal-102.JPG",
+    "image": "images/dinner-combinations/meal-102.webp",
     "number": 102,
     "title": "Honey BBQ Ribs",
     "subtitle": "With Baked Beans",

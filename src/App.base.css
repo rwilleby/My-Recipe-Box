@@ -1621,7 +1621,7 @@ th {
 
 /* ================================
    ROLODEX HOLDER ART UPDATE
-   Uses: public/images/ui/hero-rolodex-.png
+   Uses: public/images/ui/hero-rolodex-.webp
    ================================ */
 
 /* Recently Added now shows 2 cards so the Rolodex gets more room */
@@ -2605,7 +2605,7 @@ th {
 
 /* ================================
    HEADER LOGO IMAGE UPDATE
-   Uses: public/images/ui/rrb-logo-wide.png
+   Uses: public/images/ui/rrb-logo-wide.webp
    ================================ */
 
 .brandLogoButton {
@@ -3819,7 +3819,7 @@ th {
    MERGED FIX: FINAL HOME CATEGORY ICON GRID
    - 20 icons only, 2 rows of 10 on desktop
    - responsive icon scaling
-   - uses public/images/categories/CODE.png
+   - uses public/images/categories/CODE.webp
    - full category names only, no code initials
    ================================ */
 
@@ -4857,9 +4857,9 @@ th {
 
 /* ================================
    JPEG THUMBNAILS + HERO JPG UPDATE
-   - Browse/Rolodex previews use public/images/thumbs/*.jpg first.
-   - Homepage hero rotation uses public/images/heroes-jpg/*.jpg.
-   - Full viewer/print/download still prefer public/images/recipes/*.png.
+   - Browse/Rolodex previews use public/images/thumbs/*.webp first.
+   - Homepage hero rotation uses public/images/heroes-jpg/*.webp.
+   - Full viewer/print/download still prefer public/images/recipes/*.webp.
    ================================ */
 
 .recipeFullCardImage img,
@@ -4872,8 +4872,8 @@ th {
 /* ================================
    THUMBS SUBFOLDER PATH UPDATE
    Code now expects:
-   public/images/thumbs/recipes/CODE.jpg
-   public/images/thumbs/heroes/hero-name.jpg
+   public/images/thumbs/recipes/CODE.webp
+   public/images/thumbs/heroes/hero-name.webp
    ================================ */
 
 
@@ -5307,9 +5307,9 @@ th {
 /* ================================
    ROLODEX THUMBNAIL PERFORMANCE UPDATE
    Rolodex and Browse previews now use small JPEG thumbnails first:
-   public/images/thumbs/recipes/CODE.jpg
+   public/images/thumbs/recipes/CODE.webp
    Full viewer/print/download still prefer full PNG cards:
-   public/images/recipes/CODE.png
+   public/images/recipes/CODE.webp
    ================================ */
 
 .homeRolodexCard img,

@@ -1,9 +1,6 @@
 import { createContext, useContext, useMemo, useState, useEffect, useRef } from "react";
 import { categories, recipes } from "./data/recipes";
 import AdminRecipeClassifier from "./components/AdminRecipeClassifier";
-import UserDataBackupSection from "./components/UserDataBackupSection";
-import BackupReminderNotice from "./components/BackupReminderNotice";
-import PrivacyYourDataPage from "./components/PrivacyYourDataPage";
 import {
   loadRecipeClassifications,
   mergeRecipeClassifications,
@@ -61,27 +58,27 @@ const STORAGE_KEYS = {
 };
 
 const CATEGORY_ICON_IMAGES = {
-  AM: "images/categories/AM.png",
-  AS: "images/categories/AS.png",
-  CC: "images/categories/CC.png",
-  CO: "images/categories/CO.png",
-  CR: "images/categories/CR.png",
-  DN: "images/categories/DN.png",
-  DS: "images/categories/DS.png",
-  HB: "images/categories/HB.png",
-  IT: "images/categories/IT.png",
-  JJ: "images/categories/JJ.png",
-  KR: "images/categories/KR.png",
-  LF: "images/categories/LF.png",
-  MX: "images/categories/MX.png",
-  PM: "images/categories/PM.png",
-  QP: "images/categories/QP.png",
-  CS: "images/categories/CS.png",
-  SB: "images/categories/SB.png",
-  SD: "images/categories/SD.png",
-  SF: "images/categories/SF.png",
-  SG: "images/categories/SG.png",
-  SW: "images/categories/SW.png",
+  AM: "images/categories/AM.webp",
+  AS: "images/categories/AS.webp",
+  CC: "images/categories/CC.webp",
+  CO: "images/categories/CO.webp",
+  CR: "images/categories/CR.webp",
+  DN: "images/categories/DN.webp",
+  DS: "images/categories/DS.webp",
+  HB: "images/categories/HB.webp",
+  IT: "images/categories/IT.webp",
+  JJ: "images/categories/JJ.webp",
+  KR: "images/categories/KR.webp",
+  LF: "images/categories/LF.webp",
+  MX: "images/categories/MX.webp",
+  PM: "images/categories/PM.webp",
+  QP: "images/categories/QP.webp",
+  CS: "images/categories/CS.webp",
+  SB: "images/categories/SB.webp",
+  SD: "images/categories/SD.webp",
+  SF: "images/categories/SF.webp",
+  SG: "images/categories/SG.webp",
+  SW: "images/categories/SW.webp",
 };
 
 const HOME_CATEGORY_CODES = [
@@ -645,51 +642,51 @@ function splitShoppingListByPantry(list, pantry) {
 }
 
 const SUPPORTING_PAGE_HERO_IMAGES = [
-  "images/heroes/hero-mission.png",
-  "images/heroes/hero-page-free-to-use.jpg",
-  "images/heroes/hero-page-complete-dinners.jpg",
-  "images/heroes/hero-page-reference-guides.jpg",
-  "images/heroes/hero-page-disclaimers.jpg",
-  "images/heroes/hero-page-construction.jpg",
-  "images/heroes/hero-page-browse-recipes.jpg",
-  "images/heroes/hero-weekly-plan.png",
-  "images/heroes/hero-page-salad-jars.jpg",
-  "images/heroes/hero-page-slow-cooker.jpg",
-  "images/heroes/hero-page-summer-cookouts.jpg",
-  "images/heroes/hero-page-healthy-dinners.jpg",
-  "images/heroes/hero-page-comfort-food.jpg",
-  "images/heroes/hero-page-30-minute-meals.jpg",
-  "images/heroes/hero-weekly-dinner-planner.png",
-  "images/heroes/hero-page-grocery-list.jpg",
-  "images/heroes/hero-page-your-pantry.jpg",
-  "images/heroes/hero-page-favorite-recipes.jpg",
-  "images/heroes/hero-storage.png",
-  "images/heroes/hero-page-cooking-tools.jpg",
-  "images/heroes/hero-page-healthy-substitutions.jpg",
-  "images/heroes/hero-page-about-us.jpg",
-  "images/heroes/hero-air-fryer.png",
-  "images/heroes/hero-recipes.png",
-  "images/heroes/hero-submit-recipe.jpg",
-  "images/heroes/hero-oven.png",
-  "images/heroes/hero-page-ai-generated.jpg",
-  "images/heroes/hero-smoker.jpg",
-  "images/heroes/hero-page-affiliate.jpg",
-  "images/heroes/hero-page-crockpot.jpg",
-  "images/heroes/hero-grill.png",
-  "images/heroes/hero-page-air-fryer.jpg",
-  "images/heroes/hero-page-oven.jpg",
-  "images/heroes/hero-page-microwaves.jpg",
-  "images/heroes/hero-page-gas-grills.jpg",
-  "images/heroes/hero-page-pellet-smoker.jpg",
-  "images/heroes/hero-page-storage.jpg",
-  "images/heroes/hero-page-family.png",
-  "images/heroes/hero-page-freezer-inv.png",
-  "images/heroes/hero-page-freezer-meals.png",
-  "images/heroes/hero-page-refrigerator-inv.png",
-  "images/heroes/hero-page-freeze-reheat.png",
-  "images/heroes/hero-page-food-safety.png",
-  "images/heroes/hero-page-breadmaking.png",
-  "images/heroes/hero-page-connect.png",
+  "images/heroes/hero-mission.webp",
+  "images/heroes/hero-page-free-to-use.webp",
+  "images/heroes/hero-page-complete-dinners.webp",
+  "images/heroes/hero-page-reference-guides.webp",
+  "images/heroes/hero-page-disclaimers.webp",
+  "images/heroes/hero-page-construction.webp",
+  "images/heroes/hero-page-browse-recipes.webp",
+  "images/heroes/hero-weekly-plan.webp",
+  "images/heroes/hero-page-salad-jars.webp",
+  "images/heroes/hero-page-slow-cooker.webp",
+  "images/heroes/hero-page-summer-cookouts.webp",
+  "images/heroes/hero-page-healthy-dinners.webp",
+  "images/heroes/hero-page-comfort-food.webp",
+  "images/heroes/hero-page-30-minute-meals.webp",
+  "images/heroes/hero-weekly-dinner-planner.webp",
+  "images/heroes/hero-page-grocery-list.webp",
+  "images/heroes/hero-page-your-pantry.webp",
+  "images/heroes/hero-page-favorite-recipes.webp",
+  "images/heroes/hero-storage.webp",
+  "images/heroes/hero-page-cooking-tools.webp",
+  "images/heroes/hero-page-healthy-substitutions.webp",
+  "images/heroes/hero-page-about-us.webp",
+  "images/heroes/hero-air-fryer.webp",
+  "images/heroes/hero-recipes.webp",
+  "images/heroes/hero-submit-recipe.webp",
+  "images/heroes/hero-oven.webp",
+  "images/heroes/hero-page-ai-generated.webp",
+  "images/heroes/hero-smoker.webp",
+  "images/heroes/hero-page-affiliate.webp",
+  "images/heroes/hero-page-crockpot.webp",
+  "images/heroes/hero-grill.webp",
+  "images/heroes/hero-page-air-fryer.webp",
+  "images/heroes/hero-page-oven.webp",
+  "images/heroes/hero-page-microwaves.webp",
+  "images/heroes/hero-page-gas-grills.webp",
+  "images/heroes/hero-page-pellet-smoker.webp",
+  "images/heroes/hero-page-storage.webp",
+  "images/heroes/hero-page-family.webp",
+  "images/heroes/hero-page-freezer-inv.webp",
+  "images/heroes/hero-page-freezer-meals.webp",
+  "images/heroes/hero-page-refrigerator-inv.webp",
+  "images/heroes/hero-page-freeze-reheat.webp",
+  "images/heroes/hero-page-food-safety.webp",
+  "images/heroes/hero-page-breadmaking.webp",
+  "images/heroes/hero-page-connect.webp",
 ];
 
 const preloadedHeroImageUrls = new Set();
@@ -717,13 +714,13 @@ const AUTO_IMAGE_PREFIXES = new Set([
 ]);
 
 const HERO_IMAGES = [
-  "images/heroes/main-hero-01.jpg",
-  "images/heroes/main-hero-02.jpg",
-  "images/heroes/main-hero-03.jpg",
-  "images/heroes/main-hero-04.jpg",
-  "images/heroes/main-hero-05.jpg",
-  "images/heroes/main-hero-06.jpg",
-  "images/heroes/main-hero-07.jpg",
+  "images/heroes/main-hero-01.webp",
+  "images/heroes/main-hero-02.webp",
+  "images/heroes/main-hero-03.webp",
+  "images/heroes/main-hero-04.webp",
+  "images/heroes/main-hero-05.webp",
+  "images/heroes/main-hero-06.webp",
+  "images/heroes/main-hero-07.webp",
 ];
 
 const HERO_INFO_BUTTONS = [
@@ -760,13 +757,13 @@ const HERO_INFO_BUTTONS = [
 
 
 const HOME_KITCHEN_TOOL_SLIDES = [
-  { title: "32-Ounce Deli Containers", image: "images/products/hero-amazon-32oz-deli-a.png" },
-  { title: "Baguette Bread Pan", image: "images/products/hero-amazon-baguette-a.png" },
-  { title: "Cupcake & Muffin Pans", image: "images/products/hero-amazon-cupcakes-a.png" },
-  { title: "Mini Canning Jars", image: "images/products/hero-amazon-mini-jars-a.png" },
-  { title: "Mini Meal Pans", image: "images/products/hero-amazon-mini-meals-a.png" },
-  { title: "Pullman Bread Pan", image: "images/products/hero-amazon-pullman-a.png" },
-  { title: "Silicone Freezer Trays", image: "images/products/hero-amazon-silicone-a.png" },
+  { title: "32-Ounce Deli Containers", image: "images/products/hero-amazon-32oz-deli-a.webp" },
+  { title: "Baguette Bread Pan", image: "images/products/hero-amazon-baguette-a.webp" },
+  { title: "Cupcake & Muffin Pans", image: "images/products/hero-amazon-cupcakes-a.webp" },
+  { title: "Mini Canning Jars", image: "images/products/hero-amazon-mini-jars-a.webp" },
+  { title: "Mini Meal Pans", image: "images/products/hero-amazon-mini-meals-a.webp" },
+  { title: "Pullman Bread Pan", image: "images/products/hero-amazon-pullman-a.webp" },
+  { title: "Silicone Freezer Trays", image: "images/products/hero-amazon-silicone-a.webp" },
 ];
 
 const PRODUCT_CATEGORIES = [
@@ -806,86 +803,86 @@ function getDefaultProductCategory(product) {
 const PRODUCTS_I_USE = [
   {
     title: "Aluminum Mini Bread Pans",
-    image: "images/products/hero-amazon-mini-meals.png",
+    image: "images/products/hero-amazon-mini-meals.webp",
     note: "Small disposable pans for mini loaves, freezer portions, gift breads, and make-ahead meals.",
     affiliateUrl: "https://www.amazon.com/dp/B0DQ4VVWSB?ref_=ppx_hzsearch_conn_dt_b_fed_asin_title_4&th=1",
   },
   {
     title: "Aluminum 4-Inch Pie Pans",
-    image: "images/products/aluminum-4in-pie-pans.jpg",
+    image: "images/products/aluminum-4in-pie-pans.webp",
     note: "Small disposable pie pans for personal pies, quiche portions, desserts, and freezer-friendly servings.",
     affiliateUrl: "https://www.amazon.com/dp/B083962QCL?ref_=ppx_hzsearch_conn_dt_b_fed_asin_title_2&th=1",
   },
   {
     title: "Aluminum Cupcake Pans",
-    image: "images/products/hero-amazon-cupcakes.png",
+    image: "images/products/hero-amazon-cupcakes.webp",
     note: "Disposable cupcake or muffin pans for small-batch baking, easy cleanup, and portioned treats.",
     affiliateUrl: "https://www.amazon.com/dp/B06XTYFZH6?ref_=ppx_hzsearch_conn_dt_b_fed_asin_title_24&th=1",
   },
   {
     title: "Aluminum Mini Cake Pans",
-    image: "images/products/hero-amazon-mini-cakes.png",
+    image: "images/products/hero-amazon-mini-cakes.webp",
     note: "Small disposable cake pans for desserts, small loaves, gifting, and freezer-friendly portions.",
     affiliateUrl: "https://www.amazon.com/dp/B0DQ4WFXBT?ref_=ppx_hzsearch_conn_dt_b_fed_asin_title_1&th=1",
   },
   {
     title: "Ball 2-Ounce Jars",
-    image: "images/products/ball-2oz-jars.jpg",
+    image: "images/products/ball-2oz-jars.webp",
     note: "Small jars for sauces, dressings, jams, seasoning mixes, toppings, and portioned condiments.",
   },
   {
     title: "Ball 4-Ounce Jars",
-    image: "images/products/hero-amazon-pickles.png",
+    image: "images/products/hero-amazon-pickles.webp",
     note: "Useful jars for small desserts, sauces, overnight oats, fruit portions, and pantry organization.",
   },
   {
     title: "Ball 8-Ounce Jars",
-    image: "images/products/hero-amazon-mini-jars.png",
+    image: "images/products/hero-amazon-mini-jars.webp",
     note: "Everyday jars for leftovers, soups, salads, snacks, sauces, and small make-ahead portions.",
   },
   {
     title: "Baguette Bread Pan",
-    image: "images/products/hero-amazon-baguette.png",
+    image: "images/products/hero-amazon-baguette.webp",
     note: "A perforated bread pan for baking baguettes, sub rolls, and crustier homemade breads.",
     affiliateUrl: "https://www.amazon.com/dp/B0912CCQSN?ref_=ppx_hzsearch_conn_dt_b_fed_asin_title_7&th=1",
   },
   {
     title: "Bread Machine",
-    image: "images/products/hero-amazon-bread-machine.png",
+    image: "images/products/hero-amazon-bread-machine.webp",
     note: "A countertop bread machine for simple homemade bread, dough cycles, and small-batch baking.",
   },
   {
     title: "Pullman Bread Pan",
-    image: "images/products/hero-amazon-pullman.png",
+    image: "images/products/hero-amazon-pullman.webp",
     note: "A lidded loaf pan for sandwich bread, square loaves, and consistent homemade slices.",
     affiliateUrl: "https://www.amazon.com/dp/B0D7D53QDG?ref_=ppx_hzsearch_conn_dt_b_fed_asin_title_7",
   },
   {
     title: "8-Ounce Deli Containers",
-    image: "images/products/hero-amazon-8oz-deli.png",
+    image: "images/products/hero-amazon-8oz-deli.webp",
     note: "Small plastic containers for sauces, fruit, snacks, toppings, and small leftovers.",
     affiliateUrl: "https://www.amazon.com/dp/B0DX8LVYXV?ref_=ppx_hzsearch_conn_dt_b_fed_asin_title_3&th=1",
   },
   {
     title: "16-Ounce Deli Containers",
-    image: "images/products/hero-amazon-16oz-deli.png",
+    image: "images/products/hero-amazon-16oz-deli.webp",
     note: "Mid-size containers for leftovers, soups, chopped ingredients, and freezer portions.",
     affiliateUrl: "https://www.amazon.com/dp/B0DX7M3Y66?ref_=ppx_hzsearch_conn_dt_b_fed_asin_title_5&th=1",
   },
   {
     title: "32-Ounce Deli Containers",
-    image: "images/products/hero-amazon-32oz-deli.png",
+    image: "images/products/hero-amazon-32oz-deli.webp",
     note: "Larger containers for soups, sauces, meal-prep portions, and freezer storage.",
     affiliateUrl: "https://www.amazon.com/dp/B0DX7L9RSN?ref_=ppx_hzsearch_conn_dt_b_fed_asin_title_5&th=1",
   },
   {
     title: "Silicone Freezer Trays",
-    image: "images/products/hero-amazon-silicone.png",
+    image: "images/products/hero-amazon-silicone.webp",
     note: "Portion trays for freezing soups, sauces, broth, cooked meats, and individual meal components.",
   },
   {
     title: "Vacuum Sealer Jar Attachment",
-    image: "images/products/vacuum-sealer-jar.jpg",
+    image: "images/products/vacuum-sealer-jar.webp",
     note: "A jar-sealing tool for helping store dry goods, sauces, and pantry items in mason jars.",
   },
 ];
@@ -893,15 +890,15 @@ const PRODUCTS_I_USE = [
 
 const ABOUT_STORY_PHOTOS = [
   {
-    src: "images/about/robert-pete-puppy2.jpg",
+    src: "images/about/robert-pete-puppy2.webp",
     alt: "Robert holding Pete as a small puppy",
   },
   {
-    src: "images/about/welcome-family-framed-photo.jpg",
+    src: "images/about/welcome-family-framed-photo.webp",
     alt: "Robert in the pool with Pete",
   },
   {
-    src: "images/about/welcome-pete-framed-photo.jpg",
+    src: "images/about/welcome-pete-framed-photo.webp",
     alt: "Robert resting with Pete as a puppy",
   },
 ];
@@ -972,24 +969,24 @@ function recipeImageCandidates(recipe) {
   const prefix = recipeCodePrefix(recipe.id);
 
   if (recipe.id && AUTO_IMAGE_PREFIXES.has(prefix)) {
-    candidates.push(`images/thumbs/recipes/${recipe.id}.jpg`);
-    candidates.push(`images/thumbs/recipes/${recipe.id} .jpg`);
-    candidates.push(`images/heroes/${recipe.id}.jpg`);
-    candidates.push(`images/heroes/${recipe.id} .jpg`);
+    candidates.push(`images/thumbs/recipes/${recipe.id}.webp`);
+    candidates.push(`images/thumbs/recipes/${recipe.id} .webp`);
+    candidates.push(`images/heroes/${recipe.id}.webp`);
+    candidates.push(`images/heroes/${recipe.id} .webp`);
   }
 
   if (recipe.heroImage) candidates.push(recipe.heroImage);
   if (recipe.image) candidates.push(recipe.image);
 
   if (recipe.id && AUTO_IMAGE_PREFIXES.has(prefix)) {
-    candidates.push(`images/heroes/${recipe.id}.png`);
-    candidates.push(`images/heroes/${recipe.id} .png`);
-    candidates.push(`images/recipes/${recipe.id}.jpg`);
-    candidates.push(`images/recipes/${recipe.id}.JPG`);
-    candidates.push(`images/recipes/${recipe.id}.png`);
-    candidates.push(`images/recipes/${recipe.id} .jpg`);
-    candidates.push(`images/recipes/${recipe.id} .JPG`);
-    candidates.push(`images/recipes/${recipe.id} .png`);
+    candidates.push(`images/heroes/${recipe.id}.webp`);
+    candidates.push(`images/heroes/${recipe.id} .webp`);
+    candidates.push(`images/recipes/${recipe.id}.webp`);
+    candidates.push(`images/recipes/${recipe.id}.webp`);
+    candidates.push(`images/recipes/${recipe.id}.webp`);
+    candidates.push(`images/recipes/${recipe.id} .webp`);
+    candidates.push(`images/recipes/${recipe.id} .webp`);
+    candidates.push(`images/recipes/${recipe.id} .webp`);
   }
 
   return [...new Set(candidates)];
@@ -1000,27 +997,27 @@ function previewCardImageCandidates(recipe) {
   const prefix = recipeCodePrefix(recipe.id);
 
   if (recipe.id && AUTO_IMAGE_PREFIXES.has(prefix)) {
-    candidates.push(`images/thumbs/recipes/${recipe.id}.jpg`);
-    candidates.push(`images/thumbs/recipes/${recipe.id} .jpg`);
+    candidates.push(`images/thumbs/recipes/${recipe.id}.webp`);
+    candidates.push(`images/thumbs/recipes/${recipe.id} .webp`);
   }
 
   if (recipe.cardImage) candidates.push(recipe.cardImage);
   if (recipe.image) candidates.push(recipe.image);
 
   if (recipe.id && AUTO_IMAGE_PREFIXES.has(prefix)) {
-    candidates.push(`images/recipes/${recipe.id}.jpg`);
-    candidates.push(`images/recipes/${recipe.id}.JPG`);
-    candidates.push(`images/recipes/${recipe.id}.png`);
-    candidates.push(`images/recipes/${recipe.id} .jpg`);
-    candidates.push(`images/recipes/${recipe.id} .JPG`);
-    candidates.push(`images/recipes/${recipe.id} .png`);
+    candidates.push(`images/recipes/${recipe.id}.webp`);
+    candidates.push(`images/recipes/${recipe.id}.webp`);
+    candidates.push(`images/recipes/${recipe.id}.webp`);
+    candidates.push(`images/recipes/${recipe.id} .webp`);
+    candidates.push(`images/recipes/${recipe.id} .webp`);
+    candidates.push(`images/recipes/${recipe.id} .webp`);
   }
 
   if (recipe.heroImage) candidates.push(recipe.heroImage);
 
   if (recipe.id && AUTO_IMAGE_PREFIXES.has(prefix)) {
-    candidates.push(`images/heroes/${recipe.id}.png`);
-    candidates.push(`images/heroes/${recipe.id} .png`);
+    candidates.push(`images/heroes/${recipe.id}.webp`);
+    candidates.push(`images/heroes/${recipe.id} .webp`);
   }
 
   return [...new Set(candidates)];
@@ -1034,24 +1031,24 @@ function fullCardImageCandidates(recipe) {
   if (recipe.image) candidates.push(recipe.image);
 
   if (recipe.id && AUTO_IMAGE_PREFIXES.has(prefix)) {
-    candidates.push(`images/recipes/${recipe.id}.png`);
-    candidates.push(`images/recipes/${recipe.id}.jpg`);
-    candidates.push(`images/recipes/${recipe.id}.JPG`);
-    candidates.push(`images/recipes/${recipe.id} .png`);
-    candidates.push(`images/recipes/${recipe.id} .jpg`);
-    candidates.push(`images/recipes/${recipe.id} .JPG`);
+    candidates.push(`images/recipes/${recipe.id}.webp`);
+    candidates.push(`images/recipes/${recipe.id}.webp`);
+    candidates.push(`images/recipes/${recipe.id}.webp`);
+    candidates.push(`images/recipes/${recipe.id} .webp`);
+    candidates.push(`images/recipes/${recipe.id} .webp`);
+    candidates.push(`images/recipes/${recipe.id} .webp`);
   }
 
   if (recipe.id && AUTO_IMAGE_PREFIXES.has(prefix)) {
-    candidates.push(`images/thumbs/recipes/${recipe.id}.jpg`);
-    candidates.push(`images/thumbs/recipes/${recipe.id} .jpg`);
+    candidates.push(`images/thumbs/recipes/${recipe.id}.webp`);
+    candidates.push(`images/thumbs/recipes/${recipe.id} .webp`);
   }
 
   if (recipe.heroImage) candidates.push(recipe.heroImage);
 
   if (recipe.id && AUTO_IMAGE_PREFIXES.has(prefix)) {
-    candidates.push(`images/heroes/${recipe.id}.png`);
-    candidates.push(`images/heroes/${recipe.id} .png`);
+    candidates.push(`images/heroes/${recipe.id}.webp`);
+    candidates.push(`images/heroes/${recipe.id} .webp`);
   }
 
   return [...new Set(candidates)];
@@ -1088,12 +1085,12 @@ function constructionCalloutImageCandidates(recipe) {
 
   const calloutId = `${recipe.id}c`;
   return [
-    `images/recipes/${calloutId}.jpg`,
-    `images/recipes/${calloutId}.JPG`,
-    `images/recipes/${calloutId} .jpg`,
-    `images/recipes/${calloutId} .JPG`,
-    `images/callouts/${calloutId}.jpg`,
-    `images/callouts/${calloutId}.JPG`,
+    `images/recipes/${calloutId}.webp`,
+    `images/recipes/${calloutId}.webp`,
+    `images/recipes/${calloutId} .webp`,
+    `images/recipes/${calloutId} .webp`,
+    `images/callouts/${calloutId}.webp`,
+    `images/callouts/${calloutId}.webp`,
   ];
 }
 
@@ -1389,7 +1386,6 @@ const NAV_GROUPS = [
       { label: "AFFILIATE MARKETING", page: "Affiliate Marketing" },
       { label: "SUBMIT YOUR FAMILY RECIPES", page: "Submit Recipes" },
       { label: "CONTACT ME", page: "Contact Me" },
-      { label: "PRIVACY & YOUR DATA", page: "Privacy & Your Data" },
       { label: "DISCLAIMERS", page: "Disclaimers" },
     ],
   },
@@ -1504,7 +1500,7 @@ function Header({ activePage, setActivePage, favorites }) {
       >
         <img
           className="brandLogoMark"
-          src={`${import.meta.env.BASE_URL}images/ui/rrb-recipe-box-mark.png`}
+          src={`${import.meta.env.BASE_URL}images/ui/rrb-recipe-box-mark.webp`}
           alt=""
           aria-hidden="true"
         />
@@ -1704,37 +1700,37 @@ const HOME_PHOTO_FEATURES = [
   {
     title: "Browse Recipes",
     description: "Explore the complete recipe-card library.",
-    image: "images/home-features/hero-process-01-recipes.png",
+    image: "images/home-features/hero-process-01-recipes.webp",
     page: "Recipes",
   },
   {
     title: "Meal Planning",
     description: "Organize meals for the coming week.",
-    image: "images/home-features/hero-process-02-planning.png",
+    image: "images/home-features/hero-process-02-planning.webp",
     page: "Meal Planner",
   },
   {
     title: "Shopping",
     description: "Build an organized grocery list.",
-    image: "images/home-features/hero-process-03-shopping.png",
+    image: "images/home-features/hero-process-03-shopping.webp",
     page: "Shopping Lists",
   },
   {
     title: "Cooking Guides",
     description: "Review practical cooking tips and guides.",
-    image: "images/home-features/hero-process-04-cooking.png",
+    image: "images/home-features/hero-process-04-cooking.webp",
     page: "Reference Guides",
   },
   {
     title: "Freezer Meals",
     description: "Plan, package, freeze, and reheat meals.",
-    image: "images/home-features/hero-process-05-freezing.png",
+    image: "images/home-features/hero-process-05-freezing.webp",
     page: "Freezer-Friendly Meals",
   },
   {
     title: "Saving Time",
     description: "Use practical planning, prep, freezing, and leftovers to make cooking easier.",
-    image: "images/home-features/hero-process-06-saving.png",
+    image: "images/home-features/hero-process-06-saving.webp",
     page: "Easy 30-Minute Meals",
   },
 ];
@@ -1929,7 +1925,7 @@ function CategoryGrid({ setFilter, setActivePage }) {
         >
           <img
             className="categoryIconImage homeFavoritesCategoryIcon"
-            src={`${import.meta.env.BASE_URL}images/category-icons/favorites.png`}
+            src={`${import.meta.env.BASE_URL}images/category-icons/favorites.webp`}
             alt=""
             aria-hidden="true"
             loading="eager"
@@ -2725,6 +2721,10 @@ function MyRecipeNotesButton({ recipe, position = "inline" }) {
 }
 
 
+function isHamburgerRecipe(recipe) {
+  return String(recipe?.categoryCode || "").toUpperCase() === "HB";
+}
+
 function ConstructionCalloutButton({ recipe }) {
   const [open, setOpen] = useState(false);
   const [imageIndex, setImageIndex] = useState(0);
@@ -2732,6 +2732,7 @@ function ConstructionCalloutButton({ recipe }) {
   const [imageFailed, setImageFailed] = useState(false);
   const candidates = constructionCalloutImageCandidates(recipe);
   const imagePath = imageFailed ? "" : candidates[imageIndex];
+  const builderLabel = isHamburgerRecipe(recipe) ? "Build Your Burger" : "Build Your Salad";
 
   useEffect(() => {
     setImageIndex(0);
@@ -2749,7 +2750,7 @@ function ConstructionCalloutButton({ recipe }) {
         className="constructionCalloutButton"
         onClick={() => setOpen(true)}
       >
-        Build Your Salad
+        {builderLabel}
       </button>
 
       {open && (
@@ -2758,22 +2759,22 @@ function ConstructionCalloutButton({ recipe }) {
             className="constructionCalloutModal"
             role="dialog"
             aria-modal="true"
-            aria-label={`${recipe.id} build your salad guide`}
+            aria-label={`${recipe.id} ${builderLabel.toLowerCase()} guide`}
             onClick={(event) => event.stopPropagation()}
           >
             <div className="constructionCalloutHeader">
               <div>
                 <small>{recipe.id}c</small>
-                <strong>Build Your Salad</strong>
+                <strong>{builderLabel}</strong>
               </div>
-              <button type="button" onClick={closePopup} aria-label="Close build your salad image">×</button>
+              <button type="button" onClick={closePopup} aria-label={`Close ${builderLabel.toLowerCase()} image`}>×</button>
             </div>
 
             <div className="constructionCalloutStage">
               {imagePath ? (
                 <img
                   src={`${import.meta.env.BASE_URL}${imagePath}`}
-                  alt={`${recipe.id} build your salad guide`}
+                  alt={`${recipe.id} ${builderLabel.toLowerCase()} guide`}
                   decoding="async"
                   onError={() => {
                     setImageIndex((current) => {
@@ -2786,8 +2787,8 @@ function ConstructionCalloutButton({ recipe }) {
                 />
               ) : (
                 <div className="constructionCalloutMissing">
-                  <strong>Build Your Salad image not found.</strong>
-                  <span>Upload public/images/recipes/{recipe.id}c.jpg</span>
+                  <strong>{builderLabel} image not found.</strong>
+                  <span>Upload public/images/recipes/{recipe.id}c.webp</span>
                 </div>
               )}
             </div>
@@ -2806,13 +2807,14 @@ function RecipeCard({
   openRecipeCard,
   cardList = recipes,
   showPlannerButton = true,
-  viewButtonText = "View Recipe",
+  viewButtonText = "View Full Size Recipe Card",
   displayMode = "hero",
   viewerContext = "",
 }) {
   const isBrowseCard = displayMode === "card";
   const browseTags = isBrowseCard ? getRecipeBrowseTags(recipe) : [];
   const isFavorite = Array.isArray(favorites) && favorites.includes(recipe.id);
+  const showBuilderGuide = isSaladJarRecipe(recipe) || isHamburgerRecipe(recipe);
 
   return (
     <article className={isBrowseCard ? "recipeCard recipeCardFullImage" : "recipeCard"}>
@@ -2841,38 +2843,55 @@ function RecipeCard({
         </span>
 
         <h3>{recipe.title}</h3>
-        <MealBalanceBadge item={recipe} className="recipeMealBalanceBadge" />
 
         {isBrowseCard ? (
           <>
             <div className="recipeActions browseRecipeActions">
               <button
-                className="viewCard"
+                type="button"
+                className="viewCard browseRecipePrimaryAction"
                 onClick={() => openRecipeCard(recipe.id, cardList, viewerContext)}
               >
                 {viewButtonText}
               </button>
               {showPlannerButton && (
-                <button className="addPlan" onClick={() => addToPlan(recipe.id)}>
-                  Add to Planner
+                <button
+                  type="button"
+                  className="addPlan browseRecipePrimaryAction"
+                  onClick={() => addToPlan(recipe.id)}
+                >
+                  Add This Recipe to the Meal Planner
                 </button>
               )}
-              <AddLeftoversToFreezerButton recipe={recipe} compact />
-              <SmartTipsButton recipe={recipe} />
-              <MyRecipeNotesButton recipe={recipe} />
-              {isSaladJarRecipe(recipe) && (
-                <ConstructionCalloutButton recipe={recipe} />
-              )}
+              <div className="browseRecipePrimaryAction">
+                <AddLeftoversToFreezerButton recipe={recipe} compact />
+              </div>
+              <div
+                className={
+                  showBuilderGuide
+                    ? "browseRecipeUtilityRow browseRecipeUtilityRowThree"
+                    : "browseRecipeUtilityRow"
+                }
+              >
+                <SmartTipsButton recipe={recipe} />
+                <MyRecipeNotesButton recipe={recipe} />
+                {showBuilderGuide && <ConstructionCalloutButton recipe={recipe} />}
+              </div>
             </div>
 
             <div className="browseRecipeMetaFooter">
-              <div className="meta">
+              <div className="meta browseRecipeMetaItems">
                 <span>◷ {recipe.time} min</span>
-                <span>♙ {recipe.servings} servings</span>
-                <span>{recipe.price}</span>
+                <span>SS {recipe.servings}</span>
               </div>
 
+              <MealBalanceBadge
+                item={recipe}
+                className="recipeMealBalanceBadge browseRecipeMealBalanceBadge"
+              />
+
               <button
+                type="button"
                 className={`heart browseCardHeart ${isFavorite ? "saved" : ""}`}
                 onClick={() => toggleFavorite(recipe.id)}
                 aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
@@ -2896,6 +2915,7 @@ function RecipeCard({
           </>
         ) : (
           <>
+            <MealBalanceBadge item={recipe} className="recipeMealBalanceBadge" />
             <div className="meta">
               <span>◷ {recipe.time} min</span>
               <span>♙ {recipe.servings}</span>
@@ -2916,7 +2936,7 @@ function RecipeCard({
               )}
               <AddLeftoversToFreezerButton recipe={recipe} compact />
               <SmartTipsButton recipe={recipe} />
-              {isSaladJarRecipe(recipe) && (
+              {showBuilderGuide && (
                 <ConstructionCalloutButton recipe={recipe} />
               )}
             </div>
@@ -3071,7 +3091,7 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
     const fileName = `${recipe.id}-${recipe.title}`
       .replace(/[^a-z0-9]+/gi, "-")
       .replace(/(^-|-$)/g, "")
-      .toLowerCase() + ".png";
+      .toLowerCase() + ".webp";
 
     try {
       const response = await fetch(imageUrl);
@@ -3139,7 +3159,7 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
               <div className="cardViewerMissing">
                 <strong>Recipe card image not found.</strong>
                 <span>
-                  Expected: images/recipes/{recipe.id}.png
+                  Expected: images/recipes/{recipe.id}.webp
                 </span>
               </div>
             )}
@@ -3231,7 +3251,7 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
                 {constructionImagePath ? (
                   <img
                     src={`${import.meta.env.BASE_URL}${constructionImagePath}`}
-                    alt={`${recipe.id} build your salad guide`}
+                    alt={`${recipe.id} ${builderLabel.toLowerCase()} guide`}
                     decoding="async"
                     onError={() => {
                       setConstructionImageIndex((current) => {
@@ -3244,8 +3264,8 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
                   />
                 ) : (
                   <div className="viewerConstructionMissing">
-                    <strong>Build Your Salad image not found.</strong>
-                    <span>Expected a sister file such as images/recipes/{recipe.id}c.jpg</span>
+                    <strong>{builderLabel} image not found.</strong>
+                    <span>Expected a sister file such as images/recipes/{recipe.id}c.webp</span>
                   </div>
                 )}
               </div>
@@ -3426,35 +3446,35 @@ function CollectionStrip({ setActivePage }) {
       title: "Slow Cooker Favorites",
       text: "Set-it-and-forget-it meals for easy crock-pot cooking.",
       page: "Slow Cooker Favorites",
-      image: "images/collections/crockpot.jpg",
+      image: "images/collections/crockpot.webp",
       imageAlt: "Slow cooker meal in a crockpot",
     },
     {
       title: "Summer Cookouts",
       text: "Grill-friendly meals and warm-weather favorites.",
       page: "Summer Cookouts",
-      image: "images/collections/cookout.jpg",
+      image: "images/collections/cookout.webp",
       imageAlt: "Backyard cookout with grilled foods",
     },
     {
       title: "Healthy Dinners",
       text: "Balanced meals for lighter weeknight cooking.",
       page: "Healthy Dinners",
-      image: "images/collections/healthy.jpg",
+      image: "images/collections/healthy.webp",
       imageAlt: "Healthy dinner plate with chicken, vegetables, and quinoa",
     },
     {
       title: "Comfort Foods",
       text: "Popular classics for familiar family-style meals.",
       page: "Comfort Foods",
-      image: "images/collections/comfort.jpg",
+      image: "images/collections/comfort.webp",
       imageAlt: "Comfort foods including pot pie, roast, mashed potatoes, and macaroni",
     },
     {
       title: "Easy 30-Minute Meals",
       text: "Fast 30-minute dinners for those busy nights.",
       page: "Easy 30-Minute Meals",
-      image: "images/collections/30-minute.jpg",
+      image: "images/collections/30-minute.webp",
       imageAlt: "Quick skillet pasta meal",
     },
   ];
@@ -3528,20 +3548,20 @@ function heroFoodImageCandidates(recipe) {
   if (recipe.heroImage) candidates.push(recipe.heroImage);
 
   if (recipe.id && AUTO_IMAGE_PREFIXES.has(prefix)) {
-    candidates.push(`images/heroes/${recipe.id}.jpg`);
-    candidates.push(`images/heroes/${recipe.id} .jpg`);
-    candidates.push(`images/heroes/${recipe.id}.png`);
-    candidates.push(`images/heroes/${recipe.id} .png`);
-    candidates.push(`images/thumbs/recipes/${recipe.id}.jpg`);
-    candidates.push(`images/thumbs/recipes/${recipe.id} .jpg`);
+    candidates.push(`images/heroes/${recipe.id}.webp`);
+    candidates.push(`images/heroes/${recipe.id} .webp`);
+    candidates.push(`images/heroes/${recipe.id}.webp`);
+    candidates.push(`images/heroes/${recipe.id} .webp`);
+    candidates.push(`images/thumbs/recipes/${recipe.id}.webp`);
+    candidates.push(`images/thumbs/recipes/${recipe.id} .webp`);
   }
 
   if (recipe.image) candidates.push(recipe.image);
   if (recipe.cardImage) candidates.push(recipe.cardImage);
 
   if (recipe.id && AUTO_IMAGE_PREFIXES.has(prefix)) {
-    candidates.push(`images/recipes/${recipe.id}.png`);
-    candidates.push(`images/recipes/${recipe.id} .png`);
+    candidates.push(`images/recipes/${recipe.id}.webp`);
+    candidates.push(`images/recipes/${recipe.id} .webp`);
   }
 
   return [...new Set(candidates)];
@@ -3668,121 +3688,121 @@ const ROLODEX_COMPOSITE_SLIDES = [
   {
     id: "ROLO-AS-002",
     title: "Asian Cuisine: Beijing Beef",
-    image: "images/rolodex/ROLO-AS-002.jpg",
+    image: "images/rolodex/ROLO-AS-002.webp",
     categoryFilter: "Asian Cuisine",
   },
   {
     id: "ROLO-AS-011",
     title: "Asian Cuisine: Kung Pao Chicken",
-    image: "images/rolodex/ROLO-AS-011.jpg",
+    image: "images/rolodex/ROLO-AS-011.webp",
     categoryFilter: "Asian Cuisine",
   },
   {
     id: "ROLO-AS-022",
     title: "Asian Cuisine: Chicken Egg Rolls",
-    image: "images/rolodex/ROLO-AS-022.jpg",
+    image: "images/rolodex/ROLO-AS-022.webp",
     categoryFilter: "Asian Cuisine",
   },
   {
     id: "ROLO-HB-001",
     title: "Hamburgers: Big Mac Style Burger",
-    image: "images/rolodex/ROLO-HB-001.jpg",
+    image: "images/rolodex/ROLO-HB-001.webp",
     categoryFilter: "Hamburgers",
   },
   {
     id: "ROLO-HB-007",
     title: "Hamburgers: Steakhouse Burger",
-    image: "images/rolodex/ROLO-HB-007.jpg",
+    image: "images/rolodex/ROLO-HB-007.webp",
     categoryFilter: "Hamburgers",
   },
   {
     id: "ROLO-HB-031",
     title: "Hamburgers: Lipsey Burger",
-    image: "images/rolodex/ROLO-HB-031.jpg",
+    image: "images/rolodex/ROLO-HB-031.webp",
     categoryFilter: "Hamburgers",
   },
   {
     id: "ROLO-IT-001",
     title: "Italian Cuisine: Chicken Alfredo",
-    image: "images/rolodex/ROLO-IT-001.jpg",
+    image: "images/rolodex/ROLO-IT-001.webp",
     categoryFilter: "Italian Cuisine",
   },
   {
     id: "ROLO-IT-011",
     title: "Italian Cuisine: Spaghetti & Meatballs",
-    image: "images/rolodex/ROLO-IT-011.jpg",
+    image: "images/rolodex/ROLO-IT-011.webp",
     categoryFilter: "Italian Cuisine",
   },
   {
     id: "ROLO-IT-031",
     title: "Italian Cuisine: Shrimp Scampi",
-    image: "images/rolodex/ROLO-IT-031.jpg",
+    image: "images/rolodex/ROLO-IT-031.webp",
     categoryFilter: "Italian Cuisine",
   },
   {
     id: "ROLO-MX-003",
     title: "Mexican Cuisine: Taco Meat & Cheese",
-    image: "images/rolodex/ROLO-MX-003.jpg",
+    image: "images/rolodex/ROLO-MX-003.webp",
     categoryFilter: "Mexican Cuisine",
   },
   {
     id: "ROLO-MX-012",
     title: "Mexican Cuisine: Tamale Pie",
-    image: "images/rolodex/ROLO-MX-012.jpg",
+    image: "images/rolodex/ROLO-MX-012.webp",
     categoryFilter: "Mexican Cuisine",
   },
   {
     id: "ROLO-MX-025",
     title: "Mexican Cuisine: Beef Fajita Rice Bowls",
-    image: "images/rolodex/ROLO-MX-025.jpg",
+    image: "images/rolodex/ROLO-MX-025.webp",
     categoryFilter: "Mexican Cuisine",
   },
   {
     id: "ROLO-SB-001",
     title: "Salads & Bowls: Asian Chicken Crunch",
-    image: "images/rolodex/ROLO-SB-001.jpg",
+    image: "images/rolodex/ROLO-SB-001.webp",
     categoryFilter: "Salads & Bowls",
   },
   {
     id: "ROLO-SB-008",
     title: "Salads & Bowls: Hi-Protein Chicken Salad",
-    image: "images/rolodex/ROLO-SB-008.jpg",
+    image: "images/rolodex/ROLO-SB-008.webp",
     categoryFilter: "Salads & Bowls",
   },
   {
     id: "ROLO-SD-007",
     title: "Side Dishes: Macaroni & Cheese",
-    image: "images/rolodex/ROLO-SD-007.jpg",
+    image: "images/rolodex/ROLO-SD-007.webp",
     categoryFilter: "Side Dishes",
   },
   {
     id: "ROLO-SD-022",
     title: "Side Dishes: Coleslaw",
-    image: "images/rolodex/ROLO-SD-022.jpg",
+    image: "images/rolodex/ROLO-SD-022.webp",
     categoryFilter: "Side Dishes",
   },
   {
     id: "ROLO-SF-001",
     title: "Seafood Dishes: Baked Coconut Shrimp",
-    image: "images/rolodex/ROLO-SF-001.jpg",
+    image: "images/rolodex/ROLO-SF-001.webp",
     categoryFilter: "Seafood Dishes",
   },
   {
     id: "ROLO-SF-008",
     title: "Seafood Dishes: Teriyaki Salmon",
-    image: "images/rolodex/ROLO-SF-008.jpg",
+    image: "images/rolodex/ROLO-SF-008.webp",
     categoryFilter: "Seafood Dishes",
   },
   {
     id: "ROLO-SF-016",
     title: "Seafood Dishes: Seafood Gumbo",
-    image: "images/rolodex/ROLO-SF-016.jpg",
+    image: "images/rolodex/ROLO-SF-016.webp",
     categoryFilter: "Seafood Dishes",
   },
   {
     id: "ROLO-SG-009",
     title: "Smoked & Grilled Meats: Sliced Pork Butt",
-    image: "images/rolodex/ROLO-SG-009.jpg",
+    image: "images/rolodex/ROLO-SG-009.webp",
     categoryFilter: "Smoked & Grilled Meats",
   },
 ];
@@ -4004,7 +4024,7 @@ const MEAL_JOURNEY_STEPS = [
     id: "choose",
     title: "Choose",
     description: "Browse recipes and find meals that match your tastes, serving size and cooking style.",
-    image: "images/about/meal-journey-choose.jpg",
+    image: "images/about/meal-journey-choose.webp",
     imageAlt: "Laptop or tablet displaying recipes in a bright home kitchen",
     features: ["Search and filters", "Recipe photos", "MealBalance ratings", "Save favorites"],
     buttonLabel: "Browse Recipes",
@@ -4015,7 +4035,7 @@ const MEAL_JOURNEY_STEPS = [
     id: "plan",
     title: "Plan",
     description: "Arrange recipes into a practical weekly or two-week meal plan.",
-    image: "images/about/meal-journey-plan.jpg",
+    image: "images/about/meal-journey-plan.webp",
     imageAlt: "Weekly meal planner with recipes arranged by day",
     features: ["Weekly planning", "Serving adjustments", "Combination meals", "Leftover planning"],
     buttonLabel: "Open Meal Planner",
@@ -4026,7 +4046,7 @@ const MEAL_JOURNEY_STEPS = [
     id: "shop",
     title: "Shop",
     description: "Turn selected meals into one organized grocery list.",
-    image: "images/about/meal-journey-shop.jpg",
+    image: "images/about/meal-journey-shop.webp",
     imageAlt: "Grocery shopping with an organized list and fresh ingredients",
     features: ["Combined ingredients", "Pantry check", "Grocery categories", "Printable or mobile list"],
     buttonLabel: "Build a Shopping List",
@@ -4037,7 +4057,7 @@ const MEAL_JOURNEY_STEPS = [
     id: "prepare",
     title: "Prepare",
     description: "Prepare ingredients efficiently before cooking.",
-    image: "images/about/meal-journey-prepare.jpg",
+    image: "images/about/meal-journey-prepare.webp",
     imageAlt: "Fresh ingredients being prepared on a clean kitchen counter",
     features: ["Step-by-step directions", "Preparation tips", "Equipment guidance", "Make-ahead options"],
     buttonLabel: "Explore Preparation Guides",
@@ -4048,7 +4068,7 @@ const MEAL_JOURNEY_STEPS = [
     id: "portion",
     title: "Portion",
     description: "Divide meals into practical serving sizes.",
-    image: "images/about/meal-journey-portion.jpg",
+    image: "images/about/meal-journey-portion.webp",
     imageAlt: "Cooked meals being divided into practical storage containers",
     features: ["Serving guidance", "Container suggestions", "Two-person portions", "Batch preparation"],
     buttonLabel: "View Portion Guides",
@@ -4059,7 +4079,7 @@ const MEAL_JOURNEY_STEPS = [
     id: "freeze",
     title: "Freeze",
     description: "Package and freeze meals for later.",
-    image: "images/about/meal-journey-freeze.jpg",
+    image: "images/about/meal-journey-freeze.webp",
     imageAlt: "Labeled meal containers being placed into a freezer",
     features: ["Freezer-safe packaging", "Label & date guidance", "Best-by information", "Freezing instructions"],
     buttonLabel: "View Freezing Guides",
@@ -4070,7 +4090,7 @@ const MEAL_JOURNEY_STEPS = [
     id: "store",
     title: "Store",
     description: "Keep meals organized and easy to locate.",
-    image: "images/about/meal-journey-store.jpg",
+    image: "images/about/meal-journey-store.webp",
     imageAlt: "Neatly organized freezer with labeled meal containers",
     features: ["Freezer organization", "Meal inventory", "Storage recommendations", "Use-first guidance"],
     buttonLabel: "Explore Storage Guides",
@@ -4081,7 +4101,7 @@ const MEAL_JOURNEY_STEPS = [
     id: "reheat",
     title: "Reheat",
     description: "Use the best reheating method for each meal.",
-    image: "images/about/meal-journey-reheat.jpg",
+    image: "images/about/meal-journey-reheat.webp",
     imageAlt: "A prepared meal being reheated in a home kitchen",
     features: ["Microwave guidance", "Oven instructions", "Air fryer options", "Safe thawing guidance"],
     buttonLabel: "View Reheating Guides",
@@ -4092,7 +4112,7 @@ const MEAL_JOURNEY_STEPS = [
     id: "enjoy",
     title: "Enjoy",
     description: "Serve homemade meals with less work and less waste.",
-    image: "images/about/meal-journey-enjoy.jpg",
+    image: "images/about/meal-journey-enjoy.webp",
     imageAlt: "Finished homemade dinner served on a plate at the table",
     features: ["Serving suggestions", "Side-dish pairings", "Complete dinners", "More time together"],
     buttonLabel: "Find Your Next Meal",
@@ -4550,14 +4570,14 @@ function dinnerMealImageCandidates(meal) {
   if (!meal) return [];
   const paddedMealNumber = String(meal.number || "").padStart(3, "0");
   const candidates = [
-    paddedMealNumber ? `images/dinner-combinations/meal-${paddedMealNumber}.JPG` : "",
-    paddedMealNumber ? `images/dinner-combinations/meal-${paddedMealNumber}.jpg` : "",
-    paddedMealNumber ? `images/dinner-combinations/MEAL-${paddedMealNumber}.JPG` : "",
-    paddedMealNumber ? `images/dinner-combinations/MEAL-${paddedMealNumber}.jpg` : "",
-    paddedMealNumber ? `images/dinner-combinations/meal-${paddedMealNumber}.jpeg` : "",
-    paddedMealNumber ? `images/dinner-combinations/MEAL-${paddedMealNumber}.JPEG` : "",
-    paddedMealNumber ? `images/dinner-combinations/meal-${paddedMealNumber}.png` : "",
-    paddedMealNumber ? `images/dinner-combinations/MEAL-${paddedMealNumber}.png` : "",
+    paddedMealNumber ? `images/dinner-combinations/meal-${paddedMealNumber}.webp` : "",
+    paddedMealNumber ? `images/dinner-combinations/meal-${paddedMealNumber}.webp` : "",
+    paddedMealNumber ? `images/dinner-combinations/MEAL-${paddedMealNumber}.webp` : "",
+    paddedMealNumber ? `images/dinner-combinations/MEAL-${paddedMealNumber}.webp` : "",
+    paddedMealNumber ? `images/dinner-combinations/meal-${paddedMealNumber}.webp` : "",
+    paddedMealNumber ? `images/dinner-combinations/MEAL-${paddedMealNumber}.webp` : "",
+    paddedMealNumber ? `images/dinner-combinations/meal-${paddedMealNumber}.webp` : "",
+    paddedMealNumber ? `images/dinner-combinations/MEAL-${paddedMealNumber}.webp` : "",
     meal.image,
   ].filter(Boolean);
 
@@ -7103,7 +7123,6 @@ function FavoritesPage({
   addToPlan,
   openRecipeCard,
   setPlan,
-  onUserDataRestored,
 }) {
   const safeFavorites = Array.isArray(favorites) ? favorites : [];
   const savedRecipes = recipes.filter((recipe) => safeFavorites.includes(recipe.id));
@@ -7199,8 +7218,6 @@ function FavoritesPage({
             )}
           </>
         )}
-
-        <UserDataBackupSection onRestored={onUserDataRestored} onLearnMore={() => setActivePage("Privacy & Your Data")} />
       </main>
 
       <FeaturedComboMealModal
@@ -7228,7 +7245,7 @@ function CollectionsPage({ setActivePage }) {
   return (
     <>
       <PageHeroImage
-        src="images/heroes/hero-page-collections.png"
+        src="images/heroes/hero-page-collections.webp"
         alt="Curated recipe collections with recipe cards, meal ideas, and planning notes"
         eyebrow="COLLECTIONS"
         title="Collections"
@@ -7353,7 +7370,7 @@ function ProductsIUsePage({ setActivePage, productCategories, setProductCategori
                 >
                   <img
                     className="productsIUseAmazonIcon"
-                    src={`${import.meta.env.BASE_URL}images/ui/amazon-smile.png`}
+                    src={`${import.meta.env.BASE_URL}images/ui/amazon-smile.webp`}
                     alt=""
                     loading="lazy"
                     decoding="async"
@@ -11731,31 +11748,6 @@ export default function App() {
     [recipeClassifications]
   );
 
-  function refreshRestoredUserData() {
-    const restoredFavorites = loadJSON(STORAGE_KEYS.favorites, []);
-    setFavorites(Array.isArray(restoredFavorites) ? restoredFavorites : []);
-    setPlan(normalizeTwoWeekPlan(loadJSON(STORAGE_KEYS.plan, emptyTwoWeekPlan())));
-    setServings(loadJSON(STORAGE_KEYS.servings, 4));
-    setChecked(loadJSON(STORAGE_KEYS.checked, {}));
-    setPantry(loadJSON(STORAGE_KEYS.pantry, {}));
-    setRefrigerator(normalizeRefrigeratorState(loadJSON(STORAGE_KEYS.refrigerator, { items: {}, customItems: [] })));
-    setFreezer(normalizeFreezerState(loadJSON(STORAGE_KEYS.freezer, { items: {}, customItems: [], customLocations: [] })));
-    setPreparedInventory(normalizePreparedInventory(loadJSON(STORAGE_KEYS.preparedInventory, EMPTY_PREPARED_INVENTORY)));
-
-    const restoredReservations = loadJSON(STORAGE_KEYS.preparedReservations, []);
-    setPreparedReservations(Array.isArray(restoredReservations) ? restoredReservations : []);
-
-    const restoredDecisions = loadJSON(STORAGE_KEYS.componentDecisions, {});
-    setComponentDecisions(restoredDecisions && typeof restoredDecisions === "object" ? restoredDecisions : {});
-
-    const restoredComments = loadJSON(STORAGE_KEYS.shoppingComments, {});
-    setShoppingComments(restoredComments && typeof restoredComments === "object" ? restoredComments : {});
-
-    const restoredCategories = loadJSON(STORAGE_KEYS.productCategories, {});
-    setProductCategories(restoredCategories && typeof restoredCategories === "object" ? restoredCategories : {});
-    setRecipeClassifications(loadRecipeClassifications());
-  }
-
   useEffect(() => {
     const preloadAllSupportingHeroes = () => {
       SUPPORTING_PAGE_HERO_IMAGES.forEach((imagePath, index) => {
@@ -11837,7 +11829,6 @@ export default function App() {
     productCategories,
     setProductCategories,
     classifiedRecipes,
-    onUserDataRestored: refreshRestoredUserData,
   };
 
   return (
@@ -11859,7 +11850,7 @@ export default function App() {
       {activePage === "Contact Me" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-page-connect.png"
+            src="images/heroes/hero-page-connect.webp"
             alt="Contact cards, notebook, recipe box, plant, measuring spoons, and coffee on a pale kitchen surface"
             eyebrow="ABOUT US"
             title="Contact Me"
@@ -11885,7 +11876,7 @@ export default function App() {
       {activePage === "Free To Use" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-page-free-to-use.jpg"
+            src="images/heroes/hero-page-free-to-use.webp"
             alt="Free to use recipe planning setup with chicken dinner, recipe box, recipe plan clipboard, and notebook"
             eyebrow="OUR RECIPES"
             title="Free To Use, Print or Download"
@@ -11908,7 +11899,7 @@ export default function App() {
       {activePage === "Dinner Combinations" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-page-complete-dinners.jpg"
+            src="images/heroes/hero-page-complete-dinners.webp"
             alt="Complete dinner setup with steak, sides, recipe box, clipboard, and iced tea"
             eyebrow="COLLECTIONS"
             title="Dinner Combinations"
@@ -11929,7 +11920,7 @@ export default function App() {
         <HeroTopicPage
           eyebrow="COOKING METHODS"
           title="Crockpot Recipes"
-          heroImage="images/heroes/hero-page-crockpot.jpg"
+          heroImage="images/heroes/hero-page-crockpot.webp"
           heroAlt="Crockpot with slow-cooked meal, checklist, notebook, coffee, and potted plant"
           text="The Crockpot is one of the easiest ways to prepare a comforting meal with limited last-minute work. Ingredients can often be assembled earlier in the day, leaving the slow cooker to gently cook meats, vegetables, sauces, soups, or stews.\n\nThese recipes are designed for convenience, tenderness, and dependable flavor. They are useful for busy weekdays, make-ahead meals, larger portions, and dishes that improve as the ingredients slowly cook together."
           setActivePage={setActivePage}
@@ -11939,7 +11930,7 @@ export default function App() {
         <HeroTopicPage
           eyebrow="TIPS & ORGANIZATION"
           title="Tips: Grilling"
-          heroImage="images/heroes/hero-page-griddle.jpg"
+          heroImage="images/heroes/hero-page-griddle.webp"
           heroAlt="Gas grill with grilled meats and vegetables"
           text="Successful grilling begins before the food reaches the cooking grate. Preparation, preheating, clean grates, correct heat zones, and a basic understanding of timing can make a noticeable difference in the finished meal.\n\nThese tips cover direct and indirect cooking, flare-ups, turning, marinades, safe internal temperatures, resting, and other common questions. The goal is to help you grill more confidently and produce consistent results."
           setActivePage={setActivePage}
@@ -11948,7 +11939,7 @@ export default function App() {
       {activePage === "Prepared Freezer Inventory" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-page-freezer.jpg"
+            src="images/heroes/hero-page-freezer.webp"
             alt="Organized freezer with labeled prepared meal packages"
             eyebrow="MEAL PLANNING"
             title="Prepared Freezer Inventory"
@@ -11962,7 +11953,7 @@ export default function App() {
       {activePage === "Reference Guides" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-page-reference-guides.jpg"
+            src="images/heroes/hero-page-reference-guides.webp"
             alt="Kitchen reference guides setup with measuring cups, conversion chart, cookbooks, and utensils"
             eyebrow="TIPS & ORGANIZATION"
             title="Reference Guides"
@@ -11975,26 +11966,10 @@ These pages are designed to be easy to scan, print, or revisit when needed. They
         </>
       )}
 
-      {activePage === "Privacy & Your Data" && (
-        <>
-          <PageHeroImage
-            src="images/heroes/privacy-your-data-hero.jpg"
-            alt="Recipe box, tablet with a privacy shield, padlock, coffee mug, and plant on a pale marble counter"
-            eyebrow="ABOUT US"
-            title="Privacy & Your Data"
-            text="Robert’s Recipe Box was designed to provide useful recipe-planning tools without requiring a visitor account, email address, subscription, or password. Supported personal information is kept in the visitor’s browser whenever practical.
-
-This page explains what is saved locally, how Backup and Restore work, what outside services may process, and the practical limits of browser storage and online security."
-            className="pageHeroDepth464 privacyDataHero"
-          />
-          <PrivacyYourDataPage setActivePage={setActivePage} />
-        </>
-      )}
-
       {activePage === "Disclaimers" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-page-disclaimers.jpg"
+            src="images/heroes/hero-page-disclaimers.webp"
             alt="Disclaimer page setup with disclaimer notebook, glasses, scales, recipe box, and clipboard"
             eyebrow="ABOUT US"
             title="Disclaimers"
@@ -12007,7 +11982,7 @@ This page explains what is saved locally, how Backup and Restore work, what outs
       {activePage === "Under Construction" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-page-construction.jpg"
+            src="images/heroes/hero-page-construction.webp"
             alt="Under construction page setup with hard hat, construction sign, recipe box, and notebook"
             eyebrow="ABOUT US"
             title="Under Construction"
@@ -12020,7 +11995,7 @@ This page explains what is saved locally, how Backup and Restore work, what outs
       {activePage === "Recipes" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-page-browse-recipes.jpg"
+            src="images/heroes/hero-page-browse-recipes.webp"
             alt="Browse recipes setup with recipe box, pasta dish, salad, notebook, and recipe category clipboard"
             eyebrow="OUR RECIPES"
             title="Browse Our Recipe Library"
@@ -12033,7 +12008,7 @@ This page explains what is saved locally, how Backup and Restore work, what outs
       {activePage === "Collections" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-page-collections.png"
+            src="images/heroes/hero-page-collections.webp"
             alt="Recipe collections setup with a recipe box, plated dinner, salad, rolls, coffee, and notebook"
             eyebrow="COLLECTIONS"
             title="Collections"
@@ -12045,7 +12020,7 @@ This page explains what is saved locally, how Backup and Restore work, what outs
       {activePage === "Salad Jars" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-page-salad-jars.jpg"
+            src="images/heroes/hero-page-salad-jars.webp"
             alt="Salad jars meal planning setup with mason jar salads, recipe box, notebook, and clipboard"
             eyebrow="COLLECTIONS"
             title="Salad Jars"
@@ -12067,7 +12042,7 @@ This page explains what is saved locally, how Backup and Restore work, what outs
       {activePage === "Slow Cooker Favorites" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-page-slow-cooker.jpg"
+            src="images/heroes/hero-page-slow-cooker.webp"
             alt="Slow cooker meal setup with crockpot, sides, rolls, recipe box, and slow cooker meal plan clipboard"
             eyebrow="COLLECTIONS"
             title="Slow Cooker Favorites"
@@ -12089,7 +12064,7 @@ This page explains what is saved locally, how Backup and Restore work, what outs
       {activePage === "Summer Cookouts" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-page-summer-cookouts.jpg"
+            src="images/heroes/hero-page-summer-cookouts.webp"
             alt="Summer cookout setup with burger, hot dog, corn, baked beans, coleslaw, and recipe box"
             eyebrow="COLLECTIONS"
             title="Summer Cookouts"
@@ -12111,7 +12086,7 @@ This page explains what is saved locally, how Backup and Restore work, what outs
       {activePage === "Healthy Dinners" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-page-healthy-dinners.jpg"
+            src="images/heroes/hero-page-healthy-dinners.webp"
             alt="Healthy dinner setup with grilled chicken, salad, grains, recipe box, and meal plan clipboard"
             eyebrow="COLLECTIONS"
             title="Healthy Dinners"
@@ -12133,7 +12108,7 @@ This page explains what is saved locally, how Backup and Restore work, what outs
       {activePage === "Comfort Foods" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-page-comfort-food.jpg"
+            src="images/heroes/hero-page-comfort-food.webp"
             alt="Comfort food meal setup with meatloaf, mashed potatoes, green beans, rolls, macaroni, and recipe box"
             eyebrow="COLLECTIONS"
             title="Comfort Foods"
@@ -12155,7 +12130,7 @@ This page explains what is saved locally, how Backup and Restore work, what outs
       {activePage === "Easy 30-Minute Meals" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-page-30-minute-meals.jpg"
+            src="images/heroes/hero-page-30-minute-meals.webp"
             alt="Easy 30-minute meal planning setup with chicken, salad, recipe cards, and a meal plan clipboard"
             eyebrow="COLLECTIONS"
             title="Easy 30-Minute Meals"
@@ -12177,7 +12152,7 @@ This page explains what is saved locally, how Backup and Restore work, what outs
       {activePage === "Sunday Meals" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-weekly-plan.png"
+            src="images/heroes/hero-weekly-plan.webp"
             alt="Sunday meal planning setup with recipes, dinner, and family-style sides"
             eyebrow="COLLECTIONS"
             title="Sunday Meals"
@@ -12201,7 +12176,7 @@ Use this page to group the recipes you want for relaxed weekends, family visits,
       {activePage === "Complete Dinners" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-page-complete-dinners.jpg"
+            src="images/heroes/hero-page-complete-dinners.webp"
             alt="Complete dinner setup with main dish, sides, recipe box, and meal-planning clipboard"
             eyebrow="COLLECTIONS"
             title="Complete Dinners"
@@ -12225,7 +12200,7 @@ Use this collection to assign individual recipe cards that belong in a complete-
       {activePage === "Freezer-Friendly Meals" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-page-freezer-meals.png"
+            src="images/heroes/hero-page-freezer-meals.webp"
             alt="Freezer meals and make-ahead dinner containers with labels, recipe cards, and reheating notes"
             eyebrow="COLLECTIONS"
             title="Quick & Easy Freezer Meals"
@@ -12249,7 +12224,7 @@ Use this page to group recipes that can be made ahead, labeled, frozen, thawed s
       {activePage === "Meals for Two" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-page-meal-plans.jpg"
+            src="images/heroes/hero-page-meal-plans.webp"
             alt="Meal planning for two setup with recipe cards, dinner plates, and grocery notes"
             eyebrow="COLLECTIONS"
             title="Meals for Two"
@@ -12273,7 +12248,7 @@ Use this collection to organize recipes that work well for two-person dinners, p
       {activePage === "Make-Ahead Meals" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-page-make-ahead-meals.jpg"
+            src="images/heroes/hero-page-make-ahead-meals.webp"
             alt="Make-ahead meal setup with prepared food, storage containers, labels, and recipe notes"
             eyebrow="COLLECTIONS"
             title="Make-Ahead Meals"
@@ -12297,7 +12272,7 @@ Use this collection to organize recipes that fit prep-ahead cooking, planned lef
       {activePage === "Meal Planner" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-weekly-dinner-planner.png"
+            src="images/heroes/hero-weekly-dinner-planner.webp"
             alt="Weekly dinner planner hero with meal-planning notebook, checklist clipboard, coffee, and a potted plant on a light marble counter"
             eyebrow="TWO-WEEK DINNER PLANNER"
             title="Your Weekly Dinner Planner"
@@ -12309,7 +12284,7 @@ Use this collection to organize recipes that fit prep-ahead cooking, planned lef
       {activePage === "Shopping Lists" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-page-grocery-list.jpg"
+            src="images/heroes/hero-page-grocery-list.webp"
             alt="Grocery list setup with clipboard, shopping bag, notebook, coffee, and fresh groceries"
             eyebrow="PLANNING"
             title="Your Grocery List"
@@ -12322,7 +12297,7 @@ Use this collection to organize recipes that fit prep-ahead cooking, planned lef
       {activePage === "Pantry Staples" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-page-your-pantry.jpg"
+            src="images/heroes/hero-page-your-pantry.webp"
             alt="Pantry planning setup with labeled pantry containers, canned goods, checklist, and notebook"
             eyebrow="PLANNING"
             title="Your Pantry"
@@ -12335,7 +12310,7 @@ Use this collection to organize recipes that fit prep-ahead cooking, planned lef
       {activePage === "Pantry Organization" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-page-your-pantry.jpg"
+            src="images/heroes/hero-page-your-pantry.webp"
             alt="Pantry planning setup with labeled containers, canned goods, checklist, and notebook"
             eyebrow="PLANNING"
             title="Organizing Your Pantry"
@@ -12353,7 +12328,7 @@ Use this collection to organize recipes that fit prep-ahead cooking, planned lef
       {activePage === "Kitchen Refrigerator" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-page-refrigerator-inv.png"
+            src="images/heroes/hero-page-refrigerator-inv.webp"
             alt="Refrigerator inventory setup with fresh foods, notebook, produce, dairy, eggs, and meal-prep containers"
             eyebrow="YOUR KITCHEN"
             title="Refrigerator Inventory"
@@ -12368,7 +12343,7 @@ Use this section to mark what is already in the refrigerator, record quantities 
       {activePage === "Kitchen Freezer" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-page-freezer-inv.png"
+            src="images/heroes/hero-page-freezer-inv.webp"
             alt="Freezer inventory setup with labeled frozen meals, freezer bags, clipboard, and food storage notes"
             eyebrow="YOUR KITCHEN"
             title="Freezer Inventory"
@@ -12383,7 +12358,7 @@ Use this section to check what is on hand, record dates, mark foods that should 
       {activePage === "Packaging Options" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-storage.png"
+            src="images/heroes/hero-storage.webp"
             alt="Meal storage containers, labels, bags, jars, and freezer organization supplies"
             eyebrow="TIPS & ORGANIZATION"
             title="Packaging Options"
@@ -12401,7 +12376,7 @@ Use this section to check what is on hand, record dates, mark foods that should 
       {activePage === "Favorites" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-page-favorite-recipes.jpg"
+            src="images/heroes/hero-page-favorite-recipes.webp"
             alt="Favorite recipe setup with recipe box, favorite recipe card, notebook, and kitchen decor"
             eyebrow="PLANNING"
             title="Your Favorites"
@@ -12415,7 +12390,7 @@ Use this section to check what is on hand, record dates, mark foods that should 
       {activePage === "Recommendations" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-storage.png"
+            src="images/heroes/hero-storage.webp"
             alt="Pantry storage containers, spices, and kitchen organization setup"
             eyebrow="TIPS & ORGANIZATION"
             title="Recommendations"
@@ -12427,7 +12402,7 @@ Use this section to check what is on hand, record dates, mark foods that should 
       {activePage === "Products I Use" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-page-cooking-tools.jpg"
+            src="images/heroes/hero-page-cooking-tools.webp"
             alt="Cooking tools and products setup with utensils, measuring cups, grater, mixing bowl, and skillet"
             eyebrow="TIPS & ORGANIZATION"
             title="Cooking Tools, Storage & Organization"
@@ -12440,7 +12415,7 @@ Use this section to check what is on hand, record dates, mark foods that should 
       {activePage === "Grocery Picks" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-page-healthy-substitutions.jpg"
+            src="images/heroes/hero-page-healthy-substitutions.webp"
             alt="Healthy substitutions setup with cauliflower, tofu, zucchini noodles, beans, grains, yogurt, and greens"
             eyebrow="TIPS & ORGANIZATION"
             title="Healthy Substitutions"
@@ -12453,7 +12428,7 @@ Use this section to check what is on hand, record dates, mark foods that should 
       {activePage === "Smart Grocery Picks" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-page-healthy-substitutions.jpg"
+            src="images/heroes/hero-page-healthy-substitutions.webp"
             alt="Healthy substitutions setup with cauliflower, tofu, zucchini noodles, beans, grains, yogurt, and greens"
             eyebrow="TIPS & ORGANIZATION"
             title="Healthy Substitutions"
@@ -12466,7 +12441,7 @@ Use this section to check what is on hand, record dates, mark foods that should 
       {activePage === "Freezer Tips" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-page-freeze-reheat.png"
+            src="images/heroes/hero-page-freeze-reheat.webp"
             alt="Freeze and reheat setup with labeled frozen meals, plated lasagna, clipboard instructions, coffee, and meal storage"
             eyebrow="TIPS & ORGANIZATION"
             title="Freezing & Reheating Meals"
@@ -12479,7 +12454,7 @@ Use this section to check what is on hand, record dates, mark foods that should 
       {activePage === "About" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-page-about-us.jpg"
+            src="images/heroes/hero-page-about-us.webp"
             alt="Framed family photos, coffee cup, and small plant on a light kitchen counter"
             eyebrow="ABOUT US"
             title="Welcome to Our Site"
@@ -12492,7 +12467,7 @@ Use this section to check what is on hand, record dates, mark foods that should 
       {activePage === "About Recipe Box Hidden" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-page-about-us.jpg"
+            src="images/heroes/hero-page-about-us.webp"
             alt="Recipe box, meal-planning notes, and kitchen tools on a light kitchen counter"
             eyebrow="ABOUT ROBERT’S RECIPE BOX"
             title="About Robert’s Recipe Box"
@@ -12506,7 +12481,7 @@ Use this section to check what is on hand, record dates, mark foods that should 
         <HeroTopicPage
           eyebrow="OUR MISSION"
           title="Who Is Robert"
-          heroImage="images/heroes/hero-mission.png"
+          heroImage="images/heroes/hero-mission.webp"
           heroAlt="Recipe box, binder, and kitchen organization setup"
           text="This page will introduce Robert, the person behind Robert’s Recipe Box, and explain the practical cooking experience behind the site."
           setActivePage={setActivePage}
@@ -12516,7 +12491,7 @@ Use this section to check what is on hand, record dates, mark foods that should 
         <HeroTopicPage
           eyebrow="OUR MISSION"
           title="What Are My Goals"
-          heroImage="images/heroes/hero-mission.png"
+          heroImage="images/heroes/hero-mission.webp"
           heroAlt="Recipe box, binder, and kitchen organization setup"
           text="This page will explain the goals of Robert’s Recipe Box: practical meals, smart planning, useful leftovers, freezer meals, and saving money where possible."
           setActivePage={setActivePage}
@@ -12527,7 +12502,7 @@ Use this section to check what is on hand, record dates, mark foods that should 
         <HeroTopicPage
           eyebrow="COOKING METHODS"
           title="Tips: Air Fryers"
-          heroImage="images/heroes/hero-page-air-fryer.jpg"
+          heroImage="images/heroes/hero-page-air-fryer.webp"
           heroAlt="Air fryer with fries, cooked bites, towel, and potted herb"
           text="Air fryers can create crisp, flavorful food with less oil and often less cleanup than traditional frying. They are especially useful for smaller portions, quick meals, reheating certain leftovers, and preparing foods without heating a full-size oven.\n\nThis collection includes meats, vegetables, side dishes, snacks, and other recipes suited to circulating hot air. Because air fryers vary, cooking times may need small adjustments based on the model and basket size."
           setActivePage={setActivePage}
@@ -12563,7 +12538,7 @@ Use this section to check what is on hand, record dates, mark foods that should 
         <HeroTopicPage
           eyebrow="COOKING METHODS"
           title="Tips: Gas & Electric Ovens"
-          heroImage="images/heroes/hero-page-oven.jpg"
+          heroImage="images/heroes/hero-page-oven.webp"
           heroAlt="Oven cooking setup with casserole, oven tips clipboard, utensils, coffee, and notebook"
           text="The oven remains one of the most versatile tools in the kitchen. It can bake, roast, broil, brown, warm, and finish everything from casseroles and meats to vegetables, breads, and desserts.\n\nThis section includes recipes for everyday dinners as well as special occasions. Clear temperatures and timing guidance will help you plan the meal, although ovens can vary and food should always be checked for doneness."
           setActivePage={setActivePage}
@@ -12601,7 +12576,7 @@ Use this section to check what is on hand, record dates, mark foods that should 
         <HeroTopicPage
           eyebrow="COOKING METHODS"
           title="Tips: Microwave Ovens"
-          heroImage="images/heroes/hero-page-microwaves.jpg"
+          heroImage="images/heroes/hero-page-microwaves.webp"
           heroAlt="Microwave cooking setup with bowl of food, towel, and potted plant"
           text="Microwaves are usually associated with reheating leftovers, but they can also prepare simple meals, side dishes, sauces, vegetables, snacks, and individual portions. Used properly, they can save time and reduce the number of pans that need washing.\n\nThis section focuses on practical microwave uses rather than pretending it replaces every other appliance. Power levels and cooking times may vary, so recipes may require adjustment for your specific microwave."
           setActivePage={setActivePage}
@@ -12808,7 +12783,7 @@ Use this section to check what is on hand, record dates, mark foods that should 
         <HeroTopicPage
           eyebrow="COOKING METHODS"
           title="Tips: Gas & Electric Griddles"
-          heroImage="images/heroes/hero-page-griddle.jpg"
+          heroImage="images/heroes/hero-page-griddle.webp"
           heroAlt="Flat-top griddle cooking setup with breakfast foods and utensils"
           text="Gas and electric griddles provide a broad, even cooking surface for breakfast foods, burgers, sandwiches, vegetables, seafood, and complete meals. They are especially useful when several foods need to cook at the same time without crowding a skillet.\n\nThis section covers preheating, temperature zones, seasoning and cleaning the surface, managing grease, preventing sticking, and cooking safely on both outdoor gas griddles and indoor electric griddles."
           setActivePage={setActivePage}
@@ -12975,7 +12950,7 @@ Use this section to check what is on hand, record dates, mark foods that should 
         <HeroTopicPage
           eyebrow="COOKING METHODS"
           title="Tips: Gas Grills"
-          heroImage="images/heroes/hero-page-gas-grills.jpg"
+          heroImage="images/heroes/hero-page-gas-grills.webp"
           heroAlt="Gas grill with grilled burgers and vegetables on a light kitchen counter"
           text="Gas grills provide fast heat, convenient temperature control, and the familiar flavor of outdoor cooking. They work well for meats, vegetables, sandwiches, flatbreads, side dishes, and complete meals prepared away from the indoor kitchen.\n\nThese recipes and tips will help with preheating, direct and indirect heat, flare-ups, turning, timing, and safe doneness. With a little practice, a gas grill can become one of the most dependable cooking tools you own."
           setActivePage={setActivePage}
@@ -13020,7 +12995,7 @@ Use this section to check what is on hand, record dates, mark foods that should 
         <HeroTopicPage
           eyebrow="COOKING METHODS"
           title="Tips: Smoker & Pellet Grills"
-          heroImage="images/heroes/hero-page-pellet-smoker.jpg"
+          heroImage="images/heroes/hero-page-pellet-smoker.webp"
           heroAlt="Pellet smoker with brisket, sliced smoked meat, pellets, towel, and potted plant"
           text="Pellet smokers make it possible to cook meats and other foods with steady heat and wood-smoke flavor. They are especially well suited to low-and-slow cooking, but many models can also roast, bake, grill, and finish foods at higher temperatures.\n\nThis section includes recipes and guidance for seasoning, pellet selection, cooking temperatures, wrapping, moisture, resting, and serving. The emphasis is on practical home cooking rather than professional barbecue competition techniques."
           setActivePage={setActivePage}
@@ -13064,7 +13039,7 @@ Use this section to check what is on hand, record dates, mark foods that should 
 {activePage === "Cooking Methods" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-air-fryer.png"
+            src="images/heroes/hero-air-fryer.webp"
             alt="Air fryer with wings and potatoes on a kitchen counter"
             eyebrow="COOKING METHODS"
             title="Cooking Methods"
@@ -13087,7 +13062,7 @@ Use this section to check what is on hand, record dates, mark foods that should 
         <HeroTopicPage
           eyebrow="OUR RECIPES"
           title="Suggested Meal Plans"
-          heroImage="images/heroes/hero-weekly-plan.png"
+          heroImage="images/heroes/hero-weekly-plan.webp"
           heroAlt="Weekly meal planner with fresh vegetables"
           text="This page will collect practical meal-plan ideas for smaller households, planned leftovers, freezer meals, and easy weekly routines."
           setActivePage={setActivePage}
@@ -13098,7 +13073,7 @@ Use this section to check what is on hand, record dates, mark foods that should 
       {activePage === "Bread Tips" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-page-breadmaking.png"
+            src="images/heroes/hero-page-breadmaking.webp"
             alt="Breadmaking setup with sliced loaf, dough, flour, yeast, loaf pan, measuring spoons, and kitchen towel"
             eyebrow="TIPS & ORGANIZATION"
             title="Tips: Breadmaking"
@@ -13151,7 +13126,7 @@ Use this section to check what is on hand, record dates, mark foods that should 
       {activePage === "Submit Recipes" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-page-family.png"
+            src="images/heroes/hero-page-family.webp"
             alt="Family recipe setup with vintage recipe binder, handwritten cards, coffee, potted plant, bread, and old family photograph"
             eyebrow="TIPS & ORGANIZATION"
             title="Submit Your Family Recipes"
@@ -13162,7 +13137,7 @@ Use this section to check what is on hand, record dates, mark foods that should 
             <section className="familyRecipeSubmissionPanel">
               <div className="familyRecipeSubmissionImageWrap">
                 <img
-                  src={`${import.meta.env.BASE_URL}images/family/npg-001-salisbury-steak.png`}
+                  src={`${import.meta.env.BASE_URL}images/family/npg-001-salisbury-steak.webp`}
                   alt="Example family recipe card for Nancy's Salisbury Steak"
                   loading="lazy"
                   decoding="async"
@@ -13183,7 +13158,7 @@ Use this section to check what is on hand, record dates, mark foods that should 
       {activePage === "Safe Cooking Rules" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-page-food-safety.png"
+            src="images/heroes/hero-page-food-safety.webp"
             alt="Food-safety setup with meal-prep containers, salad, digital thermometer, coffee, and kitchen towel"
             eyebrow="TIPS & ORGANIZATION"
             title="Food Safety Rules for Handling, Cooking, and Storage"
@@ -13461,7 +13436,7 @@ Use this section to check what is on hand, record dates, mark foods that should 
         <HeroTopicPage
           eyebrow="TIPS & TECHNIQUES"
           title="Storage & Organization"
-          heroImage="images/heroes/hero-page-storage.jpg"
+          heroImage="images/heroes/hero-page-storage.webp"
           heroAlt="Storage and organization setup with labeled containers, pantry items, basket, and kitchen notes"
           text="An organized kitchen makes it easier to find ingredients, use the equipment you own, and prepare meals without unnecessary frustration. Better storage can also reduce wasted food and prevent supplies from being forgotten.\n\nExplore ideas for pantries, refrigerators, freezers, cookware, utensils, spices, recipes, and meal-preparation supplies. The goal is not a perfect showroom kitchen, but a practical space that works better for the people using it."
           setActivePage={setActivePage}
@@ -13472,7 +13447,7 @@ Use this section to check what is on hand, record dates, mark foods that should 
       {activePage === "Other Interests" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-mission.png"
+            src="images/heroes/hero-mission.webp"
             alt="Recipe box, notebook, and kitchen organization setup"
             eyebrow="TIPS & ORGANIZATION"
             title="Other Interests"
@@ -13494,7 +13469,7 @@ Use this section to check what is on hand, record dates, mark foods that should 
       {activePage === "How To Use" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-recipes.png"
+            src="images/heroes/hero-recipes.webp"
             alt="Recipe card organization setup on a kitchen counter"
             eyebrow="OUR RECIPES"
             title="How to Use This Site"
@@ -13506,7 +13481,7 @@ Use this section to check what is on hand, record dates, mark foods that should 
       {activePage === "About Recipes" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-page-ai-generated.jpg"
+            src="images/heroes/hero-page-ai-generated.webp"
             alt="AI-generated recipes setup with recipe box, chicken dinner, notebook, and planning clipboard"
             eyebrow="OUR RECIPES"
             title="AI-Generated, Never Copied"
@@ -13519,7 +13494,7 @@ Use this section to check what is on hand, record dates, mark foods that should 
       {activePage === "MealBalance Guide" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-page-ai-generated.jpg"
+            src="images/heroes/hero-page-ai-generated.webp"
             alt="Recipe planning and nutrition comparison setup"
             eyebrow="OUR RECIPES"
             title="Understanding MealBalance"
@@ -13534,7 +13509,7 @@ The score is not a judgment and it is not medical or dietary advice. It is one p
       {activePage === "About Smoking" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-smoker.jpg"
+            src="images/heroes/hero-smoker.webp"
             alt="Pellet smoker with sliced brisket on a cutting board"
             eyebrow="TIPS & ORGANIZATION"
             title="Tips: Smoking Meats"
@@ -13548,7 +13523,7 @@ The score is not a judgment and it is not medical or dietary advice. It is one p
       {activePage === "Affiliate Marketing" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-page-affiliate.jpg"
+            src="images/heroes/hero-page-affiliate.webp"
             alt="Affiliate marketing setup with laptop dashboard, notebook, coffee, and affiliate partner checklist"
             eyebrow="TIPS & ORGANIZATION"
             title="Affiliate Marketing"
@@ -13583,15 +13558,6 @@ The score is not a judgment and it is not medical or dietary advice. It is one p
         toggleFavorite={toggleFavorite}
       />
 
-      <BackupReminderNotice
-        onOpenBackupCenter={() => {
-          setActivePage("Favorites");
-          window.setTimeout(() => {
-            document.getElementById("your-recipe-box-data")?.scrollIntoView({ behavior: "smooth", block: "start" });
-          }, 0);
-        }}
-      />
-
       <footer className="footer">
         <span>
           Robert’s Recipe Box uses AI-generated recipes and organization as a practical planning tool. Favorites and meal plans are saved in this browser only and are not shared between your devices. Some product links may earn a small commission at no extra cost to you; however, you are not required to purchase anything to use my site.
@@ -13600,22 +13566,6 @@ The score is not a judgment and it is not medical or dietary advice. It is one p
         <small className="footerDisclaimerLine">
           <button type="button" onClick={() => setActivePage("Disclaimers")}>
             Read my disclaimers.
-          </button>
-          <span aria-hidden="true"> · </span>
-          <button type="button" onClick={() => setActivePage("Privacy & Your Data")}>
-            Privacy & Your Data
-          </button>
-          <span aria-hidden="true"> · </span>
-          <button
-            type="button"
-            onClick={() => {
-              setActivePage("Favorites");
-              window.setTimeout(() => {
-                document.getElementById("your-recipe-box-data")?.scrollIntoView({ behavior: "smooth", block: "start" });
-              }, 0);
-            }}
-          >
-            Manage or back up your Recipe Box data
           </button>
         </small>
       </footer>
