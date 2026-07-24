@@ -32595,3 +32595,25 @@ body.rrbPopupOpen {
     width: 100%;
   }
 }
+
+/* ================================
+   PRIVACY & YOUR DATA HERO ALIGNMENT
+   Keeps the privacy objects anchored to the right side of the banner.
+   This rule affects only the Privacy & Your Data supporting-page hero.
+   ================================ */
+
+.pageTopHeroImage.privacyDataHero > img[data-page-hero-image="true"] {
+  object-position: right center;
+}
+
+@media (max-width: 1100px) {
+  .pageTopHeroImage.privacyDataHero > img[data-page-hero-image="true"] {
+    object-position: 82% center;
+  }
+}
+
+@media (max-width: 720px) {
+  .pageTopHeroImage.privacyDataHero > img[data-page-hero-image="true"] {
+    object-position: 78% center;
+  }
+}
