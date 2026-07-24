@@ -2,6 +2,7 @@ import { createContext, useContext, useMemo, useState, useEffect, useRef } from 
 import { categories, recipes } from "./data/recipes";
 import AdminRecipeClassifier from "./components/AdminRecipeClassifier";
 import UserDataBackupSection from "./components/UserDataBackupSection";
+import BackupReminderNotice from "./components/BackupReminderNotice";
 import PrivacyYourDataPage from "./components/PrivacyYourDataPage";
 import {
   loadRecipeClassifications,
@@ -13580,6 +13581,15 @@ The score is not a judgment and it is not medical or dietary advice. It is one p
         setViewer={setCardViewer}
         favorites={favorites}
         toggleFavorite={toggleFavorite}
+      />
+
+      <BackupReminderNotice
+        onOpenBackupCenter={() => {
+          setActivePage("Favorites");
+          window.setTimeout(() => {
+            document.getElementById("your-recipe-box-data")?.scrollIntoView({ behavior: "smooth", block: "start" });
+          }, 0);
+        }}
       />
 
       <footer className="footer">
