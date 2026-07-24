@@ -1,0 +1,20 @@
+/* =========================================================
+   FEATURED COMBO-MEALS — 10-MINUTE AUTO-ROTATION
+   Keeps the existing grid dimensions and prevents layout shift.
+   ========================================================= */
+
+.homeComboMealGrid {
+  opacity: 1;
+  transition: opacity 280ms ease;
+  will-change: opacity;
+}
+
+.homeComboMealGrid.homeComboMealGridRotating {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .homeComboMealGrid {
+    transition: none;
+  }
+}

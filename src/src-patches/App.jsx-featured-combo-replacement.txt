@@ -1,0 +1,211 @@
+/*
+  Replace the current HomeComboMealStrip implementation with this version.
+  Keep the existing FeaturedComboMealModal and FeaturedComboMealCardModal
+  components unchanged.
+*/
+
+const FEATURED_MEAL_ROTATION = 10 * 60 * 1000; // 10 minutes
+const FEATURED_MEAL_COUNT = 6;
+const FEATURED_MEAL_FADE_MS = 280;
+
+function shuffleRecords(records) {
+  const shuffled = [...records];
+
+  for (let index = shuffled.length - 1; index > 0; index -= 1) {
+    const randomIndex = Math.floor(Math.random() * (index + 1));
+    [shuffled[index], shuffled[randomIndex]] = [
+      shuffled[randomIndex],
+      shuffled[index],
+    ];
+  }
+
+  return shuffled;
+}
+
+function selectFeaturedComboMeals(allMeals, previousMeals = []) {
+  const availableMeals = uniqueRecordsByPermanentId(allMeals);
+  const selectionSize = Math.min(FEATURED_MEAL_COUNT, availableMeals.length);
+
+  if (selectionSize === 0) return [];
+  if (availableMeals.length <= selectionSize) return shuffleRecords(availableMeals);
+
+  const previousIds = new Set(previousMeals.map((meal) => meal.id));
+  const notPreviouslyShown = availableMeals.filter(
+    (meal) => !previousIds.has(meal.id)
+  );
+  const previouslyShown = availableMeals.filter((meal) =>
+    previousIds.has(meal.id)
+  );
+
+  // Prefer meals that were not in the immediately previous set.
+  const nextSelection = [
+    ...shuffleRecords(notPreviouslyShown),
+    ...shuffleRecords(previouslyShown),
+  ].slice(0, selectionSize);
+
+  // Defensive fallback: guarantee no duplicate IDs in one rotation.
+  return uniqueRecordsByPermanentId(nextSelection).slice(0, selectionSize);
+}
+
+function HomeComboMealStrip({
+  setActivePage,
+  openRecipeCard,
+  favorites,
+  toggleFavorite,
+  setPlan,
+}) {
+  const availableComboMeals = useMemo(
+    () => uniqueRecordsByPermanentId(dinnerCombinations),
+    []
+  );
+
+  const [homeComboMeals, setHomeComboMeals] = useState(() =>
+    selectFeaturedComboMeals(availableComboMeals)
+  );
+  const [isRotating, setIsRotating] = useState(false);
+  const [selectedMeal, setSelectedMeal] = useState(null);
+  const [selectedMealCard, setSelectedMealCard] = useState(null);
+  const fadeTimeoutRef = useRef(null);
+
+  useEffect(() => {
+    if (availableComboMeals.length <= FEATURED_MEAL_COUNT) return undefined;
+
+    function rotateFeaturedMeals() {
+      setIsRotating(true);
+
+      fadeTimeoutRef.current = window.setTimeout(() => {
+        setHomeComboMeals((currentMeals) =>
+          selectFeaturedComboMeals(availableComboMeals, currentMeals)
+        );
+        setIsRotating(false);
+        fadeTimeoutRef.current = null;
+      }, FEATURED_MEAL_FADE_MS);
+    }
+
+    const rotationTimer = window.setInterval(
+      rotateFeaturedMeals,
+      FEATURED_MEAL_ROTATION
+    );
+
+    return () => {
+      window.clearInterval(rotationTimer);
+
+      if (fadeTimeoutRef.current !== null) {
+        window.clearTimeout(fadeTimeoutRef.current);
+      }
+    };
+  }, [availableComboMeals]);
+
+  if (!homeComboMeals.length) return null;
+
+  return (
+    <>
+      <section
+        className="section homeComboMealStrip"
+        aria-label="Featured combo meals"
+      >
+        <div className="sectionTitle homeComboMealStripHeader">
+          <div>
+            <h2>Featured Combo-Meals</h2>
+            <p>
+              Ready-made dinner combinations that pair a main dish with
+              practical sides.
+            </p>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => setActivePage("Dinner Combinations")}
+          >
+            View all combo-meals ›
+          </button>
+        </div>
+
+        <div
+          className={
+            isRotating
+              ? "homeComboMealGrid homeComboMealGridRotating"
+              : "homeComboMealGrid"
+          }
+          aria-live="polite"
+          aria-atomic="true"
+        >
+          {homeComboMeals.map((meal) => {
+            const isFavorite =
+              Array.isArray(favorites) && favorites.includes(meal.id);
+
+            return (
+              <div className="homeComboMealCardWrap" key={meal.id}>
+                <button
+                  type="button"
+                  className="homeComboMealCard"
+                  onClick={() => setSelectedMeal(meal)}
+                  aria-label={`Open combo meal ${meal.number}: ${meal.title}`}
+                >
+                  <div className="homeComboMealImage">
+                    <DinnerCombinationImage
+                      meal={meal}
+                      className="homeComboMealImageAsset"
+                      loading="lazy"
+                    />
+                  </div>
+
+                  <span className="homeComboMealText">
+                    <strong>{meal.title}</strong>
+                    <small>{meal.subtitle}</small>
+
+                    <span
+                      className="homeComboMealBalanceBadge"
+                      title={`MealBalance ${getComboMealBalanceScore(meal)}`}
+                      aria-label={`MealBalance ${getComboMealBalanceScore(meal)}`}
+                    >
+                      {getComboMealBalanceScore(meal)}
+                    </span>
+                  </span>
+                </button>
+
+                <button
+                  type="button"
+                  className={
+                    isFavorite
+                      ? "homeComboMealFavorite saved"
+                      : "homeComboMealFavorite"
+                  }
+                  onClick={() => toggleFavorite(meal.id)}
+                  aria-label={
+                    isFavorite
+                      ? `Remove ${meal.title} from favorites`
+                      : `Add ${meal.title} to favorites`
+                  }
+                  title={
+                    isFavorite ? "Remove from favorites" : "Add to favorites"
+                  }
+                >
+                  <span aria-hidden="true">♥</span>
+                </button>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      <FeaturedComboMealModal
+        meal={selectedMeal}
+        onClose={() => setSelectedMeal(null)}
+        onViewMeal={setSelectedMealCard}
+        openRecipeCard={openRecipeCard}
+        favorites={favorites}
+        toggleFavorite={toggleFavorite}
+      />
+
+      <FeaturedComboMealCardModal
+        meal={selectedMealCard}
+        onClose={() => setSelectedMealCard(null)}
+        setPlan={setPlan}
+        openRecipeCard={openRecipeCard}
+        favorites={favorites}
+        toggleFavorite={toggleFavorite}
+      />
+    </>
+  );
+}
