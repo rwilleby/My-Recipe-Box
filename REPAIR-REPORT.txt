@@ -1,0 +1,31 @@
+ROBERT'S RECIPE BOX — WEBP AND LAYOUT REPAIR
+Date: 2026-07-24
+
+APPLIED
+1. Updated local source image references from .png/.jpg/.jpeg to .webp.
+2. Browse Recipe Library cards:
+   - White MealBalance text in the green bubble.
+   - MealBalance moved to the bottom row between SS and Save/Favorite.
+   - Full-width View, Meal Planner, and Leftovers rows.
+   - Smart Tips/My Notes split row.
+   - Salad Jars add Build Your Salad as the third control.
+   - HB hamburger cards add Build Your Burger as the third control.
+3. Dinner Combination cards:
+   - One full-width meal card per row.
+   - First row uses 25% / 30% / 25% / 20% columns.
+   - Second row uses 50% recipe cards and 50% nutrition.
+   - Heating & freezer notes remain full width beneath the main card.
+4. Cooking Tools:
+   - Category and Amazon controls anchored at the lower right.
+   - Their bottoms align with the product image at desktop widths.
+5. Removed macOS metadata files.
+6. Corrected the backup-service test import path.
+
+VALIDATION
+- backupService tests: PASSED.
+- Production Vite build: NOT COMPLETED in this environment because npm dependency installation timed out.
+- package.json, package-lock.json, Vite config, GitHub workflow, Admin, Privacy, storage, and user-data behavior were not replaced or redesigned.
+
+BACKUPS
+- backups/latest contains the pre-repair App.jsx and App.css.
+- backups/previous is intentionally empty; no older verified generation was supplied.
