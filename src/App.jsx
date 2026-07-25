@@ -1695,7 +1695,7 @@ function Hero({ setActivePage }) {
 
         <h1>Plan. Cook. Eat. Freeze. Save.</h1>
 
-        <p>Welcome to my free recipe-card and meal-planning site. I use it every week for my own meal planning, and I designed it especially for seniors, couples, empty nesters, and smaller households who want practical meals, useful leftovers, freezer-friendly ideas, and organized grocery lists. <strong>Shop smarter. Save more.</strong></p>
+        <p className="homeHeroIntroGhost">Welcome to my free recipe-card and meal-planning site. I use it every week for my own meal planning, and I designed it especially for seniors, couples, empty nesters, and smaller households who want practical meals, useful leftovers, freezer-friendly ideas, and organized grocery lists. <strong>Shop smarter. Save more.</strong></p>
 
       </div>
 

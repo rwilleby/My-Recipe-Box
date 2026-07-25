@@ -34011,3 +34011,55 @@ body.rrbPopupOpen {
   }
 }
 
+/* =========================================================
+   HOME HERO INTRO — SUPPORTING-PAGE READABILITY GLOW
+   Isolated to the Home intro paragraph only.
+   Reuses the established supporting-page white glow and text shadow.
+   ========================================================= */
+
+.heroCopy > .homeHeroIntroGhost {
+  position: relative !important;
+  z-index: 2 !important;
+  isolation: isolate !important;
+  width: fit-content !important;
+  max-width: min(900px, 100%) !important;
+  text-shadow:
+    0 0 3px rgba(255, 255, 255, .98),
+    0 0 10px rgba(255, 255, 255, .96),
+    0 0 22px rgba(255, 255, 255, .88),
+    0 2px 30px rgba(255, 255, 255, .82) !important;
+}
+
+.heroCopy > .homeHeroIntroGhost::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: -18px;
+  right: -42px;
+  bottom: -20px;
+  left: -42px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .58);
+  filter: blur(24px);
+  opacity: .92;
+  pointer-events: none;
+}
+
+@media (max-width: 980px) {
+  .heroCopy > .homeHeroIntroGhost::before {
+    right: -28px;
+    left: -28px;
+    filter: blur(20px);
+  }
+}
+
+@media (max-width: 640px) {
+  .heroCopy > .homeHeroIntroGhost::before {
+    top: -12px;
+    right: -20px;
+    bottom: -14px;
+    left: -20px;
+    filter: blur(16px);
+  }
+}
+
