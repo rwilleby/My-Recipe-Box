@@ -33170,3 +33170,163 @@ body.rrbPopupOpen {
   }
 }
 
+/* =========================================================
+   JULY 25 — COMPACT COLLECTION CONTROLS + INLINE CARD PANELS
+   ========================================================= */
+
+/* The six controls fit two text lines without excess vertical space. */
+.browseRecipeGrid .recipeCardFullImage .browseRecipeSixButtonGrid {
+  grid-template-rows: repeat(3, 40px) !important;
+  gap: 6px 8px !important;
+  margin-top: 8px !important;
+}
+
+.browseRecipeGrid .recipeCardFullImage .browseRecipeSixButtonGrid button {
+  min-height: 40px !important;
+  height: 40px !important;
+  padding: 4px 7px !important;
+  font-size: 10.5px !important;
+  line-height: 1.05 !important;
+}
+
+/* Smart Tips and My Notes replace the complete controls + metadata region. */
+.browseRecipeGrid .recipeCardFullImage .browseRecipeControlRegion {
+  position: relative !important;
+  min-height: 178px !important;
+}
+
+.browseRecipeGrid .recipeCardFullImage .browseRecipeMetaFooter {
+  min-height: 42px !important;
+  margin-top: 7px !important;
+  padding: 4px 0 !important;
+}
+
+.browseRecipeGrid .recipeCardFullImage .browseRecipeInlinePanel {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 30 !important;
+  display: grid !important;
+  grid-template-rows: 40px minmax(0, 1fr) !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(20, 83, 45, .24) !important;
+  border-radius: 8px !important;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.99), rgba(248,251,249,.99)) !important;
+  box-shadow: 0 8px 22px rgba(20, 50, 34, .14) !important;
+}
+
+.browseRecipeGrid .recipeCardFullImage .browseRecipeInlinePanelToggle {
+  width: 100% !important;
+  min-height: 40px !important;
+  height: 40px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(20, 83, 45, .16) !important;
+  border-radius: 0 !important;
+  background: #edf5ef !important;
+  color: #174f2e !important;
+  padding: 6px 10px !important;
+  text-align: left !important;
+  text-transform: none !important;
+}
+
+.browseRecipeGrid .recipeCardFullImage .browseRecipeInlinePanelToggle strong {
+  font-size: 12px !important;
+}
+
+.browseRecipeGrid .recipeCardFullImage .browseRecipeInlinePanelToggle span {
+  font-size: 18px !important;
+  line-height: 1 !important;
+}
+
+.browseRecipeGrid .recipeCardFullImage .browseRecipeInlinePanelBody {
+  min-height: 0 !important;
+  overflow-y: auto !important;
+  padding: 8px 10px !important;
+  color: #35443b !important;
+  font-size: 10.5px !important;
+  line-height: 1.28 !important;
+  text-align: left !important;
+}
+
+.browseRecipeGrid .recipeCardFullImage .browseRecipeInlinePanelBody p {
+  margin: 0 0 5px !important;
+}
+
+.browseRecipeGrid .recipeCardFullImage .browseRecipeInlinePanelBody p:last-child {
+  margin-bottom: 0 !important;
+}
+
+.browseRecipeGrid .recipeCardFullImage .smartTipsButton.active,
+.browseRecipeGrid .recipeCardFullImage .recipeNotesButton.active {
+  background: #174f2e !important;
+  color: #fff !important;
+}
+
+/* Collection-card MB uses the exact Featured Combo-Meal circle treatment. */
+.browseRecipeGrid .recipeCardFullImage .browseRecipeMealBalanceBadge.mealBalanceBadge:not(.unrated) {
+  position: static !important;
+  width: 24px !important;
+  min-width: 24px !important;
+  height: 24px !important;
+  min-height: 24px !important;
+  display: grid !important;
+  place-items: center !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  border: 2px solid rgba(255, 255, 255, .96) !important;
+  border-radius: 50% !important;
+  background: #7A9A3D !important;
+  color: #fff !important;
+  box-shadow: 0 2px 7px rgba(0, 0, 0, .22) !important;
+  font-family: Inter, system-ui, sans-serif !important;
+  font-size: 0 !important;
+  line-height: 1 !important;
+  font-weight: 700 !important;
+}
+
+.browseRecipeGrid .recipeCardFullImage .browseRecipeMealBalanceBadge.mealBalanceBadge:not(.unrated)::after {
+  content: attr(data-score);
+  color: #fff !important;
+  font-size: 11px !important;
+  line-height: 1 !important;
+}
+
+/* Fallback for current MealBalanceBadge markup when no data-score attribute exists. */
+.browseRecipeGrid .recipeCardFullImage .browseRecipeMealBalanceBadge.mealBalanceBadge:not(.unrated) {
+  font-size: 0 !important;
+}
+
+.browseRecipeGrid .recipeCardFullImage .browseRecipeMealBalanceBadge.mealBalanceBadge:not(.unrated) > * {
+  font-size: 11px !important;
+  color: #fff !important;
+}
+
+@media (max-width: 700px) {
+  .browseRecipeGrid .recipeCardFullImage .browseRecipeSixButtonGrid {
+    grid-template-rows: repeat(3, 38px) !important;
+    gap: 5px 6px !important;
+  }
+
+  .browseRecipeGrid .recipeCardFullImage .browseRecipeSixButtonGrid button {
+    min-height: 38px !important;
+    height: 38px !important;
+    font-size: 9.5px !important;
+  }
+
+  .browseRecipeGrid .recipeCardFullImage .browseRecipeControlRegion {
+    min-height: 167px !important;
+  }
+
+  .browseRecipeGrid .recipeCardFullImage .browseRecipeInlinePanel {
+    grid-template-rows: 38px minmax(0, 1fr) !important;
+  }
+
+  .browseRecipeGrid .recipeCardFullImage .browseRecipeInlinePanelToggle {
+    min-height: 38px !important;
+    height: 38px !important;
+  }
+}
+

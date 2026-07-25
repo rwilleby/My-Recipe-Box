@@ -1150,7 +1150,7 @@ function MealBalanceBadge({ item, showUnrated = false, className = "" }) {
     .join(" ");
 
   return (
-    <span className={classes} title={rated ? `MealBalance ${score} — ${getMealBalanceLabel(item)}` : "MealBalance: Not Yet Rated"}>
+    <span data-score={rated ? score : undefined} className={classes} title={rated ? `MealBalance ${score} — ${getMealBalanceLabel(item)}` : "MealBalance: Not Yet Rated"}>
       {text}
     </span>
   );
@@ -2187,7 +2187,7 @@ function FeaturedComboMealCardModal({
 }
 
 const HOME_COMBO_MEAL_COUNT = 6;
-const HOME_COMBO_ROTATION_MS = 3 * 60 * 1000;
+const HOME_COMBO_ROTATION_MS = 2 * 60 * 1000;
 const HOME_COMBO_STAGGER_MS = 500;
 const HOME_COMBO_CROSSFADE_MS = 520;
 const HOME_COMBO_CUISINE_ORDER = ["AM", "AS", "HB", "IT", "MX", "SG"];
@@ -2199,7 +2199,7 @@ function getComboCuisineKey(meal) {
 
   if (prefix === "AM") return "AM";
   if (prefix === "AS" || /asian|teriyaki|stir[- ]?fry|lo mein|fried rice|orange chicken/.test(searchable)) return "AS";
-  if (["HB", "HB", "HBP"].includes(prefix) || /hamburger|burger|cheeseburger|patty melt/.test(searchable)) return "HB";
+  if (["HB", "HBP"].includes(prefix) || /hamburger|burger|cheeseburger|patty melt/.test(searchable)) return "HB";
   if (prefix === "IT" || /italian|alfredo|pasta|lasagna|parmesan|marinara|spaghetti/.test(searchable)) return "IT";
   if (prefix === "MX" || /mexican|taco|enchilada|fajita|burrito|quesadilla|tamale/.test(searchable)) return "MX";
   if (["SG", "SF"].includes(prefix) || /seafood|fish|shrimp|salmon|tuna|cod|tilapia|crab/.test(searchable)) return "SG";
@@ -2972,6 +2972,13 @@ function RecipeCard({
   const browseTags = isBrowseCard ? getRecipeBrowseTags(recipe) : [];
   const isFavorite = Array.isArray(favorites) && favorites.includes(recipe.id);
   const showBuilderGuide = isSaladJarRecipe(recipe) || isHamburgerRecipe(recipe);
+  const [browseInlinePanel, setBrowseInlinePanel] = useState(null);
+  const browseSmartTips = isBrowseCard ? getRecipeSmartTips(recipe) : null;
+  const browsePersonalNote = isBrowseCard ? getRecipePersonalNote(recipe) : null;
+
+  function toggleBrowseInlinePanel(panelName) {
+    setBrowseInlinePanel((current) => (current === panelName ? null : panelName));
+  }
 
   return (
     <article className={isBrowseCard ? "recipeCard recipeCardFullImage" : "recipeCard"}>
@@ -3003,78 +3010,131 @@ function RecipeCard({
 
         {isBrowseCard ? (
           <>
-            <div className="recipeActions browseRecipeActions browseRecipeSixButtonGrid">
-              <button
-                type="button"
-                className="viewCard browseRecipeActionButton"
-                onClick={() => openRecipeCard(recipe.id, cardList, viewerContext)}
-              >
-                View Recipe Card
-              </button>
-
-              {showPlannerButton ? (
+            <div className="browseRecipeControlRegion">
+              <div className="recipeActions browseRecipeActions browseRecipeSixButtonGrid">
                 <button
                   type="button"
-                  className="addPlan browseRecipeActionButton"
-                  onClick={() => addToPlan(recipe.id)}
+                  className="viewCard browseRecipeActionButton"
+                  onClick={() => openRecipeCard(recipe.id, cardList, viewerContext)}
                 >
-                  Add to Mealplan
+                  View Recipe Card
                 </button>
-              ) : (
-                <button type="button" className="addPlan browseRecipeActionButton" disabled>
-                  Add to Mealplan
-                </button>
-              )}
 
-              <div className="browseRecipeActionCell browseRecipeFreezeCell">
-                <AddLeftoversToFreezerButton recipe={recipe} compact />
-              </div>
-
-              <div className="browseRecipeActionCell browseRecipeTipsCell">
-                <SmartTipsButton recipe={recipe} />
-              </div>
-
-              <div className="browseRecipeActionCell browseRecipeBuildCell">
-                {showBuilderGuide ? (
-                  <ConstructionCalloutButton recipe={recipe} buttonLabel="Build It" />
-                ) : (
+                {showPlannerButton ? (
                   <button
                     type="button"
-                    className="constructionCalloutButton browseRecipeBuildPlaceholder"
-                    disabled
-                    title="A build guide is not available for this recipe."
+                    className="addPlan browseRecipeActionButton"
+                    onClick={() => addToPlan(recipe.id)}
                   >
-                    Build It
+                    Add to Mealplan
+                  </button>
+                ) : (
+                  <button type="button" className="addPlan browseRecipeActionButton" disabled>
+                    Add to Mealplan
                   </button>
                 )}
+
+                <div className="browseRecipeActionCell browseRecipeFreezeCell">
+                  <AddLeftoversToFreezerButton recipe={recipe} compact />
+                </div>
+
+                <div className="browseRecipeActionCell browseRecipeTipsCell">
+                  <button
+                    type="button"
+                    className={`smartTipsButton ${browseInlinePanel === "tips" ? "active" : ""}`}
+                    onClick={() => toggleBrowseInlinePanel("tips")}
+                    aria-expanded={browseInlinePanel === "tips"}
+                  >
+                    Smart Tips
+                  </button>
+                </div>
+
+                <div className="browseRecipeActionCell browseRecipeBuildCell">
+                  {showBuilderGuide ? (
+                    <ConstructionCalloutButton recipe={recipe} buttonLabel="Build It" />
+                  ) : (
+                    <button
+                      type="button"
+                      className="constructionCalloutButton browseRecipeBuildPlaceholder"
+                      disabled
+                      title="A build guide is not available for this recipe."
+                    >
+                      Build It
+                    </button>
+                  )}
+                </div>
+
+                <div className="browseRecipeActionCell browseRecipeNotesCell">
+                  <button
+                    type="button"
+                    className={`recipeNotesButton ${browseInlinePanel === "notes" ? "active" : ""}`}
+                    onClick={() => toggleBrowseInlinePanel("notes")}
+                    aria-expanded={browseInlinePanel === "notes"}
+                  >
+                    My Notes
+                  </button>
+                </div>
               </div>
 
-              <div className="browseRecipeActionCell browseRecipeNotesCell">
-                <MyRecipeNotesButton recipe={recipe} />
+              <div className="browseRecipeMetaFooter">
+                <div className="meta browseRecipeMetaItems">
+                  <span>◷ {recipe.time} min</span>
+                  <span>SS {recipe.servings}</span>
+                </div>
+
+                <MealBalanceBadge
+                  item={recipe}
+                  className="recipeMealBalanceBadge browseRecipeMealBalanceBadge"
+                />
+
+                <button
+                  type="button"
+                  className={`heart browseCardHeart ${isFavorite ? "saved" : ""}`}
+                  onClick={() => toggleFavorite(recipe.id)}
+                  aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
+                  title={isFavorite ? "Saved as a favorite" : "Add to favorites"}
+                >
+                  <span aria-hidden="true">{isFavorite ? "♥" : "♡"}</span>
+                  <small>{isFavorite ? "FAVORITE" : "SAVE"}</small>
+                </button>
               </div>
-            </div>
 
-            <div className="browseRecipeMetaFooter">
-              <div className="meta browseRecipeMetaItems">
-                <span>◷ {recipe.time} min</span>
-                <span>SS {recipe.servings}</span>
-              </div>
+              {browseInlinePanel === "tips" && (
+                <section className="browseRecipeInlinePanel browseRecipeInlineTips" aria-label={`${recipe.title} smart tips`}>
+                  <button
+                    type="button"
+                    className="browseRecipeInlinePanelToggle"
+                    onClick={() => toggleBrowseInlinePanel("tips")}
+                    aria-label="Close Smart Tips"
+                  >
+                    <strong>Smart Tips</strong>
+                    <span>×</span>
+                  </button>
+                  <div className="browseRecipeInlinePanelBody">
+                    <p><strong>Lower calorie:</strong> {browseSmartTips.calories}</p>
+                    <p><strong>Lower carb:</strong> {browseSmartTips.carbs}</p>
+                    <p><strong>Lower sodium:</strong> {browseSmartTips.sodium}</p>
+                    <p><strong>Higher protein:</strong> {browseSmartTips.protein}</p>
+                  </div>
+                </section>
+              )}
 
-              <MealBalanceBadge
-                item={recipe}
-                className="recipeMealBalanceBadge browseRecipeMealBalanceBadge"
-              />
-
-              <button
-                type="button"
-                className={`heart browseCardHeart ${isFavorite ? "saved" : ""}`}
-                onClick={() => toggleFavorite(recipe.id)}
-                aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
-                title={isFavorite ? "Saved as a favorite" : "Add to favorites"}
-              >
-                <span aria-hidden="true">{isFavorite ? "♥" : "♡"}</span>
-                <small>{isFavorite ? "FAVORITE" : "SAVE"}</small>
-              </button>
+              {browseInlinePanel === "notes" && (
+                <section className="browseRecipeInlinePanel browseRecipeInlineNotes" aria-label={`${recipe.title} personal notes`}>
+                  <button
+                    type="button"
+                    className="browseRecipeInlinePanelToggle"
+                    onClick={() => toggleBrowseInlinePanel("notes")}
+                    aria-label="Close My Notes"
+                  >
+                    <strong>{browsePersonalNote.title}</strong>
+                    <span>×</span>
+                  </button>
+                  <div className="browseRecipeInlinePanelBody">
+                    <p>{browsePersonalNote.text}</p>
+                  </div>
+                </section>
+              )}
             </div>
 
             <div className="browseRecipeTags">
