@@ -34196,3 +34196,16 @@ body.rrbPopupOpen {
   }
 }
 
+/* =========================================================
+   HOME QUICK OVERVIEW — COMPLEMENTARY SAGE BACKGROUND
+   Complements the warm beige Home hero without competing with it.
+   ========================================================= */
+
+.homeMealJourneyToggle {
+  background: #E4ECE3 !important;
+}
+
+.homeMealJourneyToggle:hover {
+  background: #D9E5DA !important;
+}
+
