@@ -34209,3 +34209,189 @@ body.rrbPopupOpen {
   background: #D9E5DA !important;
 }
 
+/* ================================================================
+   DINNER COMBINATIONS — LIST VIEW NOTES + 10-ITEM NUTRITION
+   ================================================================ */
+
+/* Expanded nutrition: two aligned rows of five values. */
+.dinnerCombinationNutritionExpanded {
+  display: grid !important;
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  grid-template-rows: repeat(2, auto) !important;
+  gap: 0 !important;
+  padding: 10px 0 !important;
+}
+
+.dinnerCombinationNutritionExpanded > span {
+  min-width: 0 !important;
+  min-height: 66px !important;
+  display: grid !important;
+  align-content: center !important;
+  justify-items: center !important;
+  gap: 3px !important;
+  padding: 8px 5px !important;
+  border-right: 1px solid #dfe7e1 !important;
+  border-bottom: 1px solid #dfe7e1 !important;
+  text-align: center !important;
+}
+
+.dinnerCombinationNutritionExpanded > span:nth-child(5n) {
+  border-right: 0 !important;
+}
+
+.dinnerCombinationNutritionExpanded > span:nth-child(n + 6) {
+  border-bottom: 0 !important;
+}
+
+.dinnerCombinationNutritionExpanded strong {
+  color: #14532d !important;
+  font-size: clamp(14px, 1.25vw, 19px) !important;
+  line-height: 1 !important;
+}
+
+.dinnerCombinationNutritionExpanded small {
+  color: #596273 !important;
+  font-size: clamp(8px, .72vw, 10px) !important;
+  font-weight: 700 !important;
+  line-height: 1.15 !important;
+  text-transform: lowercase !important;
+}
+
+/* Permanent Heating & Freezer Notes panel beside Recipe Cards. */
+.dinnerAreaActionsExpanded {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.25fr) minmax(420px, .95fr) !important;
+  grid-template-areas:
+    "heating recipes"
+    "planner planner" !important;
+  gap: 0 !important;
+  padding: 0 !important;
+  border: 1px solid rgba(20, 83, 45, .14) !important;
+  border-radius: 14px !important;
+  overflow: visible !important;
+  background: #ffffff !important;
+}
+
+.dinnerAreaActionsExpanded .dinnerCombinationHeatingPanel {
+  grid-area: heating !important;
+  min-width: 0 !important;
+  padding: 14px 16px !important;
+  border-right: 1px solid #e0e8e2 !important;
+  background: #fbfaf7 !important;
+}
+
+.dinnerCombinationHeatingPanel h4 {
+  margin: 0 0 10px !important;
+  color: #596273 !important;
+  font: 700 13px/1.2 Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif !important;
+  letter-spacing: .04em !important;
+  text-transform: uppercase !important;
+}
+
+.dinnerCombinationHeatingPanelGrid {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 10px !important;
+}
+
+.dinnerCombinationHeatingPanelGrid p {
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding: 11px 12px !important;
+  border: 1px solid #d9e3dc !important;
+  border-radius: 10px !important;
+  background: #ffffff !important;
+}
+
+.dinnerCombinationHeatingPanelGrid span {
+  display: block !important;
+  margin-bottom: 4px !important;
+  color: #667085 !important;
+  font-size: 10px !important;
+  font-weight: 800 !important;
+  letter-spacing: .045em !important;
+  text-transform: uppercase !important;
+}
+
+.dinnerCombinationHeatingPanelGrid strong {
+  display: block !important;
+  color: #344054 !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  line-height: 1.38 !important;
+}
+
+.dinnerAreaActionsExpanded .dinnerCombinationRecipeButtons {
+  grid-area: recipes !important;
+  min-width: 0 !important;
+  padding: 14px 16px !important;
+  border: 0 !important;
+  background: #f7faf7 !important;
+}
+
+.dinnerAreaActionsExpanded .dinnerCombinationPlannerAdd {
+  grid-area: planner !important;
+  display: grid !important;
+  grid-template-columns: minmax(260px, 1fr) auto !important;
+  align-items: end !important;
+  gap: 10px !important;
+  padding: 10px 14px !important;
+  border-top: 1px solid #e0e8e2 !important;
+  background: #ffffff !important;
+}
+
+.dinnerAreaActionsExpanded .dinnerCombinationPlannerAdd > p {
+  grid-column: 1 / -1 !important;
+  margin: 0 !important;
+}
+
+/* The former bottom accordion has been replaced by the permanent panel. */
+.dinnerCombinationCard > .dinnerCombinationHeating {
+  display: none !important;
+}
+
+@media (max-width: 1120px) {
+  .dinnerAreaActionsExpanded {
+    grid-template-columns: 1fr !important;
+    grid-template-areas:
+      "heating"
+      "recipes"
+      "planner" !important;
+  }
+
+  .dinnerAreaActionsExpanded .dinnerCombinationHeatingPanel {
+    border-right: 0 !important;
+    border-bottom: 1px solid #e0e8e2 !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .dinnerCombinationNutritionExpanded {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-template-rows: auto !important;
+  }
+
+  .dinnerCombinationNutritionExpanded > span,
+  .dinnerCombinationNutritionExpanded > span:nth-child(5n),
+  .dinnerCombinationNutritionExpanded > span:nth-child(n + 6) {
+    border-right: 1px solid #dfe7e1 !important;
+    border-bottom: 1px solid #dfe7e1 !important;
+  }
+
+  .dinnerCombinationNutritionExpanded > span:nth-child(2n) {
+    border-right: 0 !important;
+  }
+
+  .dinnerCombinationNutritionExpanded > span:nth-last-child(-n + 2) {
+    border-bottom: 0 !important;
+  }
+
+  .dinnerCombinationHeatingPanelGrid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .dinnerAreaActionsExpanded .dinnerCombinationPlannerAdd {
+    grid-template-columns: 1fr !important;
+  }
+}
+

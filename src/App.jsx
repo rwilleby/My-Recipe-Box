@@ -10549,16 +10549,40 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard, favorite
 
         <section className="dinnerArea dinnerAreaNutrition" aria-label={`Estimated whole meal nutrition for ${meal.title}`}>
           <div className="dinnerCombinationNutritionLabel">Estimated nutrition for the whole meal</div>
-          <div className="dinnerCombinationNutrition">
+          <div className="dinnerCombinationNutrition dinnerCombinationNutritionExpanded">
             <span><strong>{nutritionValue(meal.calories)}</strong><small>calories</small></span>
             <span><strong>{nutritionValue(meal.protein, "g")}</strong><small>protein</small></span>
             <span><strong>{nutritionValue(meal.carbs, "g")}</strong><small>carbs</small></span>
             <span><strong>{nutritionValue(meal.fat, "g")}</strong><small>fat</small></span>
             <span><strong>{nutritionValue(meal.fiber, "g")}</strong><small>fiber</small></span>
+
+            <span><strong>{nutritionValue(meal.sodium, "mg")}</strong><small>sodium</small></span>
+            <span><strong>{nutritionValue(meal.saturatedFat, "g")}</strong><small>saturated fat</small></span>
+            <span><strong>{nutritionValue(meal.totalSugars ?? meal.sugars, "g")}</strong><small>total sugars</small></span>
+            <span><strong>{nutritionValue(meal.addedSugars, "g")}</strong><small>added sugars</small></span>
+            <span><strong>{nutritionValue(meal.cholesterol, "mg")}</strong><small>cholesterol</small></span>
           </div>
         </section>
 
-        <section className="dinnerArea dinnerAreaActions">
+        <section className="dinnerArea dinnerAreaActions dinnerAreaActionsExpanded">
+          <section className="dinnerCombinationHeatingPanel" aria-label={`Heating and freezer notes for ${meal.title}`}>
+            <h4>Heating &amp; Freezer Notes</h4>
+            <div className="dinnerCombinationHeatingPanelGrid">
+              <p>
+                <span>Freezer Life</span>
+                <strong>{meal.freezerLife || "No freezer guidance listed."}</strong>
+              </p>
+              <p>
+                <span>Oven</span>
+                <strong>{meal.ovenInstructions || "No oven instructions listed."}</strong>
+              </p>
+              <p>
+                <span>Microwave</span>
+                <strong>{meal.microwaveInstructions || "No microwave instructions listed."}</strong>
+              </p>
+            </div>
+          </section>
+
           <section className="dinnerCombinationRecipeButtons" aria-label={`Recipe card buttons for ${meal.title}`}>
             <h4>Recipe Cards</h4>
             <div className="dinnerCombinationRecipeButtonGrid">
@@ -10638,14 +10662,7 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard, favorite
         </section>
       </div>
 
-      <details className="dinnerCombinationHeating">
-        <summary>Heating & freezer notes</summary>
-        <div>
-          <p><strong>Freezer life:</strong> {meal.freezerLife}</p>
-          <p><strong>Oven:</strong> {meal.ovenInstructions}</p>
-          <p><strong>Microwave:</strong> {meal.microwaveInstructions}</p>
-        </div>
-      </details>
+
     </article>
   );
 }
