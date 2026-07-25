@@ -11,6 +11,7 @@ export const USER_DATA_STORAGE_MAP = Object.freeze({
   refrigerator: "rrb_refrigeratorInventory",
   freezer: "rrb_freezerInventory",
   recipeClassifications: "rrb_recipeClassifications",
+  adminRecipeClassifications: "rrb_admin_recipe_classifications",
   notes: "rrb_recipeNotes",
   groceryLists: "rrb_groceryLists",
   savedCollections: "rrb_savedCollections",
