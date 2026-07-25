@@ -1,6 +1,8 @@
 import { createContext, useContext, useMemo, useState, useEffect, useRef } from "react";
 import { categories, recipes } from "./data/recipes";
 import AdminRecipeClassifier from "./components/AdminRecipeClassifier";
+import UserDataBackupSection from "./components/UserDataBackupSection";
+import "./components/UserDataBackupSection.css";
 import {
   loadRecipeClassifications,
   mergeRecipeClassifications,
@@ -1708,36 +1710,60 @@ const HOME_PHOTO_FEATURES = [
   {
     title: "Browse Recipes",
     description: "Explore the complete recipe-card library.",
+    explanation:
+      "Start by browsing recipes by cuisine, meal type, cooking method, collection, or practical dietary preference. Open a recipe card to review the ingredients, directions, timing, serving information, MealBalance guidance, and available planning tools.",
+    benefits:
+      "Keeping recipes together in one searchable library makes it easier to compare choices, rediscover favorites, and select meals that fit the time, ingredients, and portions you need.",
     image: "images/home-features/hero-process-01-recipes.webp",
     page: "Recipes",
   },
   {
     title: "Meal Planning",
     description: "Organize meals for the coming week.",
+    explanation:
+      "Place recipes and Combo-Meals into the weekly planner before you shop. You can build a realistic plan around busy days, leftovers, freezer meals, and the number of people you expect to serve.",
+    benefits:
+      "Planning ahead reduces last-minute decisions, helps ingredients work across several meals, and makes it easier to balance cooking days with reheating or leftover days.",
     image: "images/home-features/hero-process-02-planning.webp",
     page: "Meal Planner",
   },
   {
     title: "Shopping",
     description: "Build an organized grocery list.",
+    explanation:
+      "Turn planned meals into an organized shopping list, then compare that list with ingredients already recorded in your pantry, refrigerator, or freezer.",
+    benefits:
+      "A more organized list can reduce forgotten items, unnecessary duplicate purchases, extra store trips, and food that is bought without a clear plan for using it.",
     image: "images/home-features/hero-process-03-shopping.webp",
     page: "Shopping Lists",
   },
   {
     title: "Cooking Guides",
     description: "Review practical cooking tips and guides.",
+    explanation:
+      "Use the reference guides when you need help with food safety, cooking methods, kitchen equipment, storage, reheating, measurements, or other practical home-cooking questions.",
+    benefits:
+      "Having dependable instructions close to the recipes can improve consistency, reduce guesswork, and help you handle, cook, cool, store, and reheat food more confidently.",
     image: "images/home-features/hero-process-04-cooking.webp",
     page: "Reference Guides",
   },
   {
     title: "Freezer Meals",
     description: "Plan, package, freeze, and reheat meals.",
+    explanation:
+      "Prepare useful extra portions, package them in practical amounts, label them, record what is in the freezer, and follow recipe-specific thawing or reheating guidance when available.",
+    benefits:
+      "A well-managed freezer turns extra cooking into future meals, reduces waste, supports smaller households, and gives you convenient options on days when cooking is difficult or inconvenient.",
     image: "images/home-features/hero-process-05-freezing.webp",
     page: "Freezer-Friendly Meals",
   },
   {
     title: "Saving Time",
     description: "Use practical planning, prep, freezing, and leftovers to make cooking easier.",
+    explanation:
+      "Combine quick recipes, planned leftovers, prepared components, make-ahead steps, and freezer portions instead of starting every meal entirely from scratch.",
+    benefits:
+      "Using several small time-saving methods together can lower the daily workload while still providing variety, home-cooked food, and better control over portions and ingredients.",
     image: "images/home-features/hero-process-06-saving.webp",
     page: "Easy 30-Minute Meals",
   },
@@ -1796,7 +1822,19 @@ function HomePhotoFeatureModal({ feature, onClose, setActivePage }) {
 
         <div className="homeFeatureModalText">
           <h2 id="home-feature-modal-title">{feature.title}</h2>
-          <p>{feature.description}</p>
+          <p className="homeFeatureModalSummary">{feature.description}</p>
+
+          <div className="homeFeatureModalExplanation">
+            <section>
+              <h3>What This Step Does</h3>
+              <p>{feature.explanation}</p>
+            </section>
+            <section>
+              <h3>Why It Helps</h3>
+              <p>{feature.benefits}</p>
+            </section>
+          </div>
+
           <button type="button" onClick={openFeaturePage}>
             Explore {feature.title} ›
           </button>
@@ -2186,6 +2224,7 @@ function FeaturedComboMealCardModal({
             openRecipeCard={openRecipeCard}
             favorites={favorites}
             toggleFavorite={toggleFavorite}
+            showHeatingInline
           />
         </div>
       </div>
@@ -4920,13 +4959,20 @@ function Home({
       <CategoryGrid setFilter={setFilter} setActivePage={setActivePage} />
       <HomeRecipeCounters classifiedRecipes={classifiedRecipes} />
 
-      <div className="homeAdminAccessWrap" aria-label="Administrative tools">
+      <div className="homeAdminAccessWrap" aria-label="Administrative and user data tools">
         <button
           className="adminAccessButton homeAdminAccessButton"
           type="button"
           onClick={() => setActivePage("Admin Recipes")}
         >
           Admin
+        </button>
+        <button
+          className="adminAccessButton homeAdminAccessButton"
+          type="button"
+          onClick={() => setActivePage("User Backup")}
+        >
+          User Backup
         </button>
       </div>
 
@@ -10339,7 +10385,7 @@ function MealBalanceGuidePage({ setActivePage }) {
   );
 }
 
-function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard, favorites, toggleFavorite }) {
+function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard, favorites, toggleFavorite, showHeatingInline = false }) {
   const preparedRequirements = getComboPreparedRequirements(meal);
   const regularGroceryIngredients = getComboRegularGroceryIngredients(meal);
 
@@ -10513,7 +10559,27 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard, favorite
           </div>
         </section>
 
-        <section className="dinnerArea dinnerAreaActions">
+        <section className={showHeatingInline ? "dinnerArea dinnerAreaActions hasInlineHeating" : "dinnerArea dinnerAreaActions"}>
+          {showHeatingInline && (
+            <section className="dinnerCombinationInlineHeating" aria-label={`Heating and freezer notes for ${meal.title}`}>
+              <h4>Heating & Freezer Notes</h4>
+              <div className="dinnerCombinationInlineHeatingItems">
+                <p>
+                  <span>Freezer Life</span>
+                  <strong>{meal.freezerLife || "No freezer guidance listed."}</strong>
+                </p>
+                <p>
+                  <span>Oven</span>
+                  <strong>{meal.ovenInstructions || "No oven instructions listed."}</strong>
+                </p>
+                <p>
+                  <span>Microwave</span>
+                  <strong>{meal.microwaveInstructions || "No microwave instructions listed."}</strong>
+                </p>
+              </div>
+            </section>
+          )}
+
           <section className="dinnerCombinationRecipeButtons" aria-label={`Recipe card buttons for ${meal.title}`}>
             <h4>Recipe Cards</h4>
             <div className="dinnerCombinationRecipeButtonGrid">
@@ -10593,14 +10659,16 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard, favorite
         </section>
       </div>
 
-      <details className="dinnerCombinationHeating">
-        <summary>Heating & freezer notes</summary>
-        <div>
-          <p><strong>Freezer life:</strong> {meal.freezerLife}</p>
-          <p><strong>Oven:</strong> {meal.ovenInstructions}</p>
-          <p><strong>Microwave:</strong> {meal.microwaveInstructions}</p>
-        </div>
-      </details>
+      {!showHeatingInline && (
+        <details className="dinnerCombinationHeating">
+          <summary>Heating & freezer notes</summary>
+          <div>
+            <p><strong>Freezer life:</strong> {meal.freezerLife}</p>
+            <p><strong>Oven:</strong> {meal.ovenInstructions}</p>
+            <p><strong>Microwave:</strong> {meal.microwaveInstructions}</p>
+          </div>
+        </details>
+      )}
     </article>
   );
 }
@@ -14865,6 +14933,22 @@ Use this section to check what is on hand, record dates, mark foods that should 
           </article>
         </>
       )}
+      {activePage === "User Backup" && (
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-page-storage.webp"
+            alt="Organized recipe information and secure local backup preparation"
+            eyebrow="YOUR RECIPE BOX"
+            title="Backup & Restore"
+            text="Protect the favorites, notes, meal plans, grocery lists, inventories, and preferences saved in this browser. Your backup file is created locally on your device and can be restored later on this or another device."
+            className="pageHeroDepth464"
+          />
+          <main className="pageShell userBackupPage">
+            <UserDataBackupSection />
+          </main>
+        </>
+      )}
+
       {activePage === "Storage Organization" && (
         <HeroTopicPage
           eyebrow="TIPS & TECHNIQUES"
