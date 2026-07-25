@@ -40,6 +40,12 @@ import {
   PREPARED_COMPONENT_CATEGORIES,
   PREPARED_COMPONENT_SCHEMA_VERSION,
 } from "./data/preparedComponents";
+import {
+  GLP1_RECIPE_COLLECTION_PRESETS,
+  GLP1_RECIPE_FILTERS,
+  recipeMatchesAllGLP1Filters,
+  recipeMatchesGLP1Preset,
+} from "./data/glp1Filters";
 import "./App.css";
 
 const STORAGE_KEYS = {
@@ -4577,6 +4583,7 @@ function RecipesPage({
   openRecipeCard,
   filter,
   setFilter,
+  classifiedRecipes = recipes,
 }) {
   const [query, setQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(filter || "");
@@ -4584,6 +4591,9 @@ function RecipesPage({
   const [selectedMealType, setSelectedMealType] = useState("");
   const [selectedDietaryNeed, setSelectedDietaryNeed] = useState("");
   const [selectedMealBalance, setSelectedMealBalance] = useState("all");
+  const [selectedGlp1Filters, setSelectedGlp1Filters] = useState([]);
+  const [selectedGlp1Preset, setSelectedGlp1Preset] = useState("");
+  const [showGlp1Filters, setShowGlp1Filters] = useState(false);
   const [sortBy, setSortBy] = useState("newest");
   const [page, setPage] = useState(1);
 
@@ -4592,7 +4602,7 @@ function RecipesPage({
   }, [filter]);
 
   const filteredRecipes = useMemo(() => {
-    let list = recipes.filter((recipe) => {
+    let list = classifiedRecipes.filter((recipe) => {
       const matchesQuery = `${recipe.id} ${recipe.title} ${recipe.category}`
         .toLowerCase()
         .includes(query.toLowerCase());
@@ -4607,8 +4617,22 @@ function RecipesPage({
         recipe.id?.startsWith(`${selectedCategoryObject?.id}-`);
 
       const matchesMealBalance = mealBalanceMatchesFilter(recipe, selectedMealBalance);
+      const matchesGlp1Filters = recipeMatchesAllGLP1Filters(
+        recipe,
+        selectedGlp1Filters
+      );
+      const matchesGlp1Preset = recipeMatchesGLP1Preset(
+        recipe,
+        selectedGlp1Preset
+      );
 
-      return matchesQuery && matchesCategory && matchesMealBalance;
+      return (
+        matchesQuery &&
+        matchesCategory &&
+        matchesMealBalance &&
+        matchesGlp1Filters &&
+        matchesGlp1Preset
+      );
     });
 
     const sorted = [...list];
@@ -4633,11 +4657,32 @@ function RecipesPage({
     }
 
     return sorted;
-  }, [query, selectedCategory, selectedCookingMethod, selectedMealType, selectedDietaryNeed, selectedMealBalance, sortBy]);
+  }, [
+    classifiedRecipes,
+    query,
+    selectedCategory,
+    selectedCookingMethod,
+    selectedMealType,
+    selectedDietaryNeed,
+    selectedMealBalance,
+    selectedGlp1Filters,
+    selectedGlp1Preset,
+    sortBy,
+  ]);
 
   useEffect(() => {
     setPage(1);
-  }, [query, selectedCategory, selectedCookingMethod, selectedMealType, selectedDietaryNeed, selectedMealBalance, sortBy]);
+  }, [
+    query,
+    selectedCategory,
+    selectedCookingMethod,
+    selectedMealType,
+    selectedDietaryNeed,
+    selectedMealBalance,
+    selectedGlp1Filters,
+    selectedGlp1Preset,
+    sortBy,
+  ]);
 
   const perPage = 12;
   const totalPages = Math.max(1, Math.ceil(filteredRecipes.length / perPage));
@@ -4681,6 +4726,28 @@ function RecipesPage({
     }
 
     return buttons;
+  }
+
+  function toggleGlp1Filter(filterId) {
+    setSelectedGlp1Preset("");
+    setSelectedGlp1Filters((current) =>
+      current.includes(filterId)
+        ? current.filter((item) => item !== filterId)
+        : [...current, filterId]
+    );
+  }
+
+  function applyGlp1Preset(presetId) {
+    setSelectedGlp1Preset(presetId);
+    const preset = GLP1_RECIPE_COLLECTION_PRESETS.find(
+      (item) => item.id === presetId
+    );
+    setSelectedGlp1Filters(preset?.filters ? [...preset.filters] : []);
+  }
+
+  function clearGlp1Filters() {
+    setSelectedGlp1Filters([]);
+    setSelectedGlp1Preset("");
   }
 
   return (
@@ -4755,6 +4822,78 @@ function RecipesPage({
             <option value="unrated">Not Yet Rated</option>
           </select>
         </label>
+
+        <label className="browseToolbarField browseGlp1PresetField">
+          <span>GLP-1 Collections</span>
+          <select
+            value={selectedGlp1Preset}
+            onChange={(event) => applyGlp1Preset(event.target.value)}
+          >
+            <option value="">All GLP-1 Collections</option>
+            {GLP1_RECIPE_COLLECTION_PRESETS.map((preset) => (
+              <option key={preset.id} value={preset.id}>
+                {preset.label}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <button
+          type="button"
+          className={`browseGlp1FilterToggle ${
+            showGlp1Filters || selectedGlp1Filters.length ? "active" : ""
+          }`}
+          onClick={() => setShowGlp1Filters((current) => !current)}
+          aria-expanded={showGlp1Filters}
+          aria-controls="browse-glp1-filter-panel"
+        >
+          GLP-1 Filters
+          {selectedGlp1Filters.length > 0 && (
+            <span>{selectedGlp1Filters.length}</span>
+          )}
+        </button>
+
+        {showGlp1Filters && (
+          <div
+            id="browse-glp1-filter-panel"
+            className="browseGlp1FilterPanel"
+            aria-label="GLP-1 and nutrition-support recipe filters"
+          >
+            <div className="browseGlp1FilterPanelHeader">
+              <div>
+                <strong>GLP-1 Nutrition Support</strong>
+                <small>
+                  Combine these with cuisine, search, MealBalance, and other filters.
+                  Unreviewed recipes are not treated as GLP-1 rated.
+                </small>
+              </div>
+              {(selectedGlp1Filters.length > 0 || selectedGlp1Preset) && (
+                <button type="button" onClick={clearGlp1Filters}>
+                  Clear GLP-1 Filters
+                </button>
+              )}
+            </div>
+
+            <div className="browseGlp1FilterGrid">
+              {GLP1_RECIPE_FILTERS.map((filterItem) => {
+                const checked = selectedGlp1Filters.includes(filterItem.id);
+                return (
+                  <label
+                    key={filterItem.id}
+                    className={checked ? "selected" : ""}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={checked}
+                      onChange={() => toggleGlp1Filter(filterItem.id)}
+                    />
+                    <span>{filterItem.label}</span>
+                  </label>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
       </section>
       <div className="browseResultsRow">
