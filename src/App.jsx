@@ -2189,18 +2189,20 @@ function FeaturedComboMealCardModal({
 const HOME_COMBO_MEAL_COUNT = 6;
 const HOME_COMBO_ROTATION_MS = 3 * 60 * 1000;
 const HOME_COMBO_STAGGER_MS = 500;
-const HOME_COMBO_FLIP_MS = 360;
+const HOME_COMBO_CROSSFADE_MS = 520;
+const HOME_COMBO_CUISINE_ORDER = ["AM", "AS", "HB", "IT", "MX", "SG"];
 
 function getComboCuisineKey(meal) {
   const recipeCode = String(meal?.mainRecipeId || "").trim().toUpperCase();
-  const prefix = recipeCode.match(/^([A-Z]{2,3})-/)?.[1];
-  if (prefix) return prefix;
+  const prefix = recipeCode.match(/^([A-Z]{2,3})-/)?.[1] || "";
+  const searchable = `${meal?.title || ""} ${meal?.mainDish || ""} ${meal?.subtitle || ""}`.toLowerCase();
 
-  const searchable = `${meal?.title || ""} ${meal?.mainDish || ""}`.toLowerCase();
-  if (/italian|alfredo|pasta|lasagna|parmesan|marinara/.test(searchable)) return "IT";
-  if (/asian|teriyaki|stir[- ]?fry|lo mein|fried rice/.test(searchable)) return "AS";
-  if (/mexican|taco|enchilada|fajita|burrito/.test(searchable)) return "MX";
-  if (/seafood|fish|shrimp|salmon|tuna|cod/.test(searchable)) return "SF";
+  if (prefix === "AM") return "AM";
+  if (prefix === "AS" || /asian|teriyaki|stir[- ]?fry|lo mein|fried rice|orange chicken/.test(searchable)) return "AS";
+  if (["HB", "HB", "HBP"].includes(prefix) || /hamburger|burger|cheeseburger|patty melt/.test(searchable)) return "HB";
+  if (prefix === "IT" || /italian|alfredo|pasta|lasagna|parmesan|marinara|spaghetti/.test(searchable)) return "IT";
+  if (prefix === "MX" || /mexican|taco|enchilada|fajita|burrito|quesadilla|tamale/.test(searchable)) return "MX";
+  if (["SG", "SF"].includes(prefix) || /seafood|fish|shrimp|salmon|tuna|cod|tilapia|crab/.test(searchable)) return "SG";
   return "OTHER";
 }
 
@@ -2214,36 +2216,77 @@ function shuffleHomeComboMeals(items) {
 }
 
 function selectVariedHomeComboMeals(allMeals, currentMeals = []) {
-  const currentIds = new Set(currentMeals.map((meal) => meal.id));
-  const available = allMeals.filter((meal) => !currentIds.has(meal.id));
-  const source = available.length >= HOME_COMBO_MEAL_COUNT ? available : allMeals;
-  const groups = new Map();
+  const currentIds = new Set(currentMeals.map((meal) => meal?.id).filter(Boolean));
+  const selectedIds = new Set();
+  const selected = [];
 
-  shuffleHomeComboMeals(source).forEach((meal) => {
-    const key = getComboCuisineKey(meal);
-    if (!groups.has(key)) groups.set(key, []);
-    groups.get(key).push(meal);
+  HOME_COMBO_CUISINE_ORDER.forEach((cuisineKey) => {
+    const preferred = shuffleHomeComboMeals(
+      allMeals.filter(
+        (meal) =>
+          getComboCuisineKey(meal) === cuisineKey &&
+          !currentIds.has(meal.id) &&
+          !selectedIds.has(meal.id)
+      )
+    );
+
+    const sameCuisineFallback = shuffleHomeComboMeals(
+      allMeals.filter(
+        (meal) =>
+          getComboCuisineKey(meal) === cuisineKey &&
+          !selectedIds.has(meal.id)
+      )
+    );
+
+    const genericFallback = shuffleHomeComboMeals(
+      allMeals.filter(
+        (meal) => !currentIds.has(meal.id) && !selectedIds.has(meal.id)
+      )
+    );
+
+    const finalFallback = shuffleHomeComboMeals(
+      allMeals.filter((meal) => !selectedIds.has(meal.id))
+    );
+
+    const meal = preferred[0] || sameCuisineFallback[0] || genericFallback[0] || finalFallback[0];
+    if (meal) {
+      selected.push(meal);
+      selectedIds.add(meal.id);
+    }
   });
 
-  const selected = [];
-  const groupEntries = shuffleHomeComboMeals([...groups.entries()]);
-
-  while (selected.length < HOME_COMBO_MEAL_COUNT && groupEntries.some(([, meals]) => meals.length)) {
-    for (const [, meals] of groupEntries) {
-      if (!meals.length || selected.length >= HOME_COMBO_MEAL_COUNT) continue;
-      selected.push(meals.shift());
-    }
-  }
-
-  if (selected.length < HOME_COMBO_MEAL_COUNT) {
-    const selectedIds = new Set(selected.map((meal) => meal.id));
-    shuffleHomeComboMeals(allMeals)
-      .filter((meal) => !selectedIds.has(meal.id))
-      .slice(0, HOME_COMBO_MEAL_COUNT - selected.length)
-      .forEach((meal) => selected.push(meal));
-  }
-
   return selected.slice(0, HOME_COMBO_MEAL_COUNT);
+}
+
+function HomeComboMealCardButton({ meal, className = "", onOpen }) {
+  return (
+    <button
+      type="button"
+      className={`homeComboMealCard ${className}`.trim()}
+      onClick={() => onOpen(meal)}
+      aria-label={`Open combo meal ${meal.number}: ${meal.title}`}
+    >
+      <div className="homeComboMealImage">
+        <DinnerCombinationImage
+          meal={meal}
+          className="homeComboMealImageAsset"
+          loading="lazy"
+        />
+      </div>
+
+      <span className="homeComboMealText">
+        <strong>{meal.title}</strong>
+        <small>{meal.subtitle}</small>
+        <span
+          className="homeComboMealBalanceBadge"
+          title={`MealBalance ${getComboMealBalanceScore(meal)}`}
+          aria-label={`MealBalance ${getComboMealBalanceScore(meal)}`}
+        >
+          {getComboMealBalanceScore(meal)}
+        </span>
+      </span>
+    </button>
+  );
 }
 
 function HomeComboMealStrip({
@@ -2260,7 +2303,7 @@ function HomeComboMealStrip({
   const [homeComboMeals, setHomeComboMeals] = useState(() =>
     selectVariedHomeComboMeals(allHomeComboMeals)
   );
-  const [flippingPositions, setFlippingPositions] = useState([]);
+  const [crossfades, setCrossfades] = useState({});
   const [selectedMeal, setSelectedMeal] = useState(null);
   const [selectedMealCard, setSelectedMealCard] = useState(null);
   const staggerTimersRef = useRef([]);
@@ -2279,23 +2322,28 @@ function HomeComboMealStrip({
 
         nextMeals.forEach((nextMeal, position) => {
           const startTimer = window.setTimeout(() => {
-            setFlippingPositions((current) =>
-              current.includes(position) ? current : [...current, position]
-            );
+            const fromMeal = currentMeals[position];
+            if (!fromMeal || !nextMeal || fromMeal.id === nextMeal.id) return;
 
-            const swapTimer = window.setTimeout(() => {
+            setCrossfades((current) => ({
+              ...current,
+              [position]: { from: fromMeal, to: nextMeal },
+            }));
+
+            const finishTimer = window.setTimeout(() => {
               setHomeComboMeals((current) => {
                 const updated = [...current];
                 updated[position] = nextMeal;
                 return updated;
               });
+              setCrossfades((current) => {
+                const updated = { ...current };
+                delete updated[position];
+                return updated;
+              });
+            }, HOME_COMBO_CROSSFADE_MS);
 
-              setFlippingPositions((current) =>
-                current.filter((item) => item !== position)
-              );
-            }, Math.round(HOME_COMBO_FLIP_MS / 2));
-
-            staggerTimersRef.current.push(swapTimer);
+            staggerTimersRef.current.push(finishTimer);
           }, position * HOME_COMBO_STAGGER_MS);
 
           staggerTimersRef.current.push(startTimer);
@@ -2332,46 +2380,37 @@ function HomeComboMealStrip({
 
         <div className="homeComboMealGrid">
           {homeComboMeals.map((meal, position) => {
-            const isFavorite = Array.isArray(favorites) && favorites.includes(meal.id);
-            const isFlipping = flippingPositions.includes(position);
+            const transition = crossfades[position];
+            const activeMeal = transition?.to || meal;
+            const isFavorite = Array.isArray(favorites) && favorites.includes(activeMeal.id);
 
             return (
               <div
-                className={isFlipping ? "homeComboMealCardWrap isFlipping" : "homeComboMealCardWrap"}
+                className={transition ? "homeComboMealCardWrap isCrossfading" : "homeComboMealCardWrap"}
                 key={`home-combo-position-${position}`}
               >
-                <button
-                  type="button"
-                  className="homeComboMealCard"
-                  onClick={() => setSelectedMeal(meal)}
-                  aria-label={`Open combo meal ${meal.number}: ${meal.title}`}
-                >
-                  <div className="homeComboMealImage">
-                    <DinnerCombinationImage
-                      meal={meal}
-                      className="homeComboMealImageAsset"
-                      loading="lazy"
+                {transition ? (
+                  <div className="homeComboMealCrossfadeStage">
+                    <HomeComboMealCardButton
+                      meal={transition.from}
+                      className="homeComboMealCardOutgoing"
+                      onOpen={setSelectedMeal}
+                    />
+                    <HomeComboMealCardButton
+                      meal={transition.to}
+                      className="homeComboMealCardIncoming"
+                      onOpen={setSelectedMeal}
                     />
                   </div>
-
-                  <span className="homeComboMealText">
-                    <strong>{meal.title}</strong>
-                    <small>{meal.subtitle}</small>
-                    <span
-                      className="homeComboMealBalanceBadge"
-                      title={`MealBalance ${getComboMealBalanceScore(meal)}`}
-                      aria-label={`MealBalance ${getComboMealBalanceScore(meal)}`}
-                    >
-                      {getComboMealBalanceScore(meal)}
-                    </span>
-                  </span>
-                </button>
+                ) : (
+                  <HomeComboMealCardButton meal={meal} onOpen={setSelectedMeal} />
+                )}
 
                 <button
                   type="button"
                   className={isFavorite ? "homeComboMealFavorite saved" : "homeComboMealFavorite"}
-                  onClick={() => toggleFavorite(meal.id)}
-                  aria-label={isFavorite ? `Remove ${meal.title} from favorites` : `Add ${meal.title} to favorites`}
+                  onClick={() => toggleFavorite(activeMeal.id)}
+                  aria-label={isFavorite ? `Remove ${activeMeal.title} from favorites` : `Add ${activeMeal.title} to favorites`}
                   title={isFavorite ? "Remove from favorites" : "Add to favorites"}
                 >
                   <span aria-hidden="true">♥</span>
@@ -2843,7 +2882,7 @@ function isHamburgerRecipe(recipe) {
   return String(recipe?.categoryCode || "").toUpperCase() === "HB";
 }
 
-function ConstructionCalloutButton({ recipe }) {
+function ConstructionCalloutButton({ recipe, buttonLabel = "" }) {
   const [open, setOpen] = useState(false);
   const [imageIndex, setImageIndex] = useState(0);
   usePopupPageMode(open);
@@ -2868,7 +2907,7 @@ function ConstructionCalloutButton({ recipe }) {
         className="constructionCalloutButton"
         onClick={() => setOpen(true)}
       >
-        {builderLabel}
+        {buttonLabel || builderLabel}
       </button>
 
       {open && (
@@ -2964,36 +3003,54 @@ function RecipeCard({
 
         {isBrowseCard ? (
           <>
-            <div className="recipeActions browseRecipeActions">
+            <div className="recipeActions browseRecipeActions browseRecipeSixButtonGrid">
               <button
                 type="button"
-                className="viewCard browseRecipePrimaryAction"
+                className="viewCard browseRecipeActionButton"
                 onClick={() => openRecipeCard(recipe.id, cardList, viewerContext)}
               >
-                {viewButtonText}
+                View Recipe Card
               </button>
-              {showPlannerButton && (
+
+              {showPlannerButton ? (
                 <button
                   type="button"
-                  className="addPlan browseRecipePrimaryAction"
+                  className="addPlan browseRecipeActionButton"
                   onClick={() => addToPlan(recipe.id)}
                 >
-                  Add This Recipe to the Meal Planner
+                  Add to Mealplan
+                </button>
+              ) : (
+                <button type="button" className="addPlan browseRecipeActionButton" disabled>
+                  Add to Mealplan
                 </button>
               )}
-              <div className="browseRecipePrimaryAction">
+
+              <div className="browseRecipeActionCell browseRecipeFreezeCell">
                 <AddLeftoversToFreezerButton recipe={recipe} compact />
               </div>
-              <div
-                className={
-                  showBuilderGuide
-                    ? "browseRecipeUtilityRow browseRecipeUtilityRowThree"
-                    : "browseRecipeUtilityRow"
-                }
-              >
+
+              <div className="browseRecipeActionCell browseRecipeTipsCell">
                 <SmartTipsButton recipe={recipe} />
+              </div>
+
+              <div className="browseRecipeActionCell browseRecipeBuildCell">
+                {showBuilderGuide ? (
+                  <ConstructionCalloutButton recipe={recipe} buttonLabel="Build It" />
+                ) : (
+                  <button
+                    type="button"
+                    className="constructionCalloutButton browseRecipeBuildPlaceholder"
+                    disabled
+                    title="A build guide is not available for this recipe."
+                  >
+                    Build It
+                  </button>
+                )}
+              </div>
+
+              <div className="browseRecipeActionCell browseRecipeNotesCell">
                 <MyRecipeNotesButton recipe={recipe} />
-                {showBuilderGuide && <ConstructionCalloutButton recipe={recipe} />}
               </div>
             </div>
 

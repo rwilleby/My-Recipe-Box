@@ -33020,3 +33020,153 @@ body.rrbPopupOpen {
   }
 }
 
+/* =========================================================
+   JULY 25 — COLLECTION RECIPE-CARD CONTROLS + COMBO CROSSFADE
+   ========================================================= */
+
+/* Collection/dropdown recipe listings: six controls in a fixed 2 × 3 grid. */
+.browseRecipeGrid .recipeCardFullImage .browseRecipeSixButtonGrid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  grid-template-rows: repeat(3, 52px) !important;
+  gap: 8px 10px !important;
+  margin-top: 10px !important;
+}
+
+.browseRecipeGrid .recipeCardFullImage .browseRecipeSixButtonGrid > *,
+.browseRecipeGrid .recipeCardFullImage .browseRecipeSixButtonGrid button,
+.browseRecipeGrid .recipeCardFullImage .browseRecipeActionCell,
+.browseRecipeGrid .recipeCardFullImage .browseRecipeActionCell > div {
+  min-width: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0 !important;
+}
+
+.browseRecipeGrid .recipeCardFullImage .browseRecipeSixButtonGrid button {
+  min-height: 52px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 0 !important;
+  padding: 7px 8px !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  line-height: 1.08 !important;
+  text-align: center !important;
+  text-transform: uppercase !important;
+  white-space: normal !important;
+}
+
+.browseRecipeGrid .recipeCardFullImage .browseRecipeBuildPlaceholder:disabled {
+  cursor: default !important;
+  opacity: .48 !important;
+}
+
+/* Time, serving size, MealBalance, and Favorite share one clean line. */
+.browseRecipeGrid .recipeCardFullImage .browseRecipeMetaFooter {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto auto !important;
+  align-items: center !important;
+  gap: 12px !important;
+  min-height: 50px !important;
+  margin-top: 10px !important;
+  padding: 7px 0 !important;
+}
+
+.browseRecipeGrid .recipeCardFullImage .browseRecipeMetaItems {
+  display: flex !important;
+  align-items: center !important;
+  gap: 18px !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+}
+
+.browseRecipeGrid .recipeCardFullImage .browseRecipeMealBalanceBadge {
+  position: static !important;
+  margin: 0 !important;
+}
+
+.browseRecipeGrid .recipeCardFullImage .browseCardHeart {
+  position: static !important;
+  margin: 0 !important;
+}
+
+/* Featured Combo-Meals: true overlapping cross-fade, staggered by position. */
+.homeComboMealCardWrap {
+  position: relative !important;
+  perspective: none !important;
+}
+
+.homeComboMealCrossfadeStage {
+  position: relative !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.homeComboMealCrossfadeStage .homeComboMealCard {
+  width: 100% !important;
+  height: 100% !important;
+  transform: none !important;
+  backface-visibility: visible !important;
+}
+
+.homeComboMealCrossfadeStage .homeComboMealCardIncoming {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 2 !important;
+  animation: homeComboMealCrossfadeIn 520ms ease-in-out both !important;
+}
+
+.homeComboMealCrossfadeStage .homeComboMealCardOutgoing {
+  position: relative !important;
+  z-index: 1 !important;
+  animation: homeComboMealCrossfadeOut 520ms ease-in-out both !important;
+}
+
+.homeComboMealCardWrap.isCrossfading > .homeComboMealFavorite {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: opacity 120ms linear !important;
+}
+
+@keyframes homeComboMealCrossfadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes homeComboMealCrossfadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .homeComboMealCrossfadeStage .homeComboMealCardIncoming,
+  .homeComboMealCrossfadeStage .homeComboMealCardOutgoing {
+    animation-duration: 120ms !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .browseRecipeGrid .recipeCardFullImage .browseRecipeSixButtonGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-template-rows: repeat(3, 46px) !important;
+    gap: 7px !important;
+  }
+
+  .browseRecipeGrid .recipeCardFullImage .browseRecipeSixButtonGrid button {
+    min-height: 46px !important;
+    font-size: 10px !important;
+  }
+
+  .browseRecipeGrid .recipeCardFullImage .browseRecipeMetaFooter {
+    grid-template-columns: minmax(0, 1fr) auto auto !important;
+    gap: 7px !important;
+  }
+
+  .browseRecipeGrid .recipeCardFullImage .browseRecipeMetaItems {
+    gap: 9px !important;
+    font-size: 12px !important;
+  }
+}
+
