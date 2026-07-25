@@ -2962,6 +2962,345 @@ function ConstructionCalloutButton({ recipe, buttonLabel = "" }) {
   );
 }
 
+
+const GLP1_BADGE_EXPLANATIONS = Object.freeze({
+  rating:
+    "A reviewed GLP-1 support rating based on available nutrition and recipe classification data. It is general food information, not medical advice.",
+  protein:
+    "Protein Power describes the reviewed protein level for one standard serving.",
+  fiber:
+    "Fiber Boost describes the reviewed fiber level for one standard serving.",
+  satiety:
+    "Satiety Level describes how satisfying the reviewed recipe may be as part of a balanced meal.",
+  smallPortion:
+    "Small Portion means the recipe has been reviewed as practical to serve in a smaller amount.",
+  easyDigestion:
+    "Easy Digestion means the recipe has been reviewed as a potentially gentler food choice. Individual tolerance varies.",
+  proteinFirst:
+    "Protein First identifies a recipe whose primary protein can be eaten first.",
+  lowAddedSugar:
+    "Low Added Sugar reflects the reviewed added-sugar classification, not total carbohydrates.",
+});
+
+function glp1FiniteNumber(value) {
+  const number = Number(value);
+  return Number.isFinite(number) && number >= 0 ? number : null;
+}
+
+function glp1NutritionValue(recipe, directKeys = [], nutritionKeys = []) {
+  for (const key of directKeys) {
+    const value = glp1FiniteNumber(recipe?.[key]);
+    if (value !== null) return value;
+  }
+
+  const sources = [
+    recipe?.nutrition,
+    recipe?.nutritionPerServing,
+    recipe?.foodIntelligence,
+    recipe?.foodIntelligenceCard,
+  ].filter(Boolean);
+
+  for (const source of sources) {
+    for (const key of nutritionKeys) {
+      const value = glp1FiniteNumber(source?.[key]);
+      if (value !== null) return value;
+    }
+  }
+
+  return null;
+}
+
+function getGLP1RecipeDisplayData(recipe) {
+  const reviewed =
+    recipe?.glp1ReviewStatus === "Provisional" ||
+    recipe?.glp1ReviewStatus === "Verified";
+
+  if (!reviewed) return null;
+
+  const score = glp1FiniteNumber(recipe?.glp1Score);
+  const rating =
+    typeof recipe?.glp1Rating === "string" ? recipe.glp1Rating : "";
+  const protein = glp1NutritionValue(
+    recipe,
+    ["proteinGramsPerServing", "proteinPerServing"],
+    ["proteinGramsPerServing", "protein", "proteinGrams"]
+  );
+  const fiber = glp1NutritionValue(
+    recipe,
+    ["fiberGramsPerServing", "fiberPerServing"],
+    ["fiberGramsPerServing", "fiber", "fiberGrams"]
+  );
+  const calories = glp1NutritionValue(
+    recipe,
+    ["caloriesPerServing", "calories"],
+    ["caloriesPerServing", "calories"]
+  );
+  const addedSugar = glp1NutritionValue(
+    recipe,
+    ["addedSugarGramsPerServing", "addedSugarPerServing"],
+    ["addedSugarGramsPerServing", "addedSugar", "addedSugarGrams"]
+  );
+
+  const indicators = [
+    recipe?.proteinLevel
+      ? {
+          id: "protein",
+          label: `Protein Power: ${
+            recipe.proteinLevel === "High"
+              ? "Excellent"
+              : recipe.proteinLevel === "Moderate"
+                ? "Good"
+                : "Low"
+          }`,
+          shortLabel:
+            recipe.proteinLevel === "High"
+              ? "High Protein"
+              : `${recipe.proteinLevel} Protein`,
+        }
+      : null,
+    recipe?.fiberLevel
+      ? {
+          id: "fiber",
+          label: `Fiber Boost: ${recipe.fiberLevel}`,
+          shortLabel:
+            recipe.fiberLevel === "High"
+              ? "Fiber Boost"
+              : `${recipe.fiberLevel} Fiber`,
+        }
+      : null,
+    recipe?.satietyLevel
+      ? {
+          id: "satiety",
+          label: `Satiety Level: ${recipe.satietyLevel}`,
+          shortLabel:
+            recipe.satietyLevel === "High"
+              ? "High Satiety"
+              : `${recipe.satietyLevel} Satiety`,
+        }
+      : null,
+    recipe?.smallPortionFriendly === true
+      ? {
+          id: "smallPortion",
+          label: "Small Portion Friendly",
+          shortLabel: "Small Portion",
+        }
+      : null,
+    recipe?.easyDigestion === true
+      ? {
+          id: "easyDigestion",
+          label: "Easy Digestion",
+          shortLabel: "Easy Digestion",
+        }
+      : null,
+    recipe?.proteinFirst === true
+      ? {
+          id: "proteinFirst",
+          label: "Protein First",
+          shortLabel: "Protein First",
+        }
+      : null,
+    recipe?.addedSugarLevel === "Low"
+      ? {
+          id: "lowAddedSugar",
+          label: "Low Added Sugar",
+          shortLabel: "Low Added Sugar",
+        }
+      : null,
+  ].filter(Boolean);
+
+  if (!rating && score === null && !indicators.length) return null;
+
+  return {
+    rating,
+    score,
+    protein,
+    fiber,
+    calories,
+    addedSugar,
+    standardServing:
+      recipe?.standardServing ||
+      recipe?.servingSize ||
+      recipe?.servingDescription ||
+      "",
+    suggestedServing: recipe?.suggestedGlp1ServingSize || "",
+    indicators,
+    reviewStatus: recipe.glp1ReviewStatus,
+    dataSource: recipe.glp1DataSource || "",
+  };
+}
+
+function GLP1RecipeSupportPanel({ recipe, compact = false, className = "" }) {
+  const [open, setOpen] = useState(false);
+  const data = getGLP1RecipeDisplayData(recipe);
+
+  useEffect(() => setOpen(false), [recipe?.id]);
+
+  if (!data) return null;
+
+  const ratingText = data.rating
+    ? `GLP-1 ${data.rating}`
+    : "GLP-1 Reviewed";
+  const scoreText =
+    data.score !== null ? `${Math.round(data.score * 10) / 10}/10` : "";
+
+  return (
+    <section
+      className={[
+        "glp1RecipeSupport",
+        compact ? "compact" : "expanded",
+        open ? "open" : "",
+        className,
+      ]
+        .filter(Boolean)
+        .join(" ")}
+      aria-label={`${recipe.title} GLP-1 nutrition support information`}
+    >
+      <div className="glp1RecipeSupportSummary">
+        <span
+          className={`glp1RatingBadge rating-${String(data.rating || "reviewed")
+            .toLowerCase()
+            .replace(/\s+/g, "-")}`}
+          title={GLP1_BADGE_EXPLANATIONS.rating}
+        >
+          <strong>{ratingText}</strong>
+          {scoreText && <small>{scoreText}</small>}
+        </span>
+
+        <div className="glp1RecipeBadgeList">
+          {data.indicators.slice(0, compact ? 3 : 7).map((indicator) => (
+            <span
+              key={indicator.id}
+              className={`glp1SupportBadge badge-${indicator.id}`}
+              title={GLP1_BADGE_EXPLANATIONS[indicator.id]}
+              aria-label={`${indicator.label}. ${GLP1_BADGE_EXPLANATIONS[indicator.id]}`}
+            >
+              {indicator.shortLabel}
+            </span>
+          ))}
+        </div>
+
+        <button
+          type="button"
+          className="glp1RecipeInfoButton"
+          onClick={() => setOpen((current) => !current)}
+          aria-expanded={open}
+          aria-label={`${open ? "Close" : "Open"} GLP-1 nutrition details for ${recipe.title}`}
+        >
+          {open ? "Close" : "GLP-1 info"}
+        </button>
+      </div>
+
+      {open && (
+        <div className="glp1RecipeSupportDetails">
+          <div className="glp1SupportingIndicators">
+            <article>
+              <span>Protein Power</span>
+              <strong>
+                {recipe.proteinLevel === "High"
+                  ? "Excellent"
+                  : recipe.proteinLevel === "Moderate"
+                    ? "Good"
+                    : recipe.proteinLevel || "Not Available"}
+              </strong>
+            </article>
+            <article>
+              <span>Fiber Boost</span>
+              <strong>{recipe.fiberLevel || "Not Available"}</strong>
+            </article>
+            <article>
+              <span>Satiety Level</span>
+              <strong>{recipe.satietyLevel || "Not Available"}</strong>
+            </article>
+            <article>
+              <span>GLP-1 Rating</span>
+              <strong>{data.rating || "Reviewed"}</strong>
+            </article>
+          </div>
+
+          <dl className="glp1NutritionFactsCompact">
+            <div>
+              <dt>Protein / serving</dt>
+              <dd>{data.protein !== null ? `${data.protein} g` : "Not available"}</dd>
+            </div>
+            <div>
+              <dt>Fiber / serving</dt>
+              <dd>{data.fiber !== null ? `${data.fiber} g` : "Not available"}</dd>
+            </div>
+            <div>
+              <dt>Calories / serving</dt>
+              <dd>{data.calories !== null ? data.calories : "Not available"}</dd>
+            </div>
+            <div>
+              <dt>Added sugar</dt>
+              <dd>
+                {data.addedSugar !== null
+                  ? `${data.addedSugar} g`
+                  : recipe?.addedSugarLevel || "Not available"}
+              </dd>
+            </div>
+            <div>
+              <dt>Standard serving</dt>
+              <dd>{data.standardServing || "See recipe card"}</dd>
+            </div>
+            <div>
+              <dt>Suggested smaller serving</dt>
+              <dd>{data.suggestedServing || "Not yet reviewed"}</dd>
+            </div>
+          </dl>
+
+          <div className="glp1StatusLines">
+            <span>
+              Small portion:{" "}
+              <strong>
+                {recipe?.smallPortionFriendly === true
+                  ? "Yes"
+                  : recipe?.smallPortionFriendly === false
+                    ? "No"
+                    : "Not reviewed"}
+              </strong>
+            </span>
+            <span>
+              Easy digestion:{" "}
+              <strong>
+                {recipe?.easyDigestion === true
+                  ? "Yes"
+                  : recipe?.easyDigestion === false
+                    ? "No"
+                    : "Not reviewed"}
+              </strong>
+            </span>
+            <span>
+              Protein first:{" "}
+              <strong>
+                {recipe?.proteinFirst === true
+                  ? "Yes"
+                  : recipe?.proteinFirst === false
+                    ? "No"
+                    : "Not reviewed"}
+              </strong>
+            </span>
+          </div>
+
+          {recipe?.glp1Notes && (
+            <p className="glp1RecipeNotes">{recipe.glp1Notes}</p>
+          )}
+
+          <p className="glp1RecipeSupportNotice">
+            Appetite and nutritional needs vary. Begin with a smaller serving,
+            eat slowly, and stop when comfortably satisfied.
+          </p>
+
+          <small className="glp1RecipeReviewMeta">
+            {data.reviewStatus}
+            {data.dataSource ? ` · Source: ${data.dataSource}` : ""}
+          </small>
+        </div>
+      )}
+    </section>
+  );
+}
+
+
 function RecipeCard({
   recipe,
   favorites,
@@ -3013,6 +3352,12 @@ function RecipeCard({
         </span>
 
         <h3>{recipe.title}</h3>
+
+        <GLP1RecipeSupportPanel
+          recipe={recipe}
+          compact={isBrowseCard}
+          className="recipeCardGlp1Support"
+        />
 
         {isBrowseCard ? (
           <>
@@ -3207,7 +3552,14 @@ function getRecipeEstimatedCost(recipe) {
   return getRecipeCostEstimate(recipe);
 }
 
-function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorite }) {
+function RecipeCardViewer({
+  viewer,
+  onClose,
+  setViewer,
+  favorites,
+  toggleFavorite,
+  recipeData = recipes,
+}) {
   const [imageIndex, setImageIndex] = useState(0);
   const [constructionImageIndex, setConstructionImageIndex] = useState(0);
   const [constructionImageFailed, setConstructionImageFailed] = useState(false);
@@ -3216,14 +3568,14 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
 
   const viewerIds = viewer?.recipeIds?.length
     ? viewer.recipeIds
-    : recipes.map((recipe) => recipe.id);
+    : recipeData.map((recipe) => recipe.id);
   const currentIndex = viewer
     ? Math.max(0, viewerIds.indexOf(viewer.recipeId))
     : 0;
   const currentRecipeId = viewerIds[currentIndex] || viewer?.recipeId;
   const recipe = viewer
-    ? recipes.find((item) => item.id === currentRecipeId) ||
-      recipes.find((item) => item.id === viewer.recipeId)
+    ? recipeData.find((item) => item.id === currentRecipeId) ||
+      recipeData.find((item) => item.id === viewer.recipeId)
     : null;
 
   useEffect(() => {
@@ -3415,6 +3767,11 @@ function RecipeCardViewer({ viewer, onClose, setViewer, favorites, toggleFavorit
             ›
           </button>
         </div>
+
+        <GLP1RecipeSupportPanel
+          recipe={recipe}
+          className="cardViewerGlp1Support"
+        />
 
         {recipe.mediaLinks?.length > 0 && (
           <div className="cardViewerHelpfulLinks">
@@ -14466,6 +14823,7 @@ The score is not a judgment and it is not medical or dietary advice. It is one p
         setViewer={setCardViewer}
         favorites={favorites}
         toggleFavorite={toggleFavorite}
+        recipeData={classifiedRecipes}
       />
 
       <footer className="footer">
