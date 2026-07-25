@@ -1,3 +1,5 @@
+import { normalizeGLP1Classification } from "./glp1Nutrition";
+
 // src/data/recipeClassifications.js
 // Robert's Recipe Box — recipe classification system
 //
@@ -92,7 +94,7 @@ export function emptyRecipeClassification(recipe) {
 }
 
 export function normalizeRecipeClassification(recipe, saved = {}) {
-  return {
+  const baseClassification = {
     primaryCategory:
       saved.primaryCategory ||
       recipe.primaryCategory ||
@@ -103,6 +105,14 @@ export function normalizeRecipeClassification(recipe, saved = {}) {
     cookingMethods: uniqueStrings(
       saved.cookingMethods ?? recipe.cookingMethods
     ),
+  };
+
+  return {
+    ...baseClassification,
+    ...normalizeGLP1Classification({
+      ...recipe,
+      ...saved,
+    }),
   };
 }
 

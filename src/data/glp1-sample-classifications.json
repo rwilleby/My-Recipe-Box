@@ -1,0 +1,12 @@
+{
+  "SD-025": {
+    "glp1ReviewStatus": "Not Reviewed",
+    "glp1Notes": "Glazed Carrots sample record. Nutrition and GLP-1 suitability must be reviewed before a rating or score is assigned.",
+    "glp1DataSource": "Sample structure only — no nutrition classification assigned."
+  },
+  "AM-001": {
+    "glp1ReviewStatus": "Not Reviewed",
+    "glp1Notes": "Salisbury Steak sample protein-centered record. Ingredient, serving, sodium, saturated-fat, protein, fiber, and calorie data must be reviewed before classification.",
+    "glp1DataSource": "Sample structure only — no nutrition classification assigned."
+  }
+}
