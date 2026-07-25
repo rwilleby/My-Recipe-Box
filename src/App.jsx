@@ -1,6 +1,8 @@
 import { createContext, useContext, useMemo, useState, useEffect, useRef } from "react";
 import { categories, recipes } from "./data/recipes";
 import AdminRecipeClassifier from "./components/AdminRecipeClassifier";
+import UserDataBackupSection from "./components/UserDataBackupSection";
+import "./components/UserDataBackupSection.css";
 import {
   loadRecipeClassifications,
   mergeRecipeClassifications,
@@ -1708,36 +1710,60 @@ const HOME_PHOTO_FEATURES = [
   {
     title: "Browse Recipes",
     description: "Explore the complete recipe-card library.",
+    explanation:
+      "Browse by cuisine, collection, cooking method, or practical need, then open a recipe card to review its ingredients, directions, timing, serving information, and planning tools.",
+    benefits:
+      "A searchable recipe library makes it easier to compare choices, find old favorites, and select meals that fit the time, ingredients, and portions you have available.",
     image: "images/home-features/hero-process-01-recipes.webp",
     page: "Recipes",
   },
   {
     title: "Meal Planning",
     description: "Organize meals for the coming week.",
+    explanation:
+      "Place recipes and Combo-Meals into the weekly planner before shopping. Build the week around cooking days, leftovers, freezer meals, appointments, and the number of people being served.",
+    benefits:
+      "Planning ahead reduces last-minute decisions, helps ingredients work across several meals, and makes it easier to balance fresh cooking with convenient reheating days.",
     image: "images/home-features/hero-process-02-planning.webp",
     page: "Meal Planner",
   },
   {
     title: "Shopping",
     description: "Build an organized grocery list.",
+    explanation:
+      "Use planned meals to create a more organized shopping list, then compare it with ingredients already recorded in the pantry, refrigerator, and freezer.",
+    benefits:
+      "An organized list can reduce forgotten items, duplicate purchases, unnecessary store trips, and food bought without a clear plan for using it.",
     image: "images/home-features/hero-process-03-shopping.webp",
     page: "Shopping Lists",
   },
   {
     title: "Cooking Guides",
     description: "Review practical cooking tips and guides.",
+    explanation:
+      "Open practical guides when you need help with food safety, cooking methods, kitchen equipment, storage, reheating, measurements, or other common home-cooking questions.",
+    benefits:
+      "Keeping dependable instructions close to the recipes reduces guesswork and can improve consistency, organization, and confidence in the kitchen.",
     image: "images/home-features/hero-process-04-cooking.webp",
     page: "Reference Guides",
   },
   {
     title: "Freezer Meals",
     description: "Plan, package, freeze, and reheat meals.",
+    explanation:
+      "Prepare useful extra portions, package them in practical amounts, label and record them, and follow recipe-specific freezing, thawing, and reheating guidance when available.",
+    benefits:
+      "A well-managed freezer turns extra cooking into future meals, reduces waste, and gives smaller households convenient choices on days when cooking is difficult or inconvenient.",
     image: "images/home-features/hero-process-05-freezing.webp",
     page: "Freezer-Friendly Meals",
   },
   {
     title: "Saving Time",
     description: "Use practical planning, prep, freezing, and leftovers to make cooking easier.",
+    explanation:
+      "Combine quick recipes, planned leftovers, prepared components, make-ahead steps, and freezer portions instead of beginning every meal entirely from scratch.",
+    benefits:
+      "Several small time-saving habits used together can reduce the daily workload while still providing variety, home-cooked food, and better control over ingredients and portions.",
     image: "images/home-features/hero-process-06-saving.webp",
     page: "Easy 30-Minute Meals",
   },
@@ -1796,7 +1822,19 @@ function HomePhotoFeatureModal({ feature, onClose, setActivePage }) {
 
         <div className="homeFeatureModalText">
           <h2 id="home-feature-modal-title">{feature.title}</h2>
-          <p>{feature.description}</p>
+          <p className="homeFeatureModalSummary">{feature.description}</p>
+
+          <div className="homeFeatureModalExplanation">
+            <section>
+              <h3>What This Step Does</h3>
+              <p>{feature.explanation}</p>
+            </section>
+            <section>
+              <h3>Benefits</h3>
+              <p>{feature.benefits}</p>
+            </section>
+          </div>
+
           <button type="button" onClick={openFeaturePage}>
             Explore {feature.title} ›
           </button>
@@ -4920,13 +4958,20 @@ function Home({
       <CategoryGrid setFilter={setFilter} setActivePage={setActivePage} />
       <HomeRecipeCounters classifiedRecipes={classifiedRecipes} />
 
-      <div className="homeAdminAccessWrap" aria-label="Administrative tools">
+      <div className="homeAdminAccessWrap" aria-label="Administrative and user data tools">
         <button
           className="adminAccessButton homeAdminAccessButton"
           type="button"
           onClick={() => setActivePage("Admin Recipes")}
         >
           Admin
+        </button>
+        <button
+          className="adminAccessButton homeAdminAccessButton"
+          type="button"
+          onClick={() => setActivePage("User Backup")}
+        >
+          User Backup
         </button>
       </div>
 
@@ -14865,6 +14910,22 @@ Use this section to check what is on hand, record dates, mark foods that should 
           </article>
         </>
       )}
+      {activePage === "User Backup" && (
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-page-storage.webp"
+            alt="Organized recipe information prepared for a local backup"
+            eyebrow="YOUR RECIPE BOX"
+            title="Backup & Restore"
+            text="Protect the favorites, notes, meal plans, grocery lists, inventories, and preferences saved in this browser. The backup file is created locally on your device and can be restored later on this or another device."
+            className="pageHeroDepth464"
+          />
+          <main className="pageShell userBackupPage">
+            <UserDataBackupSection />
+          </main>
+        </>
+      )}
+
       {activePage === "Storage Organization" && (
         <HeroTopicPage
           eyebrow="TIPS & TECHNIQUES"

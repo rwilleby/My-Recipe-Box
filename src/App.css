@@ -34063,3 +34063,136 @@ body.rrbPopupOpen {
   }
 }
 
+/* ================================================================
+   PHASE A — HOME PAGE REFINEMENTS
+   Quick Overview, Everything You Need, and User Backup access only.
+   ================================================================ */
+
+/* 1. Slightly thinner warm-gray Quick Overview accordion bar. */
+.homeMealJourneyToggle {
+  min-height: 52px !important;
+  padding: 8px 15px !important;
+  background: #F7EED8 !important;
+}
+
+.homeMealJourneyToggle:hover {
+  background: #f2e5c9 !important;
+}
+
+.homeMealJourneyToggleText {
+  gap: 1px !important;
+}
+
+.homeMealJourneyToggleText strong {
+  font-size: 17px !important;
+}
+
+.homeMealJourneyToggleText small {
+  color: #665f54 !important;
+  font-size: 11px !important;
+  line-height: 1.25 !important;
+}
+
+.homeMealJourneyChevron {
+  width: 29px !important;
+  height: 29px !important;
+  background: rgba(255, 255, 255, .68) !important;
+  color: #66553d !important;
+  font-size: 19px !important;
+}
+
+/* 2. Everything You Need popup: image is approximately 50% shorter. */
+.homeFeatureModalImage {
+  max-height: 33vh !important;
+  object-fit: cover !important;
+}
+
+/* Expanded draft explanation and benefit copy. */
+.homeFeatureModal {
+  width: min(780px, calc(100vw - 28px)) !important;
+}
+
+.homeFeatureModalText {
+  max-height: 58vh !important;
+  overflow-y: auto !important;
+}
+
+.homeFeatureModalSummary {
+  margin-bottom: 12px !important;
+  color: #4b5563 !important;
+  font-weight: 600 !important;
+}
+
+.homeFeatureModalExplanation {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 10px !important;
+  margin: 0 auto 15px !important;
+  text-align: left !important;
+}
+
+.homeFeatureModalExplanation section {
+  padding: 12px 13px !important;
+  border: 1px solid #e1ddd5 !important;
+  border-radius: 10px !important;
+  background: #fbfaf7 !important;
+}
+
+.homeFeatureModalExplanation h3 {
+  margin: 0 0 5px !important;
+  color: #173d28 !important;
+  font: 700 15px/1.2 Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif !important;
+}
+
+.homeFeatureModalExplanation p {
+  margin: 0 !important;
+  max-width: none !important;
+  color: #535b55 !important;
+  font-size: 12px !important;
+  line-height: 1.48 !important;
+}
+
+/* 3. Matching centered Admin and User Backup buttons. */
+.homeAdminAccessWrap {
+  gap: 8px !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.homeAdminAccessButton {
+  min-width: 74px !important;
+  text-align: center !important;
+}
+
+.userBackupPage {
+  padding-top: 28px !important;
+  padding-bottom: 44px !important;
+}
+
+.userBackupPage .userDataSection {
+  margin-inline: auto !important;
+}
+
+@media (max-width: 700px) {
+  .homeMealJourneyToggle {
+    min-height: 48px !important;
+    padding: 7px 12px !important;
+  }
+
+  .homeMealJourneyToggleText small {
+    display: none !important;
+  }
+
+  .homeFeatureModalImage {
+    max-height: 29vh !important;
+  }
+
+  .homeFeatureModalExplanation {
+    grid-template-columns: 1fr !important;
+  }
+
+  .homeAdminAccessWrap {
+    flex-wrap: wrap !important;
+  }
+}
+
