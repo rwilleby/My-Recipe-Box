@@ -1440,6 +1440,7 @@ const NAV_GROUPS = [
     items: [
       { label: "FOOD SAFETY", page: "Safe Cooking Rules" },
       { label: "REFERENCE GUIDES", page: "Reference Guides" },
+      { label: "EATING WELL WITH GLP-1 MEDICATIONS", page: "GLP-1 Nutrition" },
       { label: "TIPS: AIR FRYERS", page: "Air Fryer Recipes", level: 1 },
       { label: "TIPS: MICROWAVE OVENS", page: "Microwave Recipes", level: 1 },
       { label: "TIPS: GAS/ELECTRIC OVENS", page: "Oven Recipes", level: 1 },
@@ -4955,7 +4956,21 @@ function RecipesPage({
   const [page, setPage] = useState(1);
 
   useEffect(() => {
+    if (typeof filter === "string" && filter.startsWith("glp1-preset:")) {
+      const presetId = filter.replace("glp1-preset:", "");
+      setSelectedCategory("");
+      setSelectedGlp1Preset(presetId);
+      const preset = GLP1_RECIPE_COLLECTION_PRESETS.find(
+        (item) => item.id === presetId
+      );
+      setSelectedGlp1Filters(preset?.filters ? [...preset.filters] : []);
+      setShowGlp1Filters(true);
+      return;
+    }
+
     setSelectedCategory(filter || "");
+    setSelectedGlp1Preset("");
+    setSelectedGlp1Filters([]);
   }, [filter]);
 
   const filteredRecipes = useMemo(() => {
@@ -12289,6 +12304,141 @@ function DisclaimersPage({ setActivePage }) {
 
 
 
+
+const GLP1_EDUCATION_SECTIONS = Object.freeze([
+  {
+    title: "Making Every Bite Count",
+    text:
+      "Reduced appetite can make it harder to consume enough protein, fiber, fluids, vitamins, and minerals. Smaller meals should still provide meaningful nutrition rather than simply being very low in calories.",
+  },
+  {
+    title: "Protein First",
+    text:
+      "Begin meals with the primary protein source when practical. Adequate protein, together with medically appropriate activity, can help support muscle preservation during weight loss.",
+  },
+  {
+    title: "Fiber and Digestion",
+    text:
+      "Vegetables, fruit, beans, whole grains, chia, and flax can support fiber intake. Increase fiber gradually and pair it with adequate fluids because increasing fiber too quickly may worsen digestive discomfort.",
+  },
+  {
+    title: "Hydration",
+    text:
+      "Drink fluids regularly throughout the day, especially when appetite or thirst feels reduced. Small, frequent amounts may be easier to tolerate than trying to drink a large amount all at once.",
+  },
+  {
+    title: "Smaller, Balanced Meals",
+    text:
+      "Build smaller meals around protein, vegetables or fruit, modest amounts of quality carbohydrates, and healthy fats. Serve a smaller portion first, eat slowly, and stop when comfortably satisfied.",
+  },
+  {
+    title: "Easier-Digestion Choices",
+    text:
+      "Potentially gentler choices may include soups, baked fish, scrambled eggs, oatmeal, yogurt, mashed vegetables, smoothies, and tender proteins. Individual tolerance varies.",
+  },
+  {
+    title: "During Dose Changes",
+    text:
+      "When nausea or fullness is more noticeable, some people temporarily prefer smaller, lower-fat, mildly seasoned meals. Persistent or severe symptoms should be discussed with a healthcare professional.",
+  },
+  {
+    title: "Muscle Preservation",
+    text:
+      "Adequate protein, regular movement, and resistance exercise can support muscle preservation when medically appropriate. Personal needs vary, so use guidance from your physician or registered dietitian.",
+  },
+]);
+
+function GLP1NutritionPage({ setActivePage, setFilter }) {
+  function openPreset(presetId) {
+    setFilter(`glp1-preset:${presetId}`);
+    setActivePage("Recipes");
+  }
+
+  return (
+    <main className="pageShell glp1EducationPage">
+      <section className="glp1EducationIntro">
+        <span className="aiBadge">GLP-1 NUTRITION SUPPORT</span>
+        <h2>Nutrition Guidance for Smaller Meals</h2>
+        <p>
+          A practical food guide for making smaller meals count. This page
+          supports thoughtful recipe choices without replacing individualized
+          medical or nutrition advice.
+        </p>
+      </section>
+
+      <section className="glp1EducationGrid" aria-label="GLP-1 nutrition guidance">
+        {GLP1_EDUCATION_SECTIONS.map((section) => (
+          <article key={section.title} className="glp1EducationCard">
+            <h2>{section.title}</h2>
+            <p>{section.text}</p>
+          </article>
+        ))}
+      </section>
+
+      <section className="glp1EducationCollections">
+        <div className="glp1EducationSectionHeading">
+          <div>
+            <span className="aiBadge">RECIPE COLLECTIONS</span>
+            <h2>Browse GLP-1 Support Collections</h2>
+            <p>
+              These links reuse the existing recipe database and combined
+              filters. Recipes appear only when their reviewed data matches the
+              selected collection.
+            </p>
+          </div>
+          <button
+            type="button"
+            className="secondary"
+            onClick={() => {
+              setFilter("");
+              setActivePage("Recipes");
+            }}
+          >
+            Browse All Recipes
+          </button>
+        </div>
+
+        <div className="glp1EducationCollectionGrid">
+          {GLP1_RECIPE_COLLECTION_PRESETS.map((preset) => (
+            <button
+              type="button"
+              key={preset.id}
+              onClick={() => openPreset(preset.id)}
+            >
+              <strong>{preset.label}</strong>
+              <span>Open filtered recipe view</span>
+            </button>
+          ))}
+        </div>
+      </section>
+
+      <section className="glp1MedicalNotice" aria-labelledby="glp1-medical-notice-title">
+        <h2 id="glp1-medical-notice-title">Important Medical Notice</h2>
+        <p>
+          Robert’s Recipe Box provides general food and nutrition information
+          only. It does not provide medical advice and is not a substitute for
+          guidance from your physician, registered dietitian, pharmacist, or
+          other qualified healthcare professional. Individual nutritional
+          needs, medication effects, and medical conditions vary. Contact your
+          healthcare provider if you experience persistent vomiting, severe
+          abdominal pain, inability to keep fluids down, symptoms of
+          dehydration, or other concerning symptoms.
+        </p>
+      </section>
+
+      <section className="glp1EducationPrivacyNote">
+        <strong>Privacy-first by design</strong>
+        <p>
+          Recipe filters and any future personal targets remain stored only in
+          your browser under the existing Robert’s Recipe Box privacy model.
+          This educational page does not collect or transmit health information.
+        </p>
+      </section>
+    </main>
+  );
+}
+
+
 function CollectionDetailPage({
   title,
   text,
@@ -13257,6 +13407,22 @@ These pages are designed to be easy to scan, print, or revisit when needed. They
             className="pageHeroDepth464"
 />
           <UnderConstructionPage setActivePage={setActivePage} />
+        </>
+      )}
+      {activePage === "GLP-1 Nutrition" && (
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-page-mealbalance.webp"
+            alt="Balanced meal planning setup with protein, vegetables, fruit, water, and recipe notes"
+            eyebrow="NUTRITION SUPPORT"
+            title="Eating Well with GLP-1 Medications"
+            text="Reduced appetite can make every bite more important. This guide focuses on practical ways to include protein, fiber, fluids, and nutrient-dense foods in smaller meals while respecting individual tolerance and medical guidance."
+            className="pageHeroDepth464 glp1NutritionHero"
+          />
+          <GLP1NutritionPage
+            setActivePage={setActivePage}
+            setFilter={setFilter}
+          />
         </>
       )}
       {activePage === "Recipes" && (

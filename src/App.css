@@ -33780,3 +33780,234 @@ body.rrbPopupOpen {
   }
 }
 
+/* =========================================================
+   GLP-1 FILTER CONTROL REPAIR
+   ========================================================= */
+
+.browseGlp1FilterGrid label {
+  display: grid !important;
+  grid-template-columns: 18px minmax(0, 1fr) !important;
+  align-items: center !important;
+  gap: 9px !important;
+  min-width: 0 !important;
+  min-height: 42px !important;
+  overflow: hidden !important;
+  padding: 7px 10px !important;
+}
+
+.browseGlp1FilterGrid label > input[type="checkbox"] {
+  appearance: auto !important;
+  -webkit-appearance: checkbox !important;
+  width: 16px !important;
+  min-width: 16px !important;
+  max-width: 16px !important;
+  height: 16px !important;
+  min-height: 16px !important;
+  max-height: 16px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-radius: 3px !important;
+  background: initial !important;
+  box-shadow: none !important;
+}
+
+.browseGlp1FilterGrid label > span {
+  display: block !important;
+  min-width: 0 !important;
+  overflow: visible !important;
+  color: #294236 !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+  text-align: left !important;
+  white-space: normal !important;
+  word-break: normal !important;
+}
+
+@media (max-width: 760px) {
+  .browseGlp1FilterGrid label {
+    min-height: 40px !important;
+  }
+
+  .browseGlp1FilterGrid label > span {
+    font-size: 10px !important;
+  }
+}
+
+/* =========================================================
+   GLP-1 NUTRITION SUPPORT — PHASE 1 / BATCH 4
+   EDUCATIONAL PAGE + PRESET COLLECTION LINKS
+   ========================================================= */
+
+.glp1EducationPage {
+  display: grid;
+  gap: 22px;
+  padding-top: 22px;
+  padding-bottom: 36px;
+}
+
+.glp1EducationIntro {
+  max-width: 900px;
+}
+
+.glp1EducationIntro h2 {
+  margin: 7px 0 8px;
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  font-size: 28px;
+  line-height: 1.1;
+}
+
+.glp1EducationIntro p {
+  margin: 0;
+  color: #4f5b54;
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.glp1EducationGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.glp1EducationCard {
+  border: 1px solid rgba(20, 83, 45, .15);
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(24, 52, 35, .06);
+  padding: 17px 18px;
+}
+
+.glp1EducationCard h2,
+.glp1EducationCollections h2,
+.glp1MedicalNotice h2 {
+  margin: 0 0 7px;
+  color: #173d28;
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  font-size: 20px;
+}
+
+.glp1EducationCard p,
+.glp1EducationCollections p,
+.glp1MedicalNotice p,
+.glp1EducationPrivacyNote p {
+  margin: 0;
+  color: #536158;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.glp1EducationCollections {
+  display: grid;
+  gap: 14px;
+  border: 1px solid rgba(20, 83, 45, .16);
+  border-radius: 16px;
+  background: #f7fbf8;
+  padding: 18px;
+}
+
+.glp1EducationSectionHeading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.glp1EducationSectionHeading > div {
+  max-width: 850px;
+}
+
+.glp1EducationSectionHeading h2 {
+  margin-top: 6px;
+}
+
+.glp1EducationSectionHeading button {
+  flex: 0 0 auto;
+}
+
+.glp1EducationCollectionGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.glp1EducationCollectionGrid button {
+  min-height: 74px;
+  display: grid;
+  align-content: center;
+  gap: 4px;
+  border: 1px solid #cbded1;
+  border-radius: 11px;
+  background: #fff;
+  color: #1f4b31;
+  padding: 12px;
+  text-align: left;
+}
+
+.glp1EducationCollectionGrid button:hover,
+.glp1EducationCollectionGrid button:focus-visible {
+  border-color: var(--green);
+  background: #edf7ef;
+  box-shadow: 0 5px 14px rgba(20, 83, 45, .10);
+}
+
+.glp1EducationCollectionGrid strong {
+  font-size: 12px;
+}
+
+.glp1EducationCollectionGrid span {
+  color: #68746d;
+  font-size: 10px;
+}
+
+.glp1MedicalNotice {
+  border: 1px solid #d7c7a8;
+  border-left: 5px solid #9a6a22;
+  border-radius: 13px;
+  background: #fffaf0;
+  padding: 17px 18px;
+}
+
+.glp1MedicalNotice h2 {
+  color: #684819;
+}
+
+.glp1EducationPrivacyNote {
+  border-radius: 12px;
+  background: #eef5f0;
+  padding: 14px 16px;
+}
+
+.glp1EducationPrivacyNote strong {
+  display: block;
+  margin-bottom: 4px;
+  color: #1f4b31;
+  font-size: 13px;
+}
+
+@media (max-width: 900px) {
+  .glp1EducationCollectionGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .glp1EducationGrid,
+  .glp1EducationCollectionGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .glp1EducationSectionHeading {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .glp1EducationSectionHeading button {
+    width: 100%;
+  }
+
+  .glp1EducationIntro h2 {
+    font-size: 26px;
+  }
+}
+
