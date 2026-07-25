@@ -486,3 +486,238 @@
     position: static;
   }
 }
+
+/* ================================================================
+   GLP-1 ADMIN REVIEW PANEL — PHASE 1 / BATCH 5
+   ================================================================ */
+
+.adminGlp1ReviewPanel {
+  border-color: rgba(20, 83, 45, .28);
+  background: #f8fbf8;
+}
+
+.adminGlp1ReviewPanel legend {
+  color: #14532d;
+}
+
+.adminGlp1Intro {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+  padding: 12px 14px;
+  border: 1px solid #d6e5da;
+  border-radius: 10px;
+  background: #fff;
+}
+
+.adminGlp1Intro strong {
+  color: #173d28;
+}
+
+.adminGlp1Intro p {
+  max-width: 760px;
+  margin: 4px 0 0;
+  color: #5f6b63;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.adminGlp1Status {
+  flex: 0 0 auto;
+  border-radius: 999px;
+  background: #e6e9e7;
+  color: #4d5851;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 6px 9px;
+}
+
+.adminGlp1Status.status-provisional {
+  background: #fff2cc;
+  color: #795b00;
+}
+
+.adminGlp1Status.status-verified {
+  background: #d9ead3;
+  color: #245327;
+}
+
+.adminGlp1PrimaryGrid,
+.adminGlp1LevelGrid,
+.adminGlp1BooleanGrid,
+.adminGlp1ServingGrid {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.adminGlp1PrimaryGrid,
+.adminGlp1LevelGrid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.adminGlp1BooleanGrid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.adminGlp1ServingGrid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.adminGlp1ReviewPanel label {
+  min-width: 0;
+  display: grid;
+  align-content: start;
+  gap: 5px;
+}
+
+.adminGlp1ReviewPanel label > span {
+  color: #33463a;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.adminGlp1ReviewPanel input,
+.adminGlp1ReviewPanel select,
+.adminGlp1ReviewPanel textarea {
+  width: 100%;
+  min-width: 0;
+  border: 1px solid #bdcec2;
+  border-radius: 8px;
+  background: #fff;
+  color: #26382d;
+  font: 400 12px/1.25 Inter, system-ui, sans-serif;
+  padding: 8px 9px;
+}
+
+.adminGlp1ReviewPanel input,
+.adminGlp1ReviewPanel select {
+  min-height: 38px;
+}
+
+.adminGlp1ReviewPanel textarea {
+  resize: vertical;
+}
+
+.adminGlp1ReviewPanel input:disabled,
+.adminGlp1ReviewPanel select:disabled {
+  background: #eef0ee;
+  color: #7b847e;
+  cursor: not-allowed;
+}
+
+.adminGlp1ServingSection {
+  margin: 16px 0;
+  padding: 14px;
+  border: 1px solid #dce7df;
+  border-radius: 10px;
+  background: #fff;
+}
+
+.adminGlp1ServingSection h3 {
+  margin: 0 0 4px;
+  color: #173d28;
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  font-size: 17px;
+}
+
+.adminGlp1ServingSection > p {
+  margin: 0 0 12px;
+  color: #667168;
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.adminGlp1WideField {
+  grid-column: 1 / -1;
+}
+
+.adminGlp1FullField {
+  margin-top: 12px;
+}
+
+.adminGlp1FullField small {
+  color: #667168;
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+.adminGlp1Validation {
+  display: grid;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.adminGlp1Validation p {
+  margin: 0;
+  border-radius: 8px;
+  font-size: 11px;
+  line-height: 1.4;
+  padding: 8px 10px;
+}
+
+.adminGlp1Validation .error {
+  border: 1px solid #e4b8b8;
+  background: #fff1f1;
+  color: #8e2929;
+}
+
+.adminGlp1Validation .warning {
+  border: 1px solid #e6d5a6;
+  background: #fff9e8;
+  color: #745a0b;
+}
+
+.adminGlp1Preview {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 14px;
+  border-top: 1px solid #dce7df;
+  padding-top: 12px;
+  color: #526159;
+  font-size: 11px;
+}
+
+.adminGlp1Preview strong {
+  color: #173d28;
+}
+
+@media (max-width: 1100px) {
+  .adminGlp1PrimaryGrid,
+  .adminGlp1LevelGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .adminGlp1BooleanGrid,
+  .adminGlp1ServingGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .adminGlp1Intro,
+  .adminGlp1Preview {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .adminGlp1Status {
+    align-self: flex-start;
+  }
+
+  .adminGlp1PrimaryGrid,
+  .adminGlp1LevelGrid,
+  .adminGlp1BooleanGrid,
+  .adminGlp1ServingGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .adminGlp1WideField {
+    grid-column: auto;
+  }
+}
+

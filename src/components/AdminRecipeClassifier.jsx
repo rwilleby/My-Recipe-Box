@@ -7,6 +7,12 @@ import {
   normalizeRecipeClassification,
   saveRecipeClassifications,
 } from "../data/recipeClassifications";
+import {
+  GLP1_LEVELS,
+  GLP1_RATINGS,
+  GLP1_REVIEW_STATUSES,
+  normalizeGLP1Classification,
+} from "../data/glp1Nutrition";
 import "./AdminRecipeClassifier.css";
 
 function CheckboxGroup({ title, options, selected, onToggle }) {
@@ -81,6 +87,343 @@ function applyListChanges(existingValues = [], changes = {}) {
   return [...next];
 }
 
+
+const GLP1_BOOLEAN_FIELDS = Object.freeze([
+  ["glp1Friendly", "GLP-1 Friendly"],
+  ["smallPortionFriendly", "Small-Portion Friendly"],
+  ["easyDigestion", "Easy Digestion"],
+  ["proteinFirst", "Protein First"],
+  ["doseIncreaseFriendly", "Dose-Increase Friendly"],
+  ["hydrationSupport", "Hydration Support"],
+  ["nutrientDense", "Nutrient Dense"],
+]);
+
+function optionalNumberInput(value) {
+  return typeof value === "number" && Number.isFinite(value) ? value : "";
+}
+
+function optionalBooleanSelectValue(value) {
+  if (value === true) return "true";
+  if (value === false) return "false";
+  return "";
+}
+
+function parseOptionalBoolean(value) {
+  if (value === "true") return true;
+  if (value === "false") return false;
+  return undefined;
+}
+
+function parseOptionalNumber(value) {
+  if (value === "") return undefined;
+  const parsed = Number(value);
+  return Number.isFinite(parsed) && parsed >= 0 ? parsed : undefined;
+}
+
+function verifiedSourceLooksProvisional(value = "") {
+  return /\b(estimate|estimated|calculated|provisional|approximate|unverified)\b/i.test(
+    String(value)
+  );
+}
+
+function validateGLP1AdminRecord(record) {
+  const errors = [];
+  const warnings = [];
+  const reviewed =
+    record.glp1ReviewStatus === "Provisional" ||
+    record.glp1ReviewStatus === "Verified";
+
+  if (reviewed && !record.glp1Rating) {
+    warnings.push("Choose a GLP-1 rating or leave the recipe Not Reviewed.");
+  }
+
+  if (
+    record.glp1Score !== undefined &&
+    (record.glp1Score < 0 || record.glp1Score > 10)
+  ) {
+    errors.push("GLP-1 score must be between 0 and 10.");
+  }
+
+  if (record.glp1ReviewStatus === "Verified") {
+    if (!record.glp1ReviewedDate) {
+      errors.push("Verified records require a review date.");
+    }
+    if (!record.glp1DataSource) {
+      errors.push("Verified records require a data source.");
+    } else if (verifiedSourceLooksProvisional(record.glp1DataSource)) {
+      errors.push(
+        "Calculated, estimated, provisional, approximate, or unverified nutrition cannot be labeled Verified."
+      );
+    }
+  }
+
+  if (
+    record.suggestedGlp1ServingSize &&
+    record.smallerServingProteinGrams === undefined &&
+    record.smallerServingFiberGrams === undefined &&
+    record.smallerServingCalories === undefined
+  ) {
+    warnings.push(
+      "A smaller serving is listed without smaller-serving nutrition values."
+    );
+  }
+
+  return { errors, warnings };
+}
+
+function GLP1ReviewPanel({ recipe, current, onChange }) {
+  const validation = validateGLP1AdminRecord(current);
+  const reviewed =
+    current.glp1ReviewStatus === "Provisional" ||
+    current.glp1ReviewStatus === "Verified";
+
+  function changeField(field, value) {
+    onChange({ [field]: value });
+  }
+
+  function changeOptionalNumber(field, value) {
+    changeField(field, parseOptionalNumber(value));
+  }
+
+  function changeOptionalBoolean(field, value) {
+    changeField(field, parseOptionalBoolean(value));
+  }
+
+  return (
+    <fieldset className="adminClassifierGroup adminGlp1ReviewPanel">
+      <legend>GLP-1 Nutrition Review</legend>
+
+      <div className="adminGlp1Intro">
+        <div>
+          <strong>Optional recipe-by-recipe review</strong>
+          <p>
+            Do not assign a rating, score, or medical claim without supporting
+            nutrition information. Recipes remain Not Reviewed until you choose
+            Provisional or Verified.
+          </p>
+        </div>
+        <span className={`adminGlp1Status status-${String(current.glp1ReviewStatus || "Not Reviewed").toLowerCase().replace(/\s+/g, "-")}`}>
+          {current.glp1ReviewStatus || "Not Reviewed"}
+        </span>
+      </div>
+
+      <div className="adminGlp1PrimaryGrid">
+        <label>
+          <span>Review Status</span>
+          <select
+            value={current.glp1ReviewStatus || "Not Reviewed"}
+            onChange={(event) => changeField("glp1ReviewStatus", event.target.value)}
+          >
+            {GLP1_REVIEW_STATUSES.map((status) => (
+              <option key={status} value={status}>{status}</option>
+            ))}
+          </select>
+        </label>
+
+        <label>
+          <span>GLP-1 Rating</span>
+          <select
+            value={current.glp1Rating || ""}
+            onChange={(event) => changeField("glp1Rating", event.target.value || undefined)}
+            disabled={!reviewed}
+          >
+            <option value="">Not Assigned</option>
+            {GLP1_RATINGS.map((rating) => (
+              <option key={rating} value={rating}>{rating}</option>
+            ))}
+          </select>
+        </label>
+
+        <label>
+          <span>GLP-1 Score</span>
+          <input
+            type="number"
+            min="0"
+            max="10"
+            step="0.1"
+            value={optionalNumberInput(current.glp1Score)}
+            onChange={(event) => changeOptionalNumber("glp1Score", event.target.value)}
+            placeholder="0–10"
+            disabled={!reviewed}
+          />
+        </label>
+
+        <label>
+          <span>Review Date</span>
+          <input
+            type="date"
+            value={current.glp1ReviewedDate || ""}
+            onChange={(event) => changeField("glp1ReviewedDate", event.target.value || undefined)}
+            disabled={!reviewed}
+          />
+        </label>
+      </div>
+
+      <div className="adminGlp1LevelGrid">
+        <label>
+          <span>Protein Level</span>
+          <select
+            value={current.proteinLevel || ""}
+            onChange={(event) => changeField("proteinLevel", event.target.value || undefined)}
+          >
+            <option value="">Not Reviewed</option>
+            {GLP1_LEVELS.map((level) => <option key={level} value={level}>{level}</option>)}
+          </select>
+        </label>
+
+        <label>
+          <span>Fiber Level</span>
+          <select
+            value={current.fiberLevel || ""}
+            onChange={(event) => changeField("fiberLevel", event.target.value || undefined)}
+          >
+            <option value="">Not Reviewed</option>
+            {GLP1_LEVELS.map((level) => <option key={level} value={level}>{level}</option>)}
+          </select>
+        </label>
+
+        <label>
+          <span>Satiety Level</span>
+          <select
+            value={current.satietyLevel || ""}
+            onChange={(event) => changeField("satietyLevel", event.target.value || undefined)}
+          >
+            <option value="">Not Reviewed</option>
+            {GLP1_LEVELS.map((level) => <option key={level} value={level}>{level}</option>)}
+          </select>
+        </label>
+
+        <label>
+          <span>Added Sugar Level</span>
+          <select
+            value={current.addedSugarLevel || ""}
+            onChange={(event) => changeField("addedSugarLevel", event.target.value || undefined)}
+          >
+            <option value="">Not Reviewed</option>
+            {GLP1_LEVELS.map((level) => <option key={level} value={level}>{level}</option>)}
+          </select>
+        </label>
+      </div>
+
+      <div className="adminGlp1BooleanGrid">
+        {GLP1_BOOLEAN_FIELDS.map(([field, label]) => (
+          <label key={field}>
+            <span>{label}</span>
+            <select
+              value={optionalBooleanSelectValue(current[field])}
+              onChange={(event) => changeOptionalBoolean(field, event.target.value)}
+            >
+              <option value="">Not Reviewed</option>
+              <option value="true">Yes</option>
+              <option value="false">No</option>
+            </select>
+          </label>
+        ))}
+      </div>
+
+      <div className="adminGlp1ServingSection">
+        <h3>Suggested Smaller Serving</h3>
+        <p>
+          Enter only a recipe-specific serving that has been reviewed. Do not
+          automatically divide every standard serving in half.
+        </p>
+
+        <div className="adminGlp1ServingGrid">
+          <label className="adminGlp1WideField">
+            <span>Suggested GLP-1 Serving Size</span>
+            <input
+              type="text"
+              value={current.suggestedGlp1ServingSize || ""}
+              onChange={(event) => changeField("suggestedGlp1ServingSize", event.target.value || undefined)}
+              placeholder="Example: ¾ cup"
+            />
+          </label>
+
+          <label>
+            <span>Protein in Smaller Serving (g)</span>
+            <input
+              type="number"
+              min="0"
+              step="0.1"
+              value={optionalNumberInput(current.smallerServingProteinGrams)}
+              onChange={(event) => changeOptionalNumber("smallerServingProteinGrams", event.target.value)}
+            />
+          </label>
+
+          <label>
+            <span>Fiber in Smaller Serving (g)</span>
+            <input
+              type="number"
+              min="0"
+              step="0.1"
+              value={optionalNumberInput(current.smallerServingFiberGrams)}
+              onChange={(event) => changeOptionalNumber("smallerServingFiberGrams", event.target.value)}
+            />
+          </label>
+
+          <label>
+            <span>Calories in Smaller Serving</span>
+            <input
+              type="number"
+              min="0"
+              step="1"
+              value={optionalNumberInput(current.smallerServingCalories)}
+              onChange={(event) => changeOptionalNumber("smallerServingCalories", event.target.value)}
+            />
+          </label>
+        </div>
+      </div>
+
+      <label className="adminGlp1FullField">
+        <span>GLP-1 Notes</span>
+        <textarea
+          rows="4"
+          value={current.glp1Notes || ""}
+          onChange={(event) => changeField("glp1Notes", event.target.value || undefined)}
+          placeholder="Recipe-specific notes only. Avoid medication or treatment advice."
+        />
+      </label>
+
+      <label className="adminGlp1FullField">
+        <span>Data Source</span>
+        <input
+          type="text"
+          value={current.glp1DataSource || ""}
+          onChange={(event) => changeField("glp1DataSource", event.target.value || undefined)}
+          placeholder="USDA-based calculation, manufacturer label, registered dietitian review, etc."
+          disabled={!reviewed}
+        />
+        <small>
+          Clearly identify calculated, manufacturer-provided, USDA-based,
+          provisional, or verified information. Estimated nutrition cannot be
+          marked Verified.
+        </small>
+      </label>
+
+      {(validation.errors.length > 0 || validation.warnings.length > 0) && (
+        <div className="adminGlp1Validation" aria-live="polite">
+          {validation.errors.map((message) => (
+            <p className="error" key={message}><strong>Required:</strong> {message}</p>
+          ))}
+          {validation.warnings.map((message) => (
+            <p className="warning" key={message}><strong>Review:</strong> {message}</p>
+          ))}
+        </div>
+      )}
+
+      <div className="adminGlp1Preview">
+        <strong>Display preview</strong>
+        <span>
+          {reviewed
+            ? `${recipe.id} · ${current.glp1Rating ? `GLP-1 ${current.glp1Rating}` : "Reviewed"}${current.glp1Score !== undefined ? ` · ${current.glp1Score}/10` : ""}`
+            : `${recipe.id} · Not Yet Reviewed`}
+        </span>
+      </div>
+    </fieldset>
+  );
+}
+
+
 export default function AdminRecipeClassifier({
   recipes,
   categories,
@@ -130,13 +473,23 @@ export default function AdminRecipeClassifier({
   const selectedCount = selectedRecipeIds.length;
 
   function updateCurrent(patch) {
-    setClassifications((existing) => ({
-      ...existing,
-      [recipe.id]: {
+    setClassifications((existing) => {
+      const candidate = {
         ...current,
         ...patch,
-      },
-    }));
+      };
+
+      Object.keys(candidate).forEach((key) => {
+        if (candidate[key] === undefined || candidate[key] === "") {
+          delete candidate[key];
+        }
+      });
+
+      return {
+        ...existing,
+        [recipe.id]: normalizeRecipeClassification(recipe, candidate),
+      };
+    });
     setStatus("Unsaved changes");
   }
 
@@ -214,8 +567,23 @@ export default function AdminRecipeClassifier({
   }
 
   function saveChanges() {
+    const selectedSaved = normalizeRecipeClassification(
+      recipe,
+      classifications[recipe.id]
+    );
+    const validation = validateGLP1AdminRecord(selectedSaved);
+
+    if (validation.errors.length) {
+      setStatus(`Cannot save: ${validation.errors.join(" ")}`);
+      return;
+    }
+
     saveRecipeClassifications(classifications);
-    setStatus("Saved in this browser");
+    setStatus(
+      validation.warnings.length
+        ? `Saved in this browser with review note: ${validation.warnings.join(" ")}`
+        : "Saved in this browser"
+    );
   }
 
   function resetCurrent() {
@@ -249,6 +617,7 @@ export default function AdminRecipeClassifier({
       collections: current.collections,
       attributes: current.attributes,
       cookingMethods: current.cookingMethods,
+      ...normalizeGLP1Classification(current),
     };
 
     navigator.clipboard
@@ -262,10 +631,10 @@ export default function AdminRecipeClassifier({
       <header className="adminClassifierHeader">
         <div>
           <div className="aiBadge">ADMIN RECIPE CLASSIFICATION</div>
-          <h1>Assign Recipes to Categories & Collections</h1>
+          <h1>Assign Recipes, Collections & GLP-1 Reviews</h1>
           <p>
             Edit one recipe at a time, or select a group of recipes and add or
-            remove shared categories, collections, attributes, and cooking methods.
+            remove shared categories, collections, attributes, and cooking methods. The single-recipe editor also includes the optional GLP-1 review panel.
           </p>
         </div>
 
@@ -414,6 +783,12 @@ export default function AdminRecipeClassifier({
               options={COOKING_METHODS}
               selected={current.cookingMethods}
               onToggle={(value) => toggleListValue("cookingMethods", value)}
+            />
+
+            <GLP1ReviewPanel
+              recipe={recipe}
+              current={current}
+              onChange={updateCurrent}
             />
 
             <div className="adminClassifierActions">
