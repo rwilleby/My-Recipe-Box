@@ -34395,3 +34395,169 @@ body.rrbPopupOpen {
   }
 }
 
+/* ================================================================
+   DINNER COMBINATIONS — COMPACT-ONLY CARD REFINEMENTS
+   ================================================================ */
+
+/* Compact is now the only Dinner Combinations card view. */
+.dinnerViewToggle {
+  display: none !important;
+}
+
+.dinnerCombinationGrid--grid {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 18px !important;
+}
+
+/*
+  Lower action area:
+  Heating notes remain on the left.
+  Recipe Cards sit at the upper-right.
+  Add Meal to Plan sits directly below Recipe Cards.
+*/
+.dinnerAreaActionsExpanded {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.28fr) minmax(430px, .92fr) !important;
+  grid-template-rows: auto auto !important;
+  grid-template-areas:
+    "heating recipes"
+    "heating planner" !important;
+  gap: 0 !important;
+  align-items: stretch !important;
+}
+
+.dinnerAreaActionsExpanded .dinnerCombinationHeatingPanel {
+  grid-area: heating !important;
+  align-self: stretch !important;
+}
+
+.dinnerAreaActionsExpanded .dinnerCombinationRecipeButtons {
+  grid-area: recipes !important;
+  align-self: start !important;
+  padding: 14px 16px 10px !important;
+  border-bottom: 1px solid #e0e8e2 !important;
+}
+
+.dinnerAreaActionsExpanded .dinnerCombinationRecipeButtonGrid {
+  align-items: start !important;
+}
+
+/* Match both lower-panel headings to the nutrition heading treatment. */
+.dinnerCombinationHeatingPanel h4,
+.dinnerCombinationRecipeButtons h4 {
+  margin: 0 0 10px !important;
+  color: #667085 !important;
+  font-family: var(--rrb-body-font, Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif) !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+  letter-spacing: .055em !important;
+  text-transform: uppercase !important;
+}
+
+/* Recipe preview opens upward so it stays readable above the buttons. */
+.dinnerRecipePopupItem {
+  position: relative !important;
+  overflow: visible !important;
+}
+
+.dinnerRecipeMiniPopup {
+  position: absolute !important;
+  left: 50% !important;
+  right: auto !important;
+  top: auto !important;
+  bottom: calc(100% + 10px) !important;
+  transform: translateX(-50%) !important;
+  z-index: 160000 !important;
+  width: min(330px, 78vw) !important;
+  max-height: min(52vh, 380px) !important;
+  overflow-y: auto !important;
+}
+
+.dinnerRecipeMiniPopup::after {
+  content: "" !important;
+  position: absolute !important;
+  left: 50% !important;
+  top: auto !important;
+  bottom: -7px !important;
+  width: 12px !important;
+  height: 12px !important;
+  transform: translateX(-50%) rotate(45deg) !important;
+  background: #ffffff !important;
+  border-right: 1px solid #d9eadc !important;
+  border-bottom: 1px solid #d9eadc !important;
+}
+
+/* Planner row directly under Recipe Cards: dropdown left, button right. */
+.dinnerAreaActionsExpanded .dinnerCombinationPlannerAdd {
+  grid-area: planner !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(112px, auto) !important;
+  align-items: end !important;
+  align-content: start !important;
+  gap: 10px !important;
+  padding: 10px 16px 14px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: #f7faf7 !important;
+}
+
+.dinnerAreaActionsExpanded .dinnerCombinationPlannerAdd label {
+  min-width: 0 !important;
+}
+
+.dinnerAreaActionsExpanded .dinnerCombinationPlannerAdd select {
+  width: 100% !important;
+}
+
+.dinnerAreaActionsExpanded .dinnerCombinationPlannerAdd > button {
+  min-width: 112px !important;
+  width: auto !important;
+  white-space: nowrap !important;
+}
+
+.dinnerAreaActionsExpanded .dinnerCombinationAddedMessage {
+  grid-column: 1 / -1 !important;
+}
+
+/* Keep the three Recipe Card boxes aligned with the top of Heating & Freezer Notes. */
+.dinnerAreaActionsExpanded .dinnerCombinationRecipeButtons,
+.dinnerAreaActionsExpanded .dinnerCombinationHeatingPanel {
+  padding-top: 14px !important;
+}
+
+@media (max-width: 1120px) {
+  .dinnerAreaActionsExpanded {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto !important;
+    grid-template-areas:
+      "heating"
+      "recipes"
+      "planner" !important;
+  }
+
+  .dinnerAreaActionsExpanded .dinnerCombinationHeatingPanel {
+    border-right: 0 !important;
+    border-bottom: 1px solid #e0e8e2 !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .dinnerAreaActionsExpanded .dinnerCombinationPlannerAdd {
+    grid-template-columns: minmax(0, 1fr) auto !important;
+  }
+
+  .dinnerRecipeMiniPopup {
+    left: 0 !important;
+    right: auto !important;
+    width: min(320px, calc(100vw - 48px)) !important;
+    transform: none !important;
+  }
+
+  .dinnerRecipeMiniPopup::after {
+    left: 34px !important;
+    transform: rotate(45deg) !important;
+  }
+}
+

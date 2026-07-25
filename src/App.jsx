@@ -10678,7 +10678,7 @@ function DinnerCombinationsPage({ setActivePage, setFilter, setPlan, openRecipeC
   const [lowerCalorieOnly, setLowerCalorieOnly] = useState(false);
   const [higherProteinOnly, setHigherProteinOnly] = useState(false);
   const [sortMode, setSortMode] = useState("meal-number");
-  const [viewMode, setViewMode] = useState("list");
+
 
   const filteredMeals = useMemo(() => {
     const normalizedSearch = searchTerm.trim().toLowerCase();
@@ -10868,23 +10868,6 @@ function DinnerCombinationsPage({ setActivePage, setFilter, setPlan, openRecipeC
             </label>
           </div>
 
-          <div className="dinnerViewToggle" aria-label="Dinner combination view">
-            <button
-              type="button"
-              className={viewMode === "list" ? "active" : ""}
-              onClick={() => setViewMode("list")}
-            >
-              List
-            </button>
-            <button
-              type="button"
-              className={viewMode === "grid" ? "active" : ""}
-              onClick={() => setViewMode("grid")}
-            >
-              Compact
-            </button>
-          </div>
-
           <button type="button" className="dinnerToolbarClear" onClick={clearDinnerCombinationFilters}>
             Clear
           </button>
@@ -10898,7 +10881,7 @@ function DinnerCombinationsPage({ setActivePage, setFilter, setPlan, openRecipeC
 
       {filteredMeals.length > 0 ? (
         <section
-          className={`dinnerCombinationGrid dinnerCombinationGrid--${viewMode}`}
+          className="dinnerCombinationGrid dinnerCombinationGrid--grid"
           aria-label="Dinner combination results"
         >
           {filteredMeals.map((meal) => (
