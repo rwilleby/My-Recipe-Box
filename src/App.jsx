@@ -13697,12 +13697,33 @@ export default function App() {
               <div>
                 <div className="aiBadge">GET IN TOUCH</div>
                 <h2 id="contact-action-title">Contact Robert’s Recipe Box</h2>
-                <p>Questions, corrections, recipe suggestions, family-recipe submissions, and website feedback are welcome. Choose the contact method that works best for you.</p>
+                <p>Questions, corrections, privacy concerns, website feedback, and business or affiliate inquiries are welcome. Please use the email address that best matches your message.</p>
               </div>
-              <div className="contactActionButtons">
-                <a className="contactActionButton email" href="mailto:recipes@handsontech.cc">✉ Email Robert</a>
-                <a className="contactActionButton facebook" href="https://www.facebook.com/" target="_blank" rel="noreferrer">f Facebook</a>
-                <a className="contactActionButton instagram" href="https://www.instagram.com/" target="_blank" rel="noreferrer">◎ Instagram</a>
+              <div className="contactEmailList" aria-label="Robert’s Recipe Box email addresses">
+                <p>
+                  <strong>General questions:</strong>{" "}
+                  <a href="mailto:robert@roberts-recipe-box.com">
+                    robert@roberts-recipe-box.com
+                  </a>
+                </p>
+                <p>
+                  <strong>Recipe questions or corrections:</strong>{" "}
+                  <a href="mailto:recipes@roberts-recipe-box.com">
+                    recipes@roberts-recipe-box.com
+                  </a>
+                </p>
+                <p>
+                  <strong>Privacy concerns:</strong>{" "}
+                  <a href="mailto:privacy@roberts-recipe-box.com">
+                    privacy@roberts-recipe-box.com
+                  </a>
+                </p>
+                <p>
+                  <strong>Business and affiliate inquiries:</strong>{" "}
+                  <a href="mailto:affiliates@roberts-recipe-box.com">
+                    affiliates@roberts-recipe-box.com
+                  </a>
+                </p>
               </div>
             </section>
           </main>
