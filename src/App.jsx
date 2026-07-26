@@ -3435,6 +3435,7 @@ function RecipeCard({
   viewButtonText = "View Full Size Recipe Card",
   displayMode = "hero",
   viewerContext = "",
+  favoritesOnly = false,
 }) {
   const isBrowseCard = displayMode === "card";
   const browseTags = isBrowseCard ? getRecipeBrowseTags(recipe) : [];
@@ -3514,6 +3515,66 @@ function RecipeCard({
         )}
 
         {isBrowseCard ? (
+          favoritesOnly ? (
+            <>
+              <div className="browseRecipeControlRegion browseRecipeReorderedControls favoritesRecipeControls">
+                <div className="recipeActions browseRecipeActions favoritesRecipeActionRow">
+                  <button
+                    type="button"
+                    className="viewCard browseRecipeActionButton"
+                    onClick={() => openRecipeCard(recipe.id, cardList, viewerContext)}
+                  >
+                    View Recipe Card
+                  </button>
+
+                  <button
+                    type="button"
+                    className={`recipeNotesButton ${browseInlinePanel === "notes" ? "active" : ""}`}
+                    onClick={() => toggleBrowseInlinePanel("notes")}
+                    aria-expanded={browseInlinePanel === "notes"}
+                  >
+                    Your Notes
+                  </button>
+                </div>
+
+                <div className="browseRecipeBubbleRow favoritesRecipeBubbleRow" aria-label="Recipe summary">
+                  <span className="browseRecipeSummaryBubble browseRecipeTimeBubble">◷ {recipe.time} min</span>
+                  <MealBalanceBadge item={recipe} className="recipeMealBalanceBadge browseRecipeMealBalanceBadge" />
+                  <span className="browseRecipeSummaryBubble browseRecipeGlp1Bubble">{glp1BubbleLabel}</span>
+                  <button
+                    type="button"
+                    className={`heart browseCardHeart browseRecipeFavoriteBubble ${isFavorite ? "saved" : ""}`}
+                    onClick={() => toggleFavorite(recipe.id)}
+                    aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
+                    title={isFavorite ? "Saved as a favorite" : "Add to favorites"}
+                  >
+                    <span aria-hidden="true">{isFavorite ? "♥" : "♡"}</span>
+                    <small>Favorite</small>
+                  </button>
+                </div>
+
+                {browseInlinePanel === "notes" && (
+                  <section className="browseRecipeInlinePanel browseRecipeInlineNotes browseRecipeEditableNotes" aria-label={`${recipe.title} personal notes`}>
+                    <button type="button" className="browseRecipeInlinePanelToggle" onClick={() => setBrowseInlinePanel(null)} aria-label="Close Your Notes">
+                      <strong>Your Notes</strong><span>×</span>
+                    </button>
+                    <div className="browseRecipeInlinePanelBody">
+                      <textarea
+                        value={userNote}
+                        onChange={(event) => { setUserNote(event.target.value); setNoteSaved(false); }}
+                        placeholder="Enter your personal notes about this recipe..."
+                        aria-label={`Personal notes for ${recipe.title}`}
+                      />
+                      <div className="browseRecipeNotesActions">
+                        <button type="button" onClick={savePersonalNote}>Save Notes</button>
+                        <small>{noteSaved ? "Saved" : "Stored only in this browser"}</small>
+                      </div>
+                    </div>
+                  </section>
+                )}
+              </div>
+            </>
+          ) : (
           <>
             <div className="browseRecipeControlRegion browseRecipeReorderedControls">
               <div className="browseRecipeInfoButtonRow" aria-label="Recipe information dropdowns">
@@ -3679,6 +3740,7 @@ function RecipeCard({
               ))}
             </div>
           </>
+          )
         ) : (
           <>
             <MealBalanceBadge item={recipe} className="recipeMealBalanceBadge" />
@@ -8087,6 +8149,8 @@ function FavoritesPage({
                       addToPlan={addToPlan}
                       openRecipeCard={openRecipeCard}
                       cardList={savedRecipes}
+                      displayMode="card"
+                      favoritesOnly
                     />
                   ))}
                 </div>
@@ -10519,6 +10583,10 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard, favorite
   const [addedMessage, setAddedMessage] = useState("");
   const [mealImageIndex, setMealImageIndex] = useState(0);
   const [mealImageFailed, setMealImageFailed] = useState(false);
+  const dinnerScaleFrameRef = useRef(null);
+  const dinnerScaleCardRef = useRef(null);
+  const [dinnerCardScale, setDinnerCardScale] = useState(1);
+  const [dinnerCardScaledHeight, setDinnerCardScaledHeight] = useState(0);
 
   const paddedMealNumber = String(meal.number).padStart(3, "0");
   const mealImageCandidates = dinnerMealImageCandidates(meal);
@@ -10563,8 +10631,54 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard, favorite
     });
   }
 
+  useEffect(() => {
+    const frame = dinnerScaleFrameRef.current;
+    const card = dinnerScaleCardRef.current;
+    if (!frame || !card) return undefined;
+
+    const baseWidth = 1500;
+
+    const updateDinnerCardScale = () => {
+      const availableWidth = frame.clientWidth;
+      if (!availableWidth) return;
+
+      const nextScale = availableWidth / baseWidth;
+      const naturalHeight = card.scrollHeight;
+
+      setDinnerCardScale(nextScale);
+      setDinnerCardScaledHeight(Math.ceil(naturalHeight * nextScale));
+    };
+
+    updateDinnerCardScale();
+
+    const observer =
+      typeof ResizeObserver !== "undefined"
+        ? new ResizeObserver(updateDinnerCardScale)
+        : null;
+
+    observer?.observe(frame);
+    observer?.observe(card);
+    window.addEventListener("resize", updateDinnerCardScale);
+
+    return () => {
+      observer?.disconnect();
+      window.removeEventListener("resize", updateDinnerCardScale);
+    };
+  }, [meal, activeRecipePopup, addedMessage, mealImageFailed, mealImageIndex]);
+
   return (
-    <article className={`dinnerCombinationCard${activeMealImage ? " hasMealImage" : ""}`}>
+    <div
+      ref={dinnerScaleFrameRef}
+      className="dinnerCombinationScaleFrame"
+      style={{
+        "--dinner-card-scale": dinnerCardScale,
+        height: dinnerCardScaledHeight ? `${dinnerCardScaledHeight}px` : undefined,
+      }}
+    >
+      <article
+        ref={dinnerScaleCardRef}
+        className={`dinnerCombinationCard dinnerCombinationScaleCard${activeMealImage ? " hasMealImage" : ""}`}
+      >
       <div className="dinnerCombinationMealBadge">Meal #{meal.number}</div>
 
       {typeof toggleFavorite === "function" && (
@@ -10789,7 +10903,8 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard, favorite
       </div>
 
 
-    </article>
+      </article>
+    </div>
   );
 }
 
