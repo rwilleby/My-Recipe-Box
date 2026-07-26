@@ -34935,3 +34935,76 @@ body.rrbPopupOpen {
   }
 }
 
+/* ================================================================
+   HOME HERO BACKUP REMINDER BUTTON
+   ================================================================ */
+
+.homeHeroBackupDueButton {
+  position: absolute !important;
+  top: 18px !important;
+  right: 22px !important;
+  z-index: 8 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 7px !important;
+  min-height: 38px !important;
+  border: 1px solid rgba(255, 255, 255, .72) !important;
+  border-radius: 999px !important;
+  background: rgba(20, 83, 45, .94) !important;
+  color: #ffffff !important;
+  padding: 8px 14px !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  letter-spacing: .035em !important;
+  box-shadow: 0 4px 14px rgba(17, 24, 39, .18) !important;
+  cursor: pointer !important;
+}
+
+.homeHeroBackupDueButton:hover {
+  background: #0f4425 !important;
+}
+
+.homeHeroBackupDueButton span {
+  font-size: 14px !important;
+  line-height: 1 !important;
+}
+
+@media (max-width: 680px) {
+  .homeHeroBackupDueButton {
+    top: 12px !important;
+    right: 12px !important;
+    min-height: 34px !important;
+    padding: 7px 11px !important;
+    font-size: 11px !important;
+  }
+}
+
+.userDataBackupCompleteActions {
+  display: flex !important;
+  justify-content: flex-end !important;
+  margin-top: 14px !important;
+  padding-top: 14px !important;
+  border-top: 1px solid rgba(20, 83, 45, .14) !important;
+}
+
+.userDataBackupCompleteActions button {
+  min-height: 42px !important;
+  border: 0 !important;
+  border-radius: 9px !important;
+  background: #14532d !important;
+  color: #ffffff !important;
+  padding: 10px 16px !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+}
+
+@media (max-width: 680px) {
+  .userDataBackupCompleteActions {
+    justify-content: stretch !important;
+  }
+
+  .userDataBackupCompleteActions button {
+    width: 100% !important;
+  }
+}
+

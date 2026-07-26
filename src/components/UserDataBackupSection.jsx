@@ -11,12 +11,13 @@ const SUCCESS_RESTORE = "Your Recipe Box information has been restored successfu
 const ERROR_RESTORE =
   "We could not restore this file. Please select a valid Robert’s Recipe Box backup file.";
 
-export default function UserDataBackupSection({ onRestored }) {
+export default function UserDataBackupSection({ onRestored, onClose }) {
   const inputRef = useRef(null);
   const dialogRef = useRef(null);
   const [pendingBackup, setPendingBackup] = useState(null);
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("status");
+  const [backupComplete, setBackupComplete] = useState(false);
 
   function announce(text, type = "status") {
     setMessage(text);
@@ -43,6 +44,7 @@ export default function UserDataBackupSection({ onRestored }) {
         })
       );
 
+      setBackupComplete(true);
       announce(SUCCESS_BACKUP, "success");
     } catch {
       announce("We could not create your backup. Please try again.", "error");
@@ -128,6 +130,14 @@ export default function UserDataBackupSection({ onRestored }) {
       >
         {message}
       </div>
+
+      {backupComplete && typeof onClose === "function" && (
+        <div className="userDataBackupCompleteActions">
+          <button type="button" className="primary" onClick={onClose}>
+            Close and Return Home
+          </button>
+        </div>
+      )}
 
       <dialog ref={dialogRef} className="userDataDialog" aria-labelledby="restore-dialog-title">
         <form method="dialog" onSubmit={(event) => event.preventDefault()}>

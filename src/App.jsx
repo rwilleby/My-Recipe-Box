@@ -1722,7 +1722,7 @@ function Hero({ setActivePage }) {
 
       <div className="heroOverlay" aria-hidden="true" />
 
-      {backupReminderStatus.isDue && (
+      {(backupReminderStatus.hasNeverBackedUp || backupReminderStatus.isDue) && (
         <button
           type="button"
           className="homeHeroBackupDueButton"
