@@ -1665,9 +1665,13 @@ function HeroInfoButtons({ setActivePage }) {
 
 function Hero({ setActivePage }) {
   const [heroIndex, setHeroIndex] = useState(0);
-  const [backupDue, setBackupDue] = useState(() =>
-    backupReminderDates(readBackupReminderState()).isDue
-  );
+  const [backupReminderStatus, setBackupReminderStatus] = useState(() => {
+    const reminderState = readBackupReminderState();
+    return {
+      isDue: backupReminderDates(reminderState).isDue,
+      hasNeverBackedUp: !reminderState.lastBackupAt,
+    };
+  });
 
   useEffect(() => {
     const timer = window.setInterval(() => {
@@ -1679,7 +1683,11 @@ function Hero({ setActivePage }) {
 
   useEffect(() => {
     function refreshBackupDue() {
-      setBackupDue(backupReminderDates(readBackupReminderState()).isDue);
+      const reminderState = readBackupReminderState();
+      setBackupReminderStatus({
+        isDue: backupReminderDates(reminderState).isDue,
+        hasNeverBackedUp: !reminderState.lastBackupAt,
+      });
     }
 
     refreshBackupDue();
@@ -1714,15 +1722,19 @@ function Hero({ setActivePage }) {
 
       <div className="heroOverlay" aria-hidden="true" />
 
-      {backupDue && (
+      {(backupReminderStatus.hasNeverBackedUp || backupReminderStatus.isDue) && (
         <button
           type="button"
           className="homeHeroBackupDueButton"
           onClick={() => setActivePage("User Backup")}
-          aria-label="Browser backup is due. Open Backup and Restore."
+          aria-label={
+            backupReminderStatus.hasNeverBackedUp
+              ? "Your first browser backup has not been created. Open Backup and Restore."
+              : "Browser backup is due. Open Backup and Restore."
+          }
         >
           <span aria-hidden="true">♥</span>
-          Backup Due
+          {backupReminderStatus.hasNeverBackedUp ? "First Backup Needed" : "Backup Due"}
         </button>
       )}
 

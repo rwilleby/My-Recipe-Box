@@ -133,11 +133,7 @@ export default function UserDataBackupSection({ onRestored, onClose }) {
 
       {backupComplete && typeof onClose === "function" && (
         <div className="userDataBackupCompleteActions">
-          <button
-            type="button"
-            className="primary"
-            onClick={onClose}
-          >
+          <button type="button" className="primary" onClick={onClose}>
             Close and Return Home
           </button>
         </div>
