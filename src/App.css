@@ -35971,3 +35971,102 @@ body.rrbPopupOpen {
   }
 }
 
+/* ================================================================
+   DINNER COMBINATIONS — ADDITIONAL 50% TYPE INCREASE
+   Applies on top of the Version 30 larger-type settings.
+   ================================================================ */
+
+.dinnerCombinationScaleCard .dinnerAreaName h3,
+.dinnerCombinationScaleCard .dinnerCombinationCard h3 {
+  font-size: 51px !important;
+  line-height: 1 !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationSubtitle {
+  font-size: 25.5px !important;
+  line-height: 1.18 !important;
+}
+
+.dinnerCombinationScaleCard .comboMealBalanceDetails,
+.dinnerCombinationScaleCard .comboMealBalanceDetails strong,
+.dinnerCombinationScaleCard .comboMealBalanceDetails span {
+  font-size: 21px !important;
+  line-height: 1.18 !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationNutritionLabel {
+  font-size: 22.5px !important;
+  letter-spacing: .025em !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationNutritionExpanded strong {
+  font-size: 36px !important;
+  line-height: 1 !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationNutritionExpanded small {
+  font-size: 19.5px !important;
+  line-height: 1.1 !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationStackedMeal span {
+  font-size: 19.5px !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationStackedMeal strong {
+  font-size: 25.5px !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationStackedMeal small {
+  font-size: 21px !important;
+}
+
+.dinnerCombinationScaleCard .comboRegularGroceryIngredients h3,
+.dinnerCombinationScaleCard .comboPreparedComponents h3 {
+  font-size: 30px !important;
+}
+
+.dinnerCombinationScaleCard .comboCompactIngredientRows strong,
+.dinnerCombinationScaleCard .comboCompactIngredientRows span {
+  font-size: 21px !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationHeatingPanel h4,
+.dinnerCombinationScaleCard .dinnerCombinationRecipeButtons h4 {
+  font-size: 22.5px !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationHeatingPanelGrid span {
+  font-size: 18px !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationHeatingPanelGrid strong {
+  font-size: 22.5px !important;
+  line-height: 1.28 !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationRecipeButtonGrid button span {
+  font-size: 18px !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationRecipeButtonGrid button {
+  font-size: 22.5px !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationPlannerAdd label,
+.dinnerCombinationScaleCard .dinnerCombinationPlannerAdd select,
+.dinnerCombinationScaleCard .dinnerCombinationPlannerAdd button {
+  font-size: 21px !important;
+}
+
+/* Preserve room for the enlarged type without changing the approved layout. */
+.dinnerCombinationScaleCard .dinnerAreaName,
+.dinnerCombinationScaleCard .dinnerAreaDishes,
+.dinnerCombinationScaleCard .dinnerAreaGroceries,
+.dinnerCombinationScaleCard .dinnerAreaNutrition,
+.dinnerCombinationScaleCard .dinnerCombinationHeatingPanel,
+.dinnerCombinationScaleCard .dinnerCombinationRecipeButtons,
+.dinnerCombinationScaleCard .dinnerCombinationPlannerAdd {
+  overflow: hidden !important;
+}
+
