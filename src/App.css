@@ -36239,7 +36239,7 @@ body.rrbPopupOpen {
 
 /* 1 — Increase REGULAR GROCERY INGREDIENTS heading. */
 .dinnerCombinationScaleCard .comboRegularGroceryIngredients h3 {
-  font-size: 27px !important;
+  font-size: 32px !important;
   line-height: 1.15 !important;
   letter-spacing: .04em !important;
 }
@@ -36262,5 +36262,25 @@ body.rrbPopupOpen {
   padding: 0 15px !important;
   font-size: 18.7px !important;
   border-radius: 0 0 12px 0 !important;
+}
+
+/* ================================================================
+   VERSION 31b — REGULAR GROCERY INGREDIENTS TYPE INCREASE
+   ================================================================ */
+
+.dinnerCombinationScaleCard .comboRegularGroceryIngredients h3 {
+  font-size: 32px !important;
+  line-height: 1.1 !important;
+  letter-spacing: .03em !important;
+}
+
+.dinnerCombinationScaleCard .comboRegularGroceryIngredients .comboCompactIngredientRows strong,
+.dinnerCombinationScaleCard .comboRegularGroceryIngredients .comboCompactIngredientRows span {
+  font-size: 25px !important;
+  line-height: 1.15 !important;
+}
+
+.dinnerCombinationScaleCard .comboRegularGroceryIngredients .comboCompactIngredientRows p {
+  gap: 12px !important;
 }
 
