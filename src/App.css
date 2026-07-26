@@ -35187,3 +35187,336 @@ body.rrbPopupOpen {
   }
 }
 
+/* =========================================================
+   JULY 26 — RECIPE LIST CARD CONTROL REORDER + VIEWER WIDTH
+   ========================================================= */
+
+/* Recipe artwork remains first; controls begin directly below it. */
+.browseRecipeGrid .recipeCardFullImage .recipeBody {
+  padding-top: 8px !important;
+}
+
+.browseRecipeGrid .recipeCardFullImage .browseRecipeReorderedControls {
+  position: relative !important;
+  min-height: 238px !important;
+}
+
+/* Row 1: Nutrition | MealBalance | GLP-1 dropdown buttons. */
+.browseRecipeInfoButtonRow {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 7px !important;
+  margin: 0 0 7px !important;
+}
+
+.browseRecipeDropdownButton {
+  min-width: 0 !important;
+  height: 34px !important;
+  min-height: 34px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 7px !important;
+  padding: 4px 7px !important;
+  border: 1px solid #b7cfbc !important;
+  border-radius: 999px !important;
+  background: #f7fbf8 !important;
+  color: #1f5b37 !important;
+  font-size: 10.5px !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+}
+
+.browseRecipeDropdownButton.active,
+.browseRecipeDropdownButton:hover {
+  background: #1f5b37 !important;
+  color: #ffffff !important;
+  border-color: #1f5b37 !important;
+}
+
+.browseRecipeDropdownButton span:last-child {
+  font-size: 8px !important;
+}
+
+/* Rows 2–4: two buttons per row, one-third shorter than the prior 40px controls. */
+.browseRecipeGrid .recipeCardFullImage .browseRecipeActionRows {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  grid-template-rows: repeat(3, 27px) !important;
+  gap: 6px 8px !important;
+  margin: 0 !important;
+}
+
+.browseRecipeGrid .recipeCardFullImage .browseRecipeActionRows > *,
+.browseRecipeGrid .recipeCardFullImage .browseRecipeActionRows button,
+.browseRecipeGrid .recipeCardFullImage .browseRecipeActionRows .browseRecipeActionCell,
+.browseRecipeGrid .recipeCardFullImage .browseRecipeActionRows .browseRecipeActionCell > div {
+  width: 100% !important;
+  min-width: 0 !important;
+  height: 27px !important;
+  min-height: 27px !important;
+  margin: 0 !important;
+}
+
+.browseRecipeGrid .recipeCardFullImage .browseRecipeActionRows button {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 2px 6px !important;
+  border-radius: 0 !important;
+  font-size: 10.5px !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+  text-align: center !important;
+  text-transform: uppercase !important;
+  white-space: normal !important;
+}
+
+.browseRecipeGrid .recipeCardFullImage .browseRecipeSmartTipsButton {
+  font-size: 9.5px !important;
+}
+
+/* Summary row: equal-height bubbles with centered content. */
+.browseRecipeBubbleRow {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 8px !important;
+  min-height: 36px !important;
+  margin-top: 9px !important;
+}
+
+.browseRecipeSummaryBubble,
+.browseRecipeGrid .recipeCardFullImage .browseRecipeMealBalanceBadge,
+.browseRecipeGrid .recipeCardFullImage .browseRecipeFavoriteBubble {
+  height: 32px !important;
+  min-height: 32px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+}
+
+.browseRecipeSummaryBubble {
+  border: 1px solid #d8ddd9 !important;
+  border-radius: 999px !important;
+  background: #ffffff !important;
+  color: #5d625f !important;
+  padding: 0 11px !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  white-space: nowrap !important;
+}
+
+.browseRecipeGrid .recipeCardFullImage .browseRecipeMealBalanceBadge.mealBalanceBadge {
+  width: 32px !important;
+  min-width: 32px !important;
+  border-radius: 50% !important;
+}
+
+.browseRecipeGlp1Bubble {
+  border-color: #b7cfbc !important;
+  color: #1f5b37 !important;
+  background: #f5faf6 !important;
+}
+
+.browseRecipeGrid .recipeCardFullImage .browseRecipeFavoriteBubble {
+  position: static !important;
+  width: auto !important;
+  min-width: 88px !important;
+  padding: 0 11px !important;
+  border: 1px solid #f2a9ba !important;
+  border-radius: 999px !important;
+  background: #fff7fa !important;
+  color: #ef476f !important;
+  gap: 5px !important;
+}
+
+.browseRecipeGrid .recipeCardFullImage .browseRecipeFavoriteBubble small {
+  color: inherit !important;
+  font-size: 9.5px !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+}
+
+.browseRecipeCuisineBubbleRow {
+  min-height: 32px !important;
+  align-items: center !important;
+  margin-top: 10px !important;
+}
+
+.browseRecipeCuisineBubbleRow .browseRecipeTag {
+  min-height: 28px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* Shared dropdown panel style for Nutrition, MealBalance and GLP-1. */
+.browseRecipeGrid .recipeCardFullImage .browseRecipeDropdownPanel,
+.browseRecipeGrid .recipeCardFullImage .browseRecipeInlinePanel {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 40 !important;
+  display: grid !important;
+  grid-template-rows: 34px minmax(0, 1fr) !important;
+  overflow: hidden !important;
+  border: 1px solid #c9dccd !important;
+  border-radius: 12px !important;
+  background: #ffffff !important;
+  box-shadow: 0 10px 26px rgba(20, 50, 34, .16) !important;
+}
+
+.browseRecipeGrid .recipeCardFullImage .browseRecipeInlinePanelToggle {
+  height: 34px !important;
+  min-height: 34px !important;
+  padding: 5px 10px !important;
+  background: #f4f8f5 !important;
+}
+
+.browseRecipeGrid .recipeCardFullImage .browseRecipeInlinePanelBody {
+  padding: 9px 10px !important;
+  overflow-y: auto !important;
+}
+
+.browseRecipeInfoPlaceholder {
+  display: grid !important;
+  align-content: start !important;
+  gap: 7px !important;
+}
+
+.browseRecipeSmartTipsText,
+.browseRecipeSmartTipsText p {
+  font-size: 9.5px !important;
+  line-height: 1.22 !important;
+}
+
+.browseRecipeEmbeddedGlp1 {
+  border: 0 !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+}
+
+.browseRecipeEmbeddedGlp1 .glp1RecipeSupportDetails {
+  border: 0 !important;
+  padding: 0 !important;
+}
+
+/* Editable personal notes stored in browser localStorage. */
+.browseRecipeEditableNotes textarea {
+  width: 100% !important;
+  min-height: 118px !important;
+  resize: vertical !important;
+  border: 1px solid #d9cfbd !important;
+  border-radius: 8px !important;
+  background: #fffdf7 !important;
+  color: #2f261c !important;
+  padding: 9px 10px !important;
+  font-family: "Bradley Hand", "Segoe Print", "Comic Sans MS", cursive !important;
+  font-size: 14px !important;
+  line-height: 1.35 !important;
+}
+
+.browseRecipeNotesActions {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 8px !important;
+  margin-top: 8px !important;
+}
+
+.browseRecipeNotesActions button {
+  min-height: 28px !important;
+  padding: 0 11px !important;
+  border: 1px solid #7a4f28 !important;
+  border-radius: 999px !important;
+  background: #ffffff !important;
+  color: #7a4f28 !important;
+  font-size: 10px !important;
+  font-weight: 800 !important;
+}
+
+.browseRecipeNotesActions small {
+  font-size: 9px !important;
+}
+
+/* Wider viewer with all footer controls kept on one desktop row. */
+.cardViewer {
+  width: min(98vw, 1480px) !important;
+  max-height: 96vh !important;
+}
+
+.cardViewerStage {
+  min-height: 0 !important;
+  padding: 12px 18px !important;
+}
+
+.cardViewerImageWrap img {
+  max-height: 61vh !important;
+}
+
+.cardViewerUnifiedFooter {
+  padding: 10px 16px !important;
+}
+
+.viewerUnifiedActions {
+  flex-wrap: nowrap !important;
+  gap: 7px !important;
+}
+
+.viewerActionButton,
+.viewerActionHeart {
+  min-height: 36px !important;
+  padding: 0 11px !important;
+  font-size: 12px !important;
+  white-space: nowrap !important;
+}
+
+.viewerActionHeart {
+  width: 38px !important;
+  min-width: 38px !important;
+  padding: 0 !important;
+}
+
+@media (max-width: 1050px) {
+  .viewerUnifiedActions {
+    flex-wrap: wrap !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .browseRecipeGrid .recipeCardFullImage .browseRecipeReorderedControls {
+    min-height: 232px !important;
+  }
+
+  .browseRecipeInfoButtonRow {
+    gap: 5px !important;
+  }
+
+  .browseRecipeDropdownButton {
+    font-size: 9px !important;
+    padding-inline: 4px !important;
+  }
+
+  .browseRecipeBubbleRow {
+    gap: 5px !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+  }
+
+  .browseRecipeGrid .recipeCardFullImage .browseRecipeFavoriteBubble {
+    min-width: 82px !important;
+  }
+
+  .cardViewer {
+    width: 100% !important;
+    max-height: 97vh !important;
+  }
+
+  .cardViewerImageWrap img {
+    max-height: 52vh !important;
+  }
+}
+

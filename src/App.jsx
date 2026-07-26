@@ -3248,7 +3248,7 @@ function getGLP1RecipeDisplayData(recipe) {
   };
 }
 
-function GLP1RecipeSupportPanel({ recipe, compact = false, className = "" }) {
+function GLP1RecipeSupportPanel({ recipe, compact = false, className = "", detailsOnly = false }) {
   const [open, setOpen] = useState(false);
   const data = getGLP1RecipeDisplayData(recipe);
 
@@ -3262,18 +3262,21 @@ function GLP1RecipeSupportPanel({ recipe, compact = false, className = "" }) {
   const scoreText =
     data.score !== null ? `${Math.round(data.score * 10) / 10}/10` : "";
 
+  const panelOpen = detailsOnly || open;
+
   return (
     <section
       className={[
         "glp1RecipeSupport",
         compact ? "compact" : "expanded",
-        open ? "open" : "",
+        panelOpen ? "open" : "",
         className,
       ]
         .filter(Boolean)
         .join(" ")}
       aria-label={`${recipe.title} GLP-1 nutrition support information`}
     >
+      {!detailsOnly && (
       <div className="glp1RecipeSupportSummary">
         <span
           className={`glp1RatingBadge rating-${String(data.rating || "reviewed")
@@ -3308,8 +3311,9 @@ function GLP1RecipeSupportPanel({ recipe, compact = false, className = "" }) {
           {open ? "Close" : "GLP-1 info"}
         </button>
       </div>
+      )}
 
-      {open && (
+      {panelOpen && (
         <div className="glp1RecipeSupportDetails">
           <div className="glp1SupportingIndicators">
             <article>
@@ -3438,11 +3442,46 @@ function RecipeCard({
   const showBuilderGuide = isSaladJarRecipe(recipe) || isHamburgerRecipe(recipe);
   const [browseInlinePanel, setBrowseInlinePanel] = useState(null);
   const browseSmartTips = isBrowseCard ? getRecipeSmartTips(recipe) : null;
-  const browsePersonalNote = isBrowseCard ? getRecipePersonalNote(recipe) : null;
+  const glp1Display = isBrowseCard ? getGLP1RecipeDisplayData(recipe) : null;
+  const noteStorageKey = `rrb-recipe-note-${recipe.id}`;
+  const [userNote, setUserNote] = useState(() => {
+    try {
+      return window.localStorage.getItem(noteStorageKey) || "";
+    } catch {
+      return "";
+    }
+  });
+  const [noteSaved, setNoteSaved] = useState(false);
+
+  useEffect(() => {
+    setBrowseInlinePanel(null);
+    setNoteSaved(false);
+    try {
+      setUserNote(window.localStorage.getItem(noteStorageKey) || "");
+    } catch {
+      setUserNote("");
+    }
+  }, [noteStorageKey]);
 
   function toggleBrowseInlinePanel(panelName) {
     setBrowseInlinePanel((current) => (current === panelName ? null : panelName));
   }
+
+  function savePersonalNote() {
+    try {
+      window.localStorage.setItem(noteStorageKey, userNote);
+      setNoteSaved(true);
+      window.setTimeout(() => setNoteSaved(false), 1600);
+    } catch {
+      setNoteSaved(false);
+    }
+  }
+
+  const mealBalanceScore = getMealBalanceScore(recipe);
+  const mealBalanceLabel = getMealBalanceLabel(recipe);
+  const glp1BubbleLabel = glp1Display?.rating
+    ? `GLP-1 ${glp1Display.rating}`
+    : "GLP-1";
 
   return (
     <article className={isBrowseCard ? "recipeCard recipeCardFullImage" : "recipeCard"}>
@@ -3466,22 +3505,37 @@ function RecipeCard({
       )}
 
       <div className="recipeBody">
-        <span className={`tag tag-${recipe.categoryCode}`}>
-          {recipe.category}
-        </span>
-
-        <h3>{recipe.title}</h3>
-
-        <GLP1RecipeSupportPanel
-          recipe={recipe}
-          compact={isBrowseCard}
-          className="recipeCardGlp1Support"
-        />
+        {!isBrowseCard && (
+          <>
+            <span className={`tag tag-${recipe.categoryCode}`}>{recipe.category}</span>
+            <h3>{recipe.title}</h3>
+            <GLP1RecipeSupportPanel recipe={recipe} className="recipeCardGlp1Support" />
+          </>
+        )}
 
         {isBrowseCard ? (
           <>
-            <div className="browseRecipeControlRegion">
-              <div className="recipeActions browseRecipeActions browseRecipeSixButtonGrid">
+            <div className="browseRecipeControlRegion browseRecipeReorderedControls">
+              <div className="browseRecipeInfoButtonRow" aria-label="Recipe information dropdowns">
+                {[
+                  ["nutrition", "Nutrition"],
+                  ["mealBalance", "MealBalance"],
+                  ["glp1", "GLP-1"],
+                ].map(([panel, label]) => (
+                  <button
+                    key={panel}
+                    type="button"
+                    className={`browseRecipeDropdownButton ${browseInlinePanel === panel ? "active" : ""}`}
+                    onClick={() => toggleBrowseInlinePanel(panel)}
+                    aria-expanded={browseInlinePanel === panel}
+                  >
+                    <span>{label}</span>
+                    <span aria-hidden="true">{browseInlinePanel === panel ? "▲" : "▼"}</span>
+                  </button>
+                ))}
+              </div>
+
+              <div className="recipeActions browseRecipeActions browseRecipeActionRows">
                 <button
                   type="button"
                   className="viewCard browseRecipeActionButton"
@@ -3490,45 +3544,32 @@ function RecipeCard({
                   View Recipe Card
                 </button>
 
+                <button
+                  type="button"
+                  className={`smartTipsButton browseRecipeSmartTipsButton ${browseInlinePanel === "tips" ? "active" : ""}`}
+                  onClick={() => toggleBrowseInlinePanel("tips")}
+                  aria-expanded={browseInlinePanel === "tips"}
+                >
+                  Smart Tips
+                </button>
+
                 {showPlannerButton ? (
-                  <button
-                    type="button"
-                    className="addPlan browseRecipeActionButton"
-                    onClick={() => addToPlan(recipe.id)}
-                  >
-                    Add to Mealplan
+                  <button type="button" className="addPlan browseRecipeActionButton" onClick={() => addToPlan(recipe.id)}>
+                    Add to Meal Plan
                   </button>
                 ) : (
-                  <button type="button" className="addPlan browseRecipeActionButton" disabled>
-                    Add to Mealplan
-                  </button>
+                  <button type="button" className="addPlan browseRecipeActionButton" disabled>Add to Meal Plan</button>
                 )}
 
                 <div className="browseRecipeActionCell browseRecipeFreezeCell">
                   <AddLeftoversToFreezerButton recipe={recipe} compact />
                 </div>
 
-                <div className="browseRecipeActionCell browseRecipeTipsCell">
-                  <button
-                    type="button"
-                    className={`smartTipsButton ${browseInlinePanel === "tips" ? "active" : ""}`}
-                    onClick={() => toggleBrowseInlinePanel("tips")}
-                    aria-expanded={browseInlinePanel === "tips"}
-                  >
-                    Smart Tips
-                  </button>
-                </div>
-
                 <div className="browseRecipeActionCell browseRecipeBuildCell">
                   {showBuilderGuide ? (
                     <ConstructionCalloutButton recipe={recipe} buttonLabel="Build It" />
                   ) : (
-                    <button
-                      type="button"
-                      className="constructionCalloutButton browseRecipeBuildPlaceholder"
-                      disabled
-                      title="A build guide is not available for this recipe."
-                    >
+                    <button type="button" className="constructionCalloutButton browseRecipeBuildPlaceholder" disabled title="A build guide is not available for this recipe.">
                       Build It
                     </button>
                   )}
@@ -3541,46 +3582,68 @@ function RecipeCard({
                     onClick={() => toggleBrowseInlinePanel("notes")}
                     aria-expanded={browseInlinePanel === "notes"}
                   >
-                    My Notes
+                    Your Notes
                   </button>
                 </div>
               </div>
 
-              <div className="browseRecipeMetaFooter">
-                <div className="meta browseRecipeMetaItems">
-                  <span>◷ {recipe.time} min</span>
-                  <span>SS {recipe.servings}</span>
-                </div>
-
-                <MealBalanceBadge
-                  item={recipe}
-                  className="recipeMealBalanceBadge browseRecipeMealBalanceBadge"
-                />
-
+              <div className="browseRecipeBubbleRow" aria-label="Recipe summary">
+                <span className="browseRecipeSummaryBubble browseRecipeTimeBubble">◷ {recipe.time} min</span>
+                <MealBalanceBadge item={recipe} className="recipeMealBalanceBadge browseRecipeMealBalanceBadge" />
+                <span className="browseRecipeSummaryBubble browseRecipeGlp1Bubble">{glp1BubbleLabel}</span>
                 <button
                   type="button"
-                  className={`heart browseCardHeart ${isFavorite ? "saved" : ""}`}
+                  className={`heart browseCardHeart browseRecipeFavoriteBubble ${isFavorite ? "saved" : ""}`}
                   onClick={() => toggleFavorite(recipe.id)}
                   aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
                   title={isFavorite ? "Saved as a favorite" : "Add to favorites"}
                 >
                   <span aria-hidden="true">{isFavorite ? "♥" : "♡"}</span>
-                  <small>{isFavorite ? "FAVORITE" : "SAVE"}</small>
+                  <small>Favorite</small>
                 </button>
               </div>
 
-              {browseInlinePanel === "tips" && (
-                <section className="browseRecipeInlinePanel browseRecipeInlineTips" aria-label={`${recipe.title} smart tips`}>
-                  <button
-                    type="button"
-                    className="browseRecipeInlinePanelToggle"
-                    onClick={() => toggleBrowseInlinePanel("tips")}
-                    aria-label="Close Smart Tips"
-                  >
-                    <strong>Smart Tips</strong>
-                    <span>×</span>
+              {browseInlinePanel === "nutrition" && (
+                <section className="browseRecipeInlinePanel browseRecipeDropdownPanel" aria-label={`${recipe.title} nutrition`}>
+                  <button type="button" className="browseRecipeInlinePanelToggle" onClick={() => setBrowseInlinePanel(null)} aria-label="Close Nutrition">
+                    <strong>Nutrition</strong><span>×</span>
+                  </button>
+                  <div className="browseRecipeInlinePanelBody browseRecipeInfoPlaceholder">
+                    <p><strong>Nutrition details</strong></p>
+                    <p>The Nutrition layout is in place. Its final fields and calculations will be addressed in the next content phase.</p>
+                  </div>
+                </section>
+              )}
+
+              {browseInlinePanel === "mealBalance" && (
+                <section className="browseRecipeInlinePanel browseRecipeDropdownPanel" aria-label={`${recipe.title} MealBalance`}>
+                  <button type="button" className="browseRecipeInlinePanelToggle" onClick={() => setBrowseInlinePanel(null)} aria-label="Close MealBalance">
+                    <strong>MealBalance</strong><span>×</span>
+                  </button>
+                  <div className="browseRecipeInlinePanelBody browseRecipeInfoPlaceholder">
+                    <p><strong>{mealBalanceScore !== null ? `MealBalance ${mealBalanceScore} — ${mealBalanceLabel}` : "Not Yet Rated"}</strong></p>
+                    <p>The expanded MealBalance contents will be finalized in the next content phase.</p>
+                  </div>
+                </section>
+              )}
+
+              {browseInlinePanel === "glp1" && (
+                <section className="browseRecipeInlinePanel browseRecipeDropdownPanel browseRecipeGlp1Dropdown" aria-label={`${recipe.title} GLP-1 information`}>
+                  <button type="button" className="browseRecipeInlinePanelToggle" onClick={() => setBrowseInlinePanel(null)} aria-label="Close GLP-1">
+                    <strong>GLP-1</strong><span>×</span>
                   </button>
                   <div className="browseRecipeInlinePanelBody">
+                    <GLP1RecipeSupportPanel recipe={recipe} compact detailsOnly className="browseRecipeEmbeddedGlp1" />
+                  </div>
+                </section>
+              )}
+
+              {browseInlinePanel === "tips" && (
+                <section className="browseRecipeInlinePanel browseRecipeInlineTips" aria-label={`${recipe.title} smart tips`}>
+                  <button type="button" className="browseRecipeInlinePanelToggle" onClick={() => setBrowseInlinePanel(null)} aria-label="Close Smart Tips">
+                    <strong>Smart Tips</strong><span>×</span>
+                  </button>
+                  <div className="browseRecipeInlinePanelBody browseRecipeSmartTipsText">
                     <p><strong>Lower calorie:</strong> {browseSmartTips.calories}</p>
                     <p><strong>Lower carb:</strong> {browseSmartTips.carbs}</p>
                     <p><strong>Lower sodium:</strong> {browseSmartTips.sodium}</p>
@@ -3590,31 +3653,29 @@ function RecipeCard({
               )}
 
               {browseInlinePanel === "notes" && (
-                <section className="browseRecipeInlinePanel browseRecipeInlineNotes" aria-label={`${recipe.title} personal notes`}>
-                  <button
-                    type="button"
-                    className="browseRecipeInlinePanelToggle"
-                    onClick={() => toggleBrowseInlinePanel("notes")}
-                    aria-label="Close My Notes"
-                  >
-                    <strong>{browsePersonalNote.title}</strong>
-                    <span>×</span>
+                <section className="browseRecipeInlinePanel browseRecipeInlineNotes browseRecipeEditableNotes" aria-label={`${recipe.title} personal notes`}>
+                  <button type="button" className="browseRecipeInlinePanelToggle" onClick={() => setBrowseInlinePanel(null)} aria-label="Close Your Notes">
+                    <strong>Your Notes</strong><span>×</span>
                   </button>
                   <div className="browseRecipeInlinePanelBody">
-                    <p>{browsePersonalNote.text}</p>
+                    <textarea
+                      value={userNote}
+                      onChange={(event) => { setUserNote(event.target.value); setNoteSaved(false); }}
+                      placeholder="Enter your personal notes about this recipe..."
+                      aria-label={`Personal notes for ${recipe.title}`}
+                    />
+                    <div className="browseRecipeNotesActions">
+                      <button type="button" onClick={savePersonalNote}>Save Notes</button>
+                      <small>{noteSaved ? "Saved" : "Stored only in this browser"}</small>
+                    </div>
                   </div>
                 </section>
               )}
             </div>
 
-            <div className="browseRecipeTags">
+            <div className="browseRecipeTags browseRecipeCuisineBubbleRow">
               {browseTags.map((tag) => (
-                <span
-                  key={`${recipe.id}-${tag}`}
-                  className={`browseRecipeTag browseRecipeTag-${recipe.categoryCode}`}
-                >
-                  {tag}
-                </span>
+                <span key={`${recipe.id}-${tag}`} className={`browseRecipeTag browseRecipeTag-${recipe.categoryCode}`}>{tag}</span>
               ))}
             </div>
           </>
@@ -3626,24 +3687,12 @@ function RecipeCard({
               <span>♙ {recipe.servings}</span>
               <span>{recipe.price}</span>
             </div>
-
             <div className="recipeActions">
-              <button
-                className="viewCard"
-                onClick={() => openRecipeCard(recipe.id, cardList)}
-              >
-                {viewButtonText}
-              </button>
-              {showPlannerButton && (
-                <button className="addPlan" onClick={() => addToPlan(recipe.id)}>
-                  Add to planner
-                </button>
-              )}
+              <button className="viewCard" onClick={() => openRecipeCard(recipe.id, cardList)}>{viewButtonText}</button>
+              {showPlannerButton && <button className="addPlan" onClick={() => addToPlan(recipe.id)}>Add to planner</button>}
               <AddLeftoversToFreezerButton recipe={recipe} compact />
               <SmartTipsButton recipe={recipe} />
-              {showBuilderGuide && (
-                <ConstructionCalloutButton recipe={recipe} />
-              )}
+              {showBuilderGuide && <ConstructionCalloutButton recipe={recipe} />}
             </div>
           </>
         )}
