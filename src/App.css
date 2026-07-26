@@ -35230,3 +35230,47 @@ body.rrbPopupOpen {
   }
 }
 
+/* ================================================================
+   HOME HERO + QUICK OVERVIEW — EXACT EDGE ALIGNMENT
+   ================================================================ */
+
+.homeMealJourneySection,
+.homeMealJourneyDetails,
+.homeMealJourneyToggle {
+  width: 100% !important;
+  max-width: none !important;
+  box-sizing: border-box !important;
+}
+
+.homeMealJourneySection {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+.homeMealJourneyDetails {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+/* Remove side borders that can create a 1px visual overhang. */
+.homeMealJourneyDetails {
+  border-left: 0 !important;
+  border-right: 0 !important;
+}
+
+/* Keep the bar square and exactly aligned with the hero edges. */
+.homeMealJourneyToggle {
+  border-left: 0 !important;
+  border-right: 0 !important;
+  border-radius: 0 !important;
+}
+
+/* Prevent a surrounding Home content wrapper from adding horizontal inset. */
+.homeHeroSection + .homeMealJourneySection,
+.homeHero + .homeMealJourneySection,
+.pageHero + .homeMealJourneySection {
+  width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
