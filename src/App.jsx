@@ -1394,6 +1394,7 @@ const NAV_GROUPS = [
       { label: "AFFILIATE MARKETING", page: "Affiliate Marketing" },
       { label: "SUBMIT YOUR FAMILY RECIPES", page: "Submit Recipes" },
       { label: "CONTACT ME", page: "Contact Me" },
+      { label: "YOUR DATA & SECURITY", page: "Your Data & Security" },
       { label: "DISCLAIMERS", page: "Disclaimers" },
     ],
   },
@@ -13120,6 +13121,122 @@ function WeeklyMealPlannerPrototypePage({ setActivePage }) {
 }
 
 
+
+function YourDataSecurityPage({ setActivePage }) {
+  return (
+    <main className="pageShell yourDataSecurityPage">
+      <section className="yourDataSecurityIntro">
+        <div>
+          <span className="yourDataSecurityEyebrow">YOUR INFORMATION</span>
+          <h2>Your recipe-box information stays in your browser.</h2>
+          <p>
+            Robert&apos;s Recipe Box does not require a user account. Favorites,
+            meal plans, grocery lists, inventory records, recipe notes, and site
+            preferences are saved locally by your browser on the device you are
+            using.
+          </p>
+        </div>
+        <aside className="yourDataSecurityStatus" aria-label="Data storage summary">
+          <span aria-hidden="true">♥</span>
+          <strong>Browser-only storage</strong>
+          <small>No account or cloud profile is required.</small>
+        </aside>
+      </section>
+
+      <section className="yourDataSecurityGrid" aria-label="Your data and security information">
+        <article>
+          <h3>What the site may save</h3>
+          <ul>
+            <li>Favorite recipes and dinner combinations</li>
+            <li>Weekly meal plans and grocery-list selections</li>
+            <li>Pantry, refrigerator, freezer, and prepared-food inventory</li>
+            <li>Recipe notes, comments, classifications, and preferences</li>
+          </ul>
+        </article>
+
+        <article>
+          <h3>Where it is stored</h3>
+          <p>
+            The information is stored in your browser&apos;s local storage. It is
+            not automatically synchronized between computers, phones, tablets, or
+            different browsers.
+          </p>
+          <p>
+            Opening the site on another device creates a separate local recipe-box
+            workspace unless you transfer a backup file.
+          </p>
+        </article>
+
+        <article>
+          <h3>What can cause data loss</h3>
+          <ul>
+            <li>Clearing browser history, cookies, or website data</li>
+            <li>Using private or incognito browsing</li>
+            <li>Removing or resetting the browser</li>
+            <li>Changing devices without creating a backup</li>
+          </ul>
+        </article>
+
+        <article>
+          <h3>Security limitations</h3>
+          <p>
+            Browser-only storage keeps the information off a Robert&apos;s Recipe
+            Box account server, but anyone with access to your unlocked device and
+            browser may be able to view the locally saved information.
+          </p>
+          <p>
+            Do not store passwords, financial information, medical records, or
+            other highly sensitive personal information in recipe notes or comments.
+          </p>
+        </article>
+      </section>
+
+      <section className="yourDataSecurityBackupCallout">
+        <div>
+          <span className="yourDataSecurityEyebrow">PROTECT YOUR RECIPE BOX</span>
+          <h2>Create a backup before clearing browser data or changing devices.</h2>
+          <p>
+            Backup &amp; Restore creates a local file containing supported recipe-box
+            data. Keep the file somewhere you control, such as a personal computer,
+            external drive, or trusted private storage location.
+          </p>
+        </div>
+        <button type="button" onClick={() => setActivePage("User Backup")}>
+          Open Backup &amp; Restore
+        </button>
+      </section>
+
+      <section className="yourDataSecurityPlainLanguage">
+        <h2>Privacy in plain language</h2>
+        <div>
+          <p>
+            <strong>No account is required.</strong> You can use the recipe and
+            planning tools without creating a Robert&apos;s Recipe Box login.
+          </p>
+          <p>
+            <strong>Your saved workspace is device-specific.</strong> The site
+            cannot recover browser-only information after it has been deleted.
+          </p>
+          <p>
+            <strong>External services have their own policies.</strong> Affiliate
+            links, retailers, hosting providers, and other third-party services may
+            collect information according to their own privacy and security terms.
+          </p>
+        </div>
+      </section>
+
+      <p className="yourDataSecurityPolicyLink">
+        For broader website policies, cookies, third-party links, and legal
+        information,{" "}
+        <button type="button" onClick={() => setActivePage("Disclaimers")}>
+          review the Disclaimers page
+        </button>.
+      </p>
+    </main>
+  );
+}
+
+
 export default function App() {
   const [activePage, setActivePage] = useState("Home");
   const [favorites, setFavorites] = useState(() => {
@@ -14910,6 +15027,20 @@ Use this section to check what is on hand, record dates, mark foods that should 
           </article>
         </>
       )}
+      {activePage === "Your Data & Security" && (
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-page-your-data-security.webp"
+            alt="Recipe file box, tablet with security shield, padlock, coffee, and plant on a pale marble counter"
+            eyebrow="YOUR RECIPE BOX"
+            title="Your Data & Security"
+            text="Your saved recipe-box information belongs to you. Robert’s Recipe Box uses browser-only storage for favorites, meal plans, grocery lists, inventory records, notes, and preferences, so no user account is required.\n\nLearn where that information is stored, what can remove it, how to protect it, and how to create a local backup before changing devices or clearing browser data."
+            className="pageHeroDepth464"
+          />
+          <YourDataSecurityPage setActivePage={setActivePage} />
+        </>
+      )}
+
       {activePage === "User Backup" && (
         <>
           <PageHeroImage
