@@ -35062,18 +35062,18 @@ body.rrbPopupOpen {
 
 
 
-/* Featured Combo-Meals — image-only two-second dissolve */
-.homeComboMealImageDissolveCard {
+/* Featured Combo-Meals — image-only cross-fade */
+.homeComboMealImageCrossfadeCard {
   transform: none !important;
 }
 
-.homeComboMealImageDissolveStage {
+.homeComboMealImageCrossfadeStage {
   position: relative !important;
   overflow: hidden !important;
   isolation: isolate !important;
 }
 
-.homeComboMealImageDissolveStage .homeComboMealImageAsset {
+.homeComboMealImageCrossfadeStage .homeComboMealImageAsset {
   width: 100% !important;
   height: 100% !important;
   object-fit: cover !important;
@@ -35082,25 +35082,25 @@ body.rrbPopupOpen {
   will-change: opacity !important;
 }
 
-.homeComboMealImageDissolveStage .homeComboMealImageOutgoing {
+.homeComboMealImageCrossfadeStage .homeComboMealImageOutgoing {
   position: relative !important;
   z-index: 1 !important;
-  animation: homeComboMealImageDissolveOut 2000ms ease-in-out both !important;
+  animation: homeComboMealImageCrossfadeOut 1400ms linear both !important;
 }
 
-.homeComboMealImageDissolveStage .homeComboMealImageIncoming {
+.homeComboMealImageCrossfadeStage .homeComboMealImageIncoming {
   position: absolute !important;
   inset: 0 !important;
   z-index: 2 !important;
-  animation: homeComboMealImageDissolveIn 2000ms ease-in-out both !important;
+  animation: homeComboMealImageCrossfadeIn 1400ms linear both !important;
 }
 
-@keyframes homeComboMealImageDissolveIn {
+@keyframes homeComboMealImageCrossfadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 
-@keyframes homeComboMealImageDissolveOut {
+@keyframes homeComboMealImageCrossfadeOut {
   from { opacity: 1; }
   to { opacity: 0; }
 }
@@ -35116,8 +35116,8 @@ body.rrbPopupOpen {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .homeComboMealImageDissolveStage .homeComboMealImageIncoming,
-  .homeComboMealImageDissolveStage .homeComboMealImageOutgoing {
+  .homeComboMealImageCrossfadeStage .homeComboMealImageIncoming,
+  .homeComboMealImageCrossfadeStage .homeComboMealImageOutgoing {
     animation-duration: 160ms !important;
   }
 }

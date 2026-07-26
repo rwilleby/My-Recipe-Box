@@ -2281,8 +2281,17 @@ function FeaturedComboMealCardModal({
 const HOME_COMBO_MEAL_COUNT = 6;
 const HOME_COMBO_ROTATION_MS = 60 * 1000;
 const HOME_COMBO_STAGGER_MS = 6 * 1000;
-const HOME_COMBO_CROSSFADE_MS = 2000;
+const HOME_COMBO_CROSSFADE_MS = 1400;
 const HOME_COMBO_CUISINE_ORDER = ["AM", "AS", "HB", "IT", "MX", "SG"];
+
+const HOME_COMBO_APPROVED_MEAL_NUMBERS = {
+  AM: [95, 94, 93, 89],
+  AS: [44, 45, 82, 92],
+  HB: [102, 23, 24, 22],
+  IT: [27, 28, 65, 70],
+  MX: [41, 75, 77, 72],
+  SG: [32, 39, 42, 62],
+};
 
 function getComboCuisineKey(meal) {
   const recipeCode = String(meal?.mainRecipeId || "").trim().toUpperCase();
@@ -2307,47 +2316,40 @@ function shuffleHomeComboMeals(items) {
   return shuffled;
 }
 
+function comboMealNumber(meal) {
+  const directNumber = Number(meal?.number);
+  if (Number.isFinite(directNumber)) return directNumber;
+
+  const idMatch = String(meal?.id || "").match(/(\d+)/);
+  return idMatch ? Number(idMatch[1]) : null;
+}
+
 function selectVariedHomeComboMeals(allMeals, currentMeals = []) {
-  const currentIds = new Set(currentMeals.map((meal) => meal?.id).filter(Boolean));
-  const selectedIds = new Set();
-  const selected = [];
+  const mealsByNumber = new Map(
+    allMeals
+      .map((meal) => [comboMealNumber(meal), meal])
+      .filter(([mealNumber]) => Number.isFinite(mealNumber))
+  );
 
-  HOME_COMBO_CUISINE_ORDER.forEach((cuisineKey) => {
-    const preferred = shuffleHomeComboMeals(
-      allMeals.filter(
-        (meal) =>
-          getComboCuisineKey(meal) === cuisineKey &&
-          !currentIds.has(meal.id) &&
-          !selectedIds.has(meal.id)
-      )
-    );
+  return HOME_COMBO_CUISINE_ORDER.map((cuisineKey, position) => {
+    const approvedNumbers = HOME_COMBO_APPROVED_MEAL_NUMBERS[cuisineKey] || [];
+    const approvedMeals = approvedNumbers
+      .map((mealNumber) => mealsByNumber.get(mealNumber))
+      .filter(Boolean);
 
-    const sameCuisineFallback = shuffleHomeComboMeals(
-      allMeals.filter(
-        (meal) =>
-          getComboCuisineKey(meal) === cuisineKey &&
-          !selectedIds.has(meal.id)
-      )
-    );
-
-    const genericFallback = shuffleHomeComboMeals(
-      allMeals.filter(
-        (meal) => !currentIds.has(meal.id) && !selectedIds.has(meal.id)
-      )
-    );
-
-    const finalFallback = shuffleHomeComboMeals(
-      allMeals.filter((meal) => !selectedIds.has(meal.id))
-    );
-
-    const meal = preferred[0] || sameCuisineFallback[0] || genericFallback[0] || finalFallback[0];
-    if (meal) {
-      selected.push(meal);
-      selectedIds.add(meal.id);
+    if (!approvedMeals.length) {
+      return currentMeals[position] || allMeals[position] || null;
     }
-  });
 
-  return selected.slice(0, HOME_COMBO_MEAL_COUNT);
+    const currentNumber = comboMealNumber(currentMeals[position]);
+    const currentIndex = approvedNumbers.indexOf(currentNumber);
+    const nextIndex =
+      currentIndex >= 0
+        ? (currentIndex + 1) % approvedMeals.length
+        : 0;
+
+    return approvedMeals[nextIndex] || approvedMeals[0];
+  }).filter(Boolean);
 }
 
 function HomeComboMealCardButton({ meal, className = "", onOpen }) {
@@ -2381,18 +2383,18 @@ function HomeComboMealCardButton({ meal, className = "", onOpen }) {
   );
 }
 
-function HomeComboMealImageDissolveCard({ transition, onOpen }) {
+function HomeComboMealImageCrossfadeCard({ transition, onOpen }) {
   const displayMeal = transition?.from || transition?.to;
   if (!displayMeal) return null;
 
   return (
     <button
       type="button"
-      className="homeComboMealCard homeComboMealImageDissolveCard"
+      className="homeComboMealCard homeComboMealImageCrossfadeCard"
       onClick={() => onOpen(transition.to)}
       aria-label={`Open combo meal ${transition.to.number}: ${transition.to.title}`}
     >
-      <div className="homeComboMealImage homeComboMealImageDissolveStage">
+      <div className="homeComboMealImage homeComboMealImageCrossfadeStage">
         <DinnerCombinationImage
           meal={transition.from}
           className="homeComboMealImageAsset homeComboMealImageOutgoing"
@@ -2521,7 +2523,7 @@ function HomeComboMealStrip({
                 key={`home-combo-position-${position}`}
               >
                 {transition ? (
-                  <HomeComboMealImageDissolveCard
+                  <HomeComboMealImageCrossfadeCard
                     transition={transition}
                     onOpen={setSelectedMeal}
                   />
