@@ -3936,11 +3936,6 @@ function RecipeCardViewer({
           </button>
         </div>
 
-        <GLP1RecipeSupportPanel
-          recipe={recipe}
-          className="cardViewerGlp1Support"
-        />
-
         {recipe.mediaLinks?.length > 0 && (
           <div className="cardViewerHelpfulLinks">
             <strong>Helpful links</strong>

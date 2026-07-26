@@ -35520,3 +35520,155 @@ body.rrbPopupOpen {
   }
 }
 
+/* =========================================================
+   JULY 26 — RECIPE CARD / VIEWER REFINEMENTS
+   ========================================================= */
+
+/* Smart Tips button: slightly larger while preserving the compact row. */
+.browseRecipeGrid .recipeCardFullImage .browseRecipeSmartTipsButton {
+  font-size: 10.5px !important;
+}
+
+/* Center only the MealBalance score inside the circular badge. */
+.browseRecipeGrid .recipeCardFullImage .browseRecipeMealBalanceBadge.mealBalanceBadge:not(.unrated) {
+  position: relative !important;
+  display: grid !important;
+  place-items: center !important;
+  text-align: center !important;
+  line-height: 1 !important;
+  padding: 0 !important;
+}
+
+.browseRecipeGrid .recipeCardFullImage .browseRecipeMealBalanceBadge.mealBalanceBadge:not(.unrated)::after {
+  position: absolute !important;
+  inset: 0 !important;
+  display: grid !important;
+  place-items: center !important;
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  text-align: center !important;
+  line-height: 1 !important;
+  transform: none !important;
+}
+
+/* Recipe-card viewer always fits the usable viewport and keeps Close visible. */
+.cardViewerOverlay {
+  padding: 8px !important;
+  align-items: center !important;
+  overflow: hidden !important;
+}
+
+.cardViewer {
+  width: min(98vw, 1480px) !important;
+  height: auto !important;
+  max-height: calc(100dvh - 16px) !important;
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.cardViewerHeader {
+  position: relative !important;
+  top: auto !important;
+  z-index: 30 !important;
+  flex: 0 0 auto !important;
+  min-height: 0 !important;
+  padding: 10px 14px !important;
+  background: #fbfaf7 !important;
+}
+
+.cardViewerHeader > div:first-child {
+  min-width: 0 !important;
+  padding-right: 8px !important;
+}
+
+.cardViewerHeader h2 {
+  margin-right: 0 !important;
+}
+
+.cardViewerHeaderActions,
+.cardViewerHeaderActions.compact {
+  flex: 0 0 auto !important;
+  align-self: flex-start !important;
+}
+
+.cardViewerClose {
+  position: relative !important;
+  top: auto !important;
+  right: auto !important;
+  flex: 0 0 42px !important;
+  width: 42px !important;
+  min-width: 42px !important;
+  height: 42px !important;
+  min-height: 42px !important;
+  z-index: 40 !important;
+}
+
+.cardViewerStage {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+  padding: 8px 14px !important;
+}
+
+.cardViewerImageWrap {
+  min-height: 0 !important;
+  height: 100% !important;
+  overflow: hidden !important;
+}
+
+.cardViewerImageWrap img {
+  width: auto !important;
+  height: auto !important;
+  max-width: 100% !important;
+  max-height: min(61vh, calc(100dvh - 230px)) !important;
+  object-fit: contain !important;
+}
+
+.cardViewerHelpfulLinks,
+.cardViewerUnifiedFooter {
+  flex: 0 0 auto !important;
+}
+
+/* GLP-1 details remain available on list cards, but not in the full viewer. */
+.cardViewerGlp1Support {
+  display: none !important;
+}
+
+@media (max-width: 700px) {
+  .browseRecipeGrid .recipeCardFullImage .browseRecipeSmartTipsButton {
+    font-size: 10px !important;
+  }
+
+  .cardViewerOverlay {
+    padding: 4px !important;
+  }
+
+  .cardViewer {
+    width: 100% !important;
+    max-height: calc(100dvh - 8px) !important;
+  }
+
+  .cardViewerHeader {
+    padding: 8px 10px !important;
+  }
+
+  .cardViewerClose {
+    flex-basis: 38px !important;
+    width: 38px !important;
+    min-width: 38px !important;
+    height: 38px !important;
+    min-height: 38px !important;
+  }
+
+  .cardViewerStage {
+    padding: 6px 8px !important;
+  }
+
+  .cardViewerImageWrap img {
+    max-height: min(52vh, calc(100dvh - 260px)) !important;
+  }
+}
+
