@@ -1395,6 +1395,7 @@ const NAV_GROUPS = [
       { label: "AFFILIATE MARKETING", page: "Affiliate Marketing" },
       { label: "SUBMIT YOUR FAMILY RECIPES", page: "Submit Recipes" },
       { label: "CONTACT ME", page: "Contact Me" },
+      { label: "BACKUP & RESTORE", page: "User Backup" },
       { label: "DISCLAIMERS", page: "Disclaimers" },
     ],
   },
@@ -15321,8 +15322,8 @@ Use this section to check what is on hand, record dates, mark foods that should 
       {activePage === "User Backup" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-page-storage.webp"
-            alt="Organized recipe information prepared for a local backup"
+            src="images/heroes/hero-page-backup-restore.webp"
+            alt="Tablet showing cloud backup beside a recipe box, external drive, USB drive, coffee, and recipe cards"
             eyebrow="YOUR RECIPE BOX"
             title="Backup & Restore"
             text="Protect the favorites, notes, meal plans, grocery lists, inventories, and preferences saved in this browser. The backup file is created locally on your device and can be restored later on this or another device."
