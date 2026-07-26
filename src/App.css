@@ -35769,3 +35769,205 @@ body.rrbPopupOpen {
   }
 }
 
+/* ================================================================
+   DINNER COMBINATIONS — RESTORED LARGE TYPOGRAPHY
+   Keeps the proportional card behavior while restoring the stronger,
+   easier-to-read type scale from the approved full-size card.
+   ================================================================ */
+
+.dinnerCombinationScaleCard .dinnerAreaName h3,
+.dinnerCombinationScaleCard .dinnerCombinationCard h3 {
+  font-size: 34px !important;
+  line-height: 1.02 !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationSubtitle {
+  font-size: 17px !important;
+  line-height: 1.25 !important;
+}
+
+.dinnerCombinationScaleCard .comboMealBalanceDetails,
+.dinnerCombinationScaleCard .comboMealBalanceDetails strong,
+.dinnerCombinationScaleCard .comboMealBalanceDetails span {
+  font-size: 14px !important;
+  line-height: 1.25 !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationNutritionLabel {
+  font-size: 15px !important;
+  letter-spacing: .035em !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationNutritionExpanded strong {
+  font-size: 24px !important;
+  line-height: 1 !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationNutritionExpanded small {
+  font-size: 13px !important;
+  line-height: 1.15 !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationStackedMeal span {
+  font-size: 13px !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationStackedMeal strong {
+  font-size: 17px !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationStackedMeal small {
+  font-size: 14px !important;
+}
+
+.dinnerCombinationScaleCard .comboRegularGroceryIngredients h3,
+.dinnerCombinationScaleCard .comboPreparedComponents h3 {
+  font-size: 20px !important;
+}
+
+.dinnerCombinationScaleCard .comboCompactIngredientRows strong,
+.dinnerCombinationScaleCard .comboCompactIngredientRows span {
+  font-size: 14px !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationHeatingPanel h4,
+.dinnerCombinationScaleCard .dinnerCombinationRecipeButtons h4 {
+  font-size: 15px !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationHeatingPanelGrid span {
+  font-size: 12px !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationHeatingPanelGrid strong {
+  font-size: 15px !important;
+  line-height: 1.35 !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationRecipeButtonGrid button span {
+  font-size: 12px !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationRecipeButtonGrid button {
+  font-size: 15px !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationPlannerAdd label,
+.dinnerCombinationScaleCard .dinnerCombinationPlannerAdd select,
+.dinnerCombinationScaleCard .dinnerCombinationPlannerAdd button {
+  font-size: 14px !important;
+}
+
+/* ================================================================
+   FAVORITES — MATCH THE APPROVED RECIPE-LIST BUTTON/BUBBLE STYLE
+   ================================================================ */
+
+.favoritesRecipeGrid .recipeCardFullImage .favoritesRecipeControls {
+  min-height: auto !important;
+  gap: 14px !important;
+}
+
+.favoritesRecipeGrid .favoritesRecipeActionRow {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 12px !important;
+}
+
+.favoritesRecipeGrid .favoritesRecipeActionRow > button {
+  min-height: 27px !important;
+  height: 27px !important;
+  padding: 0 8px !important;
+  border-radius: 0 !important;
+  font-size: 10.5px !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+  text-transform: uppercase !important;
+}
+
+.favoritesRecipeGrid .favoritesRecipeActionRow .viewCard {
+  border: 1px solid #ddd8cf !important;
+  background: #ffffff !important;
+  color: #111827 !important;
+}
+
+.favoritesRecipeGrid .favoritesRecipeActionRow .recipeNotesButton {
+  border: 1px solid #dfcfaf !important;
+  background: #fffdf8 !important;
+  color: #6b4722 !important;
+}
+
+.favoritesRecipeGrid .favoritesRecipeBubbleRow {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 8px !important;
+  min-height: 36px !important;
+  margin-top: 9px !important;
+}
+
+.favoritesRecipeGrid .favoritesRecipeBubbleRow .browseRecipeSummaryBubble,
+.favoritesRecipeGrid .favoritesRecipeBubbleRow .browseRecipeMealBalanceBadge,
+.favoritesRecipeGrid .favoritesRecipeBubbleRow .browseRecipeFavoriteBubble {
+  height: 32px !important;
+  min-height: 32px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+}
+
+.favoritesRecipeGrid .favoritesRecipeBubbleRow .browseRecipeTimeBubble {
+  border: 1px solid #d8ddd9 !important;
+  border-radius: 999px !important;
+  background: #ffffff !important;
+  color: #5d625f !important;
+  padding: 0 11px !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+}
+
+.favoritesRecipeGrid .favoritesRecipeBubbleRow .browseRecipeMealBalanceBadge.mealBalanceBadge {
+  width: 32px !important;
+  min-width: 32px !important;
+  border-radius: 50% !important;
+  padding: 0 !important;
+}
+
+.favoritesRecipeGrid .favoritesRecipeBubbleRow .browseRecipeGlp1Bubble {
+  border: 1px solid #b7cfbc !important;
+  border-radius: 999px !important;
+  background: #f5faf6 !important;
+  color: #1f5b37 !important;
+  padding: 0 11px !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+}
+
+.favoritesRecipeGrid .favoritesRecipeBubbleRow .browseRecipeFavoriteBubble {
+  position: static !important;
+  width: auto !important;
+  min-width: 88px !important;
+  padding: 0 11px !important;
+  border: 1px solid #f2a9ba !important;
+  border-radius: 999px !important;
+  background: #fff7fa !important;
+  color: #ef476f !important;
+  gap: 5px !important;
+}
+
+.favoritesRecipeGrid .favoritesRecipeBubbleRow .browseRecipeFavoriteBubble small {
+  color: inherit !important;
+  font-size: 9.5px !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+}
+
+@media (max-width: 700px) {
+  .favoritesRecipeGrid .favoritesRecipeBubbleRow {
+    gap: 5px !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+  }
+}
+

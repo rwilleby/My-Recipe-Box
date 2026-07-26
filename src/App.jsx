@@ -8139,7 +8139,7 @@ function FavoritesPage({
                   <span>{savedRecipes.length}</span>
                 </header>
 
-                <div className="recipeGrid">
+                <div className="recipeGrid browseRecipeGrid favoritesRecipeGrid">
                   {savedRecipes.map((recipe) => (
                     <RecipeCard
                       key={recipe.id}
