@@ -35060,3 +35060,64 @@ body.rrbPopupOpen {
   display: block;
 }
 
+
+
+/* Featured Combo-Meals — image-only two-second dissolve */
+.homeComboMealImageDissolveCard {
+  transform: none !important;
+}
+
+.homeComboMealImageDissolveStage {
+  position: relative !important;
+  overflow: hidden !important;
+  isolation: isolate !important;
+}
+
+.homeComboMealImageDissolveStage .homeComboMealImageAsset {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  transform: none !important;
+  backface-visibility: hidden !important;
+  will-change: opacity !important;
+}
+
+.homeComboMealImageDissolveStage .homeComboMealImageOutgoing {
+  position: relative !important;
+  z-index: 1 !important;
+  animation: homeComboMealImageDissolveOut 2000ms ease-in-out both !important;
+}
+
+.homeComboMealImageDissolveStage .homeComboMealImageIncoming {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 2 !important;
+  animation: homeComboMealImageDissolveIn 2000ms ease-in-out both !important;
+}
+
+@keyframes homeComboMealImageDissolveIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes homeComboMealImageDissolveOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+.homeComboMealCardWrap.isCrossfading {
+  transform: none !important;
+}
+
+.homeComboMealCardWrap.isCrossfading > .homeComboMealFavorite {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  transition: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .homeComboMealImageDissolveStage .homeComboMealImageIncoming,
+  .homeComboMealImageDissolveStage .homeComboMealImageOutgoing {
+    animation-duration: 160ms !important;
+  }
+}

@@ -2281,7 +2281,7 @@ function FeaturedComboMealCardModal({
 const HOME_COMBO_MEAL_COUNT = 6;
 const HOME_COMBO_ROTATION_MS = 60 * 1000;
 const HOME_COMBO_STAGGER_MS = 6 * 1000;
-const HOME_COMBO_CROSSFADE_MS = 1200;
+const HOME_COMBO_CROSSFADE_MS = 2000;
 const HOME_COMBO_CUISINE_ORDER = ["AM", "AS", "HB", "IT", "MX", "SG"];
 
 function getComboCuisineKey(meal) {
@@ -2375,6 +2375,45 @@ function HomeComboMealCardButton({ meal, className = "", onOpen }) {
           aria-label={`MealBalance ${getComboMealBalanceScore(meal)}`}
         >
           {getComboMealBalanceScore(meal)}
+        </span>
+      </span>
+    </button>
+  );
+}
+
+function HomeComboMealImageDissolveCard({ transition, onOpen }) {
+  const displayMeal = transition?.from || transition?.to;
+  if (!displayMeal) return null;
+
+  return (
+    <button
+      type="button"
+      className="homeComboMealCard homeComboMealImageDissolveCard"
+      onClick={() => onOpen(transition.to)}
+      aria-label={`Open combo meal ${transition.to.number}: ${transition.to.title}`}
+    >
+      <div className="homeComboMealImage homeComboMealImageDissolveStage">
+        <DinnerCombinationImage
+          meal={transition.from}
+          className="homeComboMealImageAsset homeComboMealImageOutgoing"
+          loading="lazy"
+        />
+        <DinnerCombinationImage
+          meal={transition.to}
+          className="homeComboMealImageAsset homeComboMealImageIncoming"
+          loading="lazy"
+        />
+      </div>
+
+      <span className="homeComboMealText">
+        <strong>{displayMeal.title}</strong>
+        <small>{displayMeal.subtitle}</small>
+        <span
+          className="homeComboMealBalanceBadge"
+          title={`MealBalance ${getComboMealBalanceScore(displayMeal)}`}
+          aria-label={`MealBalance ${getComboMealBalanceScore(displayMeal)}`}
+        >
+          {getComboMealBalanceScore(displayMeal)}
         </span>
       </span>
     </button>
@@ -2482,18 +2521,10 @@ function HomeComboMealStrip({
                 key={`home-combo-position-${position}`}
               >
                 {transition ? (
-                  <div className="homeComboMealCrossfadeStage">
-                    <HomeComboMealCardButton
-                      meal={transition.from}
-                      className="homeComboMealCardOutgoing"
-                      onOpen={setSelectedMeal}
-                    />
-                    <HomeComboMealCardButton
-                      meal={transition.to}
-                      className="homeComboMealCardIncoming"
-                      onOpen={setSelectedMeal}
-                    />
-                  </div>
+                  <HomeComboMealImageDissolveCard
+                    transition={transition}
+                    onOpen={setSelectedMeal}
+                  />
                 ) : (
                   <HomeComboMealCardButton meal={meal} onOpen={setSelectedMeal} />
                 )}
