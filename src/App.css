@@ -35121,3 +35121,69 @@ body.rrbPopupOpen {
     animation-duration: 160ms !important;
   }
 }
+
+/* ================================================================
+   HOME MAIN-PAGE QUICK OVERVIEW ACCORDION — APPROVED COMPACT BAR
+   ================================================================ */
+
+.homeMealJourneyToggle {
+  min-height: 48px !important;
+  gap: 16px !important;
+  padding: 7px 16px !important;
+  color: #ffffff !important;
+  background: #8A817C !important;
+}
+
+.homeMealJourneyToggle:hover {
+  background: #7d756f !important;
+}
+
+.homeMealJourneyToggle:focus-visible {
+  outline: 3px solid rgba(255, 255, 255, .72) !important;
+  outline-offset: -3px !important;
+}
+
+.homeMealJourneyToggleText {
+  gap: 7px !important;
+}
+
+.homeMealJourneyToggleText strong {
+  color: #ffffff !important;
+  font-size: 18px !important;
+  line-height: 1.05 !important;
+}
+
+.homeMealJourneyToggleText small {
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  font-size: 12px !important;
+  line-height: 1.2 !important;
+}
+
+.homeMealJourneyChevron {
+  width: 30px !important;
+  height: 30px !important;
+  background: rgba(255, 255, 255, .16) !important;
+  color: #ffffff !important;
+  font-size: 20px !important;
+}
+
+@media (max-width: 700px) {
+  .homeMealJourneyToggle {
+    min-height: 48px !important;
+    padding: 7px 12px !important;
+  }
+
+  .homeMealJourneyToggleText {
+    gap: 6px !important;
+  }
+
+  .homeMealJourneyToggleText strong {
+    font-size: 17px !important;
+  }
+
+  .homeMealJourneyToggleText small {
+    font-size: 11px !important;
+  }
+}
+
