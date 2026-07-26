@@ -36232,3 +36232,35 @@ body.rrbPopupOpen {
 .dinnerCombinationScaleCard .dinnerAreaActionsExpanded {
   grid-template-columns: minmax(0, 1.18fr) minmax(500px, 1fr) !important;
 }
+
+/* ================================================================
+   VERSION 31a — DINNER COMBO-MEAL FINE-TUNING
+   ================================================================ */
+
+/* 1 — Increase REGULAR GROCERY INGREDIENTS heading. */
+.dinnerCombinationScaleCard .comboRegularGroceryIngredients h3 {
+  font-size: 27px !important;
+  line-height: 1.15 !important;
+  letter-spacing: .04em !important;
+}
+
+/* 3 — Reduce the meal-plan weekday/day text. */
+.dinnerCombinationScaleCard .dinnerCombinationPlannerAdd label,
+.dinnerCombinationScaleCard .dinnerCombinationPlannerAdd select,
+.dinnerCombinationScaleCard .dinnerCombinationPlannerAdd option,
+.dinnerCombinationScaleCard .dinnerCombinationPlannerAdd .mealPlanDayLabel,
+.dinnerCombinationScaleCard .dinnerCombinationPlannerAdd .weekDayLabel {
+  font-size: 16px !important;
+  line-height: 1.2 !important;
+}
+
+/* 4 — Reduce the Meal-number bubble by 15% from the prior enlarged size. */
+.dinnerCombinationScaleCard .dinnerCombinationMealBadge {
+  min-width: 92px !important;
+  height: 37px !important;
+  min-height: 37px !important;
+  padding: 0 15px !important;
+  font-size: 18.7px !important;
+  border-radius: 0 0 12px 0 !important;
+}
+

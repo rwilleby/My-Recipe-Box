@@ -10619,7 +10619,11 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard, favorite
   }
 
   function handleRecipeButton(button) {
-    setActiveRecipePopup((current) => (current === button.label ? null : button.label));
+    const linkedRecipe = findLinkedRecipe(button.recipeId);
+    if (!linkedRecipe) return;
+
+    setActiveRecipePopup(null);
+    openRecipeCard(linkedRecipe.id, recipes);
   }
 
   function handleMealImageError() {
