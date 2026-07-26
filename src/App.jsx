@@ -2279,9 +2279,9 @@ function FeaturedComboMealCardModal({
 }
 
 const HOME_COMBO_MEAL_COUNT = 6;
-const HOME_COMBO_ROTATION_MS = 2 * 60 * 1000;
-const HOME_COMBO_STAGGER_MS = 500;
-const HOME_COMBO_CROSSFADE_MS = 520;
+const HOME_COMBO_ROTATION_MS = 60 * 1000;
+const HOME_COMBO_STAGGER_MS = 6 * 1000;
+const HOME_COMBO_CROSSFADE_MS = 1200;
 const HOME_COMBO_CUISINE_ORDER = ["AM", "AS", "HB", "IT", "MX", "SG"];
 
 function getComboCuisineKey(meal) {

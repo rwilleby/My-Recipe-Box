@@ -33116,13 +33116,13 @@ body.rrbPopupOpen {
   position: absolute !important;
   inset: 0 !important;
   z-index: 2 !important;
-  animation: homeComboMealCrossfadeIn 520ms ease-in-out both !important;
+  animation: homeComboMealCrossfadeIn 1200ms ease-in-out both !important;
 }
 
 .homeComboMealCrossfadeStage .homeComboMealCardOutgoing {
   position: relative !important;
   z-index: 1 !important;
-  animation: homeComboMealCrossfadeOut 520ms ease-in-out both !important;
+  animation: homeComboMealCrossfadeOut 1200ms ease-in-out both !important;
 }
 
 .homeComboMealCardWrap.isCrossfading > .homeComboMealFavorite {
