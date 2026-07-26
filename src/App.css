@@ -35019,35 +35019,66 @@ body.rrbPopupOpen {
   box-sizing: border-box;
 }
 
-/* Contact Me — direct email directory */
+/* Contact Me — copyable email directory */
 .contactEmailList {
   display: grid;
   gap: 12px;
   width: 100%;
 }
 
-.contactEmailList p {
+.contactEmailRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
   margin: 0;
   padding: 14px 16px;
   border: 1px solid rgba(20, 83, 45, .18);
   border-radius: 12px;
   background: #f8fbf8;
+}
+
+.contactEmailRow > div {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.contactEmailRow strong {
+  color: var(--green);
+}
+
+.contactEmailRow span {
   overflow-wrap: anywhere;
+  user-select: text;
 }
 
-.contactEmailList strong {
+.contactCopyButton {
+  flex: 0 0 auto;
+  min-height: 36px;
+  border: 1px solid rgba(20, 83, 45, .35);
+  border-radius: 9px;
+  background: #ffffff;
   color: var(--green);
-}
-
-.contactEmailList a {
-  color: var(--green);
+  padding: 7px 13px;
   font-weight: 700;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
+  cursor: pointer;
 }
 
-.contactEmailList a:hover,
-.contactEmailList a:focus-visible {
-  text-decoration-thickness: 2px;
+.contactCopyButton:hover,
+.contactCopyButton:focus-visible {
+  background: #eef6ef;
+  border-color: var(--green);
+}
+
+@media (max-width: 620px) {
+  .contactEmailRow {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .contactCopyButton {
+    width: 100%;
+  }
 }
 
