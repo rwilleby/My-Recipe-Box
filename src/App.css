@@ -35274,3 +35274,28 @@ body.rrbPopupOpen {
   margin-right: 0 !important;
 }
 
+/* ================================================================
+   HOME HERO + ACCORDION — TRUE EDGE MATCH
+   The original accordion section carries horizontal padding.
+   Removing that padding makes its bar match the full-width hero.
+   ================================================================ */
+
+.homeMealJourneySection {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  padding-top: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.homeMealJourneyDetails,
+.homeMealJourneyToggle {
+  width: 100% !important;
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  box-sizing: border-box !important;
+}
+
