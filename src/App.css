@@ -34562,74 +34562,106 @@ body.rrbPopupOpen {
 }
 
 /* ================================================================
-   ALL TIPS PAGES — DARK/LIGHT GREEN HEART POINT MARKERS
+   ALL TIPS PAGES — DARK/LIGHT GREEN HEART POINT HIERARCHY
    ================================================================ */
 
 /*
-  Primary points are the direct paragraphs inside each Tips guide section.
-  Sub-points are list items nested beneath a primary point.
-  This visual-only update preserves all locked page content and layouts.
+  Main points use a dark green heart.
+  Supporting points use a lighter green heart and are indented.
+  This applies to the shared cooking Tips guide layout.
 */
-.gasGrillGuideGrid > section > p {
+.gasGrillGuideGrid > section > p,
+.gasGrillGuideGrid > section > ul > li {
   position: relative !important;
-  margin-left: 0 !important;
-  padding-left: 24px !important;
+  list-style: none !important;
 }
 
-.gasGrillGuideGrid > section > p::before {
+.gasGrillGuideGrid > section > ul {
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+}
+
+/* Primary paragraph in each topic section. */
+.gasGrillGuideGrid > section > p:first-of-type {
+  padding-left: 25px !important;
+}
+
+/* Every first-level list item is a primary point. */
+.gasGrillGuideGrid > section > ul > li {
+  padding-left: 25px !important;
+}
+
+/* Dark green heart for primary points. */
+.gasGrillGuideGrid > section > p:first-of-type::before,
+.gasGrillGuideGrid > section > ul > li::before {
   content: "♥" !important;
   position: absolute !important;
   left: 0 !important;
-  top: .08em !important;
+  top: .02em !important;
   color: #14532d !important;
-  font-family: Arial, sans-serif !important;
-  font-size: 14px !important;
-  font-weight: 700 !important;
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: 16px !important;
   line-height: 1.35 !important;
 }
 
-.gasGrillGuideGrid > section > ul,
-.gasGrillGuideGrid > section > ol,
-.gasGrillGuideGrid > section .greenHeartList {
-  margin-left: 0 !important;
+/* Additional paragraphs are supporting sub-points. */
+.gasGrillGuideGrid > section > p:not(:first-of-type) {
+  margin-left: 26px !important;
+  padding-left: 23px !important;
+}
+
+/* Light green heart for supporting sub-points. */
+.gasGrillGuideGrid > section > p:not(:first-of-type)::before {
+  content: "♥" !important;
+  position: absolute !important;
+  left: 0 !important;
+  top: .02em !important;
+  color: #86b98a !important;
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: 14px !important;
+  line-height: 1.4 !important;
+}
+
+/* Nested lists are always supporting sub-points. */
+.gasGrillGuideGrid > section ul ul {
+  margin: 7px 0 2px 26px !important;
   padding-left: 0 !important;
-  list-style: none !important;
 }
 
-.gasGrillGuideGrid > section li {
+.gasGrillGuideGrid > section ul ul > li {
   position: relative !important;
-  padding-left: 24px !important;
   list-style: none !important;
+  padding-left: 23px !important;
 }
 
-.gasGrillGuideGrid > section li::marker {
+.gasGrillGuideGrid > section ul ul > li::before {
+  content: "♥" !important;
+  position: absolute !important;
+  left: 0 !important;
+  top: .02em !important;
+  color: #86b98a !important;
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: 14px !important;
+  line-height: 1.4 !important;
+}
+
+/* Preserve comfortable grouping between one main point and its sub-point. */
+.gasGrillGuideGrid > section > p:first-of-type + p {
+  margin-top: 7px !important;
+}
+
+/* Avoid duplicate bullets from earlier greenHeartList rules. */
+.gasGrillGuideGrid .greenHeartList > li::marker {
   content: "" !important;
 }
 
-.gasGrillGuideGrid > section li::before {
-  content: "♥" !important;
-  position: absolute !important;
-  left: 0 !important;
-  top: .08em !important;
-  color: #86b98b !important;
-  font-family: Arial, sans-serif !important;
-  font-size: 13px !important;
-  font-weight: 700 !important;
-  line-height: 1.35 !important;
-}
+@media (max-width: 640px) {
+  .gasGrillGuideGrid > section > p:not(:first-of-type) {
+    margin-left: 18px !important;
+  }
 
-/* Nested sub-points retain the light-green heart and receive a slight indent. */
-.gasGrillGuideGrid > section li ul,
-.gasGrillGuideGrid > section li ol {
-  margin-top: 6px !important;
-  padding-left: 14px !important;
-  list-style: none !important;
-}
-
-@media (max-width: 760px) {
-  .gasGrillGuideGrid > section > p,
-  .gasGrillGuideGrid > section li {
-    padding-left: 22px !important;
+  .gasGrillGuideGrid > section ul ul {
+    margin-left: 18px !important;
   }
 }
 
