@@ -26,11 +26,23 @@ export default function UserDataBackupSection({ onRestored }) {
   function handleBackup() {
     try {
       downloadBackup();
+
+      const completedAt = new Date().toISOString();
+
+      window.localStorage.setItem(
+        "rrb_backup_last_completed_at",
+        completedAt
+      );
+      window.localStorage.removeItem(
+        "rrb_backup_reminder_snoozed_until"
+      );
+
       window.dispatchEvent(
         new CustomEvent("rrb:backup-completed", {
-          detail: { completedAt: new Date().toISOString() },
+          detail: { completedAt },
         })
       );
+
       announce(SUCCESS_BACKUP, "success");
     } catch {
       announce("We could not create your backup. Please try again.", "error");
