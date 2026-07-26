@@ -1389,12 +1389,12 @@ const NAV_GROUPS = [
     label: "ABOUT",
     items: [
       { label: "WELCOME TO OUR SITE", page: "About" },
+      { label: "YOUR DATA & SECURITY", page: "Your Data & Security" },
       { label: "ABOUT OUR RECIPES", page: "About Recipes" },
       { label: "MEALBALANCE GUIDE", page: "MealBalance Guide" },
       { label: "AFFILIATE MARKETING", page: "Affiliate Marketing" },
       { label: "SUBMIT YOUR FAMILY RECIPES", page: "Submit Recipes" },
       { label: "CONTACT ME", page: "Contact Me" },
-      { label: "YOUR DATA & SECURITY", page: "Your Data & Security" },
       { label: "DISCLAIMERS", page: "Disclaimers" },
     ],
   },
