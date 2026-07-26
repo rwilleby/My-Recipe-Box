@@ -34561,3 +34561,75 @@ body.rrbPopupOpen {
   }
 }
 
+/* ================================================================
+   ALL TIPS PAGES — DARK/LIGHT GREEN HEART POINT MARKERS
+   ================================================================ */
+
+/*
+  Primary points are the direct paragraphs inside each Tips guide section.
+  Sub-points are list items nested beneath a primary point.
+  This visual-only update preserves all locked page content and layouts.
+*/
+.gasGrillGuideGrid > section > p {
+  position: relative !important;
+  margin-left: 0 !important;
+  padding-left: 24px !important;
+}
+
+.gasGrillGuideGrid > section > p::before {
+  content: "♥" !important;
+  position: absolute !important;
+  left: 0 !important;
+  top: .08em !important;
+  color: #14532d !important;
+  font-family: Arial, sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  line-height: 1.35 !important;
+}
+
+.gasGrillGuideGrid > section > ul,
+.gasGrillGuideGrid > section > ol,
+.gasGrillGuideGrid > section .greenHeartList {
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+  list-style: none !important;
+}
+
+.gasGrillGuideGrid > section li {
+  position: relative !important;
+  padding-left: 24px !important;
+  list-style: none !important;
+}
+
+.gasGrillGuideGrid > section li::marker {
+  content: "" !important;
+}
+
+.gasGrillGuideGrid > section li::before {
+  content: "♥" !important;
+  position: absolute !important;
+  left: 0 !important;
+  top: .08em !important;
+  color: #86b98b !important;
+  font-family: Arial, sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  line-height: 1.35 !important;
+}
+
+/* Nested sub-points retain the light-green heart and receive a slight indent. */
+.gasGrillGuideGrid > section li ul,
+.gasGrillGuideGrid > section li ol {
+  margin-top: 6px !important;
+  padding-left: 14px !important;
+  list-style: none !important;
+}
+
+@media (max-width: 760px) {
+  .gasGrillGuideGrid > section > p,
+  .gasGrillGuideGrid > section li {
+    padding-left: 22px !important;
+  }
+}
+
