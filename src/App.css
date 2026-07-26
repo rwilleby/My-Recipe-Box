@@ -25928,8 +25928,9 @@ body.rrbPopupOpen {
 
 .mealBalanceGuideDetails {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: 1fr;
   gap: 18px;
+  width: 100%;
   margin-top: 18px;
 }
 
@@ -35008,3 +35009,12 @@ body.rrbPopupOpen {
   }
 }
 
+
+
+/* Understanding MealBalance — approved full-width information sections */
+.mealBalanceGuideIntro,
+.mealBalanceGuideDetails,
+.mealBalanceGuideDetails article {
+  width: 100%;
+  box-sizing: border-box;
+}

@@ -1391,7 +1391,7 @@ const NAV_GROUPS = [
       { label: "WELCOME TO OUR SITE", page: "About" },
       { label: "YOUR DATA & SECURITY", page: "Your Data & Security" },
       { label: "ABOUT OUR RECIPES", page: "About Recipes" },
-      { label: "MEALBALANCE GUIDE", page: "MealBalance Guide" },
+      { label: "UNDERSTANDING MEALBALANCE", page: "MealBalance Guide" },
       { label: "AFFILIATE MARKETING", page: "Affiliate Marketing" },
       { label: "SUBMIT YOUR FAMILY RECIPES", page: "Submit Recipes" },
       { label: "CONTACT ME", page: "Contact Me" },
@@ -10420,7 +10420,7 @@ function MealBalanceGuidePage({ setActivePage }) {
         </article>
         <article>
           <h2>What MealBalance is not</h2>
-          <p>MealBalance is not a medical diagnosis, weight-loss program, diet prescription, or substitute for advice from a physician or registered dietitian. A lower number does not automatically make a recipe “good,” and a higher number does not make it “bad.”</p>
+          <p>MealBalance is not a <strong><em>medical diagnosis, weight-loss program, diet prescription, or substitute for advice from a physician or registered dietitian.</em></strong> A lower number does not automatically make a recipe “good,” and a higher number does not make it “bad.”</p>
           <p>It is simply one extra guide to help you compare choices, consider portions, pair richer dishes with lighter sides, and make decisions that fit your own needs.</p>
         </article>
       </section>
@@ -15375,8 +15375,8 @@ Use this section to check what is on hand, record dates, mark foods that should 
       {activePage === "MealBalance Guide" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-page-ai-generated.webp"
-            alt="Recipe planning and nutrition comparison setup"
+            src="images/heroes/hero-page-mealbalance.webp"
+            alt="Balanced meal with grilled chicken, vegetables, grains, fruit, and MealBalance planning board"
             eyebrow="OUR RECIPES"
             title="Understanding MealBalance"
             text="MealBalance is a simple comparison guide designed to help you look at recipes and complete meals in context. It provides an estimated 1–10 score so you can quickly compare lighter, moderate, rich, and indulgent choices.
