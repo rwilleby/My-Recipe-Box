@@ -36284,3 +36284,11 @@ body.rrbPopupOpen {
   gap: 12px !important;
 }
 
+/* ================================================================
+   VERSION 31c — GROCERY HEADING MATCHES RECIPE CARDS TITLE
+   ================================================================ */
+
+.dinnerCombinationScaleCard .comboRegularGroceryIngredients h3 {
+  font-size: 22.5px !important;
+}
+
