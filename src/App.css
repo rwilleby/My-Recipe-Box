@@ -35187,3 +35187,46 @@ body.rrbPopupOpen {
   }
 }
 
+/* ================================================================
+   HOME QUICK OVERVIEW — FLUSH HERO ATTACHMENT + SQUARE CORNERS
+   ================================================================ */
+
+.homeMealJourneySection {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+.homeMealJourneyDetails {
+  margin-top: 0 !important;
+  border-radius: 0 !important;
+  border-top: 0 !important;
+  box-shadow: none !important;
+}
+
+.homeMealJourneyToggle {
+  border-radius: 0 !important;
+}
+
+/* Narrow secondary line while preserving the approved bold white type. */
+.homeMealJourneyToggleText small {
+  font-family: "Arial Narrow", "Aptos Narrow", "Roboto Condensed",
+    "Helvetica Neue Condensed", "Liberation Sans Narrow", Arial, sans-serif !important;
+  font-stretch: condensed !important;
+  letter-spacing: .015em !important;
+}
+
+/* Remove any Home-page spacing between the hero and its overview bar. */
+.hero + .homeMealJourneySection,
+.hero + * .homeMealJourneySection {
+  margin-top: 0 !important;
+}
+
+@media (min-width: 701px) {
+  .homeMealJourneySection {
+    width: 100% !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+}
+
