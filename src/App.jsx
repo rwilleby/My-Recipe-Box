@@ -13699,42 +13699,31 @@ export default function App() {
                 <h2 id="contact-action-title">Contact Robert’s Recipe Box</h2>
                 <p>Questions, corrections, privacy concerns, website feedback, and business or affiliate inquiries are welcome. Please use the email address that best matches your message.</p>
               </div>
-              <div className="contactEmailList" aria-label="Robert’s Recipe Box email addresses">
-                {[
-                  ["General questions", "robert@roberts-recipe-box.com"],
-                  ["Recipe questions or corrections", "recipes@roberts-recipe-box.com"],
-                  ["Privacy concerns", "privacy@roberts-recipe-box.com"],
-                  ["Business and affiliate inquiries", "affiliates@roberts-recipe-box.com"],
-                ].map(([label, address]) => (
-                  <div className="contactEmailRow" key={address}>
-                    <div>
-                      <strong>{label}:</strong>
-                      <span>{address}</span>
-                    </div>
-                    <button
-                      type="button"
-                      className="contactCopyButton"
-                      onClick={async () => {
-                        try {
-                          await navigator.clipboard.writeText(address);
-                        } catch {
-                          const copyField = document.createElement("textarea");
-                          copyField.value = address;
-                          copyField.setAttribute("readonly", "");
-                          copyField.style.position = "fixed";
-                          copyField.style.opacity = "0";
-                          document.body.appendChild(copyField);
-                          copyField.select();
-                          document.execCommand("copy");
-                          document.body.removeChild(copyField);
-                        }
-                      }}
-                      aria-label={`Copy ${label.toLowerCase()} email address`}
-                    >
-                      Copy
-                    </button>
-                  </div>
-                ))}
+              <div className="contactEmailPlainList" aria-label="Robert’s Recipe Box email addresses">
+                <p>
+                  General questions:{" "}
+                  <a href="mailto:robert@roberts-recipe-box.com">
+                    robert@roberts-recipe-box.com
+                  </a>
+                </p>
+                <p>
+                  Recipe questions or corrections:{" "}
+                  <a href="mailto:recipes@roberts-recipe-box.com">
+                    recipes@roberts-recipe-box.com
+                  </a>
+                </p>
+                <p>
+                  Privacy concerns:{" "}
+                  <a href="mailto:privacy@roberts-recipe-box.com">
+                    privacy@roberts-recipe-box.com
+                  </a>
+                </p>
+                <p>
+                  Business and affiliate inquiries:{" "}
+                  <a href="mailto:affiliates@roberts-recipe-box.com">
+                    affiliates@roberts-recipe-box.com
+                  </a>
+                </p>
               </div>
             </section>
           </main>
