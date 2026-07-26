@@ -1665,6 +1665,13 @@ function HeroInfoButtons({ setActivePage }) {
 
 function Hero({ setActivePage }) {
   const [heroIndex, setHeroIndex] = useState(0);
+  const [backupReminderStatus, setBackupReminderStatus] = useState(() => {
+    const reminderState = readBackupReminderState();
+    return {
+      isDue: backupReminderDates(reminderState).isDue,
+      hasNeverBackedUp: !reminderState.lastBackupAt,
+    };
+  });
 
   useEffect(() => {
     const timer = window.setInterval(() => {
@@ -1672,6 +1679,28 @@ function Hero({ setActivePage }) {
     }, 6000);
 
     return () => window.clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    function refreshBackupDue() {
+      const reminderState = readBackupReminderState();
+      setBackupReminderStatus({
+        isDue: backupReminderDates(reminderState).isDue,
+        hasNeverBackedUp: !reminderState.lastBackupAt,
+      });
+    }
+
+    refreshBackupDue();
+    window.addEventListener("rrb:backup-completed", refreshBackupDue);
+    window.addEventListener("storage", refreshBackupDue);
+
+    const reminderTimer = window.setInterval(refreshBackupDue, 60 * 1000);
+
+    return () => {
+      window.removeEventListener("rrb:backup-completed", refreshBackupDue);
+      window.removeEventListener("storage", refreshBackupDue);
+      window.clearInterval(reminderTimer);
+    };
   }, []);
 
   return (
@@ -1692,6 +1721,22 @@ function Hero({ setActivePage }) {
       </div>
 
       <div className="heroOverlay" aria-hidden="true" />
+
+      {backupReminderStatus.isDue && (
+        <button
+          type="button"
+          className="homeHeroBackupDueButton"
+          onClick={() => setActivePage("User Backup")}
+          aria-label={
+            backupReminderStatus.hasNeverBackedUp
+              ? "Your first browser backup has not been created. Open Backup and Restore."
+              : "Browser backup is due. Open Backup and Restore."
+          }
+        >
+          <span aria-hidden="true">♥</span>
+          {backupReminderStatus.hasNeverBackedUp ? "First Backup Needed" : "Backup Due"}
+        </button>
+      )}
 
       <div className="heroCopy">
         <div className="aiBadge">✧ AI-POWERED RECIPE PLANNING ✧</div>
@@ -15263,7 +15308,7 @@ Use this section to check what is on hand, record dates, mark foods that should 
             className="pageHeroDepth464"
           />
           <main className="pageShell userBackupPage">
-            <UserDataBackupSection />
+            <UserDataBackupSection onClose={() => setActivePage("Home")} />
           </main>
         </>
       )}
