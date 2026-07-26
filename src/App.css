@@ -35049,3 +35049,14 @@ body.rrbPopupOpen {
   text-decoration-thickness: 2px;
 }
 
+/* Contact Me — description and email on separate lines */
+.contactEmailPlainList p {
+  display: grid;
+  gap: 2px;
+}
+
+.contactEmailPlainList p > span,
+.contactEmailPlainList p > a {
+  display: block;
+}
+

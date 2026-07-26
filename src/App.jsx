@@ -13701,25 +13701,25 @@ export default function App() {
               </div>
               <div className="contactEmailPlainList" aria-label="Robert’s Recipe Box email addresses">
                 <p>
-                  General questions:{" "}
+                  <span>General questions:</span>
                   <a href="mailto:robert@roberts-recipe-box.com">
                     robert@roberts-recipe-box.com
                   </a>
                 </p>
                 <p>
-                  Recipe questions or corrections:{" "}
+                  <span>Recipe questions or corrections:</span>
                   <a href="mailto:recipes@roberts-recipe-box.com">
                     recipes@roberts-recipe-box.com
                   </a>
                 </p>
                 <p>
-                  Privacy concerns:{" "}
+                  <span>Privacy concerns:</span>
                   <a href="mailto:privacy@roberts-recipe-box.com">
                     privacy@roberts-recipe-box.com
                   </a>
                 </p>
                 <p>
-                  Business and affiliate inquiries:{" "}
+                  <span>Business and affiliate inquiries:</span>
                   <a href="mailto:affiliates@roberts-recipe-box.com">
                     affiliates@roberts-recipe-box.com
                   </a>
