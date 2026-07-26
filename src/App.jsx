@@ -4959,6 +4959,8 @@ function Home({
       <CategoryGrid setFilter={setFilter} setActivePage={setActivePage} />
       <HomeRecipeCounters classifiedRecipes={classifiedRecipes} />
 
+      <BackupReminderPanel setActivePage={setActivePage} className="homeBackupReminder" />
+
       <div className="homeAdminAccessWrap" aria-label="Administrative and user data tools">
         <button
           className="adminAccessButton homeAdminAccessButton"
@@ -13122,6 +13124,209 @@ function WeeklyMealPlannerPrototypePage({ setActivePage }) {
 
 
 
+
+const BACKUP_REMINDER_STORAGE_KEYS = {
+  lastBackupAt: "rrb_backup_last_completed_at",
+  intervalDays: "rrb_backup_reminder_interval_days",
+  snoozedUntil: "rrb_backup_reminder_snoozed_until",
+};
+
+const BACKUP_REMINDER_INTERVALS = [7, 14, 30];
+
+function readBackupReminderState() {
+  const rawInterval = Number(
+    window.localStorage.getItem(BACKUP_REMINDER_STORAGE_KEYS.intervalDays) || 7
+  );
+  const intervalDays = BACKUP_REMINDER_INTERVALS.includes(rawInterval)
+    ? rawInterval
+    : 7;
+
+  return {
+    intervalDays,
+    lastBackupAt:
+      window.localStorage.getItem(BACKUP_REMINDER_STORAGE_KEYS.lastBackupAt) || "",
+    snoozedUntil:
+      window.localStorage.getItem(BACKUP_REMINDER_STORAGE_KEYS.snoozedUntil) || "",
+  };
+}
+
+function backupReminderDates(state) {
+  const now = Date.now();
+  const lastBackupTime = state.lastBackupAt
+    ? new Date(state.lastBackupAt).getTime()
+    : Number.NaN;
+  const snoozedTime = state.snoozedUntil
+    ? new Date(state.snoozedUntil).getTime()
+    : Number.NaN;
+
+  const scheduledTime = Number.isFinite(lastBackupTime)
+    ? lastBackupTime + state.intervalDays * 24 * 60 * 60 * 1000
+    : now;
+
+  const effectiveDueTime = Number.isFinite(snoozedTime)
+    ? Math.max(scheduledTime, snoozedTime)
+    : scheduledTime;
+
+  return {
+    now,
+    scheduledTime,
+    effectiveDueTime,
+    isDue: now >= effectiveDueTime,
+  };
+}
+
+function formatBackupReminderDate(value) {
+  if (!value) return "Not yet";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "Not yet";
+  return date.toLocaleDateString(undefined, {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+
+function backupAgeInDays(lastBackupAt) {
+  if (!lastBackupAt) return null;
+  const time = new Date(lastBackupAt).getTime();
+  if (!Number.isFinite(time)) return null;
+  return Math.max(0, Math.floor((Date.now() - time) / (24 * 60 * 60 * 1000)));
+}
+
+function BackupReminderPanel({
+  setActivePage,
+  alwaysVisible = false,
+  className = "",
+}) {
+  const [state, setState] = useState(() => readBackupReminderState());
+
+  useEffect(() => {
+    function refreshReminder() {
+      setState(readBackupReminderState());
+    }
+
+    function recordCompletedBackup(event) {
+      const completedAt =
+        event?.detail?.completedAt || new Date().toISOString();
+      window.localStorage.setItem(
+        BACKUP_REMINDER_STORAGE_KEYS.lastBackupAt,
+        completedAt
+      );
+      window.localStorage.removeItem(
+        BACKUP_REMINDER_STORAGE_KEYS.snoozedUntil
+      );
+      refreshReminder();
+    }
+
+    window.addEventListener("rrb:backup-completed", recordCompletedBackup);
+    window.addEventListener("storage", refreshReminder);
+
+    return () => {
+      window.removeEventListener("rrb:backup-completed", recordCompletedBackup);
+      window.removeEventListener("storage", refreshReminder);
+    };
+  }, []);
+
+  const dates = backupReminderDates(state);
+  const age = backupAgeInDays(state.lastBackupAt);
+
+  if (!alwaysVisible && !dates.isDue) return null;
+
+  function changeInterval(event) {
+    const nextInterval = Number(event.target.value);
+    if (!BACKUP_REMINDER_INTERVALS.includes(nextInterval)) return;
+
+    window.localStorage.setItem(
+      BACKUP_REMINDER_STORAGE_KEYS.intervalDays,
+      String(nextInterval)
+    );
+    window.localStorage.removeItem(
+      BACKUP_REMINDER_STORAGE_KEYS.snoozedUntil
+    );
+    setState(readBackupReminderState());
+  }
+
+  function remindTomorrow() {
+    const tomorrow = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
+    window.localStorage.setItem(
+      BACKUP_REMINDER_STORAGE_KEYS.snoozedUntil,
+      tomorrow
+    );
+    setState(readBackupReminderState());
+  }
+
+  const statusTitle = !state.lastBackupAt
+    ? "Your Recipe Box has not been backed up yet."
+    : dates.isDue
+      ? `Your browser backup is due${age === null ? "." : ` — the last backup was ${age} day${age === 1 ? "" : "s"} ago.`}`
+      : "Your browser backup reminder is scheduled.";
+
+  return (
+    <section
+      className={`backupReminderPanel ${dates.isDue ? "isDue" : "isCurrent"} ${className}`.trim()}
+      aria-labelledby={`backup-reminder-title-${alwaysVisible ? "settings" : "home"}`}
+    >
+      <div className="backupReminderIcon" aria-hidden="true">♥</div>
+
+      <div className="backupReminderCopy">
+        <span className="backupReminderEyebrow">
+          {dates.isDue ? "BACKUP REMINDER" : "BACKUP SCHEDULE"}
+        </span>
+        <h2 id={`backup-reminder-title-${alwaysVisible ? "settings" : "home"}`}>
+          {statusTitle}
+        </h2>
+        <p>
+          Backups protect the favorites, meal plans, grocery lists, inventories,
+          notes, and preferences stored in this browser.
+        </p>
+
+        <div className="backupReminderMeta">
+          <span><strong>Last backup:</strong> {formatBackupReminderDate(state.lastBackupAt)}</span>
+          <span><strong>Reminder:</strong> Every {state.intervalDays} days</span>
+          {!dates.isDue && state.lastBackupAt && (
+            <span>
+              <strong>Next reminder:</strong>{" "}
+              {formatBackupReminderDate(new Date(dates.effectiveDueTime).toISOString())}
+            </span>
+          )}
+        </div>
+      </div>
+
+      <div className="backupReminderControls">
+        <label>
+          <span>Remind me every</span>
+          <select value={state.intervalDays} onChange={changeInterval}>
+            <option value="7">7 days</option>
+            <option value="14">14 days</option>
+            <option value="30">30 days</option>
+          </select>
+        </label>
+
+        <div className="backupReminderButtons">
+          <button
+            type="button"
+            className="primary"
+            onClick={() => setActivePage("User Backup")}
+          >
+            Back Up Now
+          </button>
+
+          {dates.isDue && (
+            <button
+              type="button"
+              className="secondary"
+              onClick={remindTomorrow}
+            >
+              Remind Me Tomorrow
+            </button>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
 function YourDataSecurityPage({ setActivePage }) {
   return (
     <main className="pageShell yourDataSecurityPage">
@@ -13190,6 +13395,12 @@ function YourDataSecurityPage({ setActivePage }) {
           </p>
         </article>
       </section>
+
+      <BackupReminderPanel
+        setActivePage={setActivePage}
+        alwaysVisible
+        className="dataSecurityBackupReminder"
+      />
 
       <section className="yourDataSecurityBackupCallout">
         <div>

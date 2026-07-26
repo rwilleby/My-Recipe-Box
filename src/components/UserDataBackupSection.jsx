@@ -26,6 +26,11 @@ export default function UserDataBackupSection({ onRestored }) {
   function handleBackup() {
     try {
       downloadBackup();
+      window.dispatchEvent(
+        new CustomEvent("rrb:backup-completed", {
+          detail: { completedAt: new Date().toISOString() },
+        })
+      );
       announce(SUCCESS_BACKUP, "success");
     } catch {
       announce("We could not create your backup. Please try again.", "error");

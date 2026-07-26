@@ -34773,3 +34773,165 @@ body.rrbPopupOpen {
   }
 }
 
+/* ================================================================
+   BROWSER BACKUP REMINDER — 7 / 14 / 30 DAYS
+   ================================================================ */
+
+.backupReminderPanel {
+  display: grid !important;
+  grid-template-columns: auto minmax(0, 1fr) minmax(245px, 310px) !important;
+  gap: 18px !important;
+  align-items: center !important;
+  width: min(1180px, calc(100% - 32px)) !important;
+  margin: 22px auto !important;
+  padding: 20px 22px !important;
+  border: 1px solid rgba(20, 83, 45, .2) !important;
+  border-radius: 16px !important;
+  background: #f6faf6 !important;
+}
+
+.backupReminderPanel.isDue {
+  border-width: 2px !important;
+  background: #eef5ef !important;
+}
+
+.backupReminderIcon {
+  display: grid !important;
+  place-items: center !important;
+  width: 46px !important;
+  height: 46px !important;
+  border-radius: 999px !important;
+  background: #14532d !important;
+  color: #ffffff !important;
+  font-size: 22px !important;
+}
+
+.backupReminderEyebrow {
+  display: block !important;
+  margin-bottom: 5px !important;
+  color: #14532d !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  letter-spacing: .075em !important;
+  text-transform: uppercase !important;
+}
+
+.backupReminderCopy h2 {
+  margin: 0 0 6px !important;
+  color: #23352b !important;
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif !important;
+  font-size: 20px !important;
+  line-height: 1.2 !important;
+}
+
+.backupReminderCopy p {
+  margin: 0 !important;
+  color: #596273 !important;
+  line-height: 1.5 !important;
+}
+
+.backupReminderMeta {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 5px 16px !important;
+  margin-top: 9px !important;
+  color: #667085 !important;
+  font-size: 12px !important;
+}
+
+.backupReminderMeta strong {
+  color: #344054 !important;
+}
+
+.backupReminderControls {
+  display: grid !important;
+  gap: 10px !important;
+}
+
+.backupReminderControls label {
+  display: grid !important;
+  grid-template-columns: auto minmax(110px, 1fr) !important;
+  gap: 9px !important;
+  align-items: center !important;
+  color: #344054 !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+}
+
+.backupReminderControls select {
+  min-height: 38px !important;
+  border: 1px solid rgba(20, 83, 45, .25) !important;
+  border-radius: 9px !important;
+  background: #ffffff !important;
+  padding: 7px 10px !important;
+  color: #1f2937 !important;
+  font: inherit !important;
+}
+
+.backupReminderButtons {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 8px !important;
+}
+
+.backupReminderButtons button {
+  min-height: 40px !important;
+  border-radius: 9px !important;
+  padding: 9px 12px !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+}
+
+.backupReminderButtons .primary {
+  border: 0 !important;
+  background: #14532d !important;
+  color: #ffffff !important;
+}
+
+.backupReminderButtons .secondary {
+  border: 1px solid rgba(20, 83, 45, .28) !important;
+  background: #ffffff !important;
+  color: #14532d !important;
+}
+
+.dataSecurityBackupReminder {
+  width: 100% !important;
+  margin: 0 !important;
+}
+
+@media (max-width: 900px) {
+  .backupReminderPanel {
+    grid-template-columns: auto minmax(0, 1fr) !important;
+  }
+
+  .backupReminderControls {
+    grid-column: 1 / -1 !important;
+  }
+}
+
+@media (max-width: 620px) {
+  .backupReminderPanel {
+    grid-template-columns: 1fr !important;
+    width: min(100% - 24px, 1180px) !important;
+    padding: 18px !important;
+  }
+
+  .dataSecurityBackupReminder {
+    width: 100% !important;
+  }
+
+  .backupReminderIcon {
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  .backupReminderControls {
+    grid-column: auto !important;
+  }
+
+  .backupReminderControls label,
+  .backupReminderButtons {
+    grid-template-columns: 1fr !important;
+  }
+}
+
