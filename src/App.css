@@ -36070,3 +36070,165 @@ body.rrbPopupOpen {
   overflow: hidden !important;
 }
 
+
+
+/* ================================================================
+   DINNER COMBINATIONS — VERSION 31 A–M REFINEMENT
+   Applies the approved annotated layout while retaining proportional
+   whole-card scaling and the Version 30 Favorites treatment.
+   ================================================================ */
+
+/* A — meal-code badge enlarged to fill its assigned area. */
+.dinnerCombinationScaleCard .dinnerCombinationMealBadge {
+  min-width: 150px !important;
+  min-height: 58px !important;
+  height: 58px !important;
+  padding: 0 22px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+  font-size: 27px !important;
+  line-height: 1 !important;
+  font-weight: 800 !important;
+  text-align: center !important;
+}
+
+/* D — pull the M/S1/S2 rows upward and reserve more width for portions. */
+.dinnerCombinationScaleCard .dinnerAreaDishes {
+  display: flex !important;
+  align-items: flex-start !important;
+  padding-top: 5px !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationStackedMeal {
+  width: 100% !important;
+  display: grid !important;
+  align-content: start !important;
+  gap: 5px !important;
+  margin: 0 !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationStackedMeal p {
+  display: grid !important;
+  grid-template-columns: 34px minmax(0, 1fr) minmax(118px, auto) !important;
+  align-items: center !important;
+  gap: 8px !important;
+  margin: 0 !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationStackedMeal p > span {
+  width: 34px !important;
+  min-width: 34px !important;
+  font-size: 19.5px !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+  text-align: left !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationStackedMeal strong {
+  min-width: 0 !important;
+  font-size: 21.7px !important;
+  line-height: 1.08 !important;
+  white-space: normal !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationStackedMeal small {
+  min-width: 118px !important;
+  font-size: 21px !important;
+  line-height: 1.08 !important;
+  white-space: normal !important;
+  text-align: right !important;
+}
+
+/* E — only the large nutrition values are reduced by 20% (36px → 28.8px). */
+.dinnerCombinationScaleCard .dinnerCombinationNutritionExpanded strong {
+  font-size: 28.8px !important;
+}
+
+/* F — grocery headings match Recipe Cards; ingredient text matches D names. */
+.dinnerCombinationScaleCard .comboRegularGroceryIngredients h3,
+.dinnerCombinationScaleCard .comboPreparedComponents h3,
+.dinnerCombinationScaleCard .dinnerCombinationRecipeButtons h4,
+.dinnerCombinationScaleCard .dinnerCombinationPlannerAdd label > span {
+  margin: 0 0 10px !important;
+  color: #667085 !important;
+  font-family: var(--rrb-body-font, Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif) !important;
+  font-size: 22.5px !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+  letter-spacing: .055em !important;
+  text-transform: uppercase !important;
+}
+
+.dinnerCombinationScaleCard .comboCompactIngredientRows {
+  gap: 5px !important;
+}
+
+.dinnerCombinationScaleCard .comboCompactIngredientRows p {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  align-items: center !important;
+  gap: 8px !important;
+  margin: 0 !important;
+}
+
+.dinnerCombinationScaleCard .comboCompactIngredientRows strong,
+.dinnerCombinationScaleCard .comboCompactIngredientRows span {
+  font-size: 21.7px !important;
+  line-height: 1.08 !important;
+}
+
+/* G–I — narrower Freezer Life; equal wider Oven and Microwave areas. */
+.dinnerCombinationScaleCard .dinnerCombinationHeatingPanelGrid {
+  grid-template-columns: .68fr 1.16fr 1.16fr !important;
+  gap: 10px !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationHeatingPanelGrid p {
+  min-width: 0 !important;
+}
+
+/* J–L — three exactly equal Recipe Card boxes. */
+.dinnerCombinationScaleCard .dinnerCombinationRecipeButtonGrid {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 10px !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationRecipeButtonGrid > div,
+.dinnerCombinationScaleCard .dinnerCombinationRecipeButtonGrid > div > button {
+  width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationRecipeButtonGrid > div > button {
+  min-height: 96px !important;
+  height: 100% !important;
+}
+
+/* M — Recipe Cards-sized heading and perfectly centered Add Meal text. */
+.dinnerCombinationScaleCard .dinnerCombinationPlannerAdd {
+  align-items: stretch !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationPlannerAdd label {
+  display: grid !important;
+  align-content: start !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationPlannerAdd > button {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  line-height: 1 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+/* Refine the lower-area proportions to follow the marked A–M guide. */
+.dinnerCombinationScaleCard .dinnerAreaActionsExpanded {
+  grid-template-columns: minmax(0, 1.18fr) minmax(500px, 1fr) !important;
+}

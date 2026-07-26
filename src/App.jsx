@@ -10735,13 +10735,13 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard, favorite
         <section className="dinnerArea dinnerAreaDishes" aria-label="Main and side dishes">
           <div className="dinnerCombinationStackedMeal">
             <p>
-              <span>Main Dish</span>
+              <span>M</span>
               <strong>{meal.mainDish}</strong>
               <small>{meal.mainServing}</small>
             </p>
-            {(meal.sides || []).map((side) => (
+            {(meal.sides || []).map((side, sideIndex) => (
               <p key={`${meal.id}-${side.name}`}>
-                <span>Side Dish</span>
+                <span>{`S${sideIndex + 1}`}</span>
                 <strong>{side.name}</strong>
                 <small>{side.serving}</small>
               </p>
