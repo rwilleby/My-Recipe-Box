@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { HERO_IMAGE_MANIFEST, COMBO_IMAGE_MANIFEST, HERO_IMAGE_SOURCE_COUNTS } from "./heroImageManifest.js";
 import "./DinnerCombinationHeroAudit.css";
 
-const STORAGE_KEY = "rrb_dinnerComboHeroAssignment_v2";
+const STORAGE_KEY = "rrb_dinnerComboHeroAssignment_v3_am_reset";
 const PANEL_ROLES = ["combo", "main", "side1", "side2"];
 const ROLE_LABELS = { combo: "COMBO", main: "MAIN", side1: "SIDE 1", side2: "SIDE 2" };
 

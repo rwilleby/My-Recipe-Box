@@ -1,6 +1,822 @@
-// Generated from complete heroes, thumbnails, recipe cards, and dinner-combination folders.
-// Dedicated Hero = true food hero. Other sources are clearly labeled fallbacks for comparison.
+// Rebuilt July 27, 2026 from the latest complete image folders.
+// Opening this package uses a new browser-storage key so prior audit assignments start clean.
 export const HERO_IMAGE_MANIFEST = [
+  {
+    "name": "meal-001.webp",
+    "displayName": "meal-001.webp",
+    "code": "MEAL-001",
+    "path": "images/dinner-combinations/meal-001.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-002.webp",
+    "displayName": "meal-002.webp",
+    "code": "MEAL-002",
+    "path": "images/dinner-combinations/meal-002.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-003.webp",
+    "displayName": "meal-003.webp",
+    "code": "MEAL-003",
+    "path": "images/dinner-combinations/meal-003.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-004.webp",
+    "displayName": "meal-004.webp",
+    "code": "MEAL-004",
+    "path": "images/dinner-combinations/meal-004.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-005.webp",
+    "displayName": "meal-005.webp",
+    "code": "MEAL-005",
+    "path": "images/dinner-combinations/meal-005.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-006.webp",
+    "displayName": "meal-006.webp",
+    "code": "MEAL-006",
+    "path": "images/dinner-combinations/meal-006.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-007.webp",
+    "displayName": "meal-007.webp",
+    "code": "MEAL-007",
+    "path": "images/dinner-combinations/meal-007.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-008.webp",
+    "displayName": "meal-008.webp",
+    "code": "MEAL-008",
+    "path": "images/dinner-combinations/meal-008.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-009.webp",
+    "displayName": "meal-009.webp",
+    "code": "MEAL-009",
+    "path": "images/dinner-combinations/meal-009.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-010.webp",
+    "displayName": "meal-010.webp",
+    "code": "MEAL-010",
+    "path": "images/dinner-combinations/meal-010.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-011.webp",
+    "displayName": "meal-011.webp",
+    "code": "MEAL-011",
+    "path": "images/dinner-combinations/meal-011.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-012.webp",
+    "displayName": "meal-012.webp",
+    "code": "MEAL-012",
+    "path": "images/dinner-combinations/meal-012.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-013.webp",
+    "displayName": "meal-013.webp",
+    "code": "MEAL-013",
+    "path": "images/dinner-combinations/meal-013.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-014.webp",
+    "displayName": "meal-014.webp",
+    "code": "MEAL-014",
+    "path": "images/dinner-combinations/meal-014.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-015.webp",
+    "displayName": "meal-015.webp",
+    "code": "MEAL-015",
+    "path": "images/dinner-combinations/meal-015.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-016.webp",
+    "displayName": "meal-016.webp",
+    "code": "MEAL-016",
+    "path": "images/dinner-combinations/meal-016.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-017.webp",
+    "displayName": "meal-017.webp",
+    "code": "MEAL-017",
+    "path": "images/dinner-combinations/meal-017.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-018.webp",
+    "displayName": "meal-018.webp",
+    "code": "MEAL-018",
+    "path": "images/dinner-combinations/meal-018.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-019.webp",
+    "displayName": "meal-019.webp",
+    "code": "MEAL-019",
+    "path": "images/dinner-combinations/meal-019.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-020.webp",
+    "displayName": "meal-020.webp",
+    "code": "MEAL-020",
+    "path": "images/dinner-combinations/meal-020.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-021.webp",
+    "displayName": "meal-021.webp",
+    "code": "MEAL-021",
+    "path": "images/dinner-combinations/meal-021.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-022.webp",
+    "displayName": "meal-022.webp",
+    "code": "MEAL-022",
+    "path": "images/dinner-combinations/meal-022.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-023.webp",
+    "displayName": "meal-023.webp",
+    "code": "MEAL-023",
+    "path": "images/dinner-combinations/meal-023.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-024.webp",
+    "displayName": "meal-024.webp",
+    "code": "MEAL-024",
+    "path": "images/dinner-combinations/meal-024.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-025.webp",
+    "displayName": "meal-025.webp",
+    "code": "MEAL-025",
+    "path": "images/dinner-combinations/meal-025.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-026.webp",
+    "displayName": "meal-026.webp",
+    "code": "MEAL-026",
+    "path": "images/dinner-combinations/meal-026.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-027.webp",
+    "displayName": "meal-027.webp",
+    "code": "MEAL-027",
+    "path": "images/dinner-combinations/meal-027.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-028.webp",
+    "displayName": "meal-028.webp",
+    "code": "MEAL-028",
+    "path": "images/dinner-combinations/meal-028.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-029.webp",
+    "displayName": "meal-029.webp",
+    "code": "MEAL-029",
+    "path": "images/dinner-combinations/meal-029.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-030.webp",
+    "displayName": "meal-030.webp",
+    "code": "MEAL-030",
+    "path": "images/dinner-combinations/meal-030.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-031.webp",
+    "displayName": "meal-031.webp",
+    "code": "MEAL-031",
+    "path": "images/dinner-combinations/meal-031.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-032.webp",
+    "displayName": "meal-032.webp",
+    "code": "MEAL-032",
+    "path": "images/dinner-combinations/meal-032.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-033.webp",
+    "displayName": "meal-033.webp",
+    "code": "MEAL-033",
+    "path": "images/dinner-combinations/meal-033.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-034.webp",
+    "displayName": "meal-034.webp",
+    "code": "MEAL-034",
+    "path": "images/dinner-combinations/meal-034.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-035.webp",
+    "displayName": "meal-035.webp",
+    "code": "MEAL-035",
+    "path": "images/dinner-combinations/meal-035.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-036.webp",
+    "displayName": "meal-036.webp",
+    "code": "MEAL-036",
+    "path": "images/dinner-combinations/meal-036.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-037.webp",
+    "displayName": "meal-037.webp",
+    "code": "MEAL-037",
+    "path": "images/dinner-combinations/meal-037.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-038.webp",
+    "displayName": "meal-038.webp",
+    "code": "MEAL-038",
+    "path": "images/dinner-combinations/meal-038.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-039.webp",
+    "displayName": "meal-039.webp",
+    "code": "MEAL-039",
+    "path": "images/dinner-combinations/meal-039.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-040.webp",
+    "displayName": "meal-040.webp",
+    "code": "MEAL-040",
+    "path": "images/dinner-combinations/meal-040.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-041.webp",
+    "displayName": "meal-041.webp",
+    "code": "MEAL-041",
+    "path": "images/dinner-combinations/meal-041.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-042.webp",
+    "displayName": "meal-042.webp",
+    "code": "MEAL-042",
+    "path": "images/dinner-combinations/meal-042.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-043.webp",
+    "displayName": "meal-043.webp",
+    "code": "MEAL-043",
+    "path": "images/dinner-combinations/meal-043.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-044.webp",
+    "displayName": "meal-044.webp",
+    "code": "MEAL-044",
+    "path": "images/dinner-combinations/meal-044.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-045.webp",
+    "displayName": "meal-045.webp",
+    "code": "MEAL-045",
+    "path": "images/dinner-combinations/meal-045.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-046.webp",
+    "displayName": "meal-046.webp",
+    "code": "MEAL-046",
+    "path": "images/dinner-combinations/meal-046.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-047.webp",
+    "displayName": "meal-047.webp",
+    "code": "MEAL-047",
+    "path": "images/dinner-combinations/meal-047.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-048.webp",
+    "displayName": "meal-048.webp",
+    "code": "MEAL-048",
+    "path": "images/dinner-combinations/meal-048.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-049.webp",
+    "displayName": "meal-049.webp",
+    "code": "MEAL-049",
+    "path": "images/dinner-combinations/meal-049.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-050.webp",
+    "displayName": "meal-050.webp",
+    "code": "MEAL-050",
+    "path": "images/dinner-combinations/meal-050.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-051.webp",
+    "displayName": "meal-051.webp",
+    "code": "MEAL-051",
+    "path": "images/dinner-combinations/meal-051.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-052.webp",
+    "displayName": "meal-052.webp",
+    "code": "MEAL-052",
+    "path": "images/dinner-combinations/meal-052.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-053.webp",
+    "displayName": "meal-053.webp",
+    "code": "MEAL-053",
+    "path": "images/dinner-combinations/meal-053.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-054.webp",
+    "displayName": "meal-054.webp",
+    "code": "MEAL-054",
+    "path": "images/dinner-combinations/meal-054.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-055.webp",
+    "displayName": "meal-055.webp",
+    "code": "MEAL-055",
+    "path": "images/dinner-combinations/meal-055.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-056.webp",
+    "displayName": "meal-056.webp",
+    "code": "MEAL-056",
+    "path": "images/dinner-combinations/meal-056.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-057.webp",
+    "displayName": "meal-057.webp",
+    "code": "MEAL-057",
+    "path": "images/dinner-combinations/meal-057.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-058.webp",
+    "displayName": "meal-058.webp",
+    "code": "MEAL-058",
+    "path": "images/dinner-combinations/meal-058.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-059.webp",
+    "displayName": "meal-059.webp",
+    "code": "MEAL-059",
+    "path": "images/dinner-combinations/meal-059.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-060.webp",
+    "displayName": "meal-060.webp",
+    "code": "MEAL-060",
+    "path": "images/dinner-combinations/meal-060.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-061.webp",
+    "displayName": "meal-061.webp",
+    "code": "MEAL-061",
+    "path": "images/dinner-combinations/meal-061.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-062.webp",
+    "displayName": "meal-062.webp",
+    "code": "MEAL-062",
+    "path": "images/dinner-combinations/meal-062.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-063.webp",
+    "displayName": "meal-063.webp",
+    "code": "MEAL-063",
+    "path": "images/dinner-combinations/meal-063.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-064.webp",
+    "displayName": "meal-064.webp",
+    "code": "MEAL-064",
+    "path": "images/dinner-combinations/meal-064.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-065.webp",
+    "displayName": "meal-065.webp",
+    "code": "MEAL-065",
+    "path": "images/dinner-combinations/meal-065.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-066.webp",
+    "displayName": "meal-066.webp",
+    "code": "MEAL-066",
+    "path": "images/dinner-combinations/meal-066.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-067.webp",
+    "displayName": "meal-067.webp",
+    "code": "MEAL-067",
+    "path": "images/dinner-combinations/meal-067.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-068.webp",
+    "displayName": "meal-068.webp",
+    "code": "MEAL-068",
+    "path": "images/dinner-combinations/meal-068.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-069.webp",
+    "displayName": "meal-069.webp",
+    "code": "MEAL-069",
+    "path": "images/dinner-combinations/meal-069.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-070.webp",
+    "displayName": "meal-070.webp",
+    "code": "MEAL-070",
+    "path": "images/dinner-combinations/meal-070.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-071.webp",
+    "displayName": "meal-071.webp",
+    "code": "MEAL-071",
+    "path": "images/dinner-combinations/meal-071.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-072.webp",
+    "displayName": "meal-072.webp",
+    "code": "MEAL-072",
+    "path": "images/dinner-combinations/meal-072.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-073.webp",
+    "displayName": "meal-073.webp",
+    "code": "MEAL-073",
+    "path": "images/dinner-combinations/meal-073.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-074.webp",
+    "displayName": "meal-074.webp",
+    "code": "MEAL-074",
+    "path": "images/dinner-combinations/meal-074.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-075.webp",
+    "displayName": "meal-075.webp",
+    "code": "MEAL-075",
+    "path": "images/dinner-combinations/meal-075.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-076.webp",
+    "displayName": "meal-076.webp",
+    "code": "MEAL-076",
+    "path": "images/dinner-combinations/meal-076.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-077.webp",
+    "displayName": "meal-077.webp",
+    "code": "MEAL-077",
+    "path": "images/dinner-combinations/meal-077.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-078.webp",
+    "displayName": "meal-078.webp",
+    "code": "MEAL-078",
+    "path": "images/dinner-combinations/meal-078.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-079.webp",
+    "displayName": "meal-079.webp",
+    "code": "MEAL-079",
+    "path": "images/dinner-combinations/meal-079.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-080.webp",
+    "displayName": "meal-080.webp",
+    "code": "MEAL-080",
+    "path": "images/dinner-combinations/meal-080.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-081.webp",
+    "displayName": "meal-081.webp",
+    "code": "MEAL-081",
+    "path": "images/dinner-combinations/meal-081.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-082.webp",
+    "displayName": "meal-082.webp",
+    "code": "MEAL-082",
+    "path": "images/dinner-combinations/meal-082.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-083.webp",
+    "displayName": "meal-083.webp",
+    "code": "MEAL-083",
+    "path": "images/dinner-combinations/meal-083.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-084.webp",
+    "displayName": "meal-084.webp",
+    "code": "MEAL-084",
+    "path": "images/dinner-combinations/meal-084.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-085.webp",
+    "displayName": "meal-085.webp",
+    "code": "MEAL-085",
+    "path": "images/dinner-combinations/meal-085.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-086.webp",
+    "displayName": "meal-086.webp",
+    "code": "MEAL-086",
+    "path": "images/dinner-combinations/meal-086.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-087.webp",
+    "displayName": "meal-087.webp",
+    "code": "MEAL-087",
+    "path": "images/dinner-combinations/meal-087.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-088.webp",
+    "displayName": "meal-088.webp",
+    "code": "MEAL-088",
+    "path": "images/dinner-combinations/meal-088.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-089.webp",
+    "displayName": "meal-089.webp",
+    "code": "MEAL-089",
+    "path": "images/dinner-combinations/meal-089.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-090.webp",
+    "displayName": "meal-090.webp",
+    "code": "MEAL-090",
+    "path": "images/dinner-combinations/meal-090.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-091.webp",
+    "displayName": "meal-091.webp",
+    "code": "MEAL-091",
+    "path": "images/dinner-combinations/meal-091.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-092.webp",
+    "displayName": "meal-092.webp",
+    "code": "MEAL-092",
+    "path": "images/dinner-combinations/meal-092.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-093.webp",
+    "displayName": "meal-093.webp",
+    "code": "MEAL-093",
+    "path": "images/dinner-combinations/meal-093.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-094.webp",
+    "displayName": "meal-094.webp",
+    "code": "MEAL-094",
+    "path": "images/dinner-combinations/meal-094.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-095.webp",
+    "displayName": "meal-095.webp",
+    "code": "MEAL-095",
+    "path": "images/dinner-combinations/meal-095.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-096.webp",
+    "displayName": "meal-096.webp",
+    "code": "MEAL-096",
+    "path": "images/dinner-combinations/meal-096.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-097.webp",
+    "displayName": "meal-097.webp",
+    "code": "MEAL-097",
+    "path": "images/dinner-combinations/meal-097.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-098.webp",
+    "displayName": "meal-098.webp",
+    "code": "MEAL-098",
+    "path": "images/dinner-combinations/meal-098.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-099.webp",
+    "displayName": "meal-099.webp",
+    "code": "MEAL-099",
+    "path": "images/dinner-combinations/meal-099.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-100.webp",
+    "displayName": "meal-100.webp",
+    "code": "MEAL-100",
+    "path": "images/dinner-combinations/meal-100.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-101.webp",
+    "displayName": "meal-101.webp",
+    "code": "MEAL-101",
+    "path": "images/dinner-combinations/meal-101.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
+  {
+    "name": "meal-102.webp",
+    "displayName": "meal-102.webp",
+    "code": "MEAL-102",
+    "path": "images/dinner-combinations/meal-102.webp",
+    "source": "Combo Hero",
+    "kind": "combo"
+  },
   {
     "name": "AM-000.webp",
     "displayName": "AM-000.webp",
@@ -29,6 +845,14 @@ export const HERO_IMAGE_MANIFEST = [
     "name": "AM-001.webp",
     "displayName": "AM-001.webp",
     "code": "AM-001",
+    "path": "images/heroes/AM-001.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-001.webp",
+    "displayName": "AM-001.webp",
+    "code": "AM-001",
     "path": "images/thumbs/recipes/AM-001.webp",
     "source": "Recipe Card Thumbnail",
     "kind": "recipe"
@@ -39,6 +863,14 @@ export const HERO_IMAGE_MANIFEST = [
     "code": "AM-001",
     "path": "images/recipes/AM-001.webp",
     "source": "Full Recipe Card",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-002.webp",
+    "displayName": "AM-002.webp",
+    "code": "AM-002",
+    "path": "images/heroes/AM-002.webp",
+    "source": "Dedicated Hero",
     "kind": "recipe"
   },
   {
@@ -61,6 +893,14 @@ export const HERO_IMAGE_MANIFEST = [
     "name": "AM-003.webp",
     "displayName": "AM-003.webp",
     "code": "AM-003",
+    "path": "images/heroes/AM-003.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-003.webp",
+    "displayName": "AM-003.webp",
+    "code": "AM-003",
     "path": "images/thumbs/recipes/AM-003.webp",
     "source": "Recipe Card Thumbnail",
     "kind": "recipe"
@@ -71,6 +911,14 @@ export const HERO_IMAGE_MANIFEST = [
     "code": "AM-003",
     "path": "images/recipes/AM-003.webp",
     "source": "Full Recipe Card",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-004.webp",
+    "displayName": "AM-004.webp",
+    "code": "AM-004",
+    "path": "images/heroes/AM-004.webp",
+    "source": "Dedicated Hero",
     "kind": "recipe"
   },
   {
@@ -93,6 +941,14 @@ export const HERO_IMAGE_MANIFEST = [
     "name": "AM-005.webp",
     "displayName": "AM-005.webp",
     "code": "AM-005",
+    "path": "images/heroes/AM-005.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-005.webp",
+    "displayName": "AM-005.webp",
+    "code": "AM-005",
     "path": "images/thumbs/recipes/AM-005.webp",
     "source": "Recipe Card Thumbnail",
     "kind": "recipe"
@@ -103,6 +959,14 @@ export const HERO_IMAGE_MANIFEST = [
     "code": "AM-005",
     "path": "images/recipes/AM-005.webp",
     "source": "Full Recipe Card",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-006.webp",
+    "displayName": "AM-006.webp",
+    "code": "AM-006",
+    "path": "images/heroes/AM-006.webp",
+    "source": "Dedicated Hero",
     "kind": "recipe"
   },
   {
@@ -125,6 +989,14 @@ export const HERO_IMAGE_MANIFEST = [
     "name": "AM-007.webp",
     "displayName": "AM-007.webp",
     "code": "AM-007",
+    "path": "images/heroes/AM-007.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-007.webp",
+    "displayName": "AM-007.webp",
+    "code": "AM-007",
     "path": "images/thumbs/recipes/AM-007.webp",
     "source": "Recipe Card Thumbnail",
     "kind": "recipe"
@@ -135,6 +1007,14 @@ export const HERO_IMAGE_MANIFEST = [
     "code": "AM-007",
     "path": "images/recipes/AM-007.webp",
     "source": "Full Recipe Card",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-008.webp",
+    "displayName": "AM-008.webp",
+    "code": "AM-008",
+    "path": "images/heroes/AM-008.webp",
+    "source": "Dedicated Hero",
     "kind": "recipe"
   },
   {
@@ -157,6 +1037,14 @@ export const HERO_IMAGE_MANIFEST = [
     "name": "AM-009.webp",
     "displayName": "AM-009.webp",
     "code": "AM-009",
+    "path": "images/heroes/AM-009.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-009.webp",
+    "displayName": "AM-009.webp",
+    "code": "AM-009",
     "path": "images/thumbs/recipes/AM-009.webp",
     "source": "Recipe Card Thumbnail",
     "kind": "recipe"
@@ -167,6 +1055,14 @@ export const HERO_IMAGE_MANIFEST = [
     "code": "AM-009",
     "path": "images/recipes/AM-009.webp",
     "source": "Full Recipe Card",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-010.webp",
+    "displayName": "AM-010.webp",
+    "code": "AM-010",
+    "path": "images/heroes/AM-010.webp",
+    "source": "Dedicated Hero",
     "kind": "recipe"
   },
   {
@@ -189,6 +1085,14 @@ export const HERO_IMAGE_MANIFEST = [
     "name": "AM-011.webp",
     "displayName": "AM-011.webp",
     "code": "AM-011",
+    "path": "images/heroes/AM-011.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-011.webp",
+    "displayName": "AM-011.webp",
+    "code": "AM-011",
     "path": "images/thumbs/recipes/AM-011.webp",
     "source": "Recipe Card Thumbnail",
     "kind": "recipe"
@@ -199,6 +1103,14 @@ export const HERO_IMAGE_MANIFEST = [
     "code": "AM-011",
     "path": "images/recipes/AM-011.webp",
     "source": "Full Recipe Card",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-012.webp",
+    "displayName": "AM-012.webp",
+    "code": "AM-012",
+    "path": "images/heroes/AM-012.webp",
+    "source": "Dedicated Hero",
     "kind": "recipe"
   },
   {
@@ -221,6 +1133,14 @@ export const HERO_IMAGE_MANIFEST = [
     "name": "AM-013.webp",
     "displayName": "AM-013.webp",
     "code": "AM-013",
+    "path": "images/heroes/AM-013.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-013.webp",
+    "displayName": "AM-013.webp",
+    "code": "AM-013",
     "path": "images/thumbs/recipes/AM-013.webp",
     "source": "Recipe Card Thumbnail",
     "kind": "recipe"
@@ -231,6 +1151,14 @@ export const HERO_IMAGE_MANIFEST = [
     "code": "AM-013",
     "path": "images/recipes/AM-013.webp",
     "source": "Full Recipe Card",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-014.webp",
+    "displayName": "AM-014.webp",
+    "code": "AM-014",
+    "path": "images/heroes/AM-014.webp",
+    "source": "Dedicated Hero",
     "kind": "recipe"
   },
   {
@@ -253,6 +1181,14 @@ export const HERO_IMAGE_MANIFEST = [
     "name": "AM-015.webp",
     "displayName": "AM-015.webp",
     "code": "AM-015",
+    "path": "images/heroes/AM-015.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-015.webp",
+    "displayName": "AM-015.webp",
+    "code": "AM-015",
     "path": "images/thumbs/recipes/AM-015.webp",
     "source": "Recipe Card Thumbnail",
     "kind": "recipe"
@@ -263,6 +1199,14 @@ export const HERO_IMAGE_MANIFEST = [
     "code": "AM-015",
     "path": "images/recipes/AM-015.webp",
     "source": "Full Recipe Card",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-016.webp",
+    "displayName": "AM-016.webp",
+    "code": "AM-016",
+    "path": "images/heroes/AM-016.webp",
+    "source": "Dedicated Hero",
     "kind": "recipe"
   },
   {
@@ -285,6 +1229,14 @@ export const HERO_IMAGE_MANIFEST = [
     "name": "AM-017.webp",
     "displayName": "AM-017.webp",
     "code": "AM-017",
+    "path": "images/heroes/AM-017.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-017.webp",
+    "displayName": "AM-017.webp",
+    "code": "AM-017",
     "path": "images/thumbs/recipes/AM-017.webp",
     "source": "Recipe Card Thumbnail",
     "kind": "recipe"
@@ -295,6 +1247,14 @@ export const HERO_IMAGE_MANIFEST = [
     "code": "AM-017",
     "path": "images/recipes/AM-017.webp",
     "source": "Full Recipe Card",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-018.webp",
+    "displayName": "AM-018.webp",
+    "code": "AM-018",
+    "path": "images/heroes/AM-018.webp",
+    "source": "Dedicated Hero",
     "kind": "recipe"
   },
   {
@@ -317,6 +1277,14 @@ export const HERO_IMAGE_MANIFEST = [
     "name": "AM-019.webp",
     "displayName": "AM-019.webp",
     "code": "AM-019",
+    "path": "images/heroes/AM-019.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-019.webp",
+    "displayName": "AM-019.webp",
+    "code": "AM-019",
     "path": "images/thumbs/recipes/AM-019.webp",
     "source": "Recipe Card Thumbnail",
     "kind": "recipe"
@@ -327,6 +1295,14 @@ export const HERO_IMAGE_MANIFEST = [
     "code": "AM-019",
     "path": "images/recipes/AM-019.webp",
     "source": "Full Recipe Card",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-020.webp",
+    "displayName": "AM-020.webp",
+    "code": "AM-020",
+    "path": "images/heroes/AM-020.webp",
+    "source": "Dedicated Hero",
     "kind": "recipe"
   },
   {
@@ -349,6 +1325,14 @@ export const HERO_IMAGE_MANIFEST = [
     "name": "AM-021.webp",
     "displayName": "AM-021.webp",
     "code": "AM-021",
+    "path": "images/heroes/AM-021.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-021.webp",
+    "displayName": "AM-021.webp",
+    "code": "AM-021",
     "path": "images/thumbs/recipes/AM-021.webp",
     "source": "Recipe Card Thumbnail",
     "kind": "recipe"
@@ -359,6 +1343,14 @@ export const HERO_IMAGE_MANIFEST = [
     "code": "AM-021",
     "path": "images/recipes/AM-021.webp",
     "source": "Full Recipe Card",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-022.webp",
+    "displayName": "AM-022.webp",
+    "code": "AM-022",
+    "path": "images/heroes/AM-022.webp",
+    "source": "Dedicated Hero",
     "kind": "recipe"
   },
   {
@@ -381,6 +1373,14 @@ export const HERO_IMAGE_MANIFEST = [
     "name": "AM-023.webp",
     "displayName": "AM-023.webp",
     "code": "AM-023",
+    "path": "images/heroes/AM-023.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-023.webp",
+    "displayName": "AM-023.webp",
+    "code": "AM-023",
     "path": "images/thumbs/recipes/AM-023.webp",
     "source": "Recipe Card Thumbnail",
     "kind": "recipe"
@@ -391,6 +1391,14 @@ export const HERO_IMAGE_MANIFEST = [
     "code": "AM-023",
     "path": "images/recipes/AM-023.webp",
     "source": "Full Recipe Card",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-024.webp",
+    "displayName": "AM-024.webp",
+    "code": "AM-024",
+    "path": "images/heroes/AM-024.webp",
+    "source": "Dedicated Hero",
     "kind": "recipe"
   },
   {
@@ -413,6 +1421,14 @@ export const HERO_IMAGE_MANIFEST = [
     "name": "AM-025.webp",
     "displayName": "AM-025.webp",
     "code": "AM-025",
+    "path": "images/heroes/AM-025.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-025.webp",
+    "displayName": "AM-025.webp",
+    "code": "AM-025",
     "path": "images/thumbs/recipes/AM-025.webp",
     "source": "Recipe Card Thumbnail",
     "kind": "recipe"
@@ -423,6 +1439,14 @@ export const HERO_IMAGE_MANIFEST = [
     "code": "AM-025",
     "path": "images/recipes/AM-025.webp",
     "source": "Full Recipe Card",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-026.webp",
+    "displayName": "AM-026.webp",
+    "code": "AM-026",
+    "path": "images/heroes/AM-026.webp",
+    "source": "Dedicated Hero",
     "kind": "recipe"
   },
   {
@@ -445,6 +1469,14 @@ export const HERO_IMAGE_MANIFEST = [
     "name": "AM-027.webp",
     "displayName": "AM-027.webp",
     "code": "AM-027",
+    "path": "images/heroes/AM-027.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-027.webp",
+    "displayName": "AM-027.webp",
+    "code": "AM-027",
     "path": "images/thumbs/recipes/AM-027.webp",
     "source": "Recipe Card Thumbnail",
     "kind": "recipe"
@@ -455,6 +1487,14 @@ export const HERO_IMAGE_MANIFEST = [
     "code": "AM-027",
     "path": "images/recipes/AM-027.webp",
     "source": "Full Recipe Card",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-028.webp",
+    "displayName": "AM-028.webp",
+    "code": "AM-028",
+    "path": "images/heroes/AM-028.webp",
+    "source": "Dedicated Hero",
     "kind": "recipe"
   },
   {
@@ -477,6 +1517,14 @@ export const HERO_IMAGE_MANIFEST = [
     "name": "AM-029.webp",
     "displayName": "AM-029.webp",
     "code": "AM-029",
+    "path": "images/heroes/AM-029.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-029.webp",
+    "displayName": "AM-029.webp",
+    "code": "AM-029",
     "path": "images/thumbs/recipes/AM-029.webp",
     "source": "Recipe Card Thumbnail",
     "kind": "recipe"
@@ -487,6 +1535,14 @@ export const HERO_IMAGE_MANIFEST = [
     "code": "AM-029",
     "path": "images/recipes/AM-029.webp",
     "source": "Full Recipe Card",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-030.webp",
+    "displayName": "AM-030.webp",
+    "code": "AM-030",
+    "path": "images/heroes/AM-030.webp",
+    "source": "Dedicated Hero",
     "kind": "recipe"
   },
   {
@@ -509,6 +1565,14 @@ export const HERO_IMAGE_MANIFEST = [
     "name": "AM-031.webp",
     "displayName": "AM-031.webp",
     "code": "AM-031",
+    "path": "images/heroes/AM-031.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-031.webp",
+    "displayName": "AM-031.webp",
+    "code": "AM-031",
     "path": "images/thumbs/recipes/AM-031.webp",
     "source": "Recipe Card Thumbnail",
     "kind": "recipe"
@@ -519,6 +1583,14 @@ export const HERO_IMAGE_MANIFEST = [
     "code": "AM-031",
     "path": "images/recipes/AM-031.webp",
     "source": "Full Recipe Card",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-032.webp",
+    "displayName": "AM-032.webp",
+    "code": "AM-032",
+    "path": "images/heroes/AM-032.webp",
+    "source": "Dedicated Hero",
     "kind": "recipe"
   },
   {
@@ -541,6 +1613,14 @@ export const HERO_IMAGE_MANIFEST = [
     "name": "AM-033.webp",
     "displayName": "AM-033.webp",
     "code": "AM-033",
+    "path": "images/heroes/AM-033.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-033.webp",
+    "displayName": "AM-033.webp",
+    "code": "AM-033",
     "path": "images/thumbs/recipes/AM-033.webp",
     "source": "Recipe Card Thumbnail",
     "kind": "recipe"
@@ -551,6 +1631,14 @@ export const HERO_IMAGE_MANIFEST = [
     "code": "AM-033",
     "path": "images/recipes/AM-033.webp",
     "source": "Full Recipe Card",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-034.webp",
+    "displayName": "AM-034.webp",
+    "code": "AM-034",
+    "path": "images/heroes/AM-034.webp",
+    "source": "Dedicated Hero",
     "kind": "recipe"
   },
   {
@@ -573,6 +1661,14 @@ export const HERO_IMAGE_MANIFEST = [
     "name": "AM-035.webp",
     "displayName": "AM-035.webp",
     "code": "AM-035",
+    "path": "images/heroes/AM-035.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-035.webp",
+    "displayName": "AM-035.webp",
+    "code": "AM-035",
     "path": "images/thumbs/recipes/AM-035.webp",
     "source": "Recipe Card Thumbnail",
     "kind": "recipe"
@@ -583,6 +1679,14 @@ export const HERO_IMAGE_MANIFEST = [
     "code": "AM-035",
     "path": "images/recipes/AM-035.webp",
     "source": "Full Recipe Card",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-036.webp",
+    "displayName": "AM-036.webp",
+    "code": "AM-036",
+    "path": "images/heroes/AM-036.webp",
+    "source": "Dedicated Hero",
     "kind": "recipe"
   },
   {
@@ -605,6 +1709,14 @@ export const HERO_IMAGE_MANIFEST = [
     "name": "AM-037.webp",
     "displayName": "AM-037.webp",
     "code": "AM-037",
+    "path": "images/heroes/AM-037.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-037.webp",
+    "displayName": "AM-037.webp",
+    "code": "AM-037",
     "path": "images/thumbs/recipes/AM-037.webp",
     "source": "Recipe Card Thumbnail",
     "kind": "recipe"
@@ -615,6 +1727,14 @@ export const HERO_IMAGE_MANIFEST = [
     "code": "AM-037",
     "path": "images/recipes/AM-037.webp",
     "source": "Full Recipe Card",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-038.webp",
+    "displayName": "AM-038.webp",
+    "code": "AM-038",
+    "path": "images/heroes/AM-038.webp",
+    "source": "Dedicated Hero",
     "kind": "recipe"
   },
   {
@@ -637,6 +1757,14 @@ export const HERO_IMAGE_MANIFEST = [
     "name": "AM-039.webp",
     "displayName": "AM-039.webp",
     "code": "AM-039",
+    "path": "images/heroes/AM-039.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-039.webp",
+    "displayName": "AM-039.webp",
+    "code": "AM-039",
     "path": "images/thumbs/recipes/AM-039.webp",
     "source": "Recipe Card Thumbnail",
     "kind": "recipe"
@@ -647,6 +1775,14 @@ export const HERO_IMAGE_MANIFEST = [
     "code": "AM-039",
     "path": "images/recipes/AM-039.webp",
     "source": "Full Recipe Card",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-040.webp",
+    "displayName": "AM-040.webp",
+    "code": "AM-040",
+    "path": "images/heroes/AM-040.webp",
+    "source": "Dedicated Hero",
     "kind": "recipe"
   },
   {
@@ -669,6 +1805,14 @@ export const HERO_IMAGE_MANIFEST = [
     "name": "AM-041.webp",
     "displayName": "AM-041.webp",
     "code": "AM-041",
+    "path": "images/heroes/AM-041.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-041.webp",
+    "displayName": "AM-041.webp",
+    "code": "AM-041",
     "path": "images/thumbs/recipes/AM-041.webp",
     "source": "Recipe Card Thumbnail",
     "kind": "recipe"
@@ -679,6 +1823,14 @@ export const HERO_IMAGE_MANIFEST = [
     "code": "AM-041",
     "path": "images/recipes/AM-041.webp",
     "source": "Full Recipe Card",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-042.webp",
+    "displayName": "AM-042.webp",
+    "code": "AM-042",
+    "path": "images/heroes/AM-042.webp",
+    "source": "Dedicated Hero",
     "kind": "recipe"
   },
   {
@@ -701,6 +1853,14 @@ export const HERO_IMAGE_MANIFEST = [
     "name": "AM-043.webp",
     "displayName": "AM-043.webp",
     "code": "AM-043",
+    "path": "images/heroes/AM-043.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-043.webp",
+    "displayName": "AM-043.webp",
+    "code": "AM-043",
     "path": "images/thumbs/recipes/AM-043.webp",
     "source": "Recipe Card Thumbnail",
     "kind": "recipe"
@@ -711,6 +1871,14 @@ export const HERO_IMAGE_MANIFEST = [
     "code": "AM-043",
     "path": "images/recipes/AM-043.webp",
     "source": "Full Recipe Card",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-044.webp",
+    "displayName": "AM-044.webp",
+    "code": "AM-044",
+    "path": "images/heroes/AM-044.webp",
+    "source": "Dedicated Hero",
     "kind": "recipe"
   },
   {
@@ -733,6 +1901,14 @@ export const HERO_IMAGE_MANIFEST = [
     "name": "AM-045.webp",
     "displayName": "AM-045.webp",
     "code": "AM-045",
+    "path": "images/heroes/AM-045.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-045.webp",
+    "displayName": "AM-045.webp",
+    "code": "AM-045",
     "path": "images/thumbs/recipes/AM-045.webp",
     "source": "Recipe Card Thumbnail",
     "kind": "recipe"
@@ -743,6 +1919,14 @@ export const HERO_IMAGE_MANIFEST = [
     "code": "AM-045",
     "path": "images/recipes/AM-045.webp",
     "source": "Full Recipe Card",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-046.webp",
+    "displayName": "AM-046.webp",
+    "code": "AM-046",
+    "path": "images/heroes/AM-046.webp",
+    "source": "Dedicated Hero",
     "kind": "recipe"
   },
   {
@@ -765,6 +1949,14 @@ export const HERO_IMAGE_MANIFEST = [
     "name": "AM-047.webp",
     "displayName": "AM-047.webp",
     "code": "AM-047",
+    "path": "images/heroes/AM-047.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-047.webp",
+    "displayName": "AM-047.webp",
+    "code": "AM-047",
     "path": "images/thumbs/recipes/AM-047.webp",
     "source": "Recipe Card Thumbnail",
     "kind": "recipe"
@@ -775,6 +1967,14 @@ export const HERO_IMAGE_MANIFEST = [
     "code": "AM-047",
     "path": "images/recipes/AM-047.webp",
     "source": "Full Recipe Card",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-048.webp",
+    "displayName": "AM-048.webp",
+    "code": "AM-048",
+    "path": "images/heroes/AM-048.webp",
+    "source": "Dedicated Hero",
     "kind": "recipe"
   },
   {
@@ -797,6 +1997,14 @@ export const HERO_IMAGE_MANIFEST = [
     "name": "AM-049.webp",
     "displayName": "AM-049.webp",
     "code": "AM-049",
+    "path": "images/heroes/AM-049.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-049.webp",
+    "displayName": "AM-049.webp",
+    "code": "AM-049",
     "path": "images/thumbs/recipes/AM-049.webp",
     "source": "Recipe Card Thumbnail",
     "kind": "recipe"
@@ -807,6 +2015,14 @@ export const HERO_IMAGE_MANIFEST = [
     "code": "AM-049",
     "path": "images/recipes/AM-049.webp",
     "source": "Full Recipe Card",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-050.webp",
+    "displayName": "AM-050.webp",
+    "code": "AM-050",
+    "path": "images/heroes/AM-050.webp",
+    "source": "Dedicated Hero",
     "kind": "recipe"
   },
   {
@@ -829,6 +2045,14 @@ export const HERO_IMAGE_MANIFEST = [
     "name": "AM-051.webp",
     "displayName": "AM-051.webp",
     "code": "AM-051",
+    "path": "images/heroes/AM-051.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-051.webp",
+    "displayName": "AM-051.webp",
+    "code": "AM-051",
     "path": "images/thumbs/recipes/AM-051.webp",
     "source": "Recipe Card Thumbnail",
     "kind": "recipe"
@@ -839,6 +2063,14 @@ export const HERO_IMAGE_MANIFEST = [
     "code": "AM-051",
     "path": "images/recipes/AM-051.webp",
     "source": "Full Recipe Card",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-052.webp",
+    "displayName": "AM-052.webp",
+    "code": "AM-052",
+    "path": "images/heroes/AM-052.webp",
+    "source": "Dedicated Hero",
     "kind": "recipe"
   },
   {
@@ -861,6 +2093,14 @@ export const HERO_IMAGE_MANIFEST = [
     "name": "AM-053.webp",
     "displayName": "AM-053.webp",
     "code": "AM-053",
+    "path": "images/heroes/AM-053.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-053.webp",
+    "displayName": "AM-053.webp",
+    "code": "AM-053",
     "path": "images/thumbs/recipes/AM-053.webp",
     "source": "Recipe Card Thumbnail",
     "kind": "recipe"
@@ -871,6 +2111,14 @@ export const HERO_IMAGE_MANIFEST = [
     "code": "AM-053",
     "path": "images/recipes/AM-053.webp",
     "source": "Full Recipe Card",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-054.webp",
+    "displayName": "AM-054.webp",
+    "code": "AM-054",
+    "path": "images/heroes/AM-054.webp",
+    "source": "Dedicated Hero",
     "kind": "recipe"
   },
   {
@@ -893,6 +2141,14 @@ export const HERO_IMAGE_MANIFEST = [
     "name": "AM-055.webp",
     "displayName": "AM-055.webp",
     "code": "AM-055",
+    "path": "images/heroes/AM-055.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-055.webp",
+    "displayName": "AM-055.webp",
+    "code": "AM-055",
     "path": "images/thumbs/recipes/AM-055.webp",
     "source": "Recipe Card Thumbnail",
     "kind": "recipe"
@@ -903,6 +2159,14 @@ export const HERO_IMAGE_MANIFEST = [
     "code": "AM-055",
     "path": "images/recipes/AM-055.webp",
     "source": "Full Recipe Card",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-056.webp",
+    "displayName": "AM-056.webp",
+    "code": "AM-056",
+    "path": "images/heroes/AM-056.webp",
+    "source": "Dedicated Hero",
     "kind": "recipe"
   },
   {
@@ -925,6 +2189,14 @@ export const HERO_IMAGE_MANIFEST = [
     "name": "AM-057.webp",
     "displayName": "AM-057.webp",
     "code": "AM-057",
+    "path": "images/heroes/AM-057.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-057.webp",
+    "displayName": "AM-057.webp",
+    "code": "AM-057",
     "path": "images/thumbs/recipes/AM-057.webp",
     "source": "Recipe Card Thumbnail",
     "kind": "recipe"
@@ -935,6 +2207,14 @@ export const HERO_IMAGE_MANIFEST = [
     "code": "AM-057",
     "path": "images/recipes/AM-057.webp",
     "source": "Full Recipe Card",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-058.webp",
+    "displayName": "AM-058.webp",
+    "code": "AM-058",
+    "path": "images/heroes/AM-058.webp",
+    "source": "Dedicated Hero",
     "kind": "recipe"
   },
   {
@@ -957,6 +2237,14 @@ export const HERO_IMAGE_MANIFEST = [
     "name": "AM-059.webp",
     "displayName": "AM-059.webp",
     "code": "AM-059",
+    "path": "images/heroes/AM-059.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-059.webp",
+    "displayName": "AM-059.webp",
+    "code": "AM-059",
     "path": "images/thumbs/recipes/AM-059.webp",
     "source": "Recipe Card Thumbnail",
     "kind": "recipe"
@@ -967,6 +2255,14 @@ export const HERO_IMAGE_MANIFEST = [
     "code": "AM-059",
     "path": "images/recipes/AM-059.webp",
     "source": "Full Recipe Card",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-060.webp",
+    "displayName": "AM-060.webp",
+    "code": "AM-060",
+    "path": "images/heroes/AM-060.webp",
+    "source": "Dedicated Hero",
     "kind": "recipe"
   },
   {
@@ -989,6 +2285,14 @@ export const HERO_IMAGE_MANIFEST = [
     "name": "AM-061.webp",
     "displayName": "AM-061.webp",
     "code": "AM-061",
+    "path": "images/heroes/AM-061.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-061.webp",
+    "displayName": "AM-061.webp",
+    "code": "AM-061",
     "path": "images/thumbs/recipes/AM-061.webp",
     "source": "Recipe Card Thumbnail",
     "kind": "recipe"
@@ -999,6 +2303,14 @@ export const HERO_IMAGE_MANIFEST = [
     "code": "AM-061",
     "path": "images/recipes/AM-061.webp",
     "source": "Full Recipe Card",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-062.webp",
+    "displayName": "AM-062.webp",
+    "code": "AM-062",
+    "path": "images/heroes/AM-062.webp",
+    "source": "Dedicated Hero",
     "kind": "recipe"
   },
   {
@@ -1021,6 +2333,14 @@ export const HERO_IMAGE_MANIFEST = [
     "name": "AM-063.webp",
     "displayName": "AM-063.webp",
     "code": "AM-063",
+    "path": "images/heroes/AM-063.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-063.webp",
+    "displayName": "AM-063.webp",
+    "code": "AM-063",
     "path": "images/thumbs/recipes/AM-063.webp",
     "source": "Recipe Card Thumbnail",
     "kind": "recipe"
@@ -1031,6 +2351,14 @@ export const HERO_IMAGE_MANIFEST = [
     "code": "AM-063",
     "path": "images/recipes/AM-063.webp",
     "source": "Full Recipe Card",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-064.webp",
+    "displayName": "AM-064.webp",
+    "code": "AM-064",
+    "path": "images/heroes/AM-064.webp",
+    "source": "Dedicated Hero",
     "kind": "recipe"
   },
   {
@@ -1053,6 +2381,14 @@ export const HERO_IMAGE_MANIFEST = [
     "name": "AM-065.webp",
     "displayName": "AM-065.webp",
     "code": "AM-065",
+    "path": "images/heroes/AM-065.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-065.webp",
+    "displayName": "AM-065.webp",
+    "code": "AM-065",
     "path": "images/thumbs/recipes/AM-065.webp",
     "source": "Recipe Card Thumbnail",
     "kind": "recipe"
@@ -1063,6 +2399,14 @@ export const HERO_IMAGE_MANIFEST = [
     "code": "AM-065",
     "path": "images/recipes/AM-065.webp",
     "source": "Full Recipe Card",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-066.webp",
+    "displayName": "AM-066.webp",
+    "code": "AM-066",
+    "path": "images/heroes/AM-066.webp",
+    "source": "Dedicated Hero",
     "kind": "recipe"
   },
   {
@@ -1085,6 +2429,14 @@ export const HERO_IMAGE_MANIFEST = [
     "name": "AM-067.webp",
     "displayName": "AM-067.webp",
     "code": "AM-067",
+    "path": "images/heroes/AM-067.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-067.webp",
+    "displayName": "AM-067.webp",
+    "code": "AM-067",
     "path": "images/thumbs/recipes/AM-067.webp",
     "source": "Recipe Card Thumbnail",
     "kind": "recipe"
@@ -1095,6 +2447,14 @@ export const HERO_IMAGE_MANIFEST = [
     "code": "AM-067",
     "path": "images/recipes/AM-067.webp",
     "source": "Full Recipe Card",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-068.webp",
+    "displayName": "AM-068.webp",
+    "code": "AM-068",
+    "path": "images/heroes/AM-068.webp",
+    "source": "Dedicated Hero",
     "kind": "recipe"
   },
   {
@@ -1117,6 +2477,14 @@ export const HERO_IMAGE_MANIFEST = [
     "name": "AM-069.webp",
     "displayName": "AM-069.webp",
     "code": "AM-069",
+    "path": "images/heroes/AM-069.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-069.webp",
+    "displayName": "AM-069.webp",
+    "code": "AM-069",
     "path": "images/thumbs/recipes/AM-069.webp",
     "source": "Recipe Card Thumbnail",
     "kind": "recipe"
@@ -1127,6 +2495,14 @@ export const HERO_IMAGE_MANIFEST = [
     "code": "AM-069",
     "path": "images/recipes/AM-069.webp",
     "source": "Full Recipe Card",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-070.webp",
+    "displayName": "AM-070.webp",
+    "code": "AM-070",
+    "path": "images/heroes/AM-070.webp",
+    "source": "Dedicated Hero",
     "kind": "recipe"
   },
   {
@@ -1149,6 +2525,14 @@ export const HERO_IMAGE_MANIFEST = [
     "name": "AM-071.webp",
     "displayName": "AM-071.webp",
     "code": "AM-071",
+    "path": "images/heroes/AM-071.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-071.webp",
+    "displayName": "AM-071.webp",
+    "code": "AM-071",
     "path": "images/thumbs/recipes/AM-071.webp",
     "source": "Recipe Card Thumbnail",
     "kind": "recipe"
@@ -1159,6 +2543,14 @@ export const HERO_IMAGE_MANIFEST = [
     "code": "AM-071",
     "path": "images/recipes/AM-071.webp",
     "source": "Full Recipe Card",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-072.webp",
+    "displayName": "AM-072.webp",
+    "code": "AM-072",
+    "path": "images/heroes/AM-072.webp",
+    "source": "Dedicated Hero",
     "kind": "recipe"
   },
   {
@@ -1181,6 +2573,14 @@ export const HERO_IMAGE_MANIFEST = [
     "name": "AM-073.webp",
     "displayName": "AM-073.webp",
     "code": "AM-073",
+    "path": "images/heroes/AM-073.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-073.webp",
+    "displayName": "AM-073.webp",
+    "code": "AM-073",
     "path": "images/thumbs/recipes/AM-073.webp",
     "source": "Recipe Card Thumbnail",
     "kind": "recipe"
@@ -1191,6 +2591,14 @@ export const HERO_IMAGE_MANIFEST = [
     "code": "AM-073",
     "path": "images/recipes/AM-073.webp",
     "source": "Full Recipe Card",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-074.webp",
+    "displayName": "AM-074.webp",
+    "code": "AM-074",
+    "path": "images/heroes/AM-074.webp",
+    "source": "Dedicated Hero",
     "kind": "recipe"
   },
   {
@@ -1213,6 +2621,14 @@ export const HERO_IMAGE_MANIFEST = [
     "name": "AM-075.webp",
     "displayName": "AM-075.webp",
     "code": "AM-075",
+    "path": "images/heroes/AM-075.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-075.webp",
+    "displayName": "AM-075.webp",
+    "code": "AM-075",
     "path": "images/thumbs/recipes/AM-075.webp",
     "source": "Recipe Card Thumbnail",
     "kind": "recipe"
@@ -1223,6 +2639,14 @@ export const HERO_IMAGE_MANIFEST = [
     "code": "AM-075",
     "path": "images/recipes/AM-075.webp",
     "source": "Full Recipe Card",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-076.webp",
+    "displayName": "AM-076.webp",
+    "code": "AM-076",
+    "path": "images/heroes/AM-076.webp",
+    "source": "Dedicated Hero",
     "kind": "recipe"
   },
   {
@@ -1245,6 +2669,14 @@ export const HERO_IMAGE_MANIFEST = [
     "name": "AM-077.webp",
     "displayName": "AM-077.webp",
     "code": "AM-077",
+    "path": "images/heroes/AM-077.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-077.webp",
+    "displayName": "AM-077.webp",
+    "code": "AM-077",
     "path": "images/thumbs/recipes/AM-077.webp",
     "source": "Recipe Card Thumbnail",
     "kind": "recipe"
@@ -1255,6 +2687,14 @@ export const HERO_IMAGE_MANIFEST = [
     "code": "AM-077",
     "path": "images/recipes/AM-077.webp",
     "source": "Full Recipe Card",
+    "kind": "recipe"
+  },
+  {
+    "name": "AM-078.webp",
+    "displayName": "AM-078.webp",
+    "code": "AM-078",
+    "path": "images/heroes/AM-078.webp",
+    "source": "Dedicated Hero",
     "kind": "recipe"
   },
   {
@@ -10154,14 +11594,6 @@ export const HERO_IMAGE_MANIFEST = [
     "kind": "recipe"
   },
   {
-    "name": "SB-001c.webp",
-    "displayName": "SB-001c.webp",
-    "code": "SB-001C",
-    "path": "images/recipes/SB-001c.webp",
-    "source": "Full Recipe Card",
-    "kind": "recipe"
-  },
-  {
     "name": "SB-002.webp",
     "displayName": "SB-002.webp",
     "code": "SB-002",
@@ -10190,14 +11622,6 @@ export const HERO_IMAGE_MANIFEST = [
     "displayName": "SB-002.webp",
     "code": "SB-002",
     "path": "images/recipes/SB-002.webp",
-    "source": "Full Recipe Card",
-    "kind": "recipe"
-  },
-  {
-    "name": "SB-002c.webp",
-    "displayName": "SB-002c.webp",
-    "code": "SB-002C",
-    "path": "images/recipes/SB-002c.webp",
     "source": "Full Recipe Card",
     "kind": "recipe"
   },
@@ -10234,14 +11658,6 @@ export const HERO_IMAGE_MANIFEST = [
     "kind": "recipe"
   },
   {
-    "name": "SB-003c.webp",
-    "displayName": "SB-003c.webp",
-    "code": "SB-003C",
-    "path": "images/recipes/SB-003c.webp",
-    "source": "Full Recipe Card",
-    "kind": "recipe"
-  },
-  {
     "name": "SB-004.webp",
     "displayName": "SB-004.webp",
     "code": "SB-004",
@@ -10270,14 +11686,6 @@ export const HERO_IMAGE_MANIFEST = [
     "displayName": "SB-004.webp",
     "code": "SB-004",
     "path": "images/recipes/SB-004.webp",
-    "source": "Full Recipe Card",
-    "kind": "recipe"
-  },
-  {
-    "name": "SB-004c.webp",
-    "displayName": "SB-004c.webp",
-    "code": "SB-004C",
-    "path": "images/recipes/SB-004c.webp",
     "source": "Full Recipe Card",
     "kind": "recipe"
   },
@@ -10314,14 +11722,6 @@ export const HERO_IMAGE_MANIFEST = [
     "kind": "recipe"
   },
   {
-    "name": "SB-005c.webp",
-    "displayName": "SB-005c.webp",
-    "code": "SB-005C",
-    "path": "images/recipes/SB-005c.webp",
-    "source": "Full Recipe Card",
-    "kind": "recipe"
-  },
-  {
     "name": "SB-006.webp",
     "displayName": "SB-006.webp",
     "code": "SB-006",
@@ -10350,14 +11750,6 @@ export const HERO_IMAGE_MANIFEST = [
     "displayName": "SB-006.webp",
     "code": "SB-006",
     "path": "images/recipes/SB-006.webp",
-    "source": "Full Recipe Card",
-    "kind": "recipe"
-  },
-  {
-    "name": "SB-006c.webp",
-    "displayName": "SB-006c.webp",
-    "code": "SB-006C",
-    "path": "images/recipes/SB-006c.webp",
     "source": "Full Recipe Card",
     "kind": "recipe"
   },
@@ -10394,14 +11786,6 @@ export const HERO_IMAGE_MANIFEST = [
     "kind": "recipe"
   },
   {
-    "name": "SB-007c.webp",
-    "displayName": "SB-007c.webp",
-    "code": "SB-007C",
-    "path": "images/recipes/SB-007c.webp",
-    "source": "Full Recipe Card",
-    "kind": "recipe"
-  },
-  {
     "name": "SB-008.webp",
     "displayName": "SB-008.webp",
     "code": "SB-008",
@@ -10430,14 +11814,6 @@ export const HERO_IMAGE_MANIFEST = [
     "displayName": "SB-008.webp",
     "code": "SB-008",
     "path": "images/recipes/SB-008.webp",
-    "source": "Full Recipe Card",
-    "kind": "recipe"
-  },
-  {
-    "name": "SB-008c.webp",
-    "displayName": "SB-008c.webp",
-    "code": "SB-008C",
-    "path": "images/recipes/SB-008c.webp",
     "source": "Full Recipe Card",
     "kind": "recipe"
   },
@@ -10474,14 +11850,6 @@ export const HERO_IMAGE_MANIFEST = [
     "kind": "recipe"
   },
   {
-    "name": "SB-009c.webp",
-    "displayName": "SB-009c.webp",
-    "code": "SB-009C",
-    "path": "images/recipes/SB-009c.webp",
-    "source": "Full Recipe Card",
-    "kind": "recipe"
-  },
-  {
     "name": "SB-010.webp",
     "displayName": "SB-010.webp",
     "code": "SB-010",
@@ -10510,14 +11878,6 @@ export const HERO_IMAGE_MANIFEST = [
     "displayName": "SB-010.webp",
     "code": "SB-010",
     "path": "images/recipes/SB-010.webp",
-    "source": "Full Recipe Card",
-    "kind": "recipe"
-  },
-  {
-    "name": "SB-010c.webp",
-    "displayName": "SB-010c.webp",
-    "code": "SB-010C",
-    "path": "images/recipes/SB-010c.webp",
     "source": "Full Recipe Card",
     "kind": "recipe"
   },
@@ -10554,14 +11914,6 @@ export const HERO_IMAGE_MANIFEST = [
     "kind": "recipe"
   },
   {
-    "name": "SB-011c.webp",
-    "displayName": "SB-011c.webp",
-    "code": "SB-011C",
-    "path": "images/recipes/SB-011c.webp",
-    "source": "Full Recipe Card",
-    "kind": "recipe"
-  },
-  {
     "name": "SB-012.webp",
     "displayName": "SB-012.webp",
     "code": "SB-012",
@@ -10590,14 +11942,6 @@ export const HERO_IMAGE_MANIFEST = [
     "displayName": "SB-012.webp",
     "code": "SB-012",
     "path": "images/recipes/SB-012.webp",
-    "source": "Full Recipe Card",
-    "kind": "recipe"
-  },
-  {
-    "name": "SB-012c.webp",
-    "displayName": "SB-012c.webp",
-    "code": "SB-012C",
-    "path": "images/recipes/SB-012c.webp",
     "source": "Full Recipe Card",
     "kind": "recipe"
   },
@@ -10634,14 +11978,6 @@ export const HERO_IMAGE_MANIFEST = [
     "kind": "recipe"
   },
   {
-    "name": "SB-013c.webp",
-    "displayName": "SB-013c.webp",
-    "code": "SB-013C",
-    "path": "images/recipes/SB-013c.webp",
-    "source": "Full Recipe Card",
-    "kind": "recipe"
-  },
-  {
     "name": "SB-014.webp",
     "displayName": "SB-014.webp",
     "code": "SB-014",
@@ -10670,14 +12006,6 @@ export const HERO_IMAGE_MANIFEST = [
     "displayName": "SB-014.webp",
     "code": "SB-014",
     "path": "images/recipes/SB-014.webp",
-    "source": "Full Recipe Card",
-    "kind": "recipe"
-  },
-  {
-    "name": "SB-014c.webp",
-    "displayName": "SB-014c.webp",
-    "code": "SB-014C",
-    "path": "images/recipes/SB-014c.webp",
     "source": "Full Recipe Card",
     "kind": "recipe"
   },
@@ -10714,14 +12042,6 @@ export const HERO_IMAGE_MANIFEST = [
     "kind": "recipe"
   },
   {
-    "name": "SB-015c.webp",
-    "displayName": "SB-015c.webp",
-    "code": "SB-015C",
-    "path": "images/recipes/SB-015c.webp",
-    "source": "Full Recipe Card",
-    "kind": "recipe"
-  },
-  {
     "name": "SB-016.webp",
     "displayName": "SB-016.webp",
     "code": "SB-016",
@@ -10750,14 +12070,6 @@ export const HERO_IMAGE_MANIFEST = [
     "displayName": "SB-016.webp",
     "code": "SB-016",
     "path": "images/recipes/SB-016.webp",
-    "source": "Full Recipe Card",
-    "kind": "recipe"
-  },
-  {
-    "name": "SB-016c.webp",
-    "displayName": "SB-016c.webp",
-    "code": "SB-016C",
-    "path": "images/recipes/SB-016c.webp",
     "source": "Full Recipe Card",
     "kind": "recipe"
   },
@@ -10794,14 +12106,6 @@ export const HERO_IMAGE_MANIFEST = [
     "kind": "recipe"
   },
   {
-    "name": "SB-017c.webp",
-    "displayName": "SB-017c.webp",
-    "code": "SB-017C",
-    "path": "images/recipes/SB-017c.webp",
-    "source": "Full Recipe Card",
-    "kind": "recipe"
-  },
-  {
     "name": "SB-018.webp",
     "displayName": "SB-018.webp",
     "code": "SB-018",
@@ -10834,14 +12138,6 @@ export const HERO_IMAGE_MANIFEST = [
     "kind": "recipe"
   },
   {
-    "name": "SB-018c.webp",
-    "displayName": "SB-018c.webp",
-    "code": "SB-018C",
-    "path": "images/recipes/SB-018c.webp",
-    "source": "Full Recipe Card",
-    "kind": "recipe"
-  },
-  {
     "name": "SB-019.webp",
     "displayName": "SB-019.webp",
     "code": "SB-019",
@@ -10870,14 +12166,6 @@ export const HERO_IMAGE_MANIFEST = [
     "displayName": "SB-019.webp",
     "code": "SB-019",
     "path": "images/recipes/SB-019.webp",
-    "source": "Full Recipe Card",
-    "kind": "recipe"
-  },
-  {
-    "name": "SB-019c.webp",
-    "displayName": "SB-019c.webp",
-    "code": "SB-019C",
-    "path": "images/recipes/SB-019c.webp",
     "source": "Full Recipe Card",
     "kind": "recipe"
   },
@@ -13555,828 +14843,10 @@ export const HERO_IMAGE_MANIFEST = [
   }
 ];
 
-export const COMBO_IMAGE_MANIFEST = [
-  {
-    "name": "meal-001.webp",
-    "displayName": "meal-001.webp",
-    "code": "MEAL-001",
-    "path": "images/dinner-combinations/meal-001.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-002.webp",
-    "displayName": "meal-002.webp",
-    "code": "MEAL-002",
-    "path": "images/dinner-combinations/meal-002.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-003.webp",
-    "displayName": "meal-003.webp",
-    "code": "MEAL-003",
-    "path": "images/dinner-combinations/meal-003.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-004.webp",
-    "displayName": "meal-004.webp",
-    "code": "MEAL-004",
-    "path": "images/dinner-combinations/meal-004.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-005.webp",
-    "displayName": "meal-005.webp",
-    "code": "MEAL-005",
-    "path": "images/dinner-combinations/meal-005.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-006.webp",
-    "displayName": "meal-006.webp",
-    "code": "MEAL-006",
-    "path": "images/dinner-combinations/meal-006.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-007.webp",
-    "displayName": "meal-007.webp",
-    "code": "MEAL-007",
-    "path": "images/dinner-combinations/meal-007.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-008.webp",
-    "displayName": "meal-008.webp",
-    "code": "MEAL-008",
-    "path": "images/dinner-combinations/meal-008.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-009.webp",
-    "displayName": "meal-009.webp",
-    "code": "MEAL-009",
-    "path": "images/dinner-combinations/meal-009.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-010.webp",
-    "displayName": "meal-010.webp",
-    "code": "MEAL-010",
-    "path": "images/dinner-combinations/meal-010.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-011.webp",
-    "displayName": "meal-011.webp",
-    "code": "MEAL-011",
-    "path": "images/dinner-combinations/meal-011.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-012.webp",
-    "displayName": "meal-012.webp",
-    "code": "MEAL-012",
-    "path": "images/dinner-combinations/meal-012.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-013.webp",
-    "displayName": "meal-013.webp",
-    "code": "MEAL-013",
-    "path": "images/dinner-combinations/meal-013.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-014.webp",
-    "displayName": "meal-014.webp",
-    "code": "MEAL-014",
-    "path": "images/dinner-combinations/meal-014.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-015.webp",
-    "displayName": "meal-015.webp",
-    "code": "MEAL-015",
-    "path": "images/dinner-combinations/meal-015.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-016.webp",
-    "displayName": "meal-016.webp",
-    "code": "MEAL-016",
-    "path": "images/dinner-combinations/meal-016.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-017.webp",
-    "displayName": "meal-017.webp",
-    "code": "MEAL-017",
-    "path": "images/dinner-combinations/meal-017.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-018.webp",
-    "displayName": "meal-018.webp",
-    "code": "MEAL-018",
-    "path": "images/dinner-combinations/meal-018.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-019.webp",
-    "displayName": "meal-019.webp",
-    "code": "MEAL-019",
-    "path": "images/dinner-combinations/meal-019.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-020.webp",
-    "displayName": "meal-020.webp",
-    "code": "MEAL-020",
-    "path": "images/dinner-combinations/meal-020.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-021.webp",
-    "displayName": "meal-021.webp",
-    "code": "MEAL-021",
-    "path": "images/dinner-combinations/meal-021.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-022.webp",
-    "displayName": "meal-022.webp",
-    "code": "MEAL-022",
-    "path": "images/dinner-combinations/meal-022.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-023.webp",
-    "displayName": "meal-023.webp",
-    "code": "MEAL-023",
-    "path": "images/dinner-combinations/meal-023.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-024.webp",
-    "displayName": "meal-024.webp",
-    "code": "MEAL-024",
-    "path": "images/dinner-combinations/meal-024.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-025.webp",
-    "displayName": "meal-025.webp",
-    "code": "MEAL-025",
-    "path": "images/dinner-combinations/meal-025.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-026.webp",
-    "displayName": "meal-026.webp",
-    "code": "MEAL-026",
-    "path": "images/dinner-combinations/meal-026.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-027.webp",
-    "displayName": "meal-027.webp",
-    "code": "MEAL-027",
-    "path": "images/dinner-combinations/meal-027.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-028.webp",
-    "displayName": "meal-028.webp",
-    "code": "MEAL-028",
-    "path": "images/dinner-combinations/meal-028.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-029.webp",
-    "displayName": "meal-029.webp",
-    "code": "MEAL-029",
-    "path": "images/dinner-combinations/meal-029.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-030.webp",
-    "displayName": "meal-030.webp",
-    "code": "MEAL-030",
-    "path": "images/dinner-combinations/meal-030.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-031.webp",
-    "displayName": "meal-031.webp",
-    "code": "MEAL-031",
-    "path": "images/dinner-combinations/meal-031.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-032.webp",
-    "displayName": "meal-032.webp",
-    "code": "MEAL-032",
-    "path": "images/dinner-combinations/meal-032.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-033.webp",
-    "displayName": "meal-033.webp",
-    "code": "MEAL-033",
-    "path": "images/dinner-combinations/meal-033.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-034.webp",
-    "displayName": "meal-034.webp",
-    "code": "MEAL-034",
-    "path": "images/dinner-combinations/meal-034.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-035.webp",
-    "displayName": "meal-035.webp",
-    "code": "MEAL-035",
-    "path": "images/dinner-combinations/meal-035.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-036.webp",
-    "displayName": "meal-036.webp",
-    "code": "MEAL-036",
-    "path": "images/dinner-combinations/meal-036.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-037.webp",
-    "displayName": "meal-037.webp",
-    "code": "MEAL-037",
-    "path": "images/dinner-combinations/meal-037.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-038.webp",
-    "displayName": "meal-038.webp",
-    "code": "MEAL-038",
-    "path": "images/dinner-combinations/meal-038.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-039.webp",
-    "displayName": "meal-039.webp",
-    "code": "MEAL-039",
-    "path": "images/dinner-combinations/meal-039.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-040.webp",
-    "displayName": "meal-040.webp",
-    "code": "MEAL-040",
-    "path": "images/dinner-combinations/meal-040.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-041.webp",
-    "displayName": "meal-041.webp",
-    "code": "MEAL-041",
-    "path": "images/dinner-combinations/meal-041.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-042.webp",
-    "displayName": "meal-042.webp",
-    "code": "MEAL-042",
-    "path": "images/dinner-combinations/meal-042.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-043.webp",
-    "displayName": "meal-043.webp",
-    "code": "MEAL-043",
-    "path": "images/dinner-combinations/meal-043.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-044.webp",
-    "displayName": "meal-044.webp",
-    "code": "MEAL-044",
-    "path": "images/dinner-combinations/meal-044.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-045.webp",
-    "displayName": "meal-045.webp",
-    "code": "MEAL-045",
-    "path": "images/dinner-combinations/meal-045.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-046.webp",
-    "displayName": "meal-046.webp",
-    "code": "MEAL-046",
-    "path": "images/dinner-combinations/meal-046.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-047.webp",
-    "displayName": "meal-047.webp",
-    "code": "MEAL-047",
-    "path": "images/dinner-combinations/meal-047.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-048.webp",
-    "displayName": "meal-048.webp",
-    "code": "MEAL-048",
-    "path": "images/dinner-combinations/meal-048.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-049.webp",
-    "displayName": "meal-049.webp",
-    "code": "MEAL-049",
-    "path": "images/dinner-combinations/meal-049.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-050.webp",
-    "displayName": "meal-050.webp",
-    "code": "MEAL-050",
-    "path": "images/dinner-combinations/meal-050.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-051.webp",
-    "displayName": "meal-051.webp",
-    "code": "MEAL-051",
-    "path": "images/dinner-combinations/meal-051.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-052.webp",
-    "displayName": "meal-052.webp",
-    "code": "MEAL-052",
-    "path": "images/dinner-combinations/meal-052.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-053.webp",
-    "displayName": "meal-053.webp",
-    "code": "MEAL-053",
-    "path": "images/dinner-combinations/meal-053.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-054.webp",
-    "displayName": "meal-054.webp",
-    "code": "MEAL-054",
-    "path": "images/dinner-combinations/meal-054.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-055.webp",
-    "displayName": "meal-055.webp",
-    "code": "MEAL-055",
-    "path": "images/dinner-combinations/meal-055.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-056.webp",
-    "displayName": "meal-056.webp",
-    "code": "MEAL-056",
-    "path": "images/dinner-combinations/meal-056.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-057.webp",
-    "displayName": "meal-057.webp",
-    "code": "MEAL-057",
-    "path": "images/dinner-combinations/meal-057.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-058.webp",
-    "displayName": "meal-058.webp",
-    "code": "MEAL-058",
-    "path": "images/dinner-combinations/meal-058.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-059.webp",
-    "displayName": "meal-059.webp",
-    "code": "MEAL-059",
-    "path": "images/dinner-combinations/meal-059.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-060.webp",
-    "displayName": "meal-060.webp",
-    "code": "MEAL-060",
-    "path": "images/dinner-combinations/meal-060.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-061.webp",
-    "displayName": "meal-061.webp",
-    "code": "MEAL-061",
-    "path": "images/dinner-combinations/meal-061.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-062.webp",
-    "displayName": "meal-062.webp",
-    "code": "MEAL-062",
-    "path": "images/dinner-combinations/meal-062.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-063.webp",
-    "displayName": "meal-063.webp",
-    "code": "MEAL-063",
-    "path": "images/dinner-combinations/meal-063.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-064.webp",
-    "displayName": "meal-064.webp",
-    "code": "MEAL-064",
-    "path": "images/dinner-combinations/meal-064.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-065.webp",
-    "displayName": "meal-065.webp",
-    "code": "MEAL-065",
-    "path": "images/dinner-combinations/meal-065.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-066.webp",
-    "displayName": "meal-066.webp",
-    "code": "MEAL-066",
-    "path": "images/dinner-combinations/meal-066.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-067.webp",
-    "displayName": "meal-067.webp",
-    "code": "MEAL-067",
-    "path": "images/dinner-combinations/meal-067.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-068.webp",
-    "displayName": "meal-068.webp",
-    "code": "MEAL-068",
-    "path": "images/dinner-combinations/meal-068.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-069.webp",
-    "displayName": "meal-069.webp",
-    "code": "MEAL-069",
-    "path": "images/dinner-combinations/meal-069.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-070.webp",
-    "displayName": "meal-070.webp",
-    "code": "MEAL-070",
-    "path": "images/dinner-combinations/meal-070.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-071.webp",
-    "displayName": "meal-071.webp",
-    "code": "MEAL-071",
-    "path": "images/dinner-combinations/meal-071.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-072.webp",
-    "displayName": "meal-072.webp",
-    "code": "MEAL-072",
-    "path": "images/dinner-combinations/meal-072.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-073.webp",
-    "displayName": "meal-073.webp",
-    "code": "MEAL-073",
-    "path": "images/dinner-combinations/meal-073.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-074.webp",
-    "displayName": "meal-074.webp",
-    "code": "MEAL-074",
-    "path": "images/dinner-combinations/meal-074.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-075.webp",
-    "displayName": "meal-075.webp",
-    "code": "MEAL-075",
-    "path": "images/dinner-combinations/meal-075.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-076.webp",
-    "displayName": "meal-076.webp",
-    "code": "MEAL-076",
-    "path": "images/dinner-combinations/meal-076.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-077.webp",
-    "displayName": "meal-077.webp",
-    "code": "MEAL-077",
-    "path": "images/dinner-combinations/meal-077.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-078.webp",
-    "displayName": "meal-078.webp",
-    "code": "MEAL-078",
-    "path": "images/dinner-combinations/meal-078.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-079.webp",
-    "displayName": "meal-079.webp",
-    "code": "MEAL-079",
-    "path": "images/dinner-combinations/meal-079.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-080.webp",
-    "displayName": "meal-080.webp",
-    "code": "MEAL-080",
-    "path": "images/dinner-combinations/meal-080.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-081.webp",
-    "displayName": "meal-081.webp",
-    "code": "MEAL-081",
-    "path": "images/dinner-combinations/meal-081.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-082.webp",
-    "displayName": "meal-082.webp",
-    "code": "MEAL-082",
-    "path": "images/dinner-combinations/meal-082.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-083.webp",
-    "displayName": "meal-083.webp",
-    "code": "MEAL-083",
-    "path": "images/dinner-combinations/meal-083.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-084.webp",
-    "displayName": "meal-084.webp",
-    "code": "MEAL-084",
-    "path": "images/dinner-combinations/meal-084.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-085.webp",
-    "displayName": "meal-085.webp",
-    "code": "MEAL-085",
-    "path": "images/dinner-combinations/meal-085.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-086.webp",
-    "displayName": "meal-086.webp",
-    "code": "MEAL-086",
-    "path": "images/dinner-combinations/meal-086.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-087.webp",
-    "displayName": "meal-087.webp",
-    "code": "MEAL-087",
-    "path": "images/dinner-combinations/meal-087.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-088.webp",
-    "displayName": "meal-088.webp",
-    "code": "MEAL-088",
-    "path": "images/dinner-combinations/meal-088.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-089.webp",
-    "displayName": "meal-089.webp",
-    "code": "MEAL-089",
-    "path": "images/dinner-combinations/meal-089.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-090.webp",
-    "displayName": "meal-090.webp",
-    "code": "MEAL-090",
-    "path": "images/dinner-combinations/meal-090.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-091.webp",
-    "displayName": "meal-091.webp",
-    "code": "MEAL-091",
-    "path": "images/dinner-combinations/meal-091.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-092.webp",
-    "displayName": "meal-092.webp",
-    "code": "MEAL-092",
-    "path": "images/dinner-combinations/meal-092.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-093.webp",
-    "displayName": "meal-093.webp",
-    "code": "MEAL-093",
-    "path": "images/dinner-combinations/meal-093.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-094.webp",
-    "displayName": "meal-094.webp",
-    "code": "MEAL-094",
-    "path": "images/dinner-combinations/meal-094.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-095.webp",
-    "displayName": "meal-095.webp",
-    "code": "MEAL-095",
-    "path": "images/dinner-combinations/meal-095.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-096.webp",
-    "displayName": "meal-096.webp",
-    "code": "MEAL-096",
-    "path": "images/dinner-combinations/meal-096.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-097.webp",
-    "displayName": "meal-097.webp",
-    "code": "MEAL-097",
-    "path": "images/dinner-combinations/meal-097.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-098.webp",
-    "displayName": "meal-098.webp",
-    "code": "MEAL-098",
-    "path": "images/dinner-combinations/meal-098.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-099.webp",
-    "displayName": "meal-099.webp",
-    "code": "MEAL-099",
-    "path": "images/dinner-combinations/meal-099.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-100.webp",
-    "displayName": "meal-100.webp",
-    "code": "MEAL-100",
-    "path": "images/dinner-combinations/meal-100.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-101.webp",
-    "displayName": "meal-101.webp",
-    "code": "MEAL-101",
-    "path": "images/dinner-combinations/meal-101.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  },
-  {
-    "name": "meal-102.webp",
-    "displayName": "meal-102.webp",
-    "code": "MEAL-102",
-    "path": "images/dinner-combinations/meal-102.webp",
-    "source": "Combo Hero",
-    "kind": "combo"
-  }
-];
-
 export const HERO_IMAGE_SOURCE_COUNTS = {
-  "Dedicated Hero": 374,
+  "Combo Hero": 102,
+  "Dedicated Hero": 452,
   "Hero Thumbnail": 374,
-  "Full Recipe Card": 490,
+  "Full Recipe Card": 471,
   "Recipe Card Thumbnail": 456
 };
