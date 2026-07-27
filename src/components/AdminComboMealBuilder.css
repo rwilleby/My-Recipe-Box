@@ -1,0 +1,659 @@
+.comboBuilderPage {
+  width: min(1500px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 28px 0 56px;
+  color: #17211a;
+}
+
+.comboBuilderPage button,
+.comboBuilderPage input,
+.comboBuilderPage select,
+.comboBuilderPage textarea {
+  font: inherit;
+}
+
+.comboBuilderPageHeader,
+.comboBuilderToolbar,
+.comboBuilderIdentity,
+.comboBuilderPreview,
+.comboBuilderProcessing,
+.comboBuilderImport,
+.comboBuilderStorage,
+.comboBuilderCarouselSection {
+  border: 1px solid #d9e2db;
+  border-radius: 14px;
+  background: #fff;
+}
+
+.comboBuilderPageHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: flex-start;
+  padding: 22px;
+  margin-bottom: 16px;
+}
+
+.comboBuilderPageHeader h1 {
+  margin: 5px 0 8px;
+  font-size: clamp(24px, 3vw, 38px);
+}
+
+.comboBuilderPageHeader p {
+  max-width: 850px;
+  margin: 0;
+  color: #58645d;
+}
+
+.comboBuilderEyebrow,
+.comboBuilderSectionHeading > div > span {
+  color: #667085;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .09em;
+}
+
+.comboBuilderToolbar {
+  display: grid;
+  grid-template-columns: auto minmax(190px, 1fr) minmax(160px, .7fr) minmax(190px, .8fr);
+  gap: 12px;
+  align-items: end;
+  padding: 14px;
+}
+
+.comboBuilderToolbar label,
+.comboBuilderIdentity label,
+.comboBuilderSelectionBox label,
+.comboBuilderCarouselFilters label {
+  display: grid;
+  gap: 5px;
+  color: #36413a;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.comboBuilderPage input,
+.comboBuilderPage select,
+.comboBuilderPage textarea {
+  box-sizing: border-box;
+  width: 100%;
+  border: 1px solid #cbd5ce;
+  border-radius: 8px;
+  background: #fff;
+  padding: 8px 10px;
+  color: #17211a;
+}
+
+.comboBuilderPage textarea {
+  resize: vertical;
+}
+
+.comboBuilderCode {
+  display: grid;
+  gap: 2px;
+  min-height: 60px;
+  padding: 8px 12px;
+  border-radius: 9px;
+  background: #f3f7f4;
+}
+
+.comboBuilderCode span,
+.comboBuilderCode small {
+  color: #667085;
+  font-size: 11px;
+}
+
+.comboBuilderCode strong {
+  font-size: 20px;
+}
+
+.comboBuilderIdentity {
+  display: grid;
+  grid-template-columns: minmax(220px, .8fr) minmax(280px, 1.4fr) minmax(280px, 1.4fr);
+  gap: 14px;
+  margin-top: 14px;
+  padding: 14px;
+}
+
+.comboBuilderRecordActions,
+.comboBuilderActionGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
+.comboBuilderRecordActions {
+  margin: 14px 0;
+}
+
+.comboBuilderPage button {
+  border: 1px solid #b9c6bc;
+  border-radius: 8px;
+  background: #fff;
+  padding: 8px 12px;
+  color: #183522;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.comboBuilderPage button:hover:not(:disabled) {
+  border-color: #14532d;
+  background: #f2f8f3;
+}
+
+.comboBuilderPage button.primary {
+  border-color: #14532d;
+  background: #14532d;
+  color: #fff;
+}
+
+.comboBuilderPage button.danger {
+  color: #8a2430;
+}
+
+.comboBuilderPage button:disabled {
+  cursor: not-allowed;
+  opacity: .48;
+}
+
+.comboBuilderMessage {
+  margin: 10px 0 14px;
+  padding: 10px 12px;
+  border-left: 4px solid #14532d;
+  background: #f1f7f2;
+  font-weight: 700;
+}
+
+.comboBuilderStickySelections {
+  position: sticky;
+  z-index: 12;
+  top: 0;
+  margin: 14px 0;
+  padding: 10px;
+  border: 1px solid #cfd9d1;
+  border-radius: 14px;
+  background: rgba(250, 252, 250, .97);
+  backdrop-filter: blur(8px);
+}
+
+.comboBuilderSelectionGrid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.comboBuilderSelectionBox {
+  display: grid;
+  align-content: start;
+  min-width: 0;
+  min-height: 255px;
+  overflow: hidden;
+  border: 2px solid #dbe3dd;
+  border-radius: 11px;
+  background: #fff;
+}
+
+.comboBuilderSelectionBox.active {
+  border-color: #14532d;
+}
+
+.comboBuilderSlotHeader {
+  display: flex;
+  justify-content: space-between;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: #f1f5f2 !important;
+  color: #14532d !important;
+  font-size: 12px;
+}
+
+.comboBuilderSlotHeader small {
+  color: #7a4330;
+  font-size: 9px;
+}
+
+.comboBuilderSelectedHero {
+  height: 88px;
+  background: #edf1ee;
+}
+
+.comboBuilderSelectedHero img,
+.comboBuilderThumbImage img,
+.comboBuilderPreviewStrip img,
+.comboBuilderOfficialHero > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.comboBuilderSelectedHero > span,
+.comboBuilderThumbImage > span {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  font-size: 32px;
+}
+
+.comboBuilderSelectionBox > strong,
+.comboBuilderSelectionBox > p,
+.comboBuilderSelectionBox > label,
+.comboBuilderSlotActions {
+  margin-left: 9px;
+  margin-right: 9px;
+}
+
+.comboBuilderSelectionBox > strong {
+  margin-top: 8px;
+  font-size: 11px;
+}
+
+.comboBuilderSelectionBox > p {
+  min-height: 34px;
+  margin-top: 3px;
+  margin-bottom: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.comboBuilderSelectionBox select,
+.comboBuilderSelectionBox input {
+  padding: 5px 7px;
+  font-size: 11px;
+}
+
+.comboBuilderSlotActions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-top: 8px;
+  margin-bottom: 9px;
+}
+
+.comboBuilderSlotActions button {
+  padding: 6px;
+  font-size: 10px;
+}
+
+.comboBuilderEmptySlot {
+  align-self: stretch;
+  min-height: 205px;
+  border: 0 !important;
+  border-radius: 0 !important;
+  color: #69736d !important;
+  font-size: 12px;
+}
+
+.comboBuilderCarouselSection {
+  margin: 14px 0;
+  padding: 14px;
+}
+
+.comboBuilderCarouselHeader,
+.comboBuilderSectionHeading {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.comboBuilderCarouselHeader h2,
+.comboBuilderSectionHeading h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.comboBuilderCarouselHeader p,
+.comboBuilderSectionHeading p {
+  margin: 4px 0 0;
+  color: #667085;
+  font-size: 12px;
+}
+
+.comboBuilderCarouselFilters {
+  display: flex;
+  gap: 9px;
+}
+
+.comboBuilderCarouselFilters input {
+  width: 230px;
+}
+
+.comboBuilderCarouselRow {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+  margin-top: 12px;
+}
+
+.comboBuilderArrow {
+  width: 38px;
+  height: 66px;
+  padding: 0 !important;
+  font-size: 28px;
+}
+
+.comboBuilderRecipeScroller {
+  display: flex;
+  gap: 9px;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  padding: 3px;
+}
+
+.comboBuilderRecipeThumb {
+  flex: 0 0 150px;
+  display: grid;
+  grid-template-rows: 94px auto auto auto;
+  gap: 4px;
+  min-height: 160px;
+  overflow: hidden;
+  scroll-snap-align: start;
+  padding: 0 0 8px !important;
+  text-align: left;
+}
+
+.comboBuilderRecipeThumb.selected {
+  border: 2px solid #14532d;
+  background: #eef7f0;
+}
+
+.comboBuilderThumbImage {
+  display: block;
+  width: 100%;
+  height: 94px;
+  background: #edf1ee;
+}
+
+.comboBuilderRecipeThumb > strong,
+.comboBuilderRecipeThumb > span:not(.comboBuilderThumbImage),
+.comboBuilderRecipeThumb > small {
+  margin: 0 8px;
+}
+
+.comboBuilderRecipeThumb > strong {
+  color: #14532d;
+  font-size: 10px;
+}
+
+.comboBuilderRecipeThumb > span:not(.comboBuilderThumbImage) {
+  font-size: 11px;
+  line-height: 1.2;
+}
+
+.comboBuilderRecipeThumb > small {
+  color: #14532d;
+  font-size: 9px;
+}
+
+.comboBuilderPreview,
+.comboBuilderProcessing,
+.comboBuilderImport,
+.comboBuilderStorage {
+  margin-top: 16px;
+  padding: 18px;
+}
+
+.comboBuilderNutritionStatus {
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: #f0f4f1;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.comboBuilderNutritionStatus.complete {
+  background: #e6f5e9;
+}
+
+.comboBuilderNutritionStatus.incomplete {
+  background: #fff0dc;
+}
+
+.comboBuilderPreviewStrip {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  height: 180px;
+  overflow: hidden;
+  margin-top: 14px;
+  border-radius: 12px;
+  background: #edf1ee;
+}
+
+.comboBuilderPreviewStrip > div {
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  border-right: 1px solid #fff;
+  color: #6a756e;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.comboBuilderPreviewDetails {
+  display: grid;
+  grid-template-columns: .9fr 1.1fr;
+  gap: 18px;
+  margin-top: 16px;
+}
+
+.comboBuilderPreviewDetails h3,
+.comboBuilderComparison h3,
+.comboBuilderOfficialBody h3 {
+  margin: 0 0 10px;
+  font-size: 15px;
+}
+
+.comboBuilderPreviewDetails dl {
+  margin: 0;
+}
+
+.comboBuilderPreviewDetails dl > div {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: 8px;
+  padding: 6px 0;
+  border-bottom: 1px solid #edf0ee;
+}
+
+.comboBuilderPreviewDetails dt {
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.comboBuilderPreviewDetails dd {
+  margin: 0;
+  font-size: 12px;
+}
+
+.comboBuilderNutritionGrid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 7px;
+}
+
+.comboBuilderNutritionGrid > div {
+  display: grid;
+  gap: 4px;
+  padding: 8px;
+  border-radius: 8px;
+  background: #f4f7f5;
+}
+
+.comboBuilderNutritionGrid span {
+  font-size: 9px;
+}
+
+.comboBuilderNutritionGrid strong {
+  font-size: 13px;
+}
+
+.comboBuilderWarning,
+.comboBuilderError {
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+.comboBuilderWarning {
+  background: #fff4e5;
+  color: #744817;
+}
+
+.comboBuilderError {
+  background: #fdebed;
+  color: #842737;
+}
+
+.comboBuilderProcessing .comboBuilderActionGrid,
+.comboBuilderImport .comboBuilderActionGrid,
+.comboBuilderStorage .comboBuilderActionGrid {
+  margin-top: 14px;
+}
+
+.comboBuilderImport > input[type="file"] {
+  margin-top: 14px;
+}
+
+.comboBuilderComparison {
+  margin-top: 14px;
+  padding: 14px;
+  border: 1px solid #d9e2db;
+  border-radius: 10px;
+}
+
+.comboBuilderComparisonGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.comboBuilderComparisonGrid > div {
+  padding: 10px;
+  border-radius: 8px;
+  background: #f5f8f6;
+}
+
+.comboBuilderComparisonGrid p {
+  margin: 5px 0;
+  font-size: 11px;
+}
+
+.comboBuilderModalBackdrop {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(12, 19, 14, .72);
+}
+
+.comboBuilderOfficialCard {
+  position: relative;
+  width: min(900px, 100%);
+  max-height: calc(100vh - 48px);
+  overflow: auto;
+  border-radius: 16px;
+  background: #fff;
+}
+
+.comboBuilderOfficialCard > header,
+.comboBuilderOfficialBody {
+  padding: 20px;
+}
+
+.comboBuilderOfficialCard h2 {
+  margin: 5px 0;
+}
+
+.comboBuilderModalClose {
+  position: absolute;
+  z-index: 2;
+  top: 10px;
+  right: 10px;
+  width: 36px;
+  height: 36px;
+  padding: 0 !important;
+  border-radius: 50% !important;
+  font-size: 24px;
+}
+
+.comboBuilderOfficialHero {
+  min-height: 260px;
+  background: #edf1ee;
+}
+
+.comboBuilderOfficialHero .comboBuilderPreviewStrip {
+  height: 260px;
+  margin: 0;
+  border-radius: 0;
+}
+
+.comboBuilderOfficialBody {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.comboBuilderOfficialBody p {
+  font-size: 12px;
+}
+
+@media (max-width: 1050px) {
+  .comboBuilderToolbar,
+  .comboBuilderIdentity {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .comboBuilderSelectionGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .comboBuilderStickySelections {
+    position: static;
+  }
+}
+
+@media (max-width: 720px) {
+  .comboBuilderPage {
+    width: min(100% - 20px, 1500px);
+  }
+
+  .comboBuilderPageHeader,
+  .comboBuilderCarouselHeader,
+  .comboBuilderSectionHeading {
+    display: grid;
+  }
+
+  .comboBuilderToolbar,
+  .comboBuilderIdentity,
+  .comboBuilderSelectionGrid,
+  .comboBuilderPreviewDetails,
+  .comboBuilderOfficialBody,
+  .comboBuilderComparisonGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .comboBuilderCarouselFilters {
+    display: grid;
+  }
+
+  .comboBuilderCarouselFilters input {
+    width: 100%;
+  }
+
+  .comboBuilderSelectionBox {
+    min-height: 220px;
+  }
+
+  .comboBuilderPreviewStrip {
+    height: 120px;
+  }
+
+  .comboBuilderNutritionGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
