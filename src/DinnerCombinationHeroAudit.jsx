@@ -1,532 +1,194 @@
 import { useEffect, useMemo, useState } from "react";
+import { HERO_IMAGE_MANIFEST, COMBO_IMAGE_MANIFEST } from "./heroImageManifest.js";
 import "./DinnerCombinationHeroAudit.css";
 
-const STORAGE_KEY = "rrb_dinnerComboHeroAudit_v1";
+const STORAGE_KEY = "rrb_dinnerComboHeroAssignment_v2";
+const PANEL_ROLES = ["combo", "main", "side1", "side2"];
+const ROLE_LABELS = { combo: "COMBO", main: "MAIN", side1: "SIDE 1", side2: "SIDE 2" };
 
-const REVIEW_OPTIONS = [
-  "Not Reviewed",
-  "Images Match",
-  "Possible Mismatch",
-  "Hero Update Needed",
-  "Component Image Update Needed",
-];
-
-function safeText(value) {
-  return String(value ?? "").trim();
+function safeText(value) { return String(value ?? "").trim(); }
+function codeOf(recipe) { return safeText(recipe?.id ?? recipe?.code ?? recipe?.recipeCode).toUpperCase(); }
+function nameOf(recipe) { return safeText(recipe?.title ?? recipe?.name ?? recipe?.recipeName); }
+function assetUrl(path) {
+  if (!path) return "";
+  if (/^(https?:|data:|blob:)/i.test(path)) return path;
+  return `${import.meta.env.BASE_URL}${String(path).replace(/^\/+/, "")}`;
+}
+function recipeImagePath(recipe) {
+  if (!recipe) return "";
+  return safeText(recipe.auditHeroImage ?? recipe.heroImage ?? recipe.image ?? (recipe.id ? `images/heroes/${recipe.id}.webp` : ""));
+}
+function comboImagePath(meal) {
+  if (!meal) return "";
+  const number = String(meal.number ?? meal.mealNumber ?? "").padStart(3, "0");
+  return safeText(meal.auditHeroImage ?? meal.heroImage ?? meal.image ?? (number ? `images/dinner-combinations/meal-${number}.webp` : ""));
+}
+function findRecipe(id, recipes) { return recipes.find((r) => codeOf(r) === safeText(id).toUpperCase()) ?? null; }
+function componentRecipe(meal, role, recipes) {
+  if (role === "main") return findRecipe(meal.mainRecipeId ?? meal.mainDishCode, recipes);
+  const sideIndex = role === "side1" ? 0 : 1;
+  const side = Array.isArray(meal.sides) ? meal.sides[sideIndex] : null;
+  return findRecipe(side?.recipeId ?? side?.recipeCode, recipes);
+}
+function loadState() {
+  try { const value = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}"); return value && typeof value === "object" ? value : {}; }
+  catch { return {}; }
+}
+function csvCell(value) { return `"${String(value ?? "").replace(/"/g, '""')}"`; }
+function downloadText(filename, text, type) {
+  const blob = new Blob([text], { type });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url; link.download = filename; document.body.appendChild(link); link.click(); link.remove();
+  URL.revokeObjectURL(url);
 }
 
-function normalizeCode(value) {
-  return safeText(value).toUpperCase();
-}
-
-function getRecipeCode(recipe) {
-  return normalizeCode(
-    recipe?.code ??
-      recipe?.recipeCode ??
-      recipe?.id ??
-      recipe?.recipeId
-  );
-}
-
-function getRecipeName(recipe) {
-  return safeText(recipe?.title ?? recipe?.name ?? recipe?.recipeName);
-}
-
-function getRecipeImage(recipe) {
-  return safeText(
-    recipe?.heroImage ??
-      recipe?.image ??
-      recipe?.imageUrl ??
-      recipe?.hero ??
-      recipe?.photo
-  );
-}
-
-function getComboImage(combo) {
-  return safeText(
-    combo?.heroImage ??
-      combo?.image ??
-      combo?.imageUrl ??
-      combo?.hero ??
-      combo?.photo
-  );
-}
-
-function getMealNumber(combo, index) {
-  return safeText(
-    combo?.mealNumber ??
-      combo?.number ??
-      combo?.mealNo ??
-      combo?.id ??
-      index + 1
-  );
-}
-
-function getComboTitle(combo) {
-  return safeText(combo?.title ?? combo?.name ?? combo?.mealName);
-}
-
-function getMealBalance(combo) {
-  const score = combo?.mealBalance?.score ?? combo?.mealBalanceScore;
-  const label = combo?.mealBalance?.label ?? combo?.mealBalanceLabel;
-  if (score == null && !label) return "Not Yet Rated";
-  return [score, label].filter(Boolean).join(" ");
-}
-
-function componentReference(combo, role) {
-  const aliases = {
-    main: [
-      combo?.mainDish,
-      combo?.main,
-      combo?.mainRecipe,
-      combo?.mainDishRecipe,
-      combo?.mainDishCode,
-      combo?.mainRecipeCode,
-    ],
-    side1: [
-      combo?.side1,
-      combo?.sideOne,
-      combo?.firstSide,
-      combo?.side1Recipe,
-      combo?.side1Code,
-      combo?.sideOneCode,
-    ],
-    side2: [
-      combo?.side2,
-      combo?.sideTwo,
-      combo?.secondSide,
-      combo?.side2Recipe,
-      combo?.side2Code,
-      combo?.sideTwoCode,
-    ],
-  };
-
-  return aliases[role].find((value) => value != null && value !== "") ?? null;
-}
-
-function findRecipe(reference, recipeMap, recipes) {
-  if (!reference) return null;
-
-  if (typeof reference === "object") {
-    const code = getRecipeCode(reference);
-    if (code && recipeMap.has(code)) return recipeMap.get(code);
-    const name = getRecipeName(reference).toLowerCase();
-    if (name) {
-      return (
-        recipes.find((recipe) => getRecipeName(recipe).toLowerCase() === name) ??
-        reference
-      );
-    }
-    return reference;
-  }
-
-  const value = safeText(reference);
-  const normalized = normalizeCode(value);
+function ImageChooser({ open, role, title, currentPath, selectedPath, onChoose, onClose }) {
+  const [query, setQuery] = useState("");
+  useEffect(() => { if (open) setQuery(""); }, [open, role]);
+  if (!open) return null;
+  const source = role === "combo" ? COMBO_IMAGE_MANIFEST : HERO_IMAGE_MANIFEST;
+  const filtered = source.filter((item) => !query.trim() || item.name.toLowerCase().includes(query.trim().toLowerCase()));
   return (
-    recipeMap.get(normalized) ??
-    recipes.find(
-      (recipe) => getRecipeName(recipe).toLowerCase() === value.toLowerCase()
-    ) ??
-    null
-  );
-}
-
-function loadAuditState() {
-  try {
-    const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
-    return parsed && typeof parsed === "object" ? parsed : {};
-  } catch {
-    return {};
-  }
-}
-
-function ImagePanel({
-  label,
-  image,
-  title,
-  code,
-  onOpenRecipe,
-  recipe,
-  missing,
-  onImageError,
-}) {
-  return (
-    <section className={`dcAuditImagePanel${missing ? " isMissing" : ""}`}>
-      <div className="dcAuditPanelLabel">{label}</div>
-
-      <div className="dcAuditImageFrame">
-        {image ? (
-          <img
-            src={image}
-            alt={`${label}: ${title || "image"}`}
-            loading="lazy"
-            onError={onImageError}
-          />
-        ) : (
-          <div className="dcAuditMissingImage">No image assigned</div>
-        )}
-      </div>
-
-      <div className="dcAuditPanelInfo">
-        <strong>{title || "Missing linked recipe"}</strong>
-        {code && <span>{code}</span>}
-      </div>
-
-      <div className="dcAuditPanelLinks">
-        {recipe && onOpenRecipe && (
-          <button type="button" onClick={() => onOpenRecipe(recipe)}>
-            View Recipe
-          </button>
-        )}
-        {image && (
-          <a href={image} target="_blank" rel="noreferrer">
-            View Full Image
-          </a>
-        )}
-      </div>
-    </section>
-  );
-}
-
-export default function DinnerCombinationHeroAudit({
-  dinnerCombinations = [],
-  recipes = [],
-  onOpenRecipe,
-  onBack,
-}) {
-  const [search, setSearch] = useState("");
-  const [statusFilter, setStatusFilter] = useState("All");
-  const [missingOnly, setMissingOnly] = useState(false);
-  const [mismatchOnly, setMismatchOnly] = useState(false);
-  const [auditState, setAuditState] = useState(loadAuditState);
-  const [brokenImages, setBrokenImages] = useState({});
-
-  useEffect(() => {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(auditState));
-    } catch {
-      // The audit remains usable even when browser storage is unavailable.
-    }
-  }, [auditState]);
-
-  const recipeMap = useMemo(() => {
-    const map = new Map();
-    recipes.forEach((recipe) => {
-      const code = getRecipeCode(recipe);
-      if (code) map.set(code, recipe);
-    });
-    return map;
-  }, [recipes]);
-
-  const groups = useMemo(
-    () =>
-      dinnerCombinations.map((combo, index) => {
-        const mealNumber = getMealNumber(combo, index);
-        const key = safeText(combo?.id || combo?.code || `meal-${mealNumber}`);
-        const main = findRecipe(
-          componentReference(combo, "main"),
-          recipeMap,
-          recipes
-        );
-        const side1 = findRecipe(
-          componentReference(combo, "side1"),
-          recipeMap,
-          recipes
-        );
-        const side2 = findRecipe(
-          componentReference(combo, "side2"),
-          recipeMap,
-          recipes
-        );
-
-        const comboImage = getComboImage(combo);
-        const images = [
-          comboImage,
-          getRecipeImage(main),
-          getRecipeImage(side1),
-          getRecipeImage(side2),
-        ].filter(Boolean);
-
-        const duplicateImages = new Set(images).size !== images.length;
-        const missing =
-          !comboImage ||
-          !main ||
-          !side1 ||
-          !side2 ||
-          !getRecipeImage(main) ||
-          !getRecipeImage(side1) ||
-          !getRecipeImage(side2);
-
-        return {
-          key,
-          combo,
-          mealNumber,
-          title: getComboTitle(combo),
-          balance: getMealBalance(combo),
-          comboImage,
-          main,
-          side1,
-          side2,
-          duplicateImages,
-          missing,
-        };
-      }),
-    [dinnerCombinations, recipeMap, recipes]
-  );
-
-  const filteredGroups = useMemo(() => {
-    const query = search.trim().toLowerCase();
-
-    return groups.filter((group) => {
-      const saved = auditState[group.key] || {};
-      const status = saved.status || "Not Reviewed";
-      const hasBrokenImage = Object.keys(brokenImages).some((id) =>
-        id.startsWith(`${group.key}:`)
-      );
-      const hasMissing = group.missing || hasBrokenImage;
-
-      if (statusFilter !== "All" && status !== statusFilter) return false;
-      if (missingOnly && !hasMissing) return false;
-      if (
-        mismatchOnly &&
-        !["Possible Mismatch", "Hero Update Needed", "Component Image Update Needed"].includes(status)
-      ) {
-        return false;
-      }
-
-      if (!query) return true;
-
-      const haystack = [
-        group.mealNumber,
-        group.title,
-        getRecipeName(group.main),
-        getRecipeCode(group.main),
-        getRecipeName(group.side1),
-        getRecipeCode(group.side1),
-        getRecipeName(group.side2),
-        getRecipeCode(group.side2),
-      ]
-        .join(" ")
-        .toLowerCase();
-
-      return haystack.includes(query);
-    });
-  }, [
-    groups,
-    search,
-    statusFilter,
-    missingOnly,
-    mismatchOnly,
-    auditState,
-    brokenImages,
-  ]);
-
-  function updateAudit(key, patch) {
-    setAuditState((current) => ({
-      ...current,
-      [key]: {
-        status: "Not Reviewed",
-        notes: "",
-        ...(current[key] || {}),
-        ...patch,
-      },
-    }));
-  }
-
-  function markBroken(groupKey, panel) {
-    setBrokenImages((current) => ({
-      ...current,
-      [`${groupKey}:${panel}`]: true,
-    }));
-  }
-
-  return (
-    <main className="pageShell dcAuditPage">
-      <header className="dcAuditHeader">
-        <div>
-          <div className="dcAuditEyebrow">ADMIN REFERENCE TOOL</div>
-          <h1>Dinner Combination Hero Image Audit</h1>
-          <p>
-            Compare each completed Combo-Meal hero with the current hero images
-            from its linked Main Dish, Side 1, and Side 2 recipes.
-          </p>
+    <div className="dcChooserOverlay" onMouseDown={onClose}>
+      <section className="dcChooser" role="dialog" aria-modal="true" aria-label={`Choose ${ROLE_LABELS[role]} image`} onMouseDown={(e) => e.stopPropagation()}>
+        <header>
+          <div><small>{ROLE_LABELS[role]}</small><h2>{title}</h2></div>
+          <button type="button" onClick={onClose} aria-label="Close image chooser">×</button>
+        </header>
+        <div className="dcChooserCurrent">
+          <article><span>Current</span>{currentPath ? <img src={assetUrl(currentPath)} alt="Current hero" /> : <div>No current image</div>}<code>{currentPath || "None"}</code></article>
+          <article><span>Selected</span>{selectedPath ? <img src={assetUrl(selectedPath)} alt="Selected hero" /> : <div>No replacement selected</div>}<code>{selectedPath || "Current image remains"}</code></article>
         </div>
-        {onBack && (
-          <button type="button" className="dcAuditBackButton" onClick={onBack}>
-            Back to Admin
-          </button>
-        )}
-      </header>
-
-      <section className="dcAuditFilters" aria-label="Audit filters">
-        <label>
-          <span>Search</span>
-          <input
-            type="search"
-            value={search}
-            onChange={(event) => setSearch(event.target.value)}
-            placeholder="Meal title, recipe name, or code"
-          />
-        </label>
-
-        <label>
-          <span>Review Status</span>
-          <select
-            value={statusFilter}
-            onChange={(event) => setStatusFilter(event.target.value)}
-          >
-            <option>All</option>
-            {REVIEW_OPTIONS.map((option) => (
-              <option key={option}>{option}</option>
-            ))}
-          </select>
-        </label>
-
-        <label className="dcAuditCheck">
-          <input
-            type="checkbox"
-            checked={mismatchOnly}
-            onChange={(event) => setMismatchOnly(event.target.checked)}
-          />
-          <span>Possible mismatches only</span>
-        </label>
-
-        <label className="dcAuditCheck">
-          <input
-            type="checkbox"
-            checked={missingOnly}
-            onChange={(event) => setMissingOnly(event.target.checked)}
-          />
-          <span>Missing or broken images only</span>
-        </label>
+        <label className="dcChooserSearch"><span>Search image filenames</span><input type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder={role === "combo" ? "meal-001.webp" : "MX-010.webp"} /></label>
+        <div className="dcChooserCount">{filtered.length} images</div>
+        <div className="dcChooserGrid">
+          {filtered.map((item) => (
+            <button type="button" className={selectedPath === item.path ? "selected" : ""} key={item.path} onClick={() => onChoose(item.path)}>
+              <img src={assetUrl(item.path)} alt={item.name} loading="lazy" />
+              <span>{item.name}</span>
+            </button>
+          ))}
+        </div>
+        <footer><button type="button" onClick={() => onChoose("")}>Keep Current Image</button><button type="button" className="primary" onClick={onClose}>Done</button></footer>
       </section>
+    </div>
+  );
+}
 
-      <div className="dcAuditCount">
-        Showing {filteredGroups.length} of {groups.length} dinner combinations
+function AuditPanel({ role, title, code, currentPath, record, onChange, onOpenChooser, onOpenRecipe, recipe }) {
+  const approvedPath = record?.selectedPath || currentPath;
+  const status = record?.status || "unreviewed";
+  return (
+    <article className={`dcAssignPanel status-${status}`}>
+      <button type="button" className="dcAssignImageButton" onClick={onOpenChooser} title={`Choose ${ROLE_LABELS[role]} hero image`}>
+        {approvedPath ? <img src={assetUrl(approvedPath)} alt={`${ROLE_LABELS[role]} ${title}`} loading="lazy" /> : <div className="dcAssignMissing">Missing image</div>}
+        <span>Click image to choose hero</span>
+      </button>
+      <div className="dcAssignPanelText"><small>{ROLE_LABELS[role]}</small><strong>{title || "Unlinked recipe"}</strong>{code && <code>{code}</code>}<em>{approvedPath ? approvedPath.split("/").pop() : "No image"}</em></div>
+      <div className="dcAssignReviewChoices">
+        <label><input type="radio" name={`${role}-${code}-${title}`} checked={status === "correct"} onChange={() => onChange({ status: "correct", selectedPath: "" })} /> Correct</label>
+        <label><input type="radio" name={`${role}-${code}-${title}`} checked={status === "wrong" || status === "replacement"} onChange={() => onChange({ status: record?.selectedPath ? "replacement" : "wrong" })} /> Wrong</label>
       </div>
+      {record?.selectedPath && <div className="dcAssignReplacement">Replacement selected</div>}
+      <div className="dcAssignPanelActions"><button type="button" onClick={onOpenChooser}>Choose Image</button>{recipe && onOpenRecipe && <button type="button" onClick={() => onOpenRecipe(recipe)}>View Recipe</button>}</div>
+    </article>
+  );
+}
 
-      <section className="dcAuditList">
-        {filteredGroups.map((group) => {
-          const saved = auditState[group.key] || {
-            status: "Not Reviewed",
-            notes: "",
+export default function DinnerCombinationHeroAudit({ dinnerCombinations = [], recipes = [], onOpenRecipe, onBack }) {
+  const [state, setState] = useState(loadState);
+  const [search, setSearch] = useState("");
+  const [filter, setFilter] = useState("all");
+  const [chooser, setChooser] = useState(null);
+  useEffect(() => { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch {} }, [state]);
+
+  const rows = useMemo(() => dinnerCombinations.map((meal) => {
+    const main = componentRecipe(meal, "main", recipes);
+    const side1 = componentRecipe(meal, "side1", recipes);
+    const side2 = componentRecipe(meal, "side2", recipes);
+    const key = safeText(meal.id || `meal-${meal.number}`);
+    return { key, meal, main, side1, side2 };
+  }), [dinnerCombinations, recipes]);
+
+  const visible = useMemo(() => rows.filter((row) => {
+    const audit = state[row.key] || {};
+    const text = [row.meal.number,row.meal.title,codeOf(row.main),nameOf(row.main),codeOf(row.side1),nameOf(row.side1),codeOf(row.side2),nameOf(row.side2)].join(" ").toLowerCase();
+    if (search.trim() && !text.includes(search.trim().toLowerCase())) return false;
+    const statuses = PANEL_ROLES.map((role) => audit.panels?.[role]?.status || "unreviewed");
+    if (filter === "checked" && !audit.checked) return false;
+    if (filter === "unchecked" && audit.checked) return false;
+    if (filter === "wrong" && !statuses.some((s) => s === "wrong" || s === "replacement")) return false;
+    if (filter === "unreviewed" && !statuses.some((s) => s === "unreviewed")) return false;
+    return true;
+  }), [rows, state, search, filter]);
+
+  function patchPanel(rowKey, role, patch) {
+    setState((current) => {
+      const row = current[rowKey] || { panels: {}, notes: "", checked: false };
+      const panel = row.panels?.[role] || { status: "unreviewed", selectedPath: "" };
+      const nextPanel = { ...panel, ...patch };
+      if (patch.selectedPath !== undefined && patch.selectedPath) nextPanel.status = "replacement";
+      return { ...current, [rowKey]: { ...row, checked: false, panels: { ...(row.panels || {}), [role]: nextPanel } } };
+    });
+  }
+  function patchRow(rowKey, patch) { setState((current) => ({ ...current, [rowKey]: { panels: {}, notes: "", checked: false, ...(current[rowKey] || {}), ...patch } })); }
+  function canCheck(rowKey) { const panels = state[rowKey]?.panels || {}; return PANEL_ROLES.every((role) => ["correct","replacement"].includes(panels[role]?.status)); }
+
+  function exportRows() {
+    const output=[];
+    rows.forEach((row) => {
+      const saved=state[row.key] || {};
+      if (!saved.checked) return;
+      const defs={
+        combo:{recipe:null,code:"",title:row.meal.title,current:comboImagePath(row.meal)},
+        main:{recipe:row.main,code:codeOf(row.main),title:nameOf(row.main),current:recipeImagePath(row.main)},
+        side1:{recipe:row.side1,code:codeOf(row.side1),title:nameOf(row.side1),current:recipeImagePath(row.side1)},
+        side2:{recipe:row.side2,code:codeOf(row.side2),title:nameOf(row.side2),current:recipeImagePath(row.side2)},
+      };
+      PANEL_ROLES.forEach((role) => {
+        const rec=saved.panels?.[role] || {};
+        const d=defs[role];
+        output.push({mealNumber:row.meal.number,mealId:row.key,mealTitle:row.meal.title,imageRole:ROLE_LABELS[role],recipeCode:d.code,recipeName:d.title,originalHero:d.current,approvedHero:rec.selectedPath || d.current,status:rec.status || "unreviewed",mealChecked:saved.checked ? "Yes" : "No",checkedDate:saved.checkedDate || "",notes:saved.notes || ""});
+      });
+    });
+    return output;
+  }
+  function exportCsv() {
+    const output=exportRows();
+    const headers=["Meal Number","Meal ID","Meal Title","Image Role","Recipe Code","Recipe Name","Original Hero","Approved Hero","Status","Meal Checked","Checked Date","Notes"];
+    const keys=["mealNumber","mealId","mealTitle","imageRole","recipeCode","recipeName","originalHero","approvedHero","status","mealChecked","checkedDate","notes"];
+    const csv=[headers.map(csvCell).join(","),...output.map((r)=>keys.map((k)=>csvCell(r[k])).join(","))].join("\r\n");
+    downloadText(`hero-audit-corrections-${new Date().toISOString().slice(0,10)}.csv`,csv,"text/csv;charset=utf-8");
+  }
+  function exportJson() { downloadText(`hero-audit-corrections-${new Date().toISOString().slice(0,10)}.json`,JSON.stringify(exportRows(),null,2),"application/json"); }
+
+  return (
+    <main className="pageShell dcAssignmentPage">
+      <header className="dcAssignmentHeader"><div><small>ADMIN IMAGE ASSIGNMENT TOOL</small><h1>Dinner Combination Hero Audit</h1><p>Click any Combo, Main, Side 1, or Side 2 image to select the correct hero. Review all four panels, mark the meal checked, then export the approved assignments for the master spreadsheet.</p></div>{onBack && <button type="button" onClick={onBack}>Back</button>}</header>
+      <section className="dcAssignmentToolbar">
+        <label><span>Search</span><input type="search" value={search} onChange={(e)=>setSearch(e.target.value)} placeholder="Meal, recipe name, or code" /></label>
+        <label><span>Show</span><select value={filter} onChange={(e)=>setFilter(e.target.value)}><option value="all">All meals</option><option value="unchecked">Unchecked</option><option value="checked">Checked</option><option value="wrong">Wrong / replacement</option><option value="unreviewed">Unreviewed images</option></select></label>
+        <button type="button" onClick={exportCsv}>Export Checked CSV</button><button type="button" onClick={exportJson}>Export Checked JSON</button>
+      </section>
+      <div className="dcAssignmentCount">{visible.length} of {rows.length} meals shown · {rows.filter((r)=>state[r.key]?.checked).length} checked</div>
+      <section className="dcAssignmentRows">
+        {visible.map((row) => {
+          const saved=state[row.key] || { panels:{},notes:"",checked:false };
+          const defs={
+            combo:{title:row.meal.title,code:`Meal #${String(row.meal.number).padStart(3,"0")}`,current:comboImagePath(row.meal),recipe:null},
+            main:{title:nameOf(row.main) || row.meal.mainDish,code:codeOf(row.main),current:recipeImagePath(row.main),recipe:row.main},
+            side1:{title:nameOf(row.side1) || row.meal.sides?.[0]?.name,code:codeOf(row.side1),current:recipeImagePath(row.side1),recipe:row.side1},
+            side2:{title:nameOf(row.side2) || row.meal.sides?.[1]?.name,code:codeOf(row.side2),current:recipeImagePath(row.side2),recipe:row.side2},
           };
-
-          const technicalIssues = [
-            !group.comboImage && "Combo-Meal hero missing",
-            !group.main && "Main Dish recipe not found",
-            group.main && !getRecipeImage(group.main) && "Main Dish image missing",
-            !group.side1 && "Side 1 recipe not found",
-            group.side1 && !getRecipeImage(group.side1) && "Side 1 image missing",
-            !group.side2 && "Side 2 recipe not found",
-            group.side2 && !getRecipeImage(group.side2) && "Side 2 image missing",
-            group.duplicateImages && "Same image assigned more than once",
-            brokenImages[`${group.key}:combo`] && "Combo-Meal image link is broken",
-            brokenImages[`${group.key}:main`] && "Main Dish image link is broken",
-            brokenImages[`${group.key}:side1`] && "Side 1 image link is broken",
-            brokenImages[`${group.key}:side2`] && "Side 2 image link is broken",
-          ].filter(Boolean);
-
-          return (
-            <article className="dcAuditGroup" key={group.key}>
-              <header className="dcAuditGroupHeader">
-                <div>
-                  <div className="dcAuditMealNumber">
-                    MEAL #{group.mealNumber}
-                  </div>
-                  <h2>{group.title || "Untitled Dinner Combination"}</h2>
-                  <p>Combo MealBalance: {group.balance}</p>
-                </div>
-
-                {technicalIssues.length > 0 && (
-                  <div className="dcAuditIssueSummary">
-                    <strong>Technical flags</strong>
-                    <ul>
-                      {technicalIssues.map((issue) => (
-                        <li key={issue}>{issue}</li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </header>
-
-              <div className="dcAuditImageGrid">
-                <ImagePanel
-                  label="COMBO-MEAL HERO"
-                  image={group.comboImage}
-                  title={`Meal #${group.mealNumber} — ${group.title}`}
-                  missing={!group.comboImage}
-                  onImageError={() => markBroken(group.key, "combo")}
-                />
-                <ImagePanel
-                  label="MAIN DISH"
-                  image={getRecipeImage(group.main)}
-                  title={getRecipeName(group.main)}
-                  code={getRecipeCode(group.main)}
-                  recipe={group.main}
-                  onOpenRecipe={onOpenRecipe}
-                  missing={!group.main || !getRecipeImage(group.main)}
-                  onImageError={() => markBroken(group.key, "main")}
-                />
-                <ImagePanel
-                  label="SIDE 1"
-                  image={getRecipeImage(group.side1)}
-                  title={getRecipeName(group.side1)}
-                  code={getRecipeCode(group.side1)}
-                  recipe={group.side1}
-                  onOpenRecipe={onOpenRecipe}
-                  missing={!group.side1 || !getRecipeImage(group.side1)}
-                  onImageError={() => markBroken(group.key, "side1")}
-                />
-                <ImagePanel
-                  label="SIDE 2"
-                  image={getRecipeImage(group.side2)}
-                  title={getRecipeName(group.side2)}
-                  code={getRecipeCode(group.side2)}
-                  recipe={group.side2}
-                  onOpenRecipe={onOpenRecipe}
-                  missing={!group.side2 || !getRecipeImage(group.side2)}
-                  onImageError={() => markBroken(group.key, "side2")}
-                />
-              </div>
-
-              <div className="dcAuditReview">
-                <label>
-                  <span>Review Status</span>
-                  <select
-                    value={saved.status || "Not Reviewed"}
-                    onChange={(event) =>
-                      updateAudit(group.key, { status: event.target.value })
-                    }
-                  >
-                    {REVIEW_OPTIONS.map((option) => (
-                      <option key={option}>{option}</option>
-                    ))}
-                  </select>
-                </label>
-
-                <label className="dcAuditNotes">
-                  <span>Browser-Only Notes</span>
-                  <textarea
-                    value={saved.notes || ""}
-                    onChange={(event) =>
-                      updateAudit(group.key, { notes: event.target.value })
-                    }
-                    placeholder="Record plating, image, lighting, or synchronization observations."
-                    rows={3}
-                  />
-                </label>
-              </div>
-            </article>
-          );
+          return <article className={saved.checked ? "dcAssignmentRow checked" : "dcAssignmentRow"} key={row.key}>
+            <header><div><small>MEAL #{row.meal.number}</small><h2>{row.meal.title}</h2></div><label className="dcMealChecked"><input type="checkbox" checked={Boolean(saved.checked)} disabled={!canCheck(row.key)} onChange={(e)=>patchRow(row.key,{checked:e.target.checked,checkedDate:e.target.checked ? new Date().toISOString() : ""})}/><span>{canCheck(row.key) ? "Meal checked" : "Review all 4 images first"}</span></label></header>
+            <div className="dcAssignmentGrid">{PANEL_ROLES.map((role) => { const d=defs[role]; return <AuditPanel key={role} role={role} title={d.title} code={d.code} currentPath={d.current} record={saved.panels?.[role]} onChange={(patch)=>patchPanel(row.key,role,patch)} onOpenChooser={()=>setChooser({rowKey:row.key,role,title:d.title,currentPath:d.current,selectedPath:saved.panels?.[role]?.selectedPath || ""})} onOpenRecipe={onOpenRecipe} recipe={d.recipe}/>; })}</div>
+            <label className="dcAssignmentNotes"><span>Notes</span><textarea rows="2" value={saved.notes || ""} onChange={(e)=>patchRow(row.key,{notes:e.target.value,checked:false})} placeholder="Reason for replacement or anything needed when updating the master spreadsheet" /></label>
+          </article>;
         })}
       </section>
-
-      {filteredGroups.length === 0 && (
-        <div className="dcAuditEmpty">
-          No dinner combinations match the current filters.
-        </div>
-      )}
+      <ImageChooser open={Boolean(chooser)} role={chooser?.role} title={chooser?.title || ""} currentPath={chooser?.currentPath || ""} selectedPath={chooser?.selectedPath || ""} onChoose={(path)=>{ if(!chooser)return; patchPanel(chooser.rowKey,chooser.role,{selectedPath:path,status:path ? "replacement" : "correct"}); setChooser((c)=>({...c,selectedPath:path})); }} onClose={()=>setChooser(null)} />
     </main>
   );
 }
