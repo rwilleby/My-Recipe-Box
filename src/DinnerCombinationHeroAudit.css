@@ -1,0 +1,333 @@
+.dcAuditPage {
+  width: min(1720px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 28px 0 56px;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  color: #25231f;
+}
+
+.dcAuditHeader,
+.dcAuditGroup,
+.dcAuditFilters {
+  background: #fff;
+  border: 1px solid #ddd6ca;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(45, 37, 25, 0.06);
+}
+
+.dcAuditHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: flex-start;
+  padding: 28px;
+  margin-bottom: 18px;
+}
+
+.dcAuditEyebrow,
+.dcAuditPanelLabel,
+.dcAuditMealNumber {
+  font-size: 12px;
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.dcAuditEyebrow {
+  color: #6c7551;
+  margin-bottom: 7px;
+}
+
+.dcAuditHeader h1,
+.dcAuditGroup h2 {
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  margin: 0;
+}
+
+.dcAuditHeader h1 {
+  font-size: 28px;
+  line-height: 1.15;
+}
+
+.dcAuditHeader p {
+  max-width: 850px;
+  margin: 10px 0 0;
+  font-size: 15px;
+  line-height: 1.55;
+  color: #625d54;
+}
+
+.dcAuditBackButton,
+.dcAuditPanelLinks button,
+.dcAuditPanelLinks a {
+  border: 1px solid #6c7551;
+  border-radius: 8px;
+  background: #fff;
+  color: #3e452d;
+  min-height: 36px;
+  padding: 8px 12px;
+  font: 700 14px/1 Inter, system-ui, sans-serif;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.dcAuditBackButton:hover,
+.dcAuditPanelLinks button:hover,
+.dcAuditPanelLinks a:hover {
+  background: #f3f1e9;
+}
+
+.dcAuditFilters {
+  display: grid;
+  grid-template-columns: minmax(260px, 1.5fr) minmax(210px, 0.8fr) auto auto;
+  gap: 14px;
+  align-items: end;
+  padding: 18px;
+}
+
+.dcAuditFilters label,
+.dcAuditReview label {
+  display: grid;
+  gap: 6px;
+}
+
+.dcAuditFilters label > span,
+.dcAuditReview label > span {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.dcAuditFilters input[type="search"],
+.dcAuditFilters select,
+.dcAuditReview select,
+.dcAuditNotes textarea {
+  width: 100%;
+  border: 1px solid #cfc7ba;
+  border-radius: 8px;
+  background: #fff;
+  color: #25231f;
+  font: 400 15px/1.35 Inter, system-ui, sans-serif;
+}
+
+.dcAuditFilters input[type="search"],
+.dcAuditFilters select,
+.dcAuditReview select {
+  min-height: 42px;
+  padding: 9px 11px;
+}
+
+.dcAuditCheck {
+  display: flex !important;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  min-height: 42px;
+  padding: 0 4px;
+}
+
+.dcAuditCheck input {
+  width: 18px;
+  height: 18px;
+}
+
+.dcAuditCount {
+  margin: 14px 4px;
+  font-size: 13px;
+  color: #6b655b;
+}
+
+.dcAuditList {
+  display: grid;
+  gap: 22px;
+}
+
+.dcAuditGroup {
+  overflow: hidden;
+}
+
+.dcAuditGroupHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 20px 22px;
+  background: #f7f4ec;
+  border-bottom: 1px solid #ddd6ca;
+}
+
+.dcAuditMealNumber {
+  color: #6c7551;
+  margin-bottom: 5px;
+}
+
+.dcAuditGroup h2 {
+  font-size: 22px;
+  line-height: 1.2;
+}
+
+.dcAuditGroupHeader p {
+  margin: 6px 0 0;
+  font-size: 13px;
+}
+
+.dcAuditIssueSummary {
+  max-width: 420px;
+  padding: 10px 13px;
+  border: 1px solid #d79b86;
+  border-radius: 9px;
+  background: #fff4ef;
+  font-size: 12px;
+}
+
+.dcAuditIssueSummary strong {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.dcAuditIssueSummary ul {
+  margin: 0;
+  padding-left: 17px;
+}
+
+.dcAuditImageGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  background: #ddd6ca;
+}
+
+.dcAuditImagePanel {
+  min-width: 0;
+  padding: 14px;
+  background: #fff;
+}
+
+.dcAuditImagePanel.isMissing {
+  background: #fffaf7;
+}
+
+.dcAuditPanelLabel {
+  min-height: 15px;
+  margin-bottom: 9px;
+  color: #514b42;
+}
+
+.dcAuditImageFrame {
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  border: 1px solid #ddd6ca;
+  border-radius: 10px;
+  background: #f2efe8;
+}
+
+.dcAuditImageFrame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.dcAuditMissingImage {
+  padding: 18px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: #8f4f3b;
+}
+
+.dcAuditPanelInfo {
+  min-height: 60px;
+  padding: 10px 2px 8px;
+}
+
+.dcAuditPanelInfo strong,
+.dcAuditPanelInfo span {
+  display: block;
+}
+
+.dcAuditPanelInfo strong {
+  font-size: 15px;
+  line-height: 1.3;
+}
+
+.dcAuditPanelInfo span {
+  margin-top: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #6b655b;
+}
+
+.dcAuditPanelLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.dcAuditPanelLinks button,
+.dcAuditPanelLinks a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  font-size: 12px;
+}
+
+.dcAuditReview {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.6fr) minmax(420px, 2fr);
+  gap: 16px;
+  padding: 18px 22px 22px;
+  border-top: 1px solid #ddd6ca;
+}
+
+.dcAuditNotes textarea {
+  min-height: 82px;
+  padding: 10px 11px;
+  resize: vertical;
+}
+
+.dcAuditEmpty {
+  padding: 36px;
+  text-align: center;
+  border: 1px dashed #bdb5a8;
+  border-radius: 12px;
+  background: #fff;
+  color: #6b655b;
+}
+
+@media (max-width: 1180px) {
+  .dcAuditFilters {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .dcAuditImageGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .dcAuditPage {
+    width: min(100% - 20px, 1720px);
+    padding-top: 14px;
+  }
+
+  .dcAuditHeader,
+  .dcAuditGroupHeader {
+    display: grid;
+  }
+
+  .dcAuditHeader h1 {
+    font-size: 26px;
+  }
+
+  .dcAuditFilters,
+  .dcAuditImageGrid,
+  .dcAuditReview {
+    grid-template-columns: 1fr;
+  }
+
+  .dcAuditIssueSummary {
+    max-width: none;
+  }
+}

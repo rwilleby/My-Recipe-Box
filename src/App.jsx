@@ -1,6 +1,7 @@
 import { createContext, useContext, useMemo, useState, useEffect, useRef } from "react";
 import { categories, recipes } from "./data/recipes";
 import AdminRecipeClassifier from "./components/AdminRecipeClassifier";
+import DinnerCombinationHeroAudit from "./DinnerCombinationHeroAudit.jsx";
 import UserDataBackupSection from "./components/UserDataBackupSection";
 import "./components/UserDataBackupSection.css";
 import {
@@ -5160,6 +5161,13 @@ function Home({
           onClick={() => setActivePage("User Backup")}
         >
           User Backup
+        </button>
+        <button
+          className="adminAccessButton homeAdminAccessButton"
+          type="button"
+          onClick={() => setActivePage("Dinner Combination Hero Audit")}
+        >
+          Hero Audit
         </button>
       </div>
 
@@ -13872,6 +13880,21 @@ export default function App() {
           classifications={recipeClassifications}
           setClassifications={setRecipeClassifications}
           onClose={() => setActivePage("Home")}
+        />
+      )}
+
+      {activePage === "Dinner Combination Hero Audit" && (
+        <DinnerCombinationHeroAudit
+          dinnerCombinations={dinnerCombinations.map((meal) => ({
+            ...meal,
+            heroImage: dinnerMealImageCandidates(meal)[0] || meal.image || "",
+          }))}
+          recipes={recipes.map((recipe) => ({
+            ...recipe,
+            heroImage: heroFoodImageCandidates(recipe)[0] || recipe.heroImage || recipe.image || "",
+          }))}
+          onOpenRecipe={(recipe) => openRecipeCard(recipe.id, recipes, "Dinner Combination Hero Audit")}
+          onBack={() => setActivePage("Home")}
         />
       )}
 
