@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { HERO_IMAGE_MANIFEST, COMBO_IMAGE_MANIFEST } from "./heroImageManifest.js";
+import { HERO_IMAGE_MANIFEST, COMBO_IMAGE_MANIFEST, HERO_IMAGE_SOURCE_COUNTS } from "./heroImageManifest.js";
 import "./DinnerCombinationHeroAudit.css";
 
 const STORAGE_KEY = "rrb_dinnerComboHeroAssignment_v2";
@@ -45,10 +45,27 @@ function downloadText(filename, text, type) {
 
 function ImageChooser({ open, role, title, currentPath, selectedPath, onChoose, onClose }) {
   const [query, setQuery] = useState("");
-  useEffect(() => { if (open) setQuery(""); }, [open, role]);
+  const [sourceFilter, setSourceFilter] = useState(role === "combo" ? "Combo Hero" : "Dedicated Hero");
+
+  useEffect(() => {
+    if (!open) return;
+    setQuery("");
+    setSourceFilter(role === "combo" ? "Combo Hero" : "Dedicated Hero");
+  }, [open, role]);
+
   if (!open) return null;
+
   const source = role === "combo" ? COMBO_IMAGE_MANIFEST : HERO_IMAGE_MANIFEST;
-  const filtered = source.filter((item) => !query.trim() || item.name.toLowerCase().includes(query.trim().toLowerCase()));
+  const availableSources = role === "combo"
+    ? ["Combo Hero"]
+    : ["Dedicated Hero", "Hero Thumbnail", "Recipe Card Thumbnail", "Full Recipe Card"];
+  const normalizedQuery = query.trim().toLowerCase();
+  const filtered = source.filter((item) => {
+    const matchesSource = sourceFilter === "All Sources" || item.source === sourceFilter;
+    const matchesQuery = !normalizedQuery || `${item.code} ${item.name} ${item.source}`.toLowerCase().includes(normalizedQuery);
+    return matchesSource && matchesQuery;
+  });
+
   return (
     <div className="dcChooserOverlay" onMouseDown={onClose}>
       <section className="dcChooser" role="dialog" aria-modal="true" aria-label={`Choose ${ROLE_LABELS[role]} image`} onMouseDown={(e) => e.stopPropagation()}>
@@ -56,20 +73,47 @@ function ImageChooser({ open, role, title, currentPath, selectedPath, onChoose, 
           <div><small>{ROLE_LABELS[role]}</small><h2>{title}</h2></div>
           <button type="button" onClick={onClose} aria-label="Close image chooser">×</button>
         </header>
+
         <div className="dcChooserCurrent">
           <article><span>Current</span>{currentPath ? <img src={assetUrl(currentPath)} alt="Current hero" /> : <div>No current image</div>}<code>{currentPath || "None"}</code></article>
           <article><span>Selected</span>{selectedPath ? <img src={assetUrl(selectedPath)} alt="Selected hero" /> : <div>No replacement selected</div>}<code>{selectedPath || "Current image remains"}</code></article>
         </div>
-        <label className="dcChooserSearch"><span>Search image filenames</span><input type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder={role === "combo" ? "meal-001.webp" : "MX-010.webp"} /></label>
-        <div className="dcChooserCount">{filtered.length} images</div>
+
+        <div className="dcChooserFilters">
+          <label className="dcChooserSearch">
+            <span>Search filename or recipe code</span>
+            <input type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder={role === "combo" ? "meal-001.webp" : "MX-010"} />
+          </label>
+          <label className="dcChooserSourceFilter">
+            <span>Image source</span>
+            <select value={sourceFilter} onChange={(e) => setSourceFilter(e.target.value)}>
+              <option value="All Sources">All Sources</option>
+              {availableSources.map((sourceName) => (
+                <option key={sourceName} value={sourceName}>
+                  {sourceName}{role !== "combo" && HERO_IMAGE_SOURCE_COUNTS[sourceName] ? ` (${HERO_IMAGE_SOURCE_COUNTS[sourceName]})` : ""}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
+
+        {role !== "combo" && (
+          <p className="dcChooserSourceNotice">
+            <strong>Dedicated Hero</strong> files are the actual food heroes. Thumbnail and recipe-card sources are included so every recipe code can be found and compared, but they should only be selected when that is intentionally the website image you want recorded.
+          </p>
+        )}
+
+        <div className="dcChooserCount">{filtered.length} images shown</div>
         <div className="dcChooserGrid">
           {filtered.map((item) => (
             <button type="button" className={selectedPath === item.path ? "selected" : ""} key={item.path} onClick={() => onChoose(item.path)}>
-              <img src={assetUrl(item.path)} alt={item.name} loading="lazy" />
-              <span>{item.name}</span>
+              <img src={assetUrl(item.path)} alt={`${item.code} ${item.source}`} loading="lazy" />
+              <span>{item.displayName || item.name}</span>
+              <small>{item.source}</small>
             </button>
           ))}
         </div>
+        {filtered.length === 0 && <div className="dcChooserNoResults">No image files match this search and source.</div>}
         <footer><button type="button" onClick={() => onChoose("")}>Keep Current Image</button><button type="button" className="primary" onClick={onClose}>Done</button></footer>
       </section>
     </div>
