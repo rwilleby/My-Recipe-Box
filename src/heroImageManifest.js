@@ -14843,6 +14843,11 @@ export const HERO_IMAGE_MANIFEST = [
   }
 ];
 
+export const COMBO_IMAGE_MANIFEST = HERO_IMAGE_MANIFEST.filter(
+  (image) => image.kind === "combo" || image.source === "Combo Hero"
+);
+
+
 export const HERO_IMAGE_SOURCE_COUNTS = {
   "Combo Hero": 102,
   "Dedicated Hero": 452,
