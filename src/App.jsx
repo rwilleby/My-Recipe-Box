@@ -10575,31 +10575,19 @@ function MealBalanceGuidePage({ setActivePage }) {
 }
 
 function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard, favorites, toggleFavorite }) {
-  const preparedRequirements = getComboPreparedRequirements(meal);
   const regularGroceryIngredients = getComboRegularGroceryIngredients(meal);
-
-  const [activeRecipePopup, setActiveRecipePopup] = useState(null);
   const [selectedPlannerDay, setSelectedPlannerDay] = useState("week1-Mon");
   const [addedMessage, setAddedMessage] = useState("");
   const [mealImageIndex, setMealImageIndex] = useState(0);
   const [mealImageFailed, setMealImageFailed] = useState(false);
-  const dinnerScaleFrameRef = useRef(null);
-  const dinnerScaleCardRef = useRef(null);
-  const [dinnerCardScale, setDinnerCardScale] = useState(1);
-  const [dinnerCardScaledHeight, setDinnerCardScaledHeight] = useState(0);
-
-  const paddedMealNumber = String(meal.number).padStart(3, "0");
   const mealImageCandidates = dinnerMealImageCandidates(meal);
-
   const activeMealImage = mealImageFailed ? "" : (mealImageCandidates[mealImageIndex] || mealImageCandidates[0]);
-
+  const linkedMainRecipe = recipes.find((recipe) => recipe.id === meal.mainRecipeId) || null;
+  const comboTime = meal.time || linkedMainRecipe?.time || 35;
+  const favoriteSaved = Array.isArray(favorites) && favorites.includes(meal.id);
   const recipeButtons = [
     { label: meal.mainDish, type: "Main Dish", recipeId: meal.mainRecipeId },
-    ...(meal.sides || []).map((side) => ({
-      label: side.name,
-      type: "Side Dish",
-      recipeId: side.recipeId,
-    })),
+    ...(meal.sides || []).map((side, index) => ({ label: side.name, type: `Side ${index + 1}`, recipeId: side.recipeId })),
   ];
 
   function nutritionValue(value, suffix = "") {
@@ -10614,16 +10602,7 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard, favorite
   }
 
   function findLinkedRecipe(recipeId) {
-    if (!recipeId) return null;
-    return recipes.find((recipe) => recipe.id === recipeId) || null;
-  }
-
-  function handleRecipeButton(button) {
-    const linkedRecipe = findLinkedRecipe(button.recipeId);
-    if (!linkedRecipe) return;
-
-    setActiveRecipePopup(null);
-    openRecipeCard(linkedRecipe.id, recipes);
+    return recipeId ? recipes.find((recipe) => recipe.id === recipeId) || null : null;
   }
 
   function handleMealImageError() {
@@ -10635,280 +10614,104 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard, favorite
     });
   }
 
-  useEffect(() => {
-    const frame = dinnerScaleFrameRef.current;
-    const card = dinnerScaleCardRef.current;
-    if (!frame || !card) return undefined;
-
-    const baseWidth = 1500;
-
-    const updateDinnerCardScale = () => {
-      const availableWidth = frame.clientWidth;
-      if (!availableWidth) return;
-
-      const nextScale = availableWidth / baseWidth;
-      const naturalHeight = card.scrollHeight;
-
-      setDinnerCardScale(nextScale);
-      setDinnerCardScaledHeight(Math.ceil(naturalHeight * nextScale));
-    };
-
-    updateDinnerCardScale();
-
-    const observer =
-      typeof ResizeObserver !== "undefined"
-        ? new ResizeObserver(updateDinnerCardScale)
-        : null;
-
-    observer?.observe(frame);
-    observer?.observe(card);
-    window.addEventListener("resize", updateDinnerCardScale);
-
-    return () => {
-      observer?.disconnect();
-      window.removeEventListener("resize", updateDinnerCardScale);
-    };
-  }, [meal, activeRecipePopup, addedMessage, mealImageFailed, mealImageIndex]);
-
   return (
-    <div
-      ref={dinnerScaleFrameRef}
-      className="dinnerCombinationScaleFrame"
-      style={{
-        "--dinner-card-scale": dinnerCardScale,
-        height: dinnerCardScaledHeight ? `${dinnerCardScaledHeight}px` : undefined,
-      }}
-    >
-      <article
-        ref={dinnerScaleCardRef}
-        className={`dinnerCombinationCard dinnerCombinationScaleCard${activeMealImage ? " hasMealImage" : ""}`}
-      >
-      <div className="dinnerCombinationMealBadge">Meal #{meal.number}</div>
+    <article className={`dinnerComboApprovedCard${activeMealImage ? " hasMealImage" : ""}`}>
+      <div className="dinnerComboApprovedMealNumber">Meal #{meal.number}</div>
 
-      {typeof toggleFavorite === "function" && (
-        <button
-          type="button"
-          className={
-            Array.isArray(favorites) && favorites.includes(meal.id)
-              ? "dinnerCombinationFavoriteButton saved"
-              : "dinnerCombinationFavoriteButton"
-          }
-          onClick={() => toggleFavorite(meal.id)}
-          aria-label={
-            Array.isArray(favorites) && favorites.includes(meal.id)
-              ? `Remove ${meal.title} from favorites`
-              : `Add ${meal.title} to favorites`
-          }
-          title={
-            Array.isArray(favorites) && favorites.includes(meal.id)
-              ? "Remove from favorites"
-              : "Add to favorites"
-          }
-        >
-          <span aria-hidden="true">♥</span>
-        </button>
-      )}
+      <section className="dinnerComboApprovedHero" aria-label="Meal photo">
+        {activeMealImage ? (
+          <img src={`${import.meta.env.BASE_URL}${activeMealImage}`} alt={`${meal.title} ${meal.subtitle}`} loading="eager" onError={handleMealImageError} />
+        ) : (
+          <div className="dinnerCombinationImagePlaceholder"><span>Meal #{meal.number}</span><small>Image file not found</small></div>
+        )}
+      </section>
 
-      <div className="dinnerCombinationAreaLayout">
-        <section className="dinnerArea dinnerAreaPhoto" aria-label="Meal photo">
-          <div className="dinnerCombinationMedia">
-            {activeMealImage ? (
-              <img
-                src={`${import.meta.env.BASE_URL}${activeMealImage}`}
-                alt={`${meal.title} dinner combination with ${meal.subtitle.replace(/^With\s+/i, "")}`}
-                loading="eager"
-                decoding="async"
-                fetchPriority="high"
-                onError={handleMealImageError}
-              />
-            ) : (
-              <div className="dinnerCombinationImagePlaceholder">
-                <span>Meal #{meal.number}</span>
-                <small>Image file not found</small>
-              </div>
-            )}
+      <section className="dinnerComboApprovedTitle">
+        <h3>{meal.title}</h3>
+        <p className="dinnerComboApprovedSubtitle">{meal.subtitle}</p>
+        <MealBalanceDetails item={meal} prefix="Combo Meal Balance" className="comboMealBalanceDetails" />
+      </section>
+
+      <section className="dinnerComboApprovedComponents" aria-label="Main and side dishes">
+        <div className="dinnerCombinationStackedMeal">
+          <p><span>M</span><strong>{meal.mainDish}</strong><small>{meal.mainServing}</small></p>
+          {(meal.sides || []).map((side, index) => (
+            <p key={`${meal.id}-${side.name}`}><span>{`S${index + 1}`}</span><strong>{side.name}</strong><small>{side.serving}</small></p>
+          ))}
+        </div>
+      </section>
+
+      <section className="dinnerComboApprovedNutrition" aria-label={`Estimated nutrition for ${meal.title}`}>
+        <h4>Estimated Nutrition for the Whole Meal</h4>
+        <div className="dinnerCombinationNutrition dinnerCombinationNutritionExpanded">
+          <span><strong>{nutritionValue(meal.calories)}</strong><small>calories</small></span>
+          <span><strong>{nutritionValue(meal.protein, "g")}</strong><small>protein</small></span>
+          <span><strong>{nutritionValue(meal.carbs, "g")}</strong><small>carbs</small></span>
+          <span><strong>{nutritionValue(meal.fat, "g")}</strong><small>fat</small></span>
+          <span><strong>{nutritionValue(meal.fiber, "g")}</strong><small>fiber</small></span>
+          <span><strong>{nutritionValue(meal.sodium, "mg")}</strong><small>sodium</small></span>
+          <span><strong>{nutritionValue(meal.saturatedFat, "g")}</strong><small>saturated fat</small></span>
+          <span><strong>{nutritionValue(meal.totalSugars ?? meal.sugars, "g")}</strong><small>total sugars</small></span>
+          <span><strong>{nutritionValue(meal.addedSugars, "g")}</strong><small>added sugars</small></span>
+          <span><strong>{nutritionValue(meal.cholesterol, "mg")}</strong><small>cholesterol</small></span>
+        </div>
+      </section>
+
+      <section className="dinnerComboApprovedGroceries">
+        <h4>Regular Grocery Ingredients</h4>
+        {regularGroceryIngredients.length ? (
+          <div className="comboCompactIngredientRows">
+            {regularGroceryIngredients.map((item) => <p key={`${item.name}-${item.unit}`}><strong>{item.name}</strong><span>{item.qty} {item.unit}</span></p>)}
           </div>
-        </section>
+        ) : <p className="dinnerAreaEmpty">No separate grocery ingredients listed.</p>}
+      </section>
 
-        <section className="dinnerArea dinnerAreaName" aria-label="Meal name">
-          <h3>{meal.title}</h3>
-          <p className="dinnerCombinationSubtitle">{meal.subtitle}</p>
-          <MealBalanceDetails item={meal} prefix="Combo Meal Balance" className="comboMealBalanceDetails" />
-        </section>
+      <section className="dinnerComboApprovedHeating">
+        <h4>Heating &amp; Freezer Notes</h4>
+        <div className="dinnerCombinationHeatingPanelGrid">
+          <p><span>Freezer Life</span><strong>{meal.freezerLife || "No freezer guidance listed."}</strong></p>
+          <p><span>Oven</span><strong>{meal.ovenInstructions || "No oven instructions listed."}</strong></p>
+          <p><span>Microwave</span><strong>{meal.microwaveInstructions || "No microwave instructions listed."}</strong></p>
+        </div>
+      </section>
 
-        <section className="dinnerArea dinnerAreaDishes" aria-label="Main and side dishes">
-          <div className="dinnerCombinationStackedMeal">
-            <p>
-              <span>M</span>
-              <strong>{meal.mainDish}</strong>
-              <small>{meal.mainServing}</small>
-            </p>
-            {(meal.sides || []).map((side, sideIndex) => (
-              <p key={`${meal.id}-${side.name}`}>
-                <span>{`S${sideIndex + 1}`}</span>
-                <strong>{side.name}</strong>
-                <small>{side.serving}</small>
-              </p>
-            ))}
-          </div>
-        </section>
+      <section className="dinnerComboApprovedBadges" aria-label="Meal details">
+        <span className="dinnerComboMetaPill">◷ {comboTime} min</span>
+        <MealBalanceBadge item={meal} showUnrated className="dinnerComboScorePill" />
+        <span className="dinnerComboMetaPill dinnerComboGlpPill">GLP-1 Good</span>
+        {typeof toggleFavorite === "function" && (
+          <button type="button" className={`dinnerComboFavoritePill${favoriteSaved ? " saved" : ""}`} onClick={() => toggleFavorite(meal.id)} aria-pressed={favoriteSaved}>
+            <span aria-hidden="true">♥</span> {favoriteSaved ? "Favorited" : "Favorite"}
+          </button>
+        )}
+      </section>
 
-        <section className="dinnerArea dinnerAreaGroceries" aria-label="Grocery ingredients">
-          {(preparedRequirements.length > 0 || regularGroceryIngredients.length > 0) ? (
-            <div className="comboComponentRequirements compact">
-              {preparedRequirements.length > 0 && (
-                <div className="comboPreparedComponents">
-                  <h3>Prepared Components</h3>
-                  <div className="comboCompactIngredientRows">
-                    {preparedRequirements.map((requirement) => {
-                      const component = PREPARED_COMPONENTS.find((item) => item.id === requirement.componentId);
-                      return (
-                        <p key={requirement.componentId}>
-                          <strong>{component?.name || requirement.componentId}</strong>
-                          <span>{requirement.packagesRequired} package · {requirement.servingSizePerPackage} servings</span>
-                        </p>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-              {regularGroceryIngredients.length > 0 && (
-                <div className="comboRegularGroceryIngredients">
-                  <h3>Regular Grocery Ingredients</h3>
-                  <div className="comboCompactIngredientRows">
-                    {regularGroceryIngredients.map((item) => (
-                      <p key={`${item.name}-${item.unit}`}>
-                        <strong>{item.name}</strong>
-                        <span>{item.qty} {item.unit}</span>
-                      </p>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          ) : (
-            <p className="dinnerAreaEmpty">No separate grocery ingredients listed.</p>
-          )}
-        </section>
+      <section className="dinnerComboApprovedRecipes">
+        <h4>Recipe Cards</h4>
+        <div className="dinnerComboRecipeGrid">
+          {recipeButtons.map((button) => {
+            const linkedRecipe = findLinkedRecipe(button.recipeId);
+            return (
+              <button key={`${meal.id}-${button.type}`} type="button" className="dinnerComboRecipeCard" disabled={!linkedRecipe} onClick={() => linkedRecipe && openRecipeCard(linkedRecipe.id, recipes)}>
+                <span className="dinnerComboRecipeType">{button.type}</span>
+                <span className="dinnerComboRecipeHero">{linkedRecipe ? <RecipeImage recipe={linkedRecipe} /> : null}</span>
+                <strong>{button.label}</strong>
+              </button>
+            );
+          })}
+        </div>
+      </section>
 
-        <section className="dinnerArea dinnerAreaNutrition" aria-label={`Estimated whole meal nutrition for ${meal.title}`}>
-          <div className="dinnerCombinationNutritionLabel">Estimated nutrition for the whole meal</div>
-          <div className="dinnerCombinationNutrition dinnerCombinationNutritionExpanded">
-            <span><strong>{nutritionValue(meal.calories)}</strong><small>calories</small></span>
-            <span><strong>{nutritionValue(meal.protein, "g")}</strong><small>protein</small></span>
-            <span><strong>{nutritionValue(meal.carbs, "g")}</strong><small>carbs</small></span>
-            <span><strong>{nutritionValue(meal.fat, "g")}</strong><small>fat</small></span>
-            <span><strong>{nutritionValue(meal.fiber, "g")}</strong><small>fiber</small></span>
-
-            <span><strong>{nutritionValue(meal.sodium, "mg")}</strong><small>sodium</small></span>
-            <span><strong>{nutritionValue(meal.saturatedFat, "g")}</strong><small>saturated fat</small></span>
-            <span><strong>{nutritionValue(meal.totalSugars ?? meal.sugars, "g")}</strong><small>total sugars</small></span>
-            <span><strong>{nutritionValue(meal.addedSugars, "g")}</strong><small>added sugars</small></span>
-            <span><strong>{nutritionValue(meal.cholesterol, "mg")}</strong><small>cholesterol</small></span>
-          </div>
-        </section>
-
-        <section className="dinnerArea dinnerAreaActions dinnerAreaActionsExpanded">
-          <section className="dinnerCombinationHeatingPanel" aria-label={`Heating and freezer notes for ${meal.title}`}>
-            <h4>Heating &amp; Freezer Notes</h4>
-            <div className="dinnerCombinationHeatingPanelGrid">
-              <p>
-                <span>Freezer Life</span>
-                <strong>{meal.freezerLife || "No freezer guidance listed."}</strong>
-              </p>
-              <p>
-                <span>Oven</span>
-                <strong>{meal.ovenInstructions || "No oven instructions listed."}</strong>
-              </p>
-              <p>
-                <span>Microwave</span>
-                <strong>{meal.microwaveInstructions || "No microwave instructions listed."}</strong>
-              </p>
-            </div>
-          </section>
-
-          <section className="dinnerCombinationRecipeButtons" aria-label={`Recipe card buttons for ${meal.title}`}>
-            <h4>Recipe Cards</h4>
-            <div className="dinnerCombinationRecipeButtonGrid">
-              {recipeButtons.map((button) => {
-                const linkedRecipe = findLinkedRecipe(button.recipeId);
-                const hasRecipeMatch = Boolean(linkedRecipe);
-                const isOpen = activeRecipePopup === button.label;
-
-                return (
-                  <div className="dinnerRecipePopupItem" key={`${meal.id}-${button.type}-${button.label}`}>
-                    <button
-                      type="button"
-                      className={hasRecipeMatch ? "hasRecipeMatch" : "missingRecipeMatch"}
-                      onClick={() => handleRecipeButton(button)}
-                      title={hasRecipeMatch ? `Preview ${linkedRecipe.title}` : "Recipe card not linked yet"}
-                    >
-                      <span>{button.type}</span>
-                      {button.label}
-                    </button>
-
-                    {isOpen && (
-                      <div className="dinnerRecipeMiniPopup" role="dialog" aria-label={`${button.label} recipe card preview`}>
-                        <button type="button" className="dinnerRecipeMiniClose" onClick={() => setActiveRecipePopup(null)} aria-label="Close recipe card preview">×</button>
-                        {hasRecipeMatch ? (
-                          <>
-                            <h5>{linkedRecipe.title}</h5>
-                            <MealBalanceBadge item={linkedRecipe} className="dinnerRecipeMealBalanceBadge" />
-                            <p>
-                              <strong>{linkedRecipe.id}</strong>
-                              {linkedRecipe.category ? ` · ${linkedRecipe.category}` : ""}
-                              {linkedRecipe.time ? ` · ${linkedRecipe.time} minutes` : ""}
-                            </p>
-                            <p>This item is linked to an existing recipe card in the library.</p>
-                            <button
-                              type="button"
-                              className="dinnerRecipeOpenFullButton"
-                              onClick={() => {
-                                setActiveRecipePopup(null);
-                                openRecipeCard(linkedRecipe.id, recipes);
-                              }}
-                            >
-                              Open Full Recipe Card
-                            </button>
-                          </>
-                        ) : (
-                          <>
-                            <h5>{button.label}</h5>
-                            <p>A matching recipe card is not linked yet. Add a valid recipeId for this item in dinnerCombinations.js when the card is available.</p>
-                          </>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          </section>
-
-          <section className="dinnerCombinationPlannerAdd" aria-label={`Add ${meal.title} to meal plan`}>
-            <label>
-              <span>Add meal to plan day</span>
-              <select value={selectedPlannerDay} onChange={(event) => setSelectedPlannerDay(event.target.value)}>
-                {PLANNER_WEEKS.map((week) => (
-                  <optgroup key={week.id} label={week.title}>
-                    {WEEK_DAYS.map((day) => (
-                      <option key={`${week.id}-${day}`} value={`${week.id}-${day}`}>
-                        {week.title} — {day}
-                      </option>
-                    ))}
-                  </optgroup>
-                ))}
-              </select>
-            </label>
-            <button type="button" onClick={addThisMealToPlan}>Add Meal</button>
-            {addedMessage && <p className="dinnerCombinationAddedMessage">{addedMessage}</p>}
-          </section>
-        </section>
-      </div>
-
-
-      </article>
-    </div>
+      <section className="dinnerComboApprovedPlanner">
+        <label><span>Add Meal to Plan Day</span>
+          <select value={selectedPlannerDay} onChange={(event) => setSelectedPlannerDay(event.target.value)}>
+            {PLANNER_WEEKS.map((week) => <optgroup key={week.id} label={week.title}>{WEEK_DAYS.map((day) => <option key={`${week.id}-${day}`} value={`${week.id}-${day}`}>{week.title} — {day}</option>)}</optgroup>)}
+          </select>
+        </label>
+        <button type="button" onClick={addThisMealToPlan}>Add Meal</button>
+        {addedMessage && <p className="dinnerCombinationAddedMessage">{addedMessage}</p>}
+      </section>
+    </article>
   );
 }
 
