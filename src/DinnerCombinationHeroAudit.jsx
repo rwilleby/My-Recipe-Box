@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { HERO_IMAGE_MANIFEST, COMBO_IMAGE_MANIFEST, HERO_IMAGE_SOURCE_COUNTS } from "./heroImageManifest.js";
 import "./DinnerCombinationHeroAudit.css";
 
@@ -43,14 +43,27 @@ function downloadText(filename, text, type) {
   URL.revokeObjectURL(url);
 }
 
-function ImageChooser({ open, role, title, currentPath, selectedPath, onChoose, onClose }) {
+function ImageChooser({
+  open,
+  role,
+  title,
+  currentPath,
+  selectedPath,
+  mealReference,
+  onChoose,
+  onClose,
+}) {
   const [query, setQuery] = useState("");
   const [sourceFilter, setSourceFilter] = useState(role === "combo" ? "Combo Hero" : "Dedicated Hero");
+  const chooserBodyRef = useRef(null);
 
   useEffect(() => {
     if (!open) return;
     setQuery("");
     setSourceFilter(role === "combo" ? "Combo Hero" : "Dedicated Hero");
+    window.requestAnimationFrame(() => {
+      if (chooserBodyRef.current) chooserBodyRef.current.scrollTop = 0;
+    });
   }, [open, role]);
 
   if (!open) return null;
@@ -68,53 +81,101 @@ function ImageChooser({ open, role, title, currentPath, selectedPath, onChoose, 
 
   return (
     <div className="dcChooserOverlay" onMouseDown={onClose}>
-      <section className="dcChooser" role="dialog" aria-modal="true" aria-label={`Choose ${ROLE_LABELS[role]} image`} onMouseDown={(e) => e.stopPropagation()}>
-        <header>
-          <div><small>{ROLE_LABELS[role]}</small><h2>{title}</h2></div>
+      <section
+        className="dcChooser"
+        role="dialog"
+        aria-modal="true"
+        aria-label={`Choose ${ROLE_LABELS[role]} image`}
+        onMouseDown={(event) => event.stopPropagation()}
+      >
+        <header className="dcChooserHeader">
+          <div>
+            <small>{ROLE_LABELS[role]}</small>
+            <h2>{title}</h2>
+            {mealReference && (
+              <div className="dcChooserMealReference" aria-label="Dinner combination reference">
+                <span><strong>Meal:</strong> #{mealReference.number} — {mealReference.title}</span>
+                <span><strong>Main:</strong> {mealReference.main}</span>
+                <span><strong>Side 1:</strong> {mealReference.side1}</span>
+                <span><strong>Side 2:</strong> {mealReference.side2}</span>
+              </div>
+            )}
+          </div>
           <button type="button" onClick={onClose} aria-label="Close image chooser">×</button>
         </header>
 
-        <div className="dcChooserCurrent">
-          <article><span>Current</span>{currentPath ? <img src={assetUrl(currentPath)} alt="Current hero" /> : <div>No current image</div>}<code>{currentPath || "None"}</code></article>
-          <article><span>Selected</span>{selectedPath ? <img src={assetUrl(selectedPath)} alt="Selected hero" /> : <div>No replacement selected</div>}<code>{selectedPath || "Current image remains"}</code></article>
+        <div className="dcChooserTopActions">
+          <button type="button" onClick={() => onChoose("")}>Keep Current Image</button>
+          <button type="button" className="primary" onClick={onClose}>Done</button>
         </div>
 
-        <div className="dcChooserFilters">
-          <label className="dcChooserSearch">
-            <span>Search filename or recipe code</span>
-            <input type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder={role === "combo" ? "meal-001.webp" : "MX-010"} />
-          </label>
-          <label className="dcChooserSourceFilter">
-            <span>Image source</span>
-            <select value={sourceFilter} onChange={(e) => setSourceFilter(e.target.value)}>
-              <option value="All Sources">All Sources</option>
-              {availableSources.map((sourceName) => (
-                <option key={sourceName} value={sourceName}>
-                  {sourceName}{role !== "combo" && HERO_IMAGE_SOURCE_COUNTS[sourceName] ? ` (${HERO_IMAGE_SOURCE_COUNTS[sourceName]})` : ""}
-                </option>
-              ))}
-            </select>
-          </label>
+        <div className="dcChooserBody" ref={chooserBodyRef}>
+          <div className="dcChooserCurrent">
+            <article>
+              <span>Current</span>
+              {currentPath ? <img src={assetUrl(currentPath)} alt="Current hero" /> : <div>No current image</div>}
+              <code>{currentPath || "None"}</code>
+            </article>
+            <article>
+              <span>Selected</span>
+              {selectedPath ? <img src={assetUrl(selectedPath)} alt="Selected hero" /> : <div>No replacement selected</div>}
+              <code>{selectedPath || "Current image remains"}</code>
+            </article>
+          </div>
+
+          <div className="dcChooserFilters">
+            <label className="dcChooserSearch">
+              <span>Search filename or recipe code</span>
+              <input
+                type="search"
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder={role === "combo" ? "meal-001.webp" : "MX-010"}
+              />
+            </label>
+            <label className="dcChooserSourceFilter">
+              <span>Image source</span>
+              <select value={sourceFilter} onChange={(event) => setSourceFilter(event.target.value)}>
+                <option value="All Sources">All Sources</option>
+                {availableSources.map((sourceName) => (
+                  <option key={sourceName} value={sourceName}>
+                    {sourceName}{role !== "combo" && HERO_IMAGE_SOURCE_COUNTS[sourceName] ? ` (${HERO_IMAGE_SOURCE_COUNTS[sourceName]})` : ""}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+
+          {role !== "combo" && (
+            <p className="dcChooserSourceNotice">
+              <strong>Dedicated Hero</strong> files are the actual food heroes. Thumbnail and recipe-card sources are included so every recipe code can be found and compared, but they should only be selected when that is intentionally the website image you want recorded.
+            </p>
+          )}
+
+          <div className="dcChooserCount">{filtered.length} images shown</div>
+          <div className="dcChooserGrid">
+            {filtered.map((item) => (
+              <button
+                type="button"
+                className={selectedPath === item.path ? "selected" : ""}
+                key={item.path}
+                onClick={() => onChoose(item.path)}
+              >
+                <img src={assetUrl(item.path)} alt={`${item.code} ${item.source}`} loading="lazy" />
+                <span>{item.displayName || item.name}</span>
+                <small>{item.source}</small>
+              </button>
+            ))}
+          </div>
+          {filtered.length === 0 && (
+            <div className="dcChooserNoResults">No image files match this search and source.</div>
+          )}
         </div>
 
-        {role !== "combo" && (
-          <p className="dcChooserSourceNotice">
-            <strong>Dedicated Hero</strong> files are the actual food heroes. Thumbnail and recipe-card sources are included so every recipe code can be found and compared, but they should only be selected when that is intentionally the website image you want recorded.
-          </p>
-        )}
-
-        <div className="dcChooserCount">{filtered.length} images shown</div>
-        <div className="dcChooserGrid">
-          {filtered.map((item) => (
-            <button type="button" className={selectedPath === item.path ? "selected" : ""} key={item.path} onClick={() => onChoose(item.path)}>
-              <img src={assetUrl(item.path)} alt={`${item.code} ${item.source}`} loading="lazy" />
-              <span>{item.displayName || item.name}</span>
-              <small>{item.source}</small>
-            </button>
-          ))}
-        </div>
-        {filtered.length === 0 && <div className="dcChooserNoResults">No image files match this search and source.</div>}
-        <footer><button type="button" onClick={() => onChoose("")}>Keep Current Image</button><button type="button" className="primary" onClick={onClose}>Done</button></footer>
+        <footer>
+          <button type="button" onClick={() => onChoose("")}>Keep Current Image</button>
+          <button type="button" className="primary" onClick={onClose}>Done</button>
+        </footer>
       </section>
     </div>
   );
@@ -226,13 +287,13 @@ export default function DinnerCombinationHeroAudit({ dinnerCombinations = [], re
             side2:{title:nameOf(row.side2) || row.meal.sides?.[1]?.name,code:codeOf(row.side2),current:recipeImagePath(row.side2),recipe:row.side2},
           };
           return <article className={saved.checked ? "dcAssignmentRow checked" : "dcAssignmentRow"} key={row.key}>
-            <header><div><small>MEAL #{row.meal.number}</small><h2>{row.meal.title}</h2></div><label className="dcMealChecked"><input type="checkbox" checked={Boolean(saved.checked)} disabled={!canCheck(row.key)} onChange={(e)=>patchRow(row.key,{checked:e.target.checked,checkedDate:e.target.checked ? new Date().toISOString() : ""})}/><span>{canCheck(row.key) ? "Meal checked" : "Review all 4 images first"}</span></label></header>
-            <div className="dcAssignmentGrid">{PANEL_ROLES.map((role) => { const d=defs[role]; return <AuditPanel key={role} role={role} title={d.title} code={d.code} currentPath={d.current} record={saved.panels?.[role]} onChange={(patch)=>patchPanel(row.key,role,patch)} onOpenChooser={()=>setChooser({rowKey:row.key,role,title:d.title,currentPath:d.current,selectedPath:saved.panels?.[role]?.selectedPath || ""})} onOpenRecipe={onOpenRecipe} recipe={d.recipe}/>; })}</div>
+            <header><div className="dcMealHeaderCopy"><small>MEAL #{row.meal.number}</small><h2>{row.meal.title}</h2><div className="dcMealDishReference"><span><strong>Main:</strong> {defs.main.title || "Not linked"}</span><span><strong>Side 1:</strong> {defs.side1.title || "Not linked"}</span><span><strong>Side 2:</strong> {defs.side2.title || "Not linked"}</span></div></div><label className="dcMealChecked"><input type="checkbox" checked={Boolean(saved.checked)} disabled={!canCheck(row.key)} onChange={(e)=>patchRow(row.key,{checked:e.target.checked,checkedDate:e.target.checked ? new Date().toISOString() : ""})}/><span>{canCheck(row.key) ? "Meal checked" : "Review all 4 images first"}</span></label></header>
+            <div className="dcAssignmentGrid">{PANEL_ROLES.map((role) => { const d=defs[role]; return <AuditPanel key={role} role={role} title={d.title} code={d.code} currentPath={d.current} record={saved.panels?.[role]} onChange={(patch)=>patchPanel(row.key,role,patch)} onOpenChooser={()=>setChooser({rowKey:row.key,role,title:d.title,currentPath:d.current,selectedPath:saved.panels?.[role]?.selectedPath || "",mealReference:{number:row.meal.number,title:row.meal.title,main:defs.main.title || "Not linked",side1:defs.side1.title || "Not linked",side2:defs.side2.title || "Not linked"}})} onOpenRecipe={onOpenRecipe} recipe={d.recipe}/>; })}</div>
             <label className="dcAssignmentNotes"><span>Notes</span><textarea rows="2" value={saved.notes || ""} onChange={(e)=>patchRow(row.key,{notes:e.target.value,checked:false})} placeholder="Reason for replacement or anything needed when updating the master spreadsheet" /></label>
           </article>;
         })}
       </section>
-      <ImageChooser open={Boolean(chooser)} role={chooser?.role} title={chooser?.title || ""} currentPath={chooser?.currentPath || ""} selectedPath={chooser?.selectedPath || ""} onChoose={(path)=>{ if(!chooser)return; patchPanel(chooser.rowKey,chooser.role,{selectedPath:path,status:path ? "replacement" : "correct"}); setChooser((c)=>({...c,selectedPath:path})); }} onClose={()=>setChooser(null)} />
+      <ImageChooser open={Boolean(chooser)} role={chooser?.role} title={chooser?.title || ""} currentPath={chooser?.currentPath || ""} selectedPath={chooser?.selectedPath || ""} mealReference={chooser?.mealReference} onChoose={(path)=>{ if(!chooser)return; patchPanel(chooser.rowKey,chooser.role,{selectedPath:path,status:path ? "replacement" : "correct"}); setChooser((c)=>({...c,selectedPath:path})); }} onClose={()=>setChooser(null)} />
     </main>
   );
 }

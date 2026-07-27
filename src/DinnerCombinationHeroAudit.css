@@ -14,3 +14,117 @@
 .dcChooserGrid button small { display: block; margin-top: 3px; font-size: 10px; color: #6b655b; }
 .dcChooserNoResults { padding: 36px 16px; text-align: center; color: #6b655b; }
 @media (max-width: 720px) { .dcChooserFilters { grid-template-columns: 1fr; } }
+
+
+/* Hero chooser layout update */
+.dcMealHeaderCopy {
+  min-width: 0;
+}
+
+.dcMealDishReference {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  margin-top: 8px;
+  color: #565047;
+  font-size: 13px;
+}
+
+.dcMealDishReference span {
+  white-space: normal;
+}
+
+.dcChooserOverlay {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.dcChooser {
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 48px);
+  margin: 0;
+}
+
+.dcChooserHeader {
+  flex: 0 0 auto;
+}
+
+.dcChooserMealReference {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px 16px;
+  margin-top: 8px;
+  color: #514c43;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.dcChooserMealReference span:first-child {
+  flex-basis: 100%;
+}
+
+.dcChooserTopActions {
+  display: flex;
+  flex: 0 0 auto;
+  justify-content: flex-end;
+  gap: 9px;
+  padding: 10px 18px;
+  border-bottom: 1px solid #ddd5c9;
+  background: #fff;
+}
+
+.dcChooserTopActions .primary {
+  background: #6d7654;
+  color: #fff;
+}
+
+.dcChooserBody {
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+
+.dcChooserGrid {
+  max-height: none;
+  overflow: visible;
+}
+
+.dcChooserFilters,
+.dcChooserSourceNotice {
+  margin-left: 18px;
+  margin-right: 18px;
+}
+
+.dcChooserSearch {
+  padding: 0;
+}
+
+.dcChooser > footer {
+  flex: 0 0 auto;
+  background: #fff;
+}
+
+@media (max-width: 680px) {
+  .dcChooser {
+    max-height: calc(100vh - 16px);
+  }
+
+  .dcChooserTopActions {
+    justify-content: stretch;
+  }
+
+  .dcChooserTopActions button,
+  .dcChooser > footer button {
+    flex: 1;
+  }
+
+  .dcMealDishReference,
+  .dcChooserMealReference {
+    display: grid;
+    gap: 4px;
+  }
+}
