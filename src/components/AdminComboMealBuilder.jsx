@@ -16,10 +16,10 @@ const STATUSES = [
 
 const SLOT_DEFINITIONS = [
   { key: "main", label: "MAIN", required: true, group: "main" },
-  { key: "dish1", label: "DISH 1", required: false, group: "side" },
-  { key: "dish2", label: "DISH 2", required: false, group: "side" },
-  { key: "salad", label: "SALAD", required: false, group: "salad" },
-  { key: "dessert", label: "DESSERT", required: false, group: "dessert" },
+  { key: "dish1", label: "DISH 1", required: false, group: "supporting" },
+  { key: "dish2", label: "DISH 2", required: false, group: "supporting" },
+  { key: "dish3", label: "DISH 3", required: false, group: "supporting" },
+  { key: "dish4", label: "DISH 4", required: false, group: "supporting" },
 ];
 
 const PORTIONS = [
@@ -45,19 +45,6 @@ const NUTRIENTS = [
   ["protein", "Protein", "g"],
 ];
 
-const DESSERT_CODES = new Set(["DS", "CC", "CO", "CR", "DN", "JJ"]);
-const SALAD_CODES = new Set(["SB", "SL"]);
-const SIDE_CODES = new Set(["SD"]);
-const NON_MAIN_CODES = new Set([
-  ...DESSERT_CODES,
-  ...SALAD_CODES,
-  ...SIDE_CODES,
-  "LF",
-  "MR",
-  "PM",
-  "QP",
-  "RS",
-]);
 
 function safeParse(value, fallback) {
   try {
@@ -90,7 +77,7 @@ function nextComboCode(records) {
 }
 
 function emptySelections() {
-  return { main: null, dish1: null, dish2: null, salad: null, dessert: null };
+  return { main: null, dish1: null, dish2: null, dish3: null, dish4: null };
 }
 
 function createDraft(records) {
@@ -119,18 +106,32 @@ function getCode(recipe) {
   return String(recipe?.categoryCode || recipe?.id?.split("-")[0] || "").toUpperCase();
 }
 
+const SUPPORTING_CATEGORY_CODES = new Set([
+  "SD", "SB", "SL", "DS", "CC", "CO", "CR", "DN", "JJ", "LF",
+  "MR", "RS", "QP", "PM", "SO", "AP", "DR", "SA", "CN",
+]);
+
+const MAIN_EXCLUDED_CODES = new Set([
+  ...SUPPORTING_CATEGORY_CODES,
+]);
+
+function categoryLabel(recipe) {
+  return String(recipe?.category || recipe?.categoryCode || getCode(recipe) || "Other");
+}
+
 function groupForRecipe(recipe) {
   const code = getCode(recipe);
-  if (SIDE_CODES.has(code)) return "side";
-  if (SALAD_CODES.has(code)) return "salad";
-  if (DESSERT_CODES.has(code)) return "dessert";
-  if (!NON_MAIN_CODES.has(code)) return "main";
-  return "other";
+  if (SUPPORTING_CATEGORY_CODES.has(code)) return "supporting";
+  if (!MAIN_EXCLUDED_CODES.has(code)) return "main";
+  return "supporting";
 }
 
 function isAllowed(recipe, slotKey) {
   const slot = SLOT_DEFINITIONS.find((item) => item.key === slotKey);
-  return Boolean(slot && groupForRecipe(recipe) === slot.group);
+  if (!slot) return false;
+  return slot.key === "main"
+    ? groupForRecipe(recipe) === "main"
+    : groupForRecipe(recipe) === "supporting";
 }
 
 function heroPath(recipe) {
@@ -264,7 +265,7 @@ function makeSelection(recipe) {
     recipeId: recipe.id,
     recipeName: recipe.title,
     categoryCode: getCode(recipe),
-    category: recipe.category,
+    category: categoryLabel(recipe),
     heroImage: heroPath(recipe),
     portion: "1",
     customMultiplier: "",
@@ -273,7 +274,7 @@ function makeSelection(recipe) {
       id: recipe.id,
       title: recipe.title,
       categoryCode: getCode(recipe),
-      category: recipe.category,
+      category: categoryLabel(recipe),
       heroImage: heroPath(recipe),
       image: recipe.image || "",
       cardImage: recipe.cardImage || "",
@@ -339,6 +340,18 @@ function compareImport(current, imported) {
         `${SLOT_DEFINITIONS[index].label} portion mismatch: expected ${item.multiplier}, received ${other.multiplier}.`,
       );
     }
+
+    const existingCategory = current?.selections?.[item.slot]?.category || null;
+    const incomingCategory =
+      importedSelections(imported)?.[item.slot]?.category ||
+      importedSelections(imported)?.[item.slot]?.recipeCategory ||
+      null;
+
+    if (item.recipeId && incomingCategory && existingCategory && incomingCategory !== existingCategory) {
+      errors.push(
+        `${SLOT_DEFINITIONS[index].label} category mismatch: expected ${existingCategory}, received ${incomingCategory}.`,
+      );
+    }
   });
 
   if (!imported?.nutrition && !imported?.processedNutrition) {
@@ -389,6 +402,7 @@ function humanRequest(record) {
       item.portion === "custom"
         ? `${item.customMultiplier || "unspecified"} serving multiplier`
         : PORTIONS.find((portion) => portion.value === item.portion)?.label || item.portion;
+    if (slot.key !== "main") lines.push(`Category: ${item.category || "Other"}`);
     lines.push(`${item.recipeId} — ${item.recipeName}`);
     lines.push(`Portion: ${portionLabel}`);
     lines.push(`Hero: ${item.heroImage || "(none)"}`);
@@ -427,10 +441,12 @@ function processingPayload(record) {
       const item = record.selections[slot.key];
       return {
         slot: slot.key,
+        position: slot.key,
         label: slot.label,
         required: slot.required,
         recipeId: item?.recipeId || null,
         recipeName: item?.recipeName || null,
+        recipeCategory: item?.category || null,
         portion: item?.portion || null,
         customMultiplier: item?.customMultiplier || null,
         multiplier: item ? portionMultiplier(item) : null,
@@ -580,6 +596,7 @@ function RecipeThumb({ recipe, selected, onSelect, onDragStart }) {
       </span>
       <strong>{recipe.id}</strong>
       <span>{recipe.title}</span>
+      <em>{categoryLabel(recipe)}</em>
       {selected && <small>Selected</small>}
     </button>
   );
@@ -623,6 +640,7 @@ function SelectionBox({
               <span aria-hidden="true">🍽️</span>
             )}
           </div>
+          <small className="comboBuilderSelectedCategory">{selection.category || "Other"}</small>
           <strong>{selection.recipeId}</strong>
           <p>{selection.recipeName}</p>
           <label>
@@ -754,15 +772,14 @@ export default function AdminComboMealBuilder({ recipes, onClose }) {
   const [message, setMessage] = useState("");
   const [importComparison, setImportComparison] = useState(null);
   const [showOfficialPreview, setShowOfficialPreview] = useState(false);
+  const [allowDuplicateOverride, setAllowDuplicateOverride] = useState(false);
   const libraryInputRef = useRef(null);
   const processedInputRef = useRef(null);
 
   const groupedRecipes = useMemo(
     () => ({
       main: recipes.filter((recipe) => groupForRecipe(recipe) === "main"),
-      side: recipes.filter((recipe) => groupForRecipe(recipe) === "side"),
-      salad: recipes.filter((recipe) => groupForRecipe(recipe) === "salad"),
-      dessert: recipes.filter((recipe) => groupForRecipe(recipe) === "dessert"),
+      supporting: recipes.filter((recipe) => groupForRecipe(recipe) === "supporting"),
     }),
     [recipes],
   );
@@ -801,22 +818,61 @@ export default function AdminComboMealBuilder({ recipes, onClose }) {
 
   function selectRecipe(recipe, group, requestedSlot) {
     let target = requestedSlot;
-    if (!target || !isAllowed(recipe, target)) {
-      if (group === "side") {
-        target = !record.selections.dish1 ? "dish1" : !record.selections.dish2 ? "dish2" : "dish1";
+
+    if (group === "supporting" && (!target || target === "main" || !isAllowed(recipe, target))) {
+      const available = ["dish1", "dish2", "dish3", "dish4"].filter(
+        (key) => !record.selections[key],
+      );
+
+      if (available.length === 0) {
+        target = window.prompt(
+          "All Dish boxes are filled. Enter dish1, dish2, dish3, or dish4 to replace one.",
+          "dish1",
+        );
+      } else if (available.length === 1) {
+        target = available[0];
       } else {
-        target = SLOT_DEFINITIONS.find((slot) => slot.group === group)?.key;
+        target = window.prompt(
+          `Choose a Dish box: ${available.join(", ")}`,
+          available[0],
+        );
       }
     }
+
+    if (group === "main") target = "main";
 
     if (!target || !isAllowed(recipe, target)) {
       setMessage(`${recipe.title} cannot be placed in ${target || "that box"}.`);
       return;
     }
 
+    const duplicateSlot = ["dish1", "dish2", "dish3", "dish4"].find(
+      (key) => key !== target && record.selections[key]?.recipeId === recipe.id,
+    );
+
+    if (duplicateSlot && !allowDuplicateOverride) {
+      setMessage(
+        `${recipe.id} is already selected in ${duplicateSlot.toUpperCase()}. Enable the Admin duplicate override to use it again.`,
+      );
+      return;
+    }
+
+    if (duplicateSlot && allowDuplicateOverride) {
+      const confirmed = window.confirm(
+        `${recipe.id} is already selected in ${duplicateSlot.toUpperCase()}. Add the duplicate anyway?`,
+      );
+      if (!confirmed) return;
+    }
+
     setChanged((current) => ({
       ...current,
-      selections: { ...current.selections, [target]: makeSelection(recipe) },
+      selections: {
+        ...current.selections,
+        [target]: {
+          ...makeSelection(recipe),
+          position: target,
+        },
+      },
     }));
     setActiveSlot(target);
     setMessage(`${recipe.id} added to ${SLOT_DEFINITIONS.find((slot) => slot.key === target)?.label}.`);
@@ -838,6 +894,10 @@ export default function AdminComboMealBuilder({ recipes, onClose }) {
   }
 
   function removeSelection(slotKey) {
+    if (slotKey === "main" && record.status === "Ready for Processing") {
+      setMessage("MAIN cannot be removed while the meal is Ready for Processing. Replace it or return the meal to Draft.");
+      return;
+    }
     setChanged((current) => ({
       ...current,
       selections: { ...current.selections, [slotKey]: null },
@@ -954,6 +1014,10 @@ export default function AdminComboMealBuilder({ recipes, onClose }) {
   }
 
   function markReady() {
+    if (!record.selections.main) {
+      setMessage("Select a MAIN recipe before marking the meal Ready for Processing.");
+      return;
+    }
     setRecord((current) => ({ ...current, status: "Ready for Processing" }));
     setMessage("Marked Ready for Processing.");
   }
@@ -1224,6 +1288,14 @@ export default function AdminComboMealBuilder({ recipes, onClose }) {
         <button type="button" onClick={clearMeal}>Clear Meal</button>
         <button type="button" className="danger" onClick={deleteDraft}>Delete Draft</button>
       </div>
+      <label className="comboBuilderDuplicateOverride">
+        <input
+          type="checkbox"
+          checked={allowDuplicateOverride}
+          onChange={(event) => setAllowDuplicateOverride(event.target.checked)}
+        />
+        Admin override: allow the same supporting recipe in more than one Dish box
+      </label>
 
       {message && <p className="comboBuilderMessage" role="status">{message}</p>}
 
@@ -1254,27 +1326,9 @@ export default function AdminComboMealBuilder({ recipes, onClose }) {
         onDragStart={handleDragStart}
       />
       <RecipeCarousel
-        title="Side Dishes"
-        group="side"
-        recipes={groupedRecipes.side}
-        selections={record.selections}
-        activeSlot={activeSlot}
-        onSelect={selectRecipe}
-        onDragStart={handleDragStart}
-      />
-      <RecipeCarousel
-        title="Salads"
-        group="salad"
-        recipes={groupedRecipes.salad}
-        selections={record.selections}
-        activeSlot={activeSlot}
-        onSelect={selectRecipe}
-        onDragStart={handleDragStart}
-      />
-      <RecipeCarousel
-        title="Desserts"
-        group="dessert"
-        recipes={groupedRecipes.dessert}
+        title="Supporting Dishes"
+        group="supporting"
+        recipes={groupedRecipes.supporting}
         selections={record.selections}
         activeSlot={activeSlot}
         onSelect={selectRecipe}
@@ -1293,16 +1347,14 @@ export default function AdminComboMealBuilder({ recipes, onClose }) {
           </strong>
         </div>
 
-        <div className="comboBuilderPreviewStrip">
-          {SLOT_DEFINITIONS.map((slot) => {
+        <div
+          className={`comboBuilderPreviewStrip count-${Object.values(record.selections).filter(Boolean).length}`}
+        >
+          {SLOT_DEFINITIONS.filter((slot) => record.selections[slot.key]).map((slot) => {
             const item = record.selections[slot.key];
             return (
               <div key={slot.key}>
-                {item?.heroImage ? (
-                  <img src={imageUrl(item.heroImage)} alt={`${item.recipeName} hero`} />
-                ) : (
-                  <span>{slot.label}</span>
-                )}
+                <img src={imageUrl(item.heroImage)} alt={`${item.recipeName} hero`} />
               </div>
             );
           })}
@@ -1319,8 +1371,8 @@ export default function AdminComboMealBuilder({ recipes, onClose }) {
                     <dt>{slot.label}</dt>
                     <dd>
                       {item
-                        ? `${item.recipeId} — ${item.recipeName} × ${portionMultiplier(item)}`
-                        : "Not selected"}
+                        ? `${item.recipeId} — ${item.recipeName}${slot.key !== "main" ? ` (${item.category || "Other"})` : ""} × ${portionMultiplier(item)}`
+                        : "Optional — not selected"}
                     </dd>
                   </div>
                 );
@@ -1453,10 +1505,10 @@ export default function AdminComboMealBuilder({ recipes, onClose }) {
               {officialHero ? (
                 <img src={officialHero} alt={`${record.mealName} processed combo hero`} />
               ) : (
-                <div className="comboBuilderPreviewStrip">
-                  {SLOT_DEFINITIONS.map((slot) => {
+                <div className={`comboBuilderPreviewStrip count-${Object.values(record.selections).filter(Boolean).length}`}>
+                  {SLOT_DEFINITIONS.filter((slot) => record.selections[slot.key]).map((slot) => {
                     const item = record.selections[slot.key];
-                    return <div key={slot.key}>{item?.heroImage ? <img src={imageUrl(item.heroImage)} alt="" /> : <span>{slot.label}</span>}</div>;
+                    return <div key={slot.key}><img src={imageUrl(item.heroImage)} alt="" /></div>;
                   })}
                 </div>
               )}

@@ -657,3 +657,51 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
+
+/* Version 35.1 — Generic MAIN + DISH 1–4 structure */
+.comboBuilderSelectedCategory {
+  display: block;
+  margin: 7px 9px 0;
+  color: #6b7280;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.comboBuilderRecipeThumb > em {
+  margin: 0 8px;
+  color: #6b7280;
+  font-size: 9px;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.comboBuilderDuplicateOverride {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: -4px 0 12px;
+  color: #7a4330;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.comboBuilderDuplicateOverride input {
+  width: auto;
+}
+
+.comboBuilderPreviewStrip {
+  grid-template-columns: repeat(var(--combo-preview-count, 1), minmax(0, 1fr));
+}
+
+.comboBuilderPreviewStrip.count-1 { --combo-preview-count: 1; }
+.comboBuilderPreviewStrip.count-2 { --combo-preview-count: 2; }
+.comboBuilderPreviewStrip.count-3 { --combo-preview-count: 3; }
+.comboBuilderPreviewStrip.count-4 { --combo-preview-count: 4; }
+.comboBuilderPreviewStrip.count-5 { --combo-preview-count: 5; }
+
+.comboBuilderPreviewStrip.count-1 > div:first-child img {
+  object-position: center;
+}
