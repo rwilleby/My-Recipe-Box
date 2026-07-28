@@ -36610,124 +36610,123 @@ body.rrbPopupOpen {
 }
 
 /* ================================================================
-   VERSION 36.4 — RESPONSIVE REDUCTION OF CATEGORY ICONS
-   Full desktop shows all icons. Narrower viewports show a reduced,
-   priority icon set plus a complete More Categories selector.
+   VERSION 36.5 — ALL 11 CATEGORY ICONS STAY IN ONE ROW
    ================================================================ */
 
-.browseCategoryCompactSelect {
-  display: none;
+.browseCategoryQuickFilterRow {
+  display: grid !important;
+  grid-template-columns: repeat(11, minmax(0, 1fr)) !important;
+  gap: clamp(4px, .55vw, 8px) !important;
+  overflow: visible !important;
+  padding-bottom: 0 !important;
 }
 
-/* Narrow desktop: show All + six high-use quick icons. */
+.browseCategoryQuickFilterItem {
+  min-width: 0 !important;
+  width: 100% !important;
+  flex: initial !important;
+  padding: clamp(4px, .55vw, 7px) clamp(1px, .3vw, 4px) !important;
+}
+
+.browseCategoryQuickFilterItem img,
+.browseCategoryQuickFilterAll {
+  width: clamp(40px, 4.1vw, 52px) !important;
+  height: clamp(40px, 4.1vw, 52px) !important;
+  border-radius: clamp(8px, .8vw, 11px) !important;
+}
+
+.browseCategoryQuickFilterAll {
+  font-size: clamp(9px, .9vw, 12px) !important;
+}
+
+.browseCategoryQuickFilterItem strong {
+  width: 100%;
+  overflow: hidden;
+  font-size: clamp(7.5px, .78vw, 10px) !important;
+  line-height: 1.1 !important;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 @media (max-width: 1250px) {
+  .browseCategoryQuickFilter {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+
   .browseCategoryQuickFilterRow {
-    display: grid !important;
-    grid-template-columns: repeat(7, minmax(68px, 1fr)) !important;
-    gap: 7px !important;
-    overflow: visible !important;
-    padding-bottom: 0 !important;
-  }
-
-  .browseCategoryQuickFilterItem {
-    min-width: 0 !important;
-    width: auto !important;
-    flex: initial !important;
-  }
-
-  .browseCategoryQuickFilterItem[data-category-code="QP"],
-  .browseCategoryQuickFilterItem[data-category-code="CS"],
-  .browseCategoryQuickFilterItem[data-category-code="SG"],
-  .browseCategoryQuickFilterItem[data-category-code="SD"] {
-    display: none !important;
-  }
-
-  .browseCategoryCompactSelect {
-    display: grid;
-    grid-template-columns: auto minmax(190px, 300px);
-    align-items: center;
-    justify-content: end;
-    gap: 9px;
-    margin-top: 10px;
-    color: #4b5563;
-    font-size: 10px;
-    font-weight: 800;
-    text-transform: uppercase;
-  }
-
-  .browseCategoryCompactSelect select {
-    width: 100%;
-    min-height: 36px;
-    border: 1px solid #cbd5ce;
-    border-radius: 8px;
-    background: #ffffff;
-    color: #182033;
-    padding: 0 10px;
-    font-size: 11px;
-    font-weight: 700;
-  }
-}
-
-/* Tablet: retain only All and the four primary cuisine icons. */
-@media (max-width: 950px) {
-  .browseCategoryQuickFilterRow {
-    grid-template-columns: repeat(5, minmax(60px, 1fr)) !important;
-  }
-
-  .browseCategoryQuickFilterItem[data-category-code="SF"],
-  .browseCategoryQuickFilterItem[data-category-code="SB"] {
-    display: none !important;
+    gap: 5px !important;
   }
 
   .browseCategoryQuickFilterItem img,
   .browseCategoryQuickFilterAll {
-    width: 46px !important;
-    height: 46px !important;
+    width: clamp(36px, 4vw, 46px) !important;
+    height: clamp(36px, 4vw, 46px) !important;
   }
 
   .browseCategoryQuickFilterItem strong {
-    font-size: 9px !important;
-  }
-
-  .browseCategoryCompactSelect {
-    grid-template-columns: 1fr;
-    justify-content: stretch;
+    font-size: clamp(7px, .75vw, 9px) !important;
   }
 }
 
-/* Phone: keep the same five priority icons, but make them more compact. */
-@media (max-width: 560px) {
+@media (max-width: 900px) {
   .browseCategoryQuickFilter {
-    padding: 9px 8px 8px !important;
+    padding: 8px 6px !important;
   }
 
   .browseCategoryQuickFilterRow {
-    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
-    gap: 4px !important;
+    gap: 3px !important;
   }
 
   .browseCategoryQuickFilterItem {
     gap: 3px !important;
-    padding: 5px 2px !important;
+    padding: 4px 1px !important;
   }
 
   .browseCategoryQuickFilterItem img,
   .browseCategoryQuickFilterAll {
-    width: 40px !important;
-    height: 40px !important;
-    border-radius: 9px !important;
+    width: clamp(30px, 4.4vw, 38px) !important;
+    height: clamp(30px, 4.4vw, 38px) !important;
+    border-radius: 8px !important;
   }
 
   .browseCategoryQuickFilterAll {
-    font-size: 10px !important;
+    font-size: clamp(7px, 1vw, 9px) !important;
   }
 
   .browseCategoryQuickFilterItem strong {
-    font-size: 8px !important;
+    font-size: clamp(6px, .82vw, 8px) !important;
+  }
+}
+
+@media (max-width: 560px) {
+  .browseCategoryQuickFilter {
+    padding: 6px 3px !important;
   }
 
-  .browseCategoryCompactSelect {
-    margin-top: 7px;
+  .browseCategoryQuickFilterRow {
+    gap: 2px !important;
+  }
+
+  .browseCategoryQuickFilterItem {
+    gap: 2px !important;
+    padding: 3px 0 !important;
+  }
+
+  .browseCategoryQuickFilterItem img,
+  .browseCategoryQuickFilterAll {
+    width: clamp(24px, 6.2vw, 32px) !important;
+    height: clamp(24px, 6.2vw, 32px) !important;
+    border-radius: 7px !important;
+  }
+
+  .browseCategoryQuickFilterAll {
+    font-size: clamp(6px, 1.5vw, 8px) !important;
+  }
+
+  .browseCategoryQuickFilterItem strong {
+    font-size: clamp(5.5px, 1.35vw, 7px) !important;
   }
 }
 
