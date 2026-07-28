@@ -36560,3 +36560,52 @@ body.rrbPopupOpen {
   }
 }
 
+/* ================================================================
+   VERSION 36.3 — COMPACT ICON-ONLY QUICK FILTERS
+   ================================================================ */
+
+.browseCategoryQuickFilter {
+  padding: 12px 14px 10px !important;
+}
+
+.browseCategoryQuickFilterHeader {
+  display: none !important;
+}
+
+.browseCategoryQuickFilterRow {
+  margin: 0 !important;
+}
+
+.browseInventoryStyleToolbarSingleRow {
+  grid-template-columns:
+    minmax(145px, .8fr)
+    minmax(180px, 1fr)
+    minmax(240px, 1.4fr)
+    minmax(230px, 1.2fr) !important;
+  gap: 12px !important;
+  padding: 10px 12px !important;
+}
+
+.browseInventoryStyleToolbarSingleRow .browseToolbarField > span {
+  font-size: 10px !important;
+}
+
+.browseInventoryStyleToolbarSingleRow select,
+.browseInventoryStyleToolbarSingleRow input {
+  min-height: 40px !important;
+  height: 40px !important;
+  font-size: 12px !important;
+}
+
+@media (max-width: 950px) {
+  .browseInventoryStyleToolbarSingleRow {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 560px) {
+  .browseInventoryStyleToolbarSingleRow {
+    grid-template-columns: 1fr !important;
+  }
+}
+

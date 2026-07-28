@@ -5200,8 +5200,9 @@ function RecipesPage({
   const [selectedMealBalance, setSelectedMealBalance] = useState("all");
   const [selectedGlp1Filters, setSelectedGlp1Filters] = useState([]);
   const [selectedGlp1Preset, setSelectedGlp1Preset] = useState("");
+  const [selectedNutritionDietary, setSelectedNutritionDietary] = useState("all");
   const [showGlp1Filters, setShowGlp1Filters] = useState(false);
-  const [sortBy, setSortBy] = useState("newest");
+  const [sortBy, setSortBy] = useState("az");
   const [page, setPage] = useState(1);
 
   const browseQuickCategories = useMemo(
@@ -5244,6 +5245,7 @@ function RecipesPage({
     setSelectedCategory(filter || "");
     setSelectedGlp1Preset("");
     setSelectedGlp1Filters([]);
+    setSelectedNutritionDietary("all");
   }, [filter]);
 
   const filteredRecipes = useMemo(() => {
@@ -5390,30 +5392,31 @@ function RecipesPage({
     setSelectedGlp1Filters(preset?.filters ? [...preset.filters] : []);
   }
 
+  function applyNutritionDietary(value) {
+    setSelectedNutritionDietary(value);
+    setSelectedMealBalance("all");
+    setSelectedGlp1Filters([]);
+    setSelectedGlp1Preset("");
+
+    if (value.startsWith("mb:")) {
+      setSelectedMealBalance(value.replace("mb:", ""));
+      return;
+    }
+
+    if (value.startsWith("glp1:")) {
+      applyGlp1Preset(value.replace("glp1:", ""));
+    }
+  }
+
   function clearGlp1Filters() {
     setSelectedGlp1Filters([]);
     setSelectedGlp1Preset("");
+    setSelectedNutritionDietary("all");
   }
 
   return (
     <main className="pageShell browseRecipesPage">
       <section className="browseCategoryQuickFilter" aria-label="Quick category filters">
-        <div className="browseCategoryQuickFilterHeader">
-          <div>
-            <span>QUICK FILTER</span>
-            <h2>Browse by Cuisine or Recipe Group</h2>
-          </div>
-          {selectedCategory && (
-            <button
-              type="button"
-              className="browseCategoryClearButton"
-              onClick={() => applyQuickCategory(null)}
-            >
-              Show All Recipes
-            </button>
-          )}
-        </div>
-
         <div className="browseCategoryQuickFilterRow">
           <button
             type="button"
@@ -5456,30 +5459,11 @@ function RecipesPage({
         <label className="browseToolbarField">
           <span>Sort By</span>
           <select value={sortBy} onChange={(event) => setSortBy(event.target.value)}>
-            <option value="newest">Newest</option>
             <option value="az">A–Z</option>
             <option value="time-low">Time: Low to High</option>
             <option value="time-high">Time: High to Low</option>
             <option value="servings-low">Servings: Low to High</option>
             <option value="servings-high">Servings: High to Low</option>
-          </select>
-        </label>
-
-        <label className="browseToolbarField">
-          <span>Cuisine</span>
-          <select
-            value={selectedCategory}
-            onChange={(event) => {
-              setSelectedCategory(event.target.value);
-              setFilter(event.target.value);
-            }}
-          >
-            <option value="">All Cuisines</option>
-            {categories.map((category) => (
-              <option key={category.id} value={category.name}>
-                {category.name}
-              </option>
-            ))}
           </select>
         </label>
 
@@ -5507,94 +5491,30 @@ function RecipesPage({
           />
         </label>
 
-        <label className="browseToolbarField">
-          <span>MealBalance</span>
+        <label className="browseToolbarField browseNutritionDietaryField">
+          <span>Nutrition & Dietary</span>
           <select
-            value={selectedMealBalance}
-            onChange={(event) => setSelectedMealBalance(event.target.value)}
+            value={selectedNutritionDietary}
+            onChange={(event) => applyNutritionDietary(event.target.value)}
           >
-            <option value="all">All MealBalance Ratings</option>
-            <option value="1-2">MB 1–2 · Very Light</option>
-            <option value="3-4">MB 3–4 · Balanced</option>
-            <option value="5-6">MB 5–6 · Moderate</option>
-            <option value="7-8">MB 7–8 · Rich</option>
-            <option value="9-10">MB 9–10 · Indulgent</option>
-            <option value="unrated">Not Yet Rated</option>
+            <option value="all">All Nutrition & Dietary</option>
+            <optgroup label="MealBalance">
+              <option value="mb:1-2">MB 1–2 · Very Light</option>
+              <option value="mb:3-4">MB 3–4 · Balanced</option>
+              <option value="mb:5-6">MB 5–6 · Moderate</option>
+              <option value="mb:7-8">MB 7–8 · Rich</option>
+              <option value="mb:9-10">MB 9–10 · Indulgent</option>
+              <option value="mb:unrated">Not Yet Rated</option>
+            </optgroup>
+            <optgroup label="GLP-1 Collections">
+              {GLP1_RECIPE_COLLECTION_PRESETS.map((preset) => (
+                <option key={preset.id} value={`glp1:${preset.id}`}>
+                  {preset.label}
+                </option>
+              ))}
+            </optgroup>
           </select>
         </label>
-
-        <label className="browseToolbarField browseGlp1PresetField">
-          <span>GLP-1 Collections</span>
-          <select
-            value={selectedGlp1Preset}
-            onChange={(event) => applyGlp1Preset(event.target.value)}
-          >
-            <option value="">All GLP-1 Collections</option>
-            {GLP1_RECIPE_COLLECTION_PRESETS.map((preset) => (
-              <option key={preset.id} value={preset.id}>
-                {preset.label}
-              </option>
-            ))}
-          </select>
-        </label>
-
-        <button
-          type="button"
-          className={`browseGlp1FilterToggle ${
-            showGlp1Filters || selectedGlp1Filters.length ? "active" : ""
-          }`}
-          onClick={() => setShowGlp1Filters((current) => !current)}
-          aria-expanded={showGlp1Filters}
-          aria-controls="browse-glp1-filter-panel"
-        >
-          GLP-1 Filters
-          {selectedGlp1Filters.length > 0 && (
-            <span>{selectedGlp1Filters.length}</span>
-          )}
-        </button>
-
-        {showGlp1Filters && (
-          <div
-            id="browse-glp1-filter-panel"
-            className="browseGlp1FilterPanel"
-            aria-label="GLP-1 and nutrition-support recipe filters"
-          >
-            <div className="browseGlp1FilterPanelHeader">
-              <div>
-                <strong>GLP-1 Nutrition Support</strong>
-                <small>
-                  Combine these with cuisine, search, MealBalance, and other filters.
-                  Unreviewed recipes are not treated as GLP-1 rated.
-                </small>
-              </div>
-              {(selectedGlp1Filters.length > 0 || selectedGlp1Preset) && (
-                <button type="button" onClick={clearGlp1Filters}>
-                  Clear GLP-1 Filters
-                </button>
-              )}
-            </div>
-
-            <div className="browseGlp1FilterGrid">
-              {GLP1_RECIPE_FILTERS.map((filterItem) => {
-                const checked = selectedGlp1Filters.includes(filterItem.id);
-                return (
-                  <label
-                    key={filterItem.id}
-                    className={checked ? "selected" : ""}
-                  >
-                    <input
-                      type="checkbox"
-                      checked={checked}
-                      onChange={() => toggleGlp1Filter(filterItem.id)}
-                    />
-                    <span>{filterItem.label}</span>
-                  </label>
-                );
-              })}
-            </div>
-          </div>
-        )}
-
       </section>
       <div className="browseResultsRow">
         <strong>{filteredRecipes.length} recipes found</strong>
