@@ -36331,3 +36331,41 @@ body.rrbPopupOpen {
   text-transform: uppercase !important;
 }
 
+/* ================================================================
+   VERSION 36.1 — LOCK STANDARD RECIPE LISTS TO THREE DESKTOP COLUMNS
+   Applies to Browse Recipe Library, cuisine/category collections,
+   filtered recipe lists, GLP-1 collections, and Favorites.
+   ================================================================ */
+
+.recipeGrid,
+.browseRecipeGrid,
+.recipeGrid.browseRecipeGrid,
+.recipeGrid.browseRecipeGrid.favoritesRecipeGrid {
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  width: 100%;
+  max-width: 1560px;
+  margin-left: auto;
+  margin-right: auto;
+  align-items: start;
+}
+
+/* Tablet */
+@media (max-width: 1100px) {
+  .recipeGrid,
+  .browseRecipeGrid,
+  .recipeGrid.browseRecipeGrid,
+  .recipeGrid.browseRecipeGrid.favoritesRecipeGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+/* Phone */
+@media (max-width: 700px) {
+  .recipeGrid,
+  .browseRecipeGrid,
+  .recipeGrid.browseRecipeGrid,
+  .recipeGrid.browseRecipeGrid.favoritesRecipeGrid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
+
