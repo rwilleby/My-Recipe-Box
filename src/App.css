@@ -36369,3 +36369,194 @@ body.rrbPopupOpen {
   }
 }
 
+/* ================================================================
+   VERSION 36.2 — RECIPE-LIBRARY CATEGORY QUICK FILTERS
+   Category icons sit between the page hero and the compact filter row.
+   ================================================================ */
+
+.browseRecipesPage {
+  padding-top: 18px !important;
+}
+
+.browseCategoryQuickFilter {
+  width: 100%;
+  margin: 0 0 14px;
+  padding: 14px 16px 12px;
+  border: 1px solid rgba(20, 83, 45, .12);
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, .05);
+}
+
+.browseCategoryQuickFilterHeader {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 10px;
+}
+
+.browseCategoryQuickFilterHeader span {
+  display: block;
+  margin-bottom: 2px;
+  color: #667085;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .08em;
+}
+
+.browseCategoryQuickFilterHeader h2 {
+  margin: 0;
+  color: #182033;
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  font-size: 18px;
+  line-height: 1.15;
+}
+
+.browseCategoryClearButton {
+  min-height: 34px;
+  padding: 0 13px;
+  border: 1px solid #b8cfbd;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #14532d;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.browseCategoryQuickFilterRow {
+  display: grid;
+  grid-template-columns: repeat(11, minmax(72px, 1fr));
+  gap: 8px;
+  align-items: start;
+}
+
+.browseCategoryQuickFilterItem {
+  display: grid;
+  justify-items: center;
+  gap: 5px;
+  min-width: 0;
+  padding: 7px 4px 6px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background: transparent;
+  color: #182033;
+  cursor: pointer;
+}
+
+.browseCategoryQuickFilterItem:hover,
+.browseCategoryQuickFilterItem.active {
+  border-color: rgba(20, 83, 45, .25);
+  background: #f3f8f4;
+}
+
+.browseCategoryQuickFilterItem.active {
+  box-shadow: inset 0 0 0 1px #14532d;
+}
+
+.browseCategoryQuickFilterItem img,
+.browseCategoryQuickFilterAll {
+  width: 52px;
+  height: 52px;
+  object-fit: cover;
+  border-radius: 11px;
+}
+
+.browseCategoryQuickFilterAll {
+  display: grid;
+  place-items: center;
+  background: #14532d;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: .05em;
+}
+
+.browseCategoryQuickFilterItem strong {
+  display: block;
+  max-width: 100%;
+  overflow: hidden;
+  color: #182033;
+  font-size: 10px;
+  line-height: 1.15;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Keep all seven recipe controls on one compact desktop row. */
+.browseInventoryStyleToolbarSingleRow {
+  grid-template-columns:
+    minmax(110px, .8fr)
+    minmax(125px, .95fr)
+    minmax(145px, 1.1fr)
+    minmax(170px, 1.25fr)
+    minmax(155px, 1.15fr)
+    minmax(165px, 1.2fr)
+    minmax(115px, .8fr) !important;
+  gap: 8px !important;
+  align-items: end !important;
+  padding: 10px 12px !important;
+}
+
+.browseInventoryStyleToolbarSingleRow .browseToolbarField {
+  min-width: 0 !important;
+}
+
+.browseInventoryStyleToolbarSingleRow .browseToolbarField > span {
+  font-size: 9.5px !important;
+}
+
+.browseInventoryStyleToolbarSingleRow select,
+.browseInventoryStyleToolbarSingleRow input,
+.browseInventoryStyleToolbarSingleRow .browseGlp1FilterToggle {
+  min-height: 39px !important;
+  height: 39px !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  font-size: 11px !important;
+}
+
+.browseInventoryStyleToolbarSingleRow .browseGlp1FilterPanel {
+  grid-column: 1 / -1 !important;
+}
+
+/* Narrow desktop/tablet: icon strip scrolls horizontally and controls wrap cleanly. */
+@media (max-width: 1250px) {
+  .browseCategoryQuickFilterRow {
+    display: flex;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scroll-snap-type: x proximity;
+  }
+
+  .browseCategoryQuickFilterItem {
+    flex: 0 0 88px;
+    scroll-snap-align: start;
+  }
+
+  .browseInventoryStyleToolbarSingleRow {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 800px) {
+  .browseCategoryQuickFilterHeader {
+    align-items: start;
+  }
+
+  .browseInventoryStyleToolbarSingleRow {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 560px) {
+  .browseCategoryQuickFilterHeader {
+    display: grid;
+  }
+
+  .browseInventoryStyleToolbarSingleRow {
+    grid-template-columns: 1fr !important;
+  }
+}
+

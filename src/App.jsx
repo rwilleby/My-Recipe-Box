@@ -5204,6 +5204,30 @@ function RecipesPage({
   const [sortBy, setSortBy] = useState("newest");
   const [page, setPage] = useState(1);
 
+  const browseQuickCategories = useMemo(
+    () =>
+      ["AM", "AS", "IT", "MX", "SF", "QP", "CS", "SB", "SG", "SD"]
+        .map((code) => {
+          const category = categories.find((item) => item.id === code);
+          return category
+            ? {
+                ...category,
+                displayName: HOME_CATEGORY_LABELS[code] || category.name,
+                iconImage: CATEGORY_ICON_IMAGES[code],
+              }
+            : null;
+        })
+        .filter(Boolean),
+    [],
+  );
+
+  function applyQuickCategory(category) {
+    const nextCategory = category?.name || "";
+    setSelectedCategory(nextCategory);
+    setFilter(nextCategory);
+    setPage(1);
+  }
+
   useEffect(() => {
     if (typeof filter === "string" && filter.startsWith("glp1-preset:")) {
       const presetId = filter.replace("glp1-preset:", "");
@@ -5373,7 +5397,62 @@ function RecipesPage({
 
   return (
     <main className="pageShell browseRecipesPage">
-      <section className="browseInventoryStyleToolbar" aria-label="Recipe library sorting and filters">
+      <section className="browseCategoryQuickFilter" aria-label="Quick category filters">
+        <div className="browseCategoryQuickFilterHeader">
+          <div>
+            <span>QUICK FILTER</span>
+            <h2>Browse by Cuisine or Recipe Group</h2>
+          </div>
+          {selectedCategory && (
+            <button
+              type="button"
+              className="browseCategoryClearButton"
+              onClick={() => applyQuickCategory(null)}
+            >
+              Show All Recipes
+            </button>
+          )}
+        </div>
+
+        <div className="browseCategoryQuickFilterRow">
+          <button
+            type="button"
+            className={`browseCategoryQuickFilterItem${!selectedCategory ? " active" : ""}`}
+            onClick={() => applyQuickCategory(null)}
+            aria-pressed={!selectedCategory}
+          >
+            <span className="browseCategoryQuickFilterAll" aria-hidden="true">ALL</span>
+            <strong>All Recipes</strong>
+          </button>
+
+          {browseQuickCategories.map((category) => {
+            const active =
+              selectedCategory === category.name ||
+              selectedCategory === category.id;
+
+            return (
+              <button
+                type="button"
+                key={category.id}
+                className={`browseCategoryQuickFilterItem${active ? " active" : ""}`}
+                onClick={() => applyQuickCategory(category)}
+                aria-pressed={active}
+              >
+                <img
+                  src={`${import.meta.env.BASE_URL}${category.iconImage}`}
+                  alt=""
+                  aria-hidden="true"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <strong>{category.displayName}</strong>
+              </button>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className="browseInventoryStyleToolbar browseInventoryStyleToolbarSingleRow" aria-label="Recipe library sorting and filters">
         <label className="browseToolbarField">
           <span>Sort By</span>
           <select value={sortBy} onChange={(event) => setSortBy(event.target.value)}>
