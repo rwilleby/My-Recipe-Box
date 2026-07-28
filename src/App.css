@@ -36609,3 +36609,125 @@ body.rrbPopupOpen {
   }
 }
 
+/* ================================================================
+   VERSION 36.4 — RESPONSIVE REDUCTION OF CATEGORY ICONS
+   Full desktop shows all icons. Narrower viewports show a reduced,
+   priority icon set plus a complete More Categories selector.
+   ================================================================ */
+
+.browseCategoryCompactSelect {
+  display: none;
+}
+
+/* Narrow desktop: show All + six high-use quick icons. */
+@media (max-width: 1250px) {
+  .browseCategoryQuickFilterRow {
+    display: grid !important;
+    grid-template-columns: repeat(7, minmax(68px, 1fr)) !important;
+    gap: 7px !important;
+    overflow: visible !important;
+    padding-bottom: 0 !important;
+  }
+
+  .browseCategoryQuickFilterItem {
+    min-width: 0 !important;
+    width: auto !important;
+    flex: initial !important;
+  }
+
+  .browseCategoryQuickFilterItem[data-category-code="QP"],
+  .browseCategoryQuickFilterItem[data-category-code="CS"],
+  .browseCategoryQuickFilterItem[data-category-code="SG"],
+  .browseCategoryQuickFilterItem[data-category-code="SD"] {
+    display: none !important;
+  }
+
+  .browseCategoryCompactSelect {
+    display: grid;
+    grid-template-columns: auto minmax(190px, 300px);
+    align-items: center;
+    justify-content: end;
+    gap: 9px;
+    margin-top: 10px;
+    color: #4b5563;
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
+  .browseCategoryCompactSelect select {
+    width: 100%;
+    min-height: 36px;
+    border: 1px solid #cbd5ce;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #182033;
+    padding: 0 10px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+}
+
+/* Tablet: retain only All and the four primary cuisine icons. */
+@media (max-width: 950px) {
+  .browseCategoryQuickFilterRow {
+    grid-template-columns: repeat(5, minmax(60px, 1fr)) !important;
+  }
+
+  .browseCategoryQuickFilterItem[data-category-code="SF"],
+  .browseCategoryQuickFilterItem[data-category-code="SB"] {
+    display: none !important;
+  }
+
+  .browseCategoryQuickFilterItem img,
+  .browseCategoryQuickFilterAll {
+    width: 46px !important;
+    height: 46px !important;
+  }
+
+  .browseCategoryQuickFilterItem strong {
+    font-size: 9px !important;
+  }
+
+  .browseCategoryCompactSelect {
+    grid-template-columns: 1fr;
+    justify-content: stretch;
+  }
+}
+
+/* Phone: keep the same five priority icons, but make them more compact. */
+@media (max-width: 560px) {
+  .browseCategoryQuickFilter {
+    padding: 9px 8px 8px !important;
+  }
+
+  .browseCategoryQuickFilterRow {
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 4px !important;
+  }
+
+  .browseCategoryQuickFilterItem {
+    gap: 3px !important;
+    padding: 5px 2px !important;
+  }
+
+  .browseCategoryQuickFilterItem img,
+  .browseCategoryQuickFilterAll {
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 9px !important;
+  }
+
+  .browseCategoryQuickFilterAll {
+    font-size: 10px !important;
+  }
+
+  .browseCategoryQuickFilterItem strong {
+    font-size: 8px !important;
+  }
+
+  .browseCategoryCompactSelect {
+    margin-top: 7px;
+  }
+}
+

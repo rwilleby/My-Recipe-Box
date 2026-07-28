@@ -5437,6 +5437,7 @@ function RecipesPage({
               <button
                 type="button"
                 key={category.id}
+                data-category-code={category.id}
                 className={`browseCategoryQuickFilterItem${active ? " active" : ""}`}
                 onClick={() => applyQuickCategory(category)}
                 aria-pressed={active}
@@ -5453,6 +5454,27 @@ function RecipesPage({
             );
           })}
         </div>
+
+        <label className="browseCategoryCompactSelect">
+          <span>More Categories</span>
+          <select
+            value={selectedCategory}
+            onChange={(event) => {
+              const value = event.target.value;
+              const category = categories.find(
+                (item) => item.name === value || item.id === value
+              );
+              applyQuickCategory(category || null);
+            }}
+          >
+            <option value="">All Recipes</option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.name}>
+                {HOME_CATEGORY_LABELS[category.id] || category.name}
+              </option>
+            ))}
+          </select>
+        </label>
       </section>
 
       <section className="browseInventoryStyleToolbar browseInventoryStyleToolbarSingleRow" aria-label="Recipe library sorting and filters">
