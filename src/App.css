@@ -36907,7 +36907,6 @@ body.rrbPopupOpen {
   hyphens: none !important;
 }
 
-/* Keep the paragraph inside the left text-safe region as the hero narrows. */
 @media (max-width: 1100px) {
   .hero .heroCopy {
     width: min(480px, 48vw) !important;
@@ -36930,6 +36929,34 @@ body.rrbPopupOpen {
     width: 100% !important;
     max-width: 100% !important;
     max-inline-size: 100% !important;
+  }
+}
+
+/* ================================================================
+   VERSION 37A.2 — FEATURED COMBO MATCH HOME HERO CROSSFADE
+   Matches the large Home hero's 900ms ease-in-out opacity transition.
+   ================================================================ */
+
+.homeComboMealCrossfadeStage .homeComboMealCardIncoming {
+  animation: homeComboMealCrossfadeIn 900ms ease-in-out both !important;
+}
+
+.homeComboMealCrossfadeStage .homeComboMealCardOutgoing {
+  animation: homeComboMealCrossfadeOut 900ms ease-in-out both !important;
+}
+
+.homeComboMealCrossfadeStage .homeComboMealCardIncoming,
+.homeComboMealCrossfadeStage .homeComboMealCardOutgoing {
+  transform: none !important;
+  backface-visibility: visible !important;
+  will-change: opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .homeComboMealCrossfadeStage .homeComboMealCardIncoming,
+  .homeComboMealCrossfadeStage .homeComboMealCardOutgoing {
+    animation-duration: 120ms !important;
+    animation-timing-function: linear !important;
   }
 }
 
