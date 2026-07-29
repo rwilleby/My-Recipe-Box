@@ -4,6 +4,7 @@ import AdminRecipeClassifier from "./components/AdminRecipeClassifier";
 import AdminComboMealBuilder from "./components/AdminComboMealBuilder";
 import DinnerCombinationHeroAudit from "./DinnerCombinationHeroAudit.jsx";
 import UserDataBackupSection from "./components/UserDataBackupSection";
+import FoodIntelligenceCard from "./components/FoodIntelligenceCard";
 import "./components/UserDataBackupSection.css";
 import {
   loadRecipeClassifications,
@@ -3813,6 +3814,7 @@ function RecipeCardViewer({
   const [constructionImageIndex, setConstructionImageIndex] = useState(0);
   const [constructionImageFailed, setConstructionImageFailed] = useState(false);
   const [openPanel, setOpenPanel] = useState(null);
+  const [showFoodIntelligence, setShowFoodIntelligence] = useState(false);
   usePopupPageMode(Boolean(viewer));
 
   const viewerIds = viewer?.recipeIds?.length
@@ -3832,6 +3834,7 @@ function RecipeCardViewer({
     setConstructionImageIndex(0);
     setConstructionImageFailed(false);
     setOpenPanel(null);
+    setShowFoodIntelligence(false);
   }, [recipe?.id]);
 
   if (!viewer || !recipe) return null;
@@ -3844,6 +3847,7 @@ function RecipeCardViewer({
   const note = getRecipePersonalNote(recipe);
   const cookingOptions = getRecipeCookingOptions(recipe);
   const estimatedCost = getRecipeEstimatedCost(recipe);
+  const hasFoodIntelligence = Boolean(recipe?.id && recipe.id === "MX-010");
   const showConstruction = isSaladJarRecipe(recipe);
   const constructionImageCandidates = constructionCalloutImageCandidates(recipe);
   const constructionImagePath = constructionImageFailed
@@ -3989,22 +3993,27 @@ function RecipeCardViewer({
             ‹
           </button>
 
-          <div className="cardViewerImageWrap">
-            {imagePath ? (
-              <img
-                src={`${import.meta.env.BASE_URL}${imagePath}`}
-                alt={`${recipe.id} ${recipe.title} recipe card`}
-                decoding="async"
-                onError={() => setImageIndex((current) => current + 1)}
-              />
-            ) : (
-              <div className="cardViewerMissing">
-                <strong>Recipe card image not found.</strong>
-                <span>
-                  Expected: images/recipes/{recipe.id}.webp
-                </span>
+          <div className={showFoodIntelligence ? "cardViewerImageWrap recipeFlipCard isFlipped" : "cardViewerImageWrap recipeFlipCard"}>
+            <div className="recipeFlipCardInner">
+              <div className="recipeFlipFace recipeFlipFront">
+                {imagePath ? (
+                  <img
+                    src={`${import.meta.env.BASE_URL}${imagePath}`}
+                    alt={`${recipe.id} ${recipe.title} recipe card`}
+                    decoding="async"
+                    onError={() => setImageIndex((current) => current + 1)}
+                  />
+                ) : (
+                  <div className="cardViewerMissing">
+                    <strong>Recipe card image not found.</strong>
+                    <span>Expected: images/recipes/{recipe.id}.webp</span>
+                  </div>
+                )}
               </div>
-            )}
+              <div className="recipeFlipFace recipeFlipBack">
+                <FoodIntelligenceCard recipeCode={recipe.id} />
+              </div>
+            </div>
           </div>
 
           <button
@@ -4204,6 +4213,19 @@ function RecipeCardViewer({
           </span>
 
           <div className="cardViewerFooterActions viewerUnifiedActions">
+            {hasFoodIntelligence && (
+              <button
+                className={showFoodIntelligence ? "viewerActionButton viewerActionFoodIntelligence active" : "viewerActionButton viewerActionFoodIntelligence"}
+                type="button"
+                onClick={() => {
+                  setOpenPanel(null);
+                  setShowFoodIntelligence((current) => !current);
+                }}
+              >
+                {showFoodIntelligence ? "View Recipe Card" : "View Food Intelligence"}
+              </button>
+            )}
+
             <button
               className={openPanel === "cooking" ? "viewerActionButton active" : "viewerActionButton"}
               type="button"

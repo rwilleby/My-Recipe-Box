@@ -37073,3 +37073,91 @@ body.rrbPopupOpen {
   z-index: 1;
 }
 
+/* ================================================================
+   VERSION 39.1 — FOOD INTELLIGENCE CARD PILOT
+   ================================================================ */
+.recipeFlipCard {
+  perspective: 1800px;
+  overflow: visible !important;
+}
+.recipeFlipCardInner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: min(61vh, calc(100dvh - 230px));
+  transform-style: preserve-3d;
+  transition: transform 700ms cubic-bezier(.2,.75,.25,1);
+}
+.recipeFlipCard.isFlipped .recipeFlipCardInner { transform: rotateY(180deg); }
+.recipeFlipFace {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  overflow: auto;
+}
+.recipeFlipFront { transform: rotateY(0deg); }
+.recipeFlipBack {
+  transform: rotateY(180deg);
+  align-items: stretch;
+  background: #f4efe6;
+  border-radius: 12px;
+}
+.viewerActionFoodIntelligence { border-color: #174a2a !important; }
+.viewerActionFoodIntelligence.active { background: #174a2a !important; color: #fff !important; }
+.foodIntelligenceCard {
+  width: 100%;
+  min-height: 100%;
+  padding: 18px;
+  color: #171717;
+  background: #f7f1e6;
+  font-family: Inter, Arial, sans-serif;
+}
+.ficHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: flex-start;
+  padding: 14px 16px;
+  border: 2px solid #174a2a;
+  background: #fff;
+}
+.ficEyebrow { color: #174a2a; font-size: 11px; font-weight: 900; letter-spacing: .1em; }
+.ficHeader h2 { margin: 4px 0; font-family: Georgia, serif; font-size: 25px; }
+.ficStatus { margin: 0; font-size: 12px; font-weight: 800; }
+.ficStatus.provisional { color: #8a4f18; }
+.ficStatus.verified { color: #174a2a; }
+.ficVariantControl { min-width: 230px; display: grid; gap: 5px; font-size: 11px; font-weight: 800; }
+.ficVariantControl select { min-height: 38px; padding: 0 10px; border: 1px solid #174a2a; background: #fff; }
+.ficGrid { display: grid; grid-template-columns: minmax(245px, .7fr) minmax(0, 2fr); gap: 14px; margin-top: 14px; }
+.ficNutritionFacts { padding: 10px; border: 3px solid #111; background: #fff; }
+.ficNutritionFacts h3 { margin: 0 0 6px; padding-bottom: 5px; border-bottom: 8px solid #111; font-size: 25px; }
+.ficServingLine, .ficFactRow { display: flex; justify-content: space-between; gap: 10px; padding: 4px 0; border-bottom: 1px solid #222; font-size: 11px; }
+.ficFactRowStrong { border-top: 5px solid #111; font-size: 15px; }
+.ficContentColumns { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px; align-content: start; }
+.ficSection, .ficMealBalance { padding: 10px 12px; border: 1px solid #bcae98; background: #fff; }
+.ficSection h3, .ficMealBalance h3 { margin: 0 0 5px; color: #174a2a; font-family: Georgia, serif; font-size: 15px; }
+.ficSection p, .ficSection li, .ficMealBalance span { margin: 0; font-size: 11px; line-height: 1.35; }
+.ficSection ul { margin: 0; padding-left: 17px; }
+.ficMealBalance { display: grid; grid-template-columns: auto 1fr; column-gap: 10px; align-items: center; }
+.ficMealBalance h3 { grid-column: 1 / -1; }
+.ficMealBalance > strong { display: grid; place-items: center; width: 54px; height: 54px; border-radius: 50%; background: #174a2a; color: #fff; font-size: 12px; text-align: center; }
+.ficDataNotes { grid-column: 1 / -1; background: #fff9e8; }
+.foodIntelligenceUnavailable { display: grid; place-items: center; gap: 8px; min-height: 300px; padding: 30px; text-align: center; background: #fff; }
+@media (max-width: 900px) {
+  .ficHeader { display: grid; }
+  .ficVariantControl { min-width: 0; }
+  .ficGrid { grid-template-columns: 1fr; }
+}
+@media (max-width: 700px) {
+  .recipeFlipCardInner { min-height: min(66vh, calc(100dvh - 250px)); }
+  .ficContentColumns { grid-template-columns: 1fr; }
+  .ficDataNotes { grid-column: auto; }
+  .foodIntelligenceCard { padding: 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .recipeFlipCardInner { transition-duration: 1ms; }
+}
+
