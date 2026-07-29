@@ -37036,3 +37036,40 @@ body.rrbPopupOpen {
   opacity: 0 !important;
   pointer-events: none !important;
 }
+
+/* ================================================================
+   VERSION 38.3 — REMOVE FEATURED COMBO END FLASH
+   Keeps an opaque card surface under the final transition frame.
+   ================================================================ */
+
+.homeComboMealCardWrap,
+.homeComboMealFullCrossfadeStage,
+.homeComboMealFullCrossfadeStage > .homeComboMealCard {
+  background: #ffffff !important;
+}
+
+.homeComboMealFullCrossfadeStage > .homeComboMealFullCardIncoming {
+  opacity: 1;
+  animation-fill-mode: both !important;
+}
+
+/* Do not allow the outgoing and incoming layers to expose the stage. */
+.homeComboMealFullCrossfadeStage {
+  overflow: hidden !important;
+  isolation: isolate;
+}
+
+.homeComboMealFullCrossfadeStage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: #ffffff;
+  pointer-events: none;
+}
+
+.homeComboMealFullCrossfadeStage > .homeComboMealCard {
+  position: relative;
+  z-index: 1;
+}
+

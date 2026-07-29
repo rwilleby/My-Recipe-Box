@@ -2363,7 +2363,7 @@ function selectVariedHomeComboMeals(allMeals, currentMeals = []) {
   }).filter(Boolean);
 }
 
-function HomeComboMealCardButton({ meal, className = "", onOpen, imageLoading = "lazy" }) {
+function HomeComboMealCardButton({ meal, className = "", onOpen, imageLoading = "eager" }) {
   return (
     <button
       type="button"
@@ -2476,17 +2476,25 @@ function HomeComboMealStrip({
               return updated;
             });
 
-            setCrossfades((current) => {
-              const updated = { ...current };
-              delete updated[position];
-              return updated;
-            });
+            const settleTimer = window.setTimeout(() => {
+              window.requestAnimationFrame(() => {
+                window.requestAnimationFrame(() => {
+                  setCrossfades((current) => {
+                    const updated = { ...current };
+                    delete updated[position];
+                    return updated;
+                  });
 
-            const pauseTimer = window.setTimeout(
-              () => transitionPosition(position + 1),
-              HOME_COMBO_PAUSE_MS,
-            );
-            staggerTimersRef.current.push(pauseTimer);
+                  const pauseTimer = window.setTimeout(
+                    () => transitionPosition(position + 1),
+                    HOME_COMBO_PAUSE_MS,
+                  );
+                  staggerTimersRef.current.push(pauseTimer);
+                });
+              });
+            }, 120);
+
+            staggerTimersRef.current.push(settleTimer);
           }, HOME_COMBO_CROSSFADE_MS);
 
           staggerTimersRef.current.push(finishTimer);
