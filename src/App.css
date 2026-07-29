@@ -36766,3 +36766,49 @@ body.rrbPopupOpen {
   }
 }
 
+/* ================================================================
+   VERSION 37.2 — HOME HERO PARAGRAPH TRUE WIDTH CORRECTION
+   Aligns the Home hero paragraph more closely with the actual visual
+   width of “Plan. Cook. Eat. Freeze. Save.”
+   ================================================================ */
+
+.hero .heroCopy {
+  width: min(700px, 58vw) !important;
+  max-width: min(700px, 58vw) !important;
+}
+
+.hero .heroCopy > h1,
+.hero .heroCopy > .homeHeroIntroGhost {
+  width: 100% !important;
+  max-width: 700px !important;
+}
+
+.hero .heroCopy > .homeHeroIntroGhost {
+  display: block !important;
+}
+
+/* Responsive adjustments retain the same visual relationship. */
+@media (max-width: 1100px) {
+  .hero .heroCopy {
+    width: min(640px, 66vw) !important;
+    max-width: min(640px, 66vw) !important;
+  }
+
+  .hero .heroCopy > h1,
+  .hero .heroCopy > .homeHeroIntroGhost {
+    max-width: 640px !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .hero .heroCopy {
+    width: min(100%, 580px) !important;
+    max-width: min(100%, 580px) !important;
+  }
+
+  .hero .heroCopy > h1,
+  .hero .heroCopy > .homeHeroIntroGhost {
+    max-width: 580px !important;
+  }
+}
+
