@@ -37160,4 +37160,5 @@ body.rrbPopupOpen {
 @media (prefers-reduced-motion: reduce) {
   .recipeFlipCardInner { transition-duration: 1ms; }
 }
-
+/* VERSION 40.1 — UNIVERSAL FOOD INTELLIGENCE CONTROL */
+.viewerActionFoodIntelligence.isPending{border-style:dashed!important;border-color:#7a7a7a!important;color:#4f4f4f!important;background:#f7f7f5!important}.viewerActionFoodIntelligence.isPending:hover,.viewerActionFoodIntelligence.isPending:focus-visible{border-color:#174a2a!important;color:#174a2a!important;background:#f0f5f1!important}.viewerActionFoodIntelligence.isPending.active{border-style:solid!important;border-color:#174a2a!important;color:#fff!important;background:#174a2a!important}.foodIntelligenceUnavailable{align-content:center;min-height:min(66vh,620px);padding:clamp(24px,5vw,58px)!important;border:2px solid #111;background:#fff!important;color:#111}.foodIntelligenceUnavailable .ficUnavailableEyebrow{color:#174a2a;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}.foodIntelligenceUnavailable strong{font-family:Georgia,"Times New Roman",serif;font-size:clamp(25px,3vw,38px);line-height:1.05}.foodIntelligenceUnavailable p{max-width:620px;margin:0;font-size:15px;line-height:1.5}.foodIntelligenceUnavailable small{max-width:620px;color:#555;font-size:12px;line-height:1.4}

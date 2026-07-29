@@ -5,6 +5,7 @@ import AdminComboMealBuilder from "./components/AdminComboMealBuilder";
 import DinnerCombinationHeroAudit from "./DinnerCombinationHeroAudit.jsx";
 import UserDataBackupSection from "./components/UserDataBackupSection";
 import FoodIntelligenceCard from "./components/FoodIntelligenceCard";
+import { hasRecipeNutritionRecord } from "./data/recipeNutritionProfiles";
 import "./components/UserDataBackupSection.css";
 import {
   loadRecipeClassifications,
@@ -3847,7 +3848,9 @@ function RecipeCardViewer({
   const note = getRecipePersonalNote(recipe);
   const cookingOptions = getRecipeCookingOptions(recipe);
   const estimatedCost = getRecipeEstimatedCost(recipe);
-  const hasFoodIntelligence = Boolean(recipe?.id && recipe.id === "MX-010");
+  const hasFoodIntelligence = Boolean(
+    recipe?.id && hasRecipeNutritionRecord(recipe.id)
+  );
   const showConstruction = isSaladJarRecipe(recipe);
   const constructionImageCandidates = constructionCalloutImageCandidates(recipe);
   const constructionImagePath = constructionImageFailed
@@ -4213,18 +4216,32 @@ function RecipeCardViewer({
           </span>
 
           <div className="cardViewerFooterActions viewerUnifiedActions">
-            {hasFoodIntelligence && (
-              <button
-                className={showFoodIntelligence ? "viewerActionButton viewerActionFoodIntelligence active" : "viewerActionButton viewerActionFoodIntelligence"}
-                type="button"
-                onClick={() => {
-                  setOpenPanel(null);
-                  setShowFoodIntelligence((current) => !current);
-                }}
-              >
-                {showFoodIntelligence ? "View Recipe Card" : "View Food Intelligence"}
-              </button>
-            )}
+            <button
+              className={[
+                "viewerActionButton",
+                "viewerActionFoodIntelligence",
+                showFoodIntelligence ? "active" : "",
+                !hasFoodIntelligence ? "isPending" : "",
+              ].filter(Boolean).join(" ")}
+              type="button"
+              onClick={() => {
+                setOpenPanel(null);
+                setShowFoodIntelligence((current) => !current);
+              }}
+              aria-label={
+                showFoodIntelligence
+                  ? "View the recipe card front"
+                  : hasFoodIntelligence
+                    ? `View Food Intelligence for ${recipe.id}`
+                    : `View Food Intelligence availability for ${recipe.id}`
+              }
+            >
+              {showFoodIntelligence
+                ? "View Recipe Card"
+                : hasFoodIntelligence
+                  ? "View Food Intelligence"
+                  : "Food Intelligence Coming Soon"}
+            </button>
 
             <button
               className={openPanel === "cooking" ? "viewerActionButton active" : "viewerActionButton"}

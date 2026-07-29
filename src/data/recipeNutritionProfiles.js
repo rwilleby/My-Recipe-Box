@@ -97,6 +97,24 @@ export const recipeNutritionProfiles = {
   }
 };
 
+export function normalizeRecipeCode(recipeCode) {
+  return String(recipeCode || "").trim().toUpperCase();
+}
+
 export function getRecipeNutritionRecord(recipeCode) {
-  return recipeNutritionProfiles[String(recipeCode || "").trim().toUpperCase()] || null;
+  return recipeNutritionProfiles[normalizeRecipeCode(recipeCode)] || null;
+}
+
+export function hasRecipeNutritionRecord(recipeCode) {
+  return Boolean(getRecipeNutritionRecord(recipeCode));
+}
+
+export function getRecipeNutritionVariant(recipeCode, variantKey) {
+  const record = getRecipeNutritionRecord(recipeCode);
+  if (!record) return null;
+  const selectedKey = variantKey && record.variants?.[variantKey]
+    ? variantKey
+    : record.defaultVariant || Object.keys(record.variants || {})[0];
+  if (!selectedKey) return null;
+  return { key: selectedKey, profile: record.variants[selectedKey], record };
 }
