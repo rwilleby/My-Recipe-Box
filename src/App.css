@@ -36878,58 +36878,32 @@ body.rrbPopupOpen {
 }
 
 /* ================================================================
-   VERSION 37A.1 — HOME HERO PARAGRAPH MATCH SUPPORTING-PAGE WIDTH
-   Uses the same proven text width as the supporting-page hero copy.
+   VERSION 37A.2 — FEATURED COMBO MATCH HOME HERO CROSSFADE
+   Matches the large Home hero's 900ms ease-in-out opacity transition.
    ================================================================ */
 
-.hero .heroCopy {
-  width: min(520px, 42vw) !important;
-  max-width: min(520px, 42vw) !important;
-  min-width: 0 !important;
+.homeComboMealCrossfadeStage .homeComboMealCardIncoming {
+  animation: homeComboMealCrossfadeIn 900ms ease-in-out both !important;
 }
 
-.hero .heroCopy > h1 {
-  width: auto !important;
-  max-width: none !important;
+.homeComboMealCrossfadeStage .homeComboMealCardOutgoing {
+  animation: homeComboMealCrossfadeOut 900ms ease-in-out both !important;
 }
 
-.hero .heroCopy > p.homeHeroIntroGhost {
-  display: block !important;
-  box-sizing: border-box !important;
-  width: 100% !important;
-  min-width: 0 !important;
-  max-width: 520px !important;
-  inline-size: auto !important;
-  max-inline-size: 520px !important;
-  white-space: normal !important;
-  overflow-wrap: break-word !important;
-  word-break: normal !important;
-  hyphens: none !important;
+/* Keep both cards perfectly stacked during the full dissolve. */
+.homeComboMealCrossfadeStage .homeComboMealCardIncoming,
+.homeComboMealCrossfadeStage .homeComboMealCardOutgoing {
+  transform: none !important;
+  backface-visibility: visible !important;
+  will-change: opacity;
 }
 
-/* Keep the paragraph inside the left text-safe region as the hero narrows. */
-@media (max-width: 1100px) {
-  .hero .heroCopy {
-    width: min(480px, 48vw) !important;
-    max-width: min(480px, 48vw) !important;
-  }
-
-  .hero .heroCopy > p.homeHeroIntroGhost {
-    max-width: 480px !important;
-    max-inline-size: 480px !important;
-  }
-}
-
-@media (max-width: 760px) {
-  .hero .heroCopy {
-    width: calc(100% - 40px) !important;
-    max-width: calc(100% - 40px) !important;
-  }
-
-  .hero .heroCopy > p.homeHeroIntroGhost {
-    width: 100% !important;
-    max-width: 100% !important;
-    max-inline-size: 100% !important;
+/* Respect reduced-motion preferences without disabling the content change. */
+@media (prefers-reduced-motion: reduce) {
+  .homeComboMealCrossfadeStage .homeComboMealCardIncoming,
+  .homeComboMealCrossfadeStage .homeComboMealCardOutgoing {
+    animation-duration: 120ms !important;
+    animation-timing-function: linear !important;
   }
 }
 
