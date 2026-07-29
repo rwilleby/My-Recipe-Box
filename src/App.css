@@ -36730,3 +36730,39 @@ body.rrbPopupOpen {
   }
 }
 
+/* ================================================================
+   VERSION 37.1 — HOME HERO HEADLINE/PARAGRAPH WIDTH RESET
+   Keeps the Home hero paragraph from extending beyond the visual
+   right edge of “Plan. Cook. Eat. Freeze. Save.”
+   ================================================================ */
+
+.hero .heroCopy {
+  width: min(840px, 68vw) !important;
+  max-width: min(840px, 68vw) !important;
+}
+
+.hero .heroCopy > h1,
+.hero .heroCopy > .homeHeroIntroGhost {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.hero .heroCopy > .homeHeroIntroGhost {
+  display: block !important;
+}
+
+/* Keep the same relationship as the hero scales down. */
+@media (max-width: 1100px) {
+  .hero .heroCopy {
+    width: min(700px, 72vw) !important;
+    max-width: min(700px, 72vw) !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .hero .heroCopy {
+    width: min(100%, 620px) !important;
+    max-width: min(100%, 620px) !important;
+  }
+}
+
