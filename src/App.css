@@ -36960,3 +36960,66 @@ body.rrbPopupOpen {
   }
 }
 
+/* ================================================================
+   VERSION 38.1 — SMOOTH SEQUENTIAL FULL-CARD COMBO DISSOLVE
+   The complete card fades, pauses, then the next position begins.
+   ================================================================ */
+
+.homeComboMealFullCrossfadeStage {
+  position: relative !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 100% !important;
+}
+
+.homeComboMealFullCrossfadeStage > .homeComboMealCard {
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0 !important;
+  transform: none !important;
+  backface-visibility: visible !important;
+  will-change: opacity;
+}
+
+.homeComboMealFullCrossfadeStage > .homeComboMealFullCardOutgoing {
+  position: relative !important;
+  z-index: 1 !important;
+  opacity: 1;
+  animation: homeComboMealFullCardOut 1200ms ease-in-out both !important;
+}
+
+.homeComboMealFullCrossfadeStage > .homeComboMealFullCardIncoming {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 2 !important;
+  opacity: 0;
+  animation: homeComboMealFullCardIn 1200ms ease-in-out both !important;
+}
+
+@keyframes homeComboMealFullCardIn {
+  0% { opacity: 0; }
+  12% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes homeComboMealFullCardOut {
+  0% { opacity: 1; }
+  88% { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+/* The favorite control remains steady while the card beneath it dissolves. */
+.homeComboMealCardWrap.isCrossfading > .homeComboMealFavorite {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  transition: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .homeComboMealFullCrossfadeStage > .homeComboMealFullCardOutgoing,
+  .homeComboMealFullCrossfadeStage > .homeComboMealFullCardIncoming {
+    animation-duration: 120ms !important;
+    animation-timing-function: linear !important;
+  }
+}
+

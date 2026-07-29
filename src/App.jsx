@@ -2282,8 +2282,8 @@ function FeaturedComboMealCardModal({
 
 const HOME_COMBO_MEAL_COUNT = 6;
 const HOME_COMBO_ROTATION_MS = 60 * 1000;
-const HOME_COMBO_STAGGER_MS = 6 * 1000;
-const HOME_COMBO_CROSSFADE_MS = 900;
+const HOME_COMBO_PAUSE_MS = 650;
+const HOME_COMBO_CROSSFADE_MS = 1200;
 const HOME_COMBO_CUISINE_ORDER = ["AM", "AS", "HB", "IT", "MX", "SG"];
 
 const HOME_COMBO_APPROVED_MEAL_NUMBERS = {
@@ -2354,7 +2354,7 @@ function selectVariedHomeComboMeals(allMeals, currentMeals = []) {
   }).filter(Boolean);
 }
 
-function HomeComboMealCardButton({ meal, className = "", onOpen }) {
+function HomeComboMealCardButton({ meal, className = "", onOpen, imageLoading = "lazy" }) {
   return (
     <button
       type="button"
@@ -2366,7 +2366,7 @@ function HomeComboMealCardButton({ meal, className = "", onOpen }) {
         <DinnerCombinationImage
           meal={meal}
           className="homeComboMealImageAsset"
-          loading="lazy"
+          loading={imageLoading}
         />
       </div>
 
@@ -2386,41 +2386,26 @@ function HomeComboMealCardButton({ meal, className = "", onOpen }) {
 }
 
 function HomeComboMealImageCrossfadeCard({ transition, onOpen }) {
-  const displayMeal = transition?.from || transition?.to;
-  if (!displayMeal) return null;
+  if (!transition?.from || !transition?.to) return null;
 
   return (
-    <button
-      type="button"
-      className="homeComboMealCard homeComboMealImageCrossfadeCard"
-      onClick={() => onOpen(transition.to)}
-      aria-label={`Open combo meal ${transition.to.number}: ${transition.to.title}`}
+    <div
+      className="homeComboMealFullCrossfadeStage"
+      aria-label={`Changing from ${transition.from.title} to ${transition.to.title}`}
     >
-      <div className="homeComboMealImage homeComboMealImageCrossfadeStage">
-        <DinnerCombinationImage
-          meal={transition.from}
-          className="homeComboMealImageAsset homeComboMealImageOutgoing"
-          loading="lazy"
-        />
-        <DinnerCombinationImage
-          meal={transition.to}
-          className="homeComboMealImageAsset homeComboMealImageIncoming"
-          loading="lazy"
-        />
-      </div>
-
-      <span className="homeComboMealText">
-        <strong>{displayMeal.title}</strong>
-        <small>{displayMeal.subtitle}</small>
-        <span
-          className="homeComboMealBalanceBadge"
-          title={`MealBalance ${getComboMealBalanceScore(displayMeal)}`}
-          aria-label={`MealBalance ${getComboMealBalanceScore(displayMeal)}`}
-        >
-          {getComboMealBalanceScore(displayMeal)}
-        </span>
-      </span>
-    </button>
+      <HomeComboMealCardButton
+        meal={transition.from}
+        className="homeComboMealFullCardOutgoing"
+        onOpen={onOpen}
+        imageLoading="eager"
+      />
+      <HomeComboMealCardButton
+        meal={transition.to}
+        className="homeComboMealFullCardIncoming"
+        onOpen={onOpen}
+        imageLoading="eager"
+      />
+    </div>
   );
 }
 
@@ -2455,35 +2440,50 @@ function HomeComboMealStrip({
       setHomeComboMeals((currentMeals) => {
         const nextMeals = selectVariedHomeComboMeals(allHomeComboMeals, currentMeals);
 
-        nextMeals.forEach((nextMeal, position) => {
-          const startTimer = window.setTimeout(() => {
-            const fromMeal = currentMeals[position];
-            if (!fromMeal || !nextMeal || fromMeal.id === nextMeal.id) return;
+        function transitionPosition(position) {
+          if (position >= nextMeals.length) return;
 
-            setCrossfades((current) => ({
-              ...current,
-              [position]: { from: fromMeal, to: nextMeal },
-            }));
+          const fromMeal = currentMeals[position];
+          const nextMeal = nextMeals[position];
 
-            const finishTimer = window.setTimeout(() => {
-              setHomeComboMeals((current) => {
-                const updated = [...current];
-                updated[position] = nextMeal;
-                return updated;
-              });
-              setCrossfades((current) => {
-                const updated = { ...current };
-                delete updated[position];
-                return updated;
-              });
-            }, HOME_COMBO_CROSSFADE_MS);
+          if (!fromMeal || !nextMeal || fromMeal.id === nextMeal.id) {
+            const skipTimer = window.setTimeout(
+              () => transitionPosition(position + 1),
+              HOME_COMBO_PAUSE_MS,
+            );
+            staggerTimersRef.current.push(skipTimer);
+            return;
+          }
 
-            staggerTimersRef.current.push(finishTimer);
-          }, position * HOME_COMBO_STAGGER_MS);
+          setCrossfades((current) => ({
+            ...current,
+            [position]: { from: fromMeal, to: nextMeal },
+          }));
 
-          staggerTimersRef.current.push(startTimer);
-        });
+          const finishTimer = window.setTimeout(() => {
+            setHomeComboMeals((current) => {
+              const updated = [...current];
+              updated[position] = nextMeal;
+              return updated;
+            });
 
+            setCrossfades((current) => {
+              const updated = { ...current };
+              delete updated[position];
+              return updated;
+            });
+
+            const pauseTimer = window.setTimeout(
+              () => transitionPosition(position + 1),
+              HOME_COMBO_PAUSE_MS,
+            );
+            staggerTimersRef.current.push(pauseTimer);
+          }, HOME_COMBO_CROSSFADE_MS);
+
+          staggerTimersRef.current.push(finishTimer);
+        }
+
+        transitionPosition(0);
         return currentMeals;
       });
     }
