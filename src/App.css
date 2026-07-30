@@ -37604,3 +37604,122 @@ body.rrbPopupOpen {
   }
 }
 
+/* ================================================================
+   VERSION 49.1 — FIC RENDER FIX AND DOUBLE TYPE
+   Removes the mirrored recipe-card failure by rendering only the
+   active face. Retains Version 48.2 popup sizing and box geometry.
+   ================================================================ */
+
+/* Replace the fragile 3D flip stack with a reliable active-face swap. */
+.recipeFlipCard {
+  perspective: none !important;
+}
+
+.recipeFlipCardInner {
+  position: relative !important;
+  transform: none !important;
+  transform-style: flat !important;
+  transition: none !important;
+}
+
+.recipeFlipCard.isFlipped .recipeFlipCardInner,
+.recipeFlipCard.isShowingFoodIntelligence .recipeFlipCardInner,
+.recipeFlipCard.isShowingRecipeCard .recipeFlipCardInner {
+  transform: none !important;
+}
+
+.recipeFlipFace {
+  position: relative !important;
+  inset: auto !important;
+  width: 100% !important;
+  height: 100% !important;
+  transform: none !important;
+  backface-visibility: visible !important;
+  -webkit-backface-visibility: visible !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.recipeFlipFront,
+.recipeFlipBack {
+  transform: none !important;
+}
+
+.recipeFlipFaceActive {
+  animation: rrbRecipeFaceIn 180ms ease-out both;
+}
+
+@keyframes rrbRecipeFaceIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Keep the FIC face above any inherited recipe-image rules. */
+.recipeFlipBack {
+  z-index: 3 !important;
+  display: block !important;
+  background: #f4efe6 !important;
+}
+
+.recipeFlipBack > .foodIntelligenceCard {
+  position: relative !important;
+  z-index: 4 !important;
+}
+
+/* ================================================================
+   DOUBLE THE CURRENT FIC TYPE SIZES
+   Box widths, heights, padding and grid geometry remain unchanged.
+   Nutrition Facts retains its existing sizes.
+   ================================================================ */
+
+.foodIntelligenceCard .ficEyebrow {
+  font-size: 14px !important;
+}
+
+.foodIntelligenceCard .ficHeader h2 {
+  font-size: clamp(24px, 2.6vw, 32px) !important;
+}
+
+.foodIntelligenceCard .ficStatus {
+  font-size: 14px !important;
+}
+
+.foodIntelligenceCard .ficVariantControl {
+  font-size: 14px !important;
+}
+
+.foodIntelligenceCard .ficVariantControl select {
+  font-size: 16px !important;
+}
+
+.foodIntelligenceCard .ficSection h3,
+.foodIntelligenceCard .ficMealBalance h3 {
+  font-size: 16px !important;
+}
+
+.foodIntelligenceCard .ficSection p,
+.foodIntelligenceCard .ficSection li,
+.foodIntelligenceCard .ficMealBalance span {
+  font-size: clamp(13px, 1.16vw, 16px) !important;
+}
+
+.foodIntelligenceCard .ficMealBalance > strong {
+  font-size: 16px !important;
+}
+
+/* Preserve the Version 48.2 box geometry exactly. */
+.foodIntelligenceCard .ficHeader,
+.foodIntelligenceCard .ficGrid,
+.foodIntelligenceCard .ficContentColumns,
+.foodIntelligenceCard .ficSection,
+.foodIntelligenceCard .ficMealBalance,
+.foodIntelligenceCard .ficNutritionFacts {
+  box-sizing: border-box !important;
+}
+
+/* Do not apply any new font overrides to Nutrition Facts. */
+

@@ -3998,26 +3998,35 @@ function RecipeCardViewer({
             ‹
           </button>
 
-          <div className={showFoodIntelligence ? "cardViewerImageWrap recipeFlipCard isFlipped" : "cardViewerImageWrap recipeFlipCard"}>
+          <div
+            className={[
+              "cardViewerImageWrap",
+              "recipeFlipCard",
+              showFoodIntelligence ? "isShowingFoodIntelligence" : "isShowingRecipeCard",
+            ].join(" ")}
+          >
             <div className="recipeFlipCardInner">
-              <div className="recipeFlipFace recipeFlipFront">
-                {imagePath ? (
-                  <img
-                    src={`${import.meta.env.BASE_URL}${imagePath}`}
-                    alt={`${recipe.id} ${recipe.title} recipe card`}
-                    decoding="async"
-                    onError={() => setImageIndex((current) => current + 1)}
-                  />
-                ) : (
-                  <div className="cardViewerMissing">
-                    <strong>Recipe card image not found.</strong>
-                    <span>Expected: images/recipes/{recipe.id}.webp</span>
-                  </div>
-                )}
-              </div>
-              <div className="recipeFlipFace recipeFlipBack">
-                <FoodIntelligenceCard recipeCode={recipe.id} />
-              </div>
+              {showFoodIntelligence ? (
+                <div className="recipeFlipFace recipeFlipBack recipeFlipFaceActive">
+                  <FoodIntelligenceCard recipeCode={recipe.id} />
+                </div>
+              ) : (
+                <div className="recipeFlipFace recipeFlipFront recipeFlipFaceActive">
+                  {imagePath ? (
+                    <img
+                      src={`${import.meta.env.BASE_URL}${imagePath}`}
+                      alt={`${recipe.id} ${recipe.title} recipe card`}
+                      decoding="async"
+                      onError={() => setImageIndex((current) => current + 1)}
+                    />
+                  ) : (
+                    <div className="cardViewerMissing">
+                      <strong>Recipe card image not found.</strong>
+                      <span>Expected: images/recipes/{recipe.id}.webp</span>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </div>
 
