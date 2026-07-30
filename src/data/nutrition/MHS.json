@@ -1,0 +1,1502 @@
+[
+  {
+    "recipeCode": "MHS-001",
+    "title": "Oyster-Style Sauce",
+    "series": "MHS",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ingredient-level working calculation complete",
+    "defaultVariant": "standard",
+    "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+    "sourceSheet": "MHS_Recalculated_Nutrition",
+    "auditIssues": [
+      {
+        "id": "audit-132",
+        "priority": "Medium",
+        "category": "MHS Card vs Ingredient Recalculation",
+        "issue": "Close working match: card and ingredient-level values differ",
+        "assumption": "Card 20 cal, 3 g sugar, 290 mg sodium per tbsp",
+        "correction": "Use recalculated 17.55 cal, 1.60 g sugar, 255.52 mg sodium provisionally; validate ingredients and finished yield",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "Audit_Detail"
+      }
+    ],
+    "variants": {
+      "standard": {
+        "label": "Standard",
+        "recordType": "MHS sauce",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ingredient-level working calculation complete",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "MHS_Recalculated_Nutrition",
+        "nutritionFacts": {
+          "servingSize": null,
+          "servingGrams": 15.4,
+          "servingsPerRecipe": null,
+          "calories": 18,
+          "totalFat": "0.6 g",
+          "saturatedFat": null,
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "256 mg",
+          "totalCarbohydrate": "2.5 g",
+          "dietaryFiber": null,
+          "totalSugars": "1.6 g",
+          "addedSugars": null,
+          "protein": "0.4 g",
+          "potassium": null
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "MHS",
+          "MHS sauce",
+          "Standard"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ingredient-level working calculation complete. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — MHS_Recalculated_Nutrition."
+      }
+    }
+  },
+  {
+    "recipeCode": "MHS-002",
+    "title": "Hoisin Sauce",
+    "series": "MHS",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ingredient-level working calculation complete",
+    "defaultVariant": "standard",
+    "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+    "sourceSheet": "MHS_Recalculated_Nutrition",
+    "auditIssues": [
+      {
+        "id": "audit-133",
+        "priority": "Medium",
+        "category": "MHS Card vs Ingredient Recalculation",
+        "issue": "Close working match: card and ingredient-level values differ",
+        "assumption": "Card 20 cal, 3 g sugar, 210 mg sodium per tbsp",
+        "correction": "Use recalculated 22.08 cal, 3.04 g sugar, 130.34 mg sodium provisionally; validate ingredients and finished yield",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "Audit_Detail"
+      }
+    ],
+    "variants": {
+      "standard": {
+        "label": "Standard",
+        "recordType": "MHS sauce",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ingredient-level working calculation complete",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "MHS_Recalculated_Nutrition",
+        "nutritionFacts": {
+          "servingSize": null,
+          "servingGrams": 15.1,
+          "servingsPerRecipe": null,
+          "calories": 22,
+          "totalFat": "0.6 g",
+          "saturatedFat": null,
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "130 mg",
+          "totalCarbohydrate": "3.8 g",
+          "dietaryFiber": null,
+          "totalSugars": "3 g",
+          "addedSugars": null,
+          "protein": "0.3 g",
+          "potassium": null
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "MHS",
+          "MHS sauce",
+          "Standard"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ingredient-level working calculation complete. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — MHS_Recalculated_Nutrition."
+      }
+    }
+  },
+  {
+    "recipeCode": "MHS-003",
+    "title": "Mongolian Sauce",
+    "series": "MHS",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ingredient-level working calculation complete",
+    "defaultVariant": "standard",
+    "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+    "sourceSheet": "MHS_Recalculated_Nutrition",
+    "auditIssues": [
+      {
+        "id": "audit-134",
+        "priority": "Medium",
+        "category": "MHS Card vs Ingredient Recalculation",
+        "issue": "Close working match: card and ingredient-level values differ",
+        "assumption": "Card 20 cal, 3 g sugar, 220 mg sodium per tbsp",
+        "correction": "Use recalculated 19.41 cal, 2.23 g sugar, 210.53 mg sodium provisionally; validate ingredients and finished yield",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "Audit_Detail"
+      }
+    ],
+    "variants": {
+      "standard": {
+        "label": "Standard",
+        "recordType": "MHS sauce",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ingredient-level working calculation complete",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "MHS_Recalculated_Nutrition",
+        "nutritionFacts": {
+          "servingSize": null,
+          "servingGrams": 16.5,
+          "servingsPerRecipe": null,
+          "calories": 19,
+          "totalFat": "0.6 g",
+          "saturatedFat": null,
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "211 mg",
+          "totalCarbohydrate": "3.1 g",
+          "dietaryFiber": null,
+          "totalSugars": "2.2 g",
+          "addedSugars": null,
+          "protein": "0.4 g",
+          "potassium": null
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "MHS",
+          "MHS sauce",
+          "Standard"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ingredient-level working calculation complete. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — MHS_Recalculated_Nutrition."
+      }
+    }
+  },
+  {
+    "recipeCode": "MHS-004",
+    "title": "Black Pepper Sauce",
+    "series": "MHS",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ingredient-level working calculation complete",
+    "defaultVariant": "standard",
+    "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+    "sourceSheet": "MHS_Recalculated_Nutrition",
+    "auditIssues": [
+      {
+        "id": "audit-135",
+        "priority": "Medium",
+        "category": "MHS Card vs Ingredient Recalculation",
+        "issue": "Close working match: card and ingredient-level values differ",
+        "assumption": "Card 20 cal, 3 g sugar, 300 mg sodium per tbsp",
+        "correction": "Use recalculated 13.54 cal, 1.40 g sugar, 242.70 mg sodium provisionally; validate ingredients and finished yield",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "Audit_Detail"
+      }
+    ],
+    "variants": {
+      "standard": {
+        "label": "Standard",
+        "recordType": "MHS sauce",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ingredient-level working calculation complete",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "MHS_Recalculated_Nutrition",
+        "nutritionFacts": {
+          "servingSize": null,
+          "servingGrams": 16.3,
+          "servingsPerRecipe": null,
+          "calories": 14,
+          "totalFat": "0.2 g",
+          "saturatedFat": null,
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "243 mg",
+          "totalCarbohydrate": "2.3 g",
+          "dietaryFiber": null,
+          "totalSugars": "1.4 g",
+          "addedSugars": null,
+          "protein": "0.4 g",
+          "potassium": null
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "MHS",
+          "MHS sauce",
+          "Standard"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ingredient-level working calculation complete. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — MHS_Recalculated_Nutrition."
+      }
+    }
+  },
+  {
+    "recipeCode": "MHS-005",
+    "title": "Korean BBQ Sauce",
+    "series": "MHS",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ingredient-level working calculation complete",
+    "defaultVariant": "standard",
+    "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+    "sourceSheet": "MHS_Recalculated_Nutrition",
+    "auditIssues": [
+      {
+        "id": "audit-136",
+        "priority": "Medium",
+        "category": "MHS Card vs Ingredient Recalculation",
+        "issue": "Close working match: card and ingredient-level values differ",
+        "assumption": "Card 20 cal, 3 g sugar, 180 mg sodium per tbsp",
+        "correction": "Use recalculated 28.27 cal, 3.66 g sugar, 270.06 mg sodium provisionally; validate ingredients and finished yield",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "Audit_Detail"
+      }
+    ],
+    "variants": {
+      "standard": {
+        "label": "Standard",
+        "recordType": "MHS sauce",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ingredient-level working calculation complete",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "MHS_Recalculated_Nutrition",
+        "nutritionFacts": {
+          "servingSize": null,
+          "servingGrams": 15.2,
+          "servingsPerRecipe": null,
+          "calories": 28,
+          "totalFat": "0.7 g",
+          "saturatedFat": null,
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "270 mg",
+          "totalCarbohydrate": "5 g",
+          "dietaryFiber": null,
+          "totalSugars": "3.7 g",
+          "addedSugars": null,
+          "protein": "0.5 g",
+          "potassium": null
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "MHS",
+          "MHS sauce",
+          "Standard"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ingredient-level working calculation complete. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — MHS_Recalculated_Nutrition."
+      }
+    }
+  },
+  {
+    "recipeCode": "MHS-006",
+    "title": "Teriyaki Sauce",
+    "series": "MHS",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ingredient-level working calculation complete",
+    "defaultVariant": "standard",
+    "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+    "sourceSheet": "MHS_Recalculated_Nutrition",
+    "auditIssues": [
+      {
+        "id": "audit-137",
+        "priority": "Medium",
+        "category": "MHS Card vs Ingredient Recalculation",
+        "issue": "Close working match: card and ingredient-level values differ",
+        "assumption": "Card 20 cal, 3 g sugar, 210 mg sodium per tbsp",
+        "correction": "Use recalculated 18.69 cal, 2.77 g sugar, 210.68 mg sodium provisionally; validate ingredients and finished yield",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "Audit_Detail"
+      }
+    ],
+    "variants": {
+      "standard": {
+        "label": "Standard",
+        "recordType": "MHS sauce",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ingredient-level working calculation complete",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "MHS_Recalculated_Nutrition",
+        "nutritionFacts": {
+          "servingSize": null,
+          "servingGrams": 17.1,
+          "servingsPerRecipe": null,
+          "calories": 19,
+          "totalFat": "0.2 g",
+          "saturatedFat": null,
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "211 mg",
+          "totalCarbohydrate": "3.5 g",
+          "dietaryFiber": null,
+          "totalSugars": "2.8 g",
+          "addedSugars": null,
+          "protein": "0.4 g",
+          "potassium": null
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "MHS",
+          "MHS sauce",
+          "Standard"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ingredient-level working calculation complete. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — MHS_Recalculated_Nutrition."
+      }
+    }
+  },
+  {
+    "recipeCode": "MHS-007",
+    "title": "Sweet & Sour Sauce",
+    "series": "MHS",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ingredient-level working calculation complete",
+    "defaultVariant": "standard",
+    "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+    "sourceSheet": "MHS_Recalculated_Nutrition",
+    "auditIssues": [
+      {
+        "id": "audit-138",
+        "priority": "Medium",
+        "category": "MHS Card vs Ingredient Recalculation",
+        "issue": "Close working match: card and ingredient-level values differ",
+        "assumption": "Card 20 cal, 3 g sugar, 200 mg sodium per tbsp",
+        "correction": "Use recalculated 16.41 cal, 3.05 g sugar, 118.56 mg sodium provisionally; validate ingredients and finished yield",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "Audit_Detail"
+      }
+    ],
+    "variants": {
+      "standard": {
+        "label": "Standard",
+        "recordType": "MHS sauce",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ingredient-level working calculation complete",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "MHS_Recalculated_Nutrition",
+        "nutritionFacts": {
+          "servingSize": null,
+          "servingGrams": 14.6,
+          "servingsPerRecipe": null,
+          "calories": 16,
+          "totalFat": "0 g",
+          "saturatedFat": null,
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "119 mg",
+          "totalCarbohydrate": "3.9 g",
+          "dietaryFiber": null,
+          "totalSugars": "3 g",
+          "addedSugars": null,
+          "protein": "0.2 g",
+          "potassium": null
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "MHS",
+          "MHS sauce",
+          "Standard"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ingredient-level working calculation complete. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — MHS_Recalculated_Nutrition."
+      }
+    }
+  },
+  {
+    "recipeCode": "MHS-008",
+    "title": "Garlic Sesame Sauce",
+    "series": "MHS",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ingredient-level working calculation complete",
+    "defaultVariant": "standard",
+    "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+    "sourceSheet": "MHS_Recalculated_Nutrition",
+    "auditIssues": [
+      {
+        "id": "audit-139",
+        "priority": "Medium",
+        "category": "MHS Card vs Ingredient Recalculation",
+        "issue": "Close working match: card and ingredient-level values differ",
+        "assumption": "Card 20 cal, 2 g sugar, 210 mg sodium per tbsp",
+        "correction": "Use recalculated 27.08 cal, 1.85 g sugar, 210.33 mg sodium provisionally; validate ingredients and finished yield",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "Audit_Detail"
+      }
+    ],
+    "variants": {
+      "standard": {
+        "label": "Standard",
+        "recordType": "MHS sauce",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ingredient-level working calculation complete",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "MHS_Recalculated_Nutrition",
+        "nutritionFacts": {
+          "servingSize": null,
+          "servingGrams": 13.7,
+          "servingsPerRecipe": null,
+          "calories": 27,
+          "totalFat": "1.5 g",
+          "saturatedFat": null,
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "210 mg",
+          "totalCarbohydrate": "2.8 g",
+          "dietaryFiber": null,
+          "totalSugars": "1.9 g",
+          "addedSugars": null,
+          "protein": "0.5 g",
+          "potassium": null
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "MHS",
+          "MHS sauce",
+          "Standard"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ingredient-level working calculation complete. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — MHS_Recalculated_Nutrition."
+      }
+    }
+  },
+  {
+    "recipeCode": "MHS-009",
+    "title": "Honey Mustard Sauce",
+    "series": "MHS",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ingredient-level working calculation complete",
+    "defaultVariant": "standard",
+    "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+    "sourceSheet": "MHS_Recalculated_Nutrition",
+    "auditIssues": [
+      {
+        "id": "audit-140",
+        "priority": "Medium",
+        "category": "MHS Card vs Ingredient Recalculation",
+        "issue": "Close working match: card and ingredient-level values differ",
+        "assumption": "Card 35 cal, 2 g sugar, 75 mg sodium per tbsp",
+        "correction": "Use recalculated 34.12 cal, 2.43 g sugar, 105.53 mg sodium provisionally; validate ingredients and finished yield",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "Audit_Detail"
+      }
+    ],
+    "variants": {
+      "standard": {
+        "label": "Standard",
+        "recordType": "MHS sauce",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ingredient-level working calculation complete",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "MHS_Recalculated_Nutrition",
+        "nutritionFacts": {
+          "servingSize": null,
+          "servingGrams": 14.8,
+          "servingsPerRecipe": null,
+          "calories": 34,
+          "totalFat": "2.6 g",
+          "saturatedFat": null,
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "106 mg",
+          "totalCarbohydrate": "2.8 g",
+          "dietaryFiber": null,
+          "totalSugars": "2.4 g",
+          "addedSugars": null,
+          "protein": "0.2 g",
+          "potassium": null
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "MHS",
+          "MHS sauce",
+          "Standard"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ingredient-level working calculation complete. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — MHS_Recalculated_Nutrition."
+      }
+    }
+  },
+  {
+    "recipeCode": "MHS-010",
+    "title": "Creamy Avocado Sauce",
+    "series": "MHS",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ingredient-level working calculation complete",
+    "defaultVariant": "standard",
+    "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+    "sourceSheet": "MHS_Recalculated_Nutrition",
+    "auditIssues": [
+      {
+        "id": "audit-141",
+        "priority": "Medium",
+        "category": "MHS Card vs Ingredient Recalculation",
+        "issue": "Close working match: card and ingredient-level values differ",
+        "assumption": "Card 25 cal, 0.5 g sugar, 45 mg sodium per tbsp",
+        "correction": "Use recalculated 22.59 cal, 0.26 g sugar, 27.15 mg sodium provisionally; validate ingredients and finished yield",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "Audit_Detail"
+      }
+    ],
+    "variants": {
+      "standard": {
+        "label": "Standard",
+        "recordType": "MHS sauce",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ingredient-level working calculation complete",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "MHS_Recalculated_Nutrition",
+        "nutritionFacts": {
+          "servingSize": null,
+          "servingGrams": 16.9,
+          "servingsPerRecipe": null,
+          "calories": 23,
+          "totalFat": "1.9 g",
+          "saturatedFat": null,
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "27 mg",
+          "totalCarbohydrate": "1.1 g",
+          "dietaryFiber": null,
+          "totalSugars": "0.3 g",
+          "addedSugars": null,
+          "protein": "0.7 g",
+          "potassium": null
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "MHS",
+          "MHS sauce",
+          "Standard"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ingredient-level working calculation complete. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — MHS_Recalculated_Nutrition."
+      }
+    }
+  },
+  {
+    "recipeCode": "MHS-011",
+    "title": "Kung Pao Sauce",
+    "series": "MHS",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ingredient-level working calculation complete",
+    "defaultVariant": "standard",
+    "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+    "sourceSheet": "MHS_Recalculated_Nutrition",
+    "auditIssues": [
+      {
+        "id": "audit-142",
+        "priority": "Medium",
+        "category": "MHS Card vs Ingredient Recalculation",
+        "issue": "Close working match: card and ingredient-level values differ",
+        "assumption": "Card 20 cal, 2 g sugar, 210 mg sodium per tbsp",
+        "correction": "Use recalculated 18.91 cal, 1.72 g sugar, 232.51 mg sodium provisionally; validate ingredients and finished yield",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "Audit_Detail"
+      }
+    ],
+    "variants": {
+      "standard": {
+        "label": "Standard",
+        "recordType": "MHS sauce",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ingredient-level working calculation complete",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "MHS_Recalculated_Nutrition",
+        "nutritionFacts": {
+          "servingSize": null,
+          "servingGrams": 13.4,
+          "servingsPerRecipe": null,
+          "calories": 19,
+          "totalFat": "0.6 g",
+          "saturatedFat": null,
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "233 mg",
+          "totalCarbohydrate": "2.7 g",
+          "dietaryFiber": null,
+          "totalSugars": "1.7 g",
+          "addedSugars": null,
+          "protein": "0.4 g",
+          "potassium": null
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "MHS",
+          "MHS sauce",
+          "Standard"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ingredient-level working calculation complete. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — MHS_Recalculated_Nutrition."
+      }
+    }
+  },
+  {
+    "recipeCode": "MHS-012",
+    "title": "Szechuan Sauce",
+    "series": "MHS",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ingredient-level working calculation complete",
+    "defaultVariant": "standard",
+    "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+    "sourceSheet": "MHS_Recalculated_Nutrition",
+    "auditIssues": [
+      {
+        "id": "audit-143",
+        "priority": "Medium",
+        "category": "MHS Card vs Ingredient Recalculation",
+        "issue": "Close working match: card and ingredient-level values differ",
+        "assumption": "Card 20 cal, 1 g sugar, 200 mg sodium per tbsp",
+        "correction": "Use recalculated 17.20 cal, 1.21 g sugar, 237.42 mg sodium provisionally; validate ingredients and finished yield",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "Audit_Detail"
+      }
+    ],
+    "variants": {
+      "standard": {
+        "label": "Standard",
+        "recordType": "MHS sauce",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ingredient-level working calculation complete",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "MHS_Recalculated_Nutrition",
+        "nutritionFacts": {
+          "servingSize": null,
+          "servingGrams": 13.2,
+          "servingsPerRecipe": null,
+          "calories": 17,
+          "totalFat": "0.6 g",
+          "saturatedFat": null,
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "237 mg",
+          "totalCarbohydrate": "2.2 g",
+          "dietaryFiber": null,
+          "totalSugars": "1.2 g",
+          "addedSugars": null,
+          "protein": "0.4 g",
+          "potassium": null
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "MHS",
+          "MHS sauce",
+          "Standard"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ingredient-level working calculation complete. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — MHS_Recalculated_Nutrition."
+      }
+    }
+  },
+  {
+    "recipeCode": "MHS-013",
+    "title": "Garlic Sauce",
+    "series": "MHS",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ingredient-level working calculation complete",
+    "defaultVariant": "standard",
+    "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+    "sourceSheet": "MHS_Recalculated_Nutrition",
+    "auditIssues": [
+      {
+        "id": "audit-144",
+        "priority": "High",
+        "category": "MHS Card vs Ingredient Recalculation",
+        "issue": "Review: card and ingredient-level values differ",
+        "assumption": "Card 30 cal, 0.5 g sugar, 70 mg sodium per tbsp",
+        "correction": "Use recalculated 19.85 cal, 0.38 g sugar, 44.94 mg sodium provisionally; validate ingredients and finished yield",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "Audit_Detail"
+      }
+    ],
+    "variants": {
+      "standard": {
+        "label": "Standard",
+        "recordType": "MHS sauce",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ingredient-level working calculation complete",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "MHS_Recalculated_Nutrition",
+        "nutritionFacts": {
+          "servingSize": null,
+          "servingGrams": 12.9,
+          "servingsPerRecipe": null,
+          "calories": 20,
+          "totalFat": "1.5 g",
+          "saturatedFat": null,
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "45 mg",
+          "totalCarbohydrate": "0.8 g",
+          "dietaryFiber": null,
+          "totalSugars": "0.4 g",
+          "addedSugars": null,
+          "protein": "0.8 g",
+          "potassium": null
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "MHS",
+          "MHS sauce",
+          "Standard"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ingredient-level working calculation complete. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — MHS_Recalculated_Nutrition."
+      }
+    }
+  },
+  {
+    "recipeCode": "MHS-014",
+    "title": "Lite Thai Peanut Sauce",
+    "series": "MHS",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ingredient-level working calculation complete",
+    "defaultVariant": "standard",
+    "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+    "sourceSheet": "MHS_Recalculated_Nutrition",
+    "auditIssues": [
+      {
+        "id": "audit-145",
+        "priority": "Medium",
+        "category": "MHS Card vs Ingredient Recalculation",
+        "issue": "Close working match: card and ingredient-level values differ",
+        "assumption": "Card 25 cal, 1 g sugar, 90 mg sodium per tbsp",
+        "correction": "Use recalculated 19.87 cal, 1.15 g sugar, 64.56 mg sodium provisionally; validate ingredients and finished yield",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "Audit_Detail"
+      }
+    ],
+    "variants": {
+      "standard": {
+        "label": "Standard",
+        "recordType": "MHS sauce",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ingredient-level working calculation complete",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "MHS_Recalculated_Nutrition",
+        "nutritionFacts": {
+          "servingSize": null,
+          "servingGrams": 9.6,
+          "servingsPerRecipe": null,
+          "calories": 20,
+          "totalFat": "1.1 g",
+          "saturatedFat": null,
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "65 mg",
+          "totalCarbohydrate": "2 g",
+          "dietaryFiber": null,
+          "totalSugars": "1.1 g",
+          "addedSugars": null,
+          "protein": "0.6 g",
+          "potassium": null
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "MHS",
+          "MHS sauce",
+          "Standard"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ingredient-level working calculation complete. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — MHS_Recalculated_Nutrition."
+      }
+    }
+  },
+  {
+    "recipeCode": "MHS-015",
+    "title": "Thai Sweet Chili Sauce",
+    "series": "MHS",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ingredient-level working calculation complete",
+    "defaultVariant": "standard",
+    "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+    "sourceSheet": "MHS_Recalculated_Nutrition",
+    "auditIssues": [
+      {
+        "id": "audit-146",
+        "priority": "High",
+        "category": "MHS Card vs Ingredient Recalculation",
+        "issue": "Review: card and ingredient-level values differ",
+        "assumption": "Card 20 cal, 4 g sugar, 85 mg sodium per tbsp",
+        "correction": "Use recalculated 30.13 cal, 6.49 g sugar, 92.31 mg sodium provisionally; validate ingredients and finished yield",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "Audit_Detail"
+      }
+    ],
+    "variants": {
+      "standard": {
+        "label": "Standard",
+        "recordType": "MHS sauce",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ingredient-level working calculation complete",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "MHS_Recalculated_Nutrition",
+        "nutritionFacts": {
+          "servingSize": null,
+          "servingGrams": 19.9,
+          "servingsPerRecipe": null,
+          "calories": 30,
+          "totalFat": "0 g",
+          "saturatedFat": null,
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "92 mg",
+          "totalCarbohydrate": "7.5 g",
+          "dietaryFiber": null,
+          "totalSugars": "6.5 g",
+          "addedSugars": null,
+          "protein": "0.1 g",
+          "potassium": null
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "MHS",
+          "MHS sauce",
+          "Standard"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ingredient-level working calculation complete. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — MHS_Recalculated_Nutrition."
+      }
+    }
+  },
+  {
+    "recipeCode": "MHS-016",
+    "title": "Honey Garlic Sauce",
+    "series": "MHS",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ingredient-level working calculation complete",
+    "defaultVariant": "standard",
+    "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+    "sourceSheet": "MHS_Recalculated_Nutrition",
+    "auditIssues": [
+      {
+        "id": "audit-147",
+        "priority": "Medium",
+        "category": "MHS Card vs Ingredient Recalculation",
+        "issue": "Close working match: card and ingredient-level values differ",
+        "assumption": "Card 25 cal, 3 g sugar, 130 mg sodium per tbsp",
+        "correction": "Use recalculated 33.28 cal, 5.77 g sugar, 210.31 mg sodium provisionally; validate ingredients and finished yield",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "Audit_Detail"
+      }
+    ],
+    "variants": {
+      "standard": {
+        "label": "Standard",
+        "recordType": "MHS sauce",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ingredient-level working calculation complete",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "MHS_Recalculated_Nutrition",
+        "nutritionFacts": {
+          "servingSize": null,
+          "servingGrams": 17.6,
+          "servingsPerRecipe": null,
+          "calories": 33,
+          "totalFat": "0.6 g",
+          "saturatedFat": null,
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "210 mg",
+          "totalCarbohydrate": "6.8 g",
+          "dietaryFiber": null,
+          "totalSugars": "5.8 g",
+          "addedSugars": null,
+          "protein": "0.5 g",
+          "potassium": null
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "MHS",
+          "MHS sauce",
+          "Standard"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ingredient-level working calculation complete. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — MHS_Recalculated_Nutrition."
+      }
+    }
+  },
+  {
+    "recipeCode": "MHS-017",
+    "title": "Yakitori Glaze",
+    "series": "MHS",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ingredient-level working calculation complete",
+    "defaultVariant": "standard",
+    "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+    "sourceSheet": "MHS_Recalculated_Nutrition",
+    "auditIssues": [
+      {
+        "id": "audit-148",
+        "priority": "Medium",
+        "category": "MHS Card vs Ingredient Recalculation",
+        "issue": "Close working match: card and ingredient-level values differ",
+        "assumption": "Card 20 cal, 4 g sugar, 150 mg sodium per tbsp",
+        "correction": "Use recalculated 22.90 cal, 3.45 g sugar, 210.75 mg sodium provisionally; validate ingredients and finished yield",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "Audit_Detail"
+      }
+    ],
+    "variants": {
+      "standard": {
+        "label": "Standard",
+        "recordType": "MHS sauce",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ingredient-level working calculation complete",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "MHS_Recalculated_Nutrition",
+        "nutritionFacts": {
+          "servingSize": null,
+          "servingGrams": 13.7,
+          "servingsPerRecipe": null,
+          "calories": 23,
+          "totalFat": "0.2 g",
+          "saturatedFat": null,
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "211 mg",
+          "totalCarbohydrate": "4.2 g",
+          "dietaryFiber": null,
+          "totalSugars": "3.5 g",
+          "addedSugars": null,
+          "protein": "0.4 g",
+          "potassium": null
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "MHS",
+          "MHS sauce",
+          "Standard"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ingredient-level working calculation complete. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — MHS_Recalculated_Nutrition."
+      }
+    }
+  },
+  {
+    "recipeCode": "MHS-018",
+    "title": "Japanese BBQ Sauce",
+    "series": "MHS",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ingredient-level working calculation complete",
+    "defaultVariant": "standard",
+    "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+    "sourceSheet": "MHS_Recalculated_Nutrition",
+    "auditIssues": [
+      {
+        "id": "audit-149",
+        "priority": "Medium",
+        "category": "MHS Card vs Ingredient Recalculation",
+        "issue": "Close working match: card and ingredient-level values differ",
+        "assumption": "Card 20 cal, 4 g sugar, 130 mg sodium per tbsp",
+        "correction": "Use recalculated 19.60 cal, 3.13 g sugar, 210.48 mg sodium provisionally; validate ingredients and finished yield",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "Audit_Detail"
+      }
+    ],
+    "variants": {
+      "standard": {
+        "label": "Standard",
+        "recordType": "MHS sauce",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ingredient-level working calculation complete",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "MHS_Recalculated_Nutrition",
+        "nutritionFacts": {
+          "servingSize": null,
+          "servingGrams": 15.3,
+          "servingsPerRecipe": null,
+          "calories": 20,
+          "totalFat": "0.2 g",
+          "saturatedFat": null,
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "210 mg",
+          "totalCarbohydrate": "3.9 g",
+          "dietaryFiber": null,
+          "totalSugars": "3.1 g",
+          "addedSugars": null,
+          "protein": "0.4 g",
+          "potassium": null
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "MHS",
+          "MHS sauce",
+          "Standard"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ingredient-level working calculation complete. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — MHS_Recalculated_Nutrition."
+      }
+    }
+  },
+  {
+    "recipeCode": "MHS-019",
+    "title": "Orange Sauce",
+    "series": "MHS",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ingredient-level working calculation complete",
+    "defaultVariant": "standard",
+    "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+    "sourceSheet": "MHS_Recalculated_Nutrition",
+    "auditIssues": [
+      {
+        "id": "audit-150",
+        "priority": "Medium",
+        "category": "MHS Card vs Ingredient Recalculation",
+        "issue": "Close working match: card and ingredient-level values differ",
+        "assumption": "Card 20 cal, 4 g sugar, 120 mg sodium per tbsp",
+        "correction": "Use recalculated 15.74 cal, 2.60 g sugar, 105.13 mg sodium provisionally; validate ingredients and finished yield",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "Audit_Detail"
+      }
+    ],
+    "variants": {
+      "standard": {
+        "label": "Standard",
+        "recordType": "MHS sauce",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ingredient-level working calculation complete",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "MHS_Recalculated_Nutrition",
+        "nutritionFacts": {
+          "servingSize": null,
+          "servingGrams": 13.9,
+          "servingsPerRecipe": null,
+          "calories": 16,
+          "totalFat": "0.2 g",
+          "saturatedFat": null,
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "105 mg",
+          "totalCarbohydrate": "3.3 g",
+          "dietaryFiber": null,
+          "totalSugars": "2.6 g",
+          "addedSugars": null,
+          "protein": "0.2 g",
+          "potassium": null
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "MHS",
+          "MHS sauce",
+          "Standard"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ingredient-level working calculation complete. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — MHS_Recalculated_Nutrition."
+      }
+    }
+  },
+  {
+    "recipeCode": "MHS-020",
+    "title": "General Tso Sauce",
+    "series": "MHS",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ingredient-level working calculation complete",
+    "defaultVariant": "standard",
+    "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+    "sourceSheet": "MHS_Recalculated_Nutrition",
+    "auditIssues": [
+      {
+        "id": "audit-151",
+        "priority": "Medium",
+        "category": "MHS Card vs Ingredient Recalculation",
+        "issue": "Close working match: card and ingredient-level values differ",
+        "assumption": "Card 20 cal, 4 g sugar, 120 mg sodium per tbsp",
+        "correction": "Use recalculated 16.57 cal, 2.41 g sugar, 213.89 mg sodium provisionally; validate ingredients and finished yield",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "Audit_Detail"
+      }
+    ],
+    "variants": {
+      "standard": {
+        "label": "Standard",
+        "recordType": "MHS sauce",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ingredient-level working calculation complete",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "MHS_Recalculated_Nutrition",
+        "nutritionFacts": {
+          "servingSize": null,
+          "servingGrams": 14.9,
+          "servingsPerRecipe": null,
+          "calories": 17,
+          "totalFat": "0.2 g",
+          "saturatedFat": null,
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "214 mg",
+          "totalCarbohydrate": "3.2 g",
+          "dietaryFiber": null,
+          "totalSugars": "2.4 g",
+          "addedSugars": null,
+          "protein": "0.4 g",
+          "potassium": null
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "MHS",
+          "MHS sauce",
+          "Standard"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ingredient-level working calculation complete. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — MHS_Recalculated_Nutrition."
+      }
+    }
+  }
+]

@@ -31,3 +31,21 @@
   color: #8a1c13 !important;
 }
 
+
+
+/* VERSION 47.1 — LIVE NUTRITION DATABASE */
+.nutritionAdminStatus.yellow {
+  background: #fff3c4 !important;
+  border-color: #c58a00 !important;
+  color: #624600 !important;
+}
+.nutritionAdminStatus.green {
+  background: #e4f4e8 !important;
+  border-color: #2f7d41 !important;
+  color: #174a2a !important;
+}
+.nutritionAdminStatus.red {
+  background: #fde8e8 !important;
+  border-color: #b42318 !important;
+  color: #8a1c13 !important;
+}

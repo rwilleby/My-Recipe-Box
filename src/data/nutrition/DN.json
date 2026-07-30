@@ -1,0 +1,1050 @@
+[
+  {
+    "recipeCode": "DN-001",
+    "title": "Donuts: Yeast Glazed",
+    "series": "DN",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "deep-fried-alternate",
+    "sourceWorkbook": "RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx",
+    "sourceSheet": "DN_Nutrition_Boxes",
+    "auditIssues": [
+      {
+        "id": "audit-182",
+        "priority": "Medium",
+        "category": "Packaged Product / Brand Label",
+        "issue": "Yeast dough milk and flour products",
+        "assumption": "Generic profiles",
+        "correction": "Select house defaults",
+        "impact": "Sodium, calories, fat, sugar",
+        "recommendedAction": "Select approved products and fallbacks.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      }
+    ],
+    "variants": {
+      "air-fryer-preferred": {
+        "label": "Air fryer preferred",
+        "recordType": "Recipe",
+        "defaultSelection": "DEFAULT — zero-oil recalculation pending",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "DN_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "1 donut",
+          "servingGrams": null,
+          "servingsPerRecipe": null,
+          "calories": 331,
+          "totalFat": "8.1 g",
+          "saturatedFat": "3.6 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "224 mg",
+          "totalCarbohydrate": "57.9 g",
+          "dietaryFiber": "1.2 g",
+          "totalSugars": "27.3 g",
+          "addedSugars": "25.6 g",
+          "protein": "6.4 g",
+          "potassium": "103 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "DN",
+          "Recipe",
+          "Air fryer preferred"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx — DN_Nutrition_Boxes."
+      },
+      "deep-fried-alternate": {
+        "label": "Deep fried alternate",
+        "recordType": "Recipe",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "DN_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "1 donut",
+          "servingGrams": null,
+          "servingsPerRecipe": null,
+          "calories": 419,
+          "totalFat": "18.1 g",
+          "saturatedFat": "5.1 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "224 mg",
+          "totalCarbohydrate": "57.9 g",
+          "dietaryFiber": "1.2 g",
+          "totalSugars": "27.3 g",
+          "addedSugars": "25.6 g",
+          "protein": "6.4 g",
+          "potassium": "103 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "DN",
+          "Recipe",
+          "Deep fried alternate"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx — DN_Nutrition_Boxes."
+      }
+    }
+  },
+  {
+    "recipeCode": "DN-002",
+    "title": "Donuts: Classic Cake",
+    "series": "DN",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "deep-fried-alternate",
+    "sourceWorkbook": "RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx",
+    "sourceSheet": "DN_Nutrition_Boxes",
+    "auditIssues": [
+      {
+        "id": "audit-183",
+        "priority": "Medium",
+        "category": "Packaged Product / Brand Label",
+        "issue": "Baking powder/soda and dairy products",
+        "assumption": "Generic profiles",
+        "correction": "Select exact products",
+        "impact": "Sodium, calories, fat, sugar",
+        "recommendedAction": "Select approved products and fallbacks.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      }
+    ],
+    "variants": {
+      "air-fryer-preferred": {
+        "label": "Air fryer preferred",
+        "recordType": "Recipe",
+        "defaultSelection": "DEFAULT — zero-oil recalculation pending",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "DN_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "1 donut",
+          "servingGrams": null,
+          "servingsPerRecipe": null,
+          "calories": 333,
+          "totalFat": "11.6 g",
+          "saturatedFat": "6 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "264 mg",
+          "totalCarbohydrate": "53.2 g",
+          "dietaryFiber": "0.7 g",
+          "totalSugars": "34 g",
+          "addedSugars": "32.5 g",
+          "protein": "4.5 g",
+          "potassium": "76 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "DN",
+          "Recipe",
+          "Air fryer preferred"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx — DN_Nutrition_Boxes."
+      },
+      "deep-fried-alternate": {
+        "label": "Deep fried alternate",
+        "recordType": "Recipe",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "DN_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "1 donut",
+          "servingGrams": null,
+          "servingsPerRecipe": null,
+          "calories": 421,
+          "totalFat": "21.6 g",
+          "saturatedFat": "7.5 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "264 mg",
+          "totalCarbohydrate": "53.2 g",
+          "dietaryFiber": "0.7 g",
+          "totalSugars": "34 g",
+          "addedSugars": "32.5 g",
+          "protein": "4.5 g",
+          "potassium": "76 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "DN",
+          "Recipe",
+          "Deep fried alternate"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx — DN_Nutrition_Boxes."
+      }
+    }
+  },
+  {
+    "recipeCode": "DN-003",
+    "title": "Donuts: Chocolate Cake",
+    "series": "DN",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "deep-fried-alternate",
+    "sourceWorkbook": "RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx",
+    "sourceSheet": "DN_Nutrition_Boxes",
+    "auditIssues": [
+      {
+        "id": "audit-183",
+        "priority": "Medium",
+        "category": "Packaged Product / Brand Label",
+        "issue": "Baking powder/soda and dairy products",
+        "assumption": "Generic profiles",
+        "correction": "Select exact products",
+        "impact": "Sodium, calories, fat, sugar",
+        "recommendedAction": "Select approved products and fallbacks.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      }
+    ],
+    "variants": {
+      "air-fryer-preferred": {
+        "label": "Air fryer preferred",
+        "recordType": "Recipe",
+        "defaultSelection": "DEFAULT — zero-oil recalculation pending",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "DN_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "1 donut",
+          "servingGrams": null,
+          "servingsPerRecipe": null,
+          "calories": 343,
+          "totalFat": "12.1 g",
+          "saturatedFat": "6.3 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "245 mg",
+          "totalCarbohydrate": "57.2 g",
+          "dietaryFiber": "2.5 g",
+          "totalSugars": "38.8 g",
+          "addedSugars": "37.5 g",
+          "protein": "4.9 g",
+          "potassium": "146 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "DN",
+          "Recipe",
+          "Air fryer preferred"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx — DN_Nutrition_Boxes."
+      },
+      "deep-fried-alternate": {
+        "label": "Deep fried alternate",
+        "recordType": "Recipe",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "DN_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "1 donut",
+          "servingGrams": null,
+          "servingsPerRecipe": null,
+          "calories": 431,
+          "totalFat": "22.1 g",
+          "saturatedFat": "7.8 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "245 mg",
+          "totalCarbohydrate": "57.2 g",
+          "dietaryFiber": "2.5 g",
+          "totalSugars": "38.8 g",
+          "addedSugars": "37.5 g",
+          "protein": "4.9 g",
+          "potassium": "146 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "DN",
+          "Recipe",
+          "Deep fried alternate"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx — DN_Nutrition_Boxes."
+      }
+    }
+  },
+  {
+    "recipeCode": "DN-004",
+    "title": "Donuts: Old-Fashioned Buttermilk",
+    "series": "DN",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "deep-fried-alternate",
+    "sourceWorkbook": "RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx",
+    "sourceSheet": "DN_Nutrition_Boxes",
+    "auditIssues": [
+      {
+        "id": "audit-183",
+        "priority": "Medium",
+        "category": "Packaged Product / Brand Label",
+        "issue": "Baking powder/soda and dairy products",
+        "assumption": "Generic profiles",
+        "correction": "Select exact products",
+        "impact": "Sodium, calories, fat, sugar",
+        "recommendedAction": "Select approved products and fallbacks.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      }
+    ],
+    "variants": {
+      "air-fryer-preferred": {
+        "label": "Air fryer preferred",
+        "recordType": "Recipe",
+        "defaultSelection": "DEFAULT — zero-oil recalculation pending",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "DN_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "1 donut",
+          "servingGrams": null,
+          "servingsPerRecipe": null,
+          "calories": 328,
+          "totalFat": "11 g",
+          "saturatedFat": "5.7 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "262 mg",
+          "totalCarbohydrate": "53.2 g",
+          "dietaryFiber": "0.7 g",
+          "totalSugars": "33.9 g",
+          "addedSugars": "32.5 g",
+          "protein": "4.6 g",
+          "potassium": "81 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "DN",
+          "Recipe",
+          "Air fryer preferred"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx — DN_Nutrition_Boxes."
+      },
+      "deep-fried-alternate": {
+        "label": "Deep fried alternate",
+        "recordType": "Recipe",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "DN_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "1 donut",
+          "servingGrams": null,
+          "servingsPerRecipe": null,
+          "calories": 416,
+          "totalFat": "21 g",
+          "saturatedFat": "7.2 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "262 mg",
+          "totalCarbohydrate": "53.2 g",
+          "dietaryFiber": "0.7 g",
+          "totalSugars": "33.9 g",
+          "addedSugars": "32.5 g",
+          "protein": "4.6 g",
+          "potassium": "81 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "DN",
+          "Recipe",
+          "Deep fried alternate"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx — DN_Nutrition_Boxes."
+      }
+    }
+  },
+  {
+    "recipeCode": "DN-005",
+    "title": "Donuts: Filled",
+    "series": "DN",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "deep-fried-alternate",
+    "sourceWorkbook": "RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx",
+    "sourceSheet": "DN_Nutrition_Boxes",
+    "auditIssues": [
+      {
+        "id": "audit-182",
+        "priority": "Medium",
+        "category": "Packaged Product / Brand Label",
+        "issue": "Yeast dough milk and flour products",
+        "assumption": "Generic profiles",
+        "correction": "Select house defaults",
+        "impact": "Sodium, calories, fat, sugar",
+        "recommendedAction": "Select approved products and fallbacks.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      },
+      {
+        "id": "audit-184",
+        "priority": "High",
+        "category": "Packaged Product / Brand Label",
+        "issue": "Pastry cream, jam and hazelnut filling products",
+        "assumption": "Generic selectable profiles",
+        "correction": "Select exact products",
+        "impact": "Sodium, calories, fat, sugar",
+        "recommendedAction": "Select approved products and fallbacks.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      },
+      {
+        "id": "audit-185",
+        "priority": "Medium",
+        "category": "Other Validation",
+        "issue": "Optional sugar coating",
+        "assumption": "Excluded from base",
+        "correction": "Add selectable coating if used",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      }
+    ],
+    "variants": {
+      "air-fryer-preferred": {
+        "label": "Air fryer preferred",
+        "recordType": "Recipe",
+        "defaultSelection": "DEFAULT — zero-oil recalculation pending",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "DN_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "1 donut",
+          "servingGrams": null,
+          "servingsPerRecipe": null,
+          "calories": 230,
+          "totalFat": "9.3 g",
+          "saturatedFat": "4.4 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "239 mg",
+          "totalCarbohydrate": "31 g",
+          "dietaryFiber": "0.8 g",
+          "totalSugars": "10.6 g",
+          "addedSugars": "8.6 g",
+          "protein": "5.5 g",
+          "potassium": "103 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "DN",
+          "Recipe",
+          "Air fryer preferred"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx — DN_Nutrition_Boxes."
+      },
+      "deep-fried-alternate": {
+        "label": "Deep fried alternate",
+        "recordType": "Recipe",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "DN_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "1 donut",
+          "servingGrams": null,
+          "servingsPerRecipe": null,
+          "calories": 319,
+          "totalFat": "19.3 g",
+          "saturatedFat": "5.9 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "239 mg",
+          "totalCarbohydrate": "31 g",
+          "dietaryFiber": "0.8 g",
+          "totalSugars": "10.6 g",
+          "addedSugars": "8.6 g",
+          "protein": "5.5 g",
+          "potassium": "103 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "DN",
+          "Recipe",
+          "Deep fried alternate"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx — DN_Nutrition_Boxes."
+      },
+      "air-fryer-preferred-2": {
+        "label": "Air fryer preferred",
+        "recordType": "Recipe",
+        "defaultSelection": "DEFAULT — zero-oil recalculation pending",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "DN_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "1 donut",
+          "servingGrams": null,
+          "servingsPerRecipe": null,
+          "calories": 261,
+          "totalFat": "7.8 g",
+          "saturatedFat": "3.5 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "226 mg",
+          "totalCarbohydrate": "43.5 g",
+          "dietaryFiber": "1.1 g",
+          "totalSugars": "21.7 g",
+          "addedSugars": "18.9 g",
+          "protein": "4.8 g",
+          "potassium": "100 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "DN",
+          "Recipe",
+          "Air fryer preferred"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx — DN_Nutrition_Boxes."
+      },
+      "deep-fried-alternate-2": {
+        "label": "Deep fried alternate",
+        "recordType": "Recipe",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "DN_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "1 donut",
+          "servingGrams": null,
+          "servingsPerRecipe": null,
+          "calories": 349,
+          "totalFat": "17.8 g",
+          "saturatedFat": "5 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "226 mg",
+          "totalCarbohydrate": "43.5 g",
+          "dietaryFiber": "1.1 g",
+          "totalSugars": "21.7 g",
+          "addedSugars": "18.9 g",
+          "protein": "4.8 g",
+          "potassium": "100 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "DN",
+          "Recipe",
+          "Deep fried alternate"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx — DN_Nutrition_Boxes."
+      },
+      "air-fryer-preferred-3": {
+        "label": "Air fryer preferred",
+        "recordType": "Recipe",
+        "defaultSelection": "DEFAULT — zero-oil recalculation pending",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "DN_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "1 donut",
+          "servingGrams": null,
+          "servingsPerRecipe": null,
+          "calories": 329,
+          "totalFat": "15.5 g",
+          "saturatedFat": "6.2 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "231 mg",
+          "totalCarbohydrate": "40.6 g",
+          "dietaryFiber": "1.7 g",
+          "totalSugars": "21.1 g",
+          "addedSugars": "18.1 g",
+          "protein": "6.3 g",
+          "potassium": "181 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "DN",
+          "Recipe",
+          "Air fryer preferred"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx — DN_Nutrition_Boxes."
+      },
+      "deep-fried-alternate-3": {
+        "label": "Deep fried alternate",
+        "recordType": "Recipe",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "DN_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "1 donut",
+          "servingGrams": null,
+          "servingsPerRecipe": null,
+          "calories": 418,
+          "totalFat": "25.5 g",
+          "saturatedFat": "7.7 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "231 mg",
+          "totalCarbohydrate": "40.6 g",
+          "dietaryFiber": "1.7 g",
+          "totalSugars": "21.1 g",
+          "addedSugars": "18.1 g",
+          "protein": "6.3 g",
+          "potassium": "181 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "DN",
+          "Recipe",
+          "Deep fried alternate"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx — DN_Nutrition_Boxes."
+      }
+    }
+  },
+  {
+    "recipeCode": "DN-006",
+    "title": "Donuts: Apple Fritters",
+    "series": "DN",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "deep-fried-alternate",
+    "sourceWorkbook": "RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx",
+    "sourceSheet": "DN_Nutrition_Boxes",
+    "auditIssues": [
+      {
+        "id": "audit-186",
+        "priority": "High",
+        "category": "Recipe Card Reconstruction",
+        "issue": "Apple quantity and moisture",
+        "assumption": "250 g for 2 cups",
+        "correction": "Measure selected apples",
+        "impact": "All nutrients and recipe identity",
+        "recommendedAction": "Re-read cards and resolve discrepancies.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      }
+    ],
+    "variants": {
+      "air-fryer-preferred": {
+        "label": "Air fryer preferred",
+        "recordType": "Recipe",
+        "defaultSelection": "DEFAULT — zero-oil recalculation pending",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "DN_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "1 donut",
+          "servingGrams": null,
+          "servingsPerRecipe": null,
+          "calories": 228,
+          "totalFat": "3.7 g",
+          "saturatedFat": "1 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "243 mg",
+          "totalCarbohydrate": "45.2 g",
+          "dietaryFiber": "1.2 g",
+          "totalSugars": "28.9 g",
+          "addedSugars": "25.6 g",
+          "protein": "3.8 g",
+          "potassium": "85 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "DN",
+          "Recipe",
+          "Air fryer preferred"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx — DN_Nutrition_Boxes."
+      },
+      "deep-fried-alternate": {
+        "label": "Deep fried alternate",
+        "recordType": "Recipe",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "DN_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "1 donut",
+          "servingGrams": null,
+          "servingsPerRecipe": null,
+          "calories": 316,
+          "totalFat": "13.7 g",
+          "saturatedFat": "2.5 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "243 mg",
+          "totalCarbohydrate": "45.2 g",
+          "dietaryFiber": "1.2 g",
+          "totalSugars": "28.9 g",
+          "addedSugars": "25.6 g",
+          "protein": "3.8 g",
+          "potassium": "85 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "DN",
+          "Recipe",
+          "Deep fried alternate"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx — DN_Nutrition_Boxes."
+      }
+    }
+  },
+  {
+    "recipeCode": "DN-007",
+    "title": "Donuts: Blueberry Cake",
+    "series": "DN",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "deep-fried-alternate",
+    "sourceWorkbook": "RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx",
+    "sourceSheet": "DN_Nutrition_Boxes",
+    "auditIssues": [
+      {
+        "id": "audit-183",
+        "priority": "Medium",
+        "category": "Packaged Product / Brand Label",
+        "issue": "Baking powder/soda and dairy products",
+        "assumption": "Generic profiles",
+        "correction": "Select exact products",
+        "impact": "Sodium, calories, fat, sugar",
+        "recommendedAction": "Select approved products and fallbacks.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      },
+      {
+        "id": "audit-187",
+        "priority": "High",
+        "category": "Other Validation",
+        "issue": "Fresh/frozen blueberry weight and moisture",
+        "assumption": "148 g for 1 cup",
+        "correction": "Measure selected berries",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      }
+    ],
+    "variants": {
+      "air-fryer-preferred": {
+        "label": "Air fryer preferred",
+        "recordType": "Recipe",
+        "defaultSelection": "DEFAULT — zero-oil recalculation pending",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "DN_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "1 donut",
+          "servingGrams": null,
+          "servingsPerRecipe": null,
+          "calories": 316,
+          "totalFat": "11.4 g",
+          "saturatedFat": "5.8 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "261 mg",
+          "totalCarbohydrate": "49.7 g",
+          "dietaryFiber": "1 g",
+          "totalSugars": "29.9 g",
+          "addedSugars": "27.5 g",
+          "protein": "4.4 g",
+          "potassium": "76 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "DN",
+          "Recipe",
+          "Air fryer preferred"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx — DN_Nutrition_Boxes."
+      },
+      "deep-fried-alternate": {
+        "label": "Deep fried alternate",
+        "recordType": "Recipe",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "DN_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "1 donut",
+          "servingGrams": null,
+          "servingsPerRecipe": null,
+          "calories": 405,
+          "totalFat": "21.4 g",
+          "saturatedFat": "7.3 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "261 mg",
+          "totalCarbohydrate": "49.7 g",
+          "dietaryFiber": "1 g",
+          "totalSugars": "29.9 g",
+          "addedSugars": "27.5 g",
+          "protein": "4.4 g",
+          "potassium": "76 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "DN",
+          "Recipe",
+          "Deep fried alternate"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_DN_001_007_Donuts_Detailed_Working_Nutrition.xlsx — DN_Nutrition_Boxes."
+      }
+    }
+  }
+]

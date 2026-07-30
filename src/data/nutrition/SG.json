@@ -1,0 +1,1143 @@
+[
+  {
+    "recipeCode": "SG-001",
+    "title": "Flank Steak",
+    "series": "SG",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "6-oz",
+    "sourceWorkbook": "RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx",
+    "sourceSheet": "SG_Nutrition_Boxes",
+    "auditIssues": [
+      {
+        "id": "audit-633",
+        "priority": "High",
+        "category": "Sauce / Gravy / Soup Yield",
+        "issue": "Exact steak raw weight, grade/trim, soy sauce and salt brand",
+        "assumption": "1.75 lb midpoint; lower-sodium soy; provisional salt",
+        "correction": "Measure/select products",
+        "impact": "Calories, sodium, sugar, fat",
+        "recommendedAction": "Measure finished yield and select exact products/MHS profiles.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx",
+        "sourceSheet": "Return_To_Review"
+      }
+    ],
+    "variants": {
+      "6-oz": {
+        "label": "6 oz",
+        "recordType": "Recipe",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx",
+        "sourceSheet": "SG_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "6 oz",
+          "servingGrams": 170.1,
+          "servingsPerRecipe": null,
+          "calories": 376,
+          "totalFat": "19.4 g",
+          "saturatedFat": "7.2 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "281 mg",
+          "totalCarbohydrate": "0.9 g",
+          "dietaryFiber": "0.1 g",
+          "totalSugars": "0.1 g",
+          "addedSugars": "0.1 g",
+          "protein": "47.5 g",
+          "potassium": "552 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "SG",
+          "Recipe",
+          "6 oz"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx — SG_Nutrition_Boxes."
+      }
+    }
+  },
+  {
+    "recipeCode": "SG-002",
+    "title": "Beef Fajitas",
+    "series": "SG",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "11-oz",
+    "sourceWorkbook": "RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx",
+    "sourceSheet": "SG_Nutrition_Boxes",
+    "auditIssues": [
+      {
+        "id": "audit-634",
+        "priority": "High",
+        "category": "Meat / Poultry / Seafood Yield",
+        "issue": "Flank versus skirt steak and exact tortillas",
+        "assumption": "Flank steak + generic small tortillas",
+        "correction": "Create cut and tortilla selectors",
+        "impact": "Calories, protein, fat, serving weight",
+        "recommendedAction": "Lock raw edible and cooked-yield standards by cut.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx",
+        "sourceSheet": "Return_To_Review"
+      }
+    ],
+    "variants": {
+      "11-oz": {
+        "label": "11 oz",
+        "recordType": "Recipe",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx",
+        "sourceSheet": "SG_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "11 oz",
+          "servingGrams": 311.8,
+          "servingsPerRecipe": null,
+          "calories": 595,
+          "totalFat": "25.1 g",
+          "saturatedFat": "7.5 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "860 mg",
+          "totalCarbohydrate": "49.3 g",
+          "dietaryFiber": "4.6 g",
+          "totalSugars": "6.1 g",
+          "addedSugars": "0 g",
+          "protein": "42.2 g",
+          "potassium": "708 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "SG",
+          "Recipe",
+          "11 oz"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx — SG_Nutrition_Boxes."
+      }
+    }
+  },
+  {
+    "recipeCode": "SG-003",
+    "title": "Hot Dogs",
+    "series": "SG",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "7-5-oz",
+    "sourceWorkbook": "RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx",
+    "sourceSheet": "SG_Nutrition_Boxes",
+    "auditIssues": [
+      {
+        "id": "audit-635",
+        "priority": "High",
+        "category": "Bread / Bun / Biscuit / Crust Yield",
+        "issue": "Exact hot dog and bun selections",
+        "assumption": "Generic beef frank + generic bun",
+        "correction": "Connect selected product labels / LF-004 bun",
+        "impact": "Calories, carbs, fiber, sodium",
+        "recommendedAction": "Measure baked weights and link validated profiles.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx",
+        "sourceSheet": "Return_To_Review"
+      }
+    ],
+    "variants": {
+      "7-5-oz": {
+        "label": "7.5 oz",
+        "recordType": "Recipe",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx",
+        "sourceSheet": "SG_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "7.5 oz",
+          "servingGrams": 212.6,
+          "servingsPerRecipe": null,
+          "calories": 640,
+          "totalFat": "36.9 g",
+          "saturatedFat": "13.1 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "1495 mg",
+          "totalCarbohydrate": "55.9 g",
+          "dietaryFiber": "2 g",
+          "totalSugars": "8.2 g",
+          "addedSugars": "4 g",
+          "protein": "22.5 g",
+          "potassium": "302 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "SG",
+          "Recipe",
+          "7.5 oz"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx — SG_Nutrition_Boxes."
+      }
+    }
+  },
+  {
+    "recipeCode": "SG-004",
+    "title": "Sausage Links",
+    "series": "SG",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "9-oz",
+    "sourceWorkbook": "RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx",
+    "sourceSheet": "SG_Nutrition_Boxes",
+    "auditIssues": [
+      {
+        "id": "audit-636",
+        "priority": "High",
+        "category": "Bread / Bun / Biscuit / Crust Yield",
+        "issue": "Sausage type/link weight and hoagie roll",
+        "assumption": "Generic smoked sausage + generic roll",
+        "correction": "Connect product choices / LF-004 hoagie",
+        "impact": "Calories, carbs, fiber, sodium",
+        "recommendedAction": "Measure baked weights and link validated profiles.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx",
+        "sourceSheet": "Return_To_Review"
+      }
+    ],
+    "variants": {
+      "9-oz": {
+        "label": "9 oz",
+        "recordType": "Recipe",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx",
+        "sourceSheet": "SG_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "9 oz",
+          "servingGrams": 255.1,
+          "servingsPerRecipe": null,
+          "calories": 596,
+          "totalFat": "28.9 g",
+          "saturatedFat": "9.1 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "1349 mg",
+          "totalCarbohydrate": "59.1 g",
+          "dietaryFiber": "2.9 g",
+          "totalSugars": "7.3 g",
+          "addedSugars": "2.1 g",
+          "protein": "25.9 g",
+          "potassium": "435 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "SG",
+          "Recipe",
+          "9 oz"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx — SG_Nutrition_Boxes."
+      }
+    }
+  },
+  {
+    "recipeCode": "SG-005",
+    "title": "Chicken Breasts",
+    "series": "SG",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "6-oz",
+    "sourceWorkbook": "RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx",
+    "sourceSheet": "SG_Nutrition_Boxes",
+    "auditIssues": [
+      {
+        "id": "audit-637",
+        "priority": "Medium",
+        "category": "Meat / Poultry / Seafood Yield",
+        "issue": "Actual chicken-breast raw and cooked batch weights",
+        "assumption": "Four 7 oz raw breasts",
+        "correction": "Measure batches",
+        "impact": "Calories, protein, fat, serving weight",
+        "recommendedAction": "Lock raw edible and cooked-yield standards by cut.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx",
+        "sourceSheet": "Return_To_Review"
+      }
+    ],
+    "variants": {
+      "6-oz": {
+        "label": "6 oz",
+        "recordType": "Recipe",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx",
+        "sourceSheet": "SG_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "6 oz",
+          "servingGrams": 170.1,
+          "servingsPerRecipe": null,
+          "calories": 296,
+          "totalFat": "8.5 g",
+          "saturatedFat": "2 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "382 mg",
+          "totalCarbohydrate": "0.9 g",
+          "dietaryFiber": "0.2 g",
+          "totalSugars": "0.1 g",
+          "addedSugars": "0 g",
+          "protein": "50.6 g",
+          "potassium": "431 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "SG",
+          "Recipe",
+          "6 oz"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx — SG_Nutrition_Boxes."
+      }
+    }
+  },
+  {
+    "recipeCode": "SG-008",
+    "title": "Texas Style Brisket",
+    "series": "SG",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "6-oz",
+    "sourceWorkbook": "RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx",
+    "sourceSheet": "SG_Nutrition_Boxes",
+    "auditIssues": [
+      {
+        "id": "audit-638",
+        "priority": "High",
+        "category": "Serving Size / Finished Weight",
+        "issue": "Brisket trim, grade, raw and finished cooked weights",
+        "assumption": "13 lb midpoint; 50% yield",
+        "correction": "Measure actual brisket",
+        "impact": "Per-serving, per-ounce, per-100 g",
+        "recommendedAction": "Weigh complete finished batch before portioning.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx",
+        "sourceSheet": "Return_To_Review"
+      }
+    ],
+    "variants": {
+      "6-oz": {
+        "label": "6 oz",
+        "recordType": "Recipe",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx",
+        "sourceSheet": "SG_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "6 oz",
+          "servingGrams": 170.1,
+          "servingsPerRecipe": null,
+          "calories": 483,
+          "totalFat": "34.7 g",
+          "saturatedFat": "13.2 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "1149 mg",
+          "totalCarbohydrate": "1.2 g",
+          "dietaryFiber": "0.5 g",
+          "totalSugars": "0.1 g",
+          "addedSugars": "0 g",
+          "protein": "43 g",
+          "potassium": "518 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "SG",
+          "Recipe",
+          "6 oz"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx — SG_Nutrition_Boxes."
+      }
+    }
+  },
+  {
+    "recipeCode": "SG-009",
+    "title": "Sliced Pork Butt",
+    "series": "SG",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "6-oz",
+    "sourceWorkbook": "RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx",
+    "sourceSheet": "SG_Nutrition_Boxes",
+    "auditIssues": [
+      {
+        "id": "audit-639",
+        "priority": "High",
+        "category": "Meat / Poultry / Seafood Yield",
+        "issue": "Pork butt bone/fat loss and cooked edible yield",
+        "assumption": "9 lb midpoint; 52% yield",
+        "correction": "Measure actual batches",
+        "impact": "Calories, protein, fat, serving weight",
+        "recommendedAction": "Lock raw edible and cooked-yield standards by cut.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx",
+        "sourceSheet": "Return_To_Review"
+      }
+    ],
+    "variants": {
+      "6-oz": {
+        "label": "6 oz",
+        "recordType": "Recipe",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx",
+        "sourceSheet": "SG_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "6 oz",
+          "servingGrams": 170.1,
+          "servingsPerRecipe": null,
+          "calories": 480,
+          "totalFat": "34.4 g",
+          "saturatedFat": "12.2 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "684 mg",
+          "totalCarbohydrate": "3.6 g",
+          "dietaryFiber": "0.4 g",
+          "totalSugars": "2.7 g",
+          "addedSugars": "2.7 g",
+          "protein": "40.9 g",
+          "potassium": "513 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "SG",
+          "Recipe",
+          "6 oz"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx — SG_Nutrition_Boxes."
+      }
+    }
+  },
+  {
+    "recipeCode": "SG-010",
+    "title": "Pulled Pork Butt",
+    "series": "SG",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "6-oz",
+    "sourceWorkbook": "RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx",
+    "sourceSheet": "SG_Nutrition_Boxes",
+    "auditIssues": [
+      {
+        "id": "audit-639",
+        "priority": "High",
+        "category": "Meat / Poultry / Seafood Yield",
+        "issue": "Pork butt bone/fat loss and cooked edible yield",
+        "assumption": "9 lb midpoint; 52% yield",
+        "correction": "Measure actual batches",
+        "impact": "Calories, protein, fat, serving weight",
+        "recommendedAction": "Lock raw edible and cooked-yield standards by cut.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx",
+        "sourceSheet": "Return_To_Review"
+      },
+      {
+        "id": "audit-640",
+        "priority": "High",
+        "category": "Sauce / Gravy / Soup Yield",
+        "issue": "Exact BBQ sauce product or homemade recipe",
+        "assumption": "Generic BBQ sauce",
+        "correction": "Connect verified options",
+        "impact": "Calories, sodium, sugar, fat",
+        "recommendedAction": "Measure finished yield and select exact products/MHS profiles.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx",
+        "sourceSheet": "Return_To_Review"
+      }
+    ],
+    "variants": {
+      "6-oz": {
+        "label": "6 oz",
+        "recordType": "Recipe",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx",
+        "sourceSheet": "SG_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "6 oz",
+          "servingGrams": 170.1,
+          "servingsPerRecipe": null,
+          "calories": 455,
+          "totalFat": "30.7 g",
+          "saturatedFat": "10.9 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "768 mg",
+          "totalCarbohydrate": "9.7 g",
+          "dietaryFiber": "0.5 g",
+          "totalSugars": "8 g",
+          "addedSugars": "7 g",
+          "protein": "36.6 g",
+          "potassium": "485 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "SG",
+          "Recipe",
+          "6 oz"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx — SG_Nutrition_Boxes."
+      }
+    }
+  },
+  {
+    "recipeCode": "SG-011",
+    "title": "Smoked Chicken Breasts",
+    "series": "SG",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "6-5-oz",
+    "sourceWorkbook": "RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx",
+    "sourceSheet": "SG_Nutrition_Boxes",
+    "auditIssues": [
+      {
+        "id": "audit-637",
+        "priority": "Medium",
+        "category": "Meat / Poultry / Seafood Yield",
+        "issue": "Actual chicken-breast raw and cooked batch weights",
+        "assumption": "Four 7 oz raw breasts",
+        "correction": "Measure batches",
+        "impact": "Calories, protein, fat, serving weight",
+        "recommendedAction": "Lock raw edible and cooked-yield standards by cut.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx",
+        "sourceSheet": "Return_To_Review"
+      },
+      {
+        "id": "audit-640",
+        "priority": "High",
+        "category": "Sauce / Gravy / Soup Yield",
+        "issue": "Exact BBQ sauce product or homemade recipe",
+        "assumption": "Generic BBQ sauce",
+        "correction": "Connect verified options",
+        "impact": "Calories, sodium, sugar, fat",
+        "recommendedAction": "Measure finished yield and select exact products/MHS profiles.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx",
+        "sourceSheet": "Return_To_Review"
+      }
+    ],
+    "variants": {
+      "6-5-oz": {
+        "label": "6.5 oz",
+        "recordType": "Recipe",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx",
+        "sourceSheet": "SG_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "6.5 oz",
+          "servingGrams": 184.3,
+          "servingsPerRecipe": null,
+          "calories": 317,
+          "totalFat": "8.2 g",
+          "saturatedFat": "1.9 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "587 mg",
+          "totalCarbohydrate": "9.7 g",
+          "dietaryFiber": "0.4 g",
+          "totalSugars": "8 g",
+          "addedSugars": "6.7 g",
+          "protein": "47.9 g",
+          "potassium": "442 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "SG",
+          "Recipe",
+          "6.5 oz"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx — SG_Nutrition_Boxes."
+      }
+    }
+  },
+  {
+    "recipeCode": "SG-012",
+    "title": "Lemon Pepper Chicken",
+    "series": "SG",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "6-5-oz",
+    "sourceWorkbook": "RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx",
+    "sourceSheet": "SG_Nutrition_Boxes",
+    "auditIssues": [
+      {
+        "id": "audit-637",
+        "priority": "Medium",
+        "category": "Meat / Poultry / Seafood Yield",
+        "issue": "Actual chicken-breast raw and cooked batch weights",
+        "assumption": "Four 7 oz raw breasts",
+        "correction": "Measure batches",
+        "impact": "Calories, protein, fat, serving weight",
+        "recommendedAction": "Lock raw edible and cooked-yield standards by cut.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx",
+        "sourceSheet": "Return_To_Review"
+      },
+      {
+        "id": "audit-641",
+        "priority": "Medium",
+        "category": "Other Validation",
+        "issue": "Salted versus unsalted butter",
+        "assumption": "Unsalted butter",
+        "correction": "Confirm card/house default",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx",
+        "sourceSheet": "Return_To_Review"
+      }
+    ],
+    "variants": {
+      "6-5-oz": {
+        "label": "6.5 oz",
+        "recordType": "Recipe",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx",
+        "sourceSheet": "SG_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "6.5 oz",
+          "servingGrams": 184.3,
+          "servingsPerRecipe": null,
+          "calories": 356,
+          "totalFat": "16 g",
+          "saturatedFat": "8.1 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "536 mg",
+          "totalCarbohydrate": "2.7 g",
+          "dietaryFiber": "0.7 g",
+          "totalSugars": "0.4 g",
+          "addedSugars": "0 g",
+          "protein": "48.2 g",
+          "potassium": "441 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "SG",
+          "Recipe",
+          "6.5 oz"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx — SG_Nutrition_Boxes."
+      }
+    }
+  },
+  {
+    "recipeCode": "SG-013",
+    "title": "Beef Ribs",
+    "series": "SG",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "8-oz",
+    "sourceWorkbook": "RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx",
+    "sourceSheet": "SG_Nutrition_Boxes",
+    "auditIssues": [
+      {
+        "id": "audit-643",
+        "priority": "High",
+        "category": "Meat / Poultry / Seafood Yield",
+        "issue": "Beef-rib edible yield and bone loss",
+        "assumption": "3.5 lb midpoint; 907 g cooked edible meat",
+        "correction": "Measure finished edible meat after bones",
+        "impact": "Calories, protein, fat, serving weight",
+        "recommendedAction": "Lock raw edible and cooked-yield standards by cut.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx",
+        "sourceSheet": "Return_To_Review"
+      },
+      {
+        "id": "audit-644",
+        "priority": "Medium",
+        "category": "Sauce / Gravy / Soup Yield",
+        "issue": "Optional tallow or broth used during wrap",
+        "assumption": "Excluded from base",
+        "correction": "Record amount if used",
+        "impact": "Calories, sodium, sugar, fat",
+        "recommendedAction": "Measure finished yield and select exact products/MHS profiles.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx",
+        "sourceSheet": "Return_To_Review"
+      }
+    ],
+    "variants": {
+      "8-oz": {
+        "label": "8 oz",
+        "recordType": "Recipe",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx",
+        "sourceSheet": "SG_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "8 oz",
+          "servingGrams": 226.8,
+          "servingsPerRecipe": null,
+          "calories": 764,
+          "totalFat": "59.2 g",
+          "saturatedFat": "23.1 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "2803 mg",
+          "totalCarbohydrate": "4.2 g",
+          "dietaryFiber": "1.5 g",
+          "totalSugars": "1.1 g",
+          "addedSugars": "0.9 g",
+          "protein": "51 g",
+          "potassium": "619 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "SG",
+          "Recipe",
+          "8 oz"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx — SG_Nutrition_Boxes."
+      }
+    }
+  },
+  {
+    "recipeCode": "SG-014",
+    "title": "Chicken Legs",
+    "series": "SG",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "7-oz",
+    "sourceWorkbook": "RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx",
+    "sourceSheet": "SG_Nutrition_Boxes",
+    "auditIssues": [
+      {
+        "id": "audit-645",
+        "priority": "High",
+        "category": "Other Validation",
+        "issue": "Drumstick count and cooked edible weight",
+        "assumption": "Nine drumsticks; 840 g working cooked weight",
+        "correction": "Weigh cooked edible batch",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx",
+        "sourceSheet": "Return_To_Review"
+      },
+      {
+        "id": "audit-648",
+        "priority": "High",
+        "category": "Sauce / Gravy / Soup Yield",
+        "issue": "Optional BBQ sauce product and quantity",
+        "assumption": "1/2 cup generic BBQ sauce included",
+        "correction": "Verify default sauce or calculate no-sauce base",
+        "impact": "Calories, sodium, sugar, fat",
+        "recommendedAction": "Measure finished yield and select exact products/MHS profiles.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx",
+        "sourceSheet": "Return_To_Review"
+      }
+    ],
+    "variants": {
+      "7-oz": {
+        "label": "7 oz",
+        "recordType": "Recipe",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx",
+        "sourceSheet": "SG_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "7 oz",
+          "servingGrams": 198.4,
+          "servingsPerRecipe": null,
+          "calories": 428,
+          "totalFat": "20.6 g",
+          "saturatedFat": "5.3 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "2116 mg",
+          "totalCarbohydrate": "15.9 g",
+          "dietaryFiber": "1.1 g",
+          "totalSugars": "12.7 g",
+          "addedSugars": "11.3 g",
+          "protein": "42.9 g",
+          "potassium": "465 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "SG",
+          "Recipe",
+          "7 oz"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx — SG_Nutrition_Boxes."
+      }
+    }
+  },
+  {
+    "recipeCode": "SG-015",
+    "title": "Chicken Wings",
+    "series": "SG",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "6-oz",
+    "sourceWorkbook": "RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx",
+    "sourceSheet": "SG_Nutrition_Boxes",
+    "auditIssues": [
+      {
+        "id": "audit-646",
+        "priority": "High",
+        "category": "Meat / Poultry / Seafood Yield",
+        "issue": "Wing midpoint, edible yield and piece count",
+        "assumption": "2.25 lb midpoint; 680 g cooked edible",
+        "correction": "Measure cooked edible batch",
+        "impact": "Calories, protein, fat, serving weight",
+        "recommendedAction": "Lock raw edible and cooked-yield standards by cut.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx",
+        "sourceSheet": "Return_To_Review"
+      },
+      {
+        "id": "audit-648",
+        "priority": "High",
+        "category": "Sauce / Gravy / Soup Yield",
+        "issue": "Optional BBQ sauce product and quantity",
+        "assumption": "1/2 cup generic BBQ sauce included",
+        "correction": "Verify default sauce or calculate no-sauce base",
+        "impact": "Calories, sodium, sugar, fat",
+        "recommendedAction": "Measure finished yield and select exact products/MHS profiles.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx",
+        "sourceSheet": "Return_To_Review"
+      }
+    ],
+    "variants": {
+      "6-oz": {
+        "label": "6 oz",
+        "recordType": "Recipe",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx",
+        "sourceSheet": "SG_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "6 oz",
+          "servingGrams": 170.1,
+          "servingsPerRecipe": null,
+          "calories": 462,
+          "totalFat": "28.6 g",
+          "saturatedFat": "7.7 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "2108 mg",
+          "totalCarbohydrate": "16.1 g",
+          "dietaryFiber": "1.1 g",
+          "totalSugars": "12.8 g",
+          "addedSugars": "11.4 g",
+          "protein": "35.2 g",
+          "potassium": "384 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "SG",
+          "Recipe",
+          "6 oz"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx — SG_Nutrition_Boxes."
+      }
+    }
+  },
+  {
+    "recipeCode": "SG-016",
+    "title": "Chicken Quarters",
+    "series": "SG",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "8-oz",
+    "sourceWorkbook": "RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx",
+    "sourceSheet": "SG_Nutrition_Boxes",
+    "auditIssues": [
+      {
+        "id": "audit-647",
+        "priority": "High",
+        "category": "Meat / Poultry / Seafood Yield",
+        "issue": "Chicken-quarter midpoint and bone loss",
+        "assumption": "2.5 quarters; 850 g cooked edible",
+        "correction": "Measure cooked edible batch",
+        "impact": "Calories, protein, fat, serving weight",
+        "recommendedAction": "Lock raw edible and cooked-yield standards by cut.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx",
+        "sourceSheet": "Return_To_Review"
+      },
+      {
+        "id": "audit-648",
+        "priority": "High",
+        "category": "Sauce / Gravy / Soup Yield",
+        "issue": "Optional BBQ sauce product and quantity",
+        "assumption": "1/2 cup generic BBQ sauce included",
+        "correction": "Verify default sauce or calculate no-sauce base",
+        "impact": "Calories, sodium, sugar, fat",
+        "recommendedAction": "Measure finished yield and select exact products/MHS profiles.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx",
+        "sourceSheet": "Return_To_Review"
+      }
+    ],
+    "variants": {
+      "8-oz": {
+        "label": "8 oz",
+        "recordType": "Recipe",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx",
+        "sourceSheet": "SG_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "8 oz",
+          "servingGrams": 226.8,
+          "servingsPerRecipe": null,
+          "calories": 515,
+          "totalFat": "27.6 g",
+          "saturatedFat": "7.3 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "2395 mg",
+          "totalCarbohydrate": "18 g",
+          "dietaryFiber": "1.2 g",
+          "totalSugars": "14.4 g",
+          "addedSugars": "12.8 g",
+          "protein": "47.4 g",
+          "potassium": "541 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "SG",
+          "Recipe",
+          "8 oz"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx — SG_Nutrition_Boxes."
+      }
+    }
+  }
+]

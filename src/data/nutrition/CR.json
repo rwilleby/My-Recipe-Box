@@ -1,0 +1,533 @@
+[
+  {
+    "recipeCode": "CR-001",
+    "title": "Cinnamon Rolls: Traditional",
+    "series": "CR",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "1-roll",
+    "sourceWorkbook": "RRB_Food_Intelligence_CR_001_005_Cinnamon_Rolls_Detailed_Working_Nutrition.xlsx",
+    "sourceSheet": "CR_Nutrition_Boxes",
+    "auditIssues": [
+      {
+        "id": "audit-170",
+        "priority": "High",
+        "category": "Bread / Bun / Biscuit / Crust Yield",
+        "issue": "Finished baked batch and roll weights",
+        "assumption": "Ingredient-sum modeled weight",
+        "correction": "Weigh cooled rolls",
+        "impact": "Calories, carbs, fiber, sodium",
+        "recommendedAction": "Measure baked weights and link validated profiles.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_CR_001_005_Cinnamon_Rolls_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      },
+      {
+        "id": "audit-171",
+        "priority": "Medium",
+        "category": "Packaged Product / Brand Label",
+        "issue": "Exact flour, milk, butter and yeast products",
+        "assumption": "Generic profiles",
+        "correction": "Select house defaults",
+        "impact": "Sodium, calories, fat, sugar",
+        "recommendedAction": "Select approved products and fallbacks.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_CR_001_005_Cinnamon_Rolls_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      },
+      {
+        "id": "audit-172",
+        "priority": "Medium",
+        "category": "Cheese / Dairy / Mayonnaise",
+        "issue": "Glaze milk range of 2–3 tbsp",
+        "assumption": "2.5 tbsp working default",
+        "correction": "Set exact standard amount",
+        "impact": "Calories, fat, saturated fat, sodium",
+        "recommendedAction": "Select exact standard products and amounts.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_CR_001_005_Cinnamon_Rolls_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      }
+    ],
+    "variants": {
+      "1-roll": {
+        "label": "1 roll",
+        "recordType": "Recipe",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_CR_001_005_Cinnamon_Rolls_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "CR_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "1 roll",
+          "servingGrams": null,
+          "servingsPerRecipe": null,
+          "calories": 384,
+          "totalFat": "12.4 g",
+          "saturatedFat": "7.3 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "227 mg",
+          "totalCarbohydrate": "62.3 g",
+          "dietaryFiber": "1.9 g",
+          "totalSugars": "30.6 g",
+          "addedSugars": "28.9 g",
+          "protein": "6.5 g",
+          "potassium": "125 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "CR",
+          "Recipe",
+          "1 roll"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_CR_001_005_Cinnamon_Rolls_Detailed_Working_Nutrition.xlsx — CR_Nutrition_Boxes."
+      }
+    }
+  },
+  {
+    "recipeCode": "CR-002",
+    "title": "Cinnamon Rolls: Chocolate",
+    "series": "CR",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "1-roll",
+    "sourceWorkbook": "RRB_Food_Intelligence_CR_001_005_Cinnamon_Rolls_Detailed_Working_Nutrition.xlsx",
+    "sourceSheet": "CR_Nutrition_Boxes",
+    "auditIssues": [
+      {
+        "id": "audit-170",
+        "priority": "High",
+        "category": "Bread / Bun / Biscuit / Crust Yield",
+        "issue": "Finished baked batch and roll weights",
+        "assumption": "Ingredient-sum modeled weight",
+        "correction": "Weigh cooled rolls",
+        "impact": "Calories, carbs, fiber, sodium",
+        "recommendedAction": "Measure baked weights and link validated profiles.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_CR_001_005_Cinnamon_Rolls_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      },
+      {
+        "id": "audit-171",
+        "priority": "Medium",
+        "category": "Packaged Product / Brand Label",
+        "issue": "Exact flour, milk, butter and yeast products",
+        "assumption": "Generic profiles",
+        "correction": "Select house defaults",
+        "impact": "Sodium, calories, fat, sugar",
+        "recommendedAction": "Select approved products and fallbacks.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_CR_001_005_Cinnamon_Rolls_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      },
+      {
+        "id": "audit-172",
+        "priority": "Medium",
+        "category": "Cheese / Dairy / Mayonnaise",
+        "issue": "Glaze milk range of 2–3 tbsp",
+        "assumption": "2.5 tbsp working default",
+        "correction": "Set exact standard amount",
+        "impact": "Calories, fat, saturated fat, sodium",
+        "recommendedAction": "Select exact standard products and amounts.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_CR_001_005_Cinnamon_Rolls_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      },
+      {
+        "id": "audit-173",
+        "priority": "High",
+        "category": "Packaged Product / Brand Label",
+        "issue": "Cocoa and chocolate-chip products",
+        "assumption": "Generic profiles",
+        "correction": "Select exact products",
+        "impact": "Sodium, calories, fat, sugar",
+        "recommendedAction": "Select approved products and fallbacks.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_CR_001_005_Cinnamon_Rolls_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      }
+    ],
+    "variants": {
+      "1-roll": {
+        "label": "1 roll",
+        "recordType": "Recipe",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_CR_001_005_Cinnamon_Rolls_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "CR_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "1 roll",
+          "servingGrams": null,
+          "servingsPerRecipe": null,
+          "calories": 408,
+          "totalFat": "14.9 g",
+          "saturatedFat": "8.8 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "228 mg",
+          "totalCarbohydrate": "63.8 g",
+          "dietaryFiber": "3.2 g",
+          "totalSugars": "30 g",
+          "addedSugars": "28 g",
+          "protein": "7.5 g",
+          "potassium": "192 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "CR",
+          "Recipe",
+          "1 roll"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_CR_001_005_Cinnamon_Rolls_Detailed_Working_Nutrition.xlsx — CR_Nutrition_Boxes."
+      }
+    }
+  },
+  {
+    "recipeCode": "CR-003",
+    "title": "Cinnamon Rolls: Apple Cinnamon",
+    "series": "CR",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "1-roll",
+    "sourceWorkbook": "RRB_Food_Intelligence_CR_001_005_Cinnamon_Rolls_Detailed_Working_Nutrition.xlsx",
+    "sourceSheet": "CR_Nutrition_Boxes",
+    "auditIssues": [
+      {
+        "id": "audit-170",
+        "priority": "High",
+        "category": "Bread / Bun / Biscuit / Crust Yield",
+        "issue": "Finished baked batch and roll weights",
+        "assumption": "Ingredient-sum modeled weight",
+        "correction": "Weigh cooled rolls",
+        "impact": "Calories, carbs, fiber, sodium",
+        "recommendedAction": "Measure baked weights and link validated profiles.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_CR_001_005_Cinnamon_Rolls_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      },
+      {
+        "id": "audit-171",
+        "priority": "Medium",
+        "category": "Packaged Product / Brand Label",
+        "issue": "Exact flour, milk, butter and yeast products",
+        "assumption": "Generic profiles",
+        "correction": "Select house defaults",
+        "impact": "Sodium, calories, fat, sugar",
+        "recommendedAction": "Select approved products and fallbacks.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_CR_001_005_Cinnamon_Rolls_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      },
+      {
+        "id": "audit-172",
+        "priority": "Medium",
+        "category": "Cheese / Dairy / Mayonnaise",
+        "issue": "Glaze milk range of 2–3 tbsp",
+        "assumption": "2.5 tbsp working default",
+        "correction": "Set exact standard amount",
+        "impact": "Calories, fat, saturated fat, sodium",
+        "recommendedAction": "Select exact standard products and amounts.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_CR_001_005_Cinnamon_Rolls_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      },
+      {
+        "id": "audit-174",
+        "priority": "High",
+        "category": "Other Validation",
+        "issue": "Apple cup-to-gram and moisture variation",
+        "assumption": "250 g for 2 cups",
+        "correction": "Measure selected apples",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_CR_001_005_Cinnamon_Rolls_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      }
+    ],
+    "variants": {
+      "1-roll": {
+        "label": "1 roll",
+        "recordType": "Recipe",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_CR_001_005_Cinnamon_Rolls_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "CR_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "1 roll",
+          "servingGrams": null,
+          "servingsPerRecipe": null,
+          "calories": 375,
+          "totalFat": "12.4 g",
+          "saturatedFat": "7.4 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "226 mg",
+          "totalCarbohydrate": "60.1 g",
+          "dietaryFiber": "2 g",
+          "totalSugars": "28.3 g",
+          "addedSugars": "24.4 g",
+          "protein": "6.5 g",
+          "potassium": "139 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "CR",
+          "Recipe",
+          "1 roll"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_CR_001_005_Cinnamon_Rolls_Detailed_Working_Nutrition.xlsx — CR_Nutrition_Boxes."
+      }
+    }
+  },
+  {
+    "recipeCode": "CR-004",
+    "title": "Cinnamon Rolls: Pecan Raisin",
+    "series": "CR",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "1-roll",
+    "sourceWorkbook": "RRB_Food_Intelligence_CR_001_005_Cinnamon_Rolls_Detailed_Working_Nutrition.xlsx",
+    "sourceSheet": "CR_Nutrition_Boxes",
+    "auditIssues": [
+      {
+        "id": "audit-170",
+        "priority": "High",
+        "category": "Bread / Bun / Biscuit / Crust Yield",
+        "issue": "Finished baked batch and roll weights",
+        "assumption": "Ingredient-sum modeled weight",
+        "correction": "Weigh cooled rolls",
+        "impact": "Calories, carbs, fiber, sodium",
+        "recommendedAction": "Measure baked weights and link validated profiles.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_CR_001_005_Cinnamon_Rolls_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      },
+      {
+        "id": "audit-171",
+        "priority": "Medium",
+        "category": "Packaged Product / Brand Label",
+        "issue": "Exact flour, milk, butter and yeast products",
+        "assumption": "Generic profiles",
+        "correction": "Select house defaults",
+        "impact": "Sodium, calories, fat, sugar",
+        "recommendedAction": "Select approved products and fallbacks.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_CR_001_005_Cinnamon_Rolls_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      },
+      {
+        "id": "audit-172",
+        "priority": "Medium",
+        "category": "Cheese / Dairy / Mayonnaise",
+        "issue": "Glaze milk range of 2–3 tbsp",
+        "assumption": "2.5 tbsp working default",
+        "correction": "Set exact standard amount",
+        "impact": "Calories, fat, saturated fat, sodium",
+        "recommendedAction": "Select exact standard products and amounts.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_CR_001_005_Cinnamon_Rolls_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      },
+      {
+        "id": "audit-175",
+        "priority": "Medium",
+        "category": "Other Validation",
+        "issue": "Pecan and raisin cup weights",
+        "assumption": "55 g pecans; 72 g raisins",
+        "correction": "Verify selected products",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_CR_001_005_Cinnamon_Rolls_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      }
+    ],
+    "variants": {
+      "1-roll": {
+        "label": "1 roll",
+        "recordType": "Recipe",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_CR_001_005_Cinnamon_Rolls_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "CR_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "1 roll",
+          "servingGrams": null,
+          "servingsPerRecipe": null,
+          "calories": 414,
+          "totalFat": "15.7 g",
+          "saturatedFat": "7.6 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "227 mg",
+          "totalCarbohydrate": "62.5 g",
+          "dietaryFiber": "2.1 g",
+          "totalSugars": "29.8 g",
+          "addedSugars": "24.4 g",
+          "protein": "7 g",
+          "potassium": "179 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "CR",
+          "Recipe",
+          "1 roll"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_CR_001_005_Cinnamon_Rolls_Detailed_Working_Nutrition.xlsx — CR_Nutrition_Boxes."
+      }
+    }
+  },
+  {
+    "recipeCode": "CR-005",
+    "title": "Crescent Dough Cinnamon Rolls",
+    "series": "CR",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "1-roll",
+    "sourceWorkbook": "RRB_Food_Intelligence_CR_001_005_Cinnamon_Rolls_Detailed_Working_Nutrition.xlsx",
+    "sourceSheet": "CR_Nutrition_Boxes",
+    "auditIssues": [
+      {
+        "id": "audit-176",
+        "priority": "High",
+        "category": "Bread / Bun / Biscuit / Crust Yield",
+        "issue": "Exact crescent-roll dough product",
+        "assumption": "Generic 8-oz can",
+        "correction": "Select exact refrigerated dough",
+        "impact": "Calories, carbs, fiber, sodium",
+        "recommendedAction": "Measure baked weights and link validated profiles.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_CR_001_005_Cinnamon_Rolls_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      },
+      {
+        "id": "audit-177",
+        "priority": "Medium",
+        "category": "Cheese / Dairy / Mayonnaise",
+        "issue": "Glaze milk range of 1–2 tbsp",
+        "assumption": "1.5 tbsp working default",
+        "correction": "Set exact standard amount",
+        "impact": "Calories, fat, saturated fat, sodium",
+        "recommendedAction": "Select exact standard products and amounts.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_CR_001_005_Cinnamon_Rolls_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      }
+    ],
+    "variants": {
+      "1-roll": {
+        "label": "1 roll",
+        "recordType": "Recipe",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_CR_001_005_Cinnamon_Rolls_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "CR_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "1 roll",
+          "servingGrams": null,
+          "servingsPerRecipe": null,
+          "calories": 234,
+          "totalFat": "12.4 g",
+          "saturatedFat": "6.5 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "237 mg",
+          "totalCarbohydrate": "29.1 g",
+          "dietaryFiber": "0.6 g",
+          "totalSugars": "18.3 g",
+          "addedSugars": "17.4 g",
+          "protein": "2.1 g",
+          "potassium": "54 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "CR",
+          "Recipe",
+          "1 roll"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_CR_001_005_Cinnamon_Rolls_Detailed_Working_Nutrition.xlsx — CR_Nutrition_Boxes."
+      }
+    }
+  }
+]

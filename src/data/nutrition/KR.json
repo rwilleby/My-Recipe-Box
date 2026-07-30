@@ -1,0 +1,540 @@
+[
+  {
+    "recipeCode": "KR-001",
+    "title": "Kolaches: Sausage & Cheese",
+    "series": "KR",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "bake",
+    "sourceWorkbook": "RRB_Food_Intelligence_KR_001_007_Kolaches_Detailed_Working_Nutrition.xlsx",
+    "sourceSheet": "KR_Nutrition_Boxes",
+    "auditIssues": [
+      {
+        "id": "audit-339",
+        "priority": "High",
+        "category": "Packaged Product / Brand Label",
+        "issue": "Breakfast sausage product and cooked yield",
+        "assumption": "Generic breakfast sausage",
+        "correction": "Select exact product / weigh cooked sausage",
+        "impact": "Sodium, calories, fat, sugar",
+        "recommendedAction": "Select approved products and fallbacks.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_KR_001_007_Kolaches_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      }
+    ],
+    "variants": {
+      "bake": {
+        "label": "Bake",
+        "recordType": "Recipe",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_KR_001_007_Kolaches_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "KR_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "1 kolache",
+          "servingGrams": null,
+          "servingsPerRecipe": null,
+          "calories": 239,
+          "totalFat": "15.7 g",
+          "saturatedFat": "6.7 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "509 mg",
+          "totalCarbohydrate": "16.9 g",
+          "dietaryFiber": "0.5 g",
+          "totalSugars": "2.4 g",
+          "addedSugars": "1.3 g",
+          "protein": "7.2 g",
+          "potassium": "98 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "KR",
+          "Recipe",
+          "Bake"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_KR_001_007_Kolaches_Detailed_Working_Nutrition.xlsx — KR_Nutrition_Boxes."
+      }
+    }
+  },
+  {
+    "recipeCode": "KR-002",
+    "title": "Kolaches: Ham & Swiss",
+    "series": "KR",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "bake",
+    "sourceWorkbook": "RRB_Food_Intelligence_KR_001_007_Kolaches_Detailed_Working_Nutrition.xlsx",
+    "sourceSheet": "KR_Nutrition_Boxes",
+    "auditIssues": [
+      {
+        "id": "audit-340",
+        "priority": "High",
+        "category": "Meat / Poultry / Seafood Yield",
+        "issue": "Cooked ham and shredded Swiss cup weights",
+        "assumption": "140 g ham; 108 g Swiss",
+        "correction": "Verify exact products and cup weights",
+        "impact": "Calories, protein, fat, serving weight",
+        "recommendedAction": "Lock raw edible and cooked-yield standards by cut.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_KR_001_007_Kolaches_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      }
+    ],
+    "variants": {
+      "bake": {
+        "label": "Bake",
+        "recordType": "Recipe",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_KR_001_007_Kolaches_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "KR_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "1 kolache",
+          "servingGrams": null,
+          "servingsPerRecipe": null,
+          "calories": 207,
+          "totalFat": "11.9 g",
+          "saturatedFat": "5.6 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "467 mg",
+          "totalCarbohydrate": "17.2 g",
+          "dietaryFiber": "0.5 g",
+          "totalSugars": "2.6 g",
+          "addedSugars": "1.3 g",
+          "protein": "7.5 g",
+          "potassium": "88 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "KR",
+          "Recipe",
+          "Bake"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_KR_001_007_Kolaches_Detailed_Working_Nutrition.xlsx — KR_Nutrition_Boxes."
+      }
+    }
+  },
+  {
+    "recipeCode": "KR-003",
+    "title": "Kolaches: Bacon Egg & Cheese",
+    "series": "KR",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "bake",
+    "sourceWorkbook": "RRB_Food_Intelligence_KR_001_007_Kolaches_Detailed_Working_Nutrition.xlsx",
+    "sourceSheet": "KR_Nutrition_Boxes",
+    "auditIssues": [
+      {
+        "id": "audit-341",
+        "priority": "Medium",
+        "category": "Other Validation",
+        "issue": "Cooked bacon slice weight",
+        "assumption": "8 g per cooked slice",
+        "correction": "Weigh selected bacon",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_KR_001_007_Kolaches_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      }
+    ],
+    "variants": {
+      "bake": {
+        "label": "Bake",
+        "recordType": "Recipe",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_KR_001_007_Kolaches_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "KR_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "1 kolache",
+          "servingGrams": null,
+          "servingsPerRecipe": null,
+          "calories": 235,
+          "totalFat": "14.5 g",
+          "saturatedFat": "6.2 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "446 mg",
+          "totalCarbohydrate": "17.1 g",
+          "dietaryFiber": "0.5 g",
+          "totalSugars": "2.7 g",
+          "addedSugars": "1.3 g",
+          "protein": "8.6 g",
+          "potassium": "115 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "KR",
+          "Recipe",
+          "Bake"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_KR_001_007_Kolaches_Detailed_Working_Nutrition.xlsx — KR_Nutrition_Boxes."
+      }
+    }
+  },
+  {
+    "recipeCode": "KR-004",
+    "title": "Kolaches: Sausage Egg & Cheese",
+    "series": "KR",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "bake",
+    "sourceWorkbook": "RRB_Food_Intelligence_KR_001_007_Kolaches_Detailed_Working_Nutrition.xlsx",
+    "sourceSheet": "KR_Nutrition_Boxes",
+    "auditIssues": [
+      {
+        "id": "audit-339",
+        "priority": "High",
+        "category": "Packaged Product / Brand Label",
+        "issue": "Breakfast sausage product and cooked yield",
+        "assumption": "Generic breakfast sausage",
+        "correction": "Select exact product / weigh cooked sausage",
+        "impact": "Sodium, calories, fat, sugar",
+        "recommendedAction": "Select approved products and fallbacks.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_KR_001_007_Kolaches_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      }
+    ],
+    "variants": {
+      "bake": {
+        "label": "Bake",
+        "recordType": "Recipe",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_KR_001_007_Kolaches_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "KR_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "1 kolache",
+          "servingGrams": null,
+          "servingsPerRecipe": null,
+          "calories": 278,
+          "totalFat": "18.3 g",
+          "saturatedFat": "7.5 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "547 mg",
+          "totalCarbohydrate": "17.3 g",
+          "dietaryFiber": "0.5 g",
+          "totalSugars": "2.7 g",
+          "addedSugars": "1.3 g",
+          "protein": "10.5 g",
+          "potassium": "139 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "KR",
+          "Recipe",
+          "Bake"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_KR_001_007_Kolaches_Detailed_Working_Nutrition.xlsx — KR_Nutrition_Boxes."
+      }
+    }
+  },
+  {
+    "recipeCode": "KR-005",
+    "title": "Kolaches: Boudin",
+    "series": "KR",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "bake",
+    "sourceWorkbook": "RRB_Food_Intelligence_KR_001_007_Kolaches_Detailed_Working_Nutrition.xlsx",
+    "sourceSheet": "KR_Nutrition_Boxes",
+    "auditIssues": [
+      {
+        "id": "audit-342",
+        "priority": "High",
+        "category": "Pasta / Rice / Potato / Starch Yield",
+        "issue": "Boudin product and whether listed rice duplicates rice already inside boudin",
+        "assumption": "Generic boudin + separate 1/2 cup rice",
+        "correction": "Confirm card intent/product",
+        "impact": "Calories, carbs, fiber",
+        "recommendedAction": "Lock dry/cooked conversions and prepared weights.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_KR_001_007_Kolaches_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      }
+    ],
+    "variants": {
+      "bake": {
+        "label": "Bake",
+        "recordType": "Recipe",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_KR_001_007_Kolaches_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "KR_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "1 kolache",
+          "servingGrams": null,
+          "servingsPerRecipe": null,
+          "calories": 269,
+          "totalFat": "16.3 g",
+          "saturatedFat": "6.6 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "627 mg",
+          "totalCarbohydrate": "23.9 g",
+          "dietaryFiber": "1 g",
+          "totalSugars": "2.7 g",
+          "addedSugars": "1.3 g",
+          "protein": "8.3 g",
+          "potassium": "140 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "KR",
+          "Recipe",
+          "Bake"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_KR_001_007_Kolaches_Detailed_Working_Nutrition.xlsx — KR_Nutrition_Boxes."
+      }
+    }
+  },
+  {
+    "recipeCode": "KR-006",
+    "title": "Kolaches: Chicken Nugget",
+    "series": "KR",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "air-fry-nuggets-preferred-bake-assembled-kolaches",
+    "sourceWorkbook": "RRB_Food_Intelligence_KR_001_007_Kolaches_Detailed_Working_Nutrition.xlsx",
+    "sourceSheet": "KR_Nutrition_Boxes",
+    "auditIssues": [
+      {
+        "id": "audit-343",
+        "priority": "High",
+        "category": "Packaged Product / Brand Label",
+        "issue": "Nugget count and product weight",
+        "assumption": "12 nuggets at 20 g each",
+        "correction": "Select exact nugget product/count",
+        "impact": "Sodium, calories, fat, sugar",
+        "recommendedAction": "Select approved products and fallbacks.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_KR_001_007_Kolaches_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      },
+      {
+        "id": "audit-344",
+        "priority": "Medium",
+        "category": "Other Validation",
+        "issue": "Optional honey mustard",
+        "assumption": "Excluded from base",
+        "correction": "Add selected sauce option",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_KR_001_007_Kolaches_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      }
+    ],
+    "variants": {
+      "air-fry-nuggets-preferred-bake-assembled-kolaches": {
+        "label": "Air fry nuggets preferred; bake assembled kolaches",
+        "recordType": "Recipe",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_KR_001_007_Kolaches_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "KR_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "1 kolache",
+          "servingGrams": null,
+          "servingsPerRecipe": null,
+          "calories": 215,
+          "totalFat": "12.3 g",
+          "saturatedFat": "4.6 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "430 mg",
+          "totalCarbohydrate": "20.2 g",
+          "dietaryFiber": "0.7 g",
+          "totalSugars": "2.5 g",
+          "addedSugars": "1.3 g",
+          "protein": "5.6 g",
+          "potassium": "96 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "KR",
+          "Recipe",
+          "Air fry nuggets preferred; bake assembled kolaches"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_KR_001_007_Kolaches_Detailed_Working_Nutrition.xlsx — KR_Nutrition_Boxes."
+      }
+    }
+  },
+  {
+    "recipeCode": "KR-007",
+    "title": "Kolaches: Mini Sausage",
+    "series": "KR",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "bake",
+    "sourceWorkbook": "RRB_Food_Intelligence_KR_001_007_Kolaches_Detailed_Working_Nutrition.xlsx",
+    "sourceSheet": "KR_Nutrition_Boxes",
+    "auditIssues": [
+      {
+        "id": "audit-345",
+        "priority": "High",
+        "category": "Packaged Product / Brand Label",
+        "issue": "Mini sausage product and link weight",
+        "assumption": "18 g each",
+        "correction": "Select exact cocktail-wiener product",
+        "impact": "Sodium, calories, fat, sugar",
+        "recommendedAction": "Select approved products and fallbacks.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_KR_001_007_Kolaches_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      }
+    ],
+    "variants": {
+      "bake": {
+        "label": "Bake",
+        "recordType": "Recipe",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_KR_001_007_Kolaches_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "KR_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "1 kolache",
+          "servingGrams": null,
+          "servingsPerRecipe": null,
+          "calories": 212,
+          "totalFat": "13.7 g",
+          "saturatedFat": "5.6 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "499 mg",
+          "totalCarbohydrate": "17.1 g",
+          "dietaryFiber": "0.5 g",
+          "totalSugars": "2.5 g",
+          "addedSugars": "1.3 g",
+          "protein": "4.8 g",
+          "potassium": "80 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "KR",
+          "Recipe",
+          "Bake"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_KR_001_007_Kolaches_Detailed_Working_Nutrition.xlsx — KR_Nutrition_Boxes."
+      }
+    }
+  }
+]

@@ -1,0 +1,2252 @@
+[
+  {
+    "recipeCode": "AS-001",
+    "title": "Beef & Broccoli",
+    "series": "AS",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "B/C provisional",
+    "dataStatus": "Ready for working mockup",
+    "defaultVariant": "10-oz",
+    "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+    "sourceSheet": "AS_Original_FIC",
+    "auditIssues": [],
+    "variants": {
+      "10-oz": {
+        "label": "10 oz",
+        "recordType": "Recipe — commercial/default",
+        "defaultSelection": "Default / only option",
+        "confidence": "B/C provisional",
+        "dataStatus": "Ready for working mockup",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "AS_Original_FIC",
+        "nutritionFacts": {
+          "servingSize": "10 oz",
+          "servingGrams": 283.5,
+          "servingsPerRecipe": null,
+          "calories": 389,
+          "totalFat": "18.8 g",
+          "saturatedFat": "6.3 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "2129 mg",
+          "totalCarbohydrate": "21.6 g",
+          "dietaryFiber": "3.9 g",
+          "totalSugars": "11.4 g",
+          "addedSugars": "9.3 g",
+          "protein": "33.7 g",
+          "potassium": "737 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "AS",
+          "Recipe — commercial/default",
+          "10 oz"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "B/C provisional. Ready for working mockup. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — AS_Original_FIC."
+      },
+      "10-oz-mhs-001": {
+        "label": "10 oz — MHS-001",
+        "recordType": "Recipe — MHS alternative",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional substitution",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "AS_MHS_Alternative_FIC",
+        "nutritionFacts": {
+          "servingSize": "10 oz — MHS-001",
+          "servingGrams": 283.5,
+          "servingsPerRecipe": null,
+          "calories": 389,
+          "totalFat": "20.3 g",
+          "saturatedFat": "6.3 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "779 mg",
+          "totalCarbohydrate": "16.5 g",
+          "dietaryFiber": "3.9 g",
+          "totalSugars": "6.3 g",
+          "addedSugars": "4.2 g",
+          "protein": "34.7 g",
+          "potassium": "737 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "AS",
+          "Recipe — MHS alternative",
+          "10 oz — MHS-001"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional substitution. Ready for working nutrition box. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — AS_MHS_Alternative_FIC."
+      }
+    }
+  },
+  {
+    "recipeCode": "AS-002",
+    "title": "Beijing Beef",
+    "series": "AS",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "B/C provisional",
+    "dataStatus": "Ready for working mockup",
+    "defaultVariant": "10-oz",
+    "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+    "sourceSheet": "AS_Original_FIC",
+    "auditIssues": [],
+    "variants": {
+      "10-oz": {
+        "label": "10 oz",
+        "recordType": "Recipe — commercial/default",
+        "defaultSelection": "Default / only option",
+        "confidence": "B/C provisional",
+        "dataStatus": "Ready for working mockup",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "AS_Original_FIC",
+        "nutritionFacts": {
+          "servingSize": "10 oz",
+          "servingGrams": 283.5,
+          "servingsPerRecipe": null,
+          "calories": 509,
+          "totalFat": "23.7 g",
+          "saturatedFat": "7.5 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "1508 mg",
+          "totalCarbohydrate": "33.8 g",
+          "dietaryFiber": "1.9 g",
+          "totalSugars": "28.1 g",
+          "addedSugars": "25.1 g",
+          "protein": "38.7 g",
+          "potassium": "650 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "AS",
+          "Recipe — commercial/default",
+          "10 oz"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "B/C provisional. Ready for working mockup. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — AS_Original_FIC."
+      },
+      "10-oz-mhs-002": {
+        "label": "10 oz — MHS-002",
+        "recordType": "Recipe — MHS alternative",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional substitution",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "AS_MHS_Alternative_FIC",
+        "nutritionFacts": {
+          "servingSize": "10 oz — MHS-002",
+          "servingGrams": 283.5,
+          "servingsPerRecipe": null,
+          "calories": 453,
+          "totalFat": "24.3 g",
+          "saturatedFat": "7.5 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "495 mg",
+          "totalCarbohydrate": "17.9 g",
+          "dietaryFiber": "1.9 g",
+          "totalSugars": "12.5 g",
+          "addedSugars": "9.5 g",
+          "protein": "38.9 g",
+          "potassium": "650 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "AS",
+          "Recipe — MHS alternative",
+          "10 oz — MHS-002"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional substitution. Ready for working nutrition box. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — AS_MHS_Alternative_FIC."
+      }
+    }
+  },
+  {
+    "recipeCode": "AS-003",
+    "title": "Title from card pending consolidation",
+    "series": "AS",
+    "active": true,
+    "retired": false,
+    "status": "not-ready",
+    "statusLabel": "Nutrition record not available",
+    "confidence": "Return-To-Review",
+    "dataStatus": "Not ready",
+    "defaultVariant": "serving-pending",
+    "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+    "sourceSheet": "AS_Original_FIC",
+    "auditIssues": [
+      {
+        "id": "audit-118",
+        "priority": "High",
+        "category": "Sauce / Product Definition",
+        "issue": "Original detailed nutrition and exact Mongolian sauce profile incomplete",
+        "assumption": "Registered but no final box",
+        "correction": "Complete ingredient/product calculation",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "Audit_Detail"
+      }
+    ],
+    "variants": {
+      "serving-pending": {
+        "label": "Serving pending",
+        "recordType": "Recipe — commercial/default",
+        "defaultSelection": "Default / only option",
+        "confidence": "Return-To-Review",
+        "dataStatus": "Not ready",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "AS_Original_FIC",
+        "nutritionFacts": {
+          "servingSize": "Serving pending",
+          "servingGrams": null,
+          "servingsPerRecipe": null,
+          "calories": null,
+          "totalFat": null,
+          "saturatedFat": null,
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": null,
+          "totalCarbohydrate": null,
+          "dietaryFiber": null,
+          "totalSugars": null,
+          "addedSugars": null,
+          "protein": null,
+          "potassium": null
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "AS",
+          "Recipe — commercial/default",
+          "Serving pending"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "Return-To-Review. Not ready. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — AS_Original_FIC."
+      }
+    }
+  },
+  {
+    "recipeCode": "AS-004",
+    "title": "Title from card pending consolidation",
+    "series": "AS",
+    "active": true,
+    "retired": false,
+    "status": "not-ready",
+    "statusLabel": "Nutrition record not available",
+    "confidence": "Return-To-Review",
+    "dataStatus": "Not ready",
+    "defaultVariant": "serving-pending",
+    "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+    "sourceSheet": "AS_Original_FIC",
+    "auditIssues": [
+      {
+        "id": "audit-119",
+        "priority": "High",
+        "category": "Recipe Validation",
+        "issue": "Missing/uncertain black-pepper recipe quantities",
+        "assumption": "Registered but no final box",
+        "correction": "Resolve card ingredients and exact sauce",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "Audit_Detail"
+      }
+    ],
+    "variants": {
+      "serving-pending": {
+        "label": "Serving pending",
+        "recordType": "Recipe — commercial/default",
+        "defaultSelection": "Default / only option",
+        "confidence": "Return-To-Review",
+        "dataStatus": "Not ready",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "AS_Original_FIC",
+        "nutritionFacts": {
+          "servingSize": "Serving pending",
+          "servingGrams": null,
+          "servingsPerRecipe": null,
+          "calories": null,
+          "totalFat": null,
+          "saturatedFat": null,
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": null,
+          "totalCarbohydrate": null,
+          "dietaryFiber": null,
+          "totalSugars": null,
+          "addedSugars": null,
+          "protein": null,
+          "potassium": null
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "AS",
+          "Recipe — commercial/default",
+          "Serving pending"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "Return-To-Review. Not ready. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — AS_Original_FIC."
+      }
+    }
+  },
+  {
+    "recipeCode": "AS-005",
+    "title": "Title from card pending consolidation",
+    "series": "AS",
+    "active": true,
+    "retired": false,
+    "status": "not-ready",
+    "statusLabel": "Nutrition record not available",
+    "confidence": "Return-To-Review",
+    "dataStatus": "Not ready",
+    "defaultVariant": "serving-pending",
+    "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+    "sourceSheet": "AS_Original_FIC",
+    "auditIssues": [
+      {
+        "id": "audit-120",
+        "priority": "High",
+        "category": "Recipe Validation",
+        "issue": "Missing/uncertain black-pepper recipe quantities",
+        "assumption": "Registered but no final box",
+        "correction": "Resolve card ingredients and exact sauce",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "Audit_Detail"
+      }
+    ],
+    "variants": {
+      "serving-pending": {
+        "label": "Serving pending",
+        "recordType": "Recipe — commercial/default",
+        "defaultSelection": "Default / only option",
+        "confidence": "Return-To-Review",
+        "dataStatus": "Not ready",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "AS_Original_FIC",
+        "nutritionFacts": {
+          "servingSize": "Serving pending",
+          "servingGrams": null,
+          "servingsPerRecipe": null,
+          "calories": null,
+          "totalFat": null,
+          "saturatedFat": null,
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": null,
+          "totalCarbohydrate": null,
+          "dietaryFiber": null,
+          "totalSugars": null,
+          "addedSugars": null,
+          "protein": null,
+          "potassium": null
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "AS",
+          "Recipe — commercial/default",
+          "Serving pending"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "Return-To-Review. Not ready. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — AS_Original_FIC."
+      }
+    }
+  },
+  {
+    "recipeCode": "AS-006",
+    "title": "Korean Beef",
+    "series": "AS",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "B/C provisional",
+    "dataStatus": "Ready for working mockup",
+    "defaultVariant": "10-oz",
+    "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+    "sourceSheet": "AS_Original_FIC",
+    "auditIssues": [],
+    "variants": {
+      "10-oz": {
+        "label": "10 oz",
+        "recordType": "Recipe — commercial/default",
+        "defaultSelection": "Default / only option",
+        "confidence": "B/C provisional",
+        "dataStatus": "Ready for working mockup",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "AS_Original_FIC",
+        "nutritionFacts": {
+          "servingSize": "10 oz",
+          "servingGrams": 283.5,
+          "servingsPerRecipe": null,
+          "calories": 663,
+          "totalFat": "30.6 g",
+          "saturatedFat": "10.3 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "1217 mg",
+          "totalCarbohydrate": "40 g",
+          "dietaryFiber": "0.7 g",
+          "totalSugars": "27 g",
+          "addedSugars": "26.6 g",
+          "protein": "51.1 g",
+          "potassium": "677 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "AS",
+          "Recipe — commercial/default",
+          "10 oz"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "B/C provisional. Ready for working mockup. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — AS_Original_FIC."
+      },
+      "10-oz-mhs-005": {
+        "label": "10 oz — MHS-005",
+        "recordType": "Recipe — MHS alternative",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional substitution",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "AS_MHS_Alternative_FIC",
+        "nutritionFacts": {
+          "servingSize": "10 oz — MHS-005",
+          "servingGrams": 283.5,
+          "servingsPerRecipe": null,
+          "calories": 651,
+          "totalFat": "33.6 g",
+          "saturatedFat": "10.3 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "1269 mg",
+          "totalCarbohydrate": "30.8 g",
+          "dietaryFiber": "0.7 g",
+          "totalSugars": "16 g",
+          "addedSugars": "15.6 g",
+          "protein": "53.4 g",
+          "potassium": "677 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "AS",
+          "Recipe — MHS alternative",
+          "10 oz — MHS-005"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional substitution. Ready for working nutrition box. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — AS_MHS_Alternative_FIC."
+      }
+    }
+  },
+  {
+    "recipeCode": "AS-007",
+    "title": "Teriyaki Chicken",
+    "series": "AS",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "B/C provisional",
+    "dataStatus": "Ready for working mockup",
+    "defaultVariant": "10-oz",
+    "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+    "sourceSheet": "AS_Original_FIC",
+    "auditIssues": [],
+    "variants": {
+      "10-oz": {
+        "label": "10 oz",
+        "recordType": "Recipe — commercial/default",
+        "defaultSelection": "Default / only option",
+        "confidence": "B/C provisional",
+        "dataStatus": "Ready for working mockup",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "AS_Original_FIC",
+        "nutritionFacts": {
+          "servingSize": "10 oz",
+          "servingGrams": 283.5,
+          "servingsPerRecipe": null,
+          "calories": 488,
+          "totalFat": "12.5 g",
+          "saturatedFat": "2.7 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "1179 mg",
+          "totalCarbohydrate": "28.6 g",
+          "dietaryFiber": "0.5 g",
+          "totalSugars": "19.7 g",
+          "addedSugars": "11.6 g",
+          "protein": "56.9 g",
+          "potassium": "522 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "AS",
+          "Recipe — commercial/default",
+          "10 oz"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "B/C provisional. Ready for working mockup. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — AS_Original_FIC."
+      },
+      "10-oz-mhs-006": {
+        "label": "10 oz — MHS-006",
+        "recordType": "Recipe — MHS alternative",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional substitution",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "AS_MHS_Alternative_FIC",
+        "nutritionFacts": {
+          "servingSize": "10 oz — MHS-006",
+          "servingGrams": 283.5,
+          "servingsPerRecipe": null,
+          "calories": 473,
+          "totalFat": "13.3 g",
+          "saturatedFat": "2.7 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "1052 mg",
+          "totalCarbohydrate": "24.6 g",
+          "dietaryFiber": "0.5 g",
+          "totalSugars": "12.4 g",
+          "addedSugars": "12 g",
+          "protein": "58.5 g",
+          "potassium": "522 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "AS",
+          "Recipe — MHS alternative",
+          "10 oz — MHS-006"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional substitution. Ready for working nutrition box. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — AS_MHS_Alternative_FIC."
+      }
+    }
+  },
+  {
+    "recipeCode": "AS-008",
+    "title": "Sweet & Sour Chicken",
+    "series": "AS",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "B/C provisional",
+    "dataStatus": "Ready for working mockup",
+    "defaultVariant": "11-oz",
+    "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+    "sourceSheet": "AS_Original_FIC",
+    "auditIssues": [],
+    "variants": {
+      "11-oz": {
+        "label": "11 oz",
+        "recordType": "Recipe — commercial/default",
+        "defaultSelection": "Default / only option",
+        "confidence": "B/C provisional",
+        "dataStatus": "Ready for working mockup",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "AS_Original_FIC",
+        "nutritionFacts": {
+          "servingSize": "11 oz",
+          "servingGrams": 311.8,
+          "servingsPerRecipe": null,
+          "calories": 413,
+          "totalFat": "7.2 g",
+          "saturatedFat": "1.4 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "874 mg",
+          "totalCarbohydrate": "60.5 g",
+          "dietaryFiber": "1.9 g",
+          "totalSugars": "43 g",
+          "addedSugars": "30.6 g",
+          "protein": "24.8 g",
+          "potassium": "380 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "AS",
+          "Recipe — commercial/default",
+          "11 oz"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "B/C provisional. Ready for working mockup. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — AS_Original_FIC."
+      },
+      "11-oz-mhs-007": {
+        "label": "11 oz — MHS-007",
+        "recordType": "Recipe — MHS alternative",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional substitution",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "AS_MHS_Alternative_FIC",
+        "nutritionFacts": {
+          "servingSize": "11 oz — MHS-007",
+          "servingGrams": 311.8,
+          "servingsPerRecipe": null,
+          "calories": 345,
+          "totalFat": "7.2 g",
+          "saturatedFat": "1.4 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "672 mg",
+          "totalCarbohydrate": "44.7 g",
+          "dietaryFiber": "1.9 g",
+          "totalSugars": "28.2 g",
+          "addedSugars": "15.8 g",
+          "protein": "24.7 g",
+          "potassium": "380 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "AS",
+          "Recipe — MHS alternative",
+          "11 oz — MHS-007"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional substitution. Ready for working nutrition box. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — AS_MHS_Alternative_FIC."
+      }
+    }
+  },
+  {
+    "recipeCode": "AS-009",
+    "title": "Title from card pending consolidation",
+    "series": "AS",
+    "active": true,
+    "retired": false,
+    "status": "not-ready",
+    "statusLabel": "Nutrition record not available",
+    "confidence": "Return-To-Review",
+    "dataStatus": "Not ready",
+    "defaultVariant": "serving-pending",
+    "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+    "sourceSheet": "AS_Original_FIC",
+    "auditIssues": [
+      {
+        "id": "audit-121",
+        "priority": "High",
+        "category": "Sauce / Product Definition",
+        "issue": "Original sesame sauce label unresolved",
+        "assumption": "Registered but no final box",
+        "correction": "Verify sauce and complete nutrition",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "Audit_Detail"
+      }
+    ],
+    "variants": {
+      "serving-pending": {
+        "label": "Serving pending",
+        "recordType": "Recipe — commercial/default",
+        "defaultSelection": "Default / only option",
+        "confidence": "Return-To-Review",
+        "dataStatus": "Not ready",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "AS_Original_FIC",
+        "nutritionFacts": {
+          "servingSize": "Serving pending",
+          "servingGrams": null,
+          "servingsPerRecipe": null,
+          "calories": null,
+          "totalFat": null,
+          "saturatedFat": null,
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": null,
+          "totalCarbohydrate": null,
+          "dietaryFiber": null,
+          "totalSugars": null,
+          "addedSugars": null,
+          "protein": null,
+          "potassium": null
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "AS",
+          "Recipe — commercial/default",
+          "Serving pending"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "Return-To-Review. Not ready. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — AS_Original_FIC."
+      }
+    }
+  },
+  {
+    "recipeCode": "AS-010",
+    "title": "Orange Chicken",
+    "series": "AS",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "B/C provisional",
+    "dataStatus": "Ready for working mockup",
+    "defaultVariant": "10-oz",
+    "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+    "sourceSheet": "AS_Original_FIC",
+    "auditIssues": [],
+    "variants": {
+      "10-oz": {
+        "label": "10 oz",
+        "recordType": "Recipe — commercial/default",
+        "defaultSelection": "Default / only option",
+        "confidence": "B/C provisional",
+        "dataStatus": "Ready for working mockup",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "AS_Original_FIC",
+        "nutritionFacts": {
+          "servingSize": "10 oz",
+          "servingGrams": 283.5,
+          "servingsPerRecipe": null,
+          "calories": 608,
+          "totalFat": "16.2 g",
+          "saturatedFat": "3.2 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "553 mg",
+          "totalCarbohydrate": "57.8 g",
+          "dietaryFiber": "0.7 g",
+          "totalSugars": "32.2 g",
+          "addedSugars": "31.8 g",
+          "protein": "52.3 g",
+          "potassium": "487 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "AS",
+          "Recipe — commercial/default",
+          "10 oz"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "B/C provisional. Ready for working mockup. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — AS_Original_FIC."
+      },
+      "10-oz-mhs-019": {
+        "label": "10 oz — MHS-019",
+        "recordType": "Recipe — MHS alternative",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional substitution",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "AS_MHS_Alternative_FIC",
+        "nutritionFacts": {
+          "servingSize": "10 oz — MHS-019",
+          "servingGrams": 283.5,
+          "servingsPerRecipe": null,
+          "calories": 529,
+          "totalFat": "17 g",
+          "saturatedFat": "3.2 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "547 mg",
+          "totalCarbohydrate": "37.3 g",
+          "dietaryFiber": "0.7 g",
+          "totalSugars": "10.7 g",
+          "addedSugars": "10.4 g",
+          "protein": "53.3 g",
+          "potassium": "487 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "AS",
+          "Recipe — MHS alternative",
+          "10 oz — MHS-019"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional substitution. Ready for working nutrition box. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — AS_MHS_Alternative_FIC."
+      }
+    }
+  },
+  {
+    "recipeCode": "AS-011",
+    "title": "Kung Pao Chicken",
+    "series": "AS",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "B/C provisional",
+    "dataStatus": "Ready for working mockup",
+    "defaultVariant": "10-oz",
+    "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+    "sourceSheet": "AS_Original_FIC",
+    "auditIssues": [],
+    "variants": {
+      "10-oz": {
+        "label": "10 oz",
+        "recordType": "Recipe — commercial/default",
+        "defaultSelection": "Default / only option",
+        "confidence": "B/C provisional",
+        "dataStatus": "Ready for working mockup",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "AS_Original_FIC",
+        "nutritionFacts": {
+          "servingSize": "10 oz",
+          "servingGrams": 283.5,
+          "servingsPerRecipe": null,
+          "calories": 415,
+          "totalFat": "19.3 g",
+          "saturatedFat": "2.9 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "823 mg",
+          "totalCarbohydrate": "19 g",
+          "dietaryFiber": "3.9 g",
+          "totalSugars": "10.2 g",
+          "addedSugars": "6.1 g",
+          "protein": "42.8 g",
+          "potassium": "666 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "AS",
+          "Recipe — commercial/default",
+          "10 oz"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "B/C provisional. Ready for working mockup. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — AS_Original_FIC."
+      },
+      "10-oz-mhs-011": {
+        "label": "10 oz — MHS-011",
+        "recordType": "Recipe — MHS alternative",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional substitution",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "AS_MHS_Alternative_FIC",
+        "nutritionFacts": {
+          "servingSize": "10 oz — MHS-011",
+          "servingGrams": 283.5,
+          "servingsPerRecipe": null,
+          "calories": 412,
+          "totalFat": "18.5 g",
+          "saturatedFat": "2.9 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "729 mg",
+          "totalCarbohydrate": "17.8 g",
+          "dietaryFiber": "3.9 g",
+          "totalSugars": "8.8 g",
+          "addedSugars": "4.7 g",
+          "protein": "44 g",
+          "potassium": "666 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "AS",
+          "Recipe — MHS alternative",
+          "10 oz — MHS-011"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional substitution. Ready for working nutrition box. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — AS_MHS_Alternative_FIC."
+      }
+    }
+  },
+  {
+    "recipeCode": "AS-012",
+    "title": "Honey Garlic Chicken",
+    "series": "AS",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "B/C provisional",
+    "dataStatus": "Ready for working mockup",
+    "defaultVariant": "10-oz",
+    "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+    "sourceSheet": "AS_Original_FIC",
+    "auditIssues": [],
+    "variants": {
+      "10-oz": {
+        "label": "10 oz",
+        "recordType": "Recipe — commercial/default",
+        "defaultSelection": "Default / only option",
+        "confidence": "B/C provisional",
+        "dataStatus": "Ready for working mockup",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "AS_Original_FIC",
+        "nutritionFacts": {
+          "servingSize": "10 oz",
+          "servingGrams": 283.5,
+          "servingsPerRecipe": null,
+          "calories": 591,
+          "totalFat": "17.5 g",
+          "saturatedFat": "3.5 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "828 mg",
+          "totalCarbohydrate": "48.5 g",
+          "dietaryFiber": "0.4 g",
+          "totalSugars": "37.2 g",
+          "addedSugars": "36.8 g",
+          "protein": "56.4 g",
+          "potassium": "504 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "AS",
+          "Recipe — commercial/default",
+          "10 oz"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "B/C provisional. Ready for working mockup. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — AS_Original_FIC."
+      },
+      "10-oz-mhs-016": {
+        "label": "10 oz — MHS-016",
+        "recordType": "Recipe — MHS alternative",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional substitution",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "AS_MHS_Alternative_FIC",
+        "nutritionFacts": {
+          "servingSize": "10 oz — MHS-016",
+          "servingGrams": 283.5,
+          "servingsPerRecipe": null,
+          "calories": 573,
+          "totalFat": "20 g",
+          "saturatedFat": "3.5 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "1045 mg",
+          "totalCarbohydrate": "37.7 g",
+          "dietaryFiber": "0.4 g",
+          "totalSugars": "25.2 g",
+          "addedSugars": "24.9 g",
+          "protein": "58.4 g",
+          "potassium": "504 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "AS",
+          "Recipe — MHS alternative",
+          "10 oz — MHS-016"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional substitution. Ready for working nutrition box. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — AS_MHS_Alternative_FIC."
+      }
+    }
+  },
+  {
+    "recipeCode": "AS-013",
+    "title": "General Tso's Chicken",
+    "series": "AS",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working mockup",
+    "defaultVariant": "10-oz",
+    "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+    "sourceSheet": "AS_Original_FIC",
+    "auditIssues": [
+      {
+        "id": "audit-122",
+        "priority": "High",
+        "category": "Card Ingredient Reconstruction",
+        "issue": "Directions and ingredient lists do not fully match",
+        "assumption": "Working calculations exclude missing items",
+        "correction": "Confirm omitted quantities or revise cards",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "Audit_Detail"
+      }
+    ],
+    "variants": {
+      "10-oz": {
+        "label": "10 oz",
+        "recordType": "Recipe — commercial/default",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working mockup",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "AS_Original_FIC",
+        "nutritionFacts": {
+          "servingSize": "10 oz",
+          "servingGrams": 283.5,
+          "servingsPerRecipe": null,
+          "calories": 539,
+          "totalFat": "18 g",
+          "saturatedFat": "3.6 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "993 mg",
+          "totalCarbohydrate": "33.1 g",
+          "dietaryFiber": "0.4 g",
+          "totalSugars": "27.3 g",
+          "addedSugars": "27 g",
+          "protein": "58 g",
+          "potassium": "518 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "AS",
+          "Recipe — commercial/default",
+          "10 oz"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working mockup. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — AS_Original_FIC."
+      },
+      "10-oz-mhs-020": {
+        "label": "10 oz — MHS-020",
+        "recordType": "Recipe — MHS alternative",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional substitution",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "AS_MHS_Alternative_FIC",
+        "nutritionFacts": {
+          "servingSize": "10 oz — MHS-020",
+          "servingGrams": 283.5,
+          "servingsPerRecipe": null,
+          "calories": 485,
+          "totalFat": "18.8 g",
+          "saturatedFat": "3.6 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "1090 mg",
+          "totalCarbohydrate": "15.1 g",
+          "dietaryFiber": "0.4 g",
+          "totalSugars": "11 g",
+          "addedSugars": "10.7 g",
+          "protein": "59.7 g",
+          "potassium": "518 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "AS",
+          "Recipe — MHS alternative",
+          "10 oz — MHS-020"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional substitution. Ready for working nutrition box. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — AS_MHS_Alternative_FIC."
+      }
+    }
+  },
+  {
+    "recipeCode": "AS-014",
+    "title": "Cashew Chicken",
+    "series": "AS",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working mockup",
+    "defaultVariant": "10-oz",
+    "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+    "sourceSheet": "AS_Original_FIC",
+    "auditIssues": [
+      {
+        "id": "audit-122",
+        "priority": "High",
+        "category": "Card Ingredient Reconstruction",
+        "issue": "Directions and ingredient lists do not fully match",
+        "assumption": "Working calculations exclude missing items",
+        "correction": "Confirm omitted quantities or revise cards",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "Audit_Detail"
+      },
+      {
+        "id": "audit-123",
+        "priority": "Medium",
+        "category": "Recipe Validation",
+        "issue": "No locked direct MHS equivalent",
+        "assumption": "Original working model only",
+        "correction": "Choose custom homemade sauce strategy",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "Audit_Detail"
+      }
+    ],
+    "variants": {
+      "10-oz": {
+        "label": "10 oz",
+        "recordType": "Recipe — commercial/default",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working mockup",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "AS_Original_FIC",
+        "nutritionFacts": {
+          "servingSize": "10 oz",
+          "servingGrams": 283.5,
+          "servingsPerRecipe": null,
+          "calories": 363,
+          "totalFat": "12.1 g",
+          "saturatedFat": "2.5 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "1099 mg",
+          "totalCarbohydrate": "32.6 g",
+          "dietaryFiber": "2.5 g",
+          "totalSugars": "18.7 g",
+          "addedSugars": "13 g",
+          "protein": "31.6 g",
+          "potassium": "520 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "AS",
+          "Recipe — commercial/default",
+          "10 oz"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working mockup. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — AS_Original_FIC."
+      }
+    }
+  },
+  {
+    "recipeCode": "AS-015",
+    "title": "Hunan Chicken",
+    "series": "AS",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working mockup",
+    "defaultVariant": "10-oz",
+    "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+    "sourceSheet": "AS_Original_FIC",
+    "auditIssues": [
+      {
+        "id": "audit-122",
+        "priority": "High",
+        "category": "Card Ingredient Reconstruction",
+        "issue": "Directions and ingredient lists do not fully match",
+        "assumption": "Working calculations exclude missing items",
+        "correction": "Confirm omitted quantities or revise cards",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "Audit_Detail"
+      },
+      {
+        "id": "audit-123",
+        "priority": "Medium",
+        "category": "Recipe Validation",
+        "issue": "No locked direct MHS equivalent",
+        "assumption": "Original working model only",
+        "correction": "Choose custom homemade sauce strategy",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "Audit_Detail"
+      }
+    ],
+    "variants": {
+      "10-oz": {
+        "label": "10 oz",
+        "recordType": "Recipe — commercial/default",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working mockup",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "AS_Original_FIC",
+        "nutritionFacts": {
+          "servingSize": "10 oz",
+          "servingGrams": 283.5,
+          "servingsPerRecipe": null,
+          "calories": 277,
+          "totalFat": "4.1 g",
+          "saturatedFat": "1.1 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "1221 mg",
+          "totalCarbohydrate": "27.2 g",
+          "dietaryFiber": "1.9 g",
+          "totalSugars": "16.4 g",
+          "addedSugars": "11.5 g",
+          "protein": "31.1 g",
+          "potassium": "447 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "AS",
+          "Recipe — commercial/default",
+          "10 oz"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working mockup. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — AS_Original_FIC."
+      }
+    }
+  },
+  {
+    "recipeCode": "AS-016",
+    "title": "Szechuan Chicken",
+    "series": "AS",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working mockup",
+    "defaultVariant": "10-oz",
+    "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+    "sourceSheet": "AS_Original_FIC",
+    "auditIssues": [
+      {
+        "id": "audit-122",
+        "priority": "High",
+        "category": "Card Ingredient Reconstruction",
+        "issue": "Directions and ingredient lists do not fully match",
+        "assumption": "Working calculations exclude missing items",
+        "correction": "Confirm omitted quantities or revise cards",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "Audit_Detail"
+      }
+    ],
+    "variants": {
+      "10-oz": {
+        "label": "10 oz",
+        "recordType": "Recipe — commercial/default",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working mockup",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "AS_Original_FIC",
+        "nutritionFacts": {
+          "servingSize": "10 oz",
+          "servingGrams": 283.5,
+          "servingsPerRecipe": null,
+          "calories": 347,
+          "totalFat": "12.5 g",
+          "saturatedFat": "2.4 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "608 mg",
+          "totalCarbohydrate": "17.1 g",
+          "dietaryFiber": "2.3 g",
+          "totalSugars": "9.6 g",
+          "addedSugars": "5.1 g",
+          "protein": "39.7 g",
+          "potassium": "553 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "AS",
+          "Recipe — commercial/default",
+          "10 oz"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working mockup. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — AS_Original_FIC."
+      },
+      "10-oz-mhs-012": {
+        "label": "10 oz — MHS-012",
+        "recordType": "Recipe — MHS alternative",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional substitution",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "AS_MHS_Alternative_FIC",
+        "nutritionFacts": {
+          "servingSize": "10 oz — MHS-012",
+          "servingGrams": 283.5,
+          "servingsPerRecipe": null,
+          "calories": 353,
+          "totalFat": "13.9 g",
+          "saturatedFat": "2.4 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "787 mg",
+          "totalCarbohydrate": "14.3 g",
+          "dietaryFiber": "2.3 g",
+          "totalSugars": "7.1 g",
+          "addedSugars": "3.5 g",
+          "protein": "40.5 g",
+          "potassium": "553 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "AS",
+          "Recipe — MHS alternative",
+          "10 oz — MHS-012"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional substitution. Ready for working nutrition box. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — AS_MHS_Alternative_FIC."
+      }
+    }
+  },
+  {
+    "recipeCode": "AS-017",
+    "title": "Black Pepper Chicken",
+    "series": "AS",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working mockup",
+    "defaultVariant": "10-oz",
+    "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+    "sourceSheet": "AS_Original_FIC",
+    "auditIssues": [
+      {
+        "id": "audit-122",
+        "priority": "High",
+        "category": "Card Ingredient Reconstruction",
+        "issue": "Directions and ingredient lists do not fully match",
+        "assumption": "Working calculations exclude missing items",
+        "correction": "Confirm omitted quantities or revise cards",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "Audit_Detail"
+      }
+    ],
+    "variants": {
+      "10-oz": {
+        "label": "10 oz",
+        "recordType": "Recipe — commercial/default",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working mockup",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "AS_Original_FIC",
+        "nutritionFacts": {
+          "servingSize": "10 oz",
+          "servingGrams": 283.5,
+          "servingsPerRecipe": null,
+          "calories": 344,
+          "totalFat": "12.3 g",
+          "saturatedFat": "2.4 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "632 mg",
+          "totalCarbohydrate": "17.1 g",
+          "dietaryFiber": "2.2 g",
+          "totalSugars": "9.2 g",
+          "addedSugars": "4.7 g",
+          "protein": "39.7 g",
+          "potassium": "562 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "AS",
+          "Recipe — commercial/default",
+          "10 oz"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working mockup. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — AS_Original_FIC."
+      },
+      "10-oz-mhs-004": {
+        "label": "10 oz — MHS-004",
+        "recordType": "Recipe — MHS alternative",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional substitution",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "AS_MHS_Alternative_FIC",
+        "nutritionFacts": {
+          "servingSize": "10 oz — MHS-004",
+          "servingGrams": 283.5,
+          "servingsPerRecipe": null,
+          "calories": 342,
+          "totalFat": "12.6 g",
+          "saturatedFat": "2.4 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "803 mg",
+          "totalCarbohydrate": "14.5 g",
+          "dietaryFiber": "2.2 g",
+          "totalSugars": "7.7 g",
+          "addedSugars": "4.1 g",
+          "protein": "40.5 g",
+          "potassium": "562 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "AS",
+          "Recipe — MHS alternative",
+          "10 oz — MHS-004"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional substitution. Ready for working nutrition box. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — AS_MHS_Alternative_FIC."
+      }
+    }
+  },
+  {
+    "recipeCode": "AS-018",
+    "title": "Fried Rice",
+    "series": "AS",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C – temporary sauce profile",
+    "dataStatus": "Ready for working mockup",
+    "defaultVariant": "8-oz",
+    "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+    "sourceSheet": "AS_Original_FIC",
+    "auditIssues": [
+      {
+        "id": "audit-124",
+        "priority": "Medium",
+        "category": "Sauce / Product Definition",
+        "issue": "Meal-specific sauces lack locked MHS direct replacements",
+        "assumption": "Original working boxes only",
+        "correction": "Decide replacement strategy",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "Audit_Detail"
+      }
+    ],
+    "variants": {
+      "8-oz": {
+        "label": "8 oz",
+        "recordType": "Recipe — commercial/default",
+        "defaultSelection": "Default / only option",
+        "confidence": "C – temporary sauce profile",
+        "dataStatus": "Ready for working mockup",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "AS_Original_FIC",
+        "nutritionFacts": {
+          "servingSize": "8 oz",
+          "servingGrams": 226.8,
+          "servingsPerRecipe": null,
+          "calories": 274,
+          "totalFat": "5.7 g",
+          "saturatedFat": "1.3 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "374 mg",
+          "totalCarbohydrate": "43.9 g",
+          "dietaryFiber": "2.5 g",
+          "totalSugars": "8.1 g",
+          "addedSugars": "3.4 g",
+          "protein": "7.2 g",
+          "potassium": "202 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "AS",
+          "Recipe — commercial/default",
+          "8 oz"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C – temporary sauce profile. Ready for working mockup. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — AS_Original_FIC."
+      }
+    }
+  },
+  {
+    "recipeCode": "AS-019",
+    "title": "Lo Mein",
+    "series": "AS",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C – temporary sauce profile",
+    "dataStatus": "Ready for working mockup",
+    "defaultVariant": "10-oz",
+    "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+    "sourceSheet": "AS_Original_FIC",
+    "auditIssues": [
+      {
+        "id": "audit-124",
+        "priority": "Medium",
+        "category": "Sauce / Product Definition",
+        "issue": "Meal-specific sauces lack locked MHS direct replacements",
+        "assumption": "Original working boxes only",
+        "correction": "Decide replacement strategy",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "Audit_Detail"
+      }
+    ],
+    "variants": {
+      "10-oz": {
+        "label": "10 oz",
+        "recordType": "Recipe — commercial/default",
+        "defaultSelection": "Default / only option",
+        "confidence": "C – temporary sauce profile",
+        "dataStatus": "Ready for working mockup",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "AS_Original_FIC",
+        "nutritionFacts": {
+          "servingSize": "10 oz",
+          "servingGrams": 283.5,
+          "servingsPerRecipe": null,
+          "calories": 387,
+          "totalFat": "6.4 g",
+          "saturatedFat": "1.2 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "244 mg",
+          "totalCarbohydrate": "56.3 g",
+          "dietaryFiber": "4.3 g",
+          "totalSugars": "6.1 g",
+          "addedSugars": "2.1 g",
+          "protein": "22.6 g",
+          "potassium": "311 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "AS",
+          "Recipe — commercial/default",
+          "10 oz"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C – temporary sauce profile. Ready for working mockup. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — AS_Original_FIC."
+      }
+    }
+  },
+  {
+    "recipeCode": "AS-020",
+    "title": "Chow Mein",
+    "series": "AS",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C – temporary sauce profile",
+    "dataStatus": "Ready for working mockup",
+    "defaultVariant": "10-oz",
+    "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+    "sourceSheet": "AS_Original_FIC",
+    "auditIssues": [
+      {
+        "id": "audit-124",
+        "priority": "Medium",
+        "category": "Sauce / Product Definition",
+        "issue": "Meal-specific sauces lack locked MHS direct replacements",
+        "assumption": "Original working boxes only",
+        "correction": "Decide replacement strategy",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "Audit_Detail"
+      }
+    ],
+    "variants": {
+      "10-oz": {
+        "label": "10 oz",
+        "recordType": "Recipe — commercial/default",
+        "defaultSelection": "Default / only option",
+        "confidence": "C – temporary sauce profile",
+        "dataStatus": "Ready for working mockup",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "AS_Original_FIC",
+        "nutritionFacts": {
+          "servingSize": "10 oz",
+          "servingGrams": 283.5,
+          "servingsPerRecipe": null,
+          "calories": 374,
+          "totalFat": "6.2 g",
+          "saturatedFat": "1.2 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "239 mg",
+          "totalCarbohydrate": "54.5 g",
+          "dietaryFiber": "4.2 g",
+          "totalSugars": "6.6 g",
+          "addedSugars": "2 g",
+          "protein": "22.2 g",
+          "potassium": "312 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "AS",
+          "Recipe — commercial/default",
+          "10 oz"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C – temporary sauce profile. Ready for working mockup. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — AS_Original_FIC."
+      }
+    }
+  },
+  {
+    "recipeCode": "AS-021",
+    "title": "Singapore Noodles",
+    "series": "AS",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "10-oz-commercial-yellow-curry-sauce",
+    "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+    "sourceSheet": "AS_Original_FIC",
+    "auditIssues": [
+      {
+        "id": "audit-125",
+        "priority": "High",
+        "category": "Sauce / Product Definition",
+        "issue": "Exact yellow curry sauce label pending",
+        "assumption": "Generic sauce profile",
+        "correction": "Verify exact commercial product",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "Audit_Detail"
+      },
+      {
+        "id": "audit-127",
+        "priority": "High",
+        "category": "AS-021–AS-024 Detailed Validation",
+        "issue": "Exact Mae Ploy Yellow Curry Sauce label not verified",
+        "assumption": "Generic curry sauce profile",
+        "correction": "Verify exact label from manufacturer/Walmart/Kroger/H-E-B",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "Audit_Detail"
+      }
+    ],
+    "variants": {
+      "10-oz-commercial-yellow-curry-sauce": {
+        "label": "10 oz + Commercial yellow curry sauce",
+        "recordType": "Recipe — commercial/default",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "AS_Original_FIC",
+        "nutritionFacts": {
+          "servingSize": "10 oz + Commercial yellow curry sauce",
+          "servingGrams": 283.5,
+          "servingsPerRecipe": null,
+          "calories": 343,
+          "totalFat": "7.3 g",
+          "saturatedFat": "1.9 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "329 mg",
+          "totalCarbohydrate": "39.9 g",
+          "dietaryFiber": "2.5 g",
+          "totalSugars": "5.7 g",
+          "addedSugars": "3.1 g",
+          "protein": "27.1 g",
+          "potassium": "329 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "AS",
+          "Recipe — commercial/default",
+          "10 oz + Commercial yellow curry sauce"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — AS_Original_FIC."
+      }
+    }
+  },
+  {
+    "recipeCode": "AS-022",
+    "title": "Chicken Egg Rolls",
+    "series": "AS",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "8-oz-mhs-015-thai-sweet-chili-sauce",
+    "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+    "sourceSheet": "AS_Original_FIC",
+    "auditIssues": [
+      {
+        "id": "audit-126",
+        "priority": "High",
+        "category": "Recipe Validation",
+        "issue": "Frying-oil absorption and wrapper weights provisional",
+        "assumption": "Working fried models",
+        "correction": "Verify wrappers and add air-fryer variants",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "Audit_Detail"
+      },
+      {
+        "id": "audit-128",
+        "priority": "High",
+        "category": "AS-021–AS-024 Detailed Validation",
+        "issue": "Egg roll wrapper package count/weight and frying-oil absorption vary",
+        "assumption": "240 g wrappers and 48 g absorbed oil",
+        "correction": "Verify wrapper label and create air-fryer version",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "Audit_Detail"
+      }
+    ],
+    "variants": {
+      "8-oz-mhs-015-thai-sweet-chili-sauce": {
+        "label": "8 oz + MHS-015 Thai Sweet Chili Sauce",
+        "recordType": "Recipe — commercial/default",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "AS_Original_FIC",
+        "nutritionFacts": {
+          "servingSize": "8 oz + MHS-015 Thai Sweet Chili Sauce",
+          "servingGrams": 226.8,
+          "servingsPerRecipe": null,
+          "calories": 498,
+          "totalFat": "21.6 g",
+          "saturatedFat": "4.3 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "865 mg",
+          "totalCarbohydrate": "48.6 g",
+          "dietaryFiber": "2.9 g",
+          "totalSugars": "15.5 g",
+          "addedSugars": "13 g",
+          "protein": "26.8 g",
+          "potassium": "382 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "AS",
+          "Recipe — commercial/default",
+          "8 oz + MHS-015 Thai Sweet Chili Sauce"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — AS_Original_FIC."
+      }
+    }
+  },
+  {
+    "recipeCode": "AS-023",
+    "title": "Spring Rolls",
+    "series": "AS",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "6-oz-ponzu-sauce",
+    "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+    "sourceSheet": "AS_Original_FIC",
+    "auditIssues": [
+      {
+        "id": "audit-129",
+        "priority": "Medium",
+        "category": "AS-021–AS-024 Detailed Validation",
+        "issue": "Fresh herbs are mentioned but not quantified",
+        "assumption": "Excluded",
+        "correction": "Add quantities if card is revised",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "Audit_Detail"
+      },
+      {
+        "id": "audit-131",
+        "priority": "Medium",
+        "category": "AS-021–AS-024 Detailed Validation",
+        "issue": "Ponzu versus MHS dipping option not yet compared",
+        "assumption": "Ponzu working default",
+        "correction": "Add MHS-013 or MHS-014 optional comparison",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "Audit_Detail"
+      }
+    ],
+    "variants": {
+      "6-oz-ponzu-sauce": {
+        "label": "6 oz + Ponzu Sauce",
+        "recordType": "Recipe — commercial/default",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "AS_Original_FIC",
+        "nutritionFacts": {
+          "servingSize": "6 oz + Ponzu Sauce",
+          "servingGrams": 170.1,
+          "servingsPerRecipe": null,
+          "calories": 181,
+          "totalFat": "0.4 g",
+          "saturatedFat": "0.1 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "612 mg",
+          "totalCarbohydrate": "31.2 g",
+          "dietaryFiber": "1.7 g",
+          "totalSugars": "1.9 g",
+          "addedSugars": "0.4 g",
+          "protein": "12.8 g",
+          "potassium": "242 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "AS",
+          "Recipe — commercial/default",
+          "6 oz + Ponzu Sauce"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — AS_Original_FIC."
+      }
+    }
+  },
+  {
+    "recipeCode": "AS-024",
+    "title": "Crab Rangoons",
+    "series": "AS",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "6-oz-mhs-007-sweet-sour-sauce",
+    "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+    "sourceSheet": "AS_Original_FIC",
+    "auditIssues": [
+      {
+        "id": "audit-126",
+        "priority": "High",
+        "category": "Recipe Validation",
+        "issue": "Frying-oil absorption and wrapper weights provisional",
+        "assumption": "Working fried models",
+        "correction": "Verify wrappers and add air-fryer variants",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "Audit_Detail"
+      },
+      {
+        "id": "audit-130",
+        "priority": "High",
+        "category": "AS-021–AS-024 Detailed Validation",
+        "issue": "Wonton wrapper weight and frying-oil absorption vary",
+        "assumption": "216 g wrappers and 54 g absorbed oil",
+        "correction": "Verify wrapper label and create air-fryer version",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "Audit_Detail"
+      }
+    ],
+    "variants": {
+      "6-oz-mhs-007-sweet-sour-sauce": {
+        "label": "6 oz + MHS-007 Sweet & Sour Sauce",
+        "recordType": "Recipe — commercial/default",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx",
+        "sourceSheet": "AS_Original_FIC",
+        "nutritionFacts": {
+          "servingSize": "6 oz + MHS-007 Sweet & Sour Sauce",
+          "servingGrams": 170.1,
+          "servingsPerRecipe": null,
+          "calories": 510,
+          "totalFat": "30.7 g",
+          "saturatedFat": "11.9 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "1043 mg",
+          "totalCarbohydrate": "47.1 g",
+          "dietaryFiber": "1 g",
+          "totalSugars": "11.5 g",
+          "addedSugars": "7.6 g",
+          "protein": "12.5 g",
+          "potassium": "174 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "AS",
+          "Recipe — commercial/default",
+          "6 oz + MHS-007 Sweet & Sour Sauce"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_AS_001_024_MHS_001_020_Consolidated_Master_Audit.xlsx — AS_Original_FIC."
+      }
+    }
+  }
+]

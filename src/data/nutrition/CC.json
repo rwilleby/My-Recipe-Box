@@ -1,0 +1,491 @@
+[
+  {
+    "recipeCode": "CC-001",
+    "title": "Mini Cheesecakes: Classic Plain",
+    "series": "CC",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "1-mini-cheesecake",
+    "sourceWorkbook": "RRB_Food_Intelligence_CC_001_006_Mini_Cheesecakes_Detailed_Working_Nutrition.xlsx",
+    "sourceSheet": "CC_Nutrition_Boxes",
+    "auditIssues": [
+      {
+        "id": "audit-152",
+        "priority": "High",
+        "category": "Packaged Product / Brand Label",
+        "issue": "Graham-cracker square weight and product",
+        "assumption": "180 g for 12 squares",
+        "correction": "Verify exact product and square weight",
+        "impact": "Sodium, calories, fat, sugar",
+        "recommendedAction": "Select approved products and fallbacks.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_CC_001_006_Mini_Cheesecakes_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      }
+    ],
+    "variants": {
+      "1-mini-cheesecake": {
+        "label": "1 mini cheesecake",
+        "recordType": "Recipe",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_CC_001_006_Mini_Cheesecakes_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "CC_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "1 mini cheesecake",
+          "servingGrams": null,
+          "servingsPerRecipe": null,
+          "calories": 263,
+          "totalFat": "17.2 g",
+          "saturatedFat": "8.9 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "207 mg",
+          "totalCarbohydrate": "24.2 g",
+          "dietaryFiber": "0.5 g",
+          "totalSugars": "16 g",
+          "addedSugars": "14.1 g",
+          "protein": "4.1 g",
+          "potassium": "93 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "CC",
+          "Recipe",
+          "1 mini cheesecake"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_CC_001_006_Mini_Cheesecakes_Detailed_Working_Nutrition.xlsx — CC_Nutrition_Boxes."
+      }
+    }
+  },
+  {
+    "recipeCode": "CC-002",
+    "title": "Mini Cheesecakes: Salted Caramel",
+    "series": "CC",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "1-mini-cheesecake",
+    "sourceWorkbook": "RRB_Food_Intelligence_CC_001_006_Mini_Cheesecakes_Detailed_Working_Nutrition.xlsx",
+    "sourceSheet": "CC_Nutrition_Boxes",
+    "auditIssues": [
+      {
+        "id": "audit-152",
+        "priority": "High",
+        "category": "Packaged Product / Brand Label",
+        "issue": "Graham-cracker square weight and product",
+        "assumption": "180 g for 12 squares",
+        "correction": "Verify exact product and square weight",
+        "impact": "Sodium, calories, fat, sugar",
+        "recommendedAction": "Select approved products and fallbacks.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_CC_001_006_Mini_Cheesecakes_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      },
+      {
+        "id": "audit-155",
+        "priority": "High",
+        "category": "Sauce / Gravy / Soup Yield",
+        "issue": "Salted caramel sauce product and density",
+        "assumption": "160 g per 1/2 cup",
+        "correction": "Select exact sauce",
+        "impact": "Calories, sodium, sugar, fat",
+        "recommendedAction": "Measure finished yield and select exact products/MHS profiles.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_CC_001_006_Mini_Cheesecakes_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      }
+    ],
+    "variants": {
+      "1-mini-cheesecake": {
+        "label": "1 mini cheesecake",
+        "recordType": "Recipe",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_CC_001_006_Mini_Cheesecakes_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "CC_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "1 mini cheesecake",
+          "servingGrams": null,
+          "servingsPerRecipe": null,
+          "calories": 303,
+          "totalFat": "18.2 g",
+          "saturatedFat": "9.6 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "291 mg",
+          "totalCarbohydrate": "31.7 g",
+          "dietaryFiber": "0.5 g",
+          "totalSugars": "22.4 g",
+          "addedSugars": "20.1 g",
+          "protein": "4.3 g",
+          "potassium": "104 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "CC",
+          "Recipe",
+          "1 mini cheesecake"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_CC_001_006_Mini_Cheesecakes_Detailed_Working_Nutrition.xlsx — CC_Nutrition_Boxes."
+      }
+    }
+  },
+  {
+    "recipeCode": "CC-003",
+    "title": "Mini Cheesecakes: Oreo Cookie",
+    "series": "CC",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "1-mini-cheesecake",
+    "sourceWorkbook": "RRB_Food_Intelligence_CC_001_006_Mini_Cheesecakes_Detailed_Working_Nutrition.xlsx",
+    "sourceSheet": "CC_Nutrition_Boxes",
+    "auditIssues": [
+      {
+        "id": "audit-153",
+        "priority": "High",
+        "category": "Bread / Bun / Biscuit / Crust Yield",
+        "issue": "Oreo cookie weights for crust and filling",
+        "assumption": "136 g crust + 56 g filling",
+        "correction": "Verify exact package/product",
+        "impact": "Calories, carbs, fiber, sodium",
+        "recommendedAction": "Measure baked weights and link validated profiles.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_CC_001_006_Mini_Cheesecakes_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      }
+    ],
+    "variants": {
+      "1-mini-cheesecake": {
+        "label": "1 mini cheesecake",
+        "recordType": "Recipe",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_CC_001_006_Mini_Cheesecakes_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "CC_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "1 mini cheesecake",
+          "servingGrams": null,
+          "servingsPerRecipe": null,
+          "calories": 272,
+          "totalFat": "18.6 g",
+          "saturatedFat": "9.8 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "178 mg",
+          "totalCarbohydrate": "23.3 g",
+          "dietaryFiber": "0.4 g",
+          "totalSugars": "18.3 g",
+          "addedSugars": "16.2 g",
+          "protein": "3.9 g",
+          "potassium": "92 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "CC",
+          "Recipe",
+          "1 mini cheesecake"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_CC_001_006_Mini_Cheesecakes_Detailed_Working_Nutrition.xlsx — CC_Nutrition_Boxes."
+      }
+    }
+  },
+  {
+    "recipeCode": "CC-004",
+    "title": "Mini Cheesecakes: Strawberry Swirl",
+    "series": "CC",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "1-mini-cheesecake",
+    "sourceWorkbook": "RRB_Food_Intelligence_CC_001_006_Mini_Cheesecakes_Detailed_Working_Nutrition.xlsx",
+    "sourceSheet": "CC_Nutrition_Boxes",
+    "auditIssues": [
+      {
+        "id": "audit-152",
+        "priority": "High",
+        "category": "Packaged Product / Brand Label",
+        "issue": "Graham-cracker square weight and product",
+        "assumption": "180 g for 12 squares",
+        "correction": "Verify exact product and square weight",
+        "impact": "Sodium, calories, fat, sugar",
+        "recommendedAction": "Select approved products and fallbacks.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_CC_001_006_Mini_Cheesecakes_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      },
+      {
+        "id": "audit-156",
+        "priority": "High",
+        "category": "Packaged Product / Brand Label",
+        "issue": "Strawberry jam product and density",
+        "assumption": "160 g per 1/2 cup",
+        "correction": "Select exact jam",
+        "impact": "Sodium, calories, fat, sugar",
+        "recommendedAction": "Select approved products and fallbacks.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_CC_001_006_Mini_Cheesecakes_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      }
+    ],
+    "variants": {
+      "1-mini-cheesecake": {
+        "label": "1 mini cheesecake",
+        "recordType": "Recipe",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_CC_001_006_Mini_Cheesecakes_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "CC_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "1 mini cheesecake",
+          "servingGrams": null,
+          "servingsPerRecipe": null,
+          "calories": 293,
+          "totalFat": "17.2 g",
+          "saturatedFat": "8.9 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "210 mg",
+          "totalCarbohydrate": "32.2 g",
+          "dietaryFiber": "0.7 g",
+          "totalSugars": "22.7 g",
+          "addedSugars": "20.1 g",
+          "protein": "4.2 g",
+          "potassium": "104 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "CC",
+          "Recipe",
+          "1 mini cheesecake"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_CC_001_006_Mini_Cheesecakes_Detailed_Working_Nutrition.xlsx — CC_Nutrition_Boxes."
+      }
+    }
+  },
+  {
+    "recipeCode": "CC-005",
+    "title": "Mini Cheesecakes: Chocolate Swirl",
+    "series": "CC",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "1-mini-cheesecake",
+    "sourceWorkbook": "RRB_Food_Intelligence_CC_001_006_Mini_Cheesecakes_Detailed_Working_Nutrition.xlsx",
+    "sourceSheet": "CC_Nutrition_Boxes",
+    "auditIssues": [
+      {
+        "id": "audit-154",
+        "priority": "High",
+        "category": "Packaged Product / Brand Label",
+        "issue": "Chocolate wafer product and weight",
+        "assumption": "144 g for 12 wafers",
+        "correction": "Verify exact wafer product",
+        "impact": "Sodium, calories, fat, sugar",
+        "recommendedAction": "Select approved products and fallbacks.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_CC_001_006_Mini_Cheesecakes_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      }
+    ],
+    "variants": {
+      "1-mini-cheesecake": {
+        "label": "1 mini cheesecake",
+        "recordType": "Recipe",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_CC_001_006_Mini_Cheesecakes_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "CC_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "1 mini cheesecake",
+          "servingGrams": null,
+          "servingsPerRecipe": null,
+          "calories": 274,
+          "totalFat": "19.2 g",
+          "saturatedFat": "10.4 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "150 mg",
+          "totalCarbohydrate": "23.1 g",
+          "dietaryFiber": "0.5 g",
+          "totalSugars": "17.8 g",
+          "addedSugars": "15.6 g",
+          "protein": "3.9 g",
+          "potassium": "96 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "CC",
+          "Recipe",
+          "1 mini cheesecake"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_CC_001_006_Mini_Cheesecakes_Detailed_Working_Nutrition.xlsx — CC_Nutrition_Boxes."
+      }
+    }
+  },
+  {
+    "recipeCode": "CC-006",
+    "title": "Mini Cheesecakes: Blueberry",
+    "series": "CC",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "1-mini-cheesecake",
+    "sourceWorkbook": "RRB_Food_Intelligence_CC_001_006_Mini_Cheesecakes_Detailed_Working_Nutrition.xlsx",
+    "sourceSheet": "CC_Nutrition_Boxes",
+    "auditIssues": [
+      {
+        "id": "audit-152",
+        "priority": "High",
+        "category": "Packaged Product / Brand Label",
+        "issue": "Graham-cracker square weight and product",
+        "assumption": "180 g for 12 squares",
+        "correction": "Verify exact product and square weight",
+        "impact": "Sodium, calories, fat, sugar",
+        "recommendedAction": "Select approved products and fallbacks.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_CC_001_006_Mini_Cheesecakes_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      },
+      {
+        "id": "audit-157",
+        "priority": "High",
+        "category": "Packaged Product / Brand Label",
+        "issue": "Blueberry pie filling product and density",
+        "assumption": "160 g per 1/2 cup",
+        "correction": "Select exact filling",
+        "impact": "Sodium, calories, fat, sugar",
+        "recommendedAction": "Select approved products and fallbacks.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_CC_001_006_Mini_Cheesecakes_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      }
+    ],
+    "variants": {
+      "1-mini-cheesecake": {
+        "label": "1 mini cheesecake",
+        "recordType": "Recipe",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_CC_001_006_Mini_Cheesecakes_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "CC_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "1 mini cheesecake",
+          "servingGrams": null,
+          "servingsPerRecipe": null,
+          "calories": 284,
+          "totalFat": "17.2 g",
+          "saturatedFat": "8.9 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "218 mg",
+          "totalCarbohydrate": "29.7 g",
+          "dietaryFiber": "0.7 g",
+          "totalSugars": "20.4 g",
+          "addedSugars": "17.7 g",
+          "protein": "4.2 g",
+          "potassium": "103 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "CC",
+          "Recipe",
+          "1 mini cheesecake"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_CC_001_006_Mini_Cheesecakes_Detailed_Working_Nutrition.xlsx — CC_Nutrition_Boxes."
+      }
+    }
+  }
+]

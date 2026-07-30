@@ -25,27 +25,87 @@ function normalizeValue(value) {
   return value === undefined || value === null || value === "" ? "—" : value;
 }
 
+function parseStoredNumber(value) {
+  if (typeof value === "number") return Number.isFinite(value) ? value : null;
+  const parsed = Number.parseFloat(String(value ?? "").replace(/,/g, ""));
+  return Number.isFinite(parsed) ? parsed : null;
+}
+
 function numericNutritionAvailable(profile) {
   const facts = profile?.nutritionFacts || {};
-  return [facts.calories, facts.protein, facts.totalCarbohydrate, facts.totalFat, facts.sodium]
-    .some((value) => typeof value === "number" || /\d/.test(String(value || "")));
+  return [
+    facts.calories,
+    facts.protein,
+    facts.totalCarbohydrate,
+    facts.totalFat,
+    facts.sodium,
+  ].every((value) => parseStoredNumber(value) !== null);
 }
 
 function profileCompleteness(profile) {
   if (!profile) return false;
   const facts = profile.nutritionFacts || {};
-  return Boolean(
-    facts.servingSize &&
-    facts.servingsPerRecipe &&
-    numericNutritionAvailable(profile)
-  );
+  const hasServing = Boolean(facts.servingSize) || parseStoredNumber(facts.servingGrams) !== null;
+  return hasServing && numericNutritionAvailable(profile);
 }
 
 function deriveStatus(record, profile) {
-  if (!record || !profile) return { level: "red", label: "Not Ready" };
-  if (!profileCompleteness(profile)) return { level: "red", label: "Not Ready" };
-  if (record.status === "verified") return { level: "green", label: "Card Ready" };
-  return { level: "yellow", label: "Estimated — Usable" };
+  if (!record || !profile || record.active === false || record.retired === true) {
+    return { level: "red", label: "Not Ready", reason: "No active nutrition record" };
+  }
+
+  if (!profileCompleteness(profile)) {
+    return { level: "red", label: "Not Ready", reason: "Calories or core nutrition values are missing" };
+  }
+
+  const dataStatus = String(
+    profile.dataStatus ?? record.dataStatus ?? record.status ?? ""
+  ).toLowerCase();
+  const confidence = String(
+    profile.confidence ?? record.confidence ?? ""
+  ).toLowerCase();
+
+  const auditIssues = Array.isArray(record.auditIssues) ? record.auditIssues : [];
+  const hasCriticalBlocker = auditIssues.some((issue) =>
+    String(issue.priority).toLowerCase() === "critical" &&
+    String(issue.status).toLowerCase() !== "resolved"
+  );
+
+  const explicitlyBlocked =
+    dataStatus.includes("not ready") ||
+    dataStatus.includes("return-to-review") ||
+    dataStatus.includes("return to review") ||
+    dataStatus.includes("missing") ||
+    dataStatus.includes("incomplete") ||
+    confidence.includes("return-to-review") ||
+    confidence.includes("return to review");
+
+  if (hasCriticalBlocker || explicitlyBlocked) {
+    return {
+      level: "red",
+      label: "Not Ready",
+      reason: hasCriticalBlocker ? "Critical review issue" : "Nutrition record is incomplete",
+    };
+  }
+
+  const isVerified =
+    record.status === "verified" ||
+    confidence.includes("verified") ||
+    confidence.includes("validated") ||
+    confidence.includes("a confidence") ||
+    dataStatus.includes("authoritative") ||
+    dataStatus.includes("validated") ||
+    dataStatus === "card ready";
+
+  if (isVerified) {
+    return { level: "green", label: "Card Ready", reason: "Validated nutrition record" };
+  }
+
+  return {
+    level: "yellow",
+    label: "Estimated — Usable",
+    reason: "Provisional nutrition record",
+  };
 }
 
 function factsSummary(profile) {
@@ -153,77 +213,22 @@ function hasCoreNumericNutrition(profile) {
 }
 
 function getNutritionReadiness(record, auditIssues = []) {
-  if (!record || record.active === false || record.retired === true) {
-    return {
-      level: "not-ready",
-      label: "Not Ready",
-      reason: "No active nutrition record",
-    };
-  }
-
-  const nutrition = record.nutrition ?? record;
-  const calories = Number(nutrition.calories);
-
-  if (!Number.isFinite(calories)) {
-    return {
-      level: "not-ready",
-      label: "Not Ready",
-      reason: "Calories are missing",
-    };
-  }
-
-  const dataStatus = String(
-    record.dataStatus ??
-    record.status ??
-    record.ficDataStatus ??
-    ""
-  ).toLowerCase();
-
-  const confidence = String(record.confidence ?? "").toLowerCase();
-
-  const hasCriticalBlocker = auditIssues.some((issue) =>
-    String(issue.priority).toLowerCase() === "critical" &&
-    String(issue.status).toLowerCase() !== "resolved"
+  const profile = record?.nutritionFacts ? record : null;
+  const wrapper = profile
+    ? {
+        active: record.active,
+        retired: record.retired,
+        status: record.status,
+        confidence: record.confidence,
+        dataStatus: record.dataStatus,
+        auditIssues,
+      }
+    : record;
+  const selectedProfile = profile || (
+    wrapper?.variants?.[wrapper.defaultVariant] ||
+    wrapper?.variants?.[Object.keys(wrapper?.variants || {})[0]]
   );
-
-  const explicitlyBlocked =
-    dataStatus.includes("not ready") ||
-    dataStatus.includes("return-to-review") ||
-    dataStatus.includes("return to review") ||
-    dataStatus.includes("missing") ||
-    dataStatus.includes("incomplete");
-
-  if (hasCriticalBlocker || explicitlyBlocked) {
-    return {
-      level: "not-ready",
-      label: "Not Ready",
-      reason: hasCriticalBlocker
-        ? "Critical review issue"
-        : "Nutrition record is incomplete",
-    };
-  }
-
-  const isVerified =
-    confidence.includes("verified") ||
-    confidence.includes("validated") ||
-    confidence.includes("a confidence") ||
-    dataStatus.includes("authoritative") ||
-    dataStatus.includes("validated") ||
-    dataStatus === "card ready";
-
-  if (isVerified) {
-    return {
-      level: "ready",
-      label: "Card Ready",
-      reason: "Validated nutrition record",
-    };
-  }
-
-  return {
-    level: "estimated",
-    label: "Estimated — Usable",
-    reason: "Provisional nutrition record",
-  };
+  return deriveStatus(wrapper, selectedProfile);
 }
 
 function selectDefaultNutritionProfile(profiles = []) {
@@ -320,7 +325,21 @@ export default function AdminNutritionDatabase({ recipes = [], onClose }) {
     : record?.defaultVariant || variantKeys[0] || "";
   const profile = effectiveVariant ? record?.variants?.[effectiveVariant] : null;
   const status = deriveStatus(record, profile);
-  const unresolvedIssues = profileCompleteness(profile) ? [] : [{ id: "missing-profile-data", priority: "Critical", category: "Incomplete profile", assumption: "No complete stored nutrition profile is available.", correction: "Add reviewed serving and nutrition values to the local nutrition data record.", impact: "Food Intelligence Card cannot be marked ready.", status: auditStatuses[selectedRow?.code]?.["missing-profile-data"] || "Open" }];
+  const storedIssues = Array.isArray(record?.auditIssues) ? record.auditIssues : [];
+  const unresolvedIssues = profileCompleteness(profile)
+    ? storedIssues.map((issue) => ({
+        ...issue,
+        status: auditStatuses[selectedRow?.code]?.[issue.id] || issue.status || "Open",
+      }))
+    : [{
+        id: "missing-profile-data",
+        priority: "Critical",
+        category: "Incomplete profile",
+        assumption: "No complete stored nutrition profile is available.",
+        correction: "Add reviewed serving and numeric nutrition values to the local nutrition data record.",
+        impact: "Food Intelligence Card cannot be marked ready.",
+        status: auditStatuses[selectedRow?.code]?.["missing-profile-data"] || "Open",
+      }, ...storedIssues];
 
   useEffect(() => {
     setSelectedVariant("");
@@ -381,13 +400,13 @@ export default function AdminNutritionDatabase({ recipes = [], onClose }) {
         {mode === "lookup" ? <>
           <div className="nutritionAdminSummaryGrid">
             <section><h3>Recipe identity</h3><p><b>Code:</b> {selectedRow.code}</p><p><b>Name:</b> {selectedRow.name}</p><p><b>Category:</b> {selectedRow.recipe.category || selectedRow.series}</p></section>
-            <section><h3>Data status</h3><p><b>Confidence:</b> {record?.confidence || "Not assigned"}</p><p><b>Calculation status:</b> {record?.status || "Not available"}</p><p><b>Food Intelligence readiness:</b> {status.label}</p><p><b>Finished-weight status:</b> {profile?.nutritionFacts?.servingGrams ? "Stored" : "Not yet defined"}</p></section>
+            <section><h3>Data status</h3><p><b>Confidence:</b> {record?.confidence || "Not assigned"}</p><p><b>Calculation status:</b> {record?.dataStatus || record?.status || "Not available"}</p><p><b>Food Intelligence readiness:</b> {status.label}</p><p><b>Readiness reason:</b> {status.reason}</p><p><b>Finished-weight status:</b> {profile?.nutritionFacts?.servingGrams ? "Stored" : "Not yet defined"}</p></section>
           </div>
           <section><h3>Default nutrition profile</h3>{profile ? <NutritionFactsTable profile={profile}/> : <p className="nutritionAdminError">Nutrition record not available.<br/>No values were invented.</p>}</section>
           <section className="nutritionAdminIssue"><h3>Most important unresolved issue</h3><p>{unresolvedIssues[0]?.correction || "No critical unresolved issue is stored."}</p>{unresolvedIssues.length>1 && <button onClick={()=>setShowDetails(v=>!v)}>{showDetails?"Hide Details":"Show Details"}</button>}</section>
         </> : <>
           <nav className="nutritionInspectorTabs">{["summary","variants","nutrition","products","issues","json"].map((tab)=><button key={tab} className={inspectorTab===tab?"active":""} onClick={()=>setInspectorTab(tab)}>{({summary:"Summary",variants:"Variants & Methods",nutrition:"Nutrition Record",products:"Products & Sauces",issues:"Audit Issues",json:"Raw JSON"})[tab]}</button>)}</nav>
-          {inspectorTab === "summary" && <section><h3>Summary</h3><dl className="nutritionAdminFacts"><div><dt>Recipe code</dt><dd>{selectedRow.code}</dd></div><div><dt>Recipe name</dt><dd>{selectedRow.name}</dd></div><div><dt>Series</dt><dd>{selectedRow.series}</dd></div><div><dt>Active status</dt><dd>{selectedRow.code === "AM-063" ? "Retired" : "Active"}</dd></div><div><dt>Default profile</dt><dd>{record?.defaultVariant || "Not available"}</dd></div><div><dt>Confidence</dt><dd>{record?.confidence || "Not assigned"}</dd></div><div><dt>FIC readiness</dt><dd>{status.label}</dd></div></dl></section>}
+          {inspectorTab === "summary" && <section><h3>Summary</h3><dl className="nutritionAdminFacts"><div><dt>Recipe code</dt><dd>{selectedRow.code}</dd></div><div><dt>Recipe name</dt><dd>{selectedRow.name}</dd></div><div><dt>Series</dt><dd>{selectedRow.series}</dd></div><div><dt>Active status</dt><dd>{selectedRow.code === "AM-063" ? "Retired" : "Active"}</dd></div><div><dt>Default profile</dt><dd>{record?.defaultVariant || "Not available"}</dd></div><div><dt>Confidence</dt><dd>{record?.confidence || "Not assigned"}</dd></div><div><dt>FIC readiness</dt><dd>{status.label}</dd></div><div><dt>Data status</dt><dd>{record?.dataStatus || "Not available"}</dd></div></dl></section>}
           {inspectorTab === "variants" && <section><h3>Variants & Methods</h3>{variantKeys.length ? <><label className="nutritionVariantSelect"><span>Preview profile</span><select value={effectiveVariant} onChange={(event)=>setSelectedVariant(event.target.value)}>{variantKeys.map((key)=><option value={key} key={key}>{record.variants[key].label}{key===record.defaultVariant?" — DEFAULT":""}</option>)}</select></label><NutritionFactsTable profile={profile}/><p><b>Confidence:</b> {profile?.confidence || record?.confidence || "Not assigned"}</p><p><b>Default rule notes:</b> Ground beef defaults must use 90/10; air-fryer profiles use 0 g method oil unless oil is an explicit ingredient.</p></> : <p>Nutrition record not available. No values were invented.</p>}</section>}
           {inspectorTab === "nutrition" && <section><h3>Nutrition Record</h3>{profile ? <NutritionFactsTable profile={profile}/> : <p>Nutrition record not available. No values were invented.</p>}</section>}
           {inspectorTab === "products" && <section><h3>Products & Sauces</h3><p>No product-dependent component records are stored for this recipe.</p><p><b>Retailer priority:</b> Walmart / Great Value, H-E-B, Kroger, generic fallback.</p><p><b>Sauce priority:</b> reduced-sodium, lite/lower-sugar, regular, with mapped MHS alternatives.</p><p>Unavailable options are marked: <b>Not yet defined</b>.</p></section>}

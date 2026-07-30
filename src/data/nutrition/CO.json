@@ -1,0 +1,530 @@
+[
+  {
+    "recipeCode": "CO-001",
+    "title": "Apple Cobbler",
+    "series": "CO",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "1-8-cobbler",
+    "sourceWorkbook": "RRB_Food_Intelligence_CO_001_006_Cobblers_Detailed_Working_Nutrition.xlsx",
+    "sourceSheet": "CO_Nutrition_Boxes",
+    "auditIssues": [
+      {
+        "id": "audit-161",
+        "priority": "High",
+        "category": "Other Validation",
+        "issue": "Apple cup-to-gram weight and variety",
+        "assumption": "109 g sliced apple per cup",
+        "correction": "Measure selected apples",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_CO_001_006_Cobblers_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      },
+      {
+        "id": "audit-167",
+        "priority": "Medium",
+        "category": "Other Validation",
+        "issue": "Cinnamon/nutmeg quantities",
+        "assumption": "Standard teaspoon conversions",
+        "correction": "Weigh spices if precise validation needed",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_CO_001_006_Cobblers_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      }
+    ],
+    "variants": {
+      "1-8-cobbler": {
+        "label": "1/8 cobbler",
+        "recordType": "Recipe",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_CO_001_006_Cobblers_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "CO_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "1/8 cobbler",
+          "servingGrams": null,
+          "servingsPerRecipe": null,
+          "calories": 422,
+          "totalFat": "12.9 g",
+          "saturatedFat": "7.9 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "171 mg",
+          "totalCarbohydrate": "76.9 g",
+          "dietaryFiber": "2.6 g",
+          "totalSugars": "60.6 g",
+          "addedSugars": "50.4 g",
+          "protein": "3.1 g",
+          "potassium": "163 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "CO",
+          "Recipe",
+          "1/8 cobbler"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_CO_001_006_Cobblers_Detailed_Working_Nutrition.xlsx — CO_Nutrition_Boxes."
+      }
+    }
+  },
+  {
+    "recipeCode": "CO-002",
+    "title": "Blackberry Cobbler",
+    "series": "CO",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "1-8-cobbler",
+    "sourceWorkbook": "RRB_Food_Intelligence_CO_001_006_Cobblers_Detailed_Working_Nutrition.xlsx",
+    "sourceSheet": "CO_Nutrition_Boxes",
+    "auditIssues": [
+      {
+        "id": "audit-162",
+        "priority": "High",
+        "category": "Other Validation",
+        "issue": "Fruit cup-to-gram and moisture variation",
+        "assumption": "Generic cup weights",
+        "correction": "Measure actual fruit",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_CO_001_006_Cobblers_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      },
+      {
+        "id": "audit-168",
+        "priority": "Medium",
+        "category": "Packaged Product / Brand Label",
+        "issue": "Vanilla product",
+        "assumption": "Generic vanilla profile",
+        "correction": "Select exact product",
+        "impact": "Sodium, calories, fat, sugar",
+        "recommendedAction": "Select approved products and fallbacks.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_CO_001_006_Cobblers_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      }
+    ],
+    "variants": {
+      "1-8-cobbler": {
+        "label": "1/8 cobbler",
+        "recordType": "Recipe",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_CO_001_006_Cobblers_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "CO_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "1/8 cobbler",
+          "servingGrams": null,
+          "servingsPerRecipe": null,
+          "calories": 426,
+          "totalFat": "13.2 g",
+          "saturatedFat": "7.9 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "171 mg",
+          "totalCarbohydrate": "75.7 g",
+          "dietaryFiber": "6.2 g",
+          "totalSugars": "57.4 g",
+          "addedSugars": "50.4 g",
+          "protein": "4.4 g",
+          "potassium": "249 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "CO",
+          "Recipe",
+          "1/8 cobbler"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_CO_001_006_Cobblers_Detailed_Working_Nutrition.xlsx — CO_Nutrition_Boxes."
+      }
+    }
+  },
+  {
+    "recipeCode": "CO-003",
+    "title": "Blueberry Cobbler",
+    "series": "CO",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "1-8-cobbler",
+    "sourceWorkbook": "RRB_Food_Intelligence_CO_001_006_Cobblers_Detailed_Working_Nutrition.xlsx",
+    "sourceSheet": "CO_Nutrition_Boxes",
+    "auditIssues": [
+      {
+        "id": "audit-162",
+        "priority": "High",
+        "category": "Other Validation",
+        "issue": "Fruit cup-to-gram and moisture variation",
+        "assumption": "Generic cup weights",
+        "correction": "Measure actual fruit",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_CO_001_006_Cobblers_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      },
+      {
+        "id": "audit-168",
+        "priority": "Medium",
+        "category": "Packaged Product / Brand Label",
+        "issue": "Vanilla product",
+        "assumption": "Generic vanilla profile",
+        "correction": "Select exact product",
+        "impact": "Sodium, calories, fat, sugar",
+        "recommendedAction": "Select approved products and fallbacks.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_CO_001_006_Cobblers_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      }
+    ],
+    "variants": {
+      "1-8-cobbler": {
+        "label": "1/8 cobbler",
+        "recordType": "Recipe",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_CO_001_006_Cobblers_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "CO_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "1/8 cobbler",
+          "servingGrams": null,
+          "servingsPerRecipe": null,
+          "calories": 442,
+          "totalFat": "13 g",
+          "saturatedFat": "7.9 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "171 mg",
+          "totalCarbohydrate": "81.4 g",
+          "dietaryFiber": "3.1 g",
+          "totalSugars": "63.2 g",
+          "addedSugars": "50.4 g",
+          "protein": "3.6 g",
+          "potassium": "160 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "CO",
+          "Recipe",
+          "1/8 cobbler"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_CO_001_006_Cobblers_Detailed_Working_Nutrition.xlsx — CO_Nutrition_Boxes."
+      }
+    }
+  },
+  {
+    "recipeCode": "CO-004",
+    "title": "Cherry Cobbler",
+    "series": "CO",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "1-8-cobbler",
+    "sourceWorkbook": "RRB_Food_Intelligence_CO_001_006_Cobblers_Detailed_Working_Nutrition.xlsx",
+    "sourceSheet": "CO_Nutrition_Boxes",
+    "auditIssues": [
+      {
+        "id": "audit-162",
+        "priority": "High",
+        "category": "Other Validation",
+        "issue": "Fruit cup-to-gram and moisture variation",
+        "assumption": "Generic cup weights",
+        "correction": "Measure actual fruit",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_CO_001_006_Cobblers_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      },
+      {
+        "id": "audit-168",
+        "priority": "Medium",
+        "category": "Packaged Product / Brand Label",
+        "issue": "Vanilla product",
+        "assumption": "Generic vanilla profile",
+        "correction": "Select exact product",
+        "impact": "Sodium, calories, fat, sugar",
+        "recommendedAction": "Select approved products and fallbacks.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_CO_001_006_Cobblers_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      }
+    ],
+    "variants": {
+      "1-8-cobbler": {
+        "label": "1/8 cobbler",
+        "recordType": "Recipe",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_CO_001_006_Cobblers_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "CO_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "1/8 cobbler",
+          "servingGrams": null,
+          "servingsPerRecipe": null,
+          "calories": 452,
+          "totalFat": "12.9 g",
+          "saturatedFat": "7.9 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "170 mg",
+          "totalCarbohydrate": "83.8 g",
+          "dietaryFiber": "2.9 g",
+          "totalSugars": "66.9 g",
+          "addedSugars": "50.4 g",
+          "protein": "4.1 g",
+          "potassium": "331 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "CO",
+          "Recipe",
+          "1/8 cobbler"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_CO_001_006_Cobblers_Detailed_Working_Nutrition.xlsx — CO_Nutrition_Boxes."
+      }
+    }
+  },
+  {
+    "recipeCode": "CO-005",
+    "title": "Strawberry Cobbler",
+    "series": "CO",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "1-8-cobbler",
+    "sourceWorkbook": "RRB_Food_Intelligence_CO_001_006_Cobblers_Detailed_Working_Nutrition.xlsx",
+    "sourceSheet": "CO_Nutrition_Boxes",
+    "auditIssues": [
+      {
+        "id": "audit-162",
+        "priority": "High",
+        "category": "Other Validation",
+        "issue": "Fruit cup-to-gram and moisture variation",
+        "assumption": "Generic cup weights",
+        "correction": "Measure actual fruit",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_CO_001_006_Cobblers_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      },
+      {
+        "id": "audit-168",
+        "priority": "Medium",
+        "category": "Packaged Product / Brand Label",
+        "issue": "Vanilla product",
+        "assumption": "Generic vanilla profile",
+        "correction": "Select exact product",
+        "impact": "Sodium, calories, fat, sugar",
+        "recommendedAction": "Select approved products and fallbacks.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_CO_001_006_Cobblers_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      }
+    ],
+    "variants": {
+      "1-8-cobbler": {
+        "label": "1/8 cobbler",
+        "recordType": "Recipe",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_CO_001_006_Cobblers_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "CO_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "1/8 cobbler",
+          "servingGrams": null,
+          "servingsPerRecipe": null,
+          "calories": 416,
+          "totalFat": "13 g",
+          "saturatedFat": "7.9 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "171 mg",
+          "totalCarbohydrate": "74.1 g",
+          "dietaryFiber": "2.7 g",
+          "totalSugars": "57.7 g",
+          "addedSugars": "50.4 g",
+          "protein": "3.6 g",
+          "potassium": "249 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "CO",
+          "Recipe",
+          "1/8 cobbler"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_CO_001_006_Cobblers_Detailed_Working_Nutrition.xlsx — CO_Nutrition_Boxes."
+      }
+    }
+  },
+  {
+    "recipeCode": "CO-006",
+    "title": "Peach Cobbler",
+    "series": "CO",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "1-8-cobbler",
+    "sourceWorkbook": "RRB_Food_Intelligence_CO_001_006_Cobblers_Detailed_Working_Nutrition.xlsx",
+    "sourceSheet": "CO_Nutrition_Boxes",
+    "auditIssues": [
+      {
+        "id": "audit-162",
+        "priority": "High",
+        "category": "Other Validation",
+        "issue": "Fruit cup-to-gram and moisture variation",
+        "assumption": "Generic cup weights",
+        "correction": "Measure actual fruit",
+        "impact": "One or more nutrient assumptions",
+        "recommendedAction": "Resolve assumption and recalculate.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_CO_001_006_Cobblers_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      },
+      {
+        "id": "audit-168",
+        "priority": "Medium",
+        "category": "Packaged Product / Brand Label",
+        "issue": "Vanilla product",
+        "assumption": "Generic vanilla profile",
+        "correction": "Select exact product",
+        "impact": "Sodium, calories, fat, sugar",
+        "recommendedAction": "Select approved products and fallbacks.",
+        "status": "Open",
+        "sourceWorkbook": "RRB_Food_Intelligence_CO_001_006_Cobblers_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "Return_To_Review"
+      }
+    ],
+    "variants": {
+      "1-8-cobbler": {
+        "label": "1/8 cobbler",
+        "recordType": "Recipe",
+        "defaultSelection": "Default / only option",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "RRB_Food_Intelligence_CO_001_006_Cobblers_Detailed_Working_Nutrition.xlsx",
+        "sourceSheet": "CO_Nutrition_Boxes",
+        "nutritionFacts": {
+          "servingSize": "1/8 cobbler",
+          "servingGrams": null,
+          "servingsPerRecipe": null,
+          "calories": 424,
+          "totalFat": "13 g",
+          "saturatedFat": "7.9 g",
+          "transFat": null,
+          "cholesterol": null,
+          "sodium": "170 mg",
+          "totalCarbohydrate": "76.3 g",
+          "dietaryFiber": "2.2 g",
+          "totalSugars": "61.8 g",
+          "addedSugars": "50.4 g",
+          "protein": "3.9 g",
+          "potassium": "294 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": null,
+        "recipeDNA": [
+          "CO",
+          "Recipe",
+          "1/8 cobbler"
+        ],
+        "dietaryProfile": [],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_CO_001_006_Cobblers_Detailed_Working_Nutrition.xlsx — CO_Nutrition_Boxes."
+      }
+    }
+  }
+]
