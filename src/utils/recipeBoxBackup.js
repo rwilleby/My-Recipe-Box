@@ -29,6 +29,8 @@ const CATEGORY_DEFINITIONS = Object.freeze([
   { key: "rrb_preparedComponentDecisions", label: "Prepared Item Decisions", type: "count" },
   { key: "rrb_recipeClassifications", label: "Recipe Classifications", type: "count" },
   { key: "rrb_adminComboMealLibrary", label: "Admin Combo-Meal Drafts", type: "count" },
+  { key: "rrb_nutritionAuditStatuses", label: "Nutrition Audit Statuses", type: "count" },
+  { key: "rrb_nutritionInspectorSettings", label: "Nutrition Inspector Settings", type: "included" },
   { key: "rrb_servingSize", label: "Serving Preference", type: "included" },
   { key: "rrb_preferences", label: "Display Preferences", type: "included" },
   { key: "rrb_accessibilityPreferences", label: "Accessibility Preferences", type: "included" },

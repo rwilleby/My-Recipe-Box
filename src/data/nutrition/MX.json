@@ -1,0 +1,22 @@
+{
+  "MX-010": {
+    "recipeCode": "MX-010",
+    "recipeName": "Quesadillas",
+    "series": "MX",
+    "active": true,
+    "defaultProfileId": "standard",
+    "foodIntelligenceStatus": "not-ready",
+    "confidence": "Not assigned",
+    "profiles": [],
+    "auditIssues": [
+      {
+        "priority": "Critical",
+        "issueCategory": "Incomplete profile",
+        "currentAssumption": "No validated numeric nutrition profile has been supplied.",
+        "correctionNeeded": "Add reviewed serving, yield, and nutrition values.",
+        "nutritionImpact": "The Food Intelligence Card cannot be marked ready.",
+        "status": "Open"
+      }
+    ]
+  }
+}

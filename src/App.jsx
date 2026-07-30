@@ -2,11 +2,13 @@ import { createContext, useContext, useMemo, useState, useEffect, useRef } from 
 import { categories, recipes } from "./data/recipes";
 import AdminRecipeClassifier from "./components/AdminRecipeClassifier";
 import AdminComboMealBuilder from "./components/AdminComboMealBuilder";
+import AdminNutritionDatabase from "./components/AdminNutritionDatabase";
 import DinnerCombinationHeroAudit from "./DinnerCombinationHeroAudit.jsx";
 import UserDataBackupSection from "./components/UserDataBackupSection";
 import FoodIntelligenceCard from "./components/FoodIntelligenceCard";
 import { hasRecipeNutritionRecord } from "./data/recipeNutritionProfiles";
 import "./components/UserDataBackupSection.css";
+import "./components/AdminNutritionDatabase.css";
 import {
   loadRecipeClassifications,
   mergeRecipeClassifications,
@@ -5232,6 +5234,13 @@ function Home({
           onClick={() => setActivePage("Admin Combo-Meal Builder")}
         >
           Combo-Meal Builder
+        </button>
+        <button
+          className="adminAccessButton homeAdminAccessButton"
+          type="button"
+          onClick={() => setActivePage("Admin Nutrition Database")}
+        >
+          Nutrition Database
         </button>
       </div>
 
@@ -13963,6 +13972,13 @@ export default function App() {
 
       {activePage === "Admin Combo-Meal Builder" && (
         <AdminComboMealBuilder
+          recipes={recipes}
+          onClose={() => setActivePage("Home")}
+        />
+      )}
+
+      {activePage === "Admin Nutrition Database" && (
+        <AdminNutritionDatabase
           recipes={recipes}
           onClose={() => setActivePage("Home")}
         />

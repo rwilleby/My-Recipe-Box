@@ -1,0 +1,12 @@
+[
+  {
+    "recipeCode": "MX-010",
+    "recipeName": "Quesadillas",
+    "series": "MX",
+    "defaultProfileId": "standard",
+    "status": "not-ready",
+    "confidence": "Not assigned",
+    "hasAlternates": true,
+    "hasAuditIssues": true
+  }
+]
