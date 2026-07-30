@@ -1,1 +1,33 @@
 .nutritionAdminPage{min-height:100vh;padding:24px 5.5vw 50px;background:#f7f4ed;color:#1b1b1b;font-family:Inter,Arial,sans-serif}.nutritionAdminHeader{display:flex;justify-content:space-between;gap:24px;align-items:flex-start;margin-bottom:18px}.nutritionAdminHeader span{font-size:11px;font-weight:800;letter-spacing:.13em;color:#174a2a}.nutritionAdminHeader h1,.nutritionAdminRecipeHeader h2,.nutritionAdminDetail h3{font-family:Georgia,"Times New Roman",serif}.nutritionAdminHeader h1{margin:5px 0 7px;font-size:32px}.nutritionAdminHeader p{max-width:760px;margin:0;line-height:1.5}.nutritionAdminHeader button,.nutritionAdminModeTabs button,.nutritionInspectorTabs button,.nutritionJsonActions button,.nutritionAdminPreviewActions button{border:1px solid #174a2a;border-radius:8px;background:white;color:#174a2a;padding:10px 14px;font-weight:700}.nutritionAdminModeTabs{display:flex;gap:8px;margin-bottom:14px}.nutritionAdminModeTabs button.active,.nutritionInspectorTabs button.active{background:#174a2a;color:#fff}.nutritionAdminSearch{display:grid;grid-template-columns:minmax(260px,1fr) 180px 220px;gap:12px;padding:14px;border:1px solid #d8d0c1;border-radius:12px;background:white}.nutritionAdminSearch label,.nutritionVariantSelect,.nutritionAuditIssue label{display:grid;gap:5px;font-size:12px;font-weight:700}.nutritionAdminSearch input,.nutritionAdminSearch select,.nutritionVariantSelect select,.nutritionAuditIssue select{width:100%;box-sizing:border-box;border:1px solid #b8b1a4;border-radius:7px;padding:10px;background:white;font:inherit}.nutritionAdminWorkspace{display:grid;grid-template-columns:330px minmax(0,1fr);gap:16px;margin-top:16px}.nutritionAdminResults{max-height:76vh;overflow:auto;border:1px solid #d8d0c1;border-radius:12px;background:white;padding:8px}.nutritionAdminResults>p{margin:4px 6px 10px;font-size:12px;color:#666}.nutritionAdminResults>button{width:100%;display:grid;grid-template-columns:1fr auto;gap:5px;text-align:left;border:0;border-bottom:1px solid #ece8df;background:white;padding:10px;border-radius:7px}.nutritionAdminResults>button.selected{background:#eef4ef;outline:2px solid #174a2a}.nutritionAdminResults button span:first-child{display:grid}.nutritionAdminResults small{color:#666}.nutritionResultMetrics{grid-column:1/-1;display:flex;gap:10px}.nutritionAdminStatus{display:inline-flex;align-items:center;border-radius:999px;padding:5px 8px;font-size:10px;font-weight:800;white-space:nowrap}.nutritionAdminStatus.green{background:#dcefe1;color:#14532d}.nutritionAdminStatus.yellow{background:#fff0bd;color:#785600}.nutritionAdminStatus.red{background:#f6d6d3;color:#8c1d18}.nutritionAdminDetail{min-width:0;border:1px solid #d8d0c1;border-radius:12px;background:white;padding:18px}.nutritionAdminRecipeHeader{display:flex;justify-content:space-between;gap:16px;border-bottom:1px solid #e6e0d6;padding-bottom:12px;margin-bottom:15px}.nutritionAdminRecipeHeader h2{margin:3px 0 0;font-size:24px}.nutritionAdminRecipeHeader>div>span{font-size:11px;font-weight:800;color:#174a2a}.nutritionAdminSummaryGrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.nutritionAdminSummaryGrid section,.nutritionAdminDetail>section{border:1px solid #e1dbd0;border-radius:9px;padding:13px;margin-bottom:13px}.nutritionAdminDetail h3{margin:0 0 10px;font-size:18px}.nutritionAdminFacts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0;border:1px solid #ded8cd;border-radius:8px;overflow:hidden}.nutritionAdminFacts div{display:flex;justify-content:space-between;gap:12px;padding:8px 10px;border-bottom:1px solid #eee9e0}.nutritionAdminFacts div:nth-child(odd){border-right:1px solid #eee9e0}.nutritionAdminFacts dt{color:#555}.nutritionAdminFacts dd{margin:0;font-weight:700;text-align:right}.nutritionAdminError{padding:12px;background:#fff1ef;border-left:4px solid #a32620}.nutritionInspectorTabs{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:13px}.nutritionInspectorTabs button{padding:8px 10px;font-size:12px}.nutritionAuditIssue{border:1px solid #ddd5c8;border-radius:8px;padding:10px;margin-bottom:8px}.nutritionAuditIssue summary{font-weight:800;cursor:pointer}.nutritionRawJson{max-height:440px;overflow:auto;background:#171717;color:#f4f4f4;border-radius:8px;padding:14px;font:12px/1.45 ui-monospace,SFMono-Regular,Menlo,monospace}.nutritionJsonActions,.nutritionAdminPreviewActions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:12px}.nutritionAdminPreviewActions span{font-size:12px;color:#7c2d12}.nutritionAdminPreviewActions button:disabled{opacity:.45;cursor:not-allowed}.nutritionAdminFicPreview{margin-top:16px;border-top:2px solid #174a2a;padding-top:16px}@media(max-width:900px){.nutritionAdminSearch{grid-template-columns:1fr 1fr}.nutritionAdminSearch label:first-child{grid-column:1/-1}.nutritionAdminWorkspace{grid-template-columns:1fr}.nutritionAdminResults{max-height:340px}.nutritionAdminSummaryGrid{grid-template-columns:1fr}}@media(max-width:620px){.nutritionAdminHeader{display:grid}.nutritionAdminSearch{grid-template-columns:1fr}.nutritionAdminSearch label:first-child{grid-column:auto}.nutritionAdminFacts{grid-template-columns:1fr}.nutritionAdminFacts div:nth-child(odd){border-right:0}.nutritionAdminModeTabs{display:grid}.nutritionAdminPage{padding-left:16px;padding-right:16px}}
+
+/* ================================================================
+   VERSION 41.2 — READINESS STATUS CORRECTION
+   ================================================================ */
+
+.nutritionStatus.estimated,
+.nutritionStatus[data-level="estimated"],
+.nutritionReadinessBadge.estimated,
+.nutritionReadinessBadge[data-level="estimated"] {
+  background: #fff4cc !important;
+  border-color: #c99a16 !important;
+  color: #6f5200 !important;
+}
+
+.nutritionStatus.ready,
+.nutritionStatus[data-level="ready"],
+.nutritionReadinessBadge.ready,
+.nutritionReadinessBadge[data-level="ready"] {
+  background: #e7f5ea !important;
+  border-color: #2f7d41 !important;
+  color: #174a2a !important;
+}
+
+.nutritionStatus.not-ready,
+.nutritionStatus[data-level="not-ready"],
+.nutritionReadinessBadge.not-ready,
+.nutritionReadinessBadge[data-level="not-ready"] {
+  background: #fde8e8 !important;
+  border-color: #b42318 !important;
+  color: #8a1c13 !important;
+}
+

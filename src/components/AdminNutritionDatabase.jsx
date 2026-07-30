@@ -89,6 +89,176 @@ function rawRecord(recipeCode, record, recipe) {
   return record;
 }
 
+
+// ================================================================
+// VERSION 41.2 — NUTRITION READINESS FIX
+// Confidence and data readiness are evaluated separately.
+// ================================================================
+
+function normalizeNutritionRow(row = {}) {
+  const pick = (...keys) => {
+    for (const key of keys) {
+      if (row[key] !== undefined && row[key] !== null && row[key] !== "") {
+        return row[key];
+      }
+    }
+    return "";
+  };
+
+  const numeric = (...keys) => {
+    const value = Number(pick(...keys));
+    return Number.isFinite(value) ? value : null;
+  };
+
+  return {
+    recipeCode: String(pick("recipeCode", "Code")).trim().toUpperCase(),
+    recipeName: String(pick("recipeName", "Name")).trim(),
+    series: String(pick("series", "Series")).trim().toUpperCase(),
+    recordType: String(pick("recordType", "Record Type")).trim(),
+    variantLabel: String(pick("variantLabel", "Variant / Method")).trim(),
+    servingSize: String(pick("servingSize", "Serving Size")).trim(),
+    servingGrams: numeric("servingGrams", "Serving g"),
+    nutrition: {
+      calories: numeric("calories", "Calories"),
+      proteinG: numeric("proteinG", "Protein g"),
+      fatG: numeric("fatG", "Total Fat g"),
+      saturatedFatG: numeric("saturatedFatG", "Saturated Fat g"),
+      carbohydrateG: numeric("carbohydrateG", "Carbs g"),
+      fiberG: numeric("fiberG", "Fiber g"),
+      totalSugarG: numeric("totalSugarG", "Total Sugar g"),
+      addedSugarG: numeric("addedSugarG", "Added Sugar g"),
+      sodiumMg: numeric("sodiumMg", "Sodium mg"),
+      potassiumMg: numeric("potassiumMg", "Potassium mg"),
+    },
+    confidence: String(pick("confidence", "Confidence")).trim(),
+    dataStatus: String(pick("dataStatus", "Data Status", "status", "ficDataStatus")).trim(),
+    defaultSelection: String(pick("defaultSelection", "Default Selection")).trim(),
+    isDefault:
+      String(pick("isDefault", "Default Selection")).toLowerCase().includes("default"),
+    active: row.active !== false,
+    retired: row.retired === true,
+    raw: row,
+  };
+}
+
+function hasCoreNumericNutrition(profile) {
+  const nutrition = profile?.nutrition || {};
+  return [
+    nutrition.calories,
+    nutrition.proteinG,
+    nutrition.carbohydrateG,
+    nutrition.fatG,
+    nutrition.sodiumMg,
+  ].every((value) => Number.isFinite(Number(value)));
+}
+
+function getNutritionReadiness(record, auditIssues = []) {
+  if (!record || record.active === false || record.retired === true) {
+    return {
+      level: "not-ready",
+      label: "Not Ready",
+      reason: "No active nutrition record",
+    };
+  }
+
+  const nutrition = record.nutrition ?? record;
+  const calories = Number(nutrition.calories);
+
+  if (!Number.isFinite(calories)) {
+    return {
+      level: "not-ready",
+      label: "Not Ready",
+      reason: "Calories are missing",
+    };
+  }
+
+  const dataStatus = String(
+    record.dataStatus ??
+    record.status ??
+    record.ficDataStatus ??
+    ""
+  ).toLowerCase();
+
+  const confidence = String(record.confidence ?? "").toLowerCase();
+
+  const hasCriticalBlocker = auditIssues.some((issue) =>
+    String(issue.priority).toLowerCase() === "critical" &&
+    String(issue.status).toLowerCase() !== "resolved"
+  );
+
+  const explicitlyBlocked =
+    dataStatus.includes("not ready") ||
+    dataStatus.includes("return-to-review") ||
+    dataStatus.includes("return to review") ||
+    dataStatus.includes("missing") ||
+    dataStatus.includes("incomplete");
+
+  if (hasCriticalBlocker || explicitlyBlocked) {
+    return {
+      level: "not-ready",
+      label: "Not Ready",
+      reason: hasCriticalBlocker
+        ? "Critical review issue"
+        : "Nutrition record is incomplete",
+    };
+  }
+
+  const isVerified =
+    confidence.includes("verified") ||
+    confidence.includes("validated") ||
+    confidence.includes("a confidence") ||
+    dataStatus.includes("authoritative") ||
+    dataStatus.includes("validated") ||
+    dataStatus === "card ready";
+
+  if (isVerified) {
+    return {
+      level: "ready",
+      label: "Card Ready",
+      reason: "Validated nutrition record",
+    };
+  }
+
+  return {
+    level: "estimated",
+    label: "Estimated — Usable",
+    reason: "Provisional nutrition record",
+  };
+}
+
+function selectDefaultNutritionProfile(profiles = []) {
+  const normalized = profiles.map((profile) => ({
+    ...profile,
+    normalized: normalizeNutritionRow(profile),
+  }));
+
+  const complete = normalized.filter(({ normalized: p }) =>
+    hasCoreNumericNutrition(p)
+  );
+
+  const explicitDefault = complete.find(({ normalized: p }) =>
+    p.defaultSelection.toLowerCase() === "default"
+  );
+  if (explicitDefault) return explicitDefault;
+
+  const defaultOnly = complete.find(({ normalized: p }) =>
+    p.defaultSelection.toLowerCase().includes("default / only option")
+  );
+  if (defaultOnly) return defaultOnly;
+
+  const beef9010 = complete.find(({ normalized: p }) =>
+    p.variantLabel.toLowerCase().includes("90/10")
+  );
+  if (beef9010) return beef9010;
+
+  const airFryer = complete.find(({ normalized: p }) =>
+    p.variantLabel.toLowerCase().includes("air fryer preferred")
+  );
+  if (airFryer) return airFryer;
+
+  return complete[0] || normalized[0] || null;
+}
+
 export default function AdminNutritionDatabase({ recipes = [], onClose }) {
   const [mode, setMode] = useState("lookup");
   const [query, setQuery] = useState("");
@@ -231,3 +401,9 @@ export default function AdminNutritionDatabase({ recipes = [], onClose }) {
     </div>
   </main>;
 }
+
+export {
+  normalizeNutritionRow,
+  getNutritionReadiness,
+  selectDefaultNutritionProfile,
+};
