@@ -26,3 +26,123 @@
 .weekendBulkTypeTabs{--bulk-category-size:clamp(68px,7.1vw,112px);--bulk-category-name:clamp(10.5px,.85vw,13.5px);gap:clamp(10px,1.25vw,20px)!important;align-items:start!important;margin:18px auto 24px!important}.weekendBulkTypeTabs button{width:calc(var(--bulk-category-size) + 26px)!important;min-width:0!important;gap:0!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;padding:0!important}.weekendBulkTypeTabs button:hover{box-shadow:none!important;transform:translateY(-2px)!important}.weekendBulkTypeIcon{width:var(--bulk-category-size)!important;height:var(--bulk-category-size)!important;min-width:var(--bulk-category-size)!important;min-height:var(--bulk-category-size)!important;border-radius:clamp(14px,1.25vw,20px)!important;overflow:hidden!important;margin:0 auto 8px!important;box-shadow:none!important;outline:0!important}.weekendBulkTypeTabs button strong{max-width:calc(var(--bulk-category-size) + 18px);font-size:var(--bulk-category-name)!important;line-height:1.08!important;color:#111827!important}.weekendBulkTypeTabs button[aria-selected="true"]{border:0!important;box-shadow:none!important}.weekendBulkTypeTabs button[aria-selected="true"] .weekendBulkTypeIcon{outline:2px solid var(--bulk-green)!important;outline-offset:3px!important}.weekendBulkOverviewSheet{display:none}
 @media(max-width:1150px){.weekendBulkIntro{grid-template-columns:1fr!important}.weekendBulkIntroCopy{width:auto}.weekendBulkPlanName{grid-template-columns:1fr 1fr!important}.weekendBulkTypeTabs{overflow-x:auto;justify-content:flex-start!important;padding:6px}}@media(max-width:600px){.weekendBulkPlanName{grid-template-rows:auto!important}.weekendBulkCounterRow{height:auto!important;grid-template-columns:repeat(2,1fr)}.weekendBulkTypeTabs{--bulk-category-size:74px;--bulk-category-name:11px}}
 @media print{body.printingWeekendOverview *{visibility:hidden!important}body.printingWeekendOverview .weekendBulkOverviewSheet,body.printingWeekendOverview .weekendBulkOverviewSheet *{visibility:visible!important}body.printingWeekendOverview .weekendBulkOverviewSheet{display:block!important;position:absolute;left:0;top:0;width:100%;color:#17202c;font:9pt/1.3 Arial,sans-serif}body.printingWeekendOverview .weekendBulkOverviewSheet header{padding-bottom:.16in;border-bottom:2pt solid #155c35}body.printingWeekendOverview .weekendBulkOverviewSheet header p{margin:0 0 .04in;color:#155c35;font-weight:800;font-size:7.5pt;letter-spacing:.08em}body.printingWeekendOverview .weekendBulkOverviewSheet h1{margin:0 0 .06in;font:700 20pt/1.05 Georgia,serif}body.printingWeekendOverview .weekendBulkOverviewSheet h2{margin:.16in 0 .06in;font:700 12pt/1.1 Georgia,serif;color:#183421}body.printingWeekendOverview .weekendBulkOverviewSummary{display:grid;grid-template-columns:repeat(3,1fr);gap:.1in;margin:.12in 0}body.printingWeekendOverview .weekendBulkOverviewSummary div{border:1pt solid #d8e2da;padding:.08in;text-align:center}body.printingWeekendOverview .weekendBulkOverviewSummary strong{display:block;font:700 15pt/1 Georgia,serif;color:#155c35}body.printingWeekendOverview .weekendBulkOverviewSummary span{font-size:7.5pt;font-weight:700}body.printingWeekendOverview table{width:100%;border-collapse:collapse;table-layout:fixed}body.printingWeekendOverview th,body.printingWeekendOverview td{border:.6pt solid #cfd8d1;padding:.055in;vertical-align:top;text-align:left}body.printingWeekendOverview th{background:#eef4ef;font-size:7.5pt;text-transform:uppercase}body.printingWeekendOverview th:nth-child(1){width:4%}body.printingWeekendOverview th:nth-child(2){width:23%}body.printingWeekendOverview th:nth-child(3){width:11%}body.printingWeekendOverview th:nth-child(4){width:9%}body.printingWeekendOverview th:nth-child(5){width:15%}body.printingWeekendOverview th:nth-child(6){width:38%}body.printingWeekendOverview td small{display:block;margin-top:2px;color:#59655c;font-size:7.5pt}body.printingWeekendOverview .weekendBulkOverviewColumns{display:grid;grid-template-columns:1fr 1fr;gap:.25in}body.printingWeekendOverview .weekendBulkOverviewColumns ul{margin:0;padding-left:.18in}body.printingWeekendOverview .weekendBulkOverviewColumns li{margin:0 0 .035in}body.printingWeekendOverview .weekendBulkOverviewNotes{border:1pt solid #d8e2da;padding:.08in .12in;margin-top:.1in}body.printingWeekendOverview .weekendBulkOverviewNotes h2{margin:0 0 .04in}body.printingWeekendOverview .weekendBulkOverviewNotes p{white-space:pre-wrap;margin:0}}
+
+/* Version 54.1: locked two-column Cook Once panel and home-page-scale icons. */
+.weekendBulkIntro{
+  grid-template-columns:minmax(0,.9fr) minmax(0,1.6fr)!important;
+  align-items:center!important;
+  column-gap:clamp(12px,2vw,28px)!important;
+}
+.weekendBulkIntroCopy{
+  width:100%!important;
+  min-width:0;
+}
+.weekendBulkIntroCopy h2{
+  display:flex;
+  flex-direction:column;
+  width:100%!important;
+  max-width:none!important;
+  font-size:clamp(15px,1.45vw,21px)!important;
+  line-height:1.12!important;
+}
+.weekendBulkIntroCopy h2 span{
+  display:block;
+}
+.weekendBulkIntroCopy p{
+  width:100%!important;
+  max-width:none!important;
+  font-size:clamp(10px,.9vw,13px)!important;
+}
+.weekendBulkPlanName{
+  min-width:0!important;
+}
+.weekendBulkTypeTabs{
+  --bulk-category-size:46px!important;
+  --bulk-category-name:9px!important;
+  width:max-content;
+  max-width:100%;
+  justify-content:center!important;
+  gap:clamp(10px,1.2vw,18px)!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+}
+.weekendBulkTypeTabs button{
+  width:70px!important;
+  min-width:70px!important;
+}
+.weekendBulkTypeIcon{
+  width:46px!important;
+  height:46px!important;
+  min-width:46px!important;
+  min-height:46px!important;
+  margin-bottom:5px!important;
+  border-radius:12px!important;
+}
+.weekendBulkTypeTabs button strong{
+  max-width:70px!important;
+  font-size:9px!important;
+}
+.weekendBulkTypeTabs button[aria-selected="true"] .weekendBulkTypeIcon{
+  outline:1px solid #111!important;
+  outline-offset:3px!important;
+}
+.weekendBulkTypeTabs button[aria-selected="true"] strong{
+  color:#111!important;
+}
+@media(max-width:1150px){
+  .weekendBulkIntro{
+    grid-template-columns:minmax(0,.8fr) minmax(0,1.7fr)!important;
+  }
+  .weekendBulkPlanName{
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+  }
+  .weekendBulkTypeTabs{
+    justify-content:center!important;
+    overflow-x:auto;
+    padding:6px 2px;
+  }
+}
+@media(max-width:780px){
+  .weekendBulkIntro{
+    grid-template-columns:minmax(0,.72fr) minmax(0,1.78fr)!important;
+    padding:11px 12px!important;
+  }
+  .weekendBulkPlanName{
+    grid-template-rows:auto auto!important;
+  }
+  .weekendBulkPlanName label{
+    height:auto!important;
+  }
+  .weekendBulkCounterRow{
+    grid-template-columns:repeat(4,minmax(0,1fr));
+  }
+  .weekendBulkMiniStat{
+    min-width:0;
+    padding-inline:2px!important;
+  }
+  .weekendBulkMiniStat span{
+    overflow-wrap:anywhere;
+  }
+}
+@media(max-width:500px){
+  .weekendBulkIntro{
+    grid-template-columns:minmax(0,.7fr) minmax(0,1.8fr)!important;
+    column-gap:8px!important;
+  }
+  .weekendBulkIntro .aiBadge{
+    font-size:7px!important;
+  }
+  .weekendBulkIntroCopy h2{
+    font-size:13px!important;
+  }
+  .weekendBulkIntroCopy p{
+    font-size:9px!important;
+    line-height:1.25!important;
+  }
+  .weekendBulkPlanName{
+    grid-template-columns:1fr!important;
+  }
+  .weekendBulkCounterRow{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}

@@ -266,7 +266,10 @@ export default function WeekendBulkMealPlanner({ recipes = [], favorites = [], o
       <section className="weekendBulkIntro">
         <div className="weekendBulkIntroCopy">
           <span className="aiBadge">WEEKEND PRODUCTION PLAN</span>
-          <h2>Cook once. Portion for several meals.</h2>
+          <h2>
+            <span>Plan &amp; cook once.</span>
+            <span>Shop &amp; save for weeks.</span>
+          </h2>
           <p>Build a plan that fits your equipment, available time, household size, and freezer space. Your selections and packaging notes stay in this browser so you can return to the plan while you shop, cook, cool, label, and store everything.</p>
         </div>
         <div className="weekendBulkPlanName">
