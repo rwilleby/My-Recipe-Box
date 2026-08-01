@@ -5,15 +5,16 @@ import "./WeekendBulkMealPlanner.v51.css";
 const STORAGE_KEY = "rrb_weekendBulkMealPlanner_v1";
 
 const PLAN_TYPES = [
-  { key: "ALL", label: "ALL" },
-  { key: "SG", label: "SG", icon: "images/icons/SG-bulk.png" },
-  { key: "CP", label: "CP", icon: "images/icons/CP-bulk.png" },
-  { key: "CS", label: "CS", icon: "images/icons/CS-bulk.png" },
-  { key: "SD", label: "SD", icon: "images/icons/SD-bulk.png" },
-  { key: "DS", label: "DS", icon: "images/icons/DS-bulk.png" },
+  { key: "ALL", label: "All Recipes", icon: "images/icons/AL.png" },
+  { key: "FAVORITES", label: "Your Favorites", icon: "images/icons/favorites.webp" },
+  { key: "SG", label: "Smoked & Grilled Meats", icon: "images/icons/SG.webp" },
+  { key: "CP", label: "Crock Pot Meals", icon: "images/icons/CP-bulk.png" },
+  { key: "CS", label: "Casseroles", icon: "images/icons/CS.webp" },
+  { key: "SD", label: "Side Dishes", icon: "images/icons/SD.webp" },
+  { key: "DS", label: "Desserts", icon: "images/icons/DS.webp" },
 ];
 
-const ALLOWED_RECIPE_CODES = new Set(PLAN_TYPES.slice(1).map((type) => type.key));
+const ALLOWED_RECIPE_CODES = new Set(["SG", "CP", "CS", "SD", "DS"]);
 
 const BULK_BASES = [
   { id: "BASE-001", title: "Cooked Ground Beef", detail: "Freeze flat in meal-size portions for tacos, pasta, chili, or casseroles.", defaultPortions: 8 },
@@ -140,7 +141,7 @@ function escapeCsv(value) {
   return /[",\n]/.test(text) ? `"${text.replaceAll('"', '""')}"` : text;
 }
 
-export default function WeekendBulkMealPlanner({ recipes = [], openRecipeCard }) {
+export default function WeekendBulkMealPlanner({ recipes = [], favorites = [], openRecipeCard }) {
   const [plan, setPlan] = useState(safeLoadPlan);
   const [activeType, setActiveType] = useState("ALL");
   const [search, setSearch] = useState("");
@@ -152,15 +153,15 @@ export default function WeekendBulkMealPlanner({ recipes = [], openRecipeCard })
   const catalog = useMemo(() => {
     return recipes
       .filter((recipe) => ALLOWED_RECIPE_CODES.has(recipeCode(recipe)))
-      .filter((recipe) => activeType === "ALL" || recipeCode(recipe) === activeType)
+      .filter((recipe) => activeType === "ALL" || (activeType === "FAVORITES" ? favorites.includes(recipe.id) : recipeCode(recipe) === activeType))
       .map((recipe) => ({ ...recipe, sourceType: "recipe" }));
-  }, [activeType, recipes]);
+  }, [activeType, favorites, recipes]);
 
   const filteredCatalog = useMemo(() => {
     const term = search.trim().toLowerCase();
     if (!term) return catalog.slice(0, 120);
     const searchableCatalog = term
-      ? recipes.filter((recipe) => ALLOWED_RECIPE_CODES.has(recipeCode(recipe))).map((recipe) => ({ ...recipe, sourceType: "recipe" }))
+      ? recipes.map((recipe) => ({ ...recipe, sourceType: "recipe" }))
       : catalog;
     return searchableCatalog.filter((item) => `${item.id} ${item.title} ${item.detail || ""}`.toLowerCase().includes(term)).slice(0, 120);
   }, [catalog, recipes, search]);
@@ -242,8 +243,20 @@ export default function WeekendBulkMealPlanner({ recipes = [], openRecipeCard })
     window.setTimeout(() => window.print(), 50);
   }
 
+  function printCookingOverview() {
+    if (!plan.items.length) {
+      window.alert("Add at least one food to My Cooking Plan before printing the overview.");
+      return;
+    }
+    document.body.classList.add("printingWeekendOverview");
+    window.setTimeout(() => window.print(), 50);
+  }
+
   useEffect(() => {
-    const cleanup = () => document.body.classList.remove("printingWeekendLabels");
+    const cleanup = () => {
+      document.body.classList.remove("printingWeekendLabels");
+      document.body.classList.remove("printingWeekendOverview");
+    };
     window.addEventListener("afterprint", cleanup);
     return () => window.removeEventListener("afterprint", cleanup);
   }, []);
@@ -251,7 +264,7 @@ export default function WeekendBulkMealPlanner({ recipes = [], openRecipeCard })
   return (
     <main className="weekendBulkPage pageShell">
       <section className="weekendBulkIntro">
-        <div>
+        <div className="weekendBulkIntroCopy">
           <span className="aiBadge">WEEKEND PRODUCTION PLAN</span>
           <h2>Cook once. Portion for several meals.</h2>
           <p>Build a plan that fits your equipment, available time, household size, and freezer space. Your selections and packaging notes stay in this browser so you can return to the plan while you shop, cook, cool, label, and store everything.</p>
@@ -288,7 +301,7 @@ export default function WeekendBulkMealPlanner({ recipes = [], openRecipeCard })
             className={activeType === type.key ? "active" : ""}
             onClick={() => { setActiveType(type.key); setSearch(""); }}
           >
-            {type.icon ? <span className="weekendBulkTypeIcon"><img src={`${import.meta.env.BASE_URL}${type.icon}`} alt="" /></span> : <span className="weekendBulkAllIcon">ALL</span>}
+            <span className="weekendBulkTypeIcon"><img src={`${import.meta.env.BASE_URL}${type.icon}`} alt="" /></span>
             <strong>{type.label}</strong>
           </button>
         ))}
@@ -333,6 +346,7 @@ export default function WeekendBulkMealPlanner({ recipes = [], openRecipeCard })
             </div>
             <div className="weekendBulkHeaderActions">
               <button type="button" onClick={() => window.print()}>Print</button>
+              <button type="button" onClick={printCookingOverview}>Print Cooking Overview</button>
               <button type="button" onClick={printLabels}>Print Labels</button>
               <button type="button" onClick={downloadLabels}>Labels CSV</button>
               <button type="button" onClick={downloadPlan}>Save Copy</button>
@@ -408,6 +422,31 @@ export default function WeekendBulkMealPlanner({ recipes = [], openRecipeCard })
             {item.labelNote && <small>{item.labelNote}</small>}
           </article>
         )))}
+      </section>
+
+      <section className="weekendBulkOverviewSheet" aria-hidden="true">
+        <header>
+          <p>ROBERT'S RECIPE BOX · WEEKEND BULK COOKING</p>
+          <h1>{plan.weekendName || "My Weekend Bulk Plan"}</h1>
+          <div><strong>Main prep day:</strong> {plan.prepDay} <span>•</span> <strong>{plan.items.length}</strong> foods <span>•</span> <strong>{summary.totalBatches}</strong> batches <span>•</span> <strong>{summary.totalPortions}</strong> portions</div>
+        </header>
+        <section className="weekendBulkOverviewSummary">
+          <div><strong>{summary.refrigerator}</strong><span>Refrigerator portions</span></div>
+          <div><strong>{summary.freezer}</strong><span>Freezer portions</span></div>
+          <div><strong>{plan.items.filter((item) => item.completed).length}</strong><span>Marked complete</span></div>
+        </section>
+        <h2>Cooking & Packaging Overview</h2>
+        <table>
+          <thead><tr><th>#</th><th>Meal / Item</th><th>Qty.</th><th>Finish</th><th>Storage</th><th>Package / Label Note</th></tr></thead>
+          <tbody>{plan.items.map((item, index) => (
+            <tr key={item.uid}><td>{item.completed ? "✓" : index + 1}</td><td><strong>{item.title}</strong><small>{item.id} · {item.day}</small></td><td>{item.batches} batch{Number(item.batches) === 1 ? "" : "es"}<small>{Number(item.portions) * Number(item.batches)} portions</small></td><td>{item.finish || "Whole"}</td><td>{item.destination}{item.destination === "both" ? ` (${item.refrigeratorPortions} refrigerated)` : ""}</td><td>{item.package}<small>{item.labelNote || "Label with food, portions, and freeze date."}</small></td></tr>
+          ))}</tbody>
+        </table>
+        <div className="weekendBulkOverviewColumns">
+          <section><h2>Items to Have Ready</h2><ul><li>Chosen bags or containers for every batch</li><li>Permanent or dissolvable labels and marker</li><li>Sheet pans or shallow pans for prompt cooling</li><li>Freezer space cleared before cooking begins</li><li>Thermometer, timers, and clean prep tools</li></ul></section>
+          <section><h2>Successful Cook Hints</h2><ul><li>Start the longest-cooking foods first and prep cold items while they cook.</li><li>Keep raw-meat tools separate from ready-to-eat food.</li><li>Cool cooked food promptly in shallow portions before sealing.</li><li>Reserve near-term refrigerator portions; freeze the rest promptly.</li><li>Freeze bags flat, then stand upright once solid.</li></ul></section>
+        </div>
+        {plan.notes && <section className="weekendBulkOverviewNotes"><h2>Weekend Notes</h2><p>{plan.notes}</p></section>}
       </section>
     </main>
   );

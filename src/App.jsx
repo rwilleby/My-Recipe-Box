@@ -14011,6 +14011,7 @@ export default function App() {
           />
           <WeekendBulkMealPlanner
             recipes={classifiedRecipes}
+            favorites={favorites}
             openRecipeCard={openRecipeCard}
           />
         </>
