@@ -6,6 +6,7 @@ import AdminNutritionDatabase from "./components/AdminNutritionDatabase";
 import DinnerCombinationHeroAudit from "./DinnerCombinationHeroAudit.jsx";
 import UserDataBackupSection from "./components/UserDataBackupSection";
 import FoodIntelligenceCard from "./components/FoodIntelligenceCard";
+import WeekendBulkMealPlanner from "./components/WeekendBulkMealPlanner";
 import { hasRecipeNutritionRecord } from "./data/recipeNutritionProfiles";
 import "./components/UserDataBackupSection.css";
 import "./components/AdminNutritionDatabase.css";
@@ -1428,6 +1429,7 @@ const NAV_GROUPS = [
     label: "YOUR KITCHEN",
     items: [
       { label: "YOUR WEEKLY MEAL PLANNER", page: "Meal Planner" },
+      { label: "WEEKEND BULK MEAL PLANNER", page: "Weekend Bulk Meal Planner" },
       { label: "WEEKLY MEAL PLANNER — TEST", page: "Weekly Meal Planner Prototype" },
       { label: "YOUR FAVORITE RECIPES", page: "Favorites" },
       { label: "REFRIGERATOR INVENTORY", page: "Kitchen Refrigerator" },
@@ -13996,6 +13998,22 @@ export default function App() {
       {activePage === "Home" && <Home {...pageProps} />}
       {activePage === "Weekly Meal Planner Prototype" && (
         <WeeklyMealPlannerPrototypePage setActivePage={setActivePage} />
+      )}
+      {activePage === "Weekend Bulk Meal Planner" && (
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-page-freezer-meals.webp"
+            alt="Weekend meal preparation with cooked foods, storage containers, freezer packages, and planning notes"
+            eyebrow="WEEKEND BULK COOKING"
+            title="Your Weekend Bulk Meal Planner"
+            text="Turn one focused weekend cooking session into several easier meals. Choose crock-pot recipes, smoked or grilled meats, flexible base foods, complete dishes, and desserts; then decide what to refrigerate, what to freeze, and how each portion should be packaged.\n\nBuild a plan that fits your equipment, available time, household size, and freezer space. Your selections and packaging notes stay in this browser so you can return to the plan while you shop, cook, cool, label, and store everything."
+            className="pageHeroDepth464 weekendBulkHero"
+          />
+          <WeekendBulkMealPlanner
+            recipes={classifiedRecipes}
+            openRecipeCard={openRecipeCard}
+          />
+        </>
       )}
       {activePage === "Contact Me" && (
         <>

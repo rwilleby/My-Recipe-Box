@@ -32278,7 +32278,88 @@ body.rrbPopupOpen {
     grid-template-columns: 1fr !important;
   }
 }
-\n\n/* =========================================================\n   VERIFIED WEBP REPAIR + JULY 24 LAYOUT UPDATE\n   ========================================================= */\n\n/* Browse Recipe Library: three full-width actions and utility row. */\n.browseRecipeGrid .recipeCardFullImage .browseRecipeActions {\n  display: grid !important;\n  grid-template-columns: 1fr !important;\n  gap: 7px !important;\n}\n.browseRecipeGrid .recipeCardFullImage .browseRecipePrimaryAction,\n.browseRecipeGrid .recipeCardFullImage .browseRecipePrimaryAction > button,\n.browseRecipeGrid .recipeCardFullImage .browseRecipePrimaryAction .addLeftoversButton { width: 100% !important; }\n.browseRecipeGrid .recipeCardFullImage .viewCard,\n.browseRecipeGrid .recipeCardFullImage .addPlan,\n.browseRecipeGrid .recipeCardFullImage .addLeftoversButton {\n  min-height: 36px !important; height: auto !important; margin: 0 !important;\n  padding: 8px 10px !important; font-size: 12px !important; line-height: 1.18 !important; white-space: normal !important;\n}\n.browseRecipeUtilityRow { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 7px !important; }\n.browseRecipeUtilityRowThree { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }\n.browseRecipeUtilityRow > *, .browseRecipeUtilityRow button { min-width: 0 !important; width: 100% !important; }\n.browseRecipeUtilityRow .smartTipsButton,\n.browseRecipeUtilityRow .recipeNotesButton,\n.browseRecipeUtilityRow .constructionCalloutButton {\n  min-height: 34px !important; height: 34px !important; margin: 0 !important; padding: 5px 6px !important;\n  font-size: 10px !important; line-height: 1.05 !important; white-space: normal !important;\n}\n.browseRecipeMetaFooter { display: grid !important; grid-template-columns: minmax(0, 1fr) auto auto !important; align-items: center !important; gap: 9px !important; }\n.browseRecipeMetaItems { display: flex !important; align-items: center !important; gap: 12px !important; min-width: 0 !important; }\n.browseRecipeMealBalanceBadge.mealBalanceBadge { position: static !important; justify-self: center !important; margin: 0 !important; background: var(--green) !important; color: #fff !important; border-color: var(--green) !important; }\n.browseRecipeMealBalanceBadge.mealBalanceBadge, .browseRecipeMealBalanceBadge.mealBalanceBadge * { color: #fff !important; }\n.browseCardHeart { position: static !important; justify-self: end !important; }\n\n/* Dinner Combination full-width card: 25/30/25/20 first row, 50/50 second row. */\n.dinnerCombinationGrid, .dinnerCombinationGrid--grid { display: grid !important; grid-template-columns: 1fr !important; gap: 18px !important; }\n.dinnerCombinationCard { width: 100% !important; }\n.dinnerCombinationAreaLayout {\n  display: grid !important;\n  grid-template-columns: 25% 30% 25% 20% !important;\n  grid-template-areas:\n    "photo name groceries planner"\n    "photo dishes groceries planner"\n    "recipes recipes nutrition nutrition" !important;\n  gap: 0 !important; align-items: stretch !important;\n  border: 1px solid rgba(20,83,45,.15) !important; border-radius: 14px !important; overflow: visible !important; background: #fff !important;\n}\n.dinnerArea { border-radius: 0 !important; border-width: 0 1px 1px 0 !important; padding: 14px !important; }\n.dinnerAreaPhoto { grid-area: photo !important; }\n.dinnerAreaName { grid-area: name !important; }\n.dinnerAreaDishes { grid-area: dishes !important; }\n.dinnerAreaGroceries { grid-area: groceries !important; }\n.dinnerAreaNutrition { grid-area: nutrition !important; border-right: 0 !important; }\n.dinnerAreaActions { display: contents !important; }\n.dinnerAreaActions .dinnerCombinationRecipeButtons { grid-area: recipes !important; padding: 14px 16px !important; border-right: 1px solid #e5ebe6 !important; border-bottom: 0 !important; }\n.dinnerAreaActions .dinnerCombinationPlannerAdd { grid-area: planner !important; display: grid !important; align-content: end !important; gap: 8px !important; padding: 14px !important; border-bottom: 1px solid #e5ebe6 !important; }\n.dinnerAreaActions .dinnerCombinationPlannerAdd select, .dinnerAreaActions .dinnerCombinationPlannerAdd button { width: 100% !important; }\n.dinnerCombinationRecipeButtonGrid { grid-template-columns: repeat(3, minmax(0,1fr)) !important; }\n.dinnerCombinationHeating { width: 100% !important; margin: 0 !important; padding: 12px 16px !important; border-top: 0 !important; text-align: left !important; }\n.dinnerCombinationHeating summary { width: 100% !important; text-align: left !important; }\n.dinnerCombinationHeating div { grid-template-columns: repeat(3, minmax(0,1fr)) !important; }\n\n/* Cooking Tools controls anchored to the lower-right, aligned with image bottom. */\n.productsCompactCard { align-items: stretch !important; }\n.productsCompactContent { position: relative !important; min-height: 100% !important; padding-bottom: 58px !important; }\n.productsCompactControls { position: absolute !important; right: 15px !important; bottom: 10px !important; left: auto !important; display: flex !important; align-items: flex-end !important; justify-content: flex-end !important; gap: 8px !important; margin: 0 !important; }\n.productsCompactCategory select, .productsCompactAffiliate { margin-bottom: 0 !important; }\n\n@media (max-width: 1000px) {\n  .dinnerCombinationAreaLayout { grid-template-columns: 32% 38% 30% !important; grid-template-areas: "photo name planner" "photo dishes planner" "groceries groceries groceries" "recipes recipes nutrition" !important; }\n}\n@media (max-width: 760px) {\n  .browseRecipeUtilityRow, .browseRecipeUtilityRowThree { grid-template-columns: 1fr !important; }\n  .dinnerCombinationAreaLayout { grid-template-columns: 1fr !important; grid-template-areas: "photo" "name" "dishes" "groceries" "planner" "recipes" "nutrition" !important; }\n  .dinnerCombinationRecipeButtonGrid { grid-template-columns: 1fr !important; }\n  .dinnerCombinationHeating div { grid-template-columns: 1fr !important; }\n  .productsCompactContent { padding-bottom: 13px !important; }\n  .productsCompactControls { position: static !important; justify-content: flex-start !important; flex-wrap: wrap !important; margin-top: 12px !important; }\n}\n
+
+
+/* =========================================================
+   VERIFIED WEBP REPAIR + JULY 24 LAYOUT UPDATE
+   ========================================================= */
+
+/* Browse Recipe Library: three full-width actions and utility row. */
+.browseRecipeGrid .recipeCardFullImage .browseRecipeActions {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 7px !important;
+}
+.browseRecipeGrid .recipeCardFullImage .browseRecipePrimaryAction,
+.browseRecipeGrid .recipeCardFullImage .browseRecipePrimaryAction > button,
+.browseRecipeGrid .recipeCardFullImage .browseRecipePrimaryAction .addLeftoversButton { width: 100% !important; }
+.browseRecipeGrid .recipeCardFullImage .viewCard,
+.browseRecipeGrid .recipeCardFullImage .addPlan,
+.browseRecipeGrid .recipeCardFullImage .addLeftoversButton {
+  min-height: 36px !important; height: auto !important; margin: 0 !important;
+  padding: 8px 10px !important; font-size: 12px !important; line-height: 1.18 !important; white-space: normal !important;
+}
+.browseRecipeUtilityRow { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 7px !important; }
+.browseRecipeUtilityRowThree { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+.browseRecipeUtilityRow > *, .browseRecipeUtilityRow button { min-width: 0 !important; width: 100% !important; }
+.browseRecipeUtilityRow .smartTipsButton,
+.browseRecipeUtilityRow .recipeNotesButton,
+.browseRecipeUtilityRow .constructionCalloutButton {
+  min-height: 34px !important; height: 34px !important; margin: 0 !important; padding: 5px 6px !important;
+  font-size: 10px !important; line-height: 1.05 !important; white-space: normal !important;
+}
+.browseRecipeMetaFooter { display: grid !important; grid-template-columns: minmax(0, 1fr) auto auto !important; align-items: center !important; gap: 9px !important; }
+.browseRecipeMetaItems { display: flex !important; align-items: center !important; gap: 12px !important; min-width: 0 !important; }
+.browseRecipeMealBalanceBadge.mealBalanceBadge { position: static !important; justify-self: center !important; margin: 0 !important; background: var(--green) !important; color: #fff !important; border-color: var(--green) !important; }
+.browseRecipeMealBalanceBadge.mealBalanceBadge, .browseRecipeMealBalanceBadge.mealBalanceBadge * { color: #fff !important; }
+.browseCardHeart { position: static !important; justify-self: end !important; }
+
+/* Dinner Combination full-width card: 25/30/25/20 first row, 50/50 second row. */
+.dinnerCombinationGrid, .dinnerCombinationGrid--grid { display: grid !important; grid-template-columns: 1fr !important; gap: 18px !important; }
+.dinnerCombinationCard { width: 100% !important; }
+.dinnerCombinationAreaLayout {
+  display: grid !important;
+  grid-template-columns: 25% 30% 25% 20% !important;
+  grid-template-areas:
+    "photo name groceries planner"
+    "photo dishes groceries planner"
+    "recipes recipes nutrition nutrition" !important;
+  gap: 0 !important; align-items: stretch !important;
+  border: 1px solid rgba(20,83,45,.15) !important; border-radius: 14px !important; overflow: visible !important; background: #fff !important;
+}
+.dinnerArea { border-radius: 0 !important; border-width: 0 1px 1px 0 !important; padding: 14px !important; }
+.dinnerAreaPhoto { grid-area: photo !important; }
+.dinnerAreaName { grid-area: name !important; }
+.dinnerAreaDishes { grid-area: dishes !important; }
+.dinnerAreaGroceries { grid-area: groceries !important; }
+.dinnerAreaNutrition { grid-area: nutrition !important; border-right: 0 !important; }
+.dinnerAreaActions { display: contents !important; }
+.dinnerAreaActions .dinnerCombinationRecipeButtons { grid-area: recipes !important; padding: 14px 16px !important; border-right: 1px solid #e5ebe6 !important; border-bottom: 0 !important; }
+.dinnerAreaActions .dinnerCombinationPlannerAdd { grid-area: planner !important; display: grid !important; align-content: end !important; gap: 8px !important; padding: 14px !important; border-bottom: 1px solid #e5ebe6 !important; }
+.dinnerAreaActions .dinnerCombinationPlannerAdd select, .dinnerAreaActions .dinnerCombinationPlannerAdd button { width: 100% !important; }
+.dinnerCombinationRecipeButtonGrid { grid-template-columns: repeat(3, minmax(0,1fr)) !important; }
+.dinnerCombinationHeating { width: 100% !important; margin: 0 !important; padding: 12px 16px !important; border-top: 0 !important; text-align: left !important; }
+.dinnerCombinationHeating summary { width: 100% !important; text-align: left !important; }
+.dinnerCombinationHeating div { grid-template-columns: repeat(3, minmax(0,1fr)) !important; }
+
+/* Cooking Tools controls anchored to the lower-right, aligned with image bottom. */
+.productsCompactCard { align-items: stretch !important; }
+.productsCompactContent { position: relative !important; min-height: 100% !important; padding-bottom: 58px !important; }
+.productsCompactControls { position: absolute !important; right: 15px !important; bottom: 10px !important; left: auto !important; display: flex !important; align-items: flex-end !important; justify-content: flex-end !important; gap: 8px !important; margin: 0 !important; }
+.productsCompactCategory select, .productsCompactAffiliate { margin-bottom: 0 !important; }
+
+@media (max-width: 1000px) {
+  .dinnerCombinationAreaLayout { grid-template-columns: 32% 38% 30% !important; grid-template-areas: "photo name planner" "photo dishes planner" "groceries groceries groceries" "recipes recipes nutrition" !important; }
+}
+@media (max-width: 760px) {
+  .browseRecipeUtilityRow, .browseRecipeUtilityRowThree { grid-template-columns: 1fr !important; }
+  .dinnerCombinationAreaLayout { grid-template-columns: 1fr !important; grid-template-areas: "photo" "name" "dishes" "groceries" "planner" "recipes" "nutrition" !important; }
+  .dinnerCombinationRecipeButtonGrid { grid-template-columns: 1fr !important; }
+  .dinnerCombinationHeating div { grid-template-columns: 1fr !important; }
+  .productsCompactContent { padding-bottom: 13px !important; }
+  .productsCompactControls { position: static !important; justify-content: flex-start !important; flex-wrap: wrap !important; margin-top: 12px !important; }
+}
+
 /* =========================================================
    MAIN PAGE — 3-MINUTE STAGGERED COMBO ROTATION + COPY WIDTH
    July 24, 2026
