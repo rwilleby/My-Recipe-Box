@@ -14005,8 +14005,8 @@ export default function App() {
             src="images/heroes/hero-page-freezer-meals.webp"
             alt="Weekend meal preparation with cooked foods, storage containers, freezer packages, and planning notes"
             eyebrow="WEEKEND BULK COOKING"
-            title="Your Weekend Bulk Meal Planner"
-            text="Turn one focused weekend cooking session into several easier meals. Choose crock-pot recipes, smoked or grilled meats, flexible base foods, complete dishes, and desserts; then decide what to refrigerate, what to freeze, and how each portion should be packaged.\n\nBuild a plan that fits your equipment, available time, household size, and freezer space. Your selections and packaging notes stay in this browser so you can return to the plan while you shop, cook, cool, label, and store everything."
+            title="My Weekend Bulk Plan"
+            text="Turn one focused weekend cooking session into several easier meals. Choose crock-pot recipes, smoked or grilled meats, flexible base foods, complete dishes, and desserts; then decide what to refrigerate, what to freeze, and how each portion should be packaged."
             className="pageHeroDepth464 weekendBulkHero"
           />
           <WeekendBulkMealPlanner

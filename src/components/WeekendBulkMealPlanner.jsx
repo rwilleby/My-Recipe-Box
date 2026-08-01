@@ -1,14 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
 import "./WeekendBulkMealPlanner.css";
+import "./WeekendBulkMealPlanner.v51.css";
 
 const STORAGE_KEY = "rrb_weekendBulkMealPlanner_v1";
 
 const PLAN_TYPES = [
-  { key: "crockpot", label: "Crock Pot", icon: "♨", hint: "Slow-cooked meals and freezer packs" },
-  { key: "smoker", label: "Smoked & Grilled", icon: "🔥", hint: "Meats for several future meals" },
-  { key: "recipes", label: "Other Recipes", icon: "🍲", hint: "Casseroles, sides, soups, and more" },
-  { key: "bases", label: "Bulk Base Foods", icon: "▦", hint: "Flexible components for different meals" },
-  { key: "desserts", label: "Desserts", icon: "🍰", hint: "Portion now and enjoy later" },
+  { key: "meats", label: "Meats", icon: "images/icons/SG.webp" },
+  { key: "crockpot", label: "Crock Pot", icon: "images/collections/Crockpot.webp" },
+  { key: "casseroles", label: "Casseroles", icon: "images/icons/CS.webp" },
+  { key: "sides", label: "Side Dishes", icon: "images/icons/SD.webp" },
+  { key: "desserts", label: "Desserts", icon: "images/icons/DS.webp" },
 ];
 
 const BULK_BASES = [
@@ -51,7 +52,7 @@ function safeLoadPlan() {
         weekendName: saved.weekendName || "This Weekend",
         prepDay: saved.prepDay || "Saturday",
         notes: saved.notes || "",
-        items: Array.isArray(saved.items) ? saved.items : [],
+        items: Array.isArray(saved.items) ? saved.items.map((item) => ({ ...item, finish: item.finish || "Whole" })) : [],
       };
     }
   } catch {
@@ -82,9 +83,11 @@ function classifyRecipe(recipe) {
   const text = recipeSearchText(recipe);
   const slowCookerCandidate = /slow cooker|slow-cooker|crock|pot roast|beef stew|pulled (pork|chicken)|chicken (and|&) gravy|ranch chicken|salsa chicken|tortilla soup|taco soup|sausage (and|&) peppers|beef tips|chicken (and|&) dumplings|chili|pork roast/.test(text);
   if (["CC", "CO", "CR", "DN", "DS", "JJ", "PM"].includes(code)) return "desserts";
-  if (code === "SG" || /smok|grill|barbecue|bbq/.test(text)) return "smoker";
+  if (code === "SD" || /side dish/.test(text)) return "sides";
+  if (code === "CS" || /casserole|baked (dish|pasta)/.test(text)) return "casseroles";
   if (slowCookerCandidate) return "crockpot";
-  return "recipes";
+  if (["AM", "HB", "HBP", "SF", "SG"].includes(code) || /beef|chicken|pork|turkey|ham|steak|roast|meat|smok|grill|barbecue|bbq/.test(text)) return "meats";
+  return "casseroles";
 }
 
 function imageCandidates(item) {
@@ -124,7 +127,7 @@ function makePlanItem(item, type, prepDay) {
     refrigeratorPortions: 2,
     package: type === "desserts" ? "1-cup deli container" : "Quart freezer bag",
     day: prepDay,
-    timeBlock: type === "crockpot" || type === "smoker" ? "Morning" : "Afternoon",
+    finish: "Whole",
     labelNote: "",
     completed: false,
   };
@@ -137,7 +140,7 @@ function escapeCsv(value) {
 
 export default function WeekendBulkMealPlanner({ recipes = [], openRecipeCard }) {
   const [plan, setPlan] = useState(safeLoadPlan);
-  const [activeType, setActiveType] = useState("crockpot");
+  const [activeType, setActiveType] = useState("meats");
   const [search, setSearch] = useState("");
 
   useEffect(() => {
@@ -145,12 +148,12 @@ export default function WeekendBulkMealPlanner({ recipes = [], openRecipeCard })
   }, [plan]);
 
   const catalog = useMemo(() => {
-    if (activeType === "bases") {
-      return BULK_BASES.map((item) => ({ ...item, sourceType: "base" }));
-    }
-    return recipes
-      .filter((recipe) => classifyRecipe(recipe) === activeType || (activeType === "recipes" && !["desserts", "smoker", "crockpot"].includes(classifyRecipe(recipe))))
+    const recipeResults = recipes
+      .filter((recipe) => classifyRecipe(recipe) === activeType)
       .map((recipe) => ({ ...recipe, sourceType: "recipe" }));
+    if (activeType === "meats") return [...BULK_BASES.slice(0, 3).map((item) => ({ ...item, sourceType: "base" })), ...recipeResults];
+    if (activeType === "sides") return [...BULK_BASES.slice(3, 9).map((item) => ({ ...item, sourceType: "base" })), ...recipeResults];
+    return recipeResults;
   }, [activeType, recipes]);
 
   const filteredCatalog = useMemo(() => {
@@ -214,7 +217,7 @@ export default function WeekendBulkMealPlanner({ recipes = [], openRecipeCard })
       item.destination,
       Number(item.portions || 0) * Number(item.batches || 1),
       item.package,
-      `${item.day} ${item.timeBlock}`,
+      item.day,
       item.labelNote,
     ]));
     const csv = rows.map((row) => row.map(escapeCsv).join(",")).join("\n");
@@ -227,13 +230,28 @@ export default function WeekendBulkMealPlanner({ recipes = [], openRecipeCard })
     URL.revokeObjectURL(url);
   }
 
+  function printLabels() {
+    if (!plan.items.length) {
+      window.alert("Add at least one food to My Cooking Plan before printing labels.");
+      return;
+    }
+    document.body.classList.add("printingWeekendLabels");
+    window.setTimeout(() => window.print(), 50);
+  }
+
+  useEffect(() => {
+    const cleanup = () => document.body.classList.remove("printingWeekendLabels");
+    window.addEventListener("afterprint", cleanup);
+    return () => window.removeEventListener("afterprint", cleanup);
+  }, []);
+
   return (
     <main className="weekendBulkPage pageShell">
       <section className="weekendBulkIntro">
         <div>
           <span className="aiBadge">WEEKEND PRODUCTION PLAN</span>
           <h2>Cook once. Portion for several meals.</h2>
-          <p>Choose recipes and flexible base foods, decide what stays in the refrigerator, and package the rest for the freezer.</p>
+          <p>Build a plan that fits your equipment, available time, household size, and freezer space. Your selections and packaging notes stay in this browser so you can return to the plan while you shop, cook, cool, label, and store everything.</p>
         </div>
         <div className="weekendBulkPlanName">
           <label>
@@ -248,54 +266,50 @@ export default function WeekendBulkMealPlanner({ recipes = [], openRecipeCard })
               <option>Both days</option>
             </select>
           </label>
+          <div className="weekendBulkMiniStat"><strong>{plan.items.length}</strong><span>Foods selected</span></div>
+          <div className="weekendBulkMiniStat"><strong>{summary.totalBatches}</strong><span>Total batches</span></div>
+          <div className="weekendBulkMiniStat"><strong>{summary.refrigerator}</strong><span>Refrigerator portions</span></div>
+          <div className="weekendBulkMiniStat"><strong>{summary.freezer}</strong><span>Freezer portions</span></div>
         </div>
       </section>
 
-      <section className="weekendBulkSummary" aria-label="Plan totals">
-        <div><strong>{plan.items.length}</strong><span>foods selected</span></div>
-        <div><strong>{summary.totalBatches}</strong><span>total batches</span></div>
-        <div><strong>{summary.refrigerator}</strong><span>refrigerator portions</span></div>
-        <div><strong>{summary.freezer}</strong><span>freezer portions</span></div>
+      <section className="weekendBulkTypeTabs" role="tablist" aria-label="Bulk cooking groups">
+        {PLAN_TYPES.map((type) => (
+          <button
+            key={type.key}
+            type="button"
+            role="tab"
+            aria-selected={activeType === type.key}
+            className={activeType === type.key ? "active" : ""}
+            onClick={() => { setActiveType(type.key); setSearch(""); }}
+          >
+            <span className="weekendBulkTypeIcon"><img src={`${import.meta.env.BASE_URL}${type.icon}`} alt="" /></span>
+            <strong>{type.label}</strong>
+          </button>
+        ))}
       </section>
 
-      <div className="weekendBulkWorkspace">
-        <aside className="weekendBulkTray" aria-label="Food selection tray">
-          <div className="weekendBulkTypeTabs" role="tablist" aria-label="Bulk cooking groups">
-            {PLAN_TYPES.map((type) => (
-              <button
-                key={type.key}
-                type="button"
-                role="tab"
-                aria-selected={activeType === type.key}
-                className={activeType === type.key ? "active" : ""}
-                onClick={() => { setActiveType(type.key); setSearch(""); }}
-              >
-                <span aria-hidden="true">{type.icon}</span>
-                <strong>{type.label}</strong>
-                <small>{type.hint}</small>
-              </button>
-            ))}
+      <section className="weekendBulkTray" aria-label="Food selection tray">
+          <div className="weekendBulkSearchRow">
+            <label className="weekendBulkSearch">
+              <span>Search this group</span>
+              <input type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Recipe name or code" />
+            </label>
+            <div className="weekendBulkCatalogCount">{filteredCatalog.length} choices shown · scroll right to see more</div>
           </div>
 
-          <label className="weekendBulkSearch">
-            <span>Search this group</span>
-            <input type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Recipe name or code" />
-          </label>
-
-          <div className="weekendBulkCatalogCount">{filteredCatalog.length} choices shown</div>
           <div className="weekendBulkCatalog">
             {filteredCatalog.map((item) => (
               <article className="weekendBulkCatalogCard" key={item.id}>
                 <PlannerImage item={item} />
-                <div>
+                <div className="weekendBulkCatalogBody">
                   <small>{item.id}</small>
                   <strong>{item.title}</strong>
-                  {item.detail && <p>{item.detail}</p>}
                   <div className="weekendBulkCatalogActions">
                     {item.sourceType === "recipe" && openRecipeCard && (
-                      <button type="button" className="ghost" onClick={() => openRecipeCard(item.id, recipes, "Weekend Bulk Meal Planner")}>View</button>
+                      <button type="button" className="ghost" onClick={() => openRecipeCard(item.id, recipes, "Weekend Bulk Meal Planner")}>VIEW</button>
                     )}
-                    <button type="button" onClick={() => addItem(item)}>Add to Weekend</button>
+                    <button type="button" onClick={() => addItem(item)}>ADD</button>
                   </div>
                 </div>
               </article>
@@ -304,16 +318,17 @@ export default function WeekendBulkMealPlanner({ recipes = [], openRecipeCard })
               <div className="weekendBulkEmpty">No matching choices were found in this group.</div>
             )}
           </div>
-        </aside>
+      </section>
 
-        <section className="weekendBulkPlan" aria-label="Weekend bulk meal plan">
+      <section className="weekendBulkPlan" aria-label="Weekend bulk meal plan">
           <div className="weekendBulkPlanHeader">
             <div>
-              <span className="aiBadge">YOUR PRODUCTION LIST</span>
-              <h2>{plan.weekendName || "Weekend Bulk Plan"}</h2>
+              <span className="aiBadge">MY COOKING PLAN</span>
+              <h2>My Cooking Plan</h2>
             </div>
             <div className="weekendBulkHeaderActions">
               <button type="button" onClick={() => window.print()}>Print</button>
+              <button type="button" onClick={printLabels}>Print Labels</button>
               <button type="button" onClick={downloadLabels}>Labels CSV</button>
               <button type="button" onClick={downloadPlan}>Save Copy</button>
               <button type="button" className="danger" onClick={clearPlan}>Clear</button>
@@ -335,30 +350,35 @@ export default function WeekendBulkMealPlanner({ recipes = [], openRecipeCard })
                       <input type="checkbox" checked={item.completed} onChange={(event) => updateItem(item.uid, { completed: event.target.checked })} />
                       <span>Done</span>
                     </label>
+                    <div className="weekendBulkPlanThumb"><PlannerImage item={item} /></div>
                     <div className="weekendBulkPlanIdentity">
-                      <span>#{index + 1} · {PLAN_TYPES.find((type) => type.key === item.type)?.label || "Bulk cooking"}</span>
+                      <span>#{index + 1}</span>
                       <h3>{item.title}</h3>
                       <small>{item.id}</small>
+                    </div>
+                    <div className="weekendBulkHeaderFields">
+                      <label><span>Batches</span><input type="number" min="1" max="20" value={item.batches} onChange={(event) => updateItem(item.uid, { batches: Math.max(1, Number(event.target.value) || 1) })} /></label>
+                      <label><span>Portions</span><input type="number" min="1" max="50" value={item.portions} onChange={(event) => updateItem(item.uid, { portions: Math.max(1, Number(event.target.value) || 1) })} /></label>
+                      <label><span>Store</span><select value={item.destination} onChange={(event) => updateItem(item.uid, { destination: event.target.value })}>{DESTINATIONS.map((destination) => <option key={destination.value} value={destination.value}>{destination.label}</option>)}</select></label>
+                      <label><span>Refrigerator</span><input type="number" min="0" max="50" disabled={item.destination !== "both"} value={item.destination === "both" ? item.refrigeratorPortions : item.destination === "refrigerator" ? item.portions : 0} onChange={(event) => updateItem(item.uid, { refrigeratorPortions: Math.max(0, Number(event.target.value) || 0) })} /></label>
                     </div>
                     <button type="button" className="weekendBulkRemove" onClick={() => removeItem(item.uid)} aria-label={`Remove ${item.title}`}>×</button>
                   </div>
 
                   <div className="weekendBulkFields">
-                    <label><span>Batches</span><input type="number" min="1" max="20" value={item.batches} onChange={(event) => updateItem(item.uid, { batches: Math.max(1, Number(event.target.value) || 1) })} /></label>
-                    <label><span>Portions / batch</span><input type="number" min="1" max="50" value={item.portions} onChange={(event) => updateItem(item.uid, { portions: Math.max(1, Number(event.target.value) || 1) })} /></label>
-                    <label><span>Store in</span><select value={item.destination} onChange={(event) => updateItem(item.uid, { destination: event.target.value })}>{DESTINATIONS.map((destination) => <option key={destination.value} value={destination.value}>{destination.label}</option>)}</select></label>
-                    {item.destination === "both" && <label><span>Refrigerator portions</span><input type="number" min="0" max="50" value={item.refrigeratorPortions} onChange={(event) => updateItem(item.uid, { refrigeratorPortions: Math.max(0, Number(event.target.value) || 0) })} /></label>}
-                    <label className="wide"><span>Package in</span><select value={item.package} onChange={(event) => updateItem(item.uid, { package: event.target.value })}>{PACKAGE_OPTIONS.map((option) => <option key={option}>{option}</option>)}</select></label>
+                    <label><span>Finish</span><select value={item.finish || "Whole"} onChange={(event) => updateItem(item.uid, { finish: event.target.value })}><option>Whole</option><option>Sliced</option><option>Cubed</option><option>Shredded</option></select></label>
+                    <label><span>Package in</span><select value={item.package} onChange={(event) => updateItem(item.uid, { package: event.target.value })}>{PACKAGE_OPTIONS.map((option) => <option key={option}>{option}</option>)}</select></label>
                     <label><span>Prep day</span><select value={item.day} onChange={(event) => updateItem(item.uid, { day: event.target.value })}><option>Saturday</option><option>Sunday</option></select></label>
-                    <label><span>Time block</span><select value={item.timeBlock} onChange={(event) => updateItem(item.uid, { timeBlock: event.target.value })}><option>Morning</option><option>Midday</option><option>Afternoon</option><option>Evening</option></select></label>
-                    <label className="full"><span>Label / finishing note</span><input value={item.labelNote} onChange={(event) => updateItem(item.uid, { labelNote: event.target.value })} placeholder="Example: thaw overnight; add sauce after reheating" /></label>
+                    <label><span>Label / finishing note</span><input value={item.labelNote} onChange={(event) => updateItem(item.uid, { labelNote: event.target.value })} placeholder="Thaw overnight; add sauce" /></label>
                   </div>
                 </article>
               ))}
             </div>
           )}
 
-          <section className="weekendBulkChecklist">
+      </section>
+
+      <section className="weekendBulkChecklist">
             <h3>Packaging & Safety Checklist</h3>
             <ul>
               <li>Cool cooked food promptly before sealing and refrigerating or freezing.</li>
@@ -366,13 +386,24 @@ export default function WeekendBulkMealPlanner({ recipes = [], openRecipeCard })
               <li>Freeze bags flat when practical, then stand them upright to save space.</li>
               <li>Reserve the refrigerator portions you expect to eat first; freeze the rest promptly.</li>
             </ul>
-            <label>
-              <span>Weekend notes</span>
-              <textarea value={plan.notes} onChange={(event) => updatePlan({ notes: event.target.value })} placeholder="Shopping reminders, thawing notes, equipment order, or prep assignments..." />
-            </label>
-          </section>
-        </section>
-      </div>
+      </section>
+      <section className="weekendBulkNotes">
+        <label>
+          <span>Weekend notes</span>
+          <textarea value={plan.notes} onChange={(event) => updatePlan({ notes: event.target.value })} placeholder="Shopping reminders, thawing notes, equipment order, or prep assignments..." />
+        </label>
+      </section>
+
+      <section className="weekendBulkLabelSheet" aria-hidden="true">
+        {plan.items.flatMap((item) => Array.from({ length: Math.max(1, Number(item.batches || 1)) }, (_, batchIndex) => (
+          <article className="weekendBulkPrintableLabel" key={`${item.uid}-${batchIndex}`}>
+            <strong>{item.title}</strong>
+            <span>{item.id} · {item.finish || "Whole"} · {item.package}</span>
+            <span>Prep: {item.day} · Store: {item.destination}</span>
+            {item.labelNote && <small>{item.labelNote}</small>}
+          </article>
+        )))}
+      </section>
     </main>
   );
 }
