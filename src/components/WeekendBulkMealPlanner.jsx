@@ -5,12 +5,15 @@ import "./WeekendBulkMealPlanner.v51.css";
 const STORAGE_KEY = "rrb_weekendBulkMealPlanner_v1";
 
 const PLAN_TYPES = [
-  { key: "meats", label: "Meats", icon: "images/icons/SG.webp" },
-  { key: "crockpot", label: "Crock Pot", icon: "images/collections/Crockpot.webp" },
-  { key: "casseroles", label: "Casseroles", icon: "images/icons/CS.webp" },
-  { key: "sides", label: "Side Dishes", icon: "images/icons/SD.webp" },
-  { key: "desserts", label: "Desserts", icon: "images/icons/DS.webp" },
+  { key: "ALL", label: "ALL" },
+  { key: "SG", label: "SG", icon: "images/icons/SG-bulk.png" },
+  { key: "CP", label: "CP", icon: "images/icons/CP-bulk.png" },
+  { key: "CS", label: "CS", icon: "images/icons/CS-bulk.png" },
+  { key: "SD", label: "SD", icon: "images/icons/SD-bulk.png" },
+  { key: "DS", label: "DS", icon: "images/icons/DS-bulk.png" },
 ];
+
+const ALLOWED_RECIPE_CODES = new Set(PLAN_TYPES.slice(1).map((type) => type.key));
 
 const BULK_BASES = [
   { id: "BASE-001", title: "Cooked Ground Beef", detail: "Freeze flat in meal-size portions for tacos, pasta, chili, or casseroles.", defaultPortions: 8 },
@@ -29,13 +32,14 @@ const PACKAGE_OPTIONS = [
   "Quart freezer bag",
   "Gallon freezer bag",
   "Vacuum-seal bag",
-  "1-cup deli container",
-  "2-cup deli container",
-  "3-cup meal container",
-  "5-cup family container",
-  "Foil freezer pan",
-  "Glass refrigerator container",
+  "8oz deli container",
+  "16oz deli container",
+  "32oz deli container",
+  "5.5oz mini foil pans",
+  "24oz foil freezer pan",
+  "29oz craft freezer box",
   "Silicone freezer block",
+  "Other (see notes)",
 ];
 
 const DESTINATIONS = [
@@ -52,7 +56,17 @@ function safeLoadPlan() {
         weekendName: saved.weekendName || "This Weekend",
         prepDay: saved.prepDay || "Saturday",
         notes: saved.notes || "",
-        items: Array.isArray(saved.items) ? saved.items.map((item) => ({ ...item, finish: item.finish || "Whole" })) : [],
+        items: Array.isArray(saved.items) ? saved.items.map((item) => {
+          const legacyPackages = {
+            "1-cup deli container": "8oz deli container",
+            "2-cup deli container": "16oz deli container",
+            "3-cup meal container": "24oz foil freezer pan",
+            "5-cup family container": "32oz deli container",
+            "Foil freezer pan": "24oz foil freezer pan",
+            "Glass refrigerator container": "Other (see notes)",
+          };
+          return { ...item, finish: item.finish || "Whole", package: legacyPackages[item.package] || item.package || "Quart freezer bag" };
+        }) : [],
       };
     }
   } catch {
@@ -76,18 +90,6 @@ function recipeSearchText(recipe) {
     ...(Array.isArray(recipe?.collections) ? recipe.collections : []),
     ...(Array.isArray(recipe?.tags) ? recipe.tags : []),
   ].filter(Boolean).join(" ").toLowerCase();
-}
-
-function classifyRecipe(recipe) {
-  const code = recipeCode(recipe);
-  const text = recipeSearchText(recipe);
-  const slowCookerCandidate = /slow cooker|slow-cooker|crock|pot roast|beef stew|pulled (pork|chicken)|chicken (and|&) gravy|ranch chicken|salsa chicken|tortilla soup|taco soup|sausage (and|&) peppers|beef tips|chicken (and|&) dumplings|chili|pork roast/.test(text);
-  if (["CC", "CO", "CR", "DN", "DS", "JJ", "PM"].includes(code)) return "desserts";
-  if (code === "SD" || /side dish/.test(text)) return "sides";
-  if (code === "CS" || /casserole|baked (dish|pasta)/.test(text)) return "casseroles";
-  if (slowCookerCandidate) return "crockpot";
-  if (["AM", "HB", "HBP", "SF", "SG"].includes(code) || /beef|chicken|pork|turkey|ham|steak|roast|meat|smok|grill|barbecue|bbq/.test(text)) return "meats";
-  return "casseroles";
 }
 
 function imageCandidates(item) {
@@ -125,7 +127,7 @@ function makePlanItem(item, type, prepDay) {
     portions: Number(item.defaultPortions || item.servings || 4),
     destination: "both",
     refrigeratorPortions: 2,
-    package: type === "desserts" ? "1-cup deli container" : "Quart freezer bag",
+    package: type === "DS" ? "8oz deli container" : "Quart freezer bag",
     day: prepDay,
     finish: "Whole",
     labelNote: "",
@@ -140,7 +142,7 @@ function escapeCsv(value) {
 
 export default function WeekendBulkMealPlanner({ recipes = [], openRecipeCard }) {
   const [plan, setPlan] = useState(safeLoadPlan);
-  const [activeType, setActiveType] = useState("meats");
+  const [activeType, setActiveType] = useState("ALL");
   const [search, setSearch] = useState("");
 
   useEffect(() => {
@@ -148,19 +150,20 @@ export default function WeekendBulkMealPlanner({ recipes = [], openRecipeCard })
   }, [plan]);
 
   const catalog = useMemo(() => {
-    const recipeResults = recipes
-      .filter((recipe) => classifyRecipe(recipe) === activeType)
+    return recipes
+      .filter((recipe) => ALLOWED_RECIPE_CODES.has(recipeCode(recipe)))
+      .filter((recipe) => activeType === "ALL" || recipeCode(recipe) === activeType)
       .map((recipe) => ({ ...recipe, sourceType: "recipe" }));
-    if (activeType === "meats") return [...BULK_BASES.slice(0, 3).map((item) => ({ ...item, sourceType: "base" })), ...recipeResults];
-    if (activeType === "sides") return [...BULK_BASES.slice(3, 9).map((item) => ({ ...item, sourceType: "base" })), ...recipeResults];
-    return recipeResults;
   }, [activeType, recipes]);
 
   const filteredCatalog = useMemo(() => {
     const term = search.trim().toLowerCase();
     if (!term) return catalog.slice(0, 120);
-    return catalog.filter((item) => `${item.id} ${item.title} ${item.detail || ""}`.toLowerCase().includes(term)).slice(0, 120);
-  }, [catalog, search]);
+    const searchableCatalog = term
+      ? recipes.filter((recipe) => ALLOWED_RECIPE_CODES.has(recipeCode(recipe))).map((recipe) => ({ ...recipe, sourceType: "recipe" }))
+      : catalog;
+    return searchableCatalog.filter((item) => `${item.id} ${item.title} ${item.detail || ""}`.toLowerCase().includes(term)).slice(0, 120);
+  }, [catalog, recipes, search]);
 
   const summary = useMemo(() => {
     const totalBatches = plan.items.reduce((sum, item) => sum + Number(item.batches || 0), 0);
@@ -266,10 +269,12 @@ export default function WeekendBulkMealPlanner({ recipes = [], openRecipeCard })
               <option>Both days</option>
             </select>
           </label>
-          <div className="weekendBulkMiniStat"><strong>{plan.items.length}</strong><span>Foods selected</span></div>
-          <div className="weekendBulkMiniStat"><strong>{summary.totalBatches}</strong><span>Total batches</span></div>
-          <div className="weekendBulkMiniStat"><strong>{summary.refrigerator}</strong><span>Refrigerator portions</span></div>
-          <div className="weekendBulkMiniStat"><strong>{summary.freezer}</strong><span>Freezer portions</span></div>
+          <div className="weekendBulkCounterRow">
+            <div className="weekendBulkMiniStat"><strong>{plan.items.length}</strong><span>Foods selected</span></div>
+            <div className="weekendBulkMiniStat"><strong>{summary.totalBatches}</strong><span>Total batches</span></div>
+            <div className="weekendBulkMiniStat"><strong>{summary.refrigerator}</strong><span>Refrigerator portions</span></div>
+            <div className="weekendBulkMiniStat"><strong>{summary.freezer}</strong><span>Freezer portions</span></div>
+          </div>
         </div>
       </section>
 
@@ -283,7 +288,7 @@ export default function WeekendBulkMealPlanner({ recipes = [], openRecipeCard })
             className={activeType === type.key ? "active" : ""}
             onClick={() => { setActiveType(type.key); setSearch(""); }}
           >
-            <span className="weekendBulkTypeIcon"><img src={`${import.meta.env.BASE_URL}${type.icon}`} alt="" /></span>
+            {type.icon ? <span className="weekendBulkTypeIcon"><img src={`${import.meta.env.BASE_URL}${type.icon}`} alt="" /></span> : <span className="weekendBulkAllIcon">ALL</span>}
             <strong>{type.label}</strong>
           </button>
         ))}
@@ -292,7 +297,7 @@ export default function WeekendBulkMealPlanner({ recipes = [], openRecipeCard })
       <section className="weekendBulkTray" aria-label="Food selection tray">
           <div className="weekendBulkSearchRow">
             <label className="weekendBulkSearch">
-              <span>Search this group</span>
+              <span>Search all recipes</span>
               <input type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Recipe name or code" />
             </label>
             <div className="weekendBulkCatalogCount">{filteredCatalog.length} choices shown · scroll right to see more</div>
