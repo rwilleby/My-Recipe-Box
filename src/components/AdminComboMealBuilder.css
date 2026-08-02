@@ -46,6 +46,17 @@
   color: #58645d;
 }
 
+.comboBuilderHeaderActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 9px;
+}
+
+.comboBuilderHeaderActions button {
+  white-space: nowrap;
+}
+
 .comboBuilderEyebrow,
 .comboBuilderSectionHeading > div > span {
   color: #667085;

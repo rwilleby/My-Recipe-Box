@@ -128,3 +128,27 @@
     gap: 4px;
   }
 }
+
+/* Version 56.3: six-panel recipe/combo hero assignment view. */
+.dcAssignmentGrid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.dcAssignImageButton img,
+.dcChooserCurrent img,
+.dcChooserGrid img {
+  object-fit: contain;
+  background: #f7f3e9;
+}
+
+@media (max-width: 1100px) {
+  .dcAssignmentGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 680px) {
+  .dcAssignmentGrid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -7,6 +7,7 @@ import {
 } from "../data/dinnerCombinations";
 
 const STORAGE_KEY = "rrb_adminComboMealLibrary";
+const RECIPE_HERO_OVERRIDE_KEY = "rrb_recipeHeroOverrides_v1";
 const SCHEMA_VERSION = 1;
 
 const STATUSES = [
@@ -272,7 +273,12 @@ function isAllowed(recipe, slotKey) {
 }
 
 function heroPath(recipe) {
-  return recipe?.heroImage || recipe?.image || recipe?.cardImage || "";
+  let overrides = {};
+  if (typeof window !== "undefined") {
+    try { overrides = JSON.parse(window.localStorage.getItem(RECIPE_HERO_OVERRIDE_KEY) || "{}"); } catch {}
+  }
+  const recipeCode = String(recipe?.id || recipe?.recipeId || "").toUpperCase();
+  return overrides[recipeCode] || recipe?.heroImage || recipe?.image || recipe?.cardImage || "";
 }
 
 function imageUrl(path) {
@@ -785,9 +791,9 @@ function SelectionBox({
       {selection ? (
         <>
           <div className="comboBuilderSelectedHero">
-            {!failed && selection.heroImage ? (
+            {!failed && heroPath({ id: selection.recipeId, heroImage: selection.heroImage }) ? (
               <img
-                src={imageUrl(selection.heroImage)}
+                src={imageUrl(heroPath({ id: selection.recipeId, heroImage: selection.heroImage }))}
                 alt={`${selection.recipeName} hero`}
                 onError={() => setFailed(true)}
               />
@@ -929,7 +935,7 @@ function RecipeCarousel({
   );
 }
 
-export default function AdminComboMealBuilder({ recipes, onClose }) {
+export default function AdminComboMealBuilder({ recipes, onClose, onOpenHeroAudit }) {
   const [library, setLibrary] = useState(() => loadLibrary());
   const [record, setRecord] = useState(() => createDraft(loadLibrary()));
   const [activeSlot, setActiveSlot] = useState("main");
@@ -1513,7 +1519,14 @@ export default function AdminComboMealBuilder({ recipes, onClose }) {
             main, sides, portions, display text, storage notes, and hero assignment.
           </p>
         </div>
-        <button type="button" className="secondary" onClick={onClose}>Return Home</button>
+        <div className="comboBuilderHeaderActions">
+          {onOpenHeroAudit && (
+            <button type="button" className="secondary" onClick={onOpenHeroAudit}>
+              Check / Correct Recipe Heroes
+            </button>
+          )}
+          <button type="button" className="secondary" onClick={onClose}>Return Home</button>
+        </div>
       </header>
 
       <section className="comboBuilderManagerLookup" aria-labelledby="combo-manager-title">
@@ -1720,7 +1733,7 @@ export default function AdminComboMealBuilder({ recipes, onClose }) {
             const item = record.selections[slot.key];
             return (
               <div key={slot.key}>
-                <img src={imageUrl(item.heroImage)} alt={`${item.recipeName} hero`} />
+                <img src={imageUrl(heroPath({ id: item.recipeId, heroImage: item.heroImage }))} alt={`${item.recipeName} hero`} />
               </div>
             );
           })}
@@ -1875,7 +1888,7 @@ export default function AdminComboMealBuilder({ recipes, onClose }) {
                 <div className={`comboBuilderPreviewStrip count-${Object.values(record.selections).filter(Boolean).length}`}>
                   {SLOT_DEFINITIONS.filter((slot) => record.selections[slot.key]).map((slot) => {
                     const item = record.selections[slot.key];
-                    return <div key={slot.key}><img src={imageUrl(item.heroImage)} alt="" /></div>;
+                    return <div key={slot.key}><img src={imageUrl(heroPath({ id: item.recipeId, heroImage: item.heroImage }))} alt="" /></div>;
                   })}
                 </div>
               )}

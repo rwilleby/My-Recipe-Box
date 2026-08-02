@@ -36413,6 +36413,191 @@ body.rrbPopupOpen {
 }
 
 /* ================================================================
+   VERSION 56.3 — DINNER COMBINATIONS MEAL-INFORMATION LAYOUT
+   Full-width 4:3 hero, five component lines/cards, and a compact
+   recipe / heating / planner work area. Regular grocery ingredients
+   are intentionally omitted from the public combination card.
+   ================================================================ */
+
+.dinnerCombinationScaleCard .dinnerCombinationAreaLayout {
+  grid-template-columns: 430px 410px minmax(0, 1fr) !important;
+  grid-template-rows: 322px auto 370px !important;
+  grid-template-areas:
+    "photo name nutrition"
+    "groceries groceries nutrition"
+    "actions actions actions" !important;
+}
+
+.dinnerCombinationScaleCard .dinnerAreaPhoto {
+  align-self: start !important;
+  height: 322px !important;
+  min-height: 322px !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+.dinnerCombinationScaleCard .dinnerAreaPhoto .dinnerCombinationMedia {
+  width: 100% !important;
+  height: 322px !important;
+  min-height: 322px !important;
+  aspect-ratio: 4 / 3 !important;
+  background: #f7f3e9 !important;
+}
+
+.dinnerCombinationScaleCard .dinnerAreaPhoto .dinnerCombinationMedia img {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  object-position: center !important;
+}
+
+.dinnerCombinationScaleCard .dinnerAreaName {
+  display: flex !important;
+  flex-direction: column !important;
+  min-height: 0 !important;
+  padding: 20px 22px 14px !important;
+  overflow: hidden !important;
+}
+
+.dinnerCombinationScaleCard .dinnerAreaName h3 {
+  margin-bottom: 6px !important;
+}
+
+.dinnerCombinationScaleCard .dinnerAreaName .comboMealBalanceDetails {
+  margin-bottom: 10px !important;
+}
+
+.dinnerCombinationScaleCard .dinnerAreaName .dinnerCombinationStackedMeal {
+  width: 100% !important;
+  display: grid !important;
+  align-content: start !important;
+  gap: 4px !important;
+  margin-top: auto !important;
+}
+
+.dinnerCombinationScaleCard .dinnerAreaName .dinnerCombinationStackedMeal p {
+  display: grid !important;
+  grid-template-columns: 32px minmax(0, 1fr) minmax(100px, auto) !important;
+  align-items: center !important;
+  gap: 7px !important;
+  margin: 0 !important;
+}
+
+.dinnerCombinationScaleCard .dinnerAreaName .dinnerCombinationStackedMeal strong,
+.dinnerCombinationScaleCard .dinnerAreaName .dinnerCombinationStackedMeal small {
+  font-size: 17px !important;
+  line-height: 1.08 !important;
+}
+
+.dinnerCombinationScaleCard .dinnerAreaName .dinnerCombinationStackedMeal small {
+  min-width: 100px !important;
+  text-align: right !important;
+}
+
+.dinnerCombinationScaleCard .dinnerAreaName .dinnerCombinationStackedMeal p > span {
+  width: 32px !important;
+  min-width: 32px !important;
+  font-size: 15px !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationEmptyDish {
+  color: #8b918c !important;
+}
+
+.dinnerCombinationScaleCard .dinnerAreaGroceries {
+  min-height: 88px !important;
+}
+
+.dinnerCombinationScaleCard .dinnerAreaActionsExpanded {
+  display: grid !important;
+  grid-template-columns: minmax(0, 2fr) minmax(430px, 1fr) !important;
+  grid-template-rows: minmax(0, 1fr) auto !important;
+  grid-template-areas:
+    "recipes heating"
+    "recipes planner" !important;
+  min-height: 370px !important;
+  max-height: 370px !important;
+}
+
+.dinnerCombinationScaleCard .dinnerAreaActionsExpanded .dinnerCombinationRecipeButtons {
+  grid-area: recipes !important;
+  padding: 16px 18px !important;
+  border-right: 1px solid #e0e8e2 !important;
+  border-bottom: 0 !important;
+  background: #f7faf7 !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationRecipeButtonGrid {
+  display: grid !important;
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  gap: 9px !important;
+  align-items: stretch !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationRecipeButtonGrid > div,
+.dinnerCombinationScaleCard .dinnerCombinationRecipeButtonGrid > div > button {
+  height: 100% !important;
+  min-height: 250px !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationRecipeButtonGrid > div > button {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 14px 9px !important;
+  font-size: 18px !important;
+  line-height: 1.15 !important;
+  text-align: center !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationRecipeButtonGrid > div > button span {
+  margin-bottom: 9px !important;
+  font-size: 15px !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationRecipeButtonGrid > div > button:disabled {
+  cursor: default !important;
+  opacity: .62 !important;
+}
+
+.dinnerCombinationScaleCard .dinnerAreaActionsExpanded .dinnerCombinationHeatingPanel {
+  grid-area: heating !important;
+  min-height: 0 !important;
+  padding: 16px !important;
+  border-right: 0 !important;
+  border-bottom: 1px solid #e0e8e2 !important;
+  overflow-y: auto !important;
+  overscroll-behavior: contain !important;
+  scrollbar-gutter: stable !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationHeatingPanelGrid {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 9px !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationHeatingPanelGrid strong {
+  font-size: 17px !important;
+  line-height: 1.3 !important;
+}
+
+.dinnerCombinationScaleCard .dinnerAreaActionsExpanded .dinnerCombinationPlannerAdd {
+  grid-area: planner !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  padding: 12px 16px 16px !important;
+  border: 0 !important;
+  background: #fff !important;
+}
+
+.dinnerCombinationScaleCard .dinnerAreaActionsExpanded .dinnerCombinationPlannerAdd label > span {
+  font-size: 16px !important;
+  margin-bottom: 5px !important;
+}
+
+/* ================================================================
    VERSION 36.1 — LOCK STANDARD RECIPE LISTS TO THREE DESKTOP COLUMNS
    Applies to Browse Recipe Library, cuisine/category collections,
    filtered recipe lists, GLP-1 collections, and Favorites.

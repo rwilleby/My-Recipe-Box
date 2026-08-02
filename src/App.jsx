@@ -10667,7 +10667,6 @@ function MealBalanceGuidePage({ setActivePage }) {
 
 function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard, favorites, toggleFavorite }) {
   const preparedRequirements = getComboPreparedRequirements(meal);
-  const regularGroceryIngredients = getComboRegularGroceryIngredients(meal);
 
   const [activeRecipePopup, setActiveRecipePopup] = useState(null);
   const [selectedPlannerDay, setSelectedPlannerDay] = useState("week1-Mon");
@@ -10686,11 +10685,14 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard, favorite
 
   const recipeButtons = [
     { label: meal.mainDish, type: "Main Dish", recipeId: meal.mainRecipeId },
-    ...(meal.sides || []).map((side) => ({
-      label: side.name,
-      type: "Side Dish",
-      recipeId: side.recipeId,
-    })),
+    ...Array.from({ length: 4 }, (_, sideIndex) => {
+      const side = meal.sides?.[sideIndex];
+      return {
+        label: side?.name || "Not selected",
+        type: `Side Dish ${sideIndex + 1}`,
+        recipeId: side?.recipeId || "",
+      };
+    }),
   ];
 
   function nutritionValue(value, suffix = "") {
@@ -10825,29 +10827,28 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard, favorite
           <h3>{meal.title}</h3>
           <p className="dinnerCombinationSubtitle">{meal.subtitle}</p>
           <MealBalanceDetails item={meal} prefix="Combo Meal Balance" className="comboMealBalanceDetails" />
-        </section>
-
-        <section className="dinnerArea dinnerAreaDishes" aria-label="Main and side dishes">
-          <div className="dinnerCombinationStackedMeal">
+          <div className="dinnerCombinationStackedMeal" aria-label="Main and side dishes">
             <p>
               <span>M</span>
               <strong>{meal.mainDish}</strong>
               <small>{meal.mainServing}</small>
             </p>
-            {(meal.sides || []).map((side, sideIndex) => (
-              <p key={`${meal.id}-${side.name}`}>
+            {Array.from({ length: 4 }, (_, sideIndex) => {
+              const side = meal.sides?.[sideIndex];
+              return (
+              <p className={side ? "" : "dinnerCombinationEmptyDish"} key={`${meal.id}-side-${sideIndex + 1}`}>
                 <span>{`S${sideIndex + 1}`}</span>
-                <strong>{side.name}</strong>
-                <small>{side.serving}</small>
+                <strong>{side?.name || "Not selected"}</strong>
+                <small>{side?.serving || "—"}</small>
               </p>
-            ))}
+              );
+            })}
           </div>
         </section>
 
-        <section className="dinnerArea dinnerAreaGroceries" aria-label="Grocery ingredients">
-          {(preparedRequirements.length > 0 || regularGroceryIngredients.length > 0) ? (
+        {preparedRequirements.length > 0 && (
+        <section className="dinnerArea dinnerAreaGroceries" aria-label="Prepared components">
             <div className="comboComponentRequirements compact">
-              {preparedRequirements.length > 0 && (
                 <div className="comboPreparedComponents">
                   <h3>Prepared Components</h3>
                   <div className="comboCompactIngredientRows">
@@ -10862,25 +10863,9 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard, favorite
                     })}
                   </div>
                 </div>
-              )}
-              {regularGroceryIngredients.length > 0 && (
-                <div className="comboRegularGroceryIngredients">
-                  <h3>Regular Grocery Ingredients</h3>
-                  <div className="comboCompactIngredientRows">
-                    {regularGroceryIngredients.map((item) => (
-                      <p key={`${item.name}-${item.unit}`}>
-                        <strong>{item.name}</strong>
-                        <span>{item.qty} {item.unit}</span>
-                      </p>
-                    ))}
-                  </div>
-                </div>
-              )}
             </div>
-          ) : (
-            <p className="dinnerAreaEmpty">No separate grocery ingredients listed.</p>
-          )}
         </section>
+        )}
 
         <section className="dinnerArea dinnerAreaNutrition" aria-label={`Estimated whole meal nutrition for ${meal.title}`}>
           <div className="dinnerCombinationNutritionLabel">Estimated nutrition for the whole meal</div>
@@ -10932,6 +10917,7 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard, favorite
                       type="button"
                       className={hasRecipeMatch ? "hasRecipeMatch" : "missingRecipeMatch"}
                       onClick={() => handleRecipeButton(button)}
+                      disabled={!button.recipeId}
                       title={hasRecipeMatch ? `Preview ${linkedRecipe.title}` : "Recipe card not linked yet"}
                     >
                       <span>{button.type}</span>
@@ -13984,6 +13970,7 @@ export default function App() {
       {activePage === "Admin Combo-Meal Builder" && (
         <AdminComboMealBuilder
           recipes={recipes}
+          onOpenHeroAudit={() => setActivePage("Dinner Combination Hero Audit")}
           onClose={() => setActivePage("Home")}
         />
       )}

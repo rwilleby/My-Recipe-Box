@@ -3,8 +3,16 @@ import { HERO_IMAGE_MANIFEST, COMBO_IMAGE_MANIFEST, HERO_IMAGE_SOURCE_COUNTS } f
 import "./DinnerCombinationHeroAudit.css";
 
 const STORAGE_KEY = "rrb_dinnerComboHeroAssignment_v3_am_reset";
-const PANEL_ROLES = ["combo", "main", "side1", "side2"];
-const ROLE_LABELS = { combo: "COMBO", main: "MAIN", side1: "SIDE 1", side2: "SIDE 2" };
+const RECIPE_HERO_OVERRIDE_KEY = "rrb_recipeHeroOverrides_v1";
+const PANEL_ROLES = ["combo", "main", "side1", "side2", "side3", "side4"];
+const ROLE_LABELS = {
+  combo: "COMBO",
+  main: "MAIN",
+  side1: "SIDE 1",
+  side2: "SIDE 2",
+  side3: "SIDE 3",
+  side4: "SIDE 4",
+};
 
 function safeText(value) { return String(value ?? "").trim(); }
 function codeOf(recipe) { return safeText(recipe?.id ?? recipe?.code ?? recipe?.recipeCode).toUpperCase(); }
@@ -16,7 +24,9 @@ function assetUrl(path) {
 }
 function recipeImagePath(recipe) {
   if (!recipe) return "";
-  return safeText(recipe.auditHeroImage ?? recipe.heroImage ?? recipe.image ?? (recipe.id ? `images/heroes/${recipe.id}.webp` : ""));
+  let overrides = {};
+  try { overrides = JSON.parse(localStorage.getItem(RECIPE_HERO_OVERRIDE_KEY) || "{}"); } catch {}
+  return safeText(overrides[codeOf(recipe)] ?? recipe.auditHeroImage ?? recipe.heroImage ?? recipe.image ?? (recipe.id ? `images/heroes/${recipe.id}.webp` : ""));
 }
 function comboImagePath(meal) {
   if (!meal) return "";
@@ -26,7 +36,7 @@ function comboImagePath(meal) {
 function findRecipe(id, recipes) { return recipes.find((r) => codeOf(r) === safeText(id).toUpperCase()) ?? null; }
 function componentRecipe(meal, role, recipes) {
   if (role === "main") return findRecipe(meal.mainRecipeId ?? meal.mainDishCode, recipes);
-  const sideIndex = role === "side1" ? 0 : 1;
+  const sideIndex = Math.max(0, Number(String(role).replace("side", "")) - 1);
   const side = Array.isArray(meal.sides) ? meal.sides[sideIndex] : null;
   return findRecipe(side?.recipeId ?? side?.recipeCode, recipes);
 }
@@ -41,6 +51,16 @@ function downloadText(filename, text, type) {
   const link = document.createElement("a");
   link.href = url; link.download = filename; document.body.appendChild(link); link.click(); link.remove();
   URL.revokeObjectURL(url);
+}
+
+function saveRecipeHeroOverride(recipeCode, path) {
+  if (!recipeCode) return;
+  let overrides = {};
+  try { overrides = JSON.parse(localStorage.getItem(RECIPE_HERO_OVERRIDE_KEY) || "{}"); } catch {}
+  if (path) overrides[recipeCode] = path;
+  else delete overrides[recipeCode];
+  localStorage.setItem(RECIPE_HERO_OVERRIDE_KEY, JSON.stringify(overrides));
+  window.dispatchEvent(new CustomEvent("rrb-recipe-hero-overrides-changed", { detail: overrides }));
 }
 
 function ImageChooser({
@@ -98,6 +118,8 @@ function ImageChooser({
                 <span><strong>Main:</strong> {mealReference.main}</span>
                 <span><strong>Side 1:</strong> {mealReference.side1}</span>
                 <span><strong>Side 2:</strong> {mealReference.side2}</span>
+                <span><strong>Side 3:</strong> {mealReference.side3}</span>
+                <span><strong>Side 4:</strong> {mealReference.side4}</span>
               </div>
             )}
           </div>
@@ -212,13 +234,15 @@ export default function DinnerCombinationHeroAudit({ dinnerCombinations = [], re
     const main = componentRecipe(meal, "main", recipes);
     const side1 = componentRecipe(meal, "side1", recipes);
     const side2 = componentRecipe(meal, "side2", recipes);
+    const side3 = componentRecipe(meal, "side3", recipes);
+    const side4 = componentRecipe(meal, "side4", recipes);
     const key = safeText(meal.id || `meal-${meal.number}`);
-    return { key, meal, main, side1, side2 };
+    return { key, meal, main, side1, side2, side3, side4 };
   }), [dinnerCombinations, recipes]);
 
   const visible = useMemo(() => rows.filter((row) => {
     const audit = state[row.key] || {};
-    const text = [row.meal.number,row.meal.title,codeOf(row.main),nameOf(row.main),codeOf(row.side1),nameOf(row.side1),codeOf(row.side2),nameOf(row.side2)].join(" ").toLowerCase();
+    const text = [row.meal.number,row.meal.title,codeOf(row.main),nameOf(row.main),codeOf(row.side1),nameOf(row.side1),codeOf(row.side2),nameOf(row.side2),codeOf(row.side3),nameOf(row.side3),codeOf(row.side4),nameOf(row.side4)].join(" ").toLowerCase();
     if (search.trim() && !text.includes(search.trim().toLowerCase())) return false;
     const statuses = PANEL_ROLES.map((role) => audit.panels?.[role]?.status || "unreviewed");
     if (filter === "checked" && !audit.checked) return false;
@@ -238,7 +262,17 @@ export default function DinnerCombinationHeroAudit({ dinnerCombinations = [], re
     });
   }
   function patchRow(rowKey, patch) { setState((current) => ({ ...current, [rowKey]: { panels: {}, notes: "", checked: false, ...(current[rowKey] || {}), ...patch } })); }
-  function canCheck(rowKey) { const panels = state[rowKey]?.panels || {}; return PANEL_ROLES.every((role) => ["correct","replacement"].includes(panels[role]?.status)); }
+  function canCheck(rowKey) {
+    const panels = state[rowKey]?.panels || {};
+    const row = rows.find((item) => item.key === rowKey);
+    return PANEL_ROLES.every((role) => {
+      if (role.startsWith("side")) {
+        const sideIndex = Number(role.replace("side", "")) - 1;
+        if (!row?.meal?.sides?.[sideIndex]) return true;
+      }
+      return ["correct", "replacement"].includes(panels[role]?.status);
+    });
+  }
 
   function exportRows() {
     const output=[];
@@ -250,6 +284,8 @@ export default function DinnerCombinationHeroAudit({ dinnerCombinations = [], re
         main:{recipe:row.main,code:codeOf(row.main),title:nameOf(row.main),current:recipeImagePath(row.main)},
         side1:{recipe:row.side1,code:codeOf(row.side1),title:nameOf(row.side1),current:recipeImagePath(row.side1)},
         side2:{recipe:row.side2,code:codeOf(row.side2),title:nameOf(row.side2),current:recipeImagePath(row.side2)},
+        side3:{recipe:row.side3,code:codeOf(row.side3),title:nameOf(row.side3),current:recipeImagePath(row.side3)},
+        side4:{recipe:row.side4,code:codeOf(row.side4),title:nameOf(row.side4),current:recipeImagePath(row.side4)},
       };
       PANEL_ROLES.forEach((role) => {
         const rec=saved.panels?.[role] || {};
@@ -270,7 +306,7 @@ export default function DinnerCombinationHeroAudit({ dinnerCombinations = [], re
 
   return (
     <main className="pageShell dcAssignmentPage">
-      <header className="dcAssignmentHeader"><div><small>ADMIN IMAGE ASSIGNMENT TOOL</small><h1>Dinner Combination Hero Audit</h1><p>Click any Combo, Main, Side 1, or Side 2 image to select the correct hero. Review all four panels, mark the meal checked, then export the approved assignments for the master spreadsheet.</p></div>{onBack && <button type="button" onClick={onBack}>Back</button>}</header>
+      <header className="dcAssignmentHeader"><div><small>ADMIN IMAGE ASSIGNMENT TOOL</small><h1>Recipe &amp; Dinner Combination Hero Assignment Manager</h1><p>Search by meal or recipe code, visually compare the Combo, Main, and Side Dish 1–4 images, then choose the correct hero. Recipe replacements are saved immediately and used by the Combo-Meal Builder.</p></div>{onBack && <button type="button" onClick={onBack}>Back</button>}</header>
       <section className="dcAssignmentToolbar">
         <label><span>Search</span><input type="search" value={search} onChange={(e)=>setSearch(e.target.value)} placeholder="Meal, recipe name, or code" /></label>
         <label><span>Show</span><select value={filter} onChange={(e)=>setFilter(e.target.value)}><option value="all">All meals</option><option value="unchecked">Unchecked</option><option value="checked">Checked</option><option value="wrong">Wrong / replacement</option><option value="unreviewed">Unreviewed images</option></select></label>
@@ -285,15 +321,17 @@ export default function DinnerCombinationHeroAudit({ dinnerCombinations = [], re
             main:{title:nameOf(row.main) || row.meal.mainDish,code:codeOf(row.main),current:recipeImagePath(row.main),recipe:row.main},
             side1:{title:nameOf(row.side1) || row.meal.sides?.[0]?.name,code:codeOf(row.side1),current:recipeImagePath(row.side1),recipe:row.side1},
             side2:{title:nameOf(row.side2) || row.meal.sides?.[1]?.name,code:codeOf(row.side2),current:recipeImagePath(row.side2),recipe:row.side2},
+            side3:{title:nameOf(row.side3) || row.meal.sides?.[2]?.name,code:codeOf(row.side3),current:recipeImagePath(row.side3),recipe:row.side3},
+            side4:{title:nameOf(row.side4) || row.meal.sides?.[3]?.name,code:codeOf(row.side4),current:recipeImagePath(row.side4),recipe:row.side4},
           };
           return <article className={saved.checked ? "dcAssignmentRow checked" : "dcAssignmentRow"} key={row.key}>
-            <header><div className="dcMealHeaderCopy"><small>MEAL #{row.meal.number}</small><h2>{row.meal.title}</h2><div className="dcMealDishReference"><span><strong>Main:</strong> {defs.main.title || "Not linked"}</span><span><strong>Side 1:</strong> {defs.side1.title || "Not linked"}</span><span><strong>Side 2:</strong> {defs.side2.title || "Not linked"}</span></div></div><label className="dcMealChecked"><input type="checkbox" checked={Boolean(saved.checked)} disabled={!canCheck(row.key)} onChange={(e)=>patchRow(row.key,{checked:e.target.checked,checkedDate:e.target.checked ? new Date().toISOString() : ""})}/><span>{canCheck(row.key) ? "Meal checked" : "Review all 4 images first"}</span></label></header>
-            <div className="dcAssignmentGrid">{PANEL_ROLES.map((role) => { const d=defs[role]; return <AuditPanel key={role} role={role} title={d.title} code={d.code} currentPath={d.current} record={saved.panels?.[role]} onChange={(patch)=>patchPanel(row.key,role,patch)} onOpenChooser={()=>setChooser({rowKey:row.key,role,title:d.title,currentPath:d.current,selectedPath:saved.panels?.[role]?.selectedPath || "",mealReference:{number:row.meal.number,title:row.meal.title,main:defs.main.title || "Not linked",side1:defs.side1.title || "Not linked",side2:defs.side2.title || "Not linked"}})} onOpenRecipe={onOpenRecipe} recipe={d.recipe}/>; })}</div>
+            <header><div className="dcMealHeaderCopy"><small>MEAL #{row.meal.number}</small><h2>{row.meal.title}</h2><div className="dcMealDishReference"><span><strong>Main:</strong> {defs.main.title || "Not linked"}</span><span><strong>Side 1:</strong> {defs.side1.title || "Not linked"}</span><span><strong>Side 2:</strong> {defs.side2.title || "Not linked"}</span><span><strong>Side 3:</strong> {defs.side3.title || "Not linked"}</span><span><strong>Side 4:</strong> {defs.side4.title || "Not linked"}</span></div></div><label className="dcMealChecked"><input type="checkbox" checked={Boolean(saved.checked)} disabled={!canCheck(row.key)} onChange={(e)=>patchRow(row.key,{checked:e.target.checked,checkedDate:e.target.checked ? new Date().toISOString() : ""})}/><span>{canCheck(row.key) ? "Meal checked" : "Review all assigned images first"}</span></label></header>
+            <div className="dcAssignmentGrid">{PANEL_ROLES.map((role) => { const d=defs[role]; return <AuditPanel key={role} role={role} title={d.title} code={d.code} currentPath={d.current} record={saved.panels?.[role]} onChange={(patch)=>patchPanel(row.key,role,patch)} onOpenChooser={()=>setChooser({rowKey:row.key,role,title:d.title,code:d.code,currentPath:d.current,selectedPath:saved.panels?.[role]?.selectedPath || "",mealReference:{number:row.meal.number,title:row.meal.title,main:defs.main.title || "Not linked",side1:defs.side1.title || "Not linked",side2:defs.side2.title || "Not linked",side3:defs.side3.title || "Not linked",side4:defs.side4.title || "Not linked"}})} onOpenRecipe={onOpenRecipe} recipe={d.recipe}/>; })}</div>
             <label className="dcAssignmentNotes"><span>Notes</span><textarea rows="2" value={saved.notes || ""} onChange={(e)=>patchRow(row.key,{notes:e.target.value,checked:false})} placeholder="Reason for replacement or anything needed when updating the master spreadsheet" /></label>
           </article>;
         })}
       </section>
-      <ImageChooser open={Boolean(chooser)} role={chooser?.role} title={chooser?.title || ""} currentPath={chooser?.currentPath || ""} selectedPath={chooser?.selectedPath || ""} mealReference={chooser?.mealReference} onChoose={(path)=>{ if(!chooser)return; patchPanel(chooser.rowKey,chooser.role,{selectedPath:path,status:path ? "replacement" : "correct"}); setChooser((c)=>({...c,selectedPath:path})); }} onClose={()=>setChooser(null)} />
+      <ImageChooser open={Boolean(chooser)} role={chooser?.role} title={chooser?.title || ""} currentPath={chooser?.currentPath || ""} selectedPath={chooser?.selectedPath || ""} mealReference={chooser?.mealReference} onChoose={(path)=>{ if(!chooser)return; patchPanel(chooser.rowKey,chooser.role,{selectedPath:path,status:path ? "replacement" : "correct"}); if (chooser.role !== "combo") saveRecipeHeroOverride(chooser.code, path); setChooser((c)=>({...c,selectedPath:path,currentPath:path || c.currentPath})); }} onClose={()=>setChooser(null)} />
     </main>
   );
 }
