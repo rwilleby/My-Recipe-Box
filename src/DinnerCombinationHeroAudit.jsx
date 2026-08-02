@@ -70,6 +70,7 @@ function ImageChooser({
   currentPath,
   selectedPath,
   mealReference,
+  recipes,
   onChoose,
   onClose,
 }) {
@@ -95,7 +96,8 @@ function ImageChooser({
   const normalizedQuery = query.trim().toLowerCase();
   const filtered = source.filter((item) => {
     const matchesSource = sourceFilter === "All Sources" || item.source === sourceFilter;
-    const matchesQuery = !normalizedQuery || `${item.code} ${item.name} ${item.source}`.toLowerCase().includes(normalizedQuery);
+    const recipeName = role === "combo" ? "" : nameOf(findRecipe(item.code, recipes));
+    const matchesQuery = !normalizedQuery || `${item.code} ${item.name} ${recipeName} ${item.source}`.toLowerCase().includes(normalizedQuery);
     return matchesSource && matchesQuery;
   });
 
@@ -176,18 +178,22 @@ function ImageChooser({
 
           <div className="dcChooserCount">{filtered.length} images shown</div>
           <div className="dcChooserGrid">
-            {filtered.map((item) => (
-              <button
-                type="button"
-                className={selectedPath === item.path ? "selected" : ""}
-                key={item.path}
-                onClick={() => onChoose(item.path)}
-              >
-                <img src={assetUrl(item.path)} alt={`${item.code} ${item.source}`} loading="lazy" />
-                <span>{item.displayName || item.name}</span>
-                <small>{item.source}</small>
-              </button>
-            ))}
+            {filtered.map((item) => {
+              const recipeName = role === "combo" ? "" : nameOf(findRecipe(item.code, recipes));
+              return (
+                <button
+                  type="button"
+                  className={selectedPath === item.path ? "selected" : ""}
+                  key={item.path}
+                  onClick={() => onChoose(item.path)}
+                >
+                  <img src={assetUrl(item.path)} alt={`${item.code}${recipeName ? ` ${recipeName}` : ""} ${item.source}`} loading="lazy" />
+                  <span>{item.displayName || item.name}</span>
+                  {role !== "combo" && <strong className="dcChooserRecipeName">{recipeName || "Recipe name unavailable"}</strong>}
+                  <small>{item.source}</small>
+                </button>
+              );
+            })}
           </div>
           {filtered.length === 0 && (
             <div className="dcChooserNoResults">No image files match this search and source.</div>
@@ -331,7 +337,7 @@ export default function DinnerCombinationHeroAudit({ dinnerCombinations = [], re
           </article>;
         })}
       </section>
-      <ImageChooser open={Boolean(chooser)} role={chooser?.role} title={chooser?.title || ""} currentPath={chooser?.currentPath || ""} selectedPath={chooser?.selectedPath || ""} mealReference={chooser?.mealReference} onChoose={(path)=>{ if(!chooser)return; patchPanel(chooser.rowKey,chooser.role,{selectedPath:path,status:path ? "replacement" : "correct"}); if (chooser.role !== "combo") saveRecipeHeroOverride(chooser.code, path); setChooser((c)=>({...c,selectedPath:path,currentPath:path || c.currentPath})); }} onClose={()=>setChooser(null)} />
+      <ImageChooser open={Boolean(chooser)} role={chooser?.role} title={chooser?.title || ""} currentPath={chooser?.currentPath || ""} selectedPath={chooser?.selectedPath || ""} mealReference={chooser?.mealReference} recipes={recipes} onChoose={(path)=>{ if(!chooser)return; patchPanel(chooser.rowKey,chooser.role,{selectedPath:path,status:path ? "replacement" : "correct"}); if (chooser.role !== "combo") saveRecipeHeroOverride(chooser.code, path); setChooser((c)=>({...c,selectedPath:path,currentPath:path || c.currentPath})); }} onClose={()=>setChooser(null)} />
     </main>
   );
 }
