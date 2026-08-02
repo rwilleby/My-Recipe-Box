@@ -1,6 +1,7 @@
 import { createContext, useContext, useMemo, useState, useEffect, useRef } from "react";
-import { categories, recipes } from "./data/recipes";
+import { categories, recipes as baseRecipes } from "./data/recipes";
 import AdminRecipeClassifier from "./components/AdminRecipeClassifier";
+import AdminRecipeEditor from "./components/AdminRecipeEditor";
 import AdminComboMealBuilder from "./components/AdminComboMealBuilder";
 import AdminNutritionDatabase from "./components/AdminNutritionDatabase";
 import DinnerCombinationHeroAudit from "./DinnerCombinationHeroAudit.jsx";
@@ -40,6 +41,8 @@ import {
   slugifyFreezerItem,
 } from "./data/freezerInventory";
 import { loadJSON, saveJSON } from "./utils/storage";
+import { sortRecipesByCode } from "./utils/recipeSorting";
+import { applyStoredRecipeOverrides } from "./utils/recipeOverrides";
 import {
   buildShoppingList,
   formatQty,
@@ -56,6 +59,8 @@ import {
   recipeMatchesGLP1Preset,
 } from "./data/glp1Filters";
 import "./App.css";
+
+const recipes = sortRecipesByCode(applyStoredRecipeOverrides(baseRecipes));
 
 const STORAGE_KEYS = {
   favorites: "rrb_favorites",
@@ -5223,7 +5228,14 @@ function Home({
           type="button"
           onClick={() => setActivePage("Admin Recipes")}
         >
-          Admin
+          Recipe Classifier
+        </button>
+        <button
+          className="adminAccessButton homeAdminAccessButton"
+          type="button"
+          onClick={() => setActivePage("Admin Recipe Editor")}
+        >
+          Recipe Editor
         </button>
         <button
           className="adminAccessButton homeAdminAccessButton"
@@ -5278,7 +5290,7 @@ function RecipesPage({
   const [selectedGlp1Preset, setSelectedGlp1Preset] = useState("");
   const [selectedNutritionDietary, setSelectedNutritionDietary] = useState("all");
   const [showGlp1Filters, setShowGlp1Filters] = useState(false);
-  const [sortBy, setSortBy] = useState("az");
+  const [sortBy, setSortBy] = useState("code");
   const [page, setPage] = useState(1);
 
   const browseQuickCategories = useMemo(
@@ -5360,6 +5372,8 @@ function RecipesPage({
 
     const sorted = [...list];
     switch (sortBy) {
+      case 'code':
+        return sortRecipesByCode(sorted);
       case 'az':
         sorted.sort((a, b) => a.title.localeCompare(b.title));
         break;
@@ -5535,6 +5549,7 @@ function RecipesPage({
         <label className="browseToolbarField">
           <span>Sort By</span>
           <select value={sortBy} onChange={(event) => setSortBy(event.target.value)}>
+            <option value="code">Recipe Code</option>
             <option value="az">A–Z</option>
             <option value="time-low">Time: Low to High</option>
             <option value="time-high">Time: High to Low</option>
@@ -13948,6 +13963,14 @@ export default function App() {
           categories={categories}
           classifications={recipeClassifications}
           setClassifications={setRecipeClassifications}
+          onClose={() => setActivePage("Home")}
+        />
+      )}
+
+      {activePage === "Admin Recipe Editor" && (
+        <AdminRecipeEditor
+          recipes={recipes}
+          onOpenRecipe={(recipe) => openRecipeCard(recipe.id, recipes, "Admin Recipe Editor")}
           onClose={() => setActivePage("Home")}
         />
       )}

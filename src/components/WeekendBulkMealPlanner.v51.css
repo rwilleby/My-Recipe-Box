@@ -147,6 +147,62 @@
   }
 }
 
+/* Version 57.1: full-library search, consistent heroes, alternating plan rows, and custom labels. */
+.weekendBulkCatalogCard>img{
+  object-fit:cover!important;
+  object-position:center!important;
+  background:#f6f2e8!important;
+}
+
+.weekendBulkPlanCard:nth-child(odd){
+  background:#f7f0e2!important;
+}
+
+.weekendBulkPlanCard:nth-child(even){
+  background:#e7dbc6!important;
+}
+
+.weekendBulkPlanCardTop,
+.weekendBulkFields{
+  background:transparent!important;
+}
+
+.weekendBulkPlanCard input,
+.weekendBulkPlanCard select{
+  background:#fff!important;
+}
+
+.weekendBulkHeaderFields{
+  grid-template-columns:62px 72px minmax(92px,1fr) minmax(92px,1fr) 62px!important;
+}
+
+.weekendBulkPlanCardTop{
+  grid-template-columns:54px 72px minmax(170px,1.15fr) minmax(585px,2.85fr) 34px!important;
+}
+
+@media(max-width:1100px){
+  .weekendBulkPlanCardTop{
+    grid-template-columns:48px 64px 1fr 34px!important;
+  }
+  .weekendBulkHeaderFields{
+    grid-column:2/4;
+    grid-template-columns:repeat(5,minmax(72px,1fr))!important;
+  }
+}
+
+@media(max-width:780px){
+  .weekendBulkHeaderFields{
+    grid-column:1/-1;
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  }
+}
+
+@media(max-width:500px){
+  .weekendBulkHeaderFields{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+}
+
 /* Version 55.1: equal Plan & Cook columns and full-frame recipe heroes. */
 .weekendBulkIntro{
   grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;

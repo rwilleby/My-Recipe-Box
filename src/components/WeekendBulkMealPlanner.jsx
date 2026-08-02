@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { sortRecipesByCode } from "../utils/recipeSorting";
 import "./WeekendBulkMealPlanner.css";
 import "./WeekendBulkMealPlanner.v51.css";
 
@@ -13,8 +14,6 @@ const PLAN_TYPES = [
   { key: "SD", label: "Side Dishes", icon: "images/icons/SD.webp" },
   { key: "DS", label: "Desserts", icon: "images/icons/DS-bulk.png" },
 ];
-
-const ALLOWED_RECIPE_CODES = new Set(["SG", "CP", "CS", "SD", "DS"]);
 
 const BULK_BASES = [
   { id: "BASE-001", title: "Cooked Ground Beef", detail: "Freeze flat in meal-size portions for tacos, pasta, chili, or casseroles.", defaultPortions: 8 },
@@ -66,7 +65,12 @@ function safeLoadPlan() {
             "Foil freezer pan": "24oz foil freezer pan",
             "Glass refrigerator container": "Other (see notes)",
           };
-          return { ...item, finish: item.finish || "Whole", package: legacyPackages[item.package] || item.package || "Quart freezer bag" };
+          return {
+            ...item,
+            finish: item.finish || "Whole",
+            package: legacyPackages[item.package] || item.package || "Quart freezer bag",
+            labelQuantity: Math.max(0, Number(item.labelQuantity ?? item.batches ?? 1)),
+          };
         }) : [],
       };
     }
@@ -96,12 +100,13 @@ function recipeSearchText(recipe) {
 function imageCandidates(item) {
   if (item.sourceType === "base") return ["images/recipes/AM-000.webp"];
   return [
+    item.heroImage,
     `images/thumbs/heroes/${item.id}.webp`,
     `images/heroes/${item.id}.webp`,
     `images/thumbs/recipes/${item.id}.webp`,
     `images/recipes/${item.id}.webp`,
     "images/recipes/AM-000.webp",
-  ];
+  ].filter(Boolean);
 }
 
 function PlannerImage({ item }) {
@@ -132,6 +137,7 @@ function makePlanItem(item, type, prepDay) {
     day: prepDay,
     finish: "Whole",
     labelNote: "",
+    labelQuantity: 1,
     completed: false,
   };
 }
@@ -151,19 +157,23 @@ export default function WeekendBulkMealPlanner({ recipes = [], favorites = [], o
   }, [plan]);
 
   const catalog = useMemo(() => {
-    return recipes
-      .filter((recipe) => ALLOWED_RECIPE_CODES.has(recipeCode(recipe)))
-      .filter((recipe) => activeType === "ALL" || (activeType === "FAVORITES" ? favorites.includes(recipe.id) : recipeCode(recipe) === activeType))
-      .map((recipe) => ({ ...recipe, sourceType: "recipe" }));
+    const matchingRecipes = activeType === "ALL"
+      ? recipes
+      : activeType === "FAVORITES"
+        ? recipes.filter((recipe) => favorites.includes(recipe.id))
+        : recipes.filter((recipe) => recipeCode(recipe) === activeType);
+    return sortRecipesByCode(matchingRecipes).map((recipe) => ({ ...recipe, sourceType: "recipe" }));
   }, [activeType, favorites, recipes]);
 
   const filteredCatalog = useMemo(() => {
     const term = search.trim().toLowerCase();
-    if (!term) return catalog.slice(0, 120);
+    if (!term) return catalog;
     const searchableCatalog = term
       ? recipes.map((recipe) => ({ ...recipe, sourceType: "recipe" }))
       : catalog;
-    return searchableCatalog.filter((item) => `${item.id} ${item.title} ${item.detail || ""}`.toLowerCase().includes(term)).slice(0, 120);
+    return sortRecipesByCode(
+      searchableCatalog.filter((item) => `${item.id} ${item.title} ${item.detail || ""}`.toLowerCase().includes(term)),
+    );
   }, [catalog, recipes, search]);
 
   const summary = useMemo(() => {
@@ -215,15 +225,21 @@ export default function WeekendBulkMealPlanner({ recipes = [], favorites = [], o
   }
 
   function downloadLabels() {
-    const rows = [["Food", "Destination", "Portions", "Package", "Prep day", "Label note"]];
-    plan.items.forEach((item) => rows.push([
-      item.title,
-      item.destination,
-      Number(item.portions || 0) * Number(item.batches || 1),
-      item.package,
-      item.day,
-      item.labelNote,
-    ]));
+    const rows = [["Food", "Recipe code", "Label number", "Label quantity", "Destination", "Portions", "Package", "Prep day", "Label note"]];
+    plan.items.forEach((item) => {
+      const labelQuantity = Math.max(0, Number(item.labelQuantity || 0));
+      Array.from({ length: labelQuantity }, (_, labelIndex) => rows.push([
+        item.title,
+        item.id,
+        labelIndex + 1,
+        labelQuantity,
+        item.destination,
+        Number(item.portions || 0) * Number(item.batches || 1),
+        item.package,
+        item.day,
+        item.labelNote,
+      ]));
+    });
     const csv = rows.map((row) => row.map(escapeCsv).join(",")).join("\n");
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
     const url = URL.createObjectURL(blob);
@@ -235,8 +251,9 @@ export default function WeekendBulkMealPlanner({ recipes = [], favorites = [], o
   }
 
   function printLabels() {
-    if (!plan.items.length) {
-      window.alert("Add at least one food to My Cooking Plan before printing labels.");
+    const labelTotal = plan.items.reduce((sum, item) => sum + Math.max(0, Number(item.labelQuantity ?? 1)), 0);
+    if (!plan.items.length || !labelTotal) {
+      window.alert("Add at least one food and choose at least one label before printing labels.");
       return;
     }
     document.body.classList.add("printingWeekendLabels");
@@ -267,8 +284,8 @@ export default function WeekendBulkMealPlanner({ recipes = [], favorites = [], o
         <div className="weekendBulkIntroCopy">
           <span className="aiBadge">WEEKEND PRODUCTION PLAN</span>
           <h2>
-            <span>Plan &amp; cook once.</span>
-            <span>Shop &amp; save for weeks.</span>
+            <span>Plan, shop &amp; cook once.</span>
+            <span>Relax &amp; save for weeks.</span>
           </h2>
           <p>Build a plan that fits your equipment, available time, household size, and freezer space. Your selections and packaging notes stay in this browser so you can return to the plan while you shop, cook, cool, label, and store everything.</p>
         </div>
@@ -314,7 +331,7 @@ export default function WeekendBulkMealPlanner({ recipes = [], favorites = [], o
           <div className="weekendBulkSearchRow">
             <label className="weekendBulkSearch">
               <span>Search all recipes</span>
-              <input type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Recipe name or code" />
+              <input type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search the full library by recipe name or code" />
             </label>
             <div className="weekendBulkCatalogCount">{filteredCatalog.length} choices shown · scroll right to see more</div>
           </div>
@@ -383,6 +400,7 @@ export default function WeekendBulkMealPlanner({ recipes = [], favorites = [], o
                       <label><span>Portions</span><input type="number" min="1" max="50" value={item.portions} onChange={(event) => updateItem(item.uid, { portions: Math.max(1, Number(event.target.value) || 1) })} /></label>
                       <label><span>Store</span><select value={item.destination} onChange={(event) => updateItem(item.uid, { destination: event.target.value })}>{DESTINATIONS.map((destination) => <option key={destination.value} value={destination.value}>{destination.label}</option>)}</select></label>
                       <label><span>Refrigerator</span><input type="number" min="0" max="50" disabled={item.destination !== "both"} value={item.destination === "both" ? item.refrigeratorPortions : item.destination === "refrigerator" ? item.portions : 0} onChange={(event) => updateItem(item.uid, { refrigeratorPortions: Math.max(0, Number(event.target.value) || 0) })} /></label>
+                      <label><span>Labels</span><select value={item.labelQuantity ?? 1} onChange={(event) => updateItem(item.uid, { labelQuantity: Number(event.target.value) })}>{Array.from({ length: 21 }, (_, quantity) => <option key={quantity} value={quantity}>{quantity}</option>)}</select></label>
                     </div>
                     <button type="button" className="weekendBulkRemove" onClick={() => removeItem(item.uid)} aria-label={`Remove ${item.title}`}>×</button>
                   </div>
@@ -417,7 +435,7 @@ export default function WeekendBulkMealPlanner({ recipes = [], favorites = [], o
       </section>
 
       <section className="weekendBulkLabelSheet" aria-hidden="true">
-        {plan.items.flatMap((item) => Array.from({ length: Math.max(1, Number(item.batches || 1)) }, (_, batchIndex) => (
+        {plan.items.flatMap((item) => Array.from({ length: Math.max(0, Number(item.labelQuantity ?? 1)) }, (_, batchIndex) => (
           <article className="weekendBulkPrintableLabel" key={`${item.uid}-${batchIndex}`}>
             <strong>{item.title}</strong>
             <span>{item.id} · {item.finish || "Whole"} · {item.package}</span>
