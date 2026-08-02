@@ -5,6 +5,7 @@ import {
   loadCombinedRecipeOverrides,
   saveBrowserRecipeOverrides,
 } from "../utils/recipeOverrides";
+import HelpTooltip from "./HelpTooltip";
 import "./AdminRecipeEditor.css";
 
 function cleanPath(value = "") {
@@ -137,11 +138,11 @@ export default function AdminRecipeEditor({ recipes = [], onOpenRecipe, onClose 
           </div>
 
           <div className="adminRecipeEditorActions">
-            <button type="button" onClick={saveChanges}>Save Changes</button>
-            <button type="button" className="secondary" onClick={() => window.location.reload()}>Reload & Apply</button>
+            <span className="helpTooltipAction"><button type="button" onClick={saveChanges}>Save Changes</button><HelpTooltip text="Saves this recipe correction in the current browser. Reload and Apply makes the saved version active throughout the website." /></span>
+            <span className="helpTooltipAction"><button type="button" className="secondary" onClick={() => window.location.reload()}>Reload & Apply</button><HelpTooltip text="Reloads the website so your saved browser correction is used in recipe lists, planners, and combo meals." /></span>
             <button type="button" className="secondary" onClick={() => onOpenRecipe?.(selectedRecipe)}>View Recipe Card</button>
-            <button type="button" className="secondary" onClick={() => exportRecipeOverrides(overrides)}>Export Updated Recipe File</button>
-            <button type="button" className="danger" onClick={removeCorrection}>Remove Correction</button>
+            <span className="helpTooltipAction"><button type="button" className="secondary" onClick={() => exportRecipeOverrides(overrides)}>Export Updated Recipe File</button><HelpTooltip text="Downloads the complete recipe-correction file for installing these changes permanently in the website." /></span>
+            <span className="helpTooltipAction"><button type="button" className="danger" onClick={removeCorrection}>Remove Correction</button><HelpTooltip text="Deletes the saved browser correction for this recipe and restores its original website record after reload." /></span>
           </div>
           {savedMessage && <p className="adminRecipeEditorSaved" role="status">{savedMessage}</p>}
         </section>

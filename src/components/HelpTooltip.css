@@ -1,0 +1,127 @@
+.helpTooltipAction,
+.helpTooltipLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.helpTooltip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  isolation: isolate;
+}
+
+.helpTooltipButton {
+  display: inline-grid !important;
+  place-items: center;
+  width: 19px !important;
+  min-width: 19px !important;
+  height: 19px !important;
+  min-height: 19px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 1px solid #66736b !important;
+  border-radius: 50% !important;
+  background: #fff !important;
+  color: #354039 !important;
+  box-shadow: none !important;
+  font: 800 12px/1 Georgia, serif !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  cursor: help !important;
+}
+
+.helpTooltipButton:hover,
+.helpTooltipButton:focus-visible {
+  border-color: #111 !important;
+  color: #111 !important;
+  outline: 2px solid rgba(21, 92, 53, .2) !important;
+  outline-offset: 2px;
+}
+
+.helpTooltipBubble {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 9px);
+  z-index: 1000;
+  width: max-content;
+  max-width: min(280px, calc(100vw - 32px));
+  padding: 9px 11px;
+  border: 1px solid #c9d2cb;
+  border-radius: 8px;
+  background: #17231b;
+  color: #fff;
+  box-shadow: 0 7px 20px rgba(20, 31, 24, .2);
+  font: 600 12px/1.35 Inter, Arial, sans-serif;
+  letter-spacing: 0;
+  text-align: left;
+  text-transform: none;
+  white-space: normal;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translate(-50%, 4px);
+  transition: opacity .14s ease, transform .14s ease, visibility .14s ease;
+}
+
+.helpTooltipBubble::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  border: 6px solid transparent;
+  border-top-color: #17231b;
+  transform: translateX(-50%);
+}
+
+.helpTooltip--bottom .helpTooltipBubble {
+  top: calc(100% + 9px);
+  bottom: auto;
+  transform: translate(-50%, -4px);
+}
+
+.helpTooltip--bottom .helpTooltipBubble::after {
+  top: auto;
+  bottom: 100%;
+  border-top-color: transparent;
+  border-bottom-color: #17231b;
+}
+
+.helpTooltip:hover .helpTooltipBubble,
+.helpTooltip:focus-within .helpTooltipBubble,
+.helpTooltip.isOpen .helpTooltipBubble {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0);
+}
+
+@media (max-width: 600px) {
+  .helpTooltipBubble {
+    position: fixed;
+    left: 16px;
+    right: 16px;
+    bottom: 18px;
+    top: auto;
+    width: auto;
+    max-width: none;
+    transform: translateY(6px);
+  }
+
+  .helpTooltipBubble::after {
+    display: none;
+  }
+
+  .helpTooltip:hover .helpTooltipBubble,
+  .helpTooltip:focus-within .helpTooltipBubble,
+  .helpTooltip.isOpen .helpTooltipBubble {
+    transform: translateY(0);
+  }
+}
+
+@media print {
+  .helpTooltip {
+    display: none !important;
+  }
+}

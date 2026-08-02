@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { sortRecipesByCode } from "../utils/recipeSorting";
+import HelpTooltip from "./HelpTooltip";
 import "./WeekendBulkMealPlanner.css";
 import "./WeekendBulkMealPlanner.v51.css";
 
@@ -366,11 +367,26 @@ export default function WeekendBulkMealPlanner({ recipes = [], favorites = [], o
             </div>
             <div className="weekendBulkHeaderActions">
               <button type="button" onClick={() => window.print()}>Print</button>
-              <button type="button" onClick={printCookingOverview}>Print Cooking Overview</button>
-              <button type="button" onClick={printLabels}>Print Labels</button>
-              <button type="button" onClick={downloadLabels}>Labels CSV</button>
-              <button type="button" onClick={downloadPlan}>Save Copy</button>
-              <button type="button" className="danger" onClick={clearPlan}>Clear</button>
+              <span className="helpTooltipAction">
+                <button type="button" onClick={printCookingOverview}>Print Cooking Overview</button>
+                <HelpTooltip placement="bottom" text="Prints a cook-day summary with the meal order, quantities, packaging details, notes, and safety reminders." />
+              </span>
+              <span className="helpTooltipAction">
+                <button type="button" onClick={printLabels}>Print Labels</button>
+                <HelpTooltip placement="bottom" text="Prints the exact label quantity selected on each recipe row using the 1 × 2⅝-inch, three-column label layout." />
+              </span>
+              <span className="helpTooltipAction">
+                <button type="button" onClick={downloadLabels}>Labels CSV</button>
+                <HelpTooltip placement="bottom" text="Downloads one CSV row for every label requested, ready for a label-printing or mail-merge program." />
+              </span>
+              <span className="helpTooltipAction">
+                <button type="button" onClick={downloadPlan}>Save Copy</button>
+                <HelpTooltip placement="bottom" text="Downloads a JSON backup of this weekend plan. Your working plan also remains saved in this browser." />
+              </span>
+              <span className="helpTooltipAction">
+                <button type="button" className="danger" onClick={clearPlan}>Clear</button>
+                <HelpTooltip placement="bottom" text="Removes every recipe and the weekend notes from this plan after you confirm." />
+              </span>
             </div>
           </div>
 
@@ -400,14 +416,14 @@ export default function WeekendBulkMealPlanner({ recipes = [], favorites = [], o
                       <label><span>Portions</span><input type="number" min="1" max="50" value={item.portions} onChange={(event) => updateItem(item.uid, { portions: Math.max(1, Number(event.target.value) || 1) })} /></label>
                       <label><span>Store</span><select value={item.destination} onChange={(event) => updateItem(item.uid, { destination: event.target.value })}>{DESTINATIONS.map((destination) => <option key={destination.value} value={destination.value}>{destination.label}</option>)}</select></label>
                       <label><span>Refrigerator</span><input type="number" min="0" max="50" disabled={item.destination !== "both"} value={item.destination === "both" ? item.refrigeratorPortions : item.destination === "refrigerator" ? item.portions : 0} onChange={(event) => updateItem(item.uid, { refrigeratorPortions: Math.max(0, Number(event.target.value) || 0) })} /></label>
-                      <label><span>Labels</span><select value={item.labelQuantity ?? 1} onChange={(event) => updateItem(item.uid, { labelQuantity: Number(event.target.value) })}>{Array.from({ length: 21 }, (_, quantity) => <option key={quantity} value={quantity}>{quantity}</option>)}</select></label>
+                      <label><span className="helpTooltipLabel">Labels <HelpTooltip text="Choose how many labels this recipe should create. This quantity is used by both Print Labels and Labels CSV." /></span><select value={item.labelQuantity ?? 1} onChange={(event) => updateItem(item.uid, { labelQuantity: Number(event.target.value) })}>{Array.from({ length: 21 }, (_, quantity) => <option key={quantity} value={quantity}>{quantity}</option>)}</select></label>
                     </div>
                     <button type="button" className="weekendBulkRemove" onClick={() => removeItem(item.uid)} aria-label={`Remove ${item.title}`}>×</button>
                   </div>
 
                   <div className="weekendBulkFields">
-                    <label><span>Finish</span><select value={item.finish || "Whole"} onChange={(event) => updateItem(item.uid, { finish: event.target.value })}><option>Whole</option><option>Sliced</option><option>Cubed</option><option>Shredded</option></select></label>
-                    <label><span>Package in</span><select value={item.package} onChange={(event) => updateItem(item.uid, { package: event.target.value })}>{PACKAGE_OPTIONS.map((option) => <option key={option}>{option}</option>)}</select></label>
+                    <label><span className="helpTooltipLabel">Finish <HelpTooltip text="Records how the food will be portioned before storage: whole, sliced, cubed, or shredded." /></span><select value={item.finish || "Whole"} onChange={(event) => updateItem(item.uid, { finish: event.target.value })}><option>Whole</option><option>Sliced</option><option>Cubed</option><option>Shredded</option></select></label>
+                    <label><span className="helpTooltipLabel">Package in <HelpTooltip text="Select the bag, pan, container, or freezer block you plan to use for this recipe." /></span><select value={item.package} onChange={(event) => updateItem(item.uid, { package: event.target.value })}>{PACKAGE_OPTIONS.map((option) => <option key={option}>{option}</option>)}</select></label>
                     <label><span>Prep day</span><select value={item.day} onChange={(event) => updateItem(item.uid, { day: event.target.value })}><option>Saturday</option><option>Sunday</option></select></label>
                     <label><span>Label / finishing note</span><input value={item.labelNote} onChange={(event) => updateItem(item.uid, { labelNote: event.target.value })} placeholder="Thaw overnight; add sauce" /></label>
                   </div>

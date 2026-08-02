@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import "./AdminComboMealBuilder.css";
+import HelpTooltip from "./HelpTooltip";
 import {
   DINNER_PROTEIN_FILTERS,
   DINNER_SIDE_FILTERS,
@@ -1656,11 +1657,11 @@ export default function AdminComboMealBuilder({ recipes, onClose, onOpenHeroAudi
 
       <div className="comboBuilderRecordActions">
         <button type="button" className="primary" onClick={saveDraft}>Save Changes</button>
-        <button type="button" onClick={duplicateMeal}>Save as New Combo</button>
+        <span className="helpTooltipAction"><button type="button" onClick={duplicateMeal}>Save as New Combo</button><HelpTooltip text="Keeps the current meal and creates a separate combo with a new permanent CM code." /></span>
         <button type="button" onClick={() => setShowOfficialPreview(true)}>Preview Meal</button>
-        <button type="button" onClick={recalculateNutrition}>Recalculate Nutrition</button>
-        <button type="button" onClick={flagHeroForReprocessing}>Flag Hero for Reprocessing</button>
-        <button type="button" onClick={revertChanges}>Cancel / Revert Changes</button>
+        <span className="helpTooltipAction"><button type="button" onClick={recalculateNutrition}>Recalculate Nutrition</button><HelpTooltip text="Refreshes the meal estimate from the currently selected main and side-dish nutrition records." /></span>
+        <span className="helpTooltipAction"><button type="button" onClick={flagHeroForReprocessing}>Flag Hero for Reprocessing</button><HelpTooltip text="Marks the combined meal hero as outdated. It does not delete or replace the current image." /></span>
+        <span className="helpTooltipAction"><button type="button" onClick={revertChanges}>Cancel / Revert Changes</button><HelpTooltip text="Discards unsaved edits and restores the last saved version of this combo meal." /></span>
         <button type="button" onClick={clearMeal}>Clear Meal</button>
         <button type="button" className="danger" onClick={deleteDraft}>
           {record.publicMealId ? "Remove Saved Edits" : "Delete Draft"}
@@ -1858,10 +1859,10 @@ export default function AdminComboMealBuilder({ recipes, onClose, onOpenHeroAudi
           </div>
         </div>
         <div className="comboBuilderActionGrid">
-          <button type="button" className="primary" onClick={exportUpdatedPublicLibrary}>Export Updated Public Library</button>
-          <button type="button" onClick={exportLibrary}>Export Manager Backup</button>
-          <button type="button" onClick={() => libraryInputRef.current?.click()}>Import Combo-Meal Library</button>
-          <button type="button" onClick={exportWebsitePackage}>Export Website Update Package</button>
+          <span className="helpTooltipAction"><button type="button" className="primary" onClick={exportUpdatedPublicLibrary}>Export Updated Public Library</button><HelpTooltip text="Downloads the public combo-meal data file containing your approved edits for installation in the website." /></span>
+          <span className="helpTooltipAction"><button type="button" onClick={exportLibrary}>Export Manager Backup</button><HelpTooltip text="Downloads a backup of Admin combo-meal records, including drafts and browser-saved revisions." /></span>
+          <span className="helpTooltipAction"><button type="button" onClick={() => libraryInputRef.current?.click()}>Import Combo-Meal Library</button><HelpTooltip text="Loads a previously exported Combo-Meal Manager backup into this browser for review." /></span>
+          <span className="helpTooltipAction"><button type="button" onClick={exportWebsitePackage}>Export Website Update Package</button><HelpTooltip text="Downloads the website-ready combo-meal update files as a package for the next site edit." /></span>
         </div>
         <input
           ref={libraryInputRef}
