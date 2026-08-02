@@ -1,5 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import "./AdminComboMealBuilder.css";
+import {
+  DINNER_PROTEIN_FILTERS,
+  DINNER_SIDE_FILTERS,
+  dinnerCombinations,
+} from "../data/dinnerCombinations";
 
 const STORAGE_KEY = "rrb_adminComboMealLibrary";
 const SCHEMA_VERSION = 1;
@@ -89,6 +94,12 @@ function createDraft(records) {
     mealName: "",
     description: "",
     notes: "",
+    publicMealId: null,
+    heroImage: "",
+    freezerLife: "",
+    ovenInstructions: "",
+    microwaveInstructions: "",
+    groceryNotes: "",
     status: "Draft",
     selections: emptySelections(),
     nutritionSummary: null,
@@ -99,6 +110,132 @@ function createDraft(records) {
     importHistory: [],
     createdAt: now,
     updatedAt: now,
+  };
+}
+
+function mealNumberFromCode(value) {
+  const match = String(value || "").trim().match(/^(?:meal|cm)[-\s]?(\d+)$/i);
+  return match ? Number(match[1]) : null;
+}
+
+function publicMealId(number) {
+  return `meal-${String(number).padStart(3, "0")}`;
+}
+
+function comboCodeFromNumber(number) {
+  return `CM-${String(number).padStart(3, "0")}`;
+}
+
+function recipeById(recipes, recipeId) {
+  return recipes.find((recipe) => String(recipe.id).toUpperCase() === String(recipeId).toUpperCase());
+}
+
+function selectionFromPublishedItem(recipes, recipeId, fallbackName, servingText, position) {
+  if (!recipeId && !fallbackName) return null;
+  const recipe = recipeId ? recipeById(recipes, recipeId) : null;
+  if (recipe) {
+    return {
+      ...makeSelection(recipe),
+      position,
+      servingText: servingText || "",
+    };
+  }
+  return {
+    recipeId: recipeId || "UNLINKED",
+    recipeName: fallbackName || "Unlinked published item",
+    categoryCode: recipeId ? String(recipeId).split("-")[0].toUpperCase() : "",
+    category: "Published text — select a recipe to link",
+    heroImage: "",
+    portion: "1",
+    customMultiplier: "",
+    servingText: servingText || "",
+    nutrition: null,
+    position,
+    sourceSnapshot: null,
+  };
+}
+
+function recordFromPublishedMeal(meal, recipes) {
+  const number = Number(meal.number || mealNumberFromCode(meal.id));
+  const selections = emptySelections();
+  selections.main = selectionFromPublishedItem(
+    recipes,
+    meal.mainRecipeId,
+    meal.mainDish || meal.title,
+    meal.mainServing,
+    "main",
+  );
+  (meal.sides || []).slice(0, 4).forEach((side, index) => {
+    const key = `dish${index + 1}`;
+    selections[key] = selectionFromPublishedItem(
+      recipes,
+      side.recipeId,
+      side.name,
+      side.serving,
+      key,
+    );
+  });
+  const now = new Date().toISOString();
+  return {
+    schemaVersion: SCHEMA_VERSION,
+    comboCode: comboCodeFromNumber(number),
+    publicMealId: meal.id || publicMealId(number),
+    revision: 1,
+    mealName: meal.title || "",
+    description: meal.subtitle || "",
+    notes: "",
+    heroImage: meal.image || "",
+    freezerLife: meal.freezerLife || "",
+    ovenInstructions: meal.ovenInstructions || "",
+    microwaveInstructions: meal.microwaveInstructions || "",
+    groceryNotes: meal.groceryNotes || "",
+    status: "Published",
+    selections,
+    nutritionSummary: null,
+    nutritionNeedsRecalculation: false,
+    heroPossiblyOutdated: false,
+    activeProcessed: null,
+    pendingImport: null,
+    importHistory: [],
+    sourcePublishedSnapshot: meal,
+    createdAt: now,
+    updatedAt: now,
+  };
+}
+
+function publishedMealFromRecord(record) {
+  const source = record.sourcePublishedSnapshot || {};
+  const number = mealNumberFromCode(record.publicMealId || record.comboCode);
+  const main = record.selections?.main;
+  const sides = ["dish1", "dish2", "dish3", "dish4"]
+    .map((key) => record.selections?.[key])
+    .filter(Boolean)
+    .map((item) => ({
+      name: item.recipeName,
+      serving: item.servingText || "1 serving",
+      recipeId: item.recipeId === "UNLINKED" ? undefined : item.recipeId,
+    }));
+  const values = record.nutritionSummary?.values || {};
+  return {
+    ...source,
+    id: record.publicMealId || publicMealId(number),
+    image: record.heroImage || source.image || `images/dinner-combinations/${publicMealId(number)}.webp`,
+    number,
+    title: record.mealName,
+    subtitle: record.description,
+    mainDish: main?.recipeName || record.mealName,
+    mainServing: main?.servingText || source.mainServing || "1 serving",
+    mainRecipeId: main?.recipeId === "UNLINKED" ? undefined : main?.recipeId,
+    sides,
+    calories: Number.isFinite(values.calories) ? values.calories : source.calories,
+    protein: Number.isFinite(values.protein) ? values.protein : source.protein,
+    carbs: Number.isFinite(values.totalCarbohydrate) ? values.totalCarbohydrate : source.carbs,
+    fat: Number.isFinite(values.totalFat) ? values.totalFat : source.fat,
+    fiber: Number.isFinite(values.dietaryFiber) ? values.dietaryFiber : source.fiber,
+    freezerLife: record.freezerLife || "",
+    ovenInstructions: record.ovenInstructions || "",
+    microwaveInstructions: record.microwaveInstructions || "",
+    groceryNotes: record.groceryNotes || undefined,
   };
 }
 
@@ -379,6 +516,10 @@ function downloadJson(data, filename) {
   );
 }
 
+function downloadText(text, filename, type = "text/plain") {
+  downloadBlob(new Blob([text], { type }), filename);
+}
+
 function humanRequest(record) {
   const lines = [
     "COMBO-MEAL PROCESSING REQUEST",
@@ -388,6 +529,8 @@ function humanRequest(record) {
     `Meal name: ${record.mealName || "(not named)"}`,
     `Status: ${record.status}`,
     `Description: ${record.description || "(none)"}`,
+    `Published meal ID: ${record.publicMealId || "(new combo)"}`,
+    `Hero assignment: ${record.heroImage || "(none)"}`,
     "",
   ];
 
@@ -405,6 +548,7 @@ function humanRequest(record) {
     if (slot.key !== "main") lines.push(`Category: ${item.category || "Other"}`);
     lines.push(`${item.recipeId} — ${item.recipeName}`);
     lines.push(`Portion: ${portionLabel}`);
+    lines.push(`Display serving: ${item.servingText || "(not specified)"}`);
     lines.push(`Hero: ${item.heroImage || "(none)"}`);
     lines.push("");
   });
@@ -417,6 +561,10 @@ function humanRequest(record) {
   );
   lines.push("");
   lines.push(`Notes: ${record.notes || "(none)"}`);
+  lines.push(`Freezer life: ${record.freezerLife || "(none)"}`);
+  lines.push(`Oven instructions: ${record.ovenInstructions || "(none)"}`);
+  lines.push(`Microwave instructions: ${record.microwaveInstructions || "(none)"}`);
+  lines.push(`Grocery / planner notes: ${record.groceryNotes || "(none)"}`);
   return lines.join("\n");
 }
 
@@ -429,6 +577,12 @@ function processingPayload(record) {
     mealName: record.mealName,
     description: record.description,
     notes: record.notes,
+    publicMealId: record.publicMealId,
+    heroImage: record.heroImage,
+    freezerLife: record.freezerLife,
+    ovenInstructions: record.ovenInstructions,
+    microwaveInstructions: record.microwaveInstructions,
+    groceryNotes: record.groceryNotes,
     status: record.status,
     requestedOutputs: [
       "overall combo-meal hero",
@@ -609,6 +763,7 @@ function SelectionBox({
   onActivate,
   onRemove,
   onPortion,
+  onServingText,
   onDropRecipe,
 }) {
   const [failed, setFailed] = useState(false);
@@ -666,6 +821,15 @@ function SelectionBox({
               />
             </label>
           )}
+          <label>
+            Display serving text
+            <input
+              type="text"
+              value={selection.servingText || ""}
+              onChange={(event) => onServingText(slot.key, event.target.value)}
+              placeholder="Example: 1/2 cup"
+            />
+          </label>
           <div className="comboBuilderSlotActions">
             <button type="button" onClick={() => onActivate(slot.key)}>Replace</button>
             <button type="button" onClick={() => onRemove(slot.key)}>Remove</button>
@@ -773,6 +937,7 @@ export default function AdminComboMealBuilder({ recipes, onClose }) {
   const [importComparison, setImportComparison] = useState(null);
   const [showOfficialPreview, setShowOfficialPreview] = useState(false);
   const [allowDuplicateOverride, setAllowDuplicateOverride] = useState(false);
+  const [managerCode, setManagerCode] = useState("");
   const libraryInputRef = useRef(null);
   const processedInputRef = useRef(null);
 
@@ -783,6 +948,19 @@ export default function AdminComboMealBuilder({ recipes, onClose }) {
     }),
     [recipes],
   );
+
+  const editableMeals = useMemo(() => {
+    const savedByCode = new Map(library.map((item) => [String(item.comboCode).toUpperCase(), item]));
+    const published = dinnerCombinations.map((meal) => {
+      const number = Number(meal.number || mealNumberFromCode(meal.id));
+      return savedByCode.get(comboCodeFromNumber(number)) || recordFromPublishedMeal(meal, recipes);
+    });
+    const publishedCodes = new Set(published.map((item) => String(item.comboCode).toUpperCase()));
+    return [
+      ...published,
+      ...library.filter((item) => !publishedCodes.has(String(item.comboCode).toUpperCase())),
+    ].sort((a, b) => a.comboCode.localeCompare(b.comboCode, undefined, { numeric: true }));
+  }, [library, recipes]);
 
   const nutritionSummary = useMemo(
     () => calculateNutrition(record.selections),
@@ -918,6 +1096,16 @@ export default function AdminComboMealBuilder({ recipes, onClose }) {
     }));
   }
 
+  function updateServingText(slotKey, servingText) {
+    setChanged((current) => ({
+      ...current,
+      selections: {
+        ...current.selections,
+        [slotKey]: { ...current.selections[slotKey], servingText },
+      },
+    }));
+  }
+
   function saveDraft() {
     if (!record.selections.main) {
       setMessage("Select a Main recipe before saving the draft.");
@@ -934,7 +1122,7 @@ export default function AdminComboMealBuilder({ recipes, onClose }) {
   }
 
   function newMeal() {
-    const draft = createDraft(library);
+    const draft = createDraft(editableMeals);
     setRecord(draft);
     setActiveSlot("main");
     setImportComparison(null);
@@ -942,18 +1130,74 @@ export default function AdminComboMealBuilder({ recipes, onClose }) {
   }
 
   function loadMeal(comboCode) {
-    const saved = library.find((item) => item.comboCode === comboCode);
+    const saved = editableMeals.find((item) => item.comboCode === comboCode);
     if (!saved) return;
     setRecord(saved);
     setActiveSlot("main");
+    setManagerCode(saved.publicMealId || saved.comboCode);
     setImportComparison(null);
     setMessage(`${comboCode} loaded.`);
+  }
+
+  function loadManagerMeal() {
+    const number = mealNumberFromCode(managerCode);
+    if (!number) {
+      setMessage("Enter a code such as meal-002 or CM-002.");
+      return;
+    }
+    const comboCode = comboCodeFromNumber(number);
+    const found = editableMeals.find((item) => String(item.comboCode).toUpperCase() === comboCode);
+    if (!found) {
+      setMessage(`${managerCode.trim()} was not found in the current Combo-Meal library.`);
+      return;
+    }
+    setRecord(found);
+    setActiveSlot("main");
+    setImportComparison(null);
+    setManagerCode(found.publicMealId || found.comboCode);
+    setMessage(`${found.publicMealId || found.comboCode} loaded for editing.`);
+  }
+
+  function revertChanges() {
+    const saved = library.find((item) => item.comboCode === record.comboCode);
+    const number = mealNumberFromCode(record.publicMealId || record.comboCode);
+    const published = dinnerCombinations.find((meal) => Number(meal.number) === number);
+    const original = saved || (published ? recordFromPublishedMeal(published, recipes) : null);
+    if (!original) {
+      setMessage("No saved or published version is available to restore.");
+      return;
+    }
+    setRecord(original);
+    setImportComparison(null);
+    setMessage(`${original.publicMealId || original.comboCode} restored.`);
+  }
+
+  function recalculateNutrition() {
+    const updated = calculateNutrition(record.selections);
+    setRecord((current) => ({
+      ...current,
+      nutritionSummary: updated,
+      nutritionNeedsRecalculation: false,
+      updatedAt: new Date().toISOString(),
+    }));
+    setMessage(`Nutrition refreshed: ${updated.status}.`);
+  }
+
+  function flagHeroForReprocessing() {
+    setRecord((current) => ({
+      ...current,
+      heroPossiblyOutdated: true,
+      status: current.status === "Draft" ? "Draft" : "Needs Revision",
+      updatedAt: new Date().toISOString(),
+    }));
+    setMessage("The combo hero is flagged for reprocessing.");
   }
 
   function duplicateMeal() {
     const duplicate = {
       ...record,
-      comboCode: nextComboCode(library),
+      comboCode: nextComboCode(editableMeals),
+      publicMealId: null,
       revision: 1,
       status: "Draft",
       activeProcessed: null,
@@ -961,6 +1205,7 @@ export default function AdminComboMealBuilder({ recipes, onClose }) {
       importHistory: [],
       nutritionNeedsRecalculation: false,
       heroPossiblyOutdated: false,
+      sourcePublishedSnapshot: null,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
@@ -974,6 +1219,11 @@ export default function AdminComboMealBuilder({ recipes, onClose }) {
       mealName: "",
       description: "",
       notes: "",
+      heroImage: "",
+      freezerLife: "",
+      ovenInstructions: "",
+      microwaveInstructions: "",
+      groceryNotes: "",
       selections: emptySelections(),
       status: "Draft",
       pendingImport: null,
@@ -982,12 +1232,22 @@ export default function AdminComboMealBuilder({ recipes, onClose }) {
   }
 
   function deleteDraft() {
-    if (!window.confirm(`Delete ${record.comboCode}? This cannot be undone.`)) return;
+    const isPublishedMeal = Boolean(record.publicMealId);
+    const prompt = isPublishedMeal
+      ? `Remove the saved edits for ${record.publicMealId} and restore the published version?`
+      : `Delete ${record.comboCode}? This cannot be undone.`;
+    if (!window.confirm(prompt)) return;
     const next = library.filter((item) => item.comboCode !== record.comboCode);
     persist(next);
-    setRecord(createDraft(next));
+    if (isPublishedMeal) {
+      const number = mealNumberFromCode(record.publicMealId);
+      const published = dinnerCombinations.find((meal) => Number(meal.number) === number);
+      setRecord(published ? recordFromPublishedMeal(published, recipes) : createDraft(editableMeals));
+    } else {
+      setRecord(createDraft([...editableMeals.filter((item) => item.comboCode !== record.comboCode)]));
+    }
     setImportComparison(null);
-    setMessage("Draft deleted.");
+    setMessage(isPublishedMeal ? "Saved edits removed; the published meal was restored." : "Draft deleted.");
   }
 
   async function copyRequest() {
@@ -1033,6 +1293,30 @@ export default function AdminComboMealBuilder({ recipes, onClose }) {
       },
       "rrb-admin-combo-meal-library.json",
     );
+  }
+
+  function exportUpdatedPublicLibrary() {
+    const savedByCode = new Map(library.map((item) => [String(item.comboCode).toUpperCase(), item]));
+    const mergedPublished = dinnerCombinations.map((meal) => {
+      const code = comboCodeFromNumber(Number(meal.number || mealNumberFromCode(meal.id)));
+      const override = savedByCode.get(code);
+      return override ? publishedMealFromRecord(override) : meal;
+    });
+    const newPublished = library
+      .filter((item) => !item.publicMealId && !dinnerCombinations.some(
+        (meal) => comboCodeFromNumber(Number(meal.number)) === String(item.comboCode).toUpperCase(),
+      ))
+      .map((item) => publishedMealFromRecord(item));
+    const output = [
+      `export const DINNER_PROTEIN_FILTERS = ${JSON.stringify(DINNER_PROTEIN_FILTERS, null, 2)};`,
+      "",
+      `export const DINNER_SIDE_FILTERS = ${JSON.stringify(DINNER_SIDE_FILTERS, null, 2)};`,
+      "",
+      `export const dinnerCombinations = ${JSON.stringify([...mergedPublished, ...newPublished], null, 2)};`,
+      "",
+    ].join("\n");
+    downloadText(output, "dinnerCombinations.updated.js", "text/javascript");
+    setMessage("Updated public Combo-Meal library exported. Review it before replacing the website data file.");
   }
 
   async function importLibraryFile(file) {
@@ -1156,6 +1440,12 @@ export default function AdminComboMealBuilder({ recipes, onClose }) {
       revision: record.revision,
       mealName: record.mealName,
       description: record.description,
+      publicMealId: record.publicMealId,
+      heroImage: record.heroImage,
+      freezerLife: record.freezerLife,
+      ovenInstructions: record.ovenInstructions,
+      microwaveInstructions: record.microwaveInstructions,
+      groceryNotes: record.groceryNotes,
       status: record.status,
       selections: record.selections,
       processedNutrition:
@@ -1199,6 +1489,7 @@ export default function AdminComboMealBuilder({ recipes, onClose }) {
   const officialHero =
     record.pendingImport?.heroDataUrl ||
     record.activeProcessed?.heroDataUrl ||
+    (record.heroImage ? imageUrl(record.heroImage) : null) ||
     null;
   const processedNutrition =
     importedData?.processedNutrition ||
@@ -1216,30 +1507,57 @@ export default function AdminComboMealBuilder({ recipes, onClose }) {
       <header className="comboBuilderPageHeader">
         <div>
           <span className="comboBuilderEyebrow">ADMIN ONLY</span>
-          <h1>COMBO-MEAL BUILDER</h1>
+          <h1>COMBO-MEAL BUILDER & MANAGER</h1>
           <p>
-            Assemble a new official Combo-Meal request without changing the existing public
-            Combo-Meals page or its current assignments.
+            Create a new Combo-Meal or load a current meal by its meal/CM code to revise its
+            main, sides, portions, display text, storage notes, and hero assignment.
           </p>
         </div>
         <button type="button" className="secondary" onClick={onClose}>Return Home</button>
       </header>
 
+      <section className="comboBuilderManagerLookup" aria-labelledby="combo-manager-title">
+        <div>
+          <span className="comboBuilderEyebrow">EDIT A CURRENT COMBO-MEAL</span>
+          <h2 id="combo-manager-title">Combo-Meal Manager</h2>
+          <p>Enter either format—for example, <strong>meal-002</strong> or <strong>CM-002</strong>.</p>
+        </div>
+        <label>
+          Current combo-meal code
+          <span className="comboBuilderLookupRow">
+            <input
+              type="text"
+              value={managerCode}
+              onChange={(event) => setManagerCode(event.target.value)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter") {
+                  event.preventDefault();
+                  loadManagerMeal();
+                }
+              }}
+              placeholder="meal-002 or CM-002"
+            />
+            <button type="button" className="primary" onClick={loadManagerMeal}>Load Meal</button>
+          </span>
+        </label>
+      </section>
+
       <section className="comboBuilderToolbar">
         <button type="button" className="primary" onClick={newMeal}>New Combo Meal</button>
         <label>
-          Load Existing Meal
+          Browse Existing Meals
           <select value="" onChange={(event) => loadMeal(event.target.value)}>
             <option value="">Choose saved meal</option>
-            {library.map((item) => (
+            {editableMeals.map((item) => (
               <option key={item.comboCode} value={item.comboCode}>
-                {item.comboCode} — {item.mealName || "Unnamed"}
+                {item.publicMealId ? `${item.publicMealId} / ` : ""}{item.comboCode} — {item.mealName || "Unnamed"}
               </option>
             ))}
           </select>
         </label>
         <div className="comboBuilderCode">
-          <span>Permanent combo code</span>
+          <span>{record.publicMealId ? "Published / permanent codes" : "Permanent combo code"}</span>
+          {record.publicMealId && <small>{record.publicMealId}</small>}
           <strong>{record.comboCode}</strong>
           <small>Revision {record.revision}</small>
         </div>
@@ -1280,13 +1598,60 @@ export default function AdminComboMealBuilder({ recipes, onClose }) {
             onChange={(event) => setChanged((current) => ({ ...current, notes: event.target.value }))}
           />
         </label>
+        <label>
+          Combo-meal hero assignment
+          <input
+            type="text"
+            value={record.heroImage || ""}
+            onChange={(event) => setChanged((current) => ({ ...current, heroImage: event.target.value }))}
+            placeholder="images/dinner-combinations/meal-002.webp"
+          />
+        </label>
+        <label>
+          Freezer life
+          <input
+            type="text"
+            value={record.freezerLife || ""}
+            onChange={(event) => setChanged((current) => ({ ...current, freezerLife: event.target.value }))}
+          />
+        </label>
+        <label>
+          Oven instructions
+          <textarea
+            rows="2"
+            value={record.ovenInstructions || ""}
+            onChange={(event) => setChanged((current) => ({ ...current, ovenInstructions: event.target.value }))}
+          />
+        </label>
+        <label>
+          Microwave instructions
+          <textarea
+            rows="2"
+            value={record.microwaveInstructions || ""}
+            onChange={(event) => setChanged((current) => ({ ...current, microwaveInstructions: event.target.value }))}
+          />
+        </label>
+        <label>
+          Grocery / planner notes
+          <textarea
+            rows="2"
+            value={record.groceryNotes || ""}
+            onChange={(event) => setChanged((current) => ({ ...current, groceryNotes: event.target.value }))}
+          />
+        </label>
       </section>
 
       <div className="comboBuilderRecordActions">
-        <button type="button" className="primary" onClick={saveDraft}>Save Draft</button>
-        <button type="button" onClick={duplicateMeal}>Duplicate Meal</button>
+        <button type="button" className="primary" onClick={saveDraft}>Save Changes</button>
+        <button type="button" onClick={duplicateMeal}>Save as New Combo</button>
+        <button type="button" onClick={() => setShowOfficialPreview(true)}>Preview Meal</button>
+        <button type="button" onClick={recalculateNutrition}>Recalculate Nutrition</button>
+        <button type="button" onClick={flagHeroForReprocessing}>Flag Hero for Reprocessing</button>
+        <button type="button" onClick={revertChanges}>Cancel / Revert Changes</button>
         <button type="button" onClick={clearMeal}>Clear Meal</button>
-        <button type="button" className="danger" onClick={deleteDraft}>Delete Draft</button>
+        <button type="button" className="danger" onClick={deleteDraft}>
+          {record.publicMealId ? "Remove Saved Edits" : "Delete Draft"}
+        </button>
       </div>
       <label className="comboBuilderDuplicateOverride">
         <input
@@ -1310,6 +1675,7 @@ export default function AdminComboMealBuilder({ recipes, onClose }) {
               onActivate={setActiveSlot}
               onRemove={removeSelection}
               onPortion={updatePortion}
+              onServingText={updateServingText}
               onDropRecipe={dropRecipe}
             />
           ))}
@@ -1479,7 +1845,8 @@ export default function AdminComboMealBuilder({ recipes, onClose }) {
           </div>
         </div>
         <div className="comboBuilderActionGrid">
-          <button type="button" onClick={exportLibrary}>Export Combo-Meal Library</button>
+          <button type="button" className="primary" onClick={exportUpdatedPublicLibrary}>Export Updated Public Library</button>
+          <button type="button" onClick={exportLibrary}>Export Manager Backup</button>
           <button type="button" onClick={() => libraryInputRef.current?.click()}>Import Combo-Meal Library</button>
           <button type="button" onClick={exportWebsitePackage}>Export Website Update Package</button>
         </div>

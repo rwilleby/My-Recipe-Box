@@ -13,6 +13,7 @@
 }
 
 .comboBuilderPageHeader,
+.comboBuilderManagerLookup,
 .comboBuilderToolbar,
 .comboBuilderIdentity,
 .comboBuilderPreview,
@@ -51,6 +52,43 @@
   font-size: 11px;
   font-weight: 800;
   letter-spacing: .09em;
+}
+
+.comboBuilderManagerLookup {
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) minmax(320px, 1fr);
+  gap: 24px;
+  align-items: end;
+  margin-bottom: 14px;
+  padding: 18px 22px;
+}
+
+.comboBuilderManagerLookup h2 {
+  margin: 4px 0 6px;
+  font-family: Georgia, serif;
+}
+
+.comboBuilderManagerLookup p {
+  margin: 0;
+  color: #4f5a52;
+}
+
+.comboBuilderManagerLookup label {
+  display: grid;
+  gap: 7px;
+  color: #36413a;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.comboBuilderLookupRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+}
+
+.comboBuilderLookupRow button {
+  white-space: nowrap;
 }
 
 .comboBuilderToolbar {
@@ -603,6 +641,7 @@
 }
 
 @media (max-width: 1050px) {
+  .comboBuilderManagerLookup,
   .comboBuilderToolbar,
   .comboBuilderIdentity {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -629,6 +668,7 @@
   }
 
   .comboBuilderToolbar,
+  .comboBuilderManagerLookup,
   .comboBuilderIdentity,
   .comboBuilderSelectionGrid,
   .comboBuilderPreviewDetails,
