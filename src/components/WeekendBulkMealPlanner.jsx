@@ -7,11 +7,11 @@ const STORAGE_KEY = "rrb_weekendBulkMealPlanner_v1";
 const PLAN_TYPES = [
   { key: "ALL", label: "All Recipes", icon: "images/icons/AL.png" },
   { key: "FAVORITES", label: "Your Favorites", icon: "images/icons/favorites.webp" },
-  { key: "SG", label: "Smoked & Grilled Meats", icon: "images/icons/SG.webp" },
+  { key: "SG", label: "Meats", icon: "images/icons/SG.webp" },
   { key: "CP", label: "Crock Pot Meals", icon: "images/icons/CP-bulk.png" },
   { key: "CS", label: "Casseroles", icon: "images/icons/CS.webp" },
   { key: "SD", label: "Side Dishes", icon: "images/icons/SD.webp" },
-  { key: "DS", label: "Desserts", icon: "images/icons/DS.webp" },
+  { key: "DS", label: "Desserts", icon: "images/icons/DS-bulk.png" },
 ];
 
 const ALLOWED_RECIPE_CODES = new Set(["SG", "CP", "CS", "SD", "DS"]);

@@ -37804,3 +37804,24 @@ body.rrbPopupOpen {
 
 /* Do not apply any new font overrides to Nutrition Facts. */
 
+/* ================================================================
+   VERSION 55.1 — FULL-FRAME FEATURED COMBO HEROES
+   Preserve the full 4:3 meal image so the craft-container rim remains
+   visible inside the existing homepage card dimensions.
+   ================================================================ */
+.homeComboMealImage,
+.homeComboMealImageCrossfadeStage{
+  background:#f6f2e8!important;
+}
+
+.homeComboMealImage .homeComboMealImageAsset,
+.homeComboMealImage img,
+.homeComboMealImageCrossfadeStage .homeComboMealImageAsset{
+  object-fit:contain!important;
+  object-position:center!important;
+  transform:none!important;
+}
+
+.homeComboMealCard:hover .homeComboMealImageAsset{
+  transform:none!important;
+}

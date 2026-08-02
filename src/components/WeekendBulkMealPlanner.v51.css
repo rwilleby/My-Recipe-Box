@@ -146,3 +146,33 @@
     grid-template-columns:repeat(2,minmax(0,1fr));
   }
 }
+
+/* Version 55.1: equal Plan & Cook columns and full-frame recipe heroes. */
+.weekendBulkIntro{
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+}
+
+.weekendBulkCatalogCard>img,
+.weekendBulkPlanThumb img{
+  object-fit:contain!important;
+  object-position:center!important;
+  background:#f6f2e8!important;
+}
+
+@media(max-width:1150px){
+  .weekendBulkIntro{
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+  }
+}
+
+@media(max-width:780px){
+  .weekendBulkIntro{
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+  }
+}
+
+@media(max-width:500px){
+  .weekendBulkIntro{
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+  }
+}
