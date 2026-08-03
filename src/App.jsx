@@ -10720,7 +10720,6 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard, favorite
   const [addedMessage, setAddedMessage] = useState("");
   const [mealImageIndex, setMealImageIndex] = useState(0);
   const [mealImageFailed, setMealImageFailed] = useState(false);
-  const [heatingNotesOpen, setHeatingNotesOpen] = useState(false);
   const [lastMade, setLastMade] = useState(() => {
     const cookedRecipes = loadJSON("rrb_cookedRecipes", {});
     return cookedRecipes && typeof cookedRecipes === "object" && !Array.isArray(cookedRecipes)
@@ -10829,7 +10828,7 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard, favorite
       observer?.disconnect();
       window.removeEventListener("resize", updateDinnerCardScale);
     };
-  }, [meal, activeRecipePopup, addedMessage, heatingNotesOpen, lastMade, mealImageFailed, mealImageIndex]);
+  }, [meal, activeRecipePopup, addedMessage, lastMade, mealImageFailed, mealImageIndex]);
 
   return (
     <div
@@ -10954,20 +10953,10 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard, favorite
 
         <section className="dinnerArea dinnerAreaActions dinnerAreaActionsExpanded">
           <section className="dinnerCombinationHeatingPanel" aria-label={`Heating and freezer notes for ${meal.title}`}>
-            <button
-              type="button"
-              className="dinnerCombinationHeatingToggle"
-              aria-expanded={heatingNotesOpen}
-              aria-controls={`${meal.id}-heating-notes`}
-              onClick={() => setHeatingNotesOpen((current) => !current)}
-            >
-              <span>Heating &amp; Freezer Notes</span>
-              <span aria-hidden="true">{heatingNotesOpen ? "−" : "+"}</span>
-            </button>
+            <h4>Heating &amp; Freezer Notes</h4>
             <div
               id={`${meal.id}-heating-notes`}
               className="dinnerCombinationHeatingPanelGrid"
-              hidden={!heatingNotesOpen}
             >
               <p>
                 <span>Freezer Life</span>

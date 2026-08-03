@@ -38217,3 +38217,128 @@ body.rrbPopupOpen {
 .homeComboMealCard:hover .homeComboMealImageAsset{
   transform:none!important;
 }
+
+/* ================================================================
+   VERSION 59.2 — DINNER COMBO-MEAL CARD REBALANCE
+   20% hero / 40% title / 40% nutrition, compact five-component
+   title area, full-frame recipe heroes, and scrolling heating notes.
+   ================================================================ */
+
+.dinnerCombinationScaleCard .dinnerCombinationAreaLayout {
+  grid-template-columns: 300px 600px 600px !important;
+}
+
+.dinnerCombinationScaleCard .dinnerAreaPhoto,
+.dinnerCombinationScaleCard .dinnerAreaPhoto .dinnerCombinationMedia {
+  width: 300px !important;
+}
+
+.dinnerCombinationScaleCard .dinnerAreaName {
+  padding: 17px 24px 12px !important;
+}
+
+.dinnerCombinationScaleCard .dinnerAreaName h3,
+.dinnerCombinationScaleCard .dinnerCombinationCard h3 {
+  margin: 0 0 5px !important;
+  font-size: 43.35px !important;
+  line-height: 1.02 !important;
+}
+
+.dinnerCombinationScaleCard .dinnerAreaName .dinnerCombinationSubtitle {
+  display: -webkit-box !important;
+  min-height: 39px !important;
+  max-height: 39px !important;
+  margin: 0 0 5px !important;
+  overflow: hidden !important;
+  font-size: 17px !important;
+  line-height: 1.15 !important;
+  white-space: normal !important;
+  text-overflow: clip !important;
+  -webkit-box-orient: vertical !important;
+  -webkit-line-clamp: 2 !important;
+}
+
+.dinnerCombinationScaleCard .dinnerAreaName .comboMealBalanceDetails {
+  margin: 0 0 4px !important;
+}
+
+.dinnerCombinationScaleCard .dinnerAreaName .dinnerCombinationStackedMeal {
+  gap: 1px !important;
+}
+
+.dinnerCombinationScaleCard .dinnerAreaName .dinnerCombinationStackedMeal p {
+  min-height: 23px !important;
+  line-height: 1 !important;
+}
+
+.dinnerCombinationScaleCard .dinnerAreaName .dinnerCombinationStackedMeal strong,
+.dinnerCombinationScaleCard .dinnerAreaName .dinnerCombinationStackedMeal small {
+  line-height: 1 !important;
+}
+
+.dinnerCombinationScaleCard .dinnerAreaNutrition {
+  padding-left: 22px !important;
+  padding-right: 22px !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationNutritionLabel {
+  font-size: 19px !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationNutritionExpanded strong {
+  font-size: 27px !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationNutritionExpanded small {
+  font-size: 16px !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationRecipeButtonGrid > div > button .dinnerRecipeHero {
+  height: auto !important;
+  aspect-ratio: 4 / 3 !important;
+}
+
+.dinnerCombinationScaleCard .dinnerRecipeHero img {
+  object-fit: contain !important;
+}
+
+.dinnerCombinationScaleCard .dinnerAreaActionsExpanded {
+  grid-template-rows: minmax(0, 1fr) auto auto !important;
+}
+
+.dinnerCombinationScaleCard .dinnerAreaActionsExpanded .dinnerCombinationHeatingPanel {
+  padding: 14px 16px !important;
+  overflow-y: auto !important;
+  overscroll-behavior: contain !important;
+  scrollbar-gutter: stable !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationHeatingPanel h4 {
+  margin: 0 0 10px !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationHeatingPanelGrid {
+  display: grid !important;
+  max-height: none !important;
+  padding: 0 !important;
+  overflow: visible !important;
+}
+
+.dinnerCombinationScaleCard .dinnerAreaActionsExpanded .dinnerCombinationPlannerAdd {
+  align-items: end !important;
+}
+
+.dinnerCombinationScaleCard .dinnerAreaActionsExpanded .dinnerCombinationPlannerAdd label {
+  align-self: stretch !important;
+}
+
+.dinnerCombinationScaleCard .dinnerAreaActionsExpanded .dinnerCombinationPlannerAdd > button {
+  align-self: end !important;
+  min-height: 42px !important;
+  height: 42px !important;
+}
+
+.dinnerCombinationScaleCard .dinnerAreaActionsExpanded .dinnerCombinationPlannerAdd select {
+  min-height: 42px !important;
+  height: 42px !important;
+}
