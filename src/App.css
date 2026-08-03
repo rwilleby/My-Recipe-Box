@@ -36598,6 +36598,213 @@ body.rrbPopupOpen {
 }
 
 /* ================================================================
+   VERSION 59.1 — DINNER COMBO-MEAL CARD USABILITY
+   Keeps all five components visible, adds recipe heroes, converts
+   heating notes to an accordion, and records the last-made date.
+   ================================================================ */
+
+.dinnerCombinationScaleCard .dinnerAreaName .dinnerCombinationSubtitle {
+  margin: 0 0 6px !important;
+  font-size: 20px !important;
+  line-height: 1.12 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.dinnerCombinationScaleCard .dinnerAreaName .comboMealBalanceDetails {
+  margin: 0 0 7px !important;
+}
+
+.dinnerCombinationScaleCard .dinnerAreaName .dinnerCombinationStackedMeal {
+  gap: 3px !important;
+  margin-top: 0 !important;
+}
+
+.dinnerCombinationScaleCard .dinnerAreaName .dinnerCombinationStackedMeal p {
+  min-height: 27px !important;
+}
+
+.dinnerCombinationScaleCard .dinnerAreaActionsExpanded {
+  grid-template-columns: minmax(0, 2fr) minmax(430px, 1fr) !important;
+  grid-template-rows: auto minmax(0, 1fr) auto !important;
+  grid-template-areas:
+    "recipes heating"
+    "recipes lastmade"
+    "recipes planner" !important;
+}
+
+.dinnerCombinationScaleCard .dinnerAreaActionsExpanded .dinnerCombinationRecipeButtons {
+  display: flex !important;
+  flex-direction: column !important;
+  min-height: 0 !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationRecipeButtonGrid {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationRecipeButtonGrid > div,
+.dinnerCombinationScaleCard .dinnerCombinationRecipeButtonGrid > div > button {
+  min-height: 292px !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationRecipeButtonGrid > div > button {
+  justify-content: flex-start !important;
+  gap: 7px !important;
+  padding: 10px 8px 12px !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationRecipeButtonGrid > div > button .dinnerRecipeHero {
+  display: block !important;
+  width: 100% !important;
+  height: 148px !important;
+  margin: 0 0 5px !important;
+  overflow: hidden !important;
+  border-radius: 7px !important;
+  background: #f1eee6 !important;
+}
+
+.dinnerCombinationScaleCard .dinnerRecipeHero img {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationRecipeButtonGrid > div > button > span:not(.dinnerRecipeHero) {
+  margin: 0 !important;
+  font-size: 14px !important;
+  line-height: 1.05 !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationRecipeButtonGrid > div > button > strong {
+  display: -webkit-box !important;
+  min-height: 43px !important;
+  overflow: hidden !important;
+  font-size: 18px !important;
+  line-height: 1.18 !important;
+  font-weight: 800 !important;
+  -webkit-box-orient: vertical !important;
+  -webkit-line-clamp: 2 !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationRecipeButtonGrid > div > button:disabled .dinnerRecipeHero {
+  opacity: .48 !important;
+}
+
+.dinnerCombinationScaleCard .dinnerAreaActionsExpanded .dinnerCombinationHeatingPanel {
+  grid-area: heating !important;
+  padding: 0 !important;
+  overflow: visible !important;
+  border-bottom: 1px solid #e0e8e2 !important;
+  background: #ffffff !important;
+}
+
+.dinnerCombinationHeatingToggle {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+  min-height: 54px !important;
+  padding: 12px 16px !important;
+  border: 0 !important;
+  background: #f7faf7 !important;
+  color: #667085 !important;
+  font-family: var(--rrb-body-font, Inter, system-ui, sans-serif) !important;
+  font-size: 18px !important;
+  font-weight: 800 !important;
+  letter-spacing: .04em !important;
+  text-transform: uppercase !important;
+  cursor: pointer !important;
+}
+
+.dinnerCombinationHeatingToggle > span:last-child {
+  color: #14532d !important;
+  font-size: 27px !important;
+  font-weight: 500 !important;
+  line-height: 1 !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationHeatingPanelGrid {
+  max-height: 188px !important;
+  padding: 10px 14px 14px !important;
+  overflow-y: auto !important;
+  scrollbar-gutter: stable !important;
+  background: #ffffff !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationHeatingPanelGrid[hidden] {
+  display: none !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationLastMade {
+  grid-area: lastmade !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) 154px auto !important;
+  gap: 9px !important;
+  align-items: center !important;
+  align-self: end !important;
+  padding: 10px 16px !important;
+  border-bottom: 1px solid #e0e8e2 !important;
+  background: #fbfaf7 !important;
+}
+
+.dinnerCombinationLastMade > div {
+  display: grid !important;
+  gap: 2px !important;
+}
+
+.dinnerCombinationLastMade > div > span {
+  color: #667085 !important;
+  font-size: 13px !important;
+  font-weight: 800 !important;
+  letter-spacing: .045em !important;
+  text-transform: uppercase !important;
+}
+
+.dinnerCombinationLastMade > div > strong {
+  color: #1f2937 !important;
+  font-size: 16px !important;
+  white-space: nowrap !important;
+}
+
+.dinnerCombinationLastMade input,
+.dinnerCombinationLastMade button {
+  min-height: 38px !important;
+  box-sizing: border-box !important;
+  border-radius: 7px !important;
+  font-family: inherit !important;
+  font-size: 14px !important;
+}
+
+.dinnerCombinationLastMade input {
+  width: 154px !important;
+  border: 1px solid #ccd8ce !important;
+  background: #ffffff !important;
+  padding: 7px 8px !important;
+  color: #1f2937 !important;
+}
+
+.dinnerCombinationLastMade button {
+  border: 1px solid #14532d !important;
+  background: #ffffff !important;
+  color: #14532d !important;
+  padding: 7px 11px !important;
+  font-weight: 800 !important;
+  white-space: nowrap !important;
+  cursor: pointer !important;
+}
+
+.dinnerCombinationScaleCard .dinnerAreaActionsExpanded .dinnerCombinationPlannerAdd {
+  align-self: end !important;
+  min-height: 88px !important;
+  box-sizing: border-box !important;
+}
+
+/* ================================================================
    VERSION 36.1 — LOCK STANDARD RECIPE LISTS TO THREE DESKTOP COLUMNS
    Applies to Browse Recipe Library, cuisine/category collections,
    filtered recipe lists, GLP-1 collections, and Favorites.

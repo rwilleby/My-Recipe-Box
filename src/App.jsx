@@ -10680,6 +10680,38 @@ function MealBalanceGuidePage({ setActivePage }) {
   );
 }
 
+function DinnerRecipeHero({ recipe, label }) {
+  const candidates = useMemo(() => {
+    if (!recipe?.id) return ["images/recipes/AM-000.webp"];
+
+    return [
+      `images/thumbs/heroes/${recipe.id}.webp`,
+      ...heroFoodImageCandidates(recipe),
+      "images/recipes/AM-000.webp",
+    ].filter((candidate, index, list) => candidate && list.indexOf(candidate) === index);
+  }, [recipe]);
+  const [imageIndex, setImageIndex] = useState(0);
+
+  useEffect(() => setImageIndex(0), [recipe?.id]);
+
+  return (
+    <img
+      src={`${import.meta.env.BASE_URL}${candidates[imageIndex]}`}
+      alt={recipe ? `${recipe.title} recipe hero` : `${label} recipe hero not available`}
+      loading="lazy"
+      decoding="async"
+      onError={() => setImageIndex((current) => Math.min(current + 1, candidates.length - 1))}
+    />
+  );
+}
+
+function formatDinnerLastMade(value) {
+  if (!value) return "Not recorded";
+  const date = new Date(`${value}T12:00:00`);
+  if (Number.isNaN(date.getTime())) return "Not recorded";
+  return date.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
+}
+
 function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard, favorites, toggleFavorite }) {
   const preparedRequirements = getComboPreparedRequirements(meal);
 
@@ -10688,6 +10720,13 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard, favorite
   const [addedMessage, setAddedMessage] = useState("");
   const [mealImageIndex, setMealImageIndex] = useState(0);
   const [mealImageFailed, setMealImageFailed] = useState(false);
+  const [heatingNotesOpen, setHeatingNotesOpen] = useState(false);
+  const [lastMade, setLastMade] = useState(() => {
+    const cookedRecipes = loadJSON("rrb_cookedRecipes", {});
+    return cookedRecipes && typeof cookedRecipes === "object" && !Array.isArray(cookedRecipes)
+      ? cookedRecipes[meal.id] || ""
+      : "";
+  });
   const dinnerScaleFrameRef = useRef(null);
   const dinnerScaleCardRef = useRef(null);
   const [dinnerCardScale, setDinnerCardScale] = useState(1);
@@ -10719,6 +10758,20 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard, favorite
     onAddMealToPlan(meal.id, selectedPlannerDay);
     setAddedMessage(`Added to ${plannerSlotLabel(selectedPlannerDay)}.`);
     window.setTimeout(() => setAddedMessage(""), 2600);
+  }
+
+  function saveLastMade(value) {
+    const cookedRecipes = loadJSON("rrb_cookedRecipes", {});
+    const nextCookedRecipes =
+      cookedRecipes && typeof cookedRecipes === "object" && !Array.isArray(cookedRecipes)
+        ? { ...cookedRecipes }
+        : {};
+
+    if (value) nextCookedRecipes[meal.id] = value;
+    else delete nextCookedRecipes[meal.id];
+
+    saveJSON("rrb_cookedRecipes", nextCookedRecipes);
+    setLastMade(value);
   }
 
   function findLinkedRecipe(recipeId) {
@@ -10776,7 +10829,7 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard, favorite
       observer?.disconnect();
       window.removeEventListener("resize", updateDinnerCardScale);
     };
-  }, [meal, activeRecipePopup, addedMessage, mealImageFailed, mealImageIndex]);
+  }, [meal, activeRecipePopup, addedMessage, heatingNotesOpen, lastMade, mealImageFailed, mealImageIndex]);
 
   return (
     <div
@@ -10901,8 +10954,21 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard, favorite
 
         <section className="dinnerArea dinnerAreaActions dinnerAreaActionsExpanded">
           <section className="dinnerCombinationHeatingPanel" aria-label={`Heating and freezer notes for ${meal.title}`}>
-            <h4>Heating &amp; Freezer Notes</h4>
-            <div className="dinnerCombinationHeatingPanelGrid">
+            <button
+              type="button"
+              className="dinnerCombinationHeatingToggle"
+              aria-expanded={heatingNotesOpen}
+              aria-controls={`${meal.id}-heating-notes`}
+              onClick={() => setHeatingNotesOpen((current) => !current)}
+            >
+              <span>Heating &amp; Freezer Notes</span>
+              <span aria-hidden="true">{heatingNotesOpen ? "−" : "+"}</span>
+            </button>
+            <div
+              id={`${meal.id}-heating-notes`}
+              className="dinnerCombinationHeatingPanelGrid"
+              hidden={!heatingNotesOpen}
+            >
               <p>
                 <span>Freezer Life</span>
                 <strong>{meal.freezerLife || "No freezer guidance listed."}</strong>
@@ -10935,8 +11001,11 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard, favorite
                       disabled={!button.recipeId}
                       title={hasRecipeMatch ? `Preview ${linkedRecipe.title}` : "Recipe card not linked yet"}
                     >
+                      <span className="dinnerRecipeHero">
+                        <DinnerRecipeHero recipe={linkedRecipe} label={button.label} />
+                      </span>
                       <span>{button.type}</span>
-                      {button.label}
+                      <strong>{button.label}</strong>
                     </button>
 
                     {isOpen && (
@@ -10994,6 +11063,25 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard, favorite
             </label>
             <button type="button" onClick={addThisMealToPlan}>Add Meal</button>
             {addedMessage && <p className="dinnerCombinationAddedMessage">{addedMessage}</p>}
+          </section>
+
+          <section className="dinnerCombinationLastMade" aria-label={`Last made date for ${meal.title}`}>
+            <div>
+              <span>Last Made</span>
+              <strong>{formatDinnerLastMade(lastMade)}</strong>
+            </div>
+            <label>
+              <input
+                type="date"
+                aria-label={`Choose the last made date for ${meal.title}`}
+                value={lastMade}
+                max={new Date().toISOString().slice(0, 10)}
+                onChange={(event) => saveLastMade(event.target.value)}
+              />
+            </label>
+            <button type="button" onClick={() => saveLastMade(new Date().toISOString().slice(0, 10))}>
+              Made Today
+            </button>
           </section>
         </section>
       </div>
