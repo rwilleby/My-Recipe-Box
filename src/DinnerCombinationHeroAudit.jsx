@@ -71,17 +71,20 @@ function ImageChooser({
   selectedPath,
   mealReference,
   recipes,
-  onChoose,
+  onSelect,
+  onSave,
   onClose,
 }) {
   const [query, setQuery] = useState("");
   const [sourceFilter, setSourceFilter] = useState(role === "combo" ? "Combo Hero" : "Dedicated Hero");
+  const [saveStatus, setSaveStatus] = useState("");
   const chooserBodyRef = useRef(null);
 
   useEffect(() => {
     if (!open) return;
     setQuery("");
     setSourceFilter(role === "combo" ? "Combo Hero" : "Dedicated Hero");
+    setSaveStatus("");
     window.requestAnimationFrame(() => {
       if (chooserBodyRef.current) chooserBodyRef.current.scrollTop = 0;
     });
@@ -100,6 +103,18 @@ function ImageChooser({
     const matchesQuery = !normalizedQuery || `${item.code} ${item.name} ${recipeName} ${item.source}`.toLowerCase().includes(normalizedQuery);
     return matchesSource && matchesQuery;
   });
+  const hasCorrection = Boolean(selectedPath && selectedPath !== currentPath);
+
+  function selectImage(path) {
+    setSaveStatus("");
+    onSelect(path);
+  }
+
+  function saveCorrection() {
+    if (!hasCorrection) return;
+    onSave(selectedPath);
+    setSaveStatus("Correction Saved");
+  }
 
   return (
     <div className="dcChooserOverlay" onMouseDown={onClose}>
@@ -129,7 +144,9 @@ function ImageChooser({
         </header>
 
         <div className="dcChooserTopActions">
-          <button type="button" onClick={() => onChoose("")}>Keep Current Image</button>
+          <button type="button" onClick={() => selectImage("")}>Keep Current Image</button>
+          <button type="button" className="saveCorrection" onClick={saveCorrection} disabled={!hasCorrection}>Save Correction</button>
+          <span className="dcCorrectionSaved" role="status" aria-live="polite">{saveStatus}</span>
           <button type="button" className="primary" onClick={onClose}>Done</button>
         </div>
 
@@ -185,7 +202,7 @@ function ImageChooser({
                   type="button"
                   className={selectedPath === item.path ? "selected" : ""}
                   key={item.path}
-                  onClick={() => onChoose(item.path)}
+                  onClick={() => selectImage(item.path)}
                 >
                   <img src={assetUrl(item.path)} alt={`${item.code}${recipeName ? ` ${recipeName}` : ""} ${item.source}`} loading="lazy" />
                   <span>{item.displayName || item.name}</span>
@@ -201,7 +218,9 @@ function ImageChooser({
         </div>
 
         <footer>
-          <button type="button" onClick={() => onChoose("")}>Keep Current Image</button>
+          <button type="button" onClick={() => selectImage("")}>Keep Current Image</button>
+          <button type="button" className="saveCorrection" onClick={saveCorrection} disabled={!hasCorrection}>Save Correction</button>
+          <span className="dcCorrectionSaved" role="status" aria-live="polite">{saveStatus}</span>
           <button type="button" className="primary" onClick={onClose}>Done</button>
         </footer>
       </section>
@@ -280,7 +299,7 @@ export default function DinnerCombinationHeroAudit({ dinnerCombinations = [], re
     });
   }
 
-  function exportRows() {
+  function exportCheckedRows() {
     const output=[];
     rows.forEach((row) => {
       const saved=state[row.key] || {};
@@ -302,13 +321,56 @@ export default function DinnerCombinationHeroAudit({ dinnerCombinations = [], re
     return output;
   }
   function exportCsv() {
-    const output=exportRows();
+    const output=exportCheckedRows();
     const headers=["Meal Number","Meal ID","Meal Title","Image Role","Recipe Code","Recipe Name","Original Hero","Approved Hero","Status","Meal Checked","Checked Date","Notes"];
     const keys=["mealNumber","mealId","mealTitle","imageRole","recipeCode","recipeName","originalHero","approvedHero","status","mealChecked","checkedDate","notes"];
     const csv=[headers.map(csvCell).join(","),...output.map((r)=>keys.map((k)=>csvCell(r[k])).join(","))].join("\r\n");
     downloadText(`hero-audit-corrections-${new Date().toISOString().slice(0,10)}.csv`,csv,"text/csv;charset=utf-8");
   }
-  function exportJson() { downloadText(`hero-audit-corrections-${new Date().toISOString().slice(0,10)}.json`,JSON.stringify(exportRows(),null,2),"application/json"); }
+  function exportJson() { downloadText(`hero-audit-corrections-${new Date().toISOString().slice(0,10)}.json`,JSON.stringify(exportCheckedRows(),null,2),"application/json"); }
+
+  function savedCorrectionRows() {
+    const output=[];
+    rows.forEach((row) => {
+      const saved=state[row.key] || {};
+      const defs={
+        combo:{code:"",title:row.meal.title,current:comboImagePath(row.meal)},
+        main:{code:codeOf(row.main),title:nameOf(row.main),current:recipeImagePath(row.main)},
+        side1:{code:codeOf(row.side1),title:nameOf(row.side1),current:recipeImagePath(row.side1)},
+        side2:{code:codeOf(row.side2),title:nameOf(row.side2),current:recipeImagePath(row.side2)},
+        side3:{code:codeOf(row.side3),title:nameOf(row.side3),current:recipeImagePath(row.side3)},
+        side4:{code:codeOf(row.side4),title:nameOf(row.side4),current:recipeImagePath(row.side4)},
+      };
+      PANEL_ROLES.forEach((role) => {
+        const rec=saved.panels?.[role] || {};
+        if (!rec.selectedPath) return;
+        const d=defs[role];
+        output.push({
+          mealNumber:row.meal.number,
+          mealId:row.key,
+          mealTitle:row.meal.title,
+          imageRole:ROLE_LABELS[role],
+          recipeCode:d.code,
+          recipeName:d.title,
+          originalHero:rec.originalPath || d.current,
+          correctedHero:rec.selectedPath,
+          savedDate:rec.savedAt || "Saved before Version 61.1",
+          mealChecked:saved.checked ? "Yes" : "No",
+          notes:saved.notes || "",
+        });
+      });
+    });
+    return output;
+  }
+
+  const savedCorrectionCount = savedCorrectionRows().length;
+  function exportSavedCorrections() {
+    downloadText(
+      `hero-saved-corrections-${new Date().toISOString().slice(0,10)}.json`,
+      JSON.stringify(savedCorrectionRows(),null,2),
+      "application/json",
+    );
+  }
 
   return (
     <main className="pageShell dcAssignmentPage">
@@ -316,7 +378,7 @@ export default function DinnerCombinationHeroAudit({ dinnerCombinations = [], re
       <section className="dcAssignmentToolbar">
         <label><span>Search</span><input type="search" value={search} onChange={(e)=>setSearch(e.target.value)} placeholder="Meal, recipe name, or code" /></label>
         <label><span>Show</span><select value={filter} onChange={(e)=>setFilter(e.target.value)}><option value="all">All meals</option><option value="unchecked">Unchecked</option><option value="checked">Checked</option><option value="wrong">Wrong / replacement</option><option value="unreviewed">Unreviewed images</option></select></label>
-        <button type="button" onClick={exportCsv}>Export Checked CSV</button><button type="button" onClick={exportJson}>Export Checked JSON</button>
+        <button type="button" onClick={exportSavedCorrections} disabled={!savedCorrectionCount}>Export Saved Corrections JSON ({savedCorrectionCount})</button><button type="button" onClick={exportCsv}>Export Checked CSV</button><button type="button" onClick={exportJson}>Export Checked JSON</button>
       </section>
       <div className="dcAssignmentCount">{visible.length} of {rows.length} meals shown · {rows.filter((r)=>state[r.key]?.checked).length} checked</div>
       <section className="dcAssignmentRows">
@@ -337,7 +399,7 @@ export default function DinnerCombinationHeroAudit({ dinnerCombinations = [], re
           </article>;
         })}
       </section>
-      <ImageChooser open={Boolean(chooser)} role={chooser?.role} title={chooser?.title || ""} currentPath={chooser?.currentPath || ""} selectedPath={chooser?.selectedPath || ""} mealReference={chooser?.mealReference} recipes={recipes} onChoose={(path)=>{ if(!chooser)return; patchPanel(chooser.rowKey,chooser.role,{selectedPath:path,status:path ? "replacement" : "correct"}); if (chooser.role !== "combo") saveRecipeHeroOverride(chooser.code, path); setChooser((c)=>({...c,selectedPath:path,currentPath:path || c.currentPath})); }} onClose={()=>setChooser(null)} />
+      <ImageChooser open={Boolean(chooser)} role={chooser?.role} title={chooser?.title || ""} currentPath={chooser?.currentPath || ""} selectedPath={chooser?.selectedPath || ""} mealReference={chooser?.mealReference} recipes={recipes} onSelect={(path)=>setChooser((current)=>current ? ({...current,selectedPath:path}) : current)} onSave={(path)=>{ if(!chooser || !path)return; patchPanel(chooser.rowKey,chooser.role,{selectedPath:path,status:"replacement",originalPath:chooser.currentPath,savedAt:new Date().toISOString()}); if (chooser.role !== "combo") saveRecipeHeroOverride(chooser.code, path); }} onClose={()=>setChooser(null)} />
     </main>
   );
 }
