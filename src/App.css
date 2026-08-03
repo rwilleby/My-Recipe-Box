@@ -38342,3 +38342,85 @@ body.rrbPopupOpen {
   min-height: 42px !important;
   height: 42px !important;
 }
+
+/* ================================================================
+   VERSION 60.1 — DINNER COMBO-MEAL VIEWPORT CONTAINMENT
+   Keep the complete 1,500 px design canvas inside the visible page.
+   Fractions account for grid gaps and card padding, unlike fixed pixel
+   columns, which previously pushed the right-side controls off-screen.
+   ================================================================ */
+
+.dinnerCombinationsPage,
+.dinnerCombinationGrid,
+.dinnerCombinationGrid--grid,
+.dinnerCombinationScaleFrame {
+  min-width: 0 !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.dinnerCombinationsPage,
+.dinnerCombinationGrid,
+.dinnerCombinationGrid--grid {
+  overflow-x: clip !important;
+}
+
+.dinnerCombinationScaleFrame {
+  justify-self: stretch !important;
+  overflow: hidden !important;
+}
+
+/* Exact 20% / 40% / 40% balance after padding and gaps are deducted. */
+.dinnerCombinationScaleCard .dinnerCombinationAreaLayout {
+  width: 100% !important;
+  grid-template-columns:
+    minmax(0, 1fr)
+    minmax(0, 2fr)
+    minmax(0, 2fr) !important;
+  box-sizing: border-box !important;
+}
+
+.dinnerCombinationScaleCard .dinnerAreaPhoto,
+.dinnerCombinationScaleCard .dinnerAreaPhoto .dinnerCombinationMedia {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
+
+/* 60% Recipe Cards / 40% right-side controls, within the same canvas. */
+.dinnerCombinationScaleCard .dinnerAreaActionsExpanded {
+  width: 100% !important;
+  min-width: 0 !important;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr) !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationRecipeButtons,
+.dinnerCombinationScaleCard .dinnerCombinationHeatingPanel,
+.dinnerCombinationScaleCard .dinnerCombinationLastMade,
+.dinnerCombinationScaleCard .dinnerCombinationPlannerAdd {
+  min-width: 0 !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationRecipeButtonGrid {
+  width: 100% !important;
+  min-width: 0 !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationRecipeButtonGrid > div,
+.dinnerCombinationScaleCard .dinnerCombinationRecipeButtonGrid > div > button {
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationLastMade {
+  grid-template-columns: minmax(0, 1fr) minmax(132px, 154px) auto !important;
+  overflow: hidden !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationPlannerAdd {
+  overflow: hidden !important;
+}

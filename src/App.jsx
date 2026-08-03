@@ -10803,10 +10803,16 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard, favorite
     const baseWidth = 1500;
 
     const updateDinnerCardScale = () => {
-      const availableWidth = frame.clientWidth;
+      const viewportWidth = document.documentElement.clientWidth || window.innerWidth;
+      const frameRect = frame.getBoundingClientRect();
+      const visibleViewportWidth = Math.max(
+        1,
+        viewportWidth - Math.max(0, frameRect.left) - 12
+      );
+      const availableWidth = Math.min(frame.clientWidth, visibleViewportWidth);
       if (!availableWidth) return;
 
-      const nextScale = availableWidth / baseWidth;
+      const nextScale = Math.min(1, availableWidth / baseWidth);
       const naturalHeight = card.scrollHeight;
 
       setDinnerCardScale(nextScale);
