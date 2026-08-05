@@ -111,8 +111,15 @@ export function adaptCompleteDinnerForLegacyUi(dinner, recipes = []) {
     id: dinner.legacyId,
     rfisId: dinner.id,
     number: dinner.number,
-    image: dinner.hero?.image || `images/dinner-combinations/meal-${String(dinner.number).padStart(3, "0")}.webp`,
-    thumbnail: dinner.hero?.thumbnail || "",
+    // Do not expose a hero path until the replacement image has been formally approved.
+    // This prevents legacy MEAL-### files from appearing against newly rebuilt dinners.
+    heroAvailable: ["approved", "published"].includes(String(dinner.hero?.status || "").toLowerCase()),
+    image: ["approved", "published"].includes(String(dinner.hero?.status || "").toLowerCase())
+      ? (dinner.hero?.image || `images/dinner-combinations/MEAL-${String(dinner.number).padStart(3, "0")}.webp`)
+      : "",
+    thumbnail: ["approved", "published"].includes(String(dinner.hero?.status || "").toLowerCase())
+      ? (dinner.hero?.thumbnail || "")
+      : "",
     title: entree?.title || dinner.title.replace(/\s+Complete Dinner$/i, ""),
     subtitle: sideNames.length ? `With ${sideNames.join(" & ")}` : "Complete Dinner",
     mainDish: entree?.title || dinner.title,
