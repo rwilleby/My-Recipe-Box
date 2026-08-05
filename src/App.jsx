@@ -24,6 +24,7 @@ import {
   dinnerCombinations,
   getDinnerCombinationSearchText,
 } from "./data/dinnerCombinations.js";
+import { createCompleteDinnerEngine } from "./services/completeDinnerEngine.js";
 import { getRecipeCostEstimate, RECIPE_COST_NOTE, RECIPE_COST_TAGLINE } from "./data/recipeCosts";
 import {
   REFRIGERATOR_CATEGORIES,
@@ -61,6 +62,7 @@ import {
 import "./App.css";
 
 const recipes = sortRecipesByCode(applyStoredRecipeOverrides(baseRecipes));
+const completeDinnerEngine = createCompleteDinnerEngine({ recipes });
 
 const STORAGE_KEYS = {
   favorites: "rrb_favorites",
@@ -11093,6 +11095,7 @@ function DinnerCombinationsPage({ setActivePage, setFilter, setPlan, openRecipeC
   const [proteinFilter, setProteinFilter] = useState("all");
   const [sideFilter, setSideFilter] = useState("all");
   const [cuisineFilter, setCuisineFilter] = useState("all");
+  const [collectionFilter, setCollectionFilter] = useState("all");
   const [freezerFilter, setFreezerFilter] = useState("all");
   const [mealBalanceFilter, setMealBalanceFilter] = useState("all");
   const [cookingMethodFilter, setCookingMethodFilter] = useState("all");
@@ -11100,12 +11103,20 @@ function DinnerCombinationsPage({ setActivePage, setFilter, setPlan, openRecipeC
   const [higherProteinOnly, setHigherProteinOnly] = useState(false);
   const [sortMode, setSortMode] = useState("meal-number");
 
+  const completeDinnerCollections = useMemo(() => completeDinnerEngine.listCollections(), []);
+  const rfisSearchMealIds = useMemo(() => {
+    if (!searchTerm.trim()) return null;
+    return new Set(completeDinnerEngine.search(searchTerm).map((dinner) => dinner.legacyId));
+  }, [searchTerm]);
 
   const filteredMeals = useMemo(() => {
-    const normalizedSearch = searchTerm.trim().toLowerCase();
-
     return dinnerCombinations
-      .filter((meal) => !normalizedSearch || getDinnerCombinationSearchText(meal).includes(normalizedSearch))
+      .filter((meal) => !rfisSearchMealIds || rfisSearchMealIds.has(meal.id))
+      .filter((meal) => {
+        if (collectionFilter === "all") return true;
+        const rfisDinner = completeDinnerEngine.getDinner(meal.id);
+        return (rfisDinner?.collections || []).includes(collectionFilter);
+      })
       .filter((meal) => proteinFilter === "all" || (meal.tags || []).includes(proteinFilter))
       .filter((meal) => sideFilter === "all" || (meal.tags || []).includes(sideFilter))
       .filter((meal) => {
@@ -11141,6 +11152,7 @@ function DinnerCombinationsPage({ setActivePage, setFilter, setPlan, openRecipeC
         return Number(a.number) - Number(b.number);
       });
   }, [
+    collectionFilter,
     cookingMethodFilter,
     cuisineFilter,
     freezerFilter,
@@ -11148,7 +11160,7 @@ function DinnerCombinationsPage({ setActivePage, setFilter, setPlan, openRecipeC
     lowerCalorieOnly,
     mealBalanceFilter,
     proteinFilter,
-    searchTerm,
+    rfisSearchMealIds,
     sideFilter,
     sortMode,
   ]);
@@ -11158,6 +11170,7 @@ function DinnerCombinationsPage({ setActivePage, setFilter, setPlan, openRecipeC
     setProteinFilter("all");
     setSideFilter("all");
     setCuisineFilter("all");
+    setCollectionFilter("all");
     setFreezerFilter("all");
     setMealBalanceFilter("all");
     setCookingMethodFilter("all");
@@ -11178,7 +11191,7 @@ function DinnerCombinationsPage({ setActivePage, setFilter, setPlan, openRecipeC
 
   return (
     <main className="pageShell dinnerCombinationsPage">
-      <section className="dinnerCombinationToolbar" aria-label="Dinner combination browsing toolbar">
+      <section className="dinnerCombinationToolbar" aria-label="Complete Dinner browsing toolbar">
         <div className="dinnerToolbarPrimary">
           <label className="dinnerCombinationSearch">
             <span>Search</span>
@@ -11222,6 +11235,18 @@ function DinnerCombinationsPage({ setActivePage, setFilter, setPlan, openRecipeC
               <option value="italian">Italian</option>
               <option value="mexican">Mexican</option>
               <option value="southern">Southern</option>
+            </select>
+          </label>
+
+          <label>
+            <span>Collection</span>
+            <select value={collectionFilter} onChange={(event) => setCollectionFilter(event.target.value)}>
+              <option value="all">All Collections</option>
+              {completeDinnerCollections.map((collection) => (
+                <option key={collection.name} value={collection.name}>
+                  {collection.name} ({collection.count})
+                </option>
+              ))}
             </select>
           </label>
 
@@ -11297,7 +11322,7 @@ function DinnerCombinationsPage({ setActivePage, setFilter, setPlan, openRecipeC
 
       <div className="dinnerCombinationResultsBar">
         <strong>{filteredMeals.length}</strong>
-        <span>{filteredMeals.length === 1 ? "meal combination" : "meal combinations"} shown</span>
+        <span>{filteredMeals.length === 1 ? "Complete Dinner" : "Complete Dinners"} shown</span>
       </div>
 
       {filteredMeals.length > 0 ? (
@@ -11318,7 +11343,7 @@ function DinnerCombinationsPage({ setActivePage, setFilter, setPlan, openRecipeC
         </section>
       ) : (
         <section className="dinnerCombinationEmpty">
-          <h2>No dinner combinations found</h2>
+          <h2>No Complete Dinners found</h2>
           <p>Try clearing a filter or searching for a different main dish or side dish.</p>
         </section>
       )}
