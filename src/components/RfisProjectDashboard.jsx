@@ -5,8 +5,6 @@ import { hasRecipeNutritionRecord } from "../data/recipeNutritionProfiles.js";
 import { RFIS_PROJECT_STATUS } from "../data/rfisProjectStatus.js";
 import "./RfisProjectDashboard.css";
 
-const normalize = (value) => String(value ?? "").trim().toLowerCase();
-
 function MetricCard({ label, value, detail, tone = "neutral" }) {
   return (
     <article className={`rfisMetricCard rfisTone-${tone}`}>
@@ -37,7 +35,9 @@ export default function RfisProjectDashboard({ rfisPlatform, onClose }) {
     const completeDinners = rfisPlatform.completeDinners.all();
     const recipeIds = new Set(rfisPlatform.recipes.all().map((recipe) => recipe.id));
     const nutritionCount = recipes.filter((recipe) => hasRecipeNutritionRecord(recipe.id)).length;
-    const approvedHeroes = completeDinners.filter((dinner) => ["approved", "published"].includes(normalize(dinner.hero?.status))).length;
+    const approvedHeroes = completeDinners.filter((dinner) =>
+      rfisPlatform.heroes.approved(dinner)
+    ).length;
     const missingHeroes = completeDinners.length - approvedHeroes;
 
     const duplicateMap = new Map();
