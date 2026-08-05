@@ -7,6 +7,8 @@ import AdminNutritionDatabase from "./components/AdminNutritionDatabase";
 import RfisProjectDashboard from "./components/RfisProjectDashboard";
 import RecipeIntelligencePanel from "./components/RecipeIntelligencePanel";
 import RfisDinnerBuilder from "./components/RfisDinnerBuilder";
+import RfisUnifiedSearch from "./components/RfisUnifiedSearch";
+import "./components/RfisUnifiedSearch.css";
 import "./components/RfisDinnerBuilder.css";
 import DinnerCombinationHeroAudit from "./DinnerCombinationHeroAudit.jsx";
 import UserDataBackupSection from "./components/UserDataBackupSection";
@@ -1421,6 +1423,7 @@ const NAV_GROUPS = [
     label: "OUR RECIPES",
     items: [
       { label: "BROWSE OUR RECIPE LIBRARY", page: "Recipes" },
+      { label: "SEARCH RECIPES & COMPLETE DINNERS", page: "RFIS Search" },
       { label: "DINNER COMBINATIONS", page: "Dinner Combinations" },
       { label: "QUICK & EASY FREEZER MEALS", page: "Freezer-Friendly Meals", level: 1 },
     ],
@@ -14558,6 +14561,39 @@ These pages are designed to be easy to scan, print, or revisit when needed. They
           <GLP1NutritionPage
             setActivePage={setActivePage}
             setFilter={setFilter}
+          />
+        </>
+      )}
+      {activePage === "RFIS Search" && (
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-page-browse-recipes.webp"
+            alt="Recipe box, prepared dishes, and planning materials for searching recipes and complete dinners"
+            eyebrow="RFIS SEARCH"
+            title="Search Recipes & Complete Dinners"
+            text="Use one search to find individual recipes, verified Complete Dinners, and RFIS collections. Search by title, recipe code, meal number, cuisine, side dish, collection, fresh companion, bread, or garnish."
+            className="pageHeroDepth464"
+          />
+          <RfisUnifiedSearch
+            platform={rfisPlatform}
+            onOpenRecipe={(recipeId) => openRecipeCard(recipeId, recipes, "RFIS Search")}
+            onOpenDinner={(mealId) => {
+              setCompleteDinnerTarget(mealId);
+              setActivePage("Dinner Combinations");
+            }}
+            onOpenCollection={(collectionName) => {
+              setCompleteDinnerTarget("");
+              setActivePage("Dinner Combinations");
+              window.requestAnimationFrame(() => {
+                window.dispatchEvent(
+                  new CustomEvent("rfis:open-complete-dinner-collection", {
+                    detail: { collectionName },
+                  })
+                );
+              });
+            }}
+            onBrowseRecipes={() => setActivePage("Recipes")}
+            onBrowseDinners={() => setActivePage("Dinner Combinations")}
           />
         </>
       )}

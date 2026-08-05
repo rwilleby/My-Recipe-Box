@@ -1,0 +1,208 @@
+.rfisUnifiedSearch {
+  display: grid;
+  gap: 22px;
+  padding-bottom: 48px;
+}
+
+.rfisUnifiedSearchPanel,
+.rfisUnifiedSearchGroup,
+.rfisUnifiedSearchEmpty {
+  background: #fffdf8;
+  border: 1px solid rgba(78, 57, 38, 0.16);
+  border-radius: 22px;
+  box-shadow: 0 14px 34px rgba(71, 50, 31, 0.08);
+}
+
+.rfisUnifiedSearchPanel {
+  padding: 26px 30px;
+}
+
+.rfisUnifiedSearchHeading,
+.rfisUnifiedSearchGroupHeading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.rfisUnifiedSearchHeading h2,
+.rfisUnifiedSearchGroup h3,
+.rfisUnifiedSearchGrid h4,
+.rfisUnifiedSearchEmpty h3 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  color: #4f211e;
+}
+
+.rfisUnifiedSearchHeading > div > span,
+.rfisUnifiedSearchGroupHeading span,
+.rfisUnifiedSearchGrid article > div > span {
+  color: #7a2b2b;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.rfisUnifiedSearchHeading p {
+  margin: 8px 0 0;
+  color: #5c5147;
+  line-height: 1.55;
+}
+
+.rfisUnifiedSearchQuickLinks {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 9px;
+}
+
+.rfisUnifiedSearch button {
+  border: 1px solid rgba(73, 54, 35, 0.24);
+  background: #fff;
+  color: #4f211e;
+  border-radius: 999px;
+  padding: 9px 14px;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.rfisUnifiedSearchField {
+  position: relative;
+  display: grid;
+  gap: 7px;
+  margin-top: 22px;
+  color: #5b4c40;
+  font-weight: 750;
+}
+
+.rfisUnifiedSearchField input {
+  width: 100%;
+  border: 1px solid rgba(74, 54, 36, 0.25);
+  border-radius: 16px;
+  padding: 14px 84px 14px 15px;
+  font: inherit;
+  font-size: 1.05rem;
+  background: #fff;
+}
+
+.rfisUnifiedSearchField button {
+  position: absolute;
+  right: 8px;
+  bottom: 7px;
+  padding: 7px 12px;
+}
+
+.rfisUnifiedSearchTabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 17px;
+}
+
+.rfisUnifiedSearchTabs button.is-active {
+  background: #5b1f24;
+  color: #fff;
+  border-color: #5b1f24;
+}
+
+.rfisUnifiedSearchTabs button span {
+  display: inline-grid;
+  place-items: center;
+  min-width: 22px;
+  margin-left: 5px;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: rgba(127, 96, 55, 0.12);
+  font-size: 0.78rem;
+}
+
+.rfisUnifiedSearchResults {
+  display: grid;
+  gap: 22px;
+}
+
+.rfisUnifiedSearchGroup {
+  padding: 24px;
+}
+
+.rfisUnifiedSearchGroupHeading {
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.rfisUnifiedSearchGroupHeading strong {
+  display: grid;
+  place-items: center;
+  min-width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #f7eed8;
+  color: #5b1f24;
+}
+
+.rfisUnifiedSearchGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 13px;
+}
+
+.rfisUnifiedSearchGrid article {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 14px;
+  min-height: 175px;
+  padding: 17px;
+  border: 1px solid rgba(75, 54, 35, 0.16);
+  border-radius: 18px;
+  background: #fff;
+}
+
+.rfisUnifiedSearchGrid h4 {
+  margin-top: 5px;
+  font-size: 1.2rem;
+}
+
+.rfisUnifiedSearchGrid p {
+  margin: 8px 0 0;
+  color: #5b5046;
+  line-height: 1.45;
+}
+
+.rfisUnifiedSearchGrid small {
+  display: block;
+  margin-top: 7px;
+  color: #4f6a3c;
+  font-weight: 700;
+}
+
+.rfisUnifiedSearchGrid article > button {
+  align-self: flex-start;
+  background: #5b1f24;
+  color: #fff;
+  border-color: #5b1f24;
+}
+
+.rfisUnifiedSearchEmpty {
+  padding: 44px 24px;
+  text-align: center;
+}
+
+.rfisUnifiedSearchEmpty p {
+  margin: 8px auto 0;
+  max-width: 680px;
+  color: #5c5147;
+}
+
+@media (max-width: 760px) {
+  .rfisUnifiedSearchHeading,
+  .rfisUnifiedSearchGroupHeading {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .rfisUnifiedSearchQuickLinks {
+    justify-content: flex-start;
+  }
+}

@@ -23,7 +23,22 @@ export function createSearchService({ recipeService, completeDinnerService, coll
   }
 
   function all(query, { recipeLimit = 20, dinnerLimit = 20 } = {}) {
-    const collectionMatches = collectionService.list().filter((item) => normalize(item.name).includes(normalize(query)));
+    const normalizedQuery = normalize(query);
+    const queryTokens = tokenize(query);
+    const collectionMatches = collectionService.list()
+      .map((item) => {
+        const resolved = collectionService.get(item.name);
+        const haystack = normalize([
+          item.name,
+          ...(resolved?.dinners || []).slice(0, 10).map((dinner) => dinner.title),
+        ].join(" "));
+        return { item, score: scoreSearch(haystack, queryTokens) };
+      })
+      .filter(({ item, score }) =>
+        normalizedQuery ? score > 0 || normalize(item.name).includes(normalizedQuery) : false
+      )
+      .sort((a, b) => b.score - a.score || a.item.name.localeCompare(b.item.name))
+      .map(({ item }) => item);
     return {
       recipes: recipeService.search(query, { limit: recipeLimit }),
       dinners: dinners(query).slice(0, dinnerLimit),
