@@ -12,7 +12,7 @@ export function createRfisPlatform({ recipes = [], dinners = defaultCompleteDinn
   const recipeService = createRecipeService({ recipes });
   const completeDinnerService = createCompleteDinnerService({ dinners, recipeService });
   const collectionService = createCollectionService({ collections, completeDinnerService });
-  const recommendationService = createRecommendationService({ completeDinnerService });
+  const recommendationService = createRecommendationService({ completeDinnerService, recipeService });
   const searchService = createSearchService({ recipeService, completeDinnerService, collectionService });
   const heroService = createHeroService({ placeholder: heroPlaceholder });
   const validationService = createValidationService({ recipeService, completeDinnerService, collectionService, heroService });
