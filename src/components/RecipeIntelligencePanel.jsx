@@ -5,17 +5,6 @@ function uniqueStrings(values = []) {
   return [...new Set(values.filter((value) => typeof value === "string" && value.trim()))];
 }
 
-function countRoles(dinners = [], recipeId = "") {
-  return dinners.reduce(
-    (counts, dinner) => {
-      if (dinner.entreeRecipeId === recipeId) counts.entree += 1;
-      if ((dinner.sideRecipeIds || []).includes(recipeId)) counts.side += 1;
-      return counts;
-    },
-    { entree: 0, side: 0 }
-  );
-}
-
 export default function RecipeIntelligencePanel({
   recipe,
   rfisPlatform,
@@ -23,8 +12,13 @@ export default function RecipeIntelligencePanel({
 }) {
   if (!recipe) return null;
 
-  const dinners = rfisPlatform?.completeDinners?.byRecipe?.(recipe.id) || [];
-  const roles = countRoles(dinners, recipe.id);
+  const roleSummary =
+    rfisPlatform?.recommendations?.recipeRoleSummary?.(recipe.id) || {
+      dinnerCount: 0,
+      entreeCount: 0,
+      sideCount: 0,
+      relationships: [],
+    };
   const attributes = uniqueStrings(recipe.attributes || []);
   const collections = uniqueStrings(recipe.collections || []);
   const methods = uniqueStrings(recipe.cookingMethods || []);
@@ -48,8 +42,8 @@ export default function RecipeIntelligencePanel({
         </article>
         <article>
           <span>Complete Dinners</span>
-          <strong>{dinners.length}</strong>
-          <small>{roles.entree} entrée · {roles.side} side</small>
+          <strong>{roleSummary.dinnerCount}</strong>
+          <small>{roleSummary.entreeCount} entrée · {roleSummary.sideCount} side</small>
         </article>
         <article>
           <span>Nutrition Record</span>

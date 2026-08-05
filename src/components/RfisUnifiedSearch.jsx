@@ -129,7 +129,7 @@ export default function RfisUnifiedSearch({
               </div>
               <div className="rfisUnifiedSearchGrid">
                 {results.recipes.map((recipe) => {
-                  const dinners = platform.completeDinners.getDinnersByRecipe(recipe.id);
+                  const roleSummary = platform.recommendations.recipeRoleSummary(recipe.id);
                   return (
                     <article key={recipe.id}>
                       <div>
@@ -137,8 +137,8 @@ export default function RfisUnifiedSearch({
                         <h4>{recipeTitle(recipe)}</h4>
                         <p>{recipe.category || recipe.categoryCode || "Recipe"}</p>
                         <small>
-                          {dinners.length} Complete Dinner
-                          {dinners.length === 1 ? "" : "s"}
+                          {roleSummary.dinnerCount} Complete Dinner
+                          {roleSummary.dinnerCount === 1 ? "" : "s"}
                         </small>
                       </div>
                       <button type="button" onClick={() => onOpenRecipe?.(recipe.id)}>

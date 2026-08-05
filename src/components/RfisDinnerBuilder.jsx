@@ -30,19 +30,15 @@ export default function RfisDinnerBuilder({
     [recipes]
   );
 
-  const entreeOptions = useMemo(() => {
-    const counts = new Map();
-    for (const dinner of rfisPlatform.completeDinners.all()) {
-      counts.set(dinner.entreeRecipeId, (counts.get(dinner.entreeRecipeId) || 0) + 1);
-    }
-    return [...counts.entries()]
-      .map(([id, count]) => ({
-        id,
-        name: recipeName(recipeMap.get(id)),
-        count,
-      }))
-      .sort((a, b) => a.name.localeCompare(b.name));
-  }, [rfisPlatform, recipeMap]);
+  const entreeOptions = useMemo(
+    () =>
+      rfisPlatform.recommendations.entreeOptions().map((item) => ({
+        id: item.recipeId,
+        name: item.name,
+        count: item.dinnerCount,
+      })),
+    [rfisPlatform]
+  );
 
   const visibleEntrees = useMemo(() => {
     const term = normalize(query);
@@ -54,33 +50,34 @@ export default function RfisDinnerBuilder({
 
   const entreeDinners = useMemo(() => {
     if (!entreeId) return [];
-    return rfisPlatform.completeDinners.byRecipe(entreeId, { role: "entree" });
+    return rfisPlatform.recommendations.approvedDinnersForEntree(entreeId);
   }, [rfisPlatform, entreeId]);
 
-  const sideRecommendations = useMemo(() => {
-    const counts = new Map();
-    for (const dinner of entreeDinners) {
-      for (const id of dinner.sideRecipeIds || []) {
-        const current = counts.get(id) || { id, count: 0, dinnerIds: [] };
-        current.count += 1;
-        current.dinnerIds.push(dinner.legacyId);
-        counts.set(id, current);
-      }
-    }
-    return [...counts.values()]
-      .map((item) => ({
-        ...item,
-        name: recipeName(recipeMap.get(item.id)),
-      }))
-      .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
-  }, [entreeDinners, recipeMap]);
+  const sideRecommendations = useMemo(
+    () =>
+      entreeId
+        ? rfisPlatform.recommendations
+            .sidesForEntree(entreeId)
+            .map((item) => ({
+              id: item.recipeId,
+              name: item.name,
+              count: item.count,
+              dinnerIds: item.dinnerIds,
+            }))
+        : [],
+    [rfisPlatform, entreeId]
+  );
 
-  const displayedDinners = useMemo(() => {
-    if (!sideId) return entreeDinners;
-    return entreeDinners.filter((dinner) =>
-      (dinner.sideRecipeIds || []).includes(sideId)
-    );
-  }, [entreeDinners, sideId]);
+  const displayedDinners = useMemo(
+    () =>
+      entreeId
+        ? rfisPlatform.recommendations.approvedDinnersForEntree(
+            entreeId,
+            { sideRecipeId: sideId || null }
+          )
+        : [],
+    [rfisPlatform, entreeId, sideId]
+  );
 
   const selectedEntree = entreeId ? recipeMap.get(entreeId) : null;
 
