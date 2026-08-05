@@ -4,6 +4,7 @@ import AdminRecipeClassifier from "./components/AdminRecipeClassifier";
 import AdminRecipeEditor from "./components/AdminRecipeEditor";
 import AdminComboMealBuilder from "./components/AdminComboMealBuilder";
 import AdminNutritionDatabase from "./components/AdminNutritionDatabase";
+import RfisProjectDashboard from "./components/RfisProjectDashboard";
 import DinnerCombinationHeroAudit from "./DinnerCombinationHeroAudit.jsx";
 import UserDataBackupSection from "./components/UserDataBackupSection";
 import FoodIntelligenceCard from "./components/FoodIntelligenceCard";
@@ -5262,6 +5263,13 @@ function Home({
       <BackupReminderPanel setActivePage={setActivePage} className="homeBackupReminder" />
 
       <div className="homeAdminAccessWrap" aria-label="Administrative and user data tools">
+        <button
+          className="adminAccessButton homeAdminAccessButton"
+          type="button"
+          onClick={() => setActivePage("RFIS Project Dashboard")}
+        >
+          RFIS Dashboard
+        </button>
         <button
           className="adminAccessButton homeAdminAccessButton"
           type="button"
@@ -14259,6 +14267,10 @@ export default function App() {
     <PageNavigationContext.Provider value={{ activePage, setActivePage }}>
       <div className="app">
         <Header activePage={activePage} setActivePage={setActivePage} favorites={favorites} />
+
+      {activePage === "RFIS Project Dashboard" && (
+        <RfisProjectDashboard onClose={() => setActivePage("Home")} />
+      )}
 
       {activePage === "Admin Recipes" && (
         <AdminRecipeClassifier

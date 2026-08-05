@@ -1,0 +1,40 @@
+export const RFIS_PROJECT_STATUS = {
+  schemaVersion: "1.0.0",
+  websiteBaseline: "v64 + RFIS incremental updates",
+  rfisVersion: "1.0 engineering",
+  completeDinnerCatalogVersion: "1.6",
+  imageLibraryVersion: "Complete Dinner production pending",
+  documentationVersion: "1.0",
+  heroBatches: [
+    {
+      id: "batch-1",
+      label: "Batch 1",
+      range: "MEAL-001–020",
+      total: 20,
+      ready: 5,
+      blocked: 13,
+      review: 2,
+      approved: 0,
+      status: "source-corrections",
+    },
+    { id: "batch-2", label: "Batch 2", range: "MEAL-021–047", total: 27, ready: 0, blocked: 0, review: 0, approved: 0, status: "not-audited" },
+    { id: "batch-3", label: "Batch 3", range: "MEAL-048–068", total: 21, ready: 0, blocked: 0, review: 0, approved: 0, status: "not-audited" },
+    { id: "batch-4", label: "Batch 4", range: "MEAL-069–090", total: 22, ready: 0, blocked: 0, review: 0, approved: 0, status: "not-audited" },
+    { id: "batch-5", label: "Batch 5", range: "MEAL-091–111", total: 21, ready: 0, blocked: 0, review: 0, approved: 0, status: "not-audited" },
+    { id: "batch-6", label: "Batch 6", range: "MEAL-112–131", total: 20, ready: 0, blocked: 0, review: 0, approved: 0, status: "not-audited" },
+    { id: "batch-7", label: "Batch 7", range: "MEAL-132–151", total: 20, ready: 0, blocked: 0, review: 0, approved: 0, status: "not-audited" },
+  ],
+  blockedSourceHeroes: [
+    "AM-004", "AM-005", "AM-006", "AM-010", "AM-016", "AM-018", "AM-021",
+    "AM-024", "AM-025", "AM-026", "AM-031", "AM-033", "AM-034",
+  ],
+  compositionReviews: [
+    { mealId: "MEAL-002", issue: "Beef Tips source hero already shows white rice; the approved sides currently add egg noodles and glazed carrots." },
+    { mealId: "MEAL-013", issue: "Beef Stroganoff source hero already shows egg noodles; the approved dinner also lists egg noodles as a separate side." },
+  ],
+  documentation: [
+    { name: "RFIS Master Specification", status: "current", version: "1.0" },
+    { name: "Architecture Decision Log", status: "current", version: "1.0" },
+    { name: "Development Standards", status: "current", version: "1.0" },
+  ],
+};
