@@ -1,17 +1,5 @@
 import { useMemo, useState } from "react";
 
-function recipeTitle(recipe) {
-  return recipe?.title || recipe?.name || recipe?.id || "Recipe";
-}
-
-function resultCount(results) {
-  return (
-    (results?.recipes?.length || 0) +
-    (results?.dinners?.length || 0) +
-    (results?.collections?.length || 0)
-  );
-}
-
 export default function RfisUnifiedSearch({
   platform,
   onOpenRecipe,
@@ -24,23 +12,16 @@ export default function RfisUnifiedSearch({
   const [activeType, setActiveType] = useState("all");
 
   const trimmedQuery = query.trim();
-  const results = useMemo(() => {
-    if (!trimmedQuery) {
-      return { recipes: [], dinners: [], collections: [] };
-    }
-    return platform.search.all(trimmedQuery, {
-      recipeLimit: 30,
-      dinnerLimit: 30,
-    });
-  }, [platform, trimmedQuery]);
-
-  const total = resultCount(results);
-  const tabs = [
-    ["all", "All", total],
-    ["recipes", "Recipes", results.recipes.length],
-    ["dinners", "Complete Dinners", results.dinners.length],
-    ["collections", "Collections", results.collections.length],
-  ];
+  const results = useMemo(
+    () =>
+      platform.search.search(trimmedQuery, {
+        recipeLimit: 30,
+        dinnerLimit: 30,
+        collectionLimit: 30,
+      }),
+    [platform, trimmedQuery]
+  );
+  const suggestions = platform.search.suggestions();
 
   function isVisible(type) {
     return activeType === "all" || activeType === type;
@@ -54,9 +35,20 @@ export default function RfisUnifiedSearch({
             <span>ONE RFIS SEARCH</span>
             <h2>What are you looking for?</h2>
             <p>
-              Search examples: <em>chicken parmesan</em>, <em>SD-005</em>,
-              <em>MEAL-049</em>, <em>broccoli</em>, <em>Italian</em>, or
-              <em>Light &amp; Healthy</em>.
+              Search examples:{" "}
+              {suggestions.map((item, index) => (
+                <span key={item}>
+                  {index > 0 ? ", " : ""}
+                  <button
+                    type="button"
+                    className="rfisUnifiedSearchExample"
+                    onClick={() => setQuery(item)}
+                  >
+                    {item}
+                  </button>
+                </span>
+              ))}
+              .
             </p>
           </div>
           <div className="rfisUnifiedSearchQuickLinks">
@@ -75,28 +67,43 @@ export default function RfisUnifiedSearch({
             type="search"
             value={query}
             autoFocus
-            onChange={(event) => setQuery(event.target.value)}
+            onChange={(event) => {
+              setQuery(event.target.value);
+              setActiveType("all");
+            }}
             placeholder="Recipe, meal, code, cuisine, side, collection…"
           />
           {query && (
-            <button type="button" onClick={() => setQuery("")}>
+            <button
+              type="button"
+              onClick={() => {
+                setQuery("");
+                setActiveType("all");
+              }}
+            >
               Clear
             </button>
           )}
         </label>
 
         {trimmedQuery && (
-          <div className="rfisUnifiedSearchTabs" role="tablist" aria-label="Search result type">
-            {tabs.map(([key, label, count]) => (
+          <div
+            className="rfisUnifiedSearchTabs"
+            role="tablist"
+            aria-label="Search result type"
+          >
+            {results.tabs.map((tab) => (
               <button
                 type="button"
                 role="tab"
-                aria-selected={activeType === key}
-                className={activeType === key ? "is-active" : ""}
-                key={key}
-                onClick={() => setActiveType(key)}
+                aria-selected={activeType === tab.key}
+                className={
+                  activeType === tab.key ? "is-active" : ""
+                }
+                key={tab.key}
+                onClick={() => setActiveType(tab.key)}
               >
-                {label} <span>{count}</span>
+                {tab.label} <span>{tab.count}</span>
               </button>
             ))}
           </div>
@@ -107,118 +114,137 @@ export default function RfisUnifiedSearch({
         <section className="rfisUnifiedSearchEmpty">
           <h3>Search the connected Recipe Box</h3>
           <p>
-            Results are generated from the shared Recipe, Complete Dinner, and
-            Collection services. No separate search list is maintained.
+            Results are generated from one shared RFIS Search
+            Service. No separate recipe, dinner, or collection
+            result lists are maintained by this page.
           </p>
         </section>
-      ) : total === 0 ? (
+      ) : results.total === 0 ? (
         <section className="rfisUnifiedSearchEmpty">
           <h3>No RFIS results found</h3>
-          <p>Try a recipe name, code, side dish, cuisine, or collection.</p>
+          <p>
+            Try a recipe name, code, side dish, cuisine, or
+            collection.
+          </p>
         </section>
       ) : (
         <div className="rfisUnifiedSearchResults">
-          {isVisible("recipes") && results.recipes.length > 0 && (
-            <section className="rfisUnifiedSearchGroup">
-              <div className="rfisUnifiedSearchGroupHeading">
-                <div>
-                  <span>RECIPE LIBRARY</span>
-                  <h3>Recipes</h3>
+          {isVisible("recipes") &&
+            results.recipes.length > 0 && (
+              <section className="rfisUnifiedSearchGroup">
+                <div className="rfisUnifiedSearchGroupHeading">
+                  <div>
+                    <span>RECIPE LIBRARY</span>
+                    <h3>Recipes</h3>
+                  </div>
+                  <strong>{results.counts.recipes}</strong>
                 </div>
-                <strong>{results.recipes.length}</strong>
-              </div>
-              <div className="rfisUnifiedSearchGrid">
-                {results.recipes.map((recipe) => {
-                  const recipeView = platform.recipes.present(recipe.id);
-                  const roleSummary = platform.recommendations.recipeRoleSummary(recipe.id);
-                  return (
+                <div className="rfisUnifiedSearchGrid">
+                  {results.recipes.map((recipe) => (
                     <article key={recipe.id}>
                       <div>
-                        <span>{recipe.id}</span>
-                        <h4>{recipeView?.name || recipeTitle(recipe)}</h4>
-                        <p>{recipeView?.category || "Recipe"}</p>
+                        <span>{recipe.code}</span>
+                        <h4>{recipe.title}</h4>
+                        <p>{recipe.category}</p>
                         <small>
-                          {roleSummary.dinnerCount} Complete Dinner
-                          {roleSummary.dinnerCount === 1 ? "" : "s"}
+                          {recipe.dinnerCount} Complete Dinner
+                          {recipe.dinnerCount === 1 ? "" : "s"}
                         </small>
-                      </div>
-                      <button type="button" onClick={() => onOpenRecipe?.(recipe.id)}>
-                        View Recipe
-                      </button>
-                    </article>
-                  );
-                })}
-              </div>
-            </section>
-          )}
-
-          {isVisible("dinners") && results.dinners.length > 0 && (
-            <section className="rfisUnifiedSearchGroup">
-              <div className="rfisUnifiedSearchGroupHeading">
-                <div>
-                  <span>VERIFIED MEALS</span>
-                  <h3>Complete Dinners</h3>
-                </div>
-                <strong>{results.dinners.length}</strong>
-              </div>
-              <div className="rfisUnifiedSearchGrid">
-                {results.dinners.map((dinner) => {
-                  const dinnerView =
-                    platform.completeDinners.present(dinner);
-                  const sideNames =
-                    dinnerView?.sideNames?.join(" + ") || "";
-                  return (
-                    <article key={dinner.id}>
-                      <div>
-                        <span>{dinner.legacyId.toUpperCase()}</span>
-                        <h4>{dinner.title}</h4>
-                        <p>
-                          <strong>{dinnerView?.entreeName || dinner.entreeRecipeId}</strong>
-                          {sideNames ? ` • ${sideNames}` : ""}
-                        </p>
-                        <small>{(dinner.collections || []).join(" • ")}</small>
                       </div>
                       <button
                         type="button"
-                        onClick={() => onOpenDinner?.(dinner.legacyId)}
+                        onClick={() =>
+                          onOpenRecipe?.(recipe.id)
+                        }
+                      >
+                        View Recipe
+                      </button>
+                    </article>
+                  ))}
+                </div>
+              </section>
+            )}
+
+          {isVisible("dinners") &&
+            results.dinners.length > 0 && (
+              <section className="rfisUnifiedSearchGroup">
+                <div className="rfisUnifiedSearchGroupHeading">
+                  <div>
+                    <span>VERIFIED MEALS</span>
+                    <h3>Complete Dinners</h3>
+                  </div>
+                  <strong>{results.counts.dinners}</strong>
+                </div>
+                <div className="rfisUnifiedSearchGrid">
+                  {results.dinners.map((dinner) => (
+                    <article key={dinner.id}>
+                      <div>
+                        <span>{dinner.code}</span>
+                        <h4>{dinner.title}</h4>
+                        <p>
+                          <strong>{dinner.entreeName}</strong>
+                          {dinner.sideNames.length
+                            ? ` • ${dinner.sideNames.join(
+                                " + "
+                              )}`
+                            : ""}
+                        </p>
+                        <small>
+                          {dinner.collections.join(" • ")}
+                        </small>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          onOpenDinner?.(dinner.legacyId)
+                        }
                       >
                         Open Dinner
                       </button>
                     </article>
-                  );
-                })}
-              </div>
-            </section>
-          )}
-
-          {isVisible("collections") && results.collections.length > 0 && (
-            <section className="rfisUnifiedSearchGroup">
-              <div className="rfisUnifiedSearchGroupHeading">
-                <div>
-                  <span>CURATED GROUPS</span>
-                  <h3>Collections</h3>
+                  ))}
                 </div>
-                <strong>{results.collections.length}</strong>
-              </div>
-              <div className="rfisUnifiedSearchGrid collections">
-                {results.collections.map((collection) => (
-                  <article key={collection.name}>
-                    <div>
-                      <span>RFIS COLLECTION</span>
-                      <h4>{collection.name}</h4>
-                      <p>{collection.count} verified Complete Dinners</p>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => onOpenCollection?.(collection.name)}
-                    >
-                      View Collection
-                    </button>
-                  </article>
-                ))}
-              </div>
-            </section>
-          )}
+              </section>
+            )}
+
+          {isVisible("collections") &&
+            results.collections.length > 0 && (
+              <section className="rfisUnifiedSearchGroup">
+                <div className="rfisUnifiedSearchGroupHeading">
+                  <div>
+                    <span>CURATED GROUPS</span>
+                    <h3>Collections</h3>
+                  </div>
+                  <strong>
+                    {results.counts.collections}
+                  </strong>
+                </div>
+                <div className="rfisUnifiedSearchGrid collections">
+                  {results.collections.map((collection) => (
+                    <article key={collection.id}>
+                      <div>
+                        <span>RFIS COLLECTION</span>
+                        <h4>{collection.title}</h4>
+                        <p>
+                          {collection.count} verified Complete
+                          Dinners
+                        </p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          onOpenCollection?.(
+                            collection.name
+                          )
+                        }
+                      >
+                        View Collection
+                      </button>
+                    </article>
+                  ))}
+                </div>
+              </section>
+            )}
         </div>
       )}
     </main>
