@@ -26,7 +26,12 @@ const recipeService = createRecipeService({
 const completeDinnerService = createCompleteDinnerService({ dinners, recipeService });
 const collectionService = createCollectionService({ collections, completeDinnerService, recipeService });
 const recommendationService = createRecommendationService({ completeDinnerService, recipeService });
-const searchService = createSearchService({ recipeService, completeDinnerService, collectionService });
+const searchService = createSearchService({
+  recipeService,
+  completeDinnerService,
+  collectionService,
+  recommendationService,
+});
 const heroService = createHeroService({ placeholder: "placeholder.webp" });
 const validationService = createValidationService({ recipeService, completeDinnerService, collectionService, heroService });
 
@@ -246,3 +251,46 @@ const cuisineSummary = completeDinnerService.cuisines();
 assert.ok(cuisineSummary.some((item) => item.name === "American"));
 
 console.log("Complete Dinner Service consolidation contracts passed");
+
+const unifiedSearchResult = searchService.search("Mashed Potatoes");
+assert.equal(unifiedSearchResult.query, "Mashed Potatoes");
+assert.equal(
+  unifiedSearchResult.total,
+  unifiedSearchResult.counts.recipes +
+    unifiedSearchResult.counts.dinners +
+    unifiedSearchResult.counts.collections
+);
+assert.ok(
+  unifiedSearchResult.recipes.some(
+    (item) => item.id === "SD-003"
+  )
+);
+assert.ok(
+  unifiedSearchResult.dinners.some(
+    (item) => item.id === "CD-0001"
+  )
+);
+assert.ok(
+  unifiedSearchResult.tabs.some(
+    (tab) =>
+      tab.key === "dinners" &&
+      tab.count ===
+        unifiedSearchResult.counts.dinners
+  )
+);
+assert.equal(
+  unifiedSearchResult.dinners[0].entreeName.length > 0,
+  true
+);
+assert.ok(
+  Array.isArray(unifiedSearchResult.dinners[0].sideNames)
+);
+
+const emptySearch = searchService.search("");
+assert.equal(emptySearch.total, 0);
+assert.equal(emptySearch.tabs.length, 4);
+
+const searchSuggestions = searchService.suggestions();
+assert.ok(searchSuggestions.includes("MEAL-049"));
+
+console.log("Search Service consolidation contracts passed");
