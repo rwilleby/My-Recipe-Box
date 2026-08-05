@@ -22,7 +22,7 @@ const collections = { Comfort: ["CD-0001", "CD-0002"] };
 const recipeService = createRecipeService({ recipes });
 const completeDinnerService = createCompleteDinnerService({ dinners, recipeService });
 const collectionService = createCollectionService({ collections, completeDinnerService });
-const recommendationService = createRecommendationService({ completeDinnerService });
+const recommendationService = createRecommendationService({ completeDinnerService, recipeService });
 const searchService = createSearchService({ recipeService, completeDinnerService, collectionService });
 const heroService = createHeroService({ placeholder: "placeholder.webp" });
 const validationService = createValidationService({ recipeService, completeDinnerService, collectionService, heroService });
@@ -144,3 +144,34 @@ assert.equal(invalidSummary.results.sideCounts.ok, false);
 assert.equal(invalidSummary.results.references.ok, false);
 
 console.log("Validation Service consolidation contracts passed");
+
+const relatedCards = recommendationService.relatedDinnerCards("CD-0001", {
+  limit: 4,
+});
+assert.equal(relatedCards.length, 1);
+assert.equal(relatedCards[0].id, "CD-0002");
+assert.ok(
+  relatedCards[0].reasons.some((reason) => reason.includes("Mashed Potatoes"))
+);
+
+const mashedSummary = recommendationService.recipeRoleSummary("SD-003");
+assert.equal(mashedSummary.dinnerCount, 2);
+assert.equal(mashedSummary.entreeCount, 0);
+assert.equal(mashedSummary.sideCount, 2);
+
+const entreeOptions = recommendationService.entreeOptions();
+assert.equal(entreeOptions.length, 2);
+assert.ok(entreeOptions.every((item) => item.dinnerCount > 0));
+
+const salisburySides = recommendationService.sidesForEntree("AM-001");
+assert.equal(salisburySides.length, 2);
+assert.ok(salisburySides.some((item) => item.recipeId === "SD-003"));
+
+const filteredApproved = recommendationService.approvedDinnersForEntree(
+  "AM-001",
+  { sideRecipeId: "SD-004" }
+);
+assert.equal(filteredApproved.length, 1);
+assert.equal(filteredApproved[0].id, "CD-0001");
+
+console.log("Recommendation Service consolidation contracts passed");
