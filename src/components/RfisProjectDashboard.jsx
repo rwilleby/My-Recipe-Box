@@ -31,43 +31,78 @@ function StatusPill({ children, tone = "neutral" }) {
 
 export default function RfisProjectDashboard({ rfisPlatform, onClose }) {
   const report = useMemo(() => {
-    const validation = rfisPlatform.validation.all();
+    const validation = rfisPlatform.validation.summary();
     const completeDinners = rfisPlatform.completeDinners.all();
-    const recipeIds = new Set(rfisPlatform.recipes.all().map((recipe) => recipe.id));
-    const nutritionCount = recipes.filter((recipe) => hasRecipeNutritionRecord(recipe.id)).length;
-    const approvedHeroes = completeDinners.filter((dinner) =>
-      rfisPlatform.heroes.approved(dinner)
+    const nutritionCount = recipes.filter((recipe) =>
+      hasRecipeNutritionRecord(recipe.id)
     ).length;
-    const missingHeroes = completeDinners.length - approvedHeroes;
 
-    const duplicateMap = new Map();
-    for (const dinner of completeDinners) {
-      const key = [dinner.entreeRecipeId, ...(dinner.sideRecipeIds || []).slice().sort()].join("|");
-      duplicateMap.set(key, (duplicateMap.get(key) || 0) + 1);
-    }
-    const duplicateCompositions = [...duplicateMap.values()].filter((count) => count > 1).length;
-
-    const missingRecipeRefs = [];
-    for (const dinner of completeDinners) {
-      for (const recipeId of [dinner.entreeRecipeId, ...(dinner.sideRecipeIds || [])]) {
-        if (!recipeIds.has(recipeId)) missingRecipeRefs.push(`${dinner.legacyId}: ${recipeId}`);
-      }
-    }
+    const heroReport = validation.results.heroes;
+    const approvedHeroes = heroReport.approved;
+    const missingHeroes = heroReport.pending;
 
     const sideUsage = new Map();
     for (const dinner of completeDinners) {
-      for (const sideId of dinner.sideRecipeIds || []) sideUsage.set(sideId, (sideUsage.get(sideId) || 0) + 1);
+      for (const sideId of dinner.sideRecipeIds || []) {
+        sideUsage.set(sideId, (sideUsage.get(sideId) || 0) + 1);
+      }
     }
-    const topSide = [...sideUsage.entries()].sort((a, b) => b[1] - a[1])[0] || ["—", 0];
+    const topSide =
+      [...sideUsage.entries()].sort((a, b) => b[1] - a[1])[0] || ["—", 0];
 
-    const relationshipCount = completeDinners.reduce((sum, dinner) => sum + 1 + (dinner.sideRecipeIds?.length || 0) + (dinner.collections?.length || 0), 0);
-    const collectionRows = rfisPlatform.collections.list()
+    const relationshipCount = completeDinners.reduce(
+      (sum, dinner) =>
+        sum +
+        1 +
+        (dinner.sideRecipeIds?.length || 0) +
+        (dinner.collections?.length || 0),
+      0
+    );
+
+    const collectionRows = rfisPlatform.collections
+      .list()
       .map(({ name, count }) => ({ name, count }))
       .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
 
+    const validationErrors = [
+      ...(validation.results.references.errors || []).map(
+        (item) =>
+          `${item.legacyId || item.dinnerId}: missing ${item.missingRecipeIds.join(", ")}`
+      ),
+      ...(validation.results.duplicateIds.stable || []).map(
+        (item) => `Duplicate stable ID: ${item.key}`
+      ),
+      ...(validation.results.duplicateIds.legacy || []).map(
+        (item) => `Duplicate legacy ID: ${item.key}`
+      ),
+      ...(validation.results.duplicateIds.numbers || []).map(
+        (item) => `Duplicate meal number: ${item.key}`
+      ),
+      ...(validation.results.duplicateCompositions.duplicates || []).map(
+        (item) => `Duplicate composition: ${item.dinnerIds.join(", ")}`
+      ),
+      ...(validation.results.sideCounts.errors || []).map(
+        (item) => `${item.legacyId || item.dinnerId}: invalid side count ${item.sideCount}`
+      ),
+      ...(validation.results.heroLayouts.errors || []).map(
+        (item) =>
+          `${item.legacyId || item.dinnerId}: hero layout "${item.actual}" should be "${item.expected}"`
+      ),
+      ...(validation.results.collections.missing || []).map(
+        (item) => `${item.collection}: missing ${item.dinnerId}`
+      ),
+      ...(validation.results.heroes.missingCanonicalPath || []).map(
+        (item) => `${item.legacyId || item.dinnerId}: approved hero has no canonical path`
+      ),
+    ];
+
     const nextWork = [
-      ...RFIS_PROJECT_STATUS.blockedSourceHeroes.slice(0, 5).map((code) => `Correct ${code} recipe hero`),
-      ...RFIS_PROJECT_STATUS.compositionReviews.map((item) => `Resolve ${item.mealId} composition`),
+      ...RFIS_PROJECT_STATUS.blockedSourceHeroes
+        .slice(0, 5)
+        .map((code) => `Correct ${code} recipe hero`),
+      ...RFIS_PROJECT_STATUS.compositionReviews.map(
+        (item) => `Resolve ${item.mealId} composition`
+      ),
       "Re-run Batch 1 visual reconciliation",
       "Issue replacement Batch 1 production tracker",
     ];
@@ -75,19 +110,21 @@ export default function RfisProjectDashboard({ rfisPlatform, onClose }) {
     return {
       validation: {
         ok: validation.ok,
-        count: completeDinners.length,
-        errors: [
-          ...(validation.results?.references?.errors || []).map((item) => `${item.legacyId || item.dinnerId}: missing ${item.missingRecipeIds.join(", ")}`),
-          ...(validation.results?.duplicateCompositions?.duplicates || []).map((item) => `Duplicate composition: ${item.dinnerIds.join(", ")}`),
-          ...(validation.results?.sideCounts?.dinnerIds || []).map((id) => `${id}: invalid side count`),
-          ...(validation.results?.collections?.missing || []).map((item) => `${item.collection}: missing ${item.dinnerId}`),
-        ],
+        count: validation.dinnerCount,
+        issueCount: validation.issueCount,
+        errors: validationErrors,
       },
       nutritionCount,
       approvedHeroes,
       missingHeroes,
-      duplicateCompositions,
-      missingRecipeRefs,
+      duplicateCompositions:
+        validation.results.duplicateCompositions.duplicates.length,
+      missingRecipeRefs: validation.results.references.errors,
+      duplicateIds:
+        validation.results.duplicateIds.stable.length +
+        validation.results.duplicateIds.legacy.length +
+        validation.results.duplicateIds.numbers.length,
+      invalidLayouts: validation.results.heroLayouts.errors.length,
       relationshipCount,
       collectionRows,
       topSide,
@@ -125,7 +162,7 @@ export default function RfisProjectDashboard({ rfisPlatform, onClose }) {
         <MetricCard label="Recipes" value={recipes.length} detail={`${report.nutritionCount} nutrition records`} tone="green" />
         <MetricCard label="Complete Dinners" value={completeDinners.length} detail={`${report.validation.count} catalog records validated`} tone="green" />
         <MetricCard label="Approved Dinner Heroes" value={`${report.approvedHeroes}/${completeDinners.length}`} detail={`${report.missingHeroes} still unavailable`} tone={report.missingHeroes ? "amber" : "green"} />
-        <MetricCard label="Broken References" value={report.missingRecipeRefs.length} detail={report.validation.ok ? "Catalog validation passes" : "Review required"} tone={report.missingRecipeRefs.length ? "red" : "green"} />
+        <MetricCard label="Validation Issues" value={report.validation.issueCount} detail={report.validation.ok ? "All structural checks pass" : "Review required"} tone={report.validation.issueCount ? "red" : "green"} />
         <MetricCard label="Duplicate Compositions" value={report.duplicateCompositions} detail="Exact entrée + side matches" tone={report.duplicateCompositions ? "red" : "green"} />
         <MetricCard label="RFIS Relationships" value={report.relationshipCount.toLocaleString()} detail={`${(report.relationshipCount / recipes.length).toFixed(1)} per recipe`} />
       </section>
@@ -160,6 +197,8 @@ export default function RfisProjectDashboard({ rfisPlatform, onClose }) {
             <li><b>{report.validation.ok ? "✓" : "!"}</b><span>Complete Dinner catalog validation</span></li>
             <li><b>{report.duplicateCompositions === 0 ? "✓" : "!"}</b><span>{report.duplicateCompositions} duplicate compositions</span></li>
             <li><b>{report.missingRecipeRefs.length === 0 ? "✓" : "!"}</b><span>{report.missingRecipeRefs.length} missing recipe references</span></li>
+            <li><b>{report.duplicateIds === 0 ? "✓" : "!"}</b><span>{report.duplicateIds} duplicate IDs or meal numbers</span></li>
+            <li><b>{report.invalidLayouts === 0 ? "✓" : "!"}</b><span>{report.invalidLayouts} hero-layout mismatches</span></li>
             <li><b>!</b><span>{RFIS_PROJECT_STATUS.blockedSourceHeroes.length} blocked Batch 1 source heroes</span></li>
             <li><b>i</b><span>Most-used side: {report.topSide[0]} ({report.topSide[1]} dinners)</span></li>
           </ul>
