@@ -1,7 +1,5 @@
 import { useMemo } from "react";
 import { COMPLETE_DINNER_META } from "../data/completeDinners.js";
-import { recipes } from "../data/recipes.js";
-import { hasRecipeNutritionRecord } from "../data/recipeNutritionProfiles.js";
 import { RFIS_PROJECT_STATUS } from "../data/rfisProjectStatus.js";
 import "./RfisProjectDashboard.css";
 
@@ -33,9 +31,8 @@ export default function RfisProjectDashboard({ rfisPlatform, onClose }) {
   const report = useMemo(() => {
     const validation = rfisPlatform.validation.summary();
     const completeDinners = rfisPlatform.completeDinners.all();
-    const nutritionCount = recipes.filter((recipe) =>
-      hasRecipeNutritionRecord(recipe.id)
-    ).length;
+    const recipeNutrition = rfisPlatform.recipes.nutritionSummary();
+    const recipeClassification = rfisPlatform.recipes.classificationSummary();
 
     const heroReport = validation.results.heroes;
     const approvedHeroes = heroReport.approved;
@@ -114,7 +111,8 @@ export default function RfisProjectDashboard({ rfisPlatform, onClose }) {
         issueCount: validation.issueCount,
         errors: validationErrors,
       },
-      nutritionCount,
+      recipeNutrition,
+      recipeClassification,
       approvedHeroes,
       missingHeroes,
       duplicateCompositions:
@@ -136,7 +134,7 @@ export default function RfisProjectDashboard({ rfisPlatform, onClose }) {
     { label: "Complete Dinner references valid", ok: report.validation.ok },
     { label: "Duplicate dinner compositions removed", ok: report.duplicateCompositions === 0 },
     { label: "All Complete Dinner heroes approved", ok: report.missingHeroes === 0 },
-    { label: "All recipe nutrition records present", ok: report.nutritionCount === recipes.length },
+    { label: "All recipe nutrition records present", ok: report.recipeNutrition.complete },
     { label: "Batch 1 source corrections complete", ok: RFIS_PROJECT_STATUS.blockedSourceHeroes.length === 0 },
   ];
 
@@ -159,7 +157,7 @@ export default function RfisProjectDashboard({ rfisPlatform, onClose }) {
       </section>
 
       <section className="rfisMetricGrid">
-        <MetricCard label="Recipes" value={recipes.length} detail={`${report.nutritionCount} nutrition records`} tone="green" />
+        <MetricCard label="Recipes" value={rfisPlatform.recipes.count} detail={`${report.recipeNutrition.available} nutrition records`} tone="green" />
         <MetricCard label="Complete Dinners" value={completeDinners.length} detail={`${report.validation.count} catalog records validated`} tone="green" />
         <MetricCard label="Approved Dinner Heroes" value={`${report.approvedHeroes}/${completeDinners.length}`} detail={`${report.missingHeroes} still unavailable`} tone={report.missingHeroes ? "amber" : "green"} />
         <MetricCard label="Validation Issues" value={report.validation.issueCount} detail={report.validation.ok ? "All structural checks pass" : "Review required"} tone={report.validation.issueCount ? "red" : "green"} />

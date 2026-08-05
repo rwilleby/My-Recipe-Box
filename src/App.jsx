@@ -68,7 +68,10 @@ import {
 import "./App.css";
 
 const recipes = sortRecipesByCode(applyStoredRecipeOverrides(baseRecipes));
-const rfisPlatform = createRfisPlatform({ recipes });
+const rfisPlatform = createRfisPlatform({
+  recipes,
+  hasNutritionRecord: hasRecipeNutritionRecord,
+});
 
 const STORAGE_KEYS = {
   favorites: "rrb_favorites",
@@ -3867,9 +3870,8 @@ function RecipeCardViewer({
   const note = getRecipePersonalNote(recipe);
   const cookingOptions = getRecipeCookingOptions(recipe);
   const estimatedCost = getRecipeEstimatedCost(recipe);
-  const hasFoodIntelligence = Boolean(
-    recipe?.id && hasRecipeNutritionRecord(recipe.id)
-  );
+  const recipeRfisProfile = rfisPlatform.recipes.profile(recipe.id);
+  const hasFoodIntelligence = Boolean(recipeRfisProfile?.hasNutritionRecord);
   const showConstruction = isSaladJarRecipe(recipe);
   const constructionImageCandidates = constructionCalloutImageCandidates(recipe);
   const constructionImagePath = constructionImageFailed

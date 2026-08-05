@@ -1,14 +1,9 @@
 import React from "react";
 import "./RecipeIntelligencePanel.css";
 
-function uniqueStrings(values = []) {
-  return [...new Set(values.filter((value) => typeof value === "string" && value.trim()))];
-}
-
 export default function RecipeIntelligencePanel({
   recipe,
   rfisPlatform,
-  hasNutritionRecord = false,
 }) {
   if (!recipe) return null;
 
@@ -19,11 +14,15 @@ export default function RecipeIntelligencePanel({
       sideCount: 0,
       relationships: [],
     };
-  const attributes = uniqueStrings(recipe.attributes || []);
-  const collections = uniqueStrings(recipe.collections || []);
-  const methods = uniqueStrings(recipe.cookingMethods || []);
-  const classificationCount = attributes.length + collections.length + methods.length;
-  const profileStatus = classificationCount > 0 ? "Classified" : "Needs classification";
+  const profile = rfisPlatform?.recipes?.profile?.(recipe.id) || {
+    category: "Not assigned",
+    attributes: [],
+    collections: [],
+    cookingMethods: [],
+    classificationCount: 0,
+    classificationStatus: "Needs classification",
+    hasNutritionRecord: false,
+  };
 
   return (
     <section className="recipeIntelligencePanel" aria-label={`RFIS intelligence profile for ${recipe.title}`}>
@@ -32,13 +31,13 @@ export default function RecipeIntelligencePanel({
           <span>RFIS PROFILE</span>
           <h3>Recipe Intelligence</h3>
         </div>
-        <small className={classificationCount > 0 ? "isReady" : "needsReview"}>{profileStatus}</small>
+        <small className={profile.classificationCount > 0 ? "isReady" : "needsReview"}>{profile.classificationStatus}</small>
       </div>
 
       <div className="recipeIntelligenceMetrics">
         <article>
           <span>Category</span>
-          <strong>{recipe.primaryCategory || recipe.category || "Not assigned"}</strong>
+          <strong>{profile.category}</strong>
         </article>
         <article>
           <span>Complete Dinners</span>
@@ -47,11 +46,11 @@ export default function RecipeIntelligencePanel({
         </article>
         <article>
           <span>Nutrition Record</span>
-          <strong>{hasNutritionRecord ? "Available" : "Not available"}</strong>
+          <strong>{profile.hasNutritionRecord ? "Available" : "Not available"}</strong>
         </article>
         <article>
           <span>RFIS Tags</span>
-          <strong>{classificationCount}</strong>
+          <strong>{profile.classificationCount}</strong>
           <small>attributes, collections, methods</small>
         </article>
       </div>
@@ -60,24 +59,24 @@ export default function RecipeIntelligencePanel({
         <div>
           <strong>Attributes</strong>
           <div className="recipeIntelligenceChips">
-            {attributes.length ? attributes.map((item) => <span key={`attribute-${item}`}>{item}</span>) : <em>Not assigned</em>}
+            {profile.attributes.length ? profile.attributes.map((item) => <span key={`attribute-${item}`}>{item}</span>) : <em>Not assigned</em>}
           </div>
         </div>
         <div>
           <strong>Cooking Methods</strong>
           <div className="recipeIntelligenceChips">
-            {methods.length ? methods.map((item) => <span key={`method-${item}`}>{item}</span>) : <em>Not assigned</em>}
+            {profile.cookingMethods.length ? profile.cookingMethods.map((item) => <span key={`method-${item}`}>{item}</span>) : <em>Not assigned</em>}
           </div>
         </div>
         <div>
           <strong>Collections</strong>
           <div className="recipeIntelligenceChips">
-            {collections.length ? collections.map((item) => <span key={`collection-${item}`}>{item}</span>) : <em>Not assigned</em>}
+            {profile.collections.length ? profile.collections.map((item) => <span key={`collection-${item}`}>{item}</span>) : <em>Not assigned</em>}
           </div>
         </div>
       </div>
 
-      {classificationCount === 0 && (
+      {profile.classificationCount === 0 && (
         <p className="recipeIntelligenceNotice">
           This recipe can still be used normally, but RFIS search and recommendation quality will improve after its classification profile is completed.
         </p>

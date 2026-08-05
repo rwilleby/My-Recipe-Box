@@ -8,8 +8,14 @@ import { createSearchService } from "./SearchService.js";
 import { createHeroService } from "./HeroService.js";
 import { createValidationService } from "./ValidationService.js";
 
-export function createRfisPlatform({ recipes = [], dinners = defaultCompleteDinners, collections = defaultCollections, heroPlaceholder } = {}) {
-  const recipeService = createRecipeService({ recipes });
+export function createRfisPlatform({
+  recipes = [],
+  dinners = defaultCompleteDinners,
+  collections = defaultCollections,
+  heroPlaceholder,
+  hasNutritionRecord,
+} = {}) {
+  const recipeService = createRecipeService({ recipes, hasNutritionRecord });
   const completeDinnerService = createCompleteDinnerService({ dinners, recipeService });
   const collectionService = createCollectionService({ collections, completeDinnerService, recipeService });
   const recommendationService = createRecommendationService({ completeDinnerService, recipeService });

@@ -129,13 +129,14 @@ export default function RfisUnifiedSearch({
               </div>
               <div className="rfisUnifiedSearchGrid">
                 {results.recipes.map((recipe) => {
+                  const recipeView = platform.recipes.present(recipe.id);
                   const roleSummary = platform.recommendations.recipeRoleSummary(recipe.id);
                   return (
                     <article key={recipe.id}>
                       <div>
                         <span>{recipe.id}</span>
-                        <h4>{recipeTitle(recipe)}</h4>
-                        <p>{recipe.category || recipe.categoryCode || "Recipe"}</p>
+                        <h4>{recipeView?.name || recipeTitle(recipe)}</h4>
+                        <p>{recipeView?.category || "Recipe"}</p>
                         <small>
                           {roleSummary.dinnerCount} Complete Dinner
                           {roleSummary.dinnerCount === 1 ? "" : "s"}
