@@ -18,12 +18,12 @@ function countRoles(dinners = [], recipeId = "") {
 
 export default function RecipeIntelligencePanel({
   recipe,
-  completeDinnerEngine,
+  rfisPlatform,
   hasNutritionRecord = false,
 }) {
   if (!recipe) return null;
 
-  const dinners = completeDinnerEngine?.getDinnersByRecipe?.(recipe.id) || [];
+  const dinners = rfisPlatform?.completeDinners?.byRecipe?.(recipe.id) || [];
   const roles = countRoles(dinners, recipe.id);
   const attributes = uniqueStrings(recipe.attributes || []);
   const collections = uniqueStrings(recipe.collections || []);

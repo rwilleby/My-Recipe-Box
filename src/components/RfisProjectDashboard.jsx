@@ -1,9 +1,7 @@
 import { useMemo } from "react";
-import { completeDinners, COMPLETE_DINNER_META } from "../data/completeDinners.js";
-import { completeDinnerCollections } from "../data/completeDinnerCollections.js";
+import { COMPLETE_DINNER_META } from "../data/completeDinners.js";
 import { recipes } from "../data/recipes.js";
 import { hasRecipeNutritionRecord } from "../data/recipeNutritionProfiles.js";
-import { validateCompleteDinnerCatalog } from "../utils/completeDinnerValidation.js";
 import { RFIS_PROJECT_STATUS } from "../data/rfisProjectStatus.js";
 import "./RfisProjectDashboard.css";
 
@@ -33,10 +31,11 @@ function StatusPill({ children, tone = "neutral" }) {
   return <span className={`rfisStatusPill rfisTone-${tone}`}>{children}</span>;
 }
 
-export default function RfisProjectDashboard({ onClose }) {
+export default function RfisProjectDashboard({ rfisPlatform, onClose }) {
   const report = useMemo(() => {
-    const validation = validateCompleteDinnerCatalog(recipes);
-    const recipeIds = new Set(recipes.map((recipe) => recipe.id));
+    const validation = rfisPlatform.validation.all();
+    const completeDinners = rfisPlatform.completeDinners.all();
+    const recipeIds = new Set(rfisPlatform.recipes.all().map((recipe) => recipe.id));
     const nutritionCount = recipes.filter((recipe) => hasRecipeNutritionRecord(recipe.id)).length;
     const approvedHeroes = completeDinners.filter((dinner) => ["approved", "published"].includes(normalize(dinner.hero?.status))).length;
     const missingHeroes = completeDinners.length - approvedHeroes;
@@ -62,8 +61,8 @@ export default function RfisProjectDashboard({ onClose }) {
     const topSide = [...sideUsage.entries()].sort((a, b) => b[1] - a[1])[0] || ["—", 0];
 
     const relationshipCount = completeDinners.reduce((sum, dinner) => sum + 1 + (dinner.sideRecipeIds?.length || 0) + (dinner.collections?.length || 0), 0);
-    const collectionRows = Object.entries(completeDinnerCollections)
-      .map(([name, ids]) => ({ name, count: ids.length }))
+    const collectionRows = rfisPlatform.collections.list()
+      .map(({ name, count }) => ({ name, count }))
       .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
 
     const nextWork = [
@@ -74,7 +73,16 @@ export default function RfisProjectDashboard({ onClose }) {
     ];
 
     return {
-      validation,
+      validation: {
+        ok: validation.ok,
+        count: completeDinners.length,
+        errors: [
+          ...(validation.results?.references?.errors || []).map((item) => `${item.legacyId || item.dinnerId}: missing ${item.missingRecipeIds.join(", ")}`),
+          ...(validation.results?.duplicateCompositions?.duplicates || []).map((item) => `Duplicate composition: ${item.dinnerIds.join(", ")}`),
+          ...(validation.results?.sideCounts?.dinnerIds || []).map((id) => `${id}: invalid side count`),
+          ...(validation.results?.collections?.missing || []).map((item) => `${item.collection}: missing ${item.dinnerId}`),
+        ],
+      },
       nutritionCount,
       approvedHeroes,
       missingHeroes,
@@ -85,7 +93,7 @@ export default function RfisProjectDashboard({ onClose }) {
       topSide,
       nextWork,
     };
-  }, []);
+  }, [rfisPlatform]);
 
   const releaseChecks = [
     { label: "Complete Dinner references valid", ok: report.validation.ok },

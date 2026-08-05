@@ -16,7 +16,7 @@ function formatCompanion(dinner) {
 
 export default function RfisDinnerBuilder({
   recipes = [],
-  engine,
+  rfisPlatform,
   onOpenRecipe,
   onOpenDinner,
   onBack,
@@ -32,7 +32,7 @@ export default function RfisDinnerBuilder({
 
   const entreeOptions = useMemo(() => {
     const counts = new Map();
-    for (const dinner of engine.all()) {
+    for (const dinner of rfisPlatform.completeDinners.all()) {
       counts.set(dinner.entreeRecipeId, (counts.get(dinner.entreeRecipeId) || 0) + 1);
     }
     return [...counts.entries()]
@@ -42,7 +42,7 @@ export default function RfisDinnerBuilder({
         count,
       }))
       .sort((a, b) => a.name.localeCompare(b.name));
-  }, [engine, recipeMap]);
+  }, [rfisPlatform, recipeMap]);
 
   const visibleEntrees = useMemo(() => {
     const term = normalize(query);
@@ -54,8 +54,8 @@ export default function RfisDinnerBuilder({
 
   const entreeDinners = useMemo(() => {
     if (!entreeId) return [];
-    return engine.getDinnersByRecipe(entreeId, { role: "entree" });
-  }, [engine, entreeId]);
+    return rfisPlatform.completeDinners.byRecipe(entreeId, { role: "entree" });
+  }, [rfisPlatform, entreeId]);
 
   const sideRecommendations = useMemo(() => {
     const counts = new Map();

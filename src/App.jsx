@@ -28,7 +28,7 @@ import {
   dinnerCombinations,
   getDinnerCombinationSearchText,
 } from "./data/dinnerCombinations.js";
-import { createCompleteDinnerEngine } from "./services/completeDinnerEngine.js";
+import { createRfisPlatform } from "./services/createRfisPlatform.js";
 import { getRecipeCostEstimate, RECIPE_COST_NOTE, RECIPE_COST_TAGLINE } from "./data/recipeCosts";
 import {
   REFRIGERATOR_CATEGORIES,
@@ -66,7 +66,7 @@ import {
 import "./App.css";
 
 const recipes = sortRecipesByCode(applyStoredRecipeOverrides(baseRecipes));
-const completeDinnerEngine = createCompleteDinnerEngine({ recipes });
+const rfisPlatform = createRfisPlatform({ recipes });
 
 const STORAGE_KEYS = {
   favorites: "rrb_favorites",
@@ -3872,8 +3872,8 @@ function RecipeCardViewer({
   const constructionImagePath = constructionImageFailed
     ? ""
     : constructionImageCandidates[constructionImageIndex];
-  const recipeCompleteDinners = completeDinnerEngine
-    .getDinnersByRecipe(recipe.id)
+  const recipeCompleteDinners = rfisPlatform.completeDinners
+    .byRecipe(recipe.id)
     .slice(0, 4);
 
   function goToOffset(offset) {
@@ -4078,7 +4078,7 @@ function RecipeCardViewer({
 
         <RecipeIntelligencePanel
           recipe={recipe}
-          completeDinnerEngine={completeDinnerEngine}
+          rfisPlatform={rfisPlatform}
           hasNutritionRecord={hasFoodIntelligence}
         />
 
@@ -10772,8 +10772,8 @@ function formatDinnerLastMade(value) {
 function DinnerCombinationCard({ meal, onAddMealToPlan, onViewRelatedMeal, openRecipeCard, favorites, toggleFavorite }) {
   const preparedRequirements = getComboPreparedRequirements(meal);
   const relatedDinners = useMemo(() =>
-    completeDinnerEngine.getRelated(meal.id, { limit: 4 }).map((relationship) => {
-      const resolved = completeDinnerEngine.resolveDinner(relationship.dinner.id);
+    rfisPlatform.recommendations.relatedDinners(meal.id, { limit: 4 }).map((relationship) => {
+      const resolved = rfisPlatform.completeDinners.resolve(relationship.dinner.id);
       const sharedRecipeNames = relationship.sharedRecipes
         .map((recipeId) => recipes.find((recipe) => recipe.id === recipeId)?.title || recipeId)
         .filter(Boolean);
@@ -11233,10 +11233,10 @@ function DinnerCombinationsPage({ setActivePage, setFilter, setPlan, openRecipeC
     });
   }, [targetMealId, setTargetMealId]);
 
-  const completeDinnerCollections = useMemo(() => completeDinnerEngine.listCollections(), []);
+  const completeDinnerCollections = useMemo(() => rfisPlatform.collections.list(), []);
   const completeDinnerCollectionCards = useMemo(() =>
     completeDinnerCollections.map((collection) => {
-      const resolved = completeDinnerEngine.getCollection(collection.name);
+      const resolved = rfisPlatform.collections.get(collection.name);
       return {
         ...collection,
         sampleDinners: (resolved?.dinners || []).slice(0, 3).map((dinner) => dinner.title),
@@ -11246,11 +11246,11 @@ function DinnerCombinationsPage({ setActivePage, setFilter, setPlan, openRecipeC
 
   const activeDinnerCollection = useMemo(() => {
     if (collectionFilter === "all") return null;
-    return completeDinnerEngine.getCollection(collectionFilter);
+    return rfisPlatform.collections.get(collectionFilter);
   }, [collectionFilter]);
   const rfisSearchMealIds = useMemo(() => {
     if (!searchTerm.trim()) return null;
-    return new Set(completeDinnerEngine.search(searchTerm).map((dinner) => dinner.legacyId));
+    return new Set(rfisPlatform.search.dinners(searchTerm).map((dinner) => dinner.legacyId));
   }, [searchTerm]);
 
   const filteredMeals = useMemo(() => {
@@ -11258,7 +11258,7 @@ function DinnerCombinationsPage({ setActivePage, setFilter, setPlan, openRecipeC
       .filter((meal) => !rfisSearchMealIds || rfisSearchMealIds.has(meal.id))
       .filter((meal) => {
         if (collectionFilter === "all") return true;
-        const rfisDinner = completeDinnerEngine.getDinner(meal.id);
+        const rfisDinner = rfisPlatform.completeDinners.get(meal.id);
         return (rfisDinner?.collections || []).includes(collectionFilter);
       })
       .filter((meal) => proteinFilter === "all" || (meal.tags || []).includes(proteinFilter))
@@ -14283,7 +14283,7 @@ export default function App() {
         <Header activePage={activePage} setActivePage={setActivePage} favorites={favorites} />
 
       {activePage === "RFIS Project Dashboard" && (
-        <RfisProjectDashboard onClose={() => setActivePage("Home")} />
+        <RfisProjectDashboard rfisPlatform={rfisPlatform} onClose={() => setActivePage("Home")} />
       )}
 
       {activePage === "Admin Recipes" && (
@@ -14437,7 +14437,7 @@ export default function App() {
           />
           <RfisDinnerBuilder
             recipes={recipes}
-            engine={completeDinnerEngine}
+            rfisPlatform={rfisPlatform}
             onOpenRecipe={(recipeId) => openRecipeCard(recipeId, recipes, "Dinner Builder")}
             onOpenDinner={(mealId) => {
               setCompleteDinnerTarget(mealId);
