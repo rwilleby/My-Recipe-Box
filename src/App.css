@@ -34194,6 +34194,82 @@ body.rrbPopupOpen {
   width: min(780px, calc(100vw - 28px)) !important;
 }
 
+/* ================================================================
+   AUGUST 2026 — HOMEPAGE TASK SELECTOR
+   Keeps the approved six-card dimensions and spacing unchanged.
+   ================================================================ */
+
+.homePhotoFeatureHeader {
+  align-items: flex-start !important;
+}
+
+.homePhotoFeatureHeader > div {
+  width: 100%;
+}
+
+.homeActionChoices {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: clamp(5px, 0.7vw, 10px);
+  width: 100%;
+  margin-top: 9px;
+}
+
+.homeActionChoice {
+  min-width: 0;
+  min-height: 34px;
+  padding: 7px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.62);
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #263b54;
+  box-shadow: 0 3px 9px rgba(17, 24, 39, 0.08);
+  font-family: Inter, Arial, sans-serif;
+  font-size: clamp(10px, 0.92vw, 13px);
+  font-weight: 700;
+  line-height: 1.15;
+  text-align: center;
+  cursor: pointer;
+  transition: background 160ms ease, border-color 160ms ease, color 160ms ease,
+    box-shadow 160ms ease, transform 160ms ease;
+}
+
+.homeActionChoice:hover {
+  transform: translateY(-1px);
+  border-color: rgba(119, 24, 38, 0.38);
+  box-shadow: 0 5px 12px rgba(17, 24, 39, 0.12);
+}
+
+.homeActionChoice:focus-visible {
+  outline: 3px solid rgba(190, 137, 42, 0.7);
+  outline-offset: 2px;
+}
+
+.homeActionChoice.isActive {
+  border-color: #711827;
+  background: #711827;
+  color: #ffffff;
+  box-shadow: 0 5px 13px rgba(113, 24, 39, 0.25);
+}
+
+.homePhotoFeatureHeader p.homeActionSubtext {
+  min-height: 17px;
+  margin-top: 7px;
+  color: #33465d;
+  font-size: clamp(10px, 0.86vw, 12px);
+  font-weight: 600;
+}
+
+@media (max-width: 760px) {
+  .homeActionChoices {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .homeActionChoice:last-child {
+    grid-column: 1 / -1;
+  }
+}
+
 .homeFeatureModalText {
   max-height: 58vh !important;
   overflow-y: auto !important;

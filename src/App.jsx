@@ -1850,6 +1850,91 @@ const HOME_PHOTO_FEATURES = [
   },
 ];
 
+function makeHomeActionFeatures(items) {
+  return items.map(([title, description, page], index) => ({
+    ...HOME_PHOTO_FEATURES[index],
+    title,
+    description,
+    page,
+    explanation: description,
+    benefits:
+      "This shortcut keeps the next step clear and puts the most useful tools for this task in one place.",
+  }));
+}
+
+const HOME_ACTIONS = [
+  {
+    id: "tonight",
+    label: "Plan tonight’s dinner",
+    subtext:
+      "Choose a ready-made Complete Dinner, build your own meal, or find a quick recipe for tonight.",
+    features: makeHomeActionFeatures([
+      ["Complete Dinners", "Choose a complete main-and-sides dinner.", "Dinner Combinations"],
+      ["Quick & Easy", "Find dinner ideas ready in about 30 minutes.", "Easy 30-Minute Meals"],
+      ["Browse Recipes", "Explore the full recipe-card collection.", "Recipes"],
+      ["Meals for Two", "Find practical portions for smaller households.", "Meals for Two"],
+      ["Your Favorites", "Return to recipes you already saved.", "Favorites"],
+      ["Freezer Options", "Use a prepared meal already in your freezer.", "Kitchen Freezer"],
+    ]),
+  },
+  {
+    id: "week",
+    label: "Plan the week",
+    subtext:
+      "Build a flexible weekly meal plan, account for leftovers, and turn it into an organized grocery list.",
+    features: makeHomeActionFeatures([
+      ["Weekly Planner", "Choose meals for the days ahead.", "Meal Planner"],
+      ["Complete Dinners", "Add coordinated main-and-side meals.", "Dinner Combinations"],
+      ["Browse Recipes", "Find recipes to fill open days.", "Recipes"],
+      ["Freezer-Friendly", "Plan easy freezer meals for busy days.", "Freezer-Friendly Meals"],
+      ["Make-Ahead Meals", "Move some of the week’s cooking earlier.", "Make-Ahead Meals"],
+      ["Grocery List", "Organize what you need to buy.", "Shopping Lists"],
+    ]),
+  },
+  {
+    id: "cook",
+    label: "Start cooking",
+    subtext:
+      "Open a recipe, check the directions, and get the cooking guidance you need without extra searching.",
+    features: makeHomeActionFeatures([
+      ["Browse Recipes", "Choose the recipe you want to cook now.", "Recipes"],
+      ["Your Favorites", "Cook a dependable saved favorite.", "Favorites"],
+      ["Quick & Easy", "Start with a faster recipe.", "Easy 30-Minute Meals"],
+      ["Slow Cooker", "Choose a hands-off slow-cooker meal.", "Slow Cooker Favorites"],
+      ["Cooking Guides", "Check methods, temperatures, and helpful tips.", "Reference Guides"],
+      ["Today’s Plan", "Open the meal already planned for today.", "Meal Planner"],
+    ]),
+  },
+  {
+    id: "freezer",
+    label: "Prepare freezer meals",
+    subtext:
+      "Choose freezer-friendly recipes, plan portions, and keep packaging, labeling, and reheating organized.",
+    features: makeHomeActionFeatures([
+      ["Freezer-Friendly", "Browse recipes designed to freeze well.", "Freezer-Friendly Meals"],
+      ["Complete Dinners", "Prepare coordinated freezer-ready dinners.", "Dinner Combinations"],
+      ["Make-Ahead Meals", "Prepare meals now and finish them later.", "Make-Ahead Meals"],
+      ["Packaging Options", "Choose practical containers and portions.", "Packaging Options"],
+      ["Freezer Inventory", "See what is already frozen.", "Kitchen Freezer"],
+      ["Freeze & Reheat", "Review freezing, thawing, and reheating help.", "Freezer Tips"],
+    ]),
+  },
+  {
+    id: "ingredients",
+    label: "Use what I have",
+    subtext:
+      "Start with ingredients already in your pantry, refrigerator, or freezer and reduce unnecessary shopping.",
+    features: makeHomeActionFeatures([
+      ["Your Pantry", "Check shelf-stable ingredients on hand.", "Pantry Staples"],
+      ["Refrigerator", "Review fresh foods and leftovers first.", "Kitchen Refrigerator"],
+      ["Freezer Inventory", "Find frozen meals and ingredients to use.", "Kitchen Freezer"],
+      ["Browse Recipes", "Match what you have with a recipe idea.", "Recipes"],
+      ["Meal Planner", "Build meals around available ingredients.", "Meal Planner"],
+      ["Grocery Gaps", "Add only the missing items to your list.", "Shopping Lists"],
+    ]),
+  },
+];
+
 function HomePhotoFeatureModal({ feature, onClose, setActivePage }) {
   usePopupPageMode(Boolean(feature));
 
@@ -1927,6 +2012,9 @@ function HomePhotoFeatureModal({ feature, onClose, setActivePage }) {
 
 function HomePhotoFeatureSection({ setActivePage }) {
   const [selectedFeature, setSelectedFeature] = useState(null);
+  const [activeActionId, setActiveActionId] = useState(HOME_ACTIONS[0].id);
+  const activeAction =
+    HOME_ACTIONS.find((action) => action.id === activeActionId) || HOME_ACTIONS[0];
 
   return (
     <>
@@ -1936,18 +2024,39 @@ function HomePhotoFeatureSection({ setActivePage }) {
       >
         <div className="sectionTitle homePhotoFeatureHeader">
           <div>
-            <h2 id="home-photo-features-title">
-              Everything You Need for Smarter Home Cooking
-            </h2>
-            <p>
-              Recipes, meal planning, shopping tools, cooking help, and practical
-              freezer organization.
+            <h2 id="home-photo-features-title">What do you want to do today?</h2>
+
+            <div
+              className="homeActionChoices"
+              role="tablist"
+              aria-label="Choose what you want to do today"
+            >
+              {HOME_ACTIONS.map((action) => {
+                const isActive = action.id === activeAction.id;
+
+                return (
+                  <button
+                    key={action.id}
+                    type="button"
+                    role="tab"
+                    aria-selected={isActive}
+                    className={`homeActionChoice${isActive ? " isActive" : ""}`}
+                    onClick={() => setActiveActionId(action.id)}
+                  >
+                    {action.label}
+                  </button>
+                );
+              })}
+            </div>
+
+            <p className="homeActionSubtext" aria-live="polite">
+              {activeAction.subtext}
             </p>
           </div>
         </div>
 
-        <div className="homePhotoFeatureGrid">
-          {HOME_PHOTO_FEATURES.map((feature) => (
+        <div className="homePhotoFeatureGrid" key={activeAction.id}>
+          {activeAction.features.map((feature) => (
             <button
               key={feature.title}
               type="button"
