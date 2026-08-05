@@ -15,7 +15,7 @@ export function createRfisPlatform({ recipes = [], dinners = defaultCompleteDinn
   const recommendationService = createRecommendationService({ completeDinnerService });
   const searchService = createSearchService({ recipeService, completeDinnerService, collectionService });
   const heroService = createHeroService({ placeholder: heroPlaceholder });
-  const validationService = createValidationService({ recipeService, completeDinnerService, collectionService });
+  const validationService = createValidationService({ recipeService, completeDinnerService, collectionService, heroService });
 
   return Object.freeze({
     recipes: recipeService,
