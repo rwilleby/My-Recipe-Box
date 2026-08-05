@@ -38540,3 +38540,115 @@ body.rrbPopupOpen {
   .dinnerRelatedHeading small { text-align: left; }
   .dinnerRelatedGrid { grid-template-columns: 1fr; }
 }
+
+/* RFIS recipe-to-Complete-Dinner recommendations */
+.recipeCompleteDinnerPanel {
+  margin: 14px 56px 0;
+  padding: 14px 16px 16px;
+  border: 1px solid rgba(91, 31, 36, 0.2);
+  border-radius: 16px;
+  background: #fbf7ec;
+  box-shadow: 0 8px 20px rgba(35, 28, 20, 0.08);
+}
+
+.recipeCompleteDinnerPanelHeader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 10px;
+}
+
+.recipeCompleteDinnerPanelHeader span {
+  display: block;
+  margin-bottom: 2px;
+  color: #6d2b30;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+}
+
+.recipeCompleteDinnerPanelHeader h3 {
+  margin: 0;
+  color: #2e241e;
+  font-family: Georgia, serif;
+  font-size: 1.08rem;
+}
+
+.recipeCompleteDinnerPanelHeader small {
+  color: #6c625a;
+  white-space: nowrap;
+}
+
+.recipeCompleteDinnerGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.recipeCompleteDinnerCard {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid rgba(23, 74, 42, 0.2);
+  border-radius: 12px;
+  background: #fff;
+  color: #2d2925;
+  text-align: left;
+  cursor: pointer;
+}
+
+.recipeCompleteDinnerCard:hover,
+.recipeCompleteDinnerCard:focus-visible {
+  border-color: #174a2a;
+  box-shadow: 0 5px 14px rgba(23, 74, 42, 0.12);
+  transform: translateY(-1px);
+}
+
+.recipeCompleteDinnerCard > span {
+  color: #6d2b30;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+}
+
+.recipeCompleteDinnerCard strong {
+  overflow: hidden;
+  color: #2d2925;
+  font-family: Georgia, serif;
+  font-size: 0.98rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.recipeCompleteDinnerCard em {
+  color: #174a2a;
+  font-size: 0.78rem;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.recipeCompleteDinnerCard small {
+  overflow: hidden;
+  color: #6c625a;
+  font-size: 0.76rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 760px) {
+  .recipeCompleteDinnerPanel {
+    margin-inline: 12px;
+  }
+
+  .recipeCompleteDinnerPanelHeader {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .recipeCompleteDinnerGrid {
+    grid-template-columns: 1fr;
+  }
+}

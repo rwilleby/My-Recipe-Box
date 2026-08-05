@@ -3821,6 +3821,7 @@ function RecipeCardViewer({
   favorites,
   toggleFavorite,
   recipeData = recipes,
+  onOpenCompleteDinner,
 }) {
   const [imageIndex, setImageIndex] = useState(0);
   const [constructionImageIndex, setConstructionImageIndex] = useState(0);
@@ -3867,6 +3868,9 @@ function RecipeCardViewer({
   const constructionImagePath = constructionImageFailed
     ? ""
     : constructionImageCandidates[constructionImageIndex];
+  const recipeCompleteDinners = completeDinnerEngine
+    .getDinnersByRecipe(recipe.id)
+    .slice(0, 4);
 
   function goToOffset(offset) {
     if (!hasMultiple) return;
@@ -4066,6 +4070,39 @@ function RecipeCardViewer({
               ))}
             </div>
           </div>
+        )}
+
+        {recipeCompleteDinners.length > 0 && (
+          <section className="recipeCompleteDinnerPanel" aria-label={`Complete Dinners featuring ${recipe.title}`}>
+            <div className="recipeCompleteDinnerPanelHeader">
+              <div>
+                <span>RFIS RECOMMENDATIONS</span>
+                <h3>Complete Dinners Featuring This Recipe</h3>
+              </div>
+              <small>{recipeCompleteDinners.length} matching dinner{recipeCompleteDinners.length === 1 ? "" : "s"}</small>
+            </div>
+            <div className="recipeCompleteDinnerGrid">
+              {recipeCompleteDinners.map((dinner) => {
+                const role = dinner.entreeRecipeId === recipe.id ? "Featured entrée" : "Included side";
+                const sideNames = (dinner.sideRecipeIds || [])
+                  .map((id) => recipes.find((item) => item.id === id)?.title || id)
+                  .join(" · ");
+                return (
+                  <button
+                    type="button"
+                    className="recipeCompleteDinnerCard"
+                    key={`${recipe.id}-${dinner.id}`}
+                    onClick={() => onOpenCompleteDinner?.(dinner.legacyId)}
+                  >
+                    <span>{dinner.legacyId}</span>
+                    <strong>{dinner.title}</strong>
+                    <em>{role}</em>
+                    <small>{sideNames}</small>
+                  </button>
+                );
+              })}
+            </div>
+          </section>
         )}
 
         {openPanel && (
@@ -11147,7 +11184,7 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, onViewRelatedMeal, openR
   );
 }
 
-function DinnerCombinationsPage({ setActivePage, setFilter, setPlan, openRecipeCard, favorites, toggleFavorite }) {
+function DinnerCombinationsPage({ setActivePage, setFilter, setPlan, openRecipeCard, favorites, toggleFavorite, targetMealId, setTargetMealId }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [proteinFilter, setProteinFilter] = useState("all");
   const [sideFilter, setSideFilter] = useState("all");
@@ -11159,6 +11196,25 @@ function DinnerCombinationsPage({ setActivePage, setFilter, setPlan, openRecipeC
   const [lowerCalorieOnly, setLowerCalorieOnly] = useState(false);
   const [higherProteinOnly, setHigherProteinOnly] = useState(false);
   const [sortMode, setSortMode] = useState("meal-number");
+
+  useEffect(() => {
+    if (!targetMealId) return;
+    setProteinFilter("all");
+    setSideFilter("all");
+    setCuisineFilter("all");
+    setCollectionFilter("all");
+    setFreezerFilter("all");
+    setMealBalanceFilter("all");
+    setCookingMethodFilter("all");
+    setLowerCalorieOnly(false);
+    setHigherProteinOnly(false);
+    setSortMode("meal-number");
+    setSearchTerm(targetMealId);
+    setTargetMealId?.("");
+    window.requestAnimationFrame(() => {
+      document.querySelector(".dinnerCombinationsPage")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }, [targetMealId, setTargetMealId]);
 
   const completeDinnerCollections = useMemo(() => completeDinnerEngine.listCollections(), []);
   const rfisSearchMealIds = useMemo(() => {
@@ -14014,6 +14070,7 @@ export default function App() {
   const [leftoversRecipe, setLeftoversRecipe] = useState(null);
   const [filter, setFilter] = useState("");
   const [cardViewer, setCardViewer] = useState(null);
+  const [completeDinnerTarget, setCompleteDinnerTarget] = useState("");
   const [recipeClassifications, setRecipeClassifications] = useState(() =>
     loadRecipeClassifications()
   );
@@ -14299,6 +14356,8 @@ export default function App() {
             openRecipeCard={openRecipeCard}
             favorites={favorites}
             toggleFavorite={toggleFavorite}
+            targetMealId={completeDinnerTarget}
+            setTargetMealId={setCompleteDinnerTarget}
           />
         </>
       )}
@@ -15989,6 +16048,11 @@ The score is not a judgment and it is not medical or dietary advice. It is one p
         favorites={favorites}
         toggleFavorite={toggleFavorite}
         recipeData={classifiedRecipes}
+        onOpenCompleteDinner={(mealId) => {
+          setCardViewer(null);
+          setCompleteDinnerTarget(mealId);
+          setActivePage("Dinner Combinations");
+        }}
       />
 
       <footer className="footer">
