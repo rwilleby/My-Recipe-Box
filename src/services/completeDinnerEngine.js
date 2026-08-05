@@ -222,6 +222,42 @@ export function createCompleteDinnerEngine({
       .slice(0, Math.max(0, limit));
   }
 
+  function listEntrees() {
+    const counts = new Map();
+    for (const dinner of ordered) {
+      counts.set(dinner.entreeRecipeId, (counts.get(dinner.entreeRecipeId) || 0) + 1);
+    }
+    return [...counts.entries()]
+      .map(([recipeId, dinnerCount]) => ({
+        recipeId,
+        recipe: recipeMap.get(recipeId) || null,
+        dinnerCount,
+      }))
+      .sort((a, b) => {
+        const aName = a.recipe?.title || a.recipe?.name || a.recipeId;
+        const bName = b.recipe?.title || b.recipe?.name || b.recipeId;
+        return aName.localeCompare(bName);
+      });
+  }
+
+  function getSideRecommendations(entreeRecipeId) {
+    const counts = new Map();
+    for (const dinner of getDinnersByRecipe(entreeRecipeId, { role: "entree" })) {
+      for (const sideRecipeId of dinner.sideRecipeIds || []) {
+        const current = counts.get(sideRecipeId) || {
+          recipeId: sideRecipeId,
+          recipe: recipeMap.get(sideRecipeId) || null,
+          count: 0,
+          dinnerIds: [],
+        };
+        current.count += 1;
+        current.dinnerIds.push(dinner.id);
+        counts.set(sideRecipeId, current);
+      }
+    }
+    return [...counts.values()].sort((a, b) => b.count - a.count || a.recipeId.localeCompare(b.recipeId));
+  }
+
   function validateReferences() {
     const errors = [];
     for (const dinner of ordered) {
@@ -244,6 +280,8 @@ export function createCompleteDinnerEngine({
     filterDinners,
     search,
     getRelated,
+    listEntrees,
+    getSideRecommendations,
     validateReferences,
     hasDinner: (identifier) => Boolean(getDinner(identifier)),
     hasRecipeReference: (recipeId) => byRecipeId.has(recipeId),

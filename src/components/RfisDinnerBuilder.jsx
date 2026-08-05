@@ -1,0 +1,260 @@
+import { useMemo, useState } from "react";
+
+function recipeName(recipe) {
+  return recipe?.title || recipe?.name || recipe?.id || "Recipe";
+}
+
+function normalize(value) {
+  return String(value ?? "").trim().toLowerCase();
+}
+
+function formatCompanion(dinner) {
+  return [dinner.freshCompanion, dinner.optionalBread, dinner.garnish]
+    .filter(Boolean)
+    .join(" • ");
+}
+
+export default function RfisDinnerBuilder({
+  recipes = [],
+  engine,
+  onOpenRecipe,
+  onOpenDinner,
+  onBack,
+}) {
+  const [query, setQuery] = useState("");
+  const [entreeId, setEntreeId] = useState("");
+  const [sideId, setSideId] = useState("");
+
+  const recipeMap = useMemo(
+    () => new Map(recipes.map((recipe) => [recipe.id, recipe])),
+    [recipes]
+  );
+
+  const entreeOptions = useMemo(() => {
+    const counts = new Map();
+    for (const dinner of engine.all()) {
+      counts.set(dinner.entreeRecipeId, (counts.get(dinner.entreeRecipeId) || 0) + 1);
+    }
+    return [...counts.entries()]
+      .map(([id, count]) => ({
+        id,
+        name: recipeName(recipeMap.get(id)),
+        count,
+      }))
+      .sort((a, b) => a.name.localeCompare(b.name));
+  }, [engine, recipeMap]);
+
+  const visibleEntrees = useMemo(() => {
+    const term = normalize(query);
+    if (!term) return entreeOptions;
+    return entreeOptions.filter((item) =>
+      normalize(`${item.id} ${item.name}`).includes(term)
+    );
+  }, [entreeOptions, query]);
+
+  const entreeDinners = useMemo(() => {
+    if (!entreeId) return [];
+    return engine.getDinnersByRecipe(entreeId, { role: "entree" });
+  }, [engine, entreeId]);
+
+  const sideRecommendations = useMemo(() => {
+    const counts = new Map();
+    for (const dinner of entreeDinners) {
+      for (const id of dinner.sideRecipeIds || []) {
+        const current = counts.get(id) || { id, count: 0, dinnerIds: [] };
+        current.count += 1;
+        current.dinnerIds.push(dinner.legacyId);
+        counts.set(id, current);
+      }
+    }
+    return [...counts.values()]
+      .map((item) => ({
+        ...item,
+        name: recipeName(recipeMap.get(item.id)),
+      }))
+      .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
+  }, [entreeDinners, recipeMap]);
+
+  const displayedDinners = useMemo(() => {
+    if (!sideId) return entreeDinners;
+    return entreeDinners.filter((dinner) =>
+      (dinner.sideRecipeIds || []).includes(sideId)
+    );
+  }, [entreeDinners, sideId]);
+
+  const selectedEntree = entreeId ? recipeMap.get(entreeId) : null;
+
+  function selectEntree(id) {
+    setEntreeId(id);
+    setSideId("");
+  }
+
+  return (
+    <main className="pageShell rfisDinnerBuilder">
+      <header className="rfisDinnerBuilderHeader">
+        <div>
+          <span className="rfisDinnerBuilderEyebrow">RFIS VERIFIED PAIRINGS</span>
+          <h2>Dinner Builder</h2>
+          <p>
+            Start with an entrée. RFIS will show only approved Complete Dinners
+            and sides already connected to that recipe.
+          </p>
+        </div>
+        <button type="button" className="rfisDinnerBuilderBack" onClick={onBack}>
+          Back to Complete Dinners
+        </button>
+      </header>
+
+      <section className="rfisDinnerBuilderPanel" aria-labelledby="builder-entree-title">
+        <div className="rfisDinnerBuilderPanelHeading">
+          <div>
+            <span>Step 1</span>
+            <h3 id="builder-entree-title">Choose an entrée</h3>
+          </div>
+          <label>
+            Find an entrée
+            <input
+              type="search"
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              placeholder="Search by name or code"
+            />
+          </label>
+        </div>
+
+        <div className="rfisDinnerBuilderEntreeGrid">
+          {visibleEntrees.map((item) => (
+            <button
+              type="button"
+              key={item.id}
+              className={entreeId === item.id ? "is-selected" : ""}
+              aria-pressed={entreeId === item.id}
+              onClick={() => selectEntree(item.id)}
+            >
+              <strong>{item.name}</strong>
+              <span>{item.id}</span>
+              <small>
+                {item.count} verified dinner{item.count === 1 ? "" : "s"}
+              </small>
+            </button>
+          ))}
+        </div>
+      </section>
+
+      {!entreeId ? (
+        <section className="rfisDinnerBuilderEmpty">
+          <h3>Select an entrée to begin</h3>
+          <p>
+            The builder does not create unverified combinations. It recommends
+            only dinners already approved in the RFIS catalog.
+          </p>
+        </section>
+      ) : (
+        <>
+          <section className="rfisDinnerBuilderPanel" aria-labelledby="builder-side-title">
+            <div className="rfisDinnerBuilderPanelHeading">
+              <div>
+                <span>Step 2</span>
+                <h3 id="builder-side-title">Refine by a verified side</h3>
+                <p>
+                  Side rankings reflect how often each side appears with{" "}
+                  <strong>{recipeName(selectedEntree)}</strong> in approved
+                  Complete Dinners.
+                </p>
+              </div>
+              <button
+                type="button"
+                className={!sideId ? "is-selected" : ""}
+                onClick={() => setSideId("")}
+              >
+                Show all pairings
+              </button>
+            </div>
+
+            <div className="rfisDinnerBuilderSideGrid">
+              {sideRecommendations.map((side) => (
+                <button
+                  type="button"
+                  key={side.id}
+                  className={sideId === side.id ? "is-selected" : ""}
+                  aria-pressed={sideId === side.id}
+                  onClick={() => setSideId(side.id)}
+                >
+                  <strong>{side.name}</strong>
+                  <span>{side.id}</span>
+                  <small>
+                    Used in {side.count} approved dinner{side.count === 1 ? "" : "s"}
+                  </small>
+                </button>
+              ))}
+            </div>
+          </section>
+
+          <section className="rfisDinnerBuilderPanel" aria-labelledby="builder-results-title">
+            <div className="rfisDinnerBuilderPanelHeading">
+              <div>
+                <span>Step 3</span>
+                <h3 id="builder-results-title">
+                  Verified Complete Dinners ({displayedDinners.length})
+                </h3>
+              </div>
+              <button type="button" onClick={() => onOpenRecipe?.(entreeId)}>
+                View entrée recipe
+              </button>
+            </div>
+
+            {displayedDinners.length ? (
+              <div className="rfisDinnerBuilderResults">
+                {displayedDinners.map((dinner) => {
+                  const sideNames = (dinner.sideRecipeIds || [])
+                    .map((id) => recipeName(recipeMap.get(id)))
+                    .join(" + ");
+                  const companion = formatCompanion(dinner);
+                  return (
+                    <article key={dinner.id}>
+                      <div>
+                        <span>{dinner.legacyId.toUpperCase()}</span>
+                        <h4>{dinner.title}</h4>
+                        <p>
+                          <strong>Freezer sides:</strong> {sideNames}
+                        </p>
+                        {companion && (
+                          <p>
+                            <strong>Serve separately:</strong> {companion}
+                          </p>
+                        )}
+                      </div>
+                      <div className="rfisDinnerBuilderResultActions">
+                        {(dinner.sideRecipeIds || []).map((id) => (
+                          <button
+                            type="button"
+                            key={id}
+                            onClick={() => onOpenRecipe?.(id)}
+                          >
+                            View {recipeName(recipeMap.get(id))}
+                          </button>
+                        ))}
+                        <button
+                          type="button"
+                          className="primary"
+                          onClick={() => onOpenDinner?.(dinner.legacyId)}
+                        >
+                          Open Complete Dinner
+                        </button>
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="rfisDinnerBuilderEmpty compact">
+                <h4>No approved dinner uses that side yet</h4>
+                <p>Choose another verified side or show all pairings.</p>
+              </div>
+            )}
+          </section>
+        </>
+      )}
+    </main>
+  );
+}

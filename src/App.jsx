@@ -6,6 +6,8 @@ import AdminComboMealBuilder from "./components/AdminComboMealBuilder";
 import AdminNutritionDatabase from "./components/AdminNutritionDatabase";
 import RfisProjectDashboard from "./components/RfisProjectDashboard";
 import RecipeIntelligencePanel from "./components/RecipeIntelligencePanel";
+import RfisDinnerBuilder from "./components/RfisDinnerBuilder";
+import "./components/RfisDinnerBuilder.css";
 import DinnerCombinationHeroAudit from "./DinnerCombinationHeroAudit.jsx";
 import UserDataBackupSection from "./components/UserDataBackupSection";
 import FoodIntelligenceCard from "./components/FoodIntelligenceCard";
@@ -11359,11 +11361,16 @@ function DinnerCombinationsPage({ setActivePage, setFilter, setPlan, openRecipeC
             <h2 id="dinnerCollectionBrowserTitle">Complete Dinner Collections</h2>
             <p>Choose a curated collection or continue browsing all verified Complete Dinners.</p>
           </div>
-          {collectionFilter !== "all" && (
-            <button type="button" onClick={() => setCollectionFilter("all")}>
-              View All Dinners
+          <div className="dinnerCollectionBrowserActions">
+            <button type="button" onClick={() => setActivePage("Dinner Builder")}>
+              Build a Dinner
             </button>
-          )}
+            {collectionFilter !== "all" && (
+              <button type="button" onClick={() => setCollectionFilter("all")}>
+                View All Dinners
+              </button>
+            )}
+          </div>
         </div>
 
         <div className="dinnerCollectionCardGrid">
@@ -14415,6 +14422,28 @@ export default function App() {
             toggleFavorite={toggleFavorite}
             addToPlan={addToPlan}
             openRecipeCard={openRecipeCard}
+          />
+        </>
+      )}
+      {activePage === "Dinner Builder" && (
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-page-complete-dinners.webp"
+            alt="Complete dinner ingredients and planning materials on a pale kitchen surface"
+            eyebrow="COMPLETE DINNERS"
+            title="Build a Complete Dinner"
+            text="Choose a verified entrée to see the Complete Dinners already built around it, the freezer sides most often paired with it, and serving-time companions recorded in RFIS. This first version recommends only approved combinations; it does not invent or save unverified meals."
+            className="pageHeroDepth464"
+          />
+          <RfisDinnerBuilder
+            recipes={recipes}
+            engine={completeDinnerEngine}
+            onOpenRecipe={(recipeId) => openRecipeCard(recipeId, recipes, "Dinner Builder")}
+            onOpenDinner={(mealId) => {
+              setCompleteDinnerTarget(mealId);
+              setActivePage("Dinner Combinations");
+            }}
+            onBack={() => setActivePage("Dinner Combinations")}
           />
         </>
       )}
