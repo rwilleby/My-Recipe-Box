@@ -45,3 +45,18 @@ assert.equal(completeDinnerService.listEntrees().length, 2);
 assert.equal(completeDinnerService.sideRecommendations("AM-001").length, 2);
 
 console.log("RFIS Platform v1.0 service tests passed");
+
+const unifiedSearch = searchService.all("Comfort", { recipeLimit: 50, dinnerLimit: 50 });
+assert.ok(Array.isArray(unifiedSearch.recipes));
+assert.ok(Array.isArray(unifiedSearch.dinners));
+assert.ok(Array.isArray(unifiedSearch.collections));
+assert.ok(unifiedSearch.collections.some((collection) => collection.name === "Comfort"));
+
+const codeSearch = searchService.all("MEAL-001");
+assert.ok(codeSearch.dinners.some((dinner) => dinner.legacyId === "meal-001"));
+
+const sideSearch = searchService.all("Green Beans");
+assert.ok(sideSearch.recipes.some((recipe) => recipe.id === "SD-004"));
+assert.ok(sideSearch.dinners.length > 0);
+
+console.log("Unified search contracts passed");
