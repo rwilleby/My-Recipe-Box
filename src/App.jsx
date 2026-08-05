@@ -5710,22 +5710,8 @@ function RecipesPage({
 }
 
 
-function dinnerMealImageCandidates(meal) {
-  if (!meal || meal.heroAvailable === false) return [];
-  const paddedMealNumber = String(meal.number || "").padStart(3, "0");
-  const candidates = [
-    paddedMealNumber ? `images/dinner-combinations/meal-${paddedMealNumber}.webp` : "",
-    paddedMealNumber ? `images/dinner-combinations/meal-${paddedMealNumber}.webp` : "",
-    paddedMealNumber ? `images/dinner-combinations/MEAL-${paddedMealNumber}.webp` : "",
-    paddedMealNumber ? `images/dinner-combinations/MEAL-${paddedMealNumber}.webp` : "",
-    paddedMealNumber ? `images/dinner-combinations/meal-${paddedMealNumber}.webp` : "",
-    paddedMealNumber ? `images/dinner-combinations/MEAL-${paddedMealNumber}.webp` : "",
-    paddedMealNumber ? `images/dinner-combinations/meal-${paddedMealNumber}.webp` : "",
-    paddedMealNumber ? `images/dinner-combinations/MEAL-${paddedMealNumber}.webp` : "",
-    meal.image,
-  ].filter(Boolean);
-
-  return [...new Set(candidates)];
+function dinnerMealImageCandidates(meal, variant = "large") {
+  return rfisPlatform.heroes.candidates(meal, { variant });
 }
 
 function DinnerCombinationImage({ meal, className = "", loading = "lazy", fetchPriority = "auto" }) {
@@ -5749,10 +5735,11 @@ function DinnerCombinationImage({ meal, className = "", loading = "lazy", fetchP
   }
 
   if (!imagePath) {
+    const fallback = rfisPlatform.heroes.fallback(meal);
     return (
       <div className={`dinnerCombinationImageFallback ${className}`.trim()}>
-        <span>Meal #{meal?.number || ""}</span>
-        <small>New hero in production</small>
+        <span>{fallback.label}</span>
+        <small>{fallback.message}</small>
       </div>
     );
   }
@@ -10969,8 +10956,8 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, onViewRelatedMeal, openR
               />
             ) : (
               <div className="dinnerCombinationImagePlaceholder">
-                <span>Meal #{meal.number}</span>
-                <small>New hero in production</small>
+                <span>{rfisPlatform.heroes.fallback(meal).label}</span>
+                <small>{rfisPlatform.heroes.fallback(meal).message}</small>
               </div>
             )}
           </div>
