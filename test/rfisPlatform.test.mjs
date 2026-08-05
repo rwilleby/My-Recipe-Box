@@ -19,7 +19,10 @@ const dinners = [
 ];
 const collections = { Comfort: ["CD-0001", "CD-0002"] };
 
-const recipeService = createRecipeService({ recipes });
+const recipeService = createRecipeService({
+  recipes,
+  hasNutritionRecord: (recipeId) => recipeId !== "SD-004",
+});
 const completeDinnerService = createCompleteDinnerService({ dinners, recipeService });
 const collectionService = createCollectionService({ collections, completeDinnerService, recipeService });
 const recommendationService = createRecommendationService({ completeDinnerService, recipeService });
@@ -197,3 +200,26 @@ assert.equal(collectionSearch[0].name, "Comfort");
 assert.ok(collectionSearch[0].score > 0);
 
 console.log("Collection Service consolidation contracts passed");
+
+const salisburyProfile = recipeService.profile("AM-001");
+assert.equal(salisburyProfile.name, "Salisbury Steak");
+assert.equal(salisburyProfile.category, "AM");
+assert.equal(salisburyProfile.hasNutritionRecord, true);
+
+const greenBeansProfile = recipeService.profile("SD-004");
+assert.equal(greenBeansProfile.hasNutritionRecord, false);
+
+const recipePresentation = recipeService.present("AM-001");
+assert.equal(recipePresentation.id, "AM-001");
+assert.equal(recipePresentation.name, "Salisbury Steak");
+
+const nutritionSummary = recipeService.nutritionSummary();
+assert.equal(nutritionSummary.total, 4);
+assert.equal(nutritionSummary.available, 3);
+assert.equal(nutritionSummary.missing, 1);
+assert.equal(nutritionSummary.complete, false);
+
+assert.ok(recipeService.categories().some((item) => item.name === "AM"));
+assert.equal(recipeService.classificationSummary().total, 4);
+
+console.log("Recipe Service consolidation contracts passed");
