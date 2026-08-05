@@ -2016,6 +2016,30 @@ function HomePhotoFeatureSection({ setActivePage }) {
   const activeAction =
     HOME_ACTIONS.find((action) => action.id === activeActionId) || HOME_ACTIONS[0];
 
+  function handleActionKeyDown(event) {
+    const currentIndex = HOME_ACTIONS.findIndex(
+      (action) => action.id === activeAction.id,
+    );
+    let nextIndex = currentIndex;
+
+    if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+      nextIndex = (currentIndex + 1) % HOME_ACTIONS.length;
+    } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+      nextIndex = (currentIndex - 1 + HOME_ACTIONS.length) % HOME_ACTIONS.length;
+    } else if (event.key === "Home") {
+      nextIndex = 0;
+    } else if (event.key === "End") {
+      nextIndex = HOME_ACTIONS.length - 1;
+    } else {
+      return;
+    }
+
+    event.preventDefault();
+    const nextAction = HOME_ACTIONS[nextIndex];
+    setActiveActionId(nextAction.id);
+    document.getElementById(`home-action-${nextAction.id}`)?.focus();
+  }
+
   return (
     <>
       <section
@@ -2037,11 +2061,15 @@ function HomePhotoFeatureSection({ setActivePage }) {
                 return (
                   <button
                     key={action.id}
+                    id={`home-action-${action.id}`}
                     type="button"
                     role="tab"
                     aria-selected={isActive}
+                    aria-controls="home-action-panel"
+                    tabIndex={isActive ? 0 : -1}
                     className={`homeActionChoice${isActive ? " isActive" : ""}`}
                     onClick={() => setActiveActionId(action.id)}
+                    onKeyDown={handleActionKeyDown}
                   >
                     {action.label}
                   </button>
@@ -2055,7 +2083,13 @@ function HomePhotoFeatureSection({ setActivePage }) {
           </div>
         </div>
 
-        <div className="homePhotoFeatureGrid" key={activeAction.id}>
+        <div
+          id="home-action-panel"
+          className="homePhotoFeatureGrid"
+          role="tabpanel"
+          aria-labelledby={`home-action-${activeAction.id}`}
+          key={activeAction.id}
+        >
           {activeAction.features.map((feature) => (
             <button
               key={feature.title}
