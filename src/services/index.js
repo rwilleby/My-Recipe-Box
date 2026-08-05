@@ -1,2 +1,9 @@
+export { createRfisPlatform } from "./createRfisPlatform.js";
+export { createRecipeService } from "./RecipeService.js";
+export { createCompleteDinnerService } from "./CompleteDinnerService.js";
+export { createRecommendationService } from "./RecommendationService.js";
+export { createSearchService } from "./SearchService.js";
+export { createCollectionService } from "./CollectionService.js";
+export { createHeroService } from "./HeroService.js";
+export { createValidationService } from "./ValidationService.js";
 export { createCompleteDinnerEngine } from "./completeDinnerEngine.js";
-export { default as createCompleteDinnerEngineDefault } from "./completeDinnerEngine.js";
