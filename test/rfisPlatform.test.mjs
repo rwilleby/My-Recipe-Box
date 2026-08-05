@@ -25,7 +25,7 @@ const collectionService = createCollectionService({ collections, completeDinnerS
 const recommendationService = createRecommendationService({ completeDinnerService });
 const searchService = createSearchService({ recipeService, completeDinnerService, collectionService });
 const heroService = createHeroService({ placeholder: "placeholder.webp" });
-const validationService = createValidationService({ recipeService, completeDinnerService, collectionService });
+const validationService = createValidationService({ recipeService, completeDinnerService, collectionService, heroService });
 
 assert.equal(recipeService.get("AM-001").title, "Salisbury Steak");
 assert.equal(recipeService.search("mashed")[0].id, "SD-003");
@@ -92,3 +92,55 @@ assert.equal(heroService.fallback(legacyPendingMeal).label, "Meal #5");
 assert.equal(heroService.view(legacyPendingMeal).approved, false);
 
 console.log("Hero Service consolidation contracts passed");
+
+const validationSummary = validationService.summary();
+assert.equal(validationSummary.dinnerCount, 2);
+assert.equal(validationSummary.recipeCount, 4);
+assert.equal(validationSummary.results.references.ok, true);
+assert.equal(validationSummary.results.duplicateIds.ok, true);
+assert.equal(validationSummary.results.sideCounts.ok, true);
+assert.equal(validationSummary.results.collections.ok, true);
+assert.equal(validationSummary.results.heroes.approved, 1);
+assert.equal(validationSummary.results.heroes.pending, 1);
+assert.equal(validationSummary.results.heroes.missingCanonicalPath.length, 0);
+
+const invalidDinners = [
+  {
+    id: "CD-0001",
+    legacyId: "meal-001",
+    number: 1,
+    entreeRecipeId: "AM-001",
+    sideRecipeIds: [],
+    hero: { status: "approved", layout: "Entrée + two sides" },
+  },
+  {
+    id: "CD-0001",
+    legacyId: "meal-001",
+    number: 1,
+    entreeRecipeId: "MISSING",
+    sideRecipeIds: ["SD-003"],
+    hero: { status: "approved", layout: "Entrée + two sides" },
+  },
+];
+const invalidDinnerService = createCompleteDinnerService({
+  dinners: invalidDinners,
+  recipeService,
+});
+const invalidCollectionService = createCollectionService({
+  collections: { Broken: ["CD-0001", "CD-9999"] },
+  completeDinnerService: invalidDinnerService,
+});
+const invalidValidation = createValidationService({
+  recipeService,
+  completeDinnerService: invalidDinnerService,
+  collectionService: invalidCollectionService,
+  heroService,
+});
+const invalidSummary = invalidValidation.summary();
+assert.equal(invalidSummary.ok, false);
+assert.ok(invalidSummary.issueCount > 0);
+assert.equal(invalidSummary.results.duplicateIds.ok, false);
+assert.equal(invalidSummary.results.sideCounts.ok, false);
+assert.equal(invalidSummary.results.references.ok, false);
+
+console.log("Validation Service consolidation contracts passed");
