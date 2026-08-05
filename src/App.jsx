@@ -11211,16 +11211,14 @@ function DinnerCombinationsPage({ setActivePage, setFilter, setPlan, openRecipeC
     });
   }, [targetMealId, setTargetMealId]);
 
-  const completeDinnerCollections = useMemo(() => rfisPlatform.collections.list(), []);
-  const completeDinnerCollectionCards = useMemo(() =>
-    completeDinnerCollections.map((collection) => {
-      const resolved = rfisPlatform.collections.get(collection.name);
-      return {
-        ...collection,
-        sampleDinners: (resolved?.dinners || []).slice(0, 3).map((dinner) => dinner.title),
-      };
-    }),
-  [completeDinnerCollections]);
+  const completeDinnerCollections = useMemo(
+    () => rfisPlatform.collections.summaries({ sampleLimit: 0 }),
+    []
+  );
+  const completeDinnerCollectionCards = useMemo(
+    () => rfisPlatform.collections.summaries({ sampleLimit: 3 }),
+    []
+  );
 
   const activeDinnerCollection = useMemo(() => {
     if (collectionFilter === "all") return null;

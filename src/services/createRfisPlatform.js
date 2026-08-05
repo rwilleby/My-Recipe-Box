@@ -11,7 +11,7 @@ import { createValidationService } from "./ValidationService.js";
 export function createRfisPlatform({ recipes = [], dinners = defaultCompleteDinners, collections = defaultCollections, heroPlaceholder } = {}) {
   const recipeService = createRecipeService({ recipes });
   const completeDinnerService = createCompleteDinnerService({ dinners, recipeService });
-  const collectionService = createCollectionService({ collections, completeDinnerService });
+  const collectionService = createCollectionService({ collections, completeDinnerService, recipeService });
   const recommendationService = createRecommendationService({ completeDinnerService, recipeService });
   const searchService = createSearchService({ recipeService, completeDinnerService, collectionService });
   const heroService = createHeroService({ placeholder: heroPlaceholder });

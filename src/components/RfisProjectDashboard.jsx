@@ -60,7 +60,7 @@ export default function RfisProjectDashboard({ rfisPlatform, onClose }) {
     );
 
     const collectionRows = rfisPlatform.collections
-      .list()
+      .summaries({ sampleLimit: 0 })
       .map(({ name, count }) => ({ name, count }))
       .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
 
