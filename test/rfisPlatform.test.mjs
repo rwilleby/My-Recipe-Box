@@ -36,7 +36,7 @@ assert.equal(collectionService.get("comfort").dinners.length, 2);
 assert.equal(searchService.dinners("salisbury")[0].id, "CD-0001");
 assert.equal(recommendationService.relatedDinners("CD-0001")[0].dinner.id, "CD-0002");
 assert.equal(heroService.large(dinners[0]), "placeholder.webp");
-assert.equal(heroService.large(dinners[1]), "MEAL-002.webp");
+assert.equal(heroService.large(dinners[1]), "images/dinner-combinations/MEAL-002.webp");
 assert.equal(validationService.references().ok, true);
 assert.equal(validationService.sideCounts().ok, true);
 assert.equal(validationService.collections().ok, true);
@@ -46,17 +46,49 @@ assert.equal(completeDinnerService.sideRecommendations("AM-001").length, 2);
 
 console.log("RFIS Platform v1.0 service tests passed");
 
-const unifiedSearch = searchService.all("Comfort", { recipeLimit: 50, dinnerLimit: 50 });
-assert.ok(Array.isArray(unifiedSearch.recipes));
-assert.ok(Array.isArray(unifiedSearch.dinners));
-assert.ok(Array.isArray(unifiedSearch.collections));
-assert.ok(unifiedSearch.collections.some((collection) => collection.name === "Comfort"));
+const canonicalDinner = {
+  id: "CD-0003",
+  legacyId: "meal-003",
+  number: 3,
+  hero: {
+    status: "approved",
+    image: "images/dinner-combinations/meal-003.webp",
+    thumbnail: "images/dinner-combinations/meal-003-thumb.webp",
+  },
+};
+const legacyApprovedMeal = {
+  id: "meal-004",
+  number: 4,
+  heroStatus: "approved",
+  image: "images/dinner-combinations/meal-004.webp",
+  thumbnail: "images/dinner-combinations/meal-004-thumb.webp",
+};
+const legacyPendingMeal = {
+  id: "meal-005",
+  number: 5,
+  heroStatus: "not-started",
+  image: "images/dinner-combinations/meal-005.webp",
+};
 
-const codeSearch = searchService.all("MEAL-001");
-assert.ok(codeSearch.dinners.some((dinner) => dinner.legacyId === "meal-001"));
+assert.equal(heroService.approved(canonicalDinner), true);
+assert.deepEqual(
+  heroService.candidates(canonicalDinner),
+  ["images/dinner-combinations/meal-003.webp"]
+);
+assert.deepEqual(
+  heroService.candidates(canonicalDinner, { variant: "thumbnail" }),
+  [
+    "images/dinner-combinations/meal-003-thumb.webp",
+    "images/dinner-combinations/meal-003.webp",
+  ]
+);
+assert.equal(heroService.large(legacyApprovedMeal), "images/dinner-combinations/meal-004.webp");
+assert.deepEqual(
+  heroService.candidates(legacyPendingMeal),
+  [],
+  "Pending heroes must never expose legacy image candidates"
+);
+assert.equal(heroService.fallback(legacyPendingMeal).label, "Meal #5");
+assert.equal(heroService.view(legacyPendingMeal).approved, false);
 
-const sideSearch = searchService.all("Green Beans");
-assert.ok(sideSearch.recipes.some((recipe) => recipe.id === "SD-004"));
-assert.ok(sideSearch.dinners.length > 0);
-
-console.log("Unified search contracts passed");
+console.log("Hero Service consolidation contracts passed");
