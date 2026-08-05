@@ -10761,25 +10761,13 @@ function formatDinnerLastMade(value) {
 
 function DinnerCombinationCard({ meal, onAddMealToPlan, onViewRelatedMeal, openRecipeCard, favorites, toggleFavorite }) {
   const preparedRequirements = getComboPreparedRequirements(meal);
-  const relatedDinners = useMemo(() =>
-    rfisPlatform.recommendations.relatedDinners(meal.id, { limit: 4 }).map((relationship) => {
-      const resolved = rfisPlatform.completeDinners.resolve(relationship.dinner.id);
-      const sharedRecipeNames = relationship.sharedRecipes
-        .map((recipeId) => recipes.find((recipe) => recipe.id === recipeId)?.title || recipeId)
-        .filter(Boolean);
-
-      return {
-        id: relationship.dinner.id,
-        legacyId: relationship.dinner.legacyId,
-        number: relationship.dinner.number,
-        title: relationship.dinner.title,
-        cuisine: relationship.dinner.cuisine,
-        sharedRecipeNames,
-        sharedCollections: relationship.sharedCollections,
-        entreeName: resolved?.entree?.name || relationship.dinner.entreeRecipeId,
-      };
-    }),
-  [meal.id]);
+  const relatedDinners = useMemo(
+    () =>
+      rfisPlatform.recommendations.relatedDinnerCards(meal.id, {
+        limit: 4,
+      }),
+    [meal.id]
+  );
 
   const [activeRecipePopup, setActiveRecipePopup] = useState(null);
   const [selectedPlannerDay, setSelectedPlannerDay] = useState("week1-Mon");
