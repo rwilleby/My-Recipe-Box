@@ -11217,6 +11217,20 @@ function DinnerCombinationsPage({ setActivePage, setFilter, setPlan, openRecipeC
   }, [targetMealId, setTargetMealId]);
 
   const completeDinnerCollections = useMemo(() => completeDinnerEngine.listCollections(), []);
+  const completeDinnerCollectionCards = useMemo(() =>
+    completeDinnerCollections.map((collection) => {
+      const resolved = completeDinnerEngine.getCollection(collection.name);
+      return {
+        ...collection,
+        sampleDinners: (resolved?.dinners || []).slice(0, 3).map((dinner) => dinner.title),
+      };
+    }),
+  [completeDinnerCollections]);
+
+  const activeDinnerCollection = useMemo(() => {
+    if (collectionFilter === "all") return null;
+    return completeDinnerEngine.getCollection(collectionFilter);
+  }, [collectionFilter]);
   const rfisSearchMealIds = useMemo(() => {
     if (!searchTerm.trim()) return null;
     return new Set(completeDinnerEngine.search(searchTerm).map((dinner) => dinner.legacyId));
@@ -11323,6 +11337,52 @@ function DinnerCombinationsPage({ setActivePage, setFilter, setPlan, openRecipeC
 
   return (
     <main className="pageShell dinnerCombinationsPage">
+      <section className="dinnerCollectionBrowser" aria-labelledby="dinnerCollectionBrowserTitle">
+        <div className="dinnerCollectionBrowserHeading">
+          <div>
+            <span className="dinnerCollectionEyebrow">Browse by collection</span>
+            <h2 id="dinnerCollectionBrowserTitle">Complete Dinner Collections</h2>
+            <p>Choose a curated collection or continue browsing all verified Complete Dinners.</p>
+          </div>
+          {collectionFilter !== "all" && (
+            <button type="button" onClick={() => setCollectionFilter("all")}>
+              View All Dinners
+            </button>
+          )}
+        </div>
+
+        <div className="dinnerCollectionCardGrid">
+          {completeDinnerCollectionCards.map((collection) => {
+            const isActive = collectionFilter === collection.name;
+            return (
+              <button
+                type="button"
+                key={collection.name}
+                className={`dinnerCollectionCard${isActive ? " is-active" : ""}`}
+                aria-pressed={isActive}
+                onClick={() => {
+                  setCollectionFilter(isActive ? "all" : collection.name);
+                  window.requestAnimationFrame(() => {
+                    document.querySelector(".dinnerCombinationToolbar")?.scrollIntoView({ behavior: "smooth", block: "start" });
+                  });
+                }}
+              >
+                <span>{collection.count} dinners</span>
+                <strong>{collection.name}</strong>
+                <small>{collection.sampleDinners.join(" · ")}</small>
+              </button>
+            );
+          })}
+        </div>
+
+        {activeDinnerCollection && (
+          <div className="dinnerCollectionActiveSummary" role="status">
+            <strong>{activeDinnerCollection.name}</strong>
+            <span>{activeDinnerCollection.dinners.length} Complete Dinners in this collection</span>
+          </div>
+        )}
+      </section>
+
       <section className="dinnerCombinationToolbar" aria-label="Complete Dinner browsing toolbar">
         <div className="dinnerToolbarPrimary">
           <label className="dinnerCombinationSearch">

@@ -38652,3 +38652,141 @@ body.rrbPopupOpen {
     grid-template-columns: 1fr;
   }
 }
+
+/* RFIS Complete Dinner Collections */
+.dinnerCollectionBrowser {
+  margin: 0 0 22px;
+  padding: 22px;
+  border: 1px solid rgba(73, 48, 31, 0.16);
+  border-radius: 18px;
+  background: linear-gradient(145deg, #fffdf7 0%, #f7eed8 100%);
+  box-shadow: 0 12px 28px rgba(59, 39, 24, 0.08);
+}
+
+.dinnerCollectionBrowserHeading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 16px;
+}
+
+.dinnerCollectionBrowserHeading h2 {
+  margin: 2px 0 5px;
+  font-family: Georgia, serif;
+  color: #4d2024;
+}
+
+.dinnerCollectionBrowserHeading p {
+  margin: 0;
+  color: #61554b;
+}
+
+.dinnerCollectionEyebrow {
+  display: block;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: #667242;
+}
+
+.dinnerCollectionBrowserHeading button {
+  flex: 0 0 auto;
+  border: 1px solid #5b1f24;
+  border-radius: 999px;
+  padding: 9px 15px;
+  background: #fff;
+  color: #5b1f24;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.dinnerCollectionCardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 12px;
+}
+
+.dinnerCollectionCard {
+  min-height: 132px;
+  padding: 15px;
+  border: 1px solid rgba(91, 31, 36, 0.18);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.9);
+  text-align: left;
+  cursor: pointer;
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+}
+
+.dinnerCollectionCard:hover,
+.dinnerCollectionCard:focus-visible {
+  transform: translateY(-2px);
+  border-color: #5b1f24;
+  box-shadow: 0 8px 18px rgba(59, 39, 24, 0.12);
+}
+
+.dinnerCollectionCard.is-active {
+  border-color: #5b1f24;
+  background: #5b1f24;
+  color: #fff;
+}
+
+.dinnerCollectionCard > span {
+  display: block;
+  margin-bottom: 7px;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #78814f;
+}
+
+.dinnerCollectionCard.is-active > span {
+  color: #f3dba4;
+}
+
+.dinnerCollectionCard > strong {
+  display: block;
+  margin-bottom: 8px;
+  font-family: Georgia, serif;
+  font-size: 1.08rem;
+}
+
+.dinnerCollectionCard > small {
+  display: -webkit-box;
+  overflow: hidden;
+  color: #6a5e54;
+  line-height: 1.38;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.dinnerCollectionCard.is-active > small {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.dinnerCollectionActiveSummary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+  padding: 10px 13px;
+  border-radius: 10px;
+  background: rgba(102, 114, 66, 0.11);
+  color: #3e4826;
+}
+
+@media (max-width: 720px) {
+  .dinnerCollectionBrowser {
+    padding: 16px;
+  }
+
+  .dinnerCollectionBrowserHeading {
+    flex-direction: column;
+  }
+
+  .dinnerCollectionCardGrid {
+    grid-template-columns: 1fr;
+  }
+}
