@@ -21,7 +21,7 @@ const collections = { Comfort: ["CD-0001", "CD-0002"] };
 
 const recipeService = createRecipeService({ recipes });
 const completeDinnerService = createCompleteDinnerService({ dinners, recipeService });
-const collectionService = createCollectionService({ collections, completeDinnerService });
+const collectionService = createCollectionService({ collections, completeDinnerService, recipeService });
 const recommendationService = createRecommendationService({ completeDinnerService, recipeService });
 const searchService = createSearchService({ recipeService, completeDinnerService, collectionService });
 const heroService = createHeroService({ placeholder: "placeholder.webp" });
@@ -129,6 +129,7 @@ const invalidDinnerService = createCompleteDinnerService({
 const invalidCollectionService = createCollectionService({
   collections: { Broken: ["CD-0001", "CD-9999"] },
   completeDinnerService: invalidDinnerService,
+  recipeService,
 });
 const invalidValidation = createValidationService({
   recipeService,
@@ -175,3 +176,24 @@ assert.equal(filteredApproved.length, 1);
 assert.equal(filteredApproved[0].id, "CD-0001");
 
 console.log("Recommendation Service consolidation contracts passed");
+
+const collectionSummaries = collectionService.summaries({ sampleLimit: 1 });
+assert.equal(collectionSummaries.length, 1);
+assert.ok(collectionSummaries.every((item) => item.sampleDinners.length <= 1));
+
+const comfortCollection = collectionService.get("comfort", { sampleLimit: 2 });
+assert.equal(comfortCollection.name, "Comfort");
+assert.equal(comfortCollection.count, 2);
+assert.equal(comfortCollection.sampleDinners.length, 2);
+assert.ok(comfortCollection.recipes.some((recipe) => recipe.id === "AM-001"));
+assert.ok(comfortCollection.recipes.some((recipe) => recipe.id === "SD-003"));
+
+assert.deepEqual(collectionService.namesForDinner("CD-0001"), ["Comfort"]);
+assert.equal(collectionService.has("COMFORT"), true);
+assert.equal(collectionService.has("Missing"), false);
+
+const collectionSearch = collectionService.search("comfort");
+assert.equal(collectionSearch[0].name, "Comfort");
+assert.ok(collectionSearch[0].score > 0);
+
+console.log("Collection Service consolidation contracts passed");
