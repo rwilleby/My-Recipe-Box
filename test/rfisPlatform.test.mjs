@@ -223,3 +223,26 @@ assert.ok(recipeService.categories().some((item) => item.name === "AM"));
 assert.equal(recipeService.classificationSummary().total, 4);
 
 console.log("Recipe Service consolidation contracts passed");
+
+const dinnerPresentation = completeDinnerService.present("meal-001");
+assert.equal(dinnerPresentation.id, "CD-0001");
+assert.equal(dinnerPresentation.entreeName, "Salisbury Steak");
+assert.deepEqual(
+  dinnerPresentation.sideNames,
+  ["Mashed Potatoes", "Green Beans"]
+);
+assert.equal(dinnerPresentation.sideCount, 2);
+assert.equal(dinnerPresentation.referencesValid, true);
+
+const dinnerSummary = completeDinnerService.summary();
+assert.equal(dinnerSummary.total, 2);
+assert.equal(dinnerSummary.oneSide, 0);
+assert.equal(dinnerSummary.twoSide, 2);
+assert.equal(dinnerSummary.validReferences, 2);
+assert.equal(dinnerSummary.uniqueEntrees, 2);
+assert.equal(dinnerSummary.uniqueSides, 2);
+
+const cuisineSummary = completeDinnerService.cuisines();
+assert.ok(cuisineSummary.some((item) => item.name === "American"));
+
+console.log("Complete Dinner Service consolidation contracts passed");
