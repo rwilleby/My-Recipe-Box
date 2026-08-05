@@ -10715,8 +10715,27 @@ function formatDinnerLastMade(value) {
   return date.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
 }
 
-function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard, favorites, toggleFavorite }) {
+function DinnerCombinationCard({ meal, onAddMealToPlan, onViewRelatedMeal, openRecipeCard, favorites, toggleFavorite }) {
   const preparedRequirements = getComboPreparedRequirements(meal);
+  const relatedDinners = useMemo(() =>
+    completeDinnerEngine.getRelated(meal.id, { limit: 4 }).map((relationship) => {
+      const resolved = completeDinnerEngine.resolveDinner(relationship.dinner.id);
+      const sharedRecipeNames = relationship.sharedRecipes
+        .map((recipeId) => recipes.find((recipe) => recipe.id === recipeId)?.title || recipeId)
+        .filter(Boolean);
+
+      return {
+        id: relationship.dinner.id,
+        legacyId: relationship.dinner.legacyId,
+        number: relationship.dinner.number,
+        title: relationship.dinner.title,
+        cuisine: relationship.dinner.cuisine,
+        sharedRecipeNames,
+        sharedCollections: relationship.sharedCollections,
+        entreeName: resolved?.entree?.name || relationship.dinner.entreeRecipeId,
+      };
+    }),
+  [meal.id]);
 
   const [activeRecipePopup, setActiveRecipePopup] = useState(null);
   const [selectedPlannerDay, setSelectedPlannerDay] = useState("week1-Mon");
@@ -10841,6 +10860,7 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard, favorite
 
   return (
     <div
+      id={`complete-dinner-${meal.id}`}
       ref={dinnerScaleFrameRef}
       className="dinnerCombinationScaleFrame"
       style={{
@@ -11084,6 +11104,43 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard, favorite
         </section>
       </div>
 
+      {relatedDinners.length > 0 && (
+        <section className="dinnerRelatedPanel" aria-label={`Related Complete Dinners for ${meal.title}`}>
+          <div className="dinnerRelatedHeading">
+            <div>
+              <span>RFIS Recommendations</span>
+              <h4>Related Complete Dinners</h4>
+            </div>
+            <small>Ranked by shared recipes, collections, and cuisine.</small>
+          </div>
+          <div className="dinnerRelatedGrid">
+            {relatedDinners.map((related) => {
+              const reasons = [
+                related.sharedRecipeNames.length
+                  ? `Shares ${related.sharedRecipeNames.join(", ")}`
+                  : "Similar dinner profile",
+                related.sharedCollections.length
+                  ? related.sharedCollections.join(" · ")
+                  : related.cuisine,
+              ].filter(Boolean);
+
+              return (
+                <button
+                  type="button"
+                  className="dinnerRelatedCard"
+                  key={`${meal.id}-${related.id}`}
+                  onClick={() => onViewRelatedMeal?.(related.legacyId)}
+                >
+                  <span>Meal #{String(related.number).padStart(3, "0")}</span>
+                  <strong>{related.title}</strong>
+                  <small>{related.entreeName}</small>
+                  <em>{reasons.join(" · ")}</em>
+                </button>
+              );
+            })}
+          </div>
+        </section>
+      )}
 
       </article>
     </div>
@@ -11186,6 +11243,25 @@ function DinnerCombinationsPage({ setActivePage, setFilter, setPlan, openRecipeC
       const next = normalizeTwoWeekPlan(current);
       next[slotKey] = [...(next[slotKey] || []), mealId];
       return next;
+    });
+  }
+
+  function viewRelatedDinner(mealId) {
+    if (!mealId) return;
+    setProteinFilter("all");
+    setSideFilter("all");
+    setCuisineFilter("all");
+    setCollectionFilter("all");
+    setFreezerFilter("all");
+    setMealBalanceFilter("all");
+    setCookingMethodFilter("all");
+    setLowerCalorieOnly(false);
+    setHigherProteinOnly(false);
+    setSortMode("meal-number");
+    setSearchTerm(mealId);
+
+    window.requestAnimationFrame(() => {
+      document.querySelector(".dinnerCombinationsPage")?.scrollIntoView({ behavior: "smooth", block: "start" });
     });
   }
 
@@ -11335,6 +11411,7 @@ function DinnerCombinationsPage({ setActivePage, setFilter, setPlan, openRecipeC
               key={meal.id}
               meal={meal}
               onAddMealToPlan={addDinnerMealToPlan}
+              onViewRelatedMeal={viewRelatedDinner}
               openRecipeCard={openRecipeCard}
               favorites={favorites}
               toggleFavorite={toggleFavorite}

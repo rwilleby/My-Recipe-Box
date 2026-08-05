@@ -38424,3 +38424,119 @@ body.rrbPopupOpen {
 .dinnerCombinationScaleCard .dinnerCombinationPlannerAdd {
   overflow: hidden !important;
 }
+
+
+/* RFIS related Complete Dinners */
+.dinnerRelatedPanel {
+  margin: 18px 22px 22px;
+  padding: 18px;
+  border: 1px solid rgba(23, 74, 42, 0.22);
+  border-radius: 18px;
+  background: #f7eed8;
+}
+
+.dinnerRelatedHeading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 14px;
+}
+
+.dinnerRelatedHeading span {
+  display: block;
+  margin-bottom: 3px;
+  color: #5b1f24;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.dinnerRelatedHeading h4 {
+  margin: 0;
+  color: #174a2a;
+  font-family: Georgia, serif;
+  font-size: 24px;
+}
+
+.dinnerRelatedHeading small {
+  max-width: 420px;
+  color: #555;
+  font-size: 14px;
+  text-align: right;
+}
+
+.dinnerRelatedGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.dinnerRelatedCard {
+  min-height: 132px;
+  padding: 14px;
+  border: 1px solid rgba(91, 31, 36, 0.2);
+  border-radius: 14px;
+  background: #fff;
+  color: #252525;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 150ms ease, box-shadow 150ms ease, border-color 150ms ease;
+}
+
+.dinnerRelatedCard:hover,
+.dinnerRelatedCard:focus-visible {
+  transform: translateY(-2px);
+  border-color: #5b1f24;
+  box-shadow: 0 8px 20px rgba(43, 31, 24, 0.12);
+  outline: none;
+}
+
+.dinnerRelatedCard span,
+.dinnerRelatedCard strong,
+.dinnerRelatedCard small,
+.dinnerRelatedCard em {
+  display: block;
+}
+
+.dinnerRelatedCard span {
+  color: #5b1f24;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.dinnerRelatedCard strong {
+  margin-top: 7px;
+  color: #174a2a;
+  font-family: Georgia, serif;
+  font-size: 18px;
+  line-height: 1.15;
+}
+
+.dinnerRelatedCard small {
+  margin-top: 6px;
+  color: #444;
+  font-size: 13px;
+}
+
+.dinnerRelatedCard em {
+  margin-top: 9px;
+  color: #666;
+  font-size: 12px;
+  font-style: normal;
+  line-height: 1.35;
+}
+
+@media (max-width: 1100px) {
+  .dinnerRelatedGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 680px) {
+  .dinnerRelatedPanel { margin: 12px; padding: 14px; }
+  .dinnerRelatedHeading { align-items: start; flex-direction: column; }
+  .dinnerRelatedHeading small { text-align: left; }
+  .dinnerRelatedGrid { grid-template-columns: 1fr; }
+}
