@@ -5,6 +5,7 @@ import AdminRecipeEditor from "./components/AdminRecipeEditor";
 import AdminComboMealBuilder from "./components/AdminComboMealBuilder";
 import AdminNutritionDatabase from "./components/AdminNutritionDatabase";
 import RfisProjectDashboard from "./components/RfisProjectDashboard";
+import RecipeIntelligencePanel from "./components/RecipeIntelligencePanel";
 import DinnerCombinationHeroAudit from "./DinnerCombinationHeroAudit.jsx";
 import UserDataBackupSection from "./components/UserDataBackupSection";
 import FoodIntelligenceCard from "./components/FoodIntelligenceCard";
@@ -4072,6 +4073,12 @@ function RecipeCardViewer({
             </div>
           </div>
         )}
+
+        <RecipeIntelligencePanel
+          recipe={recipe}
+          completeDinnerEngine={completeDinnerEngine}
+          hasNutritionRecord={hasFoodIntelligence}
+        />
 
         {recipeCompleteDinners.length > 0 && (
           <section className="recipeCompleteDinnerPanel" aria-label={`Complete Dinners featuring ${recipe.title}`}>
