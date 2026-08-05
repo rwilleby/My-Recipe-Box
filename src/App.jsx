@@ -5652,7 +5652,7 @@ function RecipesPage({
 
 
 function dinnerMealImageCandidates(meal) {
-  if (!meal) return [];
+  if (!meal || meal.heroAvailable === false) return [];
   const paddedMealNumber = String(meal.number || "").padStart(3, "0");
   const candidates = [
     paddedMealNumber ? `images/dinner-combinations/meal-${paddedMealNumber}.webp` : "",
@@ -5693,6 +5693,7 @@ function DinnerCombinationImage({ meal, className = "", loading = "lazy", fetchP
     return (
       <div className={`dinnerCombinationImageFallback ${className}`.trim()}>
         <span>Meal #{meal?.number || ""}</span>
+        <small>New hero in production</small>
       </div>
     );
   }
@@ -10890,7 +10891,7 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, openRecipeCard, favorite
             ) : (
               <div className="dinnerCombinationImagePlaceholder">
                 <span>Meal #{meal.number}</span>
-                <small>Image file not found</small>
+                <small>New hero in production</small>
               </div>
             )}
           </div>
