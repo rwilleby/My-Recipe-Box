@@ -163,17 +163,17 @@ export default function RfisUnifiedSearch({
               </div>
               <div className="rfisUnifiedSearchGrid">
                 {results.dinners.map((dinner) => {
-                  const resolved = platform.completeDinners.resolve(dinner);
-                  const sideNames = resolved.sides
-                    .map((side) => recipeTitle(side.recipe) || side.recipeId)
-                    .join(" + ");
+                  const dinnerView =
+                    platform.completeDinners.present(dinner);
+                  const sideNames =
+                    dinnerView?.sideNames?.join(" + ") || "";
                   return (
                     <article key={dinner.id}>
                       <div>
                         <span>{dinner.legacyId.toUpperCase()}</span>
                         <h4>{dinner.title}</h4>
                         <p>
-                          <strong>{recipeTitle(resolved.entree.recipe)}</strong>
+                          <strong>{dinnerView?.entreeName || dinner.entreeRecipeId}</strong>
                           {sideNames ? ` • ${sideNames}` : ""}
                         </p>
                         <small>{(dinner.collections || []).join(" • ")}</small>

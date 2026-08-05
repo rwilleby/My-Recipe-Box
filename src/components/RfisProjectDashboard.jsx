@@ -31,6 +31,8 @@ export default function RfisProjectDashboard({ rfisPlatform, onClose }) {
   const report = useMemo(() => {
     const validation = rfisPlatform.validation.summary();
     const completeDinners = rfisPlatform.completeDinners.all();
+    const dinnerSummary =
+      rfisPlatform.completeDinners.summary();
     const recipeNutrition = rfisPlatform.recipes.nutritionSummary();
     const recipeClassification = rfisPlatform.recipes.classificationSummary();
 
@@ -124,6 +126,7 @@ export default function RfisProjectDashboard({ rfisPlatform, onClose }) {
         validation.results.duplicateIds.numbers.length,
       invalidLayouts: validation.results.heroLayouts.errors.length,
       relationshipCount,
+      dinnerSummary,
       collectionRows,
       topSide,
       nextWork,
@@ -158,7 +161,7 @@ export default function RfisProjectDashboard({ rfisPlatform, onClose }) {
 
       <section className="rfisMetricGrid">
         <MetricCard label="Recipes" value={rfisPlatform.recipes.count} detail={`${report.recipeNutrition.available} nutrition records`} tone="green" />
-        <MetricCard label="Complete Dinners" value={completeDinners.length} detail={`${report.validation.count} catalog records validated`} tone="green" />
+        <MetricCard label="Complete Dinners" value={report.dinnerSummary.total} detail={`${report.validation.count} catalog records validated`} tone="green" />
         <MetricCard label="Approved Dinner Heroes" value={`${report.approvedHeroes}/${completeDinners.length}`} detail={`${report.missingHeroes} still unavailable`} tone={report.missingHeroes ? "amber" : "green"} />
         <MetricCard label="Validation Issues" value={report.validation.issueCount} detail={report.validation.ok ? "All structural checks pass" : "Review required"} tone={report.validation.issueCount ? "red" : "green"} />
         <MetricCard label="Duplicate Compositions" value={report.duplicateCompositions} detail="Exact entrée + side matches" tone={report.duplicateCompositions ? "red" : "green"} />

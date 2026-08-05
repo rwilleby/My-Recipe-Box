@@ -203,10 +203,13 @@ export default function RfisDinnerBuilder({
             {displayedDinners.length ? (
               <div className="rfisDinnerBuilderResults">
                 {displayedDinners.map((dinner) => {
-                  const sideNames = (dinner.sideRecipeIds || [])
-                    .map((id) => recipeName(recipeMap.get(id)))
-                    .join(" + ");
-                  const companion = formatCompanion(dinner);
+                  const dinnerView =
+                    rfisPlatform.completeDinners.present(dinner);
+                  const sideNames =
+                    dinnerView?.sideNames?.join(" + ") || "";
+                  const companion = formatCompanion(
+                    dinnerView || dinner
+                  );
                   return (
                     <article key={dinner.id}>
                       <div>
