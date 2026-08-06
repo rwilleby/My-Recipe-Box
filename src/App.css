@@ -39328,3 +39328,40 @@ body.rrbPopupOpen {
     display: none !important;
   }
 }
+
+/* ================================================================
+   AUGUST 2026 — QUICK GUIDE / HERO JOIN
+   Keep the site-wide guide and the hero directly below it on one
+   shared edge, with no white gutter between the two surfaces.
+   ================================================================ */
+
+.homeMealJourneySection {
+  width: 90% !important;
+  max-width: 90% !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+}
+
+.homeMealJourneyDetails,
+.homeMealJourneyToggle {
+  margin-bottom: 0 !important;
+}
+
+.homeMealJourneySection + .hero,
+.homeMealJourneySection + .pageTopHeroImage,
+.homeMealJourneySection + .pageTopHeroImage.hasHeroText,
+.homeMealJourneySection + .pageTopHeroImage.pageHeroDepth464,
+.homeMealJourneySection + .pageTopHeroImage.cookingMethodHeroLarge,
+.homeMealJourneySection + .pageTopHeroImage.summerCookoutsHeroDepth {
+  margin-top: 0 !important;
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+}
+
+@media (max-width: 700px) {
+  .homeMealJourneySection {
+    width: 96% !important;
+    max-width: 96% !important;
+    padding-inline: 0 !important;
+  }
+}
