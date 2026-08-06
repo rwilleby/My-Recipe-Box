@@ -1,13 +1,15 @@
-# Changelog — RFIS Documentation Update v1
+# Changelog — KOS-100 Data Foundation v1
 
 ## Added
-- RFIS Master Specification v1.0
-- RFIS Architecture Decision Log
-- RFIS Development Standards v1.0
-- Installation and rollback instructions
 
-## Runtime Impact
-None. This package does not change website code, recipe data, Complete Dinner data, images, or user storage.
-
-## Purpose
-Establishes the approved architecture, naming, validation, image, freezer, and release standards before further UI integration.
+- Versioned local-storage repository
+- Production sessions
+- Component and finished-meal inventory lots
+- Transformation and recovery workflows
+- Complete Dinner assembly
+- Packaging records
+- Consumption events
+- Food lineage
+- JSON backup and restore
+- Quantity safeguards
+- Tests based on Robert's real cooking workflows

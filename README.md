@@ -1,9 +1,5 @@
-# Robert's Recipe Box
+# KOS-100 Data Foundation v1
 
-Clean upload package for the current Vite/GitHub Pages website.
+A local-first Kitchen Operations foundation for recording production, transformation, recovery, assembly, packaging, available food, consumption, and food lineage.
 
-Important:
-- Upload these files to the correct folders.
-- Do not upload this enclosing folder itself.
-- Do not upload node_modules, dist, zip files, or old update folders.
-- package-lock.json is intentionally not included; the workflow uses npm install.
+The design is intentionally UI-neutral so the homepage and Kitchen Companion interfaces can evolve independently.

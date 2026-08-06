@@ -9,7 +9,9 @@
     "preview": "vite preview",
     "test:rfis": "node test/completeDinnerEngine.test.mjs && node test/rfisPlatform.test.mjs && node test/rfisUiServiceContracts.test.mjs && npm run test:rfis:architecture",
     "check": "npm run test:rfis && npm run build",
-    "test:rfis:architecture": "node test/rfisArchitectureContracts.test.mjs"
+    "test:rfis:architecture": "node test/rfisArchitectureContracts.test.mjs",
+    "test:kos": "node test/kos100.test.mjs",
+    "check:kos": "npm run test:kos"
   },
   "dependencies": {
     "react": "^19.1.0",

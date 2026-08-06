@@ -1,0 +1,36 @@
+KOS-100 DATA FOUNDATION v1
+==========================
+
+BASELINE
+--------
+My-Recipe v66 Intelligence
+
+ADD
+---
+src/kos/kosCore.js
+src/kos/KosRepository.js
+src/kos/InventoryService.js
+src/kos/ProductionService.js
+src/kos/AssemblyService.js
+src/kos/PackagingService.js
+src/kos/FoodLineageService.js
+src/kos/createKosPlatform.js
+src/kos/index.js
+test/kos100.test.mjs
+docs/KOS-100-Data-Foundation.md
+
+REPLACE
+-------
+package.json
+
+TEST
+----
+npm run test:kos
+
+SCOPE
+-----
+This package adds the KOS data and service foundation only. It does not add a page or modify the front-page design.
+
+ROLLBACK
+--------
+Restore the prior package.json and delete src/kos, test/kos100.test.mjs, and docs/KOS-100-Data-Foundation.md.
