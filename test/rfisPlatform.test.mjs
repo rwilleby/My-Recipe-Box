@@ -96,7 +96,7 @@ assert.deepEqual(
   [],
   "Pending heroes must never expose legacy image candidates"
 );
-assert.equal(heroService.fallback(legacyPendingMeal).label, "Meal #5");
+assert.equal(heroService.fallback(legacyPendingMeal).label, "Complete Dinner #5");
 assert.equal(heroService.view(legacyPendingMeal).approved, false);
 
 console.log("Hero Service consolidation contracts passed");
