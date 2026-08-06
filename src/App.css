@@ -39042,3 +39042,71 @@ body.rrbPopupOpen {
     grid-template-columns: 1fr;
   }
 }
+
+/* ================================================================
+   AUGUST 2026 — QUICK USER GUIDE + COLLAPSIBLE ADMIN ACCESS
+   Final homepage overrides; keep at the end of this stylesheet.
+   ================================================================ */
+
+/* The guide bubble is 25% thinner than the approved 48px accordion bar. */
+.homeMealJourneyToggle {
+  min-height: 36px !important;
+  gap: 12px !important;
+  padding: 5px 14px !important;
+}
+
+.homeMealJourneyToggleText {
+  gap: 7px !important;
+}
+
+/* The new headline is 25% smaller than the prior 18px headline. */
+.homeMealJourneyToggleText strong {
+  font-size: 13.5px !important;
+}
+
+.homeMealJourneyToggleText small {
+  font-size: 11px !important;
+}
+
+.homeMealJourneyChevron {
+  width: 23px !important;
+  height: 23px !important;
+  font-size: 16px !important;
+}
+
+.homeAdminAccessArea {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  width: 100%;
+  margin: 0;
+  padding: 8px 0 14px;
+}
+
+.homeAdminAccessArea .homeAdminAccessWrap {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.homeAdminToggleButton {
+  margin-top: 0 !important;
+}
+
+@media (max-width: 700px) {
+  .homeMealJourneyToggle {
+    min-height: 36px !important;
+    padding: 5px 11px !important;
+  }
+
+  .homeMealJourneyToggleText strong {
+    font-size: 12.75px !important;
+  }
+
+  .homeMealJourneyToggleText small {
+    display: none !important;
+  }
+
+  .homeAdminAccessArea {
+    padding-bottom: 12px;
+  }
+}

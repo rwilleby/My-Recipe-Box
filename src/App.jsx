@@ -5364,11 +5364,10 @@ function HomeMealJourneyAccordion({ setActivePage }) {
           aria-controls={panelId}
         >
           <span className="homeMealJourneyToggleText">
-            <strong>{isOpen ? "Hide This Window" : "A Quick Overview"}</strong>
+            <strong>New to our page? Start here:</strong>
             {!isOpen && (
               <small>
-                Choose → Plan → Shop → Prepare → Portion → Freeze → Store → Reheat → Enjoy...
-                or you can just visit our Recipe Library and explore
+                A quick guide recipes, planning, cooking, &amp; saving your favorite meals...
               </small>
             )}
           </span>
@@ -5406,6 +5405,8 @@ function Home({
   classifiedRecipes,
   setPlan,
 }) {
+  const [showAdminAccess, setShowAdminAccess] = useState(false);
+
   return (
     <>
       <Hero setActivePage={setActivePage} />
@@ -5423,56 +5424,74 @@ function Home({
 
       <BackupReminderPanel setActivePage={setActivePage} className="homeBackupReminder" />
 
-      <div className="homeAdminAccessWrap" aria-label="Administrative and user data tools">
+      <div className="homeAdminAccessArea">
         <button
-          className="adminAccessButton homeAdminAccessButton"
+          className="adminAccessButton homeAdminAccessButton homeAdminToggleButton"
           type="button"
-          onClick={() => setActivePage("RFIS Project Dashboard")}
+          aria-expanded={showAdminAccess}
+          aria-controls="home-admin-access-buttons"
+          aria-label={showAdminAccess ? "Hide admin access buttons" : "Show admin access buttons"}
+          onClick={() => setShowAdminAccess((isVisible) => !isVisible)}
         >
-          RFIS Dashboard
+          Admin
         </button>
-        <button
-          className="adminAccessButton homeAdminAccessButton"
-          type="button"
-          onClick={() => setActivePage("Admin Recipes")}
-        >
-          Recipe Classifier
-        </button>
-        <button
-          className="adminAccessButton homeAdminAccessButton"
-          type="button"
-          onClick={() => setActivePage("Admin Recipe Editor")}
-        >
-          Recipe Editor
-        </button>
-        <button
-          className="adminAccessButton homeAdminAccessButton"
-          type="button"
-          onClick={() => setActivePage("User Backup")}
-        >
-          User Backup
-        </button>
-        <button
-          className="adminAccessButton homeAdminAccessButton"
-          type="button"
-          onClick={() => setActivePage("Dinner Combination Hero Audit")}
-        >
-          Hero Audit
-        </button>
-        <button
-          className="adminAccessButton homeAdminAccessButton"
-          type="button"
-          onClick={() => setActivePage("Admin Combo-Meal Builder")}
-        >
-          Combo-Meal Builder
-        </button>
-        <button
-          className="adminAccessButton homeAdminAccessButton"
-          type="button"
-          onClick={() => setActivePage("Admin Nutrition Database")}
-        >
-          Nutrition Database
-        </button>
+        {showAdminAccess && (
+          <div
+            id="home-admin-access-buttons"
+            className="homeAdminAccessWrap"
+            aria-label="Administrative and user data tools"
+          >
+            <button
+              className="adminAccessButton homeAdminAccessButton"
+              type="button"
+              onClick={() => setActivePage("RFIS Project Dashboard")}
+            >
+              RFIS Dashboard
+            </button>
+            <button
+              className="adminAccessButton homeAdminAccessButton"
+              type="button"
+              onClick={() => setActivePage("Admin Recipes")}
+            >
+              Recipe Classifier
+            </button>
+            <button
+              className="adminAccessButton homeAdminAccessButton"
+              type="button"
+              onClick={() => setActivePage("Admin Recipe Editor")}
+            >
+              Recipe Editor
+            </button>
+            <button
+              className="adminAccessButton homeAdminAccessButton"
+              type="button"
+              onClick={() => setActivePage("User Backup")}
+            >
+              User Backup
+            </button>
+            <button
+              className="adminAccessButton homeAdminAccessButton"
+              type="button"
+              onClick={() => setActivePage("Dinner Combination Hero Audit")}
+            >
+              Hero Audit
+            </button>
+            <button
+              className="adminAccessButton homeAdminAccessButton"
+              type="button"
+              onClick={() => setActivePage("Admin Combo-Meal Builder")}
+            >
+              Combo-Meal Builder
+            </button>
+            <button
+              className="adminAccessButton homeAdminAccessButton"
+              type="button"
+              onClick={() => setActivePage("Admin Nutrition Database")}
+            >
+              Nutrition Database
+            </button>
+          </div>
+        )}
       </div>
 
     </>
