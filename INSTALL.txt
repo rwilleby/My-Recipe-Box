@@ -1,36 +1,16 @@
-KOS-100 DATA FOUNDATION v1
-==========================
+MY-RECIPE-BOX v66.1 — KITCHEN OPERATIONS FOUNDATION
+===================================================
 
-BASELINE
---------
-My-Recipe v66 Intelligence
+READY FOR GITHUB
 
-ADD
----
-src/kos/kosCore.js
-src/kos/KosRepository.js
-src/kos/InventoryService.js
-src/kos/ProductionService.js
-src/kos/AssemblyService.js
-src/kos/PackagingService.js
-src/kos/FoodLineageService.js
-src/kos/createKosPlatform.js
-src/kos/index.js
-test/kos100.test.mjs
-docs/KOS-100-Data-Foundation.md
+This integration package is designed to merge into the current UI/design branch.
+It adds/replaces only KOS services, KOS tests, KOS documentation, package.json,
+and the release verification report. It does not replace App.jsx, CSS, homepage
+components, images, or other visual design files.
 
-REPLACE
--------
-package.json
+Copy all files into the matching project locations. Then run:
 
-TEST
-----
-npm run test:kos
+npm install
+npm run check
 
-SCOPE
------
-This package adds the KOS data and service foundation only. It does not add a page or modify the front-page design.
-
-ROLLBACK
---------
-Restore the prior package.json and delete src/kos, test/kos100.test.mjs, and docs/KOS-100-Data-Foundation.md.
+After the tests and build pass, commit the entire updated project to GitHub.
