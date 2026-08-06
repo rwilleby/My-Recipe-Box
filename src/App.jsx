@@ -5355,7 +5355,7 @@ function HomeMealJourneyAccordion({ setActivePage }) {
   }
 
   return (
-    <section className="homeMealJourneySection" aria-label="A quick overview of Robert’s Recipe Box">
+    <section className="homeMealJourneySection" aria-label="Quick guide to Robert’s Recipe Box">
       <details ref={detailsRef} className="homeMealJourneyDetails" onToggle={handleToggle}>
         <summary
           ref={summaryRef}
@@ -5406,11 +5406,82 @@ function Home({
   setPlan,
 }) {
   const [showAdminAccess, setShowAdminAccess] = useState(false);
+  const [isAdminUnlocked, setIsAdminUnlocked] = useState(() => {
+    try {
+      return window.sessionStorage.getItem("rrb-admin-unlocked") === "true";
+    } catch {
+      return false;
+    }
+  });
+  const [showAdminPin, setShowAdminPin] = useState(false);
+  const [adminPin, setAdminPin] = useState("");
+  const [adminPinError, setAdminPinError] = useState("");
+  const adminPinInputRef = useRef(null);
+
+  useEffect(() => {
+    if (!showAdminPin) return undefined;
+
+    function handleAdminPinKeyDown(event) {
+      if (event.key === "Escape") closeAdminPin();
+    }
+
+    window.addEventListener("keydown", handleAdminPinKeyDown);
+    return () => window.removeEventListener("keydown", handleAdminPinKeyDown);
+  }, [showAdminPin]);
+
+  function openAdminAccess() {
+    if (isAdminUnlocked) {
+      setShowAdminAccess((isVisible) => !isVisible);
+      return;
+    }
+
+    setAdminPin("");
+    setAdminPinError("");
+    setShowAdminPin(true);
+    window.requestAnimationFrame(() => adminPinInputRef.current?.focus());
+  }
+
+  function closeAdminPin() {
+    setShowAdminPin(false);
+    setAdminPin("");
+    setAdminPinError("");
+  }
+
+  function submitAdminPin(event) {
+    event.preventDefault();
+
+    if (adminPin !== "1957") {
+      setAdminPinError("That PIN is not correct. Please try again.");
+      setAdminPin("");
+      window.requestAnimationFrame(() => adminPinInputRef.current?.focus());
+      return;
+    }
+
+    try {
+      window.sessionStorage.setItem("rrb-admin-unlocked", "true");
+    } catch {
+      // The current page still unlocks even if session storage is unavailable.
+    }
+
+    setIsAdminUnlocked(true);
+    setShowAdminAccess(true);
+    closeAdminPin();
+  }
+
+  function lockAdminAccess() {
+    try {
+      window.sessionStorage.removeItem("rrb-admin-unlocked");
+    } catch {
+      // State below still locks the current page.
+    }
+
+    setIsAdminUnlocked(false);
+    setShowAdminAccess(false);
+  }
 
   return (
     <>
       <Hero setActivePage={setActivePage} />
-      <HomeMealJourneyAccordion setActivePage={setActivePage} />
       <HomeComboMealStrip
         setActivePage={setActivePage}
         openRecipeCard={openRecipeCard}
@@ -5430,8 +5501,14 @@ function Home({
           type="button"
           aria-expanded={showAdminAccess}
           aria-controls="home-admin-access-buttons"
-          aria-label={showAdminAccess ? "Hide admin access buttons" : "Show admin access buttons"}
-          onClick={() => setShowAdminAccess((isVisible) => !isVisible)}
+          aria-label={
+            isAdminUnlocked
+              ? showAdminAccess
+                ? "Hide admin access buttons"
+                : "Show admin access buttons"
+              : "Enter PIN to access admin buttons"
+          }
+          onClick={openAdminAccess}
         >
           Admin
         </button>
@@ -5490,9 +5567,71 @@ function Home({
             >
               Nutrition Database
             </button>
+            <button
+              className="adminAccessButton homeAdminAccessButton homeAdminLockButton"
+              type="button"
+              onClick={lockAdminAccess}
+            >
+              Lock Admin
+            </button>
           </div>
         )}
       </div>
+
+      {showAdminPin && (
+        <div className="adminPinOverlay" role="presentation" onMouseDown={closeAdminPin}>
+          <section
+            className="adminPinDialog"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="admin-pin-title"
+            onMouseDown={(event) => event.stopPropagation()}
+          >
+            <button
+              type="button"
+              className="adminPinClose"
+              aria-label="Close Admin PIN window"
+              onClick={closeAdminPin}
+            >
+              ×
+            </button>
+            <h2 id="admin-pin-title">Admin Access</h2>
+            <p>Enter the four-digit Admin PIN.</p>
+            <form onSubmit={submitAdminPin}>
+              <label htmlFor="admin-pin-input">PIN</label>
+              <input
+                ref={adminPinInputRef}
+                id="admin-pin-input"
+                type="password"
+                inputMode="numeric"
+                autoComplete="off"
+                pattern="[0-9]*"
+                maxLength={4}
+                value={adminPin}
+                aria-invalid={Boolean(adminPinError)}
+                aria-describedby={adminPinError ? "admin-pin-error" : undefined}
+                onChange={(event) => {
+                  setAdminPin(event.target.value.replace(/\D/g, "").slice(0, 4));
+                  if (adminPinError) setAdminPinError("");
+                }}
+              />
+              {adminPinError && (
+                <p id="admin-pin-error" className="adminPinError" role="alert">
+                  {adminPinError}
+                </p>
+              )}
+              <div className="adminPinActions">
+                <button type="button" className="secondary" onClick={closeAdminPin}>
+                  Cancel
+                </button>
+                <button type="submit" disabled={adminPin.length !== 4}>
+                  Unlock Admin
+                </button>
+              </div>
+            </form>
+          </section>
+        </div>
+      )}
 
     </>
   );
@@ -14425,6 +14564,7 @@ export default function App() {
     <PageNavigationContext.Provider value={{ activePage, setActivePage }}>
       <div className="app">
         <Header activePage={activePage} setActivePage={setActivePage} favorites={favorites} />
+        <HomeMealJourneyAccordion setActivePage={setActivePage} />
 
       {activePage === "RFIS Project Dashboard" && (
         <RfisProjectDashboard rfisPlatform={rfisPlatform} onClose={() => setActivePage("Home")} />
