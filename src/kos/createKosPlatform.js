@@ -4,15 +4,124 @@ import { createProductionService } from "./ProductionService.js";
 import { createAssemblyService } from "./AssemblyService.js";
 import { createPackagingService } from "./PackagingService.js";
 import { createFoodLineageService } from "./FoodLineageService.js";
+import { createWorkflowService } from "./WorkflowService.js";
+import { createIntentService } from "./IntentService.js";
+import { createActionService } from "./ActionService.js";
+import { createRfisBridgeService } from "./RfisBridgeService.js";
+import { createDataProtectionService } from "./DataProtectionService.js";
+import { createAssistantService } from "./AssistantService.js";
+import { createOpportunityService } from "./OpportunityService.js";
+import { createTemplateService } from "./TemplateService.js";
+import { createMemoryService } from "./MemoryService.js";
+import { createTimelineService } from "./TimelineService.js";
 
-export function createKosPlatform({ storage, storageKey, clock } = {}) {
-  const repository = createKosRepository({ storage, storageKey });
-  const inventory = createInventoryService({ repository, clock });
-  const production = createProductionService({ repository, inventory, clock });
-  const assembly = createAssemblyService({ production, inventory });
-  const packaging = createPackagingService({ repository, clock });
-  const lineage = createFoodLineageService({ repository });
-  return Object.freeze({ repository, inventory, production, assembly, packaging, lineage });
+export function createKosPlatform({
+  storage,
+  storageKey,
+  clock,
+  rfisPlatform = null,
+} = {}) {
+  const repository = createKosRepository({
+    storage,
+    storageKey,
+  });
+
+  const inventory = createInventoryService({
+    repository,
+    clock,
+  });
+
+  const production = createProductionService({
+    repository,
+    inventory,
+    clock,
+  });
+
+  const assembly = createAssemblyService({
+    production,
+    inventory,
+  });
+
+  const packaging = createPackagingService({
+    repository,
+    clock,
+  });
+
+  const lineage = createFoodLineageService({
+    repository,
+  });
+
+  const workflow = createWorkflowService({
+    repository,
+    inventory,
+    production,
+    assembly,
+    packaging,
+    lineage,
+  });
+
+  const intents = createIntentService();
+
+  const actions = createActionService({
+    inventory,
+    production,
+    assembly,
+    packaging,
+    workflow,
+  });
+
+  const protection = createDataProtectionService({
+    repository,
+  });
+
+  const rfis = rfisPlatform
+    ? createRfisBridgeService({
+        rfisPlatform,
+        actions,
+        inventory,
+      })
+    : null;
+
+  const assistant = createAssistantService({
+    repository,
+    inventory,
+    workflow,
+    packaging,
+    rfisPlatform,
+    rfisBridge: rfis,
+  });
+
+  const timeline = createTimelineService({ repository, inventory });
+
+  const memory = createMemoryService({ repository, inventory });
+
+  const templates = createTemplateService({ repository, clock });
+
+  const opportunities = createOpportunityService({
+    assistant,
+    memory,
+    timeline,
+    templates,
+  });
+
+  return Object.freeze({
+    repository,
+    inventory,
+    production,
+    assembly,
+    packaging,
+    lineage,
+    workflow,
+    intents,
+    actions,
+    rfis,
+    protection,
+    assistant,
+    timeline,
+    memory,
+    templates,
+    opportunities,
+  });
 }
 
 export default createKosPlatform;
