@@ -2686,7 +2686,7 @@ function HomeComboMealStrip({
       <section className="section homeComboMealStrip" aria-label="Complete meal ideas">
         <div className="sectionTitle homeComboMealStripHeader">
           <div>
-            <h2>Are you looking for complete meal ideas?</h2>
+            <h2>Looking for quick dinner ideas?</h2>
             <p>
               Ready-made dinner combinations that pair a main dish with practical sides.{" "}
               <button

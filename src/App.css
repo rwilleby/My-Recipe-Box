@@ -34388,7 +34388,7 @@ body.rrbPopupOpen {
 }
 
 .homePhotoFeatureHeader {
-  margin-bottom: 5px !important;
+  margin-bottom: clamp(6px, 0.8vw, 12px) !important;
 }
 
 .homePhotoFeatureHeader p.homeActionSubtext {
@@ -34397,6 +34397,10 @@ body.rrbPopupOpen {
 
 .homeActionChoices {
   margin-top: 0 !important;
+}
+
+.homeComboMealStripHeader {
+  margin-bottom: 6px !important;
 }
 
 .homeActionChoice {
