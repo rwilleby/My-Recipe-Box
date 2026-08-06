@@ -1,0 +1,97 @@
+{
+  "release": "v66.1 Kitchen Operations Foundation",
+  "status": "passed",
+  "readyForGithub": true,
+  "tests": [
+    {
+      "command": "node test/completeDinnerEngine.test.mjs",
+      "ok": true,
+      "output": "Complete Dinner Engine tests passed.\nDinner Builder engine methods passed",
+      "error": ""
+    },
+    {
+      "command": "node test/rfisPlatform.test.mjs",
+      "ok": true,
+      "output": "RFIS Platform v1.0 service tests passed\nHero Service consolidation contracts passed\nValidation Service consolidation contracts passed\nRecommendation Service consolidation contracts passed\nCollection Service consolidation contracts passed\nRecipe Service consolidation contracts passed\nComplete Dinner Service consolidation contracts passed\nSearch Service consolidation contracts passed",
+      "error": ""
+    },
+    {
+      "command": "node test/rfisUiServiceContracts.test.mjs",
+      "ok": true,
+      "output": "RFIS UI service contracts passed",
+      "error": ""
+    },
+    {
+      "command": "node test/rfisArchitectureContracts.test.mjs",
+      "ok": true,
+      "output": "RFIS Architecture compliance contracts passed",
+      "error": ""
+    },
+    {
+      "command": "node test/kos100.test.mjs",
+      "ok": true,
+      "output": "KOS-100 Data Foundation contracts passed",
+      "error": ""
+    },
+    {
+      "command": "node test/kos110.test.mjs",
+      "ok": true,
+      "output": "KOS-110 Workflow Service contracts passed",
+      "error": ""
+    },
+    {
+      "command": "node test/kos120.test.mjs",
+      "ok": true,
+      "output": "KOS-120 Intent and Action Service contracts passed",
+      "error": ""
+    },
+    {
+      "command": "node test/kos130.test.mjs",
+      "ok": true,
+      "output": "KOS-130 RFIS Bridge contracts passed",
+      "error": ""
+    },
+    {
+      "command": "node test/kos135.test.mjs",
+      "ok": true,
+      "output": "KOS-135 Data Protection and Recovery contracts passed",
+      "error": ""
+    },
+    {
+      "command": "node test/kos140.test.mjs",
+      "ok": true,
+      "output": "KOS-140 Kitchen Assistant Engine contracts passed",
+      "error": ""
+    },
+    {
+      "command": "node test/kos150.test.mjs",
+      "ok": true,
+      "output": "KOS-150 Timeline contracts passed",
+      "error": ""
+    },
+    {
+      "command": "node test/kos160.test.mjs",
+      "ok": true,
+      "output": "KOS-160 Kitchen Memory contracts passed",
+      "error": ""
+    },
+    {
+      "command": "node test/kos170.test.mjs",
+      "ok": true,
+      "output": "KOS-170 Production Template contracts passed",
+      "error": ""
+    },
+    {
+      "command": "node test/kos180.test.mjs",
+      "ok": true,
+      "output": "KOS-180 Opportunity contracts passed",
+      "error": ""
+    },
+    {
+      "command": "node test/kosArchitectureContracts.test.mjs",
+      "ok": true,
+      "output": "KOS architecture contracts passed",
+      "error": ""
+    }
+  ]
+}

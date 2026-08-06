@@ -1,0 +1,35 @@
+{
+  "name": "rrb-browser-based-v1",
+  "version": "66.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test:rfis": "node test/completeDinnerEngine.test.mjs && node test/rfisPlatform.test.mjs && node test/rfisUiServiceContracts.test.mjs && npm run test:rfis:architecture",
+    "check": "npm run test:all && npm run build",
+    "test:rfis:architecture": "node test/rfisArchitectureContracts.test.mjs",
+    "test:kos": "node test/kos100.test.mjs && node test/kos110.test.mjs && node test/kos120.test.mjs && node test/kos130.test.mjs && node test/kos135.test.mjs && node test/kos140.test.mjs && node test/kos150.test.mjs && node test/kos160.test.mjs && node test/kos170.test.mjs && node test/kos180.test.mjs && node test/kosArchitectureContracts.test.mjs",
+    "check:kos": "npm run test:kos",
+    "test:all": "npm run test:rfis && npm run test:kos",
+    "test:kos:workflow": "node test/kos110.test.mjs",
+    "test:kos:intents": "node test/kos120.test.mjs",
+    "test:kos:rfis": "node test/kos130.test.mjs",
+    "test:kos:protection": "node test/kos135.test.mjs",
+    "test:kos:assistant": "node test/kos140.test.mjs",
+    "test:kos:timeline": "node test/kos150.test.mjs",
+    "test:kos:memory": "node test/kos160.test.mjs",
+    "test:kos:templates": "node test/kos170.test.mjs",
+    "test:kos:opportunities": "node test/kos180.test.mjs",
+    "test:kos:architecture": "node test/kosArchitectureContracts.test.mjs"
+  },
+  "dependencies": {
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.6.0",
+    "vite": "^7.0.0"
+  }
+}
