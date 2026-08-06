@@ -34346,6 +34346,90 @@ body.rrbPopupOpen {
   text-align: center !important;
 }
 
+/* ================================================================
+   AUGUST 2026 — HOMEPAGE COPY LINKS + SEGMENT SPACING REFINEMENT
+   ================================================================ */
+
+.homeComboMealStripHeader {
+  display: block !important;
+}
+
+.homeComboMealStripHeader > div {
+  text-align: center !important;
+}
+
+.homeComboMealMoreIdeas {
+  display: inline !important;
+  width: auto !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: #315b38 !important;
+  box-shadow: none !important;
+  font: inherit !important;
+  font-weight: 800 !important;
+  line-height: inherit !important;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+
+.homeComboMealMoreIdeas:hover {
+  color: #711827 !important;
+}
+
+.homeComboMealMoreIdeas:focus-visible {
+  outline: 2px solid rgba(190, 137, 42, 0.85);
+  outline-offset: 2px;
+}
+
+.homePhotoFeatureHeader {
+  margin-bottom: 5px !important;
+}
+
+.homePhotoFeatureHeader p.homeActionSubtext {
+  margin: 4px 0 6px !important;
+}
+
+.homeActionChoices {
+  margin-top: 0 !important;
+}
+
+.homeActionChoice {
+  position: relative;
+}
+
+.homeActionChoice:not(.isActive) + .homeActionChoice:not(.isActive)::before {
+  content: "";
+  position: absolute;
+  top: 24%;
+  bottom: 24%;
+  left: 0;
+  width: 1px;
+  background: rgba(79, 73, 69, 0.22);
+  pointer-events: none;
+}
+
+.homeComboMealImage .dinnerCombinationImageFallback {
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  text-align: center;
+}
+
+.homeComboMealImage .dinnerCombinationImageFallback > span,
+.homeComboMealImage .dinnerCombinationImageFallback > small {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
 @media (max-width: 760px) {
   .homeComboMealStripHeader {
     grid-template-columns: 1fr !important;

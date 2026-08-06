@@ -2050,6 +2050,10 @@ function HomePhotoFeatureSection({ setActivePage }) {
           <div>
             <h2 id="home-photo-features-title">What do you want to do today?</h2>
 
+            <p className="homeActionSubtext" aria-live="polite">
+              {activeAction.subtext}
+            </p>
+
             <div
               className="homeActionChoices"
               role="tablist"
@@ -2076,10 +2080,6 @@ function HomePhotoFeatureSection({ setActivePage }) {
                 );
               })}
             </div>
-
-            <p className="homeActionSubtext" aria-live="polite">
-              {activeAction.subtext}
-            </p>
           </div>
         </div>
 
@@ -2688,12 +2688,16 @@ function HomeComboMealStrip({
           <div>
             <h2>Are you looking for complete meal ideas?</h2>
             <p>
-              Ready-made dinner combinations that pair a main dish with practical sides.
+              Ready-made dinner combinations that pair a main dish with practical sides.{" "}
+              <button
+                type="button"
+                className="homeComboMealMoreIdeas"
+                onClick={() => setActivePage("Dinner Combinations")}
+              >
+                (More ideas)
+              </button>
             </p>
           </div>
-          <button type="button" onClick={() => setActivePage("Dinner Combinations")}>
-            More ideas &gt;
-          </button>
         </div>
 
         <div className="homeComboMealGrid">

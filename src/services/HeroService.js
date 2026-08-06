@@ -83,7 +83,7 @@ export function createHeroService({
     return {
       status: status(record),
       approved: approved(record),
-      label: number ? `Meal #${number}` : "Complete Dinner",
+      label: number ? `Complete Dinner #${number}` : "Complete Dinner",
       message,
       placeholder,
     };
