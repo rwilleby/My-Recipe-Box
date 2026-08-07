@@ -1780,6 +1780,14 @@ function Hero({ setActivePage }) {
 
         <p className="homeHeroIntroGhost">Welcome to my free recipe-card and meal-planning site. I use it every week for my own meal planning, and I designed it especially for seniors, couples, empty nesters, and smaller households who want practical meals, useful leftovers, freezer-friendly ideas, and organized grocery lists. <strong>Shop smarter. Save more.</strong></p>
 
+        <img
+          className="homeUnderConstructionStamp"
+          src={`${import.meta.env.BASE_URL}images/ui/under-construction-stamp.webp`}
+          alt="Under construction"
+          decoding="async"
+          draggable="false"
+        />
+
       </div>
 
       <PageHelpButtonStrip pageTitle="Home" pageEyebrow="HOME" />

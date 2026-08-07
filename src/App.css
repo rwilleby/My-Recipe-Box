@@ -39431,3 +39431,29 @@ body.rrbPopupOpen {
 .homeComboMealCard:hover .homeComboMealImageAsset {
   transform: none !important;
 }
+
+/* ================================================================
+   AUGUST 2026 — HOMEPAGE UNDER-CONSTRUCTION STAMP
+   Keep the notice in the open text-safe area beneath the main intro.
+   The asset remains separate from the rotating hero artwork so it can
+   be removed later without replacing the hero image series.
+   ================================================================ */
+
+.homeUnderConstructionStamp {
+  display: block;
+  width: min(300px, 68vw);
+  height: auto;
+  margin: 18px 0 0 4px;
+  opacity: 0.92;
+  transform: rotate(-3deg);
+  transform-origin: left center;
+  user-select: none;
+  pointer-events: none;
+}
+
+@media (max-width: 700px) {
+  .homeUnderConstructionStamp {
+    width: min(230px, 70vw);
+    margin-top: 15px;
+  }
+}
