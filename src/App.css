@@ -39441,7 +39441,7 @@ body.rrbPopupOpen {
 
 .homeUnderConstructionStamp {
   display: block;
-  width: min(300px, 68vw);
+  width: min(150px, 34vw);
   height: auto;
   margin: 18px 0 0 4px;
   opacity: 0.92;
@@ -39453,7 +39453,7 @@ body.rrbPopupOpen {
 
 @media (max-width: 700px) {
   .homeUnderConstructionStamp {
-    width: min(230px, 70vw);
+    width: min(115px, 35vw);
     margin-top: 15px;
   }
 }
