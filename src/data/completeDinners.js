@@ -36,12 +36,12 @@ export const completeDinners = [
       "American & Comfort"
     ],
     "hero": {
-      "image": "images/dinner-combinations/meal-001.webp",
+"image": "images/dinner-combinations/meal-001.webp",
       "thumbnail": "images/dinner-combinations/meal-001-thumb.webp",
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64 recipe codes; approved Batch 1 composition."
   },
@@ -70,7 +70,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64 recipe codes; approved Batch 1 composition."
   },
@@ -99,7 +99,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64 recipe codes; approved Batch 1 composition."
   },
@@ -128,7 +128,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64 recipe codes; approved Batch 1 composition."
   },
@@ -157,7 +157,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64 recipe codes; approved Batch 1 composition."
   },
@@ -186,7 +186,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64 recipe codes; approved Batch 1 composition."
   },
@@ -215,7 +215,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64 recipe codes; approved Batch 1 composition."
   },
@@ -244,7 +244,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64 recipe codes; approved Batch 1 composition."
   },
@@ -302,7 +302,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64 recipe codes; approved Batch 1 composition."
   },
@@ -389,7 +389,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64 recipe codes; approved Batch 1 composition."
   },
@@ -447,7 +447,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64 recipe codes; approved Batch 1 composition."
   },
@@ -476,7 +476,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64 recipe codes; approved Batch 1 composition."
   },
@@ -534,7 +534,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64 recipe codes; approved Batch 1 composition."
   },
@@ -563,7 +563,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64 recipe codes; approved Batch 1 composition."
   },
@@ -592,7 +592,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64 recipe codes; approved Batch 1 composition."
   },
@@ -620,7 +620,7 @@ export const completeDinners = [
       "layout": "one-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Crinkle-cut fries freeze separately and should be re-crisped in an air fryer or oven."
   },
@@ -678,7 +678,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Chicken and noodles already contains the starch; both tray sides are vegetables."
   },
@@ -706,7 +706,7 @@ export const completeDinners = [
       "layout": "one-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Chicken pot pie is a complete entr\u00e9e; roasted asparagus is the only freezer side."
   },
@@ -735,7 +735,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Restaurant-inspired lean pork dinner."
   },
@@ -764,7 +764,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Traditional Sunday pork dinner."
   },
@@ -793,7 +793,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. White rice carries the gravy; green beans provide contrast."
   },
@@ -850,7 +850,7 @@ export const completeDinners = [
       "layout": "one-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Macaroni and cheese freezes with the meal; coleslaw is prepared fresh."
   },
@@ -879,7 +879,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Potato-salad handling corrected. BBQ ribs with baked beans and corn on the cob."
   },
@@ -994,7 +994,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Verified Tex-Mex pairing; tortillas and pico remain separate."
   },
@@ -1023,7 +1023,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Potato-salad handling corrected. Grilled hot dogs with baked beans and whole corn."
   },
@@ -1052,7 +1052,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Potato-salad handling corrected. Grilled sausage links with roasted red potatoes and cabbage."
   },
@@ -1081,7 +1081,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Balanced grilled chicken dinner."
   },
@@ -1109,7 +1109,7 @@ export const completeDinners = [
       "layout": "one-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Baked beans freeze with the brisket; coleslaw is prepared fresh."
   },
@@ -1138,7 +1138,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Richer brisket variation."
   },
@@ -1167,7 +1167,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Hearty Southern-style dinner."
   },
@@ -1195,7 +1195,7 @@ export const completeDinners = [
       "layout": "one-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Definitive pulled-pork barbecue dinner."
   },
@@ -1224,7 +1224,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Lighter smoked-meat combination."
   },
@@ -1253,7 +1253,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Rich ribs balanced by a green vegetable."
   },
@@ -1282,7 +1282,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Potato-salad handling corrected. Smoked beef ribs with baked beans and corn on the cob."
   },
@@ -1311,7 +1311,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Southern-inspired smoked chicken dinner."
   },

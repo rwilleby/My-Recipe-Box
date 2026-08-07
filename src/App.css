@@ -39365,3 +39365,69 @@ body.rrbPopupOpen {
     padding-inline: 0 !important;
   }
 }
+
+/* ================================================================
+   AUGUST 2026 — QUICK GUIDE TYPE + ARROW SCALE
+   Use compact 15px italic guide-bar type while preserving the enlarged
+   dropdown affordance.
+   ================================================================ */
+
+.homeMealJourneyToggle {
+  min-height: 38px !important;
+  padding: 4px 46px 4px 16px !important;
+}
+
+.homeMealJourneyToggleText strong,
+.homeMealJourneyToggleText small {
+  font-size: 15px !important;
+  font-style: italic !important;
+  line-height: 1.15 !important;
+}
+
+.homeMealJourneyChevron {
+  right: 9px !important;
+  width: 28px !important;
+  height: 28px !important;
+  font-size: 20px !important;
+}
+
+@media (max-width: 700px) {
+  .homeMealJourneyToggle {
+    min-height: 38px !important;
+    padding: 4px 44px 4px 12px !important;
+  }
+
+  .homeMealJourneyToggleText strong {
+    font-size: 15px !important;
+  }
+}
+
+/* ================================================================
+   AUGUST 2026 — COMPLETE DINNER HERO EDGE-TO-EDGE CROP
+   Fill each homepage hero window in both directions. The centered
+   cover crop removes the contain-fit side bands without changing the
+   card dimensions or the approved source image files.
+   ================================================================ */
+
+.homeComboMealImage,
+.homeComboMealImageCrossfadeStage {
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+.homeComboMealImage .homeComboMealImageAsset,
+.homeComboMealImage img,
+.homeComboMealImageCrossfadeStage .homeComboMealImageAsset {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 100% !important;
+  min-height: 100% !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+  transform: none !important;
+}
+
+.homeComboMealCard:hover .homeComboMealImageAsset {
+  transform: none !important;
+}
