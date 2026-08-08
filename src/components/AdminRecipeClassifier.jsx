@@ -14,6 +14,7 @@ import {
   GLP1_REVIEW_STATUSES,
   normalizeGLP1Classification,
 } from "../data/glp1Nutrition";
+import { applyAutoClassification, classifyRecipeLibrary } from "../data/recipeAutoClassifier.js";
 import "./AdminRecipeClassifier.css";
 
 function CheckboxGroup({ title, options, selected, onToggle }) {
@@ -441,6 +442,7 @@ export default function AdminRecipeClassifier({
   const [bulkAttributes, setBulkAttributes] = useState({});
   const [bulkCookingMethods, setBulkCookingMethods] = useState({});
   const [status, setStatus] = useState("");
+  const [autoReviewOpen, setAutoReviewOpen] = useState(false);
   const importInputRef = useRef(null);
 
   const filteredRecipes = useMemo(() => {
@@ -451,6 +453,11 @@ export default function AdminRecipeClassifier({
       `${recipe.id} ${recipe.title} ${recipe.category}`.toLowerCase().includes(search)
     );
   }, [query, recipes]);
+
+  const autoClassification = useMemo(
+    () => classifyRecipeLibrary(recipes, classifications),
+    [recipes, classifications]
+  );
 
   useEffect(() => {
     if (
@@ -566,6 +573,65 @@ export default function AdminRecipeClassifier({
     });
 
     setStatus(`Group changes applied to ${selectedCount} recipes — save when ready`);
+  }
+
+  function approveHighConfidenceAutoClassifications() {
+    const highIds = new Set(
+      autoClassification.highConfidence.map((result) => result.recipeId)
+    );
+
+    if (!highIds.size) {
+      setStatus("No high-confidence automatic classifications are waiting");
+      return;
+    }
+
+    setClassifications((existing) => {
+      const next = { ...existing };
+
+      autoClassification.results.forEach((result) => {
+        if (!highIds.has(result.recipeId)) return;
+        const selectedRecipe = recipes.find(
+          (item) => item.id === result.recipeId
+        );
+        if (!selectedRecipe) return;
+
+        next[result.recipeId] = applyAutoClassification(
+          selectedRecipe,
+          existing[result.recipeId],
+          result
+        );
+      });
+
+      saveRecipeClassifications(next);
+      return next;
+    });
+
+    setStatus(
+      `Approved high-confidence suggestions for ${highIds.size} recipes and saved them in this browser`
+    );
+  }
+
+  function approveAutoRecipe(result, includeMedium = false) {
+    const selectedRecipe = recipes.find(
+      (item) => item.id === result.recipeId
+    );
+    if (!selectedRecipe) return;
+
+    setClassifications((existing) => {
+      const next = {
+        ...existing,
+        [result.recipeId]: applyAutoClassification(
+          selectedRecipe,
+          existing[result.recipeId],
+          result,
+          { includeMedium }
+        ),
+      };
+      saveRecipeClassifications(next);
+      return next;
+    });
+
+    setStatus(`${result.recipeId} automatic suggestions approved and saved`);
   }
 
   function saveChanges() {
@@ -687,6 +753,16 @@ export default function AdminRecipeClassifier({
           <button
             className="secondary"
             type="button"
+            onClick={() => {
+              setAutoReviewOpen((current) => !current);
+              setStatus("");
+            }}
+          >
+            Auto-Classify Recipes
+          </button>
+          <button
+            className="secondary"
+            type="button"
             onClick={() => importInputRef.current?.click()}
           >
             Import JSON
@@ -699,6 +775,138 @@ export default function AdminRecipeClassifier({
           </button>
         </div>
       </header>
+
+      {autoReviewOpen && (
+        <section
+          className="adminAutoClassifier"
+          aria-label="Automatic recipe classification review"
+        >
+          <div className="adminAutoClassifierHeading">
+            <div>
+              <span className="aiBadge">AUTO-CLASSIFY PREVIEW</span>
+              <h2>Review Automatic Recipe Classifications</h2>
+              <p>
+                Existing classifications are preserved. Approve the high-confidence
+                group first, then review the smaller exception queue.
+              </p>
+            </div>
+            <div className="adminAutoClassifierSummary">
+              <strong>{autoClassification.highConfidence.length}</strong>
+              <span>Ready to approve</span>
+              <strong>{autoClassification.needsReview.length}</strong>
+              <span>Need review</span>
+            </div>
+          </div>
+
+          <div className="adminAutoClassifierActions">
+            <button
+              type="button"
+              className="primary"
+              onClick={approveHighConfidenceAutoClassifications}
+              disabled={!autoClassification.highConfidence.length}
+            >
+              Approve All High Confidence
+            </button>
+            <button
+              type="button"
+              className="secondary"
+              onClick={() => setAutoReviewOpen(false)}
+            >
+              Close Review
+            </button>
+          </div>
+
+          <div className="adminAutoClassifierQueue">
+            {autoClassification.results.map((result) => {
+              const suggestions = [
+                ...result.proposed.attributes.map((item) => ({
+                  ...item,
+                  group: "Attribute",
+                })),
+                ...result.proposed.cookingMethods.map((item) => ({
+                  ...item,
+                  group: "Method",
+                })),
+                ...result.proposed.collections.map((item) => ({
+                  ...item,
+                  group: "Collection",
+                })),
+              ];
+
+              return (
+                <article
+                  className={`adminAutoClassifierCard ${
+                    result.confidence === "high" ? "isHigh" : "needsReview"
+                  }`}
+                  key={`auto-${result.recipeId}`}
+                >
+                  <div className="adminAutoClassifierCardTitle">
+                    <div>
+                      <strong>{result.recipeId}</strong>
+                      <span>{result.title}</span>
+                    </div>
+                    <em>
+                      {result.confidence === "high"
+                        ? "High Confidence"
+                        : "Needs Review"}
+                    </em>
+                  </div>
+                  <small>
+                    Primary category: {result.proposed.primaryCategory}
+                  </small>
+
+                  <div className="adminAutoSuggestionList">
+                    {suggestions.length ? (
+                      suggestions.map((suggestion) => (
+                        <p
+                          key={`${result.recipeId}-${suggestion.group}-${suggestion.value}`}
+                        >
+                          <span>{suggestion.group}</span>
+                          <strong>{suggestion.value}</strong>
+                          <em>{suggestion.confidence}</em>
+                          <small>{suggestion.reason}</small>
+                        </p>
+                      ))
+                    ) : (
+                      <p className="adminAutoNoSuggestion">
+                        No safe automatic suggestions. Review manually.
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="adminAutoClassifierCardActions">
+                    <button
+                      type="button"
+                      onClick={() => approveAutoRecipe(result, false)}
+                    >
+                      Approve High Confidence
+                    </button>
+                    {result.counts.medium > 0 && (
+                      <button
+                        type="button"
+                        onClick={() => approveAutoRecipe(result, true)}
+                      >
+                        Approve High + Suggested
+                      </button>
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSelectedRecipeId(result.recipeId);
+                        setMode("single");
+                        setAutoReviewOpen(false);
+                        setStatus("");
+                      }}
+                    >
+                      Review Manually
+                    </button>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </section>
+      )}
 
       <div className="adminClassifierModeTabs" role="tablist" aria-label="Classification mode">
         <button

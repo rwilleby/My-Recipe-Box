@@ -721,3 +721,147 @@
   }
 }
 
+
+/* v70.7 — conservative automatic recipe classification review */
+.adminAutoClassifier {
+  margin: 18px 0;
+  padding: 18px;
+  border: 1px solid #cfd9d2;
+  border-radius: 14px;
+  background: #f8fbf8;
+}
+
+.adminAutoClassifierHeading {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.adminAutoClassifierHeading h2 {
+  margin: 6px 0;
+}
+
+.adminAutoClassifierHeading p {
+  max-width: 780px;
+  margin: 0;
+  color: #596273;
+}
+
+.adminAutoClassifierSummary {
+  min-width: 190px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 10px;
+  align-items: baseline;
+}
+
+.adminAutoClassifierSummary strong {
+  color: #14532d;
+  font-size: 24px;
+}
+
+.adminAutoClassifierSummary span {
+  color: #596273;
+  font-size: 12px;
+}
+
+.adminAutoClassifierActions,
+.adminAutoClassifierCardActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 14px 0;
+}
+
+.adminAutoClassifierQueue {
+  display: grid;
+  gap: 10px;
+  max-height: 680px;
+  overflow: auto;
+  padding-right: 4px;
+}
+
+.adminAutoClassifierCard {
+  padding: 14px;
+  border: 1px solid #d9e1db;
+  border-left: 5px solid #b48b42;
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.adminAutoClassifierCard.isHigh {
+  border-left-color: #3f7a54;
+}
+
+.adminAutoClassifierCardTitle {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+}
+
+.adminAutoClassifierCardTitle > div {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+}
+
+.adminAutoClassifierCardTitle > em {
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.adminAutoSuggestionList {
+  display: grid;
+  gap: 5px;
+  margin: 10px 0;
+}
+
+.adminAutoSuggestionList p {
+  display: grid;
+  grid-template-columns: 78px minmax(120px, .7fr) 62px 1fr;
+  gap: 8px;
+  margin: 0;
+  padding: 6px 8px;
+  background: #f7f8f7;
+  border-radius: 7px;
+  align-items: center;
+}
+
+.adminAutoSuggestionList p > span,
+.adminAutoSuggestionList p > em {
+  font-size: 10px;
+  text-transform: uppercase;
+  color: #667085;
+  font-style: normal;
+}
+
+.adminAutoSuggestionList p > small {
+  color: #667085;
+}
+
+.adminAutoNoSuggestion {
+  display: block !important;
+  color: #667085;
+}
+
+@media (max-width: 800px) {
+  .adminAutoClassifierHeading {
+    display: block;
+  }
+
+  .adminAutoClassifierSummary {
+    margin-top: 12px;
+  }
+
+  .adminAutoSuggestionList p {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .adminAutoSuggestionList p > small {
+    grid-column: 1 / -1;
+  }
+}
