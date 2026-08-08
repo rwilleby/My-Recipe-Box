@@ -14,6 +14,9 @@ import { createOpportunityService } from "./OpportunityService.js";
 import { createTemplateService } from "./TemplateService.js";
 import { createMemoryService } from "./MemoryService.js";
 import { createTimelineService } from "./TimelineService.js";
+import { createProductionCenterService } from "./ProductionCenterService.js";
+import { createAvailableMealsService } from "./AvailableMealsService.js";
+import { createKitchenCompanionService } from "./KitchenCompanionService.js";
 
 export function createKosPlatform({
   storage,
@@ -104,6 +107,32 @@ export function createKosPlatform({
     templates,
   });
 
+  const productionCenter = createProductionCenterService({
+    storage: repository.storage,
+    clock,
+    actions,
+    rfisBridge: rfis,
+    workflow,
+    assistant,
+    opportunities,
+    memory,
+    templates,
+    timeline,
+  });
+
+  const availableMeals = createAvailableMealsService({
+    inventory,
+    actions,
+  });
+
+  const companion = createKitchenCompanionService({
+    productionCenter,
+    availableMeals,
+    workflow,
+    intents,
+    assistant,
+  });
+
   return Object.freeze({
     repository,
     inventory,
@@ -121,6 +150,9 @@ export function createKosPlatform({
     memory,
     templates,
     opportunities,
+    productionCenter,
+    availableMeals,
+    companion,
   });
 }
 

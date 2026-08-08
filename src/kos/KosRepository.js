@@ -237,6 +237,7 @@ export function createKosRepository({
     restoreRecoveryPoint,
     reset,
     storageKey,
+    storage,
   });
 }
 

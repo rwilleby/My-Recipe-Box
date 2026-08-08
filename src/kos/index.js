@@ -22,3 +22,7 @@ export { createTimelineService } from "./TimelineService.js";
 export { createMemoryService } from "./MemoryService.js";
 export { createTemplateService } from "./TemplateService.js";
 export { createOpportunityService } from "./OpportunityService.js";
+
+export { createProductionCenterService } from "./ProductionCenterService.js";
+export { createAvailableMealsService } from "./AvailableMealsService.js";
+export { createKitchenCompanionService } from "./KitchenCompanionService.js";

@@ -1,0 +1,94 @@
+{
+  "release": "v66.2",
+  "name": "Production Center Engineering",
+  "baseline": "My-Recipe-Box-v66.1.2.zip",
+  "kosTests": [
+    {
+      "test": "kos100.test.mjs",
+      "status": "passed",
+      "output": "KOS-100 Data Foundation contracts passed"
+    },
+    {
+      "test": "kos110.test.mjs",
+      "status": "passed",
+      "output": "KOS-110 Workflow Service contracts passed"
+    },
+    {
+      "test": "kos120.test.mjs",
+      "status": "passed",
+      "output": "KOS-120 Intent and Action Service contracts passed"
+    },
+    {
+      "test": "kos130.test.mjs",
+      "status": "passed",
+      "output": "KOS-130 RFIS Bridge contracts passed"
+    },
+    {
+      "test": "kos135.test.mjs",
+      "status": "passed",
+      "output": "KOS-135 Data Protection and Recovery contracts passed"
+    },
+    {
+      "test": "kos140.test.mjs",
+      "status": "passed",
+      "output": "KOS-140 Kitchen Assistant Engine contracts passed"
+    },
+    {
+      "test": "kos150.test.mjs",
+      "status": "passed",
+      "output": "KOS-150 Timeline contracts passed"
+    },
+    {
+      "test": "kos160.test.mjs",
+      "status": "passed",
+      "output": "KOS-160 Kitchen Memory contracts passed"
+    },
+    {
+      "test": "kos170.test.mjs",
+      "status": "passed",
+      "output": "KOS-170 Production Template contracts passed"
+    },
+    {
+      "test": "kos180.test.mjs",
+      "status": "passed",
+      "output": "KOS-180 Opportunity contracts passed"
+    },
+    {
+      "test": "kos200.test.mjs",
+      "status": "passed",
+      "output": "KOS-200 Production Center contracts passed"
+    },
+    {
+      "test": "kosArchitectureContracts.test.mjs",
+      "status": "passed",
+      "output": "KOS architecture contracts passed"
+    }
+  ],
+  "rfisTests": [
+    {
+      "test": "completeDinnerEngine.test.mjs",
+      "status": "passed",
+      "output": "Complete Dinner Engine tests passed.\nDinner Builder engine methods passed"
+    },
+    {
+      "test": "rfisPlatform.test.mjs",
+      "status": "passed",
+      "output": "RFIS Platform v1.0 service tests passed\nHero Service consolidation contracts passed\nValidation Service consolidation contracts passed\nRecommendation Service consolidation contracts passed\nCollection Service consolidation contracts passed\nRecipe Service consolidation contracts passed\nComplete Dinner Service consolidation contracts passed\nSearch Service consolidation contracts passed"
+    },
+    {
+      "test": "rfisUiServiceContracts.test.mjs",
+      "status": "passed",
+      "output": "RFIS UI service contracts passed"
+    },
+    {
+      "test": "rfisArchitectureContracts.test.mjs",
+      "status": "passed",
+      "output": "RFIS Architecture compliance contracts passed"
+    }
+  ],
+  "notes": [
+    "No UI files changed.",
+    "package.json now runs the complete KOS regression suite.",
+    "macOS metadata excluded from release package."
+  ]
+}

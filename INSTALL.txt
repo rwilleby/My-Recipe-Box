@@ -1,16 +1,33 @@
-MY-RECIPE-BOX v66.1 — KITCHEN OPERATIONS FOUNDATION
-===================================================
+MY-RECIPE-BOX v66.2 — PRODUCTION CENTER ENGINEERING
+==================================================
 
-READY FOR GITHUB
+BASELINE
+--------
+Current local Master based on v66.1.2 or later.
 
-This integration package is designed to merge into the current UI/design branch.
-It adds/replaces only KOS services, KOS tests, KOS documentation, package.json,
-and the release verification report. It does not replace App.jsx, CSS, homepage
-components, images, or other visual design files.
+IMPORTANT
+---------
+This is an engineering integration package. It does not contain App.jsx,
+homepage components, CSS, or images, so it will not overwrite approved UI work.
 
-Copy all files into the matching project locations. Then run:
+COPY
+----
+Copy all included files into the matching locations in your current local
+Master folder and replace matching files when prompted.
 
+THEN RUN
+--------
 npm install
 npm run check
 
-After the tests and build pass, commit the entire updated project to GitHub.
+LOCAL REVIEW
+------------
+npm run dev
+
+The new Production Center services are headless until the approved UI is wired
+to them. Existing site behavior should remain unchanged.
+
+GITHUB
+------
+After npm run check passes and your local site still looks correct, the merged
+local Master is the version to commit/push to GitHub.
