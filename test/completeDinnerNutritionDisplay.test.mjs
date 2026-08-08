@@ -29,8 +29,8 @@ const percentBlock = css.match(
   /\.dinnerCombinationNutritionExpanded em \{[\s\S]*?\n\}/
 )?.[0] || "";
 assert.ok(
-  percentBlock.includes("font-size: clamp(8px, .72vw, 10px) !important;"),
-  "%DV must match the nutrient-label font size"
+  percentBlock.includes("font-size: 16px !important;"),
+  "%DV must match the current nutrient-label size"
 );
 assert.ok(
   percentBlock.includes("font-weight: 400 !important;"),
@@ -41,8 +41,8 @@ const noteBlock = css.match(
   /\.dinnerCombinationDailyValueNote \{[\s\S]*?\n\}/
 )?.[0] || "";
 assert.ok(
-  noteBlock.includes("font-size: clamp(8px, .72vw, 10px) !important;"),
-  "Daily Value footnote must match the nutrient-label font size"
+  noteBlock.includes("font-size: 16px !important;"),
+  "Daily Value footnote must match the current nutrient-label size"
 );
 assert.ok(
   noteBlock.includes("font-weight: 400 !important;"),
@@ -57,4 +57,4 @@ assert.ok(
   "Daily Value footnote must be centered"
 );
 
-console.log("Complete Dinner v70.4 nutrition typography contracts passed");
+console.log("Complete Dinner v70.5 nutrition typography contracts passed");
