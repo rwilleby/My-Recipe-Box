@@ -2,30 +2,23 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 
 const app = fs.readFileSync("src/App.jsx", "utf8");
-const classifier = fs.readFileSync(
-  "src/components/AdminRecipeClassifier.jsx",
-  "utf8"
-);
+const classifier = fs.readFileSync("src/components/AdminRecipeClassifier.jsx", "utf8");
 
 assert.ok(
-  app.includes("const [showRecipeIntelligence, setShowRecipeIntelligence] = useState(false)"),
-  "Recipe Intelligence must be collapsed by default"
+  !app.includes('className="recipeIntelligenceDisclosure"'),
+  "Recipe Intelligence must no longer occupy inline recipe-viewer space"
 );
 assert.ok(
-  app.includes('aria-expanded={showRecipeIntelligence}'),
-  "Recipe Intelligence disclosure must expose expanded state"
+  app.includes('openPanel === "dinners"'),
+  "RFIS / Complete Dinner information must open from the Dinners popup"
 );
 assert.ok(
-  app.includes('{showRecipeIntelligence && ('),
-  "Recipe Intelligence panel must render only when expanded"
+  app.includes('<RecipeIntelligencePanel'),
+  "Recipe Intelligence remains available inside the Dinners popup"
 );
 assert.ok(
-  app.includes('setShowRecipeIntelligence(false);'),
-  "Recipe Intelligence must collapse again when switching recipes"
-);
-assert.ok(
-  app.includes('"RFIS Info"'),
-  "Compact RFIS Info control must be present"
+  app.includes('>\n              Dinners\n            </button>'),
+  "Dinners footer control must be present"
 );
 
 assert.ok(

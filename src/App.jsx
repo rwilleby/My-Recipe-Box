@@ -4010,7 +4010,8 @@ function RecipeCardViewer({
   const [constructionImageFailed, setConstructionImageFailed] = useState(false);
   const [openPanel, setOpenPanel] = useState(null);
   const [showFoodIntelligence, setShowFoodIntelligence] = useState(false);
-  const [showRecipeIntelligence, setShowRecipeIntelligence] = useState(false);
+  const [viewerUserNote, setViewerUserNote] = useState("");
+  const [viewerNoteSaved, setViewerNoteSaved] = useState(false);
   usePopupPageMode(Boolean(viewer));
 
   const viewerIds = viewer?.recipeIds?.length
@@ -4031,7 +4032,14 @@ function RecipeCardViewer({
     setConstructionImageFailed(false);
     setOpenPanel(null);
     setShowFoodIntelligence(false);
-    setShowRecipeIntelligence(false);
+    setViewerNoteSaved(false);
+    try {
+      setViewerUserNote(
+        window.localStorage.getItem(`rrb-recipe-note-${recipe?.id}`) || ""
+      );
+    } catch {
+      setViewerUserNote("");
+    }
   }, [recipe?.id]);
 
   if (!viewer || !recipe) return null;
@@ -4069,6 +4077,19 @@ function RecipeCardViewer({
 
   function togglePanel(panelName) {
     setOpenPanel((current) => (current === panelName ? null : panelName));
+  }
+
+  function saveViewerPersonalNote() {
+    try {
+      window.localStorage.setItem(
+        `rrb-recipe-note-${recipe.id}`,
+        viewerUserNote
+      );
+      setViewerNoteSaved(true);
+      window.setTimeout(() => setViewerNoteSaved(false), 1600);
+    } catch {
+      setViewerNoteSaved(false);
+    }
   }
 
   function printCurrentCard() {
@@ -4255,76 +4276,16 @@ function RecipeCardViewer({
           </div>
         )}
 
-        <section className="recipeIntelligenceDisclosure">
-          <button
-            type="button"
-            className="recipeIntelligenceDisclosureButton"
-            onClick={() => setShowRecipeIntelligence((current) => !current)}
-            aria-expanded={showRecipeIntelligence}
-          >
-            <span>
-              <strong>Recipe Intelligence</strong>
-              <small>
-                {recipeRfisProfile?.classificationCount
-                  ? `${recipeRfisProfile.classificationCount} RFIS tags`
-                  : "RFIS profile"}
-              </small>
-            </span>
-            <em>{showRecipeIntelligence ? "Hide" : "RFIS Info"}</em>
-          </button>
-
-          {showRecipeIntelligence && (
-            <RecipeIntelligencePanel
-              recipe={recipe}
-              rfisPlatform={rfisPlatform}
-              hasNutritionRecord={hasFoodIntelligence}
-            />
-          )}
-        </section>
-
-        {recipeCompleteDinners.length > 0 && (
-          <section className="recipeCompleteDinnerPanel" aria-label={`Complete Dinners featuring ${recipe.title}`}>
-            <div className="recipeCompleteDinnerPanelHeader">
-              <div>
-                <span>RFIS RECOMMENDATIONS</span>
-                <h3>Complete Dinners Featuring This Recipe</h3>
-              </div>
-              <small>{recipeCompleteDinners.length} matching dinner{recipeCompleteDinners.length === 1 ? "" : "s"}</small>
-            </div>
-            <div className="recipeCompleteDinnerGrid">
-              {recipeCompleteDinners.map((dinner) => {
-                const role = dinner.entreeRecipeId === recipe.id ? "Featured entrée" : "Included side";
-                const sideNames = (dinner.sideRecipeIds || [])
-                  .map((id) => recipes.find((item) => item.id === id)?.title || id)
-                  .join(" · ");
-                return (
-                  <button
-                    type="button"
-                    className="recipeCompleteDinnerCard"
-                    key={`${recipe.id}-${dinner.id}`}
-                    onClick={() => onOpenCompleteDinner?.(dinner.legacyId)}
-                  >
-                    <span>{dinner.legacyId}</span>
-                    <strong>{dinner.title}</strong>
-                    <em>{role}</em>
-                    <small>{sideNames}</small>
-                  </button>
-                );
-              })}
-            </div>
-          </section>
-        )}
-
         {openPanel && (
           <div className="viewerBottomSheet" role="dialog" aria-label={`${openPanel} information`}>
             <div className="viewerBottomSheetHandle" />
             <div className="viewerBottomSheetHeader">
               <strong>
                 {openPanel === "cooking" && "Cooking Options"}
-                {openPanel === "tips" && "Smart Tips"}
-                {openPanel === "notes" && "My Notes"}
+                {openPanel === "notesTips" && "Notes & Tips"}
+                {openPanel === "dinners" && "Dinners"}
                 {openPanel === "construction" && "Build Your Salad"}
-                {openPanel === "cost" && "Estimated Cost"}
+                {openPanel === "cost" && "Est $$"}
               </strong>
               <button type="button" onClick={() => setOpenPanel(null)} aria-label="Close popup">
                 ×
@@ -4347,22 +4308,87 @@ function RecipeCardViewer({
               </div>
             )}
 
-            {openPanel === "tips" && (
-              <div className="viewerBottomSheetContent">
-                <ul className="viewerSmartTipsList">
-                  <li>
-                    <strong>Lower calorie:</strong> {tips.calories}
-                  </li>
-                  <li>
-                    <strong>Lower carb:</strong> {tips.carbs}
-                  </li>
-                  <li>
-                    <strong>Lower sodium:</strong> {tips.sodium}
-                  </li>
-                  <li>
-                    <strong>Higher protein:</strong> {tips.protein}
-                  </li>
-                </ul>
+            {openPanel === "notesTips" && (
+              <div className="viewerBottomSheetContent viewerNotesTipsSheet">
+                <div className="viewerNotesTipsGrid">
+                  <section className="viewerTipsSection">
+                    <h3>Smart Tips</h3>
+                    <ul className="viewerSmartTipsList">
+                      <li><strong>Lower calorie:</strong> {tips.calories}</li>
+                      <li><strong>Lower carb:</strong> {tips.carbs}</li>
+                      <li><strong>Lower sodium:</strong> {tips.sodium}</li>
+                      <li><strong>Higher protein:</strong> {tips.protein}</li>
+                    </ul>
+                  </section>
+
+                  <section className="viewerEditableNotesSection">
+                    <h3>Your Notes</h3>
+                    <textarea
+                      value={viewerUserNote}
+                      onChange={(event) => {
+                        setViewerUserNote(event.target.value);
+                        setViewerNoteSaved(false);
+                      }}
+                      placeholder="Enter your personal notes about this recipe..."
+                      aria-label={`Personal notes for ${recipe.title}`}
+                    />
+                    <div className="viewerNotesActions">
+                      <button type="button" onClick={saveViewerPersonalNote}>
+                        Save Notes
+                      </button>
+                      <small>
+                        {viewerNoteSaved ? "Saved" : "Stored only in this browser"}
+                      </small>
+                    </div>
+                    {!viewerUserNote && note?.text && (
+                      <p className="viewerNotesSuggestion">
+                        <strong>Suggested note:</strong> {note.text}
+                      </p>
+                    )}
+                  </section>
+                </div>
+              </div>
+            )}
+
+            {openPanel === "dinners" && (
+              <div className="viewerBottomSheetContent viewerDinnersSheet">
+                <RecipeIntelligencePanel
+                  recipe={recipe}
+                  rfisPlatform={rfisPlatform}
+                  hasNutritionRecord={hasFoodIntelligence}
+                />
+
+                <section className="viewerDinnerMatches" aria-label={`Complete Dinners featuring ${recipe.title}`}>
+                  <div className="viewerDinnerMatchesHeader">
+                    <strong>Complete Dinners Featuring This Recipe</strong>
+                    <small>{recipeCompleteDinners.length} matching dinner{recipeCompleteDinners.length === 1 ? "" : "s"}</small>
+                  </div>
+                  {recipeCompleteDinners.length ? (
+                    <div className="recipeCompleteDinnerGrid">
+                      {recipeCompleteDinners.map((dinner) => {
+                        const role = dinner.entreeRecipeId === recipe.id ? "Featured entrée" : "Included side";
+                        const sideNames = (dinner.sideRecipeIds || [])
+                          .map((id) => recipes.find((item) => item.id === id)?.title || id)
+                          .join(" · ");
+                        return (
+                          <button
+                            type="button"
+                            className="recipeCompleteDinnerCard"
+                            key={`${recipe.id}-${dinner.id}`}
+                            onClick={() => onOpenCompleteDinner?.(dinner.legacyId)}
+                          >
+                            <span>{dinner.legacyId}</span>
+                            <strong>{dinner.title}</strong>
+                            <em>{role}</em>
+                            <small>{sideNames}</small>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <p className="viewerNoDinnerMatches">No Complete Dinners currently feature this recipe.</p>
+                  )}
+                </section>
               </div>
             )}
 
@@ -4466,14 +4492,6 @@ function RecipeCardViewer({
               </div>
             )}
 
-            {openPanel === "notes" && (
-              <div className="viewerBottomSheetContent viewerNotesSheet">
-                <div className="viewerNotesPaper">
-                  <h3>{note.title}</h3>
-                  <p>{note.text}</p>
-                </div>
-              </div>
-            )}
           </div>
         )}
 
@@ -4499,15 +4517,15 @@ function RecipeCardViewer({
                 showFoodIntelligence
                   ? "View the recipe card front"
                   : hasFoodIntelligence
-                    ? `View Food Intelligence for ${recipe.id}`
-                    : `View Food Intelligence availability for ${recipe.id}`
+                    ? `View Nutrition Data for ${recipe.id}`
+                    : `View Nutrition Data availability for ${recipe.id}`
               }
             >
               {showFoodIntelligence
                 ? "View Recipe Card"
                 : hasFoodIntelligence
-                  ? "View Food Intelligence"
-                  : "Food Intelligence Coming Soon"}
+                  ? "Nutrition Data"
+                  : "Nutrition Data Coming Soon"}
             </button>
 
             <button
@@ -4519,19 +4537,19 @@ function RecipeCardViewer({
             </button>
 
             <button
-              className={openPanel === "tips" ? "viewerActionButton active" : "viewerActionButton"}
+              className={openPanel === "notesTips" ? "viewerActionButton viewerActionNotes active" : "viewerActionButton viewerActionNotes"}
               type="button"
-              onClick={() => togglePanel("tips")}
+              onClick={() => togglePanel("notesTips")}
             >
-              Smart Tips
+              Notes & Tips
             </button>
 
             <button
-              className={openPanel === "notes" ? "viewerActionButton viewerActionNotes active" : "viewerActionButton viewerActionNotes"}
+              className={openPanel === "dinners" ? "viewerActionButton viewerActionDinners active" : "viewerActionButton viewerActionDinners"}
               type="button"
-              onClick={() => togglePanel("notes")}
+              onClick={() => togglePanel("dinners")}
             >
-              My Notes
+              Dinners
             </button>
 
             {showConstruction && (
@@ -4550,7 +4568,7 @@ function RecipeCardViewer({
               type="button"
               onClick={() => togglePanel("cost")}
             >
-              Estimated Cost
+              Est $$
             </button>
 
             <button
