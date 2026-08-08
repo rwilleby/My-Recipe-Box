@@ -18,6 +18,7 @@ export function createKitchenCompanionService({
   assistant,
   cookingSessions,
   timers,
+  inventoryIntelligence,
 } = {}) {
   if (
     !productionCenter ||
@@ -26,7 +27,8 @@ export function createKitchenCompanionService({
     !intents ||
     !assistant ||
     !cookingSessions ||
-    !timers
+    !timers ||
+    !inventoryIntelligence
   ) {
     throw new Error(
       "KitchenCompanionService requires KOS presentation services"
@@ -46,6 +48,7 @@ export function createKitchenCompanionService({
       })),
       suggestions: assistant.suggestions({ limit: 4 }),
       kitchenCounts: workflow.counts(),
+      inventory: inventoryIntelligence.dashboard(),
     });
   }
 
@@ -78,10 +81,15 @@ export function createKitchenCompanionService({
     });
   }
 
+  function available() {
+    return inventoryIntelligence.dashboard();
+  }
+
   return Object.freeze({
     home,
     cooking,
     recipeCard,
+    available,
   });
 }
 

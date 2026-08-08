@@ -4,11 +4,11 @@ const required = [
   "KosRepository", "InventoryService", "ProductionService", "AssemblyService", "PackagingService",
   "FoodLineageService", "WorkflowService", "IntentService", "ActionService", "RfisBridgeService",
   "DataProtectionService", "AssistantService", "TimelineService", "MemoryService", "TemplateService",
-  "OpportunityService", "ProductionCenterService", "AvailableMealsService", "KitchenCompanionService", "TimerService", "CookingSessionService", "createKosPlatform"
+  "OpportunityService", "ProductionCenterService", "AvailableMealsService", "KitchenCompanionService", "TimerService", "CookingSessionService", "InventoryIntelligenceService", "InventoryActionService", "MealPlanningService", "ShoppingIntelligenceService", "PantryInventoryService", "UseWhatIHaveService", "ShoppingReconciliationService", "KitchenOperationsFacade", "createKosPlatform"
 ];
 for (const name of required) assert.equal(fs.existsSync(`src/kos/${name}.js`), true, `Missing ${name}`);
 const platform = fs.readFileSync("src/kos/createKosPlatform.js", "utf8");
-for (const prop of ["repository", "inventory", "production", "assembly", "packaging", "lineage", "workflow", "intents", "actions", "protection", "assistant", "timeline", "memory", "templates", "opportunities", "productionCenter", "availableMeals", "timers", "cookingSessions", "companion"]) {
+for (const prop of ["repository", "inventory", "production", "assembly", "packaging", "lineage", "workflow", "intents", "actions", "protection", "assistant", "timeline", "memory", "templates", "opportunities", "productionCenter", "availableMeals", "timers", "cookingSessions", "inventoryIntelligence", "inventoryActions", "mealPlanner", "shopping", "pantry", "useWhatIHave", "shoppingReconciliation", "companion", "kitchen"]) {
   assert.match(platform, new RegExp(`\\b${prop}\\b`), `Platform missing ${prop}`);
 }
 console.log("KOS architecture contracts passed");

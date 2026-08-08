@@ -19,6 +19,14 @@ import { createAvailableMealsService } from "./AvailableMealsService.js";
 import { createKitchenCompanionService } from "./KitchenCompanionService.js";
 import { createTimerService } from "./TimerService.js";
 import { createCookingSessionService } from "./CookingSessionService.js";
+import { createInventoryIntelligenceService } from "./InventoryIntelligenceService.js";
+import { createInventoryActionService } from "./InventoryActionService.js";
+import { createMealPlanningService } from "./MealPlanningService.js";
+import { createShoppingIntelligenceService } from "./ShoppingIntelligenceService.js";
+import { createPantryInventoryService } from "./PantryInventoryService.js";
+import { createUseWhatIHaveService } from "./UseWhatIHaveService.js";
+import { createShoppingReconciliationService } from "./ShoppingReconciliationService.js";
+import { createKitchenOperationsFacade } from "./KitchenOperationsFacade.js";
 
 export function createKosPlatform({
   storage,
@@ -139,6 +147,47 @@ export function createKosPlatform({
     timers,
   });
 
+  const inventoryIntelligence = createInventoryIntelligenceService({
+    inventory,
+    workflow,
+    assistant,
+    clock,
+  });
+
+  const inventoryActions = createInventoryActionService({
+    inventory,
+    packaging,
+  });
+
+  const mealPlanner = createMealPlanningService({
+    storage: repository.storage,
+    clock,
+    rfisPlatform,
+    inventoryIntelligence,
+  });
+
+  const shopping = createShoppingIntelligenceService({
+    storage: repository.storage,
+    clock,
+    mealPlanner,
+    rfisPlatform,
+  });
+
+  const pantry = createPantryInventoryService({
+    storage: repository.storage,
+    clock,
+  });
+
+  const useWhatIHave = createUseWhatIHaveService({
+    pantry,
+    rfisPlatform,
+  });
+
+  const shoppingReconciliation = createShoppingReconciliationService({
+    pantry,
+    shopping,
+  });
+
   const companion = createKitchenCompanionService({
     productionCenter,
     availableMeals,
@@ -147,9 +196,10 @@ export function createKosPlatform({
     assistant,
     cookingSessions,
     timers,
+    inventoryIntelligence,
   });
 
-  return Object.freeze({
+  const services = {
     repository,
     inventory,
     production,
@@ -170,7 +220,21 @@ export function createKosPlatform({
     availableMeals,
     timers,
     cookingSessions,
+    inventoryIntelligence,
+    inventoryActions,
+    mealPlanner,
+    shopping,
+    pantry,
+    useWhatIHave,
+    shoppingReconciliation,
     companion,
+  };
+
+  const kitchen = createKitchenOperationsFacade(services);
+
+  return Object.freeze({
+    ...services,
+    kitchen,
   });
 }
 

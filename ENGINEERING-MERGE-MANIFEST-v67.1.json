@@ -1,0 +1,14 @@
+{
+  "baseline": "My-Recipe-Box-v67.zip",
+  "release": "v67.1 consolidated engineering integration",
+  "overwritten": [
+    "src/kos/*",
+    "package.json"
+  ],
+  "added": [
+    "test/kos*.test.mjs",
+    "docs/v66.*.md"
+  ],
+  "uiFilesOverwritten": false,
+  "macOSMetadataRemoved": true
+}

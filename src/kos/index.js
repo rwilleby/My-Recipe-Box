@@ -29,3 +29,16 @@ export { createKitchenCompanionService } from "./KitchenCompanionService.js";
 
 export { createTimerService } from "./TimerService.js";
 export { createCookingSessionService } from "./CookingSessionService.js";
+
+export { createInventoryIntelligenceService } from "./InventoryIntelligenceService.js";
+export { createInventoryActionService } from "./InventoryActionService.js";
+
+export { createMealPlanningService } from "./MealPlanningService.js";
+
+export { createShoppingIntelligenceService } from "./ShoppingIntelligenceService.js";
+
+export { createPantryInventoryService } from "./PantryInventoryService.js";
+export { createUseWhatIHaveService } from "./UseWhatIHaveService.js";
+export { createShoppingReconciliationService } from "./ShoppingReconciliationService.js";
+
+export { createKitchenOperationsFacade } from "./KitchenOperationsFacade.js";

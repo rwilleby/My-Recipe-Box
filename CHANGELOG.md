@@ -1,18 +1,17 @@
-# v66.3 — Kitchen Companion Engineering
+# v67.1 — Consolidated Kitchen Operations Engineering
 
-## Added
-- CookingSessionService
-- TimerService
-- Persistent recipe-step sessions
-- Step completion and navigation
-- Step-aware kitchen notes
-- Persistent multi-timer support
-- Kitchen Companion recipe-card model
-- KOS-240 regression tests
+Integrated into the supplied v67 UI baseline:
 
-## Preserved
-- No UI files changed.
-- No CSS changed.
-- No images changed.
-- RFIS remains authoritative for recipe data.
-- KOS remains local-first.
+- KOS foundation and data protection
+- Production Center
+- Kitchen Companion
+- Available Meals and inventory intelligence
+- Meal Planning Intelligence
+- Shopping Intelligence
+- Pantry inventory
+- Use What I Have foundation
+- Shopping/pantry reconciliation
+- Stable `kos.kitchen` UI facade
+- Complete KOS regression suite
+
+No UI/design files are included in this update.
