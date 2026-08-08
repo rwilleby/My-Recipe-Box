@@ -39524,3 +39524,57 @@ body.rrbPopupOpen {
   background: #786f6a !important;
   color: #ffffff !important;
 }
+
+/* ================================================================
+   RECIPE LIST CARDS — MATCHED CONTROL HEIGHTS + MID-GRAY ACTIONS
+   Top information controls and the full summary row match the 28px
+   American Cuisine control. Square actions share one middle gray.
+   ================================================================ */
+
+.browseRecipeGrid .recipeCardFullImage .browseRecipeDropdownButton {
+  height: 28px !important;
+  min-height: 28px !important;
+}
+
+.browseRecipeGrid .recipeCardFullImage .browseRecipeBubbleRow {
+  min-height: 28px !important;
+}
+
+.browseRecipeGrid .recipeCardFullImage .browseRecipeSummaryBubble,
+.browseRecipeGrid .recipeCardFullImage .browseRecipeMealBalanceBadge,
+.browseRecipeGrid .recipeCardFullImage .browseRecipeFavoriteBubble,
+.favoritesRecipeGrid .favoritesRecipeBubbleRow .browseRecipeSummaryBubble,
+.favoritesRecipeGrid .favoritesRecipeBubbleRow .browseRecipeMealBalanceBadge,
+.favoritesRecipeGrid .favoritesRecipeBubbleRow .browseRecipeFavoriteBubble {
+  height: 28px !important;
+  min-height: 28px !important;
+}
+
+.browseRecipeGrid .recipeCardFullImage .browseRecipeMealBalanceBadge.mealBalanceBadge,
+.favoritesRecipeGrid .favoritesRecipeBubbleRow .browseRecipeMealBalanceBadge.mealBalanceBadge {
+  width: 28px !important;
+  min-width: 28px !important;
+}
+
+.browseRecipeGrid .recipeCardFullImage .browseRecipeActionRows button,
+.favoritesRecipeGrid .favoritesRecipeActionRow > button {
+  border-color: #928b87 !important;
+  background: #928b87 !important;
+  color: #ffffff !important;
+}
+
+.browseRecipeGrid .recipeCardFullImage .browseRecipeActionRows button:disabled {
+  border-color: #928b87 !important;
+  background: #928b87 !important;
+  color: #ffffff !important;
+  opacity: 1 !important;
+}
+
+.browseRecipeGrid .recipeCardFullImage .browseRecipeActionRows button:hover:not(:disabled),
+.browseRecipeGrid .recipeCardFullImage .browseRecipeActionRows button:focus-visible,
+.favoritesRecipeGrid .favoritesRecipeActionRow > button:hover:not(:disabled),
+.favoritesRecipeGrid .favoritesRecipeActionRow > button:focus-visible {
+  border-color: #7f7874 !important;
+  background: #7f7874 !important;
+  color: #ffffff !important;
+}
