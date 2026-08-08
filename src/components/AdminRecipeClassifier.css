@@ -865,3 +865,79 @@
     grid-column: 1 / -1;
   }
 }
+
+
+/* v70c.2 Auto-Classifier refinement — review selection workflow */
+.adminAutoClassifierViewTabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 14px;
+}
+
+.adminAutoClassifierViewTabs button {
+  min-height: 36px;
+  padding: 7px 12px;
+  border: 1px solid #b8c7bc;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #324237;
+  font-weight: 700;
+}
+
+.adminAutoClassifierViewTabs button.active {
+  border-color: #14532d;
+  background: #14532d;
+  color: #ffffff;
+}
+
+.adminAutoClassifierViewTabs button:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+}
+
+.adminAutoClassifierViewTabs button span {
+  display: inline-grid;
+  min-width: 22px;
+  height: 22px;
+  margin-left: 5px;
+  padding: 0 5px;
+  place-items: center;
+  border-radius: 999px;
+  background: rgba(20, 83, 45, .09);
+  font-size: 11px;
+}
+
+.adminAutoClassifierViewTabs button.active span {
+  background: rgba(255, 255, 255, .2);
+}
+
+.adminAutoClassifierCardTitle {
+  grid-template-columns: auto 1fr auto;
+}
+
+.adminAutoReviewCheck {
+  display: inline-grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 30px;
+}
+
+.adminAutoReviewCheck input {
+  width: 20px;
+  height: 20px;
+  accent-color: #14532d;
+  cursor: pointer;
+}
+
+@media (max-width: 800px) {
+  .adminAutoClassifierViewTabs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .adminAutoClassifierViewTabs button {
+    width: 100%;
+  }
+}

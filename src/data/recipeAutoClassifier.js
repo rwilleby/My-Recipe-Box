@@ -7,20 +7,36 @@ import {
 
 const unique = (values = []) => [...new Set(values.filter(Boolean))];
 
+function normalizeText(value = "") {
+  return String(value)
+    .toLowerCase()
+    .replace(/[’']/g, "'")
+    .replace(/[^a-z0-9&'+-]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 function recipeText(recipe) {
-  return [
+  return normalizeText([
     recipe?.id,
     recipe?.title,
     recipe?.category,
     ...(recipe?.ingredients || []).map((item) => item?.name),
-  ]
-    .filter(Boolean)
-    .join(" ")
-    .toLowerCase();
+  ].filter(Boolean).join(" "));
+}
+
+function titleText(recipe) {
+  return normalizeText(recipe?.title);
+}
+
+function phraseMatch(text, phrase) {
+  const normalizedPhrase = normalizeText(phrase);
+  if (!normalizedPhrase) return false;
+  return ` ${text} `.includes(` ${normalizedPhrase} `);
 }
 
 function hasAny(text, terms) {
-  return terms.some((term) => text.includes(term));
+  return terms.some((term) => phraseMatch(text, term));
 }
 
 function addSuggestion(list, value, confidence, reason) {
@@ -31,28 +47,34 @@ function addSuggestion(list, value, confidence, reason) {
 function suggestAttributes(recipe, text) {
   const suggestions = [];
   const code = recipe.categoryCode;
+  const title = titleText(recipe);
 
   const proteinRules = [
     ["Beef", ["beef", "steak", "hamburger", "meatloaf", "meatball", "pot roast", "brisket", "sirloin", "cheeseburger", "burger"]],
     ["Chicken", ["chicken"]],
-    ["Pork", ["pork", "ham ", "sausage", "bacon", "ribs"]],
-    ["Seafood", ["shrimp", "salmon", "tilapia", "catfish", "tuna", "crab", "fish", "seafood", "scallop"]],
+    ["Pork", ["pork", "ham", "sausage", "bacon", "ribs"]],
+    ["Seafood", ["shrimp", "salmon", "tilapia", "catfish", "tuna", "crab", "fish", "seafood", "scallop", "scallops"]],
     ["Turkey", ["turkey"]],
   ];
 
   for (const [value, terms] of proteinRules) {
-    if (hasAny(text, terms)) {
+    if (hasAny(title, terms)) {
       addSuggestion(
         suggestions,
         value,
         "high",
-        `Title or ingredient data indicates ${value.toLowerCase()}.`
+        `Recipe title identifies ${value.toLowerCase()} as a primary protein.`
       );
     }
   }
 
-  if (code === "SF") addSuggestion(suggestions, "Seafood", "high", "Seafood recipe category.");
-  if (code === "SD") addSuggestion(suggestions, "Side Dish", "high", "Side Dishes category.");
+  // Category is authoritative when the recipe series itself establishes the role.
+  if (code === "SF") {
+    addSuggestion(suggestions, "Seafood", "high", "Seafood recipe category.");
+  }
+  if (code === "SD") {
+    addSuggestion(suggestions, "Side Dish", "high", "Side Dishes category.");
+  }
   if (["CC", "CO", "CR", "DN", "DS"].includes(code)) {
     addSuggestion(suggestions, "Dessert", "high", "Dessert recipe category.");
   }
@@ -61,16 +83,36 @@ function suggestAttributes(recipe, text) {
   }
   if (code === "PM") {
     addSuggestion(suggestions, "Higher Protein", "high", "Protein Muffins category.");
-    addSuggestion(suggestions, "Breakfast", "medium", "Protein muffins commonly support breakfast or snacks.");
+    addSuggestion(
+      suggestions,
+      "Breakfast",
+      "medium",
+      "Protein muffins commonly support breakfast or snacks."
+    );
   }
   if (code === "SB") {
-    addSuggestion(suggestions, "Lunch", "medium", "Salad and bowl recipes commonly support lunch.");
+    addSuggestion(
+      suggestions,
+      "Lunch",
+      "medium",
+      "Salad and bowl recipes commonly support lunch."
+    );
   }
   if (recipe.servings === 2) {
-    addSuggestion(suggestions, "Serves Two", "high", "Stored recipe serving count is 2.");
+    addSuggestion(
+      suggestions,
+      "Serves Two",
+      "high",
+      "Stored recipe serving count is 2."
+    );
   }
   if (hasAny(text, ["freezer", "freeze", "make ahead"])) {
-    addSuggestion(suggestions, "Freezer Friendly", "medium", "Recipe data indicates freezer or make-ahead use.");
+    addSuggestion(
+      suggestions,
+      "Freezer Friendly",
+      "medium",
+      "Recipe data indicates freezer or make-ahead use."
+    );
   }
 
   return suggestions.filter((item) => RECIPE_ATTRIBUTES.includes(item.value));
@@ -78,30 +120,67 @@ function suggestAttributes(recipe, text) {
 
 function suggestMethods(recipe, text) {
   const suggestions = [];
-  const rules = [
+  const title = titleText(recipe);
+
+  const highRules = [
     ["Slow Cooker", ["slow cooker", "crockpot", "crock pot"]],
     ["Air Fryer", ["air fryer", "air-fried", "air fried"]],
     ["Microwave", ["microwave"]],
-    ["Pellet Smoker", ["smoked", "smoker", "pellet"]],
-    ["Gas Grill", ["grilled", "grill "]],
+    ["Pellet Smoker", ["smoked", "smoker", "pellet smoked"]],
+    ["Gas Grill", ["grilled", "grill"]],
     ["Stovetop", ["skillet", "stovetop", "pan fried", "pan-fried", "fried rice", "stir fry", "stir-fry"]],
-    ["Oven", ["baked", "bake", "casserole", "roast", "roasted", "ziti", "lasagna", "pot pie", "cobbler", "cheesecake"]],
+    ["Oven", ["baked", "bake", "casserole", "ziti", "lasagna", "pot pie", "cobbler", "cheesecake"]],
     ["No Cook", ["no cook", "no-cook"]],
     ["Bread Machine", ["bread machine"]],
     ["Pressure Cooker", ["pressure cooker", "instant pot"]],
   ];
 
-  for (const [value, terms] of rules) {
-    if (hasAny(text, terms)) {
-      addSuggestion(suggestions, value, "high", `Recipe name or stored data indicates ${value}.`);
+  for (const [value, terms] of highRules) {
+    if (hasAny(title, terms) || hasAny(text, terms.filter((term) => term.includes(" ")))) {
+      addSuggestion(
+        suggestions,
+        value,
+        "high",
+        `Recipe title or explicit stored wording indicates ${value}.`
+      );
     }
   }
 
-  if (["CC", "CO", "CR", "CS", "DN", "QP"].includes(recipe.categoryCode)) {
-    addSuggestion(suggestions, "Oven", "medium", `${recipe.category} normally uses the oven; review exceptions.`);
+  // "Roast" describes a dish as often as it describes a cooking method.
+  // Keep it reviewable unless explicit oven/baked wording is present.
+  if (
+    !suggestions.some((item) => item.value === "Oven") &&
+    hasAny(title, ["roast", "roasted"])
+  ) {
+    addSuggestion(
+      suggestions,
+      "Oven",
+      "medium",
+      "Roast wording may indicate oven cooking, but the method is ambiguous."
+    );
   }
-  if (recipe.categoryCode === "LF") {
-    addSuggestion(suggestions, "Bread Machine", "medium", "Loafs & Rolls may use the site's bread-machine workflow.");
+
+  if (
+    !suggestions.some((item) => item.value === "Oven") &&
+    ["CC", "CO", "CR", "CS", "DN", "QP"].includes(recipe.categoryCode)
+  ) {
+    addSuggestion(
+      suggestions,
+      "Oven",
+      "medium",
+      `${recipe.category} normally uses the oven; review exceptions.`
+    );
+  }
+  if (
+    !suggestions.some((item) => item.value === "Bread Machine") &&
+    recipe.categoryCode === "LF"
+  ) {
+    addSuggestion(
+      suggestions,
+      "Bread Machine",
+      "medium",
+      "Loafs & Rolls may use the site's bread-machine workflow."
+    );
   }
 
   return suggestions.filter((item) => COOKING_METHODS.includes(item.value));

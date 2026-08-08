@@ -443,6 +443,8 @@ export default function AdminRecipeClassifier({
   const [bulkCookingMethods, setBulkCookingMethods] = useState({});
   const [status, setStatus] = useState("");
   const [autoReviewOpen, setAutoReviewOpen] = useState(false);
+  const [autoSelectedRecipeIds, setAutoSelectedRecipeIds] = useState([]);
+  const [autoQueueView, setAutoQueueView] = useState("all");
   const importInputRef = useRef(null);
 
   const filteredRecipes = useMemo(() => {
@@ -458,6 +460,20 @@ export default function AdminRecipeClassifier({
     () => classifyRecipeLibrary(recipes, classifications),
     [recipes, classifications]
   );
+
+  const displayedAutoResults = useMemo(() => {
+    if (autoQueueView === "high") return autoClassification.highConfidence;
+    if (autoQueueView === "review") return autoClassification.needsReview;
+    if (autoQueueView === "selected") {
+      const selected = new Set(autoSelectedRecipeIds);
+      return autoClassification.results.filter((result) =>
+        selected.has(result.recipeId)
+      );
+    }
+    return autoClassification.results;
+  }, [autoClassification, autoQueueView, autoSelectedRecipeIds]);
+
+  const autoSelectedCount = autoSelectedRecipeIds.length;
 
   useEffect(() => {
     if (
@@ -573,6 +589,41 @@ export default function AdminRecipeClassifier({
     });
 
     setStatus(`Group changes applied to ${selectedCount} recipes — save when ready`);
+  }
+
+  function toggleAutoReviewSelection(recipeId) {
+    setAutoSelectedRecipeIds((existing) =>
+      existing.includes(recipeId)
+        ? existing.filter((id) => id !== recipeId)
+        : [...existing, recipeId]
+    );
+  }
+
+  function selectAllVisibleAutoResults() {
+    const visibleIds = displayedAutoResults.map((result) => result.recipeId);
+    setAutoSelectedRecipeIds((existing) => [
+      ...new Set([...existing, ...visibleIds]),
+    ]);
+    setStatus(`${visibleIds.length} visible Auto-Classify recipes selected`);
+  }
+
+  function clearAutoReviewSelection() {
+    setAutoSelectedRecipeIds([]);
+    if (autoQueueView === "selected") setAutoQueueView("all");
+    setStatus("Auto-Classify review selection cleared");
+  }
+
+  function showSelectedAutoResults() {
+    if (!autoSelectedRecipeIds.length) {
+      setStatus("Select one or more recipes to review first");
+      return;
+    }
+    setAutoQueueView("selected");
+    setStatus(
+      `Showing ${autoSelectedRecipeIds.length} selected recipe${
+        autoSelectedRecipeIds.length === 1 ? "" : "s"
+      } for review`
+    );
   }
 
   function approveHighConfidenceAutoClassifications() {
@@ -807,6 +858,26 @@ export default function AdminRecipeClassifier({
             >
               Approve All High Confidence
             </button>
+
+            <button type="button" className="secondary" onClick={selectAllVisibleAutoResults}>
+              Select All Visible
+            </button>
+            <button
+              type="button"
+              className="secondary"
+              onClick={showSelectedAutoResults}
+              disabled={!autoSelectedCount}
+            >
+              Review Selected ({autoSelectedCount})
+            </button>
+            <button
+              type="button"
+              className="secondary"
+              onClick={clearAutoReviewSelection}
+              disabled={!autoSelectedCount}
+            >
+              Clear Selection
+            </button>
             <button
               type="button"
               className="secondary"
@@ -816,8 +887,27 @@ export default function AdminRecipeClassifier({
             </button>
           </div>
 
+          <div className="adminAutoClassifierViewTabs" role="tablist" aria-label="Auto-Classify queue">
+            {[
+              ["all", "All", autoClassification.results.length],
+              ["high", "High Confidence", autoClassification.highConfidence.length],
+              ["review", "Needs Review", autoClassification.needsReview.length],
+              ["selected", "Selected", autoSelectedCount],
+            ].map(([value, label, count]) => (
+              <button
+                key={value}
+                type="button"
+                className={autoQueueView === value ? "active" : ""}
+                onClick={() => setAutoQueueView(value)}
+                disabled={value === "selected" && !autoSelectedCount}
+              >
+                {label} <span>{count}</span>
+              </button>
+            ))}
+          </div>
+
           <div className="adminAutoClassifierQueue">
-            {autoClassification.results.map((result) => {
+            {displayedAutoResults.map((result) => {
               const suggestions = [
                 ...result.proposed.attributes.map((item) => ({
                   ...item,
@@ -841,6 +931,14 @@ export default function AdminRecipeClassifier({
                   key={`auto-${result.recipeId}`}
                 >
                   <div className="adminAutoClassifierCardTitle">
+                    <label className="adminAutoReviewCheck">
+                      <input
+                        type="checkbox"
+                        checked={autoSelectedRecipeIds.includes(result.recipeId)}
+                        onChange={() => toggleAutoReviewSelection(result.recipeId)}
+                      />
+                      <span className="srOnly">Select {result.recipeId} for review</span>
+                    </label>
                     <div>
                       <strong>{result.recipeId}</strong>
                       <span>{result.title}</span>

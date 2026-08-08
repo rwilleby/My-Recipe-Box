@@ -1,6 +1,6 @@
 {
   "name": "rrb-browser-based-v1",
-  "version": "70.7.0",
+  "version": "70.8.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -17,7 +17,8 @@
     "test:classification": "node test/recipeClassificationDurability.test.mjs",
     "test:dinner-nutrition": "node test/completeDinnerNutritionDisplay.test.mjs",
     "test:nutrition-layout": "node test/v70bNutritionLayoutConsolidation.test.mjs",
-    "test:auto-classifier": "node test/recipeAutoClassifier.test.mjs"
+    "test:auto-classifier": "node test/recipeAutoClassifier.test.mjs",
+    "test:auto-classifier-refinement": "node test/recipeAutoClassifierRefinement.test.mjs"
   },
   "dependencies": {
     "react": "^19.1.0",
