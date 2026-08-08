@@ -11354,6 +11354,22 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, onViewRelatedMeal, openR
     return `${value}${suffix}`;
   }
 
+  function dailyValuePercent(value, dailyValue) {
+    const numericValue = Number(value);
+    if (
+      value === null ||
+      value === undefined ||
+      value === "" ||
+      !Number.isFinite(numericValue) ||
+      !Number.isFinite(dailyValue) ||
+      dailyValue <= 0
+    ) {
+      return "—";
+    }
+
+    return `${Math.round((numericValue / dailyValue) * 100)}%`;
+  }
+
   function addThisMealToPlan() {
     onAddMealToPlan(meal.id, selectedPlannerDay);
     setAddedMessage(`Added to ${plannerSlotLabel(selectedPlannerDay)}.`);
@@ -11545,18 +11561,61 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, onViewRelatedMeal, openR
         <section className="dinnerArea dinnerAreaNutrition" aria-label={`Estimated whole meal nutrition for ${meal.title}`}>
           <div className="dinnerCombinationNutritionLabel">Estimated nutrition for the whole meal</div>
           <div className="dinnerCombinationNutrition dinnerCombinationNutritionExpanded">
-            <span><strong>{nutritionValue(meal.calories)}</strong><small>calories</small></span>
-            <span><strong>{nutritionValue(meal.protein, "g")}</strong><small>protein</small></span>
-            <span><strong>{nutritionValue(meal.carbs, "g")}</strong><small>carbs</small></span>
-            <span><strong>{nutritionValue(meal.fat, "g")}</strong><small>fat</small></span>
-            <span><strong>{nutritionValue(meal.fiber, "g")}</strong><small>fiber</small></span>
+            <span>
+              <strong>{nutritionValue(meal.calories)}</strong>
+              <small>calories</small>
+              <em>{dailyValuePercent(meal.calories, 2000)}</em>
+            </span>
+            <span>
+              <strong>{nutritionValue(meal.protein, "g")}</strong>
+              <small>protein</small>
+              <em>{dailyValuePercent(meal.protein, 50)}</em>
+            </span>
+            <span>
+              <strong>{nutritionValue(meal.carbs, "g")}</strong>
+              <small>carbs</small>
+              <em>{dailyValuePercent(meal.carbs, 275)}</em>
+            </span>
+            <span>
+              <strong>{nutritionValue(meal.fat, "g")}</strong>
+              <small>fat</small>
+              <em>{dailyValuePercent(meal.fat, 78)}</em>
+            </span>
+            <span>
+              <strong>{nutritionValue(meal.fiber, "g")}</strong>
+              <small>fiber</small>
+              <em>{dailyValuePercent(meal.fiber, 28)}</em>
+            </span>
 
-            <span><strong>{nutritionValue(meal.sodium, "mg")}</strong><small>sodium</small></span>
-            <span><strong>{nutritionValue(meal.saturatedFat, "g")}</strong><small>saturated fat</small></span>
-            <span><strong>{nutritionValue(meal.totalSugars ?? meal.sugars, "g")}</strong><small>total sugars</small></span>
-            <span><strong>{nutritionValue(meal.addedSugars, "g")}</strong><small>added sugars</small></span>
-            <span><strong>{nutritionValue(meal.cholesterol, "mg")}</strong><small>cholesterol</small></span>
+            <span>
+              <strong>{nutritionValue(meal.sodium, "mg")}</strong>
+              <small>sodium</small>
+              <em>{dailyValuePercent(meal.sodium, 2300)}</em>
+            </span>
+            <span>
+              <strong>{nutritionValue(meal.saturatedFat, "g")}</strong>
+              <small>saturated fat</small>
+              <em>{dailyValuePercent(meal.saturatedFat, 20)}</em>
+            </span>
+            <span>
+              <strong>{nutritionValue(meal.totalSugars ?? meal.sugars, "g")}</strong>
+              <small>total sugars</small>
+              <em aria-label="No established Daily Value">—</em>
+            </span>
+            <span>
+              <strong>{nutritionValue(meal.addedSugars, "g")}</strong>
+              <small>added sugars</small>
+              <em>{dailyValuePercent(meal.addedSugars, 50)}</em>
+            </span>
+            <span>
+              <strong>{nutritionValue(meal.cholesterol, "mg")}</strong>
+              <small>cholesterol</small>
+              <em>{dailyValuePercent(meal.cholesterol, 300)}</em>
+            </span>
           </div>
+          <p className="dinnerCombinationDailyValueNote">
+            % Daily Value based on a 2,000 calorie diet.
+          </p>
         </section>
 
         <section className="dinnerArea dinnerAreaActions dinnerAreaActionsExpanded">
