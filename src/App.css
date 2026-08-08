@@ -39457,3 +39457,70 @@ body.rrbPopupOpen {
     margin-top: 15px;
   }
 }
+
+/* ================================================================
+   RECIPE LIST CARDS — WARM TAUPE CONTROLS
+   Favorite keeps its approved pink treatment.
+   ================================================================ */
+
+.browseRecipeGrid .recipeCardFullImage .browseRecipeDropdownButton,
+.browseRecipeGrid .recipeCardFullImage .browseRecipeActionRows button,
+.browseRecipeGrid .recipeCardFullImage .browseRecipeSummaryBubble:not(.browseRecipeFavoriteBubble),
+.browseRecipeGrid .recipeCardFullImage .browseRecipeGlp1Bubble,
+.browseRecipeGrid .recipeCardFullImage .browseRecipeMealBalanceBadge.mealBalanceBadge,
+.browseRecipeGrid .recipeCardFullImage .browseRecipeCuisineBubbleRow .browseRecipeTag,
+.favoritesRecipeGrid .favoritesRecipeActionRow > button,
+.favoritesRecipeGrid .favoritesRecipeBubbleRow .browseRecipeSummaryBubble:not(.browseRecipeFavoriteBubble),
+.favoritesRecipeGrid .favoritesRecipeBubbleRow .browseRecipeGlp1Bubble,
+.favoritesRecipeGrid .favoritesRecipeBubbleRow .browseRecipeMealBalanceBadge.mealBalanceBadge {
+  border-color: #786f6a !important;
+  background: #786f6a !important;
+  color: #ffffff !important;
+}
+
+.browseRecipeGrid .recipeCardFullImage .browseRecipeDropdownButton,
+.browseRecipeGrid .recipeCardFullImage .browseRecipeSummaryBubble:not(.browseRecipeFavoriteBubble),
+.browseRecipeGrid .recipeCardFullImage .browseRecipeGlp1Bubble,
+.browseRecipeGrid .recipeCardFullImage .browseRecipeCuisineBubbleRow .browseRecipeTag,
+.favoritesRecipeGrid .favoritesRecipeBubbleRow .browseRecipeSummaryBubble:not(.browseRecipeFavoriteBubble),
+.favoritesRecipeGrid .favoritesRecipeBubbleRow .browseRecipeGlp1Bubble {
+  border-radius: 10px !important;
+}
+
+.browseRecipeGrid .recipeCardFullImage .browseRecipeDropdownButton:hover,
+.browseRecipeGrid .recipeCardFullImage .browseRecipeDropdownButton:focus-visible,
+.browseRecipeGrid .recipeCardFullImage .browseRecipeDropdownButton.active,
+.browseRecipeGrid .recipeCardFullImage .browseRecipeActionRows button:hover:not(:disabled),
+.browseRecipeGrid .recipeCardFullImage .browseRecipeActionRows button:focus-visible,
+.favoritesRecipeGrid .favoritesRecipeActionRow > button:hover:not(:disabled),
+.favoritesRecipeGrid .favoritesRecipeActionRow > button:focus-visible {
+  border-color: #665e59 !important;
+  background: #665e59 !important;
+  color: #ffffff !important;
+}
+
+.browseRecipeGrid .recipeCardFullImage .browseRecipeActionRows button:disabled {
+  background: #786f6a !important;
+  color: #ffffff !important;
+  opacity: .62 !important;
+}
+
+.browseRecipeGrid .recipeCardFullImage .browseRecipeMealBalanceBadge.mealBalanceBadge,
+.browseRecipeGrid .recipeCardFullImage .browseRecipeMealBalanceBadge.mealBalanceBadge *,
+.favoritesRecipeGrid .favoritesRecipeBubbleRow .browseRecipeMealBalanceBadge.mealBalanceBadge,
+.favoritesRecipeGrid .favoritesRecipeBubbleRow .browseRecipeMealBalanceBadge.mealBalanceBadge * {
+  color: #ffffff !important;
+}
+
+.browseRecipeGrid .recipeCardFullImage .browseRecipeMealBalanceBadge.mealBalanceBadge:not(.unrated),
+.favoritesRecipeGrid .favoritesRecipeBubbleRow .browseRecipeMealBalanceBadge.mealBalanceBadge:not(.unrated) {
+  border-color: #786f6a !important;
+  background: #786f6a !important;
+}
+
+.favoritesRecipeGrid .favoritesRecipeActionRow .viewCard,
+.favoritesRecipeGrid .favoritesRecipeActionRow .recipeNotesButton {
+  border-color: #786f6a !important;
+  background: #786f6a !important;
+  color: #ffffff !important;
+}
