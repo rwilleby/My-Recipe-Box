@@ -39526,7 +39526,7 @@ body.rrbPopupOpen {
 }
 
 /* ================================================================
-   RECIPE LIST CARDS — MATCHED CONTROL HEIGHTS + MID-GRAY ACTIONS
+   RECIPE LIST CARDS — MATCHED CONTROL HEIGHTS + LIGHT-GRAY ACTIONS
    Top information controls and the full summary row match the 28px
    American Cuisine control. Square actions share one middle gray.
    ================================================================ */
@@ -39558,14 +39558,14 @@ body.rrbPopupOpen {
 
 .browseRecipeGrid .recipeCardFullImage .browseRecipeActionRows button,
 .favoritesRecipeGrid .favoritesRecipeActionRow > button {
-  border-color: #928b87 !important;
-  background: #928b87 !important;
+  border-color: #aaa4a0 !important;
+  background: #aaa4a0 !important;
   color: #ffffff !important;
 }
 
 .browseRecipeGrid .recipeCardFullImage .browseRecipeActionRows button:disabled {
-  border-color: #928b87 !important;
-  background: #928b87 !important;
+  border-color: #aaa4a0 !important;
+  background: #aaa4a0 !important;
   color: #ffffff !important;
   opacity: 1 !important;
 }
@@ -39574,7 +39574,7 @@ body.rrbPopupOpen {
 .browseRecipeGrid .recipeCardFullImage .browseRecipeActionRows button:focus-visible,
 .favoritesRecipeGrid .favoritesRecipeActionRow > button:hover:not(:disabled),
 .favoritesRecipeGrid .favoritesRecipeActionRow > button:focus-visible {
-  border-color: #7f7874 !important;
-  background: #7f7874 !important;
+  border-color: #938c88 !important;
+  background: #938c88 !important;
   color: #ffffff !important;
 }
