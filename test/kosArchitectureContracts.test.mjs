@@ -4,7 +4,7 @@ const required = [
   "KosRepository", "InventoryService", "ProductionService", "AssemblyService", "PackagingService",
   "FoodLineageService", "WorkflowService", "IntentService", "ActionService", "RfisBridgeService",
   "DataProtectionService", "AssistantService", "TimelineService", "MemoryService", "TemplateService",
-  "OpportunityService", "ProductionCenterService", "AvailableMealsService", "KitchenCompanionService", "TimerService", "CookingSessionService", "InventoryIntelligenceService", "InventoryActionService", "MealPlanningService", "ShoppingIntelligenceService", "PantryInventoryService", "UseWhatIHaveService", "ShoppingReconciliationService", "KitchenOperationsFacade", "createKosPlatform"
+  "OpportunityService", "ProductionCenterService", "AvailableMealsService", "KitchenCompanionService", "TimerService", "CookingSessionService", "InventoryIntelligenceService", "InventoryActionService", "MealPlanningService", "ShoppingIntelligenceService", "PantryInventoryService", "UseWhatIHaveService", "ShoppingReconciliationService", "KitchenOperationsFacade", "KosUiController", "createBrowserKos", "IntentScreenModelService", "BackupStatusService", "createKosPlatform"
 ];
 for (const name of required) assert.equal(fs.existsSync(`src/kos/${name}.js`), true, `Missing ${name}`);
 const platform = fs.readFileSync("src/kos/createKosPlatform.js", "utf8");

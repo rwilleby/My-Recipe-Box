@@ -42,3 +42,11 @@ export { createUseWhatIHaveService } from "./UseWhatIHaveService.js";
 export { createShoppingReconciliationService } from "./ShoppingReconciliationService.js";
 
 export { createKitchenOperationsFacade } from "./KitchenOperationsFacade.js";
+
+export { createKosUiController } from "./KosUiController.js";
+export { createBrowserKos } from "./createBrowserKos.js";
+
+
+export { createIntentScreenModelService } from "./IntentScreenModelService.js";
+
+export { createBackupStatusService } from "./BackupStatusService.js";

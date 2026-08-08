@@ -27,6 +27,8 @@ import { createPantryInventoryService } from "./PantryInventoryService.js";
 import { createUseWhatIHaveService } from "./UseWhatIHaveService.js";
 import { createShoppingReconciliationService } from "./ShoppingReconciliationService.js";
 import { createKitchenOperationsFacade } from "./KitchenOperationsFacade.js";
+import { createIntentScreenModelService } from "./IntentScreenModelService.js";
+import { createBackupStatusService } from "./BackupStatusService.js";
 
 export function createKosPlatform({
   storage,
@@ -232,9 +234,30 @@ export function createKosPlatform({
 
   const kitchen = createKitchenOperationsFacade(services);
 
+  const screenModels = createIntentScreenModelService({
+    kitchen,
+    intents,
+    inventoryIntelligence,
+    mealPlanner,
+    shopping,
+    pantry,
+    productionCenter,
+    companion,
+    assistant,
+    opportunities,
+  });
+
+  const backupStatus = createBackupStatusService({
+    protection,
+    repository,
+    clock,
+  });
+
   return Object.freeze({
     ...services,
     kitchen,
+    screenModels,
+    backupStatus,
   });
 }
 

@@ -1,0 +1,18 @@
+{
+  "release": "v67.5",
+  "baseline": "My-Recipe-Box-v67.zip",
+  "status": "ready",
+  "testsPassed": 26,
+  "testsTotal": 26,
+  "build": {
+    "returncode": 127,
+    "status": "environment-limited",
+    "outputTail": "\n> rrb-browser-based-v1@67.5.0 build\n> vite build\n\n\nsh: 1: vite: Permission denied\n"
+  },
+  "uiFilesUnchanged": {
+    "src/App.jsx": true,
+    "src/App.css": true
+  },
+  "macOSMetadataExcluded": true,
+  "gitignoreHardened": true
+}
