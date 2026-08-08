@@ -21,10 +21,40 @@ for (const token of [
 }
 
 assert.ok(
-  css.includes("font-size: clamp(10px, .82vw, 13px) !important;"),
-  "Complete Dinner green nutrition values should be reduced by about one-third"
+  css.includes("font-size: clamp(7px, .55vw, 9px) !important;"),
+  "Green Complete Dinner nutrition values must use the reduced v70.4 size"
 );
-assert.ok(css.includes(".dinnerCombinationNutritionExpanded em"));
-assert.ok(css.includes(".dinnerCombinationDailyValueNote"));
 
-console.log("Complete Dinner Option 1 nutrition display contracts passed");
+const percentBlock = css.match(
+  /\.dinnerCombinationNutritionExpanded em \{[\s\S]*?\n\}/
+)?.[0] || "";
+assert.ok(
+  percentBlock.includes("font-size: clamp(8px, .72vw, 10px) !important;"),
+  "%DV must match the nutrient-label font size"
+);
+assert.ok(
+  percentBlock.includes("font-weight: 400 !important;"),
+  "%DV must use regular font weight"
+);
+
+const noteBlock = css.match(
+  /\.dinnerCombinationDailyValueNote \{[\s\S]*?\n\}/
+)?.[0] || "";
+assert.ok(
+  noteBlock.includes("font-size: clamp(8px, .72vw, 10px) !important;"),
+  "Daily Value footnote must match the nutrient-label font size"
+);
+assert.ok(
+  noteBlock.includes("font-weight: 400 !important;"),
+  "Daily Value footnote must use regular font weight"
+);
+assert.ok(
+  noteBlock.includes("font-style: normal !important;"),
+  "Daily Value footnote must use regular style"
+);
+assert.ok(
+  noteBlock.includes("text-align: center !important;"),
+  "Daily Value footnote must be centered"
+);
+
+console.log("Complete Dinner v70.4 nutrition typography contracts passed");

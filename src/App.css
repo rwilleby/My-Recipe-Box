@@ -34579,7 +34579,7 @@ body.rrbPopupOpen {
 
 .dinnerCombinationNutritionExpanded strong {
   color: #14532d !important;
-  font-size: clamp(10px, .82vw, 13px) !important;
+  font-size: clamp(7px, .55vw, 9px) !important;
   line-height: 1 !important;
 }
 
@@ -34594,10 +34594,10 @@ body.rrbPopupOpen {
 .dinnerCombinationNutritionExpanded em {
   color: #374151 !important;
   font-family: var(--rrb-body-font, Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif) !important;
-  font-size: clamp(8px, .7vw, 10px) !important;
+  font-size: clamp(8px, .72vw, 10px) !important;
   font-style: normal !important;
-  font-weight: 500 !important;
-  line-height: 1.1 !important;
+  font-weight: 400 !important;
+  line-height: 1.15 !important;
 }
 
 .dinnerCombinationDailyValueNote {
@@ -34606,10 +34606,11 @@ body.rrbPopupOpen {
   border-top: 1px solid #dfe7e1 !important;
   color: #667085 !important;
   font-family: var(--rrb-body-font, Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif) !important;
-  font-size: 9px !important;
-  font-style: italic !important;
-  line-height: 1.2 !important;
-  text-align: left !important;
+  font-size: clamp(8px, .72vw, 10px) !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  line-height: 1.15 !important;
+  text-align: center !important;
 }
 
 /* Permanent Heating & Freezer Notes panel beside Recipe Cards. */
