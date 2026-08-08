@@ -1,19 +1,19 @@
-MY-RECIPE-BOX v66.2 — PRODUCTION CENTER ENGINEERING
+MY-RECIPE-BOX v66.3 — KITCHEN COMPANION ENGINEERING
 ==================================================
 
 BASELINE
 --------
-Current local Master based on v66.1.2 or later.
+Current local Master after v66.2 Production Center integration.
 
 IMPORTANT
 ---------
-This is an engineering integration package. It does not contain App.jsx,
-homepage components, CSS, or images, so it will not overwrite approved UI work.
+No App.jsx, CSS, homepage components, or images are included.
+This package will not overwrite the approved design work.
 
 COPY
 ----
-Copy all included files into the matching locations in your current local
-Master folder and replace matching files when prompted.
+Copy all included files into matching locations in your current local Master,
+replacing matching KOS files and package.json when prompted.
 
 THEN RUN
 --------
@@ -24,10 +24,16 @@ LOCAL REVIEW
 ------------
 npm run dev
 
-The new Production Center services are headless until the approved UI is wired
-to them. Existing site behavior should remain unchanged.
+WHAT THIS ADDS
+--------------
+- Resumable recipe cooking sessions
+- Step-by-step cooking progress
+- Kitchen notes attached to the active cooking session
+- Multiple persistent kitchen timers
+- Pause/resume/cancel/complete timer controls
+- Compact Kitchen Companion API for future iPad/counter UI
 
 GITHUB
 ------
-After npm run check passes and your local site still looks correct, the merged
-local Master is the version to commit/push to GitHub.
+After npm run check passes and the local site remains correct, the combined
+local Master may be committed/pushed to GitHub.

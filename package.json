@@ -1,6 +1,6 @@
 {
   "name": "rrb-browser-based-v1",
-  "version": "66.2.0",
+  "version": "66.3.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -10,7 +10,7 @@
     "test:rfis": "node test/completeDinnerEngine.test.mjs && node test/rfisPlatform.test.mjs && node test/rfisUiServiceContracts.test.mjs && npm run test:rfis:architecture",
     "check": "npm run test:all && npm run build",
     "test:rfis:architecture": "node test/rfisArchitectureContracts.test.mjs",
-    "test:kos": "node test/kos100.test.mjs && node test/kos110.test.mjs && node test/kos120.test.mjs && node test/kos130.test.mjs && node test/kos135.test.mjs && node test/kos140.test.mjs && node test/kos150.test.mjs && node test/kos160.test.mjs && node test/kos170.test.mjs && node test/kos180.test.mjs && node test/kos200.test.mjs && node test/kosArchitectureContracts.test.mjs",
+    "test:kos": "node test/kos100.test.mjs && node test/kos110.test.mjs && node test/kos120.test.mjs && node test/kos130.test.mjs && node test/kos135.test.mjs && node test/kos140.test.mjs && node test/kos150.test.mjs && node test/kos160.test.mjs && node test/kos170.test.mjs && node test/kos180.test.mjs && node test/kos200.test.mjs && node test/kos240.test.mjs && node test/kosArchitectureContracts.test.mjs",
     "check:kos": "npm run test:kos",
     "test:all": "npm run test:rfis && npm run test:kos"
   },

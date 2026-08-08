@@ -17,6 +17,8 @@ import { createTimelineService } from "./TimelineService.js";
 import { createProductionCenterService } from "./ProductionCenterService.js";
 import { createAvailableMealsService } from "./AvailableMealsService.js";
 import { createKitchenCompanionService } from "./KitchenCompanionService.js";
+import { createTimerService } from "./TimerService.js";
+import { createCookingSessionService } from "./CookingSessionService.js";
 
 export function createKosPlatform({
   storage,
@@ -125,12 +127,26 @@ export function createKosPlatform({
     actions,
   });
 
+  const timers = createTimerService({
+    storage: repository.storage,
+    clock,
+  });
+
+  const cookingSessions = createCookingSessionService({
+    storage: repository.storage,
+    clock,
+    rfisPlatform,
+    timers,
+  });
+
   const companion = createKitchenCompanionService({
     productionCenter,
     availableMeals,
     workflow,
     intents,
     assistant,
+    cookingSessions,
+    timers,
   });
 
   return Object.freeze({
@@ -152,6 +168,8 @@ export function createKosPlatform({
     opportunities,
     productionCenter,
     availableMeals,
+    timers,
+    cookingSessions,
     companion,
   });
 }

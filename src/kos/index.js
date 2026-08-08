@@ -26,3 +26,6 @@ export { createOpportunityService } from "./OpportunityService.js";
 export { createProductionCenterService } from "./ProductionCenterService.js";
 export { createAvailableMealsService } from "./AvailableMealsService.js";
 export { createKitchenCompanionService } from "./KitchenCompanionService.js";
+
+export { createTimerService } from "./TimerService.js";
+export { createCookingSessionService } from "./CookingSessionService.js";

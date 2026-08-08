@@ -1,0 +1,14 @@
+{
+  "release": "v66.3",
+  "name": "Kitchen Companion Engineering",
+  "baseline": "v66.2 engineering branch derived from My-Recipe-Box-v66.1.2.zip",
+  "status": "passed",
+  "kosTestCount": 13,
+  "rfisRegressionTests": [
+    "completeDinnerEngine.test.mjs",
+    "rfisPlatform.test.mjs",
+    "rfisUiServiceContracts.test.mjs",
+    "rfisArchitectureContracts.test.mjs"
+  ],
+  "uiFilesChanged": false
+}

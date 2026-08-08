@@ -16,14 +16,28 @@ export function createKitchenCompanionService({
   workflow,
   intents,
   assistant,
+  cookingSessions,
+  timers,
 } = {}) {
-  if (!productionCenter || !availableMeals || !workflow || !intents || !assistant) {
-    throw new Error("KitchenCompanionService requires KOS presentation services");
+  if (
+    !productionCenter ||
+    !availableMeals ||
+    !workflow ||
+    !intents ||
+    !assistant ||
+    !cookingSessions ||
+    !timers
+  ) {
+    throw new Error(
+      "KitchenCompanionService requires KOS presentation services"
+    );
   }
 
   function home() {
     return freeze({
-      activeCooking: productionCenter.resumeCard(),
+      activeProduction: productionCenter.resumeCard(),
+      activeRecipe: cookingSessions.current(),
+      timers: timers.all(),
       readyMeals: availableMeals.summary(),
       quickActions: intents.list().map((intent) => ({
         id: intent.id,
@@ -37,15 +51,37 @@ export function createKitchenCompanionService({
 
   function cooking() {
     return freeze({
-      active: productionCenter.active(),
-      resume: productionCenter.resumeCard(),
+      production: productionCenter.active(),
+      recipe: cookingSessions.current(),
+      timers: timers.all(),
       suggestions: assistant.suggestions({ limit: 4 }),
+    });
+  }
+
+  function recipeCard() {
+    const session = cookingSessions.current();
+    if (!session) return null;
+    return freeze({
+      id: session.id,
+      recipeId: session.recipeId,
+      title: session.title,
+      currentStep: session.currentStep,
+      currentStepIndex: session.currentStepIndex,
+      stepCount: session.steps.length,
+      completedStepCount: session.completedStepIds.length,
+      progress: session.progress,
+      notes: session.notes,
+      timers: session.activeTimers,
+      canGoBack: session.currentStepIndex > 0,
+      canGoForward:
+        session.currentStepIndex < session.steps.length - 1,
     });
   }
 
   return Object.freeze({
     home,
     cooking,
+    recipeCard,
   });
 }
 
