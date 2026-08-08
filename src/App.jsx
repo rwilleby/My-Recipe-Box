@@ -31,6 +31,10 @@ import {
   getDinnerCombinationSearchText,
 } from "./data/dinnerCombinations.js";
 import { createRfisPlatform } from "./services/createRfisPlatform.js";
+import {
+  createBrowserKos,
+  createKosUiController,
+} from "./kos/index.js";
 import { getRecipeCostEstimate, RECIPE_COST_NOTE, RECIPE_COST_TAGLINE } from "./data/recipeCosts";
 import {
   REFRIGERATOR_CATEGORIES,
@@ -1870,6 +1874,14 @@ function makeHomeActionFeatures(items) {
   }));
 }
 
+const HOME_ACTION_KOS_INTENTS = Object.freeze({
+  tonight: "dinner",
+  week: "plan-week",
+  cook: "cook",
+  freezer: "freezer-meals",
+  ingredients: "available",
+});
+
 const HOME_ACTIONS = [
   {
     id: "tonight",
@@ -2018,11 +2030,14 @@ function HomePhotoFeatureModal({ feature, onClose, setActivePage }) {
   );
 }
 
-function HomePhotoFeatureSection({ setActivePage }) {
+function HomePhotoFeatureSection({ setActivePage, kosUi }) {
   const [selectedFeature, setSelectedFeature] = useState(null);
   const [activeActionId, setActiveActionId] = useState(HOME_ACTIONS[0].id);
   const activeAction =
     HOME_ACTIONS.find((action) => action.id === activeActionId) || HOME_ACTIONS[0];
+  const activeKosIntent =
+    HOME_ACTION_KOS_INTENTS[activeAction.id] || "dinner";
+  const activeScreenModel = kosUi?.screenModel?.(activeKosIntent) || null;
 
   function handleActionKeyDown(event) {
     const currentIndex = HOME_ACTIONS.findIndex(
@@ -2096,6 +2111,8 @@ function HomePhotoFeatureSection({ setActivePage }) {
           className="homePhotoFeatureGrid"
           role="tabpanel"
           aria-labelledby={`home-action-${activeAction.id}`}
+          data-kos-intent={activeKosIntent}
+          data-kos-screen-ready={activeScreenModel ? "true" : "false"}
           key={activeAction.id}
         >
           {activeAction.features.map((feature) => (
@@ -5412,6 +5429,7 @@ function Home({
   setFilter,
   classifiedRecipes,
   setPlan,
+  kosUi,
 }) {
   const [showAdminAccess, setShowAdminAccess] = useState(false);
   const [isAdminUnlocked, setIsAdminUnlocked] = useState(() => {
@@ -5497,11 +5515,19 @@ function Home({
         toggleFavorite={toggleFavorite}
         setPlan={setPlan}
       />
-      <HomePhotoFeatureSection setActivePage={setActivePage} />
+      <HomePhotoFeatureSection setActivePage={setActivePage} kosUi={kosUi} />
       <CategoryGrid setFilter={setFilter} setActivePage={setActivePage} />
       <HomeRecipeCounters classifiedRecipes={classifiedRecipes} />
 
-      <BackupReminderPanel setActivePage={setActivePage} className="homeBackupReminder" />
+      <main className="pageShell" data-kos-ui="kitchen-companion">
+        <KosCompanionStatusBand kosUi={kosUi} />
+      </main>
+
+      <BackupReminderPanel
+        setActivePage={setActivePage}
+        className="homeBackupReminder"
+        kosUi={kosUi}
+      />
 
       <div className="homeAdminAccessArea">
         <button
@@ -6653,11 +6679,215 @@ function PantryStaplesPage({ pantry, setPantry }) {
 
 
 
+function KosCompanionStatusBand({ kosUi }) {
+  const [kosState, setKosState] = useState(() => kosUi?.snapshot?.() || null);
+
+  useEffect(() => {
+    if (!kosUi?.subscribe) return undefined;
+    setKosState(kosUi.snapshot());
+    return kosUi.subscribe(setKosState);
+  }, [kosUi]);
+
+  if (!kosState) return null;
+
+  const activeRecipe = kosState.activeCooking;
+  const activeProduction = kosState.activeProduction;
+  const timers = Array.isArray(kosState.timers) ? kosState.timers : [];
+  const readyMeals = kosState.inventory?.summary?.readyMealUnits || 0;
+
+  return (
+    <section
+      className="preparedInventorySummary"
+      aria-label="Kitchen Companion status"
+      data-kos-ui="kitchen-companion-status"
+    >
+      <div>
+        <small>Cooking</small>
+        <strong>{activeRecipe?.title || "Ready"}</strong>
+      </div>
+      <div>
+        <small>Production</small>
+        <strong>{activeProduction?.title || "None"}</strong>
+      </div>
+      <div>
+        <small>Timers</small>
+        <strong>{timers.length}</strong>
+      </div>
+      <div>
+        <small>Ready Meals</small>
+        <strong>{readyMeals}</strong>
+      </div>
+    </section>
+  );
+}
+
+function KosPlanningStatusBand({ kosUi, mode }) {
+  const [kosState, setKosState] = useState(() => kosUi?.snapshot?.() || null);
+
+  useEffect(() => {
+    if (!kosUi?.subscribe) return undefined;
+    setKosState(kosUi.snapshot());
+    return kosUi.subscribe(setKosState);
+  }, [kosUi]);
+
+  if (!kosState) return null;
+
+  if (mode === "planner") {
+    const analysis = kosState.planner?.analysis || {};
+    return (
+      <section
+        className="preparedInventorySummary"
+        aria-label="Kitchen Operations meal planning status"
+        data-kos-ui="meal-planner-status"
+      >
+        <div>
+          <small>Days Planned</small>
+          <strong>{analysis.plannedCount || 0}</strong>
+        </div>
+        <div>
+          <small>Open Days</small>
+          <strong>{analysis.openDays ?? 7}</strong>
+        </div>
+        <div>
+          <small>Freezer Meals</small>
+          <strong>{analysis.freezerMeals || 0}</strong>
+        </div>
+        <div>
+          <small>Fresh Meals</small>
+          <strong>{analysis.freshMeals || 0}</strong>
+        </div>
+      </section>
+    );
+  }
+
+  if (mode === "shopping") {
+    const summary = kosState.shopping?.summary || {};
+    return (
+      <section
+        className="preparedInventorySummary"
+        aria-label="Kitchen Operations shopping status"
+        data-kos-ui="shopping-status"
+      >
+        <div>
+          <small>List Items</small>
+          <strong>{summary.totalItems || 0}</strong>
+        </div>
+        <div>
+          <small>Still Needed</small>
+          <strong>{summary.remainingItems || 0}</strong>
+        </div>
+        <div>
+          <small>Checked Off</small>
+          <strong>{summary.checkedItems || 0}</strong>
+        </div>
+        <div>
+          <small>Pantry Items</small>
+          <strong>{kosState.pantry?.summary?.itemCount || 0}</strong>
+        </div>
+      </section>
+    );
+  }
+
+  const pantrySummary = kosState.pantry?.summary || {};
+  return (
+    <section
+      className="preparedInventorySummary"
+      aria-label="Kitchen Operations pantry status"
+      data-kos-ui="pantry-status"
+    >
+      <div>
+        <small>Tracked Items</small>
+        <strong>{pantrySummary.itemCount || 0}</strong>
+      </div>
+      <div>
+        <small>Total Units</small>
+        <strong>{pantrySummary.totalUnits || 0}</strong>
+      </div>
+      <div>
+        <small>Expiring Soon</small>
+        <strong>{pantrySummary.expiringSoon || 0}</strong>
+      </div>
+      <div>
+        <small>Shopping Items</small>
+        <strong>{kosState.shopping?.summary?.remainingItems || 0}</strong>
+      </div>
+    </section>
+  );
+}
+
+function KosKitchenStatusBand({ kosUi, mode = "available" }) {
+  const [kosState, setKosState] = useState(() => kosUi?.snapshot?.() || null);
+
+  useEffect(() => {
+    if (!kosUi?.subscribe) return undefined;
+    setKosState(kosUi.snapshot());
+    return kosUi.subscribe(setKosState);
+  }, [kosUi]);
+
+  if (!kosState) return null;
+
+  const inventory = kosState.inventory?.summary || {};
+  const active = kosState.activeProduction;
+
+  if (mode === "production") {
+    return (
+      <section
+        className="preparedInventorySummary"
+        aria-label="Kitchen Operations production status"
+        data-kos-ui="production-status"
+      >
+        <div>
+          <small>Production</small>
+          <strong>{active ? "Active" : "Ready"}</strong>
+        </div>
+        <div>
+          <small>Current Session</small>
+          <strong>{active?.title || "None"}</strong>
+        </div>
+        <div>
+          <small>Ready Meals</small>
+          <strong>{inventory.readyMealUnits || 0}</strong>
+        </div>
+        <div>
+          <small>Components</small>
+          <strong>{inventory.componentUnits || 0}</strong>
+        </div>
+      </section>
+    );
+  }
+
+  return (
+    <section
+      className="preparedInventorySummary"
+      aria-label="Kitchen Operations available meals status"
+      data-kos-ui="available-meals-status"
+    >
+      <div>
+        <small>Ready Meals</small>
+        <strong>{inventory.readyMealUnits || 0}</strong>
+      </div>
+      <div>
+        <small>Components</small>
+        <strong>{inventory.componentUnits || 0}</strong>
+      </div>
+      <div>
+        <small>Inventory Lots</small>
+        <strong>{inventory.totalLots || 0}</strong>
+      </div>
+      <div>
+        <small>Total Portions</small>
+        <strong>{inventory.totalUnits || 0}</strong>
+      </div>
+    </section>
+  );
+}
+
 function PreparedFreezerInventoryPage({
   preparedInventory,
   setPreparedInventory,
   preparedReservations,
   setActivePage,
+  kosUi,
 }) {
   const safeInventory = normalizePreparedInventory(preparedInventory);
   const components = getAllPreparedComponents(safeInventory);
@@ -6775,6 +7005,8 @@ function PreparedFreezerInventoryPage({
           </button>
         </div>
       </div>
+
+      <KosKitchenStatusBand kosUi={kosUi} mode="available" />
 
       <section className="preparedInventorySummary" aria-label="Prepared freezer summary">
         <div><small>Packages Available</small><strong>{totalAvailable}</strong></div>
@@ -14146,8 +14378,10 @@ function BackupReminderPanel({
   setActivePage,
   alwaysVisible = false,
   className = "",
+  kosUi,
 }) {
   const [state, setState] = useState(() => readBackupReminderState());
+  const [kosBackup, setKosBackup] = useState(() => kosUi?.backupStatus?.() || null);
 
   useEffect(() => {
     function refreshReminder() {
@@ -14175,6 +14409,14 @@ function BackupReminderPanel({
       window.removeEventListener("storage", refreshReminder);
     };
   }, []);
+
+  useEffect(() => {
+    if (!kosUi?.subscribe) return undefined;
+    setKosBackup(kosUi.backupStatus());
+    return kosUi.subscribe(() => {
+      setKosBackup(kosUi.backupStatus());
+    });
+  }, [kosUi]);
 
   const dates = backupReminderDates(state);
   const age = backupAgeInDays(state.lastBackupAt);
@@ -14204,34 +14446,48 @@ function BackupReminderPanel({
     setState(readBackupReminderState());
   }
 
-  const statusTitle = !state.lastBackupAt
-    ? "Your Recipe Box has not been backed up yet."
-    : dates.isDue
-      ? `Your browser backup is due${age === null ? "." : ` — the last backup was ${age} day${age === 1 ? "" : "s"} ago.`}`
-      : "Your browser backup reminder is scheduled.";
+  const externalBackup = kosBackup?.external || null;
+  const effectiveDue = externalBackup ? externalBackup.due : dates.isDue;
+  const statusTitle = externalBackup
+    ? externalBackup.status === "never-backed-up"
+      ? "Your Recipe Box has not had an external backup yet."
+      : externalBackup.status === "backup-due"
+        ? `Your external backup is due${externalBackup.daysSinceLastBackup === null ? "." : ` — the last external backup was ${externalBackup.daysSinceLastBackup} day${externalBackup.daysSinceLastBackup === 1 ? "" : "s"} ago.`}`
+        : "Your external backup is current."
+    : !state.lastBackupAt
+      ? "Your Recipe Box has not been backed up yet."
+      : dates.isDue
+        ? `Your external backup is due${age === null ? "." : ` — the last backup was ${age} day${age === 1 ? "" : "s"} ago.`}`
+        : "Your external backup reminder is scheduled.";
 
   return (
     <section
-      className={`backupReminderPanel ${dates.isDue ? "isDue" : "isCurrent"} ${className}`.trim()}
+      className={`backupReminderPanel ${effectiveDue ? "isDue" : "isCurrent"} ${className}`.trim()}
       aria-labelledby={`backup-reminder-title-${alwaysVisible ? "settings" : "home"}`}
     >
       <div className="backupReminderIcon" aria-hidden="true">♥</div>
 
       <div className="backupReminderCopy">
         <span className="backupReminderEyebrow">
-          {dates.isDue ? "BACKUP REMINDER" : "BACKUP SCHEDULE"}
+          {effectiveDue ? "BACKUP REMINDER" : "BACKUP STATUS"}
         </span>
         <h2 id={`backup-reminder-title-${alwaysVisible ? "settings" : "home"}`}>
           {statusTitle}
         </h2>
         <p>
-          Backups protect the favorites, meal plans, grocery lists, inventories,
-          notes, and preferences stored in this browser.
+          Automatic recovery stays in this browser. An external backup file can
+          protect your Recipe Box if the browser or device is lost or reset.
         </p>
 
         <div className="backupReminderMeta">
           <span><strong>Last backup:</strong> {formatBackupReminderDate(state.lastBackupAt)}</span>
           <span><strong>Reminder:</strong> Every {state.intervalDays} days</span>
+          {kosBackup && (
+            <span>
+              <strong>Automatic recovery:</strong>{" "}
+              {kosBackup.recovery?.automaticRecoveryEnabled ? "On" : "Unavailable"}
+            </span>
+          )}
           {!dates.isDue && state.lastBackupAt && (
             <span>
               <strong>Next reminder:</strong>{" "}
@@ -14260,7 +14516,7 @@ function BackupReminderPanel({
             Back Up Now
           </button>
 
-          {dates.isDue && (
+          {effectiveDue && (
             <button
               type="button"
               className="secondary"
@@ -14276,7 +14532,7 @@ function BackupReminderPanel({
 }
 
 
-function YourDataSecurityPage({ setActivePage }) {
+function YourDataSecurityPage({ setActivePage, kosUi }) {
   return (
     <main className="pageShell yourDataSecurityPage">
       <section className="yourDataSecurityIntro">
@@ -14398,6 +14654,15 @@ function YourDataSecurityPage({ setActivePage }) {
 
 
 export default function App() {
+  const kosUi = useMemo(
+    () =>
+      createKosUiController(
+        createBrowserKos({
+          rfisPlatform,
+        }),
+      ),
+    [],
+  );
   const [activePage, setActivePage] = useState("Home");
   const [favorites, setFavorites] = useState(() => {
     const storedFavorites = loadJSON(STORAGE_KEYS.favorites, []);
@@ -14566,6 +14831,7 @@ export default function App() {
     productCategories,
     setProductCategories,
     classifiedRecipes,
+    kosUi,
   };
 
   return (
@@ -14640,6 +14906,9 @@ export default function App() {
             text="Turn one focused weekend cooking session into several easier meals. Choose crock-pot recipes, smoked or grilled meats, flexible base foods, complete dishes, and desserts; then decide what to refrigerate, what to freeze, and how each portion should be packaged."
             className="pageHeroDepth464 weekendBulkHero"
           />
+          <main className="pageShell" data-kos-ui="production-center">
+            <KosKitchenStatusBand kosUi={kosUi} mode="production" />
+          </main>
           <WeekendBulkMealPlanner
             recipes={classifiedRecipes}
             favorites={favorites}
@@ -15172,6 +15441,9 @@ Use this collection to organize recipes that fit prep-ahead cooking, planned lef
             title="Your Weekly Dinner Planner"
             text="Meal planning can make the week feel more organized without removing flexibility. Select meals for specific days, account for leftovers, plan around appointments, and decide which foods need to be thawed or prepared in advance.\n\nYour plan can be as detailed or as simple as you prefer. Even choosing four or five dinners before grocery shopping can reduce stress, limit impulse purchases, and make it easier to use the food already in your home."
           />
+          <main className="pageShell" data-kos-ui="meal-planner">
+            <KosPlanningStatusBand kosUi={kosUi} mode="planner" />
+          </main>
           <PlannerPage {...pageProps} />
         </>
       )}
@@ -15185,6 +15457,9 @@ Use this collection to organize recipes that fit prep-ahead cooking, planned lef
             text="A clear grocery list helps turn a meal plan into an organized shopping trip. Add the ingredients needed for upcoming recipes, review the items already in your pantry, and avoid purchasing products you do not actually need.\n\nGrouping similar items together can make shopping faster and reduce forgotten ingredients. Your list can also help control impulse purchases, compare costs, and keep household staples from running out unexpectedly."
             className="pageHeroDepth464"
 />
+          <main className="pageShell" data-kos-ui="shopping-list">
+            <KosPlanningStatusBand kosUi={kosUi} mode="shopping" />
+          </main>
           <ShoppingListPage {...pageProps} />
         </>
       )}
@@ -15198,6 +15473,9 @@ Use this collection to organize recipes that fit prep-ahead cooking, planned lef
             text="A well-organized pantry makes it easier to see what you already own and what needs to be replaced. Keeping track of canned goods, dry ingredients, spices, baking supplies, sauces, and staples can prevent duplicate purchases and forgotten food.\n\nUse this section as a practical inventory and planning tool. When you know what is available, it becomes easier to choose recipes, use ingredients before they expire, and prepare meals without another trip to the store."
             className="pageHeroDepth464"
 />
+          <main className="pageShell" data-kos-ui="pantry-inventory">
+            <KosPlanningStatusBand kosUi={kosUi} mode="pantry" />
+          </main>
           <PantryStaplesPage {...pageProps} />
         </>
       )}
@@ -16336,7 +16614,7 @@ Use this section to check what is on hand, record dates, mark foods that should 
             text="Your saved recipe-box information belongs to you. Robert’s Recipe Box uses browser-only storage for favorites, meal plans, grocery lists, inventory records, notes, and preferences, so no user account is required.\n\nLearn where that information is stored, what can remove it, how to protect it, and how to create a local backup before changing devices or clearing browser data."
             className="pageHeroDepth464"
           />
-          <YourDataSecurityPage setActivePage={setActivePage} />
+          <YourDataSecurityPage setActivePage={setActivePage} kosUi={kosUi} />
         </>
       )}
 
@@ -16351,6 +16629,28 @@ Use this section to check what is on hand, record dates, mark foods that should 
             className="pageHeroDepth464"
           />
           <main className="pageShell userBackupPage">
+            <section
+              className="preparedInventorySummary"
+              aria-label="Backup and recovery status"
+              data-kos-ui="backup-status"
+            >
+              <div>
+                <small>External Backup</small>
+                <strong>{kosUi.backupStatus().external.status === "current" ? "Current" : "Due"}</strong>
+              </div>
+              <div>
+                <small>Recovery Points</small>
+                <strong>{kosUi.backupStatus().recovery.recoveryPointCount || 0}</strong>
+              </div>
+              <div>
+                <small>Automatic Recovery</small>
+                <strong>{kosUi.backupStatus().recovery.automaticRecoveryEnabled ? "On" : "Off"}</strong>
+              </div>
+              <div>
+                <small>Reminder</small>
+                <strong>{kosUi.backupStatus().external.reminderDays} days</strong>
+              </div>
+            </section>
             <UserDataBackupSection onClose={() => setActivePage("Home")} />
           </main>
         </>

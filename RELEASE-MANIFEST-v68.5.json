@@ -1,0 +1,36 @@
+{
+  "release": "v68.5",
+  "baseline": "My-Recipe-Box-v68.zip",
+  "phase": "Visible KOS Integration",
+  "testsPassed": 31,
+  "integrationChecks": {
+    "browser_bootstrap": true,
+    "ui_controller": true,
+    "home_intents": true,
+    "production_status": true,
+    "available_status": true,
+    "planner_status": true,
+    "shopping_status": true,
+    "pantry_status": true,
+    "companion_status": true,
+    "backup_status": true,
+    "home_route": true,
+    "planner_route": true,
+    "shopping_route": true,
+    "pantry_route": true,
+    "freezer_route": true,
+    "backup_route": true
+  },
+  "buildStatus": "environment-limited",
+  "buildOutputTail": "\n> rrb-browser-based-v1@68.5.0 build\n> vite build\n\n\nsh: 1: vite: Permission denied\n",
+  "includedVisibleWiring": [
+    "Homepage intents",
+    "Production Center status",
+    "Available Meals status",
+    "Meal Planner status",
+    "Shopping status",
+    "Pantry status",
+    "Kitchen Companion status",
+    "Backup/Recovery status"
+  ]
+}

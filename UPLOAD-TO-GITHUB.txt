@@ -1,0 +1,40 @@
+ROBERT'S RECIPE BOX — v68.5 VISIBLE KOS INTEGRATION
+===================================================
+
+BASELINE
+--------
+My-Recipe-Box-v68.zip
+
+UPLOAD / REPLACE
+----------------
+src/App.jsx
+src/kos/*
+package.json
+
+ADD / REPLACE
+-------------
+test/kos*.test.mjs
+docs/v67.*.md
+RELEASE-MANIFEST-v68.5.json
+
+NOT CHANGED BY THIS PACKAGE
+---------------------------
+src/App.css
+public/images/*
+recipe data files
+
+VISIBLE KOS CONNECTIONS
+-----------------------
+Homepage intent selector
+Production Center status
+Available Meals status
+Meal Planner status
+Shopping status
+Pantry status
+Kitchen Companion status
+Backup / Recovery status
+
+VALIDATION
+----------
+All available KOS/RFIS regression and end-to-end integration tests passed.
+GitHub Actions should perform the normal Vite production build after upload.
