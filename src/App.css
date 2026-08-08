@@ -39591,3 +39591,63 @@ body.rrbPopupOpen {
   background: #938c88 !important;
   color: #ffffff !important;
 }
+
+
+/* v70c.3 — Recipe Intelligence collapsed disclosure */
+.recipeIntelligenceDisclosure {
+  margin: 14px 0 0;
+}
+
+.recipeIntelligenceDisclosureButton {
+  width: 100%;
+  min-height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 16px;
+  border: 1px solid #d6ddcf;
+  border-radius: 12px;
+  background: #fafbf8;
+  color: #243249;
+  text-align: left;
+  cursor: pointer;
+}
+
+.recipeIntelligenceDisclosureButton:hover {
+  border-color: #9fb7a5;
+  background: #f6f9f5;
+}
+
+.recipeIntelligenceDisclosureButton > span {
+  display: grid;
+  gap: 2px;
+}
+
+.recipeIntelligenceDisclosureButton strong {
+  color: #14532d;
+  font-size: 15px;
+  line-height: 1.1;
+}
+
+.recipeIntelligenceDisclosureButton small {
+  color: #687386;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.recipeIntelligenceDisclosureButton em {
+  flex: 0 0 auto;
+  padding: 6px 10px;
+  border: 1px solid #bdd0c1;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #14532d;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 800;
+}
+
+.recipeIntelligenceDisclosure .recipeIntelligencePanel {
+  margin-top: 10px;
+}

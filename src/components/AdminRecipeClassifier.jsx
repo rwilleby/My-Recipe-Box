@@ -936,8 +936,8 @@ export default function AdminRecipeClassifier({
                         type="checkbox"
                         checked={autoSelectedRecipeIds.includes(result.recipeId)}
                         onChange={() => toggleAutoReviewSelection(result.recipeId)}
+                        aria-label={`Select ${result.recipeId} for review`}
                       />
-                      <span className="srOnly">Select {result.recipeId} for review</span>
                     </label>
                     <div>
                       <strong>{result.recipeId}</strong>

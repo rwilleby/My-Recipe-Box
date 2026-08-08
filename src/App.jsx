@@ -4010,6 +4010,7 @@ function RecipeCardViewer({
   const [constructionImageFailed, setConstructionImageFailed] = useState(false);
   const [openPanel, setOpenPanel] = useState(null);
   const [showFoodIntelligence, setShowFoodIntelligence] = useState(false);
+  const [showRecipeIntelligence, setShowRecipeIntelligence] = useState(false);
   usePopupPageMode(Boolean(viewer));
 
   const viewerIds = viewer?.recipeIds?.length
@@ -4030,6 +4031,7 @@ function RecipeCardViewer({
     setConstructionImageFailed(false);
     setOpenPanel(null);
     setShowFoodIntelligence(false);
+    setShowRecipeIntelligence(false);
   }, [recipe?.id]);
 
   if (!viewer || !recipe) return null;
@@ -4253,11 +4255,32 @@ function RecipeCardViewer({
           </div>
         )}
 
-        <RecipeIntelligencePanel
-          recipe={recipe}
-          rfisPlatform={rfisPlatform}
-          hasNutritionRecord={hasFoodIntelligence}
-        />
+        <section className="recipeIntelligenceDisclosure">
+          <button
+            type="button"
+            className="recipeIntelligenceDisclosureButton"
+            onClick={() => setShowRecipeIntelligence((current) => !current)}
+            aria-expanded={showRecipeIntelligence}
+          >
+            <span>
+              <strong>Recipe Intelligence</strong>
+              <small>
+                {recipeRfisProfile?.classificationCount
+                  ? `${recipeRfisProfile.classificationCount} RFIS tags`
+                  : "RFIS profile"}
+              </small>
+            </span>
+            <em>{showRecipeIntelligence ? "Hide" : "RFIS Info"}</em>
+          </button>
+
+          {showRecipeIntelligence && (
+            <RecipeIntelligencePanel
+              recipe={recipe}
+              rfisPlatform={rfisPlatform}
+              hasNutritionRecord={hasFoodIntelligence}
+            />
+          )}
+        </section>
 
         {recipeCompleteDinners.length > 0 && (
           <section className="recipeCompleteDinnerPanel" aria-label={`Complete Dinners featuring ${recipe.title}`}>
