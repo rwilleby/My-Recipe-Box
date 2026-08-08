@@ -11694,14 +11694,15 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, onViewRelatedMeal, openR
           </div>
           <div className="dinnerRelatedGrid">
             {relatedDinners.map((related) => {
-              const reasons = [
-                related.sharedRecipeNames.length
-                  ? `Shares ${related.sharedRecipeNames.join(", ")}`
-                  : "Similar dinner profile",
-                related.sharedCollections.length
-                  ? related.sharedCollections.join(" · ")
-                  : related.cuisine,
-              ].filter(Boolean);
+              const reasons =
+                Array.isArray(related.reasons) && related.reasons.length
+                  ? related.reasons
+                  : [
+                      Array.isArray(related.sharedCollections) &&
+                      related.sharedCollections.length
+                        ? related.sharedCollections.join(" · ")
+                        : related.cuisine || "Similar dinner profile",
+                    ].filter(Boolean);
 
               return (
                 <button
@@ -11914,7 +11915,14 @@ function DinnerCombinationsPage({ setActivePage, setFilter, setPlan, openRecipeC
               >
                 <span>{collection.count} dinners</span>
                 <strong>{collection.name}</strong>
-                <small>{collection.sampleDinners.join(" · ")}</small>
+                <small>
+                  {(collection.sampleDinners || [])
+                    .map((dinner) =>
+                      typeof dinner === "string" ? dinner : dinner?.title
+                    )
+                    .filter(Boolean)
+                    .join(" · ")}
+                </small>
               </button>
             );
           })}
