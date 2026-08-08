@@ -1,3 +1,5 @@
+import healthierDefaultNutrition from "./nutrition/healthier-default-v9.json";
+
 export const recipeNutritionProfiles = {
   "AM-001": {
     "recipeCode": "AM-001",
@@ -60050,16 +60052,132 @@ export const recipeNutritionProfiles = {
   }
 };
 
+const HEALTHIER_DEFAULT_VARIANT_KEY = "healthier-default";
+
+function rounded(value, digits = 1) {
+  if (value === null || value === undefined || value === "") return null;
+  const number = Number(value);
+  if (!Number.isFinite(number)) return null;
+  const factor = 10 ** digits;
+  return Math.round(number * factor) / factor;
+}
+
+function withUnit(value, unit, digits = 1) {
+  const number = rounded(value, digits);
+  return number === null ? null : `${number} ${unit}`;
+}
+
+function healthierEntry(recipeCode) {
+  return healthierDefaultNutrition?.recipes?.[normalizeRecipeCode(recipeCode)] || null;
+}
+
+function buildHealthierVariant(entry, legacyVariant = null) {
+  const nutrition = entry?.nutrition || {};
+  const serving = entry?.serving || {};
+  return {
+    ...(legacyVariant || {}),
+    label: entry?.variantMethod || "Healthier Default",
+    recordType: entry?.recordType || "Healthier Default",
+    defaultSelection: "DEFAULT",
+    confidence: entry?.confidence || "C provisional — health-first recalculation",
+    dataStatus: entry?.readiness?.label || "ESTIMATED — HEALTHIER DEFAULT",
+    sourceWorkbook: healthierDefaultNutrition?.metadata?.sourceWorkbook || null,
+    sourceSheet: healthierDefaultNutrition?.metadata?.sourceSheet || "Healthier_Default_FIC",
+    nutritionFacts: {
+      ...(legacyVariant?.nutritionFacts || {}),
+      servingSize: serving.label || legacyVariant?.nutritionFacts?.servingSize || null,
+      servingGrams: serving.grams ?? legacyVariant?.nutritionFacts?.servingGrams ?? null,
+      servingsPerRecipe: legacyVariant?.nutritionFacts?.servingsPerRecipe ?? null,
+      calories: rounded(nutrition.calories, 0),
+      totalFat: withUnit(nutrition.total_fat_g, "g"),
+      saturatedFat: withUnit(nutrition.saturated_fat_g, "g"),
+      sodium: withUnit(nutrition.sodium_mg, "mg", 0),
+      totalCarbohydrate: withUnit(nutrition.carbohydrate_g, "g"),
+      dietaryFiber: withUnit(nutrition.fiber_g, "g"),
+      totalSugars: withUnit(nutrition.total_sugar_g, "g"),
+      addedSugars: withUnit(nutrition.added_sugar_g, "g"),
+      protein: withUnit(nutrition.protein_g, "g"),
+      potassium: withUnit(nutrition.potassium_mg, "mg", 0),
+    },
+    dataNotes: [
+      entry?.confidence,
+      entry?.readiness?.label,
+      entry?.healthierRulesApplied ? `Healthier Default: ${entry.healthierRulesApplied}.` : null,
+      "Stored nutrition values only; the browser does not recalculate nutrition.",
+    ].filter(Boolean).join(" "),
+    healthierRulesApplied: entry?.healthierRulesApplied || "",
+    nutritionDatabaseVersion: healthierDefaultNutrition?.metadata?.version || "v9-healthier-default",
+  };
+}
+
+function buildHealthierRecord(recipeCode) {
+  const code = normalizeRecipeCode(recipeCode);
+  const entry = healthierEntry(code);
+  const legacy = recipeNutritionProfiles[code] || null;
+
+  if (!entry) return legacy;
+
+  const isNotReady = entry?.readiness?.status === "not-ready";
+  const legacyDefaultVariant = legacy?.variants?.[legacy?.defaultVariant] ||
+    legacy?.variants?.[Object.keys(legacy?.variants || {})[0]] || null;
+
+  if (isNotReady) {
+    return {
+      ...(legacy || {}),
+      recipeCode: code,
+      title: entry.name || legacy?.title || code,
+      series: entry.series || legacy?.series || code.split("-")[0],
+      active: true,
+      retired: false,
+      status: "not-ready",
+      statusLabel: "Not Ready",
+      confidence: entry.confidence || "Incomplete",
+      dataStatus: entry?.readiness?.label || "NOT READY",
+      defaultVariant: "",
+      variants: {},
+      sourceWorkbook: healthierDefaultNutrition?.metadata?.sourceWorkbook || null,
+      sourceSheet: healthierDefaultNutrition?.metadata?.sourceSheet || "Healthier_Default_FIC",
+      healthierRulesApplied: entry?.healthierRulesApplied || "",
+      nutritionDatabaseVersion: healthierDefaultNutrition?.metadata?.version || "v9-healthier-default",
+    };
+  }
+
+  const healthierVariant = buildHealthierVariant(entry, legacyDefaultVariant);
+  return {
+    ...(legacy || {}),
+    recipeCode: code,
+    title: entry.name || legacy?.title || code,
+    series: entry.series || legacy?.series || code.split("-")[0],
+    active: true,
+    retired: false,
+    status: entry?.readiness?.status === "card-ready" ? "verified" : "provisional",
+    statusLabel: entry?.readiness?.status === "card-ready" ? "Validated nutrition" : "Estimated — Healthier Default",
+    confidence: entry.confidence || legacy?.confidence || "C provisional",
+    dataStatus: entry?.readiness?.label || "ESTIMATED — HEALTHIER DEFAULT",
+    defaultVariant: HEALTHIER_DEFAULT_VARIANT_KEY,
+    variants: {
+      [HEALTHIER_DEFAULT_VARIANT_KEY]: healthierVariant,
+    },
+    sourceWorkbook: healthierDefaultNutrition?.metadata?.sourceWorkbook || null,
+    sourceSheet: healthierDefaultNutrition?.metadata?.sourceSheet || "Healthier_Default_FIC",
+    healthierRulesApplied: entry?.healthierRulesApplied || "",
+    nutritionDatabaseVersion: healthierDefaultNutrition?.metadata?.version || "v9-healthier-default",
+  };
+}
+
 export function normalizeRecipeCode(recipeCode) {
   return String(recipeCode || "").trim().toUpperCase();
 }
 
 export function getRecipeNutritionRecord(recipeCode) {
-  return recipeNutritionProfiles[normalizeRecipeCode(recipeCode)] || null;
+  const code = normalizeRecipeCode(recipeCode);
+  if (code === "AM-063") return null;
+  return buildHealthierRecord(code);
 }
 
 export function hasRecipeNutritionRecord(recipeCode) {
-  return Boolean(getRecipeNutritionRecord(recipeCode));
+  const record = getRecipeNutritionRecord(recipeCode);
+  return Boolean(record && record.active !== false && record.retired !== true && Object.keys(record.variants || {}).length);
 }
 
 export function getRecipeNutritionVariant(recipeCode, variantKey) {
@@ -60078,3 +60196,9 @@ export function getRecipeNutritionVariant(recipeCode, variantKey) {
     record,
   };
 }
+
+export function getHealthierDefaultNutritionEntry(recipeCode) {
+  return healthierEntry(recipeCode);
+}
+
+export const healthierDefaultNutritionMetadata = healthierDefaultNutrition.metadata;
