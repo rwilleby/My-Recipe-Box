@@ -1,9 +1,10 @@
 // src/components/AdminRecipeClassifier.jsx
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   COOKING_METHODS,
   RECIPE_ATTRIBUTES,
   RECIPE_COLLECTIONS,
+  mergeRecipeClassificationImport,
   normalizeRecipeClassification,
   saveRecipeClassifications,
 } from "../data/recipeClassifications";
@@ -440,6 +441,7 @@ export default function AdminRecipeClassifier({
   const [bulkAttributes, setBulkAttributes] = useState({});
   const [bulkCookingMethods, setBulkCookingMethods] = useState({});
   const [status, setStatus] = useState("");
+  const importInputRef = useRef(null);
 
   const filteredRecipes = useMemo(() => {
     const search = query.trim().toLowerCase();
@@ -595,6 +597,42 @@ export default function AdminRecipeClassifier({
     setStatus("Recipe classifications reset");
   }
 
+  async function importClassifications(event) {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (!file) return;
+
+    try {
+      const imported = JSON.parse(await file.text());
+      const result = mergeRecipeClassificationImport(
+        classifications,
+        imported,
+        recipes
+      );
+
+      if (!result.ok) {
+        setStatus(`Import stopped: ${result.errors.slice(0, 3).join(" ")}`);
+        return;
+      }
+
+      setClassifications(result.merged);
+      saveRecipeClassifications(result.merged);
+
+      const importedCount = Object.keys(result.accepted).length;
+      const warningText = result.warnings.length
+        ? ` ${result.warnings.length} warning(s) were found.`
+        : "";
+
+      setStatus(
+        `Imported and saved ${importedCount} recipe classification record${
+          importedCount === 1 ? "" : "s"
+        }.${warningText}`
+      );
+    } catch {
+      setStatus("Import stopped: the selected file is not valid JSON.");
+    }
+  }
+
   function exportClassifications() {
     const blob = new Blob([JSON.stringify(classifications, null, 2)], {
       type: "application/json",
@@ -639,6 +677,20 @@ export default function AdminRecipeClassifier({
         </div>
 
         <div className="adminClassifierHeaderButtons">
+          <input
+            ref={importInputRef}
+            type="file"
+            accept="application/json,.json"
+            onChange={importClassifications}
+            hidden
+          />
+          <button
+            className="secondary"
+            type="button"
+            onClick={() => importInputRef.current?.click()}
+          >
+            Import JSON
+          </button>
           <button className="secondary" type="button" onClick={exportClassifications}>
             Export JSON
           </button>

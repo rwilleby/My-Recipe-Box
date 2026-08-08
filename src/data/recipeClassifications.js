@@ -1,4 +1,5 @@
-import { normalizeGLP1Classification } from "./glp1Nutrition";
+import { normalizeGLP1Classification } from "./glp1Nutrition.js";
+import recipeClassificationDefaults from "./recipeClassifications.default.js";
 
 // src/data/recipeClassifications.js
 // Robert's Recipe Box — recipe classification system
@@ -59,30 +60,7 @@ export const COOKING_METHODS = [
 
 export const CLASSIFICATION_STORAGE_KEY = "rrb_admin_recipe_classifications";
 
-export const DEFAULT_RECIPE_CLASSIFICATIONS = {
-  "AS-001": {
-    "primaryCategory": "Asian Cuisine",
-    "collections": [],
-    "attributes": [
-      "Beef"
-    ],
-    "cookingMethods": [
-      "Stovetop",
-      "Microwave"
-    ]
-  },
-  "AS-002": {
-    "primaryCategory": "Asian Cuisine",
-    "collections": [],
-    "attributes": [
-      "Beef"
-    ],
-    "cookingMethods": [
-      "Microwave",
-      "Stovetop"
-    ]
-  }
-};
+export const DEFAULT_RECIPE_CLASSIFICATIONS = recipeClassificationDefaults;
 
 export function emptyRecipeClassification(recipe) {
   return {
@@ -147,6 +125,94 @@ export function saveRecipeClassifications(classifications) {
     CLASSIFICATION_STORAGE_KEY,
     JSON.stringify(classifications)
   );
+}
+
+
+export function validateRecipeClassificationImport(imported, recipes = []) {
+  const errors = [];
+  const warnings = [];
+  const accepted = {};
+  const recipeIds = new Set(
+    Array.isArray(recipes) ? recipes.map((recipe) => recipe.id) : []
+  );
+
+  if (!imported || typeof imported !== "object" || Array.isArray(imported)) {
+    return {
+      ok: false,
+      accepted: {},
+      errors: ["The selected file is not a recipe-classification object."],
+      warnings: [],
+    };
+  }
+
+  Object.entries(imported).forEach(([recipeId, record]) => {
+    if (!record || typeof record !== "object" || Array.isArray(record)) {
+      errors.push(`${recipeId}: classification record must be an object.`);
+      return;
+    }
+
+    if (recipeIds.size && !recipeIds.has(recipeId)) {
+      warnings.push(`${recipeId}: recipe code is not in the current recipe library.`);
+    }
+
+    const unknownCollections = uniqueStrings(record.collections).filter(
+      (value) => !RECIPE_COLLECTIONS.includes(value)
+    );
+    const unknownAttributes = uniqueStrings(record.attributes).filter(
+      (value) => !RECIPE_ATTRIBUTES.includes(value)
+    );
+    const unknownMethods = uniqueStrings(record.cookingMethods).filter(
+      (value) => !COOKING_METHODS.includes(value)
+    );
+
+    if (unknownCollections.length) {
+      errors.push(`${recipeId}: unknown collection(s): ${unknownCollections.join(", ")}.`);
+    }
+    if (unknownAttributes.length) {
+      errors.push(`${recipeId}: unknown attribute(s): ${unknownAttributes.join(", ")}.`);
+    }
+    if (unknownMethods.length) {
+      errors.push(`${recipeId}: unknown cooking method(s): ${unknownMethods.join(", ")}.`);
+    }
+
+    if (
+      !unknownCollections.length &&
+      !unknownAttributes.length &&
+      !unknownMethods.length
+    ) {
+      accepted[recipeId] = {
+        ...record,
+        collections: uniqueStrings(record.collections),
+        attributes: uniqueStrings(record.attributes),
+        cookingMethods: uniqueStrings(record.cookingMethods),
+      };
+    }
+  });
+
+  return {
+    ok: errors.length === 0,
+    accepted,
+    errors,
+    warnings,
+  };
+}
+
+export function mergeRecipeClassificationImport(
+  current = {},
+  imported = {},
+  recipes = []
+) {
+  const validation = validateRecipeClassificationImport(imported, recipes);
+  if (!validation.ok) return validation;
+
+  return {
+    ...validation,
+    merged: {
+      ...DEFAULT_RECIPE_CLASSIFICATIONS,
+      ...current,
+      ...validation.accepted,
+    },
+  };
 }
 
 export function recipeMatchesCollection(recipe, collectionName) {
