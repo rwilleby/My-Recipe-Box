@@ -1,6 +1,6 @@
 {
   "name": "rrb-browser-based-v1",
-  "version": "70.5.0",
+  "version": "70.6.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -15,7 +15,8 @@
     "test:all": "npm run test:rfis && npm run test:kos",
     "test:dinner-combinations": "node test/dinnerCombinationsPageContract.test.mjs",
     "test:classification": "node test/recipeClassificationDurability.test.mjs",
-    "test:dinner-nutrition": "node test/completeDinnerNutritionDisplay.test.mjs"
+    "test:dinner-nutrition": "node test/completeDinnerNutritionDisplay.test.mjs",
+    "test:nutrition-layout": "node test/v70bNutritionLayoutConsolidation.test.mjs"
   },
   "dependencies": {
     "react": "^19.1.0",

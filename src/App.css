@@ -34579,8 +34579,9 @@ body.rrbPopupOpen {
 
 .dinnerCombinationNutritionExpanded strong {
   color: #14532d !important;
-  font-size: clamp(7px, .55vw, 9px) !important;
+  font-size: 18px !important;
   line-height: 1 !important;
+  font-weight: 700 !important;
 }
 
 .dinnerCombinationNutritionExpanded small {
@@ -35553,7 +35554,7 @@ body.rrbPopupOpen {
 
 .browseRecipeGrid .recipeCardFullImage .browseRecipeReorderedControls {
   position: relative !important;
-  min-height: 238px !important;
+  min-height: 238px !important;  padding-top: 12px !important;
 }
 
 /* Row 1: Nutrition | MealBalance | GLP-1 dropdown buttons. */
@@ -36153,10 +36154,7 @@ body.rrbPopupOpen {
   letter-spacing: .035em !important;
 }
 
-.dinnerCombinationScaleCard .dinnerCombinationNutritionExpanded strong {
-  font-size: 24px !important;
-  line-height: 1 !important;
-}
+.dinnerCombinationScaleCard 
 
 .dinnerCombinationScaleCard .dinnerCombinationNutritionExpanded small {
   font-size: 13px !important;
@@ -36354,10 +36352,7 @@ body.rrbPopupOpen {
   letter-spacing: .025em !important;
 }
 
-.dinnerCombinationScaleCard .dinnerCombinationNutritionExpanded strong {
-  font-size: 36px !important;
-  line-height: 1 !important;
-}
+.dinnerCombinationScaleCard 
 
 .dinnerCombinationScaleCard .dinnerCombinationNutritionExpanded small {
   font-size: 19.5px !important;
@@ -36497,9 +36492,7 @@ body.rrbPopupOpen {
 }
 
 /* E — only the large nutrition values are reduced by 20% (36px → 28.8px). */
-.dinnerCombinationScaleCard .dinnerCombinationNutritionExpanded strong {
-  font-size: 28.8px !important;
-}
+.dinnerCombinationScaleCard 
 
 /* F — grocery headings match Recipe Cards; ingredient text matches D names. */
 .dinnerCombinationScaleCard .comboRegularGroceryIngredients h3,
@@ -38559,9 +38552,7 @@ body.rrbPopupOpen {
   font-size: 19px !important;
 }
 
-.dinnerCombinationScaleCard .dinnerCombinationNutritionExpanded strong {
-  font-size: 27px !important;
-}
+.dinnerCombinationScaleCard 
 
 .dinnerCombinationScaleCard .dinnerCombinationNutritionExpanded small {
   font-size: 16px !important;
