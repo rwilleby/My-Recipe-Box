@@ -39733,7 +39733,7 @@ body.rrbPopupOpen {
 .homeWelcomeTourPlayerActions button,
 .homeWelcomeTourReopen {
   min-height: 32px;
-  border: 1px solid #14532d;
+  border: 1px solid #4e279b;
   padding: 5px 12px;
   font: inherit;
   font-size: 12.5px;
@@ -39746,8 +39746,8 @@ body.rrbPopupOpen {
   flex: 0 1 auto;
   border-radius: 0;
   border-left-width: 0;
-  background: #fff;
-  color: #14532d;
+  background: #4e279b;
+  color: #fff;
 }
 
 .homeWelcomeTourPlayerActions button:first-child {
@@ -39760,16 +39760,16 @@ body.rrbPopupOpen {
 }
 
 .homeWelcomeTourPlayerActions .homeWelcomeTourPlay {
-  background: #14532d;
+  background: #4e279b;
   color: #fff;
 }
 
 .homeWelcomeTourPlayerActions button:hover {
-  background: #f7eed8;
+  background: #3a1587;
 }
 
 .homeWelcomeTourPlayerActions .homeWelcomeTourPlay:hover {
-  background: #0f4425;
+  background: #3a1587;
 }
 
 .homeWelcomeTourPlayerActions button:focus-visible,
@@ -39821,6 +39821,34 @@ body.rrbPopupOpen {
 
 .homeWelcomeTourReopen:hover {
   background: #0f4425;
+}
+
+.homeWelcomeTourIconButton {
+  width: 28px !important;
+  min-width: 28px !important;
+  height: 28px !important;
+  min-height: 28px !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  border-color: rgba(78, 39, 155, .56) !important;
+  background: #4e279b !important;
+}
+
+.homeWelcomeTourIconButton:hover:not(:disabled) {
+  border-color: #4e279b !important;
+  background: #3a1587 !important;
+}
+
+.homeWelcomeTourIconButton img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.homeWelcomeTourIconButton:focus-visible {
+  outline: 3px solid #f2bd58 !important;
+  outline-offset: 2px !important;
 }
 
 @media (max-width: 1040px) {

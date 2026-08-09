@@ -11,7 +11,9 @@ for (const token of [
   "Play Now",
   "Maybe Later",
   "Hide This",
-  "Watch Welcome Video",
+  "images/icons/VIDEO.webp",
+  "homeWelcomeTourIconButton",
+  "rrb:open-welcome-tour",
   "allowFullScreen",
   "WelcomeTour",
 ]) {
@@ -25,6 +27,8 @@ assert.ok(!app.includes('allow="autoplay;'), "The embedded tour must not request
 assert.ok(css.includes("aspect-ratio: 16 / 9"), "The video must preserve a 16:9 aspect ratio");
 assert.ok(css.includes("scale(1.18)"), "The embedded video must use the approved centered crop");
 assert.ok(css.includes("@media (max-width: 760px)"), "The tour must include a tablet/mobile layout");
-assert.ok(css.includes(".homeWelcomeTourReopen:focus-visible"), "The reopen control must have a visible keyboard focus state");
+assert.ok(css.includes("#4e279b"), "The welcome-video controls must use the video icon purple");
+assert.ok(css.includes(".homeWelcomeTourIconButton:focus-visible"), "The video icon control must have a visible keyboard focus state");
+assert.ok(!app.includes("Watch Welcome Video"), "The old text reopen button must be removed");
 
-console.log("v70e welcome tour contracts passed");
+console.log("v70g welcome tour icon contracts passed");

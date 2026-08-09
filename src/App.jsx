@@ -762,6 +762,7 @@ const WELCOME_TOUR_EMBED_URL =
   "https://app.heygen.com/embeds/bb3981cd39304a75a7eec52bf223755c";
 const WELCOME_TOUR_DISMISSED_KEY = "rrb-welcome-tour-dismissed";
 const WELCOME_TOUR_SESSION_KEY = "rrb-welcome-tour-shown-this-session";
+const WELCOME_TOUR_OPEN_EVENT = "rrb:open-welcome-tour";
 
 const HERO_INFO_BUTTONS = [
   {
@@ -1703,7 +1704,12 @@ function WelcomeTour() {
   const [isPlayerVisible, setIsPlayerVisible] = useState(false);
   const [shouldFocusPanel, setShouldFocusPanel] = useState(false);
   const playButtonRef = useRef(null);
-  const reopenButtonRef = useRef(null);
+
+  function focusTourIcon() {
+    window.requestAnimationFrame(() => {
+      document.querySelector(".homeWelcomeTourIconButton")?.focus();
+    });
+  }
 
   useEffect(() => {
     try {
@@ -1726,12 +1732,23 @@ function WelcomeTour() {
       if (event.key !== "Escape") return;
       setIsVisible(false);
       setIsPlayerVisible(false);
-      window.requestAnimationFrame(() => reopenButtonRef.current?.focus());
+      focusTourIcon();
     }
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isVisible]);
+
+  useEffect(() => {
+    function handleOpenTour() {
+      setIsPlayerVisible(false);
+      setShouldFocusPanel(true);
+      setIsVisible(true);
+    }
+
+    window.addEventListener(WELCOME_TOUR_OPEN_EVENT, handleOpenTour);
+    return () => window.removeEventListener(WELCOME_TOUR_OPEN_EVENT, handleOpenTour);
+  }, []);
 
   useEffect(() => {
     if (!isVisible || !shouldFocusPanel) return;
@@ -1743,7 +1760,7 @@ function WelcomeTour() {
     setIsVisible(false);
     setIsPlayerVisible(false);
     if (restoreFocus) {
-      window.requestAnimationFrame(() => reopenButtonRef.current?.focus());
+      focusTourIcon();
     }
   }
 
@@ -1756,15 +1773,9 @@ function WelcomeTour() {
     closeForNow();
   }
 
-  function reopenTour() {
-    setIsPlayerVisible(false);
-    setShouldFocusPanel(true);
-    setIsVisible(true);
-  }
-
   return (
     <div className="homeWelcomeTourRegion">
-      {isVisible ? (
+      {isVisible && (
         <aside
           className={`homeWelcomeTour${isPlayerVisible ? " isPlayerVisible" : ""}`}
           aria-label="Robert’s Recipe Box welcome video"
@@ -1798,17 +1809,6 @@ function WelcomeTour() {
             </button>
           </div>
         </aside>
-      ) : (
-        <button
-          ref={reopenButtonRef}
-          type="button"
-          className="homeWelcomeTourReopen"
-          onClick={reopenTour}
-          aria-label="Open the Robert’s Recipe Box welcome video"
-        >
-          <span aria-hidden="true">▶</span>
-          Watch Welcome Video
-        </button>
       )}
     </div>
   );
@@ -11284,6 +11284,22 @@ function PageHelpButtonStrip({ pageTitle }) {
       >
         Next
       </button>
+
+      {pageTitle === "Home" && (
+        <button
+          type="button"
+          className="pageSequenceButton homeWelcomeTourIconButton"
+          onClick={() => window.dispatchEvent(new Event(WELCOME_TOUR_OPEN_EVENT))}
+          aria-label="Open the Robert’s Recipe Box welcome video"
+          title="Watch welcome video"
+        >
+          <img
+            src={`${import.meta.env.BASE_URL}images/icons/VIDEO.webp`}
+            alt=""
+            aria-hidden="true"
+          />
+        </button>
+      )}
     </section>
   );
 }
