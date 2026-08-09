@@ -1,6 +1,6 @@
 {
   "name": "rrb-browser-based-v1",
-  "version": "71.6.0",
+  "version": "71.7.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -27,7 +27,8 @@
     "test:recipe-card-fit": "node test/recipeCardFullVisibility.test.mjs",
     "test:viewer-popup-fit": "node test/recipeViewerPopupFit.test.mjs",
     "test:viewer-header-clean": "node test/recipeViewerHeaderCleanLayout.test.mjs",
-    "test:nutrition-data-layout": "node test/nutritionDataCompactLayout.test.mjs"
+    "test:nutrition-data-layout": "node test/nutritionDataCompactLayout.test.mjs",
+    "test:nutrition-large-type": "node test/nutritionDataLargeTypeAndHeaderPills.test.mjs"
   },
   "dependencies": {
     "react": "^19.1.0",

@@ -40523,3 +40523,201 @@ body.rrbPopupOpen {
     font-size: 6px !important;
   }
 }
+
+
+/* v71.7 — larger Nutrition Data typography + single-line nutrition pills */
+.cardViewerHeader {
+  grid-template-columns: minmax(260px, 1fr) auto !important;
+  grid-template-areas: "identity tools" !important;
+  align-items: center !important;
+}
+
+.cardViewerQuickNutrition {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  white-space: nowrap !important;
+  justify-content: flex-end !important;
+  align-items: center !important;
+  gap: clamp(4px, .6vw, 8px) !important;
+  margin-right: 52px !important;
+  min-width: 0 !important;
+  overflow: visible !important;
+}
+
+.cardViewerQuickNutritionItem {
+  flex: 0 0 auto !important;
+  min-width: clamp(64px, 6.4vw, 82px) !important;
+  padding: 7px clamp(6px, .7vw, 10px) !important;
+}
+
+.cardViewerQuickNutritionItem span {
+  font-size: clamp(7px, .62vw, 9px) !important;
+}
+
+.cardViewerQuickNutritionItem strong {
+  font-size: clamp(10px, .9vw, 13px) !important;
+}
+
+@media (max-width: 1050px) {
+  .cardViewerHeader {
+    grid-template-columns: minmax(220px, 1fr) auto !important;
+    grid-template-areas: "identity tools" !important;
+    gap: 10px !important;
+  }
+
+  .cardViewerQuickNutrition {
+    justify-content: flex-end !important;
+    flex-wrap: nowrap !important;
+    margin-right: 48px !important;
+  }
+
+  .cardViewerQuickNutritionItem {
+    min-width: 60px !important;
+    padding: 6px !important;
+  }
+
+  .cardViewerQuickNutritionItem span {
+    font-size: 6.5px !important;
+  }
+
+  .cardViewerQuickNutritionItem strong {
+    font-size: 9.5px !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .cardViewerHeader {
+    grid-template-columns: minmax(150px, 1fr) auto !important;
+    grid-template-areas: "identity tools" !important;
+    gap: 6px !important;
+  }
+
+  .cardViewerQuickNutrition {
+    gap: 3px !important;
+    margin-right: 42px !important;
+  }
+
+  .cardViewerQuickNutritionItem {
+    min-width: 48px !important;
+    padding: 5px 4px !important;
+  }
+
+  .cardViewerQuickNutritionItem span {
+    font-size: 5.5px !important;
+  }
+
+  .cardViewerQuickNutritionItem strong {
+    font-size: 8px !important;
+  }
+}
+
+.foodIntelligenceCard .ficHeaderCompact h2 {
+  font-size: clamp(28px, 2.6vw, 40px) !important;
+  line-height: 1 !important;
+}
+
+.foodIntelligenceCard .ficHeaderCode {
+  font-size: .62em !important;
+}
+
+.foodIntelligenceCard .ficNutritionFacts > h3 {
+  font-size: clamp(26px, 2.3vw, 36px) !important;
+  line-height: 1 !important;
+  margin-bottom: 8px !important;
+}
+
+.foodIntelligenceCard .ficServingLine,
+.foodIntelligenceCard .ficFactRow {
+  padding: 5px 0 !important;
+  font-size: clamp(15px, 1.25vw, 20px) !important;
+  line-height: 1.05 !important;
+}
+
+.foodIntelligenceCard .ficFactRowStrong span,
+.foodIntelligenceCard .ficFactRowStrong strong {
+  font-size: clamp(20px, 1.65vw, 27px) !important;
+}
+
+.foodIntelligenceCard .ficContentColumnsTwo .ficSection h3,
+.foodIntelligenceCard .ficContentColumnsTwo .ficMealBalance h3 {
+  font-size: clamp(18px, 1.5vw, 24px) !important;
+  line-height: 1.02 !important;
+  margin-bottom: 4px !important;
+}
+
+.foodIntelligenceCard .ficContentColumnsTwo .ficSection p,
+.foodIntelligenceCard .ficContentColumnsTwo .ficSection li,
+.foodIntelligenceCard .ficContentColumnsTwo .ficMealBalance span {
+  font-size: clamp(14px, 1.15vw, 18px) !important;
+  line-height: 1.08 !important;
+}
+
+.foodIntelligenceCard .ficContentColumnsTwo .ficSection ul {
+  padding-left: 20px !important;
+}
+
+.foodIntelligenceCard .ficContentColumnsTwo .ficMealBalance > strong {
+  width: 44px !important;
+  height: 44px !important;
+  font-size: 14px !important;
+}
+
+.foodIntelligenceCard .ficDataNotesWide h3 {
+  font-size: clamp(18px, 1.5vw, 24px) !important;
+}
+
+.foodIntelligenceCard .ficDataNotesWide p {
+  font-size: clamp(12px, 1vw, 16px) !important;
+  line-height: 1.08 !important;
+}
+
+.foodIntelligenceCard .ficContentColumns.ficContentColumnsTwo {
+  grid-template-rows:
+    repeat(5, minmax(0, 1fr))
+    minmax(70px, .9fr) !important;
+}
+
+.foodIntelligenceCard .ficContentColumnsTwo .ficSection,
+.foodIntelligenceCard .ficContentColumnsTwo .ficMealBalance {
+  padding: 6px 9px !important;
+}
+
+@media (max-height: 800px) and (min-width: 760px) {
+  .foodIntelligenceCard .ficHeaderCompact h2 {
+    font-size: clamp(22px, 2vw, 30px) !important;
+  }
+
+  .foodIntelligenceCard .ficNutritionFacts > h3 {
+    font-size: clamp(21px, 1.9vw, 28px) !important;
+  }
+
+  .foodIntelligenceCard .ficServingLine,
+  .foodIntelligenceCard .ficFactRow {
+    padding: 3px 0 !important;
+    font-size: clamp(12px, 1vw, 15px) !important;
+  }
+
+  .foodIntelligenceCard .ficFactRowStrong span,
+  .foodIntelligenceCard .ficFactRowStrong strong {
+    font-size: clamp(16px, 1.35vw, 20px) !important;
+  }
+
+  .foodIntelligenceCard .ficContentColumnsTwo .ficSection h3,
+  .foodIntelligenceCard .ficContentColumnsTwo .ficMealBalance h3 {
+    font-size: clamp(14px, 1.15vw, 17px) !important;
+  }
+
+  .foodIntelligenceCard .ficContentColumnsTwo .ficSection p,
+  .foodIntelligenceCard .ficContentColumnsTwo .ficSection li,
+  .foodIntelligenceCard .ficContentColumnsTwo .ficMealBalance span {
+    font-size: clamp(10px, .86vw, 13px) !important;
+  }
+
+  .foodIntelligenceCard .ficDataNotesWide h3 {
+    font-size: 14px !important;
+  }
+
+  .foodIntelligenceCard .ficDataNotesWide p {
+    font-size: 9.5px !important;
+  }
+}
