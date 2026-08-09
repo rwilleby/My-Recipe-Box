@@ -1702,7 +1702,7 @@ function WelcomeTour() {
   const [isVisible, setIsVisible] = useState(false);
   const [isPlayerVisible, setIsPlayerVisible] = useState(false);
   const [shouldFocusPanel, setShouldFocusPanel] = useState(false);
-  const closeButtonRef = useRef(null);
+  const playButtonRef = useRef(null);
   const reopenButtonRef = useRef(null);
 
   useEffect(() => {
@@ -1735,7 +1735,7 @@ function WelcomeTour() {
 
   useEffect(() => {
     if (!isVisible || !shouldFocusPanel) return;
-    closeButtonRef.current?.focus();
+    playButtonRef.current?.focus();
     setShouldFocusPanel(false);
   }, [isVisible, shouldFocusPanel]);
 
@@ -1757,7 +1757,7 @@ function WelcomeTour() {
   }
 
   function reopenTour() {
-    setIsPlayerVisible(true);
+    setIsPlayerVisible(false);
     setShouldFocusPanel(true);
     setIsVisible(true);
   }
@@ -1767,76 +1767,36 @@ function WelcomeTour() {
       {isVisible ? (
         <aside
           className={`homeWelcomeTour${isPlayerVisible ? " isPlayerVisible" : ""}`}
-          aria-labelledby="home-welcome-tour-title"
-          aria-describedby="home-welcome-tour-description"
+          aria-label="Robert’s Recipe Box welcome video"
         >
-          <button
-            ref={closeButtonRef}
-            type="button"
-            className="homeWelcomeTourClose"
-            onClick={() => closeForNow()}
-            aria-label="Close the website tour for now"
-          >
-            ×
-          </button>
-
-          {isPlayerVisible ? (
-            <>
-              <div className="homeWelcomeTourPlayerHeading">
-                <span>WEBSITE TOUR</span>
-                <h2 id="home-welcome-tour-title">Welcome to Robert’s Recipe Box</h2>
-                <p id="home-welcome-tour-description">Press Play when you’re ready.</p>
-              </div>
-
-              <div className="homeWelcomeTourVideo">
-                <iframe
-                  src={WELCOME_TOUR_EMBED_URL}
-                  title="Welcome to Robert’s Recipe Box website tour"
-                  loading="lazy"
-                  allow="encrypted-media; fullscreen"
-                  allowFullScreen
-                />
-              </div>
-
-              <div className="homeWelcomeTourPlayerActions">
-                <button type="button" onClick={() => closeForNow()}>
-                  Maybe Later
-                </button>
-                <button type="button" onClick={dismissPermanently}>
-                  Don’t Show Again
-                </button>
-              </div>
-            </>
-          ) : (
-            <div className="homeWelcomeTourIntro">
-              <span>WELCOME</span>
-              <h2 id="home-welcome-tour-title">Welcome to Robert’s Recipe Box</h2>
-              <p id="home-welcome-tour-description">
-                Take a quick tour and see how the site can make meal planning easier.
-              </p>
-
-              <div className="homeWelcomeTourActions">
-                <button
-                  type="button"
-                  className="homeWelcomeTourWatch"
-                  onClick={() => setIsPlayerVisible(true)}
-                >
-                  Watch the Tour
-                </button>
-                <button type="button" onClick={() => closeForNow()}>
-                  Maybe Later
-                </button>
-              </div>
-
-              <button
-                type="button"
-                className="homeWelcomeTourDontShow"
-                onClick={dismissPermanently}
-              >
-                Don’t Show Again
-              </button>
+          {isPlayerVisible && (
+            <div className="homeWelcomeTourVideo">
+              <iframe
+                src={WELCOME_TOUR_EMBED_URL}
+                title="Robert’s Recipe Box welcome video"
+                loading="lazy"
+                allow="encrypted-media; fullscreen"
+                allowFullScreen
+              />
             </div>
           )}
+
+          <div className="homeWelcomeTourPlayerActions" aria-label="Welcome video choices">
+            <button
+              ref={playButtonRef}
+              type="button"
+              className="homeWelcomeTourPlay"
+              onClick={() => setIsPlayerVisible(true)}
+            >
+              Play Now
+            </button>
+            <button type="button" onClick={() => closeForNow()}>
+              Maybe Later
+            </button>
+            <button type="button" onClick={dismissPermanently}>
+              Hide This
+            </button>
+          </div>
         </aside>
       ) : (
         <button
@@ -1844,10 +1804,10 @@ function WelcomeTour() {
           type="button"
           className="homeWelcomeTourReopen"
           onClick={reopenTour}
-          aria-label="Watch the Robert’s Recipe Box website tour"
+          aria-label="Open the Robert’s Recipe Box welcome video"
         >
           <span aria-hidden="true">▶</span>
-          Watch Website Tour
+          Watch Welcome Video
         </button>
       )}
     </div>
