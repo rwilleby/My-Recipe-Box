@@ -39690,3 +39690,262 @@ body.rrbPopupOpen {
     grid-template-columns: 1fr;
   }
 }
+
+/* ================================================================
+   VERSION 70E — RESPONSIVE HOME WELCOME TOUR
+   ================================================================ */
+
+.homeWelcomeTourRegion {
+  position: static;
+}
+
+.homeWelcomeTour {
+  position: absolute;
+  top: 50%;
+  right: clamp(18px, 3.2vw, 54px);
+  width: min(440px, 34vw);
+  min-width: 360px;
+  transform: translateY(-50%);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, .86);
+  border-radius: 18px;
+  background: rgba(255, 253, 247, .97);
+  color: #243249;
+  box-shadow: 0 18px 46px rgba(29, 43, 33, .24);
+  backdrop-filter: blur(8px);
+}
+
+.homeWelcomeTour:focus-within {
+  box-shadow:
+    0 0 0 3px rgba(178, 132, 48, .28),
+    0 18px 46px rgba(29, 43, 33, .24);
+}
+
+.homeWelcomeTourClose {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border: 1px solid rgba(20, 83, 45, .18);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .94);
+  color: #14532d;
+  font-size: 25px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.homeWelcomeTourClose:hover,
+.homeWelcomeTourClose:focus-visible {
+  background: #f7eed8;
+}
+
+.homeWelcomeTourIntro,
+.homeWelcomeTourPlayerHeading {
+  padding: 24px 58px 22px 24px;
+}
+
+.homeWelcomeTourIntro > span,
+.homeWelcomeTourPlayerHeading > span {
+  color: #8b5e18;
+  font-size: 12px;
+  font-weight: 850;
+  letter-spacing: .12em;
+}
+
+.homeWelcomeTour h2 {
+  margin: 6px 0 8px;
+  color: #14532d;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(23px, 2vw, 29px);
+  line-height: 1.08;
+  letter-spacing: -.02em;
+}
+
+.homeWelcomeTour p {
+  margin: 0;
+  color: #475467;
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.homeWelcomeTourActions,
+.homeWelcomeTourPlayerActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 18px;
+}
+
+.homeWelcomeTourActions button,
+.homeWelcomeTourPlayerActions button,
+.homeWelcomeTourDontShow,
+.homeWelcomeTourReopen {
+  min-height: 42px;
+  border: 1px solid #14532d;
+  border-radius: 10px;
+  padding: 9px 14px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.homeWelcomeTourActions button,
+.homeWelcomeTourPlayerActions button {
+  background: #fff;
+  color: #14532d;
+}
+
+.homeWelcomeTourActions .homeWelcomeTourWatch {
+  background: #14532d;
+  color: #fff;
+}
+
+.homeWelcomeTourActions button:hover,
+.homeWelcomeTourPlayerActions button:hover,
+.homeWelcomeTourDontShow:hover {
+  background: #f7eed8;
+}
+
+.homeWelcomeTourActions .homeWelcomeTourWatch:hover {
+  background: #0f4425;
+}
+
+.homeWelcomeTourActions button:focus-visible,
+.homeWelcomeTourPlayerActions button:focus-visible,
+.homeWelcomeTourDontShow:focus-visible,
+.homeWelcomeTourReopen:focus-visible,
+.homeWelcomeTourClose:focus-visible {
+  outline: 3px solid #f2bd58;
+  outline-offset: 2px;
+}
+
+.homeWelcomeTourDontShow {
+  min-height: 34px;
+  margin-top: 8px;
+  border-color: transparent;
+  background: transparent;
+  color: #667085;
+  padding: 5px 0;
+  font-size: 13px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.homeWelcomeTour.isPlayerVisible {
+  width: min(480px, 36vw);
+}
+
+.homeWelcomeTourPlayerHeading {
+  padding-bottom: 14px;
+}
+
+.homeWelcomeTourVideo {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #16251c;
+}
+
+.homeWelcomeTourVideo iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.homeWelcomeTourPlayerActions {
+  justify-content: flex-end;
+  margin: 0;
+  padding: 12px 16px 14px;
+}
+
+.homeWelcomeTourPlayerActions button {
+  min-height: 38px;
+  padding: 7px 11px;
+  font-size: 13px;
+}
+
+.homeWelcomeTourReopen {
+  position: absolute;
+  right: 22px;
+  bottom: 18px;
+  z-index: 7;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-color: rgba(255, 255, 255, .78);
+  border-radius: 999px;
+  background: rgba(20, 83, 45, .94);
+  color: #fff;
+  box-shadow: 0 5px 16px rgba(17, 24, 39, .2);
+}
+
+.homeWelcomeTourReopen:hover {
+  background: #0f4425;
+}
+
+@media (max-width: 1040px) {
+  .homeWelcomeTour,
+  .homeWelcomeTour.isPlayerVisible {
+    right: 18px;
+    width: min(410px, 40vw);
+    min-width: 330px;
+  }
+}
+
+@media (max-width: 760px) {
+  .homeWelcomeTour,
+  .homeWelcomeTour.isPlayerVisible {
+    position: relative;
+    top: auto;
+    right: auto;
+    width: 100%;
+    min-width: 0;
+    margin-top: 22px;
+    transform: none;
+  }
+
+  .homeWelcomeTourReopen {
+    right: 12px;
+    bottom: 12px;
+    min-height: 38px;
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .homeWelcomeTourIntro,
+  .homeWelcomeTourPlayerHeading {
+    padding: 20px 50px 18px 18px;
+  }
+
+  .homeWelcomeTourActions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .homeWelcomeTourActions button,
+  .homeWelcomeTourDontShow {
+    width: 100%;
+  }
+
+  .homeWelcomeTourPlayerActions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .homeWelcomeTour,
+  .homeWelcomeTourReopen {
+    scroll-behavior: auto;
+  }
+}

@@ -758,6 +758,11 @@ const HERO_IMAGES = [
   "images/heroes/main-hero-07.webp",
 ];
 
+const WELCOME_TOUR_EMBED_URL =
+  "https://app.heygen.com/embeds/bb3981cd39304a75a7eec52bf223755c";
+const WELCOME_TOUR_DISMISSED_KEY = "rrb-welcome-tour-dismissed";
+const WELCOME_TOUR_SESSION_KEY = "rrb-welcome-tour-shown-this-session";
+
 const HERO_INFO_BUTTONS = [
   {
     title: "Browse Our Recipes",
@@ -1693,6 +1698,162 @@ function HeroInfoButtons({ setActivePage }) {
   );
 }
 
+function WelcomeTour() {
+  const [isVisible, setIsVisible] = useState(false);
+  const [isPlayerVisible, setIsPlayerVisible] = useState(false);
+  const [shouldFocusPanel, setShouldFocusPanel] = useState(false);
+  const closeButtonRef = useRef(null);
+  const reopenButtonRef = useRef(null);
+
+  useEffect(() => {
+    try {
+      const isDismissed = window.localStorage.getItem(WELCOME_TOUR_DISMISSED_KEY) === "true";
+      const wasShownThisSession = window.sessionStorage.getItem(WELCOME_TOUR_SESSION_KEY) === "true";
+
+      if (!isDismissed && !wasShownThisSession) {
+        window.sessionStorage.setItem(WELCOME_TOUR_SESSION_KEY, "true");
+        setIsVisible(true);
+      }
+    } catch {
+      setIsVisible(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!isVisible) return undefined;
+
+    function handleKeyDown(event) {
+      if (event.key !== "Escape") return;
+      setIsVisible(false);
+      setIsPlayerVisible(false);
+      window.requestAnimationFrame(() => reopenButtonRef.current?.focus());
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isVisible]);
+
+  useEffect(() => {
+    if (!isVisible || !shouldFocusPanel) return;
+    closeButtonRef.current?.focus();
+    setShouldFocusPanel(false);
+  }, [isVisible, shouldFocusPanel]);
+
+  function closeForNow({ restoreFocus = true } = {}) {
+    setIsVisible(false);
+    setIsPlayerVisible(false);
+    if (restoreFocus) {
+      window.requestAnimationFrame(() => reopenButtonRef.current?.focus());
+    }
+  }
+
+  function dismissPermanently() {
+    try {
+      window.localStorage.setItem(WELCOME_TOUR_DISMISSED_KEY, "true");
+    } catch {
+      // The tour still closes even if browser storage is unavailable.
+    }
+    closeForNow();
+  }
+
+  function reopenTour() {
+    setIsPlayerVisible(true);
+    setShouldFocusPanel(true);
+    setIsVisible(true);
+  }
+
+  return (
+    <div className="homeWelcomeTourRegion">
+      {isVisible ? (
+        <aside
+          className={`homeWelcomeTour${isPlayerVisible ? " isPlayerVisible" : ""}`}
+          aria-labelledby="home-welcome-tour-title"
+          aria-describedby="home-welcome-tour-description"
+        >
+          <button
+            ref={closeButtonRef}
+            type="button"
+            className="homeWelcomeTourClose"
+            onClick={() => closeForNow()}
+            aria-label="Close the website tour for now"
+          >
+            ×
+          </button>
+
+          {isPlayerVisible ? (
+            <>
+              <div className="homeWelcomeTourPlayerHeading">
+                <span>WEBSITE TOUR</span>
+                <h2 id="home-welcome-tour-title">Welcome to Robert’s Recipe Box</h2>
+                <p id="home-welcome-tour-description">Press Play when you’re ready.</p>
+              </div>
+
+              <div className="homeWelcomeTourVideo">
+                <iframe
+                  src={WELCOME_TOUR_EMBED_URL}
+                  title="Welcome to Robert’s Recipe Box website tour"
+                  loading="lazy"
+                  allow="encrypted-media; fullscreen"
+                  allowFullScreen
+                />
+              </div>
+
+              <div className="homeWelcomeTourPlayerActions">
+                <button type="button" onClick={() => closeForNow()}>
+                  Maybe Later
+                </button>
+                <button type="button" onClick={dismissPermanently}>
+                  Don’t Show Again
+                </button>
+              </div>
+            </>
+          ) : (
+            <div className="homeWelcomeTourIntro">
+              <span>WELCOME</span>
+              <h2 id="home-welcome-tour-title">Welcome to Robert’s Recipe Box</h2>
+              <p id="home-welcome-tour-description">
+                Take a quick tour and see how the site can make meal planning easier.
+              </p>
+
+              <div className="homeWelcomeTourActions">
+                <button
+                  type="button"
+                  className="homeWelcomeTourWatch"
+                  onClick={() => setIsPlayerVisible(true)}
+                >
+                  Watch the Tour
+                </button>
+                <button type="button" onClick={() => closeForNow()}>
+                  Maybe Later
+                </button>
+              </div>
+
+              <button
+                type="button"
+                className="homeWelcomeTourDontShow"
+                onClick={dismissPermanently}
+              >
+                Don’t Show Again
+              </button>
+            </div>
+          )}
+        </aside>
+      ) : (
+        <button
+          ref={reopenButtonRef}
+          type="button"
+          className="homeWelcomeTourReopen"
+          onClick={reopenTour}
+          aria-label="Watch the Robert’s Recipe Box website tour"
+        >
+          <span aria-hidden="true">▶</span>
+          Watch Website Tour
+        </button>
+      )}
+    </div>
+  );
+}
+
 function Hero({ setActivePage }) {
   const [heroIndex, setHeroIndex] = useState(0);
   const [backupReminderStatus, setBackupReminderStatus] = useState(() => {
@@ -1793,6 +1954,8 @@ function Hero({ setActivePage }) {
         />
 
       </div>
+
+      <WelcomeTour />
 
       <PageHelpButtonStrip pageTitle="Home" pageEyebrow="HOME" />
     </section>
