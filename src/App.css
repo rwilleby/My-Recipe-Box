@@ -39903,3 +39903,73 @@ body.rrbPopupOpen {
     scroll-behavior: auto;
   }
 }
+
+
+/* v71.1 — live recipe-card nutrition quick reference */
+.cardViewerQuickNutrition {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  width: min(100%, 920px);
+  margin: 6px auto 10px;
+  border: 1px solid #d9e1db;
+  border-radius: 12px;
+  background: #f8faf8;
+  overflow: hidden;
+}
+
+.cardViewerQuickNutritionItem {
+  min-width: 0;
+  display: grid;
+  justify-items: center;
+  gap: 3px;
+  padding: 8px 10px;
+  border-right: 1px solid #e0e6e1;
+  text-align: center;
+}
+
+.cardViewerQuickNutritionItem:last-child {
+  border-right: 0;
+}
+
+.cardViewerQuickNutritionItem span {
+  color: #667085;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .04em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.cardViewerQuickNutritionItem strong {
+  color: #14532d;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.cardViewerQuickNutrition.nutritionPending {
+  background: #fafafa;
+}
+
+.cardViewerQuickNutrition.nutritionPending .cardViewerQuickNutritionItem strong {
+  color: #8b8f97;
+}
+
+@media (max-width: 700px) {
+  .cardViewerQuickNutrition {
+    width: 100%;
+    margin: 5px auto 8px;
+  }
+
+  .cardViewerQuickNutritionItem {
+    padding: 7px 4px;
+  }
+
+  .cardViewerQuickNutritionItem span {
+    font-size: 8px;
+  }
+
+  .cardViewerQuickNutritionItem strong {
+    font-size: 12px;
+  }
+}

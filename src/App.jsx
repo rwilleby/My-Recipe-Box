@@ -14,7 +14,7 @@ import DinnerCombinationHeroAudit from "./DinnerCombinationHeroAudit.jsx";
 import UserDataBackupSection from "./components/UserDataBackupSection";
 import FoodIntelligenceCard from "./components/FoodIntelligenceCard";
 import WeekendBulkMealPlanner from "./components/WeekendBulkMealPlanner";
-import { hasRecipeNutritionRecord } from "./data/recipeNutritionProfiles";
+import { getRecipeNutritionVariant, hasRecipeNutritionRecord } from "./data/recipeNutritionProfiles";
 import "./components/UserDataBackupSection.css";
 import "./components/AdminNutritionDatabase.css";
 import {
@@ -4177,6 +4177,14 @@ function RecipeCardViewer({
   const estimatedCost = getRecipeEstimatedCost(recipe);
   const recipeRfisProfile = rfisPlatform.recipes.profile(recipe.id);
   const hasFoodIntelligence = Boolean(recipeRfisProfile?.hasNutritionRecord);
+  const liveNutrition = getRecipeNutritionVariant(recipe.id)?.profile?.nutritionFacts || null;
+  const quickNutrition = [
+    ["Calories", liveNutrition?.calories],
+    ["Protein", liveNutrition?.protein],
+    ["Fat", liveNutrition?.totalFat],
+    ["Carbs", liveNutrition?.totalCarbohydrate],
+    ["Sodium", liveNutrition?.sodium],
+  ];
   const showConstruction = isSaladJarRecipe(recipe);
   const constructionImageCandidates = constructionCalloutImageCandidates(recipe);
   const constructionImagePath = constructionImageFailed
@@ -4326,6 +4334,20 @@ function RecipeCardViewer({
               ×
             </button>
           </div>
+        </div>
+
+        <div
+          className={`cardViewerQuickNutrition ${
+            liveNutrition ? "hasNutrition" : "nutritionPending"
+          }`}
+          aria-label={`${recipe.title} quick nutrition per serving`}
+        >
+          {quickNutrition.map(([label, value]) => (
+            <div className="cardViewerQuickNutritionItem" key={label}>
+              <span>{label}</span>
+              <strong>{value ?? "—"}</strong>
+            </div>
+          ))}
         </div>
 
         <div className="cardViewerStage">
