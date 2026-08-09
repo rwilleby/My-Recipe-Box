@@ -25,6 +25,9 @@ for (const token of [
 assert.ok(app.includes('className={`cardViewerQuickNutrition ${'));
 assert.ok(app.includes('aria-label={`${recipe.title} quick nutrition per serving`}'));
 assert.ok(css.includes(".cardViewerQuickNutrition"));
-assert.ok(css.includes("grid-template-columns: repeat(5, minmax(0, 1fr));"));
+assert.ok(css.includes("display: flex;"));
+assert.ok(css.includes("border-radius: 999px;"));
+assert.ok(css.includes("font-size: 8px;"));
+assert.ok(app.includes('className="cardViewerHeaderIdentity"'));
 
 console.log("Live recipe-card nutrition strip contracts passed");

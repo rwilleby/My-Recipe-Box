@@ -1,6 +1,6 @@
 {
   "name": "rrb-browser-based-v1",
-  "version": "71.1.0",
+  "version": "71.3.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -22,7 +22,9 @@
     "test:viewer-ui-refinement": "node test/recipeViewerUiRefinement.test.mjs",
     "test:viewer-controls": "node test/recipeViewerControlsV70c4.test.mjs",
     "test:welcome-tour": "node test/welcomeTour.test.mjs",
-    "test:live-nutrition-strip": "node test/liveRecipeNutritionStrip.test.mjs"
+    "test:live-nutrition-strip": "node test/liveRecipeNutritionStrip.test.mjs",
+    "test:live-nutrition-header": "node test/liveRecipeNutritionHeaderLayout.test.mjs",
+    "test:recipe-card-fit": "node test/recipeCardFullVisibility.test.mjs"
   },
   "dependencies": {
     "react": "^19.1.0",

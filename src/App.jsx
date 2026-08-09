@@ -4320,7 +4320,7 @@ function RecipeCardViewer({
     <div className="cardViewerOverlay" onClick={onClose}>
       <div className="cardViewer cardViewerBottomActions" onClick={(event) => event.stopPropagation()}>
         <div className="cardViewerHeader">
-          <div>
+          <div className="cardViewerHeaderIdentity">
             <span className="cardViewerCode">{recipe.id}</span>
             <h2>{recipe.title}</h2>
             <div className="cardViewerMealBalanceRow">
@@ -4329,25 +4329,25 @@ function RecipeCardViewer({
             </div>
           </div>
 
+          <div
+            className={`cardViewerQuickNutrition ${
+              liveNutrition ? "hasNutrition" : "nutritionPending"
+            }`}
+            aria-label={`${recipe.title} quick nutrition per serving`}
+          >
+            {quickNutrition.map(([label, value]) => (
+              <div className="cardViewerQuickNutritionItem" key={label}>
+                <span>{label}</span>
+                <strong>{value ?? "—"}</strong>
+              </div>
+            ))}
+          </div>
+
           <div className="cardViewerHeaderActions compact">
             <button className="cardViewerClose" onClick={onClose} aria-label="Close recipe viewer">
               ×
             </button>
           </div>
-        </div>
-
-        <div
-          className={`cardViewerQuickNutrition ${
-            liveNutrition ? "hasNutrition" : "nutritionPending"
-          }`}
-          aria-label={`${recipe.title} quick nutrition per serving`}
-        >
-          {quickNutrition.map(([label, value]) => (
-            <div className="cardViewerQuickNutritionItem" key={label}>
-              <span>{label}</span>
-              <strong>{value ?? "—"}</strong>
-            </div>
-          ))}
         </div>
 
         <div className="cardViewerStage">
