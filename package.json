@@ -1,6 +1,6 @@
 {
   "name": "rrb-browser-based-v1",
-  "version": "71.8.0",
+  "version": "71.9.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -29,7 +29,8 @@
     "test:viewer-header-clean": "node test/recipeViewerHeaderCleanLayout.test.mjs",
     "test:nutrition-data-layout": "node test/nutritionDataCompactLayout.test.mjs",
     "test:nutrition-large-type": "node test/nutritionDataLargeTypeAndHeaderPills.test.mjs",
-    "test:viewer-font-match": "node test/viewerControlFontMatch.test.mjs"
+    "test:viewer-font-match": "node test/viewerControlFontMatch.test.mjs",
+    "test:viewer-font-reduction": "node test/viewerControlFontReduction.test.mjs"
   },
   "dependencies": {
     "react": "^19.1.0",
