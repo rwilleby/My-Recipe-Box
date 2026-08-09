@@ -40066,3 +40066,121 @@ body.rrbPopupOpen {
     max-height: calc(100% - 4px) !important;
   }
 }
+
+
+/* v71.4 — keep Nutrition Data, Notes & Tips, and Dinners/RFIS inside viewer */
+.cardViewer {
+  position: relative !important;
+}
+
+/* Nutrition Data stays inside the recipe viewer and scrolls internally. */
+.recipeFlipBack {
+  min-height: 0 !important;
+  height: 100% !important;
+  max-height: 100% !important;
+  overflow: hidden !important;
+}
+
+.recipeFlipBack > .foodIntelligenceCard,
+.foodIntelligenceCard {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: 100% !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+
+/* Notes & Tips and Dinners/RFIS stay within the viewer bounds. */
+.viewerBottomSheet {
+  position: absolute !important;
+  left: 12px !important;
+  right: 12px !important;
+  bottom: 56px !important;
+  z-index: 80 !important;
+  max-height: calc(100% - 142px) !important;
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+  border-radius: 14px !important;
+}
+
+.viewerBottomSheetHeader {
+  flex: 0 0 auto !important;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 2 !important;
+  background: #ffffff !important;
+}
+
+.viewerBottomSheetContent {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+
+.viewerNotesTipsGrid {
+  min-height: 0 !important;
+  align-items: start !important;
+}
+
+.viewerEditableNotesSection textarea {
+  min-height: 92px !important;
+  max-height: 180px !important;
+  resize: vertical !important;
+}
+
+.viewerDinnersSheet {
+  min-height: 0 !important;
+  overflow-y: auto !important;
+}
+
+.viewerDinnersSheet .recipeIntelligencePanel {
+  margin: 0 0 10px !important;
+  max-height: none !important;
+}
+
+.viewerDinnerMatches {
+  margin-top: 10px !important;
+}
+
+.cardViewerUnifiedFooter {
+  flex: 0 0 auto !important;
+  position: relative !important;
+  z-index: 90 !important;
+  background: #ffffff !important;
+}
+
+@media (max-height: 820px) and (min-width: 760px) {
+  .viewerBottomSheet {
+    left: 8px !important;
+    right: 8px !important;
+    bottom: 48px !important;
+    max-height: calc(100% - 112px) !important;
+  }
+
+  .viewerEditableNotesSection textarea {
+    min-height: 72px !important;
+    max-height: 130px !important;
+  }
+}
+
+@media (max-width: 759px) {
+  .viewerBottomSheet {
+    position: fixed !important;
+    left: 8px !important;
+    right: 8px !important;
+    bottom: 8px !important;
+    max-height: calc(100dvh - 96px) !important;
+  }
+
+  .viewerNotesTipsGrid {
+    grid-template-columns: 1fr !important;
+  }
+}
