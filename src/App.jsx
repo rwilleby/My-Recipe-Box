@@ -4325,7 +4325,6 @@ function RecipeCardViewer({
             <h2>{recipe.title}</h2>
             <div className="cardViewerMealBalanceRow">
               <MealBalanceDetails item={recipe} />
-              <MealBalanceInfo compact />
             </div>
           </div>
 
@@ -4370,7 +4369,10 @@ function RecipeCardViewer({
             <div className="recipeFlipCardInner">
               {showFoodIntelligence ? (
                 <div className="recipeFlipFace recipeFlipBack recipeFlipFaceActive">
-                  <FoodIntelligenceCard recipeCode={recipe.id} />
+                  <FoodIntelligenceCard
+                    recipeCode={recipe.id}
+                    servingsPerRecipe={recipe.servings}
+                  />
                 </div>
               ) : (
                 <div className="recipeFlipFace recipeFlipFront recipeFlipFaceActive">

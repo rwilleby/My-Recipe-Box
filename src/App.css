@@ -40265,3 +40265,261 @@ body.rrbPopupOpen {
   .cardViewerQuickNutritionItem strong { font-size:10px !important; }
   .cardViewerHeaderActions,.cardViewerHeaderActions.compact { right:8px !important; }
 }
+
+
+/* v71.6 — compact Nutrition Data view: one-line header, two-column details */
+.recipeFlipBack > .foodIntelligenceCard,
+.foodIntelligenceCard {
+  overflow: hidden !important;
+}
+
+.foodIntelligenceCard {
+  display: grid !important;
+  grid-template-rows: auto minmax(0, 1fr) !important;
+  gap: 5px !important;
+  padding: 6px !important;
+}
+
+/* One clean code/title row — no eyebrow and no status line. */
+.foodIntelligenceCard .ficHeader.ficHeaderCompact {
+  min-height: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 10px !important;
+  margin: 0 !important;
+  padding: 6px 10px !important;
+  border: 1px solid #98b79f !important;
+  background: #ffffff !important;
+}
+
+.foodIntelligenceCard .ficHeaderCompact h2 {
+  min-width: 0 !important;
+  display: flex !important;
+  align-items: baseline !important;
+  gap: 8px !important;
+  margin: 0 !important;
+  color: #111827 !important;
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: clamp(18px, 1.75vw, 25px) !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+}
+
+.foodIntelligenceCard .ficHeaderCode {
+  color: #14532d !important;
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: .58em !important;
+  font-weight: 900 !important;
+  letter-spacing: .08em !important;
+}
+
+.foodIntelligenceCard .ficHeaderSeparator {
+  color: #667085 !important;
+  font-size: .72em !important;
+}
+
+.foodIntelligenceCard .ficVariantControl {
+  flex: 0 0 auto !important;
+  min-width: 145px !important;
+}
+
+/* Left Nutrition Facts column + right two-column information area. */
+.foodIntelligenceCard .ficGrid.ficGridCompact {
+  min-height: 0 !important;
+  height: 100% !important;
+  display: grid !important;
+  grid-template-columns: minmax(230px, 27%) minmax(0, 1fr) !important;
+  gap: 6px !important;
+  overflow: hidden !important;
+}
+
+/* Make the complete Nutrition Facts panel fit inside its column. */
+.foodIntelligenceCard .ficNutritionFacts {
+  box-sizing: border-box !important;
+  min-height: 0 !important;
+  height: 100% !important;
+  overflow: hidden !important;
+  padding: 7px 9px !important;
+}
+
+.foodIntelligenceCard .ficNutritionFacts > h3 {
+  margin: 0 0 4px !important;
+  font-size: clamp(17px, 1.5vw, 22px) !important;
+  line-height: 1 !important;
+}
+
+.foodIntelligenceCard .ficServingLine,
+.foodIntelligenceCard .ficFactRow {
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 3px 0 !important;
+  font-size: clamp(9px, .78vw, 11px) !important;
+  line-height: 1.05 !important;
+}
+
+.foodIntelligenceCard .ficFactRowStrong {
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
+}
+
+.foodIntelligenceCard .ficFactRowStrong span,
+.foodIntelligenceCard .ficFactRowStrong strong {
+  font-size: clamp(11px, .92vw, 13px) !important;
+}
+
+.foodIntelligenceCard .ficServingLine strong,
+.foodIntelligenceCard .ficFactRow strong {
+  white-space: nowrap !important;
+}
+
+/* Right-side information: exactly two columns. */
+.foodIntelligenceCard .ficContentColumns.ficContentColumnsTwo {
+  min-height: 0 !important;
+  height: 100% !important;
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  grid-template-rows:
+    repeat(5, minmax(0, 1fr))
+    minmax(46px, .75fr) !important;
+  grid-auto-flow: row !important;
+  gap: 4px !important;
+  overflow: hidden !important;
+  align-content: stretch !important;
+}
+
+.foodIntelligenceCard .ficContentColumnsTwo .ficSection,
+.foodIntelligenceCard .ficContentColumnsTwo .ficMealBalance {
+  box-sizing: border-box !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  height: 100% !important;
+  margin: 0 !important;
+  padding: 4px 6px !important;
+  overflow: hidden !important;
+}
+
+.foodIntelligenceCard .ficContentColumnsTwo .ficSection h3,
+.foodIntelligenceCard .ficContentColumnsTwo .ficMealBalance h3 {
+  margin: 0 0 2px !important;
+  font-size: clamp(9px, .86vw, 12px) !important;
+  line-height: 1 !important;
+}
+
+.foodIntelligenceCard .ficContentColumnsTwo .ficSection p,
+.foodIntelligenceCard .ficContentColumnsTwo .ficSection li,
+.foodIntelligenceCard .ficContentColumnsTwo .ficMealBalance span {
+  margin: 0 !important;
+  font-size: clamp(7px, .64vw, 9px) !important;
+  line-height: 1.03 !important;
+}
+
+.foodIntelligenceCard .ficContentColumnsTwo .ficSection ul {
+  margin: 0 !important;
+  padding-left: 11px !important;
+}
+
+.foodIntelligenceCard .ficContentColumnsTwo .ficMealBalance {
+  display: grid !important;
+  grid-template-columns: auto 1fr !important;
+  grid-template-rows: auto 1fr !important;
+  align-items: center !important;
+  gap: 2px 6px !important;
+}
+
+.foodIntelligenceCard .ficContentColumnsTwo .ficMealBalance h3 {
+  grid-column: 1 / -1 !important;
+}
+
+.foodIntelligenceCard .ficContentColumnsTwo .ficMealBalance > strong {
+  width: 30px !important;
+  height: 30px !important;
+  font-size: 8px !important;
+}
+
+/* Data Notes gets one full-width row at the bottom. */
+.foodIntelligenceCard .ficDataNotesWide {
+  grid-column: 1 / -1 !important;
+  grid-row: 6 !important;
+  display: grid !important;
+  grid-template-columns: auto 1fr !important;
+  align-items: start !important;
+  gap: 6px !important;
+  padding: 4px 6px !important;
+}
+
+.foodIntelligenceCard .ficDataNotesWide h3 {
+  margin: 0 !important;
+  white-space: nowrap !important;
+}
+
+.foodIntelligenceCard .ficDataNotesWide p {
+  font-size: clamp(6.5px, .58vw, 8px) !important;
+  line-height: 1.02 !important;
+}
+
+/* Nutrition Data must fit without its own scrollbars. */
+.recipeFlipBack,
+.recipeFlipBack > .foodIntelligenceCard,
+.foodIntelligenceCard .ficGridCompact,
+.foodIntelligenceCard .ficContentColumnsTwo {
+  overflow: hidden !important;
+  scrollbar-width: none !important;
+}
+
+@media (max-height: 800px) and (min-width: 760px) {
+  .foodIntelligenceCard {
+    gap: 3px !important;
+    padding: 4px !important;
+  }
+
+  .foodIntelligenceCard .ficHeader.ficHeaderCompact {
+    padding: 4px 7px !important;
+  }
+
+  .foodIntelligenceCard .ficHeaderCompact h2 {
+    font-size: clamp(15px, 1.5vw, 20px) !important;
+  }
+
+  .foodIntelligenceCard .ficGrid.ficGridCompact {
+    grid-template-columns: minmax(205px, 26%) minmax(0, 1fr) !important;
+    gap: 4px !important;
+  }
+
+  .foodIntelligenceCard .ficNutritionFacts {
+    padding: 5px 7px !important;
+  }
+
+  .foodIntelligenceCard .ficServingLine,
+  .foodIntelligenceCard .ficFactRow {
+    padding: 2px 0 !important;
+    font-size: 8px !important;
+  }
+
+  .foodIntelligenceCard .ficContentColumns.ficContentColumnsTwo {
+    gap: 3px !important;
+    grid-template-rows:
+      repeat(5, minmax(0, 1fr))
+      minmax(38px, .68fr) !important;
+  }
+
+  .foodIntelligenceCard .ficContentColumnsTwo .ficSection,
+  .foodIntelligenceCard .ficContentColumnsTwo .ficMealBalance {
+    padding: 3px 4px !important;
+  }
+
+  .foodIntelligenceCard .ficContentColumnsTwo .ficSection h3,
+  .foodIntelligenceCard .ficContentColumnsTwo .ficMealBalance h3 {
+    font-size: 8px !important;
+  }
+
+  .foodIntelligenceCard .ficContentColumnsTwo .ficSection p,
+  .foodIntelligenceCard .ficContentColumnsTwo .ficSection li,
+  .foodIntelligenceCard .ficContentColumnsTwo .ficMealBalance span {
+    font-size: 6.5px !important;
+  }
+
+  .foodIntelligenceCard .ficDataNotesWide p {
+    font-size: 6px !important;
+  }
+}
