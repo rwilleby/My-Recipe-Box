@@ -40184,3 +40184,84 @@ body.rrbPopupOpen {
     grid-template-columns: 1fr !important;
   }
 }
+
+
+/* v71.5 — clean recipe viewer header matching approved reference */
+.cardViewerHeader {
+  display: grid !important;
+  grid-template-columns: minmax(300px, 1fr) auto !important;
+  grid-template-areas: "identity tools" !important;
+  align-items: center !important;
+  gap: 18px !important;
+  padding: 10px 16px !important;
+  border-bottom: 1px solid #e5e7eb !important;
+  background: #fbfaf7 !important;
+}
+.cardViewerHeaderIdentity {
+  grid-area: identity !important;
+  min-width: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+.cardViewerHeaderIdentity .cardViewerCode { margin: 0 0 2px !important; }
+.cardViewerHeaderIdentity h2 { margin: 0 !important; }
+.cardViewerMealBalanceRow { margin-top: 5px !important; }
+.cardViewerQuickNutrition {
+  grid-area: tools !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 8px !important;
+  min-width: 0 !important;
+  margin: 0 54px 0 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+.cardViewerQuickNutritionItem {
+  min-width: 76px !important;
+  padding: 7px 10px !important;
+  border: 1px solid #d8e3da !important;
+  border-radius: 15px !important;
+  background: #fff !important;
+  box-shadow: 0 1px 3px rgba(17,24,39,.05) !important;
+}
+.cardViewerQuickNutritionItem span { font-size: 8px !important; letter-spacing: .05em !important; }
+.cardViewerQuickNutritionItem strong { font-size: 12px !important; }
+.cardViewerHeaderActions,
+.cardViewerHeaderActions.compact {
+  position: absolute !important;
+  top: 50% !important;
+  right: 14px !important;
+  transform: translateY(-50%) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+}
+.cardViewerClose {
+  width: 40px !important;
+  min-width: 40px !important;
+  height: 40px !important;
+  min-height: 40px !important;
+  border: 1px solid #e1e5df !important;
+  border-radius: 999px !important;
+  background: #fff !important;
+  box-shadow: 0 1px 3px rgba(17,24,39,.05) !important;
+}
+@media (max-width:1050px) {
+  .cardViewerHeader { grid-template-columns:1fr !important; grid-template-areas:"identity" "tools" !important; gap:8px !important; }
+  .cardViewerQuickNutrition { justify-content:flex-start !important; flex-wrap:wrap !important; margin-right:48px !important; }
+}
+@media (max-width:700px) {
+  .cardViewerHeader { padding:8px 10px !important; }
+  .cardViewerQuickNutrition { gap:5px !important; }
+  .cardViewerQuickNutritionItem { min-width:62px !important; padding:6px 7px !important; }
+  .cardViewerQuickNutritionItem span { font-size:7px !important; }
+  .cardViewerQuickNutritionItem strong { font-size:10px !important; }
+  .cardViewerHeaderActions,.cardViewerHeaderActions.compact { right:8px !important; }
+}

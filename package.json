@@ -1,6 +1,6 @@
 {
   "name": "rrb-browser-based-v1",
-  "version": "71.4.0",
+  "version": "71.5.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -25,7 +25,8 @@
     "test:live-nutrition-strip": "node test/liveRecipeNutritionStrip.test.mjs",
     "test:live-nutrition-header": "node test/liveRecipeNutritionHeaderLayout.test.mjs",
     "test:recipe-card-fit": "node test/recipeCardFullVisibility.test.mjs",
-    "test:viewer-popup-fit": "node test/recipeViewerPopupFit.test.mjs"
+    "test:viewer-popup-fit": "node test/recipeViewerPopupFit.test.mjs",
+    "test:viewer-header-clean": "node test/recipeViewerHeaderCleanLayout.test.mjs"
   },
   "dependencies": {
     "react": "^19.1.0",
