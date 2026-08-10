@@ -41177,3 +41177,73 @@ body.rrbPopupOpen {
   .homeWelcomeTourIconButton::after,
   .supplementalVideoIcon { animation: none !important; }
 }
+
+
+/* v72.6 — locked B Double Heartbeat pulse for all video icons */
+@keyframes rrbVideoDoubleHeartbeat {
+  0%, 60%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+  }
+
+  68% {
+    transform: scale(1.13);
+  }
+
+  73% {
+    transform: scale(1.02);
+  }
+
+  79% {
+    transform: scale(1.12);
+  }
+
+  85% {
+    transform: scale(1);
+  }
+}
+
+/*
+ * Main / red hero video icon:
+ * use B — Double Heartbeat only.
+ * No radiating rays, halo rings, or glow effects.
+ */
+.homeWelcomeTourIconButton {
+  animation: rrbVideoDoubleHeartbeat 3.7s ease-in-out infinite !important;
+  transform-origin: center !important;
+  box-shadow: none !important;
+}
+
+/* Disable prior v72.5 pseudo-element ray treatments. */
+.homeWelcomeTourIconButton::before,
+.homeWelcomeTourIconButton::after {
+  content: none !important;
+  display: none !important;
+  animation: none !important;
+}
+
+/*
+ * Supplemental / gray icons:
+ * use the exact same B — Double Heartbeat animation.
+ */
+.supplementalVideoIcon {
+  animation: rrbVideoDoubleHeartbeat 3.7s ease-in-out infinite !important;
+  transform-origin: center !important;
+  box-shadow: none !important;
+}
+
+/* Pause animation while the user is interacting with an icon. */
+.homeWelcomeTourIconButton:hover,
+.homeWelcomeTourIconButton:focus-visible,
+.supplementalVideoIcon:hover,
+.supplementalVideoIcon:focus-within {
+  animation-play-state: paused !important;
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .homeWelcomeTourIconButton,
+  .supplementalVideoIcon {
+    animation: none !important;
+  }
+}
