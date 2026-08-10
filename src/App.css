@@ -41104,3 +41104,76 @@ body.rrbPopupOpen {
     flex-basis: 22px !important;
   }
 }
+
+
+/* v72.5 — stronger main-video pulse + double supplemental pulse */
+@keyframes rrbVideoPulseMainStrong {
+  0%, 66%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,255,255,0), 0 0 0 0 rgba(198,40,40,0); }
+  74% { transform: scale(1.14); box-shadow: 0 0 0 5px rgba(255,255,255,.92), 0 0 0 11px rgba(198,40,40,.22); }
+  81% { transform: scale(1.05); box-shadow: 0 0 0 2px rgba(255,255,255,.62), 0 0 0 6px rgba(198,40,40,.12); }
+  87% { transform: scale(1.12); box-shadow: 0 0 0 4px rgba(255,255,255,.86), 0 0 0 9px rgba(198,40,40,.18); }
+  93% { transform: scale(1.02); box-shadow: 0 0 0 0 rgba(255,255,255,0), 0 0 0 0 rgba(198,40,40,0); }
+}
+@keyframes rrbVideoPulseSupplementalDouble {
+  0%, 58%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(138,129,124,0); }
+  66% { transform: scale(1.07); box-shadow: 0 0 0 5px rgba(138,129,124,.15); }
+  72% { transform: scale(1.01); box-shadow: 0 0 0 1px rgba(138,129,124,.05); }
+  79% { transform: scale(1.07); box-shadow: 0 0 0 5px rgba(138,129,124,.15); }
+  86% { transform: scale(1.01); box-shadow: 0 0 0 1px rgba(138,129,124,.05); }
+}
+@keyframes rrbVideoRays {
+  0%, 66%, 100% { opacity: 0; transform: scale(.82); }
+  74% { opacity: .95; transform: scale(1); }
+  82% { opacity: .35; transform: scale(1.08) rotate(8deg); }
+  88% { opacity: .85; transform: scale(1.03) rotate(-6deg); }
+  94% { opacity: 0; transform: scale(1.15); }
+}
+.homeWelcomeTourIconButton {
+  animation: rrbVideoPulseMainStrong 4s ease-in-out infinite !important;
+  overflow: visible !important;
+  position: relative !important;
+}
+.homeWelcomeTourIconButton::before,
+.homeWelcomeTourIconButton::after {
+  content: "" !important;
+  position: absolute !important;
+  inset: -8px !important;
+  border-radius: 50% !important;
+  pointer-events: none !important;
+  opacity: 0;
+}
+.homeWelcomeTourIconButton::before {
+  background:
+    linear-gradient(#fff,#fff) center top/2px 6px no-repeat,
+    linear-gradient(#fff,#fff) center bottom/2px 6px no-repeat,
+    linear-gradient(90deg,#fff,#fff) left center/6px 2px no-repeat,
+    linear-gradient(90deg,#fff,#fff) right center/6px 2px no-repeat;
+  animation: rrbVideoRays 4s ease-in-out infinite !important;
+}
+.homeWelcomeTourIconButton::after {
+  background:
+    linear-gradient(45deg,transparent 45%,#fff 46% 54%,transparent 55%) left top/8px 8px no-repeat,
+    linear-gradient(-45deg,transparent 45%,#fff 46% 54%,transparent 55%) right top/8px 8px no-repeat,
+    linear-gradient(-45deg,transparent 45%,#fff 46% 54%,transparent 55%) left bottom/8px 8px no-repeat,
+    linear-gradient(45deg,transparent 45%,#fff 46% 54%,transparent 55%) right bottom/8px 8px no-repeat;
+  animation: rrbVideoRays 4s ease-in-out infinite .08s !important;
+}
+.supplementalVideoIcon {
+  animation: rrbVideoPulseSupplementalDouble 4.2s ease-in-out infinite !important;
+}
+.homeWelcomeTourIconButton:hover,
+.homeWelcomeTourIconButton:focus-visible,
+.supplementalVideoIcon:hover,
+.supplementalVideoIcon:focus-within,
+.homeWelcomeTourIconButton:hover::before,
+.homeWelcomeTourIconButton:hover::after,
+.homeWelcomeTourIconButton:focus-visible::before,
+.homeWelcomeTourIconButton:focus-visible::after {
+  animation-play-state: paused !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .homeWelcomeTourIconButton,
+  .homeWelcomeTourIconButton::before,
+  .homeWelcomeTourIconButton::after,
+  .supplementalVideoIcon { animation: none !important; }
+}

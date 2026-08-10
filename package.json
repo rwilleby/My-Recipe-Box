@@ -1,6 +1,6 @@
 {
   "name": "rrb-browser-based-v1",
-  "version": "72.4.0",
+  "version": "72.5.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -34,7 +34,8 @@
     "test:welcome-video": "node test/welcomeVideoLocalAsset.test.mjs",
     "test:welcome-video-ui": "node test/welcomeVideoUiRefinement.test.mjs",
     "test:video-icon-roles": "node test/videoIconRoles.test.mjs",
-    "test:video-icon-pulse": "node test/videoIconPulseAndPlacement.test.mjs"
+    "test:video-icon-pulse": "node test/videoIconPulseAndPlacement.test.mjs",
+    "test:video-icon-pulse-tuning": "node test/videoIconPulseTuning.test.mjs"
   },
   "dependencies": {
     "react": "^19.1.0",
