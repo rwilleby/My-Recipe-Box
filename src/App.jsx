@@ -759,6 +759,10 @@ const HERO_IMAGES = [
 ];
 
 const WELCOME_TOUR_VIDEO_URL = "videos/welcome-video.mp4";
+
+/* Locked video icon roles */
+const VIDEO_ICON_MAIN = "images/icons/video-red.webp";
+const VIDEO_ICON_SUPPLEMENTAL = "images/icons/video-gray.webp";
 const WELCOME_TOUR_DISMISSED_KEY = "rrb-welcome-tour-dismissed";
 const WELCOME_TOUR_SESSION_KEY = "rrb-welcome-tour-shown-this-session";
 const WELCOME_TOUR_OPEN_EVENT = "rrb:open-welcome-tour";
@@ -11393,7 +11397,7 @@ function PageHelpButtonStrip({ pageTitle }) {
           title="Watch welcome video"
         >
           <img
-            src={`${import.meta.env.BASE_URL}images/icons/VIDEO.webp`}
+            src={`${import.meta.env.BASE_URL}${VIDEO_ICON_MAIN}`}
             alt=""
             aria-hidden="true"
           />

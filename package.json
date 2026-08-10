@@ -1,6 +1,6 @@
 {
   "name": "rrb-browser-based-v1",
-  "version": "72.2.0",
+  "version": "72.3.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -32,7 +32,8 @@
     "test:viewer-font-match": "node test/viewerControlFontMatch.test.mjs",
     "test:viewer-font-reduction": "node test/viewerControlFontReduction.test.mjs",
     "test:welcome-video": "node test/welcomeVideoLocalAsset.test.mjs",
-    "test:welcome-video-ui": "node test/welcomeVideoUiRefinement.test.mjs"
+    "test:welcome-video-ui": "node test/welcomeVideoUiRefinement.test.mjs",
+    "test:video-icon-roles": "node test/videoIconRoles.test.mjs"
   },
   "dependencies": {
     "react": "^19.1.0",
