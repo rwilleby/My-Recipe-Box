@@ -39792,7 +39792,7 @@ body.rrbPopupOpen {
   background: #16251c;
 }
 
-.homeWelcomeTourVideo iframe {
+.homeWelcomeTourVideo video {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -39892,7 +39892,7 @@ body.rrbPopupOpen {
     font-size: 12px;
   }
 
-  .homeWelcomeTourVideo iframe {
+  .homeWelcomeTourVideo video {
     transform: translate(-50%, -50%) scale(1.12);
   }
 }

@@ -758,8 +758,7 @@ const HERO_IMAGES = [
   "images/heroes/main-hero-07.webp",
 ];
 
-const WELCOME_TOUR_EMBED_URL =
-  "https://app.heygen.com/embeds/bb3981cd39304a75a7eec52bf223755c";
+const WELCOME_TOUR_VIDEO_URL = "videos/welcome-video.mp4";
 const WELCOME_TOUR_DISMISSED_KEY = "rrb-welcome-tour-dismissed";
 const WELCOME_TOUR_SESSION_KEY = "rrb-welcome-tour-shown-this-session";
 const WELCOME_TOUR_OPEN_EVENT = "rrb:open-welcome-tour";
@@ -1782,13 +1781,16 @@ function WelcomeTour() {
         >
           {isPlayerVisible && (
             <div className="homeWelcomeTourVideo">
-              <iframe
-                src={WELCOME_TOUR_EMBED_URL}
+              <video
+                src={`${import.meta.env.BASE_URL}${WELCOME_TOUR_VIDEO_URL}`}
                 title="Robert’s Recipe Box welcome video"
-                loading="lazy"
-                allow="encrypted-media; fullscreen"
-                allowFullScreen
-              />
+                controls
+                autoPlay
+                playsInline
+                preload="metadata"
+              >
+                Your browser does not support HTML5 video.
+              </video>
             </div>
           )}
 
