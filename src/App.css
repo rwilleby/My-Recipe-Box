@@ -40840,3 +40840,166 @@ body.rrbPopupOpen {
     padding: 5px 3px !important;
   }
 }
+
+
+/* v72.2 — Welcome video UI refinement */
+
+/* Pin the welcome player 1/8 inch (~12px) from the hero's top/right edges. */
+.homeWelcomeTour,
+.homeWelcomeTour.isPlayerVisible {
+  top: 12px !important;
+  right: 12px !important;
+  width: min(480px, calc(100% - 24px)) !important;
+  min-width: 0 !important;
+  transform: none !important;
+  border: 1px solid rgba(255, 255, 255, .86) !important;
+  border-radius: 14px !important;
+  overflow: hidden !important;
+  background: #fffdf8 !important;
+}
+
+/* Keep the complete 16:9 frame visible. Do not zoom/crop the subject. */
+.homeWelcomeTourVideo {
+  position: relative !important;
+  width: 100% !important;
+  aspect-ratio: 16 / 9 !important;
+  overflow: hidden !important;
+  background: #111111 !important;
+}
+
+.homeWelcomeTourVideo video {
+  position: static !important;
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  object-position: center top !important;
+  transform: none !important;
+  background: #111111 !important;
+  cursor: pointer;
+}
+
+/* Remove browser control clutter. Show only our simple play overlay when paused. */
+.homeWelcomeTourVideoPlayButton {
+  position: absolute !important;
+  inset: 50% auto auto 50% !important;
+  width: 62px !important;
+  height: 62px !important;
+  display: grid !important;
+  place-items: center !important;
+  padding: 0 0 0 4px !important;
+  border: 2px solid rgba(255, 255, 255, .94) !important;
+  border-radius: 999px !important;
+  background: rgba(20, 83, 45, .82) !important;
+  color: #ffffff !important;
+  font-size: 26px !important;
+  line-height: 1 !important;
+  box-shadow: 0 5px 18px rgba(0, 0, 0, .24) !important;
+  transform: translate(-50%, -50%) !important;
+  cursor: pointer !important;
+}
+
+/*
+ * Match the "What do you want to do today?" segmented control:
+ * same compact height, corner treatment, font scale, gray active treatment,
+ * and side-to-side fit with no white gutter beneath the video.
+ */
+.homeWelcomeTourPlayerActions {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 2px !important;
+  gap: 0 !important;
+  border-top: 1px solid rgba(54, 67, 83, .18) !important;
+  border-radius: 0 !important;
+  background: rgba(235, 232, 225, .96) !important;
+  box-shadow: inset 0 1px 3px rgba(17, 24, 39, .10) !important;
+}
+
+.homeWelcomeTourPlayerActions button,
+.homeWelcomeTourPlayerActions .homeWelcomeTourPlay {
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 23px !important;
+  margin: 0 !important;
+  padding: 3px 8px !important;
+  border: 0 !important;
+  border-left: 1px solid rgba(54, 67, 83, .18) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: #14532d !important;
+  box-shadow: none !important;
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: clamp(10px, .92vw, 13px) !important;
+  font-weight: 700 !important;
+  line-height: 1.15 !important;
+  text-align: center !important;
+}
+
+.homeWelcomeTourPlayerActions button:first-child {
+  border-left: 0 !important;
+}
+
+.homeWelcomeTourPlayerActions button:hover,
+.homeWelcomeTourPlayerActions .homeWelcomeTourPlay:hover {
+  border-radius: 8px !important;
+  background: rgba(138, 129, 124, .14) !important;
+  color: #4f4945 !important;
+}
+
+/* Play Now gets the same selected gray treatment as the active task segment. */
+.homeWelcomeTourPlayerActions .homeWelcomeTourPlay {
+  position: relative !important;
+  z-index: 1 !important;
+  border-left-color: transparent !important;
+  border-radius: 8px !important;
+  background: #8A817C !important;
+  color: #ffffff !important;
+  box-shadow:
+    0 2px 5px rgba(72, 65, 61, .26),
+    inset 0 1px 0 rgba(255, 255, 255, .18) !important;
+}
+
+.homeWelcomeTourPlayerActions .homeWelcomeTourPlay + button {
+  border-left-color: transparent !important;
+}
+
+/* Main-page hero video icon is the locked red icon. */
+.homeWelcomeTourIconButton {
+  border-color: #C62828 !important;
+  background: #C62828 !important;
+}
+
+.homeWelcomeTourIconButton:hover:not(:disabled) {
+  border-color: #A91F1F !important;
+  background: #A91F1F !important;
+}
+
+/* Prevent legacy mobile rules from re-centering or zooming the video. */
+@media (max-width: 760px) {
+  .homeWelcomeTour,
+  .homeWelcomeTour.isPlayerVisible {
+    position: absolute !important;
+    top: 12px !important;
+    right: 12px !important;
+    width: calc(100% - 24px) !important;
+    margin: 0 !important;
+    transform: none !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .homeWelcomeTourPlayerActions {
+    padding: 2px !important;
+  }
+
+  .homeWelcomeTourPlayerActions button {
+    padding: 3px 5px !important;
+    font-size: 10px !important;
+  }
+
+  .homeWelcomeTourVideo video {
+    transform: none !important;
+  }
+}

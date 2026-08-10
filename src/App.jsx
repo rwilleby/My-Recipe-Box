@@ -1701,8 +1701,11 @@ function HeroInfoButtons({ setActivePage }) {
 function WelcomeTour() {
   const [isVisible, setIsVisible] = useState(false);
   const [isPlayerVisible, setIsPlayerVisible] = useState(false);
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [shouldFocusPanel, setShouldFocusPanel] = useState(false);
   const playButtonRef = useRef(null);
+  const videoRef = useRef(null);
+  const closeTimerRef = useRef(null);
 
   function focusTourIcon() {
     window.requestAnimationFrame(() => {
@@ -1731,6 +1734,7 @@ function WelcomeTour() {
       if (event.key !== "Escape") return;
       setIsVisible(false);
       setIsPlayerVisible(false);
+      setIsVideoPlaying(false);
       focusTourIcon();
     }
 
@@ -1741,6 +1745,7 @@ function WelcomeTour() {
   useEffect(() => {
     function handleOpenTour() {
       setIsPlayerVisible(false);
+      setIsVideoPlaying(false);
       setShouldFocusPanel(true);
       setIsVisible(true);
     }
@@ -1755,9 +1760,25 @@ function WelcomeTour() {
     setShouldFocusPanel(false);
   }, [isVisible, shouldFocusPanel]);
 
+  useEffect(() => {
+    return () => {
+      if (closeTimerRef.current) {
+        window.clearTimeout(closeTimerRef.current);
+      }
+    };
+  }, []);
+
   function closeForNow({ restoreFocus = true } = {}) {
+    if (closeTimerRef.current) {
+      window.clearTimeout(closeTimerRef.current);
+      closeTimerRef.current = null;
+    }
+
+    videoRef.current?.pause();
     setIsVisible(false);
     setIsPlayerVisible(false);
+    setIsVideoPlaying(false);
+
     if (restoreFocus) {
       focusTourIcon();
     }
@@ -1772,6 +1793,42 @@ function WelcomeTour() {
     closeForNow();
   }
 
+  function startVideo() {
+    setIsPlayerVisible(true);
+    window.requestAnimationFrame(() => {
+      const player = videoRef.current;
+      if (!player) return;
+      player.play().catch(() => {
+        setIsVideoPlaying(false);
+      });
+    });
+  }
+
+  function toggleVideoPlayback() {
+    const player = videoRef.current;
+    if (!player) return;
+
+    if (player.paused) {
+      player.play().catch(() => {
+        setIsVideoPlaying(false);
+      });
+    } else {
+      player.pause();
+    }
+  }
+
+  function handleVideoEnded() {
+    setIsVideoPlaying(false);
+
+    if (closeTimerRef.current) {
+      window.clearTimeout(closeTimerRef.current);
+    }
+
+    closeTimerRef.current = window.setTimeout(() => {
+      closeForNow({ restoreFocus: false });
+    }, 900);
+  }
+
   return (
     <div className="homeWelcomeTourRegion">
       {isVisible && (
@@ -1782,15 +1839,31 @@ function WelcomeTour() {
           {isPlayerVisible && (
             <div className="homeWelcomeTourVideo">
               <video
+                ref={videoRef}
                 src={`${import.meta.env.BASE_URL}${WELCOME_TOUR_VIDEO_URL}`}
                 title="Robert’s Recipe Box welcome video"
-                controls
                 autoPlay
                 playsInline
                 preload="metadata"
+                onPlay={() => setIsVideoPlaying(true)}
+                onPause={() => setIsVideoPlaying(false)}
+                onEnded={handleVideoEnded}
+                onClick={toggleVideoPlayback}
               >
                 Your browser does not support HTML5 video.
               </video>
+
+              {!isVideoPlaying && (
+                <button
+                  type="button"
+                  className="homeWelcomeTourVideoPlayButton"
+                  onClick={toggleVideoPlayback}
+                  aria-label="Play welcome video"
+                  title="Play welcome video"
+                >
+                  <span aria-hidden="true">▶</span>
+                </button>
+              )}
             </div>
           )}
 
@@ -1799,7 +1872,7 @@ function WelcomeTour() {
               ref={playButtonRef}
               type="button"
               className="homeWelcomeTourPlay"
-              onClick={() => setIsPlayerVisible(true)}
+              onClick={startVideo}
             >
               Play Now
             </button>
