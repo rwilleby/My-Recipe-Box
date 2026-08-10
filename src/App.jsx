@@ -1,6 +1,7 @@
 import { createContext, useContext, useMemo, useState, useEffect, useRef } from "react";
 import { categories, recipes as baseRecipes } from "./data/recipes";
 import AdminRecipeClassifier from "./components/AdminRecipeClassifier";
+import VideoIcon from "./components/VideoIcon";
 import AdminRecipeEditor from "./components/AdminRecipeEditor";
 import AdminComboMealBuilder from "./components/AdminComboMealBuilder";
 import AdminNutritionDatabase from "./components/AdminNutritionDatabase";
@@ -2273,7 +2274,17 @@ function HomePhotoFeatureSection({ setActivePage, kosUi }) {
       >
         <div className="sectionTitle homePhotoFeatureHeader">
           <div>
-            <h2 id="home-photo-features-title">What do you want to do today?</h2>
+            <h2 id="home-photo-features-title" className="homeVideoTitle">
+              <span>What do you want to do today?</span>
+              <span
+                className="supplementalVideoIcon supplementalVideoIconPlaceholder"
+                title="Quick Overview video"
+                aria-label="Quick Overview video"
+                role="img"
+              >
+                <VideoIcon role="supplemental" alt="" />
+              </span>
+            </h2>
 
             <p className="homeActionSubtext" aria-live="polite">
               {activeAction.subtext}
@@ -2913,7 +2924,17 @@ function HomeComboMealStrip({
       <section className="section homeComboMealStrip" aria-label="Complete meal ideas">
         <div className="sectionTitle homeComboMealStripHeader">
           <div>
-            <h2>Looking for quick dinner ideas?</h2>
+            <h2 className="homeVideoTitle">
+              <span>Looking for quick dinner ideas?</span>
+              <span
+                className="supplementalVideoIcon supplementalVideoIconPlaceholder"
+                title="Quick Overview video"
+                aria-label="Quick Overview video"
+                role="img"
+              >
+                <VideoIcon role="supplemental" alt="" />
+              </span>
+            </h2>
             <p>
               Ready-made dinner combinations that pair a main dish with practical sides.{" "}
               <button
