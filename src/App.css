@@ -41247,3 +41247,50 @@ body.rrbPopupOpen {
     animation: none !important;
   }
 }
+
+
+/* v72.7 — Dinner Ideas supplemental hover video */
+.supplementalHoverVideo {
+  position: relative !important;
+  display: inline-grid !important;
+  place-items: center !important;
+  flex: 0 0 auto !important;
+}
+
+.supplementalHoverVideoPopover {
+  position: absolute !important;
+  top: calc(100% + 8px) !important;
+  right: 0 !important;
+  z-index: 120 !important;
+  width: min(420px, 42vw) !important;
+  aspect-ratio: 16 / 9 !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(255,255,255,.9) !important;
+  border-radius: 12px !important;
+  background: #111111 !important;
+  box-shadow: 0 14px 34px rgba(17,24,39,.28) !important;
+}
+
+.supplementalHoverVideoPopover video {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  object-position: center top !important;
+  background: #111111 !important;
+}
+
+.homeDinnerIdeasVideoTrigger .supplementalVideoIcon {
+  cursor: pointer !important;
+}
+
+@media (max-width: 760px) {
+  .supplementalHoverVideoPopover {
+    position: fixed !important;
+    left: 50% !important;
+    right: auto !important;
+    top: 50% !important;
+    width: min(92vw, 420px) !important;
+    transform: translate(-50%, -50%) !important;
+  }
+}

@@ -764,6 +764,7 @@ const WELCOME_TOUR_VIDEO_URL = "videos/welcome-video.mp4";
 /* Locked video icon roles */
 const VIDEO_ICON_MAIN = "images/icons/video-red.webp";
 const VIDEO_ICON_SUPPLEMENTAL = "images/icons/video-gray.webp";
+const DINNER_IDEAS_VIDEO_URL = "videos/dinner-ideas.mp4";
 const WELCOME_TOUR_DISMISSED_KEY = "rrb-welcome-tour-dismissed";
 const WELCOME_TOUR_SESSION_KEY = "rrb-welcome-tour-shown-this-session";
 const WELCOME_TOUR_OPEN_EVENT = "rrb:open-welcome-tour";
@@ -2926,14 +2927,21 @@ function HomeComboMealStrip({
           <div>
             <h2 className="homeVideoTitle">
               <span>Looking for quick dinner ideas?</span>
-              <span
-                className="supplementalVideoIcon supplementalVideoIconPlaceholder"
-                title="Quick Overview video"
-                aria-label="Quick Overview video"
-                role="img"
+              <SupplementalHoverVideo
+                src={DINNER_IDEAS_VIDEO_URL}
+                title="Quick Dinner Ideas overview video"
+                className="homeDinnerIdeasVideoTrigger"
               >
-                <VideoIcon role="supplemental" alt="" />
-              </span>
+                <span
+                  className="supplementalVideoIcon"
+                  title="Quick Dinner Ideas video"
+                  aria-label="Quick Dinner Ideas video"
+                  role="img"
+                  tabIndex={0}
+                >
+                  <VideoIcon role="supplemental" alt="" />
+                </span>
+              </SupplementalHoverVideo>
             </h2>
             <p>
               Ready-made dinner combinations that pair a main dish with practical sides.{" "}
@@ -3004,6 +3012,77 @@ function HomeComboMealStrip({
   );
 }
 
+
+
+function SupplementalHoverVideo({ src, title, className = "", children }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const videoRef = useRef(null);
+  const closeTimerRef = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      if (closeTimerRef.current) window.clearTimeout(closeTimerRef.current);
+    };
+  }, []);
+
+  function openVideo() {
+    if (closeTimerRef.current) {
+      window.clearTimeout(closeTimerRef.current);
+      closeTimerRef.current = null;
+    }
+    setIsOpen(true);
+    window.requestAnimationFrame(() => {
+      videoRef.current?.play().catch(() => setIsPlaying(false));
+    });
+  }
+
+  function closeVideo() {
+    if (closeTimerRef.current) {
+      window.clearTimeout(closeTimerRef.current);
+      closeTimerRef.current = null;
+    }
+    videoRef.current?.pause();
+    setIsOpen(false);
+    setIsPlaying(false);
+  }
+
+  function handleEnded() {
+    setIsPlaying(false);
+    closeTimerRef.current = window.setTimeout(() => closeVideo(), 800);
+  }
+
+  return (
+    <span
+      className={`supplementalHoverVideo ${className}`.trim()}
+      onMouseEnter={openVideo}
+      onFocus={openVideo}
+      onMouseLeave={() => {
+        if (!isPlaying) closeVideo();
+      }}
+    >
+      {children}
+
+      {isOpen && (
+        <span className="supplementalHoverVideoPopover" role="dialog" aria-label={title}>
+          <video
+            ref={videoRef}
+            src={`${import.meta.env.BASE_URL}${src}`}
+            title={title}
+            autoPlay
+            playsInline
+            preload="metadata"
+            onPlay={() => setIsPlaying(true)}
+            onPause={() => setIsPlaying(false)}
+            onEnded={handleEnded}
+          >
+            Your browser does not support HTML5 video.
+          </video>
+        </span>
+      )}
+    </span>
+  );
+}
 
 function RecipeImage({ recipe }) {
   const candidates = recipeImageCandidates(recipe);
