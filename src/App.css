@@ -41639,3 +41639,96 @@ body.rrbPopupOpen {
     width: min(92vw, 420px) !important;
   }
 }
+
+
+/* v72.11 — supplemental framing + unassigned hero test pattern */
+
+/*
+ * Supplemental videos:
+ * Preserve the full vertical frame. Cropping is allowed only left/right.
+ * The video height is authoritative; width fills and excess horizontal image
+ * is clipped by the popup.
+ */
+.supplementalHoverVideoPopover {
+  aspect-ratio: auto !important;
+  width: min(420px, 42vw) !important;
+  height: auto !important;
+  overflow: hidden !important;
+  background: #fffdf8 !important;
+}
+
+.supplementalHoverVideoPopover > video {
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  aspect-ratio: 16 / 9 !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+  transform: scaleX(1.08) !important;
+  transform-origin: center center !important;
+}
+
+/*
+ * Counteract the prior all-axis 1.08 zoom. The final transform enlarges
+ * horizontally only, so no top/bottom content is removed.
+ */
+.supplementalHoverVideoPopover video {
+  transform: scaleX(1.08) !important;
+}
+
+/* Unassigned large-hero video: neutral production test pattern. */
+.largeHeroVideoStage.isUnassigned {
+  position: relative !important;
+  background:
+    linear-gradient(
+      90deg,
+      #d9d9d9 0 14.285%,
+      #e9d85f 14.285% 28.57%,
+      #63c6c7 28.57% 42.855%,
+      #69b86b 42.855% 57.14%,
+      #c26cc4 57.14% 71.425%,
+      #d86868 71.425% 85.71%,
+      #5f73c8 85.71% 100%
+    ) !important;
+}
+
+.largeHeroVideoStage.isUnassigned::before {
+  content: "VIDEO NOT YET ASSIGNED" !important;
+  position: absolute !important;
+  left: 50% !important;
+  top: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  display: grid !important;
+  place-items: center !important;
+  min-width: 58% !important;
+  min-height: 54px !important;
+  padding: 10px 18px !important;
+  border: 2px solid rgba(255,255,255,.9) !important;
+  background: rgba(17,24,39,.78) !important;
+  color: #fff !important;
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: clamp(12px,1.1vw,16px) !important;
+  font-weight: 800 !important;
+  letter-spacing: .08em !important;
+  text-align: center !important;
+}
+
+.largeHeroVideoStage.isUnassigned::after {
+  content: "TEST PATTERN" !important;
+  position: absolute !important;
+  left: 50% !important;
+  bottom: 9% !important;
+  transform: translateX(-50%) !important;
+  color: rgba(255,255,255,.94) !important;
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 10px !important;
+  font-weight: 800 !important;
+  letter-spacing: .18em !important;
+  text-shadow: 0 1px 3px rgba(0,0,0,.65) !important;
+}
+
+@media (max-width:760px){
+  .supplementalHoverVideoPopover{
+    width:min(92vw,420px) !important;
+  }
+}
