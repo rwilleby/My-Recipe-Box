@@ -41294,3 +41294,79 @@ body.rrbPopupOpen {
     transform: translate(-50%, -50%) !important;
   }
 }
+
+
+/* v72.8 — revised supplemental click behavior + enlarged video icons */
+.supplementalVideoTriggerButton {
+  display: inline-grid !important;
+  place-items: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  color: inherit !important;
+  line-height: 1 !important;
+  cursor: pointer !important;
+}
+
+.supplementalVideoIcon {
+  position: relative !important;
+  width: 35px !important;
+  height: 35px !important;
+  flex: 0 0 35px !important;
+  overflow: visible !important;
+  animation: rrbVideoDoubleHeartbeat 3.7s ease-in-out infinite !important;
+}
+
+.supplementalVideoIconGray,
+.supplementalVideoIconRed {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  border-radius: 8px !important;
+  transition: opacity 140ms ease !important;
+}
+.supplementalVideoIconGray { opacity: 1 !important; }
+.supplementalVideoIconRed { opacity: 0 !important; }
+.supplementalVideoTriggerButton:hover .supplementalVideoIconGray,
+.supplementalVideoTriggerButton:focus-visible .supplementalVideoIconGray { opacity: 0 !important; }
+.supplementalVideoTriggerButton:hover .supplementalVideoIconRed,
+.supplementalVideoTriggerButton:focus-visible .supplementalVideoIconRed { opacity: 1 !important; }
+
+.supplementalHoverVideoClose {
+  position: absolute !important;
+  top: 8px !important;
+  right: 8px !important;
+  z-index: 4 !important;
+  width: 32px !important;
+  height: 32px !important;
+  display: grid !important;
+  place-items: center !important;
+  padding: 0 !important;
+  border: 1px solid rgba(255,255,255,.82) !important;
+  border-radius: 999px !important;
+  background: rgba(255,255,255,.92) !important;
+  color: #111111 !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,.22) !important;
+  font-size: 23px !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  cursor: pointer !important;
+}
+
+.homeWelcomeTourIconButton {
+  width: 37px !important;
+  min-width: 37px !important;
+  height: 37px !important;
+  min-height: 37px !important;
+}
+
+@media (max-width: 700px) {
+  .supplementalVideoIcon {
+    width: 29px !important;
+    height: 29px !important;
+    flex-basis: 29px !important;
+  }
+}

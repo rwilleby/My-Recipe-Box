@@ -2283,7 +2283,8 @@ function HomePhotoFeatureSection({ setActivePage, kosUi }) {
                 aria-label="Quick Overview video"
                 role="img"
               >
-                <VideoIcon role="supplemental" alt="" />
+                <VideoIcon role="supplemental" alt="" className="supplementalVideoIconGray" />
+                <VideoIcon role="main" alt="" className="supplementalVideoIconRed" />
               </span>
             </h2>
 
@@ -2932,14 +2933,9 @@ function HomeComboMealStrip({
                 title="Quick Dinner Ideas overview video"
                 className="homeDinnerIdeasVideoTrigger"
               >
-                <span
-                  className="supplementalVideoIcon"
-                  title="Quick Dinner Ideas video"
-                  aria-label="Quick Dinner Ideas video"
-                  role="img"
-                  tabIndex={0}
-                >
-                  <VideoIcon role="supplemental" alt="" />
+                <span className="supplementalVideoIcon">
+                  <VideoIcon role="supplemental" alt="" className="supplementalVideoIconGray" />
+                  <VideoIcon role="main" alt="" className="supplementalVideoIconRed" />
                 </span>
               </SupplementalHoverVideo>
             </h2>
@@ -3016,13 +3012,14 @@ function HomeComboMealStrip({
 
 function SupplementalHoverVideo({ src, title, className = "", children }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
   const videoRef = useRef(null);
   const closeTimerRef = useRef(null);
 
   useEffect(() => {
     return () => {
-      if (closeTimerRef.current) window.clearTimeout(closeTimerRef.current);
+      if (closeTimerRef.current) {
+        window.clearTimeout(closeTimerRef.current);
+      }
     };
   }, []);
 
@@ -3033,7 +3030,7 @@ function SupplementalHoverVideo({ src, title, className = "", children }) {
     }
     setIsOpen(true);
     window.requestAnimationFrame(() => {
-      videoRef.current?.play().catch(() => setIsPlaying(false));
+      videoRef.current?.play().catch(() => {});
     });
   }
 
@@ -3044,27 +3041,38 @@ function SupplementalHoverVideo({ src, title, className = "", children }) {
     }
     videoRef.current?.pause();
     setIsOpen(false);
-    setIsPlaying(false);
   }
 
   function handleEnded() {
-    setIsPlaying(false);
-    closeTimerRef.current = window.setTimeout(() => closeVideo(), 800);
+    closeTimerRef.current = window.setTimeout(() => {
+      closeVideo();
+    }, 800);
   }
 
   return (
-    <span
-      className={`supplementalHoverVideo ${className}`.trim()}
-      onMouseEnter={openVideo}
-      onFocus={openVideo}
-      onMouseLeave={() => {
-        if (!isPlaying) closeVideo();
-      }}
-    >
-      {children}
+    <span className={`supplementalHoverVideo ${className}`.trim()}>
+      <button
+        type="button"
+        className="supplementalVideoTriggerButton"
+        onClick={openVideo}
+        aria-label={title}
+        title={title}
+      >
+        {children}
+      </button>
 
       {isOpen && (
         <span className="supplementalHoverVideoPopover" role="dialog" aria-label={title}>
+          <button
+            type="button"
+            className="supplementalHoverVideoClose"
+            onClick={closeVideo}
+            aria-label={`Close ${title}`}
+            title="Close video"
+          >
+            ×
+          </button>
+
           <video
             ref={videoRef}
             src={`${import.meta.env.BASE_URL}${src}`}
@@ -3072,8 +3080,6 @@ function SupplementalHoverVideo({ src, title, className = "", children }) {
             autoPlay
             playsInline
             preload="metadata"
-            onPlay={() => setIsPlaying(true)}
-            onPause={() => setIsPlaying(false)}
             onEnded={handleEnded}
           >
             Your browser does not support HTML5 video.
@@ -11492,6 +11498,8 @@ function PageHelpButtonStrip({ pageTitle }) {
         <button
           type="button"
           className="pageSequenceButton homeWelcomeTourIconButton"
+          onMouseEnter={() => window.dispatchEvent(new Event(WELCOME_TOUR_OPEN_EVENT))}
+          onFocus={() => window.dispatchEvent(new Event(WELCOME_TOUR_OPEN_EVENT))}
           onClick={() => window.dispatchEvent(new Event(WELCOME_TOUR_OPEN_EVENT))}
           aria-label="Open the Robert’s Recipe Box welcome video"
           title="Watch welcome video"
