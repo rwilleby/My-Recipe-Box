@@ -1503,6 +1503,53 @@ const NAV_GROUPS = [
   },
 ];
 
+/*
+ * Intro-video availability standard.
+ *
+ * Pages listed here intentionally have NO intro / Large Hero video.
+ * They receive:
+ * - no gray menu "intro video available" indicator
+ * - no red Large Hero video icon
+ * - no auto-open video window
+ * - no blank/test-pattern video stage
+ *
+ * Every other main-menu page is intro-video eligible.
+ */
+const NO_INTRO_VIDEO_PAGES = new Set([
+  "Submit Recipes",
+  "Contact Me",
+  "Disclaimers",
+
+  "RFIS Search",
+  "Dinner Combinations",
+  "Freezer-Friendly Meals",
+
+  "Slow Cooker Favorites",
+  "Summer Cookouts",
+  "Healthy Dinners",
+  "Comfort Foods",
+  "Easy 30-Minute Meals",
+  "Salad Jars",
+
+  "Grocery Picks",
+
+  "Products I Use",
+
+  "Safe Cooking Rules",
+  "GLP-1 Nutrition",
+  "Air Fryer Recipes",
+  "Microwave Recipes",
+  "Oven Recipes",
+  "Griddle Recipes",
+  "Gas Grill Recipes",
+  "Smoker Recipes",
+]);
+
+function pageHasIntroVideo(pageId = "") {
+  return Boolean(pageId) && !NO_INTRO_VIDEO_PAGES.has(pageId);
+}
+
+
 const PAGE_NAVIGATION_ORDER = [
   "Home",
   ...NAV_GROUPS.flatMap((group) =>
@@ -1594,7 +1641,20 @@ function Header({ activePage, setActivePage, favorites }) {
                   ].filter(Boolean).join(" ")}
                   onClick={() => setActivePage(item.page)}
                 >
-                  {item.label}
+                  <span className="simpleHeaderSubmenuLabel">{item.label}</span>
+                  {pageHasIntroVideo(item.page) && (
+                    <span
+                      className="simpleHeaderVideoIndicator"
+                      title="Intro video available"
+                      aria-label="Intro video available"
+                    >
+                      <img
+                        src={`${import.meta.env.BASE_URL}${VIDEO_ICON_SUPPLEMENTAL}`}
+                        alt=""
+                        aria-hidden="true"
+                      />
+                    </span>
+                  )}
                 </button>
               ))}
             </div>
@@ -11582,6 +11642,7 @@ function PageHelpButtonStrip({ pageTitle }) {
     currentIndex >= 0 && currentIndex < PAGE_NAVIGATION_ORDER.length - 1
       ? PAGE_NAVIGATION_ORDER[currentIndex + 1]
       : null;
+  const hasIntroVideo = pageHasIntroVideo(activePage);
 
   if (!pageTitle) return null;
 
@@ -11642,25 +11703,29 @@ function PageHelpButtonStrip({ pageTitle }) {
         Next
       </button>
 
-      <button
-        type="button"
-        className="pageSequenceButton homeWelcomeTourIconButton"
-        onClick={openHeroVideo}
-        aria-label={`Open ${pageTitle} video`}
-        title={`${pageTitle} video`}
-      >
-        <img
-          src={`${import.meta.env.BASE_URL}${VIDEO_ICON_MAIN}`}
-          alt=""
-          aria-hidden="true"
-        />
-      </button>
+      {hasIntroVideo && (
+        <button
+          type="button"
+          className="pageSequenceButton homeWelcomeTourIconButton"
+          onClick={openHeroVideo}
+          aria-label={`Open ${pageTitle} video`}
+          title={`${pageTitle} video`}
+        >
+          <img
+            src={`${import.meta.env.BASE_URL}${VIDEO_ICON_MAIN}`}
+            alt=""
+            aria-hidden="true"
+          />
+        </button>
+      )}
     </section>
   );
 }
 
 
 function PageHeroImage({ src, alt = "", title = "", eyebrow = "", text = "", icon = "", className = "", videoSrc = "", videoPoster = "" }) {
+  const { activePage } = useContext(PageNavigationContext);
+  const hasIntroVideo = pageHasIntroVideo(activePage);
   if (!src) return null;
 
   return (
@@ -11696,7 +11761,13 @@ function PageHeroImage({ src, alt = "", title = "", eyebrow = "", text = "", ico
           )}
         </div>
       )}
-        {title && <LargeHeroVideoPanel pageTitle={title} videoSrc={videoSrc} posterSrc={videoPoster} />}
+        {title && hasIntroVideo && (
+          <LargeHeroVideoPanel
+            pageTitle={title}
+            videoSrc={videoSrc}
+            posterSrc={videoPoster}
+          />
+        )}
         {title && <PageHelpButtonStrip pageTitle={title} pageEyebrow={eyebrow} />}
       </section>
     </>

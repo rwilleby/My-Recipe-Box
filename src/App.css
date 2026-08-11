@@ -41732,3 +41732,52 @@ body.rrbPopupOpen {
     width:min(92vw,420px) !important;
   }
 }
+
+
+/* v72.16 — menu intro-video flags + no-video-page cleanup */
+.simpleHeaderSubmenu button {
+  display: flex !important;
+  align-items: center !important;
+}
+
+.simpleHeaderSubmenuLabel {
+  min-width: 0 !important;
+}
+
+.simpleHeaderVideoIndicator {
+  display: inline-grid !important;
+  place-items: center !important;
+  width: 17px !important;
+  height: 17px !important;
+  flex: 0 0 17px !important;
+  margin-left: 7px !important;
+  opacity: .62 !important;
+  pointer-events: none !important;
+  vertical-align: middle !important;
+}
+
+/* Quiet status marker only: no pulse, no red rollover, no click behavior. */
+.simpleHeaderVideoIndicator img {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  border-radius: 4px !important;
+  animation: none !important;
+  transform: none !important;
+  filter: none !important;
+}
+
+.simpleHeaderSubmenu button:hover .simpleHeaderVideoIndicator,
+.simpleHeaderSubmenu button:focus-visible .simpleHeaderVideoIndicator {
+  opacity: .78 !important;
+}
+
+@media (max-width: 900px) {
+  .simpleHeaderVideoIndicator {
+    width: 15px !important;
+    height: 15px !important;
+    flex-basis: 15px !important;
+    margin-left: 6px !important;
+  }
+}
