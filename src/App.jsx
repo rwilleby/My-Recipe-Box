@@ -767,6 +767,8 @@ const VIDEO_ICON_SUPPLEMENTAL = "images/icons/video-gray.webp";
 const DINNER_IDEAS_VIDEO_URL = "videos/dinner-ideas.mp4";
 const WELCOME_TOUR_VIDEO_POSTER = "images/video-posters/welcome-video-poster.webp";
 const DINNER_IDEAS_VIDEO_POSTER = "images/video-posters/dinner-ideas-poster.webp";
+const CHOOSE_YOUR_LEVEL_VIDEO_URL = "videos/choose-your-level.mp4";
+const CHOOSE_YOUR_LEVEL_VIDEO_POSTER = "images/video-posters/choose-your-level-poster.webp";
 const WELCOME_TOUR_OPEN_EVENT = "rrb:open-welcome-tour";
 const LARGE_HERO_VIDEO_OPEN_EVENT = "rrb:open-large-hero-video";
 const LARGE_HERO_VIDEO_ACKNOWLEDGED_PREFIX = "rrb-large-hero-video-acknowledged:";
@@ -2235,15 +2237,17 @@ function HomePhotoFeatureSection({ setActivePage, kosUi }) {
           <div>
             <h2 id="home-photo-features-title" className="homeVideoTitle">
               <span>What do you want to do today?</span>
-              <span
-                className="supplementalVideoIcon supplementalVideoIconPlaceholder"
-                title="Quick Overview video"
-                aria-label="Quick Overview video"
-                role="img"
+              <SupplementalHoverVideo
+                src={CHOOSE_YOUR_LEVEL_VIDEO_URL}
+                poster={CHOOSE_YOUR_LEVEL_VIDEO_POSTER}
+                title="Choose Your Level overview video"
+                className="homeChooseYourLevelVideoTrigger"
               >
-                <VideoIcon role="supplemental" alt="" className="supplementalVideoIconGray" />
-                <VideoIcon role="main" alt="" className="supplementalVideoIconRed" />
-              </span>
+                <span className="supplementalVideoIcon">
+                  <VideoIcon role="supplemental" alt="" className="supplementalVideoIconGray" />
+                  <VideoIcon role="main" alt="" className="supplementalVideoIconRed" />
+                </span>
+              </SupplementalHoverVideo>
             </h2>
 
             <p className="homeActionSubtext" aria-live="polite">
