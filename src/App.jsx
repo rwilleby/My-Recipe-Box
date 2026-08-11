@@ -773,6 +773,17 @@ const QUICK_LINKS_VIDEO_URL = "videos/browse-our-quick-links.mp4";
 const QUICK_LINKS_VIDEO_POSTER = "images/video-posters/browse-our-quick-links-poster.webp";
 const WELCOME_TO_SITE_VIDEO_URL = "videos/welcome-to-our-site.mp4";
 const WELCOME_TO_SITE_VIDEO_POSTER = "images/video-posters/welcome-to-our-site-poster.webp";
+
+const BACKUP_RESTORE_VIDEO_URL = "videos/backup-and-restore.mp4";
+const BACKUP_RESTORE_VIDEO_POSTER = "images/video-posters/backup-and-restore-poster.webp";
+const MEALBALANCE_VIDEO_URL = "videos/understanding-mealbalance.mp4";
+const MEALBALANCE_VIDEO_POSTER = "images/video-posters/understanding-mealbalance-poster.webp";
+const DATA_SECURITY_VIDEO_URL = "videos/your-data-and-security.mp4";
+const DATA_SECURITY_VIDEO_POSTER = "images/video-posters/your-data-and-security-poster.webp";
+const AFFILIATE_MARKETING_VIDEO_URL = "videos/affiliate-marketing.mp4";
+const AFFILIATE_MARKETING_VIDEO_POSTER = "images/video-posters/affiliate-marketing-poster.webp";
+const ABOUT_RECIPES_VIDEO_URL = "videos/about-our-recipes.mp4";
+const ABOUT_RECIPES_VIDEO_POSTER = "images/video-posters/about-our-recipes-poster.webp";
 const WELCOME_TOUR_OPEN_EVENT = "rrb:open-welcome-tour";
 const LARGE_HERO_VIDEO_OPEN_EVENT = "rrb:open-large-hero-video";
 const LARGE_HERO_VIDEO_ACKNOWLEDGED_PREFIX = "rrb-large-hero-video-acknowledged:";
@@ -17289,6 +17300,8 @@ Use this section to check what is on hand, record dates, mark foods that should 
             title="Your Data & Security"
             text="Your saved recipe-box information belongs to you. Robert’s Recipe Box uses browser-only storage for favorites, meal plans, grocery lists, inventory records, notes, and preferences, so no user account is required.\n\nLearn where that information is stored, what can remove it, how to protect it, and how to create a local backup before changing devices or clearing browser data."
             className="pageHeroDepth464"
+            videoSrc={DATA_SECURITY_VIDEO_URL}
+            videoPoster={DATA_SECURITY_VIDEO_POSTER}
           />
           <YourDataSecurityPage setActivePage={setActivePage} kosUi={kosUi} />
         </>
@@ -17303,6 +17316,8 @@ Use this section to check what is on hand, record dates, mark foods that should 
             title="Backup & Restore"
             text="Protect the favorites, notes, meal plans, grocery lists, inventories, and preferences saved in this browser. The backup file is created locally on your device and can be restored later on this or another device."
             className="pageHeroDepth464"
+            videoSrc={BACKUP_RESTORE_VIDEO_URL}
+            videoPoster={BACKUP_RESTORE_VIDEO_POSTER}
           />
           <main className="pageShell userBackupPage">
             <section
@@ -17387,6 +17402,8 @@ Use this section to check what is on hand, record dates, mark foods that should 
             title="AI-Generated, Never Copied"
             text="The recipes on Robert’s Recipe Box are created with the help of artificial intelligence under Robert’s direction. He chooses the meal type, ingredients, flavor profile, number of servings, cooking method, practical goals, and other details that shape each recipe.\n\nThe recipes are not copied and pasted from other food websites or cookbooks. They are developed as original recipe concepts, then reviewed, adjusted, organized, and presented in a consistent format intended to be useful in a real home kitchen."
             className="pageHeroDepth464"
+            videoSrc={ABOUT_RECIPES_VIDEO_URL}
+            videoPoster={ABOUT_RECIPES_VIDEO_POSTER}
 />
           <AboutRecipesPage setActivePage={setActivePage} />
         </>
@@ -17402,6 +17419,8 @@ Use this section to check what is on hand, record dates, mark foods that should 
 
 The score is not a judgment and it is not medical or dietary advice. It is one practical tool for considering portions, meal combinations, and the balance of choices across a day or week."
             className="pageHeroDepth464"
+            videoSrc={MEALBALANCE_VIDEO_URL}
+            videoPoster={MEALBALANCE_VIDEO_POSTER}
           />
           <MealBalanceGuidePage setActivePage={setActivePage} />
         </>
@@ -17429,6 +17448,8 @@ The score is not a judgment and it is not medical or dietary advice. It is one p
             title="Affiliate Marketing"
             text="Some pages on Robert’s Recipe Box may include links to products sold by outside retailers. When a visitor makes a qualifying purchase through certain links, the website may receive a small commission without increasing the customer’s price.\n\nAffiliate relationships help support website expenses, recipe development, and future improvements. Product mentions should still be based on usefulness and relevance, and visitors are never required to purchase anything to use the site."
             className="pageHeroDepth464"
+            videoSrc={AFFILIATE_MARKETING_VIDEO_URL}
+            videoPoster={AFFILIATE_MARKETING_VIDEO_POSTER}
 />
           <PlaceholderInfoPage
             eyebrow="TIPS & ORGANIZATION"

@@ -1,6 +1,6 @@
 {
   "name": "rrb-browser-based-v1",
-  "version": "72.16.0",
+  "version": "72.17.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -46,7 +46,8 @@
     "test:choose-level-video": "node test/chooseYourLevelSupplementalVideoV7213.test.mjs",
     "test:quick-links-video": "node test/quickLinksSupplementalVideoV7214.test.mjs",
     "test:welcome-site-video": "node test/welcomeToOurSiteLargeHeroVideoV7215.test.mjs",
-    "test:intro-video-flags": "node test/introVideoAvailabilityV7216.test.mjs"
+    "test:intro-video-flags": "node test/introVideoAvailabilityV7216.test.mjs",
+    "test:about-us-videos": "node test/aboutUsLargeHeroVideosV7217.test.mjs"
   },
   "dependencies": {
     "react": "^19.1.0",
