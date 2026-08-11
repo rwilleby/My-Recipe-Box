@@ -1,6 +1,6 @@
 {
   "name": "rrb-browser-based-v1",
-  "version": "72.8.0",
+  "version": "72.9.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -38,7 +38,8 @@
     "test:video-icon-pulse-tuning": "node test/videoIconPulseTuning.test.mjs",
     "test:video-heartbeat-standard": "node test/videoIconDoubleHeartbeatStandard.test.mjs",
     "test:dinner-ideas-video": "node test/dinnerIdeasSupplementalVideo.test.mjs",
-    "test:video-v728": "node test/videoInteractionBehaviorV728.test.mjs"
+    "test:video-v728": "node test/videoInteractionBehaviorV728.test.mjs",
+    "test:large-hero-video-standard": "node test/largeHeroVideoStandardV729.test.mjs"
   },
   "dependencies": {
     "react": "^19.1.0",

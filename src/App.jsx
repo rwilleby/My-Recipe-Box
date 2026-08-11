@@ -765,9 +765,9 @@ const WELCOME_TOUR_VIDEO_URL = "videos/welcome-video.mp4";
 const VIDEO_ICON_MAIN = "images/icons/video-red.webp";
 const VIDEO_ICON_SUPPLEMENTAL = "images/icons/video-gray.webp";
 const DINNER_IDEAS_VIDEO_URL = "videos/dinner-ideas.mp4";
-const WELCOME_TOUR_DISMISSED_KEY = "rrb-welcome-tour-dismissed";
-const WELCOME_TOUR_SESSION_KEY = "rrb-welcome-tour-shown-this-session";
 const WELCOME_TOUR_OPEN_EVENT = "rrb:open-welcome-tour";
+const LARGE_HERO_VIDEO_OPEN_EVENT = "rrb:open-large-hero-video";
+const LARGE_HERO_VIDEO_SEEN_PREFIX = "rrb-large-hero-video-seen:";
 
 const HERO_INFO_BUTTONS = [
   {
@@ -1706,53 +1706,32 @@ function HeroInfoButtons({ setActivePage }) {
 
 function WelcomeTour() {
   const [isVisible, setIsVisible] = useState(false);
-  const [isPlayerVisible, setIsPlayerVisible] = useState(false);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
-  const [shouldFocusPanel, setShouldFocusPanel] = useState(false);
-  const playButtonRef = useRef(null);
   const videoRef = useRef(null);
   const closeTimerRef = useRef(null);
-
-  function focusTourIcon() {
-    window.requestAnimationFrame(() => {
-      document.querySelector(".homeWelcomeTourIconButton")?.focus();
-    });
-  }
+  const seenKey = `${LARGE_HERO_VIDEO_SEEN_PREFIX}Home`;
 
   useEffect(() => {
     try {
-      const isDismissed = window.localStorage.getItem(WELCOME_TOUR_DISMISSED_KEY) === "true";
-      const wasShownThisSession = window.sessionStorage.getItem(WELCOME_TOUR_SESSION_KEY) === "true";
-
-      if (!isDismissed && !wasShownThisSession) {
-        window.sessionStorage.setItem(WELCOME_TOUR_SESSION_KEY, "true");
+      const hasSeen = window.localStorage.getItem(seenKey) === "true";
+      if (!hasSeen) {
+        window.localStorage.setItem(seenKey, "true");
         setIsVisible(true);
       }
     } catch {
       setIsVisible(true);
     }
-  }, []);
-
-  useEffect(() => {
-    if (!isVisible) return undefined;
-
-    function handleKeyDown(event) {
-      if (event.key !== "Escape") return;
-      setIsVisible(false);
-      setIsPlayerVisible(false);
-      setIsVideoPlaying(false);
-      focusTourIcon();
-    }
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isVisible]);
+  }, [seenKey]);
 
   useEffect(() => {
     function handleOpenTour() {
-      setIsPlayerVisible(false);
+      if (closeTimerRef.current) {
+        window.clearTimeout(closeTimerRef.current);
+        closeTimerRef.current = null;
+      }
+      videoRef.current?.pause();
+      if (videoRef.current) videoRef.current.currentTime = 0;
       setIsVideoPlaying(false);
-      setShouldFocusPanel(true);
       setIsVisible(true);
     }
 
@@ -1761,132 +1740,76 @@ function WelcomeTour() {
   }, []);
 
   useEffect(() => {
-    if (!isVisible || !shouldFocusPanel) return;
-    playButtonRef.current?.focus();
-    setShouldFocusPanel(false);
-  }, [isVisible, shouldFocusPanel]);
-
-  useEffect(() => {
     return () => {
-      if (closeTimerRef.current) {
-        window.clearTimeout(closeTimerRef.current);
-      }
+      if (closeTimerRef.current) window.clearTimeout(closeTimerRef.current);
     };
   }, []);
 
-  function closeForNow({ restoreFocus = true } = {}) {
+  function closeWindow() {
     if (closeTimerRef.current) {
       window.clearTimeout(closeTimerRef.current);
       closeTimerRef.current = null;
     }
-
     videoRef.current?.pause();
-    setIsVisible(false);
-    setIsPlayerVisible(false);
     setIsVideoPlaying(false);
-
-    if (restoreFocus) {
-      focusTourIcon();
-    }
+    setIsVisible(false);
   }
 
-  function dismissPermanently() {
-    try {
-      window.localStorage.setItem(WELCOME_TOUR_DISMISSED_KEY, "true");
-    } catch {
-      // The tour still closes even if browser storage is unavailable.
-    }
-    closeForNow();
-  }
-
-  function startVideo() {
-    setIsPlayerVisible(true);
-    window.requestAnimationFrame(() => {
-      const player = videoRef.current;
-      if (!player) return;
-      player.play().catch(() => {
-        setIsVideoPlaying(false);
-      });
-    });
-  }
-
-  function toggleVideoPlayback() {
+  function playVideo() {
     const player = videoRef.current;
     if (!player) return;
-
-    if (player.paused) {
-      player.play().catch(() => {
-        setIsVideoPlaying(false);
-      });
-    } else {
-      player.pause();
-    }
+    player.play().catch(() => {});
   }
 
-  function handleVideoEnded() {
+  function handleEnded() {
     setIsVideoPlaying(false);
-
-    if (closeTimerRef.current) {
-      window.clearTimeout(closeTimerRef.current);
-    }
-
-    closeTimerRef.current = window.setTimeout(() => {
-      closeForNow({ restoreFocus: false });
-    }, 900);
+    closeTimerRef.current = window.setTimeout(closeWindow, 800);
   }
 
   return (
     <div className="homeWelcomeTourRegion">
       {isVisible && (
         <aside
-          className={`homeWelcomeTour${isPlayerVisible ? " isPlayerVisible" : ""}`}
+          className="homeWelcomeTour isPlayerVisible"
           aria-label="Robert’s Recipe Box welcome video"
         >
-          {isPlayerVisible && (
-            <div className="homeWelcomeTourVideo">
-              <video
-                ref={videoRef}
-                src={`${import.meta.env.BASE_URL}${WELCOME_TOUR_VIDEO_URL}`}
-                title="Robert’s Recipe Box welcome video"
-                autoPlay
-                playsInline
-                preload="metadata"
-                onPlay={() => setIsVideoPlaying(true)}
-                onPause={() => setIsVideoPlaying(false)}
-                onEnded={handleVideoEnded}
-                onClick={toggleVideoPlayback}
+          <div className="homeWelcomeTourVideo">
+            <video
+              ref={videoRef}
+              src={`${import.meta.env.BASE_URL}${WELCOME_TOUR_VIDEO_URL}`}
+              title="Robert’s Recipe Box welcome video"
+              playsInline
+              preload="metadata"
+              onPlay={() => setIsVideoPlaying(true)}
+              onPause={() => setIsVideoPlaying(false)}
+              onEnded={handleEnded}
+            >
+              Your browser does not support HTML5 video.
+            </video>
+
+            {!isVideoPlaying && (
+              <button
+                type="button"
+                className="homeWelcomeTourVideoPlayButton"
+                onClick={playVideo}
+                aria-label="Play welcome video"
+                title="Play welcome video"
               >
-                Your browser does not support HTML5 video.
-              </video>
+                <span aria-hidden="true">▶</span>
+              </button>
+            )}
+          </div>
 
-              {!isVideoPlaying && (
-                <button
-                  type="button"
-                  className="homeWelcomeTourVideoPlayButton"
-                  onClick={toggleVideoPlayback}
-                  aria-label="Play welcome video"
-                  title="Play welcome video"
-                >
-                  <span aria-hidden="true">▶</span>
-                </button>
-              )}
-            </div>
-          )}
-
-          <div className="homeWelcomeTourPlayerActions" aria-label="Welcome video choices">
+          <div className="homeWelcomeTourPlayerActions" aria-label="Welcome video controls">
             <button
-              ref={playButtonRef}
               type="button"
               className="homeWelcomeTourPlay"
-              onClick={startVideo}
+              onClick={playVideo}
             >
               Play Now
             </button>
-            <button type="button" onClick={() => closeForNow()}>
-              Maybe Later
-            </button>
-            <button type="button" onClick={dismissPermanently}>
-              Hide This
+            <button type="button" onClick={closeWindow}>
+              Close Window
             </button>
           </div>
         </aside>
@@ -3017,9 +2940,7 @@ function SupplementalHoverVideo({ src, title, className = "", children }) {
 
   useEffect(() => {
     return () => {
-      if (closeTimerRef.current) {
-        window.clearTimeout(closeTimerRef.current);
-      }
+      if (closeTimerRef.current) window.clearTimeout(closeTimerRef.current);
     };
   }, []);
 
@@ -3034,6 +2955,10 @@ function SupplementalHoverVideo({ src, title, className = "", children }) {
     });
   }
 
+  function playVideo() {
+    videoRef.current?.play().catch(() => {});
+  }
+
   function closeVideo() {
     if (closeTimerRef.current) {
       window.clearTimeout(closeTimerRef.current);
@@ -3044,9 +2969,7 @@ function SupplementalHoverVideo({ src, title, className = "", children }) {
   }
 
   function handleEnded() {
-    closeTimerRef.current = window.setTimeout(() => {
-      closeVideo();
-    }, 800);
+    closeTimerRef.current = window.setTimeout(closeVideo, 800);
   }
 
   return (
@@ -3063,16 +2986,6 @@ function SupplementalHoverVideo({ src, title, className = "", children }) {
 
       {isOpen && (
         <span className="supplementalHoverVideoPopover" role="dialog" aria-label={title}>
-          <button
-            type="button"
-            className="supplementalHoverVideoClose"
-            onClick={closeVideo}
-            aria-label={`Close ${title}`}
-            title="Close video"
-          >
-            ×
-          </button>
-
           <video
             ref={videoRef}
             src={`${import.meta.env.BASE_URL}${src}`}
@@ -3084,6 +2997,11 @@ function SupplementalHoverVideo({ src, title, className = "", children }) {
           >
             Your browser does not support HTML5 video.
           </video>
+
+          <span className="videoStandardActionBar" aria-label={`${title} controls`}>
+            <button type="button" onClick={playVideo}>Play Now</button>
+            <button type="button" onClick={closeVideo}>Close Window</button>
+          </span>
         </span>
       )}
     </span>
@@ -11439,6 +11357,104 @@ function getPageHelpSteps(pageTitle = "", pageEyebrow = "") {
 
 const CLIFF_NOTES_ENABLED = false;
 
+function LargeHeroVideoPanel({ pageTitle, videoSrc = "" }) {
+  const [isVisible, setIsVisible] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const videoRef = useRef(null);
+  const closeTimerRef = useRef(null);
+  const seenKey = `${LARGE_HERO_VIDEO_SEEN_PREFIX}${pageTitle}`;
+
+  useEffect(() => {
+    try {
+      const hasSeen = window.localStorage.getItem(seenKey) === "true";
+      if (!hasSeen) {
+        window.localStorage.setItem(seenKey, "true");
+        setIsVisible(true);
+      }
+    } catch {
+      setIsVisible(true);
+    }
+  }, [seenKey]);
+
+  useEffect(() => {
+    function handleOpen(event) {
+      if (event?.detail?.pageTitle !== pageTitle) return;
+      if (closeTimerRef.current) {
+        window.clearTimeout(closeTimerRef.current);
+        closeTimerRef.current = null;
+      }
+      videoRef.current?.pause();
+      if (videoRef.current) videoRef.current.currentTime = 0;
+      setIsPlaying(false);
+      setIsVisible(true);
+    }
+
+    window.addEventListener(LARGE_HERO_VIDEO_OPEN_EVENT, handleOpen);
+    return () => window.removeEventListener(LARGE_HERO_VIDEO_OPEN_EVENT, handleOpen);
+  }, [pageTitle]);
+
+  useEffect(() => () => {
+    if (closeTimerRef.current) window.clearTimeout(closeTimerRef.current);
+  }, []);
+
+  function closeWindow() {
+    if (closeTimerRef.current) window.clearTimeout(closeTimerRef.current);
+    videoRef.current?.pause();
+    setIsPlaying(false);
+    setIsVisible(false);
+  }
+
+  function playVideo() {
+    if (!videoSrc) return;
+    videoRef.current?.play().catch(() => {});
+  }
+
+  function handleEnded() {
+    setIsPlaying(false);
+    closeTimerRef.current = window.setTimeout(closeWindow, 800);
+  }
+
+  if (!isVisible) return null;
+
+  return (
+    <aside className="largeHeroVideoPanel" aria-label={`${pageTitle} video`}>
+      <div className={`largeHeroVideoStage${videoSrc ? "" : " isUnassigned"}`}>
+        {videoSrc ? (
+          <>
+            <video
+              ref={videoRef}
+              src={`${import.meta.env.BASE_URL}${videoSrc}`}
+              title={`${pageTitle} video`}
+              playsInline
+              preload="metadata"
+              onPlay={() => setIsPlaying(true)}
+              onPause={() => setIsPlaying(false)}
+              onEnded={handleEnded}
+            >
+              Your browser does not support HTML5 video.
+            </video>
+            {!isPlaying && (
+              <button
+                type="button"
+                className="largeHeroVideoStagePlay"
+                onClick={playVideo}
+                aria-label={`Play ${pageTitle} video`}
+              >
+                ▶
+              </button>
+            )}
+          </>
+        ) : null}
+      </div>
+
+      <div className="videoStandardActionBar">
+        <button type="button" onClick={playVideo} disabled={!videoSrc}>Play Now</button>
+        <button type="button" onClick={closeWindow}>Close Window</button>
+      </div>
+    </aside>
+  );
+}
+
 function PageHelpButtonStrip({ pageTitle }) {
   const { activePage, setActivePage } = useContext(PageNavigationContext);
   const currentIndex = PAGE_NAVIGATION_ORDER.indexOf(activePage);
@@ -11454,6 +11470,19 @@ function PageHelpButtonStrip({ pageTitle }) {
     if (!page) return;
     setActivePage(page);
     window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function openHeroVideo() {
+    if (pageTitle === "Home") {
+      window.dispatchEvent(new Event(WELCOME_TOUR_OPEN_EVENT));
+      return;
+    }
+
+    window.dispatchEvent(
+      new CustomEvent(LARGE_HERO_VIDEO_OPEN_EVENT, {
+        detail: { pageTitle },
+      }),
+    );
   }
 
   return (
@@ -11494,23 +11523,19 @@ function PageHelpButtonStrip({ pageTitle }) {
         Next
       </button>
 
-      {pageTitle === "Home" && (
-        <button
-          type="button"
-          className="pageSequenceButton homeWelcomeTourIconButton"
-          onMouseEnter={() => window.dispatchEvent(new Event(WELCOME_TOUR_OPEN_EVENT))}
-          onFocus={() => window.dispatchEvent(new Event(WELCOME_TOUR_OPEN_EVENT))}
-          onClick={() => window.dispatchEvent(new Event(WELCOME_TOUR_OPEN_EVENT))}
-          aria-label="Open the Robert’s Recipe Box welcome video"
-          title="Watch welcome video"
-        >
-          <img
-            src={`${import.meta.env.BASE_URL}${VIDEO_ICON_MAIN}`}
-            alt=""
-            aria-hidden="true"
-          />
-        </button>
-      )}
+      <button
+        type="button"
+        className="pageSequenceButton homeWelcomeTourIconButton"
+        onClick={openHeroVideo}
+        aria-label={`Open ${pageTitle} video`}
+        title={`${pageTitle} video`}
+      >
+        <img
+          src={`${import.meta.env.BASE_URL}${VIDEO_ICON_MAIN}`}
+          alt=""
+          aria-hidden="true"
+        />
+      </button>
     </section>
   );
 }
@@ -11552,6 +11577,7 @@ function PageHeroImage({ src, alt = "", title = "", eyebrow = "", text = "", ico
           )}
         </div>
       )}
+        {title && <LargeHeroVideoPanel pageTitle={title} />}
         {title && <PageHelpButtonStrip pageTitle={title} pageEyebrow={eyebrow} />}
       </section>
     </>
