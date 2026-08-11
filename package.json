@@ -1,6 +1,6 @@
 {
   "name": "rrb-browser-based-v1",
-  "version": "72.11.0",
+  "version": "72.12.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -41,7 +41,8 @@
     "test:video-v728": "node test/videoInteractionBehaviorV728.test.mjs",
     "test:large-hero-video-standard": "node test/largeHeroVideoStandardV729.test.mjs",
     "test:video-poster-crop": "node test/videoPosterAndCropV7210.test.mjs",
-    "test:video-framing": "node test/videoFramingAndTestPatternV7211.test.mjs"
+    "test:video-framing": "node test/videoFramingAndTestPatternV7211.test.mjs",
+    "test:large-hero-video-acknowledgement": "node test/largeHeroVideoAcknowledgementV7212.test.mjs"
   },
   "dependencies": {
     "react": "^19.1.0",

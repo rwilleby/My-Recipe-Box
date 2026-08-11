@@ -769,7 +769,7 @@ const WELCOME_TOUR_VIDEO_POSTER = "images/video-posters/welcome-video-poster.web
 const DINNER_IDEAS_VIDEO_POSTER = "images/video-posters/dinner-ideas-poster.webp";
 const WELCOME_TOUR_OPEN_EVENT = "rrb:open-welcome-tour";
 const LARGE_HERO_VIDEO_OPEN_EVENT = "rrb:open-large-hero-video";
-const LARGE_HERO_VIDEO_SEEN_PREFIX = "rrb-large-hero-video-seen:";
+const LARGE_HERO_VIDEO_ACKNOWLEDGED_PREFIX = "rrb-large-hero-video-acknowledged:";
 
 const HERO_INFO_BUTTONS = [
   {
@@ -1711,19 +1711,20 @@ function WelcomeTour() {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const videoRef = useRef(null);
   const closeTimerRef = useRef(null);
-  const seenKey = `${LARGE_HERO_VIDEO_SEEN_PREFIX}Home`;
+  const acknowledgedKey = `${LARGE_HERO_VIDEO_ACKNOWLEDGED_PREFIX}Home`;
 
   useEffect(() => {
     try {
-      const hasSeen = window.localStorage.getItem(seenKey) === "true";
-      if (!hasSeen) {
-        window.localStorage.setItem(seenKey, "true");
+      const isAcknowledged =
+        window.localStorage.getItem(acknowledgedKey) === "true";
+
+      if (!isAcknowledged) {
         setIsVisible(true);
       }
     } catch {
       setIsVisible(true);
     }
-  }, [seenKey]);
+  }, [acknowledgedKey]);
 
   useEffect(() => {
     function handleOpenTour() {
@@ -1731,8 +1732,12 @@ function WelcomeTour() {
         window.clearTimeout(closeTimerRef.current);
         closeTimerRef.current = null;
       }
+
       videoRef.current?.pause();
-      if (videoRef.current) videoRef.current.currentTime = 0;
+      if (videoRef.current) {
+        videoRef.current.currentTime = 0;
+      }
+
       setIsVideoPlaying(false);
       setIsVisible(true);
     }
@@ -1743,15 +1748,30 @@ function WelcomeTour() {
 
   useEffect(() => {
     return () => {
-      if (closeTimerRef.current) window.clearTimeout(closeTimerRef.current);
+      if (closeTimerRef.current) {
+        window.clearTimeout(closeTimerRef.current);
+      }
     };
   }, []);
 
-  function closeWindow() {
+  function acknowledgeVideo() {
+    try {
+      window.localStorage.setItem(acknowledgedKey, "true");
+    } catch {
+      // The window still closes normally if storage is unavailable.
+    }
+  }
+
+  function closeWindow({ acknowledge = true } = {}) {
     if (closeTimerRef.current) {
       window.clearTimeout(closeTimerRef.current);
       closeTimerRef.current = null;
     }
+
+    if (acknowledge) {
+      acknowledgeVideo();
+    }
+
     videoRef.current?.pause();
     setIsVideoPlaying(false);
     setIsVisible(false);
@@ -1760,12 +1780,17 @@ function WelcomeTour() {
   function playVideo() {
     const player = videoRef.current;
     if (!player) return;
+
     player.play().catch(() => {});
   }
 
   function handleEnded() {
     setIsVideoPlaying(false);
-    closeTimerRef.current = window.setTimeout(closeWindow, 800);
+    acknowledgeVideo();
+
+    closeTimerRef.current = window.setTimeout(() => {
+      closeWindow({ acknowledge: false });
+    }, 800);
   }
 
   return (
@@ -1803,7 +1828,10 @@ function WelcomeTour() {
             )}
           </div>
 
-          <div className="homeWelcomeTourPlayerActions" aria-label="Welcome video controls">
+          <div
+            className="homeWelcomeTourPlayerActions"
+            aria-label="Welcome video controls"
+          >
             <button
               type="button"
               className="homeWelcomeTourPlay"
@@ -1811,7 +1839,11 @@ function WelcomeTour() {
             >
               Play Now
             </button>
-            <button type="button" onClick={closeWindow}>
+
+            <button
+              type="button"
+              onClick={() => closeWindow({ acknowledge: true })}
+            >
               Close Window
             </button>
           </div>
@@ -11362,48 +11394,81 @@ function getPageHelpSteps(pageTitle = "", pageEyebrow = "") {
 
 const CLIFF_NOTES_ENABLED = false;
 
-function LargeHeroVideoPanel({ pageTitle, videoSrc = "", posterSrc = "" }) {
+function LargeHeroVideoPanel({
+  pageTitle,
+  videoSrc = "",
+  posterSrc = "",
+}) {
   const [isVisible, setIsVisible] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const videoRef = useRef(null);
   const closeTimerRef = useRef(null);
-  const seenKey = `${LARGE_HERO_VIDEO_SEEN_PREFIX}${pageTitle}`;
+  const acknowledgedKey =
+    `${LARGE_HERO_VIDEO_ACKNOWLEDGED_PREFIX}${pageTitle}`;
 
   useEffect(() => {
     try {
-      const hasSeen = window.localStorage.getItem(seenKey) === "true";
-      if (!hasSeen) {
-        window.localStorage.setItem(seenKey, "true");
+      const isAcknowledged =
+        window.localStorage.getItem(acknowledgedKey) === "true";
+
+      if (!isAcknowledged) {
         setIsVisible(true);
       }
     } catch {
       setIsVisible(true);
     }
-  }, [seenKey]);
+  }, [acknowledgedKey]);
 
   useEffect(() => {
     function handleOpen(event) {
       if (event?.detail?.pageTitle !== pageTitle) return;
+
       if (closeTimerRef.current) {
         window.clearTimeout(closeTimerRef.current);
         closeTimerRef.current = null;
       }
+
       videoRef.current?.pause();
-      if (videoRef.current) videoRef.current.currentTime = 0;
+
+      if (videoRef.current) {
+        videoRef.current.currentTime = 0;
+      }
+
       setIsPlaying(false);
       setIsVisible(true);
     }
 
     window.addEventListener(LARGE_HERO_VIDEO_OPEN_EVENT, handleOpen);
-    return () => window.removeEventListener(LARGE_HERO_VIDEO_OPEN_EVENT, handleOpen);
+    return () =>
+      window.removeEventListener(LARGE_HERO_VIDEO_OPEN_EVENT, handleOpen);
   }, [pageTitle]);
 
-  useEffect(() => () => {
-    if (closeTimerRef.current) window.clearTimeout(closeTimerRef.current);
+  useEffect(() => {
+    return () => {
+      if (closeTimerRef.current) {
+        window.clearTimeout(closeTimerRef.current);
+      }
+    };
   }, []);
 
-  function closeWindow() {
-    if (closeTimerRef.current) window.clearTimeout(closeTimerRef.current);
+  function acknowledgeVideo() {
+    try {
+      window.localStorage.setItem(acknowledgedKey, "true");
+    } catch {
+      // The panel still closes normally if storage is unavailable.
+    }
+  }
+
+  function closeWindow({ acknowledge = true } = {}) {
+    if (closeTimerRef.current) {
+      window.clearTimeout(closeTimerRef.current);
+      closeTimerRef.current = null;
+    }
+
+    if (acknowledge) {
+      acknowledgeVideo();
+    }
+
     videoRef.current?.pause();
     setIsPlaying(false);
     setIsVisible(false);
@@ -11411,25 +11476,39 @@ function LargeHeroVideoPanel({ pageTitle, videoSrc = "", posterSrc = "" }) {
 
   function playVideo() {
     if (!videoSrc) return;
+
     videoRef.current?.play().catch(() => {});
   }
 
   function handleEnded() {
     setIsPlaying(false);
-    closeTimerRef.current = window.setTimeout(closeWindow, 800);
+    acknowledgeVideo();
+
+    closeTimerRef.current = window.setTimeout(() => {
+      closeWindow({ acknowledge: false });
+    }, 800);
   }
 
   if (!isVisible) return null;
 
   return (
-    <aside className="largeHeroVideoPanel" aria-label={`${pageTitle} video`}>
-      <div className={`largeHeroVideoStage${videoSrc ? "" : " isUnassigned"}`}>
+    <aside
+      className="largeHeroVideoPanel"
+      aria-label={`${pageTitle} video`}
+    >
+      <div
+        className={`largeHeroVideoStage${videoSrc ? "" : " isUnassigned"}`}
+      >
         {videoSrc ? (
           <>
             <video
               ref={videoRef}
               src={`${import.meta.env.BASE_URL}${videoSrc}`}
-              poster={posterSrc ? `${import.meta.env.BASE_URL}${posterSrc}` : undefined}
+              poster={
+                posterSrc
+                  ? `${import.meta.env.BASE_URL}${posterSrc}`
+                  : undefined
+              }
               title={`${pageTitle} video`}
               playsInline
               preload="metadata"
@@ -11439,6 +11518,7 @@ function LargeHeroVideoPanel({ pageTitle, videoSrc = "", posterSrc = "" }) {
             >
               Your browser does not support HTML5 video.
             </video>
+
             {!isPlaying && (
               <button
                 type="button"
@@ -11454,8 +11534,20 @@ function LargeHeroVideoPanel({ pageTitle, videoSrc = "", posterSrc = "" }) {
       </div>
 
       <div className="videoStandardActionBar">
-        <button type="button" onClick={playVideo} disabled={!videoSrc}>Play Now</button>
-        <button type="button" onClick={closeWindow}>Close Window</button>
+        <button
+          type="button"
+          onClick={playVideo}
+          disabled={!videoSrc}
+        >
+          Play Now
+        </button>
+
+        <button
+          type="button"
+          onClick={() => closeWindow({ acknowledge: true })}
+        >
+          Close Window
+        </button>
       </div>
     </aside>
   );
