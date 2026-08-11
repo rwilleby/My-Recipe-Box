@@ -771,6 +771,8 @@ const CHOOSE_YOUR_LEVEL_VIDEO_URL = "videos/choose-your-level.mp4";
 const CHOOSE_YOUR_LEVEL_VIDEO_POSTER = "images/video-posters/choose-your-level-poster.webp";
 const QUICK_LINKS_VIDEO_URL = "videos/browse-our-quick-links.mp4";
 const QUICK_LINKS_VIDEO_POSTER = "images/video-posters/browse-our-quick-links-poster.webp";
+const WELCOME_TO_SITE_VIDEO_URL = "videos/welcome-to-our-site.mp4";
+const WELCOME_TO_SITE_VIDEO_POSTER = "images/video-posters/welcome-to-our-site-poster.webp";
 const WELCOME_TOUR_OPEN_EVENT = "rrb:open-welcome-tour";
 const LARGE_HERO_VIDEO_OPEN_EVENT = "rrb:open-large-hero-video";
 const LARGE_HERO_VIDEO_ACKNOWLEDGED_PREFIX = "rrb-large-hero-video-acknowledged:";
@@ -11658,7 +11660,7 @@ function PageHelpButtonStrip({ pageTitle }) {
 }
 
 
-function PageHeroImage({ src, alt = "", title = "", eyebrow = "", text = "", icon = "", className = "" }) {
+function PageHeroImage({ src, alt = "", title = "", eyebrow = "", text = "", icon = "", className = "", videoSrc = "", videoPoster = "" }) {
   if (!src) return null;
 
   return (
@@ -11694,7 +11696,7 @@ function PageHeroImage({ src, alt = "", title = "", eyebrow = "", text = "", ico
           )}
         </div>
       )}
-        {title && <LargeHeroVideoPanel pageTitle={title} />}
+        {title && <LargeHeroVideoPanel pageTitle={title} videoSrc={videoSrc} posterSrc={videoPoster} />}
         {title && <PageHelpButtonStrip pageTitle={title} pageEyebrow={eyebrow} />}
       </section>
     </>
@@ -16233,6 +16235,8 @@ Use this section to check what is on hand, record dates, mark foods that should 
             title="Welcome to Our Site"
             text="Come on in and take a look around Robert’s Recipe Box. Whether you are searching for tonight’s dinner, planning meals for the week, trying a new cooking method, or simply looking for a little inspiration, we hope you find something useful.\n\nThe site is designed to be comfortable and easy to explore. Browse the recipes, save your favorites, review the cooking tips, or use the planning tools to create a routine that works better for your household."
             className="pageHeroDepth464"
+            videoSrc={WELCOME_TO_SITE_VIDEO_URL}
+            videoPoster={WELCOME_TO_SITE_VIDEO_POSTER}
 />
           <AboutPage setActivePage={setActivePage} initialSection="main" />
         </>
