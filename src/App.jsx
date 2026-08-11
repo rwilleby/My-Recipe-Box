@@ -784,6 +784,8 @@ const AFFILIATE_MARKETING_VIDEO_URL = "videos/affiliate-marketing.mp4";
 const AFFILIATE_MARKETING_VIDEO_POSTER = "images/video-posters/affiliate-marketing-poster.webp";
 const ABOUT_RECIPES_VIDEO_URL = "videos/about-our-recipes.mp4";
 const ABOUT_RECIPES_VIDEO_POSTER = "images/video-posters/about-our-recipes-poster.webp";
+const RECIPE_LIBRARY_VIDEO_URL = "videos/browse-our-recipe-library.mp4";
+const RECIPE_LIBRARY_VIDEO_POSTER = "images/video-posters/browse-our-recipe-library-poster.webp";
 const WELCOME_TOUR_OPEN_EVENT = "rrb:open-welcome-tour";
 const LARGE_HERO_VIDEO_OPEN_EVENT = "rrb:open-large-hero-video";
 const LARGE_HERO_VIDEO_ACKNOWLEDGED_PREFIX = "rrb-large-hero-video-acknowledged:";
@@ -15849,7 +15851,9 @@ These pages are designed to be easy to scan, print, or revisit when needed. They
             title="Browse Our Recipe Library"
             text="Explore the Robert’s Recipe Box library and find something that sounds good for your next meal. Recipes can be discovered through categories, collections, cooking methods, meal types, seasonal ideas, and other helpful groupings.\n\nWhether you already know exactly what you want or are simply browsing for inspiration, the library is designed to make it easier to compare choices. New recipes and collections will continue to be added as the website grows."
             className="pageHeroDepth464"
-/>
+
+            videoSrc={RECIPE_LIBRARY_VIDEO_URL}
+            videoPoster={RECIPE_LIBRARY_VIDEO_POSTER}/>
           <RecipesPage {...pageProps} />
         </>
       )}
