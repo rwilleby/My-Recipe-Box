@@ -41561,3 +41561,81 @@ body.rrbPopupOpen {
     max-width: calc(100% - 24px) !important;
   }
 }
+
+
+/* v72.10 — real holding posters + clean supplemental crop */
+
+/* Assigned large-hero videos show a real video still while waiting. */
+.homeWelcomeTourVideo video,
+.largeHeroVideoStage video {
+  object-fit: cover !important;
+  object-position: center center !important;
+}
+
+/*
+ * Supplemental video: crop pillarbox/black side areas and fill the popup.
+ * Slight horizontal zoom removes encoded black side gutters while keeping
+ * the subject centered.
+ */
+.supplementalHoverVideoPopover {
+  width: min(420px, 42vw) !important;
+  aspect-ratio: 16 / 9 !important;
+  overflow: hidden !important;
+  border-radius: 14px !important;
+  background: #fffdf8 !important;
+}
+
+.supplementalHoverVideoPopover video {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+  transform: scale(1.08) !important;
+  transform-origin: center center !important;
+  background: #111 !important;
+}
+
+/* Keep video content clipped above the standardized button bar. */
+.supplementalHoverVideoPopover > video {
+  min-height: 0 !important;
+  overflow: hidden !important;
+}
+
+/*
+ * Supplemental Play Now | Close Window exactly follows the large-hero
+ * two-button control treatment.
+ */
+.supplementalHoverVideoPopover .videoStandardActionBar {
+  position: relative !important;
+  z-index: 4 !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  width: 100% !important;
+  padding: 2px !important;
+  margin: 0 !important;
+  gap: 0 !important;
+  background: rgba(235,232,225,.96) !important;
+  border-top: 1px solid rgba(54,67,83,.18) !important;
+}
+
+.supplementalHoverVideoPopover .videoStandardActionBar button {
+  min-height: 23px !important;
+  padding: 3px 8px !important;
+  border-radius: 0 !important;
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: clamp(10px,.92vw,13px) !important;
+  font-weight: 700 !important;
+  line-height: 1.15 !important;
+}
+
+.supplementalHoverVideoPopover .videoStandardActionBar button:first-child {
+  border-radius: 8px !important;
+  background: #8A817C !important;
+  color: #fff !important;
+}
+
+/* Mobile popup remains clean and centered. */
+@media (max-width: 760px) {
+  .supplementalHoverVideoPopover {
+    width: min(92vw, 420px) !important;
+  }
+}

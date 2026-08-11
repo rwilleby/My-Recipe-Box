@@ -765,6 +765,8 @@ const WELCOME_TOUR_VIDEO_URL = "videos/welcome-video.mp4";
 const VIDEO_ICON_MAIN = "images/icons/video-red.webp";
 const VIDEO_ICON_SUPPLEMENTAL = "images/icons/video-gray.webp";
 const DINNER_IDEAS_VIDEO_URL = "videos/dinner-ideas.mp4";
+const WELCOME_TOUR_VIDEO_POSTER = "images/video-posters/welcome-video-poster.webp";
+const DINNER_IDEAS_VIDEO_POSTER = "images/video-posters/dinner-ideas-poster.webp";
 const WELCOME_TOUR_OPEN_EVENT = "rrb:open-welcome-tour";
 const LARGE_HERO_VIDEO_OPEN_EVENT = "rrb:open-large-hero-video";
 const LARGE_HERO_VIDEO_SEEN_PREFIX = "rrb-large-hero-video-seen:";
@@ -1777,6 +1779,7 @@ function WelcomeTour() {
             <video
               ref={videoRef}
               src={`${import.meta.env.BASE_URL}${WELCOME_TOUR_VIDEO_URL}`}
+              poster={`${import.meta.env.BASE_URL}${WELCOME_TOUR_VIDEO_POSTER}`}
               title="Robert’s Recipe Box welcome video"
               playsInline
               preload="metadata"
@@ -2853,6 +2856,7 @@ function HomeComboMealStrip({
               <span>Looking for quick dinner ideas?</span>
               <SupplementalHoverVideo
                 src={DINNER_IDEAS_VIDEO_URL}
+                poster={DINNER_IDEAS_VIDEO_POSTER}
                 title="Quick Dinner Ideas overview video"
                 className="homeDinnerIdeasVideoTrigger"
               >
@@ -2933,7 +2937,7 @@ function HomeComboMealStrip({
 
 
 
-function SupplementalHoverVideo({ src, title, className = "", children }) {
+function SupplementalHoverVideo({ src, poster = "", title, className = "", children }) {
   const [isOpen, setIsOpen] = useState(false);
   const videoRef = useRef(null);
   const closeTimerRef = useRef(null);
@@ -2989,6 +2993,7 @@ function SupplementalHoverVideo({ src, title, className = "", children }) {
           <video
             ref={videoRef}
             src={`${import.meta.env.BASE_URL}${src}`}
+            poster={poster ? `${import.meta.env.BASE_URL}${poster}` : undefined}
             title={title}
             autoPlay
             playsInline
@@ -11357,7 +11362,7 @@ function getPageHelpSteps(pageTitle = "", pageEyebrow = "") {
 
 const CLIFF_NOTES_ENABLED = false;
 
-function LargeHeroVideoPanel({ pageTitle, videoSrc = "" }) {
+function LargeHeroVideoPanel({ pageTitle, videoSrc = "", posterSrc = "" }) {
   const [isVisible, setIsVisible] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const videoRef = useRef(null);
@@ -11424,6 +11429,7 @@ function LargeHeroVideoPanel({ pageTitle, videoSrc = "" }) {
             <video
               ref={videoRef}
               src={`${import.meta.env.BASE_URL}${videoSrc}`}
+              poster={posterSrc ? `${import.meta.env.BASE_URL}${posterSrc}` : undefined}
               title={`${pageTitle} video`}
               playsInline
               preload="metadata"
