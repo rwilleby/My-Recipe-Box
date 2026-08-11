@@ -769,6 +769,8 @@ const WELCOME_TOUR_VIDEO_POSTER = "images/video-posters/welcome-video-poster.web
 const DINNER_IDEAS_VIDEO_POSTER = "images/video-posters/dinner-ideas-poster.webp";
 const CHOOSE_YOUR_LEVEL_VIDEO_URL = "videos/choose-your-level.mp4";
 const CHOOSE_YOUR_LEVEL_VIDEO_POSTER = "images/video-posters/choose-your-level-poster.webp";
+const QUICK_LINKS_VIDEO_URL = "videos/browse-our-quick-links.mp4";
+const QUICK_LINKS_VIDEO_POSTER = "images/video-posters/browse-our-quick-links-poster.webp";
 const WELCOME_TOUR_OPEN_EVENT = "rrb:open-welcome-tour";
 const LARGE_HERO_VIDEO_OPEN_EVENT = "rrb:open-large-hero-video";
 const LARGE_HERO_VIDEO_ACKNOWLEDGED_PREFIX = "rrb-large-hero-video-acknowledged:";
@@ -2376,7 +2378,20 @@ function CategoryGrid({ setFilter, setActivePage }) {
     <section className="section homeCategorySection">
       <div className="sectionTitle homeCategoryTitle homeCategoryQuickLinksTitle">
         <div>
-          <h2>Cuisine Quick Links</h2>
+          <h2 className="homeVideoTitle">
+              <span>Cuisine Quick Links</span>
+              <SupplementalHoverVideo
+                src={QUICK_LINKS_VIDEO_URL}
+                poster={QUICK_LINKS_VIDEO_POSTER}
+                title="Browse Our Quick Links overview video"
+                className="homeQuickLinksVideoTrigger"
+              >
+                <span className="supplementalVideoIcon">
+                  <VideoIcon role="supplemental" alt="" className="supplementalVideoIconGray" />
+                  <VideoIcon role="main" alt="" className="supplementalVideoIconRed" />
+                </span>
+              </SupplementalHoverVideo>
+            </h2>
           <p>Jump directly to the cuisines and recipe groups you use most often.</p>
         </div>
       </div>
