@@ -42137,3 +42137,506 @@ body.rrbPopupOpen {
 .homeComboMealGrid[data-site-mode="easy"] > .homeComboMealCardWrap:first-child {
   grid-column: 2 !important;
 }
+
+
+/* ================================================================
+   v73.11 — WEEKLY MEAL PLANNER CALENDAR
+   ================================================================ */
+
+.weeklyCalendarPlannerPage {
+  max-width: 1500px !important;
+  margin: 0 auto !important;
+  padding: 30px clamp(18px, 3vw, 44px) 54px !important;
+}
+
+.weeklyCalendarPlannerHeader {
+  display: flex !important;
+  align-items: flex-end !important;
+  justify-content: space-between !important;
+  gap: 24px !important;
+  margin-bottom: 20px !important;
+}
+
+.weeklyCalendarPlannerHeader h1 {
+  margin: 5px 0 7px !important;
+  color: #172033 !important;
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: clamp(30px, 3vw, 44px) !important;
+  line-height: 1 !important;
+}
+
+.weeklyCalendarPlannerHeader p {
+  max-width: 760px !important;
+  margin: 0 !important;
+  color: #667085 !important;
+  font-size: 16px !important;
+}
+
+.weeklyCalendarPlannerActions {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  flex-wrap: wrap !important;
+  justify-content: flex-end !important;
+}
+
+.weeklyCalendarPlannerShell {
+  overflow: hidden !important;
+  border: 1px solid #d8ded8 !important;
+  border-radius: 15px !important;
+  background: #fff !important;
+  box-shadow: 0 10px 26px rgba(38, 49, 42, .08) !important;
+}
+
+.weeklyCalendarPlannerGrid {
+  display: grid !important;
+  grid-template-columns: 92px repeat(7, minmax(0, 1fr)) !important;
+}
+
+.weeklyCalendarPlannerDays {
+  background: #14532d !important;
+  color: #fff !important;
+}
+
+.weeklyCalendarPlannerCorner {
+  border-right: 1px solid rgba(255,255,255,.18) !important;
+}
+
+.weeklyCalendarPlannerDay {
+  display: grid !important;
+  place-items: center !important;
+  min-height: 58px !important;
+  padding: 8px 4px !important;
+  border-left: 1px solid rgba(255,255,255,.18) !important;
+}
+
+.weeklyCalendarPlannerDay strong {
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 20px !important;
+  line-height: 1 !important;
+}
+
+.weeklyCalendarPlannerDay small {
+  margin-top: 4px !important;
+  color: rgba(255,255,255,.82) !important;
+  font-size: 10px !important;
+  text-transform: uppercase !important;
+  letter-spacing: .05em !important;
+}
+
+.weeklyCalendarPlannerMealRow,
+.weeklyCalendarPlannerNotesRow {
+  border-top: 1px solid #e4e7e4 !important;
+}
+
+.weeklyCalendarPlannerRowLabel {
+  display: grid !important;
+  place-items: center !important;
+  align-content: center !important;
+  min-height: 138px !important;
+  padding: 10px 7px !important;
+  border-right: 1px solid #ddd8ca !important;
+  background: #f7f3e8 !important;
+  color: #18261d !important;
+  text-align: center !important;
+}
+
+.weeklyCalendarPlannerRowLabel strong {
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 18px !important;
+  line-height: 1 !important;
+}
+
+.weeklyCalendarPlannerRowLabel small {
+  margin-top: 6px !important;
+  color: #625e54 !important;
+  font-size: 10px !important;
+  line-height: 1.15 !important;
+}
+
+.weeklyCalendarPlannerCell {
+  display: grid !important;
+  place-items: center !important;
+  align-content: center !important;
+  min-width: 0 !important;
+  min-height: 138px !important;
+  padding: 8px !important;
+  border: 0 !important;
+  border-left: 1px solid #e1e4df !important;
+  border-radius: 0 !important;
+  background: #fff !important;
+  color: #172033 !important;
+  text-align: center !important;
+  cursor: pointer !important;
+  transition: background 140ms ease, box-shadow 140ms ease !important;
+}
+
+.weeklyCalendarPlannerCell:hover,
+.weeklyCalendarPlannerCell:focus-visible {
+  z-index: 2 !important;
+  background: #fbf7eb !important;
+  box-shadow: inset 0 0 0 2px rgba(20,83,45,.18) !important;
+  outline: none !important;
+}
+
+.weeklyPlannerRecipeImageWrap {
+  position: relative !important;
+  display: block !important;
+  width: min(112px, 100%) !important;
+  aspect-ratio: 1.42 / 1 !important;
+  margin: 0 auto 7px !important;
+}
+
+.weeklyPlannerRecipeImage {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 8px !important;
+  object-fit: cover !important;
+  background: #f3f0e8 !important;
+}
+
+.weeklyPlannerRecipeImageFallback {
+  display: grid !important;
+  place-items: center !important;
+  color: #6b7280 !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+}
+
+.weeklyCalendarPlannerCell > strong {
+  display: -webkit-box !important;
+  overflow: hidden !important;
+  -webkit-line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+  max-width: 118px !important;
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: 13px !important;
+  line-height: 1.08 !important;
+}
+
+.weeklyPlannerMealBalanceCircle {
+  display: inline-grid !important;
+  place-items: center !important;
+  width: 25px !important;
+  height: 25px !important;
+  border-radius: 50% !important;
+  background: #14532d !important;
+  color: #fff !important;
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+}
+
+.weeklyPlannerRecipeImageWrap > .weeklyPlannerMealBalanceCircle,
+.weeklyPlannerPickerImageWrap > .weeklyPlannerMealBalanceCircle {
+  position: absolute !important;
+  left: -5px !important;
+  top: -5px !important;
+  z-index: 2 !important;
+  box-shadow: 0 2px 5px rgba(0,0,0,.18) !important;
+}
+
+.weeklyCalendarPlannerEmpty {
+  display: grid !important;
+  place-items: center !important;
+  color: #72796f !important;
+}
+
+.weeklyCalendarPlannerEmpty b {
+  display: grid !important;
+  place-items: center !important;
+  width: 26px !important;
+  height: 26px !important;
+  margin-bottom: 7px !important;
+  border: 1px solid #9da39d !important;
+  border-radius: 50% !important;
+  font-size: 18px !important;
+  font-weight: 400 !important;
+}
+
+.weeklyCalendarPlannerEmpty small {
+  font-size: 11px !important;
+}
+
+.weeklyCalendarPlannerNotesRow .weeklyCalendarPlannerRowLabel {
+  min-height: 116px !important;
+}
+
+.weeklyCalendarPlannerNoteCell {
+  min-width: 0 !important;
+  min-height: 116px !important;
+  border-left: 1px solid #e1e4df !important;
+  background: #fffdf8 !important;
+}
+
+.weeklyCalendarPlannerNoteCell textarea {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 116px !important;
+  padding: 12px !important;
+  resize: none !important;
+  border: 0 !important;
+  outline: 0 !important;
+  background: transparent !important;
+  color: #374151 !important;
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: 13px !important;
+  line-height: 1.35 !important;
+  box-sizing: border-box !important;
+}
+
+.weeklyCalendarPlannerNoteCell textarea:focus {
+  box-shadow: inset 0 0 0 2px rgba(20,83,45,.2) !important;
+}
+
+.weeklyCalendarPlannerLegend {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  margin: 14px 0 0 !important;
+  color: #667085 !important;
+  font-size: 12px !important;
+}
+
+.weeklyCalendarPlannerLegend .weeklyPlannerMealBalanceCircle {
+  position: static !important;
+  width: 21px !important;
+  height: 21px !important;
+  font-size: 10px !important;
+}
+
+.weeklyPlannerPickerOverlay {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 15000 !important;
+  display: grid !important;
+  place-items: center !important;
+  padding: 24px !important;
+  background: rgba(25,31,39,.62) !important;
+  backdrop-filter: blur(2px) !important;
+}
+
+.weeklyPlannerPicker {
+  display: grid !important;
+  grid-template-rows: auto auto minmax(0,1fr) auto !important;
+  width: min(920px, calc(100vw - 48px)) !important;
+  max-height: min(780px, calc(100dvh - 48px)) !important;
+  overflow: hidden !important;
+  border: 1px solid #d8ded8 !important;
+  border-radius: 18px !important;
+  background: #fbfaf6 !important;
+  box-shadow: 0 24px 64px rgba(17,24,39,.28) !important;
+}
+
+.weeklyPlannerPickerHeader {
+  display: flex !important;
+  align-items: flex-start !important;
+  justify-content: space-between !important;
+  gap: 20px !important;
+  padding: 22px 24px 15px !important;
+  border-bottom: 1px solid #e3e4df !important;
+}
+
+.weeklyPlannerPickerHeader h2 {
+  margin: 5px 0 5px !important;
+  color: #172033 !important;
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: 27px !important;
+}
+
+.weeklyPlannerPickerHeader p {
+  margin: 0 !important;
+  color: #667085 !important;
+  font-size: 13px !important;
+}
+
+.weeklyPlannerPickerClose {
+  display: grid !important;
+  place-items: center !important;
+  width: 38px !important;
+  height: 38px !important;
+  padding: 0 !important;
+  border: 1px solid #d9ddd7 !important;
+  border-radius: 50% !important;
+  background: #fff !important;
+  color: #172033 !important;
+  font-size: 26px !important;
+  line-height: 1 !important;
+}
+
+.weeklyPlannerPickerSearch {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  padding: 14px 24px !important;
+}
+
+.weeklyPlannerPickerSearch input {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  height: 42px !important;
+  padding: 0 14px !important;
+  border: 1px solid #ccd3cd !important;
+  border-radius: 9px !important;
+  background: #fff !important;
+  color: #172033 !important;
+  font-size: 14px !important;
+}
+
+.weeklyPlannerPickerSearch span {
+  flex: 0 0 auto !important;
+  color: #667085 !important;
+  font-size: 11px !important;
+}
+
+.weeklyPlannerPickerRecipes {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0,1fr)) !important;
+  gap: 12px !important;
+  min-height: 0 !important;
+  padding: 0 24px 18px !important;
+  overflow-y: auto !important;
+}
+
+.weeklyPlannerPickerRecipe {
+  display: grid !important;
+  grid-template-rows: auto auto auto !important;
+  align-content: start !important;
+  min-width: 0 !important;
+  padding: 7px !important;
+  border: 1px solid #dde1dc !important;
+  border-radius: 10px !important;
+  background: #fff !important;
+  color: #172033 !important;
+  text-align: left !important;
+  cursor: pointer !important;
+}
+
+.weeklyPlannerPickerRecipe:hover,
+.weeklyPlannerPickerRecipe:focus-visible {
+  border-color: #729079 !important;
+  outline: none !important;
+}
+
+.weeklyPlannerPickerRecipe.isSelected {
+  border: 2px solid #14532d !important;
+  padding: 6px !important;
+  box-shadow: 0 0 0 2px rgba(20,83,45,.08) !important;
+}
+
+.weeklyPlannerPickerImageWrap {
+  position: relative !important;
+  display: block !important;
+  width: 100% !important;
+  aspect-ratio: 1.42 / 1 !important;
+  margin-bottom: 8px !important;
+}
+
+.weeklyPlannerPickerRecipe > strong {
+  min-height: 32px !important;
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: 14px !important;
+  line-height: 1.1 !important;
+}
+
+.weeklyPlannerPickerRecipe > small {
+  margin-top: 4px !important;
+  color: #667085 !important;
+  font-size: 9px !important;
+  line-height: 1.2 !important;
+}
+
+.weeklyPlannerPickerCheck {
+  position: absolute !important;
+  right: 6px !important;
+  top: 6px !important;
+  z-index: 3 !important;
+  display: grid !important;
+  place-items: center !important;
+  width: 25px !important;
+  height: 25px !important;
+  border-radius: 50% !important;
+  background: #14532d !important;
+  color: #fff !important;
+  font-size: 14px !important;
+  font-weight: 800 !important;
+}
+
+.weeklyPlannerPickerFooter {
+  display: grid !important;
+  grid-template-columns: auto 1fr auto auto !important;
+  align-items: center !important;
+  gap: 10px !important;
+  padding: 15px 24px 20px !important;
+  border-top: 1px solid #e3e4df !important;
+  background: #f7f4ec !important;
+}
+
+.weeklyPlannerPickerFooter button {
+  min-height: 40px !important;
+  padding: 0 16px !important;
+  border-radius: 9px !important;
+}
+
+.weeklyPlannerPickerClear {
+  border: 1px solid #d9b1ad !important;
+  background: #fff !important;
+  color: #9b2c2c !important;
+}
+
+@media (max-width: 1050px) {
+  .weeklyCalendarPlannerShell {
+    overflow-x: auto !important;
+  }
+
+  .weeklyCalendarPlannerGrid {
+    min-width: 940px !important;
+  }
+
+  .weeklyPlannerPickerRecipes {
+    grid-template-columns: repeat(3, minmax(0,1fr)) !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .weeklyCalendarPlannerHeader {
+    align-items: flex-start !important;
+    flex-direction: column !important;
+  }
+
+  .weeklyCalendarPlannerActions {
+    justify-content: flex-start !important;
+  }
+
+  .weeklyPlannerPickerOverlay {
+    padding: 10px !important;
+  }
+
+  .weeklyPlannerPicker {
+    width: calc(100vw - 20px) !important;
+    max-height: calc(100dvh - 20px) !important;
+  }
+
+  .weeklyPlannerPickerRecipes {
+    grid-template-columns: repeat(2, minmax(0,1fr)) !important;
+    padding-inline: 14px !important;
+  }
+
+  .weeklyPlannerPickerHeader,
+  .weeklyPlannerPickerSearch,
+  .weeklyPlannerPickerFooter {
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+  }
+
+  .weeklyPlannerPickerFooter {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  .weeklyPlannerPickerFooter > span {
+    display: none !important;
+  }
+}

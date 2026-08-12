@@ -6595,424 +6595,414 @@ function EmptyState({ title, text, children }) {
   );
 }
 
-function PlannerPage({ plan, setPlan, servings, setServings, favorites, toggleFavorite, openRecipeCard, setActivePage, preparedInventory, setPreparedInventory }) {
-  const normalizedPlan = useMemo(() => normalizeTwoWeekPlan(plan), [plan]);
-  const [selectedSlot, setSelectedSlot] = useState("week1-Mon");
-  const [selectedCategory, setSelectedCategory] = useState("All");
-  const [plannerDinnerViewer, setPlannerDinnerViewer] = useState(null);
 
-  function resolvePlannerRecipe(recipeId) {
-    return recipes.find((item) => item.id === recipeId) || null;
-  }
+function PlannerRecipeThumb({ recipe, className = "" }) {
+  const [imageIndex, setImageIndex] = useState(0);
+  const candidates = recipe ? recipeImageCandidates(recipe) : [];
+  const imagePath = candidates[imageIndex] || "";
 
-  function resolvePlannerDinnerMeal(recipeId) {
-    return dinnerCombinations.find((item) => item.id === recipeId) || null;
-  }
+  if (!recipe) return null;
 
-  const filteredPlannerRecipes = useMemo(() => {
-    if (selectedCategory === "All") return recipes;
-
-    const selectedCategoryObject = categories.find(
-      (category) => category.name === selectedCategory || category.id === selectedCategory
-    );
-
-    return recipes.filter((recipe) => {
-      return (
-        recipe.category === selectedCategory ||
-        recipe.categoryCode === selectedCategoryObject?.id ||
-        recipe.id?.startsWith(`${selectedCategoryObject?.id}-`)
-      );
-    });
-  }, [selectedCategory]);
-
-  function addRecipe(recipeId, slotKey = selectedSlot) {
-    if (!recipeId || !slotKey) return;
-
-    setPlan((current) => {
-      const next = normalizeTwoWeekPlan(current);
-      next[slotKey] = [...(next[slotKey] || []), recipeId];
-      return next;
-    });
-  }
-
-  function removeRecipe(slotKey, index) {
-    setPlan((current) => {
-      const next = normalizeTwoWeekPlan(current);
-      next[slotKey] = (next[slotKey] || []).filter((_, i) => i !== index);
-      return next;
-    });
-  }
-
-  function completePlannedMeal(slotKey, index, itemId) {
-    const dinnerMeal = resolvePlannerDinnerMeal(itemId);
-    if (dinnerMeal) {
-      const requirements = getComboPreparedRequirements(dinnerMeal);
-      if (requirements.length) {
-        setPreparedInventory((current) => consumePreparedPackages(current, requirements));
-      }
-    } else {
-      const recipe = resolvePlannerRecipe(itemId);
-      if (recipe) dispatchAddLeftovers(recipe);
-    }
-    removeRecipe(slotKey, index);
-  }
-
-  function clearPlan() {
-    setPlan(emptyTwoWeekPlan());
-  }
-
-  function clearWeek(weekId) {
-    setPlan((current) => {
-      const next = normalizeTwoWeekPlan(current);
-      WEEK_DAYS.forEach((day) => {
-        next[`${weekId}-${day}`] = [];
-      });
-      return next;
-    });
-  }
-
-  function copyWeekOneToWeekTwo() {
-    setPlan((current) => {
-      const next = normalizeTwoWeekPlan(current);
-      WEEK_DAYS.forEach((day) => {
-        next[`week2-${day}`] = [...(next[`week1-${day}`] || [])];
-      });
-      return next;
-    });
-  }
-
-  function firstEmptySlotForWeek(weekId) {
+  if (!imagePath) {
     return (
-      WEEK_DAYS.map((day) => `${weekId}-${day}`).find(
-        (slotKey) => (normalizedPlan[slotKey] || []).length === 0
-      ) || `${weekId}-Mon`
+      <span className={`weeklyPlannerRecipeImage weeklyPlannerRecipeImageFallback ${className}`.trim()}>
+        {recipe.id}
+      </span>
     );
-  }
-
-  function plannerEstimatedCostText(recipe) {
-    const estimatedCost = getRecipeEstimatedCost(recipe);
-
-    if (!estimatedCost?.displayCost) {
-      return "Cost estimate under review";
-    }
-
-    return `${estimatedCost.roundedCostPerServing} per serving · ${estimatedCost.roundedRecipeCost} total · ${estimatedCost.costCategory}`;
-  }
-
-  function plannerDinnerRecipeButtons(meal) {
-    if (!meal) return [];
-
-    return [
-      { label: meal.mainDish, type: "Main Dish", recipeId: meal.mainRecipeId },
-      ...(meal.sides || []).map((side) => ({
-        label: side.name,
-        type: "Side Dish",
-        recipeId: side.recipeId,
-      })),
-    ];
-  }
-
-  function openDinnerRecipeCard(recipeId) {
-    const recipe = resolvePlannerRecipe(recipeId);
-    if (!recipe) return;
-
-    setPlannerDinnerViewer(null);
-    openRecipeCard(recipe.id, recipes);
   }
 
   return (
-    <main className="pageShell plannerDashboard weeklyDinnerPlannerPage">
-      <div className="plannerQuickActionsBar">
-        <div className="plannerQuickActionsButtons" aria-label="Quick actions">
-          <button className="secondary" onClick={copyWeekOneToWeekTwo}>Copy Week 1 to Week 2</button>
-          <button className="secondary" onClick={() => clearWeek("week1")}>Clear Week 1</button>
-          <button className="secondary" onClick={() => clearWeek("week2")}>Clear Week 2</button>
-          <button className="secondary" onClick={clearPlan}>Clear Planner</button>
+    <img
+      className={`weeklyPlannerRecipeImage ${className}`.trim()}
+      src={`${import.meta.env.BASE_URL}${imagePath}`}
+      alt=""
+      aria-hidden="true"
+      loading="lazy"
+      decoding="async"
+      onError={() => {
+        setImageIndex((current) =>
+          current < candidates.length - 1 ? current + 1 : candidates.length
+        );
+      }}
+    />
+  );
+}
+
+const WEEKLY_PLANNER_ROWS = Object.freeze([
+  { id: "M", label: "M", name: "Main Course", index: 0, type: "main" },
+  { id: "S1", label: "S1", name: "Side 1", index: 1, type: "side" },
+  { id: "S2", label: "S2", name: "Side 2", index: 2, type: "side" },
+  { id: "S3", label: "S3", name: "Side 3", index: 3, type: "side" },
+]);
+
+const WEEKLY_PLANNER_SIDE_PREFIXES = new Set(["SD", "SB", "LF", "DS"]);
+const WEEKLY_PLANNER_DAY_LABELS = Object.freeze({
+  Sun: "Sunday",
+  Mon: "Monday",
+  Tue: "Tuesday",
+  Wed: "Wednesday",
+  Thu: "Thursday",
+  Fri: "Friday",
+  Sat: "Saturday",
+});
+
+function PlannerPage({
+  plan,
+  setPlan,
+  servings,
+  setServings,
+  favorites,
+  toggleFavorite,
+  openRecipeCard,
+  setActivePage,
+  preparedInventory,
+  setPreparedInventory,
+}) {
+  const normalizedPlan = useMemo(() => normalizeTwoWeekPlan(plan), [plan]);
+  const [picker, setPicker] = useState(null);
+  const [pickerSearch, setPickerSearch] = useState("");
+  const [pickerRecipeId, setPickerRecipeId] = useState("");
+  const [notes, setNotes] = useState(() => {
+    try {
+      return JSON.parse(window.localStorage.getItem("rrb-weekly-planner-notes") || "{}");
+    } catch {
+      return {};
+    }
+  });
+
+  usePopupPageMode(Boolean(picker));
+
+  function slotKey(day) {
+    return `week1-${day}`;
+  }
+
+  function recipeFor(day, rowIndex) {
+    const recipeId = normalizedPlan[slotKey(day)]?.[rowIndex];
+    return recipes.find((recipe) => recipe.id === recipeId) || null;
+  }
+
+  function isSideRecipe(recipe) {
+    const prefix = recipeCodePrefix(recipe?.id);
+    const categoryText = `${recipe?.category || ""} ${recipe?.categoryCode || ""}`.toLowerCase();
+
+    return (
+      WEEKLY_PLANNER_SIDE_PREFIXES.has(prefix) ||
+      categoryText.includes("side") ||
+      categoryText.includes("salad") ||
+      categoryText.includes("bread") ||
+      categoryText.includes("roll") ||
+      categoryText.includes("dessert")
+    );
+  }
+
+  const pickerRecipes = useMemo(() => {
+    if (!picker) return [];
+
+    const query = pickerSearch.trim().toLowerCase();
+
+    return recipes
+      .filter((recipe) => {
+        const matchesType = picker.row.type === "side"
+          ? isSideRecipe(recipe)
+          : !isSideRecipe(recipe);
+
+        if (!matchesType) return false;
+        if (!query) return true;
+
+        return `${recipe.id} ${recipe.title} ${recipe.category || ""}`
+          .toLowerCase()
+          .includes(query);
+      })
+      .slice(0, 30);
+  }, [picker, pickerSearch]);
+
+  function openPicker(day, row) {
+    const existing = recipeFor(day, row.index);
+    setPicker({ day, row });
+    setPickerRecipeId(existing?.id || "");
+    setPickerSearch("");
+  }
+
+  function closePicker() {
+    setPicker(null);
+    setPickerRecipeId("");
+    setPickerSearch("");
+  }
+
+  function assignRecipe() {
+    if (!picker || !pickerRecipeId) return;
+
+    setPlan((current) => {
+      const next = normalizeTwoWeekPlan(current);
+      const key = slotKey(picker.day);
+      const currentItems = [...(next[key] || [])];
+
+      while (currentItems.length < 4) currentItems.push(null);
+      currentItems[picker.row.index] = pickerRecipeId;
+
+      next[key] = currentItems;
+      return next;
+    });
+
+    closePicker();
+  }
+
+  function clearPlannerSlot() {
+    if (!picker) return;
+
+    setPlan((current) => {
+      const next = normalizeTwoWeekPlan(current);
+      const key = slotKey(picker.day);
+      const currentItems = [...(next[key] || [])];
+
+      while (currentItems.length < 4) currentItems.push(null);
+      currentItems[picker.row.index] = null;
+
+      while (currentItems.length && !currentItems[currentItems.length - 1]) {
+        currentItems.pop();
+      }
+
+      next[key] = currentItems;
+      return next;
+    });
+
+    closePicker();
+  }
+
+  function clearWeek() {
+    setPlan((current) => {
+      const next = normalizeTwoWeekPlan(current);
+      WEEK_DAYS.forEach((day) => {
+        next[slotKey(day)] = [];
+      });
+      return next;
+    });
+
+    setNotes({});
+    try {
+      window.localStorage.removeItem("rrb-weekly-planner-notes");
+    } catch {
+      // The planner still clears for the current browser session.
+    }
+  }
+
+  function updateNote(day, value) {
+    setNotes((current) => {
+      const next = { ...current, [day]: value };
+      try {
+        window.localStorage.setItem("rrb-weekly-planner-notes", JSON.stringify(next));
+      } catch {
+        // Keep notes available in the current session if storage is unavailable.
+      }
+      return next;
+    });
+  }
+
+  return (
+    <main className="pageShell weeklyCalendarPlannerPage">
+      <header className="weeklyCalendarPlannerHeader">
+        <div>
+          <span className="aiBadge">WEEKLY MEAL PLANNING</span>
+          <h1>Your Weekly Meal Planner</h1>
+          <p>
+            Choose a main course and up to three sides for each day. Click any meal
+            box to search and assign a recipe.
+          </p>
         </div>
-        <ServingSelector servings={servings} setServings={setServings} />
-      </div>
 
-      <div className="plannerAddPanel plannerFullWidthControls">
-        <select
-          value={selectedSlot}
-          onChange={(event) => setSelectedSlot(event.target.value)}
-          aria-label="Choose planner day"
-        >
-          {PLANNER_WEEKS.map((week) => (
-            <optgroup key={week.id} label={week.title}>
-              {WEEK_DAYS.map((day) => (
-                <option key={`${week.id}-${day}`} value={`${week.id}-${day}`}>
-                  {week.title} — {day}
-                </option>
-              ))}
-            </optgroup>
+        <div className="weeklyCalendarPlannerActions">
+          <ServingSelector servings={servings} setServings={setServings} />
+          <button type="button" className="secondary" onClick={clearWeek}>
+            Clear Week
+          </button>
+        </div>
+      </header>
+
+      <section className="weeklyCalendarPlannerShell" aria-label="Weekly meal planning calendar">
+        <div className="weeklyCalendarPlannerGrid weeklyCalendarPlannerDays">
+          <div className="weeklyCalendarPlannerCorner" aria-hidden="true" />
+          {WEEK_DAYS.map((day) => (
+            <div className="weeklyCalendarPlannerDay" key={day}>
+              <strong>{day.slice(0, 1)}</strong>
+              <small>{WEEKLY_PLANNER_DAY_LABELS[day]}</small>
+            </div>
           ))}
-        </select>
+        </div>
 
-        <select
-          value={selectedCategory}
-          onChange={(event) => setSelectedCategory(event.target.value)}
-          aria-label="Filter recipes by category"
-        >
-          <option value="All">All Categories</option>
-          {categories.map((category) => (
-            <option key={category.id} value={category.name}>
-              {category.name}
-            </option>
-          ))}
-        </select>
+        {WEEKLY_PLANNER_ROWS.map((row) => (
+          <div className="weeklyCalendarPlannerGrid weeklyCalendarPlannerMealRow" key={row.id}>
+            <div className="weeklyCalendarPlannerRowLabel">
+              <strong>{row.label}</strong>
+              <small>{row.name}</small>
+            </div>
 
-        <select onChange={(event) => addRecipe(event.target.value)} value="">
-          <option value="">
-            Add {selectedCategory === "All" ? "recipe" : selectedCategory} to {plannerSlotLabel(selectedSlot)}
-          </option>
-          {filteredPlannerRecipes.map((recipe) => (
-            <option key={recipe.id} value={recipe.id}>
-              {recipe.id} — {recipe.title}{isMealBalanceRated(recipe) ? ` · MB ${getMealBalanceScore(recipe)}` : ""}
-            </option>
-          ))}
-        </select>
-      </div>
+            {WEEK_DAYS.map((day) => {
+              const recipe = recipeFor(day, row.index);
+              const score = recipe ? getMealBalanceScore(recipe) : null;
 
-      <div className="plannerCompactTables plannerCompactTablesFullWidth">
-        {PLANNER_WEEKS.map((week) => {
-          return (
-            <section className="plannerCompactWeek" key={week.id}>
-              <div className="plannerWeekHeader plannerCompactWeekHeader simplifiedPlannerWeekHeader">
-                <h2>{week.title}</h2>
+              return (
                 <button
-                  className="weekAddButton"
-                  onClick={() => setSelectedSlot(firstEmptySlotForWeek(week.id))}
+                  type="button"
+                  className={`weeklyCalendarPlannerCell${recipe ? " hasRecipe" : ""}`}
+                  key={`${day}-${row.id}`}
+                  onClick={() => openPicker(day, row)}
+                  aria-label={
+                    recipe
+                      ? `${WEEKLY_PLANNER_DAY_LABELS[day]} ${row.name}: ${recipe.title}. Change recipe.`
+                      : `Add ${row.name} for ${WEEKLY_PLANNER_DAY_LABELS[day]}`
+                  }
                 >
-                  + Add Recipe
+                  {recipe ? (
+                    <>
+                      <span className="weeklyPlannerRecipeImageWrap">
+                        <PlannerRecipeThumb recipe={recipe} />
+                        {score !== null && isMealBalanceRated(recipe) && (
+                          <span
+                            className="weeklyPlannerMealBalanceCircle"
+                            title={`MealBalance ${score} — ${getMealBalanceLabel(recipe)}`}
+                          >
+                            {score}
+                          </span>
+                        )}
+                      </span>
+                      <strong>{recipe.title}</strong>
+                    </>
+                  ) : (
+                    <span className="weeklyCalendarPlannerEmpty">
+                      <b>＋</b>
+                      <small>Add {row.label}</small>
+                    </span>
+                  )}
                 </button>
+              );
+            })}
+          </div>
+        ))}
+
+        <div className="weeklyCalendarPlannerGrid weeklyCalendarPlannerNotesRow">
+          <div className="weeklyCalendarPlannerRowLabel">
+            <strong>NOTES</strong>
+            <small>Your notes</small>
+          </div>
+
+          {WEEK_DAYS.map((day) => (
+            <label className="weeklyCalendarPlannerNoteCell" key={`${day}-notes`}>
+              <span className="srOnly">{WEEKLY_PLANNER_DAY_LABELS[day]} notes</span>
+              <textarea
+                value={notes[day] || ""}
+                onChange={(event) => updateNote(day, event.target.value)}
+                placeholder="Add notes..."
+              />
+            </label>
+          ))}
+        </div>
+      </section>
+
+      <p className="weeklyCalendarPlannerLegend">
+        <span className="weeklyPlannerMealBalanceCircle">5</span>
+        Green circle = MealBalance score
+      </p>
+
+      {picker && (
+        <div
+          className="weeklyPlannerPickerOverlay"
+          role="presentation"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) closePicker();
+          }}
+        >
+          <section
+            className="weeklyPlannerPicker"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="weekly-planner-picker-title"
+          >
+            <header className="weeklyPlannerPickerHeader">
+              <div>
+                <span className="aiBadge">
+                  {WEEKLY_PLANNER_DAY_LABELS[picker.day]} · {picker.row.label}
+                </span>
+                <h2 id="weekly-planner-picker-title">
+                  Select {picker.row.type === "main" ? "Main Course" : "Side"} for{" "}
+                  {WEEKLY_PLANNER_DAY_LABELS[picker.day]}
+                </h2>
+                <p>
+                  {picker.row.type === "main"
+                    ? "Search the main-course recipe library."
+                    : "Search Side Dishes, Salads, Breads & Rolls, and Desserts."}
+                </p>
               </div>
 
-              <div className="plannerTableHeader" aria-hidden="true">
-                <span>Day</span>
-                <span>Dinner Plan</span>
-                <span>Estimated Cost</span>
-                <span>Actions</span>
-              </div>
-
-              <div className="plannerCompactTableRows">
-                {WEEK_DAYS.map((day) => {
-                  const slotKey = `${week.id}-${day}`;
-                  const mealIds = normalizedPlan[slotKey] || [];
-
-                  return (
-                    <section className="plannerTableRow" key={slotKey}>
-                      <div className="plannerTableDay">
-                        <strong>{day}</strong>
-                      </div>
-
-                      <div className="plannerTableMeals plannerTableMealsWide">
-                        {mealIds.length === 0 ? (
-                          <button
-                            className="plannerEmptyMeal plannerTableEmpty"
-                            onClick={() => setSelectedSlot(slotKey)}
-                          >
-                            + Add dinner
-                          </button>
-                        ) : (
-                          mealIds.map((recipeId, index) => {
-                            const recipe = resolvePlannerRecipe(recipeId);
-                            const dinnerMeal = resolvePlannerDinnerMeal(recipeId);
-                            const plannerItem = recipe || dinnerMeal;
-                            if (!plannerItem) return null;
-
-                            return (
-                              <div className="plannerTableMealTitle" key={`${slotKey}-${recipeId}-${index}`}>
-                                <div className="plannerMealTitleWithBalance">
-                                  <strong>{plannerItem.title}</strong>
-                                  <MealBalanceBadge item={plannerItem} className="plannerMealBalanceBadge" />
-                                </div>
-                                {recipe ? (
-                                  <small>{recipe.id} · {recipe.category} · {recipe.time} min · serves {servings}</small>
-                                ) : (
-                                  <div className="plannerDinnerComboReference plannerDinnerComboReferenceWithImage">
-                                    <div className="plannerDinnerComboThumbWrap">
-                                      <DinnerCombinationImage
-                                        meal={plannerItem}
-                                        className="plannerDinnerComboThumb"
-                                        loading="lazy"
-                                        fetchPriority="low"
-                                      />
-                                    </div>
-                                    <div className="plannerDinnerComboText">
-                                      <small>{plannerItem.id.toUpperCase()} · Dinner Combination · {plannerItem.calories || "—"} calories</small>
-                                      <span><strong>Main:</strong> {plannerItem.mainDish} — {plannerItem.mainServing}</span>
-                                      {(plannerItem.sides || []).map((side) => (
-                                        <span key={`${recipeId}-${side.name}`}><strong>Side:</strong> {side.name} — {side.serving}</span>
-                                      ))}
-                                    </div>
-                                  </div>
-                                )}
-                              </div>
-                            );
-                          })
-                        )}
-                      </div>
-
-                      <div className="plannerTableEstimatedCost">
-                        {mealIds.length === 0 ? (
-                          <span className="plannerTableMuted">Estimated cost appears after you add a dinner.</span>
-                        ) : (
-                          mealIds.map((recipeId, index) => {
-                            const recipe = resolvePlannerRecipe(recipeId);
-                            const dinnerMeal = resolvePlannerDinnerMeal(recipeId);
-                            if (!recipe && !dinnerMeal) return null;
-
-                            return (
-                              <span key={`${slotKey}-${recipeId}-${index}-nutrition`}>
-                                {recipe ? plannerEstimatedCostText(recipe) : "Dinner combination cost estimate not available"}
-                              </span>
-                            );
-                          })
-                        )}
-                      </div>
-
-                      <div className="plannerTableActions">
-                        {mealIds.length === 0 ? (
-                          <button
-                            className="plannerMiniButton"
-                            onClick={() => setSelectedSlot(slotKey)}
-                          >
-                            Add
-                          </button>
-                        ) : (
-                          mealIds.map((recipeId, index) => {
-                            const recipe = resolvePlannerRecipe(recipeId);
-                            const dinnerMeal = resolvePlannerDinnerMeal(recipeId);
-                            if (!recipe && !dinnerMeal) return null;
-                            const isSaved = recipe ? Array.isArray(favorites) && favorites.includes(recipe.id) : false;
-
-                            return (
-                              <div className="plannerTableActionSet" key={`${slotKey}-${recipeId}-${index}-actions`}>
-                                {recipe && (
-                                  <button
-                                    className={isSaved ? "plannerHeart saved" : "plannerHeart"}
-                                    onClick={() => toggleFavorite(recipe.id)}
-                                    aria-label={isSaved ? "Remove from favorites" : "Add to favorites"}
-                                  >
-                                    ♥
-                                  </button>
-                                )}
-                                <button
-                                  className="plannerMiniButton"
-                                  onClick={() => recipe ? openRecipeCard(recipe.id, recipes) : setPlannerDinnerViewer(dinnerMeal)}
-                                >
-                                  View
-                                </button>
-                                <button
-                                  className="plannerMiniButton plannerCookedButton"
-                                  onClick={() => completePlannedMeal(slotKey, index, recipeId)}
-                                  title={dinnerMeal ? "Complete meal and use reserved freezer packages" : "Complete meal and add leftovers"}
-                                >
-                                  Cooked
-                                </button>
-                                <button
-                                  className="plannerRemoveButton"
-                                  onClick={() => removeRecipe(slotKey, index)}
-                                  aria-label="Remove recipe"
-                                >
-                                  ×
-                                </button>
-                              </div>
-                            );
-                          })
-                        )}
-                      </div>
-                    </section>
-                  );
-                })}
-              </div>
-            </section>
-          );
-        })}
-      </div>
-
-      {plannerDinnerViewer && (
-        <div className="plannerDinnerModalOverlay" role="dialog" aria-modal="true" aria-label={`${plannerDinnerViewer.title} dinner combination`}>
-          <article className="plannerDinnerModal">
-            <header className="plannerDinnerModalHeader">
-              <div className="plannerDinnerModalTitleBlock">
-                <span className="dinnerCombinationMealBadge">Meal #{plannerDinnerViewer.number}</span>
-                <h2>{plannerDinnerViewer.title}</h2>
-                <p className="dinnerCombinationSubtitle">{plannerDinnerViewer.subtitle}</p>
-                <MealBalanceDetails item={plannerDinnerViewer} prefix="Combo Meal Balance" className="comboMealBalanceDetails" />
-              </div>
               <button
                 type="button"
-                className="plannerDinnerModalClose"
-                onClick={() => setPlannerDinnerViewer(null)}
-                aria-label="Close dinner combination"
+                className="weeklyPlannerPickerClose"
+                onClick={closePicker}
+                aria-label="Close recipe selection"
               >
                 ×
               </button>
             </header>
 
-            <section className="plannerDinnerModalSummaryGrid">
-              <DinnerCombinationImage
-                meal={plannerDinnerViewer}
-                className="plannerDinnerModalImage plannerDinnerModalImageCompact"
-                loading="eager"
-                fetchPriority="high"
+            <div className="weeklyPlannerPickerSearch">
+              <input
+                type="search"
+                value={pickerSearch}
+                onChange={(event) => setPickerSearch(event.target.value)}
+                placeholder="Search by recipe name or code..."
+                autoFocus
               />
+              <span>{pickerRecipes.length} shown</span>
+            </div>
 
-              <section className="plannerDinnerModalDetails plannerDinnerModalMenuText">
-                <h3>Main Dish:</h3>
-                <p><strong>{plannerDinnerViewer.mainDish}</strong> — {plannerDinnerViewer.mainServing}</p>
+            <div className="weeklyPlannerPickerRecipes">
+              {pickerRecipes.map((recipe) => {
+                const score = getMealBalanceScore(recipe);
+                const selected = pickerRecipeId === recipe.id;
 
-                <h3>Sides:</h3>
-                <ul>
-                  {(plannerDinnerViewer.sides || []).map((side) => (
-                    <li key={`${plannerDinnerViewer.id}-${side.name}`}><strong>{side.name}</strong> — {side.serving}</li>
-                  ))}
-                </ul>
-              </section>
-            </section>
+                return (
+                  <button
+                    type="button"
+                    className={`weeklyPlannerPickerRecipe${selected ? " isSelected" : ""}`}
+                    key={recipe.id}
+                    onClick={() => setPickerRecipeId(recipe.id)}
+                    aria-pressed={selected}
+                  >
+                    <span className="weeklyPlannerPickerImageWrap">
+                      <PlannerRecipeThumb recipe={recipe} />
+                      {score !== null && isMealBalanceRated(recipe) && (
+                        <span className="weeklyPlannerMealBalanceCircle">{score}</span>
+                      )}
+                      {selected && <span className="weeklyPlannerPickerCheck">✓</span>}
+                    </span>
+                    <strong>{recipe.title}</strong>
+                    <small>{recipe.id} · {recipe.time} min · serves {recipe.servings}</small>
+                  </button>
+                );
+              })}
+            </div>
 
-            <section className="plannerDinnerModalNutrition">
-              <h3>Estimated nutrition for the whole meal:</h3>
-              <p>
-                {plannerDinnerViewer.calories || "—"} calories | {plannerDinnerViewer.protein || "—"}g protein | {plannerDinnerViewer.carbs || "—"}g carbs | {plannerDinnerViewer.fat || "—"}g fat | {plannerDinnerViewer.fiber || "—"}g fiber
-              </p>
-            </section>
-
-            <section className="plannerDinnerModalRecipeButtons" aria-label={`Recipe cards for ${plannerDinnerViewer.title}`}>
-              <h3>Recipe Cards</h3>
-              <div className="plannerDinnerModalRecipeButtonGrid">
-                {plannerDinnerRecipeButtons(plannerDinnerViewer).map((button) => {
-                  const linkedRecipe = resolvePlannerRecipe(button.recipeId);
-
-                  return (
-                    <button
-                      type="button"
-                      key={`${plannerDinnerViewer.id}-${button.type}-${button.label}`}
-                      className={linkedRecipe ? "plannerDinnerRecipeButton hasRecipeMatch" : "plannerDinnerRecipeButton missingRecipeMatch"}
-                      onClick={() => linkedRecipe && openDinnerRecipeCard(linkedRecipe.id)}
-                      disabled={!linkedRecipe}
-                      title={linkedRecipe ? `Open ${linkedRecipe.title}` : "Recipe card not linked yet"}
-                    >
-                      <span>{button.type}</span>
-                      <strong>{linkedRecipe ? `${linkedRecipe.id} · ${linkedRecipe.title}` : button.label}</strong>
-                      {!linkedRecipe && <small>Card not linked yet</small>}
-                    </button>
-                  );
-                })}
-              </div>
-            </section>
-
-            <details className="dinnerCombinationHeating" open>
-              <summary>Heating & freezer notes</summary>
-              <div>
-                <p><strong>Freezer life:</strong> {plannerDinnerViewer.freezerLife}</p>
-                <p><strong>Oven:</strong> {plannerDinnerViewer.ovenInstructions}</p>
-                <p><strong>Microwave:</strong> {plannerDinnerViewer.microwaveInstructions}</p>
-              </div>
-            </details>
-          </article>
+            <footer className="weeklyPlannerPickerFooter">
+              <button
+                type="button"
+                className="weeklyPlannerPickerClear"
+                onClick={clearPlannerSlot}
+              >
+                Clear This Box
+              </button>
+              <span />
+              <button type="button" className="secondary" onClick={closePicker}>
+                Cancel
+              </button>
+              <button
+                type="button"
+                className="primary"
+                onClick={assignRecipe}
+                disabled={!pickerRecipeId}
+              >
+                Assign to {picker.day} — {picker.row.label}
+              </button>
+            </footer>
+          </section>
         </div>
       )}
     </main>
