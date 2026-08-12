@@ -42101,3 +42101,21 @@ body.rrbPopupOpen {
     flex: 0 0 29px !important;
   }
 }
+
+
+/* v73.9 — functional EASY / DETAILED Home experience */
+.homeComboMealGrid {
+  grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+}
+
+.homeComboMealGrid > .homeComboMealCardWrap:first-child {
+  grid-column: 2 !important;
+}
+
+.hero .homeHeroModeChoice.isActive,
+.hero .homeHeroModeChoice[aria-pressed="true"] {
+  border-radius: 7px !important;
+  background: #8A817C !important;
+  color: #fff !important;
+  box-shadow: 0 1px 3px rgba(55,49,46,.18) !important;
+}

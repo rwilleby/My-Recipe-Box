@@ -1934,7 +1934,7 @@ function WelcomeTour() {
   );
 }
 
-function Hero({ setActivePage }) {
+function Hero({ setActivePage, siteMode = "detailed", onSiteModeChange }) {
   const [heroIndex, setHeroIndex] = useState(0);
   const [backupReminderStatus, setBackupReminderStatus] = useState(() => {
     const reminderState = readBackupReminderState();
@@ -2039,8 +2039,22 @@ function Hero({ setActivePage }) {
 
       <div className="homeHeroModeCluster">
         <div className="homeHeroModeControls" role="group" aria-label="Choose recipe experience">
-          <button type="button" className="homeHeroModeChoice isActive" aria-pressed="true">Easy</button>
-          <button type="button" className="homeHeroModeChoice" aria-pressed="false">Detailed</button>
+          <button
+            type="button"
+            className={`homeHeroModeChoice${siteMode === "easy" ? " isActive" : ""}`}
+            aria-pressed={siteMode === "easy"}
+            onClick={() => onSiteModeChange?.("easy")}
+          >
+            Easy
+          </button>
+          <button
+            type="button"
+            className={`homeHeroModeChoice${siteMode === "detailed" ? " isActive" : ""}`}
+            aria-pressed={siteMode === "detailed"}
+            onClick={() => onSiteModeChange?.("detailed")}
+          >
+            Detailed
+          </button>
         </div>
         <SupplementalHoverVideo
           src={EASY_DETAILED_VIDEO_URL}
@@ -3026,7 +3040,7 @@ function HomeComboMealStrip({
         </div>
 
         <div className="homeComboMealGrid">
-          {homeComboMeals.map((meal, position) => {
+          {homeComboMeals.slice(0, 4).map((meal, position) => {
             const transition = crossfades[position];
             const activeMeal = transition?.to || meal;
             const isFavorite = Array.isArray(favorites) && favorites.includes(activeMeal.id);
@@ -5883,6 +5897,13 @@ function Home({
   kosUi,
 }) {
   const [showAdminAccess, setShowAdminAccess] = useState(false);
+  const [siteMode, setSiteMode] = useState(() => {
+    try {
+      return window.localStorage.getItem("rrb-site-mode") === "easy" ? "easy" : "detailed";
+    } catch {
+      return "detailed";
+    }
+  });
   const [isAdminUnlocked, setIsAdminUnlocked] = useState(() => {
     try {
       return window.sessionStorage.getItem("rrb-admin-unlocked") === "true";
@@ -5956,9 +5977,23 @@ function Home({
     setShowAdminAccess(false);
   }
 
+  function changeSiteMode(nextMode) {
+    const normalizedMode = nextMode === "easy" ? "easy" : "detailed";
+    setSiteMode(normalizedMode);
+    try {
+      window.localStorage.setItem("rrb-site-mode", normalizedMode);
+    } catch {
+      // Keep the mode active for this session if storage is unavailable.
+    }
+  }
+
   return (
     <>
-      <Hero setActivePage={setActivePage} />
+      <Hero
+        setActivePage={setActivePage}
+        siteMode={siteMode}
+        onSiteModeChange={changeSiteMode}
+      />
       <HomeComboMealStrip
         setActivePage={setActivePage}
         openRecipeCard={openRecipeCard}
@@ -5966,7 +6001,9 @@ function Home({
         toggleFavorite={toggleFavorite}
         setPlan={setPlan}
       />
-      <HomePhotoFeatureSection setActivePage={setActivePage} kosUi={kosUi} />
+      {siteMode === "detailed" && (
+        <HomePhotoFeatureSection setActivePage={setActivePage} kosUi={kosUi} />
+      )}
       <CategoryGrid setFilter={setFilter} setActivePage={setActivePage} />
       <HomeRecipeCounters classifiedRecipes={classifiedRecipes} />
 
