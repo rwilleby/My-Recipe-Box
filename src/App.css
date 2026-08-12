@@ -41983,3 +41983,96 @@ body.rrbPopupOpen {
 .homeWelcomeTour,.homeWelcomeTour.isPlayerVisible,.largeHeroVideoPanel{z-index:10000!important}
 .supplementalHoverVideoPopover{z-index:10050!important}
 @media(max-width:760px){.hero .homeHeroModeControls{left:12px!important;width:104px!important}}
+
+
+/* v73.6 — HOME ONLY aligned Easy/Detailed + placeholder video */
+.hero .homeHeroModeCluster{
+  position:absolute!important;
+  left:55px!important;
+  bottom:12px!important;
+  z-index:260!important;
+  display:flex!important;
+  align-items:center!important;
+  gap:8px!important
+}
+.hero .homeHeroModeControls{
+  position:static!important;
+  left:auto!important;
+  bottom:auto!important;
+  width:118px!important;
+  height:37px!important;
+  min-height:37px!important;
+  padding:2px!important
+}
+.hero .homeHeroModeChoice{
+  height:31px!important;
+  min-height:31px!important;
+  line-height:31px!important;
+  font-size:11px!important
+}
+.hero > .pageHelpStrip.pageNotesStrip .pageSequencePrev,
+.hero > .pageHelpStrip.pageNotesStrip .pageSequenceNext{
+  height:37px!important;
+  min-height:37px!important
+}
+.hero .homeModeVideoIcon{
+  width:24px!important;
+  height:24px!important;
+  flex:0 0 24px!important;
+  animation:none!important;
+  opacity:.72!important
+}
+.hero .homeModeSupplementalVideoTrigger{
+  position:relative!important;
+  display:inline-grid!important;
+  place-items:center!important
+}
+.hero .homeModeSupplementalVideoTrigger .supplementalHoverVideoPopover{
+  position:absolute!important;
+  left:0!important;
+  right:auto!important;
+  top:calc(100% + 8px)!important;
+  width:min(420px,calc(100vw - 32px))!important;
+  max-width:calc(100vw - 32px)!important;
+  transform:none!important;
+  z-index:10060!important
+}
+.supplementalVideoTestPattern{
+  display:grid!important;
+  place-items:center!important;
+  align-content:center!important;
+  width:100%!important;
+  aspect-ratio:16/9!important;
+  background:linear-gradient(90deg,#d9d9d9 0 14.285%,#e9d85f 14.285% 28.57%,#63c6c7 28.57% 42.855%,#69b86b 42.855% 57.14%,#c26cc4 57.14% 71.425%,#d86868 71.425% 85.71%,#5f73c8 85.71% 100%)!important;
+  color:#fff!important;
+  font-family:Inter,Arial,sans-serif!important;
+  font-weight:800!important;
+  text-align:center!important;
+  text-shadow:0 1px 3px rgba(0,0,0,.6)!important
+}
+.supplementalVideoTestPattern>span{
+  padding:8px 14px!important;
+  background:rgba(17,24,39,.76)!important;
+  border:1px solid rgba(255,255,255,.82)!important;
+  border-radius:7px!important;
+  font-size:12px!important
+}
+.supplementalVideoTestPattern small{
+  margin-top:8px!important;
+  font-size:9px!important;
+  letter-spacing:.16em!important
+}
+@media(max-width:760px){
+  .hero .homeHeroModeCluster{left:12px!important;gap:6px!important}
+  .hero .homeHeroModeControls{width:108px!important;height:34px!important;min-height:34px!important}
+  .hero .homeHeroModeChoice{height:28px!important;min-height:28px!important;line-height:28px!important}
+  .hero .homeModeSupplementalVideoTrigger .supplementalHoverVideoPopover{
+    position:fixed!important;
+    left:16px!important;
+    right:16px!important;
+    top:50%!important;
+    width:auto!important;
+    max-width:none!important;
+    transform:translateY(-50%)!important
+  }
+}

@@ -767,6 +767,8 @@ const VIDEO_ICON_SUPPLEMENTAL = "images/icons/video-gray.webp";
 const DINNER_IDEAS_VIDEO_URL = "videos/dinner-ideas.mp4";
 const WELCOME_TOUR_VIDEO_POSTER = "images/video-posters/welcome-video-poster.webp";
 const DINNER_IDEAS_VIDEO_POSTER = "images/video-posters/dinner-ideas-poster.webp";
+const EASY_DETAILED_VIDEO_URL = "videos/easy-or-detailed.mp4";
+const EASY_DETAILED_VIDEO_POSTER = "images/video-posters/easy-or-detailed-poster.webp";
 const CHOOSE_YOUR_LEVEL_VIDEO_URL = "videos/choose-your-level.mp4";
 const CHOOSE_YOUR_LEVEL_VIDEO_POSTER = "images/video-posters/choose-your-level-poster.webp";
 const QUICK_LINKS_VIDEO_URL = "videos/browse-our-quick-links.mp4";
@@ -2035,9 +2037,22 @@ function Hero({ setActivePage }) {
 
       <WelcomeTour />
 
-      <div className="homeHeroModeControls" role="group" aria-label="Choose recipe experience">
-        <button type="button" className="homeHeroModeChoice isActive" aria-pressed="true">Easy</button>
-        <button type="button" className="homeHeroModeChoice" aria-pressed="false">Detailed</button>
+      <div className="homeHeroModeCluster">
+        <div className="homeHeroModeControls" role="group" aria-label="Choose recipe experience">
+          <button type="button" className="homeHeroModeChoice isActive" aria-pressed="true">Easy</button>
+          <button type="button" className="homeHeroModeChoice" aria-pressed="false">Detailed</button>
+        </div>
+        <SupplementalHoverVideo
+          src={EASY_DETAILED_VIDEO_URL}
+          poster={EASY_DETAILED_VIDEO_POSTER}
+          title="Easy or Detailed overview video"
+          className="homeModeSupplementalVideoTrigger"
+        >
+          <span className="supplementalVideoIcon homeModeVideoIcon">
+            <VideoIcon role="supplemental" alt="" className="supplementalVideoIconGray" />
+            <VideoIcon role="main" alt="" className="supplementalVideoIconRed" />
+          </span>
+        </SupplementalHoverVideo>
       </div>
 
       <PageHelpButtonStrip pageTitle="Home" pageEyebrow="HOME" />
@@ -3068,7 +3083,7 @@ function HomeComboMealStrip({
 
 
 
-function SupplementalHoverVideo({ src, poster = "", title, className = "", children }) {
+function SupplementalHoverVideo({ src, poster = "", title, className = "", children, showTestPattern = false }) {
   const [isOpen, setIsOpen] = useState(false);
   const videoRef = useRef(null);
   const closeTimerRef = useRef(null);
@@ -3085,9 +3100,11 @@ function SupplementalHoverVideo({ src, poster = "", title, className = "", child
       closeTimerRef.current = null;
     }
     setIsOpen(true);
-    window.requestAnimationFrame(() => {
-      videoRef.current?.play().catch(() => {});
-    });
+    if (src) {
+      window.requestAnimationFrame(() => {
+        videoRef.current?.play().catch(() => {});
+      });
+    }
   }
 
   function playVideo() {
@@ -3121,21 +3138,28 @@ function SupplementalHoverVideo({ src, poster = "", title, className = "", child
 
       {isOpen && (
         <span className="supplementalHoverVideoPopover" role="dialog" aria-label={title}>
-          <video
-            ref={videoRef}
-            src={`${import.meta.env.BASE_URL}${src}`}
-            poster={poster ? `${import.meta.env.BASE_URL}${poster}` : undefined}
-            title={title}
-            autoPlay
-            playsInline
-            preload="metadata"
-            onEnded={handleEnded}
-          >
-            Your browser does not support HTML5 video.
-          </video>
+          {src ? (
+            <video
+              ref={videoRef}
+              src={`${import.meta.env.BASE_URL}${src}`}
+              poster={poster ? `${import.meta.env.BASE_URL}${poster}` : undefined}
+              title={title}
+              autoPlay
+              playsInline
+              preload="metadata"
+              onEnded={handleEnded}
+            >
+              Your browser does not support HTML5 video.
+            </video>
+          ) : (
+            <span className={`supplementalVideoTestPattern${showTestPattern ? " isVisible" : ""}`}>
+              <span>VIDEO NOT YET ASSIGNED</span>
+              <small>TEST PATTERN</small>
+            </span>
+          )}
 
           <span className="videoStandardActionBar" aria-label={`${title} controls`}>
-            <button type="button" onClick={playVideo}>Play Now</button>
+            <button type="button" onClick={playVideo} disabled={!src}>Play Now</button>
             <button type="button" onClick={closeVideo}>Close Window</button>
           </span>
         </span>
