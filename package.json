@@ -1,6 +1,6 @@
 {
   "name": "rrb-browser-based-v1",
-  "version": "73.9.0",
+  "version": "73.10.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -52,7 +52,8 @@
     "test:home-mode-resize": "node test/homeModeResizeV732.test.mjs",
     "test:home-mode-exact-size": "node test/homeModeExactSizeV733.test.mjs",
     "test:home-mode-soft": "node test/homeModeSoftV734.test.mjs",
-    "test:v737": "node test/easyDetailedVideoV737.test.mjs"
+    "test:v737": "node test/easyDetailedVideoV737.test.mjs",
+    "test:v7310": "node test/easyDetailedRefineV7310.test.mjs"
   },
   "dependencies": {
     "react": "^19.1.0",

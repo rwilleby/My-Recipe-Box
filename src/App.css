@@ -42119,3 +42119,21 @@ body.rrbPopupOpen {
   color: #fff !important;
   box-shadow: 0 1px 3px rgba(55,49,46,.18) !important;
 }
+
+
+/* v73.10 — Complete Dinner count by mode + remove status band */
+.homeComboMealGrid[data-site-mode="detailed"] {
+  grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+}
+
+.homeComboMealGrid[data-site-mode="detailed"] > .homeComboMealCardWrap:first-child {
+  grid-column: auto !important;
+}
+
+.homeComboMealGrid[data-site-mode="easy"] {
+  grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+}
+
+.homeComboMealGrid[data-site-mode="easy"] > .homeComboMealCardWrap:first-child {
+  grid-column: 2 !important;
+}

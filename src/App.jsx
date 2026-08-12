@@ -2916,6 +2916,7 @@ function HomeComboMealStrip({
   favorites,
   toggleFavorite,
   setPlan,
+  siteMode = "detailed",
 }) {
   const allHomeComboMeals = useMemo(
     () => uniqueRecordsByPermanentId(dinnerCombinations),
@@ -3039,8 +3040,8 @@ function HomeComboMealStrip({
           </div>
         </div>
 
-        <div className="homeComboMealGrid">
-          {homeComboMeals.slice(0, 4).map((meal, position) => {
+        <div className="homeComboMealGrid" data-site-mode={siteMode}>
+          {(siteMode === "easy" ? homeComboMeals.slice(0, 4) : homeComboMeals).map((meal, position) => {
             const transition = crossfades[position];
             const activeMeal = transition?.to || meal;
             const isFavorite = Array.isArray(favorites) && favorites.includes(activeMeal.id);
@@ -6000,6 +6001,7 @@ function Home({
         favorites={favorites}
         toggleFavorite={toggleFavorite}
         setPlan={setPlan}
+        siteMode={siteMode}
       />
       {siteMode === "detailed" && (
         <HomePhotoFeatureSection setActivePage={setActivePage} kosUi={kosUi} />
@@ -6007,9 +6009,6 @@ function Home({
       <CategoryGrid setFilter={setFilter} setActivePage={setActivePage} />
       <HomeRecipeCounters classifiedRecipes={classifiedRecipes} />
 
-      <main className="pageShell" data-kos-ui="kitchen-companion">
-        <KosCompanionStatusBand kosUi={kosUi} />
-      </main>
 
       <BackupReminderPanel
         setActivePage={setActivePage}
