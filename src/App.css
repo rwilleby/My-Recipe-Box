@@ -41827,3 +41827,47 @@ body.rrbPopupOpen {
   .hero .homeHeroModeButton,
   .hero .homeHeroModeButton img { height: 34px !important; min-height: 34px !important; }
 }
+
+
+/* v73.2 — HOME splash Easy/Detailed resize to match PREV/NEXT */
+.hero .homeHeroModeControls {
+  bottom: 12px !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.hero .homeHeroModeButton {
+  height: 37px !important;
+  min-height: 37px !important;
+  width: auto !important;
+  min-width: 0 !important;
+  padding: 0 !important;
+  border-radius: 9px !important;
+  overflow: visible !important;
+}
+
+.hero .homeHeroModeButton img {
+  display: block !important;
+  height: 37px !important;
+  width: auto !important;
+  max-width: none !important;
+  object-fit: contain !important;
+}
+
+/* Explicitly keep Home PREV/NEXT on the identical 37px control height. */
+.hero > .pageHelpStrip.pageNotesStrip .pageSequencePrev,
+.hero > .pageHelpStrip.pageNotesStrip .pageSequenceNext {
+  height: 37px !important;
+  min-height: 37px !important;
+  box-sizing: border-box !important;
+}
+
+@media (max-width: 760px) {
+  .hero .homeHeroModeButton,
+  .hero .homeHeroModeButton img,
+  .hero > .pageHelpStrip.pageNotesStrip .pageSequencePrev,
+  .hero > .pageHelpStrip.pageNotesStrip .pageSequenceNext {
+    height: 34px !important;
+    min-height: 34px !important;
+  }
+}
