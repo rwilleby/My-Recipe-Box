@@ -41933,3 +41933,44 @@ body.rrbPopupOpen {
     max-height: 28px !important;
   }
 }
+
+
+/* v73.4 — HOME ONLY: Easy/Detailed smaller + softer */
+.hero .homeHeroModeButton {
+  width: 39px !important;
+  min-width: 39px !important;
+  max-width: 39px !important;
+  height: 19px !important;
+  min-height: 19px !important;
+  max-height: 19px !important;
+  border-radius: 6px !important;
+  opacity: .82 !important;
+}
+
+.hero .homeHeroModeButton img {
+  width: 39px !important;
+  min-width: 39px !important;
+  max-width: 39px !important;
+  height: 19px !important;
+  min-height: 19px !important;
+  max-height: 19px !important;
+  filter: saturate(.72) brightness(1.06) !important;
+}
+
+/* Keep them on the same bottom control baseline. */
+.hero .homeHeroModeControls {
+  bottom: 12px !important;
+  gap: 7px !important;
+  align-items: center !important;
+}
+
+/* Small interaction cue without restoring full-intensity red. */
+.hero .homeHeroModeButton:hover,
+.hero .homeHeroModeButton:focus-visible {
+  opacity: .94 !important;
+}
+
+.hero .homeHeroModeButton:hover img,
+.hero .homeHeroModeButton:focus-visible img {
+  filter: saturate(.84) brightness(1.04) !important;
+}

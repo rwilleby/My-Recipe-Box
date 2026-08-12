@@ -1,6 +1,6 @@
 {
   "name": "rrb-browser-based-v1",
-  "version": "73.3.0",
+  "version": "73.4.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -50,7 +50,8 @@
     "test:about-us-videos": "node test/aboutUsLargeHeroVideosV7217.test.mjs",
     "test:recipe-library-video": "node test/recipeLibraryLargeHeroVideoV7218.test.mjs",
     "test:home-mode-resize": "node test/homeModeResizeV732.test.mjs",
-    "test:home-mode-exact-size": "node test/homeModeExactSizeV733.test.mjs"
+    "test:home-mode-exact-size": "node test/homeModeExactSizeV733.test.mjs",
+    "test:home-mode-soft": "node test/homeModeSoftV734.test.mjs"
   },
   "dependencies": {
     "react": "^19.1.0",
