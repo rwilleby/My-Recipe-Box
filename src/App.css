@@ -41871,3 +41871,65 @@ body.rrbPopupOpen {
     min-height: 34px !important;
   }
 }
+
+
+/* v73.3 — HOME ONLY: force Easy/Detailed to exact PREV/NEXT dimensions */
+.hero .homeHeroModeControls {
+  bottom: 12px !important;
+  gap: 8px !important;
+  align-items: center !important;
+}
+
+.hero .homeHeroModeButton {
+  width: 58px !important;
+  min-width: 58px !important;
+  max-width: 58px !important;
+  height: 28px !important;
+  min-height: 28px !important;
+  max-height: 28px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: 0 !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+  background: transparent !important;
+  box-sizing: border-box !important;
+}
+
+.hero .homeHeroModeButton img {
+  display: block !important;
+  width: 58px !important;
+  min-width: 58px !important;
+  max-width: 58px !important;
+  height: 28px !important;
+  min-height: 28px !important;
+  max-height: 28px !important;
+  object-fit: fill !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Home PREV/NEXT reference dimensions */
+.hero > .pageHelpStrip.pageNotesStrip .pageSequencePrev,
+.hero > .pageHelpStrip.pageNotesStrip .pageSequenceNext {
+  width: 58px !important;
+  min-width: 58px !important;
+  height: 28px !important;
+  min-height: 28px !important;
+  padding: 0 12px !important;
+  box-sizing: border-box !important;
+}
+
+@media (max-width: 720px) {
+  .hero .homeHeroModeButton,
+  .hero .homeHeroModeButton img,
+  .hero > .pageHelpStrip.pageNotesStrip .pageSequencePrev,
+  .hero > .pageHelpStrip.pageNotesStrip .pageSequenceNext {
+    width: 50px !important;
+    min-width: 50px !important;
+    max-width: 50px !important;
+    height: 28px !important;
+    min-height: 28px !important;
+    max-height: 28px !important;
+  }
+}
