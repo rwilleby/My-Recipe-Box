@@ -42076,3 +42076,28 @@ body.rrbPopupOpen {
     transform:translateY(-50%)!important
   }
 }
+
+
+/* v73.8 — HOME Easy/Detailed video icon matches Quick Dinner Ideas */
+.hero .homeModeVideoIcon {
+  width: 35px !important;
+  min-width: 35px !important;
+  max-width: 35px !important;
+  height: 35px !important;
+  min-height: 35px !important;
+  max-height: 35px !important;
+  flex: 0 0 35px !important;
+  opacity: 1 !important;
+}
+
+@media (max-width: 700px) {
+  .hero .homeModeVideoIcon {
+    width: 29px !important;
+    min-width: 29px !important;
+    max-width: 29px !important;
+    height: 29px !important;
+    min-height: 29px !important;
+    max-height: 29px !important;
+    flex: 0 0 29px !important;
+  }
+}
