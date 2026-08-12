@@ -6596,9 +6596,30 @@ function EmptyState({ title, text, children }) {
 }
 
 
+
+function weeklyPlannerHeroCandidates(recipe) {
+  if (!recipe) return [];
+
+  const candidates = [];
+  const prefix = recipeCodePrefix(recipe.id);
+
+  if (recipe.heroImage) candidates.push(recipe.heroImage);
+
+  if (recipe.id && AUTO_IMAGE_PREFIXES.has(prefix)) {
+    candidates.push(`images/heroes/${recipe.id}.webp`);
+    candidates.push(`images/heroes/${recipe.id} .webp`);
+    candidates.push(`images/thumbs/recipes/${recipe.id}.webp`);
+    candidates.push(`images/thumbs/recipes/${recipe.id} .webp`);
+  }
+
+  if (recipe.image) candidates.push(recipe.image);
+
+  return [...new Set(candidates)];
+}
+
 function PlannerRecipeThumb({ recipe, className = "" }) {
   const [imageIndex, setImageIndex] = useState(0);
-  const candidates = recipe ? recipeImageCandidates(recipe) : [];
+  const candidates = recipe ? weeklyPlannerHeroCandidates(recipe) : [];
   const imagePath = candidates[imageIndex] || "";
 
   if (!recipe) return null;
@@ -6671,6 +6692,27 @@ function PlannerPage({
   });
 
   usePopupPageMode(Boolean(picker));
+
+  const plannerWeekLabel = useMemo(() => {
+    const now = new Date();
+    const start = new Date(now);
+    start.setDate(now.getDate() - now.getDay());
+    const end = new Date(start);
+    end.setDate(start.getDate() + 6);
+
+    const month = start.toLocaleDateString(undefined, { month: "short" });
+    const endMonth = end.toLocaleDateString(undefined, { month: "short" });
+
+    if (
+      start.getMonth() === end.getMonth() &&
+      start.getFullYear() === end.getFullYear()
+    ) {
+      return `${month} ${start.getDate()}–${end.getDate()}, ${end.getFullYear()}`;
+    }
+
+    return `${month} ${start.getDate()} – ${endMonth} ${end.getDate()}, ${end.getFullYear()}`;
+  }, []);
+
 
   function slotKey(day) {
     return `week1-${day}`;
@@ -6800,22 +6842,34 @@ function PlannerPage({
 
   return (
     <main className="pageShell weeklyCalendarPlannerPage">
-      <header className="weeklyCalendarPlannerHeader">
-        <div>
-          <span className="aiBadge">WEEKLY MEAL PLANNING</span>
-          <h1>Your Weekly Meal Planner</h1>
-          <p>
-            Choose a main course and up to three sides for each day. Click any meal
-            box to search and assign a recipe.
-          </p>
+      <header className="weeklyCalendarPlannerTaskBar">
+        <div className="weeklyCalendarPlannerTaskTitle">
+          <strong>Your Weekly Meal Planner</strong>
         </div>
 
-        <div className="weeklyCalendarPlannerActions">
-          <ServingSelector servings={servings} setServings={setServings} />
-          <button type="button" className="secondary" onClick={clearWeek}>
-            Clear Week
-          </button>
+        <div className="weeklyCalendarPlannerTaskDate">
+          <span>{plannerWeekLabel}</span>
         </div>
+
+        <div className="weeklyCalendarPlannerTaskServings">
+          <ServingSelector servings={servings} setServings={setServings} />
+        </div>
+
+        <button
+          type="button"
+          className="weeklyCalendarPlannerTaskButton weeklyCalendarPlannerClear"
+          onClick={clearWeek}
+        >
+          Clear
+        </button>
+
+        <button
+          type="button"
+          className="weeklyCalendarPlannerTaskButton weeklyCalendarPlannerPrint"
+          onClick={() => window.print()}
+        >
+          View / Print
+        </button>
       </header>
 
       <section className="weeklyCalendarPlannerShell" aria-label="Weekly meal planning calendar">
@@ -6823,8 +6877,7 @@ function PlannerPage({
           <div className="weeklyCalendarPlannerCorner" aria-hidden="true" />
           {WEEK_DAYS.map((day) => (
             <div className="weeklyCalendarPlannerDay" key={day}>
-              <strong>{day.slice(0, 1)}</strong>
-              <small>{WEEKLY_PLANNER_DAY_LABELS[day]}</small>
+              <strong>{WEEKLY_PLANNER_DAY_LABELS[day]}</strong>
             </div>
           ))}
         </div>
