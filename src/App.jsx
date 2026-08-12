@@ -6847,40 +6847,44 @@ function PlannerPage({
 
   return (
     <main className="pageShell weeklyCalendarPlannerPage">
-      <header className="weeklyCalendarPlannerTaskBar">
-        <div className="weeklyCalendarPlannerTaskTitle">
-          <strong>Your Weekly Meal Planner</strong>
+      <header className="weeklyCalendarPlannerHeaderV2">
+        <h1>Your Weekly Meal Planner</h1>
+
+        <div className="weeklyCalendarPlannerControlsRow">
+          <label className="weeklyCalendarPlannerTaskDate">
+            <span>{plannerWeekLabel}</span>
+            <input
+              type="date"
+              value={plannerWeekStart}
+              onChange={(event) => setPlannerWeekStart(event.target.value)}
+              aria-label="Choose week start date"
+            />
+          </label>
+
+          <div className="weeklyCalendarPlannerTaskServings">
+            <ServingSelector servings={servings} setServings={setServings} />
+          </div>
+
+          <p className="weeklyCalendarPlannerInstruction">
+            Click any meal box to add or change a recipe.
+          </p>
+
+          <button
+            type="button"
+            className="weeklyCalendarPlannerTaskButton weeklyCalendarPlannerClear"
+            onClick={clearWeek}
+          >
+            Clear
+          </button>
+
+          <button
+            type="button"
+            className="weeklyCalendarPlannerTaskButton weeklyCalendarPlannerPrint"
+            onClick={() => window.print()}
+          >
+            View / Print
+          </button>
         </div>
-
-        <label className="weeklyCalendarPlannerTaskDate">
-          <span>{plannerWeekLabel}</span>
-          <input
-            type="date"
-            value={plannerWeekStart}
-            onChange={(event) => setPlannerWeekStart(event.target.value)}
-            aria-label="Choose week start date"
-          />
-        </label>
-
-        <div className="weeklyCalendarPlannerTaskServings">
-          <ServingSelector servings={servings} setServings={setServings} />
-        </div>
-
-        <button
-          type="button"
-          className="weeklyCalendarPlannerTaskButton weeklyCalendarPlannerClear"
-          onClick={clearWeek}
-        >
-          Clear
-        </button>
-
-        <button
-          type="button"
-          className="weeklyCalendarPlannerTaskButton weeklyCalendarPlannerPrint"
-          onClick={() => window.print()}
-        >
-          View / Print
-        </button>
       </header>
 
       <section className="weeklyCalendarPlannerShell" aria-label="Weekly meal planning calendar">
@@ -6928,6 +6932,25 @@ function PlannerPage({
                             {score}
                           </span>
                         )}
+                        <span
+                          className={`weeklyPlannerFavoriteHeart${Array.isArray(favorites) && favorites.includes(recipe.id) ? " isFavorite" : ""}`}
+                          role="button"
+                          tabIndex={0}
+                          aria-label={Array.isArray(favorites) && favorites.includes(recipe.id) ? "Remove from favorites" : "Add to favorites"}
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            toggleFavorite(recipe.id);
+                          }}
+                          onKeyDown={(event) => {
+                            if (event.key === "Enter" || event.key === " ") {
+                              event.preventDefault();
+                              event.stopPropagation();
+                              toggleFavorite(recipe.id);
+                            }
+                          }}
+                        >
+                          ♥
+                        </span>
                       </span>
                       <strong>{recipe.title}</strong>
                     </>

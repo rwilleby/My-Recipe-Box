@@ -42952,3 +42952,285 @@ body.rrbPopupOpen {
     min-width: 900px !important;
   }
 }
+
+
+/* ================================================================
+   v73.14 — WEEKLY PLANNER COMPLETE-DINNER CARD STYLE
+   ================================================================ */
+
+.weeklyCalendarPlannerPage {
+  width: calc(100% - 70px) !important;
+  max-width: none !important;
+  margin: 0 35px !important;
+  padding: 0 0 42px !important;
+}
+
+/* Line 1 */
+.weeklyCalendarPlannerHeaderV2 {
+  margin: 0 0 10px !important;
+}
+
+.weeklyCalendarPlannerHeaderV2 h1 {
+  margin: 0 0 10px !important;
+  color: #172033 !important;
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: clamp(30px, 2.8vw, 42px) !important;
+  font-weight: 700 !important;
+  line-height: 1.05 !important;
+  text-align: center !important;
+}
+
+/* Line 2 */
+.weeklyCalendarPlannerControlsRow {
+  display: grid !important;
+  grid-template-columns: auto auto minmax(220px, 1fr) auto auto !important;
+  align-items: center !important;
+  gap: 10px !important;
+  margin-bottom: 10px !important;
+}
+
+.weeklyCalendarPlannerTaskDate {
+  min-height: 36px !important;
+  padding: 0 34px 0 14px !important;
+  border: 1px solid #d6ddd6 !important;
+  border-radius: 18px !important;
+  background: #fff !important;
+  box-shadow: 0 2px 6px rgba(40,52,44,.05) !important;
+  color: #4b5563 !important;
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+}
+
+.weeklyCalendarPlannerTaskServings .servingSelector {
+  min-height: 36px !important;
+  padding: 3px 6px !important;
+  border: 1px solid #ded8ca !important;
+  border-radius: 20px !important;
+  background: #fffdf8 !important;
+}
+
+.weeklyCalendarPlannerTaskServings .servingSelector > span {
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+}
+
+.weeklyCalendarPlannerTaskServings .servingSelector button {
+  min-width: 31px !important;
+  height: 31px !important;
+  padding: 0 !important;
+  border-radius: 50% !important;
+}
+
+.weeklyCalendarPlannerInstruction {
+  margin: 0 !important;
+  color: #6b7280 !important;
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  text-align: center !important;
+}
+
+.weeklyCalendarPlannerTaskButton {
+  min-height: 36px !important;
+  padding: 0 15px !important;
+  border-radius: 9px !important;
+}
+
+/* Lighter olive green from the Complete Dinner example. */
+.weeklyCalendarPlannerDays,
+.weeklyCalendarPlannerDay {
+  background: #78A632 !important;
+}
+
+.weeklyCalendarPlannerDay {
+  min-height: 31px !important;
+  padding: 2px 4px !important;
+  border-left: 1px solid rgba(255,255,255,.24) !important;
+}
+
+.weeklyCalendarPlannerDay strong {
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 10px !important;
+  font-weight: 800 !important;
+}
+
+/* Equal day columns with card-like gutters. */
+.weeklyCalendarPlannerShell {
+  overflow: visible !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.weeklyCalendarPlannerGrid {
+  grid-template-columns: 48px repeat(7, minmax(0, 1fr)) !important;
+  column-gap: 10px !important;
+}
+
+.weeklyCalendarPlannerCorner {
+  background: transparent !important;
+  border: 0 !important;
+}
+
+.weeklyCalendarPlannerMealRow,
+.weeklyCalendarPlannerNotesRow {
+  border-top: 0 !important;
+  margin-top: 10px !important;
+}
+
+.weeklyCalendarPlannerRowLabel {
+  min-height: 116px !important;
+  padding: 4px 2px !important;
+  border: 0 !important;
+  border-radius: 8px !important;
+  background: #f3efe2 !important;
+}
+
+.weeklyCalendarPlannerRowLabel strong {
+  font-size: 13px !important;
+}
+
+.weeklyCalendarPlannerRowLabel small {
+  font-size: 8px !important;
+}
+
+/* Card shell modeled after Complete Dinner tiles. */
+.weeklyCalendarPlannerCell {
+  position: relative !important;
+  min-height: 116px !important;
+  padding: 0 0 5px !important;
+  overflow: hidden !important;
+  border: 1px solid #e1ded6 !important;
+  border-radius: 10px !important;
+  background: #fff !important;
+  box-shadow: 0 4px 10px rgba(45,53,47,.06) !important;
+}
+
+.weeklyCalendarPlannerCell.hasRecipe {
+  align-content: start !important;
+}
+
+.weeklyPlannerRecipeImageWrap {
+  width: 100% !important;
+  aspect-ratio: 1.58 / 1 !important;
+  margin: 0 0 4px !important;
+}
+
+.weeklyPlannerRecipeImage {
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 0 !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  box-shadow: none !important;
+}
+
+/* MB circle upper-left. */
+.weeklyPlannerRecipeImageWrap > .weeklyPlannerMealBalanceCircle {
+  left: 7px !important;
+  top: 7px !important;
+  width: 25px !important;
+  height: 25px !important;
+  background: #78A632 !important;
+  color: #fff !important;
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  box-shadow: 0 2px 5px rgba(0,0,0,.14) !important;
+}
+
+/* Heart upper-right. */
+.weeklyPlannerFavoriteHeart {
+  position: absolute !important;
+  right: 7px !important;
+  top: 7px !important;
+  z-index: 3 !important;
+  display: grid !important;
+  place-items: center !important;
+  width: 27px !important;
+  height: 27px !important;
+  border-radius: 50% !important;
+  background: rgba(255,255,255,.95) !important;
+  color: #aeb6c1 !important;
+  font-family: Arial, sans-serif !important;
+  font-size: 16px !important;
+  box-shadow: 0 2px 7px rgba(31,41,55,.10) !important;
+  cursor: pointer !important;
+}
+
+.weeklyPlannerFavoriteHeart.isFavorite {
+  color: #e94c68 !important;
+}
+
+/* Centered title, maximum two lines; tighter white area. */
+.weeklyCalendarPlannerCell > strong {
+  display: -webkit-box !important;
+  min-height: 23px !important;
+  max-width: calc(100% - 10px) !important;
+  margin: 0 auto !important;
+  padding: 0 5px !important;
+  overflow: hidden !important;
+  -webkit-box-orient: vertical !important;
+  -webkit-line-clamp: 2 !important;
+  color: #172033 !important;
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  line-height: 1.05 !important;
+  text-align: center !important;
+}
+
+.weeklyCalendarPlannerEmpty {
+  min-height: 100px !important;
+}
+
+/* Notes retain equal columns/gutters. */
+.weeklyCalendarPlannerNotesLabel {
+  min-height: 80px !important;
+}
+
+.weeklyCalendarPlannerNoteCell {
+  min-height: 80px !important;
+  overflow: hidden !important;
+  border: 1px solid #e1ded6 !important;
+  border-radius: 10px !important;
+  background: #fffdf8 !important;
+}
+
+.weeklyCalendarPlannerNoteCell textarea {
+  min-height: 80px !important;
+  padding: 9px !important;
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 11px !important;
+}
+
+.weeklyPlannerPickerImageWrap > .weeklyPlannerMealBalanceCircle {
+  background: #78A632 !important;
+}
+
+@media (max-width: 1100px) {
+  .weeklyCalendarPlannerPage {
+    width: calc(100% - 28px) !important;
+    margin-inline: 14px !important;
+  }
+
+  .weeklyCalendarPlannerControlsRow {
+    grid-template-columns: 1fr 1fr auto auto !important;
+  }
+
+  .weeklyCalendarPlannerInstruction {
+    grid-column: 1 / -1 !important;
+    grid-row: 2 !important;
+  }
+
+  .weeklyCalendarPlannerShell {
+    overflow-x: auto !important;
+  }
+
+  .weeklyCalendarPlannerGrid {
+    min-width: 940px !important;
+  }
+}
