@@ -1,0 +1,1 @@
+import assert from"node:assert/strict";import fs from"node:fs";const a=fs.readFileSync("src/App.jsx","utf8"),c=fs.readFileSync("src/App.css","utf8");assert.equal((a.match(/homeHeroModeControls/g)||[]).length,1);assert.ok(a.includes(">Easy</button>"));assert.ok(a.includes(">Detailed</button>"));assert.ok(c.includes("z-index:10050!important"));console.log("v73.5 passed");

@@ -41974,3 +41974,12 @@ body.rrbPopupOpen {
 .hero .homeHeroModeButton:focus-visible img {
   filter: saturate(.84) brightness(1.04) !important;
 }
+
+/* v73.5 — HOME ONLY segmented Easy | Detailed + global video overlay */
+.hero .homeHeroModeControls{position:absolute!important;left:clamp(42px,7.5vw,128px)!important;bottom:12px!important;z-index:250!important;display:grid!important;grid-template-columns:1fr 1fr!important;width:112px!important;height:28px!important;gap:0!important;padding:2px!important;overflow:hidden!important;border:1px solid rgba(20,83,45,.30)!important;border-radius:10px!important;background:rgba(250,248,242,.92)!important;box-shadow:0 2px 7px rgba(35,42,38,.12)!important;box-sizing:border-box!important}
+.hero .homeHeroModeChoice{height:22px!important;margin:0!important;padding:0 7px!important;border:0!important;border-left:1px solid rgba(20,83,45,.18)!important;background:transparent!important;color:#14532d!important;font-family:Inter,Arial,sans-serif!important;font-size:10px!important;font-weight:750!important;line-height:22px!important;text-transform:uppercase!important;cursor:pointer!important}
+.hero .homeHeroModeChoice:first-child{border-left:0!important}
+.hero .homeHeroModeChoice.isActive,.hero .homeHeroModeChoice[aria-pressed="true"]{border-radius:7px!important;background:#8A817C!important;color:#fff!important;box-shadow:0 1px 3px rgba(55,49,46,.18)!important}
+.homeWelcomeTour,.homeWelcomeTour.isPlayerVisible,.largeHeroVideoPanel{z-index:10000!important}
+.supplementalHoverVideoPopover{z-index:10050!important}
+@media(max-width:760px){.hero .homeHeroModeControls{left:12px!important;width:104px!important}}
