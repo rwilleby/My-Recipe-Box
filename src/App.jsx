@@ -2035,6 +2035,15 @@ function Hero({ setActivePage }) {
 
       <WelcomeTour />
 
+      <div className="homeHeroModeControls" aria-label="Choose recipe experience">
+        <button type="button" className="homeHeroModeButton" aria-label="Easy view">
+          <img src={`${import.meta.env.BASE_URL}images/icons/mode-easy.webp`} alt="Easy" draggable="false" />
+        </button>
+        <button type="button" className="homeHeroModeButton" aria-label="Detailed view">
+          <img src={`${import.meta.env.BASE_URL}images/icons/mode-detailed.webp`} alt="Detailed" draggable="false" />
+        </button>
+      </div>
+
       <PageHelpButtonStrip pageTitle="Home" pageEyebrow="HOME" />
     </section>
   );
