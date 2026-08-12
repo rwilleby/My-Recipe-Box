@@ -6693,10 +6693,15 @@ function PlannerPage({
 
   usePopupPageMode(Boolean(picker));
 
-  const plannerWeekLabel = useMemo(() => {
+  const [plannerWeekStart, setPlannerWeekStart] = useState(() => {
     const now = new Date();
     const start = new Date(now);
     start.setDate(now.getDate() - now.getDay());
+    return start.toISOString().slice(0, 10);
+  });
+
+  const plannerWeekLabel = useMemo(() => {
+    const start = new Date(`${plannerWeekStart}T12:00:00`);
     const end = new Date(start);
     end.setDate(start.getDate() + 6);
 
@@ -6711,7 +6716,7 @@ function PlannerPage({
     }
 
     return `${month} ${start.getDate()} – ${endMonth} ${end.getDate()}, ${end.getFullYear()}`;
-  }, []);
+  }, [plannerWeekStart]);
 
 
   function slotKey(day) {
@@ -6847,9 +6852,15 @@ function PlannerPage({
           <strong>Your Weekly Meal Planner</strong>
         </div>
 
-        <div className="weeklyCalendarPlannerTaskDate">
+        <label className="weeklyCalendarPlannerTaskDate">
           <span>{plannerWeekLabel}</span>
-        </div>
+          <input
+            type="date"
+            value={plannerWeekStart}
+            onChange={(event) => setPlannerWeekStart(event.target.value)}
+            aria-label="Choose week start date"
+          />
+        </label>
 
         <div className="weeklyCalendarPlannerTaskServings">
           <ServingSelector servings={servings} setServings={setServings} />
@@ -6933,10 +6944,7 @@ function PlannerPage({
         ))}
 
         <div className="weeklyCalendarPlannerGrid weeklyCalendarPlannerNotesRow">
-          <div className="weeklyCalendarPlannerRowLabel">
-            <strong>NOTES</strong>
-            <small>Your notes</small>
-          </div>
+          <div className="weeklyCalendarPlannerRowLabel weeklyCalendarPlannerNotesLabel" aria-hidden="true" />
 
           {WEEK_DAYS.map((day) => (
             <label className="weeklyCalendarPlannerNoteCell" key={`${day}-notes`}>
@@ -16239,8 +16247,7 @@ Use this collection to organize recipes that fit prep-ahead cooking, planned lef
             text="Meal planning can make the week feel more organized without removing flexibility. Select meals for specific days, account for leftovers, plan around appointments, and decide which foods need to be thawed or prepared in advance.\n\nYour plan can be as detailed or as simple as you prefer. Even choosing four or five dinners before grocery shopping can reduce stress, limit impulse purchases, and make it easier to use the food already in your home."
           />
           <main className="pageShell" data-kos-ui="meal-planner">
-            <KosPlanningStatusBand kosUi={kosUi} mode="planner" />
-          </main>
+</main>
           <PlannerPage {...pageProps} />
         </>
       )}
