@@ -1,4 +1,5 @@
 import { createContext, useContext, useMemo, useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { categories, recipes as baseRecipes } from "./data/recipes";
 import AdminRecipeClassifier from "./components/AdminRecipeClassifier";
 import VideoIcon from "./components/VideoIcon";
@@ -3098,30 +3099,62 @@ function HomeComboMealStrip({
 
 
 
-function SupplementalHoverVideo({ src, poster = "", title, className = "", children, showTestPattern = false }) {
+function SupplementalHoverVideo({
+  src,
+  poster = "",
+  title,
+  className = "",
+  children,
+  showTestPattern = false,
+}) {
   const [isOpen, setIsOpen] = useState(false);
+  const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0, align: "center" });
   const videoRef = useRef(null);
+  const triggerRef = useRef(null);
   const closeTimerRef = useRef(null);
 
-  useEffect(() => {
-    return () => {
-      if (closeTimerRef.current) window.clearTimeout(closeTimerRef.current);
-    };
+  const isHomeModeVideo = className
+    .split(/\s+/)
+    .includes("homeModeSupplementalVideoTrigger");
+
+  useEffect(() => () => {
+    if (closeTimerRef.current) window.clearTimeout(closeTimerRef.current);
   }, []);
+
+  function positionPopup() {
+    const trigger = triggerRef.current;
+    if (!trigger) return;
+
+    const rect = trigger.getBoundingClientRect();
+    const sx = window.scrollX || window.pageXOffset || 0;
+    const sy = window.scrollY || window.pageYOffset || 0;
+
+    if (isHomeModeVideo) {
+      const cluster = trigger.closest(".homeHeroModeCluster");
+      const anchor = cluster?.getBoundingClientRect() || rect;
+      setPopupPosition({
+        top: sy + anchor.bottom + 8,
+        left: sx + anchor.left,
+        align: "left",
+      });
+      return;
+    }
+
+    setPopupPosition({
+      top: sy + rect.bottom + 8,
+      left: sx + window.innerWidth / 2,
+      align: "center",
+    });
+  }
 
   function openVideo() {
     if (closeTimerRef.current) {
       window.clearTimeout(closeTimerRef.current);
       closeTimerRef.current = null;
     }
-
+    positionPopup();
     setIsOpen(true);
-
-    if (src) {
-      window.requestAnimationFrame(() => {
-        videoRef.current?.play().catch(() => {});
-      });
-    }
+    if (src) window.requestAnimationFrame(() => videoRef.current?.play().catch(() => {}));
   }
 
   function playVideo() {
@@ -3141,9 +3174,46 @@ function SupplementalHoverVideo({ src, poster = "", title, className = "", child
     closeTimerRef.current = window.setTimeout(closeVideo, 800);
   }
 
+  const popup = isOpen ? (
+    <span
+      className={`supplementalHoverVideoPopover supplementalHoverVideoPortal ${
+        popupPosition.align === "left" ? "isLeftAligned" : "isPageCentered"
+      }`}
+      role="dialog"
+      aria-label={title}
+      style={{ top: `${popupPosition.top}px`, left: `${popupPosition.left}px` }}
+    >
+      {src ? (
+        <video
+          ref={videoRef}
+          src={`${import.meta.env.BASE_URL}${src}`}
+          poster={poster ? `${import.meta.env.BASE_URL}${poster}` : undefined}
+          title={title}
+          autoPlay
+          playsInline
+          preload="metadata"
+          onEnded={handleEnded}
+        >
+          Your browser does not support HTML5 video.
+        </video>
+      ) : (
+        <span className={`supplementalVideoTestPattern${showTestPattern ? " isVisible" : ""}`}>
+          <span>VIDEO NOT YET ASSIGNED</span>
+          <small>TEST PATTERN</small>
+        </span>
+      )}
+
+      <span className="videoStandardActionBar" aria-label={`${title} controls`}>
+        <button type="button" onClick={playVideo} disabled={!src}>Play Now</button>
+        <button type="button" onClick={closeVideo}>Close Window</button>
+      </span>
+    </span>
+  ) : null;
+
   return (
     <span className={`supplementalHoverVideo ${className}`.trim()}>
       <button
+        ref={triggerRef}
         type="button"
         className="supplementalVideoTriggerButton"
         onClick={openVideo}
@@ -3152,39 +3222,7 @@ function SupplementalHoverVideo({ src, poster = "", title, className = "", child
       >
         {children}
       </button>
-
-      {isOpen && (
-        <span
-          className="supplementalHoverVideoPopover"
-          role="dialog"
-          aria-label={title}
-        >
-          {src ? (
-            <video
-              ref={videoRef}
-              src={`${import.meta.env.BASE_URL}${src}`}
-              poster={poster ? `${import.meta.env.BASE_URL}${poster}` : undefined}
-              title={title}
-              autoPlay
-              playsInline
-              preload="metadata"
-              onEnded={handleEnded}
-            >
-              Your browser does not support HTML5 video.
-            </video>
-          ) : (
-            <span className={`supplementalVideoTestPattern${showTestPattern ? " isVisible" : ""}`}>
-              <span>VIDEO NOT YET ASSIGNED</span>
-              <small>TEST PATTERN</small>
-            </span>
-          )}
-
-          <span className="videoStandardActionBar" aria-label={`${title} controls`}>
-            <button type="button" onClick={playVideo} disabled={!src}>Play Now</button>
-            <button type="button" onClick={closeVideo}>Close Window</button>
-          </span>
-        </span>
-      )}
+      {popup && createPortal(popup, document.body)}
     </span>
   );
 }

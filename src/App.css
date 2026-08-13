@@ -42783,9 +42783,6 @@ body.rrbPopupOpen {
   letter-spacing: .035em !important;
 }
 
-.weeklyCalendarPlannerNotesRow .weeklyCalendarPlannerRowLabel small {
-  display: none !important;
-}
 
 .weeklyCalendarPlannerNoteCell {
   min-height: 102px !important;
@@ -44135,5 +44132,102 @@ body.rrbPopupOpen {
   .homeModeSupplementalVideoTrigger .supplementalHoverVideoPopover {
     left: 0 !important;
     transform: none !important;
+  }
+}
+
+
+/* ================================================================
+   v74.1 — VIDEO STANDARD + NOTES CLEANUP
+   ================================================================ */
+
+.weeklyCalendarPlannerNotesRow .weeklyCalendarPlannerNotesLabel {
+  display:grid!important;
+  place-items:center!important;
+  align-content:center!important;
+  padding:4px 2px!important;
+  text-align:center!important;
+}
+.weeklyCalendarPlannerNotesRow .weeklyCalendarPlannerNotesLabel strong {
+  display:block!important;
+  margin:0!important;
+  font-family:Inter,Arial,sans-serif!important;
+  font-size:13px!important;
+  font-weight:800!important;
+  line-height:1!important;
+}
+.weeklyCalendarPlannerNotesRow .weeklyCalendarPlannerNotesLabel small {
+  display:block!important;
+  visibility:visible!important;
+  opacity:1!important;
+  margin-top:6px!important;
+  color:#625e54!important;
+  font-family:Inter,Arial,sans-serif!important;
+  font-size:8px!important;
+  font-weight:600!important;
+  line-height:1.15!important;
+}
+
+/* Supplemental windows now match the Welcome/Large-Hero video size. */
+.supplementalHoverVideoPortal {
+  position:absolute!important;
+  right:auto!important;
+  bottom:auto!important;
+  width:min(480px,36vw)!important;
+  min-width:370px!important;
+  max-width:calc(100vw - 24px)!important;
+  margin:0!important;
+  padding:0!important;
+  overflow:hidden!important;
+  border:1px solid rgba(255,255,255,.9)!important;
+  border-radius:14px!important;
+  background:#fffdf8!important;
+  box-shadow:0 18px 46px rgba(29,43,33,.24)!important;
+  z-index:2147483640!important;
+  isolation:isolate!important;
+  box-sizing:border-box!important;
+  display:grid!important;
+  grid-template-rows:auto auto!important;
+  aspect-ratio:auto!important;
+}
+.supplementalHoverVideoPortal.isPageCentered {
+  transform:translateX(-50%)!important;
+}
+.supplementalHoverVideoPortal.isLeftAligned {
+  transform:none!important;
+}
+.supplementalHoverVideoPortal > video,
+.supplementalHoverVideoPortal > .supplementalVideoTestPattern {
+  display:block!important;
+  width:100%!important;
+  height:auto!important;
+  aspect-ratio:16/9!important;
+  max-height:none!important;
+  object-fit:cover!important;
+  object-position:center center!important;
+  transform:none!important;
+  background:#111!important;
+}
+.supplementalHoverVideoPortal .videoStandardActionBar {
+  position:relative!important;
+  z-index:2!important;
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  width:100%!important;
+  margin:0!important;
+  padding:2px!important;
+  gap:0!important;
+  border-top:1px solid rgba(54,67,83,.18)!important;
+  background:rgba(235,232,225,.96)!important;
+}
+
+/* EASY/DETAILED video aligns to the whole control cluster, not the icon. */
+.hero .homeHeroModeCluster { overflow:visible!important; }
+.hero .homeModeSupplementalVideoTrigger { position:static!important; }
+
+@media(max-width:760px){
+  .supplementalHoverVideoPortal{
+    width:min(480px,calc(100vw - 24px))!important;
+    min-width:0!important;
+    max-width:calc(100vw - 24px)!important;
   }
 }
