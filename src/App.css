@@ -45792,3 +45792,37 @@ button.browseRecipeWideFooterAction:focus-visible,
 }
 
 /* Calories and Protein intentionally inherit v74.13 sizes unchanged. */
+
+/* v74.15 nutrition heading / serving alignment / view-card hover */
+.browseRecipeNutritionFacts h3,
+.cardViewerCombinedRecipeUnit .browseRecipeNutritionFacts h3 {
+  font-family: "Arial Narrow", "Helvetica Neue Condensed", Arial, Helvetica, sans-serif !important;
+  font-stretch: condensed !important;
+  font-weight: 800 !important;
+  letter-spacing: -.035em !important;
+  transform: scaleX(.92) !important;
+  transform-origin: left center !important;
+}
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid) .browseRecipeNutritionFacts h3 {
+  font-size: clamp(10.3px, 1.64cqw, 14.1px) !important;
+}
+.cardViewerCombinedRecipeUnit .browseRecipeNutritionFacts h3 {
+  font-size: clamp(15px, 1.78cqw, 20.6px) !important;
+}
+.browseRecipeNutritionFacts .browseNutritionServingRow {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) max-content !important;
+  align-items: baseline !important;
+  column-gap: 6px !important;
+}
+.browseRecipeNutritionFacts .browseNutritionServingRow strong {
+  justify-self: end !important;
+  text-align: right !important;
+  white-space: nowrap !important;
+}
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid) .browseRecipeWideFooterAction.isPrimary:hover,
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid) .browseRecipeWideFooterAction.isPrimary:focus-visible {
+  background: #70883f !important;
+  border-color: #70883f !important;
+  color: #fff !important;
+}
