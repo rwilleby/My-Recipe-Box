@@ -46641,3 +46641,15 @@ button.browseRecipeWideFooterAction:focus-visible,
     border-bottom: 0 !important;
   }
 }
+
+/* v75.3 — Weekly Meal Planner typography rollback */
+.weeklyCalendarPlannerDay strong { font-size: 16px !important; }
+.weeklyCalendarPlannerRowLabel strong { font-size: 16px !important; }
+.weeklyCalendarPlannerRowLabel small { font-size: 11px !important; }
+.weeklyCalendarPlannerCell > strong { font-size: 13px !important; line-height: 1.12 !important; }
+.weeklyCalendarPlannerEmpty small { font-size: 11px !important; }
+.weeklyCalendarPlannerNoteCell textarea { font-size: 12px !important; }
+.weeklyPlannerWeekModeControl button { font-size: 11px !important; }
+.weeklyPlannerWeekSectionHeading strong { font-size: 13px !important; }
+.weeklyPlannerWeekSectionHeading span { font-size: 12px !important; }
+.weeklyCalendarPlannerPage { width: min(100%, 1580px) !important; max-width: 1580px !important; }
