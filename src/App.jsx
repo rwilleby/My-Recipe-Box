@@ -4143,6 +4143,93 @@ function GLP1RecipeSupportPanel({ recipe, compact = false, className = "", detai
 }
 
 
+
+function formatBrowseNutritionValue(value, unit = "") {
+  if (value === null || value === undefined || value === "") return "—";
+
+  if (typeof value === "string") {
+    const trimmed = value.trim();
+    if (!trimmed) return "—";
+    if (!unit || /[a-zA-Z%]/.test(trimmed)) return trimmed;
+    return `${trimmed} ${unit}`;
+  }
+
+  if (typeof value === "number" && Number.isFinite(value)) {
+    const display = Number.isInteger(value)
+      ? value
+      : Math.round(value * 10) / 10;
+    return unit ? `${display} ${unit}` : String(display);
+  }
+
+  return "—";
+}
+
+function BrowseRecipeNutritionFacts({ recipe }) {
+  const nutrition =
+    getRecipeNutritionVariant(recipe.id)?.profile?.nutritionFacts || null;
+
+  const rows = [
+    ["Total Fat", nutrition?.totalFat, "g", true],
+    ["Saturated Fat", nutrition?.saturatedFat, "g", false],
+    ["Trans Fat", nutrition?.transFat, "g", false],
+    ["Cholesterol", nutrition?.cholesterol, "mg", false],
+    ["Sodium", nutrition?.sodium, "mg", true],
+    ["Total Carbohydrate", nutrition?.totalCarbohydrate, "g", true],
+    ["Dietary Fiber", nutrition?.dietaryFiber, "g", false],
+    ["Total Sugars", nutrition?.totalSugars, "g", false],
+    ["Includes Added Sugars", nutrition?.addedSugars, "g", false],
+  ];
+
+  return (
+    <aside
+      className="browseRecipeNutritionFacts"
+      aria-label={`${recipe.title} Nutrition Facts`}
+    >
+      <h3>Nutrition Facts</h3>
+
+      <div className="browseNutritionHeavyRule" />
+
+      <div className="browseNutritionServingRow">
+        <span>Serving size</span>
+        <strong>1 serving</strong>
+      </div>
+      <div className="browseNutritionServingRow">
+        <span>Servings per recipe</span>
+        <strong>{recipe.servings || "—"}</strong>
+      </div>
+
+      <div className="browseNutritionHeavyRule browseNutritionHeavyRuleSmall" />
+
+      <div className="browseNutritionCalories">
+        <span>Calories</span>
+        <strong>{formatBrowseNutritionValue(nutrition?.calories)}</strong>
+      </div>
+
+      <div className="browseNutritionMediumRule" />
+
+      <div className="browseNutritionRows">
+        {rows.map(([label, value, unit, bold]) => (
+          <div
+            key={label}
+            className={`browseNutritionRow${bold ? " isBold" : ""}`}
+          >
+            <span>{label}</span>
+            <strong>{formatBrowseNutritionValue(value, unit)}</strong>
+          </div>
+        ))}
+      </div>
+
+      <div className="browseNutritionHeavyRule browseNutritionProteinRule" />
+
+      <div className="browseNutritionProtein">
+        <span>Protein</span>
+        <strong>{formatBrowseNutritionValue(nutrition?.protein, "g")}</strong>
+      </div>
+    </aside>
+  );
+}
+
+
 function RecipeCard({
   recipe,
   favorites,
@@ -4202,6 +4289,97 @@ function RecipeCard({
   const glp1BubbleLabel = glp1Display?.rating
     ? `GLP-1 ${glp1Display.rating}`
     : "GLP-1";
+
+  if (isBrowseCard && !favoritesOnly) {
+    return (
+      <article className="recipeCard recipeCardFullImage browseRecipeNutritionPrototype">
+        <div className="browseRecipeNutritionPrototypeMain">
+          <div className="browseRecipeNutritionPrototypeCard">
+            <FullRecipeCardPreview
+              recipe={recipe}
+              onOpen={() => openRecipeCard(recipe.id, cardList, viewerContext)}
+            />
+          </div>
+
+          <BrowseRecipeNutritionFacts recipe={recipe} />
+        </div>
+
+        <footer className="browseRecipeWideFooter" aria-label={`${recipe.title} recipe actions`}>
+          <button
+            type="button"
+            className="browseRecipeWideFooterAction isPrimary"
+            onClick={() => openRecipeCard(recipe.id, cardList, viewerContext)}
+          >
+            <span>VIEW CARD</span>
+          </button>
+
+          <button
+            type="button"
+            className="browseRecipeWideFooterAction"
+            onClick={() => addToPlan(recipe.id)}
+            disabled={!showPlannerButton}
+          >
+            <span>ADD MEAL</span>
+          </button>
+
+          <button
+            type="button"
+            className={`browseRecipeWideFooterAction ${browseInlinePanel === "notes" ? "isActive" : ""}`}
+            onClick={() => toggleBrowseInlinePanel("notes")}
+            aria-expanded={browseInlinePanel === "notes"}
+          >
+            <span>NOTES</span>
+          </button>
+
+          <div className="browseRecipeWideFooterStatus">
+            <span>TIME</span>
+            <strong>{recipe.time ? `${recipe.time} min` : "—"}</strong>
+          </div>
+
+          <div className="browseRecipeWideFooterStatus browseRecipeWideFooterMb">
+            <span>MB</span>
+            <strong>{mealBalanceScore ?? "—"}</strong>
+          </div>
+
+          <div className="browseRecipeWideFooterStatus browseRecipeWideFooterGlp1">
+            <span>GLP-1</span>
+            <strong>{glp1Display?.rating || (glp1Display ? "Reviewed" : "—")}</strong>
+          </div>
+
+          <button
+            type="button"
+            className={`browseRecipeWideFooterAction browseRecipeWideFooterFavorite ${isFavorite ? "isSaved" : ""}`}
+            onClick={() => toggleFavorite(recipe.id)}
+            aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
+          >
+            <span aria-hidden="true">{isFavorite ? "♥" : "♡"}</span>
+            <span>FAVORITES</span>
+          </button>
+        </footer>
+
+        {browseInlinePanel === "notes" && (
+          <section
+            className="browseRecipePrototypeNotes"
+            aria-label={`${recipe.title} personal notes`}
+          >
+            <textarea
+              value={userNote}
+              onChange={(event) => {
+                setUserNote(event.target.value);
+                setNoteSaved(false);
+              }}
+              placeholder="Enter your personal notes about this recipe..."
+              aria-label={`Personal notes for ${recipe.title}`}
+            />
+            <div className="browseRecipeNotesActions">
+              <button type="button" onClick={savePersonalNote}>Save Notes</button>
+              <small>{noteSaved ? "Saved" : "Stored only in this browser"}</small>
+            </div>
+          </section>
+        )}
+      </article>
+    );
+  }
 
   return (
     <article className={isBrowseCard ? "recipeCard recipeCardFullImage" : "recipeCard"}>
