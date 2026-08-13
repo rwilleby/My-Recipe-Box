@@ -1485,12 +1485,12 @@ const NAV_GROUPS = [
     label: "YOUR KITCHEN",
     items: [
       { label: "YOUR WEEKLY MEAL PLANNER", page: "Meal Planner" },
-      { label: "WEEKEND BULK MEAL PLANNER", page: "Weekend Bulk Meal Planner" },
-      { label: "WEEKLY MEAL PLANNER — TEST", page: "Weekly Meal Planner Prototype" },
+      { label: "WEEKEND BULK MEAL PLANNER", page: "Weekend Bulk Meal Planner", detailedOnly: true },
+      { label: "WEEKLY MEAL PLANNER — TEST", page: "Weekly Meal Planner Prototype", detailedOnly: true },
       { label: "YOUR FAVORITE RECIPES", page: "Favorites" },
-      { label: "REFRIGERATOR INVENTORY", page: "Kitchen Refrigerator" },
-      { label: "PREPARED FREEZER INVENTORY", page: "Prepared Freezer Inventory" },
-      { label: "FREEZER INVENTORY", page: "Kitchen Freezer" },
+      { label: "REFRIGERATOR INVENTORY", page: "Kitchen Refrigerator", detailedOnly: true },
+      { label: "PREPARED FREEZER INVENTORY", page: "Prepared Freezer Inventory", detailedOnly: true },
+      { label: "FREEZER INVENTORY", page: "Kitchen Freezer", detailedOnly: true },
       { label: "PANTRY INVENTORY", page: "Pantry Staples" },
       { label: "HEALTHY SUBSTITUTIONS", page: "Grocery Picks" },
       { label: "FREEZING & REHEATING", page: "Freezer Tips" },
@@ -1579,6 +1579,38 @@ const PageNavigationContext = createContext({
 });
 
 function Header({ activePage, setActivePage, favorites }) {
+  const [siteMode, setSiteMode] = useState(() => {
+    try {
+      return window.localStorage.getItem("rrb-site-mode") === "easy" ? "easy" : "detailed";
+    } catch {
+      return "detailed";
+    }
+  });
+
+  useEffect(() => {
+    function syncSiteMode(event) {
+      const nextMode = event?.detail?.mode;
+      if (nextMode === "easy" || nextMode === "detailed") {
+        setSiteMode(nextMode);
+        return;
+      }
+
+      try {
+        setSiteMode(window.localStorage.getItem("rrb-site-mode") === "easy" ? "easy" : "detailed");
+      } catch {
+        setSiteMode("detailed");
+      }
+    }
+
+    window.addEventListener("rrb:site-mode-changed", syncSiteMode);
+    window.addEventListener("storage", syncSiteMode);
+
+    return () => {
+      window.removeEventListener("rrb:site-mode-changed", syncSiteMode);
+      window.removeEventListener("storage", syncSiteMode);
+    };
+  }, []);
+
   const headerGroups = [
     {
       label: "ABOUT US",
@@ -1646,7 +1678,9 @@ function Header({ activePage, setActivePage, favorites }) {
               <span className="simpleHeaderNavChevron" aria-hidden="true">⌄</span>
             </button>
             <div className="simpleHeaderSubmenu" role="menu" aria-label={`${group.label} submenu`}>
-              {group.items.map((item) => (
+              {group.items
+                .filter((item) => siteMode === "detailed" || !item.detailedOnly)
+                .map((item) => (
                 <button
                   key={`${group.label}-${item.label}`}
                   type="button"
@@ -6030,6 +6064,12 @@ function Home({
     } catch {
       // Keep the mode active for this session if storage is unavailable.
     }
+
+    window.dispatchEvent(
+      new CustomEvent("rrb:site-mode-changed", {
+        detail: { mode: normalizedMode },
+      })
+    );
   }
 
   return (
