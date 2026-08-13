@@ -45364,3 +45364,260 @@ button.browseRecipeWideFooterAction:focus-visible,
     max-height: none !important;
   }
 }
+
+
+/* ================================================================
+   v74.12 — RECIPE LISTING UNIT + SIMPLIFIED FOOTER + COMBINED VIEWER
+   ================================================================ */
+
+/* Treat artwork, nutrition, and footer as one responsive module. */
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseRecipeNutritionPrototype {
+  container-type: inline-size !important;
+  display: grid !important;
+  grid-template-rows: auto auto !important;
+  width: 100% !important;
+  min-width: 0 !important;
+}
+
+/* Narrower nutrition panel; both sides resize proportionally together. */
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseRecipeNutritionPrototypeMain {
+  grid-template-columns: minmax(0, 81fr) minmax(0, 19fr) !important;
+  grid-template-rows: auto !important;
+  gap: 1.4cqw !important;
+  padding: 1.4cqw 1.4cqw 1.15cqw !important;
+  align-items: stretch !important;
+}
+
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseRecipeNutritionPrototypeCard,
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseRecipeNutritionFacts {
+  min-width: 0 !important;
+  align-self: stretch !important;
+}
+
+/* Card determines row height; nutrition follows exactly. */
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseRecipeNutritionPrototypeCard .recipeFullCardImage img {
+  width: 100% !important;
+  height: auto !important;
+  aspect-ratio: 1725 / 1125 !important;
+  object-fit: contain !important;
+  display: block !important;
+}
+
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseRecipeNutritionFacts {
+  height: 100% !important;
+  max-height: 100% !important;
+  min-height: 100% !important;
+  padding: .8cqw .9cqw !important;
+}
+
+/* Larger Nutrition Facts type made possible by shorter labels. */
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseRecipeNutritionFacts h3 {
+  font-size: clamp(15px, 2.9cqw, 23px) !important;
+}
+
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseNutritionServingRow {
+  font-size: clamp(8px, 1.55cqw, 12px) !important;
+}
+
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseNutritionCalories {
+  font-size: clamp(12px, 2.4cqw, 18px) !important;
+}
+
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseNutritionCalories strong {
+  font-size: clamp(14px, 2.7cqw, 21px) !important;
+}
+
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseNutritionRow {
+  font-size: clamp(7.5px, 1.42cqw, 11px) !important;
+}
+
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseNutritionRow strong {
+  font-size: clamp(7.5px, 1.44cqw, 11px) !important;
+}
+
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseNutritionProtein {
+  font-size: clamp(11px, 2.05cqw, 16px) !important;
+}
+
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseNutritionProtein strong {
+  font-size: clamp(13px, 2.45cqw, 19px) !important;
+}
+
+/* Six-item footer scales with the same listing unit. */
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseRecipeWideFooter {
+  grid-template-columns:
+    minmax(0, 1.18fr)
+    minmax(0, 1.12fr)
+    minmax(0, .92fr)
+    minmax(0, .88fr)
+    minmax(44px, .58fr)
+    minmax(0, 1.18fr) !important;
+  gap: .8cqw !important;
+  padding: .85cqw 1.15cqw 1.05cqw !important;
+}
+
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseRecipeWideFooterAction,
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseRecipeWideFooterStatus {
+  height: clamp(34px, 6.1cqw, 44px) !important;
+  min-height: clamp(34px, 6.1cqw, 44px) !important;
+  padding: 0 .9cqw !important;
+  font-size: clamp(9px, 1.65cqw, 12px) !important;
+}
+
+.browseRecipeWideFooterTime {
+  flex-direction: row !important;
+  gap: .5cqw !important;
+}
+
+.browseRecipeClock {
+  color: #566170 !important;
+  font-size: clamp(15px, 2.8cqw, 20px) !important;
+  line-height: 1 !important;
+}
+
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseRecipeWideFooterTime strong {
+  font-size: clamp(9px, 1.6cqw, 12px) !important;
+}
+
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseRecipeWideFooterMb {
+  border: 0 !important;
+  background: transparent !important;
+}
+
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseRecipeWideFooterMb strong {
+  width: clamp(30px, 5.4cqw, 38px) !important;
+  height: clamp(30px, 5.4cqw, 38px) !important;
+  font-size: clamp(12px, 2.1cqw, 16px) !important;
+  background: #80994A !important;
+  color: #fff !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,.13) !important;
+}
+
+/* ================================================================
+   VIEW CARD POPUP — larger version of recipe + nutrition pair
+   ================================================================ */
+
+.cardViewerCombinedStage {
+  grid-template-columns: 52px minmax(0, 1fr) 52px !important;
+  align-items: center !important;
+  gap: 10px !important;
+  padding: 12px 14px 10px !important;
+}
+
+.cardViewerCombinedRecipeUnit {
+  display: grid !important;
+  grid-template-columns: minmax(0, 81fr) minmax(0, 19fr) !important;
+  gap: 14px !important;
+  width: min(100%, 1260px) !important;
+  margin: 0 auto !important;
+  align-items: stretch !important;
+  container-type: inline-size !important;
+}
+
+.cardViewerCombinedRecipeCard {
+  min-width: 0 !important;
+  display: grid !important;
+  place-items: center !important;
+}
+
+.cardViewerCombinedRecipeCard img {
+  width: 100% !important;
+  height: auto !important;
+  aspect-ratio: 1725 / 1125 !important;
+  object-fit: contain !important;
+  display: block !important;
+  border-radius: 8px !important;
+}
+
+.cardViewerCombinedRecipeUnit .browseRecipeNutritionFacts {
+  height: 100% !important;
+  min-height: 100% !important;
+  max-height: 100% !important;
+  align-self: stretch !important;
+  padding: 10px 11px !important;
+}
+
+.cardViewerCombinedRecipeUnit .browseRecipeNutritionFacts h3 {
+  font-size: clamp(22px, 3.1cqw, 34px) !important;
+}
+
+.cardViewerCombinedRecipeUnit .browseNutritionServingRow {
+  font-size: clamp(11px, 1.35cqw, 16px) !important;
+}
+
+.cardViewerCombinedRecipeUnit .browseNutritionCalories {
+  font-size: clamp(20px, 2.2cqw, 28px) !important;
+}
+
+.cardViewerCombinedRecipeUnit .browseNutritionCalories strong {
+  font-size: clamp(23px, 2.6cqw, 32px) !important;
+}
+
+.cardViewerCombinedRecipeUnit .browseNutritionRow {
+  font-size: clamp(10px, 1.22cqw, 15px) !important;
+}
+
+.cardViewerCombinedRecipeUnit .browseNutritionRow strong {
+  font-size: clamp(10px, 1.25cqw, 15px) !important;
+}
+
+.cardViewerCombinedRecipeUnit .browseNutritionProtein {
+  font-size: clamp(17px, 1.85cqw, 24px) !important;
+}
+
+.cardViewerCombinedRecipeUnit .browseNutritionProtein strong {
+  font-size: clamp(20px, 2.25cqw, 28px) !important;
+}
+
+@media (max-width: 980px) {
+  .recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+    .browseRecipeNutritionPrototypeMain {
+    grid-template-columns: minmax(0, 79fr) minmax(0, 21fr) !important;
+  }
+
+  .cardViewerCombinedRecipeUnit {
+    grid-template-columns: minmax(0, 78fr) minmax(0, 22fr) !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+    .browseRecipeWideFooter {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .cardViewerCombinedStage {
+    grid-template-columns: 34px minmax(0, 1fr) 34px !important;
+    padding-inline: 6px !important;
+  }
+
+  .cardViewerCombinedRecipeUnit {
+    grid-template-columns: 1fr !important;
+  }
+
+  .cardViewerCombinedRecipeUnit .browseRecipeNutritionFacts {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+  }
+}

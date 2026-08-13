@@ -4176,10 +4176,10 @@ function BrowseRecipeNutritionFacts({ recipe }) {
     ["Trans Fat", nutrition?.transFat, "g", false],
     ["Cholesterol", nutrition?.cholesterol, "mg", false],
     ["Sodium", nutrition?.sodium, "mg", true],
-    ["Total Carbohydrate", nutrition?.totalCarbohydrate, "g", true],
+    ["Total Carbs", nutrition?.totalCarbohydrate, "g", true],
     ["Dietary Fiber", nutrition?.dietaryFiber, "g", false],
     ["Total Sugars", nutrition?.totalSugars, "g", false],
-    ["Includes Added Sugars", nutrition?.addedSugars, "g", false],
+    ["Added Sugars", nutrition?.addedSugars, "g", false],
   ];
 
   return (
@@ -4333,19 +4333,21 @@ function RecipeCard({
             <span>NOTES</span>
           </button>
 
-          <div className="browseRecipeWideFooterStatus">
-            <span>TIME</span>
+          <div
+            className="browseRecipeWideFooterStatus browseRecipeWideFooterTime"
+            aria-label={`Cooking time ${recipe.time ? `${recipe.time} minutes` : "not available"}`}
+            title="Cooking time"
+          >
+            <span className="browseRecipeClock" aria-hidden="true">◷</span>
             <strong>{recipe.time ? `${recipe.time} min` : "—"}</strong>
           </div>
 
-          <div className="browseRecipeWideFooterStatus browseRecipeWideFooterMb">
-            <span>MB</span>
+          <div
+            className="browseRecipeWideFooterStatus browseRecipeWideFooterMb"
+            aria-label={`MealBalance ${mealBalanceScore ?? "not rated"}`}
+            title={mealBalanceScore ? `MealBalance ${mealBalanceScore}` : "MealBalance not rated"}
+          >
             <strong>{mealBalanceScore ?? "—"}</strong>
-          </div>
-
-          <div className="browseRecipeWideFooterStatus browseRecipeWideFooterGlp1">
-            <span>GLP-1</span>
-            <strong>{glp1Display?.rating || (glp1Display ? "Reviewed" : "—")}</strong>
           </div>
 
           <button
@@ -4911,7 +4913,7 @@ function RecipeCardViewer({
           </div>
         </div>
 
-        <div className="cardViewerStage">
+        <div className="cardViewerStage cardViewerCombinedStage">
           <button
             className="cardViewerNav"
             onClick={() => goToOffset(-1)}
@@ -4921,39 +4923,24 @@ function RecipeCardViewer({
             ‹
           </button>
 
-          <div
-            className={[
-              "cardViewerImageWrap",
-              "recipeFlipCard",
-              showFoodIntelligence ? "isShowingFoodIntelligence" : "isShowingRecipeCard",
-            ].join(" ")}
-          >
-            <div className="recipeFlipCardInner">
-              {showFoodIntelligence ? (
-                <div className="recipeFlipFace recipeFlipBack recipeFlipFaceActive">
-                  <FoodIntelligenceCard
-                    recipeCode={recipe.id}
-                    servingsPerRecipe={recipe.servings}
-                  />
-                </div>
+          <div className="cardViewerCombinedRecipeUnit">
+            <div className="cardViewerCombinedRecipeCard">
+              {imagePath ? (
+                <img
+                  src={`${import.meta.env.BASE_URL}${imagePath}`}
+                  alt={`${recipe.id} ${recipe.title} recipe card`}
+                  decoding="async"
+                  onError={() => setImageIndex((current) => current + 1)}
+                />
               ) : (
-                <div className="recipeFlipFace recipeFlipFront recipeFlipFaceActive">
-                  {imagePath ? (
-                    <img
-                      src={`${import.meta.env.BASE_URL}${imagePath}`}
-                      alt={`${recipe.id} ${recipe.title} recipe card`}
-                      decoding="async"
-                      onError={() => setImageIndex((current) => current + 1)}
-                    />
-                  ) : (
-                    <div className="cardViewerMissing">
-                      <strong>Recipe card image not found.</strong>
-                      <span>Expected: images/recipes/{recipe.id}.webp</span>
-                    </div>
-                  )}
+                <div className="cardViewerMissing">
+                  <strong>Recipe card image not found.</strong>
+                  <span>Expected: images/recipes/{recipe.id}.webp</span>
                 </div>
               )}
             </div>
+
+            <BrowseRecipeNutritionFacts recipe={recipe} />
           </div>
 
           <button
