@@ -44910,3 +44910,177 @@ button.browseRecipeWideFooterAction:focus-visible,
     max-height: none !important;
   }
 }
+
+
+/* ================================================================
+   v74.9 — OUR NUTRITION STANDARDS
+   ================================================================ */
+
+.nutritionStandardsPage {
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.nutritionStandardsIntro,
+.nutritionStandardsDisclaimer {
+  padding: 24px 28px;
+  border: 1px solid #dfe4dc;
+  border-radius: 16px;
+  background: #fffdf8;
+}
+
+.nutritionStandardsIntro h2,
+.nutritionStandardsDisclaimer h2 {
+  margin: 8px 0 10px;
+  color: #172033;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 27px;
+  line-height: 1.15;
+}
+
+.nutritionStandardsIntro p,
+.nutritionStandardsDisclaimer p {
+  max-width: 940px;
+  margin: 9px 0;
+  color: #465164;
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.nutritionStandardsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin: 18px 0;
+}
+
+.nutritionStandardsGrid article,
+.nutritionStandardsComparison article {
+  padding: 20px 22px;
+  border: 1px solid #dfe4dc;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 6px 16px rgba(32, 42, 35, .04);
+}
+
+.nutritionStandardsGrid h2,
+.nutritionStandardsComparison h2 {
+  margin: 0 0 9px;
+  color: #1d5a36;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 20px;
+  line-height: 1.16;
+}
+
+.nutritionStandardsGrid p,
+.nutritionStandardsComparison p {
+  margin: 8px 0;
+  color: #4d5869;
+  font-size: 14px;
+  line-height: 1.52;
+}
+
+.nutritionStandardsGrid ul {
+  margin: 9px 0 11px 20px;
+  padding: 0;
+  color: #4d5869;
+  columns: 2;
+  column-gap: 26px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.nutritionStandardsGrid li {
+  break-inside: avoid;
+  margin-bottom: 3px;
+}
+
+.nutritionStandardsEmphasis {
+  padding: 10px 12px;
+  border-left: 4px solid #80994A;
+  border-radius: 0 8px 8px 0;
+  background: #f5f6ec;
+  color: #394738 !important;
+  font-weight: 700;
+}
+
+.nutritionStandardsComparison {
+  display: grid;
+  grid-template-columns: 1.2fr .8fr;
+  gap: 16px;
+  margin: 0 0 18px;
+}
+
+.nutritionStandardsMbScale {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 7px;
+  margin: 12px 0;
+}
+
+.nutritionStandardsMbScale span {
+  display: grid;
+  place-items: center;
+  min-height: 58px;
+  padding: 7px 5px;
+  border: 1px solid #cbd9c8;
+  border-radius: 10px;
+  background: #f7f8f0;
+  color: #455140;
+  text-align: center;
+  font-size: 11px;
+  line-height: 1.15;
+}
+
+.nutritionStandardsMbScale strong {
+  display: block;
+  color: #80994A;
+  font-size: 16px;
+}
+
+.nutritionStandardsDisclaimer {
+  margin-top: 2px;
+  border-color: #d8dfca;
+  background: #f7f8f0;
+}
+
+.nutritionStandardsActions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 18px 0 4px;
+}
+
+.nutritionStandardsActions button {
+  min-height: 40px;
+  padding: 0 16px;
+  border-radius: 9px;
+  font-weight: 800;
+}
+
+.nutritionStandardsActions .primary {
+  border: 1px solid #80994A;
+  background: #80994A;
+  color: #fff;
+}
+
+.nutritionStandardsActions .secondary {
+  border: 1px solid #80994A;
+  background: #fff;
+  color: #1d5a36;
+}
+
+@media (max-width: 820px) {
+  .nutritionStandardsGrid,
+  .nutritionStandardsComparison {
+    grid-template-columns: 1fr;
+  }
+
+  .nutritionStandardsMbScale {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .nutritionStandardsGrid ul {
+    columns: 1;
+  }
+}

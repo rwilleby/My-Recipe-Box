@@ -1453,6 +1453,7 @@ const NAV_GROUPS = [
       { label: "WELCOME TO OUR SITE", page: "About" },
       { label: "YOUR DATA & SECURITY", page: "Your Data & Security" },
       { label: "ABOUT OUR RECIPES", page: "About Recipes" },
+      { label: "OUR NUTRITION STANDARDS", page: "Nutrition Standards" },
       { label: "UNDERSTANDING MEALBALANCE", page: "MealBalance Guide" },
       { label: "AFFILIATE MARKETING", page: "Affiliate Marketing" },
       { label: "SUBMIT YOUR FAMILY RECIPES", page: "Submit Recipes" },
@@ -1532,6 +1533,7 @@ const NAV_GROUPS = [
  * Every other main-menu page is intro-video eligible.
  */
 const NO_INTRO_VIDEO_PAGES = new Set([
+  "Nutrition Standards",
   "Submit Recipes",
   "Contact Me",
   "Disclaimers",
@@ -12404,6 +12406,215 @@ function HeroTopicPage({
 
 
 
+
+function NutritionStandardsPage({ setActivePage }) {
+  return (
+    <main className="pageShell nutritionStandardsPage">
+      <section className="nutritionStandardsIntro">
+        <div className="aiBadge">PRACTICAL • CONSISTENT • TRANSPARENT</div>
+        <h2>Practical nutrition information to help you make informed choices.</h2>
+        <p>
+          Nutrition information can be useful when you are deciding what to cook,
+          comparing recipes, or planning a complete meal. Robert’s Recipe Box
+          provides estimated nutrition information using consistent ingredients,
+          serving sizes, and preparation assumptions.
+        </p>
+        <p>
+          Our goal is not to tell you what you should or should not eat. It is to
+          give you useful information so you can make choices that work for you.
+        </p>
+      </section>
+
+      <section className="nutritionStandardsGrid">
+        <article>
+          <h2>How We Calculate Nutrition</h2>
+          <p>
+            Nutrition values are calculated from the ingredients and quantities
+            used in each recipe. We total the nutritional values of the ingredients
+            in the complete recipe and divide those totals by the stated number of
+            servings.
+          </p>
+          <p>
+            Whenever possible, we use nutrition information for the actual or a
+            representative product used in the recipe rather than relying only on
+            broad generic estimates.
+          </p>
+          <p className="nutritionStandardsEmphasis">
+            Because brands, ingredient sizes, preparation methods, and serving
+            portions vary, the numbers shown should be considered reasonable
+            estimates rather than laboratory measurements.
+          </p>
+        </article>
+
+        <article>
+          <h2>The Ingredients Behind the Numbers</h2>
+          <p>
+            Consistency matters. When a recipe calls for a common ingredient
+            without specifying a particular brand, we use a standard ingredient
+            profile so similar recipes are calculated on the same basis.
+          </p>
+          <p>
+            For packaged foods, we generally use readily available products and
+            store brands that reflect ingredients someone is likely to find during
+            normal grocery shopping.
+          </p>
+          <p>
+            When a specific product is named in a recipe, we try to use reliable
+            nutrition information for that product whenever it is available.
+          </p>
+        </article>
+
+        <article>
+          <h2>Our Standard Cooking Assumptions</h2>
+          <p>
+            How food is prepared can affect its nutritional values, so we use
+            consistent assumptions when calculating recipes.
+          </p>
+          <p>
+            Calculations may account for the type of meat used, whether an
+            ingredient is drained, whether cooking oil is actually added, the
+            amount of sauce used, and the serving size specified in the recipe.
+          </p>
+          <p>
+            If you substitute ingredients, add extra oil or butter, increase the
+            amount of sauce or cheese, or serve a larger portion, your actual
+            nutrition will naturally be different.
+          </p>
+        </article>
+
+        <article>
+          <h2>Understanding the Nutrition Facts</h2>
+          <p>
+            Where nutrition information is available, you may see a Nutrition
+            Facts panel beside the recipe. Depending on the recipe and the
+            information available, it may include:
+          </p>
+          <ul>
+            <li>Calories</li>
+            <li>Total Fat and Saturated Fat</li>
+            <li>Cholesterol</li>
+            <li>Sodium</li>
+            <li>Total Carbohydrates</li>
+            <li>Dietary Fiber</li>
+            <li>Total Sugars and Added Sugars</li>
+            <li>Protein</li>
+          </ul>
+          <p>
+            Values are shown per serving, based on the number of servings listed
+            in the recipe. If reliable information is not available for a
+            particular nutrient, we would rather leave it unavailable than imply
+            a level of precision we do not have.
+          </p>
+        </article>
+
+        <article>
+          <h2>Serving Size Matters</h2>
+          <p>
+            One of the biggest variables in nutrition information is portion size.
+            A recipe calculated for four servings assumes that the finished recipe
+            is divided into four reasonably equal portions.
+          </p>
+          <p>
+            Eating a larger or smaller portion changes the nutrition accordingly.
+            Think of the Nutrition Facts as a useful planning and comparison tool,
+            not an exact measurement of what is on your individual plate.
+          </p>
+        </article>
+
+        <article>
+          <h2>Why Your Numbers May Be Different</h2>
+          <p>
+            Even when you follow one of our recipes closely, your finished meal may
+            not have exactly the same nutritional values shown on the site.
+          </p>
+          <p>
+            Differences can come from ingredient brands, the exact weight of meat
+            or produce, substitutions, retained cooking fat or liquid, additional
+            seasonings or sauces, portion size, and normal variation in food
+            products.
+          </p>
+          <p>
+            The goal is a consistent estimate that helps you compare and plan
+            recipes on the same general basis.
+          </p>
+        </article>
+      </section>
+
+      <section className="nutritionStandardsComparison">
+        <article>
+          <h2>Nutrition Facts and MealBalance Are Different</h2>
+          <p>
+            <strong>Nutrition Facts</strong> provide estimated numerical information
+            about an individual recipe.
+          </p>
+          <p>
+            <strong>MealBalance®</strong> is Robert’s Recipe Box’s separate 1–10
+            comparison system for describing where a recipe or meal falls from
+            lighter to richer:
+          </p>
+          <div className="nutritionStandardsMbScale">
+            <span><strong>1–2</strong> Very Light</span>
+            <span><strong>3–4</strong> Balanced</span>
+            <span><strong>5–6</strong> Moderate</span>
+            <span><strong>7–8</strong> Rich</span>
+            <span><strong>9–10</strong> Indulgent</span>
+          </div>
+          <p>
+            MealBalance is intended to make everyday meal planning easier. It is
+            not a nutrition label, medical assessment, or judgment about whether
+            a food is “good” or “bad.”
+          </p>
+        </article>
+
+        <article>
+          <h2>What About GLP-1?</h2>
+          <p>
+            Some recipes may include GLP-1-related indicators or appear in GLP-1
+            recipe collections. These features are intended to help identify
+            recipe characteristics such as protein, portion size, fiber, added
+            sugar, richness, or the practicality of eating a smaller meal.
+          </p>
+          <p>
+            They are organizational and informational tools, not medical
+            recommendations or a prescribed GLP-1 diet. Individual nutritional
+            needs and medication experiences vary considerably.
+          </p>
+        </article>
+      </section>
+
+      <section className="nutritionStandardsDisclaimer">
+        <div className="aiBadge">A PRACTICAL TOOL, NOT A PRESCRIPTION</div>
+        <h2>Use nutrition information as one part of your own decision-making.</h2>
+        <p>
+          Nutrition information, MealBalance scores, GLP-1 indicators, recipe
+          collections, and other food-related information on this site are
+          provided for general informational and meal-planning purposes.
+        </p>
+        <p>
+          They are not intended as a <strong><em>medical diagnosis, weight-loss
+          program, diet prescription, or substitute for advice from a physician or
+          registered dietitian.</em></strong>
+        </p>
+        <p>
+          If you have a medical condition, food allergy, medication-related dietary
+          concern, or specific nutritional requirement, use the guidance provided
+          by your qualified healthcare professional.
+        </p>
+      </section>
+
+      <div className="nutritionStandardsActions">
+        <button type="button" className="primary" onClick={() => setActivePage("Recipes")}>
+          Browse Our Recipe Library
+        </button>
+        <button type="button" className="secondary" onClick={() => setActivePage("MealBalance Guide")}>
+          Understanding MealBalance
+        </button>
+      </div>
+    </main>
+  );
+}
+
+
 function MealBalanceGuidePage({ setActivePage }) {
   return (
     <main className="pageShell mealBalanceGuidePage">
@@ -17957,6 +18168,21 @@ Use this section to check what is on hand, record dates, mark foods that should 
             videoPoster={ABOUT_RECIPES_VIDEO_POSTER}
 />
           <AboutRecipesPage setActivePage={setActivePage} />
+        </>
+      )}
+      {activePage === "Nutrition Standards" && (
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-page-healthy-substitutions.webp"
+            alt="Healthy cooking ingredients, measuring tools, and meal-planning notes on a light kitchen counter"
+            eyebrow="ABOUT OUR RECIPES"
+            title="Our Nutrition Standards"
+            text="Nutrition information can be useful when you are comparing recipes, planning meals, or simply trying to understand what is in the food you prepare. This page explains how Robert’s Recipe Box estimates nutrition, the assumptions we use, and why your actual results may vary.
+
+The goal is consistency and transparency—not to turn dinner into a medical calculation."
+            className="pageHeroDepth464 nutritionStandardsHero"
+          />
+          <NutritionStandardsPage setActivePage={setActivePage} />
         </>
       )}
       {activePage === "MealBalance Guide" && (
