@@ -46098,3 +46098,105 @@ button.browseRecipeWideFooterAction:focus-visible,
     font-size: 26px !important;
   }
 }
+
+
+/* ================================================================
+   v74.18 — DINNER COMBINATION MEAL-BOX CLEANUP
+   Larger supporting type; remove freezer-life and RFIS recommendations.
+   ================================================================ */
+
+/* Subtitle under main dinner title. */
+.dinnerCombinationScaleCard .dinnerCombinationSubtitle {
+  font-size: 18px !important;
+  line-height: 1.25 !important;
+}
+
+/* MealBalance line. */
+.dinnerCombinationScaleCard .comboMealBalanceDetails,
+.dinnerCombinationScaleCard .comboMealBalanceDetails * {
+  font-size: 18px !important;
+  line-height: 1.22 !important;
+}
+
+/* M / S1-S4 meal component list. */
+.dinnerCombinationScaleCard .dinnerCombinationStackedMeal p {
+  min-height: 27px !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationStackedMeal p > span {
+  font-size: 16px !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationStackedMeal strong {
+  font-size: 17px !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationStackedMeal small {
+  font-size: 16px !important;
+}
+
+/* Whole-meal nutrition. */
+.dinnerCombinationScaleCard .dinnerCombinationNutritionLabel {
+  font-size: 20px !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationNutritionExpanded strong {
+  font-size: 18px !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationNutritionExpanded small {
+  font-size: 15px !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationNutritionExpanded em {
+  font-size: 16px !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationDailyValueNote {
+  font-size: 15px !important;
+}
+
+/* Recipe-card tiles. */
+.dinnerCombinationScaleCard .dinnerCombinationRecipeButtons h4 {
+  font-size: 20px !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationRecipeButtonGrid button span,
+.dinnerCombinationScaleCard .dinnerCombinationRecipeButtonGrid button small {
+  font-size: 15px !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationRecipeButtonGrid button strong {
+  font-size: 18px !important;
+  line-height: 1.12 !important;
+}
+
+/* Heating notes: freezer-life row removed; enlarge remaining note text. */
+.dinnerCombinationScaleCard .dinnerCombinationHeatingPanel h4 {
+  font-size: 20px !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationHeatingPanelGrid p span {
+  font-size: 16px !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationHeatingPanelGrid p strong {
+  font-size: 16px !important;
+  line-height: 1.28 !important;
+}
+
+/* Last Made / Add Meal controls. */
+.dinnerCombinationScaleCard .dinnerCombinationLastMade span,
+.dinnerCombinationScaleCard .dinnerCombinationPlannerAdd label > span {
+  font-size: 15px !important;
+}
+
+.dinnerCombinationScaleCard .dinnerCombinationLastMade strong,
+.dinnerCombinationScaleCard .dinnerCombinationPlannerAdd select,
+.dinnerCombinationScaleCard .dinnerCombinationLastMade input,
+.dinnerCombinationScaleCard .dinnerCombinationLastMade button,
+.dinnerCombinationScaleCard .dinnerCombinationPlannerAdd button {
+  font-size: 16px !important;
+}
+
+/* RFIS recommendation panel removed from markup. */

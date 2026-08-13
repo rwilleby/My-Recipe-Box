@@ -12956,10 +12956,6 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, onViewRelatedMeal, openR
               className="dinnerCombinationHeatingPanelGrid"
             >
               <p>
-                <span>Freezer Life</span>
-                <strong>{meal.freezerLife || "No freezer guidance listed."}</strong>
-              </p>
-              <p>
                 <span>Oven</span>
                 <strong>{meal.ovenInstructions || "No oven instructions listed."}</strong>
               </p>
@@ -13072,44 +13068,7 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, onViewRelatedMeal, openR
         </section>
       </div>
 
-      {relatedDinners.length > 0 && (
-        <section className="dinnerRelatedPanel" aria-label={`Related Complete Dinners for ${meal.title}`}>
-          <div className="dinnerRelatedHeading">
-            <div>
-              <span>RFIS Recommendations</span>
-              <h4>Related Complete Dinners</h4>
-            </div>
-            <small>Ranked by shared recipes, collections, and cuisine.</small>
-          </div>
-          <div className="dinnerRelatedGrid">
-            {relatedDinners.map((related) => {
-              const reasons =
-                Array.isArray(related.reasons) && related.reasons.length
-                  ? related.reasons
-                  : [
-                      Array.isArray(related.sharedCollections) &&
-                      related.sharedCollections.length
-                        ? related.sharedCollections.join(" · ")
-                        : related.cuisine || "Similar dinner profile",
-                    ].filter(Boolean);
 
-              return (
-                <button
-                  type="button"
-                  className="dinnerRelatedCard"
-                  key={`${meal.id}-${related.id}`}
-                  onClick={() => onViewRelatedMeal?.(related.legacyId)}
-                >
-                  <span>Meal #{String(related.number).padStart(3, "0")}</span>
-                  <strong>{related.title}</strong>
-                  <small>{related.entreeName}</small>
-                  <em>{reasons.join(" · ")}</em>
-                </button>
-              );
-            })}
-          </div>
-        </section>
-      )}
 
       </article>
     </div>
