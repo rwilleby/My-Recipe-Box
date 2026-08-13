@@ -6937,11 +6937,26 @@ function PlannerPage({
   usePopupPageMode(Boolean(picker));
 
   const [plannerWeekStart, setPlannerWeekStart] = useState(() => {
+    try {
+      const savedWeekStart = window.localStorage.getItem("rrb-weekly-planner-week-start");
+      if (savedWeekStart) return savedWeekStart;
+    } catch {
+      // Fall back to the current week if storage is unavailable.
+    }
+
     const now = new Date();
     const start = new Date(now);
     start.setDate(now.getDate() - now.getDay());
     return start.toISOString().slice(0, 10);
   });
+
+  useEffect(() => {
+    try {
+      window.localStorage.setItem("rrb-weekly-planner-week-start", plannerWeekStart);
+    } catch {
+      // The planner still works in the current session if storage is unavailable.
+    }
+  }, [plannerWeekStart]);
 
   const plannerWeekLabel = useMemo(() => {
     const start = new Date(`${plannerWeekStart}T12:00:00`);
@@ -12636,7 +12651,7 @@ function formatDinnerLastMade(value) {
   return date.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
 }
 
-function DinnerCombinationCard({ meal, onAddMealToPlan, onViewRelatedMeal, openRecipeCard, favorites, toggleFavorite }) {
+function DinnerCombinationCard({ meal, plan = emptyTwoWeekPlan(), onAddMealToPlan, onViewRelatedMeal, openRecipeCard, favorites, toggleFavorite }) {
   const preparedRequirements = getComboPreparedRequirements(meal);
   const relatedDinners = useMemo(
     () =>
@@ -12647,7 +12662,7 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, onViewRelatedMeal, openR
   );
 
   const [activeRecipePopup, setActiveRecipePopup] = useState(null);
-  const [selectedPlannerDay, setSelectedPlannerDay] = useState("week1-Mon");
+  const [selectedPlannerDay, setSelectedPlannerDay] = useState("week1-Sun");
   const [addedMessage, setAddedMessage] = useState("");
   const [mealImageIndex, setMealImageIndex] = useState(0);
   const [mealImageFailed, setMealImageFailed] = useState(false);
@@ -12700,10 +12715,80 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, onViewRelatedMeal, openR
     return `${Math.round((numericValue / dailyValue) * 100)}%`;
   }
 
+  const normalizedPlannerPlan = useMemo(() => normalizeTwoWeekPlan(plan), [plan]);
+
+  const plannerWeekStartForDinner = useMemo(() => {
+    try {
+      const saved = window.localStorage.getItem("rrb-weekly-planner-week-start");
+      if (saved) return saved;
+    } catch {
+      // Use current week below.
+    }
+
+    const now = new Date();
+    const start = new Date(now);
+    start.setDate(now.getDate() - now.getDay());
+    return start.toISOString().slice(0, 10);
+  }, [plan]);
+
+  const plannerWeekLabelForDinner = useMemo(() => {
+    const start = new Date(`${plannerWeekStartForDinner}T12:00:00`);
+    const end = new Date(start);
+    end.setDate(start.getDate() + 6);
+
+    const startMonth = start.toLocaleDateString(undefined, { month: "short" });
+    const endMonth = end.toLocaleDateString(undefined, { month: "short" });
+
+    if (start.getMonth() === end.getMonth() && start.getFullYear() === end.getFullYear()) {
+      return `${startMonth} ${start.getDate()}–${end.getDate()}, ${end.getFullYear()}`;
+    }
+
+    return `${startMonth} ${start.getDate()} – ${endMonth} ${end.getDate()}, ${end.getFullYear()}`;
+  }, [plannerWeekStartForDinner]);
+
+  const plannerDayStatus = useMemo(
+    () =>
+      WEEKLY_PLANNER_DAYS.map((day) => {
+        const slotKey = `week1-${day}`;
+        const mainRecipeId = normalizedPlannerPlan[slotKey]?.[0] || "";
+        const mainRecipe = recipes.find((recipe) => recipe.id === mainRecipeId) || null;
+
+        return {
+          day,
+          slotKey,
+          label: WEEKLY_PLANNER_DAY_LABELS[day],
+          mainRecipeId,
+          mainTitle: mainRecipe?.title || "",
+          isOpen: !mainRecipeId,
+        };
+      }),
+    [normalizedPlannerPlan],
+  );
+
+  useEffect(() => {
+    const selectedStatus = plannerDayStatus.find((item) => item.slotKey === selectedPlannerDay);
+    if (selectedStatus) return;
+
+    const firstOpen = plannerDayStatus.find((item) => item.isOpen);
+    setSelectedPlannerDay(firstOpen?.slotKey || plannerDayStatus[0]?.slotKey || "week1-Sun");
+  }, [plannerDayStatus, selectedPlannerDay]);
+
   function addThisMealToPlan() {
-    onAddMealToPlan(meal.id, selectedPlannerDay);
-    setAddedMessage(`Added to ${plannerSlotLabel(selectedPlannerDay)}.`);
-    window.setTimeout(() => setAddedMessage(""), 2600);
+    const selectedStatus = plannerDayStatus.find((item) => item.slotKey === selectedPlannerDay);
+    if (!selectedStatus) return;
+
+    if (!selectedStatus.isOpen) {
+      const shouldReplace = window.confirm(
+        `${selectedStatus.label} currently has ${selectedStatus.mainTitle || "a Main Course"}. Replace that day's meal with ${meal.title}?`,
+      );
+      if (!shouldReplace) return;
+    }
+
+    onAddMealToPlan(meal, selectedPlannerDay);
+    setAddedMessage(
+      `${meal.title} added to ${selectedStatus.label} — Main + ${Math.min(3, (meal.sides || []).filter((side) => side?.recipeId).length)} side${(meal.sides || []).filter((side) => side?.recipeId).length === 1 ? "" : "s"}.`,
+    );
+    window.setTimeout(() => setAddedMessage(""), 3200);
   }
 
   function saveLastMade(value) {
@@ -13028,22 +13113,26 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, onViewRelatedMeal, openR
             </div>
           </section>
 
-          <section className="dinnerCombinationPlannerAdd" aria-label={`Add ${meal.title} to meal plan`}>
+          <section className="dinnerCombinationPlannerAdd dinnerCombinationPlannerAddSmart" aria-label={`Add ${meal.title} to weekly meal planner`}>
             <label>
-              <span>Add meal to plan day</span>
+              <span>Add meal to planner <small>{plannerWeekLabelForDinner}</small></span>
               <select value={selectedPlannerDay} onChange={(event) => setSelectedPlannerDay(event.target.value)}>
-                {PLANNER_WEEKS.map((week) => (
-                  <optgroup key={week.id} label={week.title}>
-                    {WEEK_DAYS.map((day) => (
-                      <option key={`${week.id}-${day}`} value={`${week.id}-${day}`}>
-                        {week.title} — {day}
-                      </option>
-                    ))}
-                  </optgroup>
+                {plannerDayStatus.map((dayStatus) => (
+                  <option key={dayStatus.slotKey} value={dayStatus.slotKey}>
+                    {dayStatus.label} — {dayStatus.isOpen ? "OPEN" : dayStatus.mainTitle || "Occupied"}
+                  </option>
                 ))}
               </select>
             </label>
             <button type="button" onClick={addThisMealToPlan}>Add Meal</button>
+            <div className="dinnerPlannerDayLegend" aria-label="Weekly planner day status">
+              {plannerDayStatus.map((dayStatus) => (
+                <span key={`${meal.id}-${dayStatus.day}`} className={dayStatus.isOpen ? "isOpen" : "isOccupied"}>
+                  <strong>{dayStatus.day}</strong>
+                  <small>{dayStatus.isOpen ? "OPEN" : dayStatus.mainTitle}</small>
+                </span>
+              ))}
+            </div>
             {addedMessage && <p className="dinnerCombinationAddedMessage">{addedMessage}</p>}
           </section>
 
@@ -13075,7 +13164,7 @@ function DinnerCombinationCard({ meal, onAddMealToPlan, onViewRelatedMeal, openR
   );
 }
 
-function DinnerCombinationsPage({ setActivePage, setFilter, setPlan, openRecipeCard, favorites, toggleFavorite, targetMealId, setTargetMealId }) {
+function DinnerCombinationsPage({ setActivePage, setFilter, plan, setPlan, openRecipeCard, favorites, toggleFavorite, targetMealId, setTargetMealId }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [proteinFilter, setProteinFilter] = useState("all");
   const [sideFilter, setSideFilter] = useState("all");
@@ -13228,12 +13317,19 @@ function DinnerCombinationsPage({ setActivePage, setFilter, setPlan, openRecipeC
     setDinnerCategory("all");
   }
 
-  function addDinnerMealToPlan(mealId, slotKey) {
-    if (!mealId || !slotKey) return;
+  function addDinnerMealToPlan(meal, slotKey) {
+    if (!meal?.id || !slotKey) return;
+
+    const plannerItems = [
+      meal.mainRecipeId || null,
+      meal.sides?.[0]?.recipeId || null,
+      meal.sides?.[1]?.recipeId || null,
+      meal.sides?.[2]?.recipeId || null,
+    ];
 
     setPlan((current) => {
       const next = normalizeTwoWeekPlan(current);
-      next[slotKey] = [...(next[slotKey] || []), mealId];
+      next[slotKey] = plannerItems;
       return next;
     });
   }
@@ -13384,6 +13480,7 @@ function DinnerCombinationsPage({ setActivePage, setFilter, setPlan, openRecipeC
             <DinnerCombinationCard
               key={meal.id}
               meal={meal}
+              plan={plan}
               onAddMealToPlan={addDinnerMealToPlan}
               onViewRelatedMeal={viewRelatedDinner}
               openRecipeCard={openRecipeCard}
@@ -16334,6 +16431,7 @@ export default function App() {
           <DinnerCombinationsPage
             setActivePage={setActivePage}
             setFilter={setFilter}
+            plan={plan}
             setPlan={setPlan}
             openRecipeCard={openRecipeCard}
             favorites={favorites}
