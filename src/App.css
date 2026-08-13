@@ -44018,3 +44018,122 @@ body.rrbPopupOpen {
   font-size: 11px !important;
   line-height: 1.25 !important;
 }
+
+
+/* ================================================================
+   v73.22 — NOTES LABEL + SCROLL-ANCHORED SUPPLEMENTAL VIDEOS
+   ================================================================ */
+
+/* Restore Notes under N and match M/S1/S2/S3 two-line label treatment. */
+.weeklyCalendarPlannerNotesLabel small {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  margin-top: 6px !important;
+  color: #625e54 !important;
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 8px !important;
+  font-weight: 600 !important;
+  line-height: 1.15 !important;
+}
+
+/* Trigger wrapper becomes the positioning context.
+   Popup now scrolls naturally with the section instead of staying fixed to viewport. */
+.supplementalHoverVideoTrigger,
+.weeklyPlannerTitleVideoTrigger,
+.homeModeSupplementalVideoTrigger {
+  position: relative !important;
+  overflow: visible !important;
+  z-index: 2147482000 !important;
+}
+
+/* ALL supplemental popups:
+   anchored below their own trigger area,
+   topmost layer,
+   centered relative to trigger by default. */
+.supplementalHoverVideoPopover {
+  position: absolute !important;
+  top: calc(100% + 8px) !important;
+  bottom: auto !important;
+  left: 50% !important;
+  right: auto !important;
+  transform: translateX(-50%) !important;
+  width: min(520px, calc(100vw - 24px)) !important;
+  max-width: calc(100vw - 24px) !important;
+  max-height: min(620px, calc(100vh - 24px)) !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  z-index: 2147483640 !important;
+  box-sizing: border-box !important;
+  isolation: isolate !important;
+}
+
+/* The popup itself and all children always paint above surrounding cards/content. */
+.supplementalHoverVideoPopover,
+.supplementalHoverVideoPopover * {
+  position: relative;
+  z-index: 2147483640 !important;
+}
+
+/* Keep video/media fitted inside popup. */
+.supplementalHoverVideoPopover video,
+.supplementalHoverVideoPopover .supplementalVideoTestPattern {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  max-height: 520px !important;
+  object-fit: contain !important;
+}
+
+/* EASY / DETAILED video:
+   open flush-left with the Easy/Detailed control and stay attached on scroll. */
+.homeModeSupplementalVideoTrigger .supplementalHoverVideoPopover {
+  left: 0 !important;
+  right: auto !important;
+  transform: none !important;
+  top: calc(100% + 8px) !important;
+}
+
+/* Weekly planner title video still opens below icon, centered around that icon. */
+.weeklyPlannerTitleVideoTrigger .supplementalHoverVideoPopover {
+  top: calc(100% + 8px) !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+}
+
+/* Ensure all ancestor sections permit the popup to overhang. */
+.hero,
+.homePhotoFeatures,
+.homeComboMealStrip,
+.categorySection,
+.weeklyCalendarPlannerHeaderV3,
+.weeklyCalendarPlannerPage,
+.pageShell,
+.pageHero {
+  overflow: visible !important;
+}
+
+/* Normal site content stays underneath popup layer. */
+.siteHeader,
+.mainHeader,
+.header,
+.pageHero,
+.homePhotoFeatures,
+.homeComboMealStrip,
+.categorySection,
+.weeklyCalendarPlannerPage {
+  z-index: auto !important;
+}
+
+@media (max-width: 700px) {
+  .supplementalHoverVideoPopover {
+    width: min(480px, calc(100vw - 16px)) !important;
+    max-width: calc(100vw - 16px) !important;
+  }
+
+  .homeModeSupplementalVideoTrigger .supplementalHoverVideoPopover {
+    left: 0 !important;
+    transform: none !important;
+  }
+}

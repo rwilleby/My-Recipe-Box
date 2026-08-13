@@ -3100,9 +3100,7 @@ function HomeComboMealStrip({
 
 function SupplementalHoverVideo({ src, poster = "", title, className = "", children, showTestPattern = false }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [popoverTop, setPopoverTop] = useState(96);
   const videoRef = useRef(null);
-  const triggerRef = useRef(null);
   const closeTimerRef = useRef(null);
 
   useEffect(() => {
@@ -3116,11 +3114,6 @@ function SupplementalHoverVideo({ src, poster = "", title, className = "", child
       window.clearTimeout(closeTimerRef.current);
       closeTimerRef.current = null;
     }
-
-    const triggerRect = triggerRef.current?.getBoundingClientRect();
-    const desiredTop = triggerRect ? triggerRect.bottom + 8 : 96;
-    const viewportSafeTop = Math.max(12, Math.min(desiredTop, window.innerHeight - 160));
-    setPopoverTop(viewportSafeTop);
 
     setIsOpen(true);
 
@@ -3151,7 +3144,6 @@ function SupplementalHoverVideo({ src, poster = "", title, className = "", child
   return (
     <span className={`supplementalHoverVideo ${className}`.trim()}>
       <button
-        ref={triggerRef}
         type="button"
         className="supplementalVideoTriggerButton"
         onClick={openVideo}
@@ -3166,7 +3158,6 @@ function SupplementalHoverVideo({ src, poster = "", title, className = "", child
           className="supplementalHoverVideoPopover"
           role="dialog"
           aria-label={title}
-          style={{ "--supp-video-top": `${popoverTop}px` }}
         >
           {src ? (
             <video
