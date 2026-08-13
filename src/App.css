@@ -45738,3 +45738,57 @@ button.browseRecipeWideFooterAction:focus-visible,
   background: #70883f !important;
   color: #fff !important;
 }
+
+
+/* ================================================================
+   v74.14 — NUTRITION FACTS TYPOGRAPHY TUNE
+   Smaller title; slightly larger regular data text.
+   Calories and Protein remain unchanged from v74.13.
+   ================================================================ */
+
+/* LISTING: make "Nutrition Facts" clearly smaller so it fits comfortably. */
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseRecipeNutritionFacts h3 {
+  font-size: clamp(11px, 1.75cqw, 15px) !important;
+  line-height: 1 !important;
+  letter-spacing: -.025em !important;
+}
+
+/* LISTING: slightly enlarge the regular nutrition data only. */
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseNutritionServingRow {
+  font-size: clamp(7.5px, 1.38cqw, 10px) !important;
+}
+
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseNutritionRow {
+  font-size: clamp(7.5px, 1.34cqw, 9.8px) !important;
+  line-height: 1.02 !important;
+}
+
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseNutritionRow strong {
+  font-size: clamp(7.5px, 1.36cqw, 10px) !important;
+}
+
+/* VIEW CARD: same relationship, scaled for the larger popup. */
+.cardViewerCombinedRecipeUnit .browseRecipeNutritionFacts h3 {
+  font-size: clamp(16px, 1.9cqw, 22px) !important;
+  line-height: 1 !important;
+  letter-spacing: -.025em !important;
+}
+
+.cardViewerCombinedRecipeUnit .browseNutritionServingRow {
+  font-size: clamp(10px, 1.12cqw, 14px) !important;
+}
+
+.cardViewerCombinedRecipeUnit .browseNutritionRow {
+  font-size: clamp(9.5px, 1.08cqw, 13px) !important;
+  line-height: 1.02 !important;
+}
+
+.cardViewerCombinedRecipeUnit .browseNutritionRow strong {
+  font-size: clamp(9.5px, 1.1cqw, 13px) !important;
+}
+
+/* Calories and Protein intentionally inherit v74.13 sizes unchanged. */
