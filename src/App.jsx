@@ -13302,7 +13302,20 @@ function DinnerCombinationsPage({ setActivePage, setFilter, setPlan, openRecipeC
     <main className="pageShell dinnerCombinationsPage">
       <section className="dinnerCombinationFinder" aria-labelledby="dinnerCombinationFinderTitle">
         <div className="dinnerCombinationFinderHeading">
-          <h2 id="dinnerCombinationFinderTitle">Find a Complete Dinner</h2>
+          <div className="dinnerCombinationFinderTitleRow">
+            <h2 id="dinnerCombinationFinderTitle">Find a Complete Dinner</h2>
+            <SupplementalHoverVideo
+              title="Find a Complete Dinner overview video"
+              className="dinnerCombinationFinderVideo"
+              showTestPattern
+            >
+              <img
+                src={`${import.meta.env.BASE_URL}${VIDEO_ICON_SUPPLEMENTAL}`}
+                alt=""
+                aria-hidden="true"
+              />
+            </SupplementalHoverVideo>
+          </div>
           <p>Choose a category or use the filters below to find a ready-made dinner combination.</p>
         </div>
 

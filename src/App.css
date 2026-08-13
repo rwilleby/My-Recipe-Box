@@ -45967,3 +45967,134 @@ button.browseRecipeWideFooterAction:focus-visible,
     grid-template-columns: 1fr 1fr !important;
   }
 }
+
+
+/* ================================================================
+   v74.17 — DINNER COMBINATIONS HEADER MATCH TO WEEKLY MEAL PLANNER
+   ================================================================ */
+
+/* Pull the section up to the approved supporting-page spacing. */
+.dinnerCombinationsPage {
+  padding-top: 0 !important;
+}
+
+.dinnerCombinationFinder {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 8px auto 8px !important;
+}
+
+.dinnerCombinationFinderHeading {
+  margin: 0 0 9px !important;
+  text-align: center !important;
+}
+
+.dinnerCombinationFinderTitleRow {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 9px !important;
+}
+
+.dinnerCombinationFinderHeading h2 {
+  margin: 0 !important;
+  color: #172033 !important;
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: 28px !important;
+  line-height: 1.08 !important;
+  font-weight: 700 !important;
+}
+
+.dinnerCombinationFinderHeading p {
+  margin: 8px 0 0 !important;
+  color: #687283 !important;
+  font-size: 15px !important;
+  line-height: 1.25 !important;
+  font-weight: 700 !important;
+}
+
+.dinnerCombinationFinderVideo {
+  display: inline-flex !important;
+  align-items: center !important;
+}
+
+.dinnerCombinationFinderVideo .supplementalVideoTriggerButton {
+  width: 29px !important;
+  height: 29px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+}
+
+.dinnerCombinationFinderVideo .supplementalVideoTriggerButton img {
+  display: block !important;
+  width: 29px !important;
+  height: 29px !important;
+  object-fit: contain !important;
+}
+
+/* Match the compact Meal Planner segmented-control proportions. */
+.dinnerCategorySegmented {
+  width: 100% !important;
+  min-height: 48px !important;
+  padding: 3px !important;
+  border: 1px solid #cfd6cf !important;
+  border-radius: 16px !important;
+  background: #efede6 !important;
+  box-sizing: border-box !important;
+}
+
+.dinnerCategorySegmented button {
+  min-height: 42px !important;
+  padding: 0 8px !important;
+  color: #1d5a36 !important;
+  font-size: 13px !important;
+  line-height: 1 !important;
+  font-weight: 800 !important;
+}
+
+.dinnerCategorySegmented button.isActive {
+  border-radius: 13px !important;
+  background: #80994A !important;
+  color: #fff !important;
+}
+
+/* Shorter, cleaner single-row filter bar. */
+.dinnerCombinationToolbarCompact {
+  width: 100% !important;
+  margin: 8px 0 0 !important;
+  padding: 9px 12px !important;
+  gap: 9px !important;
+  border-radius: 15px !important;
+  align-items: end !important;
+}
+
+.dinnerCombinationToolbarCompact label > span {
+  margin-bottom: 4px !important;
+  font-size: 10px !important;
+  line-height: 1 !important;
+}
+
+.dinnerCombinationToolbarCompact input,
+.dinnerCombinationToolbarCompact select,
+.dinnerFavoriteFilter button {
+  height: 36px !important;
+  min-height: 36px !important;
+  border-radius: 8px !important;
+  font-size: 12px !important;
+}
+
+.dinnerCombinationToolbarCompact input,
+.dinnerCombinationToolbarCompact select {
+  padding: 0 10px !important;
+}
+
+.dinnerFavoriteFilter button {
+  font-size: 18px !important;
+}
+
+@media (max-width: 1050px) {
+  .dinnerCombinationFinderHeading h2 {
+    font-size: 26px !important;
+  }
+}
