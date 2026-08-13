@@ -44231,3 +44231,30 @@ body.rrbPopupOpen {
     max-width:calc(100vw - 24px)!important;
   }
 }
+
+
+/* v74.4 authoritative video placement */
+.supplementalHoverVideoPopover.supplementalHoverVideoPortal {
+  position: absolute !important;
+  top: var(--supp-popup-top) !important;
+  left: var(--supp-popup-left) !important;
+  right: auto !important;
+  bottom: auto !important;
+  z-index: 2147483640 !important;
+}
+
+.supplementalHoverVideoPopover.supplementalHoverVideoPortal.isPageCentered {
+  transform: translateX(-50%) !important;
+}
+
+.supplementalHoverVideoPopover.supplementalHoverVideoPortal.isLeftAligned {
+  transform: none !important;
+}
+
+.largeHeroVideoPanel.isClosed {
+  display: none !important;
+}
+
+.largeHeroVideoPanel.isOpen {
+  display: block !important;
+}

@@ -3221,7 +3221,10 @@ function SupplementalHoverVideo({
       }`}
       role="dialog"
       aria-label={title}
-      style={{ top: `${popupPosition.top}px`, left: `${popupPosition.left}px` }}
+      style={{
+        "--supp-popup-top": `${popupPosition.top}px`,
+        "--supp-popup-left": `${popupPosition.left}px`,
+      }}
     >
       {src ? (
         <video
@@ -11859,21 +11862,19 @@ function LargeHeroVideoPanel({
         closeTimerRef.current = null;
       }
 
-      videoRef.current?.pause();
+      const player = videoRef.current;
 
-      if (videoRef.current) {
-        videoRef.current.currentTime = 0;
+      if (player) {
+        player.pause();
+        player.currentTime = 0;
       }
 
       setIsPlaying(false);
       setIsVisible(true);
 
-      window.requestAnimationFrame(() => {
-        const player = videoRef.current;
-        if (!player || !videoSrc) return;
-        player.currentTime = 0;
+      if (player && videoSrc) {
         player.play().catch(() => {});
-      });
+      }
     }
 
     window.addEventListener(LARGE_HERO_VIDEO_OPEN_EVENT, handleOpen);
@@ -11888,6 +11889,17 @@ function LargeHeroVideoPanel({
       }
     };
   }, []);
+
+  useEffect(() => {
+    if (!isVisible || !videoSrc) return;
+
+    const player = videoRef.current;
+    if (!player) return;
+
+    player.play().catch(() => {
+      // Browser policy may block sound-on autoplay on a non-click first visit.
+    });
+  }, [isVisible, videoSrc]);
 
   function acknowledgeVideo() {
     try {
@@ -11927,12 +11939,11 @@ function LargeHeroVideoPanel({
     }, 800);
   }
 
-  if (!isVisible) return null;
-
   return (
     <aside
-      className="largeHeroVideoPanel"
+      className={`largeHeroVideoPanel${isVisible ? " isOpen" : " isClosed"}`}
       aria-label={`${pageTitle} video`}
+      aria-hidden={!isVisible}
     >
       <div
         className={`largeHeroVideoStage${videoSrc ? "" : " isUnassigned"}`}
@@ -11948,7 +11959,6 @@ function LargeHeroVideoPanel({
                   : undefined
               }
               title={`${pageTitle} video`}
-              autoPlay
               playsInline
               preload="metadata"
               onPlay={() => setIsPlaying(true)}
