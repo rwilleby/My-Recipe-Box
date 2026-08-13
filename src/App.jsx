@@ -3100,7 +3100,9 @@ function HomeComboMealStrip({
 
 function SupplementalHoverVideo({ src, poster = "", title, className = "", children, showTestPattern = false }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [popoverTop, setPopoverTop] = useState(96);
   const videoRef = useRef(null);
+  const triggerRef = useRef(null);
   const closeTimerRef = useRef(null);
 
   useEffect(() => {
@@ -3114,7 +3116,14 @@ function SupplementalHoverVideo({ src, poster = "", title, className = "", child
       window.clearTimeout(closeTimerRef.current);
       closeTimerRef.current = null;
     }
+
+    const triggerRect = triggerRef.current?.getBoundingClientRect();
+    const desiredTop = triggerRect ? triggerRect.bottom + 8 : 96;
+    const viewportSafeTop = Math.max(12, Math.min(desiredTop, window.innerHeight - 160));
+    setPopoverTop(viewportSafeTop);
+
     setIsOpen(true);
+
     if (src) {
       window.requestAnimationFrame(() => {
         videoRef.current?.play().catch(() => {});
@@ -3142,6 +3151,7 @@ function SupplementalHoverVideo({ src, poster = "", title, className = "", child
   return (
     <span className={`supplementalHoverVideo ${className}`.trim()}>
       <button
+        ref={triggerRef}
         type="button"
         className="supplementalVideoTriggerButton"
         onClick={openVideo}
@@ -3152,7 +3162,12 @@ function SupplementalHoverVideo({ src, poster = "", title, className = "", child
       </button>
 
       {isOpen && (
-        <span className="supplementalHoverVideoPopover" role="dialog" aria-label={title}>
+        <span
+          className="supplementalHoverVideoPopover"
+          role="dialog"
+          aria-label={title}
+          style={{ "--supp-video-top": `${popoverTop}px` }}
+        >
           {src ? (
             <video
               ref={videoRef}
@@ -16374,8 +16389,6 @@ Use this collection to organize recipes that fit prep-ahead cooking, planned lef
             title="Weekly Dinner Planning"
             text="Meal planning can make the week feel more organized without removing flexibility. Select meals for specific days, account for leftovers, plan around appointments, and decide which foods need to be thawed or prepared in advance.\n\nYour plan can be as detailed or as simple as you prefer. Even choosing four or five dinners before grocery shopping can reduce stress, limit impulse purchases, and make it easier to use the food already in your home."
           />
-          <main className="pageShell" data-kos-ui="meal-planner">
-</main>
           <PlannerPage {...pageProps} />
         </>
       )}
