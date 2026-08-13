@@ -45214,3 +45214,153 @@ button.browseRecipeWideFooterAction:focus-visible,
     grid-template-columns: 1fr !important;
   }
 }
+
+
+/* ================================================================
+   v74.11 — RECIPE CARD / NUTRITION FACTS FIT PASS
+   Recipe card aspect ratio now determines the shared panel height.
+   ================================================================ */
+
+/* Narrow Nutrition Facts so the recipe card gets more horizontal room. */
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseRecipeNutritionPrototypeMain {
+  display: grid !important;
+  grid-template-columns: minmax(0, 78fr) minmax(145px, 22fr) !important;
+  grid-template-rows: auto !important;
+  gap: 10px !important;
+  align-items: stretch !important;
+}
+
+/* Remove the old fixed-height lock. */
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseRecipeNutritionPrototypeCard,
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseRecipeNutritionFacts {
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+}
+
+/* The recipe card uses its true 1725×1125 ratio and fills the wider left panel. */
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseRecipeNutritionPrototypeCard {
+  display: block !important;
+  width: 100% !important;
+  overflow: hidden !important;
+}
+
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseRecipeNutritionPrototypeCard .recipeFullCardImage {
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: hidden !important;
+}
+
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseRecipeNutritionPrototypeCard .recipeFullCardImage img {
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  max-width: 100% !important;
+  max-height: none !important;
+  aspect-ratio: 1725 / 1125 !important;
+  object-fit: contain !important;
+  object-position: center !important;
+}
+
+/* Nutrition Facts stretches to the exact row height created by the recipe card. */
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseRecipeNutritionFacts {
+  align-self: stretch !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  max-height: 100% !important;
+  overflow: hidden !important;
+  padding: 6px 7px 6px !important;
+  box-sizing: border-box !important;
+}
+
+/* Slightly tighten the Nutrition Facts content to suit the narrower panel. */
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseRecipeNutritionFacts h3 {
+  font-size: clamp(13px, .92vw, 18px) !important;
+  white-space: nowrap !important;
+}
+
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseNutritionServingRow {
+  font-size: 6.9px !important;
+}
+
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseNutritionCalories {
+  font-size: 11px !important;
+}
+
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseNutritionCalories strong {
+  font-size: 13px !important;
+}
+
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseNutritionRow {
+  font-size: 6.5px !important;
+}
+
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseNutritionRow strong {
+  font-size: 6.8px !important;
+}
+
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseNutritionProtein {
+  font-size: 10px !important;
+}
+
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseNutritionProtein strong {
+  font-size: 12px !important;
+}
+
+/* One-column tablet view can afford a slightly wider nutrition panel. */
+@media (max-width: 980px) {
+  .recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+    .browseRecipeNutritionPrototypeMain {
+    grid-template-columns: minmax(0, 76fr) minmax(175px, 24fr) !important;
+    grid-template-rows: auto !important;
+  }
+
+  .recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+    .browseRecipeNutritionPrototypeCard,
+  .recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+    .browseRecipeNutritionFacts {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+  }
+
+  .recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+    .browseRecipeNutritionFacts {
+    height: 100% !important;
+    min-height: 100% !important;
+    max-height: 100% !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+    .browseRecipeNutritionPrototypeMain {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto auto !important;
+  }
+
+  .recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+    .browseRecipeNutritionFacts {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+  }
+}
