@@ -1,6 +1,6 @@
 {
   "name": "rrb-browser-based-v1",
-  "version": "73.20.0",
+  "version": "73.21.0",
   "private": true,
   "type": "module",
   "scripts": {

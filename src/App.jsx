@@ -7079,11 +7079,11 @@ function PlannerPage({
 
           {WEEKLY_PLANNER_DAYS.map((day) => (
             <label className="weeklyCalendarPlannerNoteCell" key={`${day}-notes`}>
-              <span className="srOnly">{WEEKLY_PLANNER_DAY_LABELS[day]} notes</span>
               <textarea
                 value={notes[day] || ""}
                 onChange={(event) => updateNote(day, event.target.value)}
                 placeholder="Add your personal notes here..."
+                aria-label={`${WEEKLY_PLANNER_DAY_LABELS[day]} personal notes`}
               />
             </label>
           ))}
@@ -7220,8 +7220,10 @@ function ServingSelector({ servings, setServings }) {
       <span>Servings:</span>
       {[2, 4, 6].map((n) => (
         <button
+          type="button"
           key={n}
           className={servings === n ? "selected" : ""}
+          aria-pressed={servings === n}
           onClick={() => setServings(n)}
         >
           {n}
