@@ -43477,3 +43477,215 @@ body.rrbPopupOpen {
     text-align: left !important;
   }
 }
+
+
+/* ================================================================
+   v73.17 — WEEKLY PLANNER TITLE / COLOR / PICKER / NOTES REFINEMENT
+   ================================================================ */
+
+:root {
+  --rrb-default-green: #80994A;
+}
+
+/* Use the sampled Complete Dinner green as the planner's default accent. */
+.weeklyCalendarPlannerDays,
+.weeklyCalendarPlannerDay {
+  background: var(--rrb-default-green) !important;
+}
+
+.weeklyPlannerRecipeImageWrap > .weeklyPlannerMealBalanceCircle,
+.weeklyPlannerPickerImageWrap > .weeklyPlannerMealBalanceCircle,
+.weeklyPlannerMealBalanceCircle {
+  background: var(--rrb-default-green) !important;
+}
+
+/* Match the visual spacing under the large hero used by Quick Dinner Ideas. */
+.weeklyCalendarPlannerPage {
+  margin-top: 18px !important;
+}
+
+/* Centered title/subtitle block with the same scale/weight language. */
+.weeklyCalendarPlannerHeaderV3 {
+  margin: 0 0 8px !important;
+}
+
+.weeklyCalendarPlannerHeaderV3 h1 {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 10px !important;
+  margin: 0 0 7px !important;
+  color: #172033 !important;
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: clamp(30px, 2.55vw, 40px) !important;
+  font-weight: 700 !important;
+  line-height: 1.05 !important;
+  text-align: center !important;
+}
+
+.weeklyCalendarPlannerSubtitle {
+  margin-bottom: 10px !important;
+  color: #667085 !important;
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 650 !important;
+}
+
+/* Gray supplemental video icon at the end of title. */
+.weeklyPlannerTitleVideoTrigger {
+  position: relative !important;
+  display: inline-grid !important;
+  place-items: center !important;
+  flex: 0 0 auto !important;
+}
+
+.weeklyPlannerTitleVideoIcon {
+  width: 35px !important;
+  min-width: 35px !important;
+  max-width: 35px !important;
+  height: 35px !important;
+  min-height: 35px !important;
+  max-height: 35px !important;
+  flex: 0 0 35px !important;
+  opacity: .78 !important;
+}
+
+/* Test-screen popup stays fully inside viewport. */
+.weeklyPlannerTitleVideoTrigger .supplementalHoverVideoPopover {
+  position: fixed !important;
+  left: 50% !important;
+  top: 50% !important;
+  width: min(520px, calc(100vw - 32px)) !important;
+  max-width: calc(100vw - 32px) !important;
+  max-height: calc(100dvh - 32px) !important;
+  transform: translate(-50%, -50%) !important;
+  z-index: 16000 !important;
+}
+
+/* Row-three controls all match PREV/NEXT-style control height. */
+.weeklyCalendarPlannerCalendarControl,
+.weeklyCalendarPlannerTaskServings .servingSelector,
+.weeklyCalendarPlannerTaskButton {
+  height: 37px !important;
+  min-height: 37px !important;
+  max-height: 37px !important;
+  box-sizing: border-box !important;
+}
+
+/* Notes first column: N / Notes. */
+.weeklyCalendarPlannerNotesLabel {
+  display: grid !important;
+  place-items: center !important;
+  align-content: center !important;
+  text-align: center !important;
+}
+
+.weeklyCalendarPlannerNotesLabel strong {
+  display: block !important;
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+}
+
+.weeklyCalendarPlannerNotesLabel small {
+  display: block !important;
+  margin-top: 5px !important;
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 8px !important;
+  font-weight: 650 !important;
+  line-height: 1 !important;
+}
+
+/* Notes are scrollable and no day-specific label is shown. */
+.weeklyCalendarPlannerNoteCell {
+  overflow: hidden !important;
+}
+
+.weeklyCalendarPlannerNoteCell textarea {
+  height: 80px !important;
+  min-height: 80px !important;
+  max-height: 80px !important;
+  overflow-y: auto !important;
+  resize: none !important;
+  text-align: left !important;
+}
+
+.weeklyCalendarPlannerNoteCell textarea::placeholder {
+  font-size: 11px !important;
+  font-weight: 550 !important;
+  color: #7a8088 !important;
+  opacity: 1 !important;
+}
+
+/* All picker dialogs fully fit in viewport. */
+.weeklyPlannerPickerOverlay {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 17000 !important;
+  display: grid !important;
+  place-items: center !important;
+  padding: 12px !important;
+  overflow: hidden !important;
+}
+
+.weeklyPlannerPicker {
+  width: min(980px, calc(100vw - 24px)) !important;
+  height: min(760px, calc(100dvh - 24px)) !important;
+  max-height: calc(100dvh - 24px) !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+}
+
+.weeklyPlannerPickerRecipes {
+  min-height: 0 !important;
+  overflow-y: auto !important;
+  overscroll-behavior: contain !important;
+}
+
+/* Slightly larger centered recipe text. */
+.weeklyPlannerPickerRecipe {
+  text-align: center !important;
+}
+
+.weeklyPlannerPickerRecipe > strong {
+  min-height: 34px !important;
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  line-height: 1.15 !important;
+  text-align: center !important;
+}
+
+.weeklyPlannerPickerRecipe > small {
+  margin-top: 5px !important;
+  color: #667085 !important;
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 10px !important;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+  text-align: center !important;
+}
+
+/* Category dropdown/search row stays visible and compact. */
+.weeklyPlannerPickerSearch {
+  flex: 0 0 auto !important;
+}
+
+@media (max-width: 700px) {
+  .weeklyPlannerTitleVideoIcon {
+    width: 29px !important;
+    min-width: 29px !important;
+    max-width: 29px !important;
+    height: 29px !important;
+    min-height: 29px !important;
+    max-height: 29px !important;
+    flex-basis: 29px !important;
+  }
+
+  .weeklyPlannerPicker {
+    width: calc(100vw - 16px) !important;
+    height: calc(100dvh - 16px) !important;
+    max-height: calc(100dvh - 16px) !important;
+  }
+}

@@ -6669,6 +6669,7 @@ const WEEKLY_PLANNER_DAY_LABELS = Object.freeze({
   Sat: "Saturday",
 });
 
+/* EASY MODE: Weekly Planner remains fully available. */
 function PlannerPage({
   plan,
   setPlan,
@@ -6748,11 +6749,9 @@ function PlannerPage({
   const pickerCategories = useMemo(() => {
     if (!picker) return [];
 
-    const categories = recipes
-      .filter((recipe) =>
-        picker.row.type === "side" ? isSideRecipe(recipe) : !isSideRecipe(recipe)
-      )
-      .map((recipe) => String(recipe.category || "Other").trim() || "Other");
+    const categories = recipes.map(
+      (recipe) => String(recipe.category || "Other").trim() || "Other"
+    );
 
     return [...new Set(categories)].sort((a, b) => a.localeCompare(b));
   }, [picker]);
@@ -6764,13 +6763,8 @@ function PlannerPage({
 
     return recipes
       .filter((recipe) => {
-        const matchesType = picker.row.type === "side"
-          ? isSideRecipe(recipe)
-          : !isSideRecipe(recipe);
-
-        if (!matchesType) return false;
-
         const category = String(recipe.category || "Other").trim() || "Other";
+
         if (pickerCategory !== "all" && category !== pickerCategory) {
           return false;
         }
@@ -6786,7 +6780,12 @@ function PlannerPage({
           String(b.category || "Other")
         );
         if (categoryCompare !== 0) return categoryCompare;
-        return String(a.title || "").localeCompare(String(b.title || ""));
+
+        return String(a.id || "").localeCompare(
+          String(b.id || ""),
+          undefined,
+          { numeric: true, sensitivity: "base" }
+        );
       });
   }, [picker, pickerSearch, pickerCategory]);
 
@@ -6890,7 +6889,21 @@ function PlannerPage({
   return (
     <main className="pageShell weeklyCalendarPlannerPage">
       <header className="weeklyCalendarPlannerHeaderV3">
-        <h1>Your Weekly Meal Planner</h1>
+        <h1>
+          Let's Plan This Weeks Meals
+          <SupplementalHoverVideo
+            src=""
+            poster=""
+            title="Weekly Dinner Planning overview video"
+            className="weeklyPlannerTitleVideoTrigger"
+            showTestPattern
+          >
+            <span className="supplementalVideoIcon weeklyPlannerTitleVideoIcon">
+              <VideoIcon role="supplemental" alt="" className="supplementalVideoIconGray" />
+              <VideoIcon role="main" alt="" className="supplementalVideoIconRed" />
+            </span>
+          </SupplementalHoverVideo>
+        </h1>
         <p className="weeklyCalendarPlannerSubtitle">
           Plan your week at a glance—choose a main dish, add practical sides, and keep each day organized in one simple calendar.
         </p>
@@ -7025,7 +7038,10 @@ function PlannerPage({
         ))}
 
         <div className="weeklyCalendarPlannerGrid weeklyCalendarPlannerNotesRow">
-          <div className="weeklyCalendarPlannerRowLabel weeklyCalendarPlannerNotesLabel" aria-hidden="true" />
+          <div className="weeklyCalendarPlannerRowLabel weeklyCalendarPlannerNotesLabel">
+            <strong>N</strong>
+            <small>Notes</small>
+          </div>
 
           {WEEKLY_PLANNER_DAYS.map((day) => (
             <label className="weeklyCalendarPlannerNoteCell" key={`${day}-notes`}>
@@ -7033,7 +7049,7 @@ function PlannerPage({
               <textarea
                 value={notes[day] || ""}
                 onChange={(event) => updateNote(day, event.target.value)}
-                placeholder="Add notes..."
+                placeholder="Add your personal notes here..."
               />
             </label>
           ))}
@@ -7069,9 +7085,7 @@ function PlannerPage({
                   {WEEKLY_PLANNER_DAY_LABELS[picker.day]}
                 </h2>
                 <p>
-                  {picker.row.type === "main"
-                    ? "Search the main-course recipe library."
-                    : "Search Side Dishes, Salads, Breads & Rolls, and Desserts."}
+                  Search all recipes, or narrow the list by category.
                 </p>
               </div>
 
@@ -10645,7 +10659,7 @@ const PAGE_POPUP_COPY = {
     tip:
       "Use the search and filter tools together to quickly narrow recipes by category, ingredient, cooking method, dietary preference, or other criteria.",
   },
-  "Your Weekly Dinner Planner": {
+  "Weekly Dinner Planning": {
     title: "Meal Planning",
     intro:
       "Planning ahead makes mealtime easier, reduces grocery costs, and helps eliminate the daily question of \"What's for dinner?\" This section brings together practical tools and ideas to simplify meal planning for busy households.",
@@ -16339,7 +16353,7 @@ Use this collection to organize recipes that fit prep-ahead cooking, planned lef
             src="images/heroes/hero-weekly-dinner-planner.webp"
             alt="Weekly dinner planner hero with meal-planning notebook, checklist clipboard, coffee, and a potted plant on a light marble counter"
             eyebrow="TWO-WEEK DINNER PLANNER"
-            title="Your Weekly Dinner Planner"
+            title="Weekly Dinner Planning"
             text="Meal planning can make the week feel more organized without removing flexibility. Select meals for specific days, account for leftovers, plan around appointments, and decide which foods need to be thawed or prepared in advance.\n\nYour plan can be as detailed or as simple as you prefer. Even choosing four or five dinners before grocery shopping can reduce stress, limit impulse purchases, and make it easier to use the food already in your home."
           />
           <main className="pageShell" data-kos-ui="meal-planner">
