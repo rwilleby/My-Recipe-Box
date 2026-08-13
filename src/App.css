@@ -45084,3 +45084,133 @@ button.browseRecipeWideFooterAction:focus-visible,
     columns: 1;
   }
 }
+
+
+/* ================================================================
+   v74.10 — NORMAL BROWSE GRID CLEANUP
+   Resolve legacy 3-column specificity conflict.
+   ================================================================ */
+
+/* NORMAL Browse Recipe Library: lock to exactly TWO columns on desktop.
+   This selector intentionally outranks the legacy
+   .recipeGrid.browseRecipeGrid three-column rule. */
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid) {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 18px !important;
+  width: 100% !important;
+  max-width: 1560px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  align-items: start !important;
+}
+
+/* Keep Favorites independent from the new Browse prototype. */
+.recipeGrid.browseRecipeGrid.favoritesRecipeGrid {
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+}
+
+/* Each normal Browse listing gets one fixed matched-height upper row. */
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseRecipeNutritionPrototypeMain {
+  display: grid !important;
+  grid-template-columns: minmax(0, 70fr) minmax(180px, 30fr) !important;
+  grid-template-rows: 360px !important;
+  gap: 10px !important;
+  align-items: stretch !important;
+}
+
+/* Both panels occupy the exact same height. */
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseRecipeNutritionPrototypeCard,
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseRecipeNutritionFacts {
+  height: 360px !important;
+  min-height: 360px !important;
+  max-height: 360px !important;
+  box-sizing: border-box !important;
+}
+
+/* Recipe card uses the full available panel without distortion. */
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseRecipeNutritionPrototypeCard {
+  display: grid !important;
+  place-items: center !important;
+  overflow: hidden !important;
+}
+
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseRecipeNutritionPrototypeCard .recipeFullCardImage {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: 100% !important;
+  display: grid !important;
+  place-items: center !important;
+  overflow: hidden !important;
+}
+
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseRecipeNutritionPrototypeCard .recipeFullCardImage img {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  display: block !important;
+}
+
+/* Nutrition box is locked to the same upper-row height. */
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseRecipeNutritionFacts {
+  overflow: hidden !important;
+  align-self: stretch !important;
+}
+
+/* Laptop/tablet: stay two columns longer than the legacy rules allowed. */
+@media (max-width: 980px) {
+  .recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid) {
+    grid-template-columns: 1fr !important;
+  }
+
+  .recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+    .browseRecipeNutritionPrototypeMain {
+    grid-template-columns: minmax(0, 70fr) minmax(180px, 30fr) !important;
+    grid-template-rows: 380px !important;
+  }
+
+  .recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+    .browseRecipeNutritionPrototypeCard,
+  .recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+    .browseRecipeNutritionFacts {
+    height: 380px !important;
+    min-height: 380px !important;
+    max-height: 380px !important;
+  }
+
+  .recipeGrid.browseRecipeGrid.favoritesRecipeGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+    .browseRecipeNutritionPrototypeMain {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto auto !important;
+  }
+
+  .recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+    .browseRecipeNutritionPrototypeCard,
+  .recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+    .browseRecipeNutritionFacts {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+  }
+
+  .recipeGrid.browseRecipeGrid.favoritesRecipeGrid {
+    grid-template-columns: 1fr !important;
+  }
+}
