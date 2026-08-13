@@ -6657,6 +6657,8 @@ const WEEKLY_PLANNER_ROWS = Object.freeze([
 ]);
 
 const WEEKLY_PLANNER_SIDE_PREFIXES = new Set(["SD", "SB", "LF", "DS"]);
+const WEEKLY_PLANNER_DAYS = Object.freeze(["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]);
+
 const WEEKLY_PLANNER_DAY_LABELS = Object.freeze({
   Sun: "Sunday",
   Mon: "Monday",
@@ -6682,6 +6684,7 @@ function PlannerPage({
   const normalizedPlan = useMemo(() => normalizeTwoWeekPlan(plan), [plan]);
   const [picker, setPicker] = useState(null);
   const [pickerSearch, setPickerSearch] = useState("");
+  const [pickerCategory, setPickerCategory] = useState("all");
   const [pickerRecipeId, setPickerRecipeId] = useState("");
   const [notes, setNotes] = useState(() => {
     try {
@@ -6742,6 +6745,18 @@ function PlannerPage({
     );
   }
 
+  const pickerCategories = useMemo(() => {
+    if (!picker) return [];
+
+    const categories = recipes
+      .filter((recipe) =>
+        picker.row.type === "side" ? isSideRecipe(recipe) : !isSideRecipe(recipe)
+      )
+      .map((recipe) => String(recipe.category || "Other").trim() || "Other");
+
+    return [...new Set(categories)].sort((a, b) => a.localeCompare(b));
+  }, [picker]);
+
   const pickerRecipes = useMemo(() => {
     if (!picker) return [];
 
@@ -6754,26 +6769,40 @@ function PlannerPage({
           : !isSideRecipe(recipe);
 
         if (!matchesType) return false;
+
+        const category = String(recipe.category || "Other").trim() || "Other";
+        if (pickerCategory !== "all" && category !== pickerCategory) {
+          return false;
+        }
+
         if (!query) return true;
 
-        return `${recipe.id} ${recipe.title} ${recipe.category || ""}`
+        return `${recipe.id} ${recipe.title} ${category}`
           .toLowerCase()
           .includes(query);
       })
-      .slice(0, 30);
-  }, [picker, pickerSearch]);
+      .sort((a, b) => {
+        const categoryCompare = String(a.category || "Other").localeCompare(
+          String(b.category || "Other")
+        );
+        if (categoryCompare !== 0) return categoryCompare;
+        return String(a.title || "").localeCompare(String(b.title || ""));
+      });
+  }, [picker, pickerSearch, pickerCategory]);
 
   function openPicker(day, row) {
     const existing = recipeFor(day, row.index);
     setPicker({ day, row });
     setPickerRecipeId(existing?.id || "");
     setPickerSearch("");
+    setPickerCategory("all");
   }
 
   function closePicker() {
     setPicker(null);
     setPickerRecipeId("");
     setPickerSearch("");
+    setPickerCategory("all");
   }
 
   function assignRecipe() {
@@ -6819,7 +6848,7 @@ function PlannerPage({
   function clearWeek() {
     setPlan((current) => {
       const next = normalizeTwoWeekPlan(current);
-      WEEK_DAYS.forEach((day) => {
+      WEEKLY_PLANNER_DAYS.forEach((day) => {
         next[slotKey(day)] = [];
       });
       return next;
@@ -6845,14 +6874,31 @@ function PlannerPage({
     });
   }
 
+  function copyLastWeek() {
+    setPlan((current) => {
+      const next = normalizeTwoWeekPlan(current);
+      WEEKLY_PLANNER_DAYS.forEach((day) => {
+        const previousWeekItems = Array.isArray(next[`week2-${day}`])
+          ? [...next[`week2-${day}`]]
+          : [];
+        next[`week1-${day}`] = previousWeekItems;
+      });
+      return next;
+    });
+  }
+
   return (
     <main className="pageShell weeklyCalendarPlannerPage">
-      <header className="weeklyCalendarPlannerHeaderV2">
+      <header className="weeklyCalendarPlannerHeaderV3">
         <h1>Your Weekly Meal Planner</h1>
+        <p className="weeklyCalendarPlannerSubtitle">
+          Plan your week at a glance—choose a main dish, add practical sides, and keep each day organized in one simple calendar.
+        </p>
 
-        <div className="weeklyCalendarPlannerControlsRow">
-          <label className="weeklyCalendarPlannerTaskDate">
-            <span>{plannerWeekLabel}</span>
+        <div className="weeklyCalendarPlannerControlsRowV3">
+          <label className="weeklyCalendarPlannerCalendarControl">
+            <span>Calendar</span>
+            <strong>{plannerWeekLabel}</strong>
             <input
               type="date"
               value={plannerWeekStart}
@@ -6865,9 +6911,29 @@ function PlannerPage({
             <ServingSelector servings={servings} setServings={setServings} />
           </div>
 
-          <p className="weeklyCalendarPlannerInstruction">
-            Click any meal box to add or change a recipe.
-          </p>
+          <button
+            type="button"
+            className="weeklyCalendarPlannerTaskButton weeklyCalendarPlannerCopy"
+            onClick={copyLastWeek}
+          >
+            Copy Last Week
+          </button>
+
+          <button
+            type="button"
+            className="weeklyCalendarPlannerTaskButton weeklyCalendarPlannerView"
+            onClick={() => window.print()}
+          >
+            View
+          </button>
+
+          <button
+            type="button"
+            className="weeklyCalendarPlannerTaskButton weeklyCalendarPlannerPrint"
+            onClick={() => window.print()}
+          >
+            Print
+          </button>
 
           <button
             type="button"
@@ -6876,21 +6942,13 @@ function PlannerPage({
           >
             Clear
           </button>
-
-          <button
-            type="button"
-            className="weeklyCalendarPlannerTaskButton weeklyCalendarPlannerPrint"
-            onClick={() => window.print()}
-          >
-            View / Print
-          </button>
         </div>
       </header>
 
       <section className="weeklyCalendarPlannerShell" aria-label="Weekly meal planning calendar">
         <div className="weeklyCalendarPlannerGrid weeklyCalendarPlannerDays">
           <div className="weeklyCalendarPlannerCorner" aria-hidden="true" />
-          {WEEK_DAYS.map((day) => (
+          {WEEKLY_PLANNER_DAYS.map((day) => (
             <div className="weeklyCalendarPlannerDay" key={day}>
               <strong>{WEEKLY_PLANNER_DAY_LABELS[day]}</strong>
             </div>
@@ -6904,7 +6962,7 @@ function PlannerPage({
               <small>{row.name}</small>
             </div>
 
-            {WEEK_DAYS.map((day) => {
+            {WEEKLY_PLANNER_DAYS.map((day) => {
               const recipe = recipeFor(day, row.index);
               const score = recipe ? getMealBalanceScore(recipe) : null;
 
@@ -6969,7 +7027,7 @@ function PlannerPage({
         <div className="weeklyCalendarPlannerGrid weeklyCalendarPlannerNotesRow">
           <div className="weeklyCalendarPlannerRowLabel weeklyCalendarPlannerNotesLabel" aria-hidden="true" />
 
-          {WEEK_DAYS.map((day) => (
+          {WEEKLY_PLANNER_DAYS.map((day) => (
             <label className="weeklyCalendarPlannerNoteCell" key={`${day}-notes`}>
               <span className="srOnly">{WEEKLY_PLANNER_DAY_LABELS[day]} notes</span>
               <textarea
@@ -7035,7 +7093,22 @@ function PlannerPage({
                 placeholder="Search by recipe name or code..."
                 autoFocus
               />
-              <span>{pickerRecipes.length} shown</span>
+
+              <select
+                className="weeklyPlannerPickerCategory"
+                value={pickerCategory}
+                onChange={(event) => setPickerCategory(event.target.value)}
+                aria-label="Filter recipes by category"
+              >
+                <option value="all">All Categories</option>
+                {pickerCategories.map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </select>
+
+              <span>{pickerRecipes.length} recipes</span>
             </div>
 
             <div className="weeklyPlannerPickerRecipes">
