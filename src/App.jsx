@@ -1836,9 +1836,15 @@ function WelcomeTour() {
 
       if (!isAcknowledged) {
         setIsVisible(true);
+        window.requestAnimationFrame(() => {
+          videoRef.current?.play().catch(() => {});
+        });
       }
     } catch {
       setIsVisible(true);
+      window.requestAnimationFrame(() => {
+        videoRef.current?.play().catch(() => {});
+      });
     }
   }, [acknowledgedKey]);
 
@@ -3167,7 +3173,7 @@ function SupplementalHoverVideo({
       const cluster = trigger.closest(".homeHeroModeCluster");
       const anchor = cluster?.getBoundingClientRect() || rect;
       setPopupPosition({
-        top: sy + anchor.bottom + 8,
+        top: sy + rect.bottom + 12,
         left: sx + anchor.left,
         align: "left",
       });
@@ -3175,7 +3181,7 @@ function SupplementalHoverVideo({
     }
 
     setPopupPosition({
-      top: sy + rect.bottom + 8,
+      top: sy + rect.bottom + 12,
       left: sx + window.innerWidth / 2,
       align: "center",
     });
@@ -11861,12 +11867,19 @@ function LargeHeroVideoPanel({
 
       setIsPlaying(false);
       setIsVisible(true);
+
+      window.requestAnimationFrame(() => {
+        const player = videoRef.current;
+        if (!player || !videoSrc) return;
+        player.currentTime = 0;
+        player.play().catch(() => {});
+      });
     }
 
     window.addEventListener(LARGE_HERO_VIDEO_OPEN_EVENT, handleOpen);
     return () =>
       window.removeEventListener(LARGE_HERO_VIDEO_OPEN_EVENT, handleOpen);
-  }, [pageTitle]);
+  }, [pageTitle, videoSrc]);
 
   useEffect(() => {
     return () => {
@@ -11935,6 +11948,7 @@ function LargeHeroVideoPanel({
                   : undefined
               }
               title={`${pageTitle} video`}
+              autoPlay
               playsInline
               preload="metadata"
               onPlay={() => setIsPlaying(true)}
