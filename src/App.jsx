@@ -6922,6 +6922,15 @@ function PlannerPage({
   setPreparedInventory,
 }) {
   const normalizedPlan = useMemo(() => normalizeTwoWeekPlan(plan), [plan]);
+  const [plannerSiteMode, setPlannerSiteMode] = useState(() => {
+    try {
+      return window.localStorage.getItem("rrb-site-mode") === "easy" ? "easy" : "detailed";
+    } catch {
+      return "detailed";
+    }
+  });
+  const [activePlannerWeek, setActivePlannerWeek] = useState("week1");
+  const [plannerView, setPlannerView] = useState("single");
   const [picker, setPicker] = useState(null);
   const [pickerSearch, setPickerSearch] = useState("");
   const [pickerCategory, setPickerCategory] = useState("all");
@@ -6935,6 +6944,33 @@ function PlannerPage({
   });
 
   usePopupPageMode(Boolean(picker));
+
+  useEffect(() => {
+    function syncPlannerSiteMode(event) {
+      const eventMode = event?.detail?.mode;
+      let nextMode = eventMode;
+      if (nextMode !== "easy" && nextMode !== "detailed") {
+        try {
+          nextMode = window.localStorage.getItem("rrb-site-mode") === "easy" ? "easy" : "detailed";
+        } catch {
+          nextMode = "detailed";
+        }
+      }
+
+      setPlannerSiteMode(nextMode);
+      if (nextMode === "easy") {
+        setActivePlannerWeek("week1");
+        setPlannerView("single");
+      }
+    }
+
+    window.addEventListener("rrb:site-mode-changed", syncPlannerSiteMode);
+    window.addEventListener("storage", syncPlannerSiteMode);
+    return () => {
+      window.removeEventListener("rrb:site-mode-changed", syncPlannerSiteMode);
+      window.removeEventListener("storage", syncPlannerSiteMode);
+    };
+  }, []);
 
   const [plannerWeekStart, setPlannerWeekStart] = useState(() => {
     try {
@@ -6958,8 +6994,9 @@ function PlannerPage({
     }
   }, [plannerWeekStart]);
 
-  const plannerWeekLabel = useMemo(() => {
+  function plannerWeekLabelFor(weekId = "week1") {
     const start = new Date(`${plannerWeekStart}T12:00:00`);
+    if (weekId === "week2") start.setDate(start.getDate() + 7);
     const end = new Date(start);
     end.setDate(start.getDate() + 6);
 
@@ -6974,23 +7011,24 @@ function PlannerPage({
     }
 
     return `${month} ${start.getDate()} – ${endMonth} ${end.getDate()}, ${end.getFullYear()}`;
-  }, [plannerWeekStart]);
-
-
-  function slotKey(day) {
-    return `week1-${day}`;
   }
 
-  function recipeFor(day, rowIndex) {
-    const recipeId = normalizedPlan[slotKey(day)]?.[rowIndex];
+  const plannerWeekLabel = plannerWeekLabelFor(activePlannerWeek);
+
+  function slotKey(day, weekId = activePlannerWeek) {
+    return `${weekId}-${day}`;
+  }
+
+  function recipeFor(day, rowIndex, weekId = activePlannerWeek) {
+    const recipeId = normalizedPlan[slotKey(day, weekId)]?.[rowIndex];
     return recipes.find((recipe) => recipe.id === recipeId) || null;
   }
 
-  const weeklyMealBalanceAverage = useMemo(() => {
+  function weeklyMealBalanceAverageFor(weekId) {
     const scores = [];
     WEEKLY_PLANNER_DAYS.forEach((day) => {
       WEEKLY_PLANNER_ROWS.forEach((row) => {
-        const recipeId = normalizedPlan[slotKey(day)]?.[row.index];
+        const recipeId = normalizedPlan[slotKey(day, weekId)]?.[row.index];
         const recipe = recipes.find((item) => item.id === recipeId);
         if (!recipe || !isMealBalanceRated(recipe)) return;
         const score = Number(getMealBalanceScore(recipe));
@@ -6999,7 +7037,7 @@ function PlannerPage({
     });
     if (!scores.length) return null;
     return Math.round((scores.reduce((sum, score) => sum + score, 0) / scores.length) * 10) / 10;
-  }, [normalizedPlan]);
+  }
 
   function isSideRecipe(recipe) {
     const prefix = recipeCodePrefix(recipe?.id);
@@ -7058,9 +7096,9 @@ function PlannerPage({
       });
   }, [picker, pickerSearch, pickerCategory]);
 
-  function openPicker(day, row) {
-    const existing = recipeFor(day, row.index);
-    setPicker({ day, row });
+  function openPicker(day, row, weekId = activePlannerWeek) {
+    const existing = recipeFor(day, row.index, weekId);
+    setPicker({ day, row, weekId });
     setPickerRecipeId(existing?.id || "");
     setPickerSearch("");
     setPickerCategory("all");
@@ -7078,7 +7116,7 @@ function PlannerPage({
 
     setPlan((current) => {
       const next = normalizeTwoWeekPlan(current);
-      const key = slotKey(picker.day);
+      const key = slotKey(picker.day, picker.weekId);
       const currentItems = [...(next[key] || [])];
 
       while (currentItems.length < 4) currentItems.push(null);
@@ -7096,7 +7134,7 @@ function PlannerPage({
 
     setPlan((current) => {
       const next = normalizeTwoWeekPlan(current);
-      const key = slotKey(picker.day);
+      const key = slotKey(picker.day, picker.weekId);
       const currentItems = [...(next[key] || [])];
 
       while (currentItems.length < 4) currentItems.push(null);
@@ -7114,25 +7152,52 @@ function PlannerPage({
   }
 
   function clearWeek() {
+    const weeksToClear =
+      plannerSiteMode === "detailed" && plannerView === "two"
+        ? ["week1", "week2"]
+        : [activePlannerWeek];
+
     setPlan((current) => {
       const next = normalizeTwoWeekPlan(current);
-      WEEKLY_PLANNER_DAYS.forEach((day) => {
-        next[slotKey(day)] = [];
+      weeksToClear.forEach((weekId) => {
+        WEEKLY_PLANNER_DAYS.forEach((day) => {
+          next[slotKey(day, weekId)] = [];
+        });
       });
       return next;
     });
 
-    setNotes({});
-    try {
-      window.localStorage.removeItem("rrb-weekly-planner-notes");
-    } catch {
-      // The planner still clears for the current browser session.
-    }
+    setNotes((current) => {
+      const next = { ...current };
+      weeksToClear.forEach((weekId) => {
+        WEEKLY_PLANNER_DAYS.forEach((day) => {
+          delete next[`${weekId}-${day}`];
+          if (weekId === "week1") delete next[day];
+        });
+      });
+      try {
+        window.localStorage.setItem("rrb-weekly-planner-notes", JSON.stringify(next));
+      } catch {
+        // Keep notes available in the current session if storage is unavailable.
+      }
+      return next;
+    });
   }
 
-  function updateNote(day, value) {
+  function noteKey(day, weekId = activePlannerWeek) {
+    return `${weekId}-${day}`;
+  }
+
+  function noteFor(day, weekId = activePlannerWeek) {
+    const keyed = notes[noteKey(day, weekId)];
+    if (keyed !== undefined) return keyed;
+    if (weekId === "week1") return notes[day] || "";
+    return "";
+  }
+
+  function updateNote(day, value, weekId = activePlannerWeek) {
     setNotes((current) => {
-      const next = { ...current, [day]: value };
+      const next = { ...current, [noteKey(day, weekId)]: value };
       try {
         window.localStorage.setItem("rrb-weekly-planner-notes", JSON.stringify(next));
       } catch {
@@ -7145,119 +7210,69 @@ function PlannerPage({
   function copyLastWeek() {
     setPlan((current) => {
       const next = normalizeTwoWeekPlan(current);
-      WEEKLY_PLANNER_DAYS.forEach((day) => {
-        const previousWeekItems = Array.isArray(next[`week2-${day}`])
-          ? [...next[`week2-${day}`]]
-          : [];
-        next[`week1-${day}`] = previousWeekItems;
-      });
+
+      if (plannerSiteMode === "detailed") {
+        WEEKLY_PLANNER_DAYS.forEach((day) => {
+          next[`week2-${day}`] = [...(next[`week1-${day}`] || [])];
+        });
+      } else {
+        WEEKLY_PLANNER_DAYS.forEach((day) => {
+          next[`week1-${day}`] = [...(next[`week2-${day}`] || [])];
+        });
+      }
+
       return next;
     });
   }
 
-  return (
-    <main className="pageShell weeklyCalendarPlannerPage">
-      <header className="weeklyCalendarPlannerHeaderV3">
-        <h1>
-          Let's Plan This Weeks Meals
-          <SupplementalHoverVideo
-            src=""
-            poster=""
-            title="Weekly Dinner Planning overview video"
-            className="weeklyPlannerTitleVideoTrigger"
-            showTestPattern
-          >
-            <span className="supplementalVideoIcon weeklyPlannerTitleVideoIcon">
-              <VideoIcon role="supplemental" alt="" className="supplementalVideoIconGray" />
-              <VideoIcon role="main" alt="" className="supplementalVideoIconRed" />
-            </span>
-          </SupplementalHoverVideo>
-        </h1>
-        <p className="weeklyCalendarPlannerSubtitle">
-          Plan your week at a glance—choose a main dish, add practical sides, and keep each day organized in one simple calendar.
-        </p>
+  function renderPlannerWeek(weekId) {
+    const weekAverage = weeklyMealBalanceAverageFor(weekId);
 
-        <div className="weeklyCalendarPlannerControlsRowV3">
-          <label className="weeklyCalendarPlannerCalendarControl">
-            <span>Calendar</span>
-            <strong>{plannerWeekLabel}</strong>
-            <input
-              type="date"
-              value={plannerWeekStart}
-              onChange={(event) => setPlannerWeekStart(event.target.value)}
-              aria-label="Choose week start date"
-            />
-          </label>
-
-          <div className="weeklyCalendarPlannerTaskServings">
-            <ServingSelector servings={servings} setServings={setServings} />
+    return (
+      <section
+        className={`weeklyCalendarPlannerShell weeklyCalendarPlannerShellMode ${weekId}`}
+        aria-label={`${weekId === "week1" ? "Week 1" : "Week 2"} meal planning calendar`}
+      >
+        {plannerSiteMode === "detailed" && (
+          <div className="weeklyPlannerWeekSectionHeading">
+            <strong>{weekId === "week1" ? "WEEK 1" : "WEEK 2"}</strong>
+            <span>{plannerWeekLabelFor(weekId)}</span>
           </div>
+        )}
 
-          <button
-            type="button"
-            className="weeklyCalendarPlannerTaskButton weeklyCalendarPlannerCopy"
-            onClick={copyLastWeek}
-          >
-            Copy Last Week
-          </button>
-
-          <button
-            type="button"
-            className="weeklyCalendarPlannerTaskButton weeklyCalendarPlannerView"
-            onClick={() => window.print()}
-          >
-            View
-          </button>
-
-          <button
-            type="button"
-            className="weeklyCalendarPlannerTaskButton weeklyCalendarPlannerPrint"
-            onClick={() => window.print()}
-          >
-            Print
-          </button>
-
-          <button
-            type="button"
-            className="weeklyCalendarPlannerTaskButton weeklyCalendarPlannerClear"
-            onClick={clearWeek}
-          >
-            Clear
-          </button>
-        </div>
-      </header>
-
-      <section className="weeklyCalendarPlannerShell" aria-label="Weekly meal planning calendar">
         <div className="weeklyCalendarPlannerGrid weeklyCalendarPlannerDays">
-          <div className="weeklyCalendarPlannerCorner weeklyCalendarPlannerWeekMb" title={weeklyMealBalanceAverage === null ? "No MealBalance ratings assigned yet" : `Weekly MealBalance average: ${weeklyMealBalanceAverage}`}>
+          <div
+            className="weeklyCalendarPlannerCorner weeklyCalendarPlannerWeekMb"
+            title={weekAverage === null ? "No MealBalance ratings assigned yet" : `Weekly MealBalance average: ${weekAverage}`}
+          >
             <span className="weeklyCalendarPlannerWeekMbCircle">
-              {weeklyMealBalanceAverage ?? "—"}
+              {weekAverage ?? "—"}
             </span>
           </div>
           {WEEKLY_PLANNER_DAYS.map((day) => (
-            <div className="weeklyCalendarPlannerDay" key={day}>
+            <div className="weeklyCalendarPlannerDay" key={`${weekId}-${day}`}>
               <strong>{WEEKLY_PLANNER_DAY_LABELS[day]}</strong>
             </div>
           ))}
         </div>
 
         {WEEKLY_PLANNER_ROWS.map((row) => (
-          <div className="weeklyCalendarPlannerGrid weeklyCalendarPlannerMealRow" key={row.id}>
+          <div className="weeklyCalendarPlannerGrid weeklyCalendarPlannerMealRow" key={`${weekId}-${row.id}`}>
             <div className="weeklyCalendarPlannerRowLabel">
               <strong>{row.label}</strong>
               <small>{row.name}</small>
             </div>
 
             {WEEKLY_PLANNER_DAYS.map((day) => {
-              const recipe = recipeFor(day, row.index);
+              const recipe = recipeFor(day, row.index, weekId);
               const score = recipe ? getMealBalanceScore(recipe) : null;
 
               return (
                 <button
                   type="button"
                   className={`weeklyCalendarPlannerCell${recipe ? " hasRecipe" : ""}`}
-                  key={`${day}-${row.id}`}
-                  onClick={() => openPicker(day, row)}
+                  key={`${weekId}-${day}-${row.id}`}
+                  onClick={() => openPicker(day, row, weekId)}
                   aria-label={
                     recipe
                       ? `${WEEKLY_PLANNER_DAY_LABELS[day]} ${row.name}: ${recipe.title}. Change recipe.`
@@ -7317,10 +7332,10 @@ function PlannerPage({
           </div>
 
           {WEEKLY_PLANNER_DAYS.map((day) => (
-            <label className="weeklyCalendarPlannerNoteCell" key={`${day}-notes`}>
+            <label className="weeklyCalendarPlannerNoteCell" key={`${weekId}-${day}-notes`}>
               <textarea
-                value={notes[day] || ""}
-                onChange={(event) => updateNote(day, event.target.value)}
+                value={noteFor(day, weekId)}
+                onChange={(event) => updateNote(day, event.target.value, weekId)}
                 placeholder="Add your personal notes here..."
                 aria-label={`${WEEKLY_PLANNER_DAY_LABELS[day]} personal notes`}
               />
@@ -7328,6 +7343,124 @@ function PlannerPage({
           ))}
         </div>
       </section>
+    );
+  }
+
+
+  return (
+    <main className="pageShell weeklyCalendarPlannerPage">
+      <header className="weeklyCalendarPlannerHeaderV3">
+        <h1>
+          Let's Plan This Weeks Meals
+          <SupplementalHoverVideo
+            src=""
+            poster=""
+            title="Weekly Dinner Planning overview video"
+            className="weeklyPlannerTitleVideoTrigger"
+            showTestPattern
+          >
+            <span className="supplementalVideoIcon weeklyPlannerTitleVideoIcon">
+              <VideoIcon role="supplemental" alt="" className="supplementalVideoIconGray" />
+              <VideoIcon role="main" alt="" className="supplementalVideoIconRed" />
+            </span>
+          </SupplementalHoverVideo>
+        </h1>
+        <p className="weeklyCalendarPlannerSubtitle">
+          Plan your week at a glance—choose a main dish, add practical sides, and keep each day organized in one simple calendar.
+        </p>
+
+        <div className="weeklyCalendarPlannerControlsRowV3">
+          <label className="weeklyCalendarPlannerCalendarControl">
+            <span>Calendar</span>
+            <strong>{plannerWeekLabel}</strong>
+            <input
+              type="date"
+              value={plannerWeekStart}
+              onChange={(event) => setPlannerWeekStart(event.target.value)}
+              aria-label="Choose week start date"
+            />
+          </label>
+
+          <div className="weeklyCalendarPlannerTaskServings">
+            <ServingSelector servings={servings} setServings={setServings} />
+          </div>
+
+          {plannerSiteMode === "detailed" && (
+            <div className="weeklyPlannerWeekModeControl" aria-label="Planner week view">
+              <button
+                type="button"
+                className={plannerView === "single" && activePlannerWeek === "week1" ? "isActive" : ""}
+                onClick={() => {
+                  setActivePlannerWeek("week1");
+                  setPlannerView("single");
+                }}
+              >
+                Week 1
+              </button>
+              <button
+                type="button"
+                className={plannerView === "single" && activePlannerWeek === "week2" ? "isActive" : ""}
+                onClick={() => {
+                  setActivePlannerWeek("week2");
+                  setPlannerView("single");
+                }}
+              >
+                Week 2
+              </button>
+              <button
+                type="button"
+                className={plannerView === "two" ? "isActive" : ""}
+                onClick={() => setPlannerView("two")}
+              >
+                2-Week View
+              </button>
+            </div>
+          )}
+
+          <button
+            type="button"
+            className="weeklyCalendarPlannerTaskButton weeklyCalendarPlannerCopy"
+            onClick={copyLastWeek}
+          >
+            {plannerSiteMode === "detailed" ? "Copy Week 1 → 2" : "Copy Last Week"}
+          </button>
+
+          <button
+            type="button"
+            className="weeklyCalendarPlannerTaskButton weeklyCalendarPlannerView"
+            onClick={() => window.print()}
+          >
+            View
+          </button>
+
+          <button
+            type="button"
+            className="weeklyCalendarPlannerTaskButton weeklyCalendarPlannerPrint"
+            onClick={() => window.print()}
+          >
+            Print
+          </button>
+
+          <button
+            type="button"
+            className="weeklyCalendarPlannerTaskButton weeklyCalendarPlannerClear"
+            onClick={clearWeek}
+          >
+            Clear
+          </button>
+        </div>
+      </header>
+
+      <div className={`weeklyPlannerCalendarViews${plannerView === "two" ? " isTwoWeek" : ""}`}>
+        {plannerSiteMode === "detailed" && plannerView === "two" ? (
+          <>
+            {renderPlannerWeek("week1")}
+            {renderPlannerWeek("week2")}
+          </>
+        ) : (
+          renderPlannerWeek(activePlannerWeek)
+        )}
+      </div>
 
       <p className="weeklyCalendarPlannerLegend">
         <span className="weeklyPlannerMealBalanceCircle">5</span>
@@ -7351,11 +7484,11 @@ function PlannerPage({
             <header className="weeklyPlannerPickerHeader">
               <div>
                 <span className="aiBadge">
-                  {WEEKLY_PLANNER_DAY_LABELS[picker.day]} · {picker.row.label}
+                  {picker.weekId === "week2" ? "Week 2" : "Week 1"} · {WEEKLY_PLANNER_DAY_LABELS[picker.day]} · {picker.row.label}
                 </span>
                 <h2 id="weekly-planner-picker-title">
                   Select {picker.row.type === "main" ? "Main Course" : "Side"} for{" "}
-                  {WEEKLY_PLANNER_DAY_LABELS[picker.day]}
+                  {WEEKLY_PLANNER_DAY_LABELS[picker.day]} · {picker.weekId === "week2" ? "Week 2" : "Week 1"}
                 </h2>
                 <p>
                   Search all recipes, or narrow the list by category.
@@ -7443,7 +7576,7 @@ function PlannerPage({
                 onClick={assignRecipe}
                 disabled={!pickerRecipeId}
               >
-                Assign to {picker.day} — {picker.row.label}
+                Assign to {picker.day} — {picker.row.label} · {picker.weekId === "week2" ? "Week 2" : "Week 1"}
               </button>
             </footer>
           </section>
@@ -12663,6 +12796,13 @@ function DinnerCombinationCard({ meal, plan = emptyTwoWeekPlan(), onAddMealToPla
 
   const [activeRecipePopup, setActiveRecipePopup] = useState(null);
   const [selectedPlannerDay, setSelectedPlannerDay] = useState("week1-Sun");
+  const [dinnerPlannerSiteMode, setDinnerPlannerSiteMode] = useState(() => {
+    try {
+      return window.localStorage.getItem("rrb-site-mode") === "easy" ? "easy" : "detailed";
+    } catch {
+      return "detailed";
+    }
+  });
   const [addedMessage, setAddedMessage] = useState("");
   const [mealImageIndex, setMealImageIndex] = useState(0);
   const [mealImageFailed, setMealImageFailed] = useState(false);
@@ -12715,6 +12855,31 @@ function DinnerCombinationCard({ meal, plan = emptyTwoWeekPlan(), onAddMealToPla
     return `${Math.round((numericValue / dailyValue) * 100)}%`;
   }
 
+  useEffect(() => {
+    function syncDinnerPlannerMode(event) {
+      const eventMode = event?.detail?.mode;
+      let nextMode = eventMode;
+      if (nextMode !== "easy" && nextMode !== "detailed") {
+        try {
+          nextMode = window.localStorage.getItem("rrb-site-mode") === "easy" ? "easy" : "detailed";
+        } catch {
+          nextMode = "detailed";
+        }
+      }
+      setDinnerPlannerSiteMode(nextMode);
+      if (nextMode === "easy" && selectedPlannerDay.startsWith("week2-")) {
+        setSelectedPlannerDay("week1-Sun");
+      }
+    }
+
+    window.addEventListener("rrb:site-mode-changed", syncDinnerPlannerMode);
+    window.addEventListener("storage", syncDinnerPlannerMode);
+    return () => {
+      window.removeEventListener("rrb:site-mode-changed", syncDinnerPlannerMode);
+      window.removeEventListener("storage", syncDinnerPlannerMode);
+    };
+  }, [selectedPlannerDay]);
+
   const normalizedPlannerPlan = useMemo(() => normalizeTwoWeekPlan(plan), [plan]);
 
   const plannerWeekStartForDinner = useMemo(() => {
@@ -12731,8 +12896,9 @@ function DinnerCombinationCard({ meal, plan = emptyTwoWeekPlan(), onAddMealToPla
     return start.toISOString().slice(0, 10);
   }, [plan]);
 
-  const plannerWeekLabelForDinner = useMemo(() => {
+  function plannerWeekLabelForDinner(weekId = "week1") {
     const start = new Date(`${plannerWeekStartForDinner}T12:00:00`);
+    if (weekId === "week2") start.setDate(start.getDate() + 7);
     const end = new Date(start);
     end.setDate(start.getDate() + 6);
 
@@ -12744,25 +12910,31 @@ function DinnerCombinationCard({ meal, plan = emptyTwoWeekPlan(), onAddMealToPla
     }
 
     return `${startMonth} ${start.getDate()} – ${endMonth} ${end.getDate()}, ${end.getFullYear()}`;
-  }, [plannerWeekStartForDinner]);
+  }
+
+  const plannerWeeksForDinner = dinnerPlannerSiteMode === "detailed" ? ["week1", "week2"] : ["week1"];
 
   const plannerDayStatus = useMemo(
     () =>
-      WEEKLY_PLANNER_DAYS.map((day) => {
-        const slotKey = `week1-${day}`;
-        const mainRecipeId = normalizedPlannerPlan[slotKey]?.[0] || "";
-        const mainRecipe = recipes.find((recipe) => recipe.id === mainRecipeId) || null;
+      plannerWeeksForDinner.flatMap((weekId) =>
+        WEEKLY_PLANNER_DAYS.map((day) => {
+          const slotKey = `${weekId}-${day}`;
+          const mainRecipeId = normalizedPlannerPlan[slotKey]?.[0] || "";
+          const mainRecipe = recipes.find((recipe) => recipe.id === mainRecipeId) || null;
 
-        return {
-          day,
-          slotKey,
-          label: WEEKLY_PLANNER_DAY_LABELS[day],
-          mainRecipeId,
-          mainTitle: mainRecipe?.title || "",
-          isOpen: !mainRecipeId,
-        };
-      }),
-    [normalizedPlannerPlan],
+          return {
+            weekId,
+            day,
+            slotKey,
+            label: WEEKLY_PLANNER_DAY_LABELS[day],
+            weekLabel: weekId === "week1" ? "Week 1" : "Week 2",
+            mainRecipeId,
+            mainTitle: mainRecipe?.title || "",
+            isOpen: !mainRecipeId,
+          };
+        }),
+      ),
+    [normalizedPlannerPlan, dinnerPlannerSiteMode],
   );
 
   useEffect(() => {
@@ -12779,14 +12951,14 @@ function DinnerCombinationCard({ meal, plan = emptyTwoWeekPlan(), onAddMealToPla
 
     if (!selectedStatus.isOpen) {
       const shouldReplace = window.confirm(
-        `${selectedStatus.label} currently has ${selectedStatus.mainTitle || "a Main Course"}. Replace that day's meal with ${meal.title}?`,
+        `${selectedStatus.weekLabel} ${selectedStatus.label} currently has ${selectedStatus.mainTitle || "a Main Course"}. Replace that day's meal with ${meal.title}?`,
       );
       if (!shouldReplace) return;
     }
 
     onAddMealToPlan(meal, selectedPlannerDay);
     setAddedMessage(
-      `${meal.title} added to ${selectedStatus.label} — Main + ${Math.min(3, (meal.sides || []).filter((side) => side?.recipeId).length)} side${(meal.sides || []).filter((side) => side?.recipeId).length === 1 ? "" : "s"}.`,
+      `${meal.title} added to ${selectedStatus.weekLabel} ${selectedStatus.label} — Main + ${Math.min(3, (meal.sides || []).filter((side) => side?.recipeId).length)} side${(meal.sides || []).filter((side) => side?.recipeId).length === 1 ? "" : "s"}.`,
     );
     window.setTimeout(() => setAddedMessage(""), 3200);
   }
@@ -13053,6 +13225,15 @@ function DinnerCombinationCard({ meal, plan = emptyTwoWeekPlan(), onAddMealToPla
                     >
                       <span className="dinnerRecipeHero">
                         <DinnerRecipeHero recipe={linkedRecipe} label={button.label} />
+                        {linkedRecipe && isMealBalanceRated(linkedRecipe) && (
+                          <span
+                            className="dinnerRecipeTileMbCircle"
+                            title={`MealBalance ${getMealBalanceScore(linkedRecipe)} — ${getMealBalanceLabel(linkedRecipe)}`}
+                            aria-label={`MealBalance ${getMealBalanceScore(linkedRecipe)}`}
+                          >
+                            {getMealBalanceScore(linkedRecipe)}
+                          </span>
+                        )}
                       </span>
                       <span>{button.type}</span>
                       <strong>{button.label}</strong>
@@ -13098,22 +13279,41 @@ function DinnerCombinationCard({ meal, plan = emptyTwoWeekPlan(), onAddMealToPla
 
           <section className="dinnerCombinationPlannerAdd dinnerCombinationPlannerAddSmart" aria-label={`Add ${meal.title} to weekly meal planner`}>
             <label>
-              <span>Add meal to planner <small>{plannerWeekLabelForDinner}</small></span>
+              <span>
+                Add meal to planner
+                <small>
+                  {dinnerPlannerSiteMode === "detailed"
+                    ? `${plannerWeekLabelForDinner("week1")} · ${plannerWeekLabelForDinner("week2")}`
+                    : plannerWeekLabelForDinner("week1")}
+                </small>
+              </span>
               <select value={selectedPlannerDay} onChange={(event) => setSelectedPlannerDay(event.target.value)}>
                 {plannerDayStatus.map((dayStatus) => (
                   <option key={dayStatus.slotKey} value={dayStatus.slotKey}>
-                    {dayStatus.label} — {dayStatus.isOpen ? "OPEN" : dayStatus.mainTitle || "Occupied"}
+                    {dinnerPlannerSiteMode === "detailed" ? `${dayStatus.weekLabel} · ` : ""}{dayStatus.label} — {dayStatus.isOpen ? "OPEN" : dayStatus.mainTitle || "Occupied"}
                   </option>
                 ))}
               </select>
             </label>
             <button type="button" onClick={addThisMealToPlan}>Add Meal</button>
-            <div className="dinnerPlannerDayLegend" aria-label="Weekly planner day status">
-              {plannerDayStatus.map((dayStatus) => (
-                <span key={`${meal.id}-${dayStatus.day}`} className={dayStatus.isOpen ? "isOpen" : "isOccupied"}>
-                  <strong>{dayStatus.day}</strong>
-                  <small>{dayStatus.isOpen ? "OPEN" : dayStatus.mainTitle}</small>
-                </span>
+            <div className={`dinnerPlannerDayLegendWrap${dinnerPlannerSiteMode === "detailed" ? " isTwoWeek" : ""}`} aria-label="Weekly planner day status">
+              {plannerWeeksForDinner.map((weekId) => (
+                <div className="dinnerPlannerWeekStatus" key={`${meal.id}-${weekId}`}>
+                  {dinnerPlannerSiteMode === "detailed" && (
+                    <div className="dinnerPlannerWeekStatusHeading">
+                      <strong>{weekId === "week1" ? "WEEK 1" : "WEEK 2"}</strong>
+                      <small>{plannerWeekLabelForDinner(weekId)}</small>
+                    </div>
+                  )}
+                  <div className="dinnerPlannerDayLegend">
+                    {plannerDayStatus.filter((dayStatus) => dayStatus.weekId === weekId).map((dayStatus) => (
+                      <span key={`${meal.id}-${dayStatus.slotKey}`} className={dayStatus.isOpen ? "isOpen" : "isOccupied"}>
+                        <strong>{dayStatus.day}</strong>
+                        <small>{dayStatus.isOpen ? "OPEN" : dayStatus.mainTitle}</small>
+                      </span>
+                    ))}
+                  </div>
+                </div>
               ))}
             </div>
             {addedMessage && <p className="dinnerCombinationAddedMessage">{addedMessage}</p>}

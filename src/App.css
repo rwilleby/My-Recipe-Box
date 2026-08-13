@@ -46441,3 +46441,203 @@ button.browseRecipeWideFooterAction:focus-visible,
 .dinnerCombinationScaleCard .dinnerCombinationLastMade strong {
   font-size: 16px !important;
 }
+
+
+/* ================================================================
+   v75.2 — MEALBALANCE RECIPE TILES + EASY/DETAILED PLANNER DEPTH
+   ================================================================ */
+
+/* Complete Dinner recipe-card MealBalance circles. */
+.dinnerRecipeHero {
+  position: relative !important;
+}
+
+.dinnerRecipeTileMbCircle {
+  position: absolute !important;
+  top: 7px !important;
+  left: 7px !important;
+  z-index: 4 !important;
+  display: grid !important;
+  place-items: center !important;
+  width: 31px !important;
+  height: 31px !important;
+  border: 2px solid #fff !important;
+  border-radius: 50% !important;
+  background: #80994A !important;
+  color: #fff !important;
+  box-shadow: 0 2px 7px rgba(0,0,0,.18) !important;
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+}
+
+/* Weekly planner uses more of the available page width. */
+.weeklyCalendarPlannerPage {
+  width: min(100%, 1580px) !important;
+  max-width: 1580px !important;
+  padding-left: clamp(10px, 1.2vw, 20px) !important;
+  padding-right: clamp(10px, 1.2vw, 20px) !important;
+}
+
+.weeklyCalendarPlannerHeaderV3,
+.weeklyPlannerCalendarViews,
+.weeklyCalendarPlannerLegend {
+  width: 100% !important;
+  max-width: none !important;
+}
+
+/* Detailed-mode week selection. */
+.weeklyPlannerWeekModeControl {
+  display: inline-grid !important;
+  grid-template-columns: repeat(3, auto) !important;
+  align-self: center !important;
+  overflow: hidden !important;
+  border: 1px solid #cbd6cd !important;
+  border-radius: 9px !important;
+  background: #f3f1eb !important;
+}
+
+.weeklyPlannerWeekModeControl button {
+  min-height: 38px !important;
+  padding: 0 12px !important;
+  border: 0 !important;
+  border-right: 1px solid #d5d8d2 !important;
+  background: transparent !important;
+  color: #435064 !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  cursor: pointer !important;
+}
+
+.weeklyPlannerWeekModeControl button:last-child {
+  border-right: 0 !important;
+}
+
+.weeklyPlannerWeekModeControl button.isActive {
+  background: #80994A !important;
+  color: #fff !important;
+}
+
+/* Week shells remain full-size seven-day calendars. */
+.weeklyPlannerCalendarViews {
+  display: grid !important;
+  gap: 22px !important;
+}
+
+.weeklyPlannerCalendarViews.isTwoWeek {
+  gap: 28px !important;
+}
+
+.weeklyCalendarPlannerShellMode {
+  width: 100% !important;
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+.weeklyPlannerWeekSectionHeading {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  margin: 0 0 7px !important;
+  padding: 0 4px !important;
+}
+
+.weeklyPlannerWeekSectionHeading strong {
+  color: #80994A !important;
+  font-size: 15px !important;
+  letter-spacing: .055em !important;
+}
+
+.weeklyPlannerWeekSectionHeading span {
+  color: #667085 !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+}
+
+/* Slight readability increase throughout calendar. */
+.weeklyCalendarPlannerDay strong {
+  font-size: 18px !important;
+}
+
+.weeklyCalendarPlannerRowLabel strong {
+  font-size: 18px !important;
+}
+
+.weeklyCalendarPlannerRowLabel small {
+  font-size: 13px !important;
+}
+
+.weeklyCalendarPlannerCell > strong {
+  font-size: 15px !important;
+  line-height: 1.15 !important;
+}
+
+.weeklyCalendarPlannerEmpty small,
+.weeklyCalendarPlannerNoteCell textarea {
+  font-size: 13px !important;
+}
+
+/* Complete Dinner planner status can show one or two weeks. */
+.dinnerPlannerDayLegendWrap {
+  grid-area: legend !important;
+  display: grid !important;
+  gap: 8px !important;
+  width: 100% !important;
+}
+
+.dinnerPlannerDayLegendWrap.isTwoWeek {
+  gap: 10px !important;
+}
+
+.dinnerPlannerWeekStatus {
+  min-width: 0 !important;
+}
+
+.dinnerPlannerWeekStatusHeading {
+  display: flex !important;
+  align-items: baseline !important;
+  justify-content: space-between !important;
+  gap: 10px !important;
+  margin: 0 0 4px !important;
+}
+
+.dinnerPlannerWeekStatusHeading strong {
+  color: #80994A !important;
+  font-size: 12px !important;
+  letter-spacing: .055em !important;
+}
+
+.dinnerPlannerWeekStatusHeading small {
+  color: #7b8492 !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+}
+
+@media (max-width: 1120px) {
+  .weeklyCalendarPlannerPage {
+    width: 100% !important;
+  }
+
+  .weeklyPlannerWeekModeControl {
+    grid-column: 1 / -1 !important;
+  }
+}
+
+@media (max-width: 720px) {
+  .weeklyPlannerWeekModeControl {
+    width: 100% !important;
+    grid-template-columns: 1fr !important;
+  }
+
+  .weeklyPlannerWeekModeControl button {
+    border-right: 0 !important;
+    border-bottom: 1px solid #d5d8d2 !important;
+  }
+
+  .weeklyPlannerWeekModeControl button:last-child {
+    border-bottom: 0 !important;
+  }
+}
