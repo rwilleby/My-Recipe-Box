@@ -45621,3 +45621,120 @@ button.browseRecipeWideFooterAction:focus-visible,
     max-height: none !important;
   }
 }
+
+
+/* ================================================================
+   v74.13 — NUTRITION TYPE + VIEWER CONTROL REFINEMENT
+   ================================================================ */
+
+/* Nutrition Facts heading: smaller so the full title always fits. */
+.browseRecipeNutritionFacts h3,
+.cardViewerCombinedRecipeUnit .browseRecipeNutritionFacts h3 {
+  font-size: clamp(13px, 2.25cqw, 19px) !important;
+  line-height: .98 !important;
+  white-space: nowrap !important;
+  letter-spacing: -.02em !important;
+}
+
+/* Nutrition data uses a narrower face and tighter metrics. */
+.browseRecipeNutritionFacts,
+.browseRecipeNutritionFacts .browseNutritionServingRow,
+.browseRecipeNutritionFacts .browseNutritionCalories,
+.browseRecipeNutritionFacts .browseNutritionRow,
+.browseRecipeNutritionFacts .browseNutritionProtein {
+  font-family: "Arial Narrow", "Helvetica Neue Condensed", Arial, Helvetica, sans-serif !important;
+  font-stretch: condensed !important;
+  letter-spacing: -.015em !important;
+}
+
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseNutritionServingRow {
+  font-size: clamp(7px, 1.28cqw, 9.5px) !important;
+}
+
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseNutritionCalories {
+  font-size: clamp(10px, 1.75cqw, 14px) !important;
+}
+
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseNutritionCalories strong {
+  font-size: clamp(12px, 2.05cqw, 16px) !important;
+}
+
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseNutritionRow {
+  font-size: clamp(7px, 1.22cqw, 9px) !important;
+}
+
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseNutritionRow strong {
+  font-size: clamp(7px, 1.24cqw, 9.2px) !important;
+}
+
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseNutritionProtein {
+  font-size: clamp(9px, 1.55cqw, 12px) !important;
+}
+
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseNutritionProtein strong {
+  font-size: clamp(11px, 1.9cqw, 15px) !important;
+}
+
+/* Same typography proportions in the larger VIEW CARD popup. */
+.cardViewerCombinedRecipeUnit .browseRecipeNutritionFacts h3 {
+  font-size: clamp(18px, 2.55cqw, 27px) !important;
+}
+
+.cardViewerCombinedRecipeUnit .browseNutritionServingRow {
+  font-size: clamp(9px, 1.05cqw, 13px) !important;
+}
+
+.cardViewerCombinedRecipeUnit .browseNutritionCalories {
+  font-size: clamp(15px, 1.65cqw, 21px) !important;
+}
+
+.cardViewerCombinedRecipeUnit .browseNutritionCalories strong {
+  font-size: clamp(18px, 1.95cqw, 25px) !important;
+}
+
+.cardViewerCombinedRecipeUnit .browseNutritionRow {
+  font-size: clamp(9px, .98cqw, 12px) !important;
+}
+
+.cardViewerCombinedRecipeUnit .browseNutritionRow strong {
+  font-size: clamp(9px, 1cqw, 12.5px) !important;
+}
+
+.cardViewerCombinedRecipeUnit .browseNutritionProtein {
+  font-size: clamp(13px, 1.45cqw, 18px) !important;
+}
+
+.cardViewerCombinedRecipeUnit .browseNutritionProtein strong {
+  font-size: clamp(16px, 1.75cqw, 22px) !important;
+}
+
+/* Viewer header no longer reserves room for nutrition bubbles. */
+.cardViewerHeader {
+  grid-template-columns: minmax(0, 1fr) auto !important;
+}
+
+.cardViewerHeaderIdentity {
+  min-width: 0 !important;
+}
+
+/* ADD MEAL becomes the primary action replacing Nutrition Data. */
+.viewerUnifiedActions .viewerActionAddMeal {
+  border-color: #80994A !important;
+  background: #80994A !important;
+  color: #fff !important;
+  font-weight: 800 !important;
+}
+
+.viewerUnifiedActions .viewerActionAddMeal:hover,
+.viewerUnifiedActions .viewerActionAddMeal:focus-visible {
+  border-color: #70883f !important;
+  background: #70883f !important;
+  color: #fff !important;
+}

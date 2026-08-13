@@ -4689,6 +4689,7 @@ function RecipeCardViewer({
   setViewer,
   favorites,
   toggleFavorite,
+  addToPlan = () => {},
   recipeData = recipes,
   onOpenCompleteDinner,
 }) {
@@ -4890,20 +4891,6 @@ function RecipeCardViewer({
             <div className="cardViewerMealBalanceRow">
               <MealBalanceDetails item={recipe} />
             </div>
-          </div>
-
-          <div
-            className={`cardViewerQuickNutrition ${
-              liveNutrition ? "hasNutrition" : "nutritionPending"
-            }`}
-            aria-label={`${recipe.title} quick nutrition per serving`}
-          >
-            {quickNutrition.map(([label, value]) => (
-              <div className="cardViewerQuickNutritionItem" key={label}>
-                <span>{label}</span>
-                <strong>{value ?? "—"}</strong>
-              </div>
-            ))}
           </div>
 
           <div className="cardViewerHeaderActions compact">
@@ -5198,30 +5185,15 @@ function RecipeCardViewer({
 
           <div className="cardViewerFooterActions viewerUnifiedActions">
             <button
-              className={[
-                "viewerActionButton",
-                "viewerActionFoodIntelligence",
-                showFoodIntelligence ? "active" : "",
-                !hasFoodIntelligence ? "isPending" : "",
-              ].filter(Boolean).join(" ")}
+              className="viewerActionButton viewerActionAddMeal"
               type="button"
               onClick={() => {
                 setOpenPanel(null);
-                setShowFoodIntelligence((current) => !current);
+                addToPlan(recipe.id);
+                onClose();
               }}
-              aria-label={
-                showFoodIntelligence
-                  ? "View the recipe card front"
-                  : hasFoodIntelligence
-                    ? `View Nutrition Data for ${recipe.id}`
-                    : `View Nutrition Data availability for ${recipe.id}`
-              }
             >
-              {showFoodIntelligence
-                ? "View Recipe Card"
-                : hasFoodIntelligence
-                  ? "Nutrition Data"
-                  : "Nutrition Data Coming Soon"}
+              Add Meal
             </button>
 
             <button
@@ -5258,14 +5230,6 @@ function RecipeCardViewer({
               </button>
             )}
 
-
-            <button
-              className={openPanel === "cost" ? "viewerActionButton viewerActionCost active" : "viewerActionButton viewerActionCost"}
-              type="button"
-              onClick={() => togglePanel("cost")}
-            >
-              Est $$
-            </button>
 
             <button
               className={isFavorite ? "viewerActionHeart saved" : "viewerActionHeart"}
@@ -18241,6 +18205,7 @@ The score is not a judgment and it is not medical or dietary advice. It is one p
         setViewer={setCardViewer}
         favorites={favorites}
         toggleFavorite={toggleFavorite}
+        addToPlan={addToPlan}
         recipeData={classifiedRecipes}
         onOpenCompleteDinner={(mealId) => {
           setCardViewer(null);
