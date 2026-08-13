@@ -1855,13 +1855,19 @@ function WelcomeTour() {
         closeTimerRef.current = null;
       }
 
-      videoRef.current?.pause();
-      if (videoRef.current) {
-        videoRef.current.currentTime = 0;
+      const player = videoRef.current;
+
+      if (player) {
+        player.pause();
+        player.currentTime = 0;
       }
 
       setIsVideoPlaying(false);
       setIsVisible(true);
+
+      if (player) {
+        player.play().catch(() => {});
+      }
     }
 
     window.addEventListener(WELCOME_TOUR_OPEN_EVENT, handleOpenTour);
@@ -1875,6 +1881,17 @@ function WelcomeTour() {
       }
     };
   }, []);
+
+  useEffect(() => {
+    if (!isVisible) return;
+
+    const player = videoRef.current;
+    if (!player) return;
+
+    player.play().catch(() => {
+      // If a browser blocks automatic playback, the Play Now control remains available.
+    });
+  }, [isVisible]);
 
   function acknowledgeVideo() {
     try {
