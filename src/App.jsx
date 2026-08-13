@@ -1466,7 +1466,6 @@ const NAV_GROUPS = [
     label: "OUR RECIPES",
     items: [
       { label: "BROWSE OUR RECIPE LIBRARY", page: "Recipes" },
-      { label: "SEARCH RECIPES & COMPLETE DINNERS", page: "RFIS Search" },
       { label: "DINNER COMBINATIONS", page: "Dinner Combinations" },
       { label: "QUICK & EASY FREEZER MEALS", page: "Freezer-Friendly Meals", level: 1 },
     ],
@@ -1539,7 +1538,6 @@ const NO_INTRO_VIDEO_PAGES = new Set([
   "Disclaimers",
 
   "RFIS Search",
-  "Dinner Combinations",
   "Freezer-Friendly Meals",
 
   "Slow Cooker Favorites",
@@ -13130,6 +13128,9 @@ function DinnerCombinationsPage({ setActivePage, setFilter, setPlan, openRecipeC
   const [lowerCalorieOnly, setLowerCalorieOnly] = useState(false);
   const [higherProteinOnly, setHigherProteinOnly] = useState(false);
   const [sortMode, setSortMode] = useState("meal-number");
+  const [calorieRange, setCalorieRange] = useState("all");
+  const [favoriteOnly, setFavoriteOnly] = useState(false);
+  const [dinnerCategory, setDinnerCategory] = useState("american");
 
   useEffect(() => {
     if (!targetMealId) return;
@@ -13168,6 +13169,21 @@ function DinnerCombinationsPage({ setActivePage, setFilter, setPlan, openRecipeC
     return new Set(rfisPlatform.search.dinners(searchTerm).map((dinner) => dinner.legacyId));
   }, [searchTerm]);
 
+  function selectDinnerCategory(category) {
+    setDinnerCategory(category);
+    setCollectionFilter("all");
+    setCuisineFilter("all");
+    setHigherProteinOnly(false);
+
+    if (category === "american") setCollectionFilter("American & Comfort");
+    if (category === "asian") setCollectionFilter("Asian Collection");
+    if (category === "italian") setCollectionFilter("Italian Collection");
+    if (category === "mexican") setCollectionFilter("Mexican & Southwest Collection");
+    if (category === "seafood") setCollectionFilter("Seafood Collection");
+    if (category === "light") setCollectionFilter("Light & Healthy");
+    if (category === "protein") setHigherProteinOnly(true);
+  }
+
   const filteredMeals = useMemo(() => {
     return dinnerCombinations
       .filter((meal) => !rfisSearchMealIds || rfisSearchMealIds.has(meal.id))
@@ -13203,6 +13219,15 @@ function DinnerCombinationsPage({ setActivePage, setFilter, setPlan, openRecipeC
       })
       .filter((meal) => !lowerCalorieOnly || Number(meal.calories) < 600)
       .filter((meal) => !higherProteinOnly || Number(meal.protein) >= 30)
+      .filter((meal) => {
+        const calories = Number(meal.calories);
+        if (calorieRange === "under-400") return calories < 400;
+        if (calorieRange === "400-599") return calories >= 400 && calories < 600;
+        if (calorieRange === "600-799") return calories >= 600 && calories < 800;
+        if (calorieRange === "800-plus") return calories >= 800;
+        return true;
+      })
+      .filter((meal) => !favoriteOnly || favorites.includes(meal.id))
       .sort((a, b) => {
         if (sortMode === "calories-low") return Number(a.calories || Infinity) - Number(b.calories || Infinity);
         if (sortMode === "meal-balance") return getComboMealBalanceScore(a) - getComboMealBalanceScore(b);
@@ -13211,9 +13236,12 @@ function DinnerCombinationsPage({ setActivePage, setFilter, setPlan, openRecipeC
         return Number(a.number) - Number(b.number);
       });
   }, [
+    calorieRange,
     collectionFilter,
     cookingMethodFilter,
     cuisineFilter,
+    favoriteOnly,
+    favorites,
     freezerFilter,
     higherProteinOnly,
     lowerCalorieOnly,
@@ -13236,6 +13264,9 @@ function DinnerCombinationsPage({ setActivePage, setFilter, setPlan, openRecipeC
     setLowerCalorieOnly(false);
     setHigherProteinOnly(false);
     setSortMode("meal-number");
+    setCalorieRange("all");
+    setFavoriteOnly(false);
+    setDinnerCategory("all");
   }
 
   function addDinnerMealToPlan(mealId, slotKey) {
@@ -13269,191 +13300,102 @@ function DinnerCombinationsPage({ setActivePage, setFilter, setPlan, openRecipeC
 
   return (
     <main className="pageShell dinnerCombinationsPage">
-      <section className="dinnerCollectionBrowser" aria-labelledby="dinnerCollectionBrowserTitle">
-        <div className="dinnerCollectionBrowserHeading">
-          <div>
-            <span className="dinnerCollectionEyebrow">Browse by collection</span>
-            <h2 id="dinnerCollectionBrowserTitle">Complete Dinner Collections</h2>
-            <p>Choose a curated collection or continue browsing all verified Complete Dinners.</p>
-          </div>
-          <div className="dinnerCollectionBrowserActions">
-            <button type="button" onClick={() => setActivePage("Dinner Builder")}>
-              Build a Dinner
+      <section className="dinnerCombinationFinder" aria-labelledby="dinnerCombinationFinderTitle">
+        <div className="dinnerCombinationFinderHeading">
+          <h2 id="dinnerCombinationFinderTitle">Find a Complete Dinner</h2>
+          <p>Choose a category or use the filters below to find a ready-made dinner combination.</p>
+        </div>
+
+        <div className="dinnerCategorySegmented" role="group" aria-label="Complete Dinner categories">
+          {[
+            ["american", "AMERICAN"],
+            ["asian", "ASIAN"],
+            ["italian", "ITALIAN"],
+            ["mexican", "MEXICAN"],
+            ["seafood", "SEAFOOD"],
+            ["light", "LIGHT"],
+            ["protein", "PROTEIN"],
+          ].map(([value, label]) => (
+            <button
+              key={value}
+              type="button"
+              className={dinnerCategory === value ? "isActive" : ""}
+              aria-pressed={dinnerCategory === value}
+              onClick={() => selectDinnerCategory(value)}
+            >
+              {label}
             </button>
-            {collectionFilter !== "all" && (
-              <button type="button" onClick={() => setCollectionFilter("all")}>
-                View All Dinners
-              </button>
-            )}
-          </div>
+          ))}
         </div>
-
-        <div className="dinnerCollectionCardGrid">
-          {completeDinnerCollectionCards.map((collection) => {
-            const isActive = collectionFilter === collection.name;
-            return (
-              <button
-                type="button"
-                key={collection.name}
-                className={`dinnerCollectionCard${isActive ? " is-active" : ""}`}
-                aria-pressed={isActive}
-                onClick={() => {
-                  setCollectionFilter(isActive ? "all" : collection.name);
-                  window.requestAnimationFrame(() => {
-                    document.querySelector(".dinnerCombinationToolbar")?.scrollIntoView({ behavior: "smooth", block: "start" });
-                  });
-                }}
-              >
-                <span>{collection.count} dinners</span>
-                <strong>{collection.name}</strong>
-                <small>
-                  {(collection.sampleDinners || [])
-                    .map((dinner) =>
-                      typeof dinner === "string" ? dinner : dinner?.title
-                    )
-                    .filter(Boolean)
-                    .join(" · ")}
-                </small>
-              </button>
-            );
-          })}
-        </div>
-
-        {activeDinnerCollection && (
-          <div className="dinnerCollectionActiveSummary" role="status">
-            <strong>{activeDinnerCollection.name}</strong>
-            <span>{activeDinnerCollection.dinners.length} Complete Dinners in this collection</span>
-          </div>
-        )}
       </section>
 
-      <section className="dinnerCombinationToolbar" aria-label="Complete Dinner browsing toolbar">
-        <div className="dinnerToolbarPrimary">
-          <label className="dinnerCombinationSearch">
-            <span>Search</span>
-            <input
-              type="search"
-              value={searchTerm}
-              onChange={(event) => setSearchTerm(event.target.value)}
-              placeholder="Search meals, main dishes, or sides…"
-            />
-          </label>
+      <section className="dinnerCombinationToolbar dinnerCombinationToolbarCompact" aria-label="Complete Dinner browsing toolbar">
+        <label className="dinnerCombinationSearch">
+          <span>Search</span>
+          <input
+            type="search"
+            value={searchTerm}
+            onChange={(event) => setSearchTerm(event.target.value)}
+            placeholder="Search dinners..."
+          />
+        </label>
 
-          <label>
-            <span>Sort</span>
-            <select value={sortMode} onChange={(event) => setSortMode(event.target.value)}>
-              <option value="meal-number">Meal #</option>
-              <option value="title">Name (A–Z)</option>
-              <option value="meal-balance">MealBalance</option>
-              <option value="calories-low">Calories</option>
-              <option value="recent">Recently Added</option>
-            </select>
-          </label>
+        <label>
+          <span>Main Protein</span>
+          <select value={proteinFilter} onChange={(event) => setProteinFilter(event.target.value)}>
+            <option value="all">All Proteins</option>
+            {DINNER_PROTEIN_FILTERS.map((filter) => (
+              <option key={filter} value={filter}>
+                {filter.charAt(0).toUpperCase() + filter.slice(1)}
+              </option>
+            ))}
+          </select>
+        </label>
 
-          <label>
-            <span>Main Protein</span>
-            <select value={proteinFilter} onChange={(event) => setProteinFilter(event.target.value)}>
-              <option value="all">All Proteins</option>
-              {DINNER_PROTEIN_FILTERS.map((filter) => (
-                <option key={filter} value={filter}>
-                  {filter.charAt(0).toUpperCase() + filter.slice(1)}
-                </option>
-              ))}
-            </select>
-          </label>
+        <label>
+          <span>Cuisine</span>
+          <select value={cuisineFilter} onChange={(event) => setCuisineFilter(event.target.value)}>
+            <option value="all">All Cuisines</option>
+            <option value="american">American</option>
+            <option value="asian">Asian</option>
+            <option value="italian">Italian</option>
+            <option value="mexican">Mexican</option>
+            <option value="southern">Southern</option>
+          </select>
+        </label>
 
-          <label>
-            <span>Cuisine</span>
-            <select value={cuisineFilter} onChange={(event) => setCuisineFilter(event.target.value)}>
-              <option value="all">All Cuisines</option>
-              <option value="american">American</option>
-              <option value="asian">Asian</option>
-              <option value="italian">Italian</option>
-              <option value="mexican">Mexican</option>
-              <option value="southern">Southern</option>
-            </select>
-          </label>
+        <label>
+          <span>Calorie Range</span>
+          <select value={calorieRange} onChange={(event) => setCalorieRange(event.target.value)}>
+            <option value="all">All Calories</option>
+            <option value="under-400">Under 400</option>
+            <option value="400-599">400–599</option>
+            <option value="600-799">600–799</option>
+            <option value="800-plus">800+</option>
+          </select>
+        </label>
 
-          <label>
-            <span>Collection</span>
-            <select value={collectionFilter} onChange={(event) => setCollectionFilter(event.target.value)}>
-              <option value="all">All Collections</option>
-              {completeDinnerCollections.map((collection) => (
-                <option key={collection.name} value={collection.name}>
-                  {collection.name} ({collection.count})
-                </option>
-              ))}
-            </select>
-          </label>
+        <label>
+          <span>MB</span>
+          <select value={mealBalanceFilter} onChange={(event) => setMealBalanceFilter(event.target.value)}>
+            <option value="all">All MB</option>
+            <option value="1-3">1–3</option>
+            <option value="4-6">4–6</option>
+            <option value="7-10">7–10</option>
+          </select>
+        </label>
 
-          <label>
-            <span>Cooking Method</span>
-            <select value={cookingMethodFilter} onChange={(event) => setCookingMethodFilter(event.target.value)}>
-              <option value="all">All Methods</option>
-              <option value="baked">Baked</option>
-              <option value="grilled">Grilled</option>
-              <option value="smoked">Smoked</option>
-              <option value="fried">Fried</option>
-              <option value="slow cooker">Slow Cooker</option>
-            </select>
-          </label>
-        </div>
-
-        <div className="dinnerToolbarSecondary">
-          <label>
-            <span>Side Type</span>
-            <select value={sideFilter} onChange={(event) => setSideFilter(event.target.value)}>
-              <option value="all">All Side Types</option>
-              {DINNER_SIDE_FILTERS.map((filter) => (
-                <option key={filter} value={filter}>
-                  {filter.charAt(0).toUpperCase() + filter.slice(1)}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <label>
-            <span>Freezer Friendly</span>
-            <select value={freezerFilter} onChange={(event) => setFreezerFilter(event.target.value)}>
-              <option value="all">All Meals</option>
-              <option value="yes">Freezer Friendly</option>
-              <option value="no">Not Marked Freezer Friendly</option>
-            </select>
-          </label>
-
-          <label>
-            <span>MealBalance</span>
-            <select value={mealBalanceFilter} onChange={(event) => setMealBalanceFilter(event.target.value)}>
-              <option value="all">All Ratings</option>
-              <option value="1-3">1–3</option>
-              <option value="4-6">4–6</option>
-              <option value="7-10">7–10</option>
-            </select>
-          </label>
-
-          <div className="dinnerCombinationChecks">
-            <label>
-              <input
-                type="checkbox"
-                checked={lowerCalorieOnly}
-                onChange={(event) => setLowerCalorieOnly(event.target.checked)}
-              />
-              Under 600 Calories
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                checked={higherProteinOnly}
-                onChange={(event) => setHigherProteinOnly(event.target.checked)}
-              />
-              30g+ Protein
-            </label>
-          </div>
-
-          <button type="button" className="dinnerToolbarClear" onClick={clearDinnerCombinationFilters}>
-            Clear
+        <label className="dinnerFavoriteFilter">
+          <span>Favorite</span>
+          <button
+            type="button"
+            className={favoriteOnly ? "isActive" : ""}
+            aria-pressed={favoriteOnly}
+            onClick={() => setFavoriteOnly((current) => !current)}
+          >
+            ♥
           </button>
-        </div>
+        </label>
       </section>
 
       <div className="dinnerCombinationResultsBar">
