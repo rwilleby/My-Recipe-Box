@@ -6732,6 +6732,21 @@ function PlannerPage({
     return recipes.find((recipe) => recipe.id === recipeId) || null;
   }
 
+  const weeklyMealBalanceAverage = useMemo(() => {
+    const scores = [];
+    WEEKLY_PLANNER_DAYS.forEach((day) => {
+      WEEKLY_PLANNER_ROWS.forEach((row) => {
+        const recipeId = normalizedPlan[slotKey(day)]?.[row.index];
+        const recipe = recipes.find((item) => item.id === recipeId);
+        if (!recipe || !isMealBalanceRated(recipe)) return;
+        const score = Number(getMealBalanceScore(recipe));
+        if (Number.isFinite(score)) scores.push(score);
+      });
+    });
+    if (!scores.length) return null;
+    return Math.round((scores.reduce((sum, score) => sum + score, 0) / scores.length) * 10) / 10;
+  }, [normalizedPlan]);
+
   function isSideRecipe(recipe) {
     const prefix = recipeCodePrefix(recipe?.id);
     const categoryText = `${recipe?.category || ""} ${recipe?.categoryCode || ""}`.toLowerCase();
@@ -6960,7 +6975,10 @@ function PlannerPage({
 
       <section className="weeklyCalendarPlannerShell" aria-label="Weekly meal planning calendar">
         <div className="weeklyCalendarPlannerGrid weeklyCalendarPlannerDays">
-          <div className="weeklyCalendarPlannerCorner" aria-hidden="true" />
+          <div className="weeklyCalendarPlannerCorner weeklyCalendarPlannerWeekMb" title={weeklyMealBalanceAverage === null ? "No MealBalance ratings assigned yet" : `Weekly MealBalance average: ${weeklyMealBalanceAverage}`}>
+            <small>MB</small>
+            <strong>{weeklyMealBalanceAverage ?? "—"}</strong>
+          </div>
           {WEEKLY_PLANNER_DAYS.map((day) => (
             <div className="weeklyCalendarPlannerDay" key={day}>
               <strong>{WEEKLY_PLANNER_DAY_LABELS[day]}</strong>
