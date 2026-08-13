@@ -12684,7 +12684,7 @@ function DinnerCombinationCard({ meal, plan = emptyTwoWeekPlan(), onAddMealToPla
 
   const recipeButtons = [
     { label: meal.mainDish, type: "Main Dish", recipeId: meal.mainRecipeId },
-    ...Array.from({ length: 4 }, (_, sideIndex) => {
+    ...Array.from({ length: 3 }, (_, sideIndex) => {
       const side = meal.sides?.[sideIndex];
       return {
         label: side?.name || "Not selected",
@@ -12939,7 +12939,7 @@ function DinnerCombinationCard({ meal, plan = emptyTwoWeekPlan(), onAddMealToPla
               <strong>{meal.mainDish}</strong>
               <small>{meal.mainServing}</small>
             </p>
-            {Array.from({ length: 4 }, (_, sideIndex) => {
+            {Array.from({ length: 3 }, (_, sideIndex) => {
               const side = meal.sides?.[sideIndex];
               return (
               <p className={side ? "" : "dinnerCombinationEmptyDish"} key={`${meal.id}-side-${sideIndex + 1}`}>
@@ -13034,23 +13034,6 @@ function DinnerCombinationCard({ meal, plan = emptyTwoWeekPlan(), onAddMealToPla
         </section>
 
         <section className="dinnerArea dinnerAreaActions dinnerAreaActionsExpanded">
-          <section className="dinnerCombinationHeatingPanel" aria-label={`Heating and freezer notes for ${meal.title}`}>
-            <h4>Heating &amp; Freezer Notes</h4>
-            <div
-              id={`${meal.id}-heating-notes`}
-              className="dinnerCombinationHeatingPanelGrid"
-            >
-              <p>
-                <span>Oven</span>
-                <strong>{meal.ovenInstructions || "No oven instructions listed."}</strong>
-              </p>
-              <p>
-                <span>Microwave</span>
-                <strong>{meal.microwaveInstructions || "No microwave instructions listed."}</strong>
-              </p>
-            </div>
-          </section>
-
           <section className="dinnerCombinationRecipeButtons" aria-label={`Recipe card buttons for ${meal.title}`}>
             <h4>Recipe Cards</h4>
             <div className="dinnerCombinationRecipeButtonGrid">
