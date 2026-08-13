@@ -6991,8 +6991,9 @@ function PlannerPage({
       <section className="weeklyCalendarPlannerShell" aria-label="Weekly meal planning calendar">
         <div className="weeklyCalendarPlannerGrid weeklyCalendarPlannerDays">
           <div className="weeklyCalendarPlannerCorner weeklyCalendarPlannerWeekMb" title={weeklyMealBalanceAverage === null ? "No MealBalance ratings assigned yet" : `Weekly MealBalance average: ${weeklyMealBalanceAverage}`}>
-            <small>MB</small>
-            <strong>{weeklyMealBalanceAverage ?? "—"}</strong>
+            <span className="weeklyCalendarPlannerWeekMbCircle">
+              {weeklyMealBalanceAverage ?? "—"}
+            </span>
           </div>
           {WEEKLY_PLANNER_DAYS.map((day) => (
             <div className="weeklyCalendarPlannerDay" key={day}>

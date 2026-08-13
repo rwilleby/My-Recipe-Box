@@ -43787,3 +43787,153 @@ body.rrbPopupOpen {
     max-height: calc(100dvh - var(--supp-video-top, 72px) - 8px) !important;
   }
 }
+
+
+/* ================================================================
+   v73.20 — WEEKLY PLANNER SERVINGS + HEADER CARDS
+   ================================================================ */
+
+.weeklyCalendarPlannerTaskServings .servingSelector {
+  display: grid !important;
+  grid-template-columns: auto repeat(3, minmax(42px, 1fr)) !important;
+  align-items: center !important;
+  gap: 0 !important;
+  width: 290px !important;
+  height: 36px !important;
+  min-height: 36px !important;
+  max-height: 36px !important;
+  padding: 2px !important;
+  overflow: hidden !important;
+  border: 1px solid #cfd5cf !important;
+  border-radius: 18px !important;
+  background: #efede7 !important;
+  box-shadow: 0 2px 7px rgba(35,42,38,.08) !important;
+  box-sizing: border-box !important;
+}
+
+.weeklyCalendarPlannerTaskServings .servingSelector > span {
+  display: grid !important;
+  place-items: center !important;
+  height: 30px !important;
+  padding: 0 13px !important;
+  color: #4b5563 !important;
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 750 !important;
+  white-space: nowrap !important;
+}
+
+.weeklyCalendarPlannerTaskServings .servingSelector button {
+  width: auto !important;
+  min-width: 0 !important;
+  height: 30px !important;
+  min-height: 30px !important;
+  max-height: 30px !important;
+  margin: 0 !important;
+  padding: 0 10px !important;
+  border: 0 !important;
+  border-left: 1px solid rgba(20,83,45,.14) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: #172033 !important;
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  line-height: 30px !important;
+  box-shadow: none !important;
+}
+
+.weeklyCalendarPlannerTaskServings .servingSelector button.active,
+.weeklyCalendarPlannerTaskServings .servingSelector button[aria-pressed="true"] {
+  border-left-color: transparent !important;
+  border-radius: 15px !important;
+  background: var(--rrb-default-green) !important;
+  color: #fff !important;
+  box-shadow: 0 1px 3px rgba(55,49,46,.15) !important;
+}
+
+.weeklyCalendarPlannerDays {
+  display: grid !important;
+  grid-template-columns: 44px repeat(7, minmax(0, 1fr)) !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  column-gap: 6px !important;
+  padding: 0 !important;
+  background: transparent !important;
+  box-sizing: border-box !important;
+}
+
+.weeklyCalendarPlannerDay,
+.weeklyCalendarPlannerWeekMb {
+  min-width: 0 !important;
+  height: 38px !important;
+  min-height: 38px !important;
+  max-height: 38px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 10px !important;
+  background: var(--rrb-default-green) !important;
+  box-sizing: border-box !important;
+  box-shadow: 0 2px 5px rgba(43,52,45,.06) !important;
+}
+
+.weeklyCalendarPlannerWeekMb {
+  display: grid !important;
+  place-items: center !important;
+  width: 44px !important;
+  min-width: 44px !important;
+  max-width: 44px !important;
+}
+
+.weeklyCalendarPlannerWeekMbCircle {
+  display: grid !important;
+  place-items: center !important;
+  width: 27px !important;
+  height: 27px !important;
+  border-radius: 50% !important;
+  background: #fff !important;
+  color: var(--rrb-default-green) !important;
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 850 !important;
+  line-height: 1 !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,.10) !important;
+}
+
+.weeklyCalendarPlannerDay {
+  display: grid !important;
+  place-items: center !important;
+  text-align: center !important;
+}
+
+.weeklyCalendarPlannerDay strong {
+  display: block !important;
+  width: 100% !important;
+  margin: 0 !important;
+  color: #fff !important;
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+  text-align: center !important;
+  letter-spacing: .01em !important;
+}
+
+.weeklyCalendarPlannerMealRow,
+.weeklyCalendarPlannerNotesRow {
+  grid-template-columns: 44px repeat(7, minmax(0, 1fr)) !important;
+  column-gap: 6px !important;
+}
+
+@media (max-width: 1050px) {
+  .weeklyCalendarPlannerTaskServings .servingSelector {
+    width: 255px !important;
+  }
+
+  .weeklyCalendarPlannerDays,
+  .weeklyCalendarPlannerMealRow,
+  .weeklyCalendarPlannerNotesRow {
+    grid-template-columns: 44px repeat(7, minmax(108px, 1fr)) !important;
+  }
+}
