@@ -99,6 +99,7 @@ const CATEGORY_ICON_IMAGES = {
   AS: "images/categories/AS.webp",
   CC: "images/categories/CC.webp",
   CO: "images/categories/CO.webp",
+  CP: "images/categories/CP.png",
   CR: "images/categories/CR.webp",
   DN: "images/categories/DN.webp",
   DS: "images/categories/DS.webp",
@@ -129,6 +130,7 @@ const HOME_CATEGORY_CODES = [
   "SB",
   "SG",
   "SD",
+  "CP",
   "HB",
   "SW",
   "LF",
@@ -146,6 +148,7 @@ const HOME_CATEGORY_LABELS = {
   AS: "Asian",
   CC: "Cheesecakes",
   CO: "Cobblers",
+  CP: "Crock Pot",
   CR: "Cinnamon Rolls",
   DN: "Donuts",
   DS: "Desserts",
@@ -170,6 +173,7 @@ const HOME_CATEGORY_FALLBACKS = {
   AS: { id: "AS", name: "Asian Cuisine", count: 0, icon: "🍜" },
   CC: { id: "CC", name: "Cheesecakes", count: 0, icon: "🍰" },
   CO: { id: "CO", name: "Cobblers", count: 0, icon: "🥧" },
+  CP: { id: "CP", name: "Crock Pot Meals", count: 0, icon: "🍲" },
   CR: { id: "CR", name: "Cinnamon Rolls", count: 0, icon: "🌀" },
   DN: { id: "DN", name: "Donuts", count: 0, icon: "🍩" },
   DS: { id: "DS", name: "Desserts", count: 0, icon: "🍰" },
@@ -746,7 +750,7 @@ function preloadHeroImage(path, priority = "low") {
 }
 
 const AUTO_IMAGE_PREFIXES = new Set([
-  "AM", "AS", "CC", "CO", "CR", "DN", "DS", "HB", "HBP", "IT", "JJ", "KR", "LF",
+  "AM", "AS", "CC", "CO", "CP", "CR", "DN", "DS", "HB", "HBP", "IT", "JJ", "KR", "LF",
   "MR", "MX", "PM", "QP", "CS", "RS", "SB", "SD", "SF", "SG", "SW"
 ]);
 
@@ -2517,7 +2521,7 @@ function TransparencyLine({ setActivePage }) {
 
 function CategoryGrid({ setFilter, setActivePage }) {
   const categoryLookup = new Map(categories.map((category) => [category.id, category]));
-  const homeCategories = HOME_CATEGORY_CODES.slice(0, 10).map((code) => {
+  const homeCategories = HOME_CATEGORY_CODES.slice(0, 11).map((code) => {
     const fallback = HOME_CATEGORY_FALLBACKS[code];
     const existing = categoryLookup.get(code);
 

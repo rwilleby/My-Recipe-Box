@@ -1,0 +1,737 @@
+{
+  "category": "CP",
+  "categoryName": "Crock Pot Meals",
+  "source": "User-supplied CP-001 through CP-180 recipe-card and hero images",
+  "records": [
+    {
+      "code": "CP-001",
+      "title": "Creamy Ranch Chicken"
+    },
+    {
+      "code": "CP-002",
+      "title": "Chicken and Gravy"
+    },
+    {
+      "code": "CP-003",
+      "title": "Chicken and Dumplings"
+    },
+    {
+      "code": "CP-004",
+      "title": "Chicken Pot Pie Filling"
+    },
+    {
+      "code": "CP-005",
+      "title": "Chicken Noodle Soup"
+    },
+    {
+      "code": "CP-006",
+      "title": "Chicken Tortilla Soup"
+    },
+    {
+      "code": "CP-007",
+      "title": "White Chicken Chili"
+    },
+    {
+      "code": "CP-008",
+      "title": "Salsa Verde Chicken"
+    },
+    {
+      "code": "CP-009",
+      "title": "Chicken Enchilada Casserole"
+    },
+    {
+      "code": "CP-010",
+      "title": "Chicken Taco Bowls"
+    },
+    {
+      "code": "CP-011",
+      "title": "Chicken Taco Bowls"
+    },
+    {
+      "code": "CP-012",
+      "title": "Creamy Italian Chicken"
+    },
+    {
+      "code": "CP-013",
+      "title": "Garlic Parmesan Chicken & Potatoes"
+    },
+    {
+      "code": "CP-014",
+      "title": "Honey Garlic Chicken"
+    },
+    {
+      "code": "CP-015",
+      "title": "Teriyaki Chicken"
+    },
+    {
+      "code": "CP-016",
+      "title": "Orange Chicken"
+    },
+    {
+      "code": "CP-017",
+      "title": "Chicken Tikka Masala"
+    },
+    {
+      "code": "CP-018",
+      "title": "Butter Chicken"
+    },
+    {
+      "code": "CP-019",
+      "title": "Chicken Cacciatore"
+    },
+    {
+      "code": "CP-020",
+      "title": "Chicken, Sausage & Rice"
+    },
+    {
+      "code": "CP-021",
+      "title": "Smothered Turkey Wings"
+    },
+    {
+      "code": "CP-022",
+      "title": "Turkey Breast with Gravy"
+    },
+    {
+      "code": "CP-023",
+      "title": "Classic Pot Roast with Vegetables"
+    },
+    {
+      "code": "CP-024",
+      "title": "Mississippi Pot Roast"
+    },
+    {
+      "code": "CP-025",
+      "title": "Beef Tips & Gravy"
+    },
+    {
+      "code": "CP-026",
+      "title": "Beef Stroganoff"
+    },
+    {
+      "code": "CP-027",
+      "title": "Beef Stew"
+    },
+    {
+      "code": "CP-028",
+      "title": "Vegetable Beef Soup"
+    },
+    {
+      "code": "CP-029",
+      "title": "French Onion Beef"
+    },
+    {
+      "code": "CP-030",
+      "title": "Italian Beef Sandwiches"
+    },
+    {
+      "code": "CP-031",
+      "title": "Hot Roast Beef Sandwiches"
+    },
+    {
+      "code": "CP-032",
+      "title": "Barbacoa Beef"
+    },
+    {
+      "code": "CP-033",
+      "title": "Shredded Beef Tacos"
+    },
+    {
+      "code": "CP-034",
+      "title": "Beef Enchilada Filling"
+    },
+    {
+      "code": "CP-035",
+      "title": "Korean-Style Shredded Beef"
+    },
+    {
+      "code": "CP-036",
+      "title": "Mongolian Beef"
+    },
+    {
+      "code": "CP-037",
+      "title": "Pepper Steak"
+    },
+    {
+      "code": "CP-038",
+      "title": "Swiss Steak"
+    },
+    {
+      "code": "CP-039",
+      "title": "Salisbury Steak & Gravy"
+    },
+    {
+      "code": "CP-040",
+      "title": "Beef & Broccoli"
+    },
+    {
+      "code": "CP-041",
+      "title": "Beef Short Ribs"
+    },
+    {
+      "code": "CP-042",
+      "title": "Corned Beef & Cabbage"
+    },
+    {
+      "code": "CP-043",
+      "title": "Slow-Cooked Meatloaf"
+    },
+    {
+      "code": "CP-044",
+      "title": "Hamburger Steak with Onion Gravy"
+    },
+    {
+      "code": "CP-045",
+      "title": "Hamburger Potato Casserole"
+    },
+    {
+      "code": "CP-046",
+      "title": "Cheeseburger Soup"
+    },
+    {
+      "code": "CP-047",
+      "title": "Stuffed Pepper Soup"
+    },
+    {
+      "code": "CP-048",
+      "title": "Cabbage Roll Soup"
+    },
+    {
+      "code": "CP-049",
+      "title": "Taco Soup"
+    },
+    {
+      "code": "CP-050",
+      "title": "Chili Mac"
+    },
+    {
+      "code": "CP-051",
+      "title": "Sloppy Joes"
+    },
+    {
+      "code": "CP-052",
+      "title": "Spaghetti Meat Sauce"
+    },
+    {
+      "code": "CP-053",
+      "title": "Lasagna"
+    },
+    {
+      "code": "CP-054",
+      "title": "Ravioli Casserole"
+    },
+    {
+      "code": "CP-055",
+      "title": "Beef & Bean Chili"
+    },
+    {
+      "code": "CP-056",
+      "title": "Cowboy Beans with Ground Beef"
+    },
+    {
+      "code": "CP-057",
+      "title": "Pulled Pork"
+    },
+    {
+      "code": "CP-058",
+      "title": "Carolina-Style Pulled Pork"
+    },
+    {
+      "code": "CP-059",
+      "title": "Root Beer Pulled Pork"
+    },
+    {
+      "code": "CP-060",
+      "title": "Carnitas"
+    },
+    {
+      "code": "CP-061",
+      "title": "Pork Tenderloin with Gravy"
+    },
+    {
+      "code": "CP-062",
+      "title": "Pork Chops & Gravy"
+    },
+    {
+      "code": "CP-063",
+      "title": "Pork Chops with Apples & Onions"
+    },
+    {
+      "code": "CP-064",
+      "title": "Smothered Pork Chops"
+    },
+    {
+      "code": "CP-065",
+      "title": "Pork Roast with Potatoes & Carrots"
+    },
+    {
+      "code": "CP-066",
+      "title": "Pork Roast with Sauerkraut"
+    },
+    {
+      "code": "CP-067",
+      "title": "Country-Style Pork Ribs"
+    },
+    {
+      "code": "CP-068",
+      "title": "Barbecue Pork Ribs"
+    },
+    {
+      "code": "CP-069",
+      "title": "Ham with Brown Sugar Glaze"
+    },
+    {
+      "code": "CP-070",
+      "title": "Ham and Beans"
+    },
+    {
+      "code": "CP-071",
+      "title": "Senate-Style Bean Soup with Ham"
+    },
+    {
+      "code": "CP-072",
+      "title": "Split Pea Soup with Ham"
+    },
+    {
+      "code": "CP-073",
+      "title": "Scalloped Potatoes and Ham"
+    },
+    {
+      "code": "CP-074",
+      "title": "Sausage, Potatoes and Green Beans"
+    },
+    {
+      "code": "CP-075",
+      "title": "Sausage and Peppers"
+    },
+    {
+      "code": "CP-076",
+      "title": "Italian Sausage with Marinara"
+    },
+    {
+      "code": "CP-077",
+      "title": "Sausage and White Bean Stew"
+    },
+    {
+      "code": "CP-078",
+      "title": "Cajun Sausage and Red Beans"
+    },
+    {
+      "code": "CP-079",
+      "title": "Sausage and Lentil Soup"
+    },
+    {
+      "code": "CP-080",
+      "title": "Smoked Sausage and Cabbage"
+    },
+    {
+      "code": "CP-081",
+      "title": "Smoked Sausage, Potatoes and Corn"
+    },
+    {
+      "code": "CP-082",
+      "title": "Sausage Breakfast Casserole"
+    },
+    {
+      "code": "CP-083",
+      "title": "Classic Chicken and Rice Soup"
+    },
+    {
+      "code": "CP-084",
+      "title": "Broccoli Cheddar Soup"
+    },
+    {
+      "code": "CP-085",
+      "title": "Loaded Baked Potato Soup"
+    },
+    {
+      "code": "CP-086",
+      "title": "Creamy Tomato Basil Soup"
+    },
+    {
+      "code": "CP-087",
+      "title": "Minestrone"
+    },
+    {
+      "code": "CP-088",
+      "title": "Pasta e Fagioli"
+    },
+    {
+      "code": "CP-089",
+      "title": "Zuppa Toscana"
+    },
+    {
+      "code": "CP-090",
+      "title": "French Onion Soup"
+    },
+    {
+      "code": "CP-091",
+      "title": "Creamy Wild Rice Soup"
+    },
+    {
+      "code": "CP-092",
+      "title": "Corn Chowder"
+    },
+    {
+      "code": "CP-093",
+      "title": "Chicken Corn Chowder"
+    },
+    {
+      "code": "CP-094",
+      "title": "Brunswick Stew"
+    },
+    {
+      "code": "CP-095",
+      "title": "Brunswick Stew with Pulled Pork"
+    },
+    {
+      "code": "CP-096",
+      "title": "Texas Chili"
+    },
+    {
+      "code": "CP-097",
+      "title": "Cincinnati-Style Chili"
+    },
+    {
+      "code": "CP-098",
+      "title": "White Bean Chicken Chili"
+    },
+    {
+      "code": "CP-099",
+      "title": "Green Chile Pork Stew"
+    },
+    {
+      "code": "CP-100",
+      "title": "Black Bean Soup"
+    },
+    {
+      "code": "CP-101",
+      "title": "Chicken Fajita Filling"
+    },
+    {
+      "code": "CP-102",
+      "title": "Beef Fajita Filling"
+    },
+    {
+      "code": "CP-103",
+      "title": "Chicken Tinga"
+    },
+    {
+      "code": "CP-104",
+      "title": "Pork Chile Verde"
+    },
+    {
+      "code": "CP-105",
+      "title": "Beef Barbacoa"
+    },
+    {
+      "code": "CP-106",
+      "title": "Birria-Style Beef"
+    },
+    {
+      "code": "CP-107",
+      "title": "Taco Meat"
+    },
+    {
+      "code": "CP-108",
+      "title": "Chicken Enchilada Soup"
+    },
+    {
+      "code": "CP-109",
+      "title": "Beef Enchilada Casserole"
+    },
+    {
+      "code": "CP-110",
+      "title": "Tamale Pie"
+    },
+    {
+      "code": "CP-111",
+      "title": "Mexican Chicken and Rice"
+    },
+    {
+      "code": "CP-112",
+      "title": "Southwestern Stuffed Pepper Filling"
+    },
+    {
+      "code": "CP-113",
+      "title": "Refried Beans"
+    },
+    {
+      "code": "CP-114",
+      "title": "Charro Beans"
+    },
+    {
+      "code": "CP-115",
+      "title": "Italian Pot Roast"
+    },
+    {
+      "code": "CP-116",
+      "title": "Chicken Parmesan Meatballs"
+    },
+    {
+      "code": "CP-117",
+      "title": "Italian Meatballs in Marinara"
+    },
+    {
+      "code": "CP-118",
+      "title": "Swedish Meatballs"
+    },
+    {
+      "code": "CP-119",
+      "title": "Sausage and Cheese Tortellini"
+    },
+    {
+      "code": "CP-120",
+      "title": "Chicken Alfredo"
+    },
+    {
+      "code": "CP-121",
+      "title": "Tuscan Chicken"
+    },
+    {
+      "code": "CP-122",
+      "title": "Bolognese Sauce"
+    },
+    {
+      "code": "CP-123",
+      "title": "Baked Ziti"
+    },
+    {
+      "code": "CP-124",
+      "title": "Stuffed Shells"
+    },
+    {
+      "code": "CP-125",
+      "title": "Eggplant Parmesan Casserole"
+    },
+    {
+      "code": "CP-126",
+      "title": "Italian Wedding Soup"
+    },
+    {
+      "code": "CP-127",
+      "title": "General Tso-Style Chicken"
+    },
+    {
+      "code": "CP-128",
+      "title": "Sweet-And-Sour Chicken"
+    },
+    {
+      "code": "CP-129",
+      "title": "Sesame Chicken"
+    },
+    {
+      "code": "CP-130",
+      "title": "Thai Peanut Chicken"
+    },
+    {
+      "code": "CP-131",
+      "title": "Chicken Curry"
+    },
+    {
+      "code": "CP-132",
+      "title": "Japanese-Style Beef Curry"
+    },
+    {
+      "code": "CP-133",
+      "title": "Pork Lettuce-Wrap Filling"
+    },
+    {
+      "code": "CP-134",
+      "title": "Asian Pork Tenderloin"
+    },
+    {
+      "code": "CP-135",
+      "title": "Teriyaki Meatballs"
+    },
+    {
+      "code": "CP-136",
+      "title": "Honey Garlic Meatballs"
+    },
+    {
+      "code": "CP-137",
+      "title": "Chicken and Stuffing"
+    },
+    {
+      "code": "CP-138",
+      "title": "Chicken, Potatoes and Green Beans"
+    },
+    {
+      "code": "CP-139",
+      "title": "Chicken and Wild Rice"
+    },
+    {
+      "code": "CP-140",
+      "title": "Chicken and Rice Casserole"
+    },
+    {
+      "code": "CP-141",
+      "title": "Beef, Potatoes and Carrots"
+    },
+    {
+      "code": "CP-142",
+      "title": "Pork Chops, Potatoes and Green Beans"
+    },
+    {
+      "code": "CP-143",
+      "title": "Kielbasa, Potatoes and Sauerkraut"
+    },
+    {
+      "code": "CP-144",
+      "title": "Sausage, Rice and Tomatoes"
+    },
+    {
+      "code": "CP-145",
+      "title": "Cajun Chicken Sausage and Rice"
+    },
+    {
+      "code": "CP-146",
+      "title": "Unstuffed Cabbage Rolls"
+    },
+    {
+      "code": "CP-147",
+      "title": "Shipwreck Casserole"
+    },
+    {
+      "code": "CP-148",
+      "title": "Overnight Apple-Cinnamon Oatmeal"
+    },
+    {
+      "code": "CP-149",
+      "title": "Cowboy Casserole"
+    },
+    {
+      "code": "CP-150",
+      "title": "Maple-Brown Sugar Oatmeal"
+    },
+    {
+      "code": "CP-151",
+      "title": "Sausage, Egg and Hash Brown Casserole"
+    },
+    {
+      "code": "CP-152",
+      "title": "Ham and Cheese Breakfast Casserole"
+    },
+    {
+      "code": "CP-153",
+      "title": "French Toast Casserole"
+    },
+    {
+      "code": "CP-154",
+      "title": "Biscuits and Sausage Gravy Casserole"
+    },
+    {
+      "code": "CP-155",
+      "title": "Breakfast Enchilada Casserole"
+    },
+    {
+      "code": "CP-156",
+      "title": "Cinnamon Roll Casserole"
+    },
+    {
+      "code": "CP-157",
+      "title": "Creamy Macaroni and Cheese"
+    },
+    {
+      "code": "CP-158",
+      "title": "Cheesy Potatoes"
+    },
+    {
+      "code": "CP-159",
+      "title": "Loaded Mashed Potatoes"
+    },
+    {
+      "code": "CP-160",
+      "title": "Garlic Mashed Potatoes"
+    },
+    {
+      "code": "CP-161",
+      "title": "Scalloped Potatoes"
+    },
+    {
+      "code": "CP-162",
+      "title": "Green Bean Casserole"
+    },
+    {
+      "code": "CP-163",
+      "title": "Creamed Corn"
+    },
+    {
+      "code": "CP-164",
+      "title": "Cornbread Dressing"
+    },
+    {
+      "code": "CP-165",
+      "title": "Southern Green Beans"
+    },
+    {
+      "code": "CP-166",
+      "title": "Glazed Carrots"
+    },
+    {
+      "code": "CP-167",
+      "title": "Collard Greens"
+    },
+    {
+      "code": "CP-168",
+      "title": "Baked Beans"
+    },
+    {
+      "code": "CP-169",
+      "title": "Pinto Beans"
+    },
+    {
+      "code": "CP-170",
+      "title": "Black-Eyed Peas"
+    },
+    {
+      "code": "CP-171",
+      "title": "Apple Crisp"
+    },
+    {
+      "code": "CP-172",
+      "title": "Peach Cobbler"
+    },
+    {
+      "code": "CP-173",
+      "title": "Cherry Cobbler"
+    },
+    {
+      "code": "CP-174",
+      "title": "Blueberry Cobbler"
+    },
+    {
+      "code": "CP-175",
+      "title": "Chocolate Lava Cake"
+    },
+    {
+      "code": "CP-176",
+      "title": "Hot Fudge Pudding Cake"
+    },
+    {
+      "code": "CP-177",
+      "title": "Bread Pudding"
+    },
+    {
+      "code": "CP-178",
+      "title": "Banana Bread Pudding"
+    },
+    {
+      "code": "CP-179",
+      "title": "Cinnamon Apples"
+    },
+    {
+      "code": "CP-180",
+      "title": "Pumpkin Spice Cake"
+    }
+  ],
+  "structuredDataStatus": {
+    "recipeCardImages": "available",
+    "heroImages": "available",
+    "titles": "transcribed from supplied recipe cards",
+    "nutrition": "not supplied as structured data",
+    "ingredients": "not supplied as structured data",
+    "cookTime": "not supplied as structured data",
+    "servings": "not supplied as structured data",
+    "mealBalance": "unrated"
+  }
+}

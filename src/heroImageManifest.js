@@ -14841,6 +14841,2886 @@ export const HERO_IMAGE_MANIFEST = [
     "source": "Full Recipe Card",
     "kind": "recipe"
   }
+  ,{
+    "name": "CP-001.webp",
+    "displayName": "CP-001.webp",
+    "code": "CP-001",
+    "path": "images/heroes/CP-001.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-001.webp",
+    "displayName": "CP-001.webp",
+    "code": "CP-001",
+    "path": "images/recipes/CP-001.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-002.webp",
+    "displayName": "CP-002.webp",
+    "code": "CP-002",
+    "path": "images/heroes/CP-002.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-002.webp",
+    "displayName": "CP-002.webp",
+    "code": "CP-002",
+    "path": "images/recipes/CP-002.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-003.webp",
+    "displayName": "CP-003.webp",
+    "code": "CP-003",
+    "path": "images/heroes/CP-003.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-003.webp",
+    "displayName": "CP-003.webp",
+    "code": "CP-003",
+    "path": "images/recipes/CP-003.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-004.webp",
+    "displayName": "CP-004.webp",
+    "code": "CP-004",
+    "path": "images/heroes/CP-004.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-004.webp",
+    "displayName": "CP-004.webp",
+    "code": "CP-004",
+    "path": "images/recipes/CP-004.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-005.webp",
+    "displayName": "CP-005.webp",
+    "code": "CP-005",
+    "path": "images/heroes/CP-005.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-005.webp",
+    "displayName": "CP-005.webp",
+    "code": "CP-005",
+    "path": "images/recipes/CP-005.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-006.webp",
+    "displayName": "CP-006.webp",
+    "code": "CP-006",
+    "path": "images/heroes/CP-006.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-006.webp",
+    "displayName": "CP-006.webp",
+    "code": "CP-006",
+    "path": "images/recipes/CP-006.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-007.webp",
+    "displayName": "CP-007.webp",
+    "code": "CP-007",
+    "path": "images/heroes/CP-007.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-007.webp",
+    "displayName": "CP-007.webp",
+    "code": "CP-007",
+    "path": "images/recipes/CP-007.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-008.webp",
+    "displayName": "CP-008.webp",
+    "code": "CP-008",
+    "path": "images/heroes/CP-008.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-008.webp",
+    "displayName": "CP-008.webp",
+    "code": "CP-008",
+    "path": "images/recipes/CP-008.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-009.webp",
+    "displayName": "CP-009.webp",
+    "code": "CP-009",
+    "path": "images/heroes/CP-009.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-009.webp",
+    "displayName": "CP-009.webp",
+    "code": "CP-009",
+    "path": "images/recipes/CP-009.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-010.webp",
+    "displayName": "CP-010.webp",
+    "code": "CP-010",
+    "path": "images/heroes/CP-010.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-010.webp",
+    "displayName": "CP-010.webp",
+    "code": "CP-010",
+    "path": "images/recipes/CP-010.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-011.webp",
+    "displayName": "CP-011.webp",
+    "code": "CP-011",
+    "path": "images/heroes/CP-011.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-011.webp",
+    "displayName": "CP-011.webp",
+    "code": "CP-011",
+    "path": "images/recipes/CP-011.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-012.webp",
+    "displayName": "CP-012.webp",
+    "code": "CP-012",
+    "path": "images/heroes/CP-012.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-012.webp",
+    "displayName": "CP-012.webp",
+    "code": "CP-012",
+    "path": "images/recipes/CP-012.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-013.webp",
+    "displayName": "CP-013.webp",
+    "code": "CP-013",
+    "path": "images/heroes/CP-013.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-013.webp",
+    "displayName": "CP-013.webp",
+    "code": "CP-013",
+    "path": "images/recipes/CP-013.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-014.webp",
+    "displayName": "CP-014.webp",
+    "code": "CP-014",
+    "path": "images/heroes/CP-014.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-014.webp",
+    "displayName": "CP-014.webp",
+    "code": "CP-014",
+    "path": "images/recipes/CP-014.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-015.webp",
+    "displayName": "CP-015.webp",
+    "code": "CP-015",
+    "path": "images/heroes/CP-015.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-015.webp",
+    "displayName": "CP-015.webp",
+    "code": "CP-015",
+    "path": "images/recipes/CP-015.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-016.webp",
+    "displayName": "CP-016.webp",
+    "code": "CP-016",
+    "path": "images/heroes/CP-016.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-016.webp",
+    "displayName": "CP-016.webp",
+    "code": "CP-016",
+    "path": "images/recipes/CP-016.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-017.webp",
+    "displayName": "CP-017.webp",
+    "code": "CP-017",
+    "path": "images/heroes/CP-017.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-017.webp",
+    "displayName": "CP-017.webp",
+    "code": "CP-017",
+    "path": "images/recipes/CP-017.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-018.webp",
+    "displayName": "CP-018.webp",
+    "code": "CP-018",
+    "path": "images/heroes/CP-018.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-018.webp",
+    "displayName": "CP-018.webp",
+    "code": "CP-018",
+    "path": "images/recipes/CP-018.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-019.webp",
+    "displayName": "CP-019.webp",
+    "code": "CP-019",
+    "path": "images/heroes/CP-019.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-019.webp",
+    "displayName": "CP-019.webp",
+    "code": "CP-019",
+    "path": "images/recipes/CP-019.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-020.webp",
+    "displayName": "CP-020.webp",
+    "code": "CP-020",
+    "path": "images/heroes/CP-020.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-020.webp",
+    "displayName": "CP-020.webp",
+    "code": "CP-020",
+    "path": "images/recipes/CP-020.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-021.webp",
+    "displayName": "CP-021.webp",
+    "code": "CP-021",
+    "path": "images/heroes/CP-021.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-021.webp",
+    "displayName": "CP-021.webp",
+    "code": "CP-021",
+    "path": "images/recipes/CP-021.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-022.webp",
+    "displayName": "CP-022.webp",
+    "code": "CP-022",
+    "path": "images/heroes/CP-022.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-022.webp",
+    "displayName": "CP-022.webp",
+    "code": "CP-022",
+    "path": "images/recipes/CP-022.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-023.webp",
+    "displayName": "CP-023.webp",
+    "code": "CP-023",
+    "path": "images/heroes/CP-023.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-023.webp",
+    "displayName": "CP-023.webp",
+    "code": "CP-023",
+    "path": "images/recipes/CP-023.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-024.webp",
+    "displayName": "CP-024.webp",
+    "code": "CP-024",
+    "path": "images/heroes/CP-024.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-024.webp",
+    "displayName": "CP-024.webp",
+    "code": "CP-024",
+    "path": "images/recipes/CP-024.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-025.webp",
+    "displayName": "CP-025.webp",
+    "code": "CP-025",
+    "path": "images/heroes/CP-025.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-025.webp",
+    "displayName": "CP-025.webp",
+    "code": "CP-025",
+    "path": "images/recipes/CP-025.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-026.webp",
+    "displayName": "CP-026.webp",
+    "code": "CP-026",
+    "path": "images/heroes/CP-026.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-026.webp",
+    "displayName": "CP-026.webp",
+    "code": "CP-026",
+    "path": "images/recipes/CP-026.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-027.webp",
+    "displayName": "CP-027.webp",
+    "code": "CP-027",
+    "path": "images/heroes/CP-027.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-027.webp",
+    "displayName": "CP-027.webp",
+    "code": "CP-027",
+    "path": "images/recipes/CP-027.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-028.webp",
+    "displayName": "CP-028.webp",
+    "code": "CP-028",
+    "path": "images/heroes/CP-028.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-028.webp",
+    "displayName": "CP-028.webp",
+    "code": "CP-028",
+    "path": "images/recipes/CP-028.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-029.webp",
+    "displayName": "CP-029.webp",
+    "code": "CP-029",
+    "path": "images/heroes/CP-029.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-029.webp",
+    "displayName": "CP-029.webp",
+    "code": "CP-029",
+    "path": "images/recipes/CP-029.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-030.webp",
+    "displayName": "CP-030.webp",
+    "code": "CP-030",
+    "path": "images/heroes/CP-030.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-030.webp",
+    "displayName": "CP-030.webp",
+    "code": "CP-030",
+    "path": "images/recipes/CP-030.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-031.webp",
+    "displayName": "CP-031.webp",
+    "code": "CP-031",
+    "path": "images/heroes/CP-031.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-031.webp",
+    "displayName": "CP-031.webp",
+    "code": "CP-031",
+    "path": "images/recipes/CP-031.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-032.webp",
+    "displayName": "CP-032.webp",
+    "code": "CP-032",
+    "path": "images/heroes/CP-032.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-032.webp",
+    "displayName": "CP-032.webp",
+    "code": "CP-032",
+    "path": "images/recipes/CP-032.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-033.webp",
+    "displayName": "CP-033.webp",
+    "code": "CP-033",
+    "path": "images/heroes/CP-033.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-033.webp",
+    "displayName": "CP-033.webp",
+    "code": "CP-033",
+    "path": "images/recipes/CP-033.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-034.webp",
+    "displayName": "CP-034.webp",
+    "code": "CP-034",
+    "path": "images/heroes/CP-034.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-034.webp",
+    "displayName": "CP-034.webp",
+    "code": "CP-034",
+    "path": "images/recipes/CP-034.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-035.webp",
+    "displayName": "CP-035.webp",
+    "code": "CP-035",
+    "path": "images/heroes/CP-035.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-035.webp",
+    "displayName": "CP-035.webp",
+    "code": "CP-035",
+    "path": "images/recipes/CP-035.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-036.webp",
+    "displayName": "CP-036.webp",
+    "code": "CP-036",
+    "path": "images/heroes/CP-036.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-036.webp",
+    "displayName": "CP-036.webp",
+    "code": "CP-036",
+    "path": "images/recipes/CP-036.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-037.webp",
+    "displayName": "CP-037.webp",
+    "code": "CP-037",
+    "path": "images/heroes/CP-037.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-037.webp",
+    "displayName": "CP-037.webp",
+    "code": "CP-037",
+    "path": "images/recipes/CP-037.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-038.webp",
+    "displayName": "CP-038.webp",
+    "code": "CP-038",
+    "path": "images/heroes/CP-038.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-038.webp",
+    "displayName": "CP-038.webp",
+    "code": "CP-038",
+    "path": "images/recipes/CP-038.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-039.webp",
+    "displayName": "CP-039.webp",
+    "code": "CP-039",
+    "path": "images/heroes/CP-039.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-039.webp",
+    "displayName": "CP-039.webp",
+    "code": "CP-039",
+    "path": "images/recipes/CP-039.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-040.webp",
+    "displayName": "CP-040.webp",
+    "code": "CP-040",
+    "path": "images/heroes/CP-040.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-040.webp",
+    "displayName": "CP-040.webp",
+    "code": "CP-040",
+    "path": "images/recipes/CP-040.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-041.webp",
+    "displayName": "CP-041.webp",
+    "code": "CP-041",
+    "path": "images/heroes/CP-041.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-041.webp",
+    "displayName": "CP-041.webp",
+    "code": "CP-041",
+    "path": "images/recipes/CP-041.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-042.webp",
+    "displayName": "CP-042.webp",
+    "code": "CP-042",
+    "path": "images/heroes/CP-042.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-042.webp",
+    "displayName": "CP-042.webp",
+    "code": "CP-042",
+    "path": "images/recipes/CP-042.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-043.webp",
+    "displayName": "CP-043.webp",
+    "code": "CP-043",
+    "path": "images/heroes/CP-043.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-043.webp",
+    "displayName": "CP-043.webp",
+    "code": "CP-043",
+    "path": "images/recipes/CP-043.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-044.webp",
+    "displayName": "CP-044.webp",
+    "code": "CP-044",
+    "path": "images/heroes/CP-044.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-044.webp",
+    "displayName": "CP-044.webp",
+    "code": "CP-044",
+    "path": "images/recipes/CP-044.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-045.webp",
+    "displayName": "CP-045.webp",
+    "code": "CP-045",
+    "path": "images/heroes/CP-045.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-045.webp",
+    "displayName": "CP-045.webp",
+    "code": "CP-045",
+    "path": "images/recipes/CP-045.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-046.webp",
+    "displayName": "CP-046.webp",
+    "code": "CP-046",
+    "path": "images/heroes/CP-046.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-046.webp",
+    "displayName": "CP-046.webp",
+    "code": "CP-046",
+    "path": "images/recipes/CP-046.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-047.webp",
+    "displayName": "CP-047.webp",
+    "code": "CP-047",
+    "path": "images/heroes/CP-047.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-047.webp",
+    "displayName": "CP-047.webp",
+    "code": "CP-047",
+    "path": "images/recipes/CP-047.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-048.webp",
+    "displayName": "CP-048.webp",
+    "code": "CP-048",
+    "path": "images/heroes/CP-048.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-048.webp",
+    "displayName": "CP-048.webp",
+    "code": "CP-048",
+    "path": "images/recipes/CP-048.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-049.webp",
+    "displayName": "CP-049.webp",
+    "code": "CP-049",
+    "path": "images/heroes/CP-049.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-049.webp",
+    "displayName": "CP-049.webp",
+    "code": "CP-049",
+    "path": "images/recipes/CP-049.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-050.webp",
+    "displayName": "CP-050.webp",
+    "code": "CP-050",
+    "path": "images/heroes/CP-050.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-050.webp",
+    "displayName": "CP-050.webp",
+    "code": "CP-050",
+    "path": "images/recipes/CP-050.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-051.webp",
+    "displayName": "CP-051.webp",
+    "code": "CP-051",
+    "path": "images/heroes/CP-051.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-051.webp",
+    "displayName": "CP-051.webp",
+    "code": "CP-051",
+    "path": "images/recipes/CP-051.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-052.webp",
+    "displayName": "CP-052.webp",
+    "code": "CP-052",
+    "path": "images/heroes/CP-052.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-052.webp",
+    "displayName": "CP-052.webp",
+    "code": "CP-052",
+    "path": "images/recipes/CP-052.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-053.webp",
+    "displayName": "CP-053.webp",
+    "code": "CP-053",
+    "path": "images/heroes/CP-053.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-053.webp",
+    "displayName": "CP-053.webp",
+    "code": "CP-053",
+    "path": "images/recipes/CP-053.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-054.webp",
+    "displayName": "CP-054.webp",
+    "code": "CP-054",
+    "path": "images/heroes/CP-054.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-054.webp",
+    "displayName": "CP-054.webp",
+    "code": "CP-054",
+    "path": "images/recipes/CP-054.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-055.webp",
+    "displayName": "CP-055.webp",
+    "code": "CP-055",
+    "path": "images/heroes/CP-055.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-055.webp",
+    "displayName": "CP-055.webp",
+    "code": "CP-055",
+    "path": "images/recipes/CP-055.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-056.webp",
+    "displayName": "CP-056.webp",
+    "code": "CP-056",
+    "path": "images/heroes/CP-056.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-056.webp",
+    "displayName": "CP-056.webp",
+    "code": "CP-056",
+    "path": "images/recipes/CP-056.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-057.webp",
+    "displayName": "CP-057.webp",
+    "code": "CP-057",
+    "path": "images/heroes/CP-057.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-057.webp",
+    "displayName": "CP-057.webp",
+    "code": "CP-057",
+    "path": "images/recipes/CP-057.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-058.webp",
+    "displayName": "CP-058.webp",
+    "code": "CP-058",
+    "path": "images/heroes/CP-058.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-058.webp",
+    "displayName": "CP-058.webp",
+    "code": "CP-058",
+    "path": "images/recipes/CP-058.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-059.webp",
+    "displayName": "CP-059.webp",
+    "code": "CP-059",
+    "path": "images/heroes/CP-059.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-059.webp",
+    "displayName": "CP-059.webp",
+    "code": "CP-059",
+    "path": "images/recipes/CP-059.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-060.webp",
+    "displayName": "CP-060.webp",
+    "code": "CP-060",
+    "path": "images/heroes/CP-060.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-060.webp",
+    "displayName": "CP-060.webp",
+    "code": "CP-060",
+    "path": "images/recipes/CP-060.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-061.webp",
+    "displayName": "CP-061.webp",
+    "code": "CP-061",
+    "path": "images/heroes/CP-061.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-061.webp",
+    "displayName": "CP-061.webp",
+    "code": "CP-061",
+    "path": "images/recipes/CP-061.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-062.webp",
+    "displayName": "CP-062.webp",
+    "code": "CP-062",
+    "path": "images/heroes/CP-062.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-062.webp",
+    "displayName": "CP-062.webp",
+    "code": "CP-062",
+    "path": "images/recipes/CP-062.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-063.webp",
+    "displayName": "CP-063.webp",
+    "code": "CP-063",
+    "path": "images/heroes/CP-063.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-063.webp",
+    "displayName": "CP-063.webp",
+    "code": "CP-063",
+    "path": "images/recipes/CP-063.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-064.webp",
+    "displayName": "CP-064.webp",
+    "code": "CP-064",
+    "path": "images/heroes/CP-064.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-064.webp",
+    "displayName": "CP-064.webp",
+    "code": "CP-064",
+    "path": "images/recipes/CP-064.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-065.webp",
+    "displayName": "CP-065.webp",
+    "code": "CP-065",
+    "path": "images/heroes/CP-065.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-065.webp",
+    "displayName": "CP-065.webp",
+    "code": "CP-065",
+    "path": "images/recipes/CP-065.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-066.webp",
+    "displayName": "CP-066.webp",
+    "code": "CP-066",
+    "path": "images/heroes/CP-066.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-066.webp",
+    "displayName": "CP-066.webp",
+    "code": "CP-066",
+    "path": "images/recipes/CP-066.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-067.webp",
+    "displayName": "CP-067.webp",
+    "code": "CP-067",
+    "path": "images/heroes/CP-067.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-067.webp",
+    "displayName": "CP-067.webp",
+    "code": "CP-067",
+    "path": "images/recipes/CP-067.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-068.webp",
+    "displayName": "CP-068.webp",
+    "code": "CP-068",
+    "path": "images/heroes/CP-068.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-068.webp",
+    "displayName": "CP-068.webp",
+    "code": "CP-068",
+    "path": "images/recipes/CP-068.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-069.webp",
+    "displayName": "CP-069.webp",
+    "code": "CP-069",
+    "path": "images/heroes/CP-069.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-069.webp",
+    "displayName": "CP-069.webp",
+    "code": "CP-069",
+    "path": "images/recipes/CP-069.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-070.webp",
+    "displayName": "CP-070.webp",
+    "code": "CP-070",
+    "path": "images/heroes/CP-070.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-070.webp",
+    "displayName": "CP-070.webp",
+    "code": "CP-070",
+    "path": "images/recipes/CP-070.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-071.webp",
+    "displayName": "CP-071.webp",
+    "code": "CP-071",
+    "path": "images/heroes/CP-071.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-071.webp",
+    "displayName": "CP-071.webp",
+    "code": "CP-071",
+    "path": "images/recipes/CP-071.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-072.webp",
+    "displayName": "CP-072.webp",
+    "code": "CP-072",
+    "path": "images/heroes/CP-072.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-072.webp",
+    "displayName": "CP-072.webp",
+    "code": "CP-072",
+    "path": "images/recipes/CP-072.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-073.webp",
+    "displayName": "CP-073.webp",
+    "code": "CP-073",
+    "path": "images/heroes/CP-073.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-073.webp",
+    "displayName": "CP-073.webp",
+    "code": "CP-073",
+    "path": "images/recipes/CP-073.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-074.webp",
+    "displayName": "CP-074.webp",
+    "code": "CP-074",
+    "path": "images/heroes/CP-074.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-074.webp",
+    "displayName": "CP-074.webp",
+    "code": "CP-074",
+    "path": "images/recipes/CP-074.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-075.webp",
+    "displayName": "CP-075.webp",
+    "code": "CP-075",
+    "path": "images/heroes/CP-075.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-075.webp",
+    "displayName": "CP-075.webp",
+    "code": "CP-075",
+    "path": "images/recipes/CP-075.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-076.webp",
+    "displayName": "CP-076.webp",
+    "code": "CP-076",
+    "path": "images/heroes/CP-076.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-076.webp",
+    "displayName": "CP-076.webp",
+    "code": "CP-076",
+    "path": "images/recipes/CP-076.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-077.webp",
+    "displayName": "CP-077.webp",
+    "code": "CP-077",
+    "path": "images/heroes/CP-077.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-077.webp",
+    "displayName": "CP-077.webp",
+    "code": "CP-077",
+    "path": "images/recipes/CP-077.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-078.webp",
+    "displayName": "CP-078.webp",
+    "code": "CP-078",
+    "path": "images/heroes/CP-078.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-078.webp",
+    "displayName": "CP-078.webp",
+    "code": "CP-078",
+    "path": "images/recipes/CP-078.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-079.webp",
+    "displayName": "CP-079.webp",
+    "code": "CP-079",
+    "path": "images/heroes/CP-079.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-079.webp",
+    "displayName": "CP-079.webp",
+    "code": "CP-079",
+    "path": "images/recipes/CP-079.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-080.webp",
+    "displayName": "CP-080.webp",
+    "code": "CP-080",
+    "path": "images/heroes/CP-080.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-080.webp",
+    "displayName": "CP-080.webp",
+    "code": "CP-080",
+    "path": "images/recipes/CP-080.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-081.webp",
+    "displayName": "CP-081.webp",
+    "code": "CP-081",
+    "path": "images/heroes/CP-081.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-081.webp",
+    "displayName": "CP-081.webp",
+    "code": "CP-081",
+    "path": "images/recipes/CP-081.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-082.webp",
+    "displayName": "CP-082.webp",
+    "code": "CP-082",
+    "path": "images/heroes/CP-082.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-082.webp",
+    "displayName": "CP-082.webp",
+    "code": "CP-082",
+    "path": "images/recipes/CP-082.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-083.webp",
+    "displayName": "CP-083.webp",
+    "code": "CP-083",
+    "path": "images/heroes/CP-083.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-083.webp",
+    "displayName": "CP-083.webp",
+    "code": "CP-083",
+    "path": "images/recipes/CP-083.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-084.webp",
+    "displayName": "CP-084.webp",
+    "code": "CP-084",
+    "path": "images/heroes/CP-084.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-084.webp",
+    "displayName": "CP-084.webp",
+    "code": "CP-084",
+    "path": "images/recipes/CP-084.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-085.webp",
+    "displayName": "CP-085.webp",
+    "code": "CP-085",
+    "path": "images/heroes/CP-085.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-085.webp",
+    "displayName": "CP-085.webp",
+    "code": "CP-085",
+    "path": "images/recipes/CP-085.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-086.webp",
+    "displayName": "CP-086.webp",
+    "code": "CP-086",
+    "path": "images/heroes/CP-086.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-086.webp",
+    "displayName": "CP-086.webp",
+    "code": "CP-086",
+    "path": "images/recipes/CP-086.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-087.webp",
+    "displayName": "CP-087.webp",
+    "code": "CP-087",
+    "path": "images/heroes/CP-087.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-087.webp",
+    "displayName": "CP-087.webp",
+    "code": "CP-087",
+    "path": "images/recipes/CP-087.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-088.webp",
+    "displayName": "CP-088.webp",
+    "code": "CP-088",
+    "path": "images/heroes/CP-088.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-088.webp",
+    "displayName": "CP-088.webp",
+    "code": "CP-088",
+    "path": "images/recipes/CP-088.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-089.webp",
+    "displayName": "CP-089.webp",
+    "code": "CP-089",
+    "path": "images/heroes/CP-089.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-089.webp",
+    "displayName": "CP-089.webp",
+    "code": "CP-089",
+    "path": "images/recipes/CP-089.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-090.webp",
+    "displayName": "CP-090.webp",
+    "code": "CP-090",
+    "path": "images/heroes/CP-090.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-090.webp",
+    "displayName": "CP-090.webp",
+    "code": "CP-090",
+    "path": "images/recipes/CP-090.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-091.webp",
+    "displayName": "CP-091.webp",
+    "code": "CP-091",
+    "path": "images/heroes/CP-091.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-091.webp",
+    "displayName": "CP-091.webp",
+    "code": "CP-091",
+    "path": "images/recipes/CP-091.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-092.webp",
+    "displayName": "CP-092.webp",
+    "code": "CP-092",
+    "path": "images/heroes/CP-092.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-092.webp",
+    "displayName": "CP-092.webp",
+    "code": "CP-092",
+    "path": "images/recipes/CP-092.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-093.webp",
+    "displayName": "CP-093.webp",
+    "code": "CP-093",
+    "path": "images/heroes/CP-093.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-093.webp",
+    "displayName": "CP-093.webp",
+    "code": "CP-093",
+    "path": "images/recipes/CP-093.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-094.webp",
+    "displayName": "CP-094.webp",
+    "code": "CP-094",
+    "path": "images/heroes/CP-094.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-094.webp",
+    "displayName": "CP-094.webp",
+    "code": "CP-094",
+    "path": "images/recipes/CP-094.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-095.webp",
+    "displayName": "CP-095.webp",
+    "code": "CP-095",
+    "path": "images/heroes/CP-095.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-095.webp",
+    "displayName": "CP-095.webp",
+    "code": "CP-095",
+    "path": "images/recipes/CP-095.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-096.webp",
+    "displayName": "CP-096.webp",
+    "code": "CP-096",
+    "path": "images/heroes/CP-096.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-096.webp",
+    "displayName": "CP-096.webp",
+    "code": "CP-096",
+    "path": "images/recipes/CP-096.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-097.webp",
+    "displayName": "CP-097.webp",
+    "code": "CP-097",
+    "path": "images/heroes/CP-097.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-097.webp",
+    "displayName": "CP-097.webp",
+    "code": "CP-097",
+    "path": "images/recipes/CP-097.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-098.webp",
+    "displayName": "CP-098.webp",
+    "code": "CP-098",
+    "path": "images/heroes/CP-098.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-098.webp",
+    "displayName": "CP-098.webp",
+    "code": "CP-098",
+    "path": "images/recipes/CP-098.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-099.webp",
+    "displayName": "CP-099.webp",
+    "code": "CP-099",
+    "path": "images/heroes/CP-099.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-099.webp",
+    "displayName": "CP-099.webp",
+    "code": "CP-099",
+    "path": "images/recipes/CP-099.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-100.webp",
+    "displayName": "CP-100.webp",
+    "code": "CP-100",
+    "path": "images/heroes/CP-100.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-100.webp",
+    "displayName": "CP-100.webp",
+    "code": "CP-100",
+    "path": "images/recipes/CP-100.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-101.webp",
+    "displayName": "CP-101.webp",
+    "code": "CP-101",
+    "path": "images/heroes/CP-101.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-101.webp",
+    "displayName": "CP-101.webp",
+    "code": "CP-101",
+    "path": "images/recipes/CP-101.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-102.webp",
+    "displayName": "CP-102.webp",
+    "code": "CP-102",
+    "path": "images/heroes/CP-102.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-102.webp",
+    "displayName": "CP-102.webp",
+    "code": "CP-102",
+    "path": "images/recipes/CP-102.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-103.webp",
+    "displayName": "CP-103.webp",
+    "code": "CP-103",
+    "path": "images/heroes/CP-103.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-103.webp",
+    "displayName": "CP-103.webp",
+    "code": "CP-103",
+    "path": "images/recipes/CP-103.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-104.webp",
+    "displayName": "CP-104.webp",
+    "code": "CP-104",
+    "path": "images/heroes/CP-104.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-104.webp",
+    "displayName": "CP-104.webp",
+    "code": "CP-104",
+    "path": "images/recipes/CP-104.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-105.webp",
+    "displayName": "CP-105.webp",
+    "code": "CP-105",
+    "path": "images/heroes/CP-105.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-105.webp",
+    "displayName": "CP-105.webp",
+    "code": "CP-105",
+    "path": "images/recipes/CP-105.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-106.webp",
+    "displayName": "CP-106.webp",
+    "code": "CP-106",
+    "path": "images/heroes/CP-106.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-106.webp",
+    "displayName": "CP-106.webp",
+    "code": "CP-106",
+    "path": "images/recipes/CP-106.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-107.webp",
+    "displayName": "CP-107.webp",
+    "code": "CP-107",
+    "path": "images/heroes/CP-107.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-107.webp",
+    "displayName": "CP-107.webp",
+    "code": "CP-107",
+    "path": "images/recipes/CP-107.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-108.webp",
+    "displayName": "CP-108.webp",
+    "code": "CP-108",
+    "path": "images/heroes/CP-108.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-108.webp",
+    "displayName": "CP-108.webp",
+    "code": "CP-108",
+    "path": "images/recipes/CP-108.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-109.webp",
+    "displayName": "CP-109.webp",
+    "code": "CP-109",
+    "path": "images/heroes/CP-109.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-109.webp",
+    "displayName": "CP-109.webp",
+    "code": "CP-109",
+    "path": "images/recipes/CP-109.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-110.webp",
+    "displayName": "CP-110.webp",
+    "code": "CP-110",
+    "path": "images/heroes/CP-110.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-110.webp",
+    "displayName": "CP-110.webp",
+    "code": "CP-110",
+    "path": "images/recipes/CP-110.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-111.webp",
+    "displayName": "CP-111.webp",
+    "code": "CP-111",
+    "path": "images/heroes/CP-111.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-111.webp",
+    "displayName": "CP-111.webp",
+    "code": "CP-111",
+    "path": "images/recipes/CP-111.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-112.webp",
+    "displayName": "CP-112.webp",
+    "code": "CP-112",
+    "path": "images/heroes/CP-112.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-112.webp",
+    "displayName": "CP-112.webp",
+    "code": "CP-112",
+    "path": "images/recipes/CP-112.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-113.webp",
+    "displayName": "CP-113.webp",
+    "code": "CP-113",
+    "path": "images/heroes/CP-113.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-113.webp",
+    "displayName": "CP-113.webp",
+    "code": "CP-113",
+    "path": "images/recipes/CP-113.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-114.webp",
+    "displayName": "CP-114.webp",
+    "code": "CP-114",
+    "path": "images/heroes/CP-114.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-114.webp",
+    "displayName": "CP-114.webp",
+    "code": "CP-114",
+    "path": "images/recipes/CP-114.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-115.webp",
+    "displayName": "CP-115.webp",
+    "code": "CP-115",
+    "path": "images/heroes/CP-115.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-115.webp",
+    "displayName": "CP-115.webp",
+    "code": "CP-115",
+    "path": "images/recipes/CP-115.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-116.webp",
+    "displayName": "CP-116.webp",
+    "code": "CP-116",
+    "path": "images/heroes/CP-116.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-116.webp",
+    "displayName": "CP-116.webp",
+    "code": "CP-116",
+    "path": "images/recipes/CP-116.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-117.webp",
+    "displayName": "CP-117.webp",
+    "code": "CP-117",
+    "path": "images/heroes/CP-117.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-117.webp",
+    "displayName": "CP-117.webp",
+    "code": "CP-117",
+    "path": "images/recipes/CP-117.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-118.webp",
+    "displayName": "CP-118.webp",
+    "code": "CP-118",
+    "path": "images/heroes/CP-118.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-118.webp",
+    "displayName": "CP-118.webp",
+    "code": "CP-118",
+    "path": "images/recipes/CP-118.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-119.webp",
+    "displayName": "CP-119.webp",
+    "code": "CP-119",
+    "path": "images/heroes/CP-119.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-119.webp",
+    "displayName": "CP-119.webp",
+    "code": "CP-119",
+    "path": "images/recipes/CP-119.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-120.webp",
+    "displayName": "CP-120.webp",
+    "code": "CP-120",
+    "path": "images/heroes/CP-120.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-120.webp",
+    "displayName": "CP-120.webp",
+    "code": "CP-120",
+    "path": "images/recipes/CP-120.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-121.webp",
+    "displayName": "CP-121.webp",
+    "code": "CP-121",
+    "path": "images/heroes/CP-121.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-121.webp",
+    "displayName": "CP-121.webp",
+    "code": "CP-121",
+    "path": "images/recipes/CP-121.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-122.webp",
+    "displayName": "CP-122.webp",
+    "code": "CP-122",
+    "path": "images/heroes/CP-122.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-122.webp",
+    "displayName": "CP-122.webp",
+    "code": "CP-122",
+    "path": "images/recipes/CP-122.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-123.webp",
+    "displayName": "CP-123.webp",
+    "code": "CP-123",
+    "path": "images/heroes/CP-123.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-123.webp",
+    "displayName": "CP-123.webp",
+    "code": "CP-123",
+    "path": "images/recipes/CP-123.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-124.webp",
+    "displayName": "CP-124.webp",
+    "code": "CP-124",
+    "path": "images/heroes/CP-124.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-124.webp",
+    "displayName": "CP-124.webp",
+    "code": "CP-124",
+    "path": "images/recipes/CP-124.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-125.webp",
+    "displayName": "CP-125.webp",
+    "code": "CP-125",
+    "path": "images/heroes/CP-125.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-125.webp",
+    "displayName": "CP-125.webp",
+    "code": "CP-125",
+    "path": "images/recipes/CP-125.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-126.webp",
+    "displayName": "CP-126.webp",
+    "code": "CP-126",
+    "path": "images/heroes/CP-126.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-126.webp",
+    "displayName": "CP-126.webp",
+    "code": "CP-126",
+    "path": "images/recipes/CP-126.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-127.webp",
+    "displayName": "CP-127.webp",
+    "code": "CP-127",
+    "path": "images/heroes/CP-127.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-127.webp",
+    "displayName": "CP-127.webp",
+    "code": "CP-127",
+    "path": "images/recipes/CP-127.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-128.webp",
+    "displayName": "CP-128.webp",
+    "code": "CP-128",
+    "path": "images/heroes/CP-128.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-128.webp",
+    "displayName": "CP-128.webp",
+    "code": "CP-128",
+    "path": "images/recipes/CP-128.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-129.webp",
+    "displayName": "CP-129.webp",
+    "code": "CP-129",
+    "path": "images/heroes/CP-129.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-129.webp",
+    "displayName": "CP-129.webp",
+    "code": "CP-129",
+    "path": "images/recipes/CP-129.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-130.webp",
+    "displayName": "CP-130.webp",
+    "code": "CP-130",
+    "path": "images/heroes/CP-130.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-130.webp",
+    "displayName": "CP-130.webp",
+    "code": "CP-130",
+    "path": "images/recipes/CP-130.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-131.webp",
+    "displayName": "CP-131.webp",
+    "code": "CP-131",
+    "path": "images/heroes/CP-131.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-131.webp",
+    "displayName": "CP-131.webp",
+    "code": "CP-131",
+    "path": "images/recipes/CP-131.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-132.webp",
+    "displayName": "CP-132.webp",
+    "code": "CP-132",
+    "path": "images/heroes/CP-132.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-132.webp",
+    "displayName": "CP-132.webp",
+    "code": "CP-132",
+    "path": "images/recipes/CP-132.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-133.webp",
+    "displayName": "CP-133.webp",
+    "code": "CP-133",
+    "path": "images/heroes/CP-133.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-133.webp",
+    "displayName": "CP-133.webp",
+    "code": "CP-133",
+    "path": "images/recipes/CP-133.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-134.webp",
+    "displayName": "CP-134.webp",
+    "code": "CP-134",
+    "path": "images/heroes/CP-134.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-134.webp",
+    "displayName": "CP-134.webp",
+    "code": "CP-134",
+    "path": "images/recipes/CP-134.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-135.webp",
+    "displayName": "CP-135.webp",
+    "code": "CP-135",
+    "path": "images/heroes/CP-135.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-135.webp",
+    "displayName": "CP-135.webp",
+    "code": "CP-135",
+    "path": "images/recipes/CP-135.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-136.webp",
+    "displayName": "CP-136.webp",
+    "code": "CP-136",
+    "path": "images/heroes/CP-136.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-136.webp",
+    "displayName": "CP-136.webp",
+    "code": "CP-136",
+    "path": "images/recipes/CP-136.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-137.webp",
+    "displayName": "CP-137.webp",
+    "code": "CP-137",
+    "path": "images/heroes/CP-137.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-137.webp",
+    "displayName": "CP-137.webp",
+    "code": "CP-137",
+    "path": "images/recipes/CP-137.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-138.webp",
+    "displayName": "CP-138.webp",
+    "code": "CP-138",
+    "path": "images/heroes/CP-138.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-138.webp",
+    "displayName": "CP-138.webp",
+    "code": "CP-138",
+    "path": "images/recipes/CP-138.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-139.webp",
+    "displayName": "CP-139.webp",
+    "code": "CP-139",
+    "path": "images/heroes/CP-139.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-139.webp",
+    "displayName": "CP-139.webp",
+    "code": "CP-139",
+    "path": "images/recipes/CP-139.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-140.webp",
+    "displayName": "CP-140.webp",
+    "code": "CP-140",
+    "path": "images/heroes/CP-140.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-140.webp",
+    "displayName": "CP-140.webp",
+    "code": "CP-140",
+    "path": "images/recipes/CP-140.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-141.webp",
+    "displayName": "CP-141.webp",
+    "code": "CP-141",
+    "path": "images/heroes/CP-141.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-141.webp",
+    "displayName": "CP-141.webp",
+    "code": "CP-141",
+    "path": "images/recipes/CP-141.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-142.webp",
+    "displayName": "CP-142.webp",
+    "code": "CP-142",
+    "path": "images/heroes/CP-142.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-142.webp",
+    "displayName": "CP-142.webp",
+    "code": "CP-142",
+    "path": "images/recipes/CP-142.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-143.webp",
+    "displayName": "CP-143.webp",
+    "code": "CP-143",
+    "path": "images/heroes/CP-143.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-143.webp",
+    "displayName": "CP-143.webp",
+    "code": "CP-143",
+    "path": "images/recipes/CP-143.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-144.webp",
+    "displayName": "CP-144.webp",
+    "code": "CP-144",
+    "path": "images/heroes/CP-144.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-144.webp",
+    "displayName": "CP-144.webp",
+    "code": "CP-144",
+    "path": "images/recipes/CP-144.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-145.webp",
+    "displayName": "CP-145.webp",
+    "code": "CP-145",
+    "path": "images/heroes/CP-145.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-145.webp",
+    "displayName": "CP-145.webp",
+    "code": "CP-145",
+    "path": "images/recipes/CP-145.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-146.webp",
+    "displayName": "CP-146.webp",
+    "code": "CP-146",
+    "path": "images/heroes/CP-146.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-146.webp",
+    "displayName": "CP-146.webp",
+    "code": "CP-146",
+    "path": "images/recipes/CP-146.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-147.webp",
+    "displayName": "CP-147.webp",
+    "code": "CP-147",
+    "path": "images/heroes/CP-147.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-147.webp",
+    "displayName": "CP-147.webp",
+    "code": "CP-147",
+    "path": "images/recipes/CP-147.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-148.webp",
+    "displayName": "CP-148.webp",
+    "code": "CP-148",
+    "path": "images/heroes/CP-148.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-148.webp",
+    "displayName": "CP-148.webp",
+    "code": "CP-148",
+    "path": "images/recipes/CP-148.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-149.webp",
+    "displayName": "CP-149.webp",
+    "code": "CP-149",
+    "path": "images/heroes/CP-149.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-149.webp",
+    "displayName": "CP-149.webp",
+    "code": "CP-149",
+    "path": "images/recipes/CP-149.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-150.webp",
+    "displayName": "CP-150.webp",
+    "code": "CP-150",
+    "path": "images/heroes/CP-150.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-150.webp",
+    "displayName": "CP-150.webp",
+    "code": "CP-150",
+    "path": "images/recipes/CP-150.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-151.webp",
+    "displayName": "CP-151.webp",
+    "code": "CP-151",
+    "path": "images/heroes/CP-151.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-151.webp",
+    "displayName": "CP-151.webp",
+    "code": "CP-151",
+    "path": "images/recipes/CP-151.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-152.webp",
+    "displayName": "CP-152.webp",
+    "code": "CP-152",
+    "path": "images/heroes/CP-152.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-152.webp",
+    "displayName": "CP-152.webp",
+    "code": "CP-152",
+    "path": "images/recipes/CP-152.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-153.webp",
+    "displayName": "CP-153.webp",
+    "code": "CP-153",
+    "path": "images/heroes/CP-153.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-153.webp",
+    "displayName": "CP-153.webp",
+    "code": "CP-153",
+    "path": "images/recipes/CP-153.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-154.webp",
+    "displayName": "CP-154.webp",
+    "code": "CP-154",
+    "path": "images/heroes/CP-154.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-154.webp",
+    "displayName": "CP-154.webp",
+    "code": "CP-154",
+    "path": "images/recipes/CP-154.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-155.webp",
+    "displayName": "CP-155.webp",
+    "code": "CP-155",
+    "path": "images/heroes/CP-155.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-155.webp",
+    "displayName": "CP-155.webp",
+    "code": "CP-155",
+    "path": "images/recipes/CP-155.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-156.webp",
+    "displayName": "CP-156.webp",
+    "code": "CP-156",
+    "path": "images/heroes/CP-156.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-156.webp",
+    "displayName": "CP-156.webp",
+    "code": "CP-156",
+    "path": "images/recipes/CP-156.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-157.webp",
+    "displayName": "CP-157.webp",
+    "code": "CP-157",
+    "path": "images/heroes/CP-157.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-157.webp",
+    "displayName": "CP-157.webp",
+    "code": "CP-157",
+    "path": "images/recipes/CP-157.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-158.webp",
+    "displayName": "CP-158.webp",
+    "code": "CP-158",
+    "path": "images/heroes/CP-158.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-158.webp",
+    "displayName": "CP-158.webp",
+    "code": "CP-158",
+    "path": "images/recipes/CP-158.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-159.webp",
+    "displayName": "CP-159.webp",
+    "code": "CP-159",
+    "path": "images/heroes/CP-159.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-159.webp",
+    "displayName": "CP-159.webp",
+    "code": "CP-159",
+    "path": "images/recipes/CP-159.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-160.webp",
+    "displayName": "CP-160.webp",
+    "code": "CP-160",
+    "path": "images/heroes/CP-160.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-160.webp",
+    "displayName": "CP-160.webp",
+    "code": "CP-160",
+    "path": "images/recipes/CP-160.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-161.webp",
+    "displayName": "CP-161.webp",
+    "code": "CP-161",
+    "path": "images/heroes/CP-161.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-161.webp",
+    "displayName": "CP-161.webp",
+    "code": "CP-161",
+    "path": "images/recipes/CP-161.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-162.webp",
+    "displayName": "CP-162.webp",
+    "code": "CP-162",
+    "path": "images/heroes/CP-162.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-162.webp",
+    "displayName": "CP-162.webp",
+    "code": "CP-162",
+    "path": "images/recipes/CP-162.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-163.webp",
+    "displayName": "CP-163.webp",
+    "code": "CP-163",
+    "path": "images/heroes/CP-163.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-163.webp",
+    "displayName": "CP-163.webp",
+    "code": "CP-163",
+    "path": "images/recipes/CP-163.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-164.webp",
+    "displayName": "CP-164.webp",
+    "code": "CP-164",
+    "path": "images/heroes/CP-164.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-164.webp",
+    "displayName": "CP-164.webp",
+    "code": "CP-164",
+    "path": "images/recipes/CP-164.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-165.webp",
+    "displayName": "CP-165.webp",
+    "code": "CP-165",
+    "path": "images/heroes/CP-165.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-165.webp",
+    "displayName": "CP-165.webp",
+    "code": "CP-165",
+    "path": "images/recipes/CP-165.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-166.webp",
+    "displayName": "CP-166.webp",
+    "code": "CP-166",
+    "path": "images/heroes/CP-166.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-166.webp",
+    "displayName": "CP-166.webp",
+    "code": "CP-166",
+    "path": "images/recipes/CP-166.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-167.webp",
+    "displayName": "CP-167.webp",
+    "code": "CP-167",
+    "path": "images/heroes/CP-167.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-167.webp",
+    "displayName": "CP-167.webp",
+    "code": "CP-167",
+    "path": "images/recipes/CP-167.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-168.webp",
+    "displayName": "CP-168.webp",
+    "code": "CP-168",
+    "path": "images/heroes/CP-168.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-168.webp",
+    "displayName": "CP-168.webp",
+    "code": "CP-168",
+    "path": "images/recipes/CP-168.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-169.webp",
+    "displayName": "CP-169.webp",
+    "code": "CP-169",
+    "path": "images/heroes/CP-169.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-169.webp",
+    "displayName": "CP-169.webp",
+    "code": "CP-169",
+    "path": "images/recipes/CP-169.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-170.webp",
+    "displayName": "CP-170.webp",
+    "code": "CP-170",
+    "path": "images/heroes/CP-170.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-170.webp",
+    "displayName": "CP-170.webp",
+    "code": "CP-170",
+    "path": "images/recipes/CP-170.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-171.webp",
+    "displayName": "CP-171.webp",
+    "code": "CP-171",
+    "path": "images/heroes/CP-171.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-171.webp",
+    "displayName": "CP-171.webp",
+    "code": "CP-171",
+    "path": "images/recipes/CP-171.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-172.webp",
+    "displayName": "CP-172.webp",
+    "code": "CP-172",
+    "path": "images/heroes/CP-172.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-172.webp",
+    "displayName": "CP-172.webp",
+    "code": "CP-172",
+    "path": "images/recipes/CP-172.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-173.webp",
+    "displayName": "CP-173.webp",
+    "code": "CP-173",
+    "path": "images/heroes/CP-173.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-173.webp",
+    "displayName": "CP-173.webp",
+    "code": "CP-173",
+    "path": "images/recipes/CP-173.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-174.webp",
+    "displayName": "CP-174.webp",
+    "code": "CP-174",
+    "path": "images/heroes/CP-174.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-174.webp",
+    "displayName": "CP-174.webp",
+    "code": "CP-174",
+    "path": "images/recipes/CP-174.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-175.webp",
+    "displayName": "CP-175.webp",
+    "code": "CP-175",
+    "path": "images/heroes/CP-175.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-175.webp",
+    "displayName": "CP-175.webp",
+    "code": "CP-175",
+    "path": "images/recipes/CP-175.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-176.webp",
+    "displayName": "CP-176.webp",
+    "code": "CP-176",
+    "path": "images/heroes/CP-176.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-176.webp",
+    "displayName": "CP-176.webp",
+    "code": "CP-176",
+    "path": "images/recipes/CP-176.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-177.webp",
+    "displayName": "CP-177.webp",
+    "code": "CP-177",
+    "path": "images/heroes/CP-177.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-177.webp",
+    "displayName": "CP-177.webp",
+    "code": "CP-177",
+    "path": "images/recipes/CP-177.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-178.webp",
+    "displayName": "CP-178.webp",
+    "code": "CP-178",
+    "path": "images/heroes/CP-178.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-178.webp",
+    "displayName": "CP-178.webp",
+    "code": "CP-178",
+    "path": "images/recipes/CP-178.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-179.webp",
+    "displayName": "CP-179.webp",
+    "code": "CP-179",
+    "path": "images/heroes/CP-179.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-179.webp",
+    "displayName": "CP-179.webp",
+    "code": "CP-179",
+    "path": "images/recipes/CP-179.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-180.webp",
+    "displayName": "CP-180.webp",
+    "code": "CP-180",
+    "path": "images/heroes/CP-180.webp",
+    "source": "Dedicated Hero",
+    "kind": "recipe"
+  }
+  ,{
+    "name": "CP-180.webp",
+    "displayName": "CP-180.webp",
+    "code": "CP-180",
+    "path": "images/recipes/CP-180.webp",
+    "source": "Full Recipe Card",
+    "kind": "recipe"
+  }
 ];
 
 export const COMBO_IMAGE_MANIFEST = HERO_IMAGE_MANIFEST.filter(
@@ -14850,8 +17730,8 @@ export const COMBO_IMAGE_MANIFEST = HERO_IMAGE_MANIFEST.filter(
 
 export const HERO_IMAGE_SOURCE_COUNTS = {
   "Combo Hero": 102,
-  "Dedicated Hero": 452,
+  "Dedicated Hero": 632,
   "Hero Thumbnail": 374,
-  "Full Recipe Card": 471,
+  "Full Recipe Card": 651,
   "Recipe Card Thumbnail": 456
 };
