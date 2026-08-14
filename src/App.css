@@ -47030,3 +47030,119 @@ button.browseRecipeWideFooterAction:focus-visible,
   .weeklyPlannerWeekModeControl{width:100%!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;}
 }
 .weeklyCalendarPlannerDay strong{font-size:12px!important;line-height:1!important;letter-spacing:.01em!important;}
+
+
+/* ================================================================
+   v76.2 — CUISINE QUICK LINKS ORDER + RESPONSIVE ICON SCALE
+   ================================================================ */
+
+/* Favorites + 11 recipe groups = 12 equal desktop positions. */
+.homeCategoryGrid {
+  grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+  grid-auto-flow: row !important;
+  grid-auto-columns: unset !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow-x: visible !important;
+  gap: clamp(8px, .95vw, 18px) !important;
+  justify-content: center !important;
+}
+
+/* Every Quick Link icon uses exactly the same outer dimensions. */
+.homeCategoryGrid .categoryIconImage,
+.homeCategoryGrid .categoryIconFallback,
+.homeCategoryGrid .homeFavoritesCategoryIcon {
+  width: clamp(48px, 4.7vw, 70px) !important;
+  height: clamp(48px, 4.7vw, 70px) !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  max-width: 70px !important;
+  max-height: 70px !important;
+  object-fit: contain !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/*
+  The supplied CP.png contains more image margin than the established
+  category icons. Scale only its artwork slightly so the visible red
+  rounded-square matches the apparent size of the other icons while
+  retaining the same tile footprint.
+*/
+.homeCategoryGrid .crockPotCategoryIcon {
+  transform: scale(1.12) !important;
+  transform-origin: center center !important;
+}
+
+/* Labels scale gently with the icons. */
+.homeCategoryGrid .categoryTile strong {
+  font-size: clamp(9px, .78vw, 12px) !important;
+  line-height: 1.08 !important;
+}
+
+/* As the screen narrows, the icon logos become smaller rather than larger. */
+@media (max-width: 1200px) {
+  .homeCategoryGrid {
+    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+    gap: 7px !important;
+  }
+
+  .homeCategoryGrid .categoryIconImage,
+  .homeCategoryGrid .categoryIconFallback,
+  .homeCategoryGrid .homeFavoritesCategoryIcon {
+    width: 44px !important;
+    height: 44px !important;
+  }
+
+  .homeCategoryGrid .categoryTile strong {
+    font-size: 8.5px !important;
+  }
+}
+
+@media (max-width: 980px) {
+  .homeCategoryGrid {
+    grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+    row-gap: 14px !important;
+  }
+
+  .homeCategoryGrid .categoryIconImage,
+  .homeCategoryGrid .categoryIconFallback,
+  .homeCategoryGrid .homeFavoritesCategoryIcon {
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  .homeCategoryGrid .categoryTile strong {
+    font-size: 9px !important;
+  }
+}
+
+@media (max-width: 650px) {
+  .homeCategoryGrid {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
+
+  .homeCategoryGrid .categoryIconImage,
+  .homeCategoryGrid .categoryIconFallback,
+  .homeCategoryGrid .homeFavoritesCategoryIcon {
+    width: 36px !important;
+    height: 36px !important;
+  }
+
+  .homeCategoryGrid .categoryTile strong {
+    font-size: 8.5px !important;
+  }
+}
+
+@media (max-width: 420px) {
+  .homeCategoryGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+
+  .homeCategoryGrid .categoryIconImage,
+  .homeCategoryGrid .categoryIconFallback,
+  .homeCategoryGrid .homeFavoritesCategoryIcon {
+    width: 32px !important;
+    height: 32px !important;
+  }
+}

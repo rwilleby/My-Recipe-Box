@@ -127,10 +127,10 @@ const HOME_CATEGORY_CODES = [
   "SF",
   "QP",
   "CS",
+  "CP",
   "SB",
   "SG",
   "SD",
-  "CP",
   "HB",
   "SW",
   "LF",
@@ -2601,7 +2601,7 @@ function CategoryGrid({ setFilter, setActivePage }) {
             aria-label={`View ${cat.displayName} recipes`}
           >
             <img
-              className="categoryIconImage"
+              className={`categoryIconImage${cat.id === "CP" ? " crockPotCategoryIcon" : ""}`}
               src={`${import.meta.env.BASE_URL}${cat.iconImage}`}
               alt=""
               aria-hidden="true"
