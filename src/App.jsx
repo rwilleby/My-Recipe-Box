@@ -2406,10 +2406,13 @@ function HomePhotoFeatureSection({ setActivePage, kosUi }) {
         className="section homePhotoFeatureSection"
         aria-labelledby="home-photo-features-title"
       >
-        <div className="sectionTitle homePhotoFeatureHeader">
-          <div>
-            <h2 id="home-photo-features-title" className="homeVideoTitle">
-              <span>What do you want to do today?</span>
+        <div className="homePhotoFeatureHeader">
+          <SectionIntro
+            title="What Do You Want to Do Today?"
+            titleId="home-photo-features-title"
+            text={<span aria-live="polite">{activeAction.subtext}</span>}
+            className="homeActionSectionIntro"
+            video={
               <SupplementalHoverVideo
                 src={CHOOSE_YOUR_LEVEL_VIDEO_URL}
                 poster={CHOOSE_YOUR_LEVEL_VIDEO_POSTER}
@@ -2421,38 +2424,34 @@ function HomePhotoFeatureSection({ setActivePage, kosUi }) {
                   <VideoIcon role="main" alt="" className="supplementalVideoIconRed" />
                 </span>
               </SupplementalHoverVideo>
-            </h2>
+            }
+          />
 
-            <p className="homeActionSubtext" aria-live="polite">
-              {activeAction.subtext}
-            </p>
+          <div
+            className="homeActionChoices"
+            role="tablist"
+            aria-label="Choose what you want to do today"
+          >
+            {HOME_ACTIONS.map((action) => {
+              const isActive = action.id === activeAction.id;
 
-            <div
-              className="homeActionChoices"
-              role="tablist"
-              aria-label="Choose what you want to do today"
-            >
-              {HOME_ACTIONS.map((action) => {
-                const isActive = action.id === activeAction.id;
-
-                return (
-                  <button
-                    key={action.id}
-                    id={`home-action-${action.id}`}
-                    type="button"
-                    role="tab"
-                    aria-selected={isActive}
-                    aria-controls="home-action-panel"
-                    tabIndex={isActive ? 0 : -1}
-                    className={`homeActionChoice${isActive ? " isActive" : ""}`}
-                    onClick={() => setActiveActionId(action.id)}
-                    onKeyDown={handleActionKeyDown}
-                  >
-                    {action.label}
-                  </button>
-                );
-              })}
-            </div>
+              return (
+                <button
+                  key={action.id}
+                  id={`home-action-${action.id}`}
+                  type="button"
+                  role="tab"
+                  aria-selected={isActive}
+                  aria-controls="home-action-panel"
+                  tabIndex={isActive ? 0 : -1}
+                  className={`homeActionChoice${isActive ? " isActive" : ""}`}
+                  onClick={() => setActiveActionId(action.id)}
+                  onKeyDown={handleActionKeyDown}
+                >
+                  {action.label}
+                </button>
+              );
+            })}
           </div>
         </div>
 
@@ -12438,6 +12437,7 @@ function SectionIntro({
   video = null,
   className = "",
   as = "section",
+  titleId = "",
 }) {
   const Tag = as;
   const classes = [
@@ -12452,7 +12452,7 @@ function SectionIntro({
         {eyebrow && <div className="aiBadge rrbSectionIntroEyebrow">{eyebrow}</div>}
 
         <div className="rrbSectionIntroTitleRow">
-          <h2>{title}</h2>
+          <h2 id={titleId || undefined}>{title}</h2>
           {video}
         </div>
 
