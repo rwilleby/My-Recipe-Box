@@ -163,3 +163,38 @@ Updated approved reference:
 - Widths compress proportionally to fit the row
 - Width remains function-driven, not equalized
 - Font size and horizontal padding may reduce modestly at narrower widths to preserve one-row layout
+
+
+## v79.4 Segmented Navigation Reference Implementation
+
+The homepage `What Do You Want to Do Today?` selector is the reference implementation of SEGMENTED NAVIGATION.
+
+- One rounded outer container
+- 38px overall height
+- Five equal-width segments
+- No gaps
+- Subtle vertical dividers
+- Dark bold inactive labels
+- Selected segment uses muted taupe/gray fill with white text
+- Selected segment has an inset rounded shape
+- One row only; no wrapping or stacking
+- Width compresses responsively
+
+
+## v79.5 FILTER CONTROL ROW — Batch Reference
+
+The FILTER CONTROL ROW standard is now applied to:
+- Recipe Library: Sort By / Cooking Method / Search / Nutrition & Dietary
+- Complete Dinners: Search / Main Protein / Cuisine / Calorie Range / MB / Favorite
+- Crock Pot: Search / Protein / Meal Type / Favorite
+- Refrigerator Inventory: Search / Filter / View Grocery List
+- Freezer Inventory: Search Inventory / Filter / Location / Expand All / Collapse All
+
+Master geometry:
+- Labels above controls
+- 38px control height
+- One aligned baseline
+- Shared border/radius/type family
+- Function-driven widths
+- Search fields, selects, icon toggles, and secondary actions retain appropriate interiors
+- One row is preserved by compressing widths/padding rather than stacking
