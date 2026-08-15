@@ -16362,3 +16362,38 @@ button.browseRecipeWideFooterAction:focus-visible,
   align-items: center !important;
   margin: calc(-1 * var(--rrb-section-intro-bottom-gap) + 2px) auto 18px !important;
 }
+
+
+/* v78.17 — FREEZER MEALS & STORAGE SECTION INTRO */
+.freezerMealsStorageSectionIntro.rrbSectionIntroComponent {
+  display: block !important;
+  width: 100% !important;
+  margin: 0 auto var(--rrb-section-intro-bottom-gap) !important;
+  padding: 0 !important;
+  text-align: center !important;
+}
+.freezerMealsStorageSectionIntro .rrbSectionIntroCopy {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 auto !important;
+  text-align: center !important;
+}
+.freezerMealsStorageSectionIntro .rrbSectionIntroTitleRow {
+  justify-content: center !important;
+  width: 100% !important;
+}
+.freezerMealsStorageSectionIntro p {
+  max-width: var(--rrb-section-intro-max-copy-width) !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+.freezerMealsStorageIntroActions {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 12px !important;
+  margin: calc(-1 * var(--rrb-section-intro-bottom-gap) + 2px) auto 18px !important;
+}
+@media (max-width: 720px) {
+  .freezerMealsStorageIntroActions { flex-wrap: wrap !important; }
+}

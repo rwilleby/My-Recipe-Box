@@ -10284,22 +10284,19 @@ function FreezerTipsPage({ setActivePage }) {
   return (
     <main className="pageShell freezerPage">
       <SectionIntro
-        eyebrow="COOK ONCE · EAT ONCE · FREEZE ONCE"
         title="Freezer Meals & Storage"
         text="Many Robert’s Recipe Box meals are intentionally planned for small households with enough food for dinner now and a second prepared meal to freeze for later."
-        centered={false}
-        className="pageHeader freezerHeader"
-        actions={
-          <>
-            <button className="primary" onClick={() => setActivePage("Meal Planner")}>
-              Start Meal Planning
-            </button>
-            <button className="secondary" onClick={() => setActivePage("Shopping Lists")}>
-              View Shopping List
-            </button>
-          </>
-        }
+        className="freezerMealsStorageSectionIntro"
       />
+
+      <div className="freezerMealsStorageIntroActions">
+        <button className="primary" onClick={() => setActivePage("Meal Planner")}>
+          Start Meal Planning
+        </button>
+        <button className="secondary" onClick={() => setActivePage("Shopping Lists")}>
+          View Shopping List
+        </button>
+      </div>
 
       <section className="freezerIntroCard">
         <h2>The freezer-meal method</h2>
