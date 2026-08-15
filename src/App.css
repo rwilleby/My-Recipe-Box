@@ -16323,3 +16323,42 @@ button.browseRecipeWideFooterAction:focus-visible,
     margin: 0 auto 18px !important;
   }
 }
+
+
+/* ================================================================
+   v78.16 — SMART GROCERY PICKS SECTION INTRO
+   Uses the locked master SECTION INTRO standard.
+   ================================================================ */
+
+.smartGroceryPicksSectionIntro.rrbSectionIntroComponent {
+  display: block !important;
+  width: 100% !important;
+  margin: 0 auto var(--rrb-section-intro-bottom-gap) !important;
+  padding: 0 !important;
+  text-align: center !important;
+}
+
+.smartGroceryPicksSectionIntro .rrbSectionIntroCopy {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 auto !important;
+  text-align: center !important;
+}
+
+.smartGroceryPicksSectionIntro .rrbSectionIntroTitleRow {
+  justify-content: center !important;
+  width: 100% !important;
+}
+
+.smartGroceryPicksSectionIntro p {
+  max-width: var(--rrb-section-intro-max-copy-width) !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.smartGroceryPicksIntroActions {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  margin: calc(-1 * var(--rrb-section-intro-bottom-gap) + 2px) auto 18px !important;
+}

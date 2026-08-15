@@ -10200,17 +10200,16 @@ function GroceryPicksPage({ setActivePage }) {
   return (
     <main className="pageShell groceryPicksPage">
       <SectionIntro
-        eyebrow="SMART GROCERY REFERENCE"
         title="Smart Grocery Picks"
         text="A reference list for lighter, lower-carb, freezer-friendly, and small-household grocery choices. Use it before shopping, or when a shopping-list item shows a suggested swap."
-        centered={false}
-        className="pageHeader groceryPicksHeader"
-        actions={
-          <button className="secondary" onClick={() => setActivePage("Shopping Lists")}>
-            Back to Shopping List
-          </button>
-        }
+        className="smartGroceryPicksSectionIntro"
       />
+
+      <div className="smartGroceryPicksIntroActions">
+        <button className="secondary" onClick={() => setActivePage("Shopping Lists")}>
+          Back to Shopping List
+        </button>
+      </div>
 
       <section className="groceryPicksIntro">
         <h2>How to use this list</h2>
