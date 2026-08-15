@@ -1,10 +1,18 @@
 import { useEffect, useMemo, useState } from "react";
 import { sortRecipesByCode } from "../utils/recipeSorting";
+import {
+  WEEKEND_LABEL_SHEET,
+  createWeekendLabelEntries,
+  createWeekendLabelPages,
+  formatCompactLabelDate,
+  localDateInputValue,
+} from "../utils/weekendBulkLabels";
 import HelpTooltip from "./HelpTooltip";
 import "./WeekendBulkMealPlanner.css";
 import "./WeekendBulkMealPlanner.v51.css";
 
 const STORAGE_KEY = "rrb_weekendBulkMealPlanner_v1";
+const LABEL_SETTINGS_KEY = "rrb_weekendBulkLabelSettings_v1";
 
 const PLAN_TYPES = [
   { key: "ALL", label: "All Recipes", icon: "images/icons/AL.png" },
@@ -71,6 +79,9 @@ function safeLoadPlan() {
             finish: item.finish || "Whole",
             package: legacyPackages[item.package] || item.package || "Quart freezer bag",
             labelQuantity: Math.max(0, Number(item.labelQuantity ?? item.batches ?? 1)),
+            createdDate: item.createdDate || localDateInputValue(),
+            refrigeratorUseBy: item.refrigeratorUseBy || "",
+            freezeUseBy: item.freezeUseBy || "",
           };
         }) : [],
       };
@@ -79,6 +90,25 @@ function safeLoadPlan() {
     // Use the clean starter plan when saved browser data cannot be read.
   }
   return { weekendName: "This Weekend", prepDay: "Saturday", notes: "", items: [] };
+}
+
+function safeLoadLabelSettings() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(LABEL_SETTINGS_KEY));
+    if (saved && typeof saved === "object") {
+      return {
+        unavailablePositions: Array.isArray(saved.unavailablePositions)
+          ? saved.unavailablePositions.map(Number).filter((position) => position >= 1 && position <= 30)
+          : [],
+        offsetX: Math.max(-5, Math.min(5, Number(saved.offsetX) || 0)),
+        offsetY: Math.max(-5, Math.min(5, Number(saved.offsetY) || 0)),
+        printOutlines: Boolean(saved.printOutlines),
+      };
+    }
+  } catch {
+    // Use the standard sheet settings when saved browser data cannot be read.
+  }
+  return { unavailablePositions: [], offsetX: 0, offsetY: 0, printOutlines: false };
 }
 
 function recipeCode(recipe) {
@@ -139,6 +169,9 @@ function makePlanItem(item, type, prepDay) {
     finish: "Whole",
     labelNote: "",
     labelQuantity: 1,
+    createdDate: localDateInputValue(),
+    refrigeratorUseBy: "",
+    freezeUseBy: "",
     completed: false,
   };
 }
@@ -150,12 +183,18 @@ function escapeCsv(value) {
 
 export default function WeekendBulkMealPlanner({ recipes = [], favorites = [], openRecipeCard }) {
   const [plan, setPlan] = useState(safeLoadPlan);
+  const [labelSettings, setLabelSettings] = useState(safeLoadLabelSettings);
+  const [showLabelSetup, setShowLabelSetup] = useState(false);
   const [activeType, setActiveType] = useState("ALL");
   const [search, setSearch] = useState("");
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(plan));
   }, [plan]);
+
+  useEffect(() => {
+    localStorage.setItem(LABEL_SETTINGS_KEY, JSON.stringify(labelSettings));
+  }, [labelSettings]);
 
   const catalog = useMemo(() => {
     const matchingRecipes = activeType === "ALL"
@@ -187,6 +226,19 @@ export default function WeekendBulkMealPlanner({ recipes = [], favorites = [], o
     }, 0);
     return { totalBatches, totalPortions, refrigerator, freezer: Math.max(0, totalPortions - refrigerator) };
   }, [plan.items]);
+
+  const labelEntries = useMemo(() => createWeekendLabelEntries(plan.items), [plan.items]);
+  const labelPages = useMemo(
+    () => createWeekendLabelPages(labelEntries, labelSettings.unavailablePositions),
+    [labelEntries, labelSettings.unavailablePositions],
+  );
+  const firstAvailablePosition = Array.from(
+    { length: WEEKEND_LABEL_SHEET.labelsPerSheet },
+    (_, index) => index + 1,
+  ).find((position) => !labelSettings.unavailablePositions.includes(position)) || WEEKEND_LABEL_SHEET.labelsPerSheet;
+  const firstPagePrintedPositions = new Set(
+    (labelPages[0] || []).map((entry, index) => entry ? index + 1 : null).filter(Boolean),
+  );
 
   function updatePlan(patch) {
     setPlan((current) => ({ ...current, ...patch }));
@@ -226,19 +278,19 @@ export default function WeekendBulkMealPlanner({ recipes = [], favorites = [], o
   }
 
   function downloadLabels() {
-    const rows = [["Food", "Recipe code", "Label number", "Label quantity", "Destination", "Portions", "Package", "Prep day", "Label note"]];
+    const rows = [["Recipe title", "Recipe code", "Finish", "Package", "Date created", "Refrigerator use by", "Freeze use by", "Label number", "Label quantity"]];
     plan.items.forEach((item) => {
       const labelQuantity = Math.max(0, Number(item.labelQuantity || 0));
       Array.from({ length: labelQuantity }, (_, labelIndex) => rows.push([
         item.title,
         item.id,
+        item.finish || "Whole",
+        item.package,
+        item.createdDate || "",
+        item.refrigeratorUseBy || "",
+        item.freezeUseBy || "",
         labelIndex + 1,
         labelQuantity,
-        item.destination,
-        Number(item.portions || 0) * Number(item.batches || 1),
-        item.package,
-        item.day,
-        item.labelNote,
       ]));
     });
     const csv = rows.map((row) => row.map(escapeCsv).join(",")).join("\n");
@@ -252,13 +304,34 @@ export default function WeekendBulkMealPlanner({ recipes = [], favorites = [], o
   }
 
   function printLabels() {
-    const labelTotal = plan.items.reduce((sum, item) => sum + Math.max(0, Number(item.labelQuantity ?? 1)), 0);
-    if (!plan.items.length || !labelTotal) {
+    if (!labelEntries.length) {
       window.alert("Add at least one food and choose at least one label before printing labels.");
       return;
     }
+    setShowLabelSetup(true);
+  }
+
+  function printConfiguredLabels() {
     document.body.classList.add("printingWeekendLabels");
+    if (labelSettings.printOutlines) document.body.classList.add("printingWeekendLabelOutlines");
     window.setTimeout(() => window.print(), 50);
+  }
+
+  function chooseStartingPosition(position) {
+    const start = Math.max(1, Math.min(WEEKEND_LABEL_SHEET.labelsPerSheet, Number(position) || 1));
+    setLabelSettings((current) => ({
+      ...current,
+      unavailablePositions: Array.from({ length: start - 1 }, (_, index) => index + 1),
+    }));
+  }
+
+  function toggleUnavailablePosition(position) {
+    setLabelSettings((current) => {
+      const unavailable = new Set(current.unavailablePositions);
+      if (unavailable.has(position)) unavailable.delete(position);
+      else unavailable.add(position);
+      return { ...current, unavailablePositions: [...unavailable].sort((a, b) => a - b) };
+    });
   }
 
   function printCookingOverview() {
@@ -273,6 +346,7 @@ export default function WeekendBulkMealPlanner({ recipes = [], favorites = [], o
   useEffect(() => {
     const cleanup = () => {
       document.body.classList.remove("printingWeekendLabels");
+      document.body.classList.remove("printingWeekendLabelOutlines");
       document.body.classList.remove("printingWeekendOverview");
     };
     window.addEventListener("afterprint", cleanup);
@@ -373,7 +447,7 @@ export default function WeekendBulkMealPlanner({ recipes = [], favorites = [], o
               </span>
               <span className="helpTooltipAction">
                 <button type="button" onClick={printLabels}>Print Labels</button>
-                <HelpTooltip placement="bottom" text="Prints the exact label quantity selected on each recipe row using the 1 × 2⅝-inch, three-column label layout." />
+                <HelpTooltip placement="bottom" text="Opens the L LIKED 30-label sheet setup so you can skip used positions, preview placement, adjust alignment, and print the exact quantity selected." />
               </span>
               <span className="helpTooltipAction">
                 <button type="button" onClick={downloadLabels}>Labels CSV</button>
@@ -426,6 +500,9 @@ export default function WeekendBulkMealPlanner({ recipes = [], favorites = [], o
                     <label><span className="helpTooltipLabel">Package in <HelpTooltip text="Select the bag, pan, container, or freezer block you plan to use for this recipe." /></span><select value={item.package} onChange={(event) => updateItem(item.uid, { package: event.target.value })}>{PACKAGE_OPTIONS.map((option) => <option key={option}>{option}</option>)}</select></label>
                     <label><span>Prep day</span><select value={item.day} onChange={(event) => updateItem(item.uid, { day: event.target.value })}><option>Saturday</option><option>Sunday</option></select></label>
                     <label><span>Label / finishing note</span><input value={item.labelNote} onChange={(event) => updateItem(item.uid, { labelNote: event.target.value })} placeholder="Thaw overnight; add sauce" /></label>
+                    <label><span>Date created</span><input type="date" value={item.createdDate || ""} onChange={(event) => updateItem(item.uid, { createdDate: event.target.value })} /></label>
+                    <label><span>Refrigerator use by</span><input type="date" value={item.refrigeratorUseBy || ""} onChange={(event) => updateItem(item.uid, { refrigeratorUseBy: event.target.value })} /></label>
+                    <label><span>Freeze use by</span><input type="date" value={item.freezeUseBy || ""} onChange={(event) => updateItem(item.uid, { freezeUseBy: event.target.value })} /></label>
                   </div>
                 </article>
               ))}
@@ -434,11 +511,83 @@ export default function WeekendBulkMealPlanner({ recipes = [], favorites = [], o
 
       </section>
 
+      {showLabelSetup && (
+        <div className="weekendBulkLabelSetupBackdrop" role="presentation" onMouseDown={(event) => {
+          if (event.target === event.currentTarget) setShowLabelSetup(false);
+        }}>
+          <section className="weekendBulkLabelSetup" role="dialog" aria-modal="true" aria-labelledby="weekend-label-setup-title">
+            <header>
+              <div>
+                <span className="aiBadge">LABEL SHEET SETUP</span>
+                <h2 id="weekend-label-setup-title">Print My Freezer Labels</h2>
+                <p><strong>{WEEKEND_LABEL_SHEET.name}</strong> · Letter size · 3 columns × 10 rows · 1″ × 2⅝″ labels</p>
+              </div>
+              <button type="button" className="weekendBulkLabelSetupClose" onClick={() => setShowLabelSetup(false)} aria-label="Close label sheet setup">×</button>
+            </header>
+
+            <div className="weekendBulkLabelSetupBody">
+              <div className="weekendBulkLabelSheetPicker">
+                <div className="weekendBulkLabelPickerHeading">
+                  <div><strong>Click any missing or previously used labels.</strong><span>Green positions will receive labels. Gray positions will stay blank.</span></div>
+                  <button type="button" className="ghost" onClick={() => setLabelSettings((current) => ({ ...current, unavailablePositions: [] }))}>Use New Sheet</button>
+                </div>
+                <div className="weekendBulkLabelPositionGrid" aria-label="Thirty label positions">
+                  {Array.from({ length: WEEKEND_LABEL_SHEET.labelsPerSheet }, (_, index) => {
+                    const position = index + 1;
+                    const unavailable = labelSettings.unavailablePositions.includes(position);
+                    const willPrint = firstPagePrintedPositions.has(position);
+                    return (
+                      <button
+                        type="button"
+                        key={position}
+                        className={unavailable ? "used" : willPrint ? "willPrint" : "available"}
+                        aria-pressed={unavailable}
+                        aria-label={`Label position ${position}: ${unavailable ? "used" : willPrint ? "will print" : "available"}`}
+                        onClick={() => toggleUnavailablePosition(position)}
+                      >
+                        <strong>{position}</strong>
+                        <span>{unavailable ? "USED" : willPrint ? "PRINT" : "OPEN"}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <aside className="weekendBulkLabelControls">
+                <label>
+                  <span>Start at label</span>
+                  <select value={firstAvailablePosition} onChange={(event) => chooseStartingPosition(event.target.value)}>
+                    {Array.from({ length: WEEKEND_LABEL_SHEET.labelsPerSheet }, (_, index) => <option key={index + 1} value={index + 1}>{index + 1}</option>)}
+                  </select>
+                </label>
+                <p className="weekendBulkLabelStartHelp">Choosing a starting number marks every earlier position as used. You can then click individual positions to make further adjustments.</p>
+                <div className="weekendBulkLabelPrintSummary">
+                  <div><strong>{labelEntries.length}</strong><span>Labels to print</span></div>
+                  <div><strong>{30 - labelSettings.unavailablePositions.length}</strong><span>Open on first sheet</span></div>
+                  <div><strong>{labelPages.length}</strong><span>Sheet{labelPages.length === 1 ? "" : "s"} needed</span></div>
+                </div>
+                <fieldset>
+                  <legend>Printer alignment</legend>
+                  <label><span>Left / right adjustment</span><div><input type="number" min="-5" max="5" step="0.1" value={labelSettings.offsetX} onChange={(event) => setLabelSettings((current) => ({ ...current, offsetX: Number(event.target.value) || 0 }))} /><em>mm</em></div></label>
+                  <label><span>Up / down adjustment</span><div><input type="number" min="-5" max="5" step="0.1" value={labelSettings.offsetY} onChange={(event) => setLabelSettings((current) => ({ ...current, offsetY: Number(event.target.value) || 0 }))} /><em>mm</em></div></label>
+                  <label className="weekendBulkOutlineChoice"><input type="checkbox" checked={labelSettings.printOutlines} onChange={(event) => setLabelSettings((current) => ({ ...current, printOutlines: event.target.checked }))} /><span>Print light outlines for a plain-paper test</span></label>
+                </fieldset>
+                <div className="weekendBulkLabelSetupActions">
+                  <button type="button" className="ghost" onClick={() => setShowLabelSetup(false)}>Cancel</button>
+                  <button type="button" onClick={printConfiguredLabels}>Print {labelEntries.length} Label{labelEntries.length === 1 ? "" : "s"}</button>
+                </div>
+                <small>In the printer window, use Letter paper, Actual Size or 100%, and turn off browser headers and footers.</small>
+              </aside>
+            </div>
+          </section>
+        </div>
+      )}
+
       <section className="weekendBulkChecklist">
             <h3>Packaging & Safety Checklist</h3>
             <ul>
               <li>Cool cooked food promptly before sealing and refrigerating or freezing.</li>
-              <li>Label each package with the food, portions, freeze date, and reheating instructions.</li>
+              <li>Confirm the title, code, finish, package, created date, and use-by dates before printing labels.</li>
               <li>Freeze bags flat when practical, then stand them upright to save space.</li>
               <li>Reserve the refrigerator portions you expect to eat first; freeze the rest promptly.</li>
             </ul>
@@ -450,15 +599,22 @@ export default function WeekendBulkMealPlanner({ recipes = [], favorites = [], o
         </label>
       </section>
 
-      <section className="weekendBulkLabelSheet" aria-hidden="true">
-        {plan.items.flatMap((item) => Array.from({ length: Math.max(0, Number(item.labelQuantity ?? 1)) }, (_, batchIndex) => (
-          <article className="weekendBulkPrintableLabel" key={`${item.uid}-${batchIndex}`}>
-            <strong>{item.title}</strong>
-            <span>{item.id} · {item.finish || "Whole"} · {item.package}</span>
-            <span>Prep: {item.day} · Store: {item.destination}</span>
-            {item.labelNote && <small>{item.labelNote}</small>}
-          </article>
-        )))}
+      <section
+        className="weekendBulkLabelSheet"
+        aria-hidden="true"
+        style={{ "--label-offset-x": `${labelSettings.offsetX}mm`, "--label-offset-y": `${labelSettings.offsetY}mm` }}
+      >
+        {labelPages.map((page, pageIndex) => (
+          <div className="weekendBulkLabelPage" key={`label-page-${pageIndex}`}>
+            {page.map((entry, slotIndex) => entry ? (
+              <article className="weekendBulkPrintableLabel" key={entry.key}>
+                <strong className={entry.title.length > 34 ? "veryCompact" : entry.title.length > 25 ? "compact" : ""}>{entry.title}</strong>
+                <span className={`${entry.code} | ${entry.finish} | ${entry.package}`.length > 54 ? "veryCompact" : ""}>{entry.code} | {entry.finish} | {entry.package}</span>
+                <small>Made {formatCompactLabelDate(entry.createdDate)} | Fridge {formatCompactLabelDate(entry.refrigeratorUseBy)} | Freeze {formatCompactLabelDate(entry.freezeUseBy)}</small>
+              </article>
+            ) : <div className="weekendBulkPrintableLabel empty" aria-hidden="true" key={`empty-${pageIndex}-${slotIndex}`} />)}
+          </div>
+        ))}
       </section>
 
       <section className="weekendBulkOverviewSheet" aria-hidden="true">

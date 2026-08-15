@@ -190,6 +190,114 @@
   }
 }
 
+/* Version 77.1: L LIKED 30-up reusable-sheet label setup and dated freezer labels. */
+.weekendBulkFields{
+  grid-template-columns:.75fr 1.25fr .7fr 1.45fr repeat(3,1fr)!important;
+}
+
+.weekendBulkLabelSetupBackdrop{
+  position:fixed;
+  inset:0;
+  z-index:10040;
+  display:grid;
+  place-items:center;
+  padding:24px;
+  background:rgba(18,28,22,.58);
+  backdrop-filter:blur(3px);
+}
+
+.weekendBulkLabelSetup{
+  width:min(980px,calc(100vw - 32px));
+  max-height:calc(100vh - 32px);
+  overflow:auto;
+  border:1px solid #cdd8d0;
+  border-radius:20px;
+  background:#fff;
+  box-shadow:0 24px 70px rgba(0,0,0,.28);
+}
+
+.weekendBulkLabelSetup>header{
+  position:sticky;
+  top:0;
+  z-index:2;
+  display:flex;
+  justify-content:space-between;
+  gap:18px;
+  align-items:flex-start;
+  padding:20px 24px 16px;
+  border-bottom:1px solid var(--bulk-line);
+  background:#f8f3e8;
+}
+
+.weekendBulkLabelSetup h2{margin:5px 0 4px;font:700 25px/1.1 Georgia,serif;color:#14251b}.weekendBulkLabelSetup header p{margin:0;color:#59665d;font-size:13px}.weekendBulkLabelSetupClose{flex:0 0 auto;width:36px;height:36px;padding:0!important;border-radius:50%!important;background:#fff!important;color:#5f2f2f!important;border-color:#d7b4b4!important;font-size:24px!important;line-height:1!important}
+.weekendBulkLabelSetupBody{display:grid;grid-template-columns:minmax(350px,1.15fr) minmax(280px,.85fr);gap:24px;padding:22px 24px 24px}.weekendBulkLabelPickerHeading{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:12px}.weekendBulkLabelPickerHeading strong,.weekendBulkLabelPickerHeading span{display:block}.weekendBulkLabelPickerHeading strong{font-size:14px;color:#233126}.weekendBulkLabelPickerHeading span{margin-top:3px;font-size:12px;color:#667168}.weekendBulkLabelPickerHeading button{white-space:nowrap}
+.weekendBulkLabelPositionGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;padding:12px;border:1px solid #cfd8d1;background:#f7f5ef;box-shadow:0 3px 12px rgba(0,0,0,.08)}.weekendBulkLabelPositionGrid button{display:flex;align-items:center;justify-content:space-between;min-height:36px;padding:6px 9px!important;border-radius:5px!important;font-size:11px!important}.weekendBulkLabelPositionGrid button strong{font-size:12px}.weekendBulkLabelPositionGrid button span{font-size:9px;letter-spacing:.06em}.weekendBulkLabelPositionGrid button.used{border-color:#b7bcb8!important;background:#d9dcda!important;color:#5d625e!important;text-decoration:line-through}.weekendBulkLabelPositionGrid button.willPrint{border-color:#155c35!important;background:#e4f1e8!important;color:#155c35!important;box-shadow:inset 0 0 0 1px #155c35}.weekendBulkLabelPositionGrid button.available{border-color:#d5ded7!important;background:#fff!important;color:#657068!important}
+.weekendBulkLabelControls{display:flex;flex-direction:column;gap:13px}.weekendBulkLabelControls>label select{height:40px}.weekendBulkLabelStartHelp{margin:-7px 0 0;font-size:11px;line-height:1.35;color:#677269}.weekendBulkLabelPrintSummary{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.weekendBulkLabelPrintSummary div{padding:10px 5px;border:1px solid var(--bulk-line);border-radius:9px;background:#f7faf8;text-align:center}.weekendBulkLabelPrintSummary strong,.weekendBulkLabelPrintSummary span{display:block}.weekendBulkLabelPrintSummary strong{font:700 21px/1 Georgia,serif;color:var(--bulk-green)}.weekendBulkLabelPrintSummary span{margin-top:4px;font-size:9px;font-weight:800;text-transform:uppercase;color:#667168}.weekendBulkLabelControls fieldset{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0;padding:12px;border:1px solid var(--bulk-line);border-radius:10px}.weekendBulkLabelControls legend{padding:0 5px;font-size:11px;font-weight:800;text-transform:uppercase;color:#556070}.weekendBulkLabelControls fieldset label>div{display:flex;align-items:center;gap:6px}.weekendBulkLabelControls fieldset input[type="number"]{height:37px;padding:6px 8px}.weekendBulkLabelControls fieldset em{font-size:11px;font-style:normal;color:#667168}.weekendBulkLabelControls .weekendBulkOutlineChoice{grid-column:1/-1;display:flex;align-items:center;gap:8px}.weekendBulkLabelControls .weekendBulkOutlineChoice input{width:18px;height:18px;flex:0 0 auto;accent-color:var(--bulk-green)}.weekendBulkLabelControls .weekendBulkOutlineChoice span{display:block;margin:0;font-size:11px;letter-spacing:0;text-transform:none}.weekendBulkLabelSetupActions{display:flex;justify-content:flex-end;gap:8px}.weekendBulkLabelControls>small{color:#667168;font-size:10.5px;line-height:1.35}
+
+@media(max-width:1200px){.weekendBulkFields{grid-template-columns:repeat(4,minmax(120px,1fr))!important}}
+@media(max-width:760px){.weekendBulkLabelSetupBody{grid-template-columns:1fr}.weekendBulkFields{grid-template-columns:repeat(2,minmax(0,1fr))!important}.weekendBulkLabelSetupBackdrop{padding:8px}.weekendBulkLabelSetup{width:calc(100vw - 16px);max-height:calc(100vh - 16px)}.weekendBulkLabelSetup>header,.weekendBulkLabelSetupBody{padding-left:15px;padding-right:15px}}
+@media(max-width:480px){.weekendBulkFields{grid-template-columns:1fr!important}.weekendBulkLabelControls fieldset{grid-template-columns:1fr}.weekendBulkLabelControls .weekendBulkOutlineChoice{grid-column:auto}}
+
+@media print{
+  body.printingWeekendLabels .weekendBulkLabelSheet{
+    display:block!important;
+    position:absolute!important;
+    left:calc(-.1625in + var(--label-offset-x))!important;
+    top:calc(-.05in + var(--label-offset-y))!important;
+    width:8.115in!important;
+    margin:0!important;
+    padding:0!important;
+  }
+  body.printingWeekendLabels .weekendBulkLabelPage{
+    display:grid!important;
+    grid-template-columns:repeat(3,2.625in)!important;
+    grid-template-rows:repeat(10,1in)!important;
+    column-gap:.12in!important;
+    row-gap:0!important;
+    width:8.115in!important;
+    height:10in!important;
+    margin:0!important;
+    padding:0!important;
+    break-after:page;
+    page-break-after:always;
+  }
+  body.printingWeekendLabels .weekendBulkLabelPage:last-child{break-after:auto;page-break-after:auto}
+  body.printingWeekendLabels .weekendBulkPrintableLabel{
+    display:grid!important;
+    grid-template-rows:auto auto auto!important;
+    align-content:center!important;
+    box-sizing:border-box!important;
+    width:2.625in!important;
+    height:1in!important;
+    padding:.06in .075in!important;
+    overflow:hidden!important;
+    border:0!important;
+    color:#111!important;
+    background:#fff!important;
+    font-family:Arial,sans-serif!important;
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
+  }
+  body.printingWeekendLabels .weekendBulkPrintableLabel.empty{visibility:hidden!important}
+  body.printingWeekendLabelOutlines .weekendBulkPrintableLabel:not(.empty){outline:.35pt solid #b8b8b8!important;outline-offset:-.35pt}
+  body.printingWeekendLabels .weekendBulkPrintableLabel strong,
+  body.printingWeekendLabels .weekendBulkPrintableLabel span,
+  body.printingWeekendLabels .weekendBulkPrintableLabel small{
+    display:block!important;
+    min-width:0!important;
+    margin:0!important;
+    overflow:hidden!important;
+    white-space:nowrap!important;
+    text-overflow:ellipsis!important;
+  }
+  body.printingWeekendLabels .weekendBulkPrintableLabel strong{font-size:9pt!important;line-height:1.08!important;font-weight:800!important}
+  body.printingWeekendLabels .weekendBulkPrintableLabel strong.compact{font-size:8pt!important}
+  body.printingWeekendLabels .weekendBulkPrintableLabel strong.veryCompact{font-size:7pt!important}
+  body.printingWeekendLabels .weekendBulkPrintableLabel span{font-size:6pt!important;line-height:1.2!important}
+  body.printingWeekendLabels .weekendBulkPrintableLabel span.veryCompact{font-size:5.25pt!important}
+  body.printingWeekendLabels .weekendBulkPrintableLabel small{font-size:5.25pt!important;line-height:1.2!important}
+}
+
 @media(max-width:780px){
   .weekendBulkHeaderFields{
     grid-column:1/-1;
