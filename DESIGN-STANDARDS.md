@@ -247,3 +247,16 @@ Locked master sizes updated:
 - SECTION INTRO supporting copy: **14px** (was 16px)
 
 All other SECTION INTRO standards remain unchanged.
+
+
+## v79.10 SECTION INTRO Spacing Revision
+
+Master title-to-supporting-copy gap:
+- **6px** (was 10px)
+
+Unchanged:
+- Title size 25px
+- Supporting copy size 14px
+- Title line-height 1.1
+- Copy line-height 1.3
+- All other SECTION INTRO standards

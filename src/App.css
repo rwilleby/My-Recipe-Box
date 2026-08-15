@@ -17761,3 +17761,11 @@ button.browseRecipeWideFooterAction:focus-visible,
   --rrb-section-intro-title-size: 25px;
   --rrb-section-intro-copy-size: 14px;
 }
+
+
+/* ================================================================
+   v79.10 — SECTION INTRO TITLE-TO-COPY SPACING REVISION
+   ================================================================ */
+:root {
+  --rrb-section-intro-title-copy-gap: 6px;
+}
