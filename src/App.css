@@ -16064,3 +16064,35 @@ button.browseRecipeWideFooterAction:focus-visible,
     flex-wrap: wrap !important;
   }
 }
+
+
+/* ================================================================
+   v78.9 — CUISINE QUICK LINKS SECTION INTRO
+   Legacy typography hook removed.
+   ================================================================ */
+
+.cuisineQuickLinksSectionIntro.rrbSectionIntroComponent {
+  display: block !important;
+  width: 100% !important;
+  margin: 0 auto var(--rrb-section-intro-bottom-gap) !important;
+  padding: 0 !important;
+  text-align: center !important;
+}
+
+.cuisineQuickLinksSectionIntro .rrbSectionIntroCopy {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 auto !important;
+  text-align: center !important;
+}
+
+.cuisineQuickLinksSectionIntro .rrbSectionIntroTitleRow {
+  justify-content: center !important;
+  width: 100% !important;
+}
+
+.cuisineQuickLinksSectionIntro p {
+  max-width: var(--rrb-section-intro-max-copy-width) !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}

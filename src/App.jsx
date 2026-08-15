@@ -2559,7 +2559,7 @@ function CategoryGrid({ setFilter, setActivePage }) {
       <SectionIntro
         title="Cuisine Quick Links"
         text="Jump directly to the cuisines and recipe groups you use most often."
-        className="homeCategoryQuickLinksTitle"
+        className="cuisineQuickLinksSectionIntro"
         video={
           <SupplementalHoverVideo
             src={QUICK_LINKS_VIDEO_URL}
