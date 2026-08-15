@@ -16773,3 +16773,257 @@ button.browseRecipeWideFooterAction:focus-visible,
     min-width: 0 !important;
   }
 }
+
+
+/* ================================================================
+   v79.2 — WEEKLY MEAL PLANNER CONTROL STRIP COMPACT REVISION
+   - Master height reduced to 38px
+   - Never wraps/stacks
+   - Widths compressed to preserve one-row layout
+   ================================================================ */
+
+:root {
+  --rrb-control-row-height: 38px;
+  --rrb-control-gap: 6px;
+  --rrb-control-font-size: 11px;
+}
+
+/* One-row control strip at ALL viewport widths. */
+.weeklyCalendarPlannerControlsRowV3 {
+  display: grid !important;
+  grid-template-columns:
+    minmax(175px, 1.12fr)
+    minmax(165px, .94fr)
+    minmax(238px, 1.22fr)
+    minmax(128px, .76fr)
+    minmax(58px, .36fr)
+    minmax(62px, .38fr)
+    minmax(62px, .38fr) !important;
+  grid-template-areas: "calendar servings weeks copy view print clear" !important;
+  align-items: center !important;
+  gap: var(--rrb-control-gap) !important;
+  width: 100% !important;
+  margin: 7px 0 12px !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+  overflow: visible !important;
+}
+
+.weeklyCalendarPlannerControlsRowV3 > * {
+  min-width: 0 !important;
+  width: 100% !important;
+  margin: 0 !important;
+}
+
+/* Exact 38px outer height across every control. */
+.weeklyCalendarPlannerCalendarControl,
+.weeklyCalendarPlannerTaskServings,
+.weeklyPlannerWeekModeControl,
+.weeklyCalendarPlannerTaskButton {
+  height: 38px !important;
+  min-height: 38px !important;
+  max-height: 38px !important;
+  box-sizing: border-box !important;
+}
+
+/* CALENDAR: narrower, tighter padding. */
+.weeklyCalendarPlannerCalendarControl {
+  grid-area: calendar !important;
+  gap: 7px !important;
+  padding: 0 10px !important;
+  border-radius: 16px !important;
+  overflow: hidden !important;
+}
+
+.weeklyCalendarPlannerCalendarControl > span,
+.weeklyCalendarPlannerCalendarControl > strong {
+  font-size: 10.5px !important;
+  white-space: nowrap !important;
+}
+
+.weeklyCalendarPlannerCalendarControl > strong {
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+/* SERVINGS: compact capsule. */
+.weeklyCalendarPlannerTaskServings {
+  grid-area: servings !important;
+  max-width: none !important;
+}
+
+.weeklyCalendarPlannerTaskServings .servingSelector,
+.weeklyCalendarPlannerTaskServings .servingsSelector,
+.weeklyCalendarPlannerTaskServings > div {
+  width: 100% !important;
+  max-width: none !important;
+  height: 38px !important;
+  min-height: 38px !important;
+  max-height: 38px !important;
+  grid-template-columns: auto repeat(3, minmax(30px, 1fr)) !important;
+  padding: 2px !important;
+  border-radius: 16px !important;
+}
+
+.weeklyCalendarPlannerTaskServings .servingSelector > span,
+.weeklyCalendarPlannerTaskServings .servingsSelector > span {
+  height: 32px !important;
+  padding: 0 8px !important;
+  font-size: 10.5px !important;
+}
+
+.weeklyCalendarPlannerTaskServings button,
+.weeklyCalendarPlannerTaskServings [role="button"] {
+  height: 32px !important;
+  min-height: 32px !important;
+  max-height: 32px !important;
+  padding: 0 5px !important;
+  font-size: 11px !important;
+}
+
+/* WEEK MODE: compact equal segments. */
+.weeklyPlannerWeekModeControl {
+  grid-area: weeks !important;
+  width: 100% !important;
+  grid-template-columns: .82fr .82fr 1.28fr !important;
+  border-radius: 9px !important;
+}
+
+.weeklyPlannerWeekModeControl button,
+.weeklyPlannerWeekModeControl button:last-child {
+  width: 100% !important;
+  min-width: 0 !important;
+  height: 36px !important;
+  min-height: 36px !important;
+  max-height: 36px !important;
+  padding: 0 7px !important;
+  font-size: 10.5px !important;
+  white-space: nowrap !important;
+}
+
+/* ACTIONS: compact but still readable. */
+.weeklyCalendarPlannerTaskButton {
+  height: 38px !important;
+  min-height: 38px !important;
+  max-height: 38px !important;
+  padding: 0 10px !important;
+  border-radius: 9px !important;
+  font-size: 10.5px !important;
+  white-space: nowrap !important;
+}
+
+.weeklyCalendarPlannerCopy { grid-area: copy !important; }
+.weeklyCalendarPlannerView { grid-area: view !important; }
+.weeklyCalendarPlannerPrint { grid-area: print !important; }
+.weeklyCalendarPlannerClear { grid-area: clear !important; }
+
+/*
+  Override all prior responsive wrap/stack rules.
+  The strip always remains one row.
+*/
+@media (max-width: 1179px) {
+  .weeklyCalendarPlannerControlsRowV3 {
+    display: grid !important;
+    grid-template-columns:
+      minmax(150px, 1.05fr)
+      minmax(145px, .90fr)
+      minmax(205px, 1.18fr)
+      minmax(108px, .72fr)
+      minmax(52px, .34fr)
+      minmax(56px, .35fr)
+      minmax(56px, .35fr) !important;
+    grid-template-areas: "calendar servings weeks copy view print clear" !important;
+    gap: 5px !important;
+  }
+
+  .weeklyCalendarPlannerCalendarControl {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+    gap: 5px !important;
+  }
+
+  .weeklyCalendarPlannerCalendarControl > span,
+  .weeklyCalendarPlannerCalendarControl > strong,
+  .weeklyCalendarPlannerTaskServings .servingSelector > span,
+  .weeklyCalendarPlannerTaskServings .servingsSelector > span,
+  .weeklyCalendarPlannerTaskServings button,
+  .weeklyCalendarPlannerTaskServings [role="button"],
+  .weeklyPlannerWeekModeControl button,
+  .weeklyCalendarPlannerTaskButton {
+    font-size: 10px !important;
+  }
+
+  .weeklyCalendarPlannerTaskButton {
+    padding-left: 7px !important;
+    padding-right: 7px !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .weeklyCalendarPlannerControlsRowV3 {
+    grid-template-columns:
+      minmax(132px, 1.00fr)
+      minmax(126px, .88fr)
+      minmax(182px, 1.16fr)
+      minmax(94px, .68fr)
+      minmax(46px, .33fr)
+      minmax(50px, .34fr)
+      minmax(50px, .34fr) !important;
+    gap: 4px !important;
+  }
+
+  .weeklyCalendarPlannerCalendarControl > span {
+    display: none !important;
+  }
+
+  .weeklyCalendarPlannerTaskServings .servingSelector > span,
+  .weeklyCalendarPlannerTaskServings .servingsSelector > span {
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+  }
+
+  .weeklyCalendarPlannerTaskButton,
+  .weeklyPlannerWeekModeControl button {
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+  }
+}
+
+/* Very narrow screens: preserve single row by compressing further.
+   No wrap, no stack. */
+@media (max-width: 720px) {
+  .weeklyCalendarPlannerControlsRowV3 {
+    grid-template-columns:
+      minmax(112px, .98fr)
+      minmax(110px, .86fr)
+      minmax(160px, 1.14fr)
+      minmax(82px, .66fr)
+      minmax(42px, .31fr)
+      minmax(46px, .32fr)
+      minmax(46px, .32fr) !important;
+    gap: 3px !important;
+  }
+
+  .weeklyCalendarPlannerCalendarControl,
+  .weeklyCalendarPlannerTaskServings,
+  .weeklyPlannerWeekModeControl,
+  .weeklyCalendarPlannerTaskButton {
+    width: 100% !important;
+    max-width: none !important;
+  }
+
+  .weeklyCalendarPlannerCalendarControl > strong,
+  .weeklyCalendarPlannerTaskServings .servingSelector > span,
+  .weeklyCalendarPlannerTaskServings .servingsSelector > span,
+  .weeklyCalendarPlannerTaskServings button,
+  .weeklyCalendarPlannerTaskServings [role="button"],
+  .weeklyPlannerWeekModeControl button,
+  .weeklyCalendarPlannerTaskButton {
+    font-size: 9.5px !important;
+  }
+
+  .weeklyCalendarPlannerTaskButton {
+    padding-left: 4px !important;
+    padding-right: 4px !important;
+  }
+}

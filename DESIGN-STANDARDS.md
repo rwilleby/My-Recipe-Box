@@ -151,3 +151,15 @@ Responsive:
 - One row on wide desktop.
 - Structured wrapping on medium screens.
 - Stacked controls on narrow screens.
+
+
+## v79.2 Weekly Meal Planner Control Revision
+
+Updated approved reference:
+- Master outer height: **38px**
+- Controls **must remain on one row**
+- No wrapping
+- No stacking
+- Widths compress proportionally to fit the row
+- Width remains function-driven, not equalized
+- Font size and horizontal padding may reduce modestly at narrower widths to preserve one-row layout
