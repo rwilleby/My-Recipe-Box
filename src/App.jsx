@@ -2557,7 +2557,7 @@ function CategoryGrid({ setFilter, setActivePage }) {
 
   return (
     <section className="section homeCategorySection">
-      <div className="sectionTitle homeCategoryTitle homeCategoryQuickLinksTitle sectionIntroStandard sectionIntroCentered">
+      <div className="sectionTitle homeCategoryTitle homeCategoryQuickLinksTitle">
         <div>
           <h2 className="homeVideoTitle">
               <span>Cuisine Quick Links</span>
@@ -7363,7 +7363,7 @@ function PlannerPage({
 
   return (
     <main className="pageShell weeklyCalendarPlannerPage">
-      <header className="weeklyCalendarPlannerHeaderV3 sectionIntroStandard sectionIntroCentered">
+      <header className="weeklyCalendarPlannerHeaderV3">
         <h1>
           Let's Plan This Weeks Meals
           <SupplementalHoverVideo
@@ -7668,7 +7668,7 @@ function PantryStaplesPage({ pantry, setPantry }) {
 
   return (
     <main className="pageShell pantryPage">
-      <div className="pageHeader sectionIntroStandard">
+      <div className="pageHeader">
         <div>
           <div className="aiBadge">SHELF-STABLE PANTRY SETUP</div>
           <h1>PANTRY STAPLES</h1>
@@ -8056,7 +8056,7 @@ function PreparedFreezerInventoryPage({
 
   return (
     <main className="pageShell preparedInventoryPage">
-      <div className="pageHeader sectionIntroStandard">
+      <div className="pageHeader">
         <div>
           <div className="aiBadge">PREPARED COMPONENTS</div>
           <h1>Freezer Inventory</h1>
@@ -8568,7 +8568,7 @@ function RefrigeratorInventoryPage({ refrigerator, setRefrigerator, setActivePag
 
   return (
     <main className="pageShell refrigeratorInventoryPage">
-      <div className="pageHeader refrigeratorHeader sectionIntroStandard">
+      <div className="pageHeader refrigeratorHeader">
         <div>
           <h1>REFRIGERATOR INVENTORY</h1>
           <p>
@@ -9674,7 +9674,7 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, refrige
 
   return (
     <main className="pageShell">
-      <div className="pageHeader sectionIntroStandard">
+      <div className="pageHeader">
         <div>
           <div className="aiBadge">SMART SHOPPING LIST</div>
           <h1>Shopping list</h1>
@@ -9885,7 +9885,7 @@ function FavoritesPage({
   return (
     <>
       <main className="pageShell favoritesLibraryPage">
-        <div className="pageHeader sectionIntroStandard">
+        <div className="pageHeader">
           <div>
             <div className="aiBadge">SAVED IN THIS BROWSER</div>
             <h1>Favorites</h1>
@@ -10220,7 +10220,7 @@ function RecommendationsPage({ setActivePage }) {
 function GroceryPicksPage({ setActivePage }) {
   return (
     <main className="pageShell groceryPicksPage">
-      <div className="pageHeader sectionIntroStandard">
+      <div className="pageHeader">
         <div>
           <div className="aiBadge">SMART GROCERY REFERENCE</div>
           <h1>Smart Grocery Picks</h1>
@@ -10310,7 +10310,7 @@ function FreezerTipsPage({ setActivePage }) {
 
   return (
     <main className="pageShell freezerPage">
-      <div className="pageHeader freezerHeader sectionIntroStandard">
+      <div className="pageHeader freezerHeader">
         <div>
           <div className="aiBadge">COOK ONCE · EAT ONCE · FREEZE ONCE</div>
           <h1>Freezer Meals & Storage</h1>
@@ -13553,7 +13553,7 @@ function DinnerCombinationsPage({ setActivePage, setFilter, plan, setPlan, openR
   return (
     <main className="pageShell dinnerCombinationsPage">
       <section className="dinnerCombinationFinder" aria-labelledby="dinnerCombinationFinderTitle">
-        <div className="dinnerCombinationFinderHeading sectionIntroStandard sectionIntroCentered">
+        <div className="dinnerCombinationFinderHeading">
           <div className="dinnerCombinationFinderTitleRow">
             <h2 id="dinnerCombinationFinderTitle">Find a Complete Dinner</h2>
             <SupplementalHoverVideo
@@ -15192,7 +15192,7 @@ function GLP1NutritionPage({ setActivePage, setFilter }) {
 
   return (
     <main className="pageShell glp1EducationPage">
-      <section className="glp1EducationIntro sectionIntroStandard">
+      <section className="glp1EducationIntro">
         <span className="aiBadge">GLP-1 NUTRITION SUPPORT</span>
         <h2>Nutrition Guidance for Smaller Meals</h2>
         <p>
@@ -15397,7 +15397,7 @@ function SlowCookerRecipesPage({
 
   return (
     <main className="pageShell slowCookerRecipesPage">
-      <section className="slowCookerFinderHeader sectionIntroStandard sectionIntroCentered">
+      <section className="slowCookerFinderHeader">
         <h2>Find a Crock Pot Recipe</h2>
         <p>Choose a category or use the filters below to find the Crock Pot recipe you want.</p>
       </section>

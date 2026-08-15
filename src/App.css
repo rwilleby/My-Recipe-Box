@@ -47561,11 +47561,17 @@ button.browseRecipeWideFooterAction:focus-visible,
 
 
 /* ================================================================
-   v77.6 — SITE-WIDE SECTION INTRO STANDARD
+   v77.7 — DIRECT SECTION INTRO STANDARD OVERRIDES
+   FINAL PRE-v78 PATCH
+   ------------------------------------------------
+   Headline: Georgia 28px / 700 / #111827 / 1.1
+   Supporting: Inter 16px / 600 / #667085 / 1.3
+   CTA: Inter 16px / 700 / #245C37 / underline
    ================================================================ */
-.sectionIntroStandard h1,
-.sectionIntroStandard h2,
-.sectionIntroStandard .homeVideoTitle {
+
+/* ---------- CUISINE QUICK LINKS ---------- */
+.homeCategoryQuickLinksTitle .homeVideoTitle,
+.homeCategoryQuickLinksTitle h2 {
   font-family: Georgia, "Times New Roman", serif !important;
   font-size: 28px !important;
   font-weight: 700 !important;
@@ -47575,52 +47581,361 @@ button.browseRecipeWideFooterAction:focus-visible,
   letter-spacing: 0 !important;
   text-transform: none !important;
 }
-.sectionIntroStandard p,
-.sectionIntroStandard .weeklyCalendarPlannerSubtitle {
+
+.homeCategoryQuickLinksTitle p,
+.homeCategoryQuickLinksTitle .sectionSubtitle {
   font-family: Inter, Arial, sans-serif !important;
   font-size: 16px !important;
   font-weight: 600 !important;
   font-style: normal !important;
   line-height: 1.3 !important;
   color: #667085 !important;
-  letter-spacing: 0 !important;
 }
-.sectionIntroStandard a,
-.sectionIntroStandard .sectionIntroLink {
+
+/* ---------- FIND A COMPLETE DINNER ---------- */
+.dinnerCombinationFinderHeading h2,
+.dinnerCombinationFinderHeading .dinnerCombinationFinderTitle {
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: 28px !important;
+  font-weight: 700 !important;
+  line-height: 1.1 !important;
+  color: #111827 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+}
+
+.dinnerCombinationFinderHeading p,
+.dinnerCombinationFinderHeading .dinnerCombinationFinderSubtitle {
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  line-height: 1.3 !important;
+  color: #667085 !important;
+}
+
+/* ---------- FIND A CROCK POT RECIPE ---------- */
+.slowCookerFinderHeader h2 {
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: 28px !important;
+  font-weight: 700 !important;
+  line-height: 1.1 !important;
+  color: #111827 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+}
+
+.slowCookerFinderHeader p {
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  line-height: 1.3 !important;
+  color: #667085 !important;
+}
+
+/* ---------- YOUR WEEKLY MEAL PLANNER ---------- */
+.weeklyCalendarPlannerHeaderV3 h1,
+.weeklyCalendarPlannerHeaderV3 .weeklyCalendarPlannerTitle {
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: 28px !important;
+  font-weight: 700 !important;
+  line-height: 1.1 !important;
+  color: #111827 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+}
+
+.weeklyCalendarPlannerHeaderV3 .weeklyCalendarPlannerSubtitle,
+.weeklyCalendarPlannerHeaderV3 p {
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  line-height: 1.3 !important;
+  color: #667085 !important;
+}
+
+/* ---------- FAVORITES ---------- */
+.favoritesPage .pageHeader h1,
+.favoritesPage .pageHeader h2,
+.favoritesHeader h1,
+.favoritesHeader h2 {
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: 28px !important;
+  font-weight: 700 !important;
+  line-height: 1.1 !important;
+  color: #111827 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+}
+
+.favoritesPage .pageHeader p,
+.favoritesHeader p {
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  line-height: 1.3 !important;
+  color: #667085 !important;
+}
+
+/* ---------- REFRIGERATOR INVENTORY ---------- */
+.refrigeratorPage .pageHeader h1,
+.refrigeratorHeader h1 {
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: 28px !important;
+  font-weight: 700 !important;
+  line-height: 1.1 !important;
+  color: #111827 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+}
+
+.refrigeratorPage .pageHeader p,
+.refrigeratorHeader p {
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  line-height: 1.3 !important;
+  color: #667085 !important;
+}
+
+/* ---------- PREPARED FREEZER INVENTORY ---------- */
+.preparedFreezerPage .pageHeader h1,
+.preparedFreezerInventoryPage .pageHeader h1,
+.freezerPreparedPage .pageHeader h1 {
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: 28px !important;
+  font-weight: 700 !important;
+  line-height: 1.1 !important;
+  color: #111827 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+}
+
+.preparedFreezerPage .pageHeader p,
+.preparedFreezerInventoryPage .pageHeader p,
+.freezerPreparedPage .pageHeader p {
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  line-height: 1.3 !important;
+  color: #667085 !important;
+}
+
+/* ---------- FREEZER INVENTORY ---------- */
+.freezerPage .pageHeader h1,
+.freezerHeader h1 {
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: 28px !important;
+  font-weight: 700 !important;
+  line-height: 1.1 !important;
+  color: #111827 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+}
+
+.freezerPage .pageHeader p,
+.freezerHeader p {
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  line-height: 1.3 !important;
+  color: #667085 !important;
+}
+
+/* ---------- PANTRY STAPLES ---------- */
+.pantryPage .pageHeader h1,
+.pantryStaplesPage .pageHeader h1,
+.pantryHeader h1 {
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: 28px !important;
+  font-weight: 700 !important;
+  line-height: 1.1 !important;
+  color: #111827 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+}
+
+.pantryPage .pageHeader p,
+.pantryStaplesPage .pageHeader p,
+.pantryHeader p {
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  line-height: 1.3 !important;
+  color: #667085 !important;
+}
+
+/* ---------- SMART GROCERY PICKS ---------- */
+.groceryPicksPage .pageHeader h1,
+.groceryPicksPage .pageHeader h2,
+.smartGroceryPicksPage .pageHeader h1,
+.smartGroceryPicksPage .pageHeader h2 {
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: 28px !important;
+  font-weight: 700 !important;
+  line-height: 1.1 !important;
+  color: #111827 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+}
+
+.groceryPicksPage .pageHeader p,
+.smartGroceryPicksPage .pageHeader p {
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  line-height: 1.3 !important;
+  color: #667085 !important;
+}
+
+/* ---------- FREEZER MEALS & STORAGE ---------- */
+.freezerMealsPage .pageHeader h1,
+.freezerMealsPage .pageHeader h2,
+.freezerStoragePage .pageHeader h1,
+.freezerStoragePage .pageHeader h2 {
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: 28px !important;
+  font-weight: 700 !important;
+  line-height: 1.1 !important;
+  color: #111827 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+}
+
+.freezerMealsPage .pageHeader p,
+.freezerStoragePage .pageHeader p {
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  line-height: 1.3 !important;
+  color: #667085 !important;
+}
+
+/* ---------- SHOPPING LIST ---------- */
+.shoppingListPage .pageHeader h1,
+.shoppingPage .pageHeader h1,
+.shoppingListHeader h1 {
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: 28px !important;
+  font-weight: 700 !important;
+  line-height: 1.1 !important;
+  color: #111827 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+}
+
+.shoppingListPage .pageHeader p,
+.shoppingPage .pageHeader p,
+.shoppingListHeader p {
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  line-height: 1.3 !important;
+  color: #667085 !important;
+}
+
+/* ---------- NUTRITION GUIDANCE FOR SMALLER MEALS ---------- */
+.glp1EducationIntro h1,
+.glp1EducationIntro h2,
+.nutritionGuidanceIntro h1,
+.nutritionGuidanceIntro h2 {
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: 28px !important;
+  font-weight: 700 !important;
+  line-height: 1.1 !important;
+  color: #111827 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+}
+
+.glp1EducationIntro p,
+.nutritionGuidanceIntro p {
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  line-height: 1.3 !important;
+  color: #667085 !important;
+}
+
+/* ---------- STANDARD INLINE CTA ---------- */
+.homeCategoryQuickLinksTitle a,
+.dinnerCombinationFinderHeading a,
+.slowCookerFinderHeader a,
+.weeklyCalendarPlannerHeaderV3 a {
   font-family: Inter, Arial, sans-serif !important;
   font-size: 16px !important;
   font-weight: 700 !important;
   color: #245C37 !important;
   text-decoration: underline !important;
 }
-.sectionIntroCentered { text-align:center !important; }
-.sectionIntroCentered > div,
-.sectionIntroCentered > h1,
-.sectionIntroCentered > h2,
-.sectionIntroCentered > p {
-  text-align:center !important;
-  margin-left:auto !important;
-  margin-right:auto !important;
+
+/* ---------- STANDARD CENTERING FOR CENTERED SECTION INTROS ---------- */
+.homeCategoryQuickLinksTitle,
+.dinnerCombinationFinderHeading,
+.slowCookerFinderHeader,
+.weeklyCalendarPlannerHeaderV3 {
+  text-align: center !important;
 }
-.sectionIntroStandard .supplementalVideoIcon,
-.sectionIntroStandard .dinnerCombinationFinderVideo,
-.sectionIntroStandard .weeklyPlannerTitleVideoTrigger { vertical-align:middle !important; }
-.pageHeader.sectionIntroStandard h1,
-.refrigeratorHeader.sectionIntroStandard h1,
-.freezerHeader.sectionIntroStandard h1 { margin-top:0 !important; margin-bottom:10px !important; }
-.pageHeader.sectionIntroStandard p,
-.refrigeratorHeader.sectionIntroStandard p,
-.freezerHeader.sectionIntroStandard p { margin-top:0 !important; margin-bottom:0 !important; max-width:920px !important; }
-.sectionIntroStandard .aiBadge { font-family:Inter,Arial,sans-serif !important; }
-.homeCategoryQuickLinksTitle.sectionIntroStandard,
-.dinnerCombinationFinderHeading.sectionIntroStandard,
-.slowCookerFinderHeader.sectionIntroStandard,
-.weeklyCalendarPlannerHeaderV3.sectionIntroStandard { margin-bottom:18px !important; }
-.homeCategoryQuickLinksTitle.sectionIntroStandard h2,
-.dinnerCombinationFinderHeading.sectionIntroStandard h2,
-.slowCookerFinderHeader.sectionIntroStandard h2,
-.weeklyCalendarPlannerHeaderV3.sectionIntroStandard h1 { margin-bottom:10px !important; }
-@media(max-width:720px){
- .sectionIntroStandard h1,.sectionIntroStandard h2,.sectionIntroStandard .homeVideoTitle{font-size:24px!important;}
- .sectionIntroStandard p,.sectionIntroStandard .weeklyCalendarPlannerSubtitle,.sectionIntroStandard a,.sectionIntroStandard .sectionIntroLink{font-size:15px!important;}
+
+.homeCategoryQuickLinksTitle h2,
+.homeCategoryQuickLinksTitle p,
+.dinnerCombinationFinderHeading h2,
+.dinnerCombinationFinderHeading p,
+.slowCookerFinderHeader h2,
+.slowCookerFinderHeader p,
+.weeklyCalendarPlannerHeaderV3 h1,
+.weeklyCalendarPlannerHeaderV3 p {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* ---------- SMALL SCREEN SCALE ---------- */
+@media (max-width: 720px) {
+  .homeCategoryQuickLinksTitle h2,
+  .dinnerCombinationFinderHeading h2,
+  .slowCookerFinderHeader h2,
+  .weeklyCalendarPlannerHeaderV3 h1,
+  .favoritesPage .pageHeader h1,
+  .favoritesHeader h1,
+  .refrigeratorPage .pageHeader h1,
+  .refrigeratorHeader h1,
+  .preparedFreezerPage .pageHeader h1,
+  .preparedFreezerInventoryPage .pageHeader h1,
+  .freezerPage .pageHeader h1,
+  .freezerHeader h1,
+  .pantryPage .pageHeader h1,
+  .pantryStaplesPage .pageHeader h1,
+  .groceryPicksPage .pageHeader h1,
+  .smartGroceryPicksPage .pageHeader h1,
+  .freezerMealsPage .pageHeader h1,
+  .freezerStoragePage .pageHeader h1,
+  .shoppingListPage .pageHeader h1,
+  .shoppingPage .pageHeader h1,
+  .glp1EducationIntro h1,
+  .glp1EducationIntro h2,
+  .nutritionGuidanceIntro h1,
+  .nutritionGuidanceIntro h2 {
+    font-size: 24px !important;
+  }
+
+  .homeCategoryQuickLinksTitle p,
+  .dinnerCombinationFinderHeading p,
+  .slowCookerFinderHeader p,
+  .weeklyCalendarPlannerHeaderV3 p,
+  .favoritesPage .pageHeader p,
+  .refrigeratorPage .pageHeader p,
+  .preparedFreezerPage .pageHeader p,
+  .preparedFreezerInventoryPage .pageHeader p,
+  .freezerPage .pageHeader p,
+  .pantryPage .pageHeader p,
+  .pantryStaplesPage .pageHeader p,
+  .groceryPicksPage .pageHeader p,
+  .smartGroceryPicksPage .pageHeader p,
+  .freezerMealsPage .pageHeader p,
+  .freezerStoragePage .pageHeader p,
+  .shoppingListPage .pageHeader p,
+  .shoppingPage .pageHeader p,
+  .glp1EducationIntro p,
+  .nutritionGuidanceIntro p {
+    font-size: 15px !important;
+  }
 }
