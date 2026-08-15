@@ -229,3 +229,12 @@ Updated locked standard:
 - Olive/green is NOT the default segmented-navigation selected color
 - Olive/green may be used only as an explicitly approved special-case treatment
 - All geometry, 38px height, separators, one-row behavior, and responsive compression remain unchanged
+
+
+## v79.8 Crock Pot Segmented Navigation Width Rule
+
+Correction to SEGMENTED NAVIGATION:
+- Equal-width segments remain the default where practical.
+- When labels vary significantly in length, content-weighted widths are allowed.
+- Crock Pot categories use weighted widths so `BREAKFAST / SIDES / DESSERTS` and other long labels stay on one line without clipping.
+- All other segmented-navigation standards remain unchanged: 38px height, gray/taupe active state, white active text, one row, separators, rounded outer container.
