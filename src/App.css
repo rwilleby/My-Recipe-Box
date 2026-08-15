@@ -16443,3 +16443,333 @@ button.browseRecipeWideFooterAction:focus-visible,
     flex-wrap: wrap !important;
   }
 }
+
+
+/* ================================================================
+   v79.1 — WEEKLY MEAL PLANNER CONTROL ROW MASTER
+   Approved reference for ACTION CONTROL ROW + segmented week selector.
+   ================================================================ */
+
+:root {
+  --rrb-control-row-height: 44px;
+  --rrb-control-radius: 18px;
+  --rrb-control-border-width: 1px;
+  --rrb-control-border: #cbd6cd;
+  --rrb-control-bg: #ffffff;
+  --rrb-control-muted-bg: #f3f1eb;
+  --rrb-control-text: #172033;
+  --rrb-control-secondary-text: #14532d;
+  --rrb-control-primary-bg: #80994A;
+  --rrb-control-primary-text: #ffffff;
+  --rrb-control-danger: #a3312d;
+  --rrb-control-danger-border: #ddb3ad;
+  --rrb-control-gap: 8px;
+  --rrb-control-font-size: 12px;
+  --rrb-control-font-weight: 800;
+}
+
+/* Desktop: one unified row. */
+@media (min-width: 1180px) {
+  .weeklyCalendarPlannerControlsRowV3 {
+    display: grid !important;
+    grid-template-columns:
+      minmax(210px, 1.16fr)
+      minmax(215px, 1.02fr)
+      max-content
+      max-content
+      max-content
+      max-content
+      max-content !important;
+    grid-template-areas: "calendar servings weeks copy view print clear" !important;
+    align-items: center !important;
+    gap: var(--rrb-control-gap) !important;
+    width: 100% !important;
+    margin: 8px 0 14px !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .weeklyCalendarPlannerControlsRowV3 > * {
+    min-width: 0 !important;
+    margin: 0 !important;
+  }
+}
+
+/* Same OUTER height for every control in the row. */
+.weeklyCalendarPlannerCalendarControl,
+.weeklyCalendarPlannerTaskServings,
+.weeklyPlannerWeekModeControl,
+.weeklyCalendarPlannerTaskButton {
+  height: var(--rrb-control-row-height) !important;
+  min-height: var(--rrb-control-row-height) !important;
+  max-height: var(--rrb-control-row-height) !important;
+  box-sizing: border-box !important;
+}
+
+/* CALENDAR capsule */
+.weeklyCalendarPlannerCalendarControl {
+  grid-area: calendar !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  padding: 0 14px !important;
+  overflow: hidden !important;
+  border: var(--rrb-control-border-width) solid var(--rrb-control-border) !important;
+  border-radius: var(--rrb-control-radius) !important;
+  background: var(--rrb-control-bg) !important;
+  color: var(--rrb-control-text) !important;
+}
+
+.weeklyCalendarPlannerCalendarControl > span {
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: var(--rrb-control-font-size) !important;
+  font-weight: var(--rrb-control-font-weight) !important;
+  color: var(--rrb-control-secondary-text) !important;
+  text-transform: uppercase !important;
+  letter-spacing: .02em !important;
+  white-space: nowrap !important;
+}
+
+.weeklyCalendarPlannerCalendarControl > strong {
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: var(--rrb-control-font-size) !important;
+  font-weight: 700 !important;
+  color: #4b5563 !important;
+  white-space: nowrap !important;
+}
+
+.weeklyCalendarPlannerCalendarControl input {
+  position: absolute !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* SERVINGS capsule — master height reference */
+.weeklyCalendarPlannerTaskServings {
+  grid-area: servings !important;
+  width: 100% !important;
+  max-width: 220px !important;
+}
+
+.weeklyCalendarPlannerTaskServings .servingSelector,
+.weeklyCalendarPlannerTaskServings .servingsSelector,
+.weeklyCalendarPlannerTaskServings > div {
+  display: grid !important;
+  grid-template-columns: auto repeat(3, minmax(38px, 1fr)) !important;
+  align-items: center !important;
+  width: 100% !important;
+  max-width: 220px !important;
+  height: var(--rrb-control-row-height) !important;
+  min-height: var(--rrb-control-row-height) !important;
+  max-height: var(--rrb-control-row-height) !important;
+  padding: 2px !important;
+  overflow: hidden !important;
+  border: var(--rrb-control-border-width) solid var(--rrb-control-border) !important;
+  border-radius: var(--rrb-control-radius) !important;
+  background: var(--rrb-control-muted-bg) !important;
+  box-shadow: 0 2px 7px rgba(35,42,38,.08) !important;
+  box-sizing: border-box !important;
+}
+
+.weeklyCalendarPlannerTaskServings .servingSelector > span,
+.weeklyCalendarPlannerTaskServings .servingsSelector > span {
+  display: grid !important;
+  place-items: center !important;
+  height: calc(var(--rrb-control-row-height) - 6px) !important;
+  padding: 0 12px !important;
+  color: #4b5563 !important;
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: var(--rrb-control-font-size) !important;
+  font-weight: 750 !important;
+  white-space: nowrap !important;
+}
+
+.weeklyCalendarPlannerTaskServings button,
+.weeklyCalendarPlannerTaskServings [role="button"] {
+  width: auto !important;
+  min-width: 0 !important;
+  height: calc(var(--rrb-control-row-height) - 6px) !important;
+  min-height: calc(var(--rrb-control-row-height) - 6px) !important;
+  max-height: calc(var(--rrb-control-row-height) - 6px) !important;
+  margin: 0 !important;
+  padding: 0 8px !important;
+  border: 0 !important;
+  border-left: 1px solid rgba(20,83,45,.14) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: var(--rrb-control-text) !important;
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: var(--rrb-control-font-size) !important;
+  font-weight: var(--rrb-control-font-weight) !important;
+  box-shadow: none !important;
+}
+
+.weeklyCalendarPlannerTaskServings button.active,
+.weeklyCalendarPlannerTaskServings button.selected,
+.weeklyCalendarPlannerTaskServings button[aria-pressed="true"] {
+  border-left-color: transparent !important;
+  border-radius: calc(var(--rrb-control-radius) - 3px) !important;
+  background: var(--rrb-control-primary-bg) !important;
+  color: var(--rrb-control-primary-text) !important;
+  box-shadow: 0 1px 3px rgba(55,49,46,.15) !important;
+}
+
+/* WEEK 1 / WEEK 2 / 2-WEEK VIEW segmented control */
+.weeklyPlannerWeekModeControl {
+  grid-area: weeks !important;
+  display: grid !important;
+  grid-template-columns: auto auto auto !important;
+  width: max-content !important;
+  overflow: hidden !important;
+  border: var(--rrb-control-border-width) solid var(--rrb-control-border) !important;
+  border-radius: 10px !important;
+  background: var(--rrb-control-muted-bg) !important;
+}
+
+.weeklyPlannerWeekModeControl button {
+  min-width: 64px !important;
+  height: calc(var(--rrb-control-row-height) - 2px) !important;
+  min-height: calc(var(--rrb-control-row-height) - 2px) !important;
+  max-height: calc(var(--rrb-control-row-height) - 2px) !important;
+  padding: 0 10px !important;
+  border: 0 !important;
+  border-right: 1px solid #d5d8d2 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: #435064 !important;
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: var(--rrb-control-font-size) !important;
+  font-weight: var(--rrb-control-font-weight) !important;
+  white-space: nowrap !important;
+  box-shadow: none !important;
+}
+
+.weeklyPlannerWeekModeControl button:last-child {
+  min-width: 108px !important;
+  border-right: 0 !important;
+}
+
+.weeklyPlannerWeekModeControl button.isActive {
+  background: var(--rrb-control-primary-bg) !important;
+  color: var(--rrb-control-primary-text) !important;
+}
+
+/* ACTION BUTTONS */
+.weeklyCalendarPlannerTaskButton {
+  width: auto !important;
+  min-width: 0 !important;
+  padding: 0 14px !important;
+  border-radius: 10px !important;
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: var(--rrb-control-font-size) !important;
+  font-weight: var(--rrb-control-font-weight) !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+  box-shadow: none !important;
+}
+
+/* Secondary */
+.weeklyCalendarPlannerCopy,
+.weeklyCalendarPlannerView {
+  border: var(--rrb-control-border-width) solid #88a58f !important;
+  background: #ffffff !important;
+  color: var(--rrb-control-secondary-text) !important;
+}
+
+/* Primary */
+.weeklyCalendarPlannerPrint {
+  border: var(--rrb-control-border-width) solid var(--rrb-control-primary-bg) !important;
+  background: var(--rrb-control-primary-bg) !important;
+  color: var(--rrb-control-primary-text) !important;
+}
+
+/* Destructive */
+.weeklyCalendarPlannerClear {
+  border: var(--rrb-control-border-width) solid var(--rrb-control-danger-border) !important;
+  background: #ffffff !important;
+  color: var(--rrb-control-danger) !important;
+}
+
+/* Consistent hover/press treatment */
+.weeklyCalendarPlannerCopy:hover,
+.weeklyCalendarPlannerView:hover {
+  background: #f7faf7 !important;
+}
+
+.weeklyCalendarPlannerPrint:hover {
+  filter: brightness(.96) !important;
+}
+
+.weeklyCalendarPlannerClear:hover {
+  background: #fff8f7 !important;
+}
+
+/* Mid-size layouts may wrap, but every item keeps the master height. */
+@media (min-width: 820px) and (max-width: 1179px) {
+  .weeklyCalendarPlannerControlsRowV3 {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-template-areas:
+      "calendar servings"
+      "weeks weeks"
+      "copy view"
+      "print clear" !important;
+    gap: var(--rrb-control-gap) !important;
+    align-items: center !important;
+    width: 100% !important;
+    margin: 8px 0 14px !important;
+  }
+
+  .weeklyCalendarPlannerTaskServings,
+  .weeklyCalendarPlannerTaskServings .servingSelector,
+  .weeklyCalendarPlannerTaskServings .servingsSelector,
+  .weeklyCalendarPlannerTaskServings > div {
+    max-width: none !important;
+  }
+
+  .weeklyPlannerWeekModeControl {
+    width: 100% !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+
+  .weeklyPlannerWeekModeControl button,
+  .weeklyPlannerWeekModeControl button:last-child {
+    min-width: 0 !important;
+  }
+}
+
+/* Narrow screens: stacked controls, same height family. */
+@media (max-width: 819px) {
+  .weeklyCalendarPlannerControlsRowV3 {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    grid-template-areas:
+      "calendar"
+      "servings"
+      "weeks"
+      "copy"
+      "view"
+      "print"
+      "clear" !important;
+    gap: var(--rrb-control-gap) !important;
+  }
+
+  .weeklyCalendarPlannerTaskServings,
+  .weeklyCalendarPlannerTaskServings .servingSelector,
+  .weeklyCalendarPlannerTaskServings .servingsSelector,
+  .weeklyCalendarPlannerTaskServings > div,
+  .weeklyPlannerWeekModeControl,
+  .weeklyCalendarPlannerTaskButton {
+    width: 100% !important;
+    max-width: none !important;
+  }
+
+  .weeklyPlannerWeekModeControl {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+
+  .weeklyPlannerWeekModeControl button,
+  .weeklyPlannerWeekModeControl button:last-child {
+    min-width: 0 !important;
+  }
+}

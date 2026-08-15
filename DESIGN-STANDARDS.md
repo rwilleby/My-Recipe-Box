@@ -121,3 +121,33 @@ Current locked master:
 - 18 px intro-to-next-section gap
 - 980 px max supporting-copy width
 - 7 px title-to-video gap
+
+
+## v79.1 Weekly Meal Planner Controls — Approved Reference
+
+The Weekly Meal Planner is the reference implementation for the ACTION CONTROL ROW standard.
+
+Master outer height:
+- 44 px (`--rrb-control-row-height`)
+
+All controls in the row share the same outer height:
+- Calendar
+- Servings
+- Week 1 / Week 2 / 2-Week View
+- Copy Week
+- View
+- Print
+- Clear
+
+Role styling:
+- Primary action: olive/green fill with white text.
+- Secondary action: white background, green border, green text.
+- Destructive/Clear: white background, soft-red border, red text.
+- Informational capsules: same height/radius family.
+- Week selector: segmented control, same outer height.
+- Width remains content-driven; height is standardized.
+
+Responsive:
+- One row on wide desktop.
+- Structured wrapping on medium screens.
+- Stacked controls on narrow screens.
