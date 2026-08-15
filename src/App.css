@@ -17658,3 +17658,32 @@ button.browseRecipeWideFooterAction:focus-visible,
     padding-right: 1px !important;
   }
 }
+
+
+/* ================================================================
+   v79.7 — SEGMENTED NAVIGATION DEFAULT ACTIVE COLOR
+   Master default is gray/taupe, matching the approved homepage example.
+   ================================================================ */
+
+:root {
+  --rrb-segmented-active-bg: #9a938f;
+  --rrb-segmented-active-text: #ffffff;
+}
+
+/* All segmented navigation controls use the gray/taupe selected state by default. */
+.homeActionChoice.isActive,
+.homeActionChoice[aria-selected="true"],
+.dinnerCategorySegmented button.isActive,
+.dinnerCategorySegmented button[aria-pressed="true"],
+.slowCookerGroupTabs button.isActive,
+.referenceGuideButtonList.referenceGuideTopButtonList .referenceGuideTopButton.active,
+.referenceGuideButtonList.referenceGuideTopButtonList .referenceGuideTopButton[aria-selected="true"] {
+  background: var(--rrb-segmented-active-bg) !important;
+  color: var(--rrb-segmented-active-text) !important;
+}
+
+/* Inactive Complete Dinner / Crock Pot segments use the same neutral/dark default family. */
+.dinnerCategorySegmented button,
+.slowCookerGroupTabs button {
+  color: var(--rrb-segmented-text, #172033) !important;
+}

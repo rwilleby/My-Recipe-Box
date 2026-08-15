@@ -218,3 +218,14 @@ Shared behavior:
 - inactive segments use light neutral background and dark/green text as appropriate
 - equal-width segments within each control
 - typography compresses responsively rather than stacking
+
+
+## v79.7 SEGMENTED NAVIGATION — Default Active Color Revision
+
+Updated locked standard:
+- Default selected/active segment = muted gray/taupe
+- Active text = white
+- Homepage example is the visual master
+- Olive/green is NOT the default segmented-navigation selected color
+- Olive/green may be used only as an explicitly approved special-case treatment
+- All geometry, 38px height, separators, one-row behavior, and responsive compression remain unchanged
