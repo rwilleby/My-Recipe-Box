@@ -198,3 +198,23 @@ Master geometry:
 - Function-driven widths
 - Search fields, selects, icon toggles, and secondary actions retain appropriate interiors
 - One row is preserved by compressing widths/padding rather than stacking
+
+
+## v79.6 SEGMENTED NAVIGATION — Batch Migration
+
+The locked SEGMENTED NAVIGATION standard is now applied to:
+- Complete Dinner categories
+- Crock Pot categories
+- Reference Guide selector
+
+The homepage `What Do You Want to Do Today?` remains the visual master.
+
+Shared behavior:
+- 38px rounded outer container
+- one row
+- no wrapping or stacking
+- subtle vertical dividers
+- selected segment uses approved olive/green fill with white text
+- inactive segments use light neutral background and dark/green text as appropriate
+- equal-width segments within each control
+- typography compresses responsively rather than stacking
