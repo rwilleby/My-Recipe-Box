@@ -24,6 +24,57 @@ const PLAN_TYPES = [
   { key: "DS", label: "Desserts", icon: "images/icons/DS-bulk.png" },
 ];
 
+function parseLocalDateInput(value) {
+  const match = String(value || "").match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!match) return null;
+  const year = Number(match[1]);
+  const monthIndex = Number(match[2]) - 1;
+  const day = Number(match[3]);
+  const date = new Date(year, monthIndex, day, 12, 0, 0, 0);
+  if (
+    date.getFullYear() !== year ||
+    date.getMonth() !== monthIndex ||
+    date.getDate() !== day
+  ) {
+    return null;
+  }
+  return date;
+}
+
+function addDaysToInputDate(value, days) {
+  const date = parseLocalDateInput(value);
+  if (!date) return "";
+  date.setDate(date.getDate() + Number(days || 0));
+  return localDateInputValue(date);
+}
+
+function addMonthsToInputDate(value, months) {
+  const date = parseLocalDateInput(value);
+  if (!date) return "";
+
+  const originalDay = date.getDate();
+  const target = new Date(date.getFullYear(), date.getMonth() + Number(months || 0), 1, 12, 0, 0, 0);
+  const lastDayOfTargetMonth = new Date(
+    target.getFullYear(),
+    target.getMonth() + 1,
+    0,
+    12,
+    0,
+    0,
+    0,
+  ).getDate();
+
+  target.setDate(Math.min(originalDay, lastDayOfTargetMonth));
+  return localDateInputValue(target);
+}
+
+function defaultBulkUseByDates(createdDate) {
+  return {
+    refrigeratorUseBy: addDaysToInputDate(createdDate, 7),
+    freezeUseBy: addMonthsToInputDate(createdDate, 3),
+  };
+}
+
 const BULK_BASES = [
   { id: "BASE-001", title: "Cooked Ground Beef", detail: "Freeze flat in meal-size portions for tacos, pasta, chili, or casseroles.", defaultPortions: 8 },
   { id: "BASE-002", title: "Shredded Chicken", detail: "Use in salads, sandwiches, soups, enchiladas, and quick casseroles.", defaultPortions: 8 },
@@ -74,14 +125,17 @@ function safeLoadPlan() {
             "Foil freezer pan": "24oz foil freezer pan",
             "Glass refrigerator container": "Other (see notes)",
           };
+          const createdDate = item.createdDate || localDateInputValue();
+          const defaultDates = defaultBulkUseByDates(createdDate);
+
           return {
             ...item,
             finish: item.finish || "Whole",
             package: legacyPackages[item.package] || item.package || "Quart freezer bag",
             labelQuantity: Math.max(0, Number(item.labelQuantity ?? item.batches ?? 1)),
-            createdDate: item.createdDate || localDateInputValue(),
-            refrigeratorUseBy: item.refrigeratorUseBy || "",
-            freezeUseBy: item.freezeUseBy || "",
+            createdDate,
+            refrigeratorUseBy: item.refrigeratorUseBy || defaultDates.refrigeratorUseBy,
+            freezeUseBy: item.freezeUseBy || defaultDates.freezeUseBy,
           };
         }) : [],
       };
@@ -154,6 +208,9 @@ function PlannerImage({ item }) {
 }
 
 function makePlanItem(item, type, prepDay) {
+  const createdDate = localDateInputValue();
+  const defaultDates = defaultBulkUseByDates(createdDate);
+
   return {
     uid: `${item.id}-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
     id: item.id,
@@ -169,9 +226,9 @@ function makePlanItem(item, type, prepDay) {
     finish: "Whole",
     labelNote: "",
     labelQuantity: 1,
-    createdDate: localDateInputValue(),
-    refrigeratorUseBy: "",
-    freezeUseBy: "",
+    createdDate,
+    refrigeratorUseBy: defaultDates.refrigeratorUseBy,
+    freezeUseBy: defaultDates.freezeUseBy,
     completed: false,
   };
 }
@@ -256,6 +313,15 @@ export default function WeekendBulkMealPlanner({ recipes = [], favorites = [], o
       ...current,
       items: current.items.map((item) => item.uid === uid ? { ...item, ...patch } : item),
     }));
+  }
+
+  function updateCreatedDate(uid, createdDate) {
+    const defaultDates = defaultBulkUseByDates(createdDate);
+    updateItem(uid, {
+      createdDate,
+      refrigeratorUseBy: defaultDates.refrigeratorUseBy,
+      freezeUseBy: defaultDates.freezeUseBy,
+    });
   }
 
   function removeItem(uid) {
@@ -500,7 +566,7 @@ export default function WeekendBulkMealPlanner({ recipes = [], favorites = [], o
                     <label><span className="helpTooltipLabel">Package in <HelpTooltip text="Select the bag, pan, container, or freezer block you plan to use for this recipe." /></span><select value={item.package} onChange={(event) => updateItem(item.uid, { package: event.target.value })}>{PACKAGE_OPTIONS.map((option) => <option key={option}>{option}</option>)}</select></label>
                     <label><span>Prep day</span><select value={item.day} onChange={(event) => updateItem(item.uid, { day: event.target.value })}><option>Saturday</option><option>Sunday</option></select></label>
                     <label><span>Label / finishing note</span><input value={item.labelNote} onChange={(event) => updateItem(item.uid, { labelNote: event.target.value })} placeholder="Thaw overnight; add sauce" /></label>
-                    <label><span>Date created</span><input type="date" value={item.createdDate || ""} onChange={(event) => updateItem(item.uid, { createdDate: event.target.value })} /></label>
+                    <label><span>Date created</span><input type="date" value={item.createdDate || ""} onChange={(event) => updateCreatedDate(item.uid, event.target.value)} /></label>
                     <label><span>Refrigerator use by</span><input type="date" value={item.refrigeratorUseBy || ""} onChange={(event) => updateItem(item.uid, { refrigeratorUseBy: event.target.value })} /></label>
                     <label><span>Freeze use by</span><input type="date" value={item.freezeUseBy || ""} onChange={(event) => updateItem(item.uid, { freezeUseBy: event.target.value })} /></label>
                   </div>
