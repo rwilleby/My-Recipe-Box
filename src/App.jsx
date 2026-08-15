@@ -7366,7 +7366,7 @@ function PlannerPage({
         <SectionIntro
           title="Let's Plan This Weeks Meals"
           text="Plan your week at a glance—choose a main dish, add practical sides, and keep each day organized in one simple calendar."
-          className="weeklyCalendarPlannerSectionIntro"
+          className="weeklyMealPlannerSectionIntro"
           video={
             <SupplementalHoverVideo
               src=""

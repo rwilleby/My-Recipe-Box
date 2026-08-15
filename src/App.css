@@ -16160,3 +16160,35 @@ button.browseRecipeWideFooterAction:focus-visible,
   margin-left: auto !important;
   margin-right: auto !important;
 }
+
+
+/* ================================================================
+   v78.12 — WEEKLY MEAL PLANNER SECTION INTRO
+   Legacy planner typography hook removed.
+   ================================================================ */
+
+.weeklyMealPlannerSectionIntro.rrbSectionIntroComponent {
+  display: block !important;
+  width: 100% !important;
+  margin: 0 auto var(--rrb-section-intro-bottom-gap) !important;
+  padding: 0 !important;
+  text-align: center !important;
+}
+
+.weeklyMealPlannerSectionIntro .rrbSectionIntroCopy {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 auto !important;
+  text-align: center !important;
+}
+
+.weeklyMealPlannerSectionIntro .rrbSectionIntroTitleRow {
+  justify-content: center !important;
+  width: 100% !important;
+}
+
+.weeklyMealPlannerSectionIntro p {
+  max-width: var(--rrb-section-intro-max-copy-width) !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
