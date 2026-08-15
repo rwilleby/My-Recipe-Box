@@ -4905,8 +4905,23 @@ function RecipeCardViewer({
     setZoomPosition({ x: 0, y: 0 });
   }
 
-  function openRecipeCardZoom() {
-    resetRecipeCardZoom();
+  function openRecipeCardZoom(event) {
+    const target = event?.currentTarget;
+    const rect = target?.getBoundingClientRect?.();
+
+    setZoomScale(2);
+
+    if (rect && event && Number.isFinite(event.clientX) && Number.isFinite(event.clientY)) {
+      const offsetX = event.clientX - (rect.left + rect.width / 2);
+      const offsetY = event.clientY - (rect.top + rect.height / 2);
+      setZoomPosition({
+        x: -offsetX,
+        y: -offsetY,
+      });
+    } else {
+      setZoomPosition({ x: 0, y: 0 });
+    }
+
     setZoomOpen(true);
   }
 
@@ -5007,7 +5022,7 @@ function RecipeCardViewer({
                     decoding="async"
                     onError={() => setImageIndex((current) => current + 1)}
                   />
-                  <span className="cardViewerZoomHint" aria-hidden="true">Click to zoom</span>
+                  <span className="cardViewerZoomHint" aria-hidden="true">⌕ Click card to zoom here</span>
                 </>
               ) : (
                 <div className="cardViewerMissing">
@@ -5038,6 +5053,9 @@ function RecipeCardViewer({
             aria-label={`${recipe.id} ${recipe.title} enlarged recipe card`}
             onClick={closeRecipeCardZoom}
           >
+            <div className="recipeCardZoomBackdropHint" aria-hidden="true">
+              Click outside the card to close
+            </div>
             <div className="recipeCardZoomShell" onClick={(event) => event.stopPropagation()}>
               <div className="recipeCardZoomToolbar">
                 <strong>{recipe.id} · {recipe.title}</strong>

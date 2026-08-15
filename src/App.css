@@ -17972,3 +17972,39 @@ button.browseRecipeWideFooterAction:focus-visible,
     min-width: 42px !important;
   }
 }
+
+
+/* ================================================================
+   v79.12 — RECIPE CARD ZOOM UX REFINEMENT
+   ================================================================ */
+
+.recipeCardZoomBackdropHint {
+  position: fixed !important;
+  top: 14px !important;
+  left: 50% !important;
+  z-index: 1 !important;
+  transform: translateX(-50%) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  min-height: 30px !important;
+  padding: 0 12px !important;
+  border: 1px solid rgba(255,255,255,.35) !important;
+  border-radius: 15px !important;
+  background: rgba(0,0,0,.38) !important;
+  color: #ffffff !important;
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 750 !important;
+  letter-spacing: .01em !important;
+  pointer-events: none !important;
+}
+
+.recipeCardZoomShell {
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+/* Click-to-open starts at 200% around the clicked area. */
+.cardViewerZoomLaunch {
+  cursor: zoom-in !important;
+}
