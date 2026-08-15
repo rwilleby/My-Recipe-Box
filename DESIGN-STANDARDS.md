@@ -86,3 +86,38 @@ Variants:
 - split: left intro copy with right-side controls or counters
 
 This structural standard replaces attempts to make unrelated legacy markup behave identically through CSS alone.
+
+
+## v78.7 SECTION INTRO Master Foundation
+
+The approved Refrigerator Inventory example is now the master visual reference.
+
+All SECTION INTRO design values are centralized in CSS root variables:
+
+- `--rrb-section-intro-title-font`
+- `--rrb-section-intro-title-size`
+- `--rrb-section-intro-title-weight`
+- `--rrb-section-intro-title-line-height`
+- `--rrb-section-intro-title-color`
+- `--rrb-section-intro-copy-font`
+- `--rrb-section-intro-copy-size`
+- `--rrb-section-intro-copy-weight`
+- `--rrb-section-intro-copy-line-height`
+- `--rrb-section-intro-copy-color`
+- `--rrb-section-intro-title-copy-gap`
+- `--rrb-section-intro-bottom-gap`
+- `--rrb-section-intro-max-copy-width`
+- `--rrb-section-intro-video-gap`
+- mobile title/copy sizes
+
+Future global SECTION INTRO changes should modify these tokens only.
+
+Current locked master:
+- Initial Caps
+- centered for standard section intros
+- Georgia 28 px / Bold 700 / #111827 / 1.1
+- Inter 16 px / Semi-Bold 600 / #667085 / 1.3
+- 10 px title-to-copy gap
+- 18 px intro-to-next-section gap
+- 980 px max supporting-copy width
+- 7 px title-to-video gap

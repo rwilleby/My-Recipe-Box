@@ -6,6 +6,31 @@ Appearance-preserving structural cleanup only.
 
 :root{--rrb-font-heading: Georgia, "Times New Roman", serif; --rrb-font-body: Inter, Arial, sans-serif; --rrb-color-heading: #111827; --rrb-color-body: #667085; --rrb-color-link-green: #245C37; --rrb-color-army-green: #80994A; --rrb-section-intro-title-size: 28px; --rrb-section-intro-title-weight: 700; --rrb-section-intro-title-line-height: 1.1; --rrb-section-intro-copy-size: 16px; --rrb-section-intro-copy-weight: 600; --rrb-section-intro-copy-line-height: 1.3; --green: #14532d; --green-2: #2f6b3f; --cream: #fbfaf7; --line: #e8e4dc; --text: #151515; --muted: #676767; --shadow: 0 12px 34px rgba(23, 31, 22, .09); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: var(--text); background: var(--cream);}
 
+
+/* SECTION INTRO — LOCKED MASTER TOKENS */
+:root {
+  --rrb-section-intro-title-font: Georgia, "Times New Roman", serif;
+  --rrb-section-intro-title-size: 28px;
+  --rrb-section-intro-title-weight: 700;
+  --rrb-section-intro-title-line-height: 1.1;
+  --rrb-section-intro-title-color: #111827;
+
+  --rrb-section-intro-copy-font: Inter, Arial, sans-serif;
+  --rrb-section-intro-copy-size: 16px;
+  --rrb-section-intro-copy-weight: 600;
+  --rrb-section-intro-copy-line-height: 1.3;
+  --rrb-section-intro-copy-color: #667085;
+
+  --rrb-section-intro-title-copy-gap: 10px;
+  --rrb-section-intro-bottom-gap: 18px;
+  --rrb-section-intro-max-copy-width: 980px;
+  --rrb-section-intro-video-gap: 7px;
+
+  --rrb-section-intro-mobile-title-size: 24px;
+  --rrb-section-intro-mobile-copy-size: 15px;
+}
+
+
 * {box-sizing: border-box;}
 
 body {margin: 0; background: var(--cream);}
@@ -15895,5 +15920,147 @@ button.browseRecipeWideFooterAction:focus-visible,
   .quickDinnerSectionIntro p,
   .quickDinnerSectionIntro .homeComboMealMoreIdeas {
     font-size: 15px !important;
+  }
+}
+
+
+/* ================================================================
+   v78.7 — SECTION INTRO MASTER FOUNDATION
+   All approved SECTION INTRO visuals are controlled from :root tokens.
+   ================================================================ */
+
+.rrbSectionIntroComponent {
+  width: 100% !important;
+  box-sizing: border-box !important;
+  margin-bottom: var(--rrb-section-intro-bottom-gap) !important;
+}
+
+.rrbSectionIntroComponent.isCentered {
+  display: block !important;
+  text-align: center !important;
+}
+
+.rrbSectionIntroComponent.isSplit {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 24px !important;
+}
+
+.rrbSectionIntroCopy {
+  min-width: 0 !important;
+}
+
+.rrbSectionIntroComponent.isCentered .rrbSectionIntroCopy {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 auto !important;
+  text-align: center !important;
+}
+
+.rrbSectionIntroTitleRow {
+  display: flex !important;
+  align-items: center !important;
+  gap: var(--rrb-section-intro-video-gap) !important;
+  min-width: 0 !important;
+}
+
+.rrbSectionIntroComponent.isCentered .rrbSectionIntroTitleRow {
+  justify-content: center !important;
+}
+
+.rrbSectionIntroComponent h2 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-family: var(--rrb-section-intro-title-font) !important;
+  font-size: var(--rrb-section-intro-title-size) !important;
+  font-weight: var(--rrb-section-intro-title-weight) !important;
+  font-style: normal !important;
+  line-height: var(--rrb-section-intro-title-line-height) !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  color: var(--rrb-section-intro-title-color) !important;
+}
+
+.rrbSectionIntroComponent p {
+  max-width: var(--rrb-section-intro-max-copy-width) !important;
+  margin: var(--rrb-section-intro-title-copy-gap) 0 0 !important;
+  padding: 0 !important;
+  font-family: var(--rrb-section-intro-copy-font) !important;
+  font-size: var(--rrb-section-intro-copy-size) !important;
+  font-weight: var(--rrb-section-intro-copy-weight) !important;
+  font-style: normal !important;
+  line-height: var(--rrb-section-intro-copy-line-height) !important;
+  letter-spacing: 0 !important;
+  color: var(--rrb-section-intro-copy-color) !important;
+}
+
+.rrbSectionIntroComponent.isCentered p {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.rrbSectionIntroActions {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 10px !important;
+  flex: 0 0 auto !important;
+}
+
+.rrbSectionIntroEyebrow {
+  margin: 0 0 9px !important;
+}
+
+.rrbSectionIntroTitleRow .supplementalVideoIcon,
+.rrbSectionIntroTitleRow .dinnerCombinationFinderVideo,
+.rrbSectionIntroTitleRow .weeklyPlannerTitleVideoTrigger,
+.rrbSectionIntroTitleRow .homeQuickLinksVideoTrigger,
+.rrbSectionIntroTitleRow .homeDinnerIdeasVideoTrigger {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 !important;
+  vertical-align: middle !important;
+  flex: 0 0 auto !important;
+}
+
+/*
+  Migrated section wrappers keep their identity classes for page spacing,
+  but those classes no longer own title/copy typography.
+*/
+.refrigeratorSectionIntro.rrbSectionIntroComponent,
+.quickDinnerSectionIntro.rrbSectionIntroComponent,
+.homeCategoryQuickLinksTitle.rrbSectionIntroComponent,
+.dinnerCombinationFinderHeading.rrbSectionIntroComponent,
+.slowCookerFinderHeader.rrbSectionIntroComponent,
+.weeklyCalendarPlannerSectionIntro.rrbSectionIntroComponent,
+.glp1EducationIntro.rrbSectionIntroComponent {
+  margin-bottom: var(--rrb-section-intro-bottom-gap) !important;
+}
+
+/* Initial Caps is a content rule, not CSS text-transform. */
+.rrbSectionIntroComponent h2 {
+  text-transform: none !important;
+}
+
+@media (max-width: 720px) {
+  .rrbSectionIntroComponent h2 {
+    font-size: var(--rrb-section-intro-mobile-title-size) !important;
+  }
+
+  .rrbSectionIntroComponent p {
+    font-size: var(--rrb-section-intro-mobile-copy-size) !important;
+  }
+
+  .rrbSectionIntroComponent.isSplit {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+
+  .rrbSectionIntroActions {
+    justify-content: flex-start !important;
+    flex-wrap: wrap !important;
   }
 }
