@@ -16271,3 +16271,55 @@ button.browseRecipeWideFooterAction:focus-visible,
     flex-wrap: wrap !important;
   }
 }
+
+
+/* ================================================================
+   v78.15 — PANTRY STAPLES SECTION INTRO
+   Uses the locked master SECTION INTRO standard.
+   ================================================================ */
+
+.pantrySectionIntro.rrbSectionIntroComponent {
+  display: block !important;
+  width: 100% !important;
+  margin: 0 auto var(--rrb-section-intro-bottom-gap) !important;
+  padding: 0 !important;
+  text-align: center !important;
+}
+
+.pantrySectionIntro .rrbSectionIntroCopy {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 auto !important;
+  text-align: center !important;
+}
+
+.pantrySectionIntro .rrbSectionIntroTitleRow {
+  justify-content: center !important;
+  width: 100% !important;
+}
+
+.pantrySectionIntro p {
+  max-width: var(--rrb-section-intro-max-copy-width) !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* Keep the existing stock counter without letting it alter intro alignment. */
+.pantrySectionIntroCounter {
+  display: flex !important;
+  justify-content: flex-end !important;
+  width: 100% !important;
+  margin: calc(-1 * var(--rrb-section-intro-bottom-gap) - 64px) 0 18px !important;
+  pointer-events: none !important;
+}
+
+.pantrySectionIntroCounter .totalBox {
+  pointer-events: auto !important;
+}
+
+@media (max-width: 900px) {
+  .pantrySectionIntroCounter {
+    justify-content: center !important;
+    margin: 0 auto 18px !important;
+  }
+}

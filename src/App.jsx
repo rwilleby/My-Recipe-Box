@@ -7669,18 +7669,17 @@ function PantryStaplesPage({ pantry, setPantry }) {
   return (
     <main className="pageShell pantryPage">
       <SectionIntro
-        eyebrow="SHELF-STABLE PANTRY SETUP"
-        title="PANTRY STAPLES"
+        title="Pantry Staples"
         text="Choose a pantry level and check off shelf-stable products you already keep on hand. Each level builds on the one before it."
-        centered={false}
-        className="pageHeader pantryHeader"
-        actions={
-          <div className="totalBox">
-            <small>{selectedLevelInfo.shortLabel} Stocked</small>
-            <strong>{checkedCount}/{totalStaples}</strong>
-          </div>
-        }
+        className="pantrySectionIntro"
       />
+
+      <div className="pantrySectionIntroCounter">
+        <div className="totalBox">
+          <small>{selectedLevelInfo.shortLabel} Stocked</small>
+          <strong>{checkedCount}/{totalStaples}</strong>
+        </div>
+      </div>
 
       <div className="pantryLevelTabs" role="tablist" aria-label="Pantry staple level">
         {PANTRY_LEVELS.map((level) => (
