@@ -9873,11 +9873,9 @@ function FavoritesPage({
     <>
       <main className="pageShell favoritesLibraryPage">
         <SectionIntro
-          eyebrow="SAVED IN THIS BROWSER"
           title="Favorites"
           text="Recipe cards and Combo-Meals saved on this device. No login or sync required."
-          centered={false}
-          className="pageHeader favoritesPageHeader"
+          className="favoritesSectionIntro"
         />
 
         {!hasFavorites ? (
