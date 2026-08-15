@@ -8563,10 +8563,9 @@ function RefrigeratorInventoryPage({ refrigerator, setRefrigerator, setActivePag
   return (
     <main className="pageShell refrigeratorInventoryPage">
       <SectionIntro
-        title="REFRIGERATOR INVENTORY"
+        title="Refrigerator Inventory"
         text="Track refrigerated foods, leftovers, quantities, opened dates, and use-by reminders. Mark what you already have, flag items that should be used soon, and send low-stock items to your grocery list before they are forgotten."
-        centered={false}
-        className="pageHeader refrigeratorHeader"
+        className="refrigeratorHeader refrigeratorSectionIntro"
       />
 
       <section className="fridgeSummaryGrid" aria-label="Refrigerator inventory summary">
