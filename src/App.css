@@ -17752,3 +17752,12 @@ button.browseRecipeWideFooterAction:focus-visible,
     font-size: 7.5px !important;
   }
 }
+
+
+/* ================================================================
+   v79.9 — SECTION INTRO MASTER TYPOGRAPHY REVISION
+   ================================================================ */
+:root {
+  --rrb-section-intro-title-size: 25px;
+  --rrb-section-intro-copy-size: 14px;
+}

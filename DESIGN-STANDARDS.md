@@ -238,3 +238,12 @@ Correction to SEGMENTED NAVIGATION:
 - When labels vary significantly in length, content-weighted widths are allowed.
 - Crock Pot categories use weighted widths so `BREAKFAST / SIDES / DESSERTS` and other long labels stay on one line without clipping.
 - All other segmented-navigation standards remain unchanged: 38px height, gray/taupe active state, white active text, one row, separators, rounded outer container.
+
+
+## v79.9 SECTION INTRO Typography Revision
+
+Locked master sizes updated:
+- SECTION INTRO title: **25px** (was 28px)
+- SECTION INTRO supporting copy: **14px** (was 16px)
+
+All other SECTION INTRO standards remain unchanged.
