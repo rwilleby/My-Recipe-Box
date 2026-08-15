@@ -8053,22 +8053,19 @@ function PreparedFreezerInventoryPage({
   return (
     <main className="pageShell preparedInventoryPage">
       <SectionIntro
-        eyebrow="PREPARED COMPONENTS"
         title="Freezer Inventory"
         text="Track prepared proteins, sauces, doughs, main dishes, sides, and other freezer items by package. Planned Combo Meals reserve packages without removing them until the meal is completed."
-        centered={false}
-        className="pageHeader preparedInventoryHeader"
-        actions={
-          <>
-            <button className="primary" type="button" onClick={() => { resetForm(); setShowForm(true); }}>
-              Add Inventory Item
-            </button>
-            <button className="secondary" type="button" onClick={() => setActivePage("Meal Planner")}>
-              Meal Planner
-            </button>
-          </>
-        }
+        className="freezerInventorySectionIntro"
       />
+
+      <div className="freezerInventoryIntroActions">
+        <button className="primary" type="button" onClick={() => { resetForm(); setShowForm(true); }}>
+          Add Inventory Item
+        </button>
+        <button className="secondary" type="button" onClick={() => setActivePage("Meal Planner")}>
+          Meal Planner
+        </button>
+      </div>
 
       <KosKitchenStatusBand kosUi={kosUi} mode="available" />
 
