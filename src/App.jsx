@@ -4711,6 +4711,10 @@ function RecipeCardViewer({
   const [showFoodIntelligence, setShowFoodIntelligence] = useState(false);
   const [viewerUserNote, setViewerUserNote] = useState("");
   const [viewerNoteSaved, setViewerNoteSaved] = useState(false);
+  const [zoomOpen, setZoomOpen] = useState(false);
+  const [zoomScale, setZoomScale] = useState(1);
+  const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
+  const zoomDragRef = useRef(null);
   usePopupPageMode(Boolean(viewer));
 
   const viewerIds = viewer?.recipeIds?.length
@@ -4732,6 +4736,9 @@ function RecipeCardViewer({
     setOpenPanel(null);
     setShowFoodIntelligence(false);
     setViewerNoteSaved(false);
+    setZoomOpen(false);
+    setZoomScale(1);
+    setZoomPosition({ x: 0, y: 0 });
     try {
       setViewerUserNote(
         window.localStorage.getItem(`rrb-recipe-note-${recipe?.id}`) || ""
@@ -4892,6 +4899,63 @@ function RecipeCardViewer({
     }
   }
 
+
+  function resetRecipeCardZoom() {
+    setZoomScale(1);
+    setZoomPosition({ x: 0, y: 0 });
+  }
+
+  function openRecipeCardZoom() {
+    resetRecipeCardZoom();
+    setZoomOpen(true);
+  }
+
+  function closeRecipeCardZoom() {
+    setZoomOpen(false);
+    resetRecipeCardZoom();
+  }
+
+  function changeRecipeCardZoom(delta) {
+    setZoomScale((current) => {
+      const next = Math.min(4, Math.max(1, Number((current + delta).toFixed(2))));
+      if (next === 1) setZoomPosition({ x: 0, y: 0 });
+      return next;
+    });
+  }
+
+  function handleRecipeCardZoomWheel(event) {
+    event.preventDefault();
+    changeRecipeCardZoom(event.deltaY < 0 ? 0.25 : -0.25);
+  }
+
+  function handleRecipeCardZoomPointerDown(event) {
+    if (zoomScale <= 1) return;
+    event.currentTarget.setPointerCapture?.(event.pointerId);
+    zoomDragRef.current = {
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      startY: event.clientY,
+      originX: zoomPosition.x,
+      originY: zoomPosition.y,
+    };
+  }
+
+  function handleRecipeCardZoomPointerMove(event) {
+    const drag = zoomDragRef.current;
+    if (!drag || drag.pointerId !== event.pointerId || zoomScale <= 1) return;
+    setZoomPosition({
+      x: drag.originX + (event.clientX - drag.startX),
+      y: drag.originY + (event.clientY - drag.startY),
+    });
+  }
+
+  function handleRecipeCardZoomPointerEnd(event) {
+    const drag = zoomDragRef.current;
+    if (!drag || drag.pointerId !== event.pointerId) return;
+    zoomDragRef.current = null;
+    event.currentTarget.releasePointerCapture?.(event.pointerId);
+  }
+
   return (
     <div className="cardViewerOverlay" onClick={onClose}>
       <div className="cardViewer cardViewerBottomActions" onClick={(event) => event.stopPropagation()}>
@@ -4922,14 +4986,29 @@ function RecipeCardViewer({
           </button>
 
           <div className="cardViewerCombinedRecipeUnit">
-            <div className="cardViewerCombinedRecipeCard">
+            <div
+              className="cardViewerCombinedRecipeCard cardViewerZoomLaunch"
+              role={imagePath ? "button" : undefined}
+              tabIndex={imagePath ? 0 : undefined}
+              aria-label={imagePath ? `Enlarge ${recipe.id} ${recipe.title} recipe card` : undefined}
+              onClick={imagePath ? openRecipeCardZoom : undefined}
+              onKeyDown={imagePath ? (event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  openRecipeCardZoom();
+                }
+              } : undefined}
+            >
               {imagePath ? (
-                <img
-                  src={`${import.meta.env.BASE_URL}${imagePath}`}
-                  alt={`${recipe.id} ${recipe.title} recipe card`}
-                  decoding="async"
-                  onError={() => setImageIndex((current) => current + 1)}
-                />
+                <>
+                  <img
+                    src={`${import.meta.env.BASE_URL}${imagePath}`}
+                    alt={`${recipe.id} ${recipe.title} recipe card`}
+                    decoding="async"
+                    onError={() => setImageIndex((current) => current + 1)}
+                  />
+                  <span className="cardViewerZoomHint" aria-hidden="true">Click to zoom</span>
+                </>
               ) : (
                 <div className="cardViewerMissing">
                   <strong>Recipe card image not found.</strong>
@@ -4950,6 +5029,48 @@ function RecipeCardViewer({
             ›
           </button>
         </div>
+
+        {zoomOpen && imagePath && (
+          <div
+            className="recipeCardZoomOverlay"
+            role="dialog"
+            aria-modal="true"
+            aria-label={`${recipe.id} ${recipe.title} enlarged recipe card`}
+            onClick={closeRecipeCardZoom}
+          >
+            <div className="recipeCardZoomShell" onClick={(event) => event.stopPropagation()}>
+              <div className="recipeCardZoomToolbar">
+                <strong>{recipe.id} · {recipe.title}</strong>
+                <div className="recipeCardZoomControls">
+                  <button type="button" onClick={() => changeRecipeCardZoom(-0.25)} disabled={zoomScale <= 1} aria-label="Zoom out">−</button>
+                  <span>{Math.round(zoomScale * 100)}%</span>
+                  <button type="button" onClick={() => changeRecipeCardZoom(0.25)} disabled={zoomScale >= 4} aria-label="Zoom in">+</button>
+                  <button type="button" onClick={resetRecipeCardZoom}>Reset</button>
+                  <button type="button" className="recipeCardZoomClose" onClick={closeRecipeCardZoom}>Close</button>
+                </div>
+              </div>
+
+              <div
+                className={`recipeCardZoomViewport${zoomScale > 1 ? " isZoomed" : ""}`}
+                onWheel={handleRecipeCardZoomWheel}
+                onPointerDown={handleRecipeCardZoomPointerDown}
+                onPointerMove={handleRecipeCardZoomPointerMove}
+                onPointerUp={handleRecipeCardZoomPointerEnd}
+                onPointerCancel={handleRecipeCardZoomPointerEnd}
+              >
+                <img
+                  src={`${import.meta.env.BASE_URL}${imagePath}`}
+                  alt={`${recipe.id} ${recipe.title} recipe card enlarged`}
+                  draggable="false"
+                  style={{
+                    transform: `translate(${zoomPosition.x}px, ${zoomPosition.y}px) scale(${zoomScale})`,
+                  }}
+                />
+              </div>
+              <p className="recipeCardZoomHelp">Use + / − or the mouse wheel to zoom. Drag the card to move around when zoomed in.</p>
+            </div>
+          </div>
+        )}
 
         {recipe.mediaLinks?.length > 0 && (
           <div className="cardViewerHelpfulLinks">

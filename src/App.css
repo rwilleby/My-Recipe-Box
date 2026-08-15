@@ -17769,3 +17769,206 @@ button.browseRecipeWideFooterAction:focus-visible,
 :root {
   --rrb-section-intro-title-copy-gap: 6px;
 }
+
+
+/* ================================================================
+   v79.11 — RECIPE CARD CLICK-TO-ZOOM VIEWER
+   ================================================================ */
+
+.cardViewerZoomLaunch {
+  position: relative !important;
+  cursor: zoom-in !important;
+  outline: none !important;
+}
+
+.cardViewerZoomLaunch:focus-visible {
+  box-shadow: 0 0 0 3px rgba(20, 83, 45, .22) !important;
+}
+
+.cardViewerZoomHint {
+  position: absolute !important;
+  right: 10px !important;
+  bottom: 10px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  height: 28px !important;
+  padding: 0 10px !important;
+  border: 1px solid rgba(255,255,255,.7) !important;
+  border-radius: 14px !important;
+  background: rgba(22, 31, 27, .70) !important;
+  color: #fff !important;
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  letter-spacing: .01em !important;
+  pointer-events: none !important;
+}
+
+.recipeCardZoomOverlay {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 100000 !important;
+  display: grid !important;
+  place-items: center !important;
+  padding: 18px !important;
+  background: rgba(19, 24, 22, .86) !important;
+  backdrop-filter: blur(3px) !important;
+}
+
+.recipeCardZoomShell {
+  display: grid !important;
+  grid-template-rows: auto minmax(0, 1fr) auto !important;
+  width: min(96vw, 1500px) !important;
+  height: min(94vh, 1050px) !important;
+  overflow: hidden !important;
+  border: 1px solid #d7ddd8 !important;
+  border-radius: 16px !important;
+  background: #f8f7f3 !important;
+  box-shadow: 0 24px 70px rgba(0,0,0,.32) !important;
+}
+
+.recipeCardZoomToolbar {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 16px !important;
+  min-height: 50px !important;
+  padding: 7px 10px 7px 16px !important;
+  border-bottom: 1px solid #d8ddd8 !important;
+  background: #fff !important;
+}
+
+.recipeCardZoomToolbar > strong {
+  min-width: 0 !important;
+  overflow: hidden !important;
+  color: #172033 !important;
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: 17px !important;
+  font-weight: 700 !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+.recipeCardZoomControls {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  flex: 0 0 auto !important;
+}
+
+.recipeCardZoomControls button {
+  height: 34px !important;
+  min-width: 38px !important;
+  padding: 0 11px !important;
+  border: 1px solid #88a58f !important;
+  border-radius: 8px !important;
+  background: #fff !important;
+  color: #14532d !important;
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+}
+
+.recipeCardZoomControls button:disabled {
+  opacity: .4 !important;
+  cursor: default !important;
+}
+
+.recipeCardZoomControls > span {
+  min-width: 48px !important;
+  color: #4b5563 !important;
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  text-align: center !important;
+}
+
+.recipeCardZoomControls .recipeCardZoomClose {
+  border-color: #dcb1ad !important;
+  color: #a3312d !important;
+}
+
+.recipeCardZoomViewport {
+  position: relative !important;
+  display: grid !important;
+  place-items: center !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+  background:
+    linear-gradient(45deg, #efeee9 25%, transparent 25%),
+    linear-gradient(-45deg, #efeee9 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #efeee9 75%),
+    linear-gradient(-45deg, transparent 75%, #efeee9 75%),
+    #f8f7f3 !important;
+  background-size: 24px 24px !important;
+  background-position: 0 0, 0 12px, 12px -12px, -12px 0 !important;
+  touch-action: none !important;
+  cursor: zoom-in !important;
+}
+
+.recipeCardZoomViewport.isZoomed {
+  cursor: grab !important;
+}
+
+.recipeCardZoomViewport.isZoomed:active {
+  cursor: grabbing !important;
+}
+
+.recipeCardZoomViewport img {
+  display: block !important;
+  max-width: 92% !important;
+  max-height: 92% !important;
+  width: auto !important;
+  height: auto !important;
+  object-fit: contain !important;
+  transform-origin: center center !important;
+  transition: transform .08s ease-out !important;
+  user-select: none !important;
+  -webkit-user-drag: none !important;
+  pointer-events: none !important;
+}
+
+.recipeCardZoomHelp {
+  margin: 0 !important;
+  padding: 7px 12px !important;
+  border-top: 1px solid #d8ddd8 !important;
+  background: #fff !important;
+  color: #667085 !important;
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 650 !important;
+  text-align: center !important;
+}
+
+@media (max-width: 760px) {
+  .recipeCardZoomOverlay {
+    padding: 6px !important;
+  }
+
+  .recipeCardZoomShell {
+    width: 100% !important;
+    height: 98vh !important;
+    border-radius: 12px !important;
+  }
+
+  .recipeCardZoomToolbar {
+    align-items: flex-start !important;
+    flex-direction: column !important;
+    gap: 6px !important;
+    padding: 8px !important;
+  }
+
+  .recipeCardZoomControls {
+    width: 100% !important;
+  }
+
+  .recipeCardZoomControls button {
+    flex: 1 1 auto !important;
+    padding-left: 6px !important;
+    padding-right: 6px !important;
+  }
+
+  .recipeCardZoomControls > span {
+    min-width: 42px !important;
+  }
+}
