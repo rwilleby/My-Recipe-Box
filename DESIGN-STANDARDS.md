@@ -67,3 +67,22 @@ The shared implementation is applied to:
 - Nutrition Guidance for Smaller Meals
 
 The purpose of this migration is to replace page-specific typography overrides with a single reusable site standard.
+
+
+## v78.4 Structural Standard
+
+SECTION INTRO is now implemented as a real reusable React component named `SectionIntro`.
+
+All migrated instances use the same DOM structure:
+- eyebrow (optional)
+- shared title row
+- title
+- video trigger (optional)
+- supporting sentence
+- actions/counter area (optional)
+
+Variants:
+- centered: standalone section introductions
+- split: left intro copy with right-side controls or counters
+
+This structural standard replaces attempts to make unrelated legacy markup behave identically through CSS alone.

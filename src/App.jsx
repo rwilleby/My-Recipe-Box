@@ -2557,25 +2557,24 @@ function CategoryGrid({ setFilter, setActivePage }) {
 
   return (
     <section className="section homeCategorySection">
-      <div className="sectionTitle homeCategoryTitle homeCategoryQuickLinksTitle rrbSectionIntro rrbSectionIntroCentered">
-        <div>
-          <h2 className="homeVideoTitle">
-              <span>Cuisine Quick Links</span>
-              <SupplementalHoverVideo
-                src={QUICK_LINKS_VIDEO_URL}
-                poster={QUICK_LINKS_VIDEO_POSTER}
-                title="Browse Our Quick Links overview video"
-                className="homeQuickLinksVideoTrigger"
-              >
-                <span className="supplementalVideoIcon">
-                  <VideoIcon role="supplemental" alt="" className="supplementalVideoIconGray" />
-                  <VideoIcon role="main" alt="" className="supplementalVideoIconRed" />
-                </span>
-              </SupplementalHoverVideo>
-            </h2>
-          <p>Jump directly to the cuisines and recipe groups you use most often.</p>
-        </div>
-      </div>
+      <SectionIntro
+        title="Cuisine Quick Links"
+        text="Jump directly to the cuisines and recipe groups you use most often."
+        className="homeCategoryQuickLinksTitle"
+        video={
+          <SupplementalHoverVideo
+            src={QUICK_LINKS_VIDEO_URL}
+            poster={QUICK_LINKS_VIDEO_POSTER}
+            title="Browse Our Quick Links overview video"
+            className="homeQuickLinksVideoTrigger"
+          >
+            <span className="supplementalVideoIcon">
+              <VideoIcon role="supplemental" alt="" className="supplementalVideoIconGray" />
+              <VideoIcon role="main" alt="" className="supplementalVideoIconRed" />
+            </span>
+          </SupplementalHoverVideo>
+        }
+      />
 
       <div className="categoryGrid homeCategoryGrid">
         <button
@@ -7363,25 +7362,26 @@ function PlannerPage({
 
   return (
     <main className="pageShell weeklyCalendarPlannerPage">
-      <header className="weeklyCalendarPlannerHeaderV3 rrbSectionIntro rrbSectionIntroCentered">
-        <h1>
-          Let's Plan This Weeks Meals
-          <SupplementalHoverVideo
-            src=""
-            poster=""
-            title="Weekly Dinner Planning overview video"
-            className="weeklyPlannerTitleVideoTrigger"
-            showTestPattern
-          >
-            <span className="supplementalVideoIcon weeklyPlannerTitleVideoIcon">
-              <VideoIcon role="supplemental" alt="" className="supplementalVideoIconGray" />
-              <VideoIcon role="main" alt="" className="supplementalVideoIconRed" />
-            </span>
-          </SupplementalHoverVideo>
-        </h1>
-        <p className="weeklyCalendarPlannerSubtitle">
-          Plan your week at a glance—choose a main dish, add practical sides, and keep each day organized in one simple calendar.
-        </p>
+      <header className="weeklyCalendarPlannerHeaderV3">
+        <SectionIntro
+          title="Let's Plan This Weeks Meals"
+          text="Plan your week at a glance—choose a main dish, add practical sides, and keep each day organized in one simple calendar."
+          className="weeklyCalendarPlannerSectionIntro"
+          video={
+            <SupplementalHoverVideo
+              src=""
+              poster=""
+              title="Weekly Dinner Planning overview video"
+              className="weeklyPlannerTitleVideoTrigger"
+              showTestPattern
+            >
+              <span className="supplementalVideoIcon weeklyPlannerTitleVideoIcon">
+                <VideoIcon role="supplemental" alt="" className="supplementalVideoIconGray" />
+                <VideoIcon role="main" alt="" className="supplementalVideoIconRed" />
+              </span>
+            </SupplementalHoverVideo>
+          }
+        />
 
         <div className="weeklyCalendarPlannerControlsRowV3">
           <label className="weeklyCalendarPlannerCalendarControl">
@@ -7668,23 +7668,19 @@ function PantryStaplesPage({ pantry, setPantry }) {
 
   return (
     <main className="pageShell pantryPage">
-      <div className="pageHeader rrbSectionIntro rrbSectionIntroSplit">
-        <div>
-          <div className="aiBadge">SHELF-STABLE PANTRY SETUP</div>
-          <h1>PANTRY STAPLES</h1>
-          <p>
-            Choose a pantry level and check off shelf-stable products you already
-            keep on hand. Each level builds on the one before it.
-          </p>
-        </div>
-
-        <div className="totalBox">
-          <small>{selectedLevelInfo.shortLabel} Stocked</small>
-          <strong>
-            {checkedCount}/{totalStaples}
-          </strong>
-        </div>
-      </div>
+      <SectionIntro
+        eyebrow="SHELF-STABLE PANTRY SETUP"
+        title="PANTRY STAPLES"
+        text="Choose a pantry level and check off shelf-stable products you already keep on hand. Each level builds on the one before it."
+        centered={false}
+        className="pageHeader pantryHeader"
+        actions={
+          <div className="totalBox">
+            <small>{selectedLevelInfo.shortLabel} Stocked</small>
+            <strong>{checkedCount}/{totalStaples}</strong>
+          </div>
+        }
+      />
 
       <div className="pantryLevelTabs" role="tablist" aria-label="Pantry staple level">
         {PANTRY_LEVELS.map((level) => (
@@ -8056,25 +8052,23 @@ function PreparedFreezerInventoryPage({
 
   return (
     <main className="pageShell preparedInventoryPage">
-      <div className="pageHeader rrbSectionIntro rrbSectionIntroSplit">
-        <div>
-          <div className="aiBadge">PREPARED COMPONENTS</div>
-          <h1>Freezer Inventory</h1>
-          <p>
-            Track prepared proteins, sauces, doughs, main dishes, sides, and other
-            freezer items by package. Planned Combo Meals reserve packages without
-            removing them until the meal is completed.
-          </p>
-        </div>
-        <div className="pageHeaderActions">
-          <button className="primary" type="button" onClick={() => { resetForm(); setShowForm(true); }}>
-            Add Inventory Item
-          </button>
-          <button className="secondary" type="button" onClick={() => setActivePage("Meal Planner")}>
-            Meal Planner
-          </button>
-        </div>
-      </div>
+      <SectionIntro
+        eyebrow="PREPARED COMPONENTS"
+        title="Freezer Inventory"
+        text="Track prepared proteins, sauces, doughs, main dishes, sides, and other freezer items by package. Planned Combo Meals reserve packages without removing them until the meal is completed."
+        centered={false}
+        className="pageHeader preparedInventoryHeader"
+        actions={
+          <>
+            <button className="primary" type="button" onClick={() => { resetForm(); setShowForm(true); }}>
+              Add Inventory Item
+            </button>
+            <button className="secondary" type="button" onClick={() => setActivePage("Meal Planner")}>
+              Meal Planner
+            </button>
+          </>
+        }
+      />
 
       <KosKitchenStatusBand kosUi={kosUi} mode="available" />
 
@@ -8568,16 +8562,12 @@ function RefrigeratorInventoryPage({ refrigerator, setRefrigerator, setActivePag
 
   return (
     <main className="pageShell refrigeratorInventoryPage">
-      <div className="pageHeader refrigeratorHeader rrbSectionIntro rrbSectionIntroSplit">
-        <div>
-          <h1>REFRIGERATOR INVENTORY</h1>
-          <p>
-            Track refrigerated foods, leftovers, quantities, opened dates, and use-by reminders.
-            Mark what you already have, flag items that should be used soon, and send low-stock
-            items to your grocery list before they are forgotten.
-          </p>
-        </div>
-      </div>
+      <SectionIntro
+        title="REFRIGERATOR INVENTORY"
+        text="Track refrigerated foods, leftovers, quantities, opened dates, and use-by reminders. Mark what you already have, flag items that should be used soon, and send low-stock items to your grocery list before they are forgotten."
+        centered={false}
+        className="pageHeader refrigeratorHeader"
+      />
 
       <section className="fridgeSummaryGrid" aria-label="Refrigerator inventory summary">
         <div className="fridgeSummaryBox"><small>Items in Refrigerator</small><strong>{summary.inFridge}</strong></div>
@@ -9674,28 +9664,26 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, refrige
 
   return (
     <main className="pageShell">
-      <div className="pageHeader rrbSectionIntro rrbSectionIntroSplit">
-        <div>
-          <div className="aiBadge">SMART SHOPPING LIST</div>
-          <h1>Shopping list</h1>
-          <p>
-            Needed items stay open for shopping. Pantry staples you already have
-            are shown separately.
-          </p>
-        </div>
-
-        <div className="pageHeaderActions">
-          <button className="primary" onClick={printShoppingList}>
-            Print List
-          </button>
-          <button
-            className="secondary"
-            onClick={() => setActivePage("Grocery Picks")}
-          >
-            Grocery Picks
-          </button>
-        </div>
-      </div>
+      <SectionIntro
+        eyebrow="SMART SHOPPING LIST"
+        title="Shopping List"
+        text="Needed items stay open for shopping. Pantry staples you already have are shown separately."
+        centered={false}
+        className="pageHeader shoppingListHeader"
+        actions={
+          <>
+            <button className="primary" onClick={printShoppingList}>
+              Print List
+            </button>
+            <button
+              className="secondary"
+              onClick={() => setActivePage("Grocery Picks")}
+            >
+              Grocery Picks
+            </button>
+          </>
+        }
+      />
 
       {list.length === 0 && preparedRequirementSummary.length === 0 ? (
         <EmptyState
@@ -9885,15 +9873,13 @@ function FavoritesPage({
   return (
     <>
       <main className="pageShell favoritesLibraryPage">
-        <div className="pageHeader rrbSectionIntro rrbSectionIntroSplit">
-          <div>
-            <div className="aiBadge">SAVED IN THIS BROWSER</div>
-            <h1>Favorites</h1>
-            <p>
-              Recipe cards and Combo-Meals saved on this device. No login or sync required.
-            </p>
-          </div>
-        </div>
+        <SectionIntro
+          eyebrow="SAVED IN THIS BROWSER"
+          title="Favorites"
+          text="Recipe cards and Combo-Meals saved on this device. No login or sync required."
+          centered={false}
+          className="pageHeader favoritesPageHeader"
+        />
 
         {!hasFavorites ? (
           <EmptyState
@@ -10220,23 +10206,18 @@ function RecommendationsPage({ setActivePage }) {
 function GroceryPicksPage({ setActivePage }) {
   return (
     <main className="pageShell groceryPicksPage">
-      <div className="pageHeader rrbSectionIntro rrbSectionIntroSplit">
-        <div>
-          <div className="aiBadge">SMART GROCERY REFERENCE</div>
-          <h1>Smart Grocery Picks</h1>
-          <p>
-            A reference list for lighter, lower-carb, freezer-friendly, and
-            small-household grocery choices. Use it before shopping, or when a
-            shopping-list item shows a suggested swap.
-          </p>
-        </div>
-
-        <div className="pageHeaderActions">
+      <SectionIntro
+        eyebrow="SMART GROCERY REFERENCE"
+        title="Smart Grocery Picks"
+        text="A reference list for lighter, lower-carb, freezer-friendly, and small-household grocery choices. Use it before shopping, or when a shopping-list item shows a suggested swap."
+        centered={false}
+        className="pageHeader groceryPicksHeader"
+        actions={
           <button className="secondary" onClick={() => setActivePage("Shopping Lists")}>
             Back to Shopping List
           </button>
-        </div>
-      </div>
+        }
+      />
 
       <section className="groceryPicksIntro">
         <h2>How to use this list</h2>
@@ -10310,26 +10291,23 @@ function FreezerTipsPage({ setActivePage }) {
 
   return (
     <main className="pageShell freezerPage">
-      <div className="pageHeader freezerHeader rrbSectionIntro rrbSectionIntroSplit">
-        <div>
-          <div className="aiBadge">COOK ONCE · EAT ONCE · FREEZE ONCE</div>
-          <h1>Freezer Meals & Storage</h1>
-          <p>
-            Many Robert’s Recipe Box meals are intentionally planned for small
-            households with enough food for dinner now and a second prepared
-            meal to freeze for later.
-          </p>
-        </div>
-
-        <div className="freezerHeaderActions">
-          <button className="primary" onClick={() => setActivePage("Meal Planner")}>
-            Start Meal Planning
-          </button>
-          <button className="secondary" onClick={() => setActivePage("Shopping Lists")}>
-            View Shopping List
-          </button>
-        </div>
-      </div>
+      <SectionIntro
+        eyebrow="COOK ONCE · EAT ONCE · FREEZE ONCE"
+        title="Freezer Meals & Storage"
+        text="Many Robert’s Recipe Box meals are intentionally planned for small households with enough food for dinner now and a second prepared meal to freeze for later."
+        centered={false}
+        className="pageHeader freezerHeader"
+        actions={
+          <>
+            <button className="primary" onClick={() => setActivePage("Meal Planner")}>
+              Start Meal Planning
+            </button>
+            <button className="secondary" onClick={() => setActivePage("Shopping Lists")}>
+              View Shopping List
+            </button>
+          </>
+        }
+      />
 
       <section className="freezerIntroCard">
         <h2>The freezer-meal method</h2>
@@ -12450,6 +12428,47 @@ function PageHeroImage({ src, alt = "", title = "", eyebrow = "", text = "", ico
   );
 }
 
+
+function SectionIntro({
+  title,
+  text = "",
+  eyebrow = "",
+  centered = true,
+  actions = null,
+  video = null,
+  className = "",
+  as = "section",
+}) {
+  const Tag = as;
+  const classes = [
+    "rrbSectionIntroComponent",
+    centered ? "isCentered" : "isSplit",
+    className,
+  ].filter(Boolean).join(" ");
+
+  return (
+    <Tag className={classes}>
+      <div className="rrbSectionIntroCopy">
+        {eyebrow && <div className="aiBadge rrbSectionIntroEyebrow">{eyebrow}</div>}
+
+        <div className="rrbSectionIntroTitleRow">
+          <h2>{title}</h2>
+          {video}
+        </div>
+
+        {text && <p>{text}</p>}
+      </div>
+
+      {actions && (
+        <div className="rrbSectionIntroActions">
+          {actions}
+        </div>
+      )}
+    </Tag>
+  );
+}
+
+
 function HeroTopicPage({
   eyebrow,
   title,
@@ -13553,9 +13572,11 @@ function DinnerCombinationsPage({ setActivePage, setFilter, plan, setPlan, openR
   return (
     <main className="pageShell dinnerCombinationsPage">
       <section className="dinnerCombinationFinder" aria-labelledby="dinnerCombinationFinderTitle">
-        <div className="dinnerCombinationFinderHeading rrbSectionIntro rrbSectionIntroCentered">
-          <div className="dinnerCombinationFinderTitleRow">
-            <h2 id="dinnerCombinationFinderTitle">Find a Complete Dinner</h2>
+        <SectionIntro
+          title="Find a Complete Dinner"
+          text="Choose a category or use the filters below to find a ready-made dinner combination."
+          className="dinnerCombinationFinderHeading"
+          video={
             <SupplementalHoverVideo
               title="Find a Complete Dinner overview video"
               className="dinnerCombinationFinderVideo"
@@ -13567,9 +13588,8 @@ function DinnerCombinationsPage({ setActivePage, setFilter, plan, setPlan, openR
                 aria-hidden="true"
               />
             </SupplementalHoverVideo>
-          </div>
-          <p>Choose a category or use the filters below to find a ready-made dinner combination.</p>
-        </div>
+          }
+        />
 
         <div className="dinnerCategorySegmented" role="group" aria-label="Complete Dinner categories">
           {[
@@ -15192,15 +15212,12 @@ function GLP1NutritionPage({ setActivePage, setFilter }) {
 
   return (
     <main className="pageShell glp1EducationPage">
-      <section className="glp1EducationIntro rrbSectionIntro rrbSectionIntroCentered">
-        <span className="aiBadge">GLP-1 NUTRITION SUPPORT</span>
-        <h2>Nutrition Guidance for Smaller Meals</h2>
-        <p>
-          A practical food guide for making smaller meals count. This page
-          supports thoughtful recipe choices without replacing individualized
-          medical or nutrition advice.
-        </p>
-      </section>
+      <SectionIntro
+        eyebrow="GLP-1 NUTRITION SUPPORT"
+        title="Nutrition Guidance for Smaller Meals"
+        text="A practical food guide for making smaller meals count. This page supports thoughtful recipe choices without replacing individualized medical or nutrition advice."
+        className="glp1EducationIntro"
+      />
 
       <section className="glp1EducationGrid" aria-label="GLP-1 nutrition guidance">
         {GLP1_EDUCATION_SECTIONS.map((section) => (
@@ -15397,10 +15414,11 @@ function SlowCookerRecipesPage({
 
   return (
     <main className="pageShell slowCookerRecipesPage">
-      <section className="slowCookerFinderHeader rrbSectionIntro rrbSectionIntroCentered">
-        <h2>Find a Crock Pot Recipe</h2>
-        <p>Choose a category or use the filters below to find the Crock Pot recipe you want.</p>
-      </section>
+      <SectionIntro
+        title="Find a Crock Pot Recipe"
+        text="Choose a category or use the filters below to find the Crock Pot recipe you want."
+        className="slowCookerFinderHeader"
+      />
 
       <section className="slowCookerGroupTabs" aria-label="Crock Pot recipe groups">
         {SLOW_COOKER_GROUPS.map((group) => (
