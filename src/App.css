@@ -17027,3 +17027,33 @@ button.browseRecipeWideFooterAction:focus-visible,
     padding-right: 4px !important;
   }
 }
+
+
+/* ================================================================
+   v79.3 — WEEKLY PLANNER ACTION BUTTON HEIGHT CORRECTION
+   Copy Week / View / Print / Clear match the visible Week selector height.
+   ================================================================ */
+
+.weeklyCalendarPlannerControlsRowV3 button.weeklyCalendarPlannerTaskButton.weeklyCalendarPlannerCopy,
+.weeklyCalendarPlannerControlsRowV3 button.weeklyCalendarPlannerTaskButton.weeklyCalendarPlannerView,
+.weeklyCalendarPlannerControlsRowV3 button.weeklyCalendarPlannerTaskButton.weeklyCalendarPlannerPrint,
+.weeklyCalendarPlannerControlsRowV3 button.weeklyCalendarPlannerTaskButton.weeklyCalendarPlannerClear {
+  height: 36px !important;
+  min-height: 36px !important;
+  max-height: 36px !important;
+  align-self: center !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  box-sizing: border-box !important;
+}
+
+/* Keep the 38px grid track/capsule system; center the 36px action face inside it. */
+.weeklyCalendarPlannerCopy,
+.weeklyCalendarPlannerView,
+.weeklyCalendarPlannerPrint,
+.weeklyCalendarPlannerClear {
+  justify-self: stretch !important;
+  align-self: center !important;
+}
