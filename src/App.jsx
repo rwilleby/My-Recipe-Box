@@ -9660,25 +9660,22 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, refrige
   return (
     <main className="pageShell">
       <SectionIntro
-        eyebrow="SMART SHOPPING LIST"
         title="Shopping List"
         text="Needed items stay open for shopping. Pantry staples you already have are shown separately."
-        centered={false}
-        className="pageHeader shoppingListHeader"
-        actions={
-          <>
-            <button className="primary" onClick={printShoppingList}>
-              Print List
-            </button>
-            <button
-              className="secondary"
-              onClick={() => setActivePage("Grocery Picks")}
-            >
-              Grocery Picks
-            </button>
-          </>
-        }
+        className="shoppingListSectionIntro"
       />
+
+      <div className="shoppingListIntroActions">
+        <button className="primary" onClick={printShoppingList}>
+          Print List
+        </button>
+        <button
+          className="secondary"
+          onClick={() => setActivePage("Grocery Picks")}
+        >
+          Grocery Picks
+        </button>
+      </div>
 
       {list.length === 0 && preparedRequirementSummary.length === 0 ? (
         <EmptyState
