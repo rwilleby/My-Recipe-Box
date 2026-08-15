@@ -15487,3 +15487,125 @@ button.browseRecipeWideFooterAction:focus-visible,
   .shoppingPage .pageHeader p,
   .glp1EducationIntro p,
   .nutritionGuidanceIntro p {font-size: 15px !important;}}
+
+
+/* ================================================================
+   v78.3 — SHARED SECTION INTRO STANDARD
+   First standards migration on the cleaned v78 foundation.
+   ================================================================ */
+
+/*
+  rrbSectionIntro is now the authoritative source for approved section-intro
+  typography. The repeated shared class in these selectors is intentional:
+  it gives the common standard enough specificity to beat legacy page-specific
+  !important rules without returning to page-by-page overrides.
+*/
+.rrbSectionIntro.rrbSectionIntro h1,
+.rrbSectionIntro.rrbSectionIntro h2,
+.rrbSectionIntro.rrbSectionIntro .homeVideoTitle {
+  font-family: var(--rrb-font-heading, Georgia, "Times New Roman", serif) !important;
+  font-size: var(--rrb-section-intro-title-size, 28px) !important;
+  font-weight: var(--rrb-section-intro-title-weight, 700) !important;
+  font-style: normal !important;
+  line-height: var(--rrb-section-intro-title-line-height, 1.1) !important;
+  color: var(--rrb-color-heading, #111827) !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+}
+
+.rrbSectionIntro.rrbSectionIntro > p,
+.rrbSectionIntro.rrbSectionIntro > div:first-child > p,
+.rrbSectionIntro.rrbSectionIntro .weeklyCalendarPlannerSubtitle {
+  font-family: var(--rrb-font-body, Inter, Arial, sans-serif) !important;
+  font-size: var(--rrb-section-intro-copy-size, 16px) !important;
+  font-weight: var(--rrb-section-intro-copy-weight, 600) !important;
+  font-style: normal !important;
+  line-height: var(--rrb-section-intro-copy-line-height, 1.3) !important;
+  color: var(--rrb-color-body, #667085) !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+}
+
+.rrbSectionIntro.rrbSectionIntro a,
+.rrbSectionIntro.rrbSectionIntro .sectionIntroLink {
+  font-family: var(--rrb-font-body, Inter, Arial, sans-serif) !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  color: var(--rrb-color-link-green, #245C37) !important;
+  text-decoration: underline !important;
+}
+
+/* Standalone section introductions use the approved centered treatment. */
+.rrbSectionIntroCentered {
+  text-align: center !important;
+}
+
+.rrbSectionIntroCentered > h1,
+.rrbSectionIntroCentered > h2,
+.rrbSectionIntroCentered > p,
+.rrbSectionIntroCentered > div:first-child,
+.rrbSectionIntroCentered > div:first-child > h1,
+.rrbSectionIntroCentered > div:first-child > h2,
+.rrbSectionIntroCentered > div:first-child > p {
+  text-align: center !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* Keep the approved title/supporting relationship consistent. */
+.rrbSectionIntro.rrbSectionIntro h1,
+.rrbSectionIntro.rrbSectionIntro h2,
+.rrbSectionIntro.rrbSectionIntro .homeVideoTitle {
+  margin-top: 0 !important;
+  margin-bottom: 10px !important;
+}
+
+.rrbSectionIntro.rrbSectionIntro > p,
+.rrbSectionIntro.rrbSectionIntro > div:first-child > p,
+.rrbSectionIntro.rrbSectionIntro .weeklyCalendarPlannerSubtitle {
+  margin-top: 0 !important;
+}
+
+/*
+  Functional page headers keep their existing left/right layout.
+  This class changes typography only.
+*/
+.rrbSectionIntroSplit {
+  text-align: left !important;
+}
+
+.rrbSectionIntroSplit > div:first-child,
+.rrbSectionIntroSplit > div:first-child > h1,
+.rrbSectionIntroSplit > div:first-child > h2,
+.rrbSectionIntroSplit > div:first-child > p {
+  text-align: left !important;
+}
+
+/* Inline gray video icon standard. */
+.rrbSectionIntro .supplementalVideoIcon,
+.rrbSectionIntro .dinnerCombinationFinderVideo,
+.rrbSectionIntro .weeklyPlannerTitleVideoTrigger,
+.rrbSectionIntro .homeQuickLinksVideoTrigger {
+  vertical-align: middle !important;
+}
+
+.rrbSectionIntro .supplementalVideoIcon {
+  margin-left: 6px !important;
+}
+
+/* Small-screen section-intro scale. */
+@media (max-width: 720px) {
+  .rrbSectionIntro.rrbSectionIntro h1,
+  .rrbSectionIntro.rrbSectionIntro h2,
+  .rrbSectionIntro.rrbSectionIntro .homeVideoTitle {
+    font-size: 24px !important;
+  }
+
+  .rrbSectionIntro.rrbSectionIntro > p,
+  .rrbSectionIntro.rrbSectionIntro > div:first-child > p,
+  .rrbSectionIntro.rrbSectionIntro .weeklyCalendarPlannerSubtitle,
+  .rrbSectionIntro.rrbSectionIntro a,
+  .rrbSectionIntro.rrbSectionIntro .sectionIntroLink {
+    font-size: 15px !important;
+  }
+}
