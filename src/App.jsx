@@ -780,6 +780,7 @@ const QUICK_LINKS_VIDEO_URL = "videos/browse-our-quick-links.mp4";
 const QUICK_LINKS_VIDEO_POSTER = "images/video-posters/browse-our-quick-links-poster.webp";
 const WELCOME_TO_SITE_VIDEO_URL = "videos/welcome-to-our-site.mp4";
 const WELCOME_TO_SITE_VIDEO_POSTER = "images/video-posters/welcome-to-our-site-poster.webp";
+const SLOW_COOKER_VIDEO_URL = "videos/crock-pot-meals.mp4";
 
 const BACKUP_RESTORE_VIDEO_URL = "videos/backup-and-restore.mp4";
 const BACKUP_RESTORE_VIDEO_POSTER = "images/video-posters/backup-and-restore-poster.webp";
@@ -1544,7 +1545,6 @@ const NO_INTRO_VIDEO_PAGES = new Set([
   "RFIS Search",
   "Freezer-Friendly Meals",
 
-  "Slow Cooker Favorites",
   "Summer Cookouts",
   "Healthy Dinners",
   "Comfort Foods",
@@ -2534,6 +2534,16 @@ function CategoryGrid({ setFilter, setActivePage }) {
   });
 
   function openCategory(category) {
+    if (category.id === "CP") {
+      setActivePage("Slow Cooker Favorites");
+      window.requestAnimationFrame(() => {
+        window.requestAnimationFrame(() => {
+          window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+        });
+      });
+      return;
+    }
+
     const matchingCategory = categories.find((item) => item.id === category.id);
     setFilter(matchingCategory?.name || category.name);
     setActivePage("Recipes");
@@ -15265,6 +15275,223 @@ function GLP1NutritionPage({ setActivePage, setFilter }) {
 }
 
 
+
+const SLOW_COOKER_GROUPS = [
+  { id: "all", label: "ALL" },
+  { id: "chicken", label: "CHICKEN & TURKEY" },
+  { id: "beef", label: "BEEF" },
+  { id: "pork", label: "PORK & HAM" },
+  { id: "sausage", label: "SAUSAGE" },
+  { id: "soups", label: "SOUPS & STEWS" },
+  { id: "breakfast", label: "BREAKFAST" },
+  { id: "sides", label: "SIDES" },
+  { id: "desserts", label: "DESSERTS" },
+];
+
+function slowCookerGroupForRecipe(recipe) {
+  const title = String(recipe?.title || "").toLowerCase();
+  const codeNumber = Number(String(recipe?.id || "").match(/CP-(\d{3})/)?.[1] || 0);
+
+  if (codeNumber >= 171) return "desserts";
+  if (codeNumber >= 156 && codeNumber <= 170) return "sides";
+  if (codeNumber >= 146 && codeNumber <= 155) return "breakfast";
+
+  if (
+    title.includes("soup") ||
+    title.includes("stew") ||
+    title.includes("chili") ||
+    title.includes("chowder")
+  ) return "soups";
+
+  if (
+    title.includes("sausage") ||
+    title.includes("kielbasa")
+  ) return "sausage";
+
+  if (
+    title.includes("pork") ||
+    title.includes("ham") ||
+    title.includes("carnitas") ||
+    title.includes("rib")
+  ) return "pork";
+
+  if (
+    title.includes("beef") ||
+    title.includes("steak") ||
+    title.includes("pot roast") ||
+    title.includes("meatloaf") ||
+    title.includes("hamburger") ||
+    title.includes("barbacoa") ||
+    title.includes("birria") ||
+    title.includes("corned")
+  ) return "beef";
+
+  if (
+    title.includes("chicken") ||
+    title.includes("turkey")
+  ) return "chicken";
+
+  return "all";
+}
+
+function slowCookerMealType(recipe) {
+  const group = slowCookerGroupForRecipe(recipe);
+  if (group === "breakfast") return "Breakfast";
+  if (group === "sides") return "Sides";
+  if (group === "desserts") return "Desserts";
+  if (group === "soups") return "Soups & Stews";
+  return "Main Dishes";
+}
+
+function SlowCookerRecipesPage({
+  recipes: classifiedRecipes = [],
+  favorites = [],
+  toggleFavorite = () => {},
+  addToPlan = () => {},
+  openRecipeCard = () => {},
+}) {
+  const [activeGroup, setActiveGroup] = useState("all");
+  const [search, setSearch] = useState("");
+  const [protein, setProtein] = useState("all");
+  const [mealType, setMealType] = useState("all");
+  const [favoritesOnly, setFavoritesOnly] = useState(false);
+
+  const crockPotRecipes = useMemo(
+    () =>
+      classifiedRecipes
+        .filter((recipe) => String(recipe?.id || "").startsWith("CP-"))
+        .sort((a, b) => String(a.id).localeCompare(String(b.id), undefined, { numeric: true })),
+    [classifiedRecipes],
+  );
+
+  const filteredRecipes = useMemo(() => {
+    const needle = search.trim().toLowerCase();
+
+    return crockPotRecipes.filter((recipe) => {
+      const group = slowCookerGroupForRecipe(recipe);
+      const type = slowCookerMealType(recipe);
+      const matchesGroup = activeGroup === "all" || group === activeGroup;
+      const matchesSearch =
+        !needle ||
+        `${recipe.id} ${recipe.title}`.toLowerCase().includes(needle);
+      const matchesProtein =
+        protein === "all" ||
+        group === protein;
+      const matchesMealType =
+        mealType === "all" ||
+        type === mealType;
+      const matchesFavorite =
+        !favoritesOnly ||
+        favorites.includes(recipe.id);
+
+      return (
+        matchesGroup &&
+        matchesSearch &&
+        matchesProtein &&
+        matchesMealType &&
+        matchesFavorite
+      );
+    });
+  }, [activeGroup, crockPotRecipes, favorites, favoritesOnly, mealType, protein, search]);
+
+  return (
+    <main className="pageShell slowCookerRecipesPage">
+      <section className="slowCookerFinderHeader">
+        <h2>Find a Crock Pot Recipe</h2>
+        <p>Choose a protein or recipe type, or use the filters below to find the slow-cooker meal you want.</p>
+      </section>
+
+      <section className="slowCookerGroupTabs" aria-label="Crock Pot recipe groups">
+        {SLOW_COOKER_GROUPS.map((group) => (
+          <button
+            key={group.id}
+            type="button"
+            className={activeGroup === group.id ? "isActive" : ""}
+            onClick={() => setActiveGroup(group.id)}
+          >
+            {group.label}
+          </button>
+        ))}
+      </section>
+
+      <section className="slowCookerFilterBar">
+        <label className="slowCookerSearchField">
+          <span>SEARCH</span>
+          <input
+            type="search"
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+            placeholder="Search Crock Pot recipes..."
+          />
+        </label>
+
+        <label>
+          <span>PROTEIN</span>
+          <select value={protein} onChange={(event) => setProtein(event.target.value)}>
+            <option value="all">All Proteins</option>
+            <option value="chicken">Chicken & Turkey</option>
+            <option value="beef">Beef</option>
+            <option value="pork">Pork & Ham</option>
+            <option value="sausage">Sausage</option>
+          </select>
+        </label>
+
+        <label>
+          <span>MEAL TYPE</span>
+          <select value={mealType} onChange={(event) => setMealType(event.target.value)}>
+            <option value="all">All Meal Types</option>
+            <option>Main Dishes</option>
+            <option>Soups & Stews</option>
+            <option>Breakfast</option>
+            <option>Sides</option>
+            <option>Desserts</option>
+          </select>
+        </label>
+
+        <label className="slowCookerFavoriteFilter">
+          <span>FAVORITE</span>
+          <button
+            type="button"
+            className={favoritesOnly ? "isActive" : ""}
+            onClick={() => setFavoritesOnly((current) => !current)}
+            aria-pressed={favoritesOnly}
+          >
+            ♥
+          </button>
+        </label>
+      </section>
+
+      <div className="slowCookerResultCount">
+        <strong>{filteredRecipes.length}</strong>
+        <span>Crock Pot recipes shown</span>
+      </div>
+
+      {filteredRecipes.length ? (
+        <div className="recipeGrid browseRecipeGrid slowCookerRecipeGrid">
+          {filteredRecipes.map((recipe) => (
+            <RecipeCard
+              key={recipe.id}
+              recipe={recipe}
+              favorites={favorites}
+              toggleFavorite={toggleFavorite}
+              addToPlan={addToPlan}
+              openRecipeCard={openRecipeCard}
+              cardList={filteredRecipes}
+              viewerContext="Crock Pot Meals"
+              displayMode="card"
+            />
+          ))}
+        </div>
+      ) : (
+        <EmptyState
+          title="No Crock Pot recipes match these filters"
+          text="Choose another protein or meal type, clear the search, or turn off Favorites."
+        />
+      )}
+    </main>
+  );
+}
+
 function CollectionDetailPage({
   title,
   text,
@@ -16808,14 +17035,13 @@ These pages are designed to be easy to scan, print, or revisit when needed. They
             src="images/heroes/hero-page-slow-cooker.webp"
             alt="Slow cooker meal setup with crockpot, sides, rolls, recipe box, and slow cooker meal plan clipboard"
             eyebrow="COLLECTIONS"
-            title="Slow Cooker Favorites"
+            title="Slow Cooker Meals"
             text="Slow cooker meals are ideal for days when you want dinner cooking while you handle everything else. Many recipes require only a little preparation before the Crockpot takes over and slowly develops the flavor.\n\nThis collection includes comforting meats, soups, stews, casseroles, and other dependable meals. They are especially useful for busy weekdays, relaxed weekends, meal preparation, and dishes that benefit from long, gentle cooking."
             className="pageHeroDepth464"
-/>
-          <CollectionDetailPage
-            title="Slow Cooker Favorites"
-            text="A collection page for easy slow-cooker meals and set-it-and-forget-it dinner ideas. More recipes and filters will be added here."
-            setActivePage={setActivePage}
+            videoSrc={SLOW_COOKER_VIDEO_URL}
+            videoPoster="images/heroes/hero-page-slow-cooker.webp"
+          />
+          <SlowCookerRecipesPage
             recipes={classifiedRecipes}
             favorites={favorites}
             toggleFavorite={toggleFavorite}
