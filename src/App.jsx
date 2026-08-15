@@ -3082,23 +3082,24 @@ function HomeComboMealStrip({
   return (
     <>
       <section className="section homeComboMealStrip" aria-label="Complete meal ideas">
-        <div className="sectionTitle homeComboMealStripHeader">
-          <div>
-            <h2 className="homeVideoTitle">
-              <span>Looking for quick dinner ideas?</span>
-              <SupplementalHoverVideo
-                src={DINNER_IDEAS_VIDEO_URL}
-                poster={DINNER_IDEAS_VIDEO_POSTER}
-                title="Quick Dinner Ideas overview video"
-                className="homeDinnerIdeasVideoTrigger"
-              >
-                <span className="supplementalVideoIcon">
-                  <VideoIcon role="supplemental" alt="" className="supplementalVideoIconGray" />
-                  <VideoIcon role="main" alt="" className="supplementalVideoIconRed" />
-                </span>
-              </SupplementalHoverVideo>
-            </h2>
-            <p>
+        <SectionIntro
+          title="Looking for Quick Dinner Ideas?"
+          className="homeComboMealStripHeader quickDinnerSectionIntro"
+          video={
+            <SupplementalHoverVideo
+              src={DINNER_IDEAS_VIDEO_URL}
+              poster={DINNER_IDEAS_VIDEO_POSTER}
+              title="Quick Dinner Ideas overview video"
+              className="homeDinnerIdeasVideoTrigger"
+            >
+              <span className="supplementalVideoIcon">
+                <VideoIcon role="supplemental" alt="" className="supplementalVideoIconGray" />
+                <VideoIcon role="main" alt="" className="supplementalVideoIconRed" />
+              </span>
+            </SupplementalHoverVideo>
+          }
+          text={
+            <>
               Ready-made dinner combinations that pair a main dish with practical sides.{" "}
               <button
                 type="button"
@@ -3107,9 +3108,9 @@ function HomeComboMealStrip({
               >
                 (More ideas)
               </button>
-            </p>
-          </div>
-        </div>
+            </>
+          }
+        />
 
         <div className="homeComboMealGrid" data-site-mode={siteMode}>
           {(siteMode === "easy" ? homeComboMeals.slice(0, 4) : homeComboMeals).map((meal, position) => {
