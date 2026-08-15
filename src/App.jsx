@@ -15278,14 +15278,12 @@ function GLP1NutritionPage({ setActivePage, setFilter }) {
 
 const SLOW_COOKER_GROUPS = [
   { id: "all", label: "ALL" },
-  { id: "chicken", label: "CHICKEN & TURKEY" },
+  { id: "chicken", label: "CHICKEN / TURKEY" },
   { id: "beef", label: "BEEF" },
-  { id: "pork", label: "PORK & HAM" },
+  { id: "pork", label: "PORK / HAM" },
   { id: "sausage", label: "SAUSAGE" },
-  { id: "soups", label: "SOUPS & STEWS" },
-  { id: "breakfast", label: "BREAKFAST" },
-  { id: "sides", label: "SIDES" },
-  { id: "desserts", label: "DESSERTS" },
+  { id: "soups", label: "SOUPS / STEWS" },
+  { id: "more", label: "BREAKFAST / SIDES / DESSERTS" },
 ];
 
 function slowCookerGroupForRecipe(recipe) {
@@ -15370,7 +15368,10 @@ function SlowCookerRecipesPage({
     return crockPotRecipes.filter((recipe) => {
       const group = slowCookerGroupForRecipe(recipe);
       const type = slowCookerMealType(recipe);
-      const matchesGroup = activeGroup === "all" || group === activeGroup;
+      const matchesGroup =
+        activeGroup === "all" ||
+        group === activeGroup ||
+        (activeGroup === "more" && ["breakfast", "sides", "desserts"].includes(group));
       const matchesSearch =
         !needle ||
         `${recipe.id} ${recipe.title}`.toLowerCase().includes(needle);
@@ -15398,7 +15399,7 @@ function SlowCookerRecipesPage({
     <main className="pageShell slowCookerRecipesPage">
       <section className="slowCookerFinderHeader">
         <h2>Find a Crock Pot Recipe</h2>
-        <p>Choose a protein or recipe type, or use the filters below to find the slow-cooker meal you want.</p>
+        <p>Choose a category or use the filters below to find the Crock Pot recipe you want.</p>
       </section>
 
       <section className="slowCookerGroupTabs" aria-label="Crock Pot recipe groups">
