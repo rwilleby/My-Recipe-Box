@@ -16128,3 +16128,35 @@ button.browseRecipeWideFooterAction:focus-visible,
   margin-left: auto !important;
   margin-right: auto !important;
 }
+
+
+/* ================================================================
+   v78.11 — FIND A CROCK POT RECIPE SECTION INTRO
+   Legacy typography hook removed.
+   ================================================================ */
+
+.crockPotSectionIntro.rrbSectionIntroComponent {
+  display: block !important;
+  width: 100% !important;
+  margin: 0 auto var(--rrb-section-intro-bottom-gap) !important;
+  padding: 0 !important;
+  text-align: center !important;
+}
+
+.crockPotSectionIntro .rrbSectionIntroCopy {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 auto !important;
+  text-align: center !important;
+}
+
+.crockPotSectionIntro .rrbSectionIntroTitleRow {
+  justify-content: center !important;
+  width: 100% !important;
+}
+
+.crockPotSectionIntro p {
+  max-width: var(--rrb-section-intro-max-copy-width) !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}

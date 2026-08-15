@@ -15417,7 +15417,7 @@ function SlowCookerRecipesPage({
       <SectionIntro
         title="Find a Crock Pot Recipe"
         text="Choose a category or use the filters below to find the Crock Pot recipe you want."
-        className="slowCookerFinderHeader"
+        className="crockPotSectionIntro"
       />
 
       <section className="slowCookerGroupTabs" aria-label="Crock Pot recipe groups">
