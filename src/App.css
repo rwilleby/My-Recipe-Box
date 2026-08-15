@@ -16096,3 +16096,35 @@ button.browseRecipeWideFooterAction:focus-visible,
   margin-left: auto !important;
   margin-right: auto !important;
 }
+
+
+/* ================================================================
+   v78.10 — FIND A COMPLETE DINNER SECTION INTRO
+   Legacy typography hook removed.
+   ================================================================ */
+
+.completeDinnerSectionIntro.rrbSectionIntroComponent {
+  display: block !important;
+  width: 100% !important;
+  margin: 0 auto var(--rrb-section-intro-bottom-gap) !important;
+  padding: 0 !important;
+  text-align: center !important;
+}
+
+.completeDinnerSectionIntro .rrbSectionIntroCopy {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 auto !important;
+  text-align: center !important;
+}
+
+.completeDinnerSectionIntro .rrbSectionIntroTitleRow {
+  justify-content: center !important;
+  width: 100% !important;
+}
+
+.completeDinnerSectionIntro p {
+  max-width: var(--rrb-section-intro-max-copy-width) !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}

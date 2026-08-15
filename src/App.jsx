@@ -13575,7 +13575,7 @@ function DinnerCombinationsPage({ setActivePage, setFilter, plan, setPlan, openR
         <SectionIntro
           title="Find a Complete Dinner"
           text="Choose a category or use the filters below to find a ready-made dinner combination."
-          className="dinnerCombinationFinderHeading"
+          className="completeDinnerSectionIntro"
           video={
             <SupplementalHoverVideo
               title="Find a Complete Dinner overview video"
