@@ -57,6 +57,11 @@ import { loadJSON, saveJSON } from "./utils/storage";
 import { sortRecipesByCode } from "./utils/recipeSorting";
 import { applyStoredRecipeOverrides } from "./utils/recipeOverrides";
 import {
+  HOME_COMBO_MEAL_COUNT,
+  hasQuickDinnerHero,
+  selectVariedHomeComboMeals,
+} from "./utils/homeQuickDinnerRotation.js";
+import {
   buildShoppingList,
   formatQty,
 } from "./utils/planning";
@@ -2866,79 +2871,9 @@ function FeaturedComboMealCardModal({
   );
 }
 
-const HOME_COMBO_MEAL_COUNT = 6;
 const HOME_COMBO_ROTATION_MS = 60 * 1000;
 const HOME_COMBO_PAUSE_MS = 650;
 const HOME_COMBO_CROSSFADE_MS = 1200;
-const HOME_COMBO_CUISINE_ORDER = ["AM", "AS", "HB", "IT", "MX", "SG"];
-
-const HOME_COMBO_APPROVED_MEAL_NUMBERS = {
-  AM: [95, 94, 93, 89],
-  AS: [44, 45, 82, 92],
-  HB: [102, 23, 24, 22],
-  IT: [27, 28, 65, 70],
-  MX: [41, 75, 77, 72],
-  SG: [32, 39, 42, 62],
-};
-
-function getComboCuisineKey(meal) {
-  const recipeCode = String(meal?.mainRecipeId || "").trim().toUpperCase();
-  const prefix = recipeCode.match(/^([A-Z]{2,3})-/)?.[1] || "";
-  const searchable = `${meal?.title || ""} ${meal?.mainDish || ""} ${meal?.subtitle || ""}`.toLowerCase();
-
-  if (prefix === "AM") return "AM";
-  if (prefix === "AS" || /asian|teriyaki|stir[- ]?fry|lo mein|fried rice|orange chicken/.test(searchable)) return "AS";
-  if (["HB", "HBP"].includes(prefix) || /hamburger|burger|cheeseburger|patty melt/.test(searchable)) return "HB";
-  if (prefix === "IT" || /italian|alfredo|pasta|lasagna|parmesan|marinara|spaghetti/.test(searchable)) return "IT";
-  if (prefix === "MX" || /mexican|taco|enchilada|fajita|burrito|quesadilla|tamale/.test(searchable)) return "MX";
-  if (["SG", "SF"].includes(prefix) || /seafood|fish|shrimp|salmon|tuna|cod|tilapia|crab/.test(searchable)) return "SG";
-  return "OTHER";
-}
-
-function shuffleHomeComboMeals(items) {
-  const shuffled = [...items];
-  for (let index = shuffled.length - 1; index > 0; index -= 1) {
-    const swapIndex = Math.floor(Math.random() * (index + 1));
-    [shuffled[index], shuffled[swapIndex]] = [shuffled[swapIndex], shuffled[index]];
-  }
-  return shuffled;
-}
-
-function comboMealNumber(meal) {
-  const directNumber = Number(meal?.number);
-  if (Number.isFinite(directNumber)) return directNumber;
-
-  const idMatch = String(meal?.id || "").match(/(\d+)/);
-  return idMatch ? Number(idMatch[1]) : null;
-}
-
-function selectVariedHomeComboMeals(allMeals, currentMeals = []) {
-  const mealsByNumber = new Map(
-    allMeals
-      .map((meal) => [comboMealNumber(meal), meal])
-      .filter(([mealNumber]) => Number.isFinite(mealNumber))
-  );
-
-  return HOME_COMBO_CUISINE_ORDER.map((cuisineKey, position) => {
-    const approvedNumbers = HOME_COMBO_APPROVED_MEAL_NUMBERS[cuisineKey] || [];
-    const approvedMeals = approvedNumbers
-      .map((mealNumber) => mealsByNumber.get(mealNumber))
-      .filter(Boolean);
-
-    if (!approvedMeals.length) {
-      return currentMeals[position] || allMeals[position] || null;
-    }
-
-    const currentNumber = comboMealNumber(currentMeals[position]);
-    const currentIndex = approvedNumbers.indexOf(currentNumber);
-    const nextIndex =
-      currentIndex >= 0
-        ? (currentIndex + 1) % approvedMeals.length
-        : 0;
-
-    return approvedMeals[nextIndex] || approvedMeals[0];
-  }).filter(Boolean);
-}
 
 function HomeComboMealCardButton({ meal, className = "", onOpen, imageLoading = "eager" }) {
   return (
@@ -3004,7 +2939,7 @@ function HomeComboMealStrip({
   siteMode = "detailed",
 }) {
   const allHomeComboMeals = useMemo(
-    () => uniqueRecordsByPermanentId(dinnerCombinations),
+    () => uniqueRecordsByPermanentId(dinnerCombinations).filter(hasQuickDinnerHero),
     []
   );
   const [homeComboMeals, setHomeComboMeals] = useState(() =>

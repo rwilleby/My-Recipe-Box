@@ -1,3 +1,10 @@
+# v82.1 — Quick Dinner Hero-Only Rotation
+
+- Limited the “Looking for Quick Dinner Ideas?” rotation to Complete Dinners with an approved, available hero image.
+- Prevented text placeholders and dinners without a published hero from entering the homepage rotation.
+- Preserved the six-card layout, cuisine-slot preference, one-minute rotation, crossfade behavior, and no-duplicate selection.
+- Added safe hero-only fallback selection when a preferred cuisine does not yet have an available dinner hero.
+
 # v82.0 — Compact Admin Recipe Categorization Layout
 
 - Moved the single-recipe selector into a full-width horizontal strip above the editor.
