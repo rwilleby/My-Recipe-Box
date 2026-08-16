@@ -1,3 +1,12 @@
+# v82.0 — Compact Admin Recipe Categorization Layout
+
+- Moved the single-recipe selector into a full-width horizontal strip above the editor.
+- Added a selected-recipe identity bar with the recipe hero, code, name, category, and assignment count.
+- Preserved full hero visibility with an uncropped `object-fit: contain` preview and safe image fallbacks.
+- Grouped Primary Category, Collections, Recipe Attributes, and Cooking Methods into one compact categorization section.
+- Arranged the three category groups side by side on wide screens with responsive two-column and single-column fallbacks.
+- Preserved group editing, Auto-Classify, GLP-1 review, browser storage, JSON import/export, and all public recipe pages.
+
 # v81b / 81.1.0 — Safe Repository and Media Optimization
 
 - Re-encoded Complete Dinner and supporting images at their original pixel dimensions, accepting only valid smaller outputs.

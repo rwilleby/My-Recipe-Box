@@ -17,6 +17,40 @@ import {
 import { applyAutoClassification, classifyRecipeLibrary } from "../data/recipeAutoClassifier.js";
 import "./AdminRecipeClassifier.css";
 
+function recipeHeroCandidates(recipe = {}) {
+  const recipeId = String(recipe.id || "").trim();
+  return [
+    recipeId ? `images/thumbs/heroes/${recipeId}.webp` : "",
+    recipe.heroImage,
+    recipeId ? `images/heroes/${recipeId}.webp` : "",
+    recipe.image,
+    recipeId ? `images/thumbs/recipes/${recipeId}.webp` : "",
+    recipeId ? `images/recipes/${recipeId}.webp` : "",
+    "images/recipes/AM-000.webp",
+  ].filter((value, index, values) => value && values.indexOf(value) === index);
+}
+
+function AdminRecipeHero({ recipe }) {
+  const candidates = useMemo(() => recipeHeroCandidates(recipe), [recipe]);
+  const [candidateIndex, setCandidateIndex] = useState(0);
+
+  useEffect(() => setCandidateIndex(0), [recipe?.id]);
+
+  return (
+    <img
+      src={`${import.meta.env.BASE_URL}${candidates[candidateIndex] || "images/recipes/AM-000.webp"}`}
+      alt={`${recipe.title || recipe.id || "Recipe"} hero`}
+      onError={(event) => {
+        if (candidateIndex < candidates.length - 1) {
+          setCandidateIndex((current) => current + 1);
+        } else {
+          event.currentTarget.hidden = true;
+        }
+      }}
+    />
+  );
+}
+
 function CheckboxGroup({ title, options, selected, onToggle }) {
   return (
     <fieldset className="adminClassifierGroup">
@@ -1092,7 +1126,10 @@ export default function AdminRecipeClassifier({
         {mode === "single" ? (
           <section className="adminClassifierEditor">
             <div className="adminSelectedRecipe">
-              <div>
+              <figure className="adminSelectedRecipeHero">
+                <AdminRecipeHero recipe={recipe} />
+              </figure>
+              <div className="adminSelectedRecipeIdentity">
                 <span>{recipe.id}</span>
                 <h2>{recipe.title}</h2>
                 <small>Current category: {recipe.category}</small>
@@ -1105,43 +1142,55 @@ export default function AdminRecipeClassifier({
               </span>
             </div>
 
-            <label className="adminPrimaryCategory">
-              <span>Primary Recipe Category</span>
-              <select
-                value={current.primaryCategory}
-                onChange={(event) =>
-                  updateCurrent({ primaryCategory: event.target.value })
-                }
-              >
-                <option value="">Choose a category</option>
-                {categories.map((category) => (
-                  <option key={category.id} value={category.name}>
-                    {category.name}
-                  </option>
-                ))}
-              </select>
-            </label>
+            <section className="adminCompactClassification" aria-label="Recipe categorization">
+              <div className="adminCompactClassificationHeading">
+                <div>
+                  <span className="aiBadge">RECIPE CATEGORIZATION</span>
+                  <h3>Categories & Planning Tags</h3>
+                </div>
+                <small>Choose every category that applies to this recipe.</small>
+              </div>
 
-            <CheckboxGroup
-              title="Collections"
-              options={RECIPE_COLLECTIONS}
-              selected={current.collections}
-              onToggle={(value) => toggleListValue("collections", value)}
-            />
+              <label className="adminPrimaryCategory">
+                <span>Primary Recipe Category</span>
+                <select
+                  value={current.primaryCategory}
+                  onChange={(event) =>
+                    updateCurrent({ primaryCategory: event.target.value })
+                  }
+                >
+                  <option value="">Choose a category</option>
+                  {categories.map((category) => (
+                    <option key={category.id} value={category.name}>
+                      {category.name}
+                    </option>
+                  ))}
+                </select>
+              </label>
 
-            <CheckboxGroup
-              title="Recipe Attributes"
-              options={RECIPE_ATTRIBUTES}
-              selected={current.attributes}
-              onToggle={(value) => toggleListValue("attributes", value)}
-            />
+              <div className="adminCompactCategoryGrid">
+                <CheckboxGroup
+                  title="Collections"
+                  options={RECIPE_COLLECTIONS}
+                  selected={current.collections}
+                  onToggle={(value) => toggleListValue("collections", value)}
+                />
 
-            <CheckboxGroup
-              title="Cooking Methods"
-              options={COOKING_METHODS}
-              selected={current.cookingMethods}
-              onToggle={(value) => toggleListValue("cookingMethods", value)}
-            />
+                <CheckboxGroup
+                  title="Recipe Attributes"
+                  options={RECIPE_ATTRIBUTES}
+                  selected={current.attributes}
+                  onToggle={(value) => toggleListValue("attributes", value)}
+                />
+
+                <CheckboxGroup
+                  title="Cooking Methods"
+                  options={COOKING_METHODS}
+                  selected={current.cookingMethods}
+                  onToggle={(value) => toggleListValue("cookingMethods", value)}
+                />
+              </div>
+            </section>
 
             <GLP1ReviewPanel
               recipe={recipe}

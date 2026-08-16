@@ -1,0 +1,27 @@
+{
+  "release": "v82.0",
+  "version": "82.0.0",
+  "title": "Compact Admin Recipe Categorization Layout",
+  "baseRelease": "v81b",
+  "scope": "Admin Recipe Classification only",
+  "changes": [
+    "Full-width horizontal recipe selector",
+    "Selected-recipe hero, code, name, category, and assignment identity strip",
+    "Compact grouped Primary Category, Collections, Recipe Attributes, and Cooking Methods",
+    "Responsive three-column, two-column, and single-column categorization layouts",
+    "Uncropped hero preview with thumbnail and image fallbacks"
+  ],
+  "preserved": [
+    "Public recipe pages",
+    "Group classification editor",
+    "Auto-Classify workflow",
+    "GLP-1 review panel",
+    "Browser classification storage",
+    "Classification JSON import and export"
+  ],
+  "verification": {
+    "activeTestsPassed": 34,
+    "productionBuild": "passed",
+    "modulesTransformed": 128
+  }
+}
