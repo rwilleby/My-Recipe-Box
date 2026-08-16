@@ -1272,6 +1272,7 @@ const EMPTY_PREPARED_INVENTORY = {
   version: PREPARED_COMPONENT_SCHEMA_VERSION,
   records: [],
   customComponents: [],
+  managedItems: [],
 };
 
 function normalizePreparedInventory(value) {
@@ -1291,6 +1292,19 @@ function normalizePreparedInventory(value) {
         }))
       : [],
     customComponents: Array.isArray(value.customComponents) ? value.customComponents : [],
+    managedItems: Array.isArray(value.managedItems)
+      ? value.managedItems.map((item) => ({
+          id: item.id || `fmi-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+          kind: item.kind === "completeMeal" ? "completeMeal" : "mainCourse",
+          sourceId: String(item.sourceId || ""),
+          packagesAvailable: Math.max(0, Number(item.packagesAvailable) || 0),
+          servingsPerPackage: Math.max(1, Number(item.servingsPerPackage) || 2),
+          datePrepared: item.datePrepared || "",
+          useByDate: item.useByDate || "",
+          storageLocation: item.storageLocation || "Kitchen freezer",
+          notes: item.notes || "",
+        }))
+      : [],
   };
 }
 
@@ -1495,6 +1509,7 @@ const NAV_GROUPS = [
       { label: "YOUR FAVORITE RECIPES", page: "Favorites" },
       { label: "REFRIGERATOR INVENTORY", page: "Kitchen Refrigerator", detailedOnly: true },
       { label: "PREPARED FREEZER INVENTORY", page: "Prepared Freezer Inventory", detailedOnly: true },
+      { label: "FREEZER INVENTORY MANAGEMENT", page: "Freezer Inventory Management", detailedOnly: true },
       { label: "FREEZER INVENTORY", page: "Kitchen Freezer", detailedOnly: true },
       { label: "PANTRY INVENTORY", page: "Pantry Staples" },
       { label: "HEALTHY SUBSTITUTIONS", page: "Grocery Picks" },
@@ -1633,7 +1648,7 @@ function Header({ activePage, setActivePage, favorites }) {
       label: "MEAL PLANNING",
       page: "Meal Planner",
       items: (NAV_GROUPS.find((group) => group.label === "YOUR KITCHEN")?.items || []).map((item) =>
-        ["Kitchen Refrigerator", "Prepared Freezer Inventory", "Kitchen Freezer", "Pantry Staples"].includes(item.page)
+        ["Kitchen Refrigerator", "Prepared Freezer Inventory", "Freezer Inventory Management", "Kitchen Freezer", "Pantry Staples"].includes(item.page)
           ? { ...item, level: 1 }
           : item
       ),
@@ -8203,6 +8218,9 @@ function PreparedFreezerInventoryPage({
         <button className="primary" type="button" onClick={() => { resetForm(); setShowForm(true); }}>
           Add Inventory Item
         </button>
+        <button className="secondary" type="button" onClick={() => setActivePage("Freezer Inventory Management")}>
+          Manage Frozen Meals
+        </button>
         <button className="secondary" type="button" onClick={() => setActivePage("Meal Planner")}>
           Meal Planner
         </button>
@@ -8303,6 +8321,290 @@ function PreparedFreezerInventoryPage({
     </main>
   );
 }
+
+
+function freezerManagementDefaultUseBy(datePrepared = "") {
+  const base = datePrepared ? new Date(`${datePrepared}T12:00:00`) : new Date();
+  if (Number.isNaN(base.getTime())) return "";
+  const next = new Date(base);
+  next.setMonth(next.getMonth() + 3);
+  return next.toISOString().slice(0, 10);
+}
+
+function freezerManagementMainCourseRecipes(recipes = []) {
+  const mainCategoryCodes = new Set([
+    "AM", "AS", "CP", "CS", "HB", "HBP", "IT", "MX", "QP", "SB", "SF", "SG", "SW",
+  ]);
+
+  return (recipes || [])
+    .filter((recipe) => mainCategoryCodes.has(String(recipe?.id || "").split("-")[0]))
+    .sort((a, b) => String(a.id).localeCompare(String(b.id), undefined, { numeric: true }));
+}
+
+function FreezerInventoryManagementPage({
+  preparedInventory,
+  setPreparedInventory,
+  classifiedRecipes = [],
+  setActivePage,
+}) {
+  const [activeKind, setActiveKind] = useState("completeMeal");
+  const [search, setSearch] = useState("");
+  const [stockFilter, setStockFilter] = useState("all");
+
+  const safeInventory = normalizePreparedInventory(preparedInventory);
+  const managedItems = safeInventory.managedItems || [];
+  const mainCourses = useMemo(
+    () => freezerManagementMainCourseRecipes(classifiedRecipes),
+    [classifiedRecipes]
+  );
+
+  const stockMap = useMemo(() => {
+    const map = new Map();
+    managedItems.forEach((item) => map.set(`${item.kind}:${item.sourceId}`, item));
+    return map;
+  }, [managedItems]);
+
+  const sourceItems = useMemo(() => {
+    if (activeKind === "completeMeal") {
+      return dinnerCombinations.map((meal) => ({
+        kind: "completeMeal",
+        sourceId: meal.id,
+        code: String(meal.id || "").toUpperCase(),
+        title: meal.title,
+        meal,
+      }));
+    }
+
+    return mainCourses.map((recipe) => ({
+      kind: "mainCourse",
+      sourceId: recipe.id,
+      code: recipe.id,
+      title: recipe.title,
+      recipe,
+    }));
+  }, [activeKind, mainCourses]);
+
+  const today = new Date().toISOString().slice(0, 10);
+  const soonCutoff = (() => {
+    const date = new Date();
+    date.setDate(date.getDate() + 30);
+    return date.toISOString().slice(0, 10);
+  })();
+
+  const visibleItems = sourceItems.filter((source) => {
+    const stock = stockMap.get(`${source.kind}:${source.sourceId}`);
+    const quantity = Number(stock?.packagesAvailable || 0);
+    const haystack = `${source.code} ${source.title}`.toLowerCase();
+    const matchesSearch = !search.trim() || haystack.includes(search.trim().toLowerCase());
+    if (!matchesSearch) return false;
+    if (stockFilter === "stocked" && quantity <= 0) return false;
+    if (stockFilter === "empty" && quantity > 0) return false;
+    if (stockFilter === "use-soon") {
+      return quantity > 0 && Boolean(stock?.useByDate) && stock.useByDate >= today && stock.useByDate <= soonCutoff;
+    }
+    return true;
+  });
+
+  const totalComplete = managedItems
+    .filter((item) => item.kind === "completeMeal")
+    .reduce((sum, item) => sum + Number(item.packagesAvailable || 0), 0);
+  const totalMains = managedItems
+    .filter((item) => item.kind === "mainCourse")
+    .reduce((sum, item) => sum + Number(item.packagesAvailable || 0), 0);
+  const stockedTitles = managedItems.filter((item) => Number(item.packagesAvailable || 0) > 0).length;
+
+  function updateManagedItem(source, patch) {
+    setPreparedInventory((current) => {
+      const safe = normalizePreparedInventory(current);
+      const key = `${source.kind}:${source.sourceId}`;
+      const currentItem = safe.managedItems.find((item) => `${item.kind}:${item.sourceId}` === key);
+      const datePrepared = patch.datePrepared ?? currentItem?.datePrepared ?? new Date().toISOString().slice(0, 10);
+      const baseItem = currentItem || {
+        id: `fmi-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+        kind: source.kind,
+        sourceId: source.sourceId,
+        packagesAvailable: 0,
+        servingsPerPackage: 2,
+        datePrepared,
+        useByDate: freezerManagementDefaultUseBy(datePrepared),
+        storageLocation: "Kitchen freezer",
+        notes: "",
+      };
+      const nextItem = {
+        ...baseItem,
+        ...patch,
+        packagesAvailable: Math.max(0, Number(patch.packagesAvailable ?? baseItem.packagesAvailable) || 0),
+        servingsPerPackage: Math.max(1, Number(patch.servingsPerPackage ?? baseItem.servingsPerPackage) || 1),
+      };
+
+      return {
+        ...safe,
+        managedItems: currentItem
+          ? safe.managedItems.map((item) => `${item.kind}:${item.sourceId}` === key ? nextItem : item)
+          : [...safe.managedItems, nextItem],
+      };
+    });
+  }
+
+  function changeQuantity(source, amount) {
+    const stock = stockMap.get(`${source.kind}:${source.sourceId}`);
+    updateManagedItem(source, {
+      packagesAvailable: Math.max(0, Number(stock?.packagesAvailable || 0) + amount),
+    });
+  }
+
+  return (
+    <main className="pageShell freezerInventoryManagementPage">
+      <SectionIntro
+        title="Freezer Inventory Management"
+        text="Review frozen Complete Meals and Main Courses, record what is actually on hand, and keep quantities current so the Weekly Meal Planner can eventually show which dinners are ready to reheat."
+        className="freezerManagementSectionIntro"
+      />
+
+      <section className="freezerManagementSummary" aria-label="Frozen meal inventory summary">
+        <div><small>Complete Meals</small><strong>{totalComplete}</strong></div>
+        <div><small>Main Courses</small><strong>{totalMains}</strong></div>
+        <div><small>Stocked Recipes / Meals</small><strong>{stockedTitles}</strong></div>
+      </section>
+
+      <div className="freezerManagementKindTabs" role="tablist" aria-label="Freezer inventory type">
+        <button
+          type="button"
+          className={activeKind === "completeMeal" ? "isActive" : ""}
+          aria-selected={activeKind === "completeMeal"}
+          onClick={() => setActiveKind("completeMeal")}
+        >
+          Complete Meals
+        </button>
+        <button
+          type="button"
+          className={activeKind === "mainCourse" ? "isActive" : ""}
+          aria-selected={activeKind === "mainCourse"}
+          onClick={() => setActiveKind("mainCourse")}
+        >
+          Main Courses
+        </button>
+      </div>
+
+      <section className="freezerManagementFilters" aria-label="Freezer stock review controls">
+        <label>
+          <span>Search</span>
+          <input
+            type="search"
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+            placeholder={activeKind === "completeMeal" ? "Search complete meals..." : "Search main courses..."}
+          />
+        </label>
+        <label>
+          <span>Show</span>
+          <select value={stockFilter} onChange={(event) => setStockFilter(event.target.value)}>
+            <option value="all">Show All</option>
+            <option value="stocked">Stocked Only</option>
+            <option value="empty">Not Stocked</option>
+            <option value="use-soon">Use Soon</option>
+          </select>
+        </label>
+        <button type="button" className="secondary" onClick={() => setActivePage("Meal Planner")}>
+          Weekly Meal Planner
+        </button>
+        <button type="button" className="secondary" onClick={() => setActivePage("Prepared Freezer Inventory")}>
+          Component Inventory
+        </button>
+      </section>
+
+      <div className="freezerManagementResultsBar">
+        <strong>{visibleItems.length}</strong>
+        <span>{activeKind === "completeMeal" ? "Complete Meals" : "Main Courses"} shown</span>
+      </div>
+
+      <section className="freezerManagementList">
+        {visibleItems.map((source) => {
+          const stock = stockMap.get(`${source.kind}:${source.sourceId}`);
+          const qty = Number(stock?.packagesAvailable || 0);
+          const useSoon = qty > 0 && stock?.useByDate && stock.useByDate >= today && stock.useByDate <= soonCutoff;
+
+          return (
+            <article className={`freezerManagementRow${qty > 0 ? " isStocked" : ""}${useSoon ? " useSoon" : ""}`} key={`${source.kind}-${source.sourceId}`}>
+              <div className="freezerManagementImage">
+                {source.kind === "completeMeal" ? (
+                  <DinnerCombinationImage meal={source.meal} />
+                ) : (
+                  <PlannerRecipeThumb recipe={source.recipe} />
+                )}
+              </div>
+
+              <div className="freezerManagementIdentity">
+                <span>{source.code}</span>
+                <strong>{source.title}</strong>
+                <small>
+                  {source.kind === "completeMeal"
+                    ? "Frozen complete dinner — ready to reheat"
+                    : "Frozen main course — sides may still be needed"}
+                </small>
+              </div>
+
+              <div className="freezerManagementQuantity">
+                <span>Frozen Packages</span>
+                <div>
+                  <button type="button" onClick={() => changeQuantity(source, -1)} disabled={qty <= 0}>−</button>
+                  <strong>{qty}</strong>
+                  <button type="button" onClick={() => changeQuantity(source, 1)}>+</button>
+                </div>
+              </div>
+
+              <label className="freezerManagementServings">
+                <span>Servings / Package</span>
+                <input
+                  type="number"
+                  min="1"
+                  value={stock?.servingsPerPackage || 2}
+                  onChange={(event) => updateManagedItem(source, { servingsPerPackage: event.target.value })}
+                />
+              </label>
+
+              <label>
+                <span>Date Frozen</span>
+                <input
+                  type="date"
+                  value={stock?.datePrepared || ""}
+                  onChange={(event) => {
+                    const datePrepared = event.target.value;
+                    updateManagedItem(source, {
+                      datePrepared,
+                      useByDate: stock?.useByDate || freezerManagementDefaultUseBy(datePrepared),
+                    });
+                  }}
+                />
+              </label>
+
+              <label>
+                <span>Use By</span>
+                <input
+                  type="date"
+                  value={stock?.useByDate || ""}
+                  onChange={(event) => updateManagedItem(source, { useByDate: event.target.value })}
+                />
+              </label>
+
+              <div className="freezerManagementStatus">
+                {qty > 0 ? (
+                  <>
+                    <span className="freezerStockBadge">❄ {qty} Available</span>
+                    {useSoon && <span className="freezerUseSoonBadge">Use Soon</span>}
+                  </>
+                ) : (
+                  <span className="freezerEmptyBadge">Not Stocked</span>
+                )}
+              </div>
+            </article>
+          );
+        })}
+      </section>
+    </main>
+  );
+}
+
 
 function AddLeftoversModal({ recipe, onClose, preparedInventory, setPreparedInventory }) {
   const components = getAllPreparedComponents(preparedInventory);
@@ -17034,6 +17336,20 @@ export default function App() {
             className="pageHeroDepth464"
           />
           <PreparedFreezerInventoryPage {...pageProps} />
+        </>
+      )}
+
+      {activePage === "Freezer Inventory Management" && (
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-page-freezer.webp"
+            alt="Organized freezer with labeled prepared meal packages"
+            eyebrow="MEAL PLANNING"
+            title="Freezer Inventory Management"
+            text="Review frozen Complete Meals and Main Courses, record how many packages are actually available, and keep freezer dates current so meal planning can make better use of food you already prepared."
+            className="pageHeroDepth464"
+          />
+          <FreezerInventoryManagementPage {...pageProps} />
         </>
       )}
 
