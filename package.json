@@ -1,6 +1,6 @@
 {
   "name": "rrb-browser-based-v1",
-  "version": "79.14.0",
+  "version": "81.0.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -12,7 +12,7 @@
     "test:rfis:architecture": "node test/rfisArchitectureContracts.test.mjs",
     "test:kos": "node test/kos100.test.mjs && node test/kos110.test.mjs && node test/kos120.test.mjs && node test/kos130.test.mjs && node test/kos135.test.mjs && node test/kos140.test.mjs && node test/kos150.test.mjs && node test/kos160.test.mjs && node test/kos170.test.mjs && node test/kos180.test.mjs && node test/kos200.test.mjs && node test/kos240.test.mjs && node test/kos300.test.mjs && node test/kos400.test.mjs && node test/kos500.test.mjs && node test/kos600.test.mjs && node test/kos720.test.mjs && node test/kos730.test.mjs && node test/kos740.test.mjs && node test/kos760.homeIntentWiring.test.mjs && node test/kos770.visibleStatusWiring.test.mjs && node test/kos780.planningShoppingPantryWiring.test.mjs && node test/kos790.backupCompanionWiring.test.mjs && node test/kos800.endToEndUiIntegration.test.mjs && node test/kos900.integration.test.mjs && node test/kos950.uiController.test.mjs && node test/kosArchitectureContracts.test.mjs",
     "check:kos": "npm run test:kos",
-    "test:all": "npm run test:rfis && npm run test:kos && npm run test:welcome-tour",
+    "test:all": "npm run test:rfis && npm run test:kos && npm run test:welcome-tour && npm run test:weekend-bulk-production",
     "test:dinner-combinations": "node test/dinnerCombinationsPageContract.test.mjs",
     "test:classification": "node test/recipeClassificationDurability.test.mjs",
     "test:dinner-nutrition": "node test/completeDinnerNutritionDisplay.test.mjs",
@@ -54,7 +54,8 @@
     "test:home-mode-soft": "node test/homeModeSoftV734.test.mjs",
     "test:v737": "node test/easyDetailedVideoV737.test.mjs",
     "test:v7310": "node test/easyDetailedRefineV7310.test.mjs",
-    "test:v7311": "node test/weeklyCalendarPlannerV7311.test.mjs"
+    "test:v7311": "node test/weeklyCalendarPlannerV7311.test.mjs",
+    "test:weekend-bulk-production": "node test/weekendBulkProductionV810.test.mjs"
   },
   "dependencies": {
     "react": "^19.1.0",

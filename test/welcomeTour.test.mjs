@@ -5,25 +5,23 @@ const app = fs.readFileSync("src/App.jsx", "utf8");
 const css = fs.readFileSync("src/App.css", "utf8");
 
 for (const token of [
-  "https://app.heygen.com/embeds/bb3981cd39304a75a7eec52bf223755c",
-  "rrb-welcome-tour-dismissed",
-  "rrb-welcome-tour-shown-this-session",
+  'const WELCOME_TOUR_VIDEO_URL = "videos/welcome-video.mp4"',
+  'const WELCOME_TOUR_VIDEO_POSTER = "images/video-posters/welcome-video-poster.webp"',
+  "LARGE_HERO_VIDEO_ACKNOWLEDGED_PREFIX",
   "Play Now",
-  "Maybe Later",
-  "Hide This",
-  "images/icons/VIDEO.webp",
+  "Close Window",
+  'const VIDEO_ICON_MAIN = "images/icons/video-red.webp"',
   "homeWelcomeTourIconButton",
   "rrb:open-welcome-tour",
-  "allowFullScreen",
+  "playsInline",
+  "onEnded={handleEnded}",
   "WelcomeTour",
 ]) {
   assert.ok(app.includes(token), `Missing welcome-tour contract token: ${token}`);
 }
 
-assert.ok(app.includes('event.key !== "Escape"'), "The welcome tour must close with Escape");
-assert.ok(app.includes("window.localStorage.setItem(WELCOME_TOUR_DISMISSED_KEY"), "Don't Show Again must persist locally");
-assert.ok(app.includes("window.sessionStorage.setItem(WELCOME_TOUR_SESSION_KEY"), "Automatic display must be limited to once per browsing session");
-assert.ok(!app.includes('allow="autoplay;'), "The embedded tour must not request autoplay permission");
+assert.ok(app.includes("window.localStorage.setItem(acknowledgedKey"), "Welcome-video acknowledgement must persist locally");
+assert.ok(!app.includes("app.heygen.com/embeds/"), "The welcome video must use the optimized local asset");
 assert.ok(css.includes("aspect-ratio: 16 / 9"), "The video must preserve a 16:9 aspect ratio");
 assert.ok(css.includes("scale(1.18)"), "The embedded video must use the approved centered crop");
 assert.ok(css.includes("@media (max-width: 760px)"), "The tour must include a tablet/mobile layout");
