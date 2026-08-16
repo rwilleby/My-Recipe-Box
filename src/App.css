@@ -18008,3 +18008,6 @@ button.browseRecipeWideFooterAction:focus-visible,
 .cardViewerZoomLaunch {
   cursor: zoom-in !important;
 }
+\n/* v79.13 zoom click-again exit */
+.recipeCardZoomViewport,.recipeCardZoomViewport.isZoomed{cursor:zoom-out !important;}
+.recipeCardZoomViewport.isZoomed:active{cursor:grabbing !important;}

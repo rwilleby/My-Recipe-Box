@@ -4952,23 +4952,26 @@ function RecipeCardViewer({
       startY: event.clientY,
       originX: zoomPosition.x,
       originY: zoomPosition.y,
+      moved: false,
     };
   }
 
   function handleRecipeCardZoomPointerMove(event) {
     const drag = zoomDragRef.current;
     if (!drag || drag.pointerId !== event.pointerId || zoomScale <= 1) return;
-    setZoomPosition({
-      x: drag.originX + (event.clientX - drag.startX),
-      y: drag.originY + (event.clientY - drag.startY),
-    });
+    const deltaX = event.clientX - drag.startX;
+    const deltaY = event.clientY - drag.startY;
+    if (Math.abs(deltaX) > 4 || Math.abs(deltaY) > 4) drag.moved = true;
+    setZoomPosition({ x: drag.originX + deltaX, y: drag.originY + deltaY });
   }
 
   function handleRecipeCardZoomPointerEnd(event) {
     const drag = zoomDragRef.current;
     if (!drag || drag.pointerId !== event.pointerId) return;
+    const wasDrag = drag.moved;
     zoomDragRef.current = null;
     event.currentTarget.releasePointerCapture?.(event.pointerId);
+    if (!wasDrag) closeRecipeCardZoom();
   }
 
   return (
@@ -5085,7 +5088,7 @@ function RecipeCardViewer({
                   }}
                 />
               </div>
-              <p className="recipeCardZoomHelp">Use + / − or the mouse wheel to zoom. Drag the card to move around when zoomed in.</p>
+              <p className="recipeCardZoomHelp">Click once to exit zoom. Use + / − or the mouse wheel to zoom; drag to move around.</p>
             </div>
           </div>
         )}
