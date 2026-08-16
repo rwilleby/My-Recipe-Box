@@ -1,0 +1,18 @@
+{
+  "release": "v81.0",
+  "base": "My-Recipe-Box-v80.zip",
+  "packageVersion": "81.0.0",
+  "feature": "Weekend Bulk Plan Inventory Handoff",
+  "inventoryDestinations": {
+    "individualRecipe": "Freezer Inventory Management > Individual Recipes",
+    "completeMeal": "Freezer Inventory Management > Complete Meals",
+    "refrigerator": "Kitchen Refrigerator",
+    "serveToday": "KOS consumption history"
+  },
+  "doubleCountingRule": "A frozen Complete Meal increments only its Complete Meal stock. Component recipe ids are retained as metadata but are not separately added to inventory.",
+  "verification": [
+    "npm run check",
+    "node test/weekendBulkProductionV810.test.mjs",
+    "node test/weekendBulkLabelsV771.test.mjs"
+  ]
+}
