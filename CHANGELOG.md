@@ -1,3 +1,16 @@
+# v81b / 81.1.0 — Safe Repository and Media Optimization
+
+- Re-encoded Complete Dinner and supporting images at their original pixel dimensions, accepting only valid smaller outputs.
+- Converted the oversized All Recipes, Crock Pot, and Desserts PNG icons to WebP and consolidated the duplicate Crock Pot image path.
+- Preserved every full-size recipe card and locked full-size hero image byte-for-byte.
+- Preserved the previously optimized thumbnails and videos.
+- Removed the unused `src/public` asset tree and unreferenced legacy CSS files.
+- Removed macOS metadata and added repository exclusions for generated and packaging-only files.
+- Repaired malformed v73.18 Weekly Planner CSS selectors and media-query tokens.
+- Restored KOS test/runtime clock propagation to repository backup timestamps.
+- Restored the omitted Weekend Bulk Production v81 release-contract test file.
+- Updated package version labels to 81.1.0.
+
 # v81.0 — Weekend Bulk Plan Inventory Handoff
 
 - Added a locked muted-taupe selector for Individual Recipes and Complete Meals.

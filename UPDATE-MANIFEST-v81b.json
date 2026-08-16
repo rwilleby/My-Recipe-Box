@@ -1,0 +1,27 @@
+{
+  "release": "v81b",
+  "base": "My-Recipe-Box-V81a.zip",
+  "packageVersion": "81.1.0",
+  "feature": "Safe repository and media optimization",
+  "preserved": [
+    "Full-size recipe cards remain byte-identical to V81a",
+    "Locked full-size hero images remain byte-identical to V81a",
+    "Optimized thumbnail filenames, dimensions, and paths are unchanged",
+    "Video filenames, dimensions, and durations are unchanged"
+  ],
+  "optimizations": [
+    "Complete Dinner and supporting images re-encoded only when the result was valid and smaller",
+    "Oversized PNG navigation icons converted to WebP",
+    "Duplicate Crock Pot icon path consolidated",
+    "Unused src/public assets and legacy CSS removed",
+    "macOS metadata and generated folders excluded",
+    "Malformed Weekly Planner CSS tokens repaired",
+    "KOS repository clock propagation restored for deterministic backup timestamps"
+  ],
+  "verification": [
+    "Full v81 RFIS, KOS, Welcome Tour, and Weekend Bulk Production test suites",
+    "Vite production build without CSS syntax warnings",
+    "All image and video assets decode successfully",
+    "Archive integrity and completeness verification"
+  ]
+}

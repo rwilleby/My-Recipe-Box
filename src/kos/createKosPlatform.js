@@ -39,6 +39,7 @@ export function createKosPlatform({
   const repository = createKosRepository({
     storage,
     storageKey,
+    clock,
   });
 
   const inventory = createInventoryService({

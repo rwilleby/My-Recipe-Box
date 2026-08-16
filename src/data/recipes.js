@@ -3,7 +3,7 @@ const baseCategories = [
   { id: "AS", name: "Asian Cuisine", count: 0, icon: "🍜", iconImage: "images/categories/AS.webp" },
   { id: "CC", name: "Cheesecakes", count: 0, icon: "🍰", iconImage: "images/categories/CC.webp" },
   { id: "CO", name: "Cobblers", count: 0, icon: "🥧", iconImage: "images/categories/CO.webp" },
-  { id: "CP", name: "Crock Pot Meals", count: 0, icon: "🍲", iconImage: "images/categories/CP.png" },
+  { id: "CP", name: "Crock Pot Meals", count: 0, icon: "🍲", iconImage: "images/icons/CP-bulk.webp" },
   { id: "CR", name: "Cinnamon Rolls", count: 0, icon: "🌀", iconImage: "images/categories/CR.webp" },
   { id: "CS", name: "Casseroles", count: 0, icon: "🥘", iconImage: "images/categories/CS.webp" },
   { id: "DN", name: "Donuts", count: 0, icon: "🍩", iconImage: "images/categories/DN.webp" },

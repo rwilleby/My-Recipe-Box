@@ -1,4 +1,4 @@
-ROBERT'S RECIPE BOX — v81.0 RELEASE STATUS
+ROBERT'S RECIPE BOX — v81b / 81.1.0 RELEASE STATUS
 ==========================================
 
 This is a complete, cumulative GitHub-ready master package based on v80.
@@ -11,4 +11,4 @@ Included validation:
 - Reusable 30-up label-sheet contracts
 - Vite production build
 
-See CHANGELOG.md and UPDATE-MANIFEST-v81.0.json for the release details.
+See CHANGELOG.md and UPDATE-MANIFEST-v81b.json for the release details.

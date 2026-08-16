@@ -99,7 +99,7 @@ const CATEGORY_ICON_IMAGES = {
   AS: "images/categories/AS.webp",
   CC: "images/categories/CC.webp",
   CO: "images/categories/CO.webp",
-  CP: "images/categories/CP.png",
+  CP: "images/icons/CP-bulk.webp",
   CR: "images/categories/CR.webp",
   DN: "images/categories/DN.webp",
   DS: "images/categories/DS.webp",
@@ -8331,14 +8331,16 @@ function freezerManagementDefaultUseBy(datePrepared = "") {
   return next.toISOString().slice(0, 10);
 }
 
-function freezerManagementMainCourseRecipes(recipes = []) {
-  const mainCategoryCodes = new Set([
-    "AM", "AS", "CP", "CS", "HB", "HBP", "IT", "MX", "QP", "SB", "SF", "SG", "SW",
-  ]);
-
+function freezerManagementIndividualRecipes(recipes = []) {
   return (recipes || [])
-    .filter((recipe) => mainCategoryCodes.has(String(recipe?.id || "").split("-")[0]))
+    .filter((recipe) => recipe?.id && recipe.id !== "AM-000")
     .sort((a, b) => String(a.id).localeCompare(String(b.id), undefined, { numeric: true }));
+}
+
+function freezerManagementCompleteMealTitle(meal = {}) {
+  const main = String(meal.title || meal.mainDish || "Complete Meal").replace(/\s+Complete Dinner$/i, "");
+  const sides = Array.isArray(meal.sides) ? meal.sides.map((side) => side?.name).filter(Boolean) : [];
+  return sides.length ? `${main} & ${sides.join(" & ")}` : main;
 }
 
 function FreezerInventoryManagementPage({
@@ -8353,8 +8355,8 @@ function FreezerInventoryManagementPage({
 
   const safeInventory = normalizePreparedInventory(preparedInventory);
   const managedItems = safeInventory.managedItems || [];
-  const mainCourses = useMemo(
-    () => freezerManagementMainCourseRecipes(classifiedRecipes),
+  const individualRecipes = useMemo(
+    () => freezerManagementIndividualRecipes(classifiedRecipes),
     [classifiedRecipes]
   );
 
@@ -8370,19 +8372,19 @@ function FreezerInventoryManagementPage({
         kind: "completeMeal",
         sourceId: meal.id,
         code: String(meal.id || "").toUpperCase(),
-        title: meal.title,
+        title: freezerManagementCompleteMealTitle(meal),
         meal,
       }));
     }
 
-    return mainCourses.map((recipe) => ({
+    return individualRecipes.map((recipe) => ({
       kind: "mainCourse",
       sourceId: recipe.id,
       code: recipe.id,
       title: recipe.title,
       recipe,
     }));
-  }, [activeKind, mainCourses]);
+  }, [activeKind, individualRecipes]);
 
   const today = new Date().toISOString().slice(0, 10);
   const soonCutoff = (() => {
@@ -8408,7 +8410,7 @@ function FreezerInventoryManagementPage({
   const totalComplete = managedItems
     .filter((item) => item.kind === "completeMeal")
     .reduce((sum, item) => sum + Number(item.packagesAvailable || 0), 0);
-  const totalMains = managedItems
+  const totalIndividuals = managedItems
     .filter((item) => item.kind === "mainCourse")
     .reduce((sum, item) => sum + Number(item.packagesAvailable || 0), 0);
   const stockedTitles = managedItems.filter((item) => Number(item.packagesAvailable || 0) > 0).length;
@@ -8457,13 +8459,13 @@ function FreezerInventoryManagementPage({
     <main className="pageShell freezerInventoryManagementPage">
       <SectionIntro
         title="Freezer Inventory Management"
-        text="Review frozen Complete Meals and Main Courses, record what is actually on hand, and keep quantities current so the Weekly Meal Planner can eventually show which dinners are ready to reheat."
+        text="Review frozen Complete Meals and individually packaged recipes, record what is actually on hand, and keep quantities current so meal planning can show what is ready to use."
         className="freezerManagementSectionIntro"
       />
 
       <section className="freezerManagementSummary" aria-label="Frozen meal inventory summary">
         <div><small>Complete Meals</small><strong>{totalComplete}</strong></div>
-        <div><small>Main Courses</small><strong>{totalMains}</strong></div>
+        <div><small>Individual Recipes</small><strong>{totalIndividuals}</strong></div>
         <div><small>Stocked Recipes / Meals</small><strong>{stockedTitles}</strong></div>
       </section>
 
@@ -8482,7 +8484,7 @@ function FreezerInventoryManagementPage({
           aria-selected={activeKind === "mainCourse"}
           onClick={() => setActiveKind("mainCourse")}
         >
-          Main Courses
+          Individual Recipes
         </button>
       </div>
 
@@ -8493,7 +8495,7 @@ function FreezerInventoryManagementPage({
             type="search"
             value={search}
             onChange={(event) => setSearch(event.target.value)}
-            placeholder={activeKind === "completeMeal" ? "Search complete meals..." : "Search main courses..."}
+            placeholder={activeKind === "completeMeal" ? "Search complete meals..." : "Search individual recipes..."}
           />
         </label>
         <label>
@@ -8515,7 +8517,7 @@ function FreezerInventoryManagementPage({
 
       <div className="freezerManagementResultsBar">
         <strong>{visibleItems.length}</strong>
-        <span>{activeKind === "completeMeal" ? "Complete Meals" : "Main Courses"} shown</span>
+        <span>{activeKind === "completeMeal" ? "Complete Meals" : "Individual Recipes"} shown</span>
       </div>
 
       <section className="freezerManagementList">
@@ -8540,7 +8542,7 @@ function FreezerInventoryManagementPage({
                 <small>
                   {source.kind === "completeMeal"
                     ? "Frozen complete dinner — ready to reheat"
-                    : "Frozen main course — sides may still be needed"}
+                    : "Frozen individual recipe — entrée, side, dessert, or prepared item"}
                 </small>
               </div>
 
@@ -17182,11 +17184,17 @@ export default function App() {
           />
           <main className="pageShell" data-kos-ui="production-center">
             <KosKitchenStatusBand kosUi={kosUi} mode="production" />
+            <KosCompanionStatusBand kosUi={kosUi} />
           </main>
           <WeekendBulkMealPlanner
             recipes={classifiedRecipes}
+            completeMeals={dinnerCombinations}
             favorites={favorites}
             openRecipeCard={openRecipeCard}
+            kosUi={kosUi}
+            setPreparedInventory={setPreparedInventory}
+            setRefrigerator={setRefrigerator}
+            openFreezerInventory={() => setActivePage("Freezer Inventory Management")}
           />
         </>
       )}
@@ -17731,6 +17739,9 @@ Use this collection to organize recipes that fit prep-ahead cooking, planned lef
             title="Weekly Dinner Planning"
             text="Meal planning can make the week feel more organized without removing flexibility. Select meals for specific days, account for leftovers, plan around appointments, and decide which foods need to be thawed or prepared in advance.\n\nYour plan can be as detailed or as simple as you prefer. Even choosing four or five dinners before grocery shopping can reduce stress, limit impulse purchases, and make it easier to use the food already in your home."
           />
+          <main className="pageShell" data-kos-ui="meal-planner">
+            <KosPlanningStatusBand kosUi={kosUi} mode="planner" />
+          </main>
           <PlannerPage {...pageProps} />
         </>
       )}

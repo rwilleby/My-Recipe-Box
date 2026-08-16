@@ -7,6 +7,15 @@ import {
   formatCompactLabelDate,
   localDateInputValue,
 } from "../utils/weekendBulkLabels";
+import {
+  addWeekendBulkFreezerInventory,
+  addWeekendBulkRefrigeratorInventory,
+  buildWeekendBulkProductionPayload,
+  completeMealDisplayTitle,
+  migrateWeekendBulkItem,
+  weekendBulkDisposition,
+  weekendBulkTotalYield,
+} from "../utils/weekendBulkProduction";
 import HelpTooltip from "./HelpTooltip";
 import "./WeekendBulkMealPlanner.css";
 import "./WeekendBulkMealPlanner.v51.css";
@@ -15,13 +24,13 @@ const STORAGE_KEY = "rrb_weekendBulkMealPlanner_v1";
 const LABEL_SETTINGS_KEY = "rrb_weekendBulkLabelSettings_v1";
 
 const PLAN_TYPES = [
-  { key: "ALL", label: "All Recipes", icon: "images/icons/AL.png" },
+  { key: "ALL", label: "All Recipes", icon: "images/icons/AL.webp" },
   { key: "FAVORITES", label: "Your Favorites", icon: "images/icons/favorites.webp" },
   { key: "SG", label: "Meats", icon: "images/icons/SG.webp" },
-  { key: "CP", label: "Crock Pot", icon: "images/icons/CP-bulk.png" },
+  { key: "CP", label: "Crock Pot", icon: "images/icons/CP-bulk.webp" },
   { key: "CS", label: "Casseroles", icon: "images/icons/CS.webp" },
   { key: "SD", label: "Side Dishes", icon: "images/icons/SD.webp" },
-  { key: "DS", label: "Desserts", icon: "images/icons/DS-bulk.png" },
+  { key: "DS", label: "Desserts", icon: "images/icons/DS-bulk.webp" },
 ];
 
 function parseLocalDateInput(value) {
@@ -102,12 +111,6 @@ const PACKAGE_OPTIONS = [
   "Other (see notes)",
 ];
 
-const DESTINATIONS = [
-  { value: "freezer", label: "Freezer" },
-  { value: "refrigerator", label: "Refrigerator" },
-  { value: "both", label: "Both" },
-];
-
 function safeLoadPlan() {
   try {
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
@@ -128,7 +131,7 @@ function safeLoadPlan() {
           const createdDate = item.createdDate || localDateInputValue();
           const defaultDates = defaultBulkUseByDates(createdDate);
 
-          return {
+          return migrateWeekendBulkItem({
             ...item,
             finish: item.finish || "Whole",
             package: legacyPackages[item.package] || item.package || "Quart freezer bag",
@@ -136,7 +139,7 @@ function safeLoadPlan() {
             createdDate,
             refrigeratorUseBy: item.refrigeratorUseBy || defaultDates.refrigeratorUseBy,
             freezeUseBy: item.freezeUseBy || defaultDates.freezeUseBy,
-          };
+          });
         }) : [],
       };
     }
@@ -184,6 +187,14 @@ function recipeSearchText(recipe) {
 
 function imageCandidates(item) {
   if (item.sourceType === "base") return ["images/recipes/AM-000.webp"];
+  if (item.sourceType === "complete-meal") {
+    return [
+      item.heroImage,
+      item.thumbnail,
+      `images/dinner-combinations/${String(item.id || "").toLowerCase()}.webp`,
+      "images/recipes/AM-000.webp",
+    ].filter(Boolean);
+  }
   return [
     item.heroImage,
     `images/thumbs/heroes/${item.id}.webp`,
@@ -210,6 +221,8 @@ function PlannerImage({ item }) {
 function makePlanItem(item, type, prepDay) {
   const createdDate = localDateInputValue();
   const defaultDates = defaultBulkUseByDates(createdDate);
+  const portions = Number(item.defaultPortions || item.servings || 4);
+  const completeMeal = item.sourceType === "complete-meal";
 
   return {
     uid: `${item.id}-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
@@ -217,19 +230,26 @@ function makePlanItem(item, type, prepDay) {
     title: item.title,
     type,
     sourceType: item.sourceType || "recipe",
+    outputType: completeMeal ? "complete-meal" : "individual-recipe",
+    rfisId: item.rfisId || null,
+    componentRecipeIds: Array.isArray(item.componentRecipeIds) ? item.componentRecipeIds : [],
+    heroImage: item.heroImage || "",
+    thumbnail: item.thumbnail || "",
     batches: 1,
-    portions: Number(item.defaultPortions || item.servings || 4),
-    destination: "both",
-    refrigeratorPortions: 2,
-    package: type === "DS" ? "8oz deli container" : "Quart freezer bag",
+    portions,
+    serveTodayPortions: 0,
+    refrigeratorPortions: 0,
+    freezerPortions: portions,
+    package: completeMeal ? "24oz foil freezer pan" : type === "DS" ? "8oz deli container" : "Quart freezer bag",
     day: prepDay,
-    finish: "Whole",
+    finish: completeMeal ? "Complete meal" : "Whole",
     labelNote: "",
-    labelQuantity: 1,
+    labelQuantity: portions,
     createdDate,
     refrigeratorUseBy: defaultDates.refrigeratorUseBy,
     freezeUseBy: defaultDates.freezeUseBy,
     completed: false,
+    inventoryRecorded: false,
   };
 }
 
@@ -238,10 +258,20 @@ function escapeCsv(value) {
   return /[",\n]/.test(text) ? `"${text.replaceAll('"', '""')}"` : text;
 }
 
-export default function WeekendBulkMealPlanner({ recipes = [], favorites = [], openRecipeCard }) {
+export default function WeekendBulkMealPlanner({
+  recipes = [],
+  completeMeals = [],
+  favorites = [],
+  openRecipeCard,
+  kosUi,
+  setPreparedInventory,
+  setRefrigerator,
+  openFreezerInventory,
+}) {
   const [plan, setPlan] = useState(safeLoadPlan);
   const [labelSettings, setLabelSettings] = useState(safeLoadLabelSettings);
   const [showLabelSetup, setShowLabelSetup] = useState(false);
+  const [catalogMode, setCatalogMode] = useState("individual-recipes");
   const [activeType, setActiveType] = useState("ALL");
   const [search, setSearch] = useState("");
 
@@ -254,34 +284,47 @@ export default function WeekendBulkMealPlanner({ recipes = [], favorites = [], o
   }, [labelSettings]);
 
   const catalog = useMemo(() => {
+    if (catalogMode === "complete-meals") {
+      return completeMeals.map((meal) => ({
+        id: meal.id,
+        rfisId: meal.rfisId || null,
+        title: completeMealDisplayTitle(meal),
+        detail: meal.subtitle || "Complete Dinner",
+        sourceType: "complete-meal",
+        defaultPortions: 1,
+        heroImage: meal.image || "",
+        thumbnail: meal.thumbnail || "",
+        componentRecipeIds: [meal.mainRecipeId, ...(meal.sides || []).map((side) => side.recipeId)].filter(Boolean),
+      }));
+    }
     const matchingRecipes = activeType === "ALL"
       ? recipes
       : activeType === "FAVORITES"
         ? recipes.filter((recipe) => favorites.includes(recipe.id))
         : recipes.filter((recipe) => recipeCode(recipe) === activeType);
     return sortRecipesByCode(matchingRecipes).map((recipe) => ({ ...recipe, sourceType: "recipe" }));
-  }, [activeType, favorites, recipes]);
+  }, [activeType, catalogMode, completeMeals, favorites, recipes]);
 
   const filteredCatalog = useMemo(() => {
     const term = search.trim().toLowerCase();
     if (!term) return catalog;
-    const searchableCatalog = term
+    const searchableCatalog = term && catalogMode === "individual-recipes"
       ? recipes.map((recipe) => ({ ...recipe, sourceType: "recipe" }))
       : catalog;
     return sortRecipesByCode(
       searchableCatalog.filter((item) => `${item.id} ${item.title} ${item.detail || ""}`.toLowerCase().includes(term)),
     );
-  }, [catalog, recipes, search]);
+  }, [catalog, catalogMode, recipes, search]);
 
   const summary = useMemo(() => {
-    const totalBatches = plan.items.reduce((sum, item) => sum + Number(item.batches || 0), 0);
     const totalPortions = plan.items.reduce((sum, item) => sum + Number(item.portions || 0) * Number(item.batches || 1), 0);
-    const refrigerator = plan.items.reduce((sum, item) => {
-      if (item.destination === "refrigerator") return sum + Number(item.portions || 0) * Number(item.batches || 1);
-      if (item.destination === "both") return sum + Math.min(Number(item.refrigeratorPortions || 0), Number(item.portions || 0) * Number(item.batches || 1));
-      return sum;
-    }, 0);
-    return { totalBatches, totalPortions, refrigerator, freezer: Math.max(0, totalPortions - refrigerator) };
+    return plan.items.reduce((totals, item) => {
+      const disposition = weekendBulkDisposition(item);
+      totals.serveToday += disposition.serveToday;
+      totals.refrigerator += disposition.refrigerator;
+      totals.freezer += disposition.freezer;
+      return totals;
+    }, { totalPortions, serveToday: 0, refrigerator: 0, freezer: 0 });
   }, [plan.items]);
 
   const labelEntries = useMemo(() => createWeekendLabelEntries(plan.items), [plan.items]);
@@ -313,6 +356,97 @@ export default function WeekendBulkMealPlanner({ recipes = [], favorites = [], o
       ...current,
       items: current.items.map((item) => item.uid === uid ? { ...item, ...patch } : item),
     }));
+  }
+
+  function updateYield(uid, field, value) {
+    setPlan((current) => ({
+      ...current,
+      items: current.items.map((item) => {
+        if (item.uid !== uid) return item;
+        const next = {
+          ...item,
+          [field]: Math.max(1, Number(value) || 1),
+        };
+        const totalYield = weekendBulkTotalYield(next);
+        const serveToday = Math.min(Number(next.serveTodayPortions || 0), totalYield);
+        const refrigerator = Math.min(Number(next.refrigeratorPortions || 0), Math.max(0, totalYield - serveToday));
+        const freezer = Math.max(0, totalYield - serveToday - refrigerator);
+        return {
+          ...next,
+          serveTodayPortions: serveToday,
+          refrigeratorPortions: refrigerator,
+          freezerPortions: freezer,
+          labelQuantity: refrigerator + freezer,
+        };
+      }),
+    }));
+  }
+
+  function updateDisposition(uid, field, value) {
+    setPlan((current) => ({
+      ...current,
+      items: current.items.map((item) => {
+        if (item.uid !== uid) return item;
+        const totalYield = weekendBulkTotalYield(item);
+        const amount = Math.min(totalYield, Math.max(0, Number(value) || 0));
+        const next = { ...item, [field]: amount };
+        const serveToday = Number(next.serveTodayPortions || 0);
+        const refrigerator = Number(next.refrigeratorPortions || 0);
+
+        if (field === "serveTodayPortions" || field === "refrigeratorPortions") {
+          next.freezerPortions = Math.max(0, totalYield - serveToday - refrigerator);
+        }
+
+        const disposition = weekendBulkDisposition(next);
+        next.labelQuantity = Math.max(0, disposition.refrigerator + disposition.freezer);
+        return next;
+      }),
+    }));
+  }
+
+  function finalizeItem(item) {
+    if (item.inventoryRecorded) {
+      window.alert("This batch has already been added to inventory. Adjust its quantity from Freezer Inventory Management if a correction is needed.");
+      return;
+    }
+
+    const disposition = weekendBulkDisposition(item);
+    if (!disposition.valid) {
+      window.alert(`Allocate all ${disposition.totalYield} portions. The current counts total ${disposition.allocated}.`);
+      return;
+    }
+
+    const inventoryLabel = item.outputType === "complete-meal" ? "Complete Meals" : "Individual Recipes";
+    const confirmation = [
+      `Finish ${item.title}?`,
+      "",
+      `${disposition.serveToday} serve today`,
+      `${disposition.refrigerator} refrigerate`,
+      `${disposition.freezer} freeze`,
+      `${Number(item.labelQuantity || 0)} labels prepared`,
+      "",
+      disposition.freezer > 0 ? `Add ${disposition.freezer} to Frozen ${inventoryLabel}.` : "No freezer inventory will be added.",
+    ].join("\n");
+
+    if (!window.confirm(confirmation)) return;
+
+    try {
+      const payload = buildWeekendBulkProductionPayload(item);
+      kosUi?.command?.("production.record", payload);
+      if (disposition.freezer > 0 && typeof setPreparedInventory === "function") {
+        setPreparedInventory((current) => addWeekendBulkFreezerInventory(current, item));
+      }
+      if (disposition.refrigerator > 0 && typeof setRefrigerator === "function") {
+        setRefrigerator((current) => addWeekendBulkRefrigeratorInventory(current, item));
+      }
+      updateItem(item.uid, {
+        completed: true,
+        inventoryRecorded: true,
+        completedAt: new Date().toISOString(),
+      });
+    } catch (error) {
+      window.alert(error?.message || "This batch could not be added to inventory.");
+    }
   }
 
   function updateCreatedDate(uid, createdDate) {
@@ -444,35 +578,68 @@ export default function WeekendBulkMealPlanner({ recipes = [], favorites = [], o
             </select>
           </label>
           <div className="weekendBulkCounterRow">
-            <div className="weekendBulkMiniStat"><strong>{plan.items.length}</strong><span>Foods selected</span></div>
-            <div className="weekendBulkMiniStat"><strong>{summary.totalBatches}</strong><span>Total batches</span></div>
+            <div className="weekendBulkMiniStat"><strong>{plan.items.length}</strong><span>Items selected</span></div>
+            <div className="weekendBulkMiniStat"><strong>{summary.serveToday}</strong><span>Serve today</span></div>
             <div className="weekendBulkMiniStat"><strong>{summary.refrigerator}</strong><span>Refrigerator portions</span></div>
             <div className="weekendBulkMiniStat"><strong>{summary.freezer}</strong><span>Freezer portions</span></div>
           </div>
         </div>
       </section>
 
-      <section className="weekendBulkTypeTabs" role="tablist" aria-label="Bulk cooking groups">
-        {PLAN_TYPES.map((type) => (
+      <section className="weekendBulkSourceMode" aria-label="Choose what to prepare">
+        <div role="tablist" aria-label="Bulk plan item type">
           <button
-            key={type.key}
             type="button"
             role="tab"
-            aria-selected={activeType === type.key}
-            className={activeType === type.key ? "active" : ""}
-            onClick={() => { setActiveType(type.key); setSearch(""); }}
+            aria-selected={catalogMode === "individual-recipes"}
+            onClick={() => { setCatalogMode("individual-recipes"); setSearch(""); }}
           >
-            <span className="weekendBulkTypeIcon"><img src={`${import.meta.env.BASE_URL}${type.icon}`} alt="" /></span>
-            <strong>{type.label}</strong>
+            Individual Recipes
           </button>
-        ))}
+          <button
+            type="button"
+            role="tab"
+            aria-selected={catalogMode === "complete-meals"}
+            onClick={() => { setCatalogMode("complete-meals"); setSearch(""); }}
+          >
+            Complete Meals
+          </button>
+        </div>
+        <p>
+          {catalogMode === "complete-meals"
+            ? "Add an assembled Complete Meal. Finished packages are counted only as complete meals, so their entrée and sides are not counted twice."
+            : "Add a recipe you are cooking and packaging by itself, such as Beef Fajitas, a side dish, or a dessert."}
+        </p>
       </section>
+
+      {catalogMode === "individual-recipes" && (
+        <section className="weekendBulkTypeTabs" role="tablist" aria-label="Bulk cooking groups">
+          {PLAN_TYPES.map((type) => (
+            <button
+              key={type.key}
+              type="button"
+              role="tab"
+              aria-selected={activeType === type.key}
+              className={activeType === type.key ? "active" : ""}
+              onClick={() => { setActiveType(type.key); setSearch(""); }}
+            >
+              <span className="weekendBulkTypeIcon"><img src={`${import.meta.env.BASE_URL}${type.icon}`} alt="" /></span>
+              <strong>{type.label}</strong>
+            </button>
+          ))}
+        </section>
+      )}
 
       <section className="weekendBulkTray" aria-label="Food selection tray">
           <div className="weekendBulkSearchRow">
             <label className="weekendBulkSearch">
-              <span>Search all recipes</span>
-              <input type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search the full library by recipe name or code" />
+              <span>{catalogMode === "complete-meals" ? "Search Complete Meals" : "Search all recipes"}</span>
+              <input
+                type="search"
+                value={search}
+                onChange={(event) => setSearch(event.target.value)}
+                placeholder={catalogMode === "complete-meals" ? "Search by meal name or meal number" : "Search the full library by recipe name or code"}
+              />
             </label>
             <div className="weekendBulkCatalogCount">{filteredCatalog.length} choices shown · scroll right to see more</div>
           </div>
@@ -484,6 +651,7 @@ export default function WeekendBulkMealPlanner({ recipes = [], favorites = [], o
                 <div className="weekendBulkCatalogBody">
                   <small>{item.id}</small>
                   <strong>{item.title}</strong>
+                  {item.sourceType === "complete-meal" && <em>{item.detail}</em>}
                   <div className="weekendBulkCatalogActions">
                     {item.sourceType === "recipe" && openRecipeCard && (
                       <button type="button" className="ghost" onClick={() => openRecipeCard(item.id, recipes, "Weekend Bulk Meal Planner")}>VIEW</button>
@@ -523,6 +691,12 @@ export default function WeekendBulkMealPlanner({ recipes = [], favorites = [], o
                 <button type="button" onClick={downloadPlan}>Save Copy</button>
                 <HelpTooltip placement="bottom" text="Downloads a JSON backup of this weekend plan. Your working plan also remains saved in this browser." />
               </span>
+              {openFreezerInventory && (
+                <span className="helpTooltipAction">
+                  <button type="button" onClick={openFreezerInventory}>Frozen Inventory</button>
+                  <HelpTooltip placement="bottom" text="Opens the grouped counts for frozen Complete Meals and individual recipes recorded from this plan." />
+                </span>
+              )}
               <span className="helpTooltipAction">
                 <button type="button" className="danger" onClick={clearPlan}>Clear</button>
                 <HelpTooltip placement="bottom" text="Removes every recipe and the weekend notes from this plan after you confirm." />
@@ -534,7 +708,7 @@ export default function WeekendBulkMealPlanner({ recipes = [], favorites = [], o
             <div className="weekendBulkEmptyPlan">
               <span>▦</span>
               <h3>Your weekend plan is empty.</h3>
-              <p>Choose a cooking group on the left and add recipes or base foods.</p>
+              <p>Choose Individual Recipes or Complete Meals above, then add the foods you plan to prepare.</p>
             </div>
           ) : (
             <div className="weekendBulkPlanList">
@@ -542,27 +716,43 @@ export default function WeekendBulkMealPlanner({ recipes = [], favorites = [], o
                 <article className={item.completed ? "weekendBulkPlanCard completed" : "weekendBulkPlanCard"} key={item.uid}>
                   <div className="weekendBulkPlanCardTop">
                     <label className="weekendBulkComplete">
-                      <input type="checkbox" checked={item.completed} onChange={(event) => updateItem(item.uid, { completed: event.target.checked })} />
+                      <input
+                        type="checkbox"
+                        checked={item.completed}
+                        onChange={(event) => {
+                          if (event.target.checked) finalizeItem(item);
+                          else if (item.inventoryRecorded) window.alert("This batch is already in inventory. Make corrections from Freezer Inventory Management.");
+                          else updateItem(item.uid, { completed: false });
+                        }}
+                      />
                       <span>Done</span>
                     </label>
                     <div className="weekendBulkPlanThumb"><PlannerImage item={item} /></div>
                     <div className="weekendBulkPlanIdentity">
                       <span>#{index + 1}</span>
                       <h3>{item.title}</h3>
-                      <small>{item.id}</small>
+                      <small>{item.id} · {item.outputType === "complete-meal" ? "Complete Meal" : "Individual Recipe"}</small>
+                      {item.inventoryRecorded && <em className="weekendBulkInventoryRecorded">Added to inventory</em>}
                     </div>
                     <div className="weekendBulkHeaderFields">
-                      <label><span>Batches</span><input type="number" min="1" max="20" value={item.batches} onChange={(event) => updateItem(item.uid, { batches: Math.max(1, Number(event.target.value) || 1) })} /></label>
-                      <label><span>Portions</span><input type="number" min="1" max="50" value={item.portions} onChange={(event) => updateItem(item.uid, { portions: Math.max(1, Number(event.target.value) || 1) })} /></label>
-                      <label><span>Store</span><select value={item.destination} onChange={(event) => updateItem(item.uid, { destination: event.target.value })}>{DESTINATIONS.map((destination) => <option key={destination.value} value={destination.value}>{destination.label}</option>)}</select></label>
-                      <label><span>Refrigerator</span><input type="number" min="0" max="50" disabled={item.destination !== "both"} value={item.destination === "both" ? item.refrigeratorPortions : item.destination === "refrigerator" ? item.portions : 0} onChange={(event) => updateItem(item.uid, { refrigeratorPortions: Math.max(0, Number(event.target.value) || 0) })} /></label>
-                      <label><span className="helpTooltipLabel">Labels <HelpTooltip text="Choose how many labels this recipe should create. This quantity is used by both Print Labels and Labels CSV." /></span><select value={item.labelQuantity ?? 1} onChange={(event) => updateItem(item.uid, { labelQuantity: Number(event.target.value) })}>{Array.from({ length: 21 }, (_, quantity) => <option key={quantity} value={quantity}>{quantity}</option>)}</select></label>
+                      <label><span>Batches</span><input type="number" min="1" max="20" disabled={item.inventoryRecorded} value={item.batches} onChange={(event) => updateYield(item.uid, "batches", event.target.value)} /></label>
+                      <label><span>Portions</span><input type="number" min="1" max="50" disabled={item.inventoryRecorded} value={item.portions} onChange={(event) => updateYield(item.uid, "portions", event.target.value)} /></label>
+                      <label><span>Serve Today</span><input type="number" min="0" max={weekendBulkTotalYield(item)} disabled={item.inventoryRecorded} value={item.serveTodayPortions || 0} onChange={(event) => updateDisposition(item.uid, "serveTodayPortions", event.target.value)} /></label>
+                      <label><span>Refrigerator</span><input type="number" min="0" max={weekendBulkTotalYield(item)} disabled={item.inventoryRecorded} value={item.refrigeratorPortions || 0} onChange={(event) => updateDisposition(item.uid, "refrigeratorPortions", event.target.value)} /></label>
+                      <label><span>Freezer</span><input type="number" min="0" max={weekendBulkTotalYield(item)} disabled={item.inventoryRecorded} value={item.freezerPortions || 0} onChange={(event) => updateDisposition(item.uid, "freezerPortions", event.target.value)} /></label>
+                      <label><span className="helpTooltipLabel">Labels <HelpTooltip text="Choose how many labels this recipe should create. This quantity is used by both Print Labels and Labels CSV." /></span><select value={item.labelQuantity ?? 1} onChange={(event) => updateItem(item.uid, { labelQuantity: Number(event.target.value) })}>{Array.from({ length: 51 }, (_, quantity) => <option key={quantity} value={quantity}>{quantity}</option>)}</select></label>
                     </div>
                     <button type="button" className="weekendBulkRemove" onClick={() => removeItem(item.uid)} aria-label={`Remove ${item.title}`}>×</button>
                   </div>
 
+                  {!weekendBulkDisposition(item).valid && (
+                    <div className="weekendBulkAllocationWarning" role="status">
+                      Allocate all {weekendBulkDisposition(item).totalYield} portions before marking this batch done. Current allocation: {weekendBulkDisposition(item).allocated}.
+                    </div>
+                  )}
+
                   <div className="weekendBulkFields">
-                    <label><span className="helpTooltipLabel">Finish <HelpTooltip text="Records how the food will be portioned before storage: whole, sliced, cubed, or shredded." /></span><select value={item.finish || "Whole"} onChange={(event) => updateItem(item.uid, { finish: event.target.value })}><option>Whole</option><option>Sliced</option><option>Cubed</option><option>Shredded</option></select></label>
+                    <label><span className="helpTooltipLabel">Finish <HelpTooltip text="Records how the food will be portioned before storage: whole, sliced, cubed, shredded, or assembled as a complete meal." /></span><select value={item.finish || "Whole"} onChange={(event) => updateItem(item.uid, { finish: event.target.value })}><option>Whole</option><option>Sliced</option><option>Cubed</option><option>Shredded</option><option>Complete meal</option></select></label>
                     <label><span className="helpTooltipLabel">Package in <HelpTooltip text="Select the bag, pan, container, or freezer block you plan to use for this recipe." /></span><select value={item.package} onChange={(event) => updateItem(item.uid, { package: event.target.value })}>{PACKAGE_OPTIONS.map((option) => <option key={option}>{option}</option>)}</select></label>
                     <label><span>Prep day</span><select value={item.day} onChange={(event) => updateItem(item.uid, { day: event.target.value })}><option>Saturday</option><option>Sunday</option></select></label>
                     <label><span>Label / finishing note</span><input value={item.labelNote} onChange={(event) => updateItem(item.uid, { labelNote: event.target.value })} placeholder="Thaw overnight; add sauce" /></label>
@@ -687,18 +877,18 @@ export default function WeekendBulkMealPlanner({ recipes = [], favorites = [], o
         <header>
           <p>ROBERT'S RECIPE BOX · WEEKEND BULK COOKING</p>
           <h1>{plan.weekendName || "My Weekend Bulk Plan"}</h1>
-          <div><strong>Main prep day:</strong> {plan.prepDay} <span>•</span> <strong>{plan.items.length}</strong> foods <span>•</span> <strong>{summary.totalBatches}</strong> batches <span>•</span> <strong>{summary.totalPortions}</strong> portions</div>
+          <div><strong>Main prep day:</strong> {plan.prepDay} <span>•</span> <strong>{plan.items.length}</strong> items <span>•</span> <strong>{summary.totalPortions}</strong> portions</div>
         </header>
         <section className="weekendBulkOverviewSummary">
+          <div><strong>{summary.serveToday}</strong><span>Serve today</span></div>
           <div><strong>{summary.refrigerator}</strong><span>Refrigerator portions</span></div>
           <div><strong>{summary.freezer}</strong><span>Freezer portions</span></div>
-          <div><strong>{plan.items.filter((item) => item.completed).length}</strong><span>Marked complete</span></div>
         </section>
         <h2>Cooking & Packaging Overview</h2>
         <table>
           <thead><tr><th>#</th><th>Meal / Item</th><th>Qty.</th><th>Finish</th><th>Storage</th><th>Package / Label Note</th></tr></thead>
           <tbody>{plan.items.map((item, index) => (
-            <tr key={item.uid}><td>{item.completed ? "✓" : index + 1}</td><td><strong>{item.title}</strong><small>{item.id} · {item.day}</small></td><td>{item.batches} batch{Number(item.batches) === 1 ? "" : "es"}<small>{Number(item.portions) * Number(item.batches)} portions</small></td><td>{item.finish || "Whole"}</td><td>{item.destination}{item.destination === "both" ? ` (${item.refrigeratorPortions} refrigerated)` : ""}</td><td>{item.package}<small>{item.labelNote || "Label with food, portions, and freeze date."}</small></td></tr>
+            <tr key={item.uid}><td>{item.completed ? "✓" : index + 1}</td><td><strong>{item.title}</strong><small>{item.id} · {item.day}</small></td><td>{item.batches} batch{Number(item.batches) === 1 ? "" : "es"}<small>{Number(item.portions) * Number(item.batches)} portions</small></td><td>{item.finish || "Whole"}</td><td>Serve {item.serveTodayPortions || 0}<small>Fridge {item.refrigeratorPortions || 0} · Freeze {item.freezerPortions || 0}</small></td><td>{item.package}<small>{item.labelNote || "Label with food, portions, and freeze date."}</small></td></tr>
           ))}</tbody>
         </table>
         <div className="weekendBulkOverviewColumns">

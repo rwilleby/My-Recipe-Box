@@ -1,4 +1,4 @@
-ROBERT'S RECIPE BOX — v81.0 GITHUB-READY MASTER
+ROBERT'S RECIPE BOX — v81b / 81.1.0 GITHUB-READY MASTER
 ================================================
 
 AUTHORITATIVE BASELINE
@@ -18,7 +18,7 @@ RELEASE HIGHLIGHTS
 - DONE records the production session and updates the correct inventory.
 - Complete Meals are not double-counted as separate entrées and sides.
 - Frozen Inventory opens directly from the Bulk Plan.
-- Version labels are aligned at 81.0.0.
+- Version labels are aligned at 81.1.0.
 - macOS metadata files are excluded.
 
 VALIDATION

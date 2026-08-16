@@ -66,6 +66,9 @@ export function createKosUiController(kos) {
     let result;
 
     switch (type) {
+      case "production.record":
+        result = kos.production.record(payload);
+        break;
       case "production.start":
         result = kos.productionCenter.start(payload);
         break;
