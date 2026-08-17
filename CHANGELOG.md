@@ -1,3 +1,12 @@
+# v82.6 — Compact Master Inventory Matrix
+
+- Reformatted each Master Kitchen Inventory category to match the supplied compact matrix example.
+- Displays each food family once with Fresh, Frozen, Canned, Instant, and other applicable storage forms grouped beneath it.
+- Arranges product variations in two balanced columns, with a compact Have | Buy quantity pair for every form.
+- Replaced repeated item notes with one shared Notes field for the complete food family.
+- Expanded Beans, Carrots, Peas, and Potatoes to include the additional forms shown in the supplied example while preserving the five Corn forms.
+- Preserved the category accordions, alphabetized families, iPad editing, searching, recorded purchases, custom items, printing, and Backup & Restore.
+
 # v82.5 — Master Kitchen Inventory
 
 - Added one long Master Kitchen Inventory page under Your Kitchen with accordion categories and alphabetized product families.

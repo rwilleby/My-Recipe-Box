@@ -1,0 +1,26 @@
+{
+  "version": "82.6.0",
+  "title": "Compact Master Inventory Matrix",
+  "summary": "Reformats Master Kitchen Inventory to match the supplied compact family, storage-form, Have, Buy, and Notes matrix.",
+  "changedFiles": [
+    "src/App.jsx",
+    "src/components/MasterKitchenInventoryPage.jsx",
+    "src/components/MasterKitchenInventoryPage.css",
+    "src/data/masterKitchenInventoryCatalog.js",
+    "src/utils/recipeBoxBackup.js",
+    "test/masterKitchenInventoryV825.test.mjs",
+    "test/masterKitchenInventoryMatrixV826.test.mjs",
+    "package.json",
+    "package-lock.json",
+    "CHANGELOG.md",
+    "UPDATE-MANIFEST-v82.6.json"
+  ],
+  "behavior": [
+    "Displays each food family once rather than repeating its name for every product form.",
+    "Groups product variations beneath Fresh, Frozen, Canned, Jarred, Refrigerated, Instant, Dry, and other storage-form labels.",
+    "Uses two compact variation columns with a Have and Buy quantity pair for every form.",
+    "Stores one shared Notes field for each food family.",
+    "Expands Beans, Carrots, Peas, and Potatoes to match the supplied inventory examples.",
+    "Preserves accordion categories, search, purchases, custom items, printing, iPad responsiveness, and Backup & Restore."
+  ]
+}

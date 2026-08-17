@@ -13,6 +13,29 @@ function numberValue(value) {
   return value === 0 ? "0" : value || "";
 }
 
+const STORAGE_FORM_ORDER = ["Fresh", "Frozen", "Canned", "Jarred", "Refrigerated", "Instant", "Dry", "Cooked", "Homemade", "Commercial", "Other"];
+
+function splitStorageForm(variation = "") {
+  const form = STORAGE_FORM_ORDER.find((label) => variation.toLowerCase().startsWith(`${label.toLowerCase()} `));
+  if (!form) return { form: "Other", name: variation };
+  return { form, name: variation.slice(form.length).trim() || variation };
+}
+
+function groupItemsByFamily(items = []) {
+  const families = new Map();
+  items.forEach((item) => {
+    if (!families.has(item.family)) families.set(item.family, []);
+    families.get(item.family).push(item);
+  });
+  return [...families.entries()].map(([family, familyItems]) => ({
+    family,
+    storageGroups: STORAGE_FORM_ORDER.map((form) => ({
+      form,
+      items: familyItems.filter((item) => splitStorageForm(item.variation).form === form),
+    })).filter((group) => group.items.length),
+  }));
+}
+
 export default function MasterKitchenInventoryPage({ recipes, inventory, setInventory }) {
   const safeInventory = normalizeState(inventory);
   const [search, setSearch] = useState("");
@@ -172,19 +195,38 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
               </button>
               {isOpen && (
                 <div className="masterInventoryTable">
-                  <div className="masterInventoryTableHead"><span>Item</span><span>Form / Package</span><span>Unit</span><span>Have</span><span>Buy</span><span>Notes</span><span /></div>
-                  {category.items.map((item, index) => {
-                    const record = safeInventory.records[item.id] || {};
-                    const previousFamily = category.items[index - 1]?.family;
+                  <div className="masterInventoryMatrixLegend"><span>Food</span><span>Type and form <strong>Each pair: Have <i>|</i> Buy</strong></span><span>Family notes</span></div>
+                  {groupItemsByFamily(category.items).map((familyGroup) => {
+                    const familyNoteId = `family-note-${category.id}-${familyGroup.family.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
+                    const familyNote = safeInventory.records[familyNoteId]?.notes || "";
                     return (
-                      <div className="masterInventoryRow" key={item.id}>
-                        <div className="masterInventoryFamily">{previousFamily === item.family ? <span aria-hidden="true">↳</span> : <strong>{item.family}</strong>}</div>
-                        <div className="masterInventoryVariation">{item.variation}{item.recipeDerived && <small>From recipe library</small>}</div>
-                        <div className="masterInventoryUnit">{item.unit}</div>
-                        <label><span>Have</span><input type="number" inputMode="decimal" min="0" step="any" value={numberValue(record.have)} onChange={(event) => updateRecord(item.id, { have: event.target.value })} aria-label={`${item.family} ${item.variation} quantity on hand`} /></label>
-                        <label><span>Buy</span><input type="number" inputMode="decimal" min="0" step="any" value={numberValue(record.buy)} onChange={(event) => updateRecord(item.id, { buy: event.target.value })} aria-label={`${item.family} ${item.variation} quantity to buy`} /></label>
-                        <label className="masterInventoryNotes"><span>Notes</span><input type="text" value={record.notes || ""} onChange={(event) => updateRecord(item.id, { notes: event.target.value })} placeholder="Optional" /></label>
-                        <div>{item.custom && <button type="button" className="masterInventoryRemove" onClick={() => removeCustomItem(item)} aria-label={`Remove ${item.family} ${item.variation}`}>×</button>}</div>
+                      <div className="masterInventoryFamilyBlock" key={familyGroup.family}>
+                        <h3>{familyGroup.family}</h3>
+                        <div className="masterInventoryFamilyForms">
+                          {familyGroup.storageGroups.map((storageGroup) => (
+                            <div className="masterInventoryStorageRow" key={storageGroup.form}>
+                              <strong>{storageGroup.form}:</strong>
+                              <div className="masterInventoryFormGrid">
+                                {storageGroup.items.map((item) => {
+                                  const record = safeInventory.records[item.id] || {};
+                                  const display = splitStorageForm(item.variation);
+                                  return (
+                                    <div className="masterInventoryFormItem" key={item.id}>
+                                      <div className="masterInventoryFormName">{display.name}<small>{item.unit}{item.recipeDerived ? " · recipe" : ""}</small></div>
+                                      <div className="masterInventoryQuantityPair">
+                                        <label><span>Have</span><input type="number" inputMode="decimal" min="0" step="any" placeholder="0" value={numberValue(record.have)} onChange={(event) => updateRecord(item.id, { have: event.target.value })} aria-label={`${item.family} ${item.variation} quantity on hand`} /></label>
+                                        <i aria-hidden="true">|</i>
+                                        <label><span>Buy</span><input type="number" inputMode="decimal" min="0" step="any" placeholder="0" value={numberValue(record.buy)} onChange={(event) => updateRecord(item.id, { buy: event.target.value })} aria-label={`${item.family} ${item.variation} quantity to buy`} /></label>
+                                      </div>
+                                      {item.custom && <button type="button" className="masterInventoryRemove" onClick={() => removeCustomItem(item)} aria-label={`Remove ${item.family} ${item.variation}`}>×</button>}
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                        <label className="masterInventoryFamilyNotes"><span>Notes:</span><textarea value={familyNote} onChange={(event) => updateRecord(familyNoteId, { notes: event.target.value })} placeholder="Optional family notes" rows="3" /></label>
                       </div>
                     );
                   })}
