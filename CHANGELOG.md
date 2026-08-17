@@ -1,3 +1,12 @@
+# v82.8 — Four-Column Master Inventory Bands
+
+- Reformatted every food family as one shallow horizontal band with four equal columns: Fresh, Frozen, Canned, and Instant/Jar.
+- Added HAVE | BUY directly to the header of each inventory-type column.
+- Kept product form and counting unit on the same compact line.
+- Reduced counter text to 8px, counter height to 19px, and product rows to 21px.
+- Kept Notes as one short line beneath the inventory columns.
+- Added responsive two-column behavior for iPad-width screens and single-column behavior for narrow phones.
+
 # v82.7 — Master Inventory Density Refinement
 
 - Reduced the food-family name size.

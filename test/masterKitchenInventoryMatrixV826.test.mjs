@@ -28,14 +28,14 @@ const styles = await readFile(new URL("../src/components/MasterKitchenInventoryP
 
 assert.match(page, /groupItemsByFamily/);
 assert.match(page, /STORAGE_FORM_ORDER/);
-assert.match(page, /Each pair: Have/);
+assert.match(page, /HAVE <i>\|<\/i> BUY/);
 assert.match(page, /masterInventoryFamilyBlock/);
-assert.match(page, /masterInventoryStorageRow/);
+assert.match(page, /masterInventoryFourColumns/);
 assert.match(page, /masterInventoryQuantityPair/);
 assert.match(page, /family-note-/);
 assert.match(page, /masterInventoryFamilyNotes/);
-assert.match(styles, /grid-template-columns: repeat\(2, minmax\(0, 1fr\)\)/);
-assert.match(styles, /grid-template-columns: 34px 6px 34px/);
+assert.match(styles, /grid-template-columns: repeat\(4, minmax\(0, 1fr\)\)/);
+assert.match(styles, /grid-template-columns: 25px 4px 25px/);
 assert.match(styles, /@media \(max-width: 700px\)/);
 
 console.log("Master Kitchen Inventory compact matrix v82.6 tests passed.");

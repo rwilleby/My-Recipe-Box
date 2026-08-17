@@ -1,0 +1,24 @@
+{
+  "version": "82.8.0",
+  "title": "Four-Column Master Inventory Bands",
+  "summary": "Reformats each food family into a shallow horizontal band with Fresh, Frozen, Canned, and Instant/Jar columns.",
+  "changedFiles": [
+    "src/components/MasterKitchenInventoryPage.jsx",
+    "src/components/MasterKitchenInventoryPage.css",
+    "test/masterKitchenInventoryMatrixV826.test.mjs",
+    "test/masterKitchenInventoryDensityV827.test.mjs",
+    "test/masterKitchenInventoryFourColumnV828.test.mjs",
+    "package.json",
+    "package-lock.json",
+    "CHANGELOG.md",
+    "UPDATE-MANIFEST-v82.8.json"
+  ],
+  "behavior": [
+    "Uses four equal columns for Fresh, Frozen, Canned, and Instant/Jar product forms.",
+    "Places HAVE | BUY in the header of every inventory-type column.",
+    "Keeps product form and unit on one compact line.",
+    "Reduces quantity-counter text to 8px and counter height to 19px.",
+    "Uses 21px product rows and one short Notes line beneath the columns.",
+    "Reflows to two columns on iPad-width screens and one column on narrow phones."
+  ]
+}
