@@ -35,15 +35,21 @@ const bulkPlanner = await readFile(new URL("../src/components/WeekendBulkMealPla
 const css = await readFile(new URL("../src/components/KitchenReminderRibbon.css", import.meta.url), "utf8");
 
 assert.match(component, /aria-live="polite"/);
-assert.match(component, /Pause reminders/);
 assert.match(component, /onMouseEnter/);
 assert.match(component, /onFocus/);
-assert.match(component, /Remind Me Tomorrow/);
-assert.match(component, /Hide for This Visit/);
-assert.doesNotMatch(component, /Never remind|Disable reminders/i);
+assert.match(component, /kitchenReminderTextAction/);
+assert.match(component, /aria-hidden="true">›/);
+assert.doesNotMatch(component, /Pause reminders|Previous reminder|Next reminder/);
+assert.doesNotMatch(component, /Remind Me Tomorrow|Hide for This Visit/);
 assert.ok(app.indexOf("<KitchenReminderRibbon") > app.indexOf("<Header"));
 assert.ok(app.indexOf("<KitchenReminderRibbon") < app.indexOf("<HomeMealJourneyAccordion"));
 assert.match(bulkPlanner, /rrb:weekend-bulk-plan-updated/);
+assert.match(css, /height: \.25in/);
+assert.match(css, /background: #f1eadd/);
+assert.match(css, /font-style: italic/);
+assert.match(css, /text-align: center/);
+assert.match(css, /white-space: nowrap/);
+assert.doesNotMatch(css, /flex-direction: column|flex-wrap: wrap/);
 assert.match(css, /@media \(max-width: 640px\)/);
 assert.match(css, /@media print/);
 

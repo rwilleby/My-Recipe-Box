@@ -1,10 +1,10 @@
 # v82.2 — Kitchen Reminder Ribbon
 
-- Added a calm, site-wide reminder ribbon directly beneath the main navigation.
+- Added a calm, site-wide reminder ribbon directly beneath the main navigation, using a subtle beige treatment slightly darker than the header.
 - Added prioritized reminders for due backups, refrigerator food due within three days, frozen inventory due within 30 days, unfinished weekend bulk-cooking batches, empty meal plans, and shopping-list review.
-- Added direct action buttons that open the relevant working page.
-- Added nine-second rotation with previous, next, and pause controls; rotation also pauses on hover, keyboard focus, and reduced-motion preference.
-- Added “Remind Me Tomorrow” and visit-only hiding without a permanent backup-reminder disable option.
+- Added each direct action as clickable text at the end of its reminder sentence.
+- Kept the ribbon to one centered italic line at a fixed quarter-inch height, including on smaller screens.
+- Preserved the calm nine-second reminder rotation without visible buttons, counters, or rotation controls; rotation pauses on hover, keyboard focus, and reduced-motion preference.
 - Connected Weekend Bulk Meal Planner saves to same-tab reminder updates.
 - Added responsive and print-safe ribbon styling plus a focused regression test.
 

@@ -1,110 +1,59 @@
 .kitchenReminderRibbon {
-  --reminder-accent: #4f6875;
-  --reminder-bg: #f2f5f4;
-  border-bottom: 1px solid #d8dfdc;
-  background: var(--reminder-bg);
-  color: #202a2f;
-}
-
-.kitchenReminderRibbon--urgent {
-  --reminder-accent: #8a3c3c;
-  --reminder-bg: #fbf3f1;
-}
-
-.kitchenReminderRibbon--warning {
-  --reminder-accent: #9a6a19;
-  --reminder-bg: #fbf7ec;
+  height: .25in;
+  overflow: hidden;
+  border-bottom: 1px solid #ded3c2;
+  background: #f1eadd;
+  color: #514a42;
+  box-sizing: border-box;
 }
 
 .kitchenReminderInner {
-  width: min(100% - 32px, 1440px);
-  min-height: 52px;
+  width: min(100% - 24px, 1440px);
+  height: 100%;
   margin: 0 auto;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  padding: 7px 0;
-}
-
-.kitchenReminderMessage,
-.kitchenReminderActions,
-.kitchenReminderControls {
-  display: flex;
-  align-items: center;
-}
-
-.kitchenReminderMessage { gap: 9px; min-width: 0; }
-.kitchenReminderActions { gap: 8px; flex: 0 0 auto; }
-.kitchenReminderControls { gap: 5px; color: #59656b; font-size: 12px; white-space: nowrap; }
-
-.kitchenReminderDot {
-  width: 9px;
-  height: 9px;
-  flex: 0 0 auto;
-  border-radius: 50%;
-  background: var(--reminder-accent);
-}
-
-.kitchenReminderEyebrow {
-  color: var(--reminder-accent);
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: .065em;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-
-.kitchenReminderText {
+  justify-content: center;
   overflow: hidden;
-  font-size: 14px;
-  line-height: 1.35;
+}
+
+.kitchenReminderMessage {
+  width: 100%;
+  overflow: hidden;
+  font-family: Inter, Arial, sans-serif;
+  font-size: 12.5px;
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1;
+  text-align: center;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.kitchenReminderRibbon button {
-  min-height: 34px;
-  border-radius: 8px;
+.kitchenReminderTextAction {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #3f493d;
   font: inherit;
-  font-size: 12px;
   font-weight: 750;
-  cursor: pointer;
-}
-
-.kitchenReminderPrimary {
-  border: 1px solid var(--reminder-accent);
-  background: var(--reminder-accent);
-  color: #fff;
-  padding: 6px 12px;
+  line-height: inherit;
+  text-decoration: none;
   white-space: nowrap;
 }
 
-.kitchenReminderQuiet,
-.kitchenReminderIconButton {
-  border: 1px solid #c8d0cd;
-  background: rgba(255, 255, 255, .7);
-  color: #465158;
-}
+.kitchenReminderTextAction:hover { text-decoration: underline; }
 
-.kitchenReminderQuiet { padding: 6px 9px; white-space: nowrap; }
-.kitchenReminderIconButton { width: 30px; padding: 0; }
-
-.kitchenReminderRibbon button:hover { filter: brightness(.96); }
-.kitchenReminderRibbon button:focus-visible { outline: 3px solid rgba(42, 94, 116, .28); outline-offset: 2px; }
-
-@media (max-width: 1100px) {
-  .kitchenReminderInner { align-items: flex-start; flex-direction: column; gap: 7px; padding: 9px 0; }
-  .kitchenReminderActions { width: 100%; flex-wrap: wrap; }
-  .kitchenReminderText { white-space: normal; }
+.kitchenReminderTextAction:focus-visible {
+  outline: 1px solid #6f7667;
+  outline-offset: 2px;
 }
 
 @media (max-width: 640px) {
-  .kitchenReminderInner { width: min(100% - 22px, 1440px); }
-  .kitchenReminderMessage { align-items: flex-start; flex-wrap: wrap; }
-  .kitchenReminderText { flex-basis: calc(100% - 18px); margin-left: 18px; }
-  .kitchenReminderQuiet { font-size: 11px; }
-  .kitchenReminderControls { margin-left: auto; }
+  .kitchenReminderInner { width: calc(100% - 16px); }
+  .kitchenReminderMessage { font-size: 11.5px; }
 }
 
 @media print {

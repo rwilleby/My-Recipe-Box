@@ -15,9 +15,9 @@
     "UPDATE-MANIFEST-v82.2.json"
   ],
   "behavior": [
-    "Shows the highest-priority current kitchen reminder beneath the main navigation.",
-    "Rotates reminders every nine seconds and pauses on hover, focus, reduced-motion preference, or user request.",
-    "Links directly to backup, meal planning, shopping, refrigerator, frozen inventory, and weekend bulk planning pages.",
-    "Allows a one-day snooze or a visit-only hide without permanently disabling backup reminders."
+    "Shows the highest-priority current kitchen reminder in a subtle beige, quarter-inch ribbon beneath the main navigation.",
+    "Keeps every reminder centered, italic, and on one line at every screen size.",
+    "Rotates reminders every nine seconds without visible buttons, counters, or controls and pauses on hover, focus, or reduced-motion preference.",
+    "Places a direct text action at the end of each sentence for backup, meal planning, shopping, refrigerator, frozen inventory, and weekend bulk planning pages."
   ]
 }
