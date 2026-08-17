@@ -1,3 +1,13 @@
+# v82.2 — Kitchen Reminder Ribbon
+
+- Added a calm, site-wide reminder ribbon directly beneath the main navigation.
+- Added prioritized reminders for due backups, refrigerator food due within three days, frozen inventory due within 30 days, unfinished weekend bulk-cooking batches, empty meal plans, and shopping-list review.
+- Added direct action buttons that open the relevant working page.
+- Added nine-second rotation with previous, next, and pause controls; rotation also pauses on hover, keyboard focus, and reduced-motion preference.
+- Added “Remind Me Tomorrow” and visit-only hiding without a permanent backup-reminder disable option.
+- Connected Weekend Bulk Meal Planner saves to same-tab reminder updates.
+- Added responsive and print-safe ribbon styling plus a focused regression test.
+
 # v82.1 — Quick Dinner Hero-Only Rotation
 
 - Limited the “Looking for Quick Dinner Ideas?” rotation to Complete Dinners with an approved, available hero image.

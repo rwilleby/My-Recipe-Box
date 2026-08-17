@@ -277,6 +277,9 @@ export default function WeekendBulkMealPlanner({
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(plan));
+    window.dispatchEvent(new CustomEvent("rrb:weekend-bulk-plan-updated", {
+      detail: { plan },
+    }));
   }, [plan]);
 
   useEffect(() => {

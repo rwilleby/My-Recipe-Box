@@ -16,6 +16,7 @@ import DinnerCombinationHeroAudit from "./DinnerCombinationHeroAudit.jsx";
 import UserDataBackupSection from "./components/UserDataBackupSection";
 import FoodIntelligenceCard from "./components/FoodIntelligenceCard";
 import WeekendBulkMealPlanner from "./components/WeekendBulkMealPlanner";
+import KitchenReminderRibbon from "./components/KitchenReminderRibbon";
 import { getRecipeNutritionVariant, hasRecipeNutritionRecord } from "./data/recipeNutritionProfiles";
 import "./components/UserDataBackupSection.css";
 import "./components/AdminNutritionDatabase.css";
@@ -17049,6 +17050,14 @@ export default function App() {
     <PageNavigationContext.Provider value={{ activePage, setActivePage }}>
       <div className="app">
         <Header activePage={activePage} setActivePage={setActivePage} favorites={favorites} />
+        <KitchenReminderRibbon
+          plan={plan}
+          refrigerator={refrigerator}
+          freezer={freezer}
+          preparedInventory={preparedInventory}
+          kosUi={kosUi}
+          setActivePage={setActivePage}
+        />
         <HomeMealJourneyAccordion setActivePage={setActivePage} />
 
       {activePage === "RFIS Project Dashboard" && (

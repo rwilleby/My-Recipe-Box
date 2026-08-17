@@ -1,0 +1,23 @@
+{
+  "version": "82.2.0",
+  "title": "Kitchen Reminder Ribbon",
+  "summary": "Adds an accessible, rotating reminder ribbon beneath the main navigation.",
+  "changedFiles": [
+    "src/App.jsx",
+    "src/components/KitchenReminderRibbon.jsx",
+    "src/components/KitchenReminderRibbon.css",
+    "src/components/WeekendBulkMealPlanner.jsx",
+    "src/utils/kitchenReminderEngine.js",
+    "test/kitchenReminderRibbonV822.test.mjs",
+    "package.json",
+    "package-lock.json",
+    "CHANGELOG.md",
+    "UPDATE-MANIFEST-v82.2.json"
+  ],
+  "behavior": [
+    "Shows the highest-priority current kitchen reminder beneath the main navigation.",
+    "Rotates reminders every nine seconds and pauses on hover, focus, reduced-motion preference, or user request.",
+    "Links directly to backup, meal planning, shopping, refrigerator, frozen inventory, and weekend bulk planning pages.",
+    "Allows a one-day snooze or a visit-only hide without permanently disabling backup reminders."
+  ]
+}
