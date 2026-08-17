@@ -8,7 +8,7 @@ assert.match(page, /masterInventoryLedgerRow/);
 assert.match(page, /role="columnheader">Have/);
 assert.match(page, /className="masterInventoryLedgerNotes"><span>Notes<\/span><input type="text"/);
 assert.doesNotMatch(page, /<textarea/);
-assert.match(styles, /font-size: 11px !important/);
+assert.match(styles, /font-size: 12px !important/);
 assert.match(styles, /height: 23px/);
 assert.match(styles, /min-height: 27px/);
 assert.match(styles, /white-space: nowrap/);

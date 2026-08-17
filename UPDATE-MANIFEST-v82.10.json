@@ -1,0 +1,23 @@
+{
+  "version": "82.10.0",
+  "release": "Seven-Column Uppercase Inventory Ledger",
+  "uploadMode": "replace matching files",
+  "changedFiles": [
+    "CHANGELOG.md",
+    "UPDATE-MANIFEST-v82.10.json",
+    "package.json",
+    "package-lock.json",
+    "src/components/MasterKitchenInventoryPage.jsx",
+    "src/components/MasterKitchenInventoryPage.css",
+    "test/masterKitchenInventoryDensityV827.test.mjs",
+    "test/masterKitchenInventoryLedgerV829.test.mjs",
+    "test/masterKitchenInventoryColumnsV8210.test.mjs"
+  ],
+  "preserves": [
+    "Master Kitchen Inventory saved record IDs and data shape",
+    "automatic on-device saving",
+    "Record Purchases and Clear Buy Qty actions",
+    "custom inventory items, printing, search, and accordions",
+    "full Backup & Restore transfer between iPad and laptop"
+  ]
+}

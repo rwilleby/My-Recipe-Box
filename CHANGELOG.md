@@ -1,3 +1,12 @@
+# v82.10 — Seven-Column Uppercase Inventory Ledger
+
+- Split the combined Form / Package field into two distinct columns: FORM and PACKAGE.
+- Established seven clearly aligned information zones: FOOD, STORAGE, FORM, PACKAGE, HAVE, BUY, and NOTES.
+- Changed all ledger labels and values to uppercase sans-serif type.
+- Increased FOOD names for quick scanning while reducing the remaining ledger type slightly.
+- Widened FOOD and NOTES, kept HAVE and BUY compact, and used shared grid tracks to hold every heading and value in exact alignment.
+- Preserved the compact rows, responsive iPad behavior, all existing inventory data, automatic saving, printing, custom items, purchasing actions, and Backup & Restore.
+
 # v82.9 — Compact Master Inventory Ledger
 
 - Replaced the four-column family bands with the approved Option B ledger: Food, Storage, Form / Package, Have, Buy, and Notes.

@@ -191,7 +191,8 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
                   <div className="masterInventoryLedgerHead" role="row">
                     <span role="columnheader">Food</span>
                     <span role="columnheader">Storage</span>
-                    <span role="columnheader">Form / Package</span>
+                    <span role="columnheader">Form</span>
+                    <span role="columnheader">Package</span>
                     <span role="columnheader">Have</span>
                     <span role="columnheader">Buy</span>
                     <span role="columnheader">Notes</span>
@@ -210,9 +211,11 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
                             return (
                               <div className="masterInventoryLedgerRow" key={item.id} role="row">
                                 <span className="masterInventoryStorage" role="cell">{storage.form}</span>
-                                <span className="masterInventoryFormPackage" role="cell">{storage.name}<small>, {item.unit}{item.recipeDerived ? " · recipe" : ""}</small></span>
+                                <span className="masterInventoryForm" role="cell">{storage.name}{item.recipeDerived ? <small> · Recipe</small> : null}</span>
+                                <span className="masterInventoryPackage" role="cell">{item.unit}</span>
                                 <label className="masterInventoryLedgerQuantity"><span>Have</span><input type="number" inputMode="decimal" min="0" step="any" placeholder="0" value={numberValue(record.have)} onChange={(event) => updateRecord(item.id, { have: event.target.value })} aria-label={`${item.family} ${item.variation} quantity on hand`} /></label>
                                 <label className="masterInventoryLedgerQuantity"><span>Buy</span><input type="number" inputMode="decimal" min="0" step="any" placeholder="0" value={numberValue(record.buy)} onChange={(event) => updateRecord(item.id, { buy: event.target.value })} aria-label={`${item.family} ${item.variation} quantity to buy`} /></label>
+                                <span className="masterInventoryNotesSpacer" aria-hidden="true" />
                                 {item.custom ? <button type="button" className="masterInventoryRemove" onClick={() => removeCustomItem(item)} aria-label={`Remove ${item.family} ${item.variation}`}>×</button> : <span />}
                               </div>
                             );
