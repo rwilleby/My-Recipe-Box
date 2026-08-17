@@ -1,3 +1,14 @@
+# v82.5 — Master Kitchen Inventory
+
+- Added one long Master Kitchen Inventory page under Your Kitchen with accordion categories and alphabetized product families.
+- Added separate product-form records for fresh, frozen, canned, packaged, and prepared variations, including all five requested corn forms.
+- Added every named ingredient currently represented in the recipe library when it is not already covered by the curated catalog.
+- Added iPad-friendly Have, Buy, and notes fields with automatic on-device saving.
+- Added Record Purchases to move Buy quantities into Have and then clear the Buy quantities.
+- Added custom inventory products, catalog search, expand/collapse controls, summary counts, and a printable initial-count worksheet.
+- Added Master Kitchen Inventory to full-site Backup & Restore for transfer between an iPad and laptop.
+- Established the safety rule that automatic deductions require an exact product form and compatible unit; ambiguous recipe alternatives are not deducted by guesswork.
+
 # v82.4 — Manual and Digital Stock-Check Worksheets
 
 - Added a printable Pantry Staples worksheet covering every staple across all three pantry levels.

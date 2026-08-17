@@ -18,6 +18,7 @@ import FoodIntelligenceCard from "./components/FoodIntelligenceCard";
 import WeekendBulkMealPlanner from "./components/WeekendBulkMealPlanner";
 import KitchenReminderRibbon from "./components/KitchenReminderRibbon";
 import DigitalStockCheckPanel from "./components/DigitalStockCheckPanel";
+import MasterKitchenInventoryPage from "./components/MasterKitchenInventoryPage";
 import { getRecipeNutritionVariant, hasRecipeNutritionRecord } from "./data/recipeNutritionProfiles";
 import "./components/UserDataBackupSection.css";
 import "./components/AdminNutritionDatabase.css";
@@ -100,6 +101,7 @@ const STORAGE_KEYS = {
   componentDecisions: "rrb_preparedComponentDecisions",
   shoppingComments: "rrb_shoppingItemComments",
   productCategories: "rrb_productCategoryAssignments",
+  masterInventory: "rrb_masterKitchenInventory_v1",
 };
 
 const CATEGORY_ICON_IMAGES = {
@@ -1515,6 +1517,7 @@ const NAV_GROUPS = [
       { label: "WEEKEND BULK MEAL PLANNER", page: "Weekend Bulk Meal Planner", detailedOnly: true },
       { label: "WEEKLY MEAL PLANNER — TEST", page: "Weekly Meal Planner Prototype", detailedOnly: true },
       { label: "YOUR FAVORITE RECIPES", page: "Favorites" },
+      { label: "MASTER KITCHEN INVENTORY", page: "Master Kitchen Inventory" },
       { label: "REFRIGERATOR INVENTORY", page: "Kitchen Refrigerator", detailedOnly: true },
       { label: "PREPARED FREEZER INVENTORY", page: "Prepared Freezer Inventory", detailedOnly: true },
       { label: "FREEZER INVENTORY MANAGEMENT", page: "Freezer Inventory Management", detailedOnly: true },
@@ -1656,7 +1659,7 @@ function Header({ activePage, setActivePage, favorites }) {
       label: "MEAL PLANNING",
       page: "Meal Planner",
       items: (NAV_GROUPS.find((group) => group.label === "YOUR KITCHEN")?.items || []).map((item) =>
-        ["Kitchen Refrigerator", "Prepared Freezer Inventory", "Freezer Inventory Management", "Kitchen Freezer", "Pantry Staples"].includes(item.page)
+        ["Master Kitchen Inventory", "Kitchen Refrigerator", "Prepared Freezer Inventory", "Freezer Inventory Management", "Kitchen Freezer", "Pantry Staples"].includes(item.page)
           ? { ...item, level: 1 }
           : item
       ),
@@ -17096,6 +17099,10 @@ export default function App() {
     const stored = loadJSON(STORAGE_KEYS.productCategories, {});
     return stored && typeof stored === "object" ? stored : {};
   });
+  const [masterInventory, setMasterInventory] = useState(() => {
+    const stored = loadJSON(STORAGE_KEYS.masterInventory, { records: {}, customItems: [] });
+    return stored && typeof stored === "object" ? stored : { records: {}, customItems: [] };
+  });
   const [leftoversRecipe, setLeftoversRecipe] = useState(null);
   const [filter, setFilter] = useState("");
   const [cardViewer, setCardViewer] = useState(null);
@@ -17121,6 +17128,7 @@ export default function App() {
   useEffect(() => saveJSON(STORAGE_KEYS.componentDecisions, componentDecisions), [componentDecisions]);
   useEffect(() => saveJSON(STORAGE_KEYS.shoppingComments, shoppingComments), [shoppingComments]);
   useEffect(() => saveJSON(STORAGE_KEYS.productCategories, productCategories), [productCategories]);
+  useEffect(() => saveJSON(STORAGE_KEYS.masterInventory, masterInventory), [masterInventory]);
 
   useEffect(() => {
     const next = buildPreparedReservationsFromPlan(plan, dinnerCombinations);
@@ -17221,6 +17229,9 @@ export default function App() {
     setShoppingComments,
     productCategories,
     setProductCategories,
+    masterInventory,
+    setMasterInventory,
+    recipes: classifiedRecipes,
     classifiedRecipes,
     kosUi,
   };
@@ -17882,6 +17893,19 @@ Use this collection to organize recipes that fit prep-ahead cooking, planned lef
             <KosPlanningStatusBand kosUi={kosUi} mode="shopping" />
           </main>
           <ShoppingListPage {...pageProps} />
+        </>
+      )}
+      {activePage === "Master Kitchen Inventory" && (
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-page-your-pantry.webp"
+            alt="Kitchen inventory setup with pantry foods, fresh ingredients, freezer packages, notebook, and checklist"
+            eyebrow="YOUR KITCHEN"
+            title="Master Kitchen Inventory"
+            text="Create one starting count of the foods and product forms used throughout the recipe library. Fresh, frozen, canned, packaged, and prepared versions remain separate so the system can maintain accurate quantities as food is purchased and used."
+            className="pageHeroDepth464"
+          />
+          <MasterKitchenInventoryPage {...pageProps} inventory={masterInventory} setInventory={setMasterInventory} />
         </>
       )}
       {activePage === "Pantry Staples" && (

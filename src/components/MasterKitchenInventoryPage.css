@@ -1,0 +1,67 @@
+.masterKitchenInventoryPage { padding-top: 20px; }
+.masterInventoryIntro { display: flex; justify-content: space-between; gap: 28px; padding: 20px 22px; border: 1px solid #d6cdbf; border-radius: 15px; background: #f4f0e8; }
+.masterInventoryIntro > div:first-child { max-width: 850px; }
+.masterInventoryIntro > div > span { color: #756856; font-size: 11px; font-weight: 800; letter-spacing: .08em; }
+.masterInventoryIntro h1 { margin: 4px 0 7px; color: #353128; font-family: Georgia, serif; font-size: 25px; }
+.masterInventoryIntro p { margin: 0; color: #62594d; font-size: 14px; line-height: 1.45; }
+.masterInventorySummary { display: grid; grid-template-columns: repeat(3, minmax(82px, 1fr)); gap: 8px; min-width: 300px; }
+.masterInventorySummary div { display: grid; place-content: center; min-height: 76px; padding: 8px; border: 1px solid #d4cabc; border-radius: 11px; background: #fbfaf7; text-align: center; }
+.masterInventorySummary strong { color: #3d382f; font-size: 23px; }
+.masterInventorySummary span { color: #746a5d; font-size: 10px; text-transform: uppercase; }
+.masterInventoryToolbar { display: flex; align-items: end; flex-wrap: wrap; gap: 9px; margin: 15px 0 10px; }
+.masterInventorySearch { display: grid; gap: 4px; min-width: min(310px, 100%); margin-right: auto; color: #5d554a; font-size: 11px; font-weight: 800; text-transform: uppercase; }
+.masterInventorySearch input, .masterInventoryCustomForm input, .masterInventoryCustomForm select { height: 40px; border: 1px solid #cfc7bb; border-radius: 9px; background: #fff; padding: 0 11px; color: #29261f; font-size: 14px; }
+.masterInventoryCustomForm { display: grid; grid-template-columns: 1fr 1fr 1.3fr .7fr auto; gap: 10px; align-items: end; margin: 10px 0; padding: 14px; border: 1px solid #d6cdbf; border-radius: 12px; background: #fbfaf7; }
+.masterInventoryCustomForm label { display: grid; gap: 4px; color: #5d554a; font-size: 10px; font-weight: 800; text-transform: uppercase; }
+.masterInventoryBackupNote, .masterInventoryAutomationNote { margin: 10px 0 14px; padding: 10px 14px; border-left: 4px solid #9b8f7e; background: #f7f3ec; color: #62594d; font-size: 12px; }
+.masterInventoryAccordions { display: grid; gap: 9px; }
+.masterInventoryCategory { overflow: hidden; border: 1px solid #d5cdbf; border-radius: 12px; background: #fff; }
+.masterInventoryCategoryButton { display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; align-items: center; width: 100%; min-height: 48px; border: 0; background: #eee8dd; padding: 8px 14px; color: #403a31; text-align: left; }
+.masterInventoryCategoryButton > span { font-size: 17px; }
+.masterInventoryCategoryButton strong { font-family: Georgia, serif; font-size: 18px; }
+.masterInventoryCategoryButton em { color: #71685c; font-size: 11px; font-style: normal; font-weight: 700; }
+.masterInventoryTableHead, .masterInventoryRow { display: grid; grid-template-columns: minmax(150px, 1.1fr) minmax(180px, 1.35fr) 90px 90px 90px minmax(160px, 1.2fr) 28px; gap: 8px; align-items: center; }
+.masterInventoryTableHead { min-height: 32px; padding: 5px 10px; border-bottom: 1px solid #d9d1c5; background: #faf8f4; color: #6b6256; font-size: 9px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
+.masterInventoryRow { min-height: 52px; padding: 6px 10px; border-bottom: 1px solid #ece7df; }
+.masterInventoryRow:last-child { border-bottom: 0; }
+.masterInventoryFamily { color: #2d2a24; font-size: 13px; }
+.masterInventoryFamily > span { color: #aaa095; }
+.masterInventoryVariation { color: #4e473e; font-size: 12px; }
+.masterInventoryVariation small { display: block; margin-top: 2px; color: #8a8073; font-size: 9px; }
+.masterInventoryUnit { color: #71685c; font-size: 11px; }
+.masterInventoryRow label { display: block; }
+.masterInventoryRow label > span { display: none; }
+.masterInventoryRow input { width: 100%; height: 38px; border: 1px solid #cbc3b7; border-radius: 8px; background: #fff; padding: 0 8px; color: #29261f; font-size: 14px; }
+.masterInventoryRow input[type="number"] { text-align: center; font-weight: 700; }
+.masterInventoryRemove { width: 28px; height: 28px; border: 1px solid #d6b7b7; border-radius: 50%; background: #fff8f8; color: #8f4141; font-size: 17px; }
+.masterInventoryEmpty { padding: 30px; border: 1px dashed #cfc5b7; border-radius: 12px; color: #62594d; text-align: center; }
+
+@media (max-width: 1020px) {
+  .masterInventoryIntro { display: grid; }
+  .masterInventorySummary { min-width: 0; }
+  .masterInventoryCustomForm { grid-template-columns: 1fr 1fr; }
+  .masterInventoryTableHead { display: none; }
+  .masterInventoryRow { grid-template-columns: minmax(170px, 1.1fr) minmax(200px, 1.4fr) 90px 90px 90px 28px; }
+  .masterInventoryUnit { display: none; }
+  .masterInventoryNotes { grid-column: 1 / -2; }
+  .masterInventoryRow .masterInventoryNotes > span { display: inline-block; margin-right: 8px; color: #6b6256; font-size: 9px; font-weight: 800; text-transform: uppercase; }
+  .masterInventoryNotes input { width: calc(100% - 50px); }
+}
+
+@media (max-width: 700px) {
+  .masterInventoryIntro { padding: 15px; }
+  .masterInventorySummary { grid-template-columns: repeat(3, 1fr); }
+  .masterInventoryToolbar > button { flex: 1 1 44%; }
+  .masterInventorySearch { width: 100%; }
+  .masterInventoryCustomForm { grid-template-columns: 1fr; }
+  .masterInventoryCategoryButton { grid-template-columns: 20px minmax(0, 1fr); }
+  .masterInventoryCategoryButton em { grid-column: 2; }
+  .masterInventoryRow { grid-template-columns: minmax(0, 1fr) 90px 90px 28px; gap: 7px; }
+  .masterInventoryFamily { grid-column: 1 / -1; }
+  .masterInventoryVariation { grid-column: 1; }
+  .masterInventoryRow label > span { display: block; margin-bottom: 2px; color: #6b6256; font-size: 9px; font-weight: 800; text-transform: uppercase; }
+  .masterInventoryNotes { grid-column: 1 / -1; }
+  .masterInventoryNotes input { width: 100%; }
+}
+
+@media print { .masterKitchenInventoryPage { display: none !important; } }
