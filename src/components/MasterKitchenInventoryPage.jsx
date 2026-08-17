@@ -203,6 +203,18 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
                       <div className="masterInventoryFamilyBlock" key={familyGroup.family}>
                         <h3>{familyGroup.family}</h3>
                         <div className="masterInventoryFamilyForms">
+                          <div className="masterInventoryCounterHeader" aria-hidden="true">
+                            <span />
+                            <div className="masterInventoryFormGrid">
+                              {["left", "right"].map((column) => (
+                                <div className="masterInventoryFormItem masterInventoryFormItemHeader" key={column}>
+                                  <span />
+                                  <div className="masterInventoryQuantityLabels"><strong>HAVE</strong><i /><strong>BUY</strong></div>
+                                  <span />
+                                </div>
+                              ))}
+                            </div>
+                          </div>
                           {familyGroup.storageGroups.map((storageGroup) => (
                             <div className="masterInventoryStorageRow" key={storageGroup.form}>
                               <strong>{storageGroup.form}:</strong>
@@ -212,7 +224,7 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
                                   const display = splitStorageForm(item.variation);
                                   return (
                                     <div className="masterInventoryFormItem" key={item.id}>
-                                      <div className="masterInventoryFormName">{display.name}<small>{item.unit}{item.recipeDerived ? " · recipe" : ""}</small></div>
+                                      <div className="masterInventoryFormName">{display.name}<small> {item.unit}{item.recipeDerived ? " · recipe" : ""}</small></div>
                                       <div className="masterInventoryQuantityPair">
                                         <label><span>Have</span><input type="number" inputMode="decimal" min="0" step="any" placeholder="0" value={numberValue(record.have)} onChange={(event) => updateRecord(item.id, { have: event.target.value })} aria-label={`${item.family} ${item.variation} quantity on hand`} /></label>
                                         <i aria-hidden="true">|</i>
@@ -226,7 +238,7 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
                             </div>
                           ))}
                         </div>
-                        <label className="masterInventoryFamilyNotes"><span>Notes:</span><textarea value={familyNote} onChange={(event) => updateRecord(familyNoteId, { notes: event.target.value })} placeholder="Optional family notes" rows="3" /></label>
+                        <label className="masterInventoryFamilyNotes"><span>Notes:</span><input type="text" value={familyNote} onChange={(event) => updateRecord(familyNoteId, { notes: event.target.value })} placeholder="Optional family notes" /></label>
                       </div>
                     );
                   })}

@@ -1,0 +1,23 @@
+{
+  "version": "82.7.0",
+  "title": "Master Inventory Density Refinement",
+  "summary": "Tightens the Master Kitchen Inventory matrix to reduce depth and add clear Have and Buy counter headings.",
+  "changedFiles": [
+    "src/components/MasterKitchenInventoryPage.jsx",
+    "src/components/MasterKitchenInventoryPage.css",
+    "test/masterKitchenInventoryMatrixV826.test.mjs",
+    "test/masterKitchenInventoryDensityV827.test.mjs",
+    "package.json",
+    "package-lock.json",
+    "CHANGELOG.md",
+    "UPDATE-MANIFEST-v82.7.json"
+  ],
+  "behavior": [
+    "Reduces food-family name size.",
+    "Moves the first form column left by narrowing the storage-type label column.",
+    "Keeps each form and counting unit on one thin line.",
+    "Reduces row and numeric-counter heights and divides the two form columns evenly.",
+    "Changes family notes to a single-line field.",
+    "Adds Have and Buy headings above both quantity-counter columns in every food-family section."
+  ]
+}

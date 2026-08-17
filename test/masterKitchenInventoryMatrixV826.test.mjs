@@ -33,9 +33,9 @@ assert.match(page, /masterInventoryFamilyBlock/);
 assert.match(page, /masterInventoryStorageRow/);
 assert.match(page, /masterInventoryQuantityPair/);
 assert.match(page, /family-note-/);
-assert.match(page, /<textarea/);
+assert.match(page, /masterInventoryFamilyNotes/);
 assert.match(styles, /grid-template-columns: repeat\(2, minmax\(0, 1fr\)\)/);
-assert.match(styles, /grid-template-columns: 39px 8px 39px/);
+assert.match(styles, /grid-template-columns: 34px 6px 34px/);
 assert.match(styles, /@media \(max-width: 700px\)/);
 
 console.log("Master Kitchen Inventory compact matrix v82.6 tests passed.");

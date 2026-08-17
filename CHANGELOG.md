@@ -1,3 +1,13 @@
+# v82.7 — Master Inventory Density Refinement
+
+- Reduced the food-family name size.
+- Shifted the first product-form column left by narrowing the Fresh, Frozen, Canned, and other storage-label column.
+- Kept product forms and counting units together on one thin line.
+- Reduced the height of inventory rows and Have | Buy number counters.
+- Balanced the two product-form halves and added a subtle center division.
+- Reduced family Notes to one compact line.
+- Added HAVE and BUY headings above the counter boxes in both halves of every food-family section.
+
 # v82.6 — Compact Master Inventory Matrix
 
 - Reformatted each Master Kitchen Inventory category to match the supplied compact matrix example.
