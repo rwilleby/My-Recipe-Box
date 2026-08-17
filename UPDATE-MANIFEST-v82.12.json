@@ -1,0 +1,24 @@
+{
+  "version": "82.12.0",
+  "release": "Beige Family Header Bands",
+  "uploadMode": "replace matching files",
+  "changedFiles": [
+    "CHANGELOG.md",
+    "UPDATE-MANIFEST-v82.12.json",
+    "package.json",
+    "package-lock.json",
+    "src/components/MasterKitchenInventoryPage.jsx",
+    "src/components/MasterKitchenInventoryPage.css",
+    "test/masterKitchenInventoryLedgerV829.test.mjs",
+    "test/masterKitchenInventoryColumnsV8210.test.mjs",
+    "test/masterKitchenInventoryRepeatedHeadersV8211.test.mjs",
+    "test/masterKitchenInventoryHeaderBandV8212.test.mjs"
+  ],
+  "preserves": [
+    "Master Kitchen Inventory saved record IDs and data shape",
+    "automatic on-device saving",
+    "Record Purchases and Clear Buy Qty actions",
+    "custom inventory items, printing, search, and accordions",
+    "full Backup & Restore transfer between iPad and laptop"
+  ]
+}

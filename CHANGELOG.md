@@ -1,3 +1,10 @@
+# v82.12 — Beige Family Header Bands
+
+- Renamed the repeated RAW/COOKED heading to STORAGE.
+- Added a subtle beige background band behind each food-family name and its repeated column headings.
+- Centered HAVE and BUY precisely over their matching number counters.
+- Preserved the v82.11 typography, column sizing, saved inventory data, responsive behavior, and all inventory actions.
+
 # v82.11 — Repeated Food-Line Inventory Headers
 
 - Removed the single column-header row from the top of each inventory category.

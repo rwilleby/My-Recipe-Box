@@ -23,15 +23,17 @@
 .masterInventoryLedger { display: grid; grid-template-columns: minmax(180px, 1.65fr) minmax(86px, .8fr) minmax(220px, 2fr) minmax(64px, .55fr) minmax(48px, .42fr) minmax(48px, .42fr) minmax(150px, 1.4fr) 18px; column-gap: 6px; font-family: Inter, Arial, sans-serif; text-transform: uppercase; }
 .masterInventoryLedgerFamily { display: grid; grid-template-columns: subgrid; grid-column: 1 / -1; align-items: start; padding: 5px 10px; border-bottom: 1px solid #d8d1c6; }
 .masterInventoryLedgerFamily:last-child { border-bottom: 0; }
+.masterInventoryFamilyHeader { display: grid; grid-template-columns: subgrid; grid-column: 1 / -1; min-height: 31px; padding: 0 6px; border-radius: 4px; background: #eee8dd; }
 .masterInventoryLedgerFamily h3 { grid-column: 1; margin: 0; align-self: center; color: #647142; font-family: Inter, Arial, sans-serif !important; font-size: 15px !important; line-height: 1.1; font-weight: 750; text-transform: uppercase; }
-.masterInventoryFamilyColumnLabel { align-self: center; min-height: 24px; padding-top: 7px; color: #647142; font-family: Inter, Arial, sans-serif; font-size: 10px; font-weight: 800; letter-spacing: .02em; white-space: nowrap; }
-.masterInventoryHaveLabel, .masterInventoryBuyLabel { text-align: center; }
+.masterInventoryFamilyColumnLabel { display: flex; align-items: center; min-height: 31px; color: #647142; font-family: Inter, Arial, sans-serif; font-size: 10px; font-weight: 800; letter-spacing: .02em; white-space: nowrap; }
+.masterInventoryHaveLabel, .masterInventoryBuyLabel { justify-content: center; text-align: center; }
 .masterInventoryLedgerItems { display: grid; grid-template-columns: subgrid; grid-column: 2 / -1; grid-row: 2; min-width: 0; }
 .masterInventoryLedgerRow { display: grid; grid-template-columns: subgrid; grid-column: 1 / -1; align-items: center; min-height: 31px; font-family: Inter, Arial, sans-serif; font-size: 10px; }
 .masterInventoryStorage { color: #595146; font-size: 10px; font-weight: 650; white-space: nowrap; }
 .masterInventoryForm, .masterInventoryPackage { overflow: hidden; color: #484239; font-size: 10px; line-height: 1.1; white-space: nowrap; text-overflow: ellipsis; }
 .masterInventoryForm small { display: inline; color: #746b60; font-size: 9px; }
 .masterInventoryNotesSpacer { min-width: 0; }
+.masterInventoryLedgerQuantity { display: grid; place-items: center; }
 .masterInventoryLedgerQuantity > span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .masterInventoryLedgerQuantity input { width: 42px; height: 25px; border: 1px solid #d0c8bd; border-radius: 4px; background: #fff; padding: 0 2px; color: #39342d; font-family: Inter, Arial, sans-serif; font-size: 10px; font-weight: 600; text-align: center; }
 .masterInventoryLedgerQuantity input::placeholder { color: #a79e92; opacity: 1; }
@@ -58,6 +60,7 @@
   .masterInventoryCategoryButton em { grid-column: 2; }
   .masterInventoryLedger { grid-template-columns: minmax(0, 1fr); column-gap: 0; }
   .masterInventoryLedgerFamily { grid-template-columns: minmax(0, 1fr); grid-column: 1; gap: 4px; padding: 8px 10px; }
+  .masterInventoryFamilyHeader { grid-template-columns: minmax(0, 1fr); grid-column: 1; padding: 0 7px; }
   .masterInventoryLedgerFamily h3 { grid-column: 1; margin: 0; padding-bottom: 5px; border-bottom: 1px solid #eee8df; }
   .masterInventoryFamilyColumnLabel { display: none; }
   .masterInventoryLedgerItems { grid-column: 1; grid-row: auto; grid-template-columns: 58px minmax(120px, 1fr) 52px 42px 42px 18px; column-gap: 4px; }
