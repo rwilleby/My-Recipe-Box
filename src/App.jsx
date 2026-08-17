@@ -17,6 +17,7 @@ import UserDataBackupSection from "./components/UserDataBackupSection";
 import FoodIntelligenceCard from "./components/FoodIntelligenceCard";
 import WeekendBulkMealPlanner from "./components/WeekendBulkMealPlanner";
 import KitchenReminderRibbon from "./components/KitchenReminderRibbon";
+import DigitalStockCheckPanel from "./components/DigitalStockCheckPanel";
 import { getRecipeNutritionVariant, hasRecipeNutritionRecord } from "./data/recipeNutritionProfiles";
 import "./components/UserDataBackupSection.css";
 import "./components/AdminNutritionDatabase.css";
@@ -57,6 +58,7 @@ import {
 import { loadJSON, saveJSON } from "./utils/storage";
 import { sortRecipesByCode } from "./utils/recipeSorting";
 import { applyStoredRecipeOverrides } from "./utils/recipeOverrides";
+import { printManualInventoryWorksheet } from "./utils/manualInventoryWorksheets.js";
 import {
   HOME_COMBO_MEAL_COUNT,
   hasQuickDinnerHero,
@@ -7714,6 +7716,7 @@ function ServingSelector({ servings, setServings }) {
 
 function PantryStaplesPage({ pantry, setPantry }) {
   const [selectedPantryLevel, setSelectedPantryLevel] = useState(1);
+  const [showDigitalStockCheck, setShowDigitalStockCheck] = useState(false);
   const selectedLevelInfo =
     PANTRY_LEVELS.find((level) => level.id === selectedPantryLevel) ||
     PANTRY_LEVELS[0];
@@ -7759,6 +7762,26 @@ function PantryStaplesPage({ pantry, setPantry }) {
     });
   }
 
+  function printPantryStockWorksheet() {
+    printManualInventoryWorksheet({
+      title: "Pantry Staples Stock-Check Worksheet",
+      instructions: "Check every staple currently in stock, record the quantity, and mark anything that needs to be added. Then transfer the checked items to Pantry Staples.",
+      groups: PANTRY_STAPLES.map((group) => ({
+        title: group.group,
+        items: group.items.map((item) => ({
+          name: item.name,
+          detail: `Pantry Level ${item.level}`,
+        })),
+      })),
+      columns: [
+        { label: "In Stock", kind: "checkbox" },
+        { label: "Qty", kind: "line" },
+        { label: "Need", kind: "checkbox" },
+        { label: "Notes", kind: "line" },
+      ],
+    });
+  }
+
   return (
     <main className="pageShell pantryPage">
       <SectionIntro
@@ -7797,6 +7820,12 @@ function PantryStaplesPage({ pantry, setPantry }) {
       </div>
 
       <div className="pantryActions">
+        <button className="primary" type="button" onClick={printPantryStockWorksheet}>
+          Print Stock-Check Worksheet
+        </button>
+        <button className="secondary" type="button" onClick={() => setShowDigitalStockCheck((current) => !current)}>
+          {showDigitalStockCheck ? "Close Digital Stock Check" : "Open Digital Stock Check"}
+        </button>
         <button className="primary" onClick={() => checkLevelStaples(selectedPantryLevel)}>
           Check Level {selectedPantryLevel}
         </button>
@@ -7807,6 +7836,25 @@ function PantryStaplesPage({ pantry, setPantry }) {
           Clear pantry checks
         </button>
       </div>
+
+      {showDigitalStockCheck && (
+        <DigitalStockCheckPanel
+          worksheetId="pantry-staples"
+          title="Pantry Staples Digital Stock Check"
+          instructions="Check items and record quantities as you move through the pantry. Checks update Pantry Staples immediately; quantities and notes remain saved with this worksheet."
+          groups={PANTRY_STAPLES.map((group) => ({
+            title: group.group,
+            items: group.items.map((item) => ({
+              id: item.name,
+              name: item.name,
+              detail: `Pantry Level ${item.level}`,
+              checked: !!pantry[item.name],
+            })),
+          }))}
+          onCheckChange={(item, value) => setPantry((current) => ({ ...current, [item.id]: value }))}
+          onClose={() => setShowDigitalStockCheck(false)}
+        />
+      )}
 
       <div className="pantryGrid">
         {visiblePantryGroups.map((group) => (
@@ -9149,6 +9197,7 @@ function freezerPackageOptions(currentValue = "") {
 
 function FreezerInventoryPage({ freezer, setFreezer, setActivePage }) {
   const [searchTerm, setSearchTerm] = useState("");
+  const [showDigitalStockCheck, setShowDigitalStockCheck] = useState(false);
   const [filterMode, setFilterMode] = useState("all");
   const [locationFilter, setLocationFilter] = useState("all");
   const [expandedCategories, setExpandedCategories] = useState(() => new Set([FREEZER_CATEGORIES[0]?.id || "meat-poultry"]));
@@ -9329,6 +9378,26 @@ function FreezerInventoryPage({ freezer, setFreezer, setActivePage }) {
     window.print();
   }
 
+  function printFreezerStockWorksheet() {
+    printManualInventoryWorksheet({
+      title: "Freezer Inventory Stock-Check Worksheet",
+      instructions: "Check every frozen item currently on hand and write in its quantity, package, location, and use-by date. Then transfer the results to Freezer Inventory.",
+      groups: FREEZER_CATEGORIES.map((category) => ({
+        title: category.title,
+        items: allItems
+          .filter((item) => item.categoryId === category.id)
+          .map((item) => ({ name: item.name })),
+      })),
+      columns: [
+        { label: "In Stock", kind: "checkbox" },
+        { label: "Qty", kind: "line" },
+        { label: "Package", kind: "line" },
+        { label: "Location", kind: "line" },
+        { label: "Use By", kind: "line" },
+      ],
+    });
+  }
+
   function exportInventory() {
     const blob = new Blob([JSON.stringify(safeFreezer, null, 2)], { type: "application/json" });
     const url = URL.createObjectURL(blob);
@@ -9506,7 +9575,11 @@ function FreezerInventoryPage({ freezer, setFreezer, setActivePage }) {
       </section>
 
       <section className="freezerActions freezerNoPrint">
-        <button type="button" className="primary" onClick={printInventory}>Print Inventory</button>
+        <button type="button" className="primary" onClick={printFreezerStockWorksheet}>Print Stock-Check Worksheet</button>
+        <button type="button" className="secondary" onClick={() => setShowDigitalStockCheck((current) => !current)}>
+          {showDigitalStockCheck ? "Close Digital Stock Check" : "Open Digital Stock Check"}
+        </button>
+        <button type="button" className="secondary" onClick={printInventory}>Print Current Inventory</button>
         <button type="button" className="secondary" onClick={exportInventory}>Export Inventory</button>
         <label className="freezerImportButton">
           <input id={importInputId} type="file" accept="application/json,.json" onChange={importInventory} />
@@ -9525,6 +9598,29 @@ function FreezerInventoryPage({ freezer, setFreezer, setActivePage }) {
           <button type="button" className="secondary" onClick={addCustomLocation}>Save Location</button>
         </div>
       </section>
+
+      {showDigitalStockCheck && (
+        <DigitalStockCheckPanel
+          worksheetId="freezer-inventory"
+          title="Freezer Inventory Digital Stock Check"
+          instructions="Check each item and enter its quantity while you inspect the freezer. Both fields update Freezer Inventory immediately; worksheet notes are saved with your backup."
+          groups={FREEZER_CATEGORIES.map((category) => ({
+            title: category.title,
+            items: allItems
+              .filter((item) => item.categoryId === category.id)
+              .map((item) => ({
+                id: item.id,
+                name: item.name,
+                detail: item.location || "Kitchen freezer",
+                checked: !!item.onHand,
+                quantity: item.quantity || "",
+              })),
+          }))}
+          onCheckChange={(item, value) => updateItem(item.id, { onHand: value })}
+          onQuantityChange={(item, value) => updateItem(item.id, { quantity: value })}
+          onClose={() => setShowDigitalStockCheck(false)}
+        />
+      )}
 
       <section className="freezerPrintHeader">
         <h1>FREEZER INVENTORY</h1>
@@ -9618,6 +9714,7 @@ function FreezerInventoryPage({ freezer, setFreezer, setActivePage }) {
 }
 
 function ShoppingListPage({ plan, checked, setChecked, servings, pantry, refrigerator, freezer, setActivePage, preparedInventory, preparedReservations, componentDecisions, setComponentDecisions, shoppingComments, setShoppingComments }) {
+  const [showDigitalStockCheck, setShowDigitalStockCheck] = useState(false);
   const recipeIdSet = useMemo(() => new Set(recipes.map((recipe) => recipe.id)), []);
   const dinnerCombinationById = useMemo(
     () => Object.fromEntries(dinnerCombinations.map((meal) => [meal.id, meal])),
@@ -9717,6 +9814,34 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, refrige
     ]),
     [recipeOnlyPlan, servings, dinnerCombinationShoppingReferences, refrigeratorShoppingItems, freezerShoppingItems]
   );
+
+  const digitalShoppingGroups = Object.entries(list.reduce((groups, item) => {
+    const aisle = item.aisle || "Other";
+    const id = `${item.name}-${item.unit}-${item.aisle}`;
+    groups[aisle] = [...(groups[aisle] || []), {
+      id,
+      name: item.name,
+      detail: `Planned amount: ${formatShoppingQuantity(item.qty)} ${item.unit}`,
+      checked: !!checked[id],
+    }];
+    return groups;
+  }, {})).map(([title, items]) => ({ title, items }));
+
+  if (preparedToBuy.length) {
+    digitalShoppingGroups.push({
+      title: "Prepared Components",
+      items: preparedToBuy.map((item) => {
+        const component = getPreparedComponent(item.componentId, preparedInventory);
+        const id = `prepared-${item.componentId}`;
+        return {
+          id,
+          name: component?.name || item.componentId,
+          detail: `Planned amount: ${item.packagesRequired} package(s)`,
+          checked: !!checked[id],
+        };
+      }),
+    });
+  }
 
   const { needed, pantry: pantryItems } = useMemo(
     () => splitShoppingListByPantry(list, pantry),
@@ -9904,6 +10029,43 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, refrige
     printWindow.document.close();
   }
 
+  function printMasterShoppingStockWorksheet() {
+    const groupedMasterList = list.reduce((groups, item) => {
+      const aisle = item.aisle || "Other";
+      groups[aisle] = [...(groups[aisle] || []), {
+        name: item.name,
+        detail: `Planned amount: ${formatShoppingQuantity(item.qty)} ${item.unit}`,
+      }];
+      return groups;
+    }, {});
+
+    const groups = Object.entries(groupedMasterList).map(([title, items]) => ({ title, items }));
+    if (preparedToBuy.length) {
+      groups.push({
+        title: "Prepared Components",
+        items: preparedToBuy.map((item) => {
+          const component = getPreparedComponent(item.componentId, preparedInventory);
+          return {
+            name: component?.name || item.componentId,
+            detail: `Planned amount: ${item.packagesRequired} package(s)`,
+          };
+        }),
+      });
+    }
+
+    printManualInventoryWorksheet({
+      title: "Master Shopping List Stock-Check Worksheet",
+      instructions: "Check items already in stock before shopping, mark what needs to be purchased, and record the final quantity or notes. Then update the Shopping List, Pantry Staples, or Freezer Inventory pages.",
+      groups,
+      columns: [
+        { label: "In Stock", kind: "checkbox" },
+        { label: "Buy", kind: "checkbox" },
+        { label: "Qty", kind: "line" },
+        { label: "Notes", kind: "line" },
+      ],
+    });
+  }
+
   function renderGroceryReference(item) {
     const reference = findGroceryReference(item.name);
     if (!reference) return null;
@@ -10051,6 +10213,12 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, refrige
         <button className="primary" onClick={printShoppingList}>
           Print List
         </button>
+        <button className="secondary" onClick={printMasterShoppingStockWorksheet}>
+          Print Stock-Check Worksheet
+        </button>
+        <button className="secondary" onClick={() => setShowDigitalStockCheck((current) => !current)}>
+          {showDigitalStockCheck ? "Close Digital Stock Check" : "Open Digital Stock Check"}
+        </button>
         <button
           className="secondary"
           onClick={() => setActivePage("Grocery Picks")}
@@ -10058,6 +10226,17 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, refrige
           Grocery Picks
         </button>
       </div>
+
+      {showDigitalStockCheck && (
+        <DigitalStockCheckPanel
+          worksheetId="master-shopping-list"
+          title="Master Shopping List Digital Stock Check"
+          instructions="Check items already in stock and record the quantity you find. Checks update the current Shopping List immediately; quantities and notes remain saved with this worksheet."
+          groups={digitalShoppingGroups}
+          onCheckChange={(item, value) => setChecked((current) => ({ ...current, [item.id]: value }))}
+          onClose={() => setShowDigitalStockCheck(false)}
+        />
+      )}
 
       {list.length === 0 && preparedRequirementSummary.length === 0 ? (
         <EmptyState

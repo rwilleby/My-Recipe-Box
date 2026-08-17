@@ -1,3 +1,15 @@
+# v82.4 — Manual and Digital Stock-Check Worksheets
+
+- Added a printable Pantry Staples worksheet covering every staple across all three pantry levels.
+- Added a printable Freezer Inventory worksheet covering all default and custom freezer items, with fields for stock, quantity, package, location, and use-by date.
+- Added a printable Master Shopping List worksheet covering the current combined shopping list and prepared components selected to buy.
+- Added blank paper checkboxes and writing fields so kitchen inventory can be completed manually and then transferred into the matching system pages.
+- Preserved the existing current-inventory and shopping-list printouts as separate options.
+- Added an iPad-friendly Digital Stock Check mode to Pantry Staples, Freezer Inventory, and the Master Shopping List.
+- Connected live pantry checks, freezer checks and quantities, and shopping-list checks to their existing system records immediately.
+- Saved digital worksheet quantities and notes locally under the Recipe Box backup namespace so they are included in Backup & Restore.
+- Supported moving a completed stock check between an iPad and laptop with the existing manual backup-file export and restore workflow; no cloud account or automatic sync is required.
+
 # v82.3 — Reminder Ribbon Palette Refinement
 
 - Changed the Reminder Ribbon background to the site’s original light-beige page color (`#fbfaf7`).

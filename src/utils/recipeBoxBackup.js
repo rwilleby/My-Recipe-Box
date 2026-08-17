@@ -17,6 +17,7 @@ const CATEGORY_DEFINITIONS = Object.freeze([
   { key: "rrb_pantryStaples", label: "Pantry Items", type: "truthyObject" },
   { key: "rrb_refrigeratorInventory", label: "Refrigerator Items", type: "count" },
   { key: "rrb_freezerInventory", label: "Freezer Items", type: "count" },
+  { key: "rrb_manualStockChecks_v1", label: "Manual Stock Checks", type: "count" },
   { key: "rrb_preparedComponentInventory", label: "Prepared Freezer Items", type: "records" },
   { key: "rrb_savedCollections", label: "Saved Collections", type: "count" },
   { key: "rrb_recentlyViewed", label: "Recently Viewed", type: "count" },
