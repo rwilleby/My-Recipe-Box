@@ -1,3 +1,12 @@
+# v82.9 — Compact Master Inventory Ledger
+
+- Replaced the four-column family bands with the approved Option B ledger: Food, Storage, Form / Package, Have, Buy, and Notes.
+- Displays each food-family name once while keeping every fresh, frozen, canned, refrigerated, instant, jarred, dry, or prepared form on its own narrow row.
+- Added one shared, single-line Notes field for each food family.
+- Reduced the quantity-control type and row depth while retaining practical touch targets and numeric entry on iPad.
+- Added a responsive small-screen layout that keeps Storage, Form / Package, Have, and Buy aligned and moves Notes beneath each family.
+- Preserved existing saved inventory records, automatic saving, purchase recording, printing, custom items, search, accordions, and Backup & Restore compatibility.
+
 # v82.8 — Four-Column Master Inventory Bands
 
 - Reformatted every food family as one shallow horizontal band with four equal columns: Fresh, Frozen, Canned, and Instant/Jar.
