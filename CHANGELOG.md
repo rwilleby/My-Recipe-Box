@@ -4,6 +4,7 @@
 - Added prioritized reminders for due backups, refrigerator food due within three days, frozen inventory due within 30 days, unfinished weekend bulk-cooking batches, empty meal plans, and shopping-list review.
 - Added each direct action as clickable text at the end of its reminder sentence.
 - Kept the ribbon to one centered italic line at a fixed quarter-inch height, including on smaller screens.
+- Matched the ribbon width to the large hero image, reduced inline action text to visually match the sentence, and added a soft fade-out/fade-in transition.
 - Preserved the calm nine-second reminder rotation without visible buttons, counters, or rotation controls; rotation pauses on hover, keyboard focus, and reduced-motion preference.
 - Connected Weekend Bulk Meal Planner saves to same-tab reminder updates.
 - Added responsive and print-safe ribbon styling plus a focused regression test.

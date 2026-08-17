@@ -16,8 +16,8 @@
   ],
   "behavior": [
     "Shows the highest-priority current kitchen reminder in a subtle beige, quarter-inch ribbon beneath the main navigation.",
-    "Keeps every reminder centered, italic, and on one line at every screen size.",
-    "Rotates reminders every nine seconds without visible buttons, counters, or controls and pauses on hover, focus, or reduced-motion preference.",
+    "Keeps every reminder centered, italic, and on one line at every screen size within the same width as the large hero image.",
+    "Rotates reminders every nine seconds with a soft fade-out/fade-in transition, without visible buttons, counters, or controls, and pauses on hover, focus, or reduced-motion preference.",
     "Places a direct text action at the end of each sentence for backup, meal planning, shopping, refrigerator, frozen inventory, and weekend bulk planning pages."
   ]
 }

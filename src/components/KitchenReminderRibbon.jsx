@@ -46,6 +46,7 @@ export default function KitchenReminderRibbon({
   const [weekendPlan, setWeekendPlan] = useState(() => readJson(WEEKEND_BULK_PLAN_KEY, {}));
   const [backup, setBackup] = useState(() => readBackup(kosUi));
   const [index, setIndex] = useState(0);
+  const [fading, setFading] = useState(false);
   const [reducedMotion] = useState(() => window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches || false);
   const [hovered, setHovered] = useState(false);
   const [focusWithin, setFocusWithin] = useState(false);
@@ -86,11 +87,20 @@ export default function KitchenReminderRibbon({
   }, [reminders.length]);
 
   useEffect(() => {
+    let fadeTimer;
+    setFading(false);
     if (reducedMotion || hovered || focusWithin || reminders.length < 2) return undefined;
     const timer = window.setInterval(() => {
-      setIndex((current) => (current + 1) % reminders.length);
+      setFading(true);
+      fadeTimer = window.setTimeout(() => {
+        setIndex((current) => (current + 1) % reminders.length);
+        setFading(false);
+      }, 325);
     }, ROTATION_MS);
-    return () => window.clearInterval(timer);
+    return () => {
+      window.clearInterval(timer);
+      if (fadeTimer) window.clearTimeout(fadeTimer);
+    };
   }, [focusWithin, hovered, reducedMotion, reminders.length]);
 
   if (!reminders.length) return null;
@@ -108,7 +118,7 @@ export default function KitchenReminderRibbon({
       }}
     >
       <div className="kitchenReminderInner">
-        <div className="kitchenReminderMessage" aria-live="polite" aria-atomic="true">
+        <div className={`kitchenReminderMessage${fading ? " isFading" : ""}`} aria-live="polite" aria-atomic="true">
           <span className="kitchenReminderText">{reminder.message}</span>
           {" "}
           <button type="button" className="kitchenReminderTextAction" onClick={() => setActivePage(reminder.page)}>
