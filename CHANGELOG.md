@@ -1,3 +1,9 @@
+# v82.3 — Reminder Ribbon Palette Refinement
+
+- Changed the Reminder Ribbon background to the site’s original light-beige page color (`#fbfaf7`).
+- Changed the sentence and inline action text to a complementary dark beige (`#6f6252`).
+- Preserved the quarter-inch height, hero-width alignment, centered italic text, weight-600 inline action, and fade transition.
+
 # v82.2 — Kitchen Reminder Ribbon
 
 - Added a calm, site-wide reminder ribbon directly beneath the main navigation, using a subtle beige treatment slightly darker than the header.

@@ -5,9 +5,9 @@
   margin-right: auto;
   margin-left: auto;
   overflow: hidden;
-  border-bottom: 1px solid #ded3c2;
-  background: #f1eadd;
-  color: #514a42;
+  border-bottom: 1px solid #e8e4dc;
+  background: #fbfaf7;
+  color: #6f6252;
   box-sizing: border-box;
 }
 
@@ -44,7 +44,7 @@
   padding: 0;
   border: 0;
   background: transparent;
-  color: #3f493d;
+  color: inherit !important;
   font: inherit;
   font-family: inherit !important;
   font-size: 1em !important;
@@ -60,7 +60,7 @@
 .kitchenReminderTextAction:hover { text-decoration: underline; }
 
 .kitchenReminderTextAction:focus-visible {
-  outline: 1px solid #6f7667;
+  outline: 1px solid #756856;
   outline-offset: 2px;
 }
 

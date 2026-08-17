@@ -1,0 +1,18 @@
+{
+  "version": "82.3.0",
+  "title": "Reminder Ribbon Palette Refinement",
+  "summary": "Matches the Reminder Ribbon to the original light-beige page background and introduces complementary dark-beige text.",
+  "changedFiles": [
+    "src/components/KitchenReminderRibbon.css",
+    "test/kitchenReminderRibbonV822.test.mjs",
+    "package.json",
+    "package-lock.json",
+    "CHANGELOG.md",
+    "UPDATE-MANIFEST-v82.3.json"
+  ],
+  "behavior": [
+    "Uses the original page background color #fbfaf7 for the Reminder Ribbon.",
+    "Uses dark beige #6f6252 for both the reminder sentence and inline action.",
+    "Preserves all Reminder Ribbon sizing, alignment, typography, action, rotation, and fade behavior."
+  ]
+}
