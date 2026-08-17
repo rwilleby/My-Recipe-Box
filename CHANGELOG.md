@@ -1,3 +1,13 @@
+# v82.11 — Repeated Food-Line Inventory Headers
+
+- Removed the single column-header row from the top of each inventory category.
+- Repeated the column meanings beside every food-family name so they remain visible while scrolling: RAW/COOKED, TYPE, UNIT, HAVE, BUY, and NOTES.
+- Changed the food name and repeated labels to the site’s olive green.
+- Increased the ledger text by approximately 25%, including 15px food names and 10px inventory values.
+- Changed the Notes placeholder to “YOUR NOTES…” and matched its 15px type size to the food name.
+- Widened TYPE, narrowed UNIT and NOTES, and moved HAVE and BUY closer together.
+- Preserved saved inventory records, automatic saving, printing, custom items, purchasing actions, responsive iPad behavior, and Backup & Restore.
+
 # v82.10 — Seven-Column Uppercase Inventory Ledger
 
 - Split the combined Form / Package field into two distinct columns: FORM and PACKAGE.

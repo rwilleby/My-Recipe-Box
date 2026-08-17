@@ -33,7 +33,7 @@ assert.match(page, /masterInventoryLedgerFamily/);
 assert.match(page, /masterInventoryLedgerQuantity/);
 assert.match(page, /family-note-/);
 assert.match(page, /masterInventoryLedgerNotes/);
-assert.match(styles, /masterInventoryLedgerHead/);
+assert.match(styles, /masterInventoryFamilyColumnLabel/);
 assert.match(styles, /masterInventoryLedgerRow/);
 assert.match(styles, /@media \(max-width: 700px\)/);
 

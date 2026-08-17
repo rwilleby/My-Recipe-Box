@@ -188,22 +188,19 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
               </button>
               {isOpen && (
                 <div className="masterInventoryLedger" role="table" aria-label={`${category.title} inventory`}>
-                  <div className="masterInventoryLedgerHead" role="row">
-                    <span role="columnheader">Food</span>
-                    <span role="columnheader">Storage</span>
-                    <span role="columnheader">Form</span>
-                    <span role="columnheader">Package</span>
-                    <span role="columnheader">Have</span>
-                    <span role="columnheader">Buy</span>
-                    <span role="columnheader">Notes</span>
-                    <span aria-hidden="true" />
-                  </div>
                   {groupItemsByFamily(category.items).map((familyGroup) => {
                     const familyNoteId = `family-note-${category.id}-${familyGroup.family.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
                     const familyNote = safeInventory.records[familyNoteId]?.notes || "";
                     return (
                       <section className="masterInventoryLedgerFamily" key={familyGroup.family} role="rowgroup">
-                        <h3>{familyGroup.family}</h3>
+                        <h3 role="columnheader">{familyGroup.family}</h3>
+                        <span className="masterInventoryFamilyColumnLabel" role="columnheader">Raw/Cooked</span>
+                        <span className="masterInventoryFamilyColumnLabel" role="columnheader">Type</span>
+                        <span className="masterInventoryFamilyColumnLabel" role="columnheader">Unit</span>
+                        <span className="masterInventoryFamilyColumnLabel masterInventoryHaveLabel" role="columnheader">Have</span>
+                        <span className="masterInventoryFamilyColumnLabel masterInventoryBuyLabel" role="columnheader">Buy</span>
+                        <span className="masterInventoryFamilyColumnLabel" role="columnheader">Notes</span>
+                        <span className="masterInventoryFamilyColumnLabel" aria-hidden="true" />
                         <div className="masterInventoryLedgerItems">
                           {familyGroup.items.map((item) => {
                             const record = safeInventory.records[item.id] || {};
@@ -221,7 +218,7 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
                             );
                           })}
                         </div>
-                        <label className="masterInventoryLedgerNotes"><span>Notes</span><input type="text" value={familyNote} onChange={(event) => updateRecord(familyNoteId, { notes: event.target.value })} placeholder="Optional" /></label>
+                        <label className="masterInventoryLedgerNotes"><span>Notes</span><input type="text" value={familyNote} onChange={(event) => updateRecord(familyNoteId, { notes: event.target.value })} placeholder="Your Notes..." /></label>
                       </section>
                     );
                   })}
