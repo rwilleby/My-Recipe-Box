@@ -1,0 +1,15 @@
+ROBERT'S RECIPE BOX v83.4 — GITHUB UPDATE
+
+This package is cumulative from the verified live v83.1.1 site.
+It includes v83.2, v83.3, and v83.4.
+
+1. Unzip My-Recipe-Box-v83.4-GitHub-Update.zip.
+2. Open the extracted My-Recipe-Box-v83.4-GitHub-Update folder.
+3. Upload the CONTENTS of that folder to the GitHub repository root.
+4. Replace matching files and preserve the included folder structure.
+5. Do not upload the earlier v83.2 or v83.3 package first.
+6. No GitHub files need to be deleted for this update.
+7. Wait for the GitHub Actions build and deployment checks to turn green.
+8. Open the live site in a private window and verify ABOUT US > VIDEO LIBRARY.
+
+The update reuses all existing video and poster files; no media folders are included.

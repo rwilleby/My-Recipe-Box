@@ -1,3 +1,14 @@
+# v83.4 — Video Library
+
+- Added a Video Library page to the About Us menu directly after Welcome to Our Site.
+- Listed all 16 existing site videos once each in the order they first appear across the Home page, About Us pages, and recipe sections.
+- Added native play, pause, seek, volume, fullscreen, poster, and inline-playback controls without autoplay.
+- Automatically pauses another library video when a new video begins playing.
+- Added a direct page link and short explanation to every video card.
+- Reused the existing MP4 and poster/hero assets without adding duplicate media files.
+- Added responsive two-column desktop and single-column phone layouts in a dedicated Video Library feature module.
+- Added v83.4 menu-order, asset-integrity, playback, uniqueness, sequence, and responsive regression contracts.
+
 # v83.3 — Crock Pot Nutrition and Responsive Layout
 
 - Added clearly labeled estimated nutrition ranges to the Nutrition Facts box for all 180 Crock Pot recipes.

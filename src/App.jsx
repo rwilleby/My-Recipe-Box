@@ -78,6 +78,7 @@ import { applyStoredRecipeOverrides } from "./utils/recipeOverrides";
 import { printManualInventoryWorksheet } from "./utils/manualInventoryWorksheets.js";
 import { uniqueRecordsByPermanentId } from "./utils/records.js";
 import { getCrockPotNutritionEstimate } from "./utils/crockPotNutritionEstimate.js";
+import VideoLibraryPage from "./features/video-library/VideoLibraryPage.jsx";
 import {
   buildShoppingList,
   formatQty,
@@ -1298,6 +1299,7 @@ const NAV_GROUPS = [
     label: "ABOUT",
     items: [
       { label: "WELCOME TO OUR SITE", page: "About" },
+      { label: "VIDEO LIBRARY", page: "Video Library" },
       { label: "YOUR DATA & SECURITY", page: "Your Data & Security" },
       { label: "ABOUT OUR RECIPES", page: "About Recipes" },
       { label: "OUR NUTRITION STANDARDS", page: "Nutrition Standards" },
@@ -17553,6 +17555,19 @@ Use this section to check what is on hand, record dates, mark foods that should 
             videoPoster={WELCOME_TO_SITE_VIDEO_POSTER}
 />
           <AboutPage setActivePage={setActivePage} initialSection="main" />
+        </>
+      )}
+      {activePage === "Video Library" && (
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-page-about-us.webp"
+            alt="Framed family photos, coffee cup, and small plant on a light kitchen counter"
+            eyebrow="ABOUT US"
+            title="Video Library"
+            text="Watch the short guides used throughout Robert’s Recipe Box in one convenient place. The videos are arranged in the same order they first appear on the site, beginning with the Home page and continuing through About Us and the recipe collections.\n\nChoose any video to watch it here, or use its page link to visit the section it explains."
+            className="pageHeroDepth464"
+          />
+          <VideoLibraryPage setActivePage={setActivePage} />
         </>
       )}
       {activePage === "About Recipe Box Hidden" && (

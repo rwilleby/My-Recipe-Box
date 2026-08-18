@@ -1,0 +1,175 @@
+.videoLibraryPage {
+  padding-top: 34px;
+  padding-bottom: 72px;
+}
+
+.videoLibraryIntro {
+  width: min(780px, 100%);
+  margin: 0 auto 32px;
+  text-align: center;
+}
+
+.videoLibraryEyebrow {
+  display: block;
+  margin-bottom: 7px;
+  color: #6e1e2e;
+  font-family: Inter, sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.videoLibraryIntro h2 {
+  margin: 0 0 10px;
+  color: #26231f;
+  font-family: Georgia, serif;
+  font-size: 25px;
+  line-height: 1.15;
+}
+
+.videoLibraryIntro p {
+  margin: 0;
+  color: #575149;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.videoLibrarySections {
+  display: grid;
+  gap: 34px;
+}
+
+.videoLibrarySection {
+  min-width: 0;
+}
+
+.videoLibraryGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.videoLibrarySectionTitle {
+  margin: 0 0 14px;
+  color: #70685e;
+  font-family: Inter, sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.videoLibrarySectionTitle span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 13px;
+  border: 1px solid #d7ccbc;
+  border-radius: 999px;
+  background: #f7eed8;
+}
+
+.videoLibraryCard {
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid #ded5c8;
+  border-radius: 18px;
+  background: #fffdf8;
+  box-shadow: 0 10px 26px rgba(76, 62, 44, 0.09);
+}
+
+.videoLibraryPlayerFrame {
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #1f1d1a;
+}
+
+.videoLibraryPlayerFrame video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #1f1d1a;
+}
+
+.videoLibraryCardCopy {
+  display: flex;
+  min-height: 214px;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 20px 22px 22px;
+}
+
+.videoLibraryNumber {
+  margin-bottom: 5px;
+  color: #6e1e2e;
+  font-family: Inter, sans-serif;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+.videoLibraryCardCopy h4 {
+  margin: 0 0 8px;
+  color: #2d2924;
+  font-family: Georgia, serif;
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+.videoLibraryCardCopy p {
+  margin: 0 0 18px;
+  color: #625c54;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.videoLibraryCardCopy button {
+  margin-top: auto;
+  min-height: 40px;
+  padding: 9px 16px;
+  border: 0;
+  border-radius: 999px;
+  background: #6e1e2e;
+  color: #fff;
+  cursor: pointer;
+  font-family: Inter, sans-serif;
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.videoLibraryCardCopy button:hover,
+.videoLibraryCardCopy button:focus-visible {
+  background: #8a2a3e;
+}
+
+.videoLibraryCardCopy button:focus-visible {
+  outline: 3px solid rgba(198, 40, 40, 0.28);
+  outline-offset: 3px;
+}
+
+@media (max-width: 760px) {
+  .videoLibraryPage {
+    padding-top: 26px;
+    padding-bottom: 52px;
+  }
+
+  .videoLibraryGrid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .videoLibraryCardCopy {
+    min-height: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .videoLibraryCard {
+    border-radius: 14px;
+  }
+
+  .videoLibraryCardCopy {
+    padding: 17px 18px 19px;
+  }
+}
