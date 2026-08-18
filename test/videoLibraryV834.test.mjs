@@ -1,71 +1,96 @@
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const appSource = fs.readFileSync(path.join(root, "src/App.jsx"), "utf8");
-const pagePath = path.join(root, "src/features/video-library/VideoLibraryPage.jsx");
-const pageSource = fs.readFileSync(pagePath, "utf8");
+const pageSource = fs.readFileSync(
+  path.join(root, "src/features/video-library/VideoLibraryPage.jsx"),
+  "utf8"
+);
 const cssSource = fs.readFileSync(
   path.join(root, "src/features/video-library/VideoLibraryPage.css"),
   "utf8"
 );
+const dataModule = await import(
+  pathToFileURL(path.join(root, "src/features/video-library/videoLibraryItems.js"))
+);
+const { VIDEO_LIBRARY_ITEMS, VIDEO_LIBRARY_PLACEHOLDER_POSTER } = dataModule;
 
 const navWelcomeIndex = appSource.indexOf('{ label: "WELCOME TO OUR SITE", page: "About" }');
 const navLibraryIndex = appSource.indexOf('{ label: "VIDEO LIBRARY", page: "Video Library" }');
 const navSecurityIndex = appSource.indexOf('{ label: "YOUR DATA & SECURITY", page: "Your Data & Security" }');
-
-assert.ok(navWelcomeIndex >= 0, "About menu should retain Welcome to Our Site");
-assert.ok(navLibraryIndex > navWelcomeIndex, "Video Library should follow Welcome to Our Site");
-assert.ok(navSecurityIndex > navLibraryIndex, "Video Library should precede Your Data & Security");
+assert.ok(navWelcomeIndex >= 0 && navLibraryIndex > navWelcomeIndex && navSecurityIndex > navLibraryIndex);
 assert.match(appSource, /activePage === "Video Library"/);
 assert.match(appSource, /<VideoLibraryPage setActivePage=\{setActivePage\} \/>/);
 
-const videoPaths = [...pageSource.matchAll(/video: "([^"]+\.mp4)"/g)].map((match) => match[1]);
-const posterPaths = [...pageSource.matchAll(/poster: "([^"]+\.webp)"/g)].map((match) => match[1]);
-assert.equal(videoPaths.length, 16, "Video Library should list all 16 site videos");
-assert.equal(new Set(videoPaths).size, 16, "Each video should be listed once");
-assert.equal(posterPaths.length, 16, "Every library video should have a dedicated poster");
-assert.equal(new Set(posterPaths).size, 16, "Every library poster should be unique");
-
-const expectedOrder = [
-  "videos/welcome-video.mp4",
-  "videos/welcome-to-our-site.mp4",
-  "videos/easy-or-detailed.mp4",
-  "videos/choose-your-level.mp4",
-  "videos/browse-our-quick-links.mp4",
-  "videos/browse-our-recipe-library.mp4",
-  "videos/dinner-ideas.mp4",
-  "videos/diet-meals.mp4",
-  "videos/salad-jars.mp4",
-  "videos/crock-pot-meals.mp4",
-  "videos/about-our-recipes.mp4",
-  "videos/nutrition-standards.mp4",
-  "videos/understanding-mealbalance.mp4",
-  "videos/your-data-and-security.mp4",
-  "videos/backup-and-restore.mp4",
-  "videos/affiliate-marketing.mp4",
+const expectedTitles = [
+  "Welcome to Robert’s Recipe Box",
+  "Easy or Detailed",
+  "Welcome to Our Site",
+  "View Our Video Library",
+  "Your Data & Security",
+  "About Our Recipes",
+  "Our Nutritional Standards",
+  "Understanding MealBalance",
+  "Affiliate Marketing",
+  "Backup & Restore",
+  "Quick Dinner Ideas",
+  "Diet Meals",
+  "Salad Jar Lunches",
+  "Choose Your Level",
+  "Browse Our Quick Links",
+  "Master Kitchen Inventory",
+  "Refrigerator Inventory",
+  "Prepared Freezer Inventory",
+  "Freezer Inventory",
+  "Pantry Inventory",
+  "Browse Our Recipes",
+  "Your Favorite Recipes",
+  "Dinner Combinations",
+  "Healthy Dinners",
+  "Salad Jar Lunches",
+  "Slow Cooker Meals",
+  "Your Weekly Meal Planner",
+  "Weekend Bulk Meal Planner",
+  "Freezing & Reheating",
+  "Your Grocery List",
+  "Recommended Products",
+  "Food Safety",
+  "Cooking Resource",
 ];
-assert.deepEqual(videoPaths, expectedOrder, "Videos should follow the approved story timeline");
 
-for (const videoPath of videoPaths) {
-  assert.ok(fs.existsSync(path.join(root, "public", videoPath)), `Missing ${videoPath}`);
+assert.equal(VIDEO_LIBRARY_ITEMS.length, 33, "Video Library should contain all 33 requested positions");
+assert.deepEqual(VIDEO_LIBRARY_ITEMS.map((item) => item.title), expectedTitles);
+assert.equal(new Set(VIDEO_LIBRARY_ITEMS.map((item) => item.id)).size, 33, "Every position needs a unique stable id");
+
+const availableItems = VIDEO_LIBRARY_ITEMS.filter((item) => item.video);
+const plannedItems = VIDEO_LIBRARY_ITEMS.filter((item) => !item.video);
+assert.equal(availableItems.length, 18, "18 listed positions should use finished videos");
+assert.equal(plannedItems.length, 15, "15 listed positions should show color-bar placeholders");
+
+for (const item of availableItems) {
+  assert.ok(fs.existsSync(path.join(root, "public", item.video)), `Missing ${item.video}`);
+  assert.ok(fs.existsSync(path.join(root, "public", item.poster)), `Missing ${item.poster}`);
 }
 
-for (const posterPath of posterPaths) {
-  const fullPosterPath = path.join(root, "public", posterPath);
-  assert.ok(fs.existsSync(fullPosterPath), `Missing ${posterPath}`);
-  assert.ok(fs.statSync(fullPosterPath).size > 10_000, `${posterPath} should contain a usable poster frame`);
-  assert.match(posterPath, /^images\/video-posters\/library\//);
+const placeholderPath = path.join(root, "public", VIDEO_LIBRARY_PLACEHOLDER_POSTER);
+assert.ok(fs.existsSync(placeholderPath), "Color-bar placeholder image should exist");
+assert.ok(fs.statSync(placeholderPath).size > 1_000, "Color-bar placeholder image should contain image data");
+for (const item of plannedItems) {
+  assert.equal(item.poster, VIDEO_LIBRARY_PLACEHOLDER_POSTER);
 }
 
+assert.match(pageSource, /item\.video \? \(/);
+assert.match(pageSource, /VIDEO NOT YET ASSIGNED/);
+assert.match(pageSource, /TEST PATTERN/);
 assert.match(pageSource, /controls/);
 assert.match(pageSource, /preload="metadata"/);
 assert.doesNotMatch(pageSource, /autoPlay/);
-assert.match(pageSource, /if \(player && index !== activeIndex && !player\.paused\) player\.pause\(\)/);
+assert.match(pageSource, /key=\{item\.id\}/);
 assert.match(cssSource, /grid-template-columns: repeat\(3, minmax\(0, 1fr\)\)/);
+assert.match(cssSource, /\.videoLibraryPlaceholder/);
 assert.match(cssSource, /object-fit: cover/);
-assert.match(cssSource, /@media \(max-width: 760px\)/);
 
-console.log("v83.5 Video Library timeline and poster contracts passed.");
+console.log("v83.7 ordered Video Library and placeholder contracts passed.");

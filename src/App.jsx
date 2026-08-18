@@ -17570,7 +17570,7 @@ Use this section to check what is on hand, record dates, mark foods that should 
             alt="Framed family photos, coffee cup, and small plant on a light kitchen counter"
             eyebrow="ABOUT US"
             title="Video Library"
-            text="Watch the short guides used throughout Robert’s Recipe Box in one convenient place. The videos follow a guided timeline—from getting started, to finding and planning meals, understanding the recipe standards, protecting your saved information, and supporting the free site.\n\nChoose any video to watch it here, or use its page link to visit the section it explains."
+            text="Watch the short guides used throughout Robert’s Recipe Box in one convenient place. The library follows Robert’s preferred sequence and includes every planned subject in its intended position.\n\nChoose any finished video to watch it here. Color-bar test patterns identify guides that have not yet been produced, and every entry links to the section it will explain."
             className="pageHeroDepth464"
           />
           <VideoLibraryPage setActivePage={setActivePage} />

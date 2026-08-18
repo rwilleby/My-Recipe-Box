@@ -1,3 +1,15 @@
+# v83.7 — Ordered Video Plan and Color-Bar Placeholders
+
+- Rebuilt the Video Library around Robert’s exact 33-position order list.
+- Kept repeated subjects in their requested positions, including Diet Meals/Healthy Dinners and both Salad Jar Lunches entries.
+- Assigned the 16 existing MP4 files to 18 finished-video positions, reusing the applicable Diet Meals and Salad Jars videos.
+- Added 15 color-bar placeholders for planned subjects without finished videos.
+- Added the standard “VIDEO NOT YET ASSIGNED / TEST PATTERN” overlay to every placeholder.
+- Kept all 33 page links active so placeholder cards still open the sections their future videos will explain.
+- Moved Video Library content metadata into a dedicated centralized data module for safer future order and video-assignment changes.
+- Preserved the v83.5 three-column desktop, two-column medium, and one-column phone layouts.
+- Expanded the Video Library regression contract to validate all 33 titles, exact order, unique stable IDs, video/poster assets, and the 18/15 finished/planned split.
+
 # v83.6 — Main Navigation Reorganization
 
 - Added KITCHEN INVENTORY between ABOUT US and RECIPES & MEALS in the main navigation.
