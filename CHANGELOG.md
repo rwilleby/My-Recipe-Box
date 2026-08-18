@@ -1,3 +1,14 @@
+# v82.22 — Diet Meals Home Rotation & Held Collection Updates
+
+- Added a new Diet Meals section to the main page using the same six-card layout, favorites, MealBalance circles, 60-second staggered crossfade, and video treatment as Quick Dinner Ideas.
+- Kept the Diet Meals section visible in EASY mode, where it displays four centered cards just like the existing Quick Dinner section.
+- Reused the already-optimized Diet Meals video because the newly supplied copy was byte-for-byte identical, avoiding duplicate site weight.
+- Added the supplied optimized Salad Jars video and all standard large-hero video components to Salad Jar Lunches.
+- Rebuilt Salad Jar Lunches with a Complete Dinners-style finder, seven quick groups, Search, Protein, Style, Calories, MealBalance, Favorites, and a live result count.
+- Added the supplied optimized Nutrition Standards video and all standard large-hero video components to Our Nutrition Standards.
+- Changed Complete Dinner recipe-card MealBalance text to white for stronger contrast inside the green circles.
+- Preserved all recipe, nutrition, favorites, meal-planning, classification, and local backup data.
+
 # v82.21 — Healthy Dinners Large-Hero Video
 
 - Added the supplied optimized Diet Meals MP4 to the Healthy Dinners large hero.

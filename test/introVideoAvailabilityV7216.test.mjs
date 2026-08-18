@@ -15,7 +15,6 @@ const noVideoPages=[
   "Summer Cookouts",
   "Comfort Foods",
   "Easy 30-Minute Meals",
-  "Salad Jars",
   "Grocery Picks",
   "Products I Use",
   "Safe Cooking Rules",

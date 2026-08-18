@@ -798,6 +798,10 @@ const WELCOME_TO_SITE_VIDEO_POSTER = "images/video-posters/welcome-to-our-site-p
 const SLOW_COOKER_VIDEO_URL = "videos/crock-pot-meals.mp4";
 const HEALTHY_DINNERS_VIDEO_URL = "videos/diet-meals.mp4";
 const HEALTHY_DINNERS_VIDEO_POSTER = "images/heroes/hero-page-healthy-dinners.webp";
+const SALAD_JARS_VIDEO_URL = "videos/salad-jars.mp4";
+const SALAD_JARS_VIDEO_POSTER = "images/heroes/hero-page-salad-jars.webp";
+const NUTRITION_STANDARDS_VIDEO_URL = "videos/nutrition-standards.mp4";
+const NUTRITION_STANDARDS_VIDEO_POSTER = "images/heroes/hero-page-healthy-substitutions.webp";
 
 const BACKUP_RESTORE_VIDEO_URL = "videos/backup-and-restore.mp4";
 const BACKUP_RESTORE_VIDEO_POSTER = "images/video-posters/backup-and-restore-poster.webp";
@@ -1570,7 +1574,6 @@ const NAV_GROUPS = [
  * Every other main-menu page is intro-video eligible.
  */
 const NO_INTRO_VIDEO_PAGES = new Set([
-  "Nutrition Standards",
   "Submit Recipes",
   "Contact Me",
   "Disclaimers",
@@ -1581,8 +1584,6 @@ const NO_INTRO_VIDEO_PAGES = new Set([
   "Summer Cookouts",
   "Comfort Foods",
   "Easy 30-Minute Meals",
-  "Salad Jars",
-
   "Grocery Picks",
 
   "Products I Use",
@@ -3175,6 +3176,223 @@ function HomeComboMealStrip({
         toggleFavorite={toggleFavorite}
       />
     </>
+  );
+}
+
+function selectRotatingDietMeals(allMeals, currentMeals = []) {
+  if (!allMeals.length) return [];
+  if (!currentMeals.length) return allMeals.slice(0, HOME_COMBO_MEAL_COUNT);
+
+  const firstIndex = allMeals.findIndex((recipe) => recipe.id === currentMeals[0]?.id);
+  const nextStart = (Math.max(firstIndex, 0) + HOME_COMBO_MEAL_COUNT) % allMeals.length;
+  return Array.from(
+    { length: Math.min(HOME_COMBO_MEAL_COUNT, allMeals.length) },
+    (_, offset) => allMeals[(nextStart + offset) % allMeals.length]
+  );
+}
+
+function HomeDietMealCardButton({ recipe, className = "", onOpen, imageLoading = "eager" }) {
+  const calories = getHealthyDinnerCalories(recipe);
+  const mealBalance = getMealBalanceScore(recipe);
+
+  return (
+    <button
+      type="button"
+      className={`homeComboMealCard homeDietMealCard ${className}`.trim()}
+      onClick={() => onOpen(recipe)}
+      aria-label={`Open Diet Meal ${recipe.id}: ${recipe.title}`}
+    >
+      <div className="homeComboMealImage homeDietMealImage">
+        <RecipeImage recipe={recipe} imageLoading={imageLoading} />
+      </div>
+
+      <span className="homeComboMealText homeDietMealText">
+        <strong>{recipe.title}</strong>
+        <small>{recipe.id}{calories !== null ? ` • ${Math.round(calories)} calories` : " • Diet Meal"}</small>
+        {mealBalance !== null && (
+          <span
+            className="homeComboMealBalanceBadge"
+            title={`MealBalance ${mealBalance}`}
+            aria-label={`MealBalance ${mealBalance}`}
+          >
+            {mealBalance}
+          </span>
+        )}
+      </span>
+    </button>
+  );
+}
+
+function HomeDietMealCrossfadeCard({ transition, onOpen }) {
+  if (!transition?.from || !transition?.to) return null;
+
+  return (
+    <div
+      className="homeComboMealFullCrossfadeStage"
+      aria-label={`Changing from ${transition.from.title} to ${transition.to.title}`}
+    >
+      <HomeDietMealCardButton
+        recipe={transition.from}
+        className="homeComboMealFullCardOutgoing"
+        onOpen={onOpen}
+      />
+      <HomeDietMealCardButton
+        recipe={transition.to}
+        className="homeComboMealFullCardIncoming"
+        onOpen={onOpen}
+      />
+    </div>
+  );
+}
+
+function HomeDietMealStrip({
+  setActivePage,
+  openRecipeCard,
+  favorites,
+  toggleFavorite,
+  classifiedRecipes = [],
+  siteMode = "detailed",
+}) {
+  const allDietMeals = useMemo(
+    () =>
+      sortRecipesByCode(
+        classifiedRecipes.filter(
+          (recipe) =>
+            String(recipe?.categoryCode || "").toUpperCase() === "DM" ||
+            String(recipe?.id || "").toUpperCase().startsWith("DM-")
+        )
+      ),
+    [classifiedRecipes]
+  );
+  const [dietMeals, setDietMeals] = useState(() => selectRotatingDietMeals(allDietMeals));
+  const [crossfades, setCrossfades] = useState({});
+  const staggerTimersRef = useRef([]);
+
+  useEffect(() => {
+    setDietMeals((current) => current.length ? current : selectRotatingDietMeals(allDietMeals));
+  }, [allDietMeals]);
+
+  useEffect(() => {
+    function clearStaggerTimers() {
+      staggerTimersRef.current.forEach((timer) => window.clearTimeout(timer));
+      staggerTimersRef.current = [];
+    }
+
+    function rotateDietMeals() {
+      clearStaggerTimers();
+      setDietMeals((currentMeals) => {
+        const nextMeals = selectRotatingDietMeals(allDietMeals, currentMeals);
+
+        function transitionPosition(position) {
+          if (position >= nextMeals.length) return;
+          const from = currentMeals[position];
+          const to = nextMeals[position];
+          if (!from || !to || from.id === to.id) return;
+
+          setCrossfades((current) => ({ ...current, [position]: { from, to } }));
+          const finishTimer = window.setTimeout(() => {
+            setDietMeals((current) => {
+              const updated = [...current];
+              updated[position] = to;
+              return updated;
+            });
+            const settleTimer = window.setTimeout(() => {
+              setCrossfades((current) => {
+                const updated = { ...current };
+                delete updated[position];
+                return updated;
+              });
+              const pauseTimer = window.setTimeout(
+                () => transitionPosition(position + 1),
+                HOME_COMBO_PAUSE_MS
+              );
+              staggerTimersRef.current.push(pauseTimer);
+            }, 120);
+            staggerTimersRef.current.push(settleTimer);
+          }, HOME_COMBO_CROSSFADE_MS);
+          staggerTimersRef.current.push(finishTimer);
+        }
+
+        transitionPosition(0);
+        return currentMeals;
+      });
+    }
+
+    const rotationTimer = window.setInterval(rotateDietMeals, HOME_COMBO_ROTATION_MS);
+    return () => {
+      window.clearInterval(rotationTimer);
+      clearStaggerTimers();
+    };
+  }, [allDietMeals]);
+
+  if (!dietMeals.length) return null;
+
+  function openDietMeal(recipe) {
+    openRecipeCard(recipe.id, allDietMeals, "Diet Meals");
+  }
+
+  return (
+    <section className="section homeComboMealStrip homeDietMealStrip" aria-label="Diet Meal ideas">
+      <SectionIntro
+        title="Looking for Diet Meal Ideas?"
+        className="homeComboMealStripHeader quickDinnerSectionIntro homeDietMealStripHeader"
+        video={
+          <SupplementalHoverVideo
+            src={HEALTHY_DINNERS_VIDEO_URL}
+            poster={HEALTHY_DINNERS_VIDEO_POSTER}
+            title="Diet Meals overview video"
+            className="homeDinnerIdeasVideoTrigger"
+          >
+            <span className="supplementalVideoIcon">
+              <VideoIcon role="supplemental" alt="" className="supplementalVideoIconGray" />
+              <VideoIcon role="main" alt="" className="supplementalVideoIconRed" />
+            </span>
+          </SupplementalHoverVideo>
+        }
+        text={
+          <>
+            Lighter, portion-conscious dinners with complete recipe cards and estimated nutrition.{" "}
+            <button
+              type="button"
+              className="homeComboMealMoreIdeas"
+              onClick={() => setActivePage("Healthy Dinners")}
+            >
+              (More ideas)
+            </button>
+          </>
+        }
+      />
+
+      <div className="homeComboMealGrid homeDietMealGrid" data-site-mode={siteMode}>
+        {(siteMode === "easy" ? dietMeals.slice(0, 4) : dietMeals).map((recipe, position) => {
+          const transition = crossfades[position];
+          const activeRecipe = transition?.to || recipe;
+          const isFavorite = Array.isArray(favorites) && favorites.includes(activeRecipe.id);
+
+          return (
+            <div
+              className={transition ? "homeComboMealCardWrap isCrossfading" : "homeComboMealCardWrap"}
+              key={`home-diet-position-${position}`}
+            >
+              {transition ? (
+                <HomeDietMealCrossfadeCard transition={transition} onOpen={openDietMeal} />
+              ) : (
+                <HomeDietMealCardButton recipe={recipe} onOpen={openDietMeal} />
+              )}
+              <button
+                type="button"
+                className={isFavorite ? "homeComboMealFavorite saved" : "homeComboMealFavorite"}
+                onClick={() => toggleFavorite(activeRecipe.id)}
+                aria-label={isFavorite ? `Remove ${activeRecipe.title} from favorites` : `Add ${activeRecipe.title} to favorites`}
+                title={isFavorite ? "Remove from favorites" : "Add to favorites"}
+              >
+                <span aria-hidden="true">♥</span>
+              </button>
+            </div>
+          );
+        })}
+      </div>
+    </section>
   );
 }
 
@@ -6406,6 +6624,14 @@ function Home({
         favorites={favorites}
         toggleFavorite={toggleFavorite}
         setPlan={setPlan}
+        siteMode={siteMode}
+      />
+      <HomeDietMealStrip
+        setActivePage={setActivePage}
+        openRecipeCard={openRecipeCard}
+        favorites={favorites}
+        toggleFavorite={toggleFavorite}
+        classifiedRecipes={classifiedRecipes}
         siteMode={siteMode}
       />
       {siteMode === "detailed" && (
@@ -16363,6 +16589,237 @@ function HealthyDinnersPage({
   );
 }
 
+function getSaladJarProtein(recipe) {
+  const text = `${recipe?.title || ""} ${(recipe?.ingredients || [])
+    .map((ingredient) => ingredient?.name || "")
+    .join(" ")}`.toLowerCase();
+
+  if (/shrimp|salmon|tuna|crab|fish|seafood/.test(text)) return "seafood";
+  if (/turkey/.test(text)) return "turkey";
+  if (/beef|burger|steak/.test(text)) return "beef";
+  if (/chicken/.test(text)) return "chicken";
+  if (/egg/.test(text)) return "egg";
+  return "vegetarian";
+}
+
+function getSaladJarStyle(recipe) {
+  const text = String(recipe?.title || "").toLowerCase();
+  if (/asian/.test(text)) return "asian";
+  if (/greek|mediterranean|italian/.test(text)) return "mediterranean";
+  if (/caesar|cobb|chef/.test(text)) return "classic";
+  if (/blt|burger|sub-in-a-tub|pimento/.test(text)) return "deli";
+  if (/pasta|chickpea/.test(text)) return "grains";
+  return "other";
+}
+
+function SaladJarLunchesPage({
+  recipes: classifiedRecipes = [],
+  favorites = [],
+  toggleFavorite = () => {},
+  addToPlan = () => {},
+  openRecipeCard = () => {},
+}) {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [saladGroup, setSaladGroup] = useState("all");
+  const [proteinFilter, setProteinFilter] = useState("all");
+  const [styleFilter, setStyleFilter] = useState("all");
+  const [calorieRange, setCalorieRange] = useState("all");
+  const [mealBalanceFilter, setMealBalanceFilter] = useState("all");
+  const [favoriteOnly, setFavoriteOnly] = useState(false);
+
+  const saladJarRecipes = useMemo(
+    () =>
+      sortRecipesByCode(
+        classifiedRecipes.filter(
+          (recipe) =>
+            String(recipe?.categoryCode || "").toUpperCase() === "SB" ||
+            String(recipe?.id || "").toUpperCase().startsWith("SB-")
+        )
+      ),
+    [classifiedRecipes]
+  );
+
+  const filteredRecipes = useMemo(() => {
+    const query = searchTerm.trim().toLowerCase();
+
+    return saladJarRecipes.filter((recipe) => {
+      const protein = getSaladJarProtein(recipe);
+      const style = getSaladJarStyle(recipe);
+      const calories = getHealthyDinnerCalories(recipe);
+      const mealBalance = Number(recipe?.mealBalance?.score);
+      const matchesQuery =
+        !query ||
+        `${recipe.id} ${recipe.title} ${protein} ${style}`.toLowerCase().includes(query);
+      const matchesGroup =
+        saladGroup === "all" || protein === saladGroup || style === saladGroup;
+      const matchesProtein = proteinFilter === "all" || protein === proteinFilter;
+      const matchesStyle = styleFilter === "all" || style === styleFilter;
+      const matchesCalories =
+        calorieRange === "all" ||
+        (calorieRange === "under-350" && calories !== null && calories < 350) ||
+        (calorieRange === "350-449" && calories !== null && calories >= 350 && calories < 450) ||
+        (calorieRange === "450-plus" && calories !== null && calories >= 450);
+      const matchesMealBalance =
+        mealBalanceFilter === "all" ||
+        (mealBalanceFilter === "1-3" && mealBalance >= 1 && mealBalance <= 3) ||
+        (mealBalanceFilter === "4-6" && mealBalance >= 4 && mealBalance <= 6) ||
+        (mealBalanceFilter === "7-10" && mealBalance >= 7 && mealBalance <= 10);
+      const matchesFavorite = !favoriteOnly || favorites.includes(recipe.id);
+
+      return (
+        matchesQuery &&
+        matchesGroup &&
+        matchesProtein &&
+        matchesStyle &&
+        matchesCalories &&
+        matchesMealBalance &&
+        matchesFavorite
+      );
+    });
+  }, [
+    calorieRange,
+    favoriteOnly,
+    favorites,
+    mealBalanceFilter,
+    proteinFilter,
+    saladGroup,
+    saladJarRecipes,
+    searchTerm,
+    styleFilter,
+  ]);
+
+  function selectSaladGroup(group) {
+    setSaladGroup(group);
+    setProteinFilter("all");
+    setStyleFilter("all");
+    if (["chicken", "beef", "seafood", "vegetarian"].includes(group)) {
+      setProteinFilter(group);
+    } else if (["classic", "mediterranean"].includes(group)) {
+      setStyleFilter(group);
+    }
+  }
+
+  return (
+    <main className="pageShell dinnerCombinationsPage saladJarLunchesPage">
+      <section className="dinnerCombinationFinder" aria-labelledby="saladJarFinderTitle">
+        <SectionIntro
+          title="Find a Salad Jar Lunch"
+          text="Choose a salad group or use the filters below to compare make-ahead lunches by protein, style, calories, and MealBalance."
+          className="completeDinnerSectionIntro saladJarSectionIntro"
+        />
+
+        <div className="dinnerCategorySegmented saladJarSegmented" role="group" aria-label="Salad Jar Lunch categories">
+          {[
+            ["all", "ALL"],
+            ["chicken", "CHICKEN"],
+            ["beef", "BEEF"],
+            ["seafood", "SEAFOOD"],
+            ["vegetarian", "MEATLESS"],
+            ["classic", "CLASSIC"],
+            ["mediterranean", "MEDITERRANEAN"],
+          ].map(([value, label]) => (
+            <button
+              key={value}
+              type="button"
+              className={saladGroup === value ? "isActive" : ""}
+              aria-pressed={saladGroup === value}
+              onClick={() => selectSaladGroup(value)}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      </section>
+
+      <section className="dinnerCombinationToolbar dinnerCombinationToolbarCompact saladJarToolbar" aria-label="Salad Jar Lunch browsing toolbar">
+        <label className="dinnerCombinationSearch">
+          <span>Search</span>
+          <input type="search" value={searchTerm} onChange={(event) => setSearchTerm(event.target.value)} placeholder="Search Salad Jars..." />
+        </label>
+
+        <label>
+          <span>Main Protein</span>
+          <select value={proteinFilter} onChange={(event) => { setProteinFilter(event.target.value); setSaladGroup("all"); }}>
+            <option value="all">All Proteins</option>
+            <option value="chicken">Chicken</option>
+            <option value="beef">Beef</option>
+            <option value="turkey">Turkey</option>
+            <option value="seafood">Seafood</option>
+            <option value="egg">Egg</option>
+            <option value="vegetarian">Meatless</option>
+          </select>
+        </label>
+
+        <label>
+          <span>Style</span>
+          <select value={styleFilter} onChange={(event) => { setStyleFilter(event.target.value); setSaladGroup("all"); }}>
+            <option value="all">All Styles</option>
+            <option value="classic">Classic</option>
+            <option value="asian">Asian</option>
+            <option value="mediterranean">Mediterranean</option>
+            <option value="deli">Deli-Inspired</option>
+            <option value="grains">Pasta &amp; Grains</option>
+            <option value="other">Other</option>
+          </select>
+        </label>
+
+        <label>
+          <span>Calorie Range</span>
+          <select value={calorieRange} onChange={(event) => setCalorieRange(event.target.value)}>
+            <option value="all">All Calories</option>
+            <option value="under-350">Under 350</option>
+            <option value="350-449">350–449</option>
+            <option value="450-plus">450+</option>
+          </select>
+        </label>
+
+        <label>
+          <span>MB</span>
+          <select value={mealBalanceFilter} onChange={(event) => setMealBalanceFilter(event.target.value)}>
+            <option value="all">All MB</option>
+            <option value="1-3">1–3</option>
+            <option value="4-6">4–6</option>
+            <option value="7-10">7–10</option>
+          </select>
+        </label>
+
+        <label className="dinnerFavoriteFilter">
+          <span>Favorite</span>
+          <button type="button" className={favoriteOnly ? "isActive" : ""} aria-pressed={favoriteOnly} onClick={() => setFavoriteOnly((current) => !current)}>♥</button>
+        </label>
+      </section>
+
+      <div className="dinnerCombinationResultsBar saladJarResultsBar">
+        <strong>{filteredRecipes.length}</strong>
+        <span>{filteredRecipes.length === 1 ? "Salad Jar" : "Salad Jars"} shown</span>
+      </div>
+
+      {filteredRecipes.length ? (
+        <div className="recipeGrid browseRecipeGrid saladJarRecipeGrid" aria-label="Salad Jar Lunch results">
+          {filteredRecipes.map((recipe) => (
+            <RecipeCard
+              key={recipe.id}
+              recipe={recipe}
+              favorites={favorites}
+              toggleFavorite={toggleFavorite}
+              addToPlan={addToPlan}
+              openRecipeCard={openRecipeCard}
+              cardList={filteredRecipes}
+              viewerContext="Salad Jars"
+              displayMode="card"
+            />
+          ))}
+        </div>
+      ) : (
+        <section className="dinnerCombinationEmpty">
+          <h2>No Salad Jar lunches found</h2>
+          <p>Try another group, clear a filter, or search for a different ingredient.</p>
+        </section>
+      )}
+    </main>
+  );
+}
+
 function CollectionDetailPage({
   title,
   text,
@@ -17923,11 +18380,10 @@ These pages are designed to be easy to scan, print, or revisit when needed. They
             title="Salad Jars"
             text="Salad jars make it easier to prepare fresh meals in advance without ending up with a soggy salad. By layering dressing, sturdy vegetables, proteins, grains, and delicate greens in the correct order, the ingredients remain separated until serving.\n\nThis collection includes practical combinations for lunches, light dinners, meal preparation, and grab-and-go meals. Shake the jar or pour everything into a bowl when you are ready to eat."
             className="pageHeroDepth464"
+            videoSrc={SALAD_JARS_VIDEO_URL}
+            videoPoster={SALAD_JARS_VIDEO_POSTER}
           />
-          <CollectionDetailPage
-            title="Salad Jars"
-            text="A collection page for make-ahead salad jars, fresh lunches, and easy grab-and-go meal prep ideas. More recipes and filters will be added here."
-            setActivePage={setActivePage}
+          <SaladJarLunchesPage
             recipes={classifiedRecipes}
             favorites={favorites}
             toggleFavorite={toggleFavorite}
@@ -19479,6 +19935,8 @@ Use this section to check what is on hand, record dates, mark foods that should 
 
 The goal is consistency and transparency—not to turn dinner into a medical calculation."
             className="pageHeroDepth464 nutritionStandardsHero"
+            videoSrc={NUTRITION_STANDARDS_VIDEO_URL}
+            videoPoster={NUTRITION_STANDARDS_VIDEO_POSTER}
           />
           <NutritionStandardsPage setActivePage={setActivePage} />
         </>
