@@ -1,3 +1,24 @@
+# v82.17 — Diet Meals Nutrition and Shared Category Quick Links
+
+- Ensured all 60 Diet Meals display their v82.16 working nutrition values on Browse Recipes View Cards.
+- Uses the stored nutrition serving description and four-meal yield in each Diet Meals Nutrition Facts panel.
+- Added Diet Meals between Seafood and Quiche & Pies in the main-page Cuisine Quick Links.
+- Added Desserts to the end of the main-page quick-link row.
+- Kept the existing icon sizes and reduced only the desktop spacing so Favorites plus all 13 category icons fit on one line without a horizontal scrollbar.
+- Reused the same 13-category icon order on Browse Recipes.
+- Removed the Browse Recipes ALL icon; all recipes remain the default view.
+- Made every Browse Recipes category icon a toggle: the first click filters to that category and a second click restores all recipes.
+
+# v82.16 — Diet Meals Nutrition and Category Icon
+
+- Added working nutrition records for all 60 Diet Meals recipes, DM-001 through DM-060.
+- Preserved each calorie range printed on its recipe card and uses the midpoint as the displayed planning estimate.
+- Added estimated fat, saturated fat, sodium, carbohydrate, fiber, sugars, added sugars, protein, and potassium values for every prepared meal.
+- Clearly identifies all new DM nutrition values as provisional estimates and records the product-label and finished-yield verification still needed.
+- Added the 60 DM records to the central nutrition index and connected them to the recipe viewer Nutrition Facts panel.
+- Replaced the temporary DM-001 tray thumbnail category image with the supplied green Diet Meals icon.
+- Optimized the supplied 819 KB icon to approximately 36 KB without changing its 1254 × 1254 dimensions.
+
 # v82.15 — Diet Meals Recipe Category
 
 - Added DM — Diet Meals as a new recipe-library category with 60 recipes, DM-001 through DM-060.

@@ -112,7 +112,7 @@ const CATEGORY_ICON_IMAGES = {
   CP: "images/icons/CP-bulk.webp",
   CR: "images/categories/CR.webp",
   DN: "images/categories/DN.webp",
-  DM: "images/thumbs/heroes/DM-001.webp",
+  DM: "images/categories/DM.webp",
   DS: "images/categories/DS.webp",
   HB: "images/categories/HB.webp",
   IT: "images/categories/IT.webp",
@@ -136,12 +136,14 @@ const HOME_CATEGORY_CODES = [
   "IT",
   "MX",
   "SF",
+  "DM",
   "QP",
   "CS",
   "CP",
   "SB",
   "SG",
   "SD",
+  "DS",
   "HB",
   "SW",
   "LF",
@@ -2598,7 +2600,7 @@ function TransparencyLine({ setActivePage }) {
 
 function CategoryGrid({ setFilter, setActivePage }) {
   const categoryLookup = new Map(categories.map((category) => [category.id, category]));
-  const homeCategories = HOME_CATEGORY_CODES.slice(0, 11).map((code) => {
+  const homeCategories = HOME_CATEGORY_CODES.slice(0, 13).map((code) => {
     const fallback = HOME_CATEGORY_FALLBACKS[code];
     const existing = categoryLookup.get(code);
 
@@ -4212,11 +4214,11 @@ function BrowseRecipeNutritionFacts({ recipe }) {
 
       <div className="browseNutritionServingRow">
         <span>Serving size</span>
-        <strong>1 serving</strong>
+        <strong>{nutrition?.servingSize || "1 serving"}</strong>
       </div>
       <div className="browseNutritionServingRow">
         <span>Servings per recipe</span>
-        <strong>{recipe.servings || "—"}</strong>
+        <strong>{nutrition?.servingsPerRecipe ?? recipe.servings ?? "—"}</strong>
       </div>
 
       <div className="browseNutritionHeavyRule browseNutritionHeavyRuleSmall" />
@@ -6570,7 +6572,9 @@ function RecipesPage({
   classifiedRecipes = recipes,
 }) {
   const [query, setQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState(filter || "");
+  const [selectedCategory, setSelectedCategory] = useState(
+    filter && filter !== "All" ? filter : "",
+  );
   const [selectedCookingMethod, setSelectedCookingMethod] = useState("");
   const [selectedMealType, setSelectedMealType] = useState("");
   const [selectedDietaryNeed, setSelectedDietaryNeed] = useState("");
@@ -6584,7 +6588,7 @@ function RecipesPage({
 
   const browseQuickCategories = useMemo(
     () =>
-      ["AM", "AS", "IT", "MX", "DM", "SF", "QP", "CS", "SB", "SG", "SD"]
+      HOME_CATEGORY_CODES.slice(0, 13)
         .map((code) => {
           const category = categories.find((item) => item.id === code);
           return category
@@ -6600,7 +6604,11 @@ function RecipesPage({
   );
 
   function applyQuickCategory(category) {
-    const nextCategory = category?.name || "";
+    const isActive = Boolean(
+      category &&
+      (selectedCategory === category.name || selectedCategory === category.id),
+    );
+    const nextCategory = isActive ? "" : category?.name || "";
     setSelectedCategory(nextCategory);
     setFilter(nextCategory);
     setPage(1);
@@ -6619,7 +6627,7 @@ function RecipesPage({
       return;
     }
 
-    setSelectedCategory(filter || "");
+    setSelectedCategory(filter && filter !== "All" ? filter : "");
     setSelectedGlp1Preset("");
     setSelectedGlp1Filters([]);
     setSelectedNutritionDietary("all");
@@ -6797,16 +6805,6 @@ function RecipesPage({
     <main className="pageShell browseRecipesPage">
       <section className="browseCategoryQuickFilter" aria-label="Quick category filters">
         <div className="browseCategoryQuickFilterRow">
-          <button
-            type="button"
-            className={`browseCategoryQuickFilterItem${!selectedCategory ? " active" : ""}`}
-            onClick={() => applyQuickCategory(null)}
-            aria-pressed={!selectedCategory}
-          >
-            <span className="browseCategoryQuickFilterAll" aria-hidden="true">ALL</span>
-            <strong>All Recipes</strong>
-          </button>
-
           {browseQuickCategories.map((category) => {
             const active =
               selectedCategory === category.name ||

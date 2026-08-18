@@ -1,0 +1,64 @@
+{
+  "version": "82.17.0",
+  "release": "Diet Meals Nutrition and Shared Category Quick Links",
+  "uploadMode": "replace matching files",
+  "selfContainedFrom": "v82.15",
+  "changedFiles": [
+    "CHANGELOG.md",
+    "UPDATE-MANIFEST-v82.17.json",
+    "package.json",
+    "package-lock.json",
+    "src/App.jsx",
+    "src/App.css",
+    "src/data/recipes.js",
+    "src/data/recipeNutritionProfiles.js",
+    "src/data/nutrition/DM.json",
+    "src/data/nutrition/nutrition-index.json",
+    "public/images/categories/DM.webp",
+    "test/dietMealsCategoryV8215.test.mjs",
+    "test/dietMealsNutritionV8216.test.mjs",
+    "test/categoryQuickLinksV8217.test.mjs"
+  ],
+  "categoryQuickLinks": {
+    "home": [
+      "Favorites",
+      "American",
+      "Asian",
+      "Italian",
+      "Mexican",
+      "Seafood",
+      "Diet Meals",
+      "Quiche & Pies",
+      "Casseroles",
+      "Crock Pot",
+      "Salads",
+      "Meats",
+      "Side Dishes",
+      "Desserts"
+    ],
+    "browseRecipes": [
+      "American",
+      "Asian",
+      "Italian",
+      "Mexican",
+      "Seafood",
+      "Diet Meals",
+      "Quiche & Pies",
+      "Casseroles",
+      "Crock Pot",
+      "Salads",
+      "Meats",
+      "Side Dishes",
+      "Desserts"
+    ],
+    "defaultBrowseView": "All recipes",
+    "toggleBehavior": "Click an icon to filter; click the active icon again to show all recipes."
+  },
+  "preserves": [
+    "the existing icon dimensions",
+    "all 60 DM recipe cards and TRAY hero images",
+    "all v82.14 iPad navigation behavior",
+    "all existing recipe IDs, categories, images, and user data",
+    "full Backup & Restore compatibility"
+  ]
+}

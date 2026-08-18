@@ -34,8 +34,8 @@ for (let number = 1; number <= 60; number += 1) {
   }
 }
 
-assert.match(app, /DM: "images\/thumbs\/heroes\/DM-001\.webp"/);
-assert.match(app, /"AM", "AS", "IT", "MX", "DM", "SF"/);
+assert.match(app, /DM: "images\/categories\/DM\.webp"/);
+assert.match(app, /"AM",\s*"AS",\s*"IT",\s*"MX",\s*"SF",\s*"DM",\s*"QP"/);
 assert.match(app, /"CP", "CR", "DM", "DN"/);
 assert.match(classifier, /"CS", "DM", "HB"/);
 

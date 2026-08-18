@@ -1,4 +1,5 @@
 import healthierDefaultNutrition from "./nutrition/healthier-default-v9.json";
+import dmNutrition from "./nutrition/DM.json";
 
 export const recipeNutritionProfiles = {
   "AM-001": {
@@ -60052,6 +60053,10 @@ export const recipeNutritionProfiles = {
   }
 };
 
+const dmRecipeNutritionProfiles = Object.fromEntries(
+  dmNutrition.map((record) => [String(record.recipeCode || "").trim().toUpperCase(), record]),
+);
+
 const HEALTHIER_DEFAULT_VARIANT_KEY = "healthier-default";
 
 function rounded(value, digits = 1) {
@@ -60172,6 +60177,7 @@ export function normalizeRecipeCode(recipeCode) {
 export function getRecipeNutritionRecord(recipeCode) {
   const code = normalizeRecipeCode(recipeCode);
   if (code === "AM-063") return null;
+  if (dmRecipeNutritionProfiles[code]) return dmRecipeNutritionProfiles[code];
   return buildHealthierRecord(code);
 }
 

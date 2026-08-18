@@ -7,7 +7,7 @@ const baseCategories = [
   { id: "CR", name: "Cinnamon Rolls", count: 0, icon: "🌀", iconImage: "images/categories/CR.webp" },
   { id: "CS", name: "Casseroles", count: 0, icon: "🥘", iconImage: "images/categories/CS.webp" },
   { id: "DN", name: "Donuts", count: 0, icon: "🍩", iconImage: "images/categories/DN.webp" },
-  { id: "DM", name: "Diet Meals", count: 0, icon: "🥗", iconImage: "images/thumbs/heroes/DM-001.webp" },
+  { id: "DM", name: "Diet Meals", count: 0, icon: "🥗", iconImage: "images/categories/DM.webp" },
   { id: "DS", name: "Desserts", count: 0, icon: "🍰", iconImage: "images/categories/DS.webp" },
   { id: "HB", name: "Hamburgers", count: 0, icon: "🍔", iconImage: "images/categories/HB.webp" },
   { id: "HBP", name: "Hamburger Patties", count: 0, icon: "🍔", iconImage: "images/categories/HBP.webp" },

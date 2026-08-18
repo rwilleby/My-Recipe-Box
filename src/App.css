@@ -13398,6 +13398,25 @@ to {
   .simpleHeaderNavItem:nth-of-type(n+4) > .simpleHeaderSubmenu {left: auto !important; right: 0 !important;}
 }
 
+/* v82.17 — one-line shared category quick links */
+@media (min-width: 981px) {
+  .homeCategoryGrid,
+  .categoryGrid.homeCategoryGrid {
+    grid-template-columns: repeat(14, minmax(0, 1fr)) !important;
+    column-gap: clamp(2px, .3vw, 6px) !important;
+    row-gap: 0 !important;
+    overflow-x: visible !important;
+  }
+
+  .browseCategoryQuickFilterRow {
+    display: grid !important;
+    grid-template-columns: repeat(13, minmax(0, 1fr)) !important;
+    gap: 4px !important;
+    overflow-x: visible !important;
+    padding-bottom: 0 !important;
+  }
+}
+
 @media (max-width: 900px){.simpleHeaderVideoIndicator {width: 15px !important; height: 15px !important; flex-basis: 15px !important; margin-left: 6px !important;}}
 
 .hero .homeHeroModeControls {position: absolute !important; left: clamp(42px, 7.5vw, 128px) !important; bottom: 12px !important; z-index: 32 !important; display: flex !important; align-items: flex-end !important; gap: 8px !important; margin: 0 !important; padding: 0 !important;}
@@ -18350,5 +18369,24 @@ button.browseRecipeWideFooterAction:focus-visible,
 
   .freezerManagementIdentity > strong {
     font-size: 13px !important;
+  }
+}
+
+/* v82.17 final cascade — preserve icon size; compress spacing only. */
+@media (min-width: 981px) {
+  .homeCategoryGrid,
+  .categoryGrid.homeCategoryGrid {
+    grid-template-columns: repeat(14, minmax(0, 1fr)) !important;
+    column-gap: clamp(2px, .3vw, 6px) !important;
+    row-gap: 0 !important;
+    overflow-x: visible !important;
+  }
+
+  .browseCategoryQuickFilterRow {
+    display: grid !important;
+    grid-template-columns: repeat(13, minmax(0, 1fr)) !important;
+    gap: 4px !important;
+    overflow-x: visible !important;
+    padding-bottom: 0 !important;
   }
 }
