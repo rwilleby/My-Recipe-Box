@@ -34,39 +34,10 @@
   line-height: 1.65;
 }
 
-.videoLibrarySections {
-  display: grid;
-  gap: 34px;
-}
-
-.videoLibrarySection {
-  min-width: 0;
-}
-
 .videoLibraryGrid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 24px;
-}
-
-.videoLibrarySectionTitle {
-  margin: 0 0 14px;
-  color: #70685e;
-  font-family: Inter, sans-serif;
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.videoLibrarySectionTitle span {
-  display: inline-flex;
-  align-items: center;
-  min-height: 28px;
-  padding: 0 13px;
-  border: 1px solid #d7ccbc;
-  border-radius: 999px;
-  background: #f7eed8;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
 }
 
 .videoLibraryCard {
@@ -88,13 +59,13 @@
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   background: #1f1d1a;
 }
 
 .videoLibraryCardCopy {
   display: flex;
-  min-height: 214px;
+  min-height: 230px;
   flex-direction: column;
   align-items: flex-start;
   padding: 20px 22px 22px;
@@ -109,11 +80,29 @@
   letter-spacing: 0.1em;
 }
 
+.videoLibraryPhase {
+  display: inline-flex;
+  align-items: center;
+  min-height: 25px;
+  margin-bottom: 8px;
+  padding: 3px 10px;
+  border: 1px solid #d7ccbc;
+  border-radius: 999px;
+  background: #f7eed8;
+  color: #6a6258;
+  font-family: Inter, sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
 .videoLibraryCardCopy h4 {
   margin: 0 0 8px;
   color: #2d2924;
   font-family: Georgia, serif;
-  font-size: 20px;
+  font-size: 18px;
   line-height: 1.2;
 }
 
@@ -161,6 +150,12 @@
 
   .videoLibraryCardCopy {
     min-height: 0;
+  }
+}
+
+@media (min-width: 761px) and (max-width: 900px) {
+  .videoLibraryGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 

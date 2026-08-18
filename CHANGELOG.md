@@ -1,3 +1,14 @@
+# v83.5 — Video Timeline, Posters, and Three-Column Layout
+
+- Reordered the 16 Video Library entries into a guided story timeline rather than page order.
+- Organized the timeline around Getting Started, Find & Plan Meals, Understand the Site, Protect Your Recipe Box, and Support the Free Site.
+- Created a dedicated 960×540 WebP poster from actual footage for every video so all cards begin with a full 16:9 presenter or video-scene image.
+- Removed the wide hero-image posters that produced black bars in the Video Library.
+- Changed the desktop Video Library from two columns to three smaller columns.
+- Retained two columns at iPad widths and one column on phones.
+- Kept the public order centralized so future instructions such as “move Nutrition Standards before About Our Recipes” can be applied for everyone in the next GitHub update.
+- Expanded the Video Library regression contract to validate timeline order, dedicated posters, asset presence, uniqueness, and responsive column counts.
+
 # v83.4 — Video Library
 
 - Added a Video Library page to the About Us menu directly after Welcome to Our Site.
