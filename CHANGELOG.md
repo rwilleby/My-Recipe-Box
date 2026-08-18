@@ -1,3 +1,16 @@
+# v82.18 — Smoked & Grilled Recipes SG-017–SG-027
+
+- Added 11 new Smoked & Grilled Meats recipes, SG-017 through SG-027, from the supplied asset packs.
+- Preserved the approved SG-017 recipe name “Smoked Skinless/Boneless Chicken Thighs.”
+- Added exact recipe-card servings, practical total times, and recipe-specific shopping ingredients.
+- Added every full 1725 × 1125 recipe card and selected only the requested 1448 × 1086 TRAY image as its website hero.
+- Added the supplied optimized 720 × 470 recipe-card thumbnails and 640 × 480 TRAY-hero thumbnails.
+- Excluded all plate, bowl, alternate thumbnail, `.DS_Store`, and `__MACOSX` files.
+- Added provisional Nutrition Facts for all 11 recipes, including cholesterol and trans fat fields.
+- Added sauce/no-sauce nutrition choices for SG-017–SG-019 and SG-022.
+- Added beef and chicken nutrition choices for SG-020, with beef as the default to match the supplied TRAY hero.
+- Added cooked-yield and product-choice audit notes so the estimates can be verified after measured preparation.
+
 # v82.17 — Diet Meals Nutrition and Shared Category Quick Links
 
 - Ensured all 60 Diet Meals display their v82.16 working nutrition values on Browse Recipes View Cards.

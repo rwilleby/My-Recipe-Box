@@ -1239,7 +1239,113 @@ const recipeRows = [
   ["SG-013", "Smoked Beef Ribs"],
   ["SG-014", "Smoked Chicken Legs"],
   ["SG-015", "Smoked Chicken Wings"],
-  ["SG-016", "Smoked Chicken Quarters"]
+  ["SG-016", "Smoked Chicken Quarters"],
+  ["SG-017", "Smoked Skinless/Boneless Chicken Thighs", {
+    time: 115,
+    servings: 6,
+    ingredients: [
+      { name: "Boneless skinless chicken thighs", qty: 2.75, unit: "lb", aisle: "Meat", cost: 13 },
+      { name: "Olive oil", qty: 1, unit: "tbsp", aisle: "Pantry", cost: 1 },
+      { name: "Brown sugar and dry-rub seasonings", qty: 1, unit: "set", aisle: "Pantry", cost: 2 },
+      { name: "BBQ sauce (optional)", qty: 1, unit: "bottle", aisle: "Pantry", cost: 3 },
+    ],
+  }],
+  ["SG-018", "Baked Boneless Skinless Chicken Thighs", {
+    time: 38,
+    servings: 6,
+    ingredients: [
+      { name: "Boneless skinless chicken thighs", qty: 2.75, unit: "lb", aisle: "Meat", cost: 13 },
+      { name: "Olive oil", qty: 1, unit: "tbsp", aisle: "Pantry", cost: 1 },
+      { name: "Brown sugar and dry-rub seasonings", qty: 1, unit: "set", aisle: "Pantry", cost: 2 },
+      { name: "BBQ sauce (optional)", qty: 1, unit: "bottle", aisle: "Pantry", cost: 3 },
+    ],
+  }],
+  ["SG-019", "Grilled Boneless Skinless Chicken Thighs", {
+    time: 22,
+    servings: 6,
+    ingredients: [
+      { name: "Boneless skinless chicken thighs", qty: 2.75, unit: "lb", aisle: "Meat", cost: 13 },
+      { name: "Olive oil", qty: 1, unit: "tbsp", aisle: "Pantry", cost: 1 },
+      { name: "Brown sugar and dry-rub seasonings", qty: 1, unit: "set", aisle: "Pantry", cost: 2 },
+      { name: "BBQ sauce (optional)", qty: 1, unit: "bottle", aisle: "Pantry", cost: 3 },
+    ],
+  }],
+  ["SG-020", "Grilled Shish Kabob", {
+    time: 38,
+    servings: 6,
+    ingredients: [
+      { name: "Beef sirloin or chicken breast", qty: 2, unit: "lb", aisle: "Meat", cost: 14 },
+      { name: "Red and green bell peppers", qty: 2, unit: "each", aisle: "Produce", cost: 3 },
+      { name: "Red onion", qty: 1, unit: "each", aisle: "Produce", cost: 1 },
+      { name: "Whole mushrooms (optional)", qty: 14, unit: "each", aisle: "Produce", cost: 3 },
+      { name: "Olive-oil, soy and vinegar marinade", qty: 1, unit: "batch", aisle: "Pantry", cost: 4 },
+    ],
+  }],
+  ["SG-021", "Grilled Chicken Legs", {
+    time: 55,
+    servings: 6,
+    ingredients: [
+      { name: "Chicken legs (drumsticks)", qty: 8, unit: "each", aisle: "Meat", cost: 9 },
+      { name: "Olive oil", qty: 2, unit: "tbsp", aisle: "Pantry", cost: 1 },
+      { name: "Brown sugar and seasoning rub", qty: 1, unit: "set", aisle: "Pantry", cost: 2 },
+    ],
+  }],
+  ["SG-022", "Grilled Chicken Wings", {
+    time: 50,
+    servings: 6,
+    ingredients: [
+      { name: "Chicken wings", qty: 2.75, unit: "lb", aisle: "Meat", cost: 12 },
+      { name: "Olive oil", qty: 1, unit: "tbsp", aisle: "Pantry", cost: 1 },
+      { name: "Brown sugar and dry-rub seasonings", qty: 1, unit: "set", aisle: "Pantry", cost: 2 },
+      { name: "BBQ or wing sauce (optional)", qty: 1, unit: "bottle", aisle: "Pantry", cost: 3 },
+    ],
+  }],
+  ["SG-023", "Grilled Chicken Quarters", {
+    time: 55,
+    servings: 4,
+    ingredients: [
+      { name: "Chicken leg quarters", qty: 4, unit: "each", aisle: "Meat", cost: 10 },
+      { name: "Olive oil", qty: 2, unit: "tbsp", aisle: "Pantry", cost: 1 },
+      { name: "Brown sugar and seasoning rub", qty: 1, unit: "set", aisle: "Pantry", cost: 2 },
+    ],
+  }],
+  ["SG-024", "Baked Chicken Breasts", {
+    time: 33,
+    servings: 4,
+    ingredients: [
+      { name: "Boneless skinless chicken breasts", qty: 1.75, unit: "lb", aisle: "Meat", cost: 10 },
+      { name: "Olive oil", qty: 1, unit: "tbsp", aisle: "Pantry", cost: 1 },
+      { name: "Italian herb seasoning rub", qty: 1, unit: "set", aisle: "Pantry", cost: 2 },
+    ],
+  }],
+  ["SG-025", "Baked Bone-In Chicken Thighs", {
+    time: 48,
+    servings: 4,
+    ingredients: [
+      { name: "Bone-in skin-on chicken thighs", qty: 4, unit: "each", aisle: "Meat", cost: 9 },
+      { name: "Olive oil", qty: 1, unit: "tbsp", aisle: "Pantry", cost: 1 },
+      { name: "Brown sugar and seasoning rub", qty: 1, unit: "set", aisle: "Pantry", cost: 2 },
+    ],
+  }],
+  ["SG-026", "Baked Chicken Legs", {
+    time: 53,
+    servings: 4,
+    ingredients: [
+      { name: "Chicken legs (drumsticks)", qty: 8, unit: "each", aisle: "Meat", cost: 9 },
+      { name: "Olive oil", qty: 1, unit: "tbsp", aisle: "Pantry", cost: 1 },
+      { name: "Brown sugar and seasoning rub", qty: 1, unit: "set", aisle: "Pantry", cost: 2 },
+    ],
+  }],
+  ["SG-027", "Baked Chicken Wings", {
+    time: 55,
+    servings: 4,
+    ingredients: [
+      { name: "Chicken wings", qty: 2, unit: "lb", aisle: "Meat", cost: 10 },
+      { name: "Olive oil", qty: 1, unit: "tbsp", aisle: "Pantry", cost: 1 },
+      { name: "Brown sugar, baking powder and seasonings", qty: 1, unit: "set", aisle: "Pantry", cost: 2 },
+      { name: "Nonstick cooking spray", qty: 1, unit: "can", aisle: "Pantry", cost: 3 },
+    ],
+  }]
 ];
 
 export const recipes = recipeRows.map(makeRecipe);

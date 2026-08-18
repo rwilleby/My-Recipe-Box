@@ -1139,5 +1139,1147 @@
         "dataNotes": "C provisional. Ready for working nutrition box. Source: RRB_Food_Intelligence_SG_001_016_Master_v1.xlsx — SG_Nutrition_Boxes."
       }
     }
+  },
+  {
+    "recipeCode": "SG-017",
+    "title": "Smoked Skinless/Boneless Chicken Thighs",
+    "series": "SG",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "standard",
+    "sourceWorkbook": "SG-017–027 Recipe Card Asset Packs",
+    "sourceSheet": "SG-017 recipe card",
+    "auditIssues": [
+      {
+        "id": "sg-017-yield",
+        "priority": "High",
+        "category": "Meat / Poultry Yield",
+        "issue": "Finished edible weight and exact portion weight are not printed on the card.",
+        "assumption": "Uses the card quantity midpoint, stated serving count, and a standard cooked-yield estimate for the listed cut.",
+        "correction": "Weigh the cooked edible batch and one finished serving.",
+        "impact": "Calories, protein, fat, cholesterol, potassium, and serving weight.",
+        "recommendedAction": "Record raw weight, cooked edible yield, and finished portion weight during the next preparation.",
+        "status": "Open",
+        "sourceWorkbook": "SG-017–027 Recipe Card Asset Packs",
+        "sourceSheet": "SG-017 recipe card"
+      },
+      {
+        "id": "sg-017-option",
+        "priority": "Medium",
+        "category": "Optional sauce",
+        "issue": "The sauce quantity and product are optional and brand-dependent.",
+        "assumption": "The default excludes sauce; the alternate uses 1/2 cup generic BBQ sauce for the batch.",
+        "correction": "Select the prepared option and exact product before final verification.",
+        "impact": "Calories, fat, sodium, carbohydrate, sugars, and protein.",
+        "recommendedAction": "Use the matching nutrition variant and record the exact product label.",
+        "status": "Open",
+        "sourceWorkbook": "SG-017–027 Recipe Card Asset Packs",
+        "sourceSheet": "SG-017 recipe card"
+      }
+    ],
+    "variants": {
+      "standard": {
+        "label": "Without optional sauce",
+        "recordType": "Recipe",
+        "defaultSelection": "DEFAULT",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "SG-017–027 Recipe Card Asset Packs",
+        "sourceSheet": "SG-017 recipe card",
+        "nutritionFacts": {
+          "servingSize": "1/6 recipe",
+          "servingGrams": null,
+          "servingsPerRecipe": 6,
+          "calories": 335,
+          "totalFat": "16 g",
+          "saturatedFat": "4 g",
+          "transFat": "0 g",
+          "cholesterol": "185 mg",
+          "sodium": "340 mg",
+          "totalCarbohydrate": "5 g",
+          "dietaryFiber": "1 g",
+          "totalSugars": "4 g",
+          "addedSugars": "3 g",
+          "protein": "40 g",
+          "potassium": "550 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": "6 servings per recipe card.",
+        "recipeDNA": [
+          "SG",
+          "Recipe",
+          "Without optional sauce"
+        ],
+        "dietaryProfile": [
+          "High Protein"
+        ],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Uses the recipe-card meat midpoint and rub; optional BBQ or wing sauce is excluded. Stored nutrition values only; the browser does not recalculate nutrition."
+      },
+      "with-bbq-sauce": {
+        "label": "With 1/2 cup BBQ sauce per batch",
+        "recordType": "Recipe",
+        "defaultSelection": "Alternative",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "SG-017–027 Recipe Card Asset Packs",
+        "sourceSheet": "SG-017 recipe card",
+        "nutritionFacts": {
+          "servingSize": "1/6 recipe",
+          "servingGrams": null,
+          "servingsPerRecipe": 6,
+          "calories": 370,
+          "totalFat": "16 g",
+          "saturatedFat": "4 g",
+          "transFat": "0 g",
+          "cholesterol": "185 mg",
+          "sodium": "640 mg",
+          "totalCarbohydrate": "14 g",
+          "dietaryFiber": "1 g",
+          "totalSugars": "12 g",
+          "addedSugars": "11 g",
+          "protein": "40 g",
+          "potassium": "550 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": "6 servings per recipe card.",
+        "recipeDNA": [
+          "SG",
+          "Recipe",
+          "With 1/2 cup BBQ sauce per batch"
+        ],
+        "dietaryProfile": [
+          "High Protein"
+        ],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Adds 1/2 cup generic BBQ sauce across the full batch; the recipe card permits 1/2–1 cup and brand values vary. Stored nutrition values only; the browser does not recalculate nutrition."
+      }
+    }
+  },
+  {
+    "recipeCode": "SG-018",
+    "title": "Baked Boneless Skinless Chicken Thighs",
+    "series": "SG",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "standard",
+    "sourceWorkbook": "SG-017–027 Recipe Card Asset Packs",
+    "sourceSheet": "SG-018 recipe card",
+    "auditIssues": [
+      {
+        "id": "sg-018-yield",
+        "priority": "High",
+        "category": "Meat / Poultry Yield",
+        "issue": "Finished edible weight and exact portion weight are not printed on the card.",
+        "assumption": "Uses the card quantity midpoint, stated serving count, and a standard cooked-yield estimate for the listed cut.",
+        "correction": "Weigh the cooked edible batch and one finished serving.",
+        "impact": "Calories, protein, fat, cholesterol, potassium, and serving weight.",
+        "recommendedAction": "Record raw weight, cooked edible yield, and finished portion weight during the next preparation.",
+        "status": "Open",
+        "sourceWorkbook": "SG-017–027 Recipe Card Asset Packs",
+        "sourceSheet": "SG-018 recipe card"
+      },
+      {
+        "id": "sg-018-option",
+        "priority": "Medium",
+        "category": "Optional sauce",
+        "issue": "The sauce quantity and product are optional and brand-dependent.",
+        "assumption": "The default excludes sauce; the alternate uses 1/2 cup generic BBQ sauce for the batch.",
+        "correction": "Select the prepared option and exact product before final verification.",
+        "impact": "Calories, fat, sodium, carbohydrate, sugars, and protein.",
+        "recommendedAction": "Use the matching nutrition variant and record the exact product label.",
+        "status": "Open",
+        "sourceWorkbook": "SG-017–027 Recipe Card Asset Packs",
+        "sourceSheet": "SG-018 recipe card"
+      }
+    ],
+    "variants": {
+      "standard": {
+        "label": "Without optional sauce",
+        "recordType": "Recipe",
+        "defaultSelection": "DEFAULT",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "SG-017–027 Recipe Card Asset Packs",
+        "sourceSheet": "SG-018 recipe card",
+        "nutritionFacts": {
+          "servingSize": "1/6 recipe",
+          "servingGrams": null,
+          "servingsPerRecipe": 6,
+          "calories": 335,
+          "totalFat": "16 g",
+          "saturatedFat": "4 g",
+          "transFat": "0 g",
+          "cholesterol": "185 mg",
+          "sodium": "340 mg",
+          "totalCarbohydrate": "5 g",
+          "dietaryFiber": "1 g",
+          "totalSugars": "4 g",
+          "addedSugars": "3 g",
+          "protein": "40 g",
+          "potassium": "550 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": "6 servings per recipe card.",
+        "recipeDNA": [
+          "SG",
+          "Recipe",
+          "Without optional sauce"
+        ],
+        "dietaryProfile": [
+          "High Protein"
+        ],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Uses the recipe-card meat midpoint and rub; optional BBQ or wing sauce is excluded. Stored nutrition values only; the browser does not recalculate nutrition."
+      },
+      "with-bbq-sauce": {
+        "label": "With 1/2 cup BBQ sauce per batch",
+        "recordType": "Recipe",
+        "defaultSelection": "Alternative",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "SG-017–027 Recipe Card Asset Packs",
+        "sourceSheet": "SG-018 recipe card",
+        "nutritionFacts": {
+          "servingSize": "1/6 recipe",
+          "servingGrams": null,
+          "servingsPerRecipe": 6,
+          "calories": 370,
+          "totalFat": "16 g",
+          "saturatedFat": "4 g",
+          "transFat": "0 g",
+          "cholesterol": "185 mg",
+          "sodium": "640 mg",
+          "totalCarbohydrate": "14 g",
+          "dietaryFiber": "1 g",
+          "totalSugars": "12 g",
+          "addedSugars": "11 g",
+          "protein": "40 g",
+          "potassium": "550 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": "6 servings per recipe card.",
+        "recipeDNA": [
+          "SG",
+          "Recipe",
+          "With 1/2 cup BBQ sauce per batch"
+        ],
+        "dietaryProfile": [
+          "High Protein"
+        ],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Adds 1/2 cup generic BBQ sauce across the full batch; the recipe card permits 1/2–1 cup and brand values vary. Stored nutrition values only; the browser does not recalculate nutrition."
+      }
+    }
+  },
+  {
+    "recipeCode": "SG-019",
+    "title": "Grilled Boneless Skinless Chicken Thighs",
+    "series": "SG",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "standard",
+    "sourceWorkbook": "SG-017–027 Recipe Card Asset Packs",
+    "sourceSheet": "SG-019 recipe card",
+    "auditIssues": [
+      {
+        "id": "sg-019-yield",
+        "priority": "High",
+        "category": "Meat / Poultry Yield",
+        "issue": "Finished edible weight and exact portion weight are not printed on the card.",
+        "assumption": "Uses the card quantity midpoint, stated serving count, and a standard cooked-yield estimate for the listed cut.",
+        "correction": "Weigh the cooked edible batch and one finished serving.",
+        "impact": "Calories, protein, fat, cholesterol, potassium, and serving weight.",
+        "recommendedAction": "Record raw weight, cooked edible yield, and finished portion weight during the next preparation.",
+        "status": "Open",
+        "sourceWorkbook": "SG-017–027 Recipe Card Asset Packs",
+        "sourceSheet": "SG-019 recipe card"
+      },
+      {
+        "id": "sg-019-option",
+        "priority": "Medium",
+        "category": "Optional sauce",
+        "issue": "The sauce quantity and product are optional and brand-dependent.",
+        "assumption": "The default excludes sauce; the alternate uses 1/2 cup generic BBQ sauce for the batch.",
+        "correction": "Select the prepared option and exact product before final verification.",
+        "impact": "Calories, fat, sodium, carbohydrate, sugars, and protein.",
+        "recommendedAction": "Use the matching nutrition variant and record the exact product label.",
+        "status": "Open",
+        "sourceWorkbook": "SG-017–027 Recipe Card Asset Packs",
+        "sourceSheet": "SG-019 recipe card"
+      }
+    ],
+    "variants": {
+      "standard": {
+        "label": "Without optional sauce",
+        "recordType": "Recipe",
+        "defaultSelection": "DEFAULT",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "SG-017–027 Recipe Card Asset Packs",
+        "sourceSheet": "SG-019 recipe card",
+        "nutritionFacts": {
+          "servingSize": "1/6 recipe",
+          "servingGrams": null,
+          "servingsPerRecipe": 6,
+          "calories": 335,
+          "totalFat": "16 g",
+          "saturatedFat": "4 g",
+          "transFat": "0 g",
+          "cholesterol": "185 mg",
+          "sodium": "340 mg",
+          "totalCarbohydrate": "5 g",
+          "dietaryFiber": "1 g",
+          "totalSugars": "4 g",
+          "addedSugars": "3 g",
+          "protein": "40 g",
+          "potassium": "550 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": "6 servings per recipe card.",
+        "recipeDNA": [
+          "SG",
+          "Recipe",
+          "Without optional sauce"
+        ],
+        "dietaryProfile": [
+          "High Protein"
+        ],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Uses the recipe-card meat midpoint and rub; optional BBQ or wing sauce is excluded. Stored nutrition values only; the browser does not recalculate nutrition."
+      },
+      "with-bbq-sauce": {
+        "label": "With 1/2 cup BBQ sauce per batch",
+        "recordType": "Recipe",
+        "defaultSelection": "Alternative",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "SG-017–027 Recipe Card Asset Packs",
+        "sourceSheet": "SG-019 recipe card",
+        "nutritionFacts": {
+          "servingSize": "1/6 recipe",
+          "servingGrams": null,
+          "servingsPerRecipe": 6,
+          "calories": 370,
+          "totalFat": "16 g",
+          "saturatedFat": "4 g",
+          "transFat": "0 g",
+          "cholesterol": "185 mg",
+          "sodium": "640 mg",
+          "totalCarbohydrate": "14 g",
+          "dietaryFiber": "1 g",
+          "totalSugars": "12 g",
+          "addedSugars": "11 g",
+          "protein": "40 g",
+          "potassium": "550 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": "6 servings per recipe card.",
+        "recipeDNA": [
+          "SG",
+          "Recipe",
+          "With 1/2 cup BBQ sauce per batch"
+        ],
+        "dietaryProfile": [
+          "High Protein"
+        ],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Adds 1/2 cup generic BBQ sauce across the full batch; the recipe card permits 1/2–1 cup and brand values vary. Stored nutrition values only; the browser does not recalculate nutrition."
+      }
+    }
+  },
+  {
+    "recipeCode": "SG-020",
+    "title": "Grilled Shish Kabob",
+    "series": "SG",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "beef",
+    "sourceWorkbook": "SG-017–027 Recipe Card Asset Packs",
+    "sourceSheet": "SG-020 recipe card",
+    "auditIssues": [
+      {
+        "id": "sg-020-yield",
+        "priority": "High",
+        "category": "Meat / Poultry Yield",
+        "issue": "Finished edible weight and exact portion weight are not printed on the card.",
+        "assumption": "Uses the card quantity midpoint, stated serving count, and a standard cooked-yield estimate for the listed cut.",
+        "correction": "Weigh the cooked edible batch and one finished serving.",
+        "impact": "Calories, protein, fat, cholesterol, potassium, and serving weight.",
+        "recommendedAction": "Record raw weight, cooked edible yield, and finished portion weight during the next preparation.",
+        "status": "Open",
+        "sourceWorkbook": "SG-017–027 Recipe Card Asset Packs",
+        "sourceSheet": "SG-020 recipe card"
+      },
+      {
+        "id": "sg-020-option",
+        "priority": "Medium",
+        "category": "Protein alternative",
+        "issue": "The card permits either beef sirloin or chicken breast.",
+        "assumption": "Beef sirloin is the default because the supplied TRAY hero depicts beef; chicken is retained as an alternative.",
+        "correction": "Select the prepared option and exact product before final verification.",
+        "impact": "Calories, fat, sodium, carbohydrate, sugars, and protein.",
+        "recommendedAction": "Use the matching nutrition variant and record the exact product label.",
+        "status": "Open",
+        "sourceWorkbook": "SG-017–027 Recipe Card Asset Packs",
+        "sourceSheet": "SG-020 recipe card"
+      }
+    ],
+    "variants": {
+      "beef": {
+        "label": "Beef sirloin",
+        "recordType": "Recipe",
+        "defaultSelection": "DEFAULT",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "SG-017–027 Recipe Card Asset Packs",
+        "sourceSheet": "SG-020 recipe card",
+        "nutritionFacts": {
+          "servingSize": "1/6 recipe",
+          "servingGrams": null,
+          "servingsPerRecipe": 6,
+          "calories": 385,
+          "totalFat": "22 g",
+          "saturatedFat": "6 g",
+          "transFat": "0 g",
+          "cholesterol": "105 mg",
+          "sodium": "620 mg",
+          "totalCarbohydrate": "14 g",
+          "dietaryFiber": "2 g",
+          "totalSugars": "7 g",
+          "addedSugars": "4 g",
+          "protein": "33 g",
+          "potassium": "670 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": "6 servings per recipe card.",
+        "recipeDNA": [
+          "SG",
+          "Recipe",
+          "Beef sirloin"
+        ],
+        "dietaryProfile": [
+          "High Protein"
+        ],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Uses 2 lb beef sirloin, six servings, all vegetables, and estimated retained marinade. Stored nutrition values only; the browser does not recalculate nutrition."
+      },
+      "chicken": {
+        "label": "Chicken breast",
+        "recordType": "Recipe",
+        "defaultSelection": "Alternative",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "SG-017–027 Recipe Card Asset Packs",
+        "sourceSheet": "SG-020 recipe card",
+        "nutritionFacts": {
+          "servingSize": "1/6 recipe",
+          "servingGrams": null,
+          "servingsPerRecipe": 6,
+          "calories": 320,
+          "totalFat": "13 g",
+          "saturatedFat": "3 g",
+          "transFat": "0 g",
+          "cholesterol": "95 mg",
+          "sodium": "600 mg",
+          "totalCarbohydrate": "16 g",
+          "dietaryFiber": "2 g",
+          "totalSugars": "7 g",
+          "addedSugars": "4 g",
+          "protein": "34 g",
+          "potassium": "650 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": "6 servings per recipe card.",
+        "recipeDNA": [
+          "SG",
+          "Recipe",
+          "Chicken breast"
+        ],
+        "dietaryProfile": [
+          "High Protein"
+        ],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Uses 2 lb boneless skinless chicken breast, six servings, all vegetables, and estimated retained marinade. Stored nutrition values only; the browser does not recalculate nutrition."
+      }
+    }
+  },
+  {
+    "recipeCode": "SG-021",
+    "title": "Grilled Chicken Legs",
+    "series": "SG",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "standard",
+    "sourceWorkbook": "SG-017–027 Recipe Card Asset Packs",
+    "sourceSheet": "SG-021 recipe card",
+    "auditIssues": [
+      {
+        "id": "sg-021-yield",
+        "priority": "High",
+        "category": "Meat / Poultry Yield",
+        "issue": "Finished edible weight and exact portion weight are not printed on the card.",
+        "assumption": "Uses the card quantity midpoint, stated serving count, and a standard cooked-yield estimate for the listed cut.",
+        "correction": "Weigh the cooked edible batch and one finished serving.",
+        "impact": "Calories, protein, fat, cholesterol, potassium, and serving weight.",
+        "recommendedAction": "Record raw weight, cooked edible yield, and finished portion weight during the next preparation.",
+        "status": "Open",
+        "sourceWorkbook": "SG-017–027 Recipe Card Asset Packs",
+        "sourceSheet": "SG-021 recipe card"
+      }
+    ],
+    "variants": {
+      "standard": {
+        "label": "Recipe card serving",
+        "recordType": "Recipe",
+        "defaultSelection": "DEFAULT",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "SG-017–027 Recipe Card Asset Packs",
+        "sourceSheet": "SG-021 recipe card",
+        "nutritionFacts": {
+          "servingSize": "1 serving (about 1–2 drumsticks)",
+          "servingGrams": null,
+          "servingsPerRecipe": 6,
+          "calories": 285,
+          "totalFat": "18 g",
+          "saturatedFat": "5 g",
+          "transFat": "0 g",
+          "cholesterol": "105 mg",
+          "sodium": "480 mg",
+          "totalCarbohydrate": "6 g",
+          "dietaryFiber": "1 g",
+          "totalSugars": "4 g",
+          "addedSugars": "3 g",
+          "protein": "25 g",
+          "potassium": "340 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": "6 servings per recipe card.",
+        "recipeDNA": [
+          "SG",
+          "Recipe",
+          "Recipe card serving"
+        ],
+        "dietaryProfile": [
+          "High Protein"
+        ],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Uses the recipe-card ingredient amount, stated serving count, and estimated cooked edible yield. Stored nutrition values only; the browser does not recalculate nutrition."
+      }
+    }
+  },
+  {
+    "recipeCode": "SG-022",
+    "title": "Grilled Chicken Wings",
+    "series": "SG",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "standard",
+    "sourceWorkbook": "SG-017–027 Recipe Card Asset Packs",
+    "sourceSheet": "SG-022 recipe card",
+    "auditIssues": [
+      {
+        "id": "sg-022-yield",
+        "priority": "High",
+        "category": "Meat / Poultry Yield",
+        "issue": "Finished edible weight and exact portion weight are not printed on the card.",
+        "assumption": "Uses the card quantity midpoint, stated serving count, and a standard cooked-yield estimate for the listed cut.",
+        "correction": "Weigh the cooked edible batch and one finished serving.",
+        "impact": "Calories, protein, fat, cholesterol, potassium, and serving weight.",
+        "recommendedAction": "Record raw weight, cooked edible yield, and finished portion weight during the next preparation.",
+        "status": "Open",
+        "sourceWorkbook": "SG-017–027 Recipe Card Asset Packs",
+        "sourceSheet": "SG-022 recipe card"
+      },
+      {
+        "id": "sg-022-option",
+        "priority": "Medium",
+        "category": "Optional sauce",
+        "issue": "The sauce quantity and product are optional and brand-dependent.",
+        "assumption": "The default excludes sauce; the alternate uses 1/2 cup generic BBQ sauce for the batch.",
+        "correction": "Select the prepared option and exact product before final verification.",
+        "impact": "Calories, fat, sodium, carbohydrate, sugars, and protein.",
+        "recommendedAction": "Use the matching nutrition variant and record the exact product label.",
+        "status": "Open",
+        "sourceWorkbook": "SG-017–027 Recipe Card Asset Packs",
+        "sourceSheet": "SG-022 recipe card"
+      }
+    ],
+    "variants": {
+      "standard": {
+        "label": "Without optional sauce",
+        "recordType": "Recipe",
+        "defaultSelection": "DEFAULT",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "SG-017–027 Recipe Card Asset Packs",
+        "sourceSheet": "SG-022 recipe card",
+        "nutritionFacts": {
+          "servingSize": "1/6 recipe",
+          "servingGrams": null,
+          "servingsPerRecipe": 6,
+          "calories": 305,
+          "totalFat": "21 g",
+          "saturatedFat": "6 g",
+          "transFat": "0 g",
+          "cholesterol": "110 mg",
+          "sodium": "480 mg",
+          "totalCarbohydrate": "5 g",
+          "dietaryFiber": "1 g",
+          "totalSugars": "4 g",
+          "addedSugars": "3 g",
+          "protein": "24 g",
+          "potassium": "270 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": "6 servings per recipe card.",
+        "recipeDNA": [
+          "SG",
+          "Recipe",
+          "Without optional sauce"
+        ],
+        "dietaryProfile": [
+          "High Protein"
+        ],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Uses the recipe-card meat midpoint and rub; optional BBQ or wing sauce is excluded. Stored nutrition values only; the browser does not recalculate nutrition."
+      },
+      "with-bbq-sauce": {
+        "label": "With 1/2 cup BBQ sauce per batch",
+        "recordType": "Recipe",
+        "defaultSelection": "Alternative",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "SG-017–027 Recipe Card Asset Packs",
+        "sourceSheet": "SG-022 recipe card",
+        "nutritionFacts": {
+          "servingSize": "1/6 recipe",
+          "servingGrams": null,
+          "servingsPerRecipe": 6,
+          "calories": 340,
+          "totalFat": "21 g",
+          "saturatedFat": "6 g",
+          "transFat": "0 g",
+          "cholesterol": "110 mg",
+          "sodium": "780 mg",
+          "totalCarbohydrate": "14 g",
+          "dietaryFiber": "1 g",
+          "totalSugars": "12 g",
+          "addedSugars": "11 g",
+          "protein": "24 g",
+          "potassium": "270 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": "6 servings per recipe card.",
+        "recipeDNA": [
+          "SG",
+          "Recipe",
+          "With 1/2 cup BBQ sauce per batch"
+        ],
+        "dietaryProfile": [
+          "High Protein"
+        ],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Adds 1/2 cup generic BBQ sauce across the full batch; the recipe card permits 1/2–1 cup and brand values vary. Stored nutrition values only; the browser does not recalculate nutrition."
+      }
+    }
+  },
+  {
+    "recipeCode": "SG-023",
+    "title": "Grilled Chicken Quarters",
+    "series": "SG",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "standard",
+    "sourceWorkbook": "SG-017–027 Recipe Card Asset Packs",
+    "sourceSheet": "SG-023 recipe card",
+    "auditIssues": [
+      {
+        "id": "sg-023-yield",
+        "priority": "High",
+        "category": "Meat / Poultry Yield",
+        "issue": "Finished edible weight and exact portion weight are not printed on the card.",
+        "assumption": "Uses the card quantity midpoint, stated serving count, and a standard cooked-yield estimate for the listed cut.",
+        "correction": "Weigh the cooked edible batch and one finished serving.",
+        "impact": "Calories, protein, fat, cholesterol, potassium, and serving weight.",
+        "recommendedAction": "Record raw weight, cooked edible yield, and finished portion weight during the next preparation.",
+        "status": "Open",
+        "sourceWorkbook": "SG-017–027 Recipe Card Asset Packs",
+        "sourceSheet": "SG-023 recipe card"
+      }
+    ],
+    "variants": {
+      "standard": {
+        "label": "Recipe card serving",
+        "recordType": "Recipe",
+        "defaultSelection": "DEFAULT",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "SG-017–027 Recipe Card Asset Packs",
+        "sourceSheet": "SG-023 recipe card",
+        "nutritionFacts": {
+          "servingSize": "1 chicken leg quarter",
+          "servingGrams": null,
+          "servingsPerRecipe": 4,
+          "calories": 485,
+          "totalFat": "33 g",
+          "saturatedFat": "9 g",
+          "transFat": "0 g",
+          "cholesterol": "180 mg",
+          "sodium": "590 mg",
+          "totalCarbohydrate": "5 g",
+          "dietaryFiber": "1 g",
+          "totalSugars": "4 g",
+          "addedSugars": "3 g",
+          "protein": "42 g",
+          "potassium": "510 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": "4 servings per recipe card.",
+        "recipeDNA": [
+          "SG",
+          "Recipe",
+          "Recipe card serving"
+        ],
+        "dietaryProfile": [
+          "High Protein"
+        ],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Uses the recipe-card ingredient amount, stated serving count, and estimated cooked edible yield. Stored nutrition values only; the browser does not recalculate nutrition."
+      }
+    }
+  },
+  {
+    "recipeCode": "SG-024",
+    "title": "Baked Chicken Breasts",
+    "series": "SG",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "standard",
+    "sourceWorkbook": "SG-017–027 Recipe Card Asset Packs",
+    "sourceSheet": "SG-024 recipe card",
+    "auditIssues": [
+      {
+        "id": "sg-024-yield",
+        "priority": "High",
+        "category": "Meat / Poultry Yield",
+        "issue": "Finished edible weight and exact portion weight are not printed on the card.",
+        "assumption": "Uses the card quantity midpoint, stated serving count, and a standard cooked-yield estimate for the listed cut.",
+        "correction": "Weigh the cooked edible batch and one finished serving.",
+        "impact": "Calories, protein, fat, cholesterol, potassium, and serving weight.",
+        "recommendedAction": "Record raw weight, cooked edible yield, and finished portion weight during the next preparation.",
+        "status": "Open",
+        "sourceWorkbook": "SG-017–027 Recipe Card Asset Packs",
+        "sourceSheet": "SG-024 recipe card"
+      }
+    ],
+    "variants": {
+      "standard": {
+        "label": "Recipe card serving",
+        "recordType": "Recipe",
+        "defaultSelection": "DEFAULT",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "SG-017–027 Recipe Card Asset Packs",
+        "sourceSheet": "SG-024 recipe card",
+        "nutritionFacts": {
+          "servingSize": "1 chicken breast",
+          "servingGrams": null,
+          "servingsPerRecipe": 4,
+          "calories": 270,
+          "totalFat": "10 g",
+          "saturatedFat": "2.5 g",
+          "transFat": "0 g",
+          "cholesterol": "125 mg",
+          "sodium": "410 mg",
+          "totalCarbohydrate": "2 g",
+          "dietaryFiber": "0 g",
+          "totalSugars": "0 g",
+          "addedSugars": "0 g",
+          "protein": "43 g",
+          "potassium": "610 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": "4 servings per recipe card.",
+        "recipeDNA": [
+          "SG",
+          "Recipe",
+          "Recipe card serving"
+        ],
+        "dietaryProfile": [
+          "High Protein"
+        ],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Uses the recipe-card ingredient amount, stated serving count, and estimated cooked edible yield. Stored nutrition values only; the browser does not recalculate nutrition."
+      }
+    }
+  },
+  {
+    "recipeCode": "SG-025",
+    "title": "Baked Bone-In Chicken Thighs",
+    "series": "SG",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "standard",
+    "sourceWorkbook": "SG-017–027 Recipe Card Asset Packs",
+    "sourceSheet": "SG-025 recipe card",
+    "auditIssues": [
+      {
+        "id": "sg-025-yield",
+        "priority": "High",
+        "category": "Meat / Poultry Yield",
+        "issue": "Finished edible weight and exact portion weight are not printed on the card.",
+        "assumption": "Uses the card quantity midpoint, stated serving count, and a standard cooked-yield estimate for the listed cut.",
+        "correction": "Weigh the cooked edible batch and one finished serving.",
+        "impact": "Calories, protein, fat, cholesterol, potassium, and serving weight.",
+        "recommendedAction": "Record raw weight, cooked edible yield, and finished portion weight during the next preparation.",
+        "status": "Open",
+        "sourceWorkbook": "SG-017–027 Recipe Card Asset Packs",
+        "sourceSheet": "SG-025 recipe card"
+      }
+    ],
+    "variants": {
+      "standard": {
+        "label": "Recipe card serving",
+        "recordType": "Recipe",
+        "defaultSelection": "DEFAULT",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "SG-017–027 Recipe Card Asset Packs",
+        "sourceSheet": "SG-025 recipe card",
+        "nutritionFacts": {
+          "servingSize": "1 chicken thigh",
+          "servingGrams": null,
+          "servingsPerRecipe": 4,
+          "calories": 410,
+          "totalFat": "30 g",
+          "saturatedFat": "8 g",
+          "transFat": "0 g",
+          "cholesterol": "155 mg",
+          "sodium": "520 mg",
+          "totalCarbohydrate": "3 g",
+          "dietaryFiber": "0 g",
+          "totalSugars": "3 g",
+          "addedSugars": "3 g",
+          "protein": "32 g",
+          "potassium": "430 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": "4 servings per recipe card.",
+        "recipeDNA": [
+          "SG",
+          "Recipe",
+          "Recipe card serving"
+        ],
+        "dietaryProfile": [
+          "High Protein"
+        ],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Uses the recipe-card ingredient amount, stated serving count, and estimated cooked edible yield. Stored nutrition values only; the browser does not recalculate nutrition."
+      }
+    }
+  },
+  {
+    "recipeCode": "SG-026",
+    "title": "Baked Chicken Legs",
+    "series": "SG",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "standard",
+    "sourceWorkbook": "SG-017–027 Recipe Card Asset Packs",
+    "sourceSheet": "SG-026 recipe card",
+    "auditIssues": [
+      {
+        "id": "sg-026-yield",
+        "priority": "High",
+        "category": "Meat / Poultry Yield",
+        "issue": "Finished edible weight and exact portion weight are not printed on the card.",
+        "assumption": "Uses the card quantity midpoint, stated serving count, and a standard cooked-yield estimate for the listed cut.",
+        "correction": "Weigh the cooked edible batch and one finished serving.",
+        "impact": "Calories, protein, fat, cholesterol, potassium, and serving weight.",
+        "recommendedAction": "Record raw weight, cooked edible yield, and finished portion weight during the next preparation.",
+        "status": "Open",
+        "sourceWorkbook": "SG-017–027 Recipe Card Asset Packs",
+        "sourceSheet": "SG-026 recipe card"
+      }
+    ],
+    "variants": {
+      "standard": {
+        "label": "Recipe card serving",
+        "recordType": "Recipe",
+        "defaultSelection": "DEFAULT",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "SG-017–027 Recipe Card Asset Packs",
+        "sourceSheet": "SG-026 recipe card",
+        "nutritionFacts": {
+          "servingSize": "2 chicken legs",
+          "servingGrams": null,
+          "servingsPerRecipe": 4,
+          "calories": 335,
+          "totalFat": "22 g",
+          "saturatedFat": "6 g",
+          "transFat": "0 g",
+          "cholesterol": "145 mg",
+          "sodium": "520 mg",
+          "totalCarbohydrate": "3 g",
+          "dietaryFiber": "0 g",
+          "totalSugars": "3 g",
+          "addedSugars": "3 g",
+          "protein": "31 g",
+          "potassium": "420 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": "4 servings per recipe card.",
+        "recipeDNA": [
+          "SG",
+          "Recipe",
+          "Recipe card serving"
+        ],
+        "dietaryProfile": [
+          "High Protein"
+        ],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Uses the recipe-card ingredient amount, stated serving count, and estimated cooked edible yield. Stored nutrition values only; the browser does not recalculate nutrition."
+      }
+    }
+  },
+  {
+    "recipeCode": "SG-027",
+    "title": "Baked Chicken Wings",
+    "series": "SG",
+    "active": true,
+    "retired": false,
+    "status": "provisional",
+    "statusLabel": "Estimated nutritional information",
+    "confidence": "C provisional",
+    "dataStatus": "Ready for working nutrition box",
+    "defaultVariant": "standard",
+    "sourceWorkbook": "SG-017–027 Recipe Card Asset Packs",
+    "sourceSheet": "SG-027 recipe card",
+    "auditIssues": [
+      {
+        "id": "sg-027-yield",
+        "priority": "High",
+        "category": "Meat / Poultry Yield",
+        "issue": "Finished edible weight and exact portion weight are not printed on the card.",
+        "assumption": "Uses the card quantity midpoint, stated serving count, and a standard cooked-yield estimate for the listed cut.",
+        "correction": "Weigh the cooked edible batch and one finished serving.",
+        "impact": "Calories, protein, fat, cholesterol, potassium, and serving weight.",
+        "recommendedAction": "Record raw weight, cooked edible yield, and finished portion weight during the next preparation.",
+        "status": "Open",
+        "sourceWorkbook": "SG-017–027 Recipe Card Asset Packs",
+        "sourceSheet": "SG-027 recipe card"
+      }
+    ],
+    "variants": {
+      "standard": {
+        "label": "Recipe card serving",
+        "recordType": "Recipe",
+        "defaultSelection": "DEFAULT",
+        "confidence": "C provisional",
+        "dataStatus": "Ready for working nutrition box",
+        "sourceWorkbook": "SG-017–027 Recipe Card Asset Packs",
+        "sourceSheet": "SG-027 recipe card",
+        "nutritionFacts": {
+          "servingSize": "1/4 recipe (about 4–5 wings)",
+          "servingGrams": null,
+          "servingsPerRecipe": 4,
+          "calories": 330,
+          "totalFat": "23 g",
+          "saturatedFat": "6.5 g",
+          "transFat": "0 g",
+          "cholesterol": "120 mg",
+          "sodium": "500 mg",
+          "totalCarbohydrate": "4 g",
+          "dietaryFiber": "0 g",
+          "totalSugars": "3 g",
+          "addedSugars": "3 g",
+          "protein": "27 g",
+          "potassium": "310 mg"
+        },
+        "mealBalance": {
+          "score": null,
+          "label": "Not yet assigned"
+        },
+        "eatingWell": null,
+        "storage": null,
+        "perStandardServing": null,
+        "portionInformation": "4 servings per recipe card.",
+        "recipeDNA": [
+          "SG",
+          "Recipe",
+          "Recipe card serving"
+        ],
+        "dietaryProfile": [
+          "High Protein"
+        ],
+        "pairsWellWith": [],
+        "goodToKnow": null,
+        "cooksTip": null,
+        "dataNotes": "C provisional. Uses the recipe-card ingredient amount, stated serving count, and estimated cooked edible yield. Stored nutrition values only; the browser does not recalculate nutrition."
+      }
+    }
   }
 ]
