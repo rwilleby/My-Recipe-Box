@@ -20,6 +20,10 @@ const countersSource = await readFile(
   new URL("../src/features/home/HomeRecipeCounters.jsx", import.meta.url),
   "utf8"
 );
+const rotationsSource = await readFile(
+  new URL("../src/features/home/HomeMealRotations.jsx", import.meta.url),
+  "utf8"
+);
 
 assert.match(
   appSource,
@@ -27,9 +31,15 @@ assert.match(
   "App must import the shared helper before using it at runtime"
 );
 assert.equal(
-  (appSource.match(/uniqueRecordsByPermanentId\(/g) || []).length,
+  (appSource.match(/uniqueRecordsByPermanentId\(/g) || []).length +
+    (rotationsSource.match(/uniqueRecordsByPermanentId\(/g) || []).length,
   2,
-  "App should retain both deduplicated dinner-combination call sites"
+  "the application should retain both deduplicated dinner-combination call sites"
+);
+assert.match(
+  rotationsSource,
+  /import \{ uniqueRecordsByPermanentId \} from "\.\.\/\.\.\/utils\/records\.js";/,
+  "Home rotations must import the shared helper before using it at runtime"
 );
 assert.match(
   countersSource,

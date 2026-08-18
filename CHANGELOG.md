@@ -1,3 +1,13 @@
+# v83.2 — Home Feature Structure
+
+- Moved the complete Home Meal Journey guide into a dedicated Home feature module.
+- Moved Cuisine Quick Links and their shared category metadata into a dedicated Home category module.
+- Moved Quick Dinner and Diet Meal card selection, timing, staggered crossfades, and EASY-mode rotation behavior into a dedicated Home rotation module.
+- Preserved the approved Home markup, styling, navigation, favorites, videos, image paths, and 60-second transition behavior.
+- Kept the production CSS cascade unchanged to avoid visual drift.
+- Added v83.2 structure and runtime-wiring contracts while retaining the v83.1.1 blank-page regression test.
+- Reduced `App.jsx` from 19,685 lines to fewer than 18,800 lines.
+
 # v83.1.1 — Blank-Page Runtime Repair
 
 - Restored the shared permanent-ID deduplication helper at application scope after the v83.1 Home extraction.

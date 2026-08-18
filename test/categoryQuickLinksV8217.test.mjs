@@ -2,6 +2,10 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 
 const app = await readFile(new URL("../src/App.jsx", import.meta.url), "utf8");
+const categoryGrid = await readFile(
+  new URL("../src/features/home/HomeCategoryGrid.jsx", import.meta.url),
+  "utf8",
+);
 const css = await readFile(new URL("../src/App.css", import.meta.url), "utf8");
 const nutritionFactsComponent = await readFile(
   new URL("../src/features/recipe-viewer/BrowseRecipeNutritionFacts.jsx", import.meta.url),
@@ -12,10 +16,10 @@ const nutrition = JSON.parse(
 );
 
 assert.match(
-  app,
+  categoryGrid,
   /"AM",\s*"AS",\s*"IT",\s*"MX",\s*"SF",\s*"DM",\s*"QP",\s*"CS",\s*"CP",\s*"SB",\s*"SG",\s*"SD",\s*"DS"/,
 );
-assert.match(app, /HOME_CATEGORY_CODES\.slice\(0, 13\)/);
+assert.match(categoryGrid, /HOME_CATEGORY_CODES\.slice\(0, 13\)/);
 assert.match(app, /const isActive = Boolean\(/);
 assert.match(app, /const nextCategory = isActive \? "" : category\?\.name \|\| ""/);
 assert.doesNotMatch(app, /className="browseCategoryQuickFilterAll"/);

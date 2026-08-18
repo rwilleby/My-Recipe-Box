@@ -3,11 +3,12 @@ import fs from "node:fs";
 import path from "node:path";
 
 const app = fs.readFileSync("src/App.jsx", "utf8");
+const rotations = fs.readFileSync("src/features/home/HomeMealRotations.jsx", "utf8");
 const css = fs.readFileSync("src/App.css", "utf8");
 
-const dietCardStart = app.indexOf("function HomeDietMealCardButton");
-const dietCardEnd = app.indexOf("function HomeDietMealCrossfadeCard");
-const dietCard = app.slice(dietCardStart, dietCardEnd);
+const dietCardStart = rotations.indexOf("function HomeDietMealCardButton");
+const dietCardEnd = rotations.indexOf("function HomeDietMealCrossfadeCard");
+const dietCard = rotations.slice(dietCardStart, dietCardEnd);
 
 assert.ok(dietCard.includes("images/heroes/${recipe.id}.webp"), "Diet Meal cards must use full TRAY heroes");
 assert.ok(dietCard.includes('className="homeDietMealTrayImage"'), "Diet Meal tray-image hook is missing");

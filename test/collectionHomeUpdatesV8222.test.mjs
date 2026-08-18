@@ -3,6 +3,7 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 
 const app = fs.readFileSync("src/App.jsx", "utf8");
+const rotations = fs.readFileSync("src/features/home/HomeMealRotations.jsx", "utf8");
 const css = fs.readFileSync("src/App.css", "utf8");
 
 for (const token of [
@@ -16,7 +17,7 @@ for (const token of [
   "HomeDietMealCrossfadeCard",
   'className="homeComboMealGrid homeDietMealGrid"',
 ]) {
-  assert.ok(app.includes(token), `Missing Diet Meals home-strip contract: ${token}`);
+  assert.ok(rotations.includes(token), `Missing Diet Meals home-strip contract: ${token}`);
 }
 
 for (const token of [

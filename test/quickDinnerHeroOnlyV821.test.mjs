@@ -5,13 +5,13 @@ import {
   selectVariedHomeComboMeals,
 } from "../src/utils/homeQuickDinnerRotation.js";
 
-const app = fs.readFileSync("src/App.jsx", "utf8");
+const rotations = fs.readFileSync("src/features/home/HomeMealRotations.jsx", "utf8");
 
 assert.ok(
-  app.includes('from "./utils/homeQuickDinnerRotation.js"')
+  rotations.includes('from "../../utils/homeQuickDinnerRotation.js"')
 );
 assert.ok(
-  app.includes(
+  rotations.includes(
     "uniqueRecordsByPermanentId(dinnerCombinations).filter(hasQuickDinnerHero)"
   )
 );

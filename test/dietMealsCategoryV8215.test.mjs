@@ -3,6 +3,10 @@ import { access, readFile, stat } from "node:fs/promises";
 import { categories, recipes } from "../src/data/recipes.js";
 
 const app = await readFile(new URL("../src/App.jsx", import.meta.url), "utf8");
+const categoryGrid = await readFile(
+  new URL("../src/features/home/HomeCategoryGrid.jsx", import.meta.url),
+  "utf8",
+);
 const classifier = await readFile(new URL("../src/data/recipeAutoClassifier.js", import.meta.url), "utf8");
 const recipeAssets = await readFile(new URL("../src/features/recipe-viewer/recipeAssets.js", import.meta.url), "utf8");
 
@@ -35,8 +39,8 @@ for (let number = 1; number <= 60; number += 1) {
   }
 }
 
-assert.match(app, /DM: "images\/categories\/DM\.webp"/);
-assert.match(app, /"AM",\s*"AS",\s*"IT",\s*"MX",\s*"SF",\s*"DM",\s*"QP"/);
+assert.match(categoryGrid, /DM: "images\/categories\/DM\.webp"/);
+assert.match(categoryGrid, /"AM",\s*"AS",\s*"IT",\s*"MX",\s*"SF",\s*"DM",\s*"QP"/);
 assert.match(recipeAssets, /"CP", "CR", "DM", "DN"/);
 assert.match(classifier, /"CS", "DM", "HB"/);
 
