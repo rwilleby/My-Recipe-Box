@@ -11,7 +11,7 @@ const centering = styles.slice(finalCenteringStart);
 assert.match(centering, /\.homeCategoryGrid,[\s\S]*grid-template-columns: repeat\(10, minmax\(50px, 70px\)\) !important/);
 assert.match(centering, /\.homeCategoryGrid > :nth-child\(11\),[\s\S]*grid-column: 4 !important/);
 assert.match(centering, /\.browseCategoryQuickFilterRow \{[\s\S]*grid-template-columns: repeat\(10, minmax\(50px, 70px\)\) !important/);
-assert.match(centering, /\.browseCategoryQuickFilterRow > :nth-child\(11\) \{[\s\S]*grid-column: 5 !important/);
+assert.match(centering, /\.browseCategoryQuickFilterRow > :nth-child\(11\) \{[\s\S]*grid-column: 4 !important/);
 assert.equal((centering.match(/justify-content: center !important/g) || []).length, 2);
 assert.equal((centering.match(/margin-left: auto !important/g) || []).length, 2);
 assert.equal((centering.match(/margin-right: auto !important/g) || []).length, 2);

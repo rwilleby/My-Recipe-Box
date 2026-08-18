@@ -13529,8 +13529,9 @@ to {
   }
 }
 
-/* Keep iPad hero paragraphs inside the fixed hero depth. */
-@media (min-width: 721px) and (max-width: 1100px) {
+/* Keep iPad hero paragraphs inside the fixed hero depth. Restrict this
+   adjustment to touch-first tablets so desktop typography stays original. */
+@media (min-width: 721px) and (max-width: 1100px) and (hover: none) and (pointer: coarse) {
   .pageTopHeroImage.hasHeroText .pageHeroTextOverlay,
   .pageTopHeroImage.pageHeroDepth464 .pageHeroTextOverlay,
   .pageTopHeroImage.cookingMethodHeroLarge .pageHeroTextOverlay,
@@ -13582,7 +13583,7 @@ to {
   }
 
   .browseCategoryQuickFilterRow > :nth-child(11) {
-    grid-column: 5 !important;
+    grid-column: 4 !important;
   }
 }
 
@@ -18717,6 +18718,6 @@ button.browseRecipeWideFooterAction:focus-visible,
   }
 
   .browseCategoryQuickFilterRow > :nth-child(11) {
-    grid-column: 5 !important;
+    grid-column: 4 !important;
   }
 }

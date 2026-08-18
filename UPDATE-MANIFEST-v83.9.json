@@ -1,0 +1,38 @@
+{
+  "version": "83.9.0",
+  "release": "Desktop Hero Typography and Browse Favorites",
+  "baseline": "Verified live My-Recipe-Box v83.1.1",
+  "cumulativeBasePackage": "v83.8",
+  "cumulativeIncludes": "v83.2 through v83.9",
+  "uploadMode": "replace matching files; no deletions required",
+  "changedFiles": [
+    "CHANGELOG.md",
+    "UPDATE-MANIFEST-v83.9.json",
+    "V83.9-HERO-BROWSE-REPORT.md",
+    "UPLOAD-INSTRUCTIONS-v83.9.txt",
+    "package.json",
+    "package-lock.json",
+    "src/App.css",
+    "src/App.jsx",
+    "src/package.json",
+    "test/categoryIconCenteringV838.test.mjs",
+    "test/responsiveNutritionV833.test.mjs",
+    "test/heroAndBrowseCategoriesV839.test.mjs"
+  ],
+  "deletedFiles": [],
+  "heroTypography": {
+    "desktop": "original 15px paragraph size and 1.45 line height",
+    "ipad": "compact treatment retained for 721px–1100px touch-first devices"
+  },
+  "browseCategoryLayout": {
+    "rowOne": "Favorites, American, Asian, Italian, Mexican, Seafood, Diet Meals, Quiche & Pies, Casseroles, Crock Pot",
+    "rowTwo": "Salads, Meats, Side Dishes, Desserts",
+    "alignment": "both rows centered"
+  },
+  "preserves": [
+    "v83.8 centered Cuisine Quick Links layout",
+    "v83.7 ordered Video Library and color-bar placeholders",
+    "v83.6 main navigation reorganization",
+    "all recipes, nutrition, favorites, plans, inventories, notes, and backups"
+  ]
+}

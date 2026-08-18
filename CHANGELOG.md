@@ -1,3 +1,13 @@
+# v83.9 — Desktop Hero Typography and Browse Favorites
+
+- Restored the original 15px desktop page-hero paragraph size and 1.45 line height.
+- Kept the compact hero-text treatment for touch-first iPad widths only, preventing it from affecting desktop browsers at the same window width.
+- Added the Favorites icon to the first position of the Browse Recipe Library category grid.
+- Kept American through Crock Pot on the remainder of the first row and moved Salads, Meats, Side Dishes, and Desserts to a centered second row.
+- Linked the new Browse Favorites icon directly to the existing Favorites page.
+- Preserved the approved icon art, sizing, category actions, phone layout, recipes, and saved browser data.
+- Added v83.9 regression coverage for desktop/iPad hero separation and the new Browse category order.
+
 # v83.8 — Category Icon Horizontal Centering
 
 - Centered the entire Cuisine Quick Links 10-plus-4 icon block horizontally beneath its centered heading.

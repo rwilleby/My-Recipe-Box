@@ -40,7 +40,7 @@ for (const contract of [
   /font-size: clamp\(9\.5px, 1\.22vw, 12px\) !important/,
   /grid-template-columns: repeat\(10, minmax\(50px, 70px\)\) !important/,
   /homeCategoryGrid > :nth-child\(11\)[\s\S]*grid-column: 4 !important/,
-  /browseCategoryQuickFilterRow > :nth-child\(11\)[\s\S]*grid-column: 5 !important/,
+  /browseCategoryQuickFilterRow > :nth-child\(11\)[\s\S]*grid-column: 4 !important/,
 ]) {
   assert.match(finalCascade, contract);
 }

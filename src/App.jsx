@@ -5518,6 +5518,7 @@ function RecipesPage({
   toggleFavorite,
   addToPlan,
   openRecipeCard,
+  setActivePage,
   filter,
   setFilter,
   classifiedRecipes = recipes,
@@ -5538,8 +5539,14 @@ function RecipesPage({
   const [page, setPage] = useState(1);
 
   const browseQuickCategories = useMemo(
-    () =>
-      HOME_CATEGORY_CODES.slice(0, 13)
+    () => [
+      {
+        id: "FAVORITES",
+        name: "Favorites",
+        displayName: "Favorites",
+        iconImage: "images/category-icons/favorites.webp",
+      },
+      ...HOME_CATEGORY_CODES.slice(0, 13)
         .map((code) => {
           const category = categories.find((item) => item.id === code);
           return category
@@ -5551,10 +5558,19 @@ function RecipesPage({
             : null;
         })
         .filter(Boolean),
+    ],
     [],
   );
 
   function applyQuickCategory(category) {
+    if (category?.id === "FAVORITES") {
+      setActivePage("Favorites");
+      window.requestAnimationFrame(() => window.requestAnimationFrame(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+      }));
+      return;
+    }
+
     const isActive = Boolean(
       category &&
       (selectedCategory === category.name || selectedCategory === category.id),
