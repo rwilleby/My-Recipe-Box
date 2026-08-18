@@ -1,3 +1,12 @@
+# v82.14 — iPad Main Navigation
+
+- Replaced hover-only main-menu behavior with explicit tap/click opening for reliable iPad use.
+- Made a second tap close the same menu and a tap on another heading switch directly to that menu.
+- Added outside-tap and Escape-key closing, plus automatic closing after a destination is selected.
+- Added accurate expanded-state accessibility attributes to each main-menu control.
+- Preserved desktop hover navigation while preventing touch-device hover emulation from trapping menus open.
+- Allowed the tablet navigation row to wrap and kept edge submenus inside the visible screen.
+
 # v82.13 — Storage Locations and Cut / Variety
 
 - Reorganized the ledger into FOOD, STORAGE, FORM, CUT / VARIETY, UNIT, HAVE, BUY, and NOTES.

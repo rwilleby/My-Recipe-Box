@@ -1609,6 +1609,8 @@ const PageNavigationContext = createContext({
 });
 
 function Header({ activePage, setActivePage, favorites }) {
+  const [openNavMenu, setOpenNavMenu] = useState(null);
+  const mainNavigationRef = useRef(null);
   const [siteMode, setSiteMode] = useState(() => {
     try {
       return window.localStorage.getItem("rrb-site-mode") === "easy" ? "easy" : "detailed";
@@ -1638,6 +1640,32 @@ function Header({ activePage, setActivePage, favorites }) {
     return () => {
       window.removeEventListener("rrb:site-mode-changed", syncSiteMode);
       window.removeEventListener("storage", syncSiteMode);
+    };
+  }, []);
+
+  useEffect(() => {
+    setOpenNavMenu(null);
+  }, [activePage]);
+
+  useEffect(() => {
+    function closeMenuFromOutside(event) {
+      if (!mainNavigationRef.current?.contains(event.target)) {
+        setOpenNavMenu(null);
+      }
+    }
+
+    function closeMenuFromKeyboard(event) {
+      if (event.key === "Escape") {
+        setOpenNavMenu(null);
+      }
+    }
+
+    document.addEventListener("pointerdown", closeMenuFromOutside);
+    document.addEventListener("keydown", closeMenuFromKeyboard);
+
+    return () => {
+      document.removeEventListener("pointerdown", closeMenuFromOutside);
+      document.removeEventListener("keydown", closeMenuFromKeyboard);
     };
   }, []);
 
@@ -1695,19 +1723,33 @@ function Header({ activePage, setActivePage, favorites }) {
         </span>
       </button>
 
-      <nav className="navLinks simpleHeaderNav" aria-label="Main navigation">
-        {headerGroups.map((group) => (
-          <div className="simpleHeaderNavItem" key={group.label}>
+      <nav ref={mainNavigationRef} className="navLinks simpleHeaderNav" aria-label="Main navigation">
+        {headerGroups.map((group, groupIndex) => {
+          const menuId = `main-navigation-menu-${groupIndex}`;
+          const isMenuOpen = openNavMenu === group.label;
+
+          return (
+          <div
+            className={isMenuOpen ? "simpleHeaderNavItem isOpen" : "simpleHeaderNavItem"}
+            key={group.label}
+          >
             <button
               className={activePage === group.page ? "simpleHeaderNavButton active" : "simpleHeaderNavButton"}
               type="button"
-              onClick={() => setActivePage(group.page)}
+              onClick={() => setOpenNavMenu((current) => current === group.label ? null : group.label)}
               aria-haspopup="menu"
+              aria-expanded={isMenuOpen}
+              aria-controls={menuId}
             >
               <span>{group.label}</span>
               <span className="simpleHeaderNavChevron" aria-hidden="true">⌄</span>
             </button>
-            <div className="simpleHeaderSubmenu" role="menu" aria-label={`${group.label} submenu`}>
+            <div
+              id={menuId}
+              className="simpleHeaderSubmenu"
+              role="menu"
+              aria-label={`${group.label} submenu`}
+            >
               {group.items
                 .filter((item) => siteMode === "detailed" || !item.detailedOnly)
                 .map((item) => (
@@ -1719,7 +1761,10 @@ function Header({ activePage, setActivePage, favorites }) {
                     activePage === item.page ? "active" : "",
                     item.level ? `simpleHeaderSubmenuLevel${item.level}` : "",
                   ].filter(Boolean).join(" ")}
-                  onClick={() => setActivePage(item.page)}
+                  onClick={() => {
+                    setOpenNavMenu(null);
+                    setActivePage(item.page);
+                  }}
                 >
                   <span className="simpleHeaderSubmenuLabel">{item.label}</span>
                   {pageHasIntroVideo(item.page) && (
@@ -1739,7 +1784,8 @@ function Header({ activePage, setActivePage, favorites }) {
               ))}
             </div>
           </div>
-        ))}
+          );
+        })}
 
         <button
           type="button"
@@ -1748,7 +1794,10 @@ function Header({ activePage, setActivePage, favorites }) {
               ? "simpleHeaderFavoriteButton active"
               : "simpleHeaderFavoriteButton"
           }
-          onClick={() => setActivePage("Favorites")}
+          onClick={() => {
+            setOpenNavMenu(null);
+            setActivePage("Favorites");
+          }}
           aria-label={`Open Favorites${Array.isArray(favorites) && favorites.length ? `, ${favorites.length} saved items` : ""}`}
           title="Favorites"
         >
