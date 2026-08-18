@@ -5,14 +5,14 @@ const page = await readFile(new URL("../src/components/MasterKitchenInventoryPag
 const styles = await readFile(new URL("../src/components/MasterKitchenInventoryPage.css", import.meta.url), "utf8");
 
 assert.match(page, /<h3 role="columnheader">\{familyGroup\.family\}<\/h3>/);
-for (const heading of ["Storage", "Type", "Unit", "Have", "Buy", "Notes"]) assert.match(page, new RegExp(`role="columnheader">${heading}`));
+for (const heading of ["Storage", "Form", "Cut / Variety", "Unit", "Have", "Buy", "Notes"]) assert.match(page, new RegExp(`role="columnheader">${heading.replace(" / ", " \/ ")}`));
 assert.match(page, /className="masterInventoryLedger" role="table"/);
 assert.match(page, /className="masterInventoryLedgerFamily"/);
 assert.match(page, /className="masterInventoryLedgerRow"/);
-assert.match(page, /familyGroup\.items\.map/);
+assert.match(page, /familyGroup\.items\.flatMap/);
 assert.match(page, /family-note-/);
-assert.match(page, /updateRecord\(item\.id, \{ have:/);
-assert.match(page, /updateRecord\(item\.id, \{ buy:/);
+assert.match(page, /updateRecord\(rowId, \{ have:/);
+assert.match(page, /updateRecord\(rowId, \{ buy:/);
 assert.doesNotMatch(page, /masterInventoryFourColumns/);
 assert.match(styles, /grid-template-columns: subgrid/);
 assert.match(styles, /min-height: 31px/);

@@ -6,14 +6,14 @@ const styles = await readFile(new URL("../src/components/MasterKitchenInventoryP
 
 assert.doesNotMatch(page, /masterInventoryLedgerHead/);
 assert.match(page, /<h3 role="columnheader">\{familyGroup\.family\}<\/h3>/);
-for (const heading of ["Storage", "Type", "Unit", "Have", "Buy", "Notes"]) {
+for (const heading of ["Storage", "Form", "Cut / Variety", "Unit", "Have", "Buy", "Notes"]) {
   assert.match(page, new RegExp(`masterInventoryFamilyColumnLabel[^>]*" role="columnheader">${heading}`));
 }
 assert.match(page, /placeholder="Your Notes\.\.\."/);
 assert.match(styles, /\.masterInventoryLedgerFamily h3 \{[^}]*color: #647142[^}]*font-size: 15px !important/s);
 assert.match(styles, /\.masterInventoryFamilyColumnLabel \{[^}]*color: #647142[^}]*font-size: 10px/s);
 assert.match(styles, /\.masterInventoryLedgerNotes input \{[^}]*font-size: 15px/s);
-assert.match(styles, /\.masterInventoryLedger \{[^}]*2fr[^}]*\.55fr[^}]*\.42fr[^}]*\.42fr[^}]*1\.4fr/s);
+assert.match(styles, /\.masterInventoryLedger \{[^}]*1\.2fr[^}]*\.9fr[^}]*\.7fr[^}]*2fr[^}]*58px[^}]*48px[^}]*48px[^}]*1\.2fr/s);
 assert.match(styles, /column-gap: 6px/);
 
 console.log("Master Kitchen Inventory repeated food-line headers v82.11 tests passed.");

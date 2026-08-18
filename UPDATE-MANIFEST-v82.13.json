@@ -1,0 +1,24 @@
+{
+  "version": "82.13.0",
+  "release": "Storage Locations and Cut / Variety",
+  "uploadMode": "replace matching files",
+  "changedFiles": [
+    "CHANGELOG.md",
+    "UPDATE-MANIFEST-v82.13.json",
+    "package.json",
+    "package-lock.json",
+    "src/components/MasterKitchenInventoryPage.jsx",
+    "src/components/MasterKitchenInventoryPage.css",
+    "test/masterKitchenInventoryLedgerV829.test.mjs",
+    "test/masterKitchenInventoryColumnsV8210.test.mjs",
+    "test/masterKitchenInventoryRepeatedHeadersV8211.test.mjs",
+    "test/masterKitchenInventoryStorageLocationsV8213.test.mjs"
+  ],
+  "preserves": [
+    "Master Kitchen Inventory base record IDs and saved quantities",
+    "automatic on-device saving",
+    "Record Purchases and Clear Buy Qty actions",
+    "custom inventory items, printing, search, and accordions",
+    "full Backup & Restore transfer between iPad and laptop"
+  ]
+}

@@ -1,3 +1,14 @@
+# v82.13 — Storage Locations and Cut / Variety
+
+- Reorganized the ledger into FOOD, STORAGE, FORM, CUT / VARIETY, UNIT, HAVE, BUY, and NOTES.
+- Added standardized STORAGE dropdowns with Refrigerator, Freezer, Pantry, Counter, and Other choices.
+- Added intelligent default storage locations from each catalog entry while keeping every selection editable.
+- Separated product condition into FORM and meat cuts, vegetable styles, and other distinctions into CUT / VARIETY.
+- Added “+ STORAGE” to create another saved row when the same product is kept in more than one location.
+- Added removal controls for additional storage rows and included those rows in inventory summary and category stock counts.
+- Reduced FOOD and UNIT widths, expanded CUT / VARIETY, and preserved centered HAVE and BUY controls.
+- Preserved all existing record IDs, quantities, automatic saving, printing, custom items, purchase recording, and Backup & Restore.
+
 # v82.12 — Beige Family Header Bands
 
 - Renamed the repeated RAW/COOKED heading to STORAGE.

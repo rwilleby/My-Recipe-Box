@@ -13,11 +13,43 @@ function numberValue(value) {
   return value === 0 ? "0" : value || "";
 }
 
-const STORAGE_FORM_ORDER = ["Fresh", "Frozen", "Canned", "Jarred", "Refrigerated", "Instant", "Dry", "Cooked", "Homemade", "Commercial", "Other"];
+const STORAGE_OPTIONS = ["Refrigerator", "Freezer", "Pantry", "Counter", "Other"];
+const STORAGE_FORM_ORDER = ["Raw", "Fresh", "Frozen", "Canned", "Jarred", "Refrigerated", "Instant", "Dry", "Cooked", "Homemade", "Commercial", "Prepared"];
 function splitStorageForm(variation = "") {
   const form = STORAGE_FORM_ORDER.find((label) => variation.toLowerCase().startsWith(`${label.toLowerCase()} `));
-  if (!form) return { form: "Other", name: variation };
-  return { form, name: variation.slice(form.length).trim() || variation };
+  if (!form) return { form: "", name: variation };
+  return { form, name: variation.slice(form.length).trim() || "Standard" };
+}
+
+function defaultStorageForItem(item, categoryId) {
+  const variation = item.variation.toLowerCase();
+  if (/frozen/.test(variation) || categoryId === "frozen-foods") return "Freezer";
+  if (/canned|jarred|instant|dry|dried|boxed|bagged|shelf-stable|pouch/.test(variation)) return "Pantry";
+  if (/fresh|refrigerated|cooked|homemade/.test(variation)) return "Refrigerator";
+  if (["meat-poultry", "seafood", "dairy-eggs"].includes(categoryId)) return "Refrigerator";
+  return "Pantry";
+}
+
+function defaultFormForItem(item, categoryId) {
+  const variation = item.variation.toLowerCase();
+  if (/cooked|pulled|deli|smoked/.test(variation)) return "Cooked";
+  if (["meat-poultry", "seafood"].includes(categoryId)) return "Raw";
+  if (categoryId === "frozen-foods") return "Frozen";
+  if (categoryId === "canned-jarred") return "Canned";
+  if (["bread-bakery", "rice-pasta-grains", "spices-baking"].includes(categoryId)) return "Dry";
+  if (categoryId === "prepared-packaged") return "Prepared";
+  if (categoryId === "dairy-eggs") return "Fresh";
+  return item.recipeDerived ? "Ingredient" : "Fresh";
+}
+
+function inventoryDetails(item, categoryId) {
+  const split = splitStorageForm(item.variation);
+  const variety = /^(refrigerated|frozen)$/i.test(split.name) ? "Prepared" : split.name;
+  return {
+    storage: defaultStorageForItem(item, categoryId),
+    form: split.form || defaultFormForItem(item, categoryId),
+    variety,
+  };
 }
 
 function groupItemsByFamily(items = []) {
@@ -47,8 +79,11 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
     ),
   })).filter((category) => category.items.length);
   const allItems = catalog.flatMap((category) => category.items);
-  const withStock = allItems.filter((item) => Number(safeInventory.records[item.id]?.have) > 0).length;
-  const toBuy = allItems.filter((item) => Number(safeInventory.records[item.id]?.buy) > 0).length;
+  const additionalLocationRecords = Object.values(safeInventory.records).filter((record) => record?.sourceItemId);
+  const withStock = allItems.filter((item) => Number(safeInventory.records[item.id]?.have) > 0).length
+    + additionalLocationRecords.filter((record) => Number(record.have) > 0).length;
+  const toBuy = allItems.filter((item) => Number(safeInventory.records[item.id]?.buy) > 0).length
+    + additionalLocationRecords.filter((record) => Number(record.buy) > 0).length;
 
   function updateRecord(itemId, patch) {
     setInventory((current) => {
@@ -93,7 +128,40 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
       const safe = normalizeState(current);
       const records = { ...safe.records };
       delete records[item.id];
+      Object.entries(records).forEach(([id, record]) => { if (record?.sourceItemId === item.id) delete records[id]; });
       return { ...safe, records, customItems: safe.customItems.filter((entry) => entry.id !== item.id) };
+    });
+  }
+
+  function addStorageLocation(item, categoryId) {
+    const details = inventoryDetails(item, categoryId);
+    const existingLocations = new Set([
+      safeInventory.records[item.id]?.storage || details.storage,
+      ...Object.values(safeInventory.records)
+        .filter((record) => record?.sourceItemId === item.id)
+        .map((record) => record.storage),
+    ]);
+    const storage = STORAGE_OPTIONS.find((option) => !existingLocations.has(option)) || "Other";
+    const rowId = `${item.id}--storage-${Date.now()}`;
+    setInventory((current) => {
+      const safe = normalizeState(current);
+      return {
+        ...safe,
+        records: {
+          ...safe.records,
+          [rowId]: { sourceItemId: item.id, storage, have: "", buy: "", updatedAt: new Date().toISOString() },
+        },
+      };
+    });
+  }
+
+  function removeStorageLocation(rowId) {
+    if (!window.confirm("Remove this additional storage-location row?")) return;
+    setInventory((current) => {
+      const safe = normalizeState(current);
+      const records = { ...safe.records };
+      delete records[rowId];
+      return { ...safe, records };
     });
   }
 
@@ -180,7 +248,9 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
       <div className="masterInventoryAccordions">
         {visibleCatalog.map((category) => {
           const isOpen = normalizedSearch || expanded.has(category.id);
-          const stocked = category.items.filter((item) => Number(safeInventory.records[item.id]?.have) > 0).length;
+          const categoryItemIds = new Set(category.items.map((item) => item.id));
+          const stocked = category.items.filter((item) => Number(safeInventory.records[item.id]?.have) > 0).length
+            + Object.values(safeInventory.records).filter((record) => categoryItemIds.has(record?.sourceItemId) && Number(record.have) > 0).length;
           return (
             <section className="masterInventoryCategory" key={category.id}>
               <button type="button" className="masterInventoryCategoryButton" onClick={() => toggleCategory(category.id)} aria-expanded={Boolean(isOpen)}>
@@ -196,7 +266,8 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
                         <div className="masterInventoryFamilyHeader" role="row">
                           <h3 role="columnheader">{familyGroup.family}</h3>
                           <span className="masterInventoryFamilyColumnLabel" role="columnheader">Storage</span>
-                          <span className="masterInventoryFamilyColumnLabel" role="columnheader">Type</span>
+                          <span className="masterInventoryFamilyColumnLabel" role="columnheader">Form</span>
+                          <span className="masterInventoryFamilyColumnLabel" role="columnheader">Cut / Variety</span>
                           <span className="masterInventoryFamilyColumnLabel" role="columnheader">Unit</span>
                           <span className="masterInventoryFamilyColumnLabel masterInventoryHaveLabel" role="columnheader">Have</span>
                           <span className="masterInventoryFamilyColumnLabel masterInventoryBuyLabel" role="columnheader">Buy</span>
@@ -204,20 +275,30 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
                           <span className="masterInventoryFamilyColumnLabel" aria-hidden="true" />
                         </div>
                         <div className="masterInventoryLedgerItems">
-                          {familyGroup.items.map((item) => {
-                            const record = safeInventory.records[item.id] || {};
-                            const storage = splitStorageForm(item.variation);
+                          {familyGroup.items.flatMap((item) => {
+                            const additionalRows = Object.entries(safeInventory.records)
+                              .filter(([, record]) => record?.sourceItemId === item.id)
+                              .map(([rowId]) => ({ rowId, additional: true }));
+                            return [{ rowId: item.id, additional: false }, ...additionalRows].map(({ rowId, additional }) => {
+                            const record = safeInventory.records[rowId] || {};
+                            const details = inventoryDetails(item, category.id);
                             return (
-                              <div className="masterInventoryLedgerRow" key={item.id} role="row">
-                                <span className="masterInventoryStorage" role="cell">{storage.form}</span>
-                                <span className="masterInventoryForm" role="cell">{storage.name}{item.recipeDerived ? <small> · Recipe</small> : null}</span>
+                              <div className="masterInventoryLedgerRow" key={rowId} role="row">
+                                <select className="masterInventoryStorageSelect" value={record.storage || details.storage} onChange={(event) => updateRecord(rowId, { storage: event.target.value, ...(additional ? { sourceItemId: item.id } : {}) })} aria-label={`${item.family} ${item.variation} storage location`}>
+                                  {STORAGE_OPTIONS.map((option) => <option key={option} value={option}>{option}</option>)}
+                                </select>
+                                <span className="masterInventoryForm" role="cell">{details.form}</span>
+                                <span className="masterInventoryVariety" role="cell">{details.variety}{item.recipeDerived ? <small> · Recipe</small> : null}</span>
                                 <span className="masterInventoryPackage" role="cell">{item.unit}</span>
-                                <label className="masterInventoryLedgerQuantity"><span>Have</span><input type="number" inputMode="decimal" min="0" step="any" placeholder="0" value={numberValue(record.have)} onChange={(event) => updateRecord(item.id, { have: event.target.value })} aria-label={`${item.family} ${item.variation} quantity on hand`} /></label>
-                                <label className="masterInventoryLedgerQuantity"><span>Buy</span><input type="number" inputMode="decimal" min="0" step="any" placeholder="0" value={numberValue(record.buy)} onChange={(event) => updateRecord(item.id, { buy: event.target.value })} aria-label={`${item.family} ${item.variation} quantity to buy`} /></label>
+                                <label className="masterInventoryLedgerQuantity"><span>Have</span><input type="number" inputMode="decimal" min="0" step="any" placeholder="0" value={numberValue(record.have)} onChange={(event) => updateRecord(rowId, { have: event.target.value, ...(additional ? { sourceItemId: item.id } : {}) })} aria-label={`${item.family} ${item.variation} quantity on hand`} /></label>
+                                <label className="masterInventoryLedgerQuantity"><span>Buy</span><input type="number" inputMode="decimal" min="0" step="any" placeholder="0" value={numberValue(record.buy)} onChange={(event) => updateRecord(rowId, { buy: event.target.value, ...(additional ? { sourceItemId: item.id } : {}) })} aria-label={`${item.family} ${item.variation} quantity to buy`} /></label>
                                 <span className="masterInventoryNotesSpacer" aria-hidden="true" />
-                                {item.custom ? <button type="button" className="masterInventoryRemove" onClick={() => removeCustomItem(item)} aria-label={`Remove ${item.family} ${item.variation}`}>×</button> : <span />}
+                                {additional
+                                  ? <button type="button" className="masterInventoryRemove masterInventoryRemoveLocation" onClick={() => removeStorageLocation(rowId)} aria-label={`Remove additional ${item.family} storage location`}>×</button>
+                                  : <span className="masterInventoryRowActions"><button type="button" className="masterInventoryAddLocation" onClick={() => addStorageLocation(item, category.id)}>+ Storage</button>{item.custom && <button type="button" className="masterInventoryRemove" onClick={() => removeCustomItem(item)} aria-label={`Remove ${item.family} ${item.variation}`}>×</button>}</span>}
                               </div>
                             );
+                            });
                           })}
                         </div>
                         <label className="masterInventoryLedgerNotes"><span>Notes</span><input type="text" value={familyNote} onChange={(event) => updateRecord(familyNoteId, { notes: event.target.value })} placeholder="Your Notes..." /></label>
