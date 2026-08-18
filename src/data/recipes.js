@@ -7,6 +7,7 @@ const baseCategories = [
   { id: "CR", name: "Cinnamon Rolls", count: 0, icon: "🌀", iconImage: "images/categories/CR.webp" },
   { id: "CS", name: "Casseroles", count: 0, icon: "🥘", iconImage: "images/categories/CS.webp" },
   { id: "DN", name: "Donuts", count: 0, icon: "🍩", iconImage: "images/categories/DN.webp" },
+  { id: "DM", name: "Diet Meals", count: 0, icon: "🥗", iconImage: "images/thumbs/heroes/DM-001.webp" },
   { id: "DS", name: "Desserts", count: 0, icon: "🍰", iconImage: "images/categories/DS.webp" },
   { id: "HB", name: "Hamburgers", count: 0, icon: "🍔", iconImage: "images/categories/HB.webp" },
   { id: "HBP", name: "Hamburger Patties", count: 0, icon: "🍔", iconImage: "images/categories/HBP.webp" },
@@ -37,6 +38,7 @@ const CATEGORY_DEFAULTS = {
   CR: { time: 90, servings: 8, price: "$$", emoji: "🌀" },
   CS: { time: 45, servings: 6, price: "$$", emoji: "🥘" },
   DN: { time: 60, servings: 8, price: "$$", emoji: "🍩" },
+  DM: { time: 35, servings: 4, price: "$$", emoji: "🥗" },
   DS: { time: 45, servings: 8, price: "$$", emoji: "🍰" },
   HB: { time: 25, servings: 4, price: "$$", emoji: "🍔" },
   HBP: { time: 20, servings: 4, price: "$$", emoji: "🍔" },
@@ -180,12 +182,24 @@ function proteinForRecipe(categoryCode, title = "") {
     return { name: "Chicken tenders", qty: 1.5, unit: "lb", aisle: "Meat", cost: 8 };
   }
 
+  if (titleHas(title, ["chicken"])) {
+    return { name: "Boneless skinless chicken breasts", qty: 1.5, unit: "lb", aisle: "Meat", cost: 8 };
+  }
+
+  if (titleHas(title, ["turkey"])) {
+    return { name: "Lean turkey breast or tenderloin", qty: 1.5, unit: "lb", aisle: "Meat", cost: 9 };
+  }
+
   if (titleHas(title, ["beef & broccoli", "beijing beef", "mongolian beef", "pepper steak", "black pepper beef", "beef fajita", "steak", "chile colorado", "beef ragu"])) {
     return { name: "Lean beef strips or sirloin", qty: 1.5, unit: "lb", aisle: "Meat", cost: 10 };
   }
 
   if (titleHas(title, ["burger", "hamburger", "patty", "taco meat", "meatballs", "meatloaf", "cheeseburger", "ground beef", "beef taco"])) {
     return { name: "Lean ground beef", qty: 1.5, unit: "lb", aisle: "Meat", cost: 8 };
+  }
+
+  if (titleHas(title, ["beef"])) {
+    return { name: "Lean beef", qty: 1.5, unit: "lb", aisle: "Meat", cost: 9 };
   }
 
   if (titleHas(title, ["pork", "carnitas", "pulled pork", "sliced pork", "sausage", "boudin"])) {
@@ -208,6 +222,10 @@ function proteinForRecipe(categoryCode, title = "") {
     return { name: "Cod fillets", qty: 1.5, unit: "lb", aisle: "Seafood", cost: 11 };
   }
 
+  if (titleHas(title, ["fish"])) {
+    return { name: "Lean white fish fillets", qty: 1.5, unit: "lb", aisle: "Seafood", cost: 10 };
+  }
+
   if (titleHas(title, ["crab", "crab cakes", "crab ravioli"])) {
     return { name: "Crab meat", qty: 1, unit: "lb", aisle: "Seafood", cost: 16 };
   }
@@ -223,6 +241,36 @@ function defaultIngredients(categoryCode, title = "", id = "") {
   if (categoryCode === "CP") return [];
 
   const protein = proteinForRecipe(categoryCode, title);
+
+  if (categoryCode === "DM") {
+    let starch = { name: "Whole-grain side", qty: 2, unit: "cups", aisle: "Pantry", cost: 3 };
+    let vegetable = { name: "Mixed vegetables", qty: 3, unit: "cups", aisle: "Frozen", cost: 4 };
+    let sauce = { name: "Light sauce and seasonings", qty: 1, unit: "set", aisle: "Pantry", cost: 3 };
+
+    if (titleHas(title, ["sweet potato"])) starch = { name: "Sweet potatoes", qty: 1.5, unit: "lb", aisle: "Produce", cost: 3 };
+    else if (titleHas(title, ["potato", "mashed potato"])) starch = { name: "Potatoes", qty: 1.5, unit: "lb", aisle: "Produce", cost: 3 };
+    else if (titleHas(title, ["orzo"])) starch = { name: "Orzo", qty: 8, unit: "oz", aisle: "Pantry", cost: 2 };
+    else if (titleHas(title, ["couscous"])) starch = { name: "Whole-wheat couscous", qty: 1, unit: "cup", aisle: "Pantry", cost: 3 };
+    else if (titleHas(title, ["stuffing"])) starch = { name: "Lower-sodium stuffing mix", qty: 1, unit: "pkg", aisle: "Pantry", cost: 3 };
+    else if (titleHas(title, ["rice", "grain"])) starch = { name: "Brown, jasmine, or white rice", qty: 2, unit: "cups", aisle: "Pantry", cost: 3 };
+    else if (titleHas(title, ["spaghetti", "rigatoni", "ravioli", "lasagna", "noodle", "pasta", "macaroni", "alfredo", "carbonara", "florentine"])) starch = { name: "Higher-protein pasta or noodles", qty: 8, unit: "oz", aisle: "Pantry", cost: 4 };
+
+    if (titleHas(title, ["broccoli"])) vegetable = { name: "Broccoli florets", qty: 3, unit: "cups", aisle: "Produce", cost: 4 };
+    else if (titleHas(title, ["green bean"])) vegetable = { name: "Green beans", qty: 3, unit: "cups", aisle: "Produce", cost: 4 };
+    else if (titleHas(title, ["spinach"])) vegetable = { name: "Baby spinach", qty: 5, unit: "oz", aisle: "Produce", cost: 3 };
+    else if (titleHas(title, ["peas"])) vegetable = { name: "Green peas", qty: 2, unit: "cups", aisle: "Frozen", cost: 3 };
+    else if (titleHas(title, ["black beans & corn", "rice & beans"])) vegetable = { name: "Black beans and corn", qty: 2, unit: "cups", aisle: "Pantry", cost: 3 };
+    else if (titleHas(title, ["tomatoes & onions"])) vegetable = { name: "Tomatoes and onions", qty: 2, unit: "cups", aisle: "Produce", cost: 3 };
+
+    if (titleHas(title, ["alfredo", "carbonara"])) sauce = { name: "Light Alfredo sauce", qty: 1, unit: "jar", aisle: "Pantry", cost: 4 };
+    else if (titleHas(title, ["marinara", "tomato sauce", "meat sauce", "parmesan"])) sauce = { name: "Lower-sodium marinara sauce", qty: 1, unit: "jar", aisle: "Pantry", cost: 3 };
+    else if (titleHas(title, ["teriyaki", "sesame", "korean", "hunan", "cashew", "sweet-and-sour", "sweet chili"])) sauce = { name: "Lower-sodium Asian-style sauce", qty: 1, unit: "bottle", aisle: "Pantry", cost: 4 };
+    else if (titleHas(title, ["enchilada", "salsa verde", "green chile", "burrito", "taco", "southwest", "fiesta", "chipotle", "santa fe"])) sauce = { name: "Lower-sodium salsa, chile, or enchilada sauce", qty: 1, unit: "jar", aisle: "Pantry", cost: 4 };
+    else if (titleHas(title, ["curry", "tikka", "butter chicken"])) sauce = { name: "Light curry simmer sauce", qty: 1, unit: "jar", aisle: "Pantry", cost: 4 };
+    else if (titleHas(title, ["gravy", "salisbury", "swedish meatballs"])) sauce = { name: "Lower-sodium gravy", qty: 1, unit: "pkg", aisle: "Pantry", cost: 3 };
+
+    return [protein, starch, vegetable, sauce];
+  }
 
   if (categoryCode === "AS") {
     if (titleHas(title, ["fried rice"])) {
@@ -427,7 +475,7 @@ function estimateMealBalance(categoryCode, title) {
   const has = (...terms) => terms.some((term) => normalized.includes(term));
 
   const categoryBase = {
-    AM: 6, AS: 5, CC: 9, CO: 8, CP: 6, CR: 9, CS: 7, DN: 9, DS: 8,
+    AM: 6, AS: 5, CC: 9, CO: 8, CP: 6, CR: 9, CS: 7, DM: 3, DN: 9, DS: 8,
     HB: 7, HBP: 7, IT: 6, JJ: 6, KR: 8, LF: 7, MR: 3, MX: 6,
     PM: 4, QP: 7, RS: 2, SB: 3, SD: 5, SF: 4, SG: 7, SW: 6,
   };
@@ -774,6 +822,66 @@ const recipeRows = [
   ["CP-178", "Banana Bread Pudding", { time: null, servings: null, ingredients: [], mealBalance: { score: null, label: "Not Yet Rated", status: "unrated" } }],
   ["CP-179", "Cinnamon Apples", { time: null, servings: null, ingredients: [], mealBalance: { score: null, label: "Not Yet Rated", status: "unrated" } }],
   ["CP-180", "Pumpkin Spice Cake", { time: null, servings: null, ingredients: [], mealBalance: { score: null, label: "Not Yet Rated", status: "unrated" } }],
+  ["DM-001", "Herb-Roasted Chicken with Potatoes & Broccoli", { time: 40 }],
+  ["DM-002", "Baked Chicken with Stuffing, Mashed Potatoes & Gravy", { time: 40 }],
+  ["DM-003", "Chicken Fettuccine Alfredo with Broccoli", { time: 35 }],
+  ["DM-004", "Sesame Chicken with Brown Rice & Vegetables", { time: 35 }],
+  ["DM-005", "Chicken Parmesan with Spaghetti", { time: 40 }],
+  ["DM-006", "Orange Chicken with Rice & Vegetables", { time: 35 }],
+  ["DM-007", "Chicken Enchilada Suiza with Rice", { time: 45 }],
+  ["DM-008", "Apple Cranberry Chicken with Orzo & Vegetables", { time: 35 }],
+  ["DM-009", "Chicken Teriyaki with Noodles & Vegetables", { time: 35 }],
+  ["DM-010", "Maple Bourbon Chicken with Grains & Sweet Potatoes", { time: 40 }],
+  ["DM-011", "Roasted Turkey with Potatoes & Green Beans", { time: 45 }],
+  ["DM-012", "Glazed Turkey Tenderloins with Sweet Potatoes & Stuffing", { time: 45 }],
+  ["DM-013", "Steak Portabella with Broccoli", { time: 35 }],
+  ["DM-014", "Salisbury Steak with Macaroni & Cheese", { time: 45 }],
+  ["DM-015", "Meatloaf with Mashed Potatoes & Gravy", { time: 60 }],
+  ["DM-016", "Swedish Meatballs with Pasta & Gravy", { time: 45 }],
+  ["DM-017", "Macaroni & Beef in Tomato Sauce", { time: 40 }],
+  ["DM-018", "Cheeseburger Mac with Tomatoes & Onions", { time: 40 }],
+  ["DM-019", "Spaghetti with Meat Sauce", { time: 40 }],
+  ["DM-020", "Garlic Sesame Noodles with Beef & Vegetables", { time: 40 }],
+  ["DM-021", "Five-Cheese Rigatoni", { time: 35 }],
+  ["DM-022", "Butternut Squash Ravioli with Sage Sauce", { time: 30 }],
+  ["DM-023", "Light Chicken Carbonara", { time: 35 }],
+  ["DM-024", "Cheese Ravioli in Marinara", { time: 25 }],
+  ["DM-025", "Creamy Pasta Primavera", { time: 35 }],
+  ["DM-026", "Lasagna with Meat Sauce", { time: 60 }],
+  ["DM-027", "Macaroni & Cheese with Broccoli", { time: 30 }],
+  ["DM-028", "Marry Me Rigatoni with Chicken", { time: 35 }],
+  ["DM-029", "Pesto Rigatoni with Chicken & Spinach", { time: 35 }],
+  ["DM-030", "Ricotta & Spinach Ravioli", { time: 25 }],
+  ["DM-031", "Chicken Teriyaki Noodles", { time: 35 }],
+  ["DM-032", "Korean BBQ Chicken with Brown Rice", { time: 35 }],
+  ["DM-033", "Indian Butter Chicken with Rice", { time: 40 }],
+  ["DM-034", "Garlic-Sesame Beef Noodles", { time: 40 }],
+  ["DM-035", "Sweet-and-Sour Chicken with Brown Rice", { time: 35 }],
+  ["DM-036", "Thai Coconut Curry Chicken", { time: 40 }],
+  ["DM-037", "Hunan-Style Beef and Broccoli", { time: 40 }],
+  ["DM-038", "Cashew Chicken with Jasmine Rice", { time: 35 }],
+  ["DM-039", "Chicken Peanut Noodles", { time: 35 }],
+  ["DM-040", "Chicken Tikka Masala with Peas & Rice", { time: 40 }],
+  ["DM-041", "Fiesta Grilled Chicken with Mexican Rice", { time: 35 }],
+  ["DM-042", "Beef Enchilada Rice Bowl", { time: 35 }],
+  ["DM-043", "Chicken Burrito Bowl", { time: 30 }],
+  ["DM-044", "Southwest Chicken with Black Beans & Corn", { time: 35 }],
+  ["DM-045", "Turkey Taco Mac", { time: 40 }],
+  ["DM-046", "Green Chile Chicken with Rice", { time: 35 }],
+  ["DM-047", "Santa Fe Rice & Beans", { time: 35 }],
+  ["DM-048", "Salsa Verde Chicken with Brown Rice", { time: 35 }],
+  ["DM-049", "Beef Taco Bowl", { time: 35 }],
+  ["DM-050", "Chipotle Chicken with Sweet Potatoes", { time: 45 }],
+  ["DM-051", "Lemon Pepper Fish with Rice & Broccoli", { time: 35 }],
+  ["DM-052", "Garlic Butter Shrimp with Orzo & Vegetables", { time: 35 }],
+  ["DM-053", "Parmesan-Crusted Fish with Potatoes & Green Beans", { time: 50 }],
+  ["DM-054", "Teriyaki Salmon with Brown Rice & Broccoli", { time: 35 }],
+  ["DM-055", "Shrimp Alfredo with Broccoli", { time: 35 }],
+  ["DM-056", "Cajun Shrimp with Rice & Vegetables", { time: 35 }],
+  ["DM-057", "Mediterranean Fish with Couscous & Spinach", { time: 35 }],
+  ["DM-058", "Sweet Chili Shrimp with Jasmine Rice", { time: 35 }],
+  ["DM-059", "Herb-Roasted Salmon with Potatoes & Green Beans", { time: 45 }],
+  ["DM-060", "Fish Florentine with Rice", { time: 35 }],
   ["CR-001", "Traditional Cinnamon Rolls"],
   ["CR-002", "Chocolate Cinnamon Rolls"],
   ["CR-003", "Apple Cinnamon Rolls"],

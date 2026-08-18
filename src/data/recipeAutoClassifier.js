@@ -78,7 +78,7 @@ function suggestAttributes(recipe, text) {
   if (["CC", "CO", "CR", "DN", "DS"].includes(code)) {
     addSuggestion(suggestions, "Dessert", "high", "Dessert recipe category.");
   }
-  if (["AM", "AS", "CS", "HB", "HBP", "IT", "MX", "SF", "SG"].includes(code)) {
+  if (["AM", "AS", "CS", "DM", "HB", "HBP", "IT", "MX", "SF", "SG"].includes(code)) {
     addSuggestion(suggestions, "Dinner", "high", "Main-dish recipe category.");
   }
   if (code === "PM") {

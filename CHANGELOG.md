@@ -1,3 +1,13 @@
+# v82.15 — Diet Meals Recipe Category
+
+- Added DM — Diet Meals as a new recipe-library category with 60 recipes, DM-001 through DM-060.
+- Added the exact recipe names, four-meal yields, and total preparation times from the supplied recipe cards.
+- Added practical recipe-specific shopping ingredients for the chicken, turkey, beef, pasta, Mexican-style, fish, salmon, and shrimp meals.
+- Added each full 1725 × 1125 recipe card and selected the requested 1448 × 1086 TRAY image as its website hero.
+- Added the matching optimized recipe-card and TRAY-hero thumbnails while excluding the unused plate and bowl versions.
+- Added Diet Meals to the Recipe Library quick-category row, automatic image resolution, dinner classification, search, category filtering, meal planning, and recipe counts.
+- Used the DM-001 TRAY thumbnail as the temporary Diet Meals category image because no separate DM category-icon file was included in the supplied archives.
+
 # v82.14 — iPad Main Navigation
 
 - Replaced hover-only main-menu behavior with explicit tap/click opening for reliable iPad use.

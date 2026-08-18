@@ -112,6 +112,7 @@ const CATEGORY_ICON_IMAGES = {
   CP: "images/icons/CP-bulk.webp",
   CR: "images/categories/CR.webp",
   DN: "images/categories/DN.webp",
+  DM: "images/thumbs/heroes/DM-001.webp",
   DS: "images/categories/DS.webp",
   HB: "images/categories/HB.webp",
   IT: "images/categories/IT.webp",
@@ -161,6 +162,7 @@ const HOME_CATEGORY_LABELS = {
   CP: "Crock Pot",
   CR: "Cinnamon Rolls",
   DN: "Donuts",
+  DM: "Diet Meals",
   DS: "Desserts",
   HB: "Hamburgers",
   IT: "Italian",
@@ -186,6 +188,7 @@ const HOME_CATEGORY_FALLBACKS = {
   CP: { id: "CP", name: "Crock Pot Meals", count: 0, icon: "🍲" },
   CR: { id: "CR", name: "Cinnamon Rolls", count: 0, icon: "🌀" },
   DN: { id: "DN", name: "Donuts", count: 0, icon: "🍩" },
+  DM: { id: "DM", name: "Diet Meals", count: 0, icon: "🥗" },
   DS: { id: "DS", name: "Desserts", count: 0, icon: "🍰" },
   HB: { id: "HB", name: "Hamburgers", count: 0, icon: "🍔" },
   IT: { id: "IT", name: "Italian Cuisine", count: 0, icon: "🍝" },
@@ -760,7 +763,7 @@ function preloadHeroImage(path, priority = "low") {
 }
 
 const AUTO_IMAGE_PREFIXES = new Set([
-  "AM", "AS", "CC", "CO", "CP", "CR", "DN", "DS", "HB", "HBP", "IT", "JJ", "KR", "LF",
+  "AM", "AS", "CC", "CO", "CP", "CR", "DM", "DN", "DS", "HB", "HBP", "IT", "JJ", "KR", "LF",
   "MR", "MX", "PM", "QP", "CS", "RS", "SB", "SD", "SF", "SG", "SW"
 ]);
 
@@ -6581,7 +6584,7 @@ function RecipesPage({
 
   const browseQuickCategories = useMemo(
     () =>
-      ["AM", "AS", "IT", "MX", "SF", "QP", "CS", "SB", "SG", "SD"]
+      ["AM", "AS", "IT", "MX", "DM", "SF", "QP", "CS", "SB", "SG", "SD"]
         .map((code) => {
           const category = categories.find((item) => item.id === code);
           return category
