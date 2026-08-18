@@ -3203,7 +3203,13 @@ function HomeDietMealCardButton({ recipe, className = "", onOpen, imageLoading =
       aria-label={`Open Diet Meal ${recipe.id}: ${recipe.title}`}
     >
       <div className="homeComboMealImage homeDietMealImage">
-        <RecipeImage recipe={recipe} imageLoading={imageLoading} />
+        <img
+          className="homeDietMealTrayImage"
+          src={`${import.meta.env.BASE_URL}images/heroes/${recipe.id}.webp`}
+          alt={`${recipe.title} Diet Meal tray`}
+          loading={imageLoading}
+          decoding="async"
+        />
       </div>
 
       <span className="homeComboMealText homeDietMealText">

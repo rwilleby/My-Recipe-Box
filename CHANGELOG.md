@@ -1,3 +1,11 @@
+# v82.23 — Homepage Diet Meal Refinements
+
+- Changed the Diet Meals homepage cards to display the full 1448 × 1086 TRAY hero images rather than recipe-card thumbnails.
+- Removed the extra margin above Diet Meals and matched its top padding to the What Do You Want to Do Today section, creating equal gutters above and below Diet Meals while preserving the approved large-hero-to-Dinner-Ideas spacing.
+- Reserved a consistent three-line Diet Meal title area so rotating cards remain equal in depth when titles vary in length.
+- Removed the horizontal slider from Cuisine Quick Links; the category icons now remain in the responsive grid and wrap at smaller widths.
+- Preserved the v82.22 Diet Meals rotation, transition timing, EASY-mode layout, favorites, MealBalance, videos, and all saved user data.
+
 # v82.22 — Diet Meals Home Rotation & Held Collection Updates
 
 - Added a new Diet Meals section to the main page using the same six-card layout, favorites, MealBalance circles, 60-second staggered crossfade, and video treatment as Quick Dinner Ideas.
