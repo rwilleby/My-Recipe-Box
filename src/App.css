@@ -13460,6 +13460,131 @@ to {
   height: 0 !important;
 }
 
+/* ================================================================
+   v83.3 — CROCK POT NUTRITION + RESPONSIVE HEADER/HERO/CATEGORIES
+   ================================================================ */
+
+.browseNutritionEstimateNote {
+  margin: 8px 0 0 !important;
+  padding-top: 7px !important;
+  border-top: 1px solid #222 !important;
+  color: #4b5563 !important;
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 9px !important;
+  font-weight: 500 !important;
+  line-height: 1.25 !important;
+}
+
+/* Use the successful iPad header pattern at desktop widths too: logo first,
+   then a full-width navigation row underneath. */
+@media (min-width: 721px) {
+  .topbar.compactTopbar,
+  .compactTopbar {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-template-rows: auto auto !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    row-gap: 2px !important;
+    column-gap: 0 !important;
+    padding: 5px 5.5vw 8px !important;
+    overflow: visible !important;
+  }
+
+  .compactTopbar > .brandLogoButton {
+    width: max-content !important;
+    max-width: 100% !important;
+    min-height: 62px !important;
+    justify-self: start !important;
+  }
+
+  .simpleHeaderNav {
+    width: 100% !important;
+    min-width: 0 !important;
+    display: flex !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    align-self: auto !important;
+    gap: clamp(22px, 4.6vw, 76px) !important;
+    margin: 0 !important;
+    padding: 3px 0 5px !important;
+    overflow: visible !important;
+    white-space: nowrap !important;
+  }
+
+  .simpleHeaderNavButton {
+    font-size: clamp(12px, 1.08vw, 15px) !important;
+  }
+}
+
+/* Keep iPad hero paragraphs inside the fixed hero depth. */
+@media (min-width: 721px) and (max-width: 1100px) {
+  .pageTopHeroImage.hasHeroText .pageHeroTextOverlay,
+  .pageTopHeroImage.pageHeroDepth464 .pageHeroTextOverlay,
+  .pageTopHeroImage.cookingMethodHeroLarge .pageHeroTextOverlay,
+  .pageTopHeroImage.summerCookoutsHeroDepth .pageHeroTextOverlay {
+    top: clamp(12px, 1.8vw, 20px) !important;
+    bottom: 12px !important;
+    transform: none !important;
+    max-height: calc(100% - 24px) !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+  }
+
+  .pageTopHeroImage .pageHeroIntroText {
+    gap: 4px !important;
+  }
+
+  .pageTopHeroImage .pageHeroIntroText p,
+  .pageTopHeroImage .pageHeroTextOverlay p {
+    margin: 0 !important;
+    font-size: clamp(9.5px, 1.22vw, 12px) !important;
+    line-height: 1.22 !important;
+  }
+}
+
+/* Ten centered category icons on row one; remaining icons centered below. */
+@media (min-width: 721px) {
+  .homeCategoryGrid,
+  .categoryGrid.homeCategoryGrid {
+    grid-template-columns: repeat(10, minmax(50px, 70px)) !important;
+    grid-auto-flow: row !important;
+    justify-content: center !important;
+    justify-items: center !important;
+    column-gap: clamp(8px, 1.2vw, 18px) !important;
+    row-gap: 16px !important;
+  }
+
+  .homeCategoryGrid > :nth-child(11),
+  .categoryGrid.homeCategoryGrid > :nth-child(11) {
+    grid-column: 4 !important;
+  }
+
+  .browseCategoryQuickFilterRow {
+    grid-template-columns: repeat(10, minmax(50px, 70px)) !important;
+    justify-content: center !important;
+    justify-items: center !important;
+    column-gap: clamp(8px, 1.2vw, 18px) !important;
+    row-gap: 16px !important;
+    overflow-x: visible !important;
+  }
+
+  .browseCategoryQuickFilterRow > :nth-child(11) {
+    grid-column: 5 !important;
+  }
+}
+
+@media (max-width: 720px) {
+  .homeCategoryGrid,
+  .categoryGrid.homeCategoryGrid,
+  .browseCategoryQuickFilterRow {
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    justify-content: center !important;
+    row-gap: 14px !important;
+  }
+}
+
 .hero .homeHeroModeControls {position: absolute !important; left: clamp(42px, 7.5vw, 128px) !important; bottom: 12px !important; z-index: 32 !important; display: flex !important; align-items: flex-end !important; gap: 8px !important; margin: 0 !important; padding: 0 !important;}
 
 .hero .homeHeroModeButton {display: grid !important; place-items: center !important; width: auto !important; height: 37px !important; min-height: 37px !important; margin: 0 !important; padding: 0 !important; overflow: hidden !important; border: 0 !important; border-radius: 9px !important; background: transparent !important; box-shadow: none !important; cursor: pointer !important;}

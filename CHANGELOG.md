@@ -1,3 +1,13 @@
+# v83.3 — Crock Pot Nutrition and Responsive Layout
+
+- Added clearly labeled estimated nutrition ranges to the Nutrition Facts box for all 180 Crock Pot recipes.
+- Kept audited recipe nutrition authoritative and used the Crock Pot fallback only when no stored nutrition record exists.
+- Reduced large-hero paragraph sizing at iPad widths and constrained the copy inside the hero depth.
+- Changed the desktop header to use the preferred iPad structure: logo first, with the full main-menu row underneath.
+- Changed Home category icons to ten centered icons on the first row with the remaining four centered below.
+- Applied the same centered ten-plus-remainder layout to Browse Recipes category icons, with responsive five-column behavior retained for phones.
+- Added v83.3 nutrition coverage and responsive-layout regression contracts.
+
 # v83.2 — Home Feature Structure
 
 - Moved the complete Home Meal Journey guide into a dedicated Home feature module.

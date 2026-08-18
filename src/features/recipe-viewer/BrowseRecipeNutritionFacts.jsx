@@ -1,4 +1,5 @@
 import { getRecipeNutritionVariant } from "../../data/recipeNutritionProfiles";
+import { getCrockPotNutritionEstimate } from "../../utils/crockPotNutritionEstimate.js";
 
 function formatNutritionValue(value, unit = "") {
   if (value === null || value === undefined || value === "") return "—";
@@ -19,7 +20,9 @@ function formatNutritionValue(value, unit = "") {
 }
 
 export default function BrowseRecipeNutritionFacts({ recipe }) {
-  const nutrition = getRecipeNutritionVariant(recipe.id)?.profile?.nutritionFacts || null;
+  const nutrition =
+    getRecipeNutritionVariant(recipe.id)?.profile?.nutritionFacts ||
+    getCrockPotNutritionEstimate(recipe);
   const rows = [
     ["Total Fat", nutrition?.totalFat, "g", true],
     ["Saturated Fat", nutrition?.saturatedFat, "g", false],
@@ -63,6 +66,9 @@ export default function BrowseRecipeNutritionFacts({ recipe }) {
         <span>Protein</span>
         <strong>{formatNutritionValue(nutrition?.protein, "g")}</strong>
       </div>
+      {nutrition?.estimatedRange && (
+        <p className="browseNutritionEstimateNote">{nutrition.estimateNote}</p>
+      )}
     </aside>
   );
 }

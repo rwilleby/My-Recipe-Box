@@ -77,6 +77,7 @@ import { sortRecipesByCode } from "./utils/recipeSorting";
 import { applyStoredRecipeOverrides } from "./utils/recipeOverrides";
 import { printManualInventoryWorksheet } from "./utils/manualInventoryWorksheets.js";
 import { uniqueRecordsByPermanentId } from "./utils/records.js";
+import { getCrockPotNutritionEstimate } from "./utils/crockPotNutritionEstimate.js";
 import {
   buildShoppingList,
   formatQty,
@@ -4070,7 +4071,9 @@ function RecipeCardViewer({
   const estimatedCost = getRecipeEstimatedCost(recipe);
   const recipeRfisProfile = rfisPlatform.recipes.profile(recipe.id);
   const hasFoodIntelligence = Boolean(recipeRfisProfile?.hasNutritionRecord);
-  const liveNutrition = getRecipeNutritionVariant(recipe.id)?.profile?.nutritionFacts || null;
+  const liveNutrition =
+    getRecipeNutritionVariant(recipe.id)?.profile?.nutritionFacts ||
+    getCrockPotNutritionEstimate(recipe);
   const quickNutrition = [
     ["Calories", liveNutrition?.calories],
     ["Protein", liveNutrition?.protein],
