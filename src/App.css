@@ -18685,3 +18685,38 @@ button.browseRecipeWideFooterAction:focus-visible,
   width: 0 !important;
   height: 0 !important;
 }
+
+/* ================================================================
+   v83.8 — FINAL HORIZONTAL CENTERING FOR CATEGORY ICON ROWS
+   ================================================================ */
+@media (min-width: 721px) {
+  .homeCategoryGrid,
+  .categoryGrid.homeCategoryGrid {
+    grid-template-columns: repeat(10, minmax(50px, 70px)) !important;
+    justify-content: center !important;
+    justify-items: center !important;
+    column-gap: clamp(8px, 1.2vw, 18px) !important;
+    row-gap: 16px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  .homeCategoryGrid > :nth-child(11),
+  .categoryGrid.homeCategoryGrid > :nth-child(11) {
+    grid-column: 4 !important;
+  }
+
+  .browseCategoryQuickFilterRow {
+    grid-template-columns: repeat(10, minmax(50px, 70px)) !important;
+    justify-content: center !important;
+    justify-items: center !important;
+    column-gap: clamp(8px, 1.2vw, 18px) !important;
+    row-gap: 16px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  .browseCategoryQuickFilterRow > :nth-child(11) {
+    grid-column: 5 !important;
+  }
+}

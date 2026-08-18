@@ -1,3 +1,11 @@
+# v83.8 — Category Icon Horizontal Centering
+
+- Centered the entire Cuisine Quick Links 10-plus-4 icon block horizontally beneath its centered heading.
+- Kept the first ten icons on row one and centered the remaining four on row two.
+- Applied the matching correction to Browse Recipes: ten icons on row one and three centered on row two.
+- Preserved all approved icon sizes, labels, order, click behavior, and phone responsiveness.
+- Added a final-cascade regression contract so older 14-column and 13-column rules cannot shift the icon groups left again.
+
 # v83.7 — Ordered Video Plan and Color-Bar Placeholders
 
 - Rebuilt the Video Library around Robert’s exact 33-position order list.

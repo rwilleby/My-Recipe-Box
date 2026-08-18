@@ -1,0 +1,31 @@
+{
+  "version": "83.8.0",
+  "release": "Category Icon Horizontal Centering",
+  "baseline": "Verified live My-Recipe-Box v83.1.1",
+  "cumulativeBasePackage": "v83.7",
+  "cumulativeIncludes": "v83.2 through v83.8",
+  "uploadMode": "replace matching files; no deletions required",
+  "changedFiles": [
+    "CHANGELOG.md",
+    "UPDATE-MANIFEST-v83.8.json",
+    "V83.8-CATEGORY-CENTERING-REPORT.md",
+    "package.json",
+    "package-lock.json",
+    "src/App.css",
+    "src/package.json",
+    "test/categoryIconCenteringV838.test.mjs"
+  ],
+  "deletedFiles": [],
+  "categoryLayouts": {
+    "homeDesktop": "10 centered icons on row one; 4 centered icons on row two",
+    "browseDesktop": "10 centered icons on row one; 3 centered icons on row two",
+    "iconSizeChanged": false,
+    "phoneRulesChanged": false
+  },
+  "preserves": [
+    "v83.7 ordered Video Library and color-bar placeholders",
+    "v83.6 main navigation reorganization",
+    "approved icon assets, sizes, labels, order, and actions",
+    "all recipes, nutrition, favorites, plans, inventories, notes, and backups"
+  ]
+}
