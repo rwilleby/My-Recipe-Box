@@ -1,3 +1,14 @@
+# v83.6 — Main Navigation Reorganization
+
+- Added KITCHEN INVENTORY between ABOUT US and RECIPES & MEALS in the main navigation.
+- Moved Master Kitchen Inventory, Refrigerator Inventory, Prepared Freezer Inventory, Freezer Inventory Management, Freezer Inventory, and Pantry Inventory from Meal Planning into KITCHEN INVENTORY.
+- Removed indentation from all six Kitchen Inventory submenu items while preserving their existing destinations and video indicators.
+- Renamed the RECIPES top-level menu to RECIPES & MEALS.
+- Moved YOUR FAVORITE RECIPES from Meal Planning to RECIPES & MEALS immediately after BROWSE OUR RECIPE LIBRARY.
+- Preserved the separate header Favorites heart shortcut and saved-count badge.
+- Reduced only the top-level navigation gap and type scale enough to fit the expanded six-section menu beneath the logo.
+- Added v83.6 order, membership, indentation, uniqueness, video-indicator, and responsive-navigation regression contracts.
+
 # v83.5 — Video Timeline, Posters, and Three-Column Layout
 
 - Reordered the 16 Video Library entries into a guided story timeline rather than page order.

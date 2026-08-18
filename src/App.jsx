@@ -1312,9 +1312,21 @@ const NAV_GROUPS = [
     ],
   },
   {
+    label: "KITCHEN INVENTORY",
+    items: [
+      { label: "MASTER KITCHEN INVENTORY", page: "Master Kitchen Inventory" },
+      { label: "REFRIGERATOR INVENTORY", page: "Kitchen Refrigerator", detailedOnly: true },
+      { label: "PREPARED FREEZER INVENTORY", page: "Prepared Freezer Inventory", detailedOnly: true },
+      { label: "FREEZER INVENTORY MANAGEMENT", page: "Freezer Inventory Management", detailedOnly: true },
+      { label: "FREEZER INVENTORY", page: "Kitchen Freezer", detailedOnly: true },
+      { label: "PANTRY INVENTORY", page: "Pantry Staples" },
+    ],
+  },
+  {
     label: "OUR RECIPES",
     items: [
       { label: "BROWSE OUR RECIPE LIBRARY", page: "Recipes" },
+      { label: "YOUR FAVORITE RECIPES", page: "Favorites" },
       { label: "DINNER COMBINATIONS", page: "Dinner Combinations" },
       { label: "HEALTHY DINNERS", page: "Healthy Dinners" },
       { label: "SALAD JAR LUNCHES", page: "Salad Jars" },
@@ -1336,13 +1348,6 @@ const NAV_GROUPS = [
       { label: "YOUR WEEKLY MEAL PLANNER", page: "Meal Planner" },
       { label: "WEEKEND BULK MEAL PLANNER", page: "Weekend Bulk Meal Planner", detailedOnly: true },
       { label: "WEEKLY MEAL PLANNER — TEST", page: "Weekly Meal Planner Prototype", detailedOnly: true },
-      { label: "YOUR FAVORITE RECIPES", page: "Favorites" },
-      { label: "MASTER KITCHEN INVENTORY", page: "Master Kitchen Inventory" },
-      { label: "REFRIGERATOR INVENTORY", page: "Kitchen Refrigerator", detailedOnly: true },
-      { label: "PREPARED FREEZER INVENTORY", page: "Prepared Freezer Inventory", detailedOnly: true },
-      { label: "FREEZER INVENTORY MANAGEMENT", page: "Freezer Inventory Management", detailedOnly: true },
-      { label: "FREEZER INVENTORY", page: "Kitchen Freezer", detailedOnly: true },
-      { label: "PANTRY INVENTORY", page: "Pantry Staples" },
       { label: "HEALTHY SUBSTITUTIONS", page: "Grocery Picks" },
       { label: "FREEZING & REHEATING", page: "Freezer Tips" },
     ],
@@ -1492,7 +1497,12 @@ function Header({ activePage, setActivePage, favorites }) {
       items: NAV_GROUPS.find((group) => group.label === "ABOUT")?.items || [],
     },
     {
-      label: "RECIPES",
+      label: "KITCHEN INVENTORY",
+      page: "Master Kitchen Inventory",
+      items: NAV_GROUPS.find((group) => group.label === "KITCHEN INVENTORY")?.items || [],
+    },
+    {
+      label: "RECIPES & MEALS",
       page: "Recipes",
       items: [
         ...(NAV_GROUPS.find((group) => group.label === "OUR RECIPES")?.items || []),
@@ -1502,11 +1512,7 @@ function Header({ activePage, setActivePage, favorites }) {
     {
       label: "MEAL PLANNING",
       page: "Meal Planner",
-      items: (NAV_GROUPS.find((group) => group.label === "YOUR KITCHEN")?.items || []).map((item) =>
-        ["Master Kitchen Inventory", "Kitchen Refrigerator", "Prepared Freezer Inventory", "Freezer Inventory Management", "Kitchen Freezer", "Pantry Staples"].includes(item.page)
-          ? { ...item, level: 1 }
-          : item
-      ),
+      items: NAV_GROUPS.find((group) => group.label === "YOUR KITCHEN")?.items || [],
     },
     {
       label: "SHOPPING",
