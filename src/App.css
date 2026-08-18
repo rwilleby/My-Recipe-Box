@@ -16171,6 +16171,38 @@ button.browseRecipeWideFooterAction:focus-visible,
 
 
 /* ================================================================
+   v82.19 — HEALTHY DINNERS / DIET MEALS COLLECTION
+   Mirrors the Complete Dinners information and control structure.
+   ================================================================ */
+
+.healthyDinnersPage {
+  padding-top: 0 !important;
+}
+
+.healthyDinnerSectionIntro .rrbSectionIntroCopy {
+  max-width: 900px !important;
+}
+
+.healthyDinnerSegmented {
+  grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
+}
+
+.healthyDinnerResultsBar strong {
+  color: #2f8747 !important;
+}
+
+.healthyDinnerRecipeGrid {
+  margin-top: 0 !important;
+}
+
+@media (max-width: 820px) {
+  .healthyDinnerSegmented {
+    grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
+  }
+}
+
+
+/* ================================================================
    v78.11 — FIND A CROCK POT RECIPE SECTION INTRO
    Legacy typography hook removed.
    ================================================================ */

@@ -1,0 +1,44 @@
+{
+  "version": "82.19.0",
+  "release": "Healthy Dinners Diet Meals Collection",
+  "uploadMode": "replace matching files",
+  "changedFiles": [
+    "CHANGELOG.md",
+    "UPDATE-MANIFEST-v82.19.json",
+    "package.json",
+    "package-lock.json",
+    "src/App.jsx",
+    "src/App.css",
+    "src/data/recipeClassifications.js",
+    "test/healthyDinnersDietMealsV8219.test.mjs"
+  ],
+  "behavior": {
+    "automaticCollectionRule": "Every recipe whose categoryCode is DM or whose ID begins DM- is always assigned to Healthy Dinners during classification normalization.",
+    "pageModel": "Uses the Complete Dinners finder, segmented navigation, compact filter row, result count, and responsive card-grid information pattern.",
+    "defaultView": "ALL Diet Meals",
+    "filters": [
+      "Search",
+      "Main Protein",
+      "Cuisine",
+      "Calorie Range",
+      "MealBalance",
+      "Favorites"
+    ],
+    "cardInformation": [
+      "Full recipe card",
+      "Nutrition Facts",
+      "View Card",
+      "Add Meal",
+      "Notes",
+      "Time",
+      "MealBalance",
+      "Favorites"
+    ]
+  },
+  "preserves": [
+    "the Healthy Dinners supporting-page hero and introduction",
+    "all existing DM recipe cards and TRAY hero assets",
+    "all v82.17 Diet Meals nutrition behavior",
+    "all saved local user data and Backup & Restore compatibility"
+  ]
+}

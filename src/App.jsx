@@ -16112,6 +16112,256 @@ function SlowCookerRecipesPage({
   );
 }
 
+function getHealthyDinnerGroup(recipe) {
+  const recipeNumber = Number(String(recipe?.id || "").split("-")[1]);
+  if (recipeNumber >= 21 && recipeNumber <= 30) return "italian";
+  if (recipeNumber >= 31 && recipeNumber <= 40) return "asian";
+  if (recipeNumber >= 41 && recipeNumber <= 50) return "mexican";
+  if (recipeNumber >= 51 && recipeNumber <= 60) return "seafood";
+  return "american";
+}
+
+function getHealthyDinnerProtein(recipe) {
+  const text = `${recipe?.title || ""} ${(recipe?.ingredients || [])
+    .map((ingredient) => ingredient?.name || "")
+    .join(" ")}`.toLowerCase();
+
+  if (/shrimp|salmon|fish|seafood/.test(text)) return "seafood";
+  if (/turkey/.test(text)) return "turkey";
+  if (/beef|steak|meatloaf|meatball|salisbury|cheeseburger/.test(text)) return "beef";
+  if (/chicken/.test(text)) return "chicken";
+  return "vegetarian";
+}
+
+function getHealthyDinnerCalories(recipe) {
+  const calories = getRecipeNutritionVariant(recipe?.id)?.profile?.nutritionFacts?.calories;
+  const parsed = Number.parseFloat(calories);
+  return Number.isFinite(parsed) ? parsed : null;
+}
+
+function HealthyDinnersPage({
+  recipes: classifiedRecipes = [],
+  favorites = [],
+  toggleFavorite = () => {},
+  addToPlan = () => {},
+  openRecipeCard = () => {},
+}) {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [healthyGroup, setHealthyGroup] = useState("all");
+  const [proteinFilter, setProteinFilter] = useState("all");
+  const [cuisineFilter, setCuisineFilter] = useState("all");
+  const [calorieRange, setCalorieRange] = useState("all");
+  const [mealBalanceFilter, setMealBalanceFilter] = useState("all");
+  const [favoriteOnly, setFavoriteOnly] = useState(false);
+
+  const dietMeals = useMemo(
+    () =>
+      sortRecipesByCode(
+        classifiedRecipes.filter(
+          (recipe) =>
+            String(recipe?.categoryCode || "").toUpperCase() === "DM" ||
+            String(recipe?.id || "").toUpperCase().startsWith("DM-")
+        )
+      ),
+    [classifiedRecipes]
+  );
+
+  const filteredRecipes = useMemo(() => {
+    const query = searchTerm.trim().toLowerCase();
+
+    return dietMeals.filter((recipe) => {
+      const group = getHealthyDinnerGroup(recipe);
+      const protein = getHealthyDinnerProtein(recipe);
+      const calories = getHealthyDinnerCalories(recipe);
+      const mealBalance = Number(recipe?.mealBalance?.score);
+      const matchesQuery =
+        !query ||
+        `${recipe.id} ${recipe.title} ${group} ${protein}`.toLowerCase().includes(query);
+      const matchesGroup =
+        healthyGroup === "all" ||
+        group === healthyGroup ||
+        protein === healthyGroup;
+      const matchesProtein = proteinFilter === "all" || protein === proteinFilter;
+      const matchesCuisine = cuisineFilter === "all" || group === cuisineFilter;
+      const matchesCalories =
+        calorieRange === "all" ||
+        (calorieRange === "under-350" && calories !== null && calories < 350) ||
+        (calorieRange === "350-399" && calories !== null && calories >= 350 && calories < 400) ||
+        (calorieRange === "400-449" && calories !== null && calories >= 400 && calories < 450) ||
+        (calorieRange === "450-plus" && calories !== null && calories >= 450);
+      const matchesMealBalance =
+        mealBalanceFilter === "all" ||
+        (mealBalanceFilter === "1-3" && mealBalance >= 1 && mealBalance <= 3) ||
+        (mealBalanceFilter === "4-6" && mealBalance >= 4 && mealBalance <= 6) ||
+        (mealBalanceFilter === "7-10" && mealBalance >= 7 && mealBalance <= 10);
+      const matchesFavorite = !favoriteOnly || favorites.includes(recipe.id);
+
+      return (
+        matchesQuery &&
+        matchesGroup &&
+        matchesProtein &&
+        matchesCuisine &&
+        matchesCalories &&
+        matchesMealBalance &&
+        matchesFavorite
+      );
+    });
+  }, [
+    calorieRange,
+    cuisineFilter,
+    dietMeals,
+    favoriteOnly,
+    favorites,
+    healthyGroup,
+    mealBalanceFilter,
+    proteinFilter,
+    searchTerm,
+  ]);
+
+  function selectHealthyGroup(group) {
+    setHealthyGroup(group);
+    setProteinFilter("all");
+    setCuisineFilter("all");
+
+    if (["chicken", "beef", "turkey", "seafood", "vegetarian"].includes(group)) {
+      setProteinFilter(group);
+    } else if (["italian", "asian", "mexican"].includes(group)) {
+      setCuisineFilter(group);
+    }
+  }
+
+  return (
+    <main className="pageShell dinnerCombinationsPage healthyDinnersPage">
+      <section className="dinnerCombinationFinder" aria-labelledby="healthyDinnerFinderTitle">
+        <SectionIntro
+          title="Find a Healthy Dinner"
+          text="Choose a meal group or use the filters below to compare Diet Meals by protein, cuisine, calories, and MealBalance."
+          className="completeDinnerSectionIntro healthyDinnerSectionIntro"
+        />
+
+        <div className="dinnerCategorySegmented healthyDinnerSegmented" role="group" aria-label="Healthy Dinner categories">
+          {[
+            ["all", "ALL"],
+            ["chicken", "CHICKEN"],
+            ["beef", "BEEF"],
+            ["turkey", "TURKEY"],
+            ["italian", "PASTA"],
+            ["seafood", "SEAFOOD"],
+            ["vegetarian", "MEATLESS"],
+          ].map(([value, label]) => (
+            <button
+              key={value}
+              type="button"
+              className={healthyGroup === value ? "isActive" : ""}
+              aria-pressed={healthyGroup === value}
+              onClick={() => selectHealthyGroup(value)}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      </section>
+
+      <section className="dinnerCombinationToolbar dinnerCombinationToolbarCompact healthyDinnerToolbar" aria-label="Healthy Dinner browsing toolbar">
+        <label className="dinnerCombinationSearch">
+          <span>Search</span>
+          <input
+            type="search"
+            value={searchTerm}
+            onChange={(event) => setSearchTerm(event.target.value)}
+            placeholder="Search Diet Meals..."
+          />
+        </label>
+
+        <label>
+          <span>Main Protein</span>
+          <select value={proteinFilter} onChange={(event) => { setProteinFilter(event.target.value); setHealthyGroup("all"); }}>
+            <option value="all">All Proteins</option>
+            <option value="chicken">Chicken</option>
+            <option value="beef">Beef</option>
+            <option value="turkey">Turkey</option>
+            <option value="seafood">Seafood</option>
+            <option value="vegetarian">Meatless</option>
+          </select>
+        </label>
+
+        <label>
+          <span>Cuisine</span>
+          <select value={cuisineFilter} onChange={(event) => { setCuisineFilter(event.target.value); setHealthyGroup("all"); }}>
+            <option value="all">All Cuisines</option>
+            <option value="american">American</option>
+            <option value="italian">Italian</option>
+            <option value="asian">Asian</option>
+            <option value="mexican">Mexican</option>
+            <option value="seafood">Seafood</option>
+          </select>
+        </label>
+
+        <label>
+          <span>Calorie Range</span>
+          <select value={calorieRange} onChange={(event) => setCalorieRange(event.target.value)}>
+            <option value="all">All Calories</option>
+            <option value="under-350">Under 350</option>
+            <option value="350-399">350–399</option>
+            <option value="400-449">400–449</option>
+            <option value="450-plus">450+</option>
+          </select>
+        </label>
+
+        <label>
+          <span>MB</span>
+          <select value={mealBalanceFilter} onChange={(event) => setMealBalanceFilter(event.target.value)}>
+            <option value="all">All MB</option>
+            <option value="1-3">1–3</option>
+            <option value="4-6">4–6</option>
+            <option value="7-10">7–10</option>
+          </select>
+        </label>
+
+        <label className="dinnerFavoriteFilter">
+          <span>Favorite</span>
+          <button
+            type="button"
+            className={favoriteOnly ? "isActive" : ""}
+            aria-pressed={favoriteOnly}
+            onClick={() => setFavoriteOnly((current) => !current)}
+          >
+            ♥
+          </button>
+        </label>
+      </section>
+
+      <div className="dinnerCombinationResultsBar healthyDinnerResultsBar">
+        <strong>{filteredRecipes.length}</strong>
+        <span>{filteredRecipes.length === 1 ? "Diet Meal" : "Diet Meals"} shown</span>
+      </div>
+
+      {filteredRecipes.length ? (
+        <div className="recipeGrid browseRecipeGrid healthyDinnerRecipeGrid" aria-label="Healthy Dinner results">
+          {filteredRecipes.map((recipe) => (
+            <RecipeCard
+              key={recipe.id}
+              recipe={recipe}
+              favorites={favorites}
+              toggleFavorite={toggleFavorite}
+              addToPlan={addToPlan}
+              openRecipeCard={openRecipeCard}
+              cardList={filteredRecipes}
+              viewerContext="Healthy Dinners"
+              displayMode="card"
+            />
+          ))}
+        </div>
+      ) : (
+        <section className="dinnerCombinationEmpty">
+          <h2>No Diet Meals found</h2>
+          <p>Try another meal group, clear a filter, or search for a different ingredient.</p>
+        </section>
+      )}
+    </main>
+  );
+}
+
 function CollectionDetailPage({
   title,
   text,
@@ -17738,10 +17988,7 @@ These pages are designed to be easy to scan, print, or revisit when needed. They
             text="Healthy dinners should still be filling, flavorful, and enjoyable to eat. This collection focuses on practical meals made with balanced ingredients, sensible portions, leaner proteins, vegetables, whole grains, or lighter preparation methods.\n\nThe goal is not to remove every comfort or follow a single strict diet. These recipes simply provide better-balanced options that can fit more easily into an everyday eating plan without making dinner feel like a punishment."
             className="pageHeroDepth464"
 />
-          <CollectionDetailPage
-            title="Healthy Dinners"
-            text="A collection page for lighter, practical dinner ideas with flexible options for lower-calorie, lower-carb, and higher-protein meals. More recipes and filters will be added here."
-            setActivePage={setActivePage}
+          <HealthyDinnersPage
             recipes={classifiedRecipes}
             favorites={favorites}
             toggleFavorite={toggleFavorite}

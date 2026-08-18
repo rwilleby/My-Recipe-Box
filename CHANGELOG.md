@@ -1,3 +1,14 @@
+# v82.19 — Healthy Dinners Diet Meals Collection
+
+- Automatically tags every DM recipe for the Healthy Dinners collection, including future Diet Meals added after DM-060.
+- Prevents older saved classifications from accidentally removing Diet Meals from Healthy Dinners.
+- Replaced the generic Healthy Dinners placeholder with a dedicated recipe browser modeled after the Complete Dinners page.
+- Added a centered finder introduction, seven-part segmented navigation, compact filter row, live result count, and responsive results grid.
+- Added Search, Main Protein, Cuisine, Calorie Range, MealBalance, and Favorites filtering.
+- Made ALL the default view and added one-tap groups for Chicken, Beef, Turkey, Pasta, Seafood, and Meatless meals.
+- Displays each Diet Meal with its full recipe card, Nutrition Facts, planning controls, notes, time, MealBalance score, and Favorites control.
+- Preserved the existing Healthy Dinners hero, all DM recipe and TRAY assets, the v82.17 nutrition display, and local user data.
+
 # v82.18 — Smoked & Grilled Recipes SG-017–SG-027
 
 - Added 11 new Smoked & Grilled Meats recipes, SG-017 through SG-027, from the supplied asset packs.

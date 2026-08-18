@@ -72,13 +72,19 @@ export function emptyRecipeClassification(recipe) {
 }
 
 export function normalizeRecipeClassification(recipe, saved = {}) {
+  const savedCollections = uniqueStrings(saved.collections ?? recipe.collections);
+  const isDietMeal =
+    String(recipe?.categoryCode || "").toUpperCase() === "DM" ||
+    String(recipe?.id || "").toUpperCase().startsWith("DM-");
   const baseClassification = {
     primaryCategory:
       saved.primaryCategory ||
       recipe.primaryCategory ||
       recipe.category ||
       "",
-    collections: uniqueStrings(saved.collections ?? recipe.collections),
+    collections: isDietMeal
+      ? uniqueStrings([...savedCollections, "Healthy Dinners"])
+      : savedCollections,
     attributes: uniqueStrings(saved.attributes ?? recipe.attributes),
     cookingMethods: uniqueStrings(
       saved.cookingMethods ?? recipe.cookingMethods
