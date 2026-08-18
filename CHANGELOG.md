@@ -1,3 +1,11 @@
+# v82.21 — Healthy Dinners Large-Hero Video
+
+- Added the supplied optimized Diet Meals MP4 to the Healthy Dinners large hero.
+- Preserved the existing Healthy Dinners hero image as the video poster.
+- Enabled the standard red hero-video button and gray menu availability indicator.
+- Enabled the standard first-visit video window, Play Now, Close Window, replay, acknowledgement, and post-play auto-close behavior.
+- Preserved the Healthy Dinners copy, all 60 DM recipes, nutrition panels, filters, and v82.20 menu order.
+
 # v82.20 — Recipe Menu Order
 
 - Moved Healthy Dinners, Salad Jar Lunches, and Slow Cooker Meals into the Our Recipes menu.

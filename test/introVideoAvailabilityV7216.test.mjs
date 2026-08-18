@@ -13,7 +13,6 @@ const noVideoPages=[
   "Freezer-Friendly Meals",
   "Slow Cooker Favorites",
   "Summer Cookouts",
-  "Healthy Dinners",
   "Comfort Foods",
   "Easy 30-Minute Meals",
   "Salad Jars",
@@ -47,7 +46,6 @@ for(const token of[
 }
 
 for(const token of[
-  "/* v72.16 — menu intro-video flags + no-video-page cleanup */",
   ".simpleHeaderVideoIndicator",
   "opacity: .62 !important;",
   "animation: none !important;",

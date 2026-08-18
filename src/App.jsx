@@ -796,6 +796,8 @@ const QUICK_LINKS_VIDEO_POSTER = "images/video-posters/browse-our-quick-links-po
 const WELCOME_TO_SITE_VIDEO_URL = "videos/welcome-to-our-site.mp4";
 const WELCOME_TO_SITE_VIDEO_POSTER = "images/video-posters/welcome-to-our-site-poster.webp";
 const SLOW_COOKER_VIDEO_URL = "videos/crock-pot-meals.mp4";
+const HEALTHY_DINNERS_VIDEO_URL = "videos/diet-meals.mp4";
+const HEALTHY_DINNERS_VIDEO_POSTER = "images/heroes/hero-page-healthy-dinners.webp";
 
 const BACKUP_RESTORE_VIDEO_URL = "videos/backup-and-restore.mp4";
 const BACKUP_RESTORE_VIDEO_POSTER = "images/video-posters/backup-and-restore-poster.webp";
@@ -1577,7 +1579,6 @@ const NO_INTRO_VIDEO_PAGES = new Set([
   "Freezer-Friendly Meals",
 
   "Summer Cookouts",
-  "Healthy Dinners",
   "Comfort Foods",
   "Easy 30-Minute Meals",
   "Salad Jars",
@@ -17987,7 +17988,9 @@ These pages are designed to be easy to scan, print, or revisit when needed. They
             title="Healthy Dinners"
             text="Healthy dinners should still be filling, flavorful, and enjoyable to eat. This collection focuses on practical meals made with balanced ingredients, sensible portions, leaner proteins, vegetables, whole grains, or lighter preparation methods.\n\nThe goal is not to remove every comfort or follow a single strict diet. These recipes simply provide better-balanced options that can fit more easily into an everyday eating plan without making dinner feel like a punishment."
             className="pageHeroDepth464"
-/>
+            videoSrc={HEALTHY_DINNERS_VIDEO_URL}
+            videoPoster={HEALTHY_DINNERS_VIDEO_POSTER}
+          />
           <HealthyDinnersPage
             recipes={classifiedRecipes}
             favorites={favorites}
