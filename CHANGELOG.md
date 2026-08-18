@@ -1,3 +1,10 @@
+# v83.1.1 — Blank-Page Runtime Repair
+
+- Restored the shared permanent-ID deduplication helper at application scope after the v83.1 Home extraction.
+- Fixed the browser-only `uniqueRecordsByPermanentId is not defined` failure that stopped the application before first render.
+- Added a regression contract that verifies both the shared helper behavior and every remaining application import.
+- Preserved all v83.1 layout, data-protection, recipes, nutrition, media, and responsive behavior.
+
 # v83.1 — Home and Recipe Viewer Structural Foundation
 
 - Began the appearance-preserving split of the monolithic application into feature-owned Home and Recipe Viewer modules.

@@ -69,6 +69,7 @@ import { loadJSON, saveJSON } from "./utils/storage";
 import { sortRecipesByCode } from "./utils/recipeSorting";
 import { applyStoredRecipeOverrides } from "./utils/recipeOverrides";
 import { printManualInventoryWorksheet } from "./utils/manualInventoryWorksheets.js";
+import { uniqueRecordsByPermanentId } from "./utils/records.js";
 import {
   HOME_COMBO_MEAL_COUNT,
   hasQuickDinnerHero,
