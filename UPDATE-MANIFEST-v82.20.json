@@ -1,0 +1,32 @@
+{
+  "version": "82.20.0",
+  "release": "Recipe Menu Order",
+  "uploadMode": "replace matching files",
+  "changedFiles": [
+    "CHANGELOG.md",
+    "UPDATE-MANIFEST-v82.20.json",
+    "package.json",
+    "package-lock.json",
+    "src/App.jsx",
+    "test/recipeMenuOrderV8220.test.mjs"
+  ],
+  "menuOrder": [
+    "Browse Our Recipe Library",
+    "Dinner Combinations",
+    "Healthy Dinners",
+    "Salad Jar Lunches",
+    "Slow Cooker Meals",
+    "Quick & Easy Freezer Meals"
+  ],
+  "topLevelEntries": [
+    "Healthy Dinners",
+    "Salad Jar Lunches",
+    "Slow Cooker Meals"
+  ],
+  "preserves": [
+    "all existing page destinations",
+    "iPad tap and click menu behavior",
+    "all Healthy Dinners v82.19 behavior",
+    "all saved local user data and Backup & Restore compatibility"
+  ]
+}

@@ -1,3 +1,11 @@
+# v82.20 — Recipe Menu Order
+
+- Moved Healthy Dinners, Salad Jar Lunches, and Slow Cooker Meals into the Our Recipes menu.
+- Positioned the three links immediately after Dinner Combinations in that order.
+- Removed their submenu indentation so all three display as top-level menu entries.
+- Removed the duplicate links from Collections while preserving every destination page.
+- Preserved the v82.14 iPad tap/click navigation behavior and all existing page content.
+
 # v82.19 — Healthy Dinners Diet Meals Collection
 
 - Automatically tags every DM recipe for the Healthy Dinners collection, including future Diet Meals added after DM-060.

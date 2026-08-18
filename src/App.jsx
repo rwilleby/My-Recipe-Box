@@ -1501,18 +1501,18 @@ const NAV_GROUPS = [
     items: [
       { label: "BROWSE OUR RECIPE LIBRARY", page: "Recipes" },
       { label: "DINNER COMBINATIONS", page: "Dinner Combinations" },
+      { label: "HEALTHY DINNERS", page: "Healthy Dinners" },
+      { label: "SALAD JAR LUNCHES", page: "Salad Jars" },
+      { label: "SLOW COOKER MEALS", page: "Slow Cooker Favorites" },
       { label: "QUICK & EASY FREEZER MEALS", page: "Freezer-Friendly Meals", level: 1 },
     ],
   },
   {
     label: "COLLECTIONS",
     items: [
-      { label: "SLOW COOKER MEALS", page: "Slow Cooker Favorites", level: 1 },
       { label: "SUMMER COOKOUTS", page: "Summer Cookouts", level: 1 },
-      { label: "HEALTHY DINNERS", page: "Healthy Dinners", level: 1 },
       { label: "COMFORT FOODS", page: "Comfort Foods", level: 1 },
       { label: "EASY 30-MINUTE MEALS", page: "Easy 30-Minute Meals", level: 1 },
-      { label: "SALAD JAR LUNCHES", page: "Salad Jars", level: 1 },
     ],
   },
   {
