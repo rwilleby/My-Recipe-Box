@@ -1,0 +1,39 @@
+{
+  "version": "83.0.0",
+  "release": "Stabilization and Data Protection",
+  "uploadMode": "replace matching files and apply listed deletion",
+  "changedFiles": [
+    ".github/workflows/main.yml",
+    ".gitignore",
+    "CHANGELOG.md",
+    "README.md",
+    "UPDATE-MANIFEST-v83.0.json",
+    "V83-STABILIZATION-REPORT.md",
+    "package.json",
+    "package-lock.json",
+    "src/package.json",
+    "src/components/UserDataBackupSection.jsx",
+    "src/test-backup-service.mjs",
+    "src/utils/backupService.js",
+    "src/utils/recipeBoxBackup.js",
+    "test/backupCoverageV830.test.mjs"
+  ],
+  "deletedFiles": [
+    "public/images/icons/DM.webp"
+  ],
+  "changes": [
+    "One comprehensive Backup and Restore implementation",
+    "Coverage for both rrb_ and rrb- browser-storage records",
+    "Legacy version 1 backup migration",
+    "Backup regression tests included in the release suite",
+    "Lockfile-based npm deployment with tests before build",
+    "Internal version updated to 83.0.0",
+    "Repository and macOS packaging safeguards"
+  ],
+  "preserves": [
+    "v82.23 visual layout and responsive behavior",
+    "all recipes, nutrition data, page content, videos, and production icons",
+    "existing user data",
+    "older Recipe Box backup restore compatibility"
+  ]
+}

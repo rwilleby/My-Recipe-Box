@@ -1,7 +1,7 @@
 const APPLICATION = "Roberts Recipe Box";
-const BACKUP_VERSION = 2;
+const BACKUP_VERSION = 3;
 const MIN_SUPPORTED_BACKUP_VERSION = 1;
-const STORAGE_PREFIX = "rrb_";
+const STORAGE_PREFIXES = Object.freeze(["rrb_", "rrb-"]);
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
 const BACKUP_REMINDER_KEY = "rrb_backupReminderSettings";
 const DEFAULT_REMINDER_DAYS = 30;
@@ -38,6 +38,32 @@ const CATEGORY_DEFINITIONS = Object.freeze([
   { key: "rrb_accessibilityPreferences", label: "Accessibility Preferences", type: "included" },
   { key: BACKUP_REMINDER_KEY, label: "Backup Reminder Preference", type: "included" },
 ]);
+
+// Version 1 backups used friendly category names instead of the browser keys.
+// Keep this map so older Recipe Box files remain restorable after v83.
+const LEGACY_CATEGORY_STORAGE_MAP = Object.freeze({
+  favorites: "rrb_favorites",
+  mealPlans: "rrb_weeklyPlan",
+  servingSize: "rrb_servingSize",
+  checkedShoppingItems: "rrb_checkedShoppingItems",
+  pantry: "rrb_pantryStaples",
+  refrigerator: "rrb_refrigeratorInventory",
+  freezer: "rrb_freezerInventory",
+  recipeClassifications: "rrb_recipeClassifications",
+  adminRecipeClassifications: "rrb_admin_recipe_classifications",
+  notes: "rrb_recipeNotes",
+  groceryLists: "rrb_groceryLists",
+  savedCollections: "rrb_savedCollections",
+  recentlyViewed: "rrb_recentlyViewed",
+  cookedRecipes: "rrb_cookedRecipes",
+  personalRatings: "rrb_personalRatings",
+  preferences: "rrb_preferences",
+  accessibilityPreferences: "rrb_accessibilityPreferences",
+});
+
+function isRecipeBoxStorageKey(key) {
+  return typeof key === "string" && STORAGE_PREFIXES.some((prefix) => key.startsWith(prefix));
+}
 
 function isPlainObject(value) {
   return Boolean(value) && typeof value === "object" && !Array.isArray(value);
@@ -139,7 +165,7 @@ function countCategory(value, type) {
 export function listRecipeBoxStorageKeys(storage) {
   const localStorageRef = getLocalStorage(storage);
   return Array.from({ length: localStorageRef.length }, (_, index) => localStorageRef.key(index))
-    .filter((key) => typeof key === "string" && key.startsWith(STORAGE_PREFIX))
+    .filter(isRecipeBoxStorageKey)
     .sort();
 }
 
@@ -315,6 +341,10 @@ export function downloadRecipeBoxBackup(storage) {
       lastSuccessfulBackupAt: backup.exportedAt,
       reminderSnoozedUntil: null,
     }, localStorageRef);
+    // Retain compatibility with the existing home-page reminder while its UI
+    // is consolidated onto the v83 backup settings record.
+    localStorageRef.setItem("rrb_backup_last_completed_at", backup.exportedAt);
+    localStorageRef.removeItem("rrb_backup_reminder_snoozed_until");
     dismissBackupReminderForSession();
     if (typeof window !== "undefined") {
       window.dispatchEvent(new CustomEvent("rrb:backup-completed", { detail: { exportedAt: backup.exportedAt } }));
@@ -340,13 +370,23 @@ export function validateRecipeBoxBackup(document) {
   if (typeof document.exportedAt !== "string" || Number.isNaN(Date.parse(document.exportedAt))) {
     throw new Error("Invalid export date.");
   }
-  if (!isPlainObject(document.data) || !isPlainObject(document.data.storage)) {
+  if (!isPlainObject(document.data)) throw new Error("Backup storage data is missing.");
+
+  const sourceStorage = isPlainObject(document.data.storage)
+    ? document.data.storage
+    : Object.fromEntries(
+        Object.entries(document.data)
+          .filter(([category]) => Object.prototype.hasOwnProperty.call(LEGACY_CATEGORY_STORAGE_MAP, category))
+          .map(([category, value]) => [LEGACY_CATEGORY_STORAGE_MAP[category], value])
+      );
+
+  if (!Object.keys(sourceStorage).length && !isPlainObject(document.data.storage)) {
     throw new Error("Backup storage data is missing.");
   }
 
   const storage = {};
-  Object.entries(document.data.storage).forEach(([key, value]) => {
-    if (typeof key === "string" && key.startsWith(STORAGE_PREFIX)) {
+  Object.entries(sourceStorage).forEach(([key, value]) => {
+    if (isRecipeBoxStorageKey(key)) {
       storage[key] = sanitizeValue(value);
     }
   });
@@ -407,7 +447,7 @@ export const recipeBoxBackupInfo = Object.freeze({
   application: APPLICATION,
   backupVersion: BACKUP_VERSION,
   minimumSupportedBackupVersion: MIN_SUPPORTED_BACKUP_VERSION,
-  storagePrefix: STORAGE_PREFIX,
+  storagePrefixes: STORAGE_PREFIXES,
   maxFileSize: MAX_FILE_SIZE,
   backupReminderKey: BACKUP_REMINDER_KEY,
   defaultReminderDays: DEFAULT_REMINDER_DAYS,

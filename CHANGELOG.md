@@ -1,3 +1,30 @@
+# v83.1 — Home and Recipe Viewer Structural Foundation
+
+- Began the appearance-preserving split of the monolithic application into feature-owned Home and Recipe Viewer modules.
+- Moved recipe hero, thumbnail, and full-card fallback selection into one Recipe Viewer asset module.
+- Moved recipe image and full recipe-card preview presentation into a dedicated Recipe Viewer component.
+- Moved Browse Recipes Nutrition Facts presentation into a dedicated Recipe Viewer component.
+- Moved Home recipe-library counters into a dedicated Home component while preserving totals and markup.
+- Moved the Admin PIN dialog presentation and its isolated styles into the Home feature folder.
+- Removed duplicate image-candidate entries while preserving the same effective fallback order.
+- Updated existing contracts to follow authoritative code into its new modules.
+- Added v83.1 structural, accessibility, image-fallback, CSS-ownership, and App-size regression contracts.
+- Reduced `App.jsx` from more than 20,000 lines to fewer than 19,700 lines without changing the approved interface.
+- Preserved all v83.0 data-protection, deployment, recipe, nutrition, page, and responsive behavior.
+
+# v83.0 — Stabilization and Data Protection
+
+- Unified the public Backup and Restore page with the comprehensive Recipe Box backup engine.
+- Expanded backup coverage to every Recipe Box-owned `rrb_` and `rrb-` browser-storage record, including individual recipe notes, weekly-planner notes, weekend bulk plans, master inventory, recipe corrections, and KOS data.
+- Preserved restore compatibility with older version 1 category-based backup files.
+- Added automated v83.0 tests for comprehensive backup coverage, unrelated-key exclusion, replace restore, and legacy-backup migration.
+- Changed GitHub Pages deployment to use the committed npm lockfile with `npm ci`, run the complete active test suite, and build only after tests pass.
+- Updated the internal application and lockfile versions to 83.0.0.
+- Added repository safeguards for dependencies, build output, macOS metadata, logs, local environment files, and editor files.
+- Removed an unused 819 KB duplicate Diet Meals icon; the optimized 36 KB production icon remains unchanged.
+- Removed macOS resource-fork packaging files from the release archive.
+- Preserved all v82.23 page layouts, responsive behavior, recipes, nutrition data, media, and visible design.
+
 # v82.23 — Homepage Diet Meal Refinements
 
 - Changed the Diet Meals homepage cards to display the full 1448 × 1086 TRAY hero images rather than recipe-card thumbnails.

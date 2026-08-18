@@ -1,0 +1,9 @@
+Delete this unused duplicate file from GitHub:
+
+public/images/icons/DM.webp
+
+Do not delete:
+
+public/images/categories/DM.webp
+
+The categories copy is the optimized production Diet Meals icon used by the site.

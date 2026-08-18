@@ -4,6 +4,7 @@ import { categories, recipes } from "../src/data/recipes.js";
 
 const app = await readFile(new URL("../src/App.jsx", import.meta.url), "utf8");
 const classifier = await readFile(new URL("../src/data/recipeAutoClassifier.js", import.meta.url), "utf8");
+const recipeAssets = await readFile(new URL("../src/features/recipe-viewer/recipeAssets.js", import.meta.url), "utf8");
 
 const dietCategory = categories.find((category) => category.id === "DM");
 const dietRecipes = recipes.filter((recipe) => recipe.categoryCode === "DM");
@@ -36,7 +37,7 @@ for (let number = 1; number <= 60; number += 1) {
 
 assert.match(app, /DM: "images\/categories\/DM\.webp"/);
 assert.match(app, /"AM",\s*"AS",\s*"IT",\s*"MX",\s*"SF",\s*"DM",\s*"QP"/);
-assert.match(app, /"CP", "CR", "DM", "DN"/);
+assert.match(recipeAssets, /"CP", "CR", "DM", "DN"/);
 assert.match(classifier, /"CS", "DM", "HB"/);
 
 console.log("Diet Meals category and 60 TRAY-based recipe assets v82.15 tests passed.");

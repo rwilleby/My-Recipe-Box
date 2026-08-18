@@ -1,0 +1,12 @@
+ROBERT'S RECIPE BOX v83.1 — CUMULATIVE GITHUB UPDATE
+
+This package includes all v83.0 stabilization and v83.1 structural changes. You do not need to upload the earlier v83.0 package first.
+
+1. Upload the contents of this folder to the root of the GitHub repository.
+2. Preserve the folder structure shown here.
+3. Replace files with matching names.
+4. Delete the one file listed in DELETE-FROM-GITHUB.txt.
+5. Commit the changes to the main branch.
+6. GitHub Pages will run npm ci, the active test suite, and the production build before deployment.
+
+The release does not intentionally change the approved visual design.

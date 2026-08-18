@@ -1,9 +1,9 @@
 import { useRef, useState } from "react";
 import {
-  downloadBackup,
-  readBackupFile,
-  restoreBackupDocument,
-} from "../utils/backupService";
+  downloadRecipeBoxBackup,
+  readRecipeBoxBackupFile,
+  restoreRecipeBoxBackup,
+} from "../utils/recipeBoxBackup";
 
 const SUCCESS_BACKUP =
   "Your Recipe Box backup has been downloaded. Keep this file somewhere safe so you can restore your information later or move it to another device.";
@@ -26,23 +26,7 @@ export default function UserDataBackupSection({ onRestored, onClose }) {
 
   function handleBackup() {
     try {
-      downloadBackup();
-
-      const completedAt = new Date().toISOString();
-
-      window.localStorage.setItem(
-        "rrb_backup_last_completed_at",
-        completedAt
-      );
-      window.localStorage.removeItem(
-        "rrb_backup_reminder_snoozed_until"
-      );
-
-      window.dispatchEvent(
-        new CustomEvent("rrb:backup-completed", {
-          detail: { completedAt },
-        })
-      );
+      downloadRecipeBoxBackup();
 
       setBackupComplete(true);
       announce(SUCCESS_BACKUP, "success");
@@ -57,7 +41,7 @@ export default function UserDataBackupSection({ onRestored, onClose }) {
     if (!file) return;
 
     try {
-      const backup = await readBackupFile(file);
+      const backup = await readRecipeBoxBackupFile(file);
       setPendingBackup(backup);
       announce(
         "Backup file verified. Choose whether to merge it with or replace the information currently saved in this browser.",
@@ -78,7 +62,7 @@ export default function UserDataBackupSection({ onRestored, onClose }) {
   function restore(mode) {
     if (!pendingBackup) return;
     try {
-      const result = restoreBackupDocument(pendingBackup, mode);
+      const result = restoreRecipeBoxBackup(pendingBackup, mode);
       closeDialog();
       announce(SUCCESS_RESTORE, "success");
       onRestored?.(result);

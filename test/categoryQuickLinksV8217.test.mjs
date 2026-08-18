@@ -3,6 +3,10 @@ import { readFile } from "node:fs/promises";
 
 const app = await readFile(new URL("../src/App.jsx", import.meta.url), "utf8");
 const css = await readFile(new URL("../src/App.css", import.meta.url), "utf8");
+const nutritionFactsComponent = await readFile(
+  new URL("../src/features/recipe-viewer/BrowseRecipeNutritionFacts.jsx", import.meta.url),
+  "utf8",
+);
 const nutrition = JSON.parse(
   await readFile(new URL("../src/data/nutrition/DM.json", import.meta.url), "utf8"),
 );
@@ -15,8 +19,8 @@ assert.match(app, /HOME_CATEGORY_CODES\.slice\(0, 13\)/);
 assert.match(app, /const isActive = Boolean\(/);
 assert.match(app, /const nextCategory = isActive \? "" : category\?\.name \|\| ""/);
 assert.doesNotMatch(app, /className="browseCategoryQuickFilterAll"/);
-assert.match(app, /nutrition\?\.servingSize \|\| "1 serving"/);
-assert.match(app, /nutrition\?\.servingsPerRecipe \?\? recipe\.servings/);
+assert.match(nutritionFactsComponent, /nutrition\?\.servingSize \|\| "1 serving"/);
+assert.match(nutritionFactsComponent, /nutrition\?\.servingsPerRecipe \?\? recipe\.servings/);
 
 assert.match(css, /grid-template-columns:\s*repeat\(14, minmax\(0, 1fr\)\) !important/);
 assert.match(css, /grid-template-columns:\s*repeat\(13, minmax\(0, 1fr\)\) !important/);

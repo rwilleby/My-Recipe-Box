@@ -19,6 +19,15 @@ import WeekendBulkMealPlanner from "./components/WeekendBulkMealPlanner";
 import KitchenReminderRibbon from "./components/KitchenReminderRibbon";
 import DigitalStockCheckPanel from "./components/DigitalStockCheckPanel";
 import MasterKitchenInventoryPage from "./components/MasterKitchenInventoryPage";
+import AdminPinDialog from "./features/home/AdminPinDialog";
+import HomeRecipeCounters from "./features/home/HomeRecipeCounters";
+import BrowseRecipeNutritionFacts from "./features/recipe-viewer/BrowseRecipeNutritionFacts";
+import { FullRecipeCardPreview, RecipeImage } from "./features/recipe-viewer/RecipeImages";
+import {
+  AUTO_IMAGE_PREFIXES,
+  fullCardImageCandidates,
+  recipeCodePrefix,
+} from "./features/recipe-viewer/recipeAssets.js";
 import { getRecipeNutritionVariant, hasRecipeNutritionRecord } from "./data/recipeNutritionProfiles";
 import "./components/UserDataBackupSection.css";
 import "./components/AdminNutritionDatabase.css";
@@ -764,11 +773,6 @@ function preloadHeroImage(path, priority = "low") {
   image.src = url;
 }
 
-const AUTO_IMAGE_PREFIXES = new Set([
-  "AM", "AS", "CC", "CO", "CP", "CR", "DM", "DN", "DS", "HB", "HBP", "IT", "JJ", "KR", "LF",
-  "MR", "MX", "PM", "QP", "CS", "RS", "SB", "SD", "SF", "SG", "SW"
-]);
-
 const HERO_IMAGES = [
   "images/heroes/main-hero-01.webp",
   "images/heroes/main-hero-02.webp",
@@ -1054,101 +1058,6 @@ function plannedMealCount(plan) {
   );
 }
 
-
-function recipeCodePrefix(recipeId = "") {
-  const match = recipeId.match(/^[A-Z]+/);
-  return match ? match[0] : "";
-}
-
-function recipeImageCandidates(recipe) {
-  const candidates = [];
-  const prefix = recipeCodePrefix(recipe.id);
-
-  if (recipe.id && AUTO_IMAGE_PREFIXES.has(prefix)) {
-    candidates.push(`images/thumbs/recipes/${recipe.id}.webp`);
-    candidates.push(`images/thumbs/recipes/${recipe.id} .webp`);
-    candidates.push(`images/heroes/${recipe.id}.webp`);
-    candidates.push(`images/heroes/${recipe.id} .webp`);
-  }
-
-  if (recipe.heroImage) candidates.push(recipe.heroImage);
-  if (recipe.image) candidates.push(recipe.image);
-
-  if (recipe.id && AUTO_IMAGE_PREFIXES.has(prefix)) {
-    candidates.push(`images/heroes/${recipe.id}.webp`);
-    candidates.push(`images/heroes/${recipe.id} .webp`);
-    candidates.push(`images/recipes/${recipe.id}.webp`);
-    candidates.push(`images/recipes/${recipe.id}.webp`);
-    candidates.push(`images/recipes/${recipe.id}.webp`);
-    candidates.push(`images/recipes/${recipe.id} .webp`);
-    candidates.push(`images/recipes/${recipe.id} .webp`);
-    candidates.push(`images/recipes/${recipe.id} .webp`);
-  }
-
-  return [...new Set(candidates)];
-}
-
-function previewCardImageCandidates(recipe) {
-  const candidates = [];
-  const prefix = recipeCodePrefix(recipe.id);
-
-  if (recipe.id && AUTO_IMAGE_PREFIXES.has(prefix)) {
-    candidates.push(`images/thumbs/recipes/${recipe.id}.webp`);
-    candidates.push(`images/thumbs/recipes/${recipe.id} .webp`);
-  }
-
-  if (recipe.cardImage) candidates.push(recipe.cardImage);
-  if (recipe.image) candidates.push(recipe.image);
-
-  if (recipe.id && AUTO_IMAGE_PREFIXES.has(prefix)) {
-    candidates.push(`images/recipes/${recipe.id}.webp`);
-    candidates.push(`images/recipes/${recipe.id}.webp`);
-    candidates.push(`images/recipes/${recipe.id}.webp`);
-    candidates.push(`images/recipes/${recipe.id} .webp`);
-    candidates.push(`images/recipes/${recipe.id} .webp`);
-    candidates.push(`images/recipes/${recipe.id} .webp`);
-  }
-
-  if (recipe.heroImage) candidates.push(recipe.heroImage);
-
-  if (recipe.id && AUTO_IMAGE_PREFIXES.has(prefix)) {
-    candidates.push(`images/heroes/${recipe.id}.webp`);
-    candidates.push(`images/heroes/${recipe.id} .webp`);
-  }
-
-  return [...new Set(candidates)];
-}
-
-function fullCardImageCandidates(recipe) {
-  const candidates = [];
-  const prefix = recipeCodePrefix(recipe.id);
-
-  if (recipe.cardImage) candidates.push(recipe.cardImage);
-  if (recipe.image) candidates.push(recipe.image);
-
-  if (recipe.id && AUTO_IMAGE_PREFIXES.has(prefix)) {
-    candidates.push(`images/recipes/${recipe.id}.webp`);
-    candidates.push(`images/recipes/${recipe.id}.webp`);
-    candidates.push(`images/recipes/${recipe.id}.webp`);
-    candidates.push(`images/recipes/${recipe.id} .webp`);
-    candidates.push(`images/recipes/${recipe.id} .webp`);
-    candidates.push(`images/recipes/${recipe.id} .webp`);
-  }
-
-  if (recipe.id && AUTO_IMAGE_PREFIXES.has(prefix)) {
-    candidates.push(`images/thumbs/recipes/${recipe.id}.webp`);
-    candidates.push(`images/thumbs/recipes/${recipe.id} .webp`);
-  }
-
-  if (recipe.heroImage) candidates.push(recipe.heroImage);
-
-  if (recipe.id && AUTO_IMAGE_PREFIXES.has(prefix)) {
-    candidates.push(`images/heroes/${recipe.id}.webp`);
-    candidates.push(`images/heroes/${recipe.id} .webp`);
-  }
-
-  return [...new Set(candidates)];
-}
 
 let popupPageModeUsers = 0;
 
@@ -3535,66 +3444,6 @@ function SupplementalHoverVideo({
   );
 }
 
-function RecipeImage({ recipe }) {
-  const candidates = recipeImageCandidates(recipe);
-  const [imageIndex, setImageIndex] = useState(0);
-  const imagePath = candidates[imageIndex];
-
-  useEffect(() => {
-    setImageIndex(0);
-  }, [recipe.id]);
-
-  if (imagePath) {
-    return (
-      <div className="recipeImage recipePhoto">
-        <img
-          src={`${import.meta.env.BASE_URL}${imagePath}`}
-          alt={recipe.title}
-          loading="lazy"
-          decoding="async"
-          onError={() => setImageIndex((current) => current + 1)}
-        />
-      </div>
-    );
-  }
-
-  return (
-    <div className="recipeImage" style={{ background: recipe.imageStyle }}>
-      <span>{recipe.emoji}</span>
-    </div>
-  );
-}
-
-function FullRecipeCardPreview({ recipe, onOpen }) {
-  const candidates = previewCardImageCandidates(recipe);
-  const [imageIndex, setImageIndex] = useState(0);
-  const imagePath = candidates[imageIndex];
-
-  useEffect(() => {
-    setImageIndex(0);
-  }, [recipe.id]);
-
-  if (imagePath) {
-    return (
-      <button
-        className="recipeImage recipeFullCardImage recipeFullCardImageButton"
-        onClick={onOpen}
-        aria-label={`Open ${recipe.title} recipe card`}
-      >
-        <img
-          src={`${import.meta.env.BASE_URL}${imagePath}`}
-          alt={`${recipe.id} ${recipe.title} recipe card`}
-          loading="lazy"
-          decoding="async"
-          onError={() => setImageIndex((current) => current + 1)}
-        />
-      </button>
-    );
-  }
-
-  return <RecipeImage recipe={recipe} />;
-}
-
 function getRecipeBrowseTags(recipe) {
   const title = recipe.title.toLowerCase();
   const tags = [];
@@ -4390,92 +4239,6 @@ function GLP1RecipeSupportPanel({ recipe, compact = false, className = "", detai
   );
 }
 
-
-
-function formatBrowseNutritionValue(value, unit = "") {
-  if (value === null || value === undefined || value === "") return "—";
-
-  if (typeof value === "string") {
-    const trimmed = value.trim();
-    if (!trimmed) return "—";
-    if (!unit || /[a-zA-Z%]/.test(trimmed)) return trimmed;
-    return `${trimmed} ${unit}`;
-  }
-
-  if (typeof value === "number" && Number.isFinite(value)) {
-    const display = Number.isInteger(value)
-      ? value
-      : Math.round(value * 10) / 10;
-    return unit ? `${display} ${unit}` : String(display);
-  }
-
-  return "—";
-}
-
-function BrowseRecipeNutritionFacts({ recipe }) {
-  const nutrition =
-    getRecipeNutritionVariant(recipe.id)?.profile?.nutritionFacts || null;
-
-  const rows = [
-    ["Total Fat", nutrition?.totalFat, "g", true],
-    ["Saturated Fat", nutrition?.saturatedFat, "g", false],
-    ["Trans Fat", nutrition?.transFat, "g", false],
-    ["Cholesterol", nutrition?.cholesterol, "mg", false],
-    ["Sodium", nutrition?.sodium, "mg", true],
-    ["Total Carbs", nutrition?.totalCarbohydrate, "g", true],
-    ["Dietary Fiber", nutrition?.dietaryFiber, "g", false],
-    ["Total Sugars", nutrition?.totalSugars, "g", false],
-    ["Added Sugars", nutrition?.addedSugars, "g", false],
-  ];
-
-  return (
-    <aside
-      className="browseRecipeNutritionFacts"
-      aria-label={`${recipe.title} Nutrition Facts`}
-    >
-      <h3>Nutrition Facts</h3>
-
-      <div className="browseNutritionHeavyRule" />
-
-      <div className="browseNutritionServingRow">
-        <span>Serving size</span>
-        <strong>{nutrition?.servingSize || "1 serving"}</strong>
-      </div>
-      <div className="browseNutritionServingRow">
-        <span>Servings per recipe</span>
-        <strong>{nutrition?.servingsPerRecipe ?? recipe.servings ?? "—"}</strong>
-      </div>
-
-      <div className="browseNutritionHeavyRule browseNutritionHeavyRuleSmall" />
-
-      <div className="browseNutritionCalories">
-        <span>Calories</span>
-        <strong>{formatBrowseNutritionValue(nutrition?.calories)}</strong>
-      </div>
-
-      <div className="browseNutritionMediumRule" />
-
-      <div className="browseNutritionRows">
-        {rows.map(([label, value, unit, bold]) => (
-          <div
-            key={label}
-            className={`browseNutritionRow${bold ? " isBold" : ""}`}
-          >
-            <span>{label}</span>
-            <strong>{formatBrowseNutritionValue(value, unit)}</strong>
-          </div>
-        ))}
-      </div>
-
-      <div className="browseNutritionHeavyRule browseNutritionProteinRule" />
-
-      <div className="browseNutritionProtein">
-        <span>Protein</span>
-        <strong>{formatBrowseNutritionValue(nutrition?.protein, "g")}</strong>
-      </div>
-    </aside>
-  );
-}
 
 
 function RecipeCard({
@@ -6148,90 +5911,6 @@ function RecipeRolodex({ setActivePage, setFilter }) {
 }
 
 
-function uniqueRecordsByPermanentId(records = []) {
-  const uniqueRecords = new Map();
-
-  records.forEach((record) => {
-    const permanentId = String(record?.id || record?.code || "").trim();
-    if (permanentId && !uniqueRecords.has(permanentId)) {
-      uniqueRecords.set(permanentId, record);
-    }
-  });
-
-  return [...uniqueRecords.values()];
-}
-
-function HomeRecipeCounters({ classifiedRecipes = [] }) {
-  // Counter totals deliberately use the complete, unfiltered source datasets.
-  // They are independent of search, category filters, pagination, routes, and visible cards.
-  const allUniqueRecipes = uniqueRecordsByPermanentId(recipes);
-  const allUniqueCompleteMeals = uniqueRecordsByPermanentId(dinnerCombinations);
-  const classifiedRecipeLookup = new Map(
-    uniqueRecordsByPermanentId(classifiedRecipes).map((recipe) => [
-      String(recipe.id || recipe.code).trim(),
-      recipe,
-    ])
-  );
-
-  const freezerFriendlyNames = new Set([
-    "freezer-friendly",
-    "freezer friendly",
-    "freezer-friendly meals",
-    "quick & easy freezer meals",
-  ]);
-
-  const freezerFriendlyCount = allUniqueRecipes.filter((recipe) => {
-    const classifiedRecipe = classifiedRecipeLookup.get(
-      String(recipe.id || recipe.code).trim()
-    ) || recipe;
-    const collections = Array.isArray(classifiedRecipe.collections)
-      ? classifiedRecipe.collections
-      : [];
-    const attributes = Array.isArray(classifiedRecipe.attributes)
-      ? classifiedRecipe.attributes
-      : [];
-
-    return (
-      classifiedRecipe.freezerFriendly === true ||
-      classifiedRecipe.freezable === true ||
-      [...collections, ...attributes].some((name) =>
-        freezerFriendlyNames.has(String(name).trim().toLowerCase())
-      )
-    );
-  }).length;
-
-  const recipeCount = allUniqueRecipes.length;
-  const completeMealCount = allUniqueCompleteMeals.length;
-  const collectionCount = new Set(
-    RECIPE_COLLECTIONS.map((name) => String(name).trim().toLowerCase()).filter(Boolean)
-  ).size;
-
-  const counters = [
-    { label: "Recipes", value: recipeCount, className: "recipes" },
-    { label: "Complete Meals", value: completeMealCount, className: "complete" },
-    { label: "Freezer-Friendly", value: freezerFriendlyCount, className: "freezer" },
-    { label: "Collections", value: collectionCount, className: "collections" },
-  ];
-
-  return (
-    <section className="homeCounterSection" aria-label="Recipe library totals">
-      <div className="homeCounterRow">
-        {counters.map((counter) => (
-          <div className={`homeCounterItem ${counter.className}`} key={counter.label}>
-            <span className="homeCounterBadge" aria-hidden="true">
-              <span className="homeCounterIcon" />
-            </span>
-            <span className="homeCounterText">
-              <strong>{counter.value}</strong>
-              <small>{counter.label}</small>
-            </span>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
 const MEAL_JOURNEY_STEPS = [
   {
     number: 1,
@@ -6644,7 +6323,12 @@ function Home({
         <HomePhotoFeatureSection setActivePage={setActivePage} kosUi={kosUi} />
       )}
       <CategoryGrid setFilter={setFilter} setActivePage={setActivePage} />
-      <HomeRecipeCounters classifiedRecipes={classifiedRecipes} />
+      <HomeRecipeCounters
+        recipes={recipes}
+        completeMeals={dinnerCombinations}
+        collectionNames={RECIPE_COLLECTIONS}
+        classifiedRecipes={classifiedRecipes}
+      />
 
 
       <BackupReminderPanel
@@ -6737,58 +6421,17 @@ function Home({
       </div>
 
       {showAdminPin && (
-        <div className="adminPinOverlay" role="presentation" onMouseDown={closeAdminPin}>
-          <section
-            className="adminPinDialog"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="admin-pin-title"
-            onMouseDown={(event) => event.stopPropagation()}
-          >
-            <button
-              type="button"
-              className="adminPinClose"
-              aria-label="Close Admin PIN window"
-              onClick={closeAdminPin}
-            >
-              ×
-            </button>
-            <h2 id="admin-pin-title">Admin Access</h2>
-            <p>Enter the four-digit Admin PIN.</p>
-            <form onSubmit={submitAdminPin}>
-              <label htmlFor="admin-pin-input">PIN</label>
-              <input
-                ref={adminPinInputRef}
-                id="admin-pin-input"
-                type="password"
-                inputMode="numeric"
-                autoComplete="off"
-                pattern="[0-9]*"
-                maxLength={4}
-                value={adminPin}
-                aria-invalid={Boolean(adminPinError)}
-                aria-describedby={adminPinError ? "admin-pin-error" : undefined}
-                onChange={(event) => {
-                  setAdminPin(event.target.value.replace(/\D/g, "").slice(0, 4));
-                  if (adminPinError) setAdminPinError("");
-                }}
-              />
-              {adminPinError && (
-                <p id="admin-pin-error" className="adminPinError" role="alert">
-                  {adminPinError}
-                </p>
-              )}
-              <div className="adminPinActions">
-                <button type="button" className="secondary" onClick={closeAdminPin}>
-                  Cancel
-                </button>
-                <button type="submit" disabled={adminPin.length !== 4}>
-                  Unlock Admin
-                </button>
-              </div>
-            </form>
-          </section>
-        </div>
+        <AdminPinDialog
+          adminPin={adminPin}
+          adminPinError={adminPinError}
+          inputRef={adminPinInputRef}
+          onClose={closeAdminPin}
+          onSubmit={submitAdminPin}
+          onChange={(event) => {
+            setAdminPin(event.target.value.replace(/\D/g, "").slice(0, 4));
+            if (adminPinError) setAdminPinError("");
+          }}
+        />
       )}
 
     </>

@@ -6,6 +6,8 @@ import {
 
 class MemoryStorage {
   constructor(seed = {}) { this.map = new Map(Object.entries(seed)); }
+  get length() { return this.map.size; }
+  key(index) { return [...this.map.keys()][index] ?? null; }
   getItem(key) { return this.map.has(key) ? this.map.get(key) : null; }
   setItem(key, value) { this.map.set(key, String(value)); }
   removeItem(key) { this.map.delete(key); }
