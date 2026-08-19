@@ -1328,7 +1328,7 @@ const NAV_GROUPS = [
   {
     label: "KITCHEN DETAILS",
     items: [
-      { label: "KITCHEN INVENTORY", page: "Master Kitchen Inventory" },
+      { label: "MASTER KITCHEN INVENTORY", page: "Master Kitchen Inventory" },
     ],
   },
   {
@@ -6959,12 +6959,34 @@ function InventoryHubPage({
     setOpenTool("");
   }
 
+  function clearCurrentInventory() {
+    const sectionName = activeTab === "kitchen"
+      ? "Master Kitchen Inventory"
+      : activeTab === "freezer"
+        ? "Freezer Inventory"
+        : "Pantry Inventory";
+    if (!window.confirm(`Clear all saved items from ${sectionName}? This cannot be undone.`)) return;
+
+    if (activeTab === "kitchen") {
+      setMasterInventory({ records: {}, customItems: [] });
+    } else if (activeTab === "freezer") {
+      setPreparedInventory((current) => ({
+        ...normalizePreparedInventory(current),
+        managedItems: [],
+      }));
+      setFreezer({ items: {}, customItems: [], customLocations: [] });
+    } else {
+      setPantry({});
+    }
+    setOpenTool("");
+  }
+
   const currentSearch = searchScope === "current" ? search : "";
 
   return (
     <div className="pageShell inventoryHubPage" data-inventory-tab={activeTab}>
       <SectionIntro
-        title="Kitchen Inventory"
+        title="Master Kitchen Inventory"
         text="Manage kitchen, freezer, and pantry supplies from one page. Search what you have, mark items that need restocking, and move products when their storage location changes."
         className="inventoryHubSectionIntro"
       />
@@ -6977,13 +6999,10 @@ function InventoryHubPage({
             </button>
           ))}
         </div>
-        <label className="inventoryHubSearch"><span>Search</span><input type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Find an inventory item..." /></label>
-        <label className="inventoryHubScope"><span>Search In</span><select value={searchScope} onChange={(event) => setSearchScope(event.target.value)}><option value="current">Current Section</option><option value="all">All Inventories</option></select></label>
-        <button type="button" onClick={() => setOpenTool(openTool === "restock" ? "" : "restock")}><span>Restock</span><span>List ({restockItems.length})</span></button>
         <button type="button" onClick={() => setOpenTool(openTool === "quick" ? "" : "quick")}><span>Quick</span><span>Add</span></button>
         <button type="button" onClick={() => setOpenTool(openTool === "move" ? "" : "move")}><span>Move</span><span>Item</span></button>
         <button type="button" onClick={() => window.print()}>Print</button>
-        <button type="button" onClick={() => setActivePage("User Backup")}><span>Backup &amp;</span><span>Restore</span></button>
+        <button type="button" className="inventoryHubClearButton" onClick={clearCurrentInventory}>Clear</button>
       </section>
 
       {searchScope === "all" && normalizedSearch && (
@@ -18028,7 +18047,7 @@ Use this collection to organize recipes that fit prep-ahead cooking, planned lef
             src="images/heroes/hero-page-your-pantry.webp"
             alt="Kitchen inventory setup with pantry foods, fresh ingredients, freezer packages, notebook, and checklist"
             eyebrow="KITCHEN DETAILS"
-            title="Kitchen Inventory"
+            title="Master Kitchen Inventory"
             text="Manage kitchen, freezer, and pantry supplies from one practical inventory center. Keep product forms separate, see what is on hand, identify items that need restocking, and move food when its storage location changes."
             className="pageHeroDepth464"
           />

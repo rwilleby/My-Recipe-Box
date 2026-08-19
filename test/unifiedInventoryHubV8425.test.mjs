@@ -11,7 +11,7 @@ const [app, styles, kitchenPage, kitchenStyles] = await Promise.all([
 const navStart = app.indexOf('label: "KITCHEN DETAILS"');
 const navEnd = app.indexOf('label: "OUR RECIPES"', navStart);
 const kitchenMenu = app.slice(navStart, navEnd);
-assert.match(kitchenMenu, /label: "KITCHEN INVENTORY", page: "Master Kitchen Inventory"/);
+assert.match(kitchenMenu, /label: "MASTER KITCHEN INVENTORY", page: "Master Kitchen Inventory"/);
 assert.doesNotMatch(kitchenMenu, /label: "FREEZER INVENTORY"/);
 assert.doesNotMatch(kitchenMenu, /label: "PANTRY INVENTORY"/);
 
@@ -20,11 +20,9 @@ assert.match(app, /\["Master Kitchen Inventory", "Freezer Inventory Management",
 assert.match(app, /\["kitchen", "freezer", "pantry"\]\.map/);
 assert.match(app, /KITCHEN[\s\S]*FREEZER[\s\S]*PANTRY|tab\.toUpperCase\(\)/);
 assert.match(app, /inventoryHubView: "rrb_inventoryHubView_v1"/);
-assert.match(app, /Current Section[\s\S]*All Inventories/);
-assert.match(app, /Restock[\s\S]*List \(\{restockItems\.length\}\)/);
 assert.match(app, /Quick[\s\S]*Add/);
 assert.match(app, /Move[\s\S]*Item/);
-assert.match(app, /Backup &amp;[\s\S]*Restore/);
+assert.match(app, /className="inventoryHubClearButton" onClick=\{clearCurrentInventory\}>Clear/);
 assert.match(app, /buildMasterInventoryShoppingItems/);
 assert.match(app, /buildPantryRestockItems/);
 assert.match(app, /Kitchen Restock/);

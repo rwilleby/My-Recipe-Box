@@ -1,0 +1,22 @@
+ROBERT'S RECIPE BOX v84.27 — GITHUB UPDATE
+
+Upload this update after v84.26.
+
+1. Open the repository root in GitHub.
+2. Upload the contents of My-Recipe-Box-v84.27-GitHub-Update.zip, preserving folders.
+3. Replace matching files when GitHub prompts you.
+4. Add the new files listed in UPDATE-MANIFEST-v84.27.json.
+5. Do not delete any existing files; this update has no deletions.
+6. Commit with a message such as:
+   v84.27: center master inventory controls
+7. Let the normal deployment build finish.
+
+VERIFY AFTER DEPLOYMENT
+
+- The menu and page heading read MASTER KITCHEN INVENTORY.
+- The centered command strip reads KITCHEN | FREEZER | PANTRY | QUICK ADD | MOVE ITEM | PRINT | CLEAR.
+- The strip remains centered as a group on desktop and adapts for smaller screens.
+- Clear asks for confirmation and clears only the currently selected Kitchen, Freezer, or Pantry inventory.
+- The matching accordion treatment from v84.26 remains intact.
+
+See V84.27-MASTER-INVENTORY-CONTROLS-REPORT.md for implementation and verification details.

@@ -1,3 +1,9 @@
+# v84.27 — Master Kitchen Inventory Command Strip
+
+- Renamed the unified inventory destination and page heading to Master Kitchen Inventory.
+- Centered and simplified the master command strip to KITCHEN | FREEZER | PANTRY | QUICK ADD | MOVE ITEM | PRINT | CLEAR.
+- Made Clear confirmation-protected and limited it to the inventory section currently selected.
+
 # v84.26 — Matching Inventory Accordions
 
 - Preserved the approved Kitchen Inventory accordion treatment as the visual standard for all three inventory views.

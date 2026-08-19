@@ -19726,3 +19726,37 @@ button.browseRecipeWideFooterAction:focus-visible,
     grid-template-columns: 160px 46px 50px 52px 52px 56px 68px 226px !important;
   }
 }
+
+/* ================================================================
+   v84.27 — CENTERED MASTER INVENTORY COMMAND STRIP
+   ================================================================ */
+.inventoryHubControlStrip {
+  width: fit-content !important;
+  max-width: 90% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  grid-template-columns: minmax(360px, 480px) repeat(4, minmax(88px, 108px)) !important;
+  justify-content: center !important;
+}
+
+.inventoryHubClearButton {
+  border-color: #dfb4ae !important;
+  color: #a3312d !important;
+}
+
+@media (max-width: 900px) {
+  .inventoryHubControlStrip {
+    width: 90% !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
+
+  .inventoryHubTabs { grid-column: 1 / -1 !important; }
+}
+
+@media (max-width: 700px) {
+  .inventoryHubControlStrip {
+    width: 96% !important;
+    max-width: 96% !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
