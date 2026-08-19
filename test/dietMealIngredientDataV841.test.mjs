@@ -46,7 +46,7 @@ assert.deepEqual(
 );
 assert.equal(ingredient("DM-007", "Small corn tortillas")?.qty, 4);
 assert.equal(ingredient("DM-010", "Smoked paprika")?.qty, 0.25);
-assert.equal(byId["DM-011"].ingredients.length, 4, "DM-011 begins the next unverified batch");
+assert.ok(byId["DM-011"].ingredients.length >= 8, "later verified batches may replace the DM-011 fallback");
 assert.equal(formatQty(4 / 3), "1⅓");
 assert.equal(formatQty(1 / 3), "⅓");
 

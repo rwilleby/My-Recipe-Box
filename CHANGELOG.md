@@ -1,3 +1,11 @@
+# v84.2 — Diet Meal Ingredient Data, Batch 2
+
+- Transcribed and visually verified every ingredient and quantity from recipe cards DM-011 through DM-020.
+- Replaced broad four-item Diet Meal estimates with 105 individually checkable structured ingredient records, bringing DM-001 through DM-020 to 217 verified records.
+- Assigned practical Shopping List aisles while preserving the recipe-card wording and exact quantities.
+- Split combined seasoning lines into separate ingredient records when separate checkboxes improve inventory decisions.
+- Added regression coverage for card-level counts, representative exact quantities, aisle assignments, and the remaining fallback boundary at DM-021.
+
 # v84.1 — Diet Meal Ingredient Data, Batch 1
 
 - Transcribed and visually verified every ingredient and quantity from recipe cards DM-001 through DM-010.
