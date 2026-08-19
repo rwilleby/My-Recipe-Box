@@ -1,3 +1,13 @@
+# v84.12 — DN, HB, HBP, and IT Ingredient Data
+
+- Added complete Shopping List detail for all 110 recipes across Donuts, Hamburgers, Hamburger Patties, and Italian Cuisine.
+- Added 1,154 individually checkable ingredient records: 95 DN, 337 HB, 76 HBP, and 646 IT.
+- Preserved printed quantities, package sizes, optional ingredients, range wording, preparation notes, and intentionally unmeasured ingredients without guessing.
+- Structured HB-031's chili, patty, and per-burger assembly sections while excluding derived patties and chili sauce from duplicate purchasing.
+- Aligned all seven DN titles and IT-024 with the existing Nutrition Database naming.
+- Documented source-card direction references that are not present in the printed ingredient panels instead of inventing quantities.
+- Added regression coverage for every recipe count, every card-level ingredient count, all 1,154 records, title alignment, and representative source-card edge cases.
+
 # v84.11 — BR, CC, CO, CP, and CR Ingredient Data
 
 - Added detailed Shopping List data for all 207 active recipes across Bread Machine, Cheesecakes, Cobblers, Crock Pot Meals, and Cinnamon Rolls.

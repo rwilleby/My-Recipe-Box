@@ -1,6 +1,8 @@
 import { AMERICAN_INGREDIENTS_V849 } from "./americanIngredientsV849.js";
 import { ASIAN_INGREDIENTS_V8410 } from "./asianIngredientsV8410.js";
 import { CROCK_POT_INGREDIENTS_V8411 } from "./crockPotIngredientsV8411.js";
+import { DONUT_BURGER_INGREDIENTS_V8412 } from "./donutBurgerIngredientsV8412.js";
+import { ITALIAN_INGREDIENTS_V8412 } from "./italianIngredientsV8412.js";
 import { SPECIALTY_INGREDIENTS_V8411 } from "./specialtyIngredientsV8411.js";
 
 const baseCategories = [
@@ -174,6 +176,8 @@ const DETAILED_RECIPE_INGREDIENTS = {
   ...ASIAN_INGREDIENTS_V8410,
   ...SPECIALTY_INGREDIENTS_V8411,
   ...CROCK_POT_INGREDIENTS_V8411,
+  ...DONUT_BURGER_INGREDIENTS_V8412,
+  ...ITALIAN_INGREDIENTS_V8412,
   "AM-001": [
     { name: "Ground beef", qty: 1.5, unit: "lb", aisle: "Meat", cost: 0 },
     { name: "Breadcrumbs", qty: 0.5, unit: "cup", aisle: "Baking", cost: 0 },
@@ -1814,13 +1818,13 @@ const recipeRows = [
   ["CR-003", "Cinnamon Rolls: Apple Cinnamon"],
   ["CR-004", "Cinnamon Rolls: Pecan Raisin"],
   ["CR-005", "Crescent Dough Cinnamon Rolls"],
-  ["DN-001", "Yeast Glazed Donuts"],
-  ["DN-002", "Classic Cake Donuts"],
-  ["DN-003", "Chocolate Cake Donuts"],
-  ["DN-004", "Old-Fashioned Buttermilk Donuts"],
-  ["DN-005", "Filled Donuts"],
-  ["DN-006", "Apple Fritters"],
-  ["DN-007", "Blueberry Cake Donuts"],
+  ["DN-001", "Donuts: Yeast Glazed"],
+  ["DN-002", "Donuts: Classic Cake"],
+  ["DN-003", "Donuts: Chocolate Cake"],
+  ["DN-004", "Donuts: Old-Fashioned Buttermilk"],
+  ["DN-005", "Donuts: Filled"],
+  ["DN-006", "Donuts: Apple Fritters"],
+  ["DN-007", "Donuts: Blueberry Cake"],
   ["HB-001", "Big Mac Style Burger"],
   ["HB-002", "Whataburger Style Burger"],
   ["HB-003", "In-N-Out Style Burger"],
@@ -1887,7 +1891,7 @@ const recipeRows = [
   ["IT-021", "Fettuccine Alfredo"],
   ["IT-022", "Baked Spaghetti"],
   ["IT-023", "Pasta Primavera"],
-  ["IT-024", "Penne Alla Vodka"],
+  ["IT-024", "Penne alla Vodka"],
   ["IT-025", "Cheese Ravioli Bake"],
   ["IT-026", "Tortellini Alfredo"],
   ["IT-027", "Pesto Pasta"],

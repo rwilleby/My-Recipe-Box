@@ -1,0 +1,45 @@
+{
+  "version": "84.12.0",
+  "release": "DN, HB, HBP, and IT Ingredient Data",
+  "baseline": "v84.11 GitHub update",
+  "uploadMode": "replace matching files and add new files; no deletions required",
+  "changedFiles": [
+    "CHANGELOG.md",
+    "UPDATE-MANIFEST-v84.12.json",
+    "V84.12-DN-HB-HBP-IT-INGREDIENT-DATA-REPORT.md",
+    "UPLOAD-INSTRUCTIONS-v84.12.txt",
+    "package.json",
+    "package-lock.json",
+    "src/data/donutBurgerIngredientsV8412.js",
+    "src/data/italianIngredientsV8412.js",
+    "src/data/recipes.js",
+    "src/package.json",
+    "test/dnHbHbpItIngredientDataV8412.test.mjs"
+  ],
+  "deletedFiles": [],
+  "ingredientData": {
+    "categories": {
+      "DN": { "activeRecipes": 7, "ingredientRecords": 95 },
+      "HB": { "activeRecipes": 31, "ingredientRecords": 337 },
+      "HBP": { "activeRecipes": 12, "ingredientRecords": 76 },
+      "IT": { "activeRecipes": 60, "ingredientRecords": 646 }
+    },
+    "activeRecipes": 110,
+    "structuredIngredientRecords": 1154,
+    "fallbackRecipesRemaining": 0
+  },
+  "registry": {
+    "nutritionTitlesAligned": ["DN-001", "DN-002", "DN-003", "DN-004", "DN-005", "DN-006", "DN-007", "IT-024"]
+  },
+  "sourceCardNotes": [
+    "DN vegetable oil for frying remains amount not specified where the cards print no quantity",
+    "HB-031 derived patties and chili sauce are not duplicated as purchases after their component ingredients are listed",
+    "IT-015 directions-only Parmesan and parsley and IT-056 unprinted black pepper were not invented",
+    "IT-004 optional lemon slices remain optional and unmeasured"
+  ],
+  "verification": {
+    "dependencyFreeContractCommands": 79,
+    "passed": 79
+  },
+  "nextRecommendedStep": "Continue detailed ingredient transcription with the next recipe category"
+}

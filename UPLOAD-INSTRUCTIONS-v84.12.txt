@@ -1,0 +1,15 @@
+ROBERT'S RECIPE BOX v84.12 — GITHUB UPDATE
+
+This update is based on the v84.11 GitHub update.
+
+1. Finish uploading the v84.11 update first.
+2. Unzip My-Recipe-Box-v84.12-GitHub-Update.zip.
+3. Open the extracted My-Recipe-Box-v84.12-GitHub-Update folder.
+4. Upload the CONTENTS of that folder to the GitHub repository root.
+5. Replace matching files and preserve the included folder structure.
+6. Add src/data/donutBurgerIngredientsV8412.js, src/data/italianIngredientsV8412.js, and test/dnHbHbpItIngredientDataV8412.test.mjs.
+7. No GitHub files need to be deleted.
+8. Wait for the GitHub Actions test, build, and deployment checks to turn green.
+9. Add recipes from DN, HB, HBP, and IT to the planner and verify Shopping List → By Meal / Component shows every ingredient separately.
+10. Confirm HB-031 displays its chili, patty, and assembly purchases without duplicate “thin griddled patty” or “chili sauce” items.
+11. Confirm DN-001 and DN-005 show vegetable oil for frying as “amount not specified.”
