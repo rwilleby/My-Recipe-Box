@@ -9449,17 +9449,17 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
         <button className="secondary shoppingPreviewButton" onClick={previewShoppingList}>
           Preview
         </button>
-        <button className="primary" onClick={printShoppingList}>
+        <button className="primary shoppingPrintButton" onClick={printShoppingList}>
           Print List
         </button>
-        <button className="secondary" onClick={printMasterShoppingStockWorksheet}>
-          Print Stock-Check Worksheet
+        <button className="secondary shoppingWorksheetButton" onClick={printMasterShoppingStockWorksheet}>
+          Stock-Check
         </button>
-        <button className="secondary" onClick={() => setShowDigitalStockCheck((current) => !current)}>
-          {showDigitalStockCheck ? "Close Digital Stock Check" : "Open Digital Stock Check"}
+        <button className="secondary shoppingDigitalCheckButton" onClick={() => setShowDigitalStockCheck((current) => !current)}>
+          {showDigitalStockCheck ? "Close Check" : "Digital Check"}
         </button>
         <button
-          className="secondary"
+          className="secondary shoppingGroceryPicksButton"
           onClick={() => setActivePage("Grocery Picks")}
         >
           Grocery Picks

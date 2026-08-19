@@ -1,0 +1,32 @@
+{
+  "version": "84.21.0",
+  "release": "Shopping List command strip",
+  "baseline": "v84.20 GitHub update",
+  "uploadMode": "replace matching files and add new files; no deletions required",
+  "changedFiles": [
+    "CHANGELOG.md",
+    "UPDATE-MANIFEST-v84.21.json",
+    "V84.21-SHOPPING-COMMAND-STRIP-REPORT.md",
+    "UPLOAD-INSTRUCTIONS-v84.21.txt",
+    "package.json",
+    "package-lock.json",
+    "src/package.json",
+    "src/App.jsx",
+    "src/App.css",
+    "test/shoppingCommandStripV8421.test.mjs"
+  ],
+  "deletedFiles": [],
+  "commandStrip": {
+    "desktopLayout": "single row",
+    "activeSegment": "muted taupe with white text",
+    "primaryAction": "olive Print List",
+    "destructiveAction": "red outlined Clear & Start Over",
+    "responsiveLayouts": ["three columns", "two columns", "one column"],
+    "functionalityChanged": false
+  },
+  "verification": {
+    "focusedContract": "test/shoppingCommandStripV8421.test.mjs",
+    "regressionContractsPassed": 5,
+    "productionBuild": "not run; dependencies are not installed in the clean update workspace"
+  }
+}

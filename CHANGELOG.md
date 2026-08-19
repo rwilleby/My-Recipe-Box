@@ -1,3 +1,12 @@
+# v84.21 — Shopping List Command Strip
+
+- Restyled the Shopping List controls to match the approved Weekly Planner command-strip design language.
+- Converted the command area into one centered, consistent-height responsive control row.
+- Preserved Consolidated List and By Meal / Component as a two-part segmented selector with the approved muted taupe active state.
+- Styled Preview and utility actions as white outlined controls, Print as the olive primary action, and Clear as the red outlined destructive action.
+- Shortened the two stock-check labels for a cleaner command strip while preserving their existing functions.
+- Added responsive three-column, two-column, and one-column arrangements for tablet and phone widths.
+
 # v84.20 — Shopping Print Accuracy and Preview
 
 - Excluded ingredients checked in By Meal / Component from the printed shopping list.

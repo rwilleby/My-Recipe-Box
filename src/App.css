@@ -13588,6 +13588,131 @@ to {
 }
 
 /* ================================================================
+   v84.21 — SHOPPING LIST COMMAND STRIP
+   Matches the approved Weekly Planner control-row visual language.
+   ================================================================ */
+.shoppingListIntroActions {
+  width: min(100%, 1600px) !important;
+  display: grid !important;
+  grid-template-columns:
+    minmax(300px, 1.8fr)
+    minmax(92px, .62fr)
+    minmax(100px, .68fr)
+    minmax(128px, .82fr)
+    minmax(126px, .82fr)
+    minmax(124px, .8fr)
+    minmax(112px, .72fr) !important;
+  align-items: stretch !important;
+  justify-content: center !important;
+  gap: var(--rrb-control-gap, 8px) !important;
+}
+
+.shoppingListIntroActions > button,
+.shoppingViewToggle {
+  min-height: var(--rrb-control-row-height, 44px) !important;
+  height: var(--rrb-control-row-height, 44px) !important;
+  border: var(--rrb-control-border-width, 1px) solid var(--rrb-control-border, #cbd6cd) !important;
+  border-radius: var(--rrb-control-radius, 18px) !important;
+  box-shadow: none !important;
+}
+
+.shoppingListIntroActions > button {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: 0 !important;
+  padding: 0 14px !important;
+  background: var(--rrb-control-bg, #ffffff) !important;
+  color: var(--rrb-control-secondary-text, #14532d) !important;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif !important;
+  font-size: var(--rrb-control-font-size, 12px) !important;
+  font-weight: var(--rrb-control-font-weight, 800) !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+}
+
+.shoppingViewToggle {
+  width: 100% !important;
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  background: var(--rrb-control-muted-bg, #f3f1eb) !important;
+}
+
+.shoppingViewToggle button {
+  min-width: 0 !important;
+  min-height: calc(var(--rrb-control-row-height, 44px) - 2px) !important;
+  height: calc(var(--rrb-control-row-height, 44px) - 2px) !important;
+  padding: 0 16px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: var(--rrb-control-text, #172033) !important;
+  font-size: var(--rrb-control-font-size, 12px) !important;
+  font-weight: var(--rrb-control-font-weight, 800) !important;
+}
+
+.shoppingViewToggle button + button {
+  border-left: 1px solid var(--rrb-control-border, #cbd6cd) !important;
+}
+
+.shoppingViewToggle button[aria-selected="true"] {
+  background: #9d9792 !important;
+  color: #ffffff !important;
+}
+
+.shoppingListIntroActions > .shoppingPrintButton {
+  border-color: var(--rrb-control-primary-bg, #80994A) !important;
+  background: var(--rrb-control-primary-bg, #80994A) !important;
+  color: var(--rrb-control-primary-text, #ffffff) !important;
+}
+
+.shoppingListIntroActions > .shoppingClearButton {
+  border-color: var(--rrb-control-danger-border, #ddb3ad) !important;
+  background: var(--rrb-control-bg, #ffffff) !important;
+  color: var(--rrb-control-danger, #a3312d) !important;
+}
+
+.shoppingListIntroActions > button:hover,
+.shoppingListIntroActions > button:focus-visible,
+.shoppingViewToggle button:hover,
+.shoppingViewToggle button:focus-visible {
+  filter: brightness(.97) !important;
+}
+
+@media (max-width: 1240px) {
+  .shoppingListIntroActions {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+
+  .shoppingViewToggle {
+    grid-column: 1 / -1 !important;
+  }
+}
+
+@media (max-width: 720px) {
+  .shoppingListIntroActions {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .shoppingViewToggle {
+    grid-column: 1 / -1 !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .shoppingListIntroActions {
+    grid-template-columns: 1fr !important;
+  }
+
+  .shoppingViewToggle {
+    grid-column: 1 !important;
+  }
+}
+
+/* ================================================================
    v83.10 — FINAL MAIN NAVIGATION HORIZONTAL CENTERING
    ================================================================ */
 @media (min-width: 721px) {
@@ -18880,5 +19005,130 @@ button.browseRecipeWideFooterAction:focus-visible,
 
   .browseCategoryQuickFilterRow > :nth-child(11) {
     grid-column: 4 !important;
+  }
+}
+
+/* ================================================================
+   v84.21 — FINAL SHOPPING LIST COMMAND STRIP
+   Matches the approved Weekly Planner control-row visual language.
+   ================================================================ */
+.shoppingListIntroActions {
+  width: min(100%, 1600px) !important;
+  display: grid !important;
+  grid-template-columns:
+    minmax(300px, 1.8fr)
+    minmax(92px, .62fr)
+    minmax(100px, .68fr)
+    minmax(128px, .82fr)
+    minmax(126px, .82fr)
+    minmax(124px, .8fr)
+    minmax(112px, .72fr) !important;
+  align-items: stretch !important;
+  justify-content: center !important;
+  gap: var(--rrb-control-gap, 8px) !important;
+}
+
+.shoppingListIntroActions > button,
+.shoppingViewToggle {
+  min-height: var(--rrb-control-row-height, 44px) !important;
+  height: var(--rrb-control-row-height, 44px) !important;
+  border: var(--rrb-control-border-width, 1px) solid var(--rrb-control-border, #cbd6cd) !important;
+  border-radius: var(--rrb-control-radius, 18px) !important;
+  box-shadow: none !important;
+}
+
+.shoppingListIntroActions > button {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: 0 !important;
+  padding: 0 14px !important;
+  background: var(--rrb-control-bg, #ffffff) !important;
+  color: var(--rrb-control-secondary-text, #14532d) !important;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif !important;
+  font-size: var(--rrb-control-font-size, 12px) !important;
+  font-weight: var(--rrb-control-font-weight, 800) !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+}
+
+.shoppingViewToggle {
+  width: 100% !important;
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  background: var(--rrb-control-muted-bg, #f3f1eb) !important;
+}
+
+.shoppingViewToggle button {
+  min-width: 0 !important;
+  min-height: calc(var(--rrb-control-row-height, 44px) - 2px) !important;
+  height: calc(var(--rrb-control-row-height, 44px) - 2px) !important;
+  padding: 0 16px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: var(--rrb-control-text, #172033) !important;
+  font-size: var(--rrb-control-font-size, 12px) !important;
+  font-weight: var(--rrb-control-font-weight, 800) !important;
+}
+
+.shoppingViewToggle button + button {
+  border-left: 1px solid var(--rrb-control-border, #cbd6cd) !important;
+}
+
+.shoppingViewToggle button[aria-selected="true"] {
+  background: #9d9792 !important;
+  color: #ffffff !important;
+}
+
+.shoppingListIntroActions > .shoppingPrintButton {
+  border-color: var(--rrb-control-primary-bg, #80994A) !important;
+  background: var(--rrb-control-primary-bg, #80994A) !important;
+  color: var(--rrb-control-primary-text, #ffffff) !important;
+}
+
+.shoppingListIntroActions > .shoppingClearButton {
+  border-color: var(--rrb-control-danger-border, #ddb3ad) !important;
+  background: var(--rrb-control-bg, #ffffff) !important;
+  color: var(--rrb-control-danger, #a3312d) !important;
+}
+
+.shoppingListIntroActions > button:hover,
+.shoppingListIntroActions > button:focus-visible,
+.shoppingViewToggle button:hover,
+.shoppingViewToggle button:focus-visible {
+  filter: brightness(.97) !important;
+}
+
+@media (max-width: 1240px) {
+  .shoppingListIntroActions {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+
+  .shoppingViewToggle {
+    grid-column: 1 / -1 !important;
+  }
+}
+
+@media (max-width: 720px) {
+  .shoppingListIntroActions {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .shoppingViewToggle {
+    grid-column: 1 / -1 !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .shoppingListIntroActions {
+    grid-template-columns: 1fr !important;
+  }
+
+  .shoppingViewToggle {
+    grid-column: 1 !important;
   }
 }
