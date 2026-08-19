@@ -29,14 +29,14 @@ const actionsStart = app.indexOf('<div className="shoppingListIntroActions">');
 const actionsEnd = app.indexOf("{showDigitalStockCheck && (", actionsStart);
 const actions = app.slice(actionsStart, actionsEnd);
 const orderedItems = [
-  "Consolidated List",
-  "By Meal / Component",
+  "<span>Consolidated</span><span>List</span>",
+  "<span>By Meal /</span><span>Component</span>",
   "Preview",
-  "Print List",
-  "Stock-Check",
-  "Digital Check",
-  "Grocery Picks",
-  "Clear &amp; Start Over",
+  "<span>Print</span><span>List</span>",
+  "<span>Stock</span><span>Check</span>",
+  "<span>Digital</span><span>Check</span>",
+  "<span>Grocery</span><span>Picks</span>",
+  "<span>Clear &amp;</span><span>Start Over</span>",
   '<KosPlanningStatusBand kosUi={kosUi} mode="shopping" compact />',
 ];
 let previousIndex = -1;

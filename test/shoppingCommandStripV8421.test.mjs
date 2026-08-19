@@ -28,8 +28,8 @@ const actionsStart = app.indexOf('<div className="shoppingListIntroActions">');
 const actionsEnd = app.indexOf("{showDigitalStockCheck && (", actionsStart);
 const actions = app.slice(actionsStart, actionsEnd);
 for (const contract of [
-  /Consolidated List/,
-  /By Meal \/ Component/,
+  /<span>Consolidated<\/span><span>List<\/span>/,
+  /<span>By Meal \/<\/span><span>Component<\/span>/,
   /shoppingPreviewButton/,
   /shoppingPrintButton/,
   /shoppingWorksheetButton/,

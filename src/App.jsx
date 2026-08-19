@@ -9440,32 +9440,32 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
       <div className="shoppingListIntroActions">
         <div className="shoppingViewToggle" role="tablist" aria-label="Shopping list view">
           <button type="button" role="tab" aria-selected={shoppingView === "consolidated"} onClick={() => setShoppingView("consolidated")}>
-            Consolidated List
+            <span>Consolidated</span><span>List</span>
           </button>
           <button type="button" role="tab" aria-selected={shoppingView === "needs"} onClick={() => setShoppingView("needs")}>
-            By Meal / Component
+            <span>By Meal /</span><span>Component</span>
           </button>
         </div>
         <button className="secondary shoppingPreviewButton" onClick={previewShoppingList}>
           Preview
         </button>
         <button className="primary shoppingPrintButton" onClick={printShoppingList}>
-          Print List
+          <span>Print</span><span>List</span>
         </button>
         <button className="secondary shoppingWorksheetButton" onClick={printMasterShoppingStockWorksheet}>
-          Stock-Check
+          <span>Stock</span><span>Check</span>
         </button>
         <button className="secondary shoppingDigitalCheckButton" onClick={() => setShowDigitalStockCheck((current) => !current)}>
-          {showDigitalStockCheck ? "Close Check" : "Digital Check"}
+          {showDigitalStockCheck ? <><span>Close</span><span>Check</span></> : <><span>Digital</span><span>Check</span></>}
         </button>
         <button
           className="secondary shoppingGroceryPicksButton"
           onClick={() => setActivePage("Grocery Picks")}
         >
-          Grocery Picks
+          <span>Grocery</span><span>Picks</span>
         </button>
         <button className="secondary shoppingClearButton" onClick={clearShoppingListAndStartOver}>
-          Clear &amp; Start Over
+          <span>Clear &amp;</span><span>Start Over</span>
         </button>
         <KosPlanningStatusBand kosUi={kosUi} mode="shopping" compact />
       </div>

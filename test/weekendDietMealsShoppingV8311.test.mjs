@@ -16,8 +16,8 @@ assert.match(planner, /recipeCode\(recipe\) === "DM"/);
 assert.match(planner, /Search Diet Meals by recipe name or code/);
 assert.match(plannerCss, /grid-template-columns:repeat\(3,minmax\(150px,1fr\)\)/);
 
-assert.match(app, /Consolidated List/);
-assert.match(app, /By Meal \/ Component/);
+assert.match(app, /<span>Consolidated<\/span><span>List<\/span>/);
+assert.match(app, /<span>By Meal \/<\/span><span>Component<\/span>/);
 assert.match(app, /useState\("needs"\)/);
 assert.match(app, /Items by Meal or Component/);
 assert.match(app, /function clearShoppingListAndStartOver\(\)/);

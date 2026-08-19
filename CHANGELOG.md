@@ -1,3 +1,11 @@
+# v84.23 — Stacked Shopping Command Labels
+
+- Stacked every multiword Shopping List control label into two centered lines to reduce horizontal width.
+- Narrowed the view selector, action columns, gaps, and four-counter group so all counters remain visible at the supplied desktop width.
+- Increased the compact strip height slightly to 46 pixels so two-line labels remain readable without crowding.
+- Preserved the one-row left-to-right order and all existing button handlers.
+- Removed desktop horizontal scrolling; viewports below the safe 790-pixel width retain one-row horizontal scrolling instead of wrapping.
+
 # v84.22 — One-Row Shopping Controls and Counters
 
 - Kept the complete Shopping List command strip in one left-to-right row.
