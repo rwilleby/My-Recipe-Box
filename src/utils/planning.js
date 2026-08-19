@@ -76,5 +76,18 @@ export function buildShoppingList(plan, recipes, servings = 4) {
 export function formatQty(value) {
   const number = Number(value) || 0;
   if (Number.isInteger(number)) return String(number);
+  const whole = Math.floor(number);
+  const remainder = number - whole;
+  const fractions = [
+    [1 / 8, "⅛"],
+    [1 / 4, "¼"],
+    [1 / 3, "⅓"],
+    [1 / 2, "½"],
+    [2 / 3, "⅔"],
+    [3 / 4, "¾"],
+    [7 / 8, "⅞"],
+  ];
+  const match = fractions.find(([fraction]) => Math.abs(remainder - fraction) < 0.015);
+  if (match) return `${whole || ""}${match[1]}`;
   return number.toFixed(2).replace(/\.00$/, "").replace(/0$/, "");
 }

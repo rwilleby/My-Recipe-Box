@@ -1,3 +1,22 @@
+# v84.1 — Diet Meal Ingredient Data, Batch 1
+
+- Transcribed and visually verified every ingredient and quantity from recipe cards DM-001 through DM-010.
+- Replaced broad four-item Diet Meal estimates with 112 individually checkable structured ingredient records.
+- Added common-fraction quantity formatting so card values such as ⅓, ½, and 1⅓ remain recognizable in Shopping List instead of displaying as decimals.
+- Assigned practical Shopping List aisles to each ingredient while preserving the recipe-card wording and quantities.
+- Split combined seasoning lines into separate ingredient records when separate checkboxes improve inventory decisions.
+- Added regression coverage for card-level ingredient counts, representative exact quantities, aisle assignments, and the remaining fallback boundary at DM-011.
+
+# v84.0 — Clean Baseline
+
+- Established the uploaded GitHub repository as the authoritative v84 baseline.
+- Removed macOS ZIP metadata, resource forks, and Finder files from the baseline archive.
+- Moved historical update manifests, upload instructions, release reports, and source-patch notes from the repository root into `docs/release-history`.
+- Updated all package version declarations from 83.12.0 to 84.0.0.
+- Aligned GitHub Pages deployment with the committed npm lockfile and the documented `npm run check` test-and-build gate.
+- Added repository ignore rules for dependencies, build output, operating-system metadata, logs, environment files, and editor folders.
+- Verified all 67 dependency-free project contract commands before establishing the new baseline.
+
 # v83.12 — Shopping List Ingredient Detail
 
 - Made By Meal / Component the default Shopping List view, including after Clear & Start Over.
