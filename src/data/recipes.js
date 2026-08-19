@@ -1,9 +1,12 @@
 import { AMERICAN_INGREDIENTS_V849 } from "./americanIngredientsV849.js";
 import { ASIAN_INGREDIENTS_V8410 } from "./asianIngredientsV8410.js";
+import { CROCK_POT_INGREDIENTS_V8411 } from "./crockPotIngredientsV8411.js";
+import { SPECIALTY_INGREDIENTS_V8411 } from "./specialtyIngredientsV8411.js";
 
 const baseCategories = [
   { id: "AM", name: "American Cuisine", count: 0, icon: "🍽️", iconImage: "images/categories/AM.webp" },
   { id: "AS", name: "Asian Cuisine", count: 0, icon: "🍜", iconImage: "images/categories/AS.webp" },
+  { id: "BR", name: "Bread Machine", count: 0, icon: "🍞", iconImage: "images/categories/LF.webp" },
   { id: "CC", name: "Cheesecakes", count: 0, icon: "🍰", iconImage: "images/categories/CC.webp" },
   { id: "CO", name: "Cobblers", count: 0, icon: "🥧", iconImage: "images/categories/CO.webp" },
   { id: "CP", name: "Crock Pot Meals", count: 0, icon: "🍲", iconImage: "images/icons/CP-bulk.webp" },
@@ -35,6 +38,7 @@ const CATEGORY_INFO = Object.fromEntries(baseCategories.map((category) => [categ
 const CATEGORY_DEFAULTS = {
   AM: { time: 35, servings: 4, price: "$$", emoji: "🍽️" },
   AS: { time: 30, servings: 4, price: "$$", emoji: "🍜" },
+  BR: { time: 120, servings: 10, price: "$", emoji: "🍞" },
   CC: { time: 70, servings: 8, price: "$$", emoji: "🍰" },
   CO: { time: 55, servings: 8, price: "$$", emoji: "🥧" },
   CP: { time: null, servings: null, price: "$$", emoji: "🍲" },
@@ -168,6 +172,8 @@ const CATEGORY_INGREDIENTS = {
 const DETAILED_RECIPE_INGREDIENTS = {
   ...AMERICAN_INGREDIENTS_V849,
   ...ASIAN_INGREDIENTS_V8410,
+  ...SPECIALTY_INGREDIENTS_V8411,
+  ...CROCK_POT_INGREDIENTS_V8411,
   "AM-001": [
     { name: "Ground beef", qty: 1.5, unit: "lb", aisle: "Meat", cost: 0 },
     { name: "Breadcrumbs", qty: 0.5, unit: "cup", aisle: "Baking", cost: 0 },
@@ -1433,7 +1439,7 @@ function makeRecipe(entry) {
     cardImage: options.cardImage || `images/recipes/${id}.webp`,
     heroImage: options.heroImage || `images/heroes/${id}.webp`,
     cost: options.cost || defaultCost(price),
-    ingredients: options.ingredients || DETAILED_RECIPE_INGREDIENTS[id] || defaultIngredients(categoryCode, title, id),
+    ingredients: options.ingredients?.length ? options.ingredients : DETAILED_RECIPE_INGREDIENTS[id] || defaultIngredients(categoryCode, title, id),
     mediaLinks: options.mediaLinks || undefined,
     mealBalance: options.mealBalance || estimateMealBalance(categoryCode, title),
   };
@@ -1541,6 +1547,16 @@ const recipeRows = [
   ["AS-022", "Chicken Egg Rolls"],
   ["AS-023", "Spring Rolls"],
   ["AS-024", "Crab Rangoons"],
+  ["BR-001", "Basic White Breads"],
+  ["BR-002", "Honey Wheat Breads"],
+  ["BR-003", "Buttermilk Breads"],
+  ["BR-005", "Hawaiian Breads"],
+  ["BR-006", "Pretzel Bread"],
+  ["BR-007", "Whataburger-Style Bread"],
+  ["BR-008", "Fake Sourdough Bread"],
+  ["BR-009", "Hawaiian Rolls"],
+  ["BR-010", "Whataburger-Style Buns"],
+  ["BR-011", "Schlotzsky’s-Style Buns"],
   ["CC-001", "Mini Cheesecakes: Classic Plain"],
   ["CC-002", "Mini Cheesecakes: Salted Caramel"],
   ["CC-003", "Mini Cheesecakes: Oreo Cookie"],
@@ -1793,10 +1809,10 @@ const recipeRows = [
   ["DM-058", "Sweet Chili Shrimp with Jasmine Rice", { time: 35 }],
   ["DM-059", "Herb-Roasted Salmon with Potatoes & Green Beans", { time: 45 }],
   ["DM-060", "Fish Florentine with Rice", { time: 35 }],
-  ["CR-001", "Traditional Cinnamon Rolls"],
-  ["CR-002", "Chocolate Cinnamon Rolls"],
-  ["CR-003", "Apple Cinnamon Rolls"],
-  ["CR-004", "Pecan Raisin Cinnamon Rolls"],
+  ["CR-001", "Cinnamon Rolls: Traditional"],
+  ["CR-002", "Cinnamon Rolls: Chocolate"],
+  ["CR-003", "Cinnamon Rolls: Apple Cinnamon"],
+  ["CR-004", "Cinnamon Rolls: Pecan Raisin"],
   ["CR-005", "Crescent Dough Cinnamon Rolls"],
   ["DN-001", "Yeast Glazed Donuts"],
   ["DN-002", "Classic Cake Donuts"],

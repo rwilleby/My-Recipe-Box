@@ -1,0 +1,48 @@
+{
+  "version": "84.11.0",
+  "release": "BR, CC, CO, CP, and CR Ingredient Data",
+  "baseline": "v84.10 GitHub update",
+  "uploadMode": "replace matching files and add new files; no deletions required",
+  "changedFiles": [
+    "CHANGELOG.md",
+    "UPDATE-MANIFEST-v84.11.json",
+    "V84.11-MULTI-CATEGORY-INGREDIENT-DATA-REPORT.md",
+    "UPLOAD-INSTRUCTIONS-v84.11.txt",
+    "package.json",
+    "package-lock.json",
+    "src/data/crockPotIngredientsV8411.js",
+    "src/data/recipes.js",
+    "src/data/specialtyIngredientsV8411.js",
+    "src/package.json",
+    "test/multiCategoryIngredientDataV8411.test.mjs"
+  ],
+  "deletedFiles": [],
+  "ingredientData": {
+    "categories": {
+      "BR": { "activeRecipes": 10, "ingredientRecords": 88 },
+      "CC": { "activeRecipes": 6, "ingredientRecords": 60 },
+      "CO": { "activeRecipes": 6, "ingredientRecords": 73 },
+      "CP": { "activeRecipes": 180, "ingredientRecords": 1498 },
+      "CR": { "activeRecipes": 5, "ingredientRecords": 67 }
+    },
+    "activeRecipes": 207,
+    "structuredIngredientRecords": 1786,
+    "fallbackRecipesRemaining": 0
+  },
+  "registry": {
+    "breadMachineCategoryActivated": true,
+    "missingRecipeCodesNotInvented": ["BR-004"],
+    "alternateAssetsNotActivated": ["BR-011a"],
+    "nutritionTitlesAligned": ["CR-001", "CR-002", "CR-003", "CR-004"]
+  },
+  "sourceCardNotes": [
+    "BR flour-total summary lines were not counted as extra ingredients when the component flours are printed separately",
+    "CC-001 and CC-002 retain unusual printed quantities including melted sugar, one-sixth cup cream cheese, and 12 large eggs",
+    "Unmeasured Crock Pot card shorthand is labeled amount not specified instead of receiving an invented quantity"
+  ],
+  "verification": {
+    "dependencyFreeContractCommands": 78,
+    "passed": 78
+  },
+  "nextRecommendedStep": "Continue detailed ingredient transcription with the next recipe category"
+}

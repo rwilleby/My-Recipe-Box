@@ -1,3 +1,13 @@
+# v84.11 — BR, CC, CO, CP, and CR Ingredient Data
+
+- Added detailed Shopping List data for all 207 active recipes across Bread Machine, Cheesecakes, Cobblers, Crock Pot Meals, and Cinnamon Rolls.
+- Added 1,786 individually checkable ingredient records: 88 BR, 60 CC, 73 CO, 1,498 CP, and 67 CR.
+- Activated the 10 existing Bread Machine cards as a browseable BR category; BR-004 remains absent and the alternate BR-011a image does not create a duplicate recipe.
+- Preserved exact optional ingredients, printed ranges, package sizes, and unmeasured Crock Pot shorthand without inventing quantities.
+- Aligned CR-001 through CR-004 recipe titles with the existing Nutrition Database naming.
+- Preserved unusual printed cheesecake-card values as source data and documented them for content review.
+- Added regression coverage for every recipe count, every card-level ingredient count, all 1,786 records, representative exact quantities, nutrition-title alignment, and BR asset boundaries.
+
 # v84.10 — Complete Asian Ingredient Data
 
 - Transcribed and visually verified every printed ingredient from recipe cards AS-001 through AS-024.
