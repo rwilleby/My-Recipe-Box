@@ -1,0 +1,16 @@
+ROBERT'S RECIPE BOX v84.14 — GITHUB UPDATE
+
+This update is based on the v84.13 GitHub update.
+
+1. Finish uploading the v84.13 update first.
+2. Unzip My-Recipe-Box-v84.14-GitHub-Update.zip.
+3. Open the extracted My-Recipe-Box-v84.14-GitHub-Update folder.
+4. Upload the CONTENTS of that folder to the GitHub repository root.
+5. Replace matching files and preserve the included folder structure.
+6. Add test/masterFreezerInventoryV8414.test.mjs.
+7. No GitHub files need to be deleted.
+8. Wait for the GitHub Actions test, build, and deployment checks to turn green.
+9. Open KITCHEN INVENTORY and confirm the menu shows MASTER KITCHEN INVENTORY, MASTER FREEZER INVENTORY, and PANTRY INVENTORY only.
+10. Open MASTER FREEZER INVENTORY and confirm the three controls read Complete Meals | Individual Recipes | Component Items.
+11. Open Component Items and verify existing freezer items remain available, then test a quantity, package size, date, location, custom item, and grocery-list action.
+12. Confirm existing Refrigerator, Prepared Freezer, and Freezer inventory data was not cleared by the update.

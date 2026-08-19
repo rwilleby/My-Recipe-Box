@@ -1,3 +1,14 @@
+# v84.14 — Master Freezer Inventory
+
+- Simplified the Kitchen Inventory menu to Master Kitchen Inventory, Master Freezer Inventory, and Pantry Inventory.
+- Hid the separate Refrigerator Inventory, Prepared Freezer Inventory, and Freezer Inventory menu entries without deleting their saved browser data or internal compatibility routes.
+- Renamed the public Freezer Inventory Management page to Master Freezer Inventory.
+- Added a three-part freezer control: Complete Meals, Individual Recipes, and Component Items.
+- Integrated the existing freezer stock system into Component Items for bulk meats, cooked proteins, frozen vegetables, fruit, breads, prepared foods, sides, sauces, bases, dairy extras, supplies, and custom meal-building items.
+- Preserved component stock checks, quantities, package sizes, dates, locations, use-soon status, grocery-list actions, printing, import/export, clearing, and custom items.
+- Updated Weekend Bulk Meal Planner messages to direct corrections to Master Freezer Inventory.
+- Added regression coverage for the simplified menu, three-part control, component catalog, inventory tools, and responsive layout wiring.
+
 # v84.13 — JJ, KR, LF, and MX Ingredient Data
 
 - Added complete Shopping List detail for 91 recipe cards across Jams & Jellies, Kolaches, Loafs & Rolls, and Mexican Cuisine.

@@ -1,0 +1,62 @@
+{
+  "version": "84.14.0",
+  "release": "Master Freezer Inventory",
+  "baseline": "v84.13 GitHub update",
+  "uploadMode": "replace matching files and add new files; no deletions required",
+  "changedFiles": [
+    "CHANGELOG.md",
+    "UPDATE-MANIFEST-v84.14.json",
+    "V84.14-MASTER-FREEZER-INVENTORY-REPORT.md",
+    "UPLOAD-INSTRUCTIONS-v84.14.txt",
+    "package.json",
+    "package-lock.json",
+    "src/App.jsx",
+    "src/App.css",
+    "src/components/WeekendBulkMealPlanner.jsx",
+    "src/package.json",
+    "test/navigationReorganizationV836.test.mjs",
+    "test/masterFreezerInventoryV8414.test.mjs"
+  ],
+  "deletedFiles": [],
+  "navigation": {
+    "visibleKitchenInventoryItems": [
+      "MASTER KITCHEN INVENTORY",
+      "MASTER FREEZER INVENTORY",
+      "PANTRY INVENTORY"
+    ],
+    "hiddenMenuItems": [
+      "REFRIGERATOR INVENTORY",
+      "PREPARED FREEZER INVENTORY",
+      "FREEZER INVENTORY"
+    ],
+    "savedDataDeleted": false
+  },
+  "masterFreezerInventory": {
+    "tabs": ["Complete Meals", "Individual Recipes", "Component Items"],
+    "componentExamples": [
+      "bulk meats",
+      "cooked proteins",
+      "frozen vegetables and fruit",
+      "breads and bakery items",
+      "prepared foods and sides",
+      "soups, sauces, and cooking bases",
+      "custom meal-building items"
+    ],
+    "retainedTools": [
+      "stock checks",
+      "quantity and package tracking",
+      "frozen and use-by dates",
+      "freezer locations",
+      "grocery-list actions",
+      "custom items",
+      "print",
+      "import and export",
+      "clear inventory"
+    ]
+  },
+  "verification": {
+    "dependencyFreeContractCommands": 81,
+    "passed": 81
+  },
+  "nextRecommendedStep": "Upload after v84.13 and verify all three Master Freezer Inventory tabs with existing local inventory data"
+}

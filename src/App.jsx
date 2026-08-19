@@ -1319,10 +1319,7 @@ const NAV_GROUPS = [
     label: "KITCHEN INVENTORY",
     items: [
       { label: "MASTER KITCHEN INVENTORY", page: "Master Kitchen Inventory" },
-      { label: "REFRIGERATOR INVENTORY", page: "Kitchen Refrigerator", detailedOnly: true },
-      { label: "PREPARED FREEZER INVENTORY", page: "Prepared Freezer Inventory", detailedOnly: true },
-      { label: "FREEZER INVENTORY MANAGEMENT", page: "Freezer Inventory Management", detailedOnly: true },
-      { label: "FREEZER INVENTORY", page: "Kitchen Freezer", detailedOnly: true },
+      { label: "MASTER FREEZER INVENTORY", page: "Freezer Inventory Management", detailedOnly: true },
       { label: "PANTRY INVENTORY", page: "Pantry Staples" },
     ],
   },
@@ -7227,7 +7224,7 @@ function PreparedFreezerInventoryPage({
           Add Inventory Item
         </button>
         <button className="secondary" type="button" onClick={() => setActivePage("Freezer Inventory Management")}>
-          Manage Frozen Meals
+          Master Freezer Inventory
         </button>
         <button className="secondary" type="button" onClick={() => setActivePage("Meal Planner")}>
           Meal Planner
@@ -7355,6 +7352,8 @@ function FreezerInventoryManagementPage({
   preparedInventory,
   setPreparedInventory,
   classifiedRecipes = [],
+  freezer,
+  setFreezer,
   setActivePage,
 }) {
   const [activeKind, setActiveKind] = useState("completeMeal");
@@ -7384,6 +7383,8 @@ function FreezerInventoryManagementPage({
         meal,
       }));
     }
+
+    if (activeKind === "componentItem") return [];
 
     return individualRecipes.map((recipe) => ({
       kind: "mainCourse",
@@ -7421,7 +7422,10 @@ function FreezerInventoryManagementPage({
   const totalIndividuals = managedItems
     .filter((item) => item.kind === "mainCourse")
     .reduce((sum, item) => sum + Number(item.packagesAvailable || 0), 0);
-  const stockedTitles = managedItems.filter((item) => Number(item.packagesAvailable || 0) > 0).length;
+  const safeFreezer = normalizeFreezerState(freezer);
+  const componentItems = [...getDefaultFreezerItems(), ...safeFreezer.customItems]
+    .map((item) => ({ ...item, ...(safeFreezer.items[item.id] || {}) }));
+  const totalComponents = componentItems.filter((item) => item.onHand).length;
 
   function updateManagedItem(source, patch) {
     setPreparedInventory((current) => {
@@ -7466,15 +7470,15 @@ function FreezerInventoryManagementPage({
   return (
     <main className="pageShell freezerInventoryManagementPage">
       <SectionIntro
-        title="Freezer Inventory Management"
-        text="Review frozen Complete Meals and individually packaged recipes, record what is actually on hand, and keep quantities current so meal planning can show what is ready to use."
+        title="Master Freezer Inventory"
+        text="Track frozen Complete Meals, individually packaged recipes, and component items such as bulk meats, vegetables, breads, sauces, and other foods used to build meals."
         className="freezerManagementSectionIntro"
       />
 
       <section className="freezerManagementSummary" aria-label="Frozen meal inventory summary">
         <div><small>Complete Meals</small><strong>{totalComplete}</strong></div>
         <div><small>Individual Recipes</small><strong>{totalIndividuals}</strong></div>
-        <div><small>Stocked Recipes / Meals</small><strong>{stockedTitles}</strong></div>
+        <div><small>Component Items</small><strong>{totalComponents}</strong></div>
       </section>
 
       <div className="freezerManagementKindTabs" role="tablist" aria-label="Freezer inventory type">
@@ -7494,42 +7498,59 @@ function FreezerInventoryManagementPage({
         >
           Individual Recipes
         </button>
+        <button
+          type="button"
+          className={activeKind === "componentItem" ? "isActive" : ""}
+          aria-selected={activeKind === "componentItem"}
+          onClick={() => setActiveKind("componentItem")}
+        >
+          Component Items
+        </button>
       </div>
 
-      <section className="freezerManagementFilters" aria-label="Freezer stock review controls">
-        <label>
-          <span>Search</span>
-          <input
-            type="search"
-            value={search}
-            onChange={(event) => setSearch(event.target.value)}
-            placeholder={activeKind === "completeMeal" ? "Search complete meals..." : "Search individual recipes..."}
-          />
-        </label>
-        <label>
-          <span>Show</span>
-          <select value={stockFilter} onChange={(event) => setStockFilter(event.target.value)}>
-            <option value="all">Show All</option>
-            <option value="stocked">Stocked Only</option>
-            <option value="empty">Not Stocked</option>
-            <option value="use-soon">Use Soon</option>
-          </select>
-        </label>
-        <button type="button" className="secondary" onClick={() => setActivePage("Meal Planner")}>
-          Weekly Meal Planner
-        </button>
-        <button type="button" className="secondary" onClick={() => setActivePage("Prepared Freezer Inventory")}>
-          Component Inventory
-        </button>
-      </section>
+      {activeKind === "componentItem" ? (
+        <FreezerInventoryPage
+          freezer={freezer}
+          setFreezer={setFreezer}
+          setActivePage={setActivePage}
+          embedded
+        />
+      ) : (
+        <>
+          <section className="freezerManagementFilters" aria-label="Freezer stock review controls">
+            <label>
+              <span>Search</span>
+              <input
+                type="search"
+                value={search}
+                onChange={(event) => setSearch(event.target.value)}
+                placeholder={activeKind === "completeMeal" ? "Search complete meals..." : "Search individual recipes..."}
+              />
+            </label>
+            <label>
+              <span>Show</span>
+              <select value={stockFilter} onChange={(event) => setStockFilter(event.target.value)}>
+                <option value="all">Show All</option>
+                <option value="stocked">Stocked Only</option>
+                <option value="empty">Not Stocked</option>
+                <option value="use-soon">Use Soon</option>
+              </select>
+            </label>
+            <button type="button" className="secondary" onClick={() => setActivePage("Meal Planner")}>
+              Weekly Meal Planner
+            </button>
+            <button type="button" className="secondary" onClick={() => setActiveKind("componentItem")}>
+              Component Items
+            </button>
+          </section>
 
-      <div className="freezerManagementResultsBar">
-        <strong>{visibleItems.length}</strong>
-        <span>{activeKind === "completeMeal" ? "Complete Meals" : "Individual Recipes"} shown</span>
-      </div>
+          <div className="freezerManagementResultsBar">
+            <strong>{visibleItems.length}</strong>
+            <span>{activeKind === "completeMeal" ? "Complete Meals" : "Individual Recipes"} shown</span>
+          </div>
 
-      <section className="freezerManagementList">
-        {visibleItems.map((source) => {
+          <section className="freezerManagementList">
+            {visibleItems.map((source) => {
           const stock = stockMap.get(`${source.kind}:${source.sourceId}`);
           const qty = Number(stock?.packagesAvailable || 0);
           const useSoon = qty > 0 && stock?.useByDate && stock.useByDate >= today && stock.useByDate <= soonCutoff;
@@ -7609,8 +7630,10 @@ function FreezerInventoryManagementPage({
               </div>
             </article>
           );
-        })}
-      </section>
+            })}
+          </section>
+        </>
+      )}
     </main>
   );
 }
@@ -8194,7 +8217,7 @@ function freezerPackageOptions(currentValue = "") {
     : FREEZER_PACKAGE_OPTIONS;
 }
 
-function FreezerInventoryPage({ freezer, setFreezer, setActivePage }) {
+function FreezerInventoryPage({ freezer, setFreezer, setActivePage, embedded = false }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [showDigitalStockCheck, setShowDigitalStockCheck] = useState(false);
   const [filterMode, setFilterMode] = useState("all");
@@ -8538,7 +8561,7 @@ function FreezerInventoryPage({ freezer, setFreezer, setActivePage }) {
   })).filter((category) => category.items.length);
 
   return (
-    <main className="pageShell freezerInventoryPage">
+    <section className={`pageShell freezerInventoryPage${embedded ? " freezerInventoryEmbedded" : ""}`}>
       <section className="freezerSummaryGrid" aria-label="Freezer inventory summary">
         <div className="freezerSummaryBox"><small>Total Items on Hand</small><strong>{summary.onHand}</strong></div>
         <div className="freezerSummaryBox"><small>Use Soon</small><strong>{summary.useSoon}</strong></div>
@@ -8708,7 +8731,7 @@ function FreezerInventoryPage({ freezer, setFreezer, setActivePage }) {
           </section>
         )) : <p>No freezer items are currently marked on hand.</p>}
       </section>
-    </main>
+    </section>
   );
 }
 
@@ -17097,9 +17120,9 @@ export default function App() {
           <PageHeroImage
             src="images/heroes/hero-page-freezer.webp"
             alt="Organized freezer with labeled prepared meal packages"
-            eyebrow="MEAL PLANNING"
-            title="Freezer Inventory Management"
-            text="Review frozen Complete Meals and Main Courses, record how many packages are actually available, and keep freezer dates current so meal planning can make better use of food you already prepared."
+            eyebrow="KITCHEN INVENTORY"
+            title="Master Freezer Inventory"
+            text="Keep Complete Meals, Individual Recipes, and Component Items together in one freezer-management center. Track ready-to-reheat meals, packaged recipes, bulk meats, frozen foods, cooking bases, and anything else used to build meals."
             className="pageHeroDepth464"
           />
           <FreezerInventoryManagementPage {...pageProps} />

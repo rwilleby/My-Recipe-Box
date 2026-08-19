@@ -18489,7 +18489,7 @@ button.browseRecipeWideFooterAction:focus-visible,
 
 .freezerManagementKindTabs {
   display: grid !important;
-  grid-template-columns: repeat(2, 1fr) !important;
+  grid-template-columns: repeat(3, 1fr) !important;
   height: var(--rrb-segmented-height, 38px) !important;
   padding: 2px !important;
   margin: 0 0 12px !important;
@@ -18518,6 +18518,13 @@ button.browseRecipeWideFooterAction:focus-visible,
   border-radius: calc(var(--rrb-segmented-radius, 18px) - 3px) !important;
   background: var(--rrb-segmented-active-bg, #9a938f) !important;
   color: #fff !important;
+}
+
+.freezerInventoryEmbedded {
+  width: 100% !important;
+  max-width: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
 }
 
 .freezerManagementFilters {

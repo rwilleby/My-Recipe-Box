@@ -23,10 +23,7 @@ const mealPlanningMenu = navSource.slice(kitchenStart, shoppingStart);
 
 const inventoryItems = [
   ["MASTER KITCHEN INVENTORY", "Master Kitchen Inventory"],
-  ["REFRIGERATOR INVENTORY", "Kitchen Refrigerator"],
-  ["PREPARED FREEZER INVENTORY", "Prepared Freezer Inventory"],
-  ["FREEZER INVENTORY MANAGEMENT", "Freezer Inventory Management"],
-  ["FREEZER INVENTORY", "Kitchen Freezer"],
+  ["MASTER FREEZER INVENTORY", "Freezer Inventory Management"],
   ["PANTRY INVENTORY", "Pantry Staples"],
 ];
 
@@ -40,6 +37,9 @@ for (const [label, page] of inventoryItems) {
   assert.ok(!mealPlanningMenu.includes(`page: "${page}"`), `${label} should be removed from Meal Planning`);
 }
 assert.ok(!inventoryMenu.includes("level:"), "Kitchen Inventory items should not be indented");
+for (const hiddenLabel of ["REFRIGERATOR INVENTORY", "PREPARED FREEZER INVENTORY", "FREEZER INVENTORY MANAGEMENT", "FREEZER INVENTORY"]) {
+  assert.ok(!inventoryMenu.includes(`label: "${hiddenLabel}"`), `${hiddenLabel} should be hidden from Kitchen Inventory`);
+}
 
 const browseIndex = recipeMenu.indexOf('label: "BROWSE OUR RECIPE LIBRARY"');
 const favoritesIndex = recipeMenu.indexOf('label: "YOUR FAVORITE RECIPES"');
