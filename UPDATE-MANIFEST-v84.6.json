@@ -1,0 +1,30 @@
+{
+  "version": "84.6.0",
+  "release": "Diet Meal Ingredient Data, Final Batch",
+  "baseline": "v84.5 GitHub update",
+  "uploadMode": "replace matching files; no deletions required",
+  "changedFiles": [
+    "CHANGELOG.md",
+    "UPDATE-MANIFEST-v84.6.json",
+    "V84.6-INGREDIENT-DATA-REPORT.md",
+    "UPLOAD-INSTRUCTIONS-v84.6.txt",
+    "package.json",
+    "package-lock.json",
+    "src/data/recipes.js",
+    "src/package.json",
+    "test/dietMealsCategoryV8215.test.mjs",
+    "test/dietMealIngredientDataV845.test.mjs",
+    "test/dietMealIngredientDataV846.test.mjs"
+  ],
+  "deletedFiles": [],
+  "ingredientBatch": {
+    "recipes": ["DM-051", "DM-052", "DM-053", "DM-054", "DM-055", "DM-056", "DM-057", "DM-058", "DM-059", "DM-060"],
+    "structuredIngredientRecords": 101,
+    "cumulativeVerifiedRecords": 616,
+    "verifiedDietMealRecipes": 60,
+    "remainingDietMealFallbacks": 0,
+    "verificationMethod": "visual transcription from approved recipe cards",
+    "shoppingDefaultView": "By Meal / Component"
+  },
+  "nextRecommendedBatch": "Diet Meals complete; select the next recipe category"
+}

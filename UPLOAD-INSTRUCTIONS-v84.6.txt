@@ -1,0 +1,13 @@
+ROBERT'S RECIPE BOX v84.6 — GITHUB UPDATE
+
+This update is based on the v84.5 GitHub update.
+
+1. Unzip My-Recipe-Box-v84.6-GitHub-Update.zip.
+2. Open the extracted My-Recipe-Box-v84.6-GitHub-Update folder.
+3. Upload the CONTENTS of that folder to the GitHub repository root.
+4. Replace matching files and preserve the included folder structure.
+5. No GitHub files need to be deleted.
+6. Wait for the GitHub Actions test, build, and deployment checks to turn green.
+7. Add any DM-051 through DM-060 recipe to the Weekly Meal Planner.
+8. Open Shopping List and verify By Meal / Component is selected.
+9. Verify the selected recipe shows every card ingredient as an individual checkable row.

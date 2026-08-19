@@ -32,7 +32,7 @@ assert.equal(ingredient("DM-047", "Black beans, rinsed")?.qty, 2);
 assert.equal(ingredient("DM-048", "Salsa verde")?.qty, 1.5);
 assert.equal(ingredient("DM-049", "Cauliflower rice")?.qty, 4);
 assert.equal(ingredient("DM-050", "Roasted sweet potatoes")?.qty, 3);
-assert.equal(byId["DM-051"].ingredients.length, 4, "DM-051 begins the next unverified batch");
+assert.ok(byId["DM-051"].ingredients.length >= 8, "later verified batches may replace the DM-051 fallback");
 
 assert.equal(
   Object.values(expectedCounts).reduce((sum, count) => sum + count, 0),

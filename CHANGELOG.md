@@ -1,3 +1,11 @@
+# v84.6 — Diet Meal Ingredient Data, Final Batch
+
+- Transcribed and visually verified every ingredient and quantity from recipe cards DM-051 through DM-060.
+- Replaced the last Diet Meal fallback estimates with 101 individually checkable structured ingredient records.
+- Completed detailed Shopping List coverage for all 60 Diet Meals with 616 verified ingredient records in total.
+- Split DM-054's “garlic and ginger” card line into separate one-teaspoon records so each pantry item can be checked independently.
+- Added regression coverage for all final-batch counts, representative exact quantities, aisle assignments, and complete removal of four-item Diet Meal fallbacks.
+
 # v84.5 — Diet Meal Ingredient Data, Batch 5
 
 - Transcribed and visually verified every ingredient and quantity from recipe cards DM-041 through DM-050.
