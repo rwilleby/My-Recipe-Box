@@ -1,3 +1,9 @@
+# v84.19 — Centered Header Logo
+
+- Centered the complete Robert's Recipe Box logo horizontally within the full-width header row at every responsive size.
+- Preserved the existing logo artwork, typography, spacing, home-button behavior, and independently centered main navigation.
+- Added a focused regression contract to protect the logo and menu centering rules from later cascade changes.
+
 # v84.18 — Standardized Kitchen Inventory Taxonomy
 
 - Replaced the prior mixed catalog structure with 11 controlled master categories and all 248 approved product types supplied by Robert.

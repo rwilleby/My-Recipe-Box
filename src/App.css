@@ -13608,6 +13608,13 @@ to {
   }
 }
 
+/* ================================================================
+   v84.19 — FINAL HORIZONTAL CENTERING FOR THE HEADER LOGO
+   ================================================================ */
+.compactTopbar > .brandLogoButton {
+  justify-self: center !important;
+}
+
 .hero .homeHeroModeControls {position: absolute !important; left: clamp(42px, 7.5vw, 128px) !important; bottom: 12px !important; z-index: 32 !important; display: flex !important; align-items: flex-end !important; gap: 8px !important; margin: 0 !important; padding: 0 !important;}
 
 .hero .homeHeroModeButton {display: grid !important; place-items: center !important; width: auto !important; height: 37px !important; min-height: 37px !important; margin: 0 !important; padding: 0 !important; overflow: hidden !important; border: 0 !important; border-radius: 9px !important; background: transparent !important; box-shadow: none !important; cursor: pointer !important;}
