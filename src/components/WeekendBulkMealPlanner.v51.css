@@ -157,7 +157,7 @@
 }
 .weekendBulkSourceMode>div{
   display:inline-grid;
-  grid-template-columns:repeat(2,minmax(180px,1fr));
+  grid-template-columns:repeat(3,minmax(150px,1fr));
   overflow:hidden;
   border:1px solid #cfcac1;
   border-radius:11px;
@@ -259,8 +259,8 @@
 }
 @media(max-width:780px){
   .weekendBulkSourceMode>div{
-    grid-template-columns:1fr 1fr;
-    width:min(100%,430px);
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    width:min(100%,620px);
   }
   .weekendBulkHeaderFields{
     grid-template-columns:repeat(3,minmax(0,1fr))!important;

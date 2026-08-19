@@ -16766,6 +16766,122 @@ button.browseRecipeWideFooterAction:focus-visible,
   }
 }
 
+/* v83.11 — resettable shopping list and meal/component needs view */
+.shoppingViewToggle {
+  display: inline-grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  overflow: hidden;
+  border: 1px solid #cfcac1;
+  border-radius: 11px;
+  background: #f5f2ec;
+  padding: 3px;
+}
+.shoppingViewToggle button {
+  min-height: 38px;
+  border: 0 !important;
+  border-radius: 8px !important;
+  background: transparent !important;
+  color: #27313c !important;
+  padding: 0 13px !important;
+  box-shadow: none !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  white-space: nowrap;
+}
+.shoppingViewToggle button[aria-selected="true"] {
+  background: #77716b !important;
+  color: #fff !important;
+}
+.shoppingClearButton {
+  border-color: #c98e89 !important;
+  color: #8f2925 !important;
+}
+.shoppingNeedsView {
+  margin-top: 8px;
+}
+.shoppingNeedsViewHeader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 14px;
+}
+.shoppingNeedsViewHeader h2 {
+  margin: 0;
+  color: #111827;
+  font: 700 23px/1.15 Georgia, "Times New Roman", serif;
+}
+.shoppingNeedsViewHeader p {
+  margin: 4px 0 0;
+  color: #667085;
+  font-size: 14px;
+}
+.shoppingNeedsViewHeader > strong {
+  color: #14532d;
+  font-size: 14px;
+  white-space: nowrap;
+}
+.shoppingNeedGroups {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+.shoppingNeedGroup {
+  overflow: hidden;
+  border: 1px solid #d8d4cc;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .04);
+}
+.shoppingNeedGroup > header {
+  border-bottom: 1px solid #dedbd4;
+  background: #f6f3ed;
+  padding: 12px 14px 10px;
+}
+.shoppingNeedGroup h3 {
+  margin: 0;
+  color: #16231b;
+  font: 700 18px/1.2 Georgia, "Times New Roman", serif;
+}
+.shoppingNeedGroup header p {
+  margin: 3px 0 0;
+  color: #667085;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+}
+.shoppingNeedGroup > div {
+  padding: 4px 14px 8px;
+}
+.shoppingNeedItem {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr) auto minmax(90px, auto);
+  gap: 8px;
+  align-items: center;
+  min-height: 38px;
+  border-bottom: 1px solid #ece9e2;
+  color: #172033;
+}
+.shoppingNeedItem:last-child { border-bottom: 0; }
+.shoppingNeedItem input { width: 16px; height: 16px; accent-color: #14532d; }
+.shoppingNeedItem span { font-size: 13px; font-weight: 700; }
+.shoppingNeedItem small { color: #374151; font-size: 12px; white-space: nowrap; }
+.shoppingNeedItem em { color: #7c2d12; font-size: 10px; font-style: normal; font-weight: 800; text-align: right; text-transform: uppercase; }
+.shoppingNeedItem em.available { color: #14532d; }
+.shoppingNeedItem.checked span { color: #777; text-decoration: line-through; }
+@media (max-width: 900px) {
+  .shoppingNeedGroups { grid-template-columns: 1fr; }
+  .shoppingListIntroActions { align-items: stretch !important; }
+}
+@media (max-width: 560px) {
+  .shoppingViewToggle { grid-template-columns: 1fr; width: 100%; }
+  .shoppingNeedsViewHeader { align-items: flex-start; flex-direction: column; }
+  .shoppingNeedItem { grid-template-columns: 20px minmax(0, 1fr) auto; }
+  .shoppingNeedItem em { grid-column: 2 / -1; text-align: left; }
+}
+
 
 /* ================================================================
    v79.1 — WEEKLY MEAL PLANNER CONTROL ROW MASTER

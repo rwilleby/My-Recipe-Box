@@ -1,0 +1,16 @@
+ROBERT'S RECIPE BOX v83.11 — GITHUB UPDATE
+
+This package is cumulative from the verified v83.10 update.
+It includes v83.2 through v83.11.
+
+1. Unzip My-Recipe-Box-v83.11-GitHub-Update.zip.
+2. Open the extracted My-Recipe-Box-v83.11-GitHub-Update folder.
+3. Upload the CONTENTS of that folder to the GitHub repository root.
+4. Replace matching files and preserve the included folder structure.
+5. Do not upload an earlier v83 package first.
+6. No GitHub files need to be deleted for this update.
+7. Wait for the GitHub Actions build and deployment checks to turn green.
+8. Verify Weekend Bulk Meal Planner shows Individual Recipes | Complete Meals | Diet Meals.
+9. Verify Diet Meals contains DM recipes and that ADD places the selected meal in My Cooking Plan.
+10. Verify Shopping List switches between Consolidated List and By Meal / Component.
+11. Verify Clear & Start Over asks for confirmation and clears planner-based shopping work without deleting kitchen inventory.

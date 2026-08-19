@@ -1,0 +1,37 @@
+{
+  "version": "83.11.0",
+  "release": "Diet Bulk Planning and Resettable Shopping Views",
+  "baseline": "Verified cumulative My-Recipe-Box v83.10 update",
+  "cumulativeIncludes": "v83.2 through v83.11",
+  "uploadMode": "replace matching files; no deletions required",
+  "changedFiles": [
+    "CHANGELOG.md",
+    "UPDATE-MANIFEST-v83.11.json",
+    "V83.11-PLANNING-SHOPPING-REPORT.md",
+    "UPLOAD-INSTRUCTIONS-v83.11.txt",
+    "package.json",
+    "package-lock.json",
+    "src/App.css",
+    "src/App.jsx",
+    "src/package.json",
+    "src/components/WeekendBulkMealPlanner.jsx",
+    "src/components/WeekendBulkMealPlanner.v51.css",
+    "test/weekendDietMealsShoppingV8311.test.mjs"
+  ],
+  "deletedFiles": [],
+  "weekendBulkPlan": {
+    "sourceOrder": ["Individual Recipes", "Complete Meals", "Diet Meals"],
+    "dietMealFilter": "DM recipe category"
+  },
+  "shoppingList": {
+    "views": ["Consolidated List", "By Meal / Component"],
+    "clearAction": "clears weekly plan, shopping checks, comments, and component decisions after confirmation",
+    "inventoryPreserved": true,
+    "groupedSources": ["planned recipes", "complete meals", "prepared components", "refrigerator restock", "freezer restock"]
+  },
+  "preserves": [
+    "pantry, refrigerator, freezer, and prepared inventory",
+    "browser-only saved-data behavior",
+    "all v83.2 through v83.10 website changes"
+  ]
+}

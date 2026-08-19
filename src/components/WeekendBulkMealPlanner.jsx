@@ -300,6 +300,11 @@ export default function WeekendBulkMealPlanner({
         componentRecipeIds: [meal.mainRecipeId, ...(meal.sides || []).map((side) => side.recipeId)].filter(Boolean),
       }));
     }
+    if (catalogMode === "diet-meals") {
+      return sortRecipesByCode(
+        recipes.filter((recipe) => recipeCode(recipe) === "DM"),
+      ).map((recipe) => ({ ...recipe, sourceType: "recipe" }));
+    }
     const matchingRecipes = activeType === "ALL"
       ? recipes
       : activeType === "FAVORITES"
@@ -350,7 +355,7 @@ export default function WeekendBulkMealPlanner({
   function addItem(item) {
     setPlan((current) => ({
       ...current,
-      items: [...current.items, makePlanItem(item, activeType, current.prepDay)],
+      items: [...current.items, makePlanItem(item, catalogMode === "diet-meals" ? "DM" : activeType, current.prepDay)],
     }));
   }
 
@@ -607,11 +612,21 @@ export default function WeekendBulkMealPlanner({
           >
             Complete Meals
           </button>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={catalogMode === "diet-meals"}
+            onClick={() => { setCatalogMode("diet-meals"); setSearch(""); }}
+          >
+            Diet Meals
+          </button>
         </div>
         <p>
           {catalogMode === "complete-meals"
             ? "Add an assembled Complete Meal. Finished packages are counted only as complete meals, so their entrée and sides are not counted twice."
-            : "Add a recipe you are cooking and packaging by itself, such as Beef Fajitas, a side dish, or a dessert."}
+            : catalogMode === "diet-meals"
+              ? "Add a portioned Diet Meal for make-ahead cooking, packaging, and freezer planning."
+              : "Add a recipe you are cooking and packaging by itself, such as Beef Fajitas, a side dish, or a dessert."}
         </p>
       </section>
 
@@ -636,12 +651,12 @@ export default function WeekendBulkMealPlanner({
       <section className="weekendBulkTray" aria-label="Food selection tray">
           <div className="weekendBulkSearchRow">
             <label className="weekendBulkSearch">
-              <span>{catalogMode === "complete-meals" ? "Search Complete Meals" : "Search all recipes"}</span>
+              <span>{catalogMode === "complete-meals" ? "Search Complete Meals" : catalogMode === "diet-meals" ? "Search Diet Meals" : "Search all recipes"}</span>
               <input
                 type="search"
                 value={search}
                 onChange={(event) => setSearch(event.target.value)}
-                placeholder={catalogMode === "complete-meals" ? "Search by meal name or meal number" : "Search the full library by recipe name or code"}
+                placeholder={catalogMode === "complete-meals" ? "Search by meal name or meal number" : catalogMode === "diet-meals" ? "Search Diet Meals by recipe name or code" : "Search the full library by recipe name or code"}
               />
             </label>
             <div className="weekendBulkCatalogCount">{filteredCatalog.length} choices shown · scroll right to see more</div>

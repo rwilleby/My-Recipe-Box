@@ -8733,9 +8733,14 @@ function FreezerInventoryPage({ freezer, setFreezer, setActivePage }) {
   );
 }
 
-function ShoppingListPage({ plan, checked, setChecked, servings, pantry, refrigerator, freezer, setActivePage, preparedInventory, preparedReservations, componentDecisions, setComponentDecisions, shoppingComments, setShoppingComments }) {
+function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry, refrigerator, freezer, setActivePage, preparedInventory, preparedReservations, componentDecisions, setComponentDecisions, shoppingComments, setShoppingComments }) {
   const [showDigitalStockCheck, setShowDigitalStockCheck] = useState(false);
+  const [shoppingView, setShoppingView] = useState("consolidated");
   const recipeIdSet = useMemo(() => new Set(recipes.map((recipe) => recipe.id)), []);
+  const recipeById = useMemo(
+    () => Object.fromEntries(recipes.map((recipe) => [recipe.id, recipe])),
+    []
+  );
   const dinnerCombinationById = useMemo(
     () => Object.fromEntries(dinnerCombinations.map((meal) => [meal.id, meal])),
     []
@@ -8825,6 +8830,70 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, refrige
     [freezer]
   );
 
+  const shoppingNeedGroups = useMemo(() => {
+    const normalized = normalizeTwoWeekPlan(plan);
+    const groups = [];
+
+    PLANNER_SLOTS.forEach((slot) => {
+      (normalized[slot.key] || []).forEach((itemId, itemIndex) => {
+        const recipe = recipeById[itemId];
+        const meal = dinnerCombinationById[itemId];
+        if (recipe) {
+          const multiplier = servings / (Number(recipe.servings) || 4);
+          groups.push({
+            id: `${slot.key}-${itemId}-${itemIndex}`,
+            title: recipe.title,
+            subtitle: `${slot.weekId === "week1" ? "Week 1" : "Week 2"} · ${slot.day} · ${recipe.id}`,
+            items: (recipe.ingredients || []).map((ingredient, ingredientIndex) => ({
+              ...ingredient,
+              id: `ingredient-${ingredientIndex}`,
+              qty: (Number(ingredient.qty) || 0) * multiplier,
+              aisle: ingredient.aisle || "Other",
+              unit: ingredient.unit || "",
+              kind: "grocery",
+            })),
+          });
+          return;
+        }
+        if (meal) {
+          const groceryItems = getComboRegularGroceryIngredients(meal).map((item, ingredientIndex) => ({
+            ...item,
+            id: `grocery-${ingredientIndex}`,
+            aisle: item.aisle || "Other",
+            unit: item.unit || "",
+            kind: "grocery",
+          }));
+          const componentItems = getComboPreparedRequirements(meal).map((requirement, componentIndex) => {
+            const component = getPreparedComponent(requirement.componentId, preparedInventory);
+            return {
+              id: `component-${componentIndex}-${requirement.componentId}`,
+              name: component?.name || requirement.componentId,
+              qty: requirement.packagesRequired,
+              unit: "package(s)",
+              aisle: "Prepared Component",
+              kind: "component",
+              componentId: requirement.componentId,
+            };
+          });
+          groups.push({
+            id: `${slot.key}-${itemId}-${itemIndex}`,
+            title: meal.title || meal.mainDish || "Complete Meal",
+            subtitle: `${slot.weekId === "week1" ? "Week 1" : "Week 2"} · ${slot.day} · Complete Meal`,
+            items: [...componentItems, ...groceryItems],
+          });
+        }
+      });
+    });
+
+    if (refrigeratorShoppingItems.length) {
+      groups.push({ id: "refrigerator-restock", title: "Refrigerator Restock", subtitle: "Items needed from Refrigerator Inventory", items: refrigeratorShoppingItems.map((item, index) => ({ ...item, id: `refrigerator-${index}`, kind: "grocery" })) });
+    }
+    if (freezerShoppingItems.length) {
+      groups.push({ id: "freezer-restock", title: "Freezer Restock", subtitle: "Items needed from Freezer Inventory", items: freezerShoppingItems.map((item, index) => ({ ...item, id: `freezer-${index}`, kind: "grocery" })) });
+    }
+    return groups.filter((group) => group.items.length);
+  }, [plan, recipeById, dinnerCombinationById, servings, preparedInventory, refrigeratorShoppingItems, freezerShoppingItems]);
+
   const list = useMemo(
     () => mergeShoppingListEntries([
       ...buildShoppingList(recipeOnlyPlan, recipes, servings),
@@ -8887,6 +8956,19 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, refrige
       ...current,
       [key]: !current[key],
     }));
+  }
+
+  function clearShoppingListAndStartOver() {
+    const confirmed = window.confirm(
+      "Clear this shopping list and start over?\n\nThis removes every meal from the Weekly Meal Planner and clears shopping checks, comments, and component decisions. Pantry, refrigerator, and freezer inventory will not be deleted, so any inventory restock needs can still appear."
+    );
+    if (!confirmed) return;
+    setPlan(emptyTwoWeekPlan());
+    setChecked({});
+    setShoppingComments({});
+    setComponentDecisions({});
+    setShowDigitalStockCheck(false);
+    setShoppingView("consolidated");
   }
 
   function formatShoppingQuantity(value) {
@@ -9221,6 +9303,24 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, refrige
     );
   }
 
+  function renderNeedGroupItem(group, item, itemIndex) {
+    const key = `need-${group.id}-${item.id || itemIndex}`;
+    const isComponent = item.kind === "component";
+    const isInPantry = !isComponent && splitShoppingListByPantry([item], pantry).pantry.length > 0;
+    const componentAvailable = isComponent && (preparedAvailability[item.componentId] || 0) >= Number(item.qty || 0);
+    const status = isComponent
+      ? (componentAvailable ? "On hand" : "Component needed")
+      : (isInPantry ? "In pantry" : item.aisle || "Other");
+    return (
+      <label className={checked[key] ? "shoppingNeedItem checked" : "shoppingNeedItem"} key={key}>
+        <input type="checkbox" checked={!!checked[key]} onChange={() => toggleItem(key)} />
+        <span>{item.name}</span>
+        <small>{formatShoppingQuantity(item.qty)} {item.unit}</small>
+        <em className={isInPantry || componentAvailable ? "available" : ""}>{status}</em>
+      </label>
+    );
+  }
+
   return (
     <main className="pageShell">
       <SectionIntro
@@ -9230,6 +9330,14 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, refrige
       />
 
       <div className="shoppingListIntroActions">
+        <div className="shoppingViewToggle" role="tablist" aria-label="Shopping list view">
+          <button type="button" role="tab" aria-selected={shoppingView === "consolidated"} onClick={() => setShoppingView("consolidated")}>
+            Consolidated List
+          </button>
+          <button type="button" role="tab" aria-selected={shoppingView === "needs"} onClick={() => setShoppingView("needs")}>
+            By Meal / Component
+          </button>
+        </div>
         <button className="primary" onClick={printShoppingList}>
           Print List
         </button>
@@ -9244,6 +9352,9 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, refrige
           onClick={() => setActivePage("Grocery Picks")}
         >
           Grocery Picks
+        </button>
+        <button className="secondary shoppingClearButton" onClick={clearShoppingListAndStartOver}>
+          Clear &amp; Start Over
         </button>
       </div>
 
@@ -9263,6 +9374,29 @@ function ShoppingListPage({ plan, checked, setChecked, servings, pantry, refrige
           title="Your shopping list is empty"
           text="Add recipes to your weekly planner to generate a grocery list."
         />
+      ) : shoppingView === "needs" ? (
+        <section className="shoppingNeedsView" aria-label="Shopping needs grouped by meal or component">
+          <div className="shoppingNeedsViewHeader">
+            <div>
+              <h2>Items by Meal or Component</h2>
+              <p>Each planned meal is shown separately so you can see exactly what every recipe or component requires.</p>
+            </div>
+            <strong>{shoppingNeedGroups.length} groups</strong>
+          </div>
+          <div className="shoppingNeedGroups">
+            {shoppingNeedGroups.map((group) => (
+              <article className="shoppingNeedGroup" key={group.id}>
+                <header>
+                  <h3>{group.title}</h3>
+                  <p>{group.subtitle}</p>
+                </header>
+                <div>
+                  {group.items.map((item, itemIndex) => renderNeedGroupItem(group, item, itemIndex))}
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
       ) : (
         <>
         <div className="preparedShoppingSections">

@@ -1,3 +1,12 @@
+# v83.11 — Diet Bulk Planning and Resettable Shopping Views
+
+- Added Diet Meals as the third Weekend Bulk Plan source after Individual Recipes and Complete Meals.
+- Limited the new source to DM recipes while preserving recipe viewing, packaging, production, and inventory handoff behavior.
+- Added Consolidated List and By Meal / Component views to Shopping List.
+- Kept individual ingredient needs separated under each planned meal occurrence in the grouped view, including prepared components and refrigerator/freezer restock groups.
+- Added a confirmed Clear & Start Over action that resets the Weekly Meal Planner source plus shopping checks, comments, and component decisions without deleting kitchen inventory.
+- Added responsive layouts and regression coverage for the new planner and shopping workflows.
+
 # v83.10 — Main Navigation Horizontal Centering
 
 - Centered the complete top main-menu group horizontally beneath the Robert’s Recipe Box logo.
