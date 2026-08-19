@@ -1,3 +1,12 @@
+# v84.9 — Complete American Ingredient Data
+
+- Transcribed and visually verified every printed ingredient from active recipe cards AM-011 through AM-078, excluding the reserved AM-063 placeholder.
+- Added 905 individually checkable ingredient records, completing all 77 active American recipes with 1,051 detailed records in total.
+- Realigned every American recipe title with the existing authoritative Nutrition Database mapping so recipe listings, cards, and Shopping List ingredients refer to the same dish.
+- Removed the reserved AM-063 placeholder from the active recipe registry while preserving its historical image asset.
+- Preserved printed 3–4 lb ranges in the ingredient wording and split combined salt-and-pepper lines into separate grocery checkboxes.
+- Added regression coverage for all remaining card counts, exact representative quantities and package sizes, title alignment, AM-063 retirement, and complete American-category coverage.
+
 # v84.8 — American Ingredient Data, Batch 1
 
 - Transcribed and visually verified every ingredient and quantity from recipe cards AM-001 through AM-010.

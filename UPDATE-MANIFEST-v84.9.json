@@ -1,0 +1,38 @@
+{
+  "version": "84.9.0",
+  "release": "Complete American Ingredient Data",
+  "baseline": "v84.8 GitHub update",
+  "uploadMode": "replace matching files and add new files; no deletions required",
+  "changedFiles": [
+    "CHANGELOG.md",
+    "UPDATE-MANIFEST-v84.9.json",
+    "V84.9-COMPLETE-AMERICAN-INGREDIENT-DATA-REPORT.md",
+    "UPLOAD-INSTRUCTIONS-v84.9.txt",
+    "package.json",
+    "package-lock.json",
+    "src/data/americanIngredientsV849.js",
+    "src/data/recipes.js",
+    "src/package.json",
+    "test/americanIngredientDataV848.test.mjs",
+    "test/americanIngredientDataV849.test.mjs"
+  ],
+  "deletedFiles": [],
+  "ingredientData": {
+    "category": "AM",
+    "newlyVerifiedRange": "AM-011 through AM-078, excluding retired AM-063",
+    "newlyStructuredIngredientRecords": 905,
+    "activeAmericanRecipes": 77,
+    "totalAmericanIngredientRecords": 1051,
+    "fallbackRecipesRemaining": 0
+  },
+  "registry": {
+    "titleAuthority": "src/data/nutrition/AM.json",
+    "titlesRealigned": true,
+    "retiredRecipeCodes": ["AM-063"]
+  },
+  "verification": {
+    "dependencyFreeContractCommands": 76,
+    "passed": 76
+  },
+  "nextRecommendedStep": "Review consolidated Shopping List normalization candidates across the completed DM and AM ingredient sets"
+}

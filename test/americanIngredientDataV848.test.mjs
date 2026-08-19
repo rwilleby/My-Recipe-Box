@@ -41,6 +41,6 @@ assert.ok(byId["AM-006"].ingredients.some((item) => item.name === "Marinara sauc
 assert.ok(byId["AM-008"].ingredients.some((item) => item.name === "Diced tomatoes" && item.unit === "14.5 oz can"));
 assert.ok(byId["AM-009"].ingredients.some((item) => item.name === "Kidney beans, drained" && item.unit === "15 oz can"));
 assert.ok(byId["AM-010"].ingredients.some((item) => item.name === "Thin chicken breasts or cutlets" && item.qty === 6));
-assert.equal(byId["AM-011"].ingredients.length, 3, "unverified AM cards must retain the category fallback");
+assert.ok(byId["AM-011"].ingredients.length >= 3, "later AM batches may replace the former AM-011 fallback");
 
 console.log("v84.8 American recipe-card ingredient contracts passed.");
