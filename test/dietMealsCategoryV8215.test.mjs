@@ -22,8 +22,8 @@ assert.equal(dietRecipes[0].title, "Herb-Roasted Chicken with Potatoes & Broccol
 assert.equal(dietRecipes.at(-1).id, "DM-060");
 assert.equal(dietRecipes.at(-1).title, "Fish Florentine with Rice");
 assert.ok(dietRecipes.every((recipe) => recipe.servings === 4));
-assert.ok(dietRecipes.filter((recipe) => Number(recipe.id.slice(3)) > 30).every((recipe) => recipe.ingredients.length === 4));
-assert.ok(dietRecipes.filter((recipe) => Number(recipe.id.slice(3)) <= 30).every((recipe) => recipe.ingredients.length >= 8));
+assert.ok(dietRecipes.filter((recipe) => Number(recipe.id.slice(3)) > 40).every((recipe) => recipe.ingredients.length === 4));
+assert.ok(dietRecipes.filter((recipe) => Number(recipe.id.slice(3)) <= 40).every((recipe) => recipe.ingredients.length >= 8));
 assert.equal(new Set(dietRecipes.map((recipe) => recipe.id)).size, 60);
 
 for (let number = 1; number <= 60; number += 1) {
