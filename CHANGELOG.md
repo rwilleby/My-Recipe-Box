@@ -1,3 +1,13 @@
+# v84.25 — Unified Kitchen Inventory Hub
+
+- Merged Kitchen, Freezer, and Pantry Inventory into one user-facing Kitchen Inventory page with KITCHEN | FREEZER | PANTRY master tabs.
+- Reduced the KITCHEN DETAILS menu to one KITCHEN INVENTORY destination while preserving compatibility for existing Freezer and Pantry links.
+- Added a shared search with Current Section and All Inventories scopes, plus remembered tab selection on the current device.
+- Added one Restock List combining Kitchen Buy/Low/Out, Freezer grocery, and Pantry Low/Out items; these sources now feed the Shopping List automatically.
+- Added Quick Add, Move Item, Print, and Backup & Restore controls to the master strip.
+- Added In Stock, Low, and Out status controls to Kitchen and Pantry products.
+- Kept each inventory's specialized counters and internal data model intact, with inventory accordions closed when first opened.
+
 # v84.24 — Hero-Aligned Shopping Command Strip
 
 - Matched the Shopping List command strip to the large hero's established 90% desktop width and centered gutters.

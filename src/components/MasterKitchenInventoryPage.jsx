@@ -66,7 +66,7 @@ function inventoryIdsForItem(item) {
   return [item.id, ...(item.legacyIds || [])];
 }
 
-export default function MasterKitchenInventoryPage({ recipes, inventory, setInventory }) {
+export default function MasterKitchenInventoryPage({ recipes, inventory, setInventory, externalSearch = "", embedded = false }) {
   const safeInventory = normalizeState(inventory);
   const [search, setSearch] = useState("");
   const [expanded, setExpanded] = useState(() => new Set());
@@ -76,7 +76,7 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
     () => buildMasterKitchenInventoryCatalog(recipes, safeInventory.customItems),
     [recipes, safeInventory.customItems],
   );
-  const normalizedSearch = search.trim().toLowerCase();
+  const normalizedSearch = (externalSearch.trim() || search.trim()).toLowerCase();
   const visibleCatalog = catalog.map((category) => ({
     ...category,
     items: category.items.filter((item) =>
@@ -102,6 +102,13 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
         },
       };
     });
+  }
+
+  function updateStockStatus(itemId, record, status, additional, sourceItemId) {
+    const patch = { stockStatus: status, ...(additional ? { sourceItemId } : {}) };
+    if (status === "out") patch.have = "";
+    if ((status === "low" || status === "out") && Number(record.buy || 0) <= 0) patch.buy = "1";
+    updateRecord(itemId, patch);
   }
 
   function toggleCategory(categoryId) {
@@ -216,10 +223,10 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
 
   return (
     <main className="pageShell masterKitchenInventoryPage">
-      <section className="inventoryPageHeading">
+      {!embedded && <section className="inventoryPageHeading">
         <h1>Kitchen Inventory</h1>
         <p>Count foods used throughout the recipe library, then keep each fresh, frozen, canned, packaged, and prepared variation current.</p>
-      </section>
+      </section>}
 
       <section className="masterInventorySummary" aria-label="Kitchen inventory summary">
         <div><span>Product Forms</span><strong>{allItems.length}</strong></div>
@@ -228,7 +235,7 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
       </section>
 
       <section className="masterInventoryToolbar">
-        <label className="masterInventorySearch"><span>Find an item</span><input type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search corn, chicken, gravy…" /></label>
+        {!embedded && <label className="masterInventorySearch"><span>Find an item</span><input type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search corn, chicken, gravy…" /></label>}
         <button type="button" className="primary" onClick={printCountWorksheet}>Print Initial Count</button>
         <button type="button" className="secondary" onClick={() => setExpanded(new Set(catalog.map((category) => category.id)))}>Expand All</button>
         <button type="button" className="secondary" onClick={() => setExpanded(new Set())}>Collapse All</button>
@@ -304,9 +311,22 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
                                 <label className="masterInventoryLedgerQuantity"><span>Have</span><input type="number" inputMode="decimal" min="0" step="any" placeholder="0" value={numberValue(record.have)} onChange={(event) => updateRecord(rowId, { have: event.target.value, ...(additional ? { sourceItemId: item.id } : {}) })} aria-label={`${item.family} ${item.variation} quantity on hand`} /></label>
                                 <label className="masterInventoryLedgerQuantity"><span>Buy</span><input type="number" inputMode="decimal" min="0" step="any" placeholder="0" value={numberValue(record.buy)} onChange={(event) => updateRecord(rowId, { buy: event.target.value, ...(additional ? { sourceItemId: item.id } : {}) })} aria-label={`${item.family} ${item.variation} quantity to buy`} /></label>
                                 <span className="masterInventoryNotesSpacer" aria-hidden="true" />
-                                {additional
-                                  ? <button type="button" className="masterInventoryRemove masterInventoryRemoveLocation" onClick={() => removeStorageLocation(rowId)} aria-label={`Remove additional ${item.family} storage location`}>×</button>
-                                  : <span className="masterInventoryRowActions"><button type="button" className="masterInventoryAddLocation" onClick={() => addStorageLocation(item, category.id)}>+ Storage</button>{item.custom && <button type="button" className="masterInventoryRemove" onClick={() => removeCustomItem(item)} aria-label={`Remove ${item.family} ${item.variation}`}>×</button>}</span>}
+                                <span className="masterInventoryRowActions">
+                                  <select
+                                    className={`masterInventoryStatusSelect is-${record.stockStatus || (Number(record.have || 0) > 0 ? "in-stock" : "not-set")}`}
+                                    value={record.stockStatus || (Number(record.have || 0) > 0 ? "in-stock" : "not-set")}
+                                    onChange={(event) => updateStockStatus(rowId, record, event.target.value, additional, item.id)}
+                                    aria-label={`${item.family} ${item.variation} stock status`}
+                                  >
+                                    <option value="not-set">Not Set</option>
+                                    <option value="in-stock">In Stock</option>
+                                    <option value="low">Low</option>
+                                    <option value="out">Out</option>
+                                  </select>
+                                  {additional
+                                    ? <button type="button" className="masterInventoryRemove masterInventoryRemoveLocation" onClick={() => removeStorageLocation(rowId)} aria-label={`Remove additional ${item.family} storage location`}>×</button>
+                                    : <><button type="button" className="masterInventoryAddLocation" onClick={() => addStorageLocation(item, category.id)}>+ Storage</button>{item.custom && <button type="button" className="masterInventoryRemove" onClick={() => removeCustomItem(item)} aria-label={`Remove ${item.family} ${item.variation}`}>×</button>}</>}
+                                </span>
                               </div>
                             );
                             });

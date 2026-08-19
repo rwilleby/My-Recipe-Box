@@ -1,6 +1,6 @@
 {
   "name": "rrb-browser-based-v1",
-  "version": "84.24.0",
+  "version": "84.25.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -48,6 +48,7 @@
     "test:shopping-one-row-v8422": "node test/shoppingOneRowCountersV8422.test.mjs",
     "test:shopping-stacked-labels-v8423": "node test/shoppingStackedLabelsV8423.test.mjs",
     "test:shopping-hero-alignment-v8424": "node test/shoppingHeroAlignmentV8424.test.mjs",
+    "test:unified-inventory-hub-v8425": "node test/unifiedInventoryHubV8425.test.mjs",
     "test:dinner-combinations": "node test/dinnerCombinationsPageContract.test.mjs",
     "test:classification": "node test/recipeClassificationDurability.test.mjs",
     "test:dinner-nutrition": "node test/completeDinnerNutritionDisplay.test.mjs",

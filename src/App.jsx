@@ -19,6 +19,10 @@ import WeekendBulkMealPlanner from "./components/WeekendBulkMealPlanner";
 import KitchenReminderRibbon from "./components/KitchenReminderRibbon";
 import DigitalStockCheckPanel from "./components/DigitalStockCheckPanel";
 import MasterKitchenInventoryPage from "./components/MasterKitchenInventoryPage";
+import {
+  MASTER_INVENTORY_CATEGORIES,
+  buildMasterKitchenInventoryCatalog,
+} from "./data/masterKitchenInventoryCatalog.js";
 import AdminPinDialog from "./features/home/AdminPinDialog";
 import HomeRecipeCounters from "./features/home/HomeRecipeCounters";
 import HomeMealJourneyAccordion, { MealJourneyContent } from "./features/home/HomeMealJourney.jsx";
@@ -125,6 +129,7 @@ const STORAGE_KEYS = {
   shoppingComments: "rrb_shoppingItemComments",
   productCategories: "rrb_productCategoryAssignments",
   masterInventory: "rrb_masterKitchenInventory_v1",
+  inventoryHubView: "rrb_inventoryHubView_v1",
 };
 
 const PANTRY_LEVELS = [
@@ -1324,8 +1329,6 @@ const NAV_GROUPS = [
     label: "KITCHEN DETAILS",
     items: [
       { label: "KITCHEN INVENTORY", page: "Master Kitchen Inventory" },
-      { label: "FREEZER INVENTORY", page: "Freezer Inventory Management", detailedOnly: true },
-      { label: "PANTRY INVENTORY", page: "Pantry Staples" },
     ],
   },
   {
@@ -6740,39 +6743,334 @@ function ServingSelector({ servings, setServings }) {
   );
 }
 
-function PantryStaplesPage({ pantry, setPantry }) {
+const PANTRY_INVENTORY_META_KEY = "__inventoryHub";
+
+function pantryInventoryMeta(pantry = {}) {
+  const value = pantry?.[PANTRY_INVENTORY_META_KEY];
+  return value && typeof value === "object"
+    ? {
+        statuses: value.statuses && typeof value.statuses === "object" ? value.statuses : {},
+        customItems: Array.isArray(value.customItems) ? value.customItems : [],
+      }
+    : { statuses: {}, customItems: [] };
+}
+
+function pantryItemStatus(pantry, name) {
+  const saved = pantryInventoryMeta(pantry).statuses[name];
+  if (["not-set", "in-stock", "low", "out"].includes(saved)) return saved;
+  return pantry?.[name] ? "in-stock" : "not-set";
+}
+
+function buildPantryRestockItems(pantry = {}) {
+  const meta = pantryInventoryMeta(pantry);
+  const standardNames = PANTRY_STAPLES.flatMap((group) => group.items.map((item) => item.name));
+  const customNames = meta.customItems.map((item) => item.name);
+  return [...new Set([...standardNames, ...customNames])]
+    .filter((name) => ["low", "out"].includes(meta.statuses[name]))
+    .map((name) => ({
+      name,
+      qty: 1,
+      unit: "item",
+      aisle: "Pantry Restock",
+      source: "Pantry",
+    }));
+}
+
+function buildMasterInventoryShoppingItems(masterInventory = {}, recipes = []) {
+  const safe = masterInventory && typeof masterInventory === "object"
+    ? { records: masterInventory.records || {}, customItems: masterInventory.customItems || [] }
+    : { records: {}, customItems: [] };
+  const catalog = buildMasterKitchenInventoryCatalog(recipes, safe.customItems);
+  const itemById = new Map();
+  catalog.forEach((category) => category.items.forEach((item) => {
+    [item.id, ...(item.legacyIds || [])].forEach((id) => itemById.set(id, { item, category }));
+  }));
+
+  return Object.entries(safe.records).flatMap(([recordId, record]) => {
+    if (!record || recordId.startsWith("family-note-")) return [];
+    const resolved = itemById.get(record.sourceItemId || recordId);
+    if (!resolved) return [];
+    const buy = Number(record.buy || 0);
+    const statusNeedsRestock = ["low", "out"].includes(record.stockStatus);
+    if (buy <= 0 && !statusNeedsRestock) return [];
+    const { item, category } = resolved;
+    return [{
+      name: `${item.family}${item.variation ? ` — ${item.variation}` : ""}`,
+      qty: buy > 0 ? buy : 1,
+      unit: item.unit || "item",
+      aisle: category.title,
+      source: "Kitchen",
+      recordId,
+    }];
+  });
+}
+
+function InventoryHubPage({
+  initialTab = "kitchen",
+  recipes = [],
+  classifiedRecipes = [],
+  masterInventory,
+  setMasterInventory,
+  preparedInventory,
+  setPreparedInventory,
+  freezer,
+  setFreezer,
+  pantry,
+  setPantry,
+  setActivePage,
+  ...pageProps
+}) {
+  const routeTab = ["kitchen", "freezer", "pantry"].includes(initialTab) ? initialTab : "kitchen";
+  const [activeTab, setActiveTab] = useState(() => {
+    if (routeTab !== "kitchen") return routeTab;
+    const stored = loadJSON(STORAGE_KEYS.inventoryHubView, "kitchen");
+    return ["kitchen", "freezer", "pantry"].includes(stored) ? stored : "kitchen";
+  });
+  const [search, setSearch] = useState("");
+  const [searchScope, setSearchScope] = useState("current");
+  const [openTool, setOpenTool] = useState("");
+  const [quickItem, setQuickItem] = useState({ name: "", quantity: "1", status: "in-stock", categoryId: "prepared-packaged" });
+  const [moveRecordId, setMoveRecordId] = useState("");
+  const [moveDestination, setMoveDestination] = useState("Pantry");
+  const initialTabRef = useRef(routeTab);
+
+  useEffect(() => saveJSON(STORAGE_KEYS.inventoryHubView, activeTab), [activeTab]);
+  useEffect(() => {
+    if (initialTabRef.current === routeTab) return;
+    initialTabRef.current = routeTab;
+    setActiveTab(routeTab);
+    setOpenTool("");
+  }, [routeTab]);
+
+  const safeMaster = masterInventory && typeof masterInventory === "object"
+    ? { records: masterInventory.records || {}, customItems: masterInventory.customItems || [] }
+    : { records: {}, customItems: [] };
+  const kitchenCatalog = useMemo(
+    () => buildMasterKitchenInventoryCatalog(recipes, safeMaster.customItems),
+    [recipes, safeMaster.customItems],
+  );
+  const kitchenItems = kitchenCatalog.flatMap((category) => category.items.map((item) => ({ ...item, category })));
+  const safeFreezer = normalizeFreezerState(freezer);
+  const freezerItems = [...getDefaultFreezerItems(), ...safeFreezer.customItems];
+  const pantryMeta = pantryInventoryMeta(pantry);
+  const pantryItems = [
+    ...PANTRY_STAPLES.flatMap((group) => group.items.map((item) => ({ ...item, group: group.group }))),
+    ...pantryMeta.customItems.map((item) => ({ ...item, group: "Custom Pantry Items" })),
+  ];
+  const normalizedSearch = search.trim().toLowerCase();
+
+  const allSearchResults = useMemo(() => {
+    if (!normalizedSearch || searchScope !== "all") return [];
+    const kitchen = kitchenItems
+      .filter((item) => `${item.family} ${item.variation} ${item.unit}`.toLowerCase().includes(normalizedSearch))
+      .slice(0, 12)
+      .map((item) => ({ tab: "kitchen", name: item.family, detail: `${item.variation} · ${item.category.title}` }));
+    const frozen = freezerItems
+      .filter((item) => `${item.name} ${item.categoryTitle || ""}`.toLowerCase().includes(normalizedSearch))
+      .slice(0, 12)
+      .map((item) => ({ tab: "freezer", name: item.name, detail: item.categoryTitle || "Freezer Component" }));
+    const pantryMatches = pantryItems
+      .filter((item) => `${item.name} ${item.group}`.toLowerCase().includes(normalizedSearch))
+      .slice(0, 12)
+      .map((item) => ({ tab: "pantry", name: item.name, detail: item.group }));
+    return [...kitchen, ...frozen, ...pantryMatches];
+  }, [normalizedSearch, searchScope, kitchenItems, freezerItems, pantryItems]);
+
+  const restockItems = useMemo(() => [
+    ...buildMasterInventoryShoppingItems(safeMaster, recipes),
+    ...buildFreezerGroceryItems(safeFreezer).map((item) => ({ ...item, source: "Freezer" })),
+    ...buildPantryRestockItems(pantry),
+  ], [safeMaster, recipes, safeFreezer, pantry]);
+
+  const movableRecords = useMemo(() => {
+    const itemById = new Map();
+    kitchenItems.forEach((item) => [item.id, ...(item.legacyIds || [])].forEach((id) => itemById.set(id, item)));
+    return Object.entries(safeMaster.records).flatMap(([recordId, record]) => {
+      if (!record || Number(record.have || 0) <= 0) return [];
+      const item = itemById.get(record.sourceItemId || recordId);
+      return item ? [{ recordId, record, item }] : [];
+    });
+  }, [safeMaster.records, kitchenItems]);
+
+  function selectTab(tab) {
+    setActiveTab(tab);
+    setOpenTool("");
+    setQuickItem((current) => ({
+      ...current,
+      categoryId: tab === "freezer" ? (FREEZER_CATEGORIES[0]?.id || "meat-poultry") : "prepared-packaged",
+    }));
+  }
+
+  function addQuickItem(event) {
+    event.preventDefault();
+    const name = quickItem.name.trim();
+    if (!name) return;
+    const quantity = Math.max(0, Number(quickItem.quantity || 0));
+    const now = Date.now();
+    if (activeTab === "kitchen") {
+      const id = `custom-master-${now}`;
+      setMasterInventory((current) => {
+        const safe = current && typeof current === "object" ? current : { records: {}, customItems: [] };
+        return {
+          ...safe,
+          customItems: [...(safe.customItems || []), { id, categoryId: quickItem.categoryId, family: name, variation: "Custom item", brand: "", unit: "each" }],
+          records: { ...(safe.records || {}), [id]: { have: String(quantity), storage: "Refrigerator", stockStatus: quickItem.status, updatedAt: new Date().toISOString() } },
+        };
+      });
+    } else if (activeTab === "freezer") {
+      const category = FREEZER_CATEGORIES.find((item) => item.id === quickItem.categoryId) || FREEZER_CATEGORIES[0];
+      const id = `custom-freezer-${now}-${slugifyFreezerItem(name)}`;
+      setFreezer((current) => {
+        const safe = normalizeFreezerState(current);
+        return {
+          ...safe,
+          customItems: [...safe.customItems, { id, name, categoryId: category.id, categoryTitle: category.title, custom: true }],
+          items: { ...safe.items, [id]: { onHand: quickItem.status !== "out" && quantity > 0, quantity: quickItem.status === "out" ? "" : String(quantity), location: "Kitchen freezer", status: quickItem.status === "in-stock" ? "Plenty on hand" : "Running low", grocery: quickItem.status !== "in-stock" } },
+        };
+      });
+    } else {
+      setPantry((current) => {
+        const meta = pantryInventoryMeta(current);
+        return {
+          ...(current || {}),
+          [name]: quickItem.status === "in-stock",
+          [PANTRY_INVENTORY_META_KEY]: {
+            ...meta,
+            customItems: [...meta.customItems, { id: `custom-pantry-${now}`, name }],
+            statuses: { ...meta.statuses, [name]: quickItem.status },
+          },
+        };
+      });
+    }
+    setQuickItem((current) => ({ ...current, name: "", quantity: "1", status: "in-stock" }));
+    setOpenTool("");
+  }
+
+  function moveInventoryItem(event) {
+    event.preventDefault();
+    if (!moveRecordId) return;
+    setMasterInventory((current) => ({
+      ...(current || {}),
+      records: {
+        ...(current?.records || {}),
+        [moveRecordId]: { ...(current?.records?.[moveRecordId] || {}), storage: moveDestination, updatedAt: new Date().toISOString() },
+      },
+    }));
+    setOpenTool("");
+  }
+
+  const currentSearch = searchScope === "current" ? search : "";
+
+  return (
+    <div className="pageShell inventoryHubPage" data-inventory-tab={activeTab}>
+      <SectionIntro
+        title="Kitchen Inventory"
+        text="Manage kitchen, freezer, and pantry supplies from one page. Search what you have, mark items that need restocking, and move products when their storage location changes."
+        className="inventoryHubSectionIntro"
+      />
+
+      <section className="inventoryHubControlStrip" aria-label="Master inventory controls">
+        <div className="inventoryHubTabs" role="tablist" aria-label="Inventory section">
+          {["kitchen", "freezer", "pantry"].map((tab) => (
+            <button key={tab} type="button" role="tab" aria-selected={activeTab === tab} className={activeTab === tab ? "isActive" : ""} onClick={() => selectTab(tab)}>
+              {tab.toUpperCase()}
+            </button>
+          ))}
+        </div>
+        <label className="inventoryHubSearch"><span>Search</span><input type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Find an inventory item..." /></label>
+        <label className="inventoryHubScope"><span>Search In</span><select value={searchScope} onChange={(event) => setSearchScope(event.target.value)}><option value="current">Current Section</option><option value="all">All Inventories</option></select></label>
+        <button type="button" onClick={() => setOpenTool(openTool === "restock" ? "" : "restock")}><span>Restock</span><span>List ({restockItems.length})</span></button>
+        <button type="button" onClick={() => setOpenTool(openTool === "quick" ? "" : "quick")}><span>Quick</span><span>Add</span></button>
+        <button type="button" onClick={() => setOpenTool(openTool === "move" ? "" : "move")}><span>Move</span><span>Item</span></button>
+        <button type="button" onClick={() => window.print()}>Print</button>
+        <button type="button" onClick={() => setActivePage("User Backup")}><span>Backup &amp;</span><span>Restore</span></button>
+      </section>
+
+      {searchScope === "all" && normalizedSearch && (
+        <section className="inventoryHubPanel inventoryHubSearchResults" aria-live="polite">
+          <header><div><strong>{allSearchResults.length}</strong><span> matches across all inventories</span></div><button type="button" onClick={() => setSearch("")}>Clear</button></header>
+          <div>{allSearchResults.map((result, index) => <button type="button" key={`${result.tab}-${result.name}-${index}`} onClick={() => selectTab(result.tab)}><span>{result.tab}</span><strong>{result.name}</strong><small>{result.detail}</small></button>)}</div>
+          {!allSearchResults.length && <p>No inventory items match “{search}.”</p>}
+        </section>
+      )}
+
+      {openTool === "restock" && (
+        <section className="inventoryHubPanel inventoryHubRestockPanel">
+          <header><div><h2>Items to Restock</h2><p>Kitchen Buy quantities, Freezer grocery items, and Pantry products marked Low or Out appear here automatically.</p></div><button type="button" onClick={() => setOpenTool("")}>Close</button></header>
+          {restockItems.length ? <div className="inventoryHubRestockGrid">{restockItems.map((item, index) => <article key={`${item.source}-${item.name}-${index}`}><span>{item.source}</span><strong>{item.name}</strong><small>{item.qty || 1} {item.unit || "item"}</small></article>)}</div> : <p>No items are currently marked for restocking.</p>}
+          <button type="button" className="primary inventoryHubShoppingButton" onClick={() => setActivePage("Shopping Lists")}>Open Shopping List</button>
+        </section>
+      )}
+
+      {openTool === "quick" && (
+        <form className="inventoryHubPanel inventoryHubToolForm" onSubmit={addQuickItem}>
+          <h2>Quick Add to {activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}</h2>
+          <label><span>Product Name</span><input autoFocus required value={quickItem.name} onChange={(event) => setQuickItem((current) => ({ ...current, name: event.target.value }))} /></label>
+          {activeTab !== "pantry" && <label><span>Category</span><select value={quickItem.categoryId} onChange={(event) => setQuickItem((current) => ({ ...current, categoryId: event.target.value }))}>{(activeTab === "kitchen" ? MASTER_INVENTORY_CATEGORIES : FREEZER_CATEGORIES).map((category) => <option key={category.id} value={category.id}>{category.title}</option>)}</select></label>}
+          <label><span>Quantity</span><input type="number" min="0" step="any" value={quickItem.quantity} onChange={(event) => setQuickItem((current) => ({ ...current, quantity: event.target.value }))} /></label>
+          <label><span>Status</span><select value={quickItem.status} onChange={(event) => setQuickItem((current) => ({ ...current, status: event.target.value }))}><option value="in-stock">In Stock</option><option value="low">Low</option><option value="out">Out</option></select></label>
+          <div><button type="button" className="secondary" onClick={() => setOpenTool("")}>Cancel</button><button type="submit" className="primary">Add Item</button></div>
+        </form>
+      )}
+
+      {openTool === "move" && (
+        <form className="inventoryHubPanel inventoryHubToolForm" onSubmit={moveInventoryItem}>
+          <h2>Move a Stocked Item</h2>
+          <label><span>Item</span><select required value={moveRecordId} onChange={(event) => setMoveRecordId(event.target.value)}><option value="">Choose an item...</option>{movableRecords.map(({ recordId, record, item }) => <option key={recordId} value={recordId}>{item.family} — {item.variation} ({record.storage || "Current storage"})</option>)}</select></label>
+          <label><span>Move To</span><select value={moveDestination} onChange={(event) => setMoveDestination(event.target.value)}>{["Refrigerator", "Freezer", "Pantry", "Counter", "Other"].map((location) => <option key={location}>{location}</option>)}</select></label>
+          <div><button type="button" className="secondary" onClick={() => setOpenTool("")}>Cancel</button><button type="submit" className="primary">Move Item</button></div>
+        </form>
+      )}
+
+      <section className="inventoryHubContent" role="tabpanel">
+        {activeTab === "kitchen" && <MasterKitchenInventoryPage {...pageProps} recipes={recipes} inventory={masterInventory} setInventory={setMasterInventory} externalSearch={currentSearch} embedded />}
+        {activeTab === "freezer" && <FreezerInventoryManagementPage {...pageProps} classifiedRecipes={classifiedRecipes} preparedInventory={preparedInventory} setPreparedInventory={setPreparedInventory} freezer={freezer} setFreezer={setFreezer} setActivePage={setActivePage} externalSearch={currentSearch} embedded />}
+        {activeTab === "pantry" && <PantryStaplesPage pantry={pantry} setPantry={setPantry} externalSearch={currentSearch} embedded />}
+      </section>
+    </div>
+  );
+}
+
+function PantryStaplesPage({ pantry, setPantry, externalSearch = "", embedded = false }) {
   const [selectedPantryLevel, setSelectedPantryLevel] = useState(1);
   const [showDigitalStockCheck, setShowDigitalStockCheck] = useState(false);
   const selectedLevelInfo =
     PANTRY_LEVELS.find((level) => level.id === selectedPantryLevel) ||
     PANTRY_LEVELS[0];
 
-  const visiblePantryGroups = PANTRY_STAPLES.map((group) => ({
+  const normalizedExternalSearch = externalSearch.trim().toLowerCase();
+  const pantryMeta = pantryInventoryMeta(pantry);
+  const visiblePantryGroups = [...PANTRY_STAPLES, ...(pantryMeta.customItems.length ? [{ group: "Custom Pantry Items", items: pantryMeta.customItems.map((item) => ({ ...item, level: 1, custom: true })) }] : [])].map((group) => ({
     ...group,
-    items: group.items.filter((item) => item.level <= selectedPantryLevel),
+    items: group.items.filter((item) => item.level <= selectedPantryLevel && (!normalizedExternalSearch || item.name.toLowerCase().includes(normalizedExternalSearch))),
   })).filter((group) => group.items.length > 0);
-
-  const totalStaples = visiblePantryGroups.reduce(
-    (sum, group) => sum + group.items.length,
-    0
-  );
-
-  const checkedCount = visiblePantryGroups.reduce(
-    (sum, group) =>
-      sum + group.items.filter((item) => pantry[item.name]).length,
-    0
-  );
-
-  const stockedAtLevel = (level) => PANTRY_STAPLES.reduce(
-    (sum, group) => sum + group.items.filter((item) => item.level <= level && pantry[item.name]).length,
-    0
-  );
 
   function togglePantryItem(item) {
     setPantry((current) => ({
       ...current,
       [item.name]: !current[item.name],
+      [PANTRY_INVENTORY_META_KEY]: {
+        ...pantryInventoryMeta(current),
+        statuses: {
+          ...pantryInventoryMeta(current).statuses,
+          [item.name]: !current[item.name] ? "in-stock" : "not-set",
+        },
+      },
     }));
+  }
+
+  function setPantryStatus(item, status) {
+    setPantry((current) => {
+      const meta = pantryInventoryMeta(current);
+      return {
+        ...current,
+        [item.name]: status === "in-stock",
+        [PANTRY_INVENTORY_META_KEY]: {
+          ...meta,
+          statuses: { ...meta.statuses, [item.name]: status },
+        },
+      };
+    });
   }
 
   function clearPantry() {
@@ -6786,9 +7084,13 @@ function PantryStaplesPage({ pantry, setPantry }) {
 
     setPantry((current) => {
       const next = { ...current };
+      const meta = pantryInventoryMeta(current);
+      const statuses = { ...meta.statuses };
       levelItems.forEach((item) => {
         next[item] = true;
+        statuses[item] = "in-stock";
       });
+      next[PANTRY_INVENTORY_META_KEY] = { ...meta, statuses };
       return next;
     });
   }
@@ -6815,16 +7117,16 @@ function PantryStaplesPage({ pantry, setPantry }) {
 
   return (
     <main className="pageShell pantryPage">
-      <SectionIntro
+      {!embedded && <SectionIntro
         title="Pantry Inventory"
         text="Track shelf-stable foods by pantry level so you can see what is available before planning meals or shopping. Each level builds on the one before it."
         className="pantrySectionIntro"
-      />
+      />}
 
       <section className="freezerManagementSummary pantryInventorySummary" aria-label="Pantry inventory summary">
-        <div><small>Minimum Basics</small><strong>{stockedAtLevel(1)}</strong></div>
-        <div><small>Everyday Pantry</small><strong>{stockedAtLevel(2)}</strong></div>
-        <div><small>Well-Stocked Pantry</small><strong>{stockedAtLevel(3)}</strong></div>
+        <div><small>Pantry Products</small><strong>{PANTRY_STAPLES.reduce((sum, group) => sum + group.items.length, 0) + pantryMeta.customItems.length}</strong></div>
+        <div><small>Items On Hand</small><strong>{[...PANTRY_STAPLES.flatMap((group) => group.items), ...pantryMeta.customItems].filter((item) => pantryItemStatus(pantry, item.name) === "in-stock").length}</strong></div>
+        <div><small>Items To Restock</small><strong>{buildPantryRestockItems(pantry).length}</strong></div>
       </section>
 
       <div className="pantryLevelTabs freezerManagementKindTabs" role="tablist" aria-label="Pantry staple level">
@@ -6880,7 +7182,17 @@ function PantryStaplesPage({ pantry, setPantry }) {
               checked: !!pantry[item.name],
             })),
           }))}
-          onCheckChange={(item, value) => setPantry((current) => ({ ...current, [item.id]: value }))}
+          onCheckChange={(item, value) => setPantry((current) => {
+            const meta = pantryInventoryMeta(current);
+            return {
+              ...current,
+              [item.id]: value,
+              [PANTRY_INVENTORY_META_KEY]: {
+                ...meta,
+                statuses: { ...meta.statuses, [item.id]: value ? "in-stock" : "not-set" },
+              },
+            };
+          })}
           onClose={() => setShowDigitalStockCheck(false)}
         />
       )}
@@ -6891,18 +7203,25 @@ function PantryStaplesPage({ pantry, setPantry }) {
             <h2>{group.group}</h2>
 
             {group.items.map((item) => (
-              <label
+              <div
                 key={item.name}
-                className={pantry[item.name] ? "pantryItem checked" : "pantryItem"}
+                className={`pantryItem${pantryItemStatus(pantry, item.name) === "in-stock" ? " checked" : ""} is-${pantryItemStatus(pantry, item.name)}`}
               >
                 <input
                   type="checkbox"
                   checked={!!pantry[item.name]}
                   onChange={() => togglePantryItem(item)}
+                  aria-label={`${item.name} in stock`}
                 />
                 <span>{item.name}</span>
                 <em>Level {item.level}</em>
-              </label>
+                <select value={pantryItemStatus(pantry, item.name)} onChange={(event) => setPantryStatus(item, event.target.value)} aria-label={`${item.name} stock status`}>
+                  <option value="not-set">Not Set</option>
+                  <option value="in-stock">In Stock</option>
+                  <option value="low">Low</option>
+                  <option value="out">Out</option>
+                </select>
+              </div>
             ))}
           </section>
         ))}
@@ -7363,6 +7682,8 @@ function FreezerInventoryManagementPage({
   freezer,
   setFreezer,
   setActivePage,
+  externalSearch = "",
+  embedded = false,
 }) {
   const [activeKind, setActiveKind] = useState("completeMeal");
   const [search, setSearch] = useState("");
@@ -7414,7 +7735,8 @@ function FreezerInventoryManagementPage({
     const stock = stockMap.get(`${source.kind}:${source.sourceId}`);
     const quantity = Number(stock?.packagesAvailable || 0);
     const haystack = `${source.code} ${source.title}`.toLowerCase();
-    const matchesSearch = !search.trim() || haystack.includes(search.trim().toLowerCase());
+    const effectiveSearch = externalSearch.trim() || search.trim();
+    const matchesSearch = !effectiveSearch || haystack.includes(effectiveSearch.toLowerCase());
     if (!matchesSearch) return false;
     if (stockFilter === "stocked" && quantity <= 0) return false;
     if (stockFilter === "empty" && quantity > 0) return false;
@@ -7477,11 +7799,11 @@ function FreezerInventoryManagementPage({
 
   return (
     <main className="pageShell freezerInventoryManagementPage">
-      <SectionIntro
+      {!embedded && <SectionIntro
         title="Freezer Inventory"
         text="Track frozen Complete Meals, individually packaged recipes, and component items such as bulk meats, vegetables, breads, sauces, and other foods used to build meals."
         className="freezerManagementSectionIntro"
-      />
+      />}
 
       <section className="freezerManagementSummary" aria-label="Frozen meal inventory summary">
         <div><small>Complete Meals</small><strong>{totalComplete}</strong></div>
@@ -7521,12 +7843,13 @@ function FreezerInventoryManagementPage({
           freezer={freezer}
           setFreezer={setFreezer}
           setActivePage={setActivePage}
+          externalSearch={externalSearch}
           embedded
         />
       ) : (
         <>
           <section className="freezerManagementFilters" aria-label="Freezer stock review controls">
-            <label>
+            {!embedded && <label>
               <span>Search</span>
               <input
                 type="search"
@@ -7534,7 +7857,7 @@ function FreezerInventoryManagementPage({
                 onChange={(event) => setSearch(event.target.value)}
                 placeholder={activeKind === "completeMeal" ? "Search complete meals..." : "Search individual recipes..."}
               />
-            </label>
+            </label>}
             <label>
               <span>Show</span>
               <select value={stockFilter} onChange={(event) => setStockFilter(event.target.value)}>
@@ -8225,12 +8548,12 @@ function freezerPackageOptions(currentValue = "") {
     : FREEZER_PACKAGE_OPTIONS;
 }
 
-function FreezerInventoryPage({ freezer, setFreezer, setActivePage, embedded = false }) {
+function FreezerInventoryPage({ freezer, setFreezer, setActivePage, embedded = false, externalSearch = "" }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [showDigitalStockCheck, setShowDigitalStockCheck] = useState(false);
   const [filterMode, setFilterMode] = useState("all");
   const [locationFilter, setLocationFilter] = useState("all");
-  const [expandedCategories, setExpandedCategories] = useState(() => new Set([FREEZER_CATEGORIES[0]?.id || "meat-poultry"]));
+  const [expandedCategories, setExpandedCategories] = useState(() => new Set());
   const [customFormCategory, setCustomFormCategory] = useState(null);
   const [customLocationName, setCustomLocationName] = useState("");
   const [customForm, setCustomForm] = useState({
@@ -8270,7 +8593,7 @@ function FreezerInventoryPage({ freezer, setFreezer, setActivePage, embedded = f
     grocery: buildFreezerGroceryItems(safeFreezer).length,
   };
 
-  const normalizedSearch = searchTerm.trim().toLowerCase();
+  const normalizedSearch = (externalSearch.trim() || searchTerm.trim()).toLowerCase();
   const visibleItems = allItems.filter((item) => {
     const matchesSearch = normalizedSearch ? item.name.toLowerCase().includes(normalizedSearch) : true;
     if (!matchesSearch) return false;
@@ -8578,7 +8901,7 @@ function FreezerInventoryPage({ freezer, setFreezer, setActivePage, embedded = f
       </section>
 
       <section className="freezerToolbar freezerNoPrint">
-        <label>
+        {!embedded && <label>
           <span>Search Inventory</span>
           <input
             type="search"
@@ -8586,7 +8909,7 @@ function FreezerInventoryPage({ freezer, setFreezer, setActivePage, embedded = f
             onChange={(event) => setSearchTerm(event.target.value)}
             placeholder="Search freezer items..."
           />
-        </label>
+        </label>}
         <label>
           <span>Filter</span>
           <select value={filterMode} onChange={(event) => setFilterMode(event.target.value)}>
@@ -8743,7 +9066,7 @@ function FreezerInventoryPage({ freezer, setFreezer, setActivePage, embedded = f
   );
 }
 
-function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry, refrigerator, freezer, setActivePage, preparedInventory, preparedReservations, componentDecisions, setComponentDecisions, shoppingComments, setShoppingComments, kosUi }) {
+function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry, refrigerator, freezer, masterInventory, setActivePage, preparedInventory, preparedReservations, componentDecisions, setComponentDecisions, shoppingComments, setShoppingComments, kosUi }) {
   const [showDigitalStockCheck, setShowDigitalStockCheck] = useState(false);
   const [shoppingView, setShoppingView] = useState("needs");
   const recipeIdSet = useMemo(() => new Set(recipes.map((recipe) => recipe.id)), []);
@@ -8839,6 +9162,14 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
     () => buildFreezerGroceryItems(freezer),
     [freezer]
   );
+  const kitchenShoppingItems = useMemo(
+    () => buildMasterInventoryShoppingItems(masterInventory, recipes),
+    [masterInventory]
+  );
+  const pantryRestockItems = useMemo(
+    () => buildPantryRestockItems(pantry),
+    [pantry]
+  );
 
   const shoppingNeedGroups = useMemo(() => {
     const normalized = normalizeTwoWeekPlan(plan);
@@ -8901,8 +9232,14 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
     if (freezerShoppingItems.length) {
       groups.push({ id: "freezer-restock", title: "Freezer Restock", subtitle: "Items needed from Freezer Inventory", items: freezerShoppingItems.map((item, index) => ({ ...item, id: `freezer-${index}`, kind: "grocery" })) });
     }
+    if (kitchenShoppingItems.length) {
+      groups.push({ id: "kitchen-restock", title: "Kitchen Restock", subtitle: "Items marked Buy, Low, or Out in Kitchen Inventory", items: kitchenShoppingItems.map((item, index) => ({ ...item, id: `kitchen-${index}`, kind: "grocery" })) });
+    }
+    if (pantryRestockItems.length) {
+      groups.push({ id: "pantry-restock", title: "Pantry Restock", subtitle: "Items marked Low or Out in Pantry Inventory", items: pantryRestockItems.map((item, index) => ({ ...item, id: `pantry-${index}`, kind: "grocery" })) });
+    }
     return groups.filter((group) => group.items.length);
-  }, [plan, recipeById, dinnerCombinationById, servings, preparedInventory, refrigeratorShoppingItems, freezerShoppingItems]);
+  }, [plan, recipeById, dinnerCombinationById, servings, preparedInventory, refrigeratorShoppingItems, freezerShoppingItems, kitchenShoppingItems, pantryRestockItems]);
 
   const list = useMemo(
     () => mergeShoppingListEntries([
@@ -8910,8 +9247,10 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
       ...dinnerCombinationShoppingReferences,
       ...refrigeratorShoppingItems,
       ...freezerShoppingItems,
+      ...kitchenShoppingItems,
+      ...pantryRestockItems,
     ]),
-    [recipeOnlyPlan, servings, dinnerCombinationShoppingReferences, refrigeratorShoppingItems, freezerShoppingItems]
+    [recipeOnlyPlan, servings, dinnerCombinationShoppingReferences, refrigeratorShoppingItems, freezerShoppingItems, kitchenShoppingItems, pantryRestockItems]
   );
 
   const printableList = useMemo(
@@ -17225,20 +17564,6 @@ export default function App() {
         </>
       )}
 
-      {activePage === "Freezer Inventory Management" && (
-        <>
-          <PageHeroImage
-            src="images/heroes/hero-page-freezer.webp"
-            alt="Organized freezer with labeled prepared meal packages"
-            eyebrow="KITCHEN DETAILS"
-            title="Freezer Inventory"
-            text="Keep Complete Meals, Individual Recipes, and Component Items together in one freezer-management center. Track ready-to-reheat meals, packaged recipes, bulk meats, frozen foods, cooking bases, and anything else used to build meals."
-            className="pageHeroDepth464"
-          />
-          <FreezerInventoryManagementPage {...pageProps} />
-        </>
-      )}
-
       {activePage === "Reference Guides" && (
         <>
           <PageHeroImage
@@ -17634,33 +17959,20 @@ Use this collection to organize recipes that fit prep-ahead cooking, planned lef
           <ShoppingListPage {...pageProps} />
         </>
       )}
-      {activePage === "Master Kitchen Inventory" && (
+      {["Master Kitchen Inventory", "Freezer Inventory Management", "Pantry Staples"].includes(activePage) && (
         <>
           <PageHeroImage
             src="images/heroes/hero-page-your-pantry.webp"
             alt="Kitchen inventory setup with pantry foods, fresh ingredients, freezer packages, notebook, and checklist"
             eyebrow="KITCHEN DETAILS"
             title="Kitchen Inventory"
-            text="Create one starting count of the foods and product forms used throughout the recipe library. Fresh, frozen, canned, packaged, and prepared versions remain separate so the system can maintain accurate quantities as food is purchased and used."
+            text="Manage kitchen, freezer, and pantry supplies from one practical inventory center. Keep product forms separate, see what is on hand, identify items that need restocking, and move food when its storage location changes."
             className="pageHeroDepth464"
           />
-          <MasterKitchenInventoryPage {...pageProps} inventory={masterInventory} setInventory={setMasterInventory} />
-        </>
-      )}
-      {activePage === "Pantry Staples" && (
-        <>
-          <PageHeroImage
-            src="images/heroes/hero-page-your-pantry.webp"
-            alt="Pantry planning setup with labeled pantry containers, canned goods, checklist, and notebook"
-            eyebrow="KITCHEN DETAILS"
-            title="Pantry Inventory"
-            text="A well-organized pantry makes it easier to see what you already own and what needs to be replaced. Keeping track of canned goods, dry ingredients, spices, baking supplies, sauces, and staples can prevent duplicate purchases and forgotten food.\n\nUse this section as a practical inventory and planning tool. When you know what is available, it becomes easier to choose recipes, use ingredients before they expire, and prepare meals without another trip to the store."
-            className="pageHeroDepth464"
-/>
-          <main className="pageShell" data-kos-ui="pantry-inventory">
-            <KosPlanningStatusBand kosUi={kosUi} mode="pantry" />
-          </main>
-          <PantryStaplesPage {...pageProps} />
+          <InventoryHubPage
+            {...pageProps}
+            initialTab={activePage === "Freezer Inventory Management" ? "freezer" : activePage === "Pantry Staples" ? "pantry" : "kitchen"}
+          />
         </>
       )}
       {activePage === "Pantry Organization" && (
