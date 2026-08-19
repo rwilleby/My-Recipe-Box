@@ -44,7 +44,7 @@ export const VIDEO_LIBRARY_ITEMS = [
   availableVideo("salad-jars-home", "Salad Jar Lunches", "Explore practical Salad Jar Lunches and their recipe-finding controls.", "salad-jars", "Salad Jars", "Open Salad Jar Lunches"),
   availableVideo("choose-level", "Choose Your Level", "Choose what you want to do and reveal the tools that fit that task.", "choose-your-level", "Home", "Open Home Page"),
   availableVideo("quick-links", "Browse Our Quick Links", "Use the category icons as a quick route into the recipe library.", "browse-our-quick-links", "Home", "Open Home Page"),
-  plannedVideo("master-inventory", "Master Kitchen Inventory", "Master Kitchen Inventory", "Open Master Inventory"),
+  plannedVideo("master-inventory", "Kitchen Inventory", "Kitchen Inventory", "Open Kitchen Inventory"),
   plannedVideo("refrigerator-inventory", "Refrigerator Inventory", "Kitchen Refrigerator", "Open Refrigerator Inventory"),
   plannedVideo("prepared-freezer-inventory", "Prepared Freezer Inventory", "Prepared Freezer Inventory", "Open Prepared Freezer"),
   plannedVideo("freezer-inventory", "Freezer Inventory", "Kitchen Freezer", "Open Freezer Inventory"),

@@ -41,7 +41,7 @@ const expectedTitles = [
   "Salad Jar Lunches",
   "Choose Your Level",
   "Browse Our Quick Links",
-  "Master Kitchen Inventory",
+  "Kitchen Inventory",
   "Refrigerator Inventory",
   "Prepared Freezer Inventory",
   "Freezer Inventory",

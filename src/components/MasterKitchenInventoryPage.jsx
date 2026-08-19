@@ -61,10 +61,14 @@ function groupItemsByFamily(items = []) {
   return [...families.entries()].map(([family, familyItems]) => ({ family, items: familyItems }));
 }
 
+function inventoryIdsForItem(item) {
+  return [item.id, ...(item.legacyIds || [])];
+}
+
 export default function MasterKitchenInventoryPage({ recipes, inventory, setInventory }) {
   const safeInventory = normalizeState(inventory);
   const [search, setSearch] = useState("");
-  const [expanded, setExpanded] = useState(() => new Set(["vegetables"]));
+  const [expanded, setExpanded] = useState(() => new Set());
   const [showCustomForm, setShowCustomForm] = useState(false);
   const [customForm, setCustomForm] = useState({ categoryId: "vegetables", family: "", variation: "", unit: "each" });
   const catalog = useMemo(
@@ -79,10 +83,11 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
     ),
   })).filter((category) => category.items.length);
   const allItems = catalog.flatMap((category) => category.items);
+  const recordForItem = (item) => inventoryIdsForItem(item).map((id) => safeInventory.records[id]).find(Boolean) || {};
   const additionalLocationRecords = Object.values(safeInventory.records).filter((record) => record?.sourceItemId);
-  const withStock = allItems.filter((item) => Number(safeInventory.records[item.id]?.have) > 0).length
+  const withStock = allItems.filter((item) => Number(recordForItem(item).have) > 0).length
     + additionalLocationRecords.filter((record) => Number(record.have) > 0).length;
-  const toBuy = allItems.filter((item) => Number(safeInventory.records[item.id]?.buy) > 0).length
+  const toBuy = allItems.filter((item) => Number(recordForItem(item).buy) > 0).length
     + additionalLocationRecords.filter((record) => Number(record.buy) > 0).length;
 
   function updateRecord(itemId, patch) {
@@ -138,7 +143,7 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
     const existingLocations = new Set([
       safeInventory.records[item.id]?.storage || details.storage,
       ...Object.values(safeInventory.records)
-        .filter((record) => record?.sourceItemId === item.id)
+        .filter((record) => inventoryIdsForItem(item).includes(record?.sourceItemId))
         .map((record) => record.storage),
     ]);
     const storage = STORAGE_OPTIONS.find((option) => !existingLocations.has(option)) || "Other";
@@ -166,7 +171,7 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
   }
 
   function clearBuyQuantities() {
-    if (!window.confirm("Clear every Buy quantity on the Master Kitchen Inventory? Have quantities will not change.")) return;
+    if (!window.confirm("Clear every Buy quantity on the Kitchen Inventory? Have quantities will not change.")) return;
     setInventory((current) => {
       const safe = normalizeState(current);
       return {
@@ -193,8 +198,8 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
 
   function printCountWorksheet() {
     printManualInventoryWorksheet({
-      title: "Master Kitchen Inventory Count Worksheet",
-      instructions: "Complete the one-time starting count by recording how many packages, containers, pounds, or individual pieces are currently on hand. Enter the results into Master Kitchen Inventory.",
+      title: "Kitchen Inventory Count Worksheet",
+      instructions: "Complete the one-time starting count by recording how many packages, containers, pounds, or individual pieces are currently on hand. Enter the results into Kitchen Inventory.",
       groups: catalog.map((category) => ({
         title: category.title,
         items: category.items.map((item) => ({ name: item.family, detail: `${item.variation} · ${item.unit}` })),
@@ -210,17 +215,15 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
 
   return (
     <main className="pageShell masterKitchenInventoryPage">
-      <section className="masterInventoryIntro">
-        <div>
-          <span>ONE MASTER LIST</span>
-          <h1>Count It Once. Keep It Current.</h1>
-          <p>Use this page for the initial count of foods that may be needed across the recipe library. Each product form has its own Have and Buy quantity so canned, frozen, fresh, and prepared versions remain separate.</p>
-        </div>
-        <div className="masterInventorySummary">
-          <div><strong>{allItems.length}</strong><span>Product forms</span></div>
-          <div><strong>{withStock}</strong><span>On hand</span></div>
-          <div><strong>{toBuy}</strong><span>To buy</span></div>
-        </div>
+      <section className="inventoryPageHeading">
+        <h1>Kitchen Inventory</h1>
+        <p>Count foods used throughout the recipe library, then keep each fresh, frozen, canned, packaged, and prepared variation current.</p>
+      </section>
+
+      <section className="masterInventorySummary" aria-label="Kitchen inventory summary">
+        <div><span>Product Forms</span><strong>{allItems.length}</strong></div>
+        <div><span>Items On Hand</span><strong>{withStock}</strong></div>
+        <div><span>Items To Buy</span><strong>{toBuy}</strong></div>
       </section>
 
       <section className="masterInventoryToolbar">
@@ -243,13 +246,13 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
         </form>
       )}
 
-      <p className="masterInventoryBackupNote"><strong>Saved automatically on this device.</strong> Master Kitchen Inventory is included in the full Recipe Box Backup &amp; Restore file for transfer between your iPad and laptop.</p>
+      <p className="masterInventoryBackupNote"><strong>Saved automatically on this device.</strong> Kitchen Inventory is included in the full Recipe Box Backup &amp; Restore file for transfer between your iPad and laptop.</p>
 
       <div className="masterInventoryAccordions">
         {visibleCatalog.map((category) => {
           const isOpen = normalizedSearch || expanded.has(category.id);
-          const categoryItemIds = new Set(category.items.map((item) => item.id));
-          const stocked = category.items.filter((item) => Number(safeInventory.records[item.id]?.have) > 0).length
+          const categoryItemIds = new Set(category.items.flatMap(inventoryIdsForItem));
+          const stocked = category.items.filter((item) => Number(recordForItem(item).have) > 0).length
             + Object.values(safeInventory.records).filter((record) => categoryItemIds.has(record?.sourceItemId) && Number(record.have) > 0).length;
           return (
             <section className="masterInventoryCategory" key={category.id}>
@@ -277,10 +280,10 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
                         <div className="masterInventoryLedgerItems">
                           {familyGroup.items.flatMap((item) => {
                             const additionalRows = Object.entries(safeInventory.records)
-                              .filter(([, record]) => record?.sourceItemId === item.id)
+                              .filter(([, record]) => inventoryIdsForItem(item).includes(record?.sourceItemId))
                               .map(([rowId]) => ({ rowId, additional: true }));
                             return [{ rowId: item.id, additional: false }, ...additionalRows].map(({ rowId, additional }) => {
-                            const record = safeInventory.records[rowId] || {};
+                            const record = additional ? (safeInventory.records[rowId] || {}) : recordForItem(item);
                             const details = inventoryDetails(item, category.id);
                             return (
                               <div className="masterInventoryLedgerRow" key={rowId} role="row">
@@ -288,7 +291,7 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
                                   {STORAGE_OPTIONS.map((option) => <option key={option} value={option}>{option}</option>)}
                                 </select>
                                 <span className="masterInventoryForm" role="cell">{details.form}</span>
-                                <span className="masterInventoryVariety" role="cell">{details.variety}{item.recipeDerived ? <small> · Recipe</small> : null}</span>
+                                <span className="masterInventoryVariety" role="cell">{details.variety}</span>
                                 <span className="masterInventoryPackage" role="cell">{item.unit}</span>
                                 <label className="masterInventoryLedgerQuantity"><span>Have</span><input type="number" inputMode="decimal" min="0" step="any" placeholder="0" value={numberValue(record.have)} onChange={(event) => updateRecord(rowId, { have: event.target.value, ...(additional ? { sourceItemId: item.id } : {}) })} aria-label={`${item.family} ${item.variation} quantity on hand`} /></label>
                                 <label className="masterInventoryLedgerQuantity"><span>Buy</span><input type="number" inputMode="decimal" min="0" step="any" placeholder="0" value={numberValue(record.buy)} onChange={(event) => updateRecord(rowId, { buy: event.target.value, ...(additional ? { sourceItemId: item.id } : {}) })} aria-label={`${item.family} ${item.variation} quantity to buy`} /></label>

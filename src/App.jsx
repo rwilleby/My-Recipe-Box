@@ -1316,10 +1316,10 @@ const NAV_GROUPS = [
     ],
   },
   {
-    label: "KITCHEN INVENTORY",
+    label: "KITCHEN DETAILS",
     items: [
-      { label: "MASTER KITCHEN INVENTORY", page: "Master Kitchen Inventory" },
-      { label: "MASTER FREEZER INVENTORY", page: "Freezer Inventory Management", detailedOnly: true },
+      { label: "KITCHEN INVENTORY", page: "Master Kitchen Inventory" },
+      { label: "FREEZER INVENTORY", page: "Freezer Inventory Management", detailedOnly: true },
       { label: "PANTRY INVENTORY", page: "Pantry Staples" },
     ],
   },
@@ -1506,9 +1506,9 @@ function Header({ activePage, setActivePage, favorites }) {
       ],
     },
     {
-      label: "KITCHEN INVENTORY",
+      label: "KITCHEN DETAILS",
       page: "Master Kitchen Inventory",
-      items: NAV_GROUPS.find((group) => group.label === "KITCHEN INVENTORY")?.items || [],
+      items: NAV_GROUPS.find((group) => group.label === "KITCHEN DETAILS")?.items || [],
     },
     {
       label: "MEAL PLANNING",
@@ -6758,6 +6758,11 @@ function PantryStaplesPage({ pantry, setPantry }) {
     0
   );
 
+  const stockedAtLevel = (level) => PANTRY_STAPLES.reduce(
+    (sum, group) => sum + group.items.filter((item) => item.level <= level && pantry[item.name]).length,
+    0
+  );
+
   function togglePantryItem(item) {
     setPantry((current) => ({
       ...current,
@@ -6806,28 +6811,26 @@ function PantryStaplesPage({ pantry, setPantry }) {
   return (
     <main className="pageShell pantryPage">
       <SectionIntro
-        title="Pantry Staples"
-        text="Choose a pantry level and check off shelf-stable products you already keep on hand. Each level builds on the one before it."
+        title="Pantry Inventory"
+        text="Track shelf-stable foods by pantry level so you can see what is available before planning meals or shopping. Each level builds on the one before it."
         className="pantrySectionIntro"
       />
 
-      <div className="pantrySectionIntroCounter">
-        <div className="totalBox">
-          <small>{selectedLevelInfo.shortLabel} Stocked</small>
-          <strong>{checkedCount}/{totalStaples}</strong>
-        </div>
-      </div>
+      <section className="freezerManagementSummary pantryInventorySummary" aria-label="Pantry inventory summary">
+        <div><small>Minimum Basics</small><strong>{stockedAtLevel(1)}</strong></div>
+        <div><small>Everyday Pantry</small><strong>{stockedAtLevel(2)}</strong></div>
+        <div><small>Well-Stocked Pantry</small><strong>{stockedAtLevel(3)}</strong></div>
+      </section>
 
-      <div className="pantryLevelTabs" role="tablist" aria-label="Pantry staple level">
+      <div className="pantryLevelTabs freezerManagementKindTabs" role="tablist" aria-label="Pantry staple level">
         {PANTRY_LEVELS.map((level) => (
           <button
             key={level.id}
             type="button"
-            className={selectedPantryLevel === level.id ? "active" : ""}
+            className={selectedPantryLevel === level.id ? "active isActive" : ""}
             onClick={() => setSelectedPantryLevel(level.id)}
           >
-            <span>Level {level.id}</span>
-            <strong>{level.shortLabel}</strong>
+            {level.label}
           </button>
         ))}
       </div>
@@ -6840,7 +6843,7 @@ function PantryStaplesPage({ pantry, setPantry }) {
         <span>All items shown are shelf-stable.</span>
       </div>
 
-      <div className="pantryActions">
+      <div className="pantryActions inventoryControlStrip">
         <button className="primary" type="button" onClick={printPantryStockWorksheet}>
           Print Stock-Check Worksheet
         </button>
@@ -7224,7 +7227,7 @@ function PreparedFreezerInventoryPage({
           Add Inventory Item
         </button>
         <button className="secondary" type="button" onClick={() => setActivePage("Freezer Inventory Management")}>
-          Master Freezer Inventory
+          Freezer Inventory
         </button>
         <button className="secondary" type="button" onClick={() => setActivePage("Meal Planner")}>
           Meal Planner
@@ -7470,7 +7473,7 @@ function FreezerInventoryManagementPage({
   return (
     <main className="pageShell freezerInventoryManagementPage">
       <SectionIntro
-        title="Master Freezer Inventory"
+        title="Freezer Inventory"
         text="Track frozen Complete Meals, individually packaged recipes, and component items such as bulk meats, vegetables, breads, sauces, and other foods used to build meals."
         className="freezerManagementSectionIntro"
       />
@@ -17120,8 +17123,8 @@ export default function App() {
           <PageHeroImage
             src="images/heroes/hero-page-freezer.webp"
             alt="Organized freezer with labeled prepared meal packages"
-            eyebrow="KITCHEN INVENTORY"
-            title="Master Freezer Inventory"
+            eyebrow="KITCHEN DETAILS"
+            title="Freezer Inventory"
             text="Keep Complete Meals, Individual Recipes, and Component Items together in one freezer-management center. Track ready-to-reheat meals, packaged recipes, bulk meats, frozen foods, cooking bases, and anything else used to build meals."
             className="pageHeroDepth464"
           />
@@ -17532,8 +17535,8 @@ Use this collection to organize recipes that fit prep-ahead cooking, planned lef
           <PageHeroImage
             src="images/heroes/hero-page-your-pantry.webp"
             alt="Kitchen inventory setup with pantry foods, fresh ingredients, freezer packages, notebook, and checklist"
-            eyebrow="YOUR KITCHEN"
-            title="Master Kitchen Inventory"
+            eyebrow="KITCHEN DETAILS"
+            title="Kitchen Inventory"
             text="Create one starting count of the foods and product forms used throughout the recipe library. Fresh, frozen, canned, packaged, and prepared versions remain separate so the system can maintain accurate quantities as food is purchased and used."
             className="pageHeroDepth464"
           />
@@ -17545,8 +17548,8 @@ Use this collection to organize recipes that fit prep-ahead cooking, planned lef
           <PageHeroImage
             src="images/heroes/hero-page-your-pantry.webp"
             alt="Pantry planning setup with labeled pantry containers, canned goods, checklist, and notebook"
-            eyebrow="PLANNING"
-            title="Your Pantry"
+            eyebrow="KITCHEN DETAILS"
+            title="Pantry Inventory"
             text="A well-organized pantry makes it easier to see what you already own and what needs to be replaced. Keeping track of canned goods, dry ingredients, spices, baking supplies, sauces, and staples can prevent duplicate purchases and forgotten food.\n\nUse this section as a practical inventory and planning tool. When you know what is available, it becomes easier to choose recipes, use ingredients before they expire, and prepare meals without another trip to the store."
             className="pageHeroDepth464"
 />

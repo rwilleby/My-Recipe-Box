@@ -7,19 +7,19 @@ const freezerData = fs.readFileSync("src/data/freezerInventory.js", "utf8");
 const bulkPlanner = fs.readFileSync("src/components/WeekendBulkMealPlanner.jsx", "utf8");
 
 const navStart = app.indexOf("const NAV_GROUPS = [");
-const inventoryStart = app.indexOf('label: "KITCHEN INVENTORY"', navStart);
+const inventoryStart = app.indexOf('label: "KITCHEN DETAILS"', navStart);
 const recipesStart = app.indexOf('label: "OUR RECIPES"', inventoryStart);
 const inventoryMenu = app.slice(inventoryStart, recipesStart);
 
-assert.match(inventoryMenu, /label: "MASTER KITCHEN INVENTORY", page: "Master Kitchen Inventory"/);
-assert.match(inventoryMenu, /label: "MASTER FREEZER INVENTORY", page: "Freezer Inventory Management", detailedOnly: true/);
+assert.match(inventoryMenu, /label: "KITCHEN INVENTORY", page: "Master Kitchen Inventory"/);
+assert.match(inventoryMenu, /label: "FREEZER INVENTORY", page: "Freezer Inventory Management", detailedOnly: true/);
 assert.match(inventoryMenu, /label: "PANTRY INVENTORY", page: "Pantry Staples"/);
-for (const hiddenLabel of ["REFRIGERATOR INVENTORY", "PREPARED FREEZER INVENTORY", "FREEZER INVENTORY MANAGEMENT", "FREEZER INVENTORY"]) {
+for (const hiddenLabel of ["REFRIGERATOR INVENTORY", "PREPARED FREEZER INVENTORY", "FREEZER INVENTORY MANAGEMENT", "MASTER FREEZER INVENTORY"]) {
   assert.ok(!inventoryMenu.includes(`label: "${hiddenLabel}"`), `${hiddenLabel} must be hidden from the menu`);
 }
 
-assert.match(app, /title="Master Freezer Inventory"/);
-assert.match(app, /title="Master Freezer Inventory"[\s\S]*Complete Meals, Individual Recipes, and Component Items/);
+assert.match(app, /title="Freezer Inventory"/);
+assert.match(app, /title="Freezer Inventory"[\s\S]*Complete Meals, Individual Recipes, and Component Items/);
 assert.match(app, /className=\{activeKind === "completeMeal" \? "isActive" : ""\}[\s\S]*Complete Meals/);
 assert.match(app, /className=\{activeKind === "mainCourse" \? "isActive" : ""\}[\s\S]*Individual Recipes/);
 assert.match(app, /className=\{activeKind === "componentItem" \? "isActive" : ""\}[\s\S]*Component Items/);
@@ -43,6 +43,6 @@ assert.match(app, /Export Inventory/);
 assert.match(app, /Import Inventory/);
 assert.match(app, /Clear Inventory/);
 assert.ok(!bulkPlanner.includes("from Freezer Inventory Management"));
-assert.match(bulkPlanner, /from Master Freezer Inventory/);
+assert.match(bulkPlanner, /from Freezer Inventory/);
 
 console.log("v84.14 Master Freezer Inventory contracts passed.");

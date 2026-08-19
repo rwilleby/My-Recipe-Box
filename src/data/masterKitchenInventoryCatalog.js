@@ -16,8 +16,9 @@ export const MASTER_INVENTORY_CATEGORIES = Object.freeze([
 
 const CURATED_FAMILIES = [
   ["meat-poultry", "Bacon", [["Raw package", "packages"], ["Cooked portions", "portions"]]],
-  ["meat-poultry", "Beef", [["Ground 90/10", "lb"], ["Steaks", "each"], ["Roast", "lb"], ["Stew meat", "lb"], ["Beef tips", "lb"], ["Brisket", "lb"]]],
-  ["meat-poultry", "Chicken", [["Boneless skinless breasts", "lb"], ["Boneless skinless thighs", "lb"], ["Bone-in thighs", "lb"], ["Drumsticks", "lb"], ["Wings", "lb"], ["Whole chicken", "each"], ["Cooked sliced", "portions"], ["Cooked diced", "portions"], ["Cooked shredded", "portions"]]],
+  ["meat-poultry", "Ground Beef", [["90/10 raw", "lb"], ["80/20 raw", "lb"], ["97/3 raw", "lb"]]],
+  ["meat-poultry", "Beef", [["Steaks", "each"], ["Roast", "lb"], ["Stew meat", "lb"], ["Beef tips", "lb"], ["Brisket", "lb"]]],
+  ["meat-poultry", "Chicken", [["Raw boneless skinless breasts", "lb"], ["Raw boneless skinless thighs", "lb"], ["Raw bone-in thighs", "lb"], ["Raw drumsticks", "lb"], ["Raw wings", "lb"], ["Raw whole chicken", "each"], ["Cooked chicken breast, whole", "cups"], ["Cooked chicken breast, sliced", "cups"], ["Cooked chicken breast, diced", "cups"], ["Cooked chicken breast, shredded", "cups"]]],
   ["meat-poultry", "Ham", [["Whole or half ham", "lb"], ["Ham steak", "each"], ["Diced ham", "packages"], ["Deli slices", "packages"]]],
   ["meat-poultry", "Pork", [["Chops", "lb"], ["Tenderloin", "lb"], ["Pork roast", "lb"], ["Ribs", "racks"], ["Pulled pork", "portions"]]],
   ["meat-poultry", "Sausage", [["Breakfast links or patties", "packages"], ["Italian sausage", "lb"], ["Smoked sausage", "packages"], ["Ground sausage", "lb"]]],
@@ -107,6 +108,90 @@ function categoryForAisle(aisle = "") {
   return "other";
 }
 
+const RECIPE_FAMILY_RULES = [
+  [/\bground beef\b/i, "Ground Beef"],
+  [/\b(chicken breasts?|chicken breast meat|chicken thighs?|chicken legs?|chicken wings?|chicken quarters?|whole chicken|cooked chicken|shredded chicken|diced chicken|sliced chicken)\b/i, "Chicken"],
+  [/\bground turkey\b/i, "Ground Turkey"],
+  [/\b(turkey breast|whole turkey|deli turkey)\b/i, "Turkey"],
+  [/\b(bacon)\b/i, "Bacon"],
+  [/\b(ham steak|diced ham|deli ham|ham)\b/i, "Ham"],
+  [/\b(pork chops?|pork tenderloin|pork roast|pulled pork|pork ribs?)\b/i, "Pork"],
+  [/\b(sausage|bratwurst|kielbasa)\b/i, "Sausage"],
+  [/\b(shrimp)\b/i, "Shrimp"],
+  [/\b(salmon)\b/i, "Salmon"],
+  [/\b(tilapia)\b/i, "Tilapia"],
+  [/\b(crabmeat|crab meat|crab)\b/i, "Crab"],
+  [/\b(tuna)\b/i, "Tuna"],
+  [/\b(large eggs?|egg whites?|eggs?)\b/i, "Eggs"],
+  [/\b(whole milk|2% milk|low-fat milk|reduced-fat milk|fat-free milk|milk)\b/i, "Milk"],
+  [/\b(butter)\b/i, "Butter"],
+  [/\b(cheddar|mozzarella|parmesan|provolone|swiss|american cheese|cream cheese|feta|cheese)\b/i, "Cheese"],
+  [/\b(potatoes?|mashed potatoes?)\b/i, "Potatoes"],
+  [/\b(onions?)\b/i, "Onions"],
+  [/\b(tomatoes?|tomato paste|tomato sauce)\b/i, "Tomatoes"],
+  [/\b(bell peppers?|jalapeños?|green chiles?|peppers?)\b/i, "Peppers"],
+  [/\b(green beans?|black beans?|pinto beans?|baked beans?|beans?)\b/i, "Beans"],
+  [/\b(corn)\b/i, "Corn"],
+  [/\b(broccoli)\b/i, "Broccoli"],
+  [/\b(carrots?)\b/i, "Carrots"],
+  [/\b(rice)\b/i, "Rice"],
+  [/\b(spaghetti|macaroni|penne|rotini|lasagna|pasta)\b/i, "Pasta"],
+];
+
+function recipeFamilyForIngredient(name = "") {
+  const cleaned = String(name)
+    .replace(/\([^)]*\)/g, " ")
+    .replace(/\b(optional|for serving|for garnish|divided|softened|melted|chopped|diced|sliced|shredded|minced|cooked|prepared)\b/gi, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  const match = RECIPE_FAMILY_RULES.find(([pattern]) => pattern.test(name));
+  if (!match) return { family: cleaned || String(name).trim(), variation: "Standard" };
+  const family = match[1];
+  const variation = String(name)
+    .replace(match[0], " ")
+    .replace(/[(),]/g, " ")
+    .replace(/\b(optional|for serving|for garnish)\b/gi, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  return { family, variation: variation || "Standard" };
+}
+
+function normalizedRecipeForm(family, sourceName, sourceUnit = "packages") {
+  const value = sourceName.toLowerCase();
+  if (family === "Ground Beef") {
+    const grade = value.match(/\b(80\/?20|90\/?10|93%? lean|97\/?3)\b/i)?.[1]?.replace("90/10", "90/10").replace("80/20", "80/20").replace("97/3", "97/3") || "Lean";
+    return { variation: /cooked|browned|drained/.test(value) ? `${grade} cooked` : `${grade} raw`, unit: "lb" };
+  }
+  if (family === "Chicken") {
+    const cooked = /cooked|prepared|rotisserie/.test(value);
+    const form = /shredded/.test(value) ? "shredded" : /diced|cubed|pieces/.test(value) ? "diced" : /sliced|cutlets?/.test(value) ? "sliced" : "whole";
+    if (cooked) return { variation: `Cooked chicken breast, ${form}`, unit: "cups" };
+    if (/wings?/.test(value)) return { variation: "Raw wings", unit: "lb" };
+    if (/quarters?/.test(value)) return { variation: "Raw leg quarters", unit: "each" };
+    if (/drumsticks?|chicken legs?/.test(value)) return { variation: "Raw drumsticks", unit: "lb" };
+    if (/thighs?/.test(value)) return { variation: /bone-in/.test(value) ? "Raw bone-in thighs" : "Raw boneless skinless thighs", unit: "lb" };
+    if (/whole chicken/.test(value)) return { variation: "Raw whole chicken", unit: "each" };
+    return { variation: /bone-in/.test(value) ? "Raw bone-in breasts" : "Raw boneless skinless breasts", unit: "lb" };
+  }
+  if (family === "Milk") {
+    if (/evaporated/.test(value)) return { variation: "Evaporated", unit: "cans" };
+    if (/fat-free|skim/.test(value)) return { variation: "Fat-free", unit: "gallons" };
+    if (/low-fat|reduced-fat|2%/.test(value)) return { variation: "Reduced-fat / 2 percent", unit: "gallons" };
+    if (/whole/.test(value)) return { variation: "Whole", unit: "gallons" };
+    return { variation: "Standard", unit: "gallons" };
+  }
+  if (family === "Eggs") {
+    return /white/.test(value)
+      ? { variation: "Large egg whites", unit: "each" }
+      : { variation: "Large shell eggs", unit: "each" };
+  }
+  if (family === "Potatoes" && /mashed|prepared/.test(value)) {
+    return { variation: "Prepared mashed", unit: "cups" };
+  }
+  const { variation } = recipeFamilyForIngredient(sourceName);
+  return { variation, unit: sourceUnit };
+}
+
 export function buildMasterKitchenInventoryCatalog(recipes = [], customItems = []) {
   const rows = CURATED_FAMILIES.flatMap(([categoryId, family, variations]) =>
     variations.map(([variation, unit]) => ({
@@ -119,21 +204,33 @@ export function buildMasterKitchenInventoryCatalog(recipes = [], customItems = [
     }))
   );
 
-  const knownFamilies = new Set(rows.map((row) => row.family.toLowerCase()));
+  const knownForms = new Map(rows.map((row) => [`${row.family}|${row.variation}|${row.unit}`.toLowerCase(), row]));
   recipes.forEach((recipe) => {
     (recipe.ingredients || []).forEach((ingredient) => {
-      const family = String(ingredient.name || "").trim();
-      if (!family || knownFamilies.has(family.toLowerCase())) return;
-      knownFamilies.add(family.toLowerCase());
-      rows.push({
-        id: `recipe-${slugify(family)}`,
+      const sourceName = String(ingredient.name || "").trim();
+      if (!sourceName) return;
+      const { family } = recipeFamilyForIngredient(sourceName);
+      const normalized = normalizedRecipeForm(family, sourceName, ingredient.unit || "packages");
+      const { variation, unit } = normalized;
+      const formKey = `${family}|${variation}|${unit}`.toLowerCase();
+      const legacyId = `recipe-${slugify(sourceName)}`;
+      if (knownForms.has(formKey)) {
+        const existing = knownForms.get(formKey);
+        existing.legacyIds = [...new Set([...(existing.legacyIds || []), legacyId])];
+        return;
+      }
+      const row = {
+        id: `recipe-${slugify(family)}-${slugify(variation)}-${slugify(unit)}`,
         categoryId: categoryForAisle(ingredient.aisle),
         family,
-        variation: "Recipe ingredient",
-        unit: ingredient.unit || "packages",
+        variation,
+        unit,
         custom: false,
         recipeDerived: true,
-      });
+        legacyIds: [legacyId],
+      };
+      rows.push(row);
+      knownForms.set(formKey, row);
     });
   });
 

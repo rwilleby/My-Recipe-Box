@@ -16626,6 +16626,26 @@ button.browseRecipeWideFooterAction:focus-visible,
   margin-right: auto !important;
 }
 
+.pantryInventorySummary {
+  margin-top: 0 !important;
+  margin-bottom: 14px !important;
+}
+
+.inventoryControlStrip {
+  align-items: center !important;
+  gap: 8px !important;
+  margin: 0 0 18px !important;
+  padding: 10px 12px !important;
+  border: 1px solid var(--rrb-filter-row-border, #d4ddd6) !important;
+  border-radius: var(--rrb-filter-row-radius, 18px) !important;
+  background: #fff !important;
+}
+
+.inventoryControlStrip > button {
+  min-height: 38px !important;
+  margin: 0 !important;
+}
+
 /* Keep the existing stock counter without letting it alter intro alignment. */
 .pantrySectionIntroCounter {
   display: flex !important;

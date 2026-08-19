@@ -414,7 +414,7 @@ export default function WeekendBulkMealPlanner({
 
   function finalizeItem(item) {
     if (item.inventoryRecorded) {
-      window.alert("This batch has already been added to inventory. Adjust its quantity from Master Freezer Inventory if a correction is needed.");
+      window.alert("This batch has already been added to inventory. Adjust its quantity from Freezer Inventory if a correction is needed.");
       return;
     }
 
@@ -739,7 +739,7 @@ export default function WeekendBulkMealPlanner({
                         checked={item.completed}
                         onChange={(event) => {
                           if (event.target.checked) finalizeItem(item);
-                          else if (item.inventoryRecorded) window.alert("This batch is already in inventory. Make corrections from Master Freezer Inventory.");
+                          else if (item.inventoryRecorded) window.alert("This batch is already in inventory. Make corrections from Freezer Inventory.");
                           else updateItem(item.uid, { completed: false });
                         }}
                       />

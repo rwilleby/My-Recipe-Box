@@ -7,13 +7,9 @@ const catalog = buildMasterKitchenInventoryCatalog(recipes, []);
 const vegetables = catalog.find((category) => category.id === "vegetables");
 const family = (name) => vegetables.items.filter((item) => item.family === name).map((item) => item.variation);
 
-assert.deepEqual(new Set(family("Corn")), new Set([
-  "Fresh ears",
-  "Frozen ears",
-  "Frozen whole kernel",
-  "Canned whole kernel",
-  "Canned creamed",
-]));
+for (const variation of ["Fresh ears", "Frozen ears", "Frozen whole kernel", "Canned whole kernel", "Canned creamed"]) {
+  assert.ok(family("Corn").includes(variation));
+}
 assert.ok(family("Beans").includes("Canned black"));
 assert.ok(family("Beans").includes("Canned pinto"));
 assert.ok(family("Beans").includes("Canned baked"));

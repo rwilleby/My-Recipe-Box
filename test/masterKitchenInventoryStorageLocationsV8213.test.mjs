@@ -17,7 +17,7 @@ assert.match(page, /sourceItemId: item\.id/);
 assert.match(page, />\+ Storage<\/button>/);
 assert.match(page, /function removeStorageLocation/);
 assert.match(styles, /\.masterInventoryStorageSelect \{[^}]*text-transform: uppercase/s);
-assert.match(styles, /\.masterInventoryLedger \{[^}]*minmax\(140px, 1\.2fr\)[^}]*minmax\(220px, 2fr\)[^}]*58px/s);
-assert.match(styles, /\.masterInventoryLedgerNotes \{[^}]*grid-column: 8/s);
+assert.match(styles, /\.masterInventoryLedger \{[^}]*minmax\(150px, 1\.3fr\)[^}]*minmax\(240px, 2fr\)[^}]*58px/s);
+assert.match(styles, /\.masterInventoryLedgerNotes \{[^}]*grid-column: 7/s);
 
 console.log("Master Kitchen Inventory storage-location and cut/variety layout v82.13 tests passed.");

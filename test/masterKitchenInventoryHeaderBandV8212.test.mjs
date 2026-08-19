@@ -7,7 +7,7 @@ const styles = await readFile(new URL("../src/components/MasterKitchenInventoryP
 assert.match(page, /className="masterInventoryFamilyHeader" role="row"/);
 assert.match(page, /role="columnheader">Storage<\/span>/);
 assert.doesNotMatch(page, /role="columnheader">Raw\/Cooked<\/span>/);
-assert.match(styles, /\.masterInventoryFamilyHeader \{[^}]*background: #eee8dd/s);
+assert.match(styles, /\.masterInventoryFamilyHeader \{[^}]*background: #e5ded2/s);
 assert.match(styles, /\.masterInventoryHaveLabel, \.masterInventoryBuyLabel \{[^}]*justify-content: center/s);
 assert.match(styles, /\.masterInventoryLedgerQuantity \{ display: grid; place-items: center; \}/);
 

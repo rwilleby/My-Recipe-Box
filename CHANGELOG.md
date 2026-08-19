@@ -1,3 +1,16 @@
+# v84.16 — Kitchen Details and Grouped Inventory
+
+- Renamed the main-menu section to Kitchen Details, with Kitchen Inventory, Freezer Inventory, and Pantry Inventory as its three visible items.
+- Updated public page, video-library, backup, and Weekend Bulk Meal Planner wording to remove the former “Master” names while preserving internal routes and storage keys for compatibility.
+- Rebuilt Kitchen Inventory family headers as a two-line dark band: the product family occupies one unbroken first line and the column titles occupy the second line.
+- Widened Storage so Refrigerator remains visible and shifted Form to the right while retaining the remaining tracking columns.
+- Removed the redundant “Recipe” suffix from Cut / Variety.
+- Grouped recipe-derived variations into stable product families. Ground Beef now uses seven meaningful raw/cooked and lean-ratio forms; Chicken uses eleven raw cut forms and cooked-breast forms, with cooked chicken measured by cups.
+- Preserved legacy recipe-derived inventory keys as aliases so previously saved browser quantities remain discoverable after grouping.
+- Changed Kitchen Inventory to open with every category accordion closed.
+- Applied the established centered title/supporting-copy, three-card summary, segmented navigation, and rounded control-strip structure to Kitchen Inventory and Pantry Inventory.
+- Added and updated regression coverage for naming, navigation order, grouping, saved-data compatibility, two-line headers, column widths, closed accordions, and shared page-top styling. All 83 dependency-free contract commands pass.
+
 # v84.15 — PM, QP, SB, SD, SF, and SG Ingredient Data
 
 - Added complete Shopping List detail for 161 active recipe cards across Protein Muffins, Quiche & Pies, Salads & Bowls, Side Dishes, Seafood Dishes, and Smoked & Grilled Meats.

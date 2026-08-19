@@ -8,7 +8,7 @@ const navStart = app.indexOf("const NAV_GROUPS = [");
 const navEnd = app.indexOf("const NO_INTRO_VIDEO_PAGES", navStart);
 const navSource = app.slice(navStart, navEnd);
 
-const inventoryStart = navSource.indexOf('label: "KITCHEN INVENTORY"');
+const inventoryStart = navSource.indexOf('label: "KITCHEN DETAILS"');
 const recipesStart = navSource.indexOf('label: "OUR RECIPES"', inventoryStart);
 const collectionsStart = navSource.indexOf('label: "COLLECTIONS"', recipesStart);
 const kitchenStart = navSource.indexOf('label: "YOUR KITCHEN"', collectionsStart);
@@ -22,8 +22,8 @@ const recipeMenu = navSource.slice(recipesStart, collectionsStart);
 const mealPlanningMenu = navSource.slice(kitchenStart, shoppingStart);
 
 const inventoryItems = [
-  ["MASTER KITCHEN INVENTORY", "Master Kitchen Inventory"],
-  ["MASTER FREEZER INVENTORY", "Freezer Inventory Management"],
+  ["KITCHEN INVENTORY", "Master Kitchen Inventory"],
+  ["FREEZER INVENTORY", "Freezer Inventory Management"],
   ["PANTRY INVENTORY", "Pantry Staples"],
 ];
 
@@ -37,7 +37,7 @@ for (const [label, page] of inventoryItems) {
   assert.ok(!mealPlanningMenu.includes(`page: "${page}"`), `${label} should be removed from Meal Planning`);
 }
 assert.ok(!inventoryMenu.includes("level:"), "Kitchen Inventory items should not be indented");
-for (const hiddenLabel of ["REFRIGERATOR INVENTORY", "PREPARED FREEZER INVENTORY", "FREEZER INVENTORY MANAGEMENT", "FREEZER INVENTORY"]) {
+for (const hiddenLabel of ["REFRIGERATOR INVENTORY", "PREPARED FREEZER INVENTORY", "FREEZER INVENTORY MANAGEMENT", "MASTER FREEZER INVENTORY"]) {
   assert.ok(!inventoryMenu.includes(`label: "${hiddenLabel}"`), `${hiddenLabel} should be hidden from Kitchen Inventory`);
 }
 
@@ -54,7 +54,7 @@ const headerSource = app.slice(headerStart, headerEnd);
 const expectedHeaderOrder = [
   "ABOUT US",
   "RECIPES & MEALS",
-  "KITCHEN INVENTORY",
+  "KITCHEN DETAILS",
   "MEAL PLANNING",
   "SHOPPING",
   "RESOURCES",
