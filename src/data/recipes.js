@@ -3,6 +3,8 @@ import { ASIAN_INGREDIENTS_V8410 } from "./asianIngredientsV8410.js";
 import { CROCK_POT_INGREDIENTS_V8411 } from "./crockPotIngredientsV8411.js";
 import { DONUT_BURGER_INGREDIENTS_V8412 } from "./donutBurgerIngredientsV8412.js";
 import { ITALIAN_INGREDIENTS_V8412 } from "./italianIngredientsV8412.js";
+import { MEXICAN_INGREDIENTS_V8413 } from "./mexicanIngredientsV8413.js";
+import { PRESERVES_BREAD_INGREDIENTS_V8413 } from "./preservesBreadIngredientsV8413.js";
 import { SPECIALTY_INGREDIENTS_V8411 } from "./specialtyIngredientsV8411.js";
 
 const baseCategories = [
@@ -178,6 +180,8 @@ const DETAILED_RECIPE_INGREDIENTS = {
   ...CROCK_POT_INGREDIENTS_V8411,
   ...DONUT_BURGER_INGREDIENTS_V8412,
   ...ITALIAN_INGREDIENTS_V8412,
+  ...PRESERVES_BREAD_INGREDIENTS_V8413,
+  ...MEXICAN_INGREDIENTS_V8413,
   "AM-001": [
     { name: "Ground beef", qty: 1.5, unit: "lb", aisle: "Meat", cost: 0 },
     { name: "Breadcrumbs", qty: 0.5, unit: "cup", aisle: "Baking", cost: 0 },
@@ -1953,13 +1957,13 @@ const recipeRows = [
   ["JJ-023", "All-Fruit Blackberry Preserves"],
   ["JJ-024", "All-Fruit Blueberry Preserves"],
   ["JJ-025", "All-Fruit Peach Preserves"],
-  ["KR-001", "Sausage & Cheese Kolaches"],
-  ["KR-002", "Ham & Swiss Kolaches"],
-  ["KR-003", "Bacon, Egg & Cheese Kolaches"],
-  ["KR-004", "Sausage, Egg & Cheese Kolaches"],
-  ["KR-005", "Boudin Kolaches"],
-  ["KR-006", "Chicken Nugget Kolaches"],
-  ["KR-007", "Mini Sausage Kolaches"],
+  ["KR-001", "Kolaches: Sausage & Cheese"],
+  ["KR-002", "Kolaches: Ham & Swiss"],
+  ["KR-003", "Kolaches: Bacon Egg & Cheese"],
+  ["KR-004", "Kolaches: Sausage Egg & Cheese"],
+  ["KR-005", "Kolaches: Boudin"],
+  ["KR-006", "Kolaches: Chicken Nugget"],
+  ["KR-007", "Kolaches: Mini Sausage"],
   ["LF-001", "Basic White Breads"],
   ["LF-002", "Honey Wheat Breads"],
   ["LF-003", "Buttermilk Breads"],
@@ -2019,7 +2023,7 @@ const recipeRows = [
   ["MX-040", "King Ranch Chicken"],
   ["MX-041", "Mexican Chicken & Rice"],
   ["MX-042", "Mexican Taco Soup"],
-  ["MX-043", "Taco Bell-Style Taco Meat"],
+  ["MX-043", "Taco Bell Style Taco Meat"],
   ["MX-044", "Shredded Chicken"],
   ["PM-001", "Apple Cinnamon"],
   ["PM-002", "Blueberry"],

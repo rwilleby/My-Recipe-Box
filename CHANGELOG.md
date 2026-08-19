@@ -1,3 +1,14 @@
+# v84.13 — JJ, KR, LF, and MX Ingredient Data
+
+- Added complete Shopping List detail for 91 recipe cards across Jams & Jellies, Kolaches, Loafs & Rolls, and Mexican Cuisine.
+- Added 828 individually checkable ingredient records: 170 JJ, 37 KR, 119 LF, and 502 MX.
+- Kept LF-FZ1 and LF-FZ2 as zero-purchase freezer-instruction cards instead of assigning broad recipe fallbacks.
+- Preserved exact printed quantities, package sizes, preparation wording, alternatives, optional items, and intentionally unmeasured serving items without guessing.
+- Split combined salt-and-pepper and serving-item lines when independent checkboxes improve inventory decisions, while retaining true ingredient alternatives as one choice.
+- Aligned all seven KR titles and MX-043 with the existing Nutrition Database naming.
+- Excluded MX-008's directions-only water because it is absent from the printed ingredient panel.
+- Added regression coverage for every recipe count, every card-level ingredient count, all 828 records, title alignment, instructional-card handling, and representative source-card edge cases.
+
 # v84.12 — DN, HB, HBP, and IT Ingredient Data
 
 - Added complete Shopping List detail for all 110 recipes across Donuts, Hamburgers, Hamburger Patties, and Italian Cuisine.
