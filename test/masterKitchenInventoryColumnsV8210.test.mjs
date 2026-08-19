@@ -11,11 +11,12 @@ assert.match(page, /className="masterInventoryForm"/);
 assert.match(page, /className="masterInventoryPackage"/);
 assert.match(page, /className="masterInventoryNotesSpacer"/);
 assert.match(page, /<span className="masterInventoryPackage" role="cell">\{item\.unit\}<\/span>/);
-assert.match(styles, /\.masterInventoryLedger \{[^}]*grid-template-columns:[^}]*minmax\(150px, 1\.3fr\)[^}]*minmax\(104px, \.85fr\)[^}]*minmax\(240px, 2fr\)[^}]*58px[^}]*48px[^}]*48px[^}]*minmax\(150px, 1\.2fr\)[^}]*72px/s);
+assert.match(styles, /\.masterInventoryLedger \{[^}]*grid-template-columns:[^}]*minmax\(150px, 1\.25fr\)[^}]*minmax\(104px, \.8fr\)[^}]*minmax\(210px, 1\.7fr\)[^}]*minmax\(128px, 1fr\)[^}]*48px[^}]*48px[^}]*minmax\(145px, 1\.15fr\)[^}]*72px/s);
 assert.match(styles, /text-transform: uppercase/);
 assert.match(styles, /\.masterInventoryLedgerFamily h3 \{[^}]*font-family: Inter, Arial, sans-serif !important;[^}]*font-size: 15px !important/s);
 assert.match(styles, /\.masterInventoryStorage, \.masterInventoryStorageSelect \{[^}]*font-size: 10px/s);
-assert.match(styles, /\.masterInventoryForm, \.masterInventoryVariety, \.masterInventoryPackage \{[^}]*font-size: 10px/s);
+assert.match(styles, /\.masterInventoryForm, \.masterInventoryVariety \{[^}]*font-size: 10px/s);
+assert.match(styles, /\.masterInventoryPackage \{[^}]*font-size: 10px[^}]*white-space: normal/s);
 assert.match(styles, /\.masterInventoryLedgerNotes \{[^}]*grid-column: 7/s);
 
 console.log("Master Kitchen Inventory seven-column uppercase layout v82.10 tests passed.");

@@ -1,3 +1,14 @@
+# v84.17 — Kitchen Inventory Meat & Poultry Taxonomy
+
+- Widened the Unit column on desktop, tablet, and mobile layouts and allowed long unit labels to wrap instead of being cut off.
+- Standardized Meat & Poultry into 13 ordered master families: Bacon, Beef, Ground Beef, Chicken, Ground Chicken, Pork, Ground Pork, Turkey, Ground Turkey, Ham, Sausages, Smoking Meats, and Deli.
+- Normalized recipe-card ingredient wording into canonical Form and Cut / Variety rows without rewriting the visitor-facing recipe instructions.
+- Consolidated Chicken into stable cuts and preparation variants, including Breast, Diced Breast, Sliced Breast, Shredded Breast, Whole Breasts, thighs, wings, drumsticks, leg quarters, and whole chicken.
+- Kept Raw and Cooked in the Form column instead of duplicating them in product-family names.
+- Routed seafood out of Meat & Poultry even when source aisle metadata says “Meat & Seafood,” and routed unmatched broad placeholders to Other Recipe Ingredients.
+- Preserved prior curated inventory record IDs and recipe-derived aliases so saved quantities continue to resolve after reclassification.
+- Added a catalog-wide duplicate audit and fixed-order taxonomy regression coverage. All 83 existing scripted test files plus the new v84.17 contract pass.
+
 # v84.16 — Kitchen Details and Grouped Inventory
 
 - Renamed the main-menu section to Kitchen Details, with Kitchen Inventory, Freezer Inventory, and Pantry Inventory as its three visible items.

@@ -16,8 +16,8 @@ assert.ok(items.length >= 100);
 assert.ok(items.every((item) => item.id && item.categoryId && item.family && item.variation && item.unit));
 
 assert.ok(items.some((item) => item.recipeDerived), "recipe ingredients should still feed the grouped inventory catalog");
-assert.ok(items.some((item) => item.family === "Ground Beef" && item.variation === "90/10 raw"));
-assert.ok(items.some((item) => item.family === "Chicken" && item.variation === "Cooked chicken breast, diced" && item.unit === "cups"));
+assert.ok(items.some((item) => item.family === "Ground Beef" && item.variation === "Raw 90/10"));
+assert.ok(items.some((item) => item.family === "Chicken" && item.variation === "Cooked Diced Breast" && item.unit === "cups"));
 
 const customCatalog = buildMasterKitchenInventoryCatalog(recipes, [{
   id: "custom-test",
