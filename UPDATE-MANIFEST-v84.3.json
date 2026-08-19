@@ -1,0 +1,29 @@
+{
+  "version": "84.3.0",
+  "release": "Diet Meal Ingredient Data, Batch 3",
+  "baseline": "v84.2 GitHub update",
+  "uploadMode": "replace matching files; no deletions required",
+  "changedFiles": [
+    "CHANGELOG.md",
+    "UPDATE-MANIFEST-v84.3.json",
+    "V84.3-INGREDIENT-DATA-REPORT.md",
+    "UPLOAD-INSTRUCTIONS-v84.3.txt",
+    "package.json",
+    "package-lock.json",
+    "src/data/recipes.js",
+    "src/package.json",
+    "test/dietMealsCategoryV8215.test.mjs",
+    "test/dietMealIngredientDataV842.test.mjs",
+    "test/dietMealIngredientDataV843.test.mjs"
+  ],
+  "deletedFiles": [],
+  "ingredientBatch": {
+    "recipes": ["DM-021", "DM-022", "DM-023", "DM-024", "DM-025", "DM-026", "DM-027", "DM-028", "DM-029", "DM-030"],
+    "structuredIngredientRecords": 93,
+    "cumulativeVerifiedRecords": 310,
+    "verificationMethod": "visual transcription from approved recipe cards",
+    "shoppingDefaultView": "By Meal / Component",
+    "sourceCardNotes": ["DM-028 visibly prints grated Parmesan as 3/3 cup; structured quantity is one cup"]
+  },
+  "nextRecommendedBatch": "DM-031 through DM-040"
+}
