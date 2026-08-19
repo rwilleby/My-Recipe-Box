@@ -50,6 +50,8 @@ assert.equal(consolidated.length, 7);
 
 assert.equal(canonicalShoppingName("Reduced-fat milk"), "Low-fat milk");
 assert.equal(canonicalShoppingName("Cooked chicken breast, sliced"), "Cooked chicken breast");
+assert.equal(canonicalShoppingName("Chicken breast, cut into 1-inch pieces"), "Boneless skinless chicken breasts (raw)");
+assert.equal(canonicalShoppingName("Chicken breast, thinly sliced, or 1 lb shrimp, peeled and deveined"), "Chicken breast, thinly sliced, or 1 lb shrimp, peeled and deveined");
 assert.equal(canonicalShoppingName("Grated Parmesan cheese"), "Grated Parmesan");
 assert.equal(canonicalShoppingName("Large egg white, beaten"), "Large egg white");
 assert.equal(canonicalShoppingName("Light coconut milk"), "Light coconut milk");

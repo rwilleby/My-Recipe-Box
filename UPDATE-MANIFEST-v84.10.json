@@ -1,0 +1,50 @@
+{
+  "version": "84.10.0",
+  "release": "Complete Asian Ingredient Data",
+  "baseline": "v84.9 GitHub update",
+  "uploadMode": "replace matching files and add new files; no deletions required",
+  "changedFiles": [
+    "CHANGELOG.md",
+    "UPDATE-MANIFEST-v84.10.json",
+    "V84.10-COMPLETE-ASIAN-INGREDIENT-DATA-REPORT.md",
+    "UPLOAD-INSTRUCTIONS-v84.10.txt",
+    "package.json",
+    "package-lock.json",
+    "src/data/asianIngredientsV8410.js",
+    "src/data/nutrition/AS.json",
+    "src/data/nutrition/healthier-default-v9.json",
+    "src/data/nutrition/nutrition-index.json",
+    "src/data/recipeNutritionProfiles.js",
+    "src/data/recipes.js",
+    "src/package.json",
+    "src/utils/ingredientNormalization.js",
+    "test/asianIngredientDataV8410.test.mjs",
+    "test/shoppingNormalizationV847.test.mjs"
+  ],
+  "deletedFiles": [],
+  "ingredientData": {
+    "category": "AS",
+    "verifiedRange": "AS-001 through AS-024",
+    "activeAsianRecipes": 24,
+    "structuredIngredientRecords": 206,
+    "fallbackRecipesRemaining": 0
+  },
+  "registry": {
+    "nutritionTitlesResolved": ["AS-003", "AS-004", "AS-005", "AS-009"],
+    "titlesAligned": true
+  },
+  "normalization": {
+    "rawChickenBreastPreparationVariantsGrouped": true,
+    "chickenOrShrimpAlternativeKeptSeparate": true
+  },
+  "sourceCardNotes": [
+    "AS-004 directions mention cornstarch, but the printed ingredient list does not include it",
+    "AS-005 prints Lee Kum Kee Black Pepper Sauce without a quantity",
+    "AS-013 directions mention garlic, but the printed ingredient list does not include it"
+  ],
+  "verification": {
+    "dependencyFreeContractCommands": 77,
+    "passed": 77
+  },
+  "nextRecommendedStep": "Continue detailed ingredient transcription with the next recipe category"
+}

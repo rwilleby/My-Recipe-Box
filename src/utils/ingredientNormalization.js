@@ -29,7 +29,10 @@ const NORMALIZATION_RULES = [
     shoppingName: "Boneless skinless chicken breasts (raw)",
     aisle: "Meat",
     targetUnit: "lb",
-    matches: (name) => name.startsWith("boneless skinless chicken breast"),
+    matches: (name) => (
+      name.startsWith("boneless skinless chicken breast")
+      || (name.startsWith("chicken breast") && !name.includes("shrimp"))
+    ),
   },
   {
     id: "cooked-chicken-breast",

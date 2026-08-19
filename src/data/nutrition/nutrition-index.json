@@ -949,7 +949,7 @@
   },
   {
     "recipeCode": "AS-003",
-    "recipeName": "Title from card pending consolidation",
+    "recipeName": "Mongolian Beef",
     "series": "AS",
     "defaultProfileId": "serving-pending",
     "status": "not-ready",
@@ -961,7 +961,7 @@
   },
   {
     "recipeCode": "AS-004",
-    "recipeName": "Title from card pending consolidation",
+    "recipeName": "Pepper Steak",
     "series": "AS",
     "defaultProfileId": "serving-pending",
     "status": "not-ready",
@@ -973,7 +973,7 @@
   },
   {
     "recipeCode": "AS-005",
-    "recipeName": "Title from card pending consolidation",
+    "recipeName": "Black Pepper Beef",
     "series": "AS",
     "defaultProfileId": "serving-pending",
     "status": "not-ready",
@@ -1021,7 +1021,7 @@
   },
   {
     "recipeCode": "AS-009",
-    "recipeName": "Title from card pending consolidation",
+    "recipeName": "Sesame Chicken",
     "series": "AS",
     "defaultProfileId": "serving-pending",
     "status": "not-ready",

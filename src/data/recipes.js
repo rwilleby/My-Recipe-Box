@@ -1,4 +1,5 @@
 import { AMERICAN_INGREDIENTS_V849 } from "./americanIngredientsV849.js";
+import { ASIAN_INGREDIENTS_V8410 } from "./asianIngredientsV8410.js";
 
 const baseCategories = [
   { id: "AM", name: "American Cuisine", count: 0, icon: "🍽️", iconImage: "images/categories/AM.webp" },
@@ -166,6 +167,7 @@ const CATEGORY_INGREDIENTS = {
 // Add future verified cards here so Shopping List can show every item separately.
 const DETAILED_RECIPE_INGREDIENTS = {
   ...AMERICAN_INGREDIENTS_V849,
+  ...ASIAN_INGREDIENTS_V8410,
   "AM-001": [
     { name: "Ground beef", qty: 1.5, unit: "lb", aisle: "Meat", cost: 0 },
     { name: "Breadcrumbs", qty: 0.5, unit: "cup", aisle: "Baking", cost: 0 },

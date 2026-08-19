@@ -9901,7 +9901,7 @@ export const recipeNutritionProfiles = {
   },
   "AS-003": {
     "recipeCode": "AS-003",
-    "title": "Title from card pending consolidation",
+    "title": "Mongolian Beef",
     "series": "AS",
     "active": true,
     "retired": false,
@@ -9976,7 +9976,7 @@ export const recipeNutritionProfiles = {
   },
   "AS-004": {
     "recipeCode": "AS-004",
-    "title": "Title from card pending consolidation",
+    "title": "Pepper Steak",
     "series": "AS",
     "active": true,
     "retired": false,
@@ -10051,7 +10051,7 @@ export const recipeNutritionProfiles = {
   },
   "AS-005": {
     "recipeCode": "AS-005",
-    "title": "Title from card pending consolidation",
+    "title": "Black Pepper Beef",
     "series": "AS",
     "active": true,
     "retired": false,
@@ -10441,7 +10441,7 @@ export const recipeNutritionProfiles = {
   },
   "AS-009": {
     "recipeCode": "AS-009",
-    "title": "Title from card pending consolidation",
+    "title": "Sesame Chicken",
     "series": "AS",
     "active": true,
     "retired": false,

@@ -1,3 +1,13 @@
+# v84.10 — Complete Asian Ingredient Data
+
+- Transcribed and visually verified every printed ingredient from recipe cards AS-001 through AS-024.
+- Added 206 individually checkable ingredient records, completing all 24 Asian recipes with no broad Shopping List fallbacks remaining.
+- Preserved branded sauces, package sizes, preparation wording, and the AS-021 chicken-or-shrimp alternative exactly as printed for the By Meal / Component view.
+- Resolved four pending Nutrition Database titles so AS-003, AS-004, AS-005, and AS-009 align with the recipe registry and displayed cards.
+- Extended consolidated-list normalization to group plain raw chicken-breast preparation variants while keeping the chicken-or-shrimp alternative separate.
+- Documented three source-card omissions rather than inventing ingredient data: AS-004 cornstarch, AS-005 sauce quantity, and AS-013 garlic.
+- Added regression coverage for every card count, exact representative products and package sizes, all 24 title alignments, normalization safety, and complete Asian-category coverage.
+
 # v84.9 — Complete American Ingredient Data
 
 - Transcribed and visually verified every printed ingredient from active recipe cards AM-011 through AM-078, excluding the reserved AM-063 placeholder.
