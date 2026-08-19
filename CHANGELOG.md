@@ -1,3 +1,17 @@
+# v84.18 — Standardized Kitchen Inventory Taxonomy
+
+- Replaced the prior mixed catalog structure with 11 controlled master categories and all 248 approved product types supplied by Robert.
+- Removed the visible catch-all “Other Recipe Ingredients” and separate “Spices, Seasonings & Baking” categories; their items now resolve to an approved product type under the new structure.
+- Enforced one canonical identity per Master Category, Product Type, Cut/Variety, and Preparation/Form combination, independent of recipe wording or counting unit.
+- Routed stored forms to their proper single categories: canned goods to Canned & Jarred Foods, frozen goods to Frozen Foods, instant potatoes to Prepared & Packaged Foods, and breads such as tortillas to Bread & Bakery.
+- Reordered the inventory columns to Cut / Variety, Preparation / Form, Brand, Storage, Unit, Have, Buy, and Notes.
+- Added an editable Brand field saved with each household inventory record.
+- Changed Add Custom Item to use controlled Master Category and Product Type selectors, preventing custom entries from creating unapproved duplicate headings.
+- Structured Chicken so Breast is the cut while Diced, Sliced, Shredded, Whole, Raw, and Cooked are preparation/form values. The model now supports the exact `Chicken → Breast → Diced, Raw → Brand` hierarchy.
+- Preserved v84.16 and v84.17 curated IDs, generated row IDs, and source-name aliases so existing saved quantities remain discoverable after reclassification.
+- Verified all 732 recipes through the classifier. The generated catalog contains 1,249 visible standardized forms with zero duplicate canonical identities.
+- All 83 existing scripted regression files plus the v84.17 and v84.18 inventory contracts pass.
+
 # v84.17 — Kitchen Inventory Meat & Poultry Taxonomy
 
 - Widened the Unit column on desktop, tablet, and mobile layouts and allowed long unit labels to wrap instead of being cut off.

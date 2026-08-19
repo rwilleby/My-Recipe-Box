@@ -5,12 +5,10 @@ import { buildMasterKitchenInventoryCatalog } from "../src/data/masterKitchenInv
 
 const catalog = buildMasterKitchenInventoryCatalog(recipes, []);
 const items = catalog.flatMap((category) => category.items);
-const corn = items.filter((item) => item.family === "Corn");
-
 for (const variation of ["Canned creamed", "Canned whole kernel", "Fresh ears", "Frozen ears", "Frozen whole kernel"]) {
-  assert.ok(corn.some((item) => item.variation === variation));
+  assert.ok(items.some((item) => item.variation === variation));
 }
-assert.equal(new Set(corn.map((item) => item.id)).size, corn.length);
+assert.equal(new Set(items.map((item) => `${item.categoryId}|${item.family}|${item.cut}|${item.form}`)).size, items.length);
 assert.ok(catalog.length >= 10);
 assert.ok(items.length >= 100);
 assert.ok(items.every((item) => item.id && item.categoryId && item.family && item.variation && item.unit));

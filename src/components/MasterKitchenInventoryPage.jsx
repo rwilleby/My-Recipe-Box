@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { MASTER_INVENTORY_CATEGORIES, buildMasterKitchenInventoryCatalog } from "../data/masterKitchenInventoryCatalog.js";
+import { MASTER_INVENTORY_CATEGORIES, MASTER_KITCHEN_INVENTORY_TAXONOMY, buildMasterKitchenInventoryCatalog } from "../data/masterKitchenInventoryCatalog.js";
 import { printManualInventoryWorksheet } from "../utils/manualInventoryWorksheets.js";
 import "./MasterKitchenInventoryPage.css";
 
@@ -36,7 +36,8 @@ function defaultFormForItem(item, categoryId) {
   if (["meat-poultry", "seafood"].includes(categoryId)) return "Raw";
   if (categoryId === "frozen-foods") return "Frozen";
   if (categoryId === "canned-jarred") return "Canned";
-  if (["bread-bakery", "rice-pasta-grains", "spices-baking"].includes(categoryId)) return "Dry";
+  if (["bread-bakery", "rice-pasta-grains"].includes(categoryId)) return "Dry";
+  if (categoryId === "sauces-condiments") return /flour|powder|soda|mix|chips|cocoa|cornstarch|nuts|sugar|sweetener|yeast|salt|pepper|herbs|spices|seasoning|rubs/i.test(item.family) ? "Dry" : "Prepared";
   if (categoryId === "prepared-packaged") return "Prepared";
   if (categoryId === "dairy-eggs") return "Fresh";
   return item.recipeDerived ? "Ingredient" : "Fresh";
@@ -44,10 +45,10 @@ function defaultFormForItem(item, categoryId) {
 
 function inventoryDetails(item, categoryId) {
   const split = splitStorageForm(item.variation);
-  const variety = /^(refrigerated|frozen)$/i.test(split.name) ? "Prepared" : split.name;
+  const variety = item.cut || (/^(refrigerated|frozen)$/i.test(split.name) ? "Prepared" : split.name);
   return {
     storage: defaultStorageForItem(item, categoryId),
-    form: split.form || defaultFormForItem(item, categoryId),
+    form: item.form || split.form || defaultFormForItem(item, categoryId),
     variety,
   };
 }
@@ -70,7 +71,7 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
   const [search, setSearch] = useState("");
   const [expanded, setExpanded] = useState(() => new Set());
   const [showCustomForm, setShowCustomForm] = useState(false);
-  const [customForm, setCustomForm] = useState({ categoryId: "vegetables", family: "", variation: "", unit: "each" });
+  const [customForm, setCustomForm] = useState({ categoryId: "vegetables", family: "Artichokes", variation: "", brand: "", unit: "each" });
   const catalog = useMemo(
     () => buildMasterKitchenInventoryCatalog(recipes, safeInventory.customItems),
     [recipes, safeInventory.customItems],
@@ -123,7 +124,7 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
       };
     });
     setExpanded((current) => new Set([...current, customForm.categoryId]));
-    setCustomForm({ categoryId: customForm.categoryId, family: "", variation: "", unit: "each" });
+    setCustomForm({ categoryId: customForm.categoryId, family: customForm.family, variation: "", brand: "", unit: "each" });
     setShowCustomForm(false);
   }
 
@@ -238,9 +239,14 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
 
       {showCustomForm && (
         <form className="masterInventoryCustomForm" onSubmit={addCustomItem}>
-          <label><span>Category</span><select value={customForm.categoryId} onChange={(event) => setCustomForm((current) => ({ ...current, categoryId: event.target.value }))}>{MASTER_INVENTORY_CATEGORIES.map((category) => <option key={category.id} value={category.id}>{category.title}</option>)}</select></label>
-          <label><span>Item</span><input required value={customForm.family} onChange={(event) => setCustomForm((current) => ({ ...current, family: event.target.value }))} placeholder="Example: Corn" /></label>
-          <label><span>Form / package</span><input value={customForm.variation} onChange={(event) => setCustomForm((current) => ({ ...current, variation: event.target.value }))} placeholder="Example: Frozen steam bag" /></label>
+          <label><span>Master Category</span><select value={customForm.categoryId} onChange={(event) => {
+            const categoryId = event.target.value;
+            const family = MASTER_KITCHEN_INVENTORY_TAXONOMY.find((category) => category.id === categoryId)?.products[0] || "";
+            setCustomForm((current) => ({ ...current, categoryId, family }));
+          }}>{MASTER_INVENTORY_CATEGORIES.map((category) => <option key={category.id} value={category.id}>{category.title}</option>)}</select></label>
+          <label><span>Product Type</span><select required value={customForm.family} onChange={(event) => setCustomForm((current) => ({ ...current, family: event.target.value }))}>{(MASTER_KITCHEN_INVENTORY_TAXONOMY.find((category) => category.id === customForm.categoryId)?.products || []).map((product) => <option key={product} value={product}>{product}</option>)}</select></label>
+          <label><span>Cut / Variety &amp; Preparation</span><input value={customForm.variation} onChange={(event) => setCustomForm((current) => ({ ...current, variation: event.target.value }))} placeholder="Example: Diced, raw" /></label>
+          <label><span>Brand</span><input value={customForm.brand} onChange={(event) => setCustomForm((current) => ({ ...current, brand: event.target.value }))} placeholder="Example: Tyson" /></label>
           <label><span>Counting unit</span><input value={customForm.unit} onChange={(event) => setCustomForm((current) => ({ ...current, unit: event.target.value }))} placeholder="bags" /></label>
           <button type="submit" className="primary">Save Item</button>
         </form>
@@ -268,9 +274,10 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
                       <section className="masterInventoryLedgerFamily" key={familyGroup.family} role="rowgroup">
                         <div className="masterInventoryFamilyHeader" role="row">
                           <h3 role="columnheader">{familyGroup.family}</h3>
-                          <span className="masterInventoryFamilyColumnLabel" role="columnheader">Storage</span>
-                          <span className="masterInventoryFamilyColumnLabel" role="columnheader">Form</span>
                           <span className="masterInventoryFamilyColumnLabel" role="columnheader">Cut / Variety</span>
+                          <span className="masterInventoryFamilyColumnLabel" role="columnheader">Preparation / Form</span>
+                          <span className="masterInventoryFamilyColumnLabel" role="columnheader">Brand</span>
+                          <span className="masterInventoryFamilyColumnLabel" role="columnheader">Storage</span>
                           <span className="masterInventoryFamilyColumnLabel" role="columnheader">Unit</span>
                           <span className="masterInventoryFamilyColumnLabel masterInventoryHaveLabel" role="columnheader">Have</span>
                           <span className="masterInventoryFamilyColumnLabel masterInventoryBuyLabel" role="columnheader">Buy</span>
@@ -287,11 +294,12 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
                             const details = inventoryDetails(item, category.id);
                             return (
                               <div className="masterInventoryLedgerRow" key={rowId} role="row">
+                                <span className="masterInventoryVariety" role="cell">{details.variety}</span>
+                                <span className="masterInventoryForm" role="cell">{details.form}</span>
+                                <input className="masterInventoryBrand" type="text" value={record.brand ?? item.brand ?? ""} onChange={(event) => updateRecord(rowId, { brand: event.target.value, ...(additional ? { sourceItemId: item.id } : {}) })} placeholder="Any brand" aria-label={`${item.family} ${item.variation} brand`} />
                                 <select className="masterInventoryStorageSelect" value={record.storage || details.storage} onChange={(event) => updateRecord(rowId, { storage: event.target.value, ...(additional ? { sourceItemId: item.id } : {}) })} aria-label={`${item.family} ${item.variation} storage location`}>
                                   {STORAGE_OPTIONS.map((option) => <option key={option} value={option}>{option}</option>)}
                                 </select>
-                                <span className="masterInventoryForm" role="cell">{details.form}</span>
-                                <span className="masterInventoryVariety" role="cell">{details.variety}</span>
                                 <span className="masterInventoryPackage" role="cell">{item.unit}</span>
                                 <label className="masterInventoryLedgerQuantity"><span>Have</span><input type="number" inputMode="decimal" min="0" step="any" placeholder="0" value={numberValue(record.have)} onChange={(event) => updateRecord(rowId, { have: event.target.value, ...(additional ? { sourceItemId: item.id } : {}) })} aria-label={`${item.family} ${item.variation} quantity on hand`} /></label>
                                 <label className="masterInventoryLedgerQuantity"><span>Buy</span><input type="number" inputMode="decimal" min="0" step="any" placeholder="0" value={numberValue(record.buy)} onChange={(event) => updateRecord(rowId, { buy: event.target.value, ...(additional ? { sourceItemId: item.id } : {}) })} aria-label={`${item.family} ${item.variation} quantity to buy`} /></label>

@@ -8,7 +8,7 @@ assert.match(page, /const STORAGE_OPTIONS = \["Refrigerator", "Freezer", "Pantry
 assert.match(page, /function defaultStorageForItem/);
 assert.match(page, /function defaultFormForItem/);
 assert.match(page, /function inventoryDetails/);
-assert.match(page, /role="columnheader">Form<\/span>/);
+assert.match(page, /role="columnheader">Preparation \/ Form<\/span>/);
 assert.match(page, /role="columnheader">Cut \/ Variety<\/span>/);
 assert.match(page, /className="masterInventoryStorageSelect"/);
 assert.match(page, /STORAGE_OPTIONS\.map/);
@@ -17,7 +17,7 @@ assert.match(page, /sourceItemId: item\.id/);
 assert.match(page, />\+ Storage<\/button>/);
 assert.match(page, /function removeStorageLocation/);
 assert.match(styles, /\.masterInventoryStorageSelect \{[^}]*text-transform: uppercase/s);
-assert.match(styles, /\.masterInventoryLedger \{[^}]*minmax\(150px, 1\.25fr\)[^}]*minmax\(210px, 1\.7fr\)[^}]*minmax\(128px, 1fr\)/s);
-assert.match(styles, /\.masterInventoryLedgerNotes \{[^}]*grid-column: 7/s);
+assert.match(styles, /\.masterInventoryLedger \{[^}]*minmax\(185px, 1\.5fr\)[^}]*minmax\(150px, 1\.2fr\)[^}]*minmax\(110px, \.85fr\)/s);
+assert.match(styles, /\.masterInventoryLedgerNotes \{[^}]*grid-column: 8/s);
 
 console.log("Master Kitchen Inventory storage-location and cut/variety layout v82.13 tests passed.");

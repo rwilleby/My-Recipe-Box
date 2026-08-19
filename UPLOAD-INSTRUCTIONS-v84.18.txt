@@ -1,0 +1,25 @@
+ROBERT'S RECIPE BOX v84.18 — GITHUB UPDATE
+
+Upload this update after v84.17.
+
+1. Open the repository root in GitHub.
+2. Upload the contents of My-Recipe-Box-v84.18-GitHub-Update.zip, preserving folders.
+3. Replace matching files when GitHub prompts you.
+4. Add the new files listed in UPDATE-MANIFEST-v84.18.json.
+5. Do not delete any existing files; this update has no deletions.
+6. Commit with a message such as:
+   v84.18: standardize Kitchen Inventory categories
+7. Let the normal deployment build finish.
+
+VERIFY AFTER DEPLOYMENT
+
+- Kitchen Inventory shows the 11 approved master categories in the supplied order.
+- Fruits and Sauces, Condiments & Baking use the new names.
+- Meat & Poultry contains all 20 approved product types in the supplied order.
+- Canned, frozen, prepared, and bakery forms appear only in their appropriate master categories.
+- The visible row hierarchy reads Cut / Variety, Preparation / Form, Brand, Storage, Unit, Have, Buy, and Notes.
+- Brand is editable and saved for each inventory row.
+- Chicken Breast includes Diced, Raw and the approved cooked preparation forms.
+- Existing saved Kitchen Inventory quantities remain visible.
+
+See V84.18-STANDARDIZED-KITCHEN-INVENTORY-REPORT.md for implementation and verification details.

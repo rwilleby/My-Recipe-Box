@@ -1,22 +1,18 @@
-export const MASTER_INVENTORY_CATEGORIES = Object.freeze([
-  { id: "meat-poultry", title: "Meat & Poultry" },
-  { id: "seafood", title: "Seafood" },
-  { id: "vegetables", title: "Vegetables" },
-  { id: "fruit", title: "Fruit" },
-  { id: "dairy-eggs", title: "Dairy & Eggs" },
-  { id: "bread-bakery", title: "Bread & Bakery" },
-  { id: "rice-pasta-grains", title: "Rice, Pasta & Grains" },
-  { id: "canned-jarred", title: "Canned & Jarred Foods" },
-  { id: "sauces-condiments", title: "Sauces, Condiments & Dressings" },
-  { id: "spices-baking", title: "Spices, Seasonings & Baking" },
-  { id: "frozen-foods", title: "Frozen Foods" },
-  { id: "prepared-packaged", title: "Prepared & Packaged Foods" },
-  { id: "other", title: "Other Recipe Ingredients" },
-]);
+import {
+  MASTER_INVENTORY_CATEGORIES,
+  MASTER_KITCHEN_INVENTORY_TAXONOMY,
+  classifyInventoryProduct,
+  defaultInventoryUnit,
+  isApprovedInventoryProduct,
+  taxonomyProductOrder,
+} from "./masterKitchenInventoryTaxonomy.js";
+
+export { MASTER_INVENTORY_CATEGORIES, MASTER_KITCHEN_INVENTORY_TAXONOMY };
 
 export const MEAT_POULTRY_FAMILY_ORDER = Object.freeze([
-  "Bacon", "Beef", "Ground Beef", "Chicken", "Ground Chicken", "Pork", "Ground Pork",
-  "Turkey", "Ground Turkey", "Ham", "Sausages", "Smoking Meats", "Deli",
+  "Bacon", "Beef", "Ground Beef", "Chicken", "Ground Chicken", "Corned Beef", "Duck", "Ham",
+  "Lamb", "Ground Lamb", "Pork", "Ground Pork", "Sausages", "Smoking Meats", "Turkey",
+  "Ground Turkey", "Deli Meats", "Hot Dogs & Bratwurst", "Meatballs", "Specialty & Game Meats",
 ]);
 
 const CURATED_FAMILIES = [
@@ -230,6 +226,9 @@ function normalizedRecipeForm(family, sourceName, sourceUnit = "packages") {
       if (/sliced|cutlets?/.test(value)) return { variation: "Cooked Sliced Breast", unit: "cups" };
       return { variation: "Cooked Whole Breasts", unit: "cups" };
     }
+    if (/shredded/.test(value)) return { variation: "Raw Shredded Breast", unit: "lb" };
+    if (/diced|cubed|pieces/.test(value)) return { variation: "Raw Diced Breast", unit: "lb" };
+    if (/sliced|cutlets?/.test(value)) return { variation: "Raw Sliced Breast", unit: "lb" };
     if (/wings?/.test(value)) return { variation: "Raw Wing", unit: "lb" };
     if (/quarters?/.test(value)) return { variation: "Raw Leg Quarter", unit: "each" };
     if (/drumsticks?|chicken legs?/.test(value)) return { variation: "Raw Drumstick", unit: "lb" };
@@ -277,10 +276,17 @@ function normalizedRecipeForm(family, sourceName, sourceUnit = "packages") {
     if (/beef ribs?/.test(value)) return { variation: "Raw Beef Ribs", unit: "racks" };
     return { variation: "Raw Pork Ribs", unit: "racks" };
   }
-  if (family === "Deli") {
+  if (family === "Deli" || family === "Deli Meats") {
     const cut = /salami/.test(value) ? "Salami" : /capicola/.test(value) ? "Capicola" : /pepperoni/.test(value) ? "Pepperoni" : /turkey/.test(value) ? "Turkey" : /chicken/.test(value) ? "Chicken" : "Ham";
     return { variation: `Cooked ${cut}`, unit: "packages" };
   }
+  if (family === "Hot Dogs & Bratwurst") return { variation: /brat/.test(value) ? "Raw Bratwurst" : "Raw Hot Dogs", unit: "packages" };
+  if (family === "Meatballs") return { variation: /cooked|prepared|frozen/.test(value) ? "Cooked Meatballs" : "Raw Meatballs", unit: "packages" };
+  if (family === "Ground Lamb") return { variation: /cooked|browned|drained/.test(value) ? "Cooked Ground Lamb" : "Raw Ground Lamb", unit: /cooked|browned|drained/.test(value) ? "cups" : "lb" };
+  if (family === "Corned Beef") return { variation: /cooked|prepared/.test(value) ? "Cooked Brisket" : "Raw Brisket", unit: "lb" };
+  if (family === "Duck") return { variation: /breast/.test(value) ? "Raw Breast" : "Raw Whole Duck", unit: /breast/.test(value) ? "lb" : "each" };
+  if (family === "Lamb") return { variation: /chop/.test(value) ? "Raw Chop" : /leg/.test(value) ? "Raw Leg" : /roast/.test(value) ? "Raw Roast" : "Raw Lamb", unit: "lb" };
+  if (family === "Specialty & Game Meats") return { variation: /cooked|prepared/.test(value) ? "Cooked Specialty Meat" : "Raw Specialty Meat", unit: "lb" };
   if (family === "Milk") {
     if (/evaporated/.test(value)) return { variation: "Evaporated", unit: "cans" };
     if (/fat-free|skim/.test(value)) return { variation: "Fat-free", unit: "gallons" };
@@ -300,93 +306,157 @@ function normalizedRecipeForm(family, sourceName, sourceUnit = "packages") {
   return { variation, unit: sourceUnit };
 }
 
-const MEAT_POULTRY_FAMILIES = new Set(MEAT_POULTRY_FAMILY_ORDER);
-const SEAFOOD_FAMILIES = new Set(["Catfish", "Crab", "Salmon", "Shrimp", "Tilapia", "Tuna"]);
+const CATEGORY_AISLE_HINTS = {
+  "meat-poultry": "Meat & Poultry", seafood: "Seafood", vegetables: "Produce", fruit: "Produce Fruit",
+  "dairy-eggs": "Dairy", "bread-bakery": "Bread & Bakery", "rice-pasta-grains": "Rice, Pasta & Grains",
+  "canned-jarred": "Canned Goods", "sauces-condiments": "Sauces & Condiments", "spices-baking": "Baking & Spices",
+  "frozen-foods": "Frozen Foods", "prepared-packaged": "Prepared & Packaged Foods", other: "Grocery List",
+};
 
-function categoryForProduct(family, aisle) {
-  if (MEAT_POULTRY_FAMILIES.has(family)) return "meat-poultry";
-  if (SEAFOOD_FAMILIES.has(family)) return "seafood";
-  const categoryId = categoryForAisle(aisle);
-  return categoryId === "meat-poultry" ? "other" : categoryId;
+function canonicalVariation(productType, sourceName, previousVariation = "Standard") {
+  if (MEAT_POULTRY_FAMILY_ORDER.includes(productType)) return normalizedRecipeForm(productType, sourceName);
+  const { matchedText } = classifyInventoryProduct(sourceName);
+  const remainder = String(sourceName)
+    .replace(matchedText, " ")
+    .replace(/[(),]/g, " ")
+    .replace(/\b(optional|for serving|for garnish|divided)\b/gi, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  if (remainder && remainder.length <= 80) return { variation: remainder, unit: null };
+  return { variation: previousVariation || "Standard", unit: null };
 }
 
-function curatedOrder(categoryId, family, variation) {
-  const familyIndex = categoryId === "meat-poultry" ? MEAT_POULTRY_FAMILY_ORDER.indexOf(family) : -1;
-  const curatedFamily = CURATED_FAMILIES.find(([curatedCategory, curatedName]) => curatedCategory === categoryId && curatedName === family);
-  const variationIndex = curatedFamily?.[2].findIndex(([curatedVariation]) => curatedVariation === variation) ?? -1;
+function splitCanonicalDetails(variation = "Standard") {
+  const form = /^(Raw|Cooked|Fresh|Frozen|Canned|Jarred|Refrigerated|Instant|Dry|Prepared)\b/i.exec(variation)?.[1] || "";
   return {
-    family: familyIndex < 0 ? Number.MAX_SAFE_INTEGER : familyIndex,
-    variation: variationIndex < 0 ? Number.MAX_SAFE_INTEGER : variationIndex,
+    cut: form ? variation.slice(form.length).trim() || "Standard" : variation,
+    form,
   };
 }
 
+function canonicalInventoryDetails(family, variation) {
+  const details = splitCanonicalDetails(variation);
+  if (family === "Chicken" || family === "Turkey") {
+    const baseCut = /breasts?/i.test(details.cut) ? "Breast"
+      : /thigh/i.test(details.cut) ? "Thigh"
+        : /drumstick/i.test(details.cut) ? "Drumstick"
+          : /wing/i.test(details.cut) ? "Wing"
+            : /leg quarter/i.test(details.cut) ? "Leg Quarter"
+              : /whole (chicken|turkey)/i.test(details.cut) ? `Whole ${family}` : details.cut;
+    const preparations = [
+      /diced/i.test(details.cut) && "Diced", /sliced/i.test(details.cut) && "Sliced",
+      /shredded/i.test(details.cut) && "Shredded", /whole breasts?/i.test(details.cut) && "Whole",
+      /bone-in/i.test(details.cut) && "Bone-In", details.form,
+    ].filter(Boolean);
+    return { cut: baseCut.replace(/Bone-In\s*/i, "").trim(), form: preparations.join(", ") };
+  }
+  if (/^Ground /.test(family)) return { cut: details.cut.replace(/^Ground (Beef|Chicken|Lamb|Pork|Turkey)\s*/i, "").trim() || "Standard", form: details.form };
+  return details;
+}
+
 export function buildMasterKitchenInventoryCatalog(recipes = [], customItems = []) {
-  const rows = CURATED_FAMILIES.flatMap(([categoryId, family, variations]) =>
-    variations.map(([variation, unit, legacyVariation, legacyFamily]) => ({
-      id: `catalog-${slugify(categoryId)}-${slugify(legacyFamily || family)}-${slugify(legacyVariation || variation)}`,
-      categoryId,
-      family,
-      variation,
+  const rows = [];
+  const knownForms = new Map();
+  function addOrMerge(row, aliases = []) {
+    if (!isApprovedInventoryProduct(row.categoryId, row.family)) throw new Error(`Unapproved inventory product: ${row.categoryId} / ${row.family}`);
+    const details = canonicalInventoryDetails(row.family, row.variation);
+    const complete = { brand: "", ...details, ...row };
+    const formKey = `${complete.categoryId}|${complete.family}|${complete.cut}|${complete.form}`.toLowerCase();
+    if (knownForms.has(formKey)) {
+      const existing = knownForms.get(formKey);
+      existing.legacyIds = [...new Set([...(existing.legacyIds || []), complete.id, ...(complete.legacyIds || []), ...aliases].filter(Boolean))];
+      return existing;
+    }
+    complete.legacyIds = [...new Set([...(complete.legacyIds || []), ...aliases].filter((id) => id && id !== complete.id))];
+    rows.push(complete);
+    knownForms.set(formKey, complete);
+    return complete;
+  }
+
+  MASTER_KITCHEN_INVENTORY_TAXONOMY.forEach((category) => category.products.forEach((family) => addOrMerge({
+    id: `catalog-${slugify(category.id)}-${slugify(family)}-standard`,
+    categoryId: category.id,
+    family,
+    variation: "Standard",
+    unit: defaultInventoryUnit(category.id, family),
+    custom: false,
+    taxonomyBase: true,
+  })));
+
+  CURATED_FAMILIES.forEach(([oldCategoryId, oldFamily, variations]) => variations.forEach(([oldVariation, oldUnit, legacyVariation, legacyFamily]) => {
+    const sourceName = `${oldVariation} ${oldFamily}`;
+    const storageForm = oldVariation.match(/^(Frozen|Canned|Jarred|Instant|Refrigerated)\b/i)?.[1] || "";
+    const classificationName = storageForm ? `${storageForm} ${oldFamily}` : sourceName;
+    const classification = classifyInventoryProduct(classificationName, CATEGORY_AISLE_HINTS[oldCategoryId]);
+    const normalized = MEAT_POULTRY_FAMILY_ORDER.includes(classification.productType)
+      ? canonicalVariation(classification.productType, sourceName, oldVariation)
+      : { variation: oldVariation, unit: null };
+    const unit = normalized.unit || oldUnit || defaultInventoryUnit(classification.categoryId, classification.productType);
+    const oldId = `catalog-${slugify(oldCategoryId)}-${slugify(legacyFamily || oldFamily)}-${slugify(legacyVariation || oldVariation)}`;
+    addOrMerge({
+      id: oldId,
+      categoryId: classification.categoryId,
+      family: classification.productType,
+      variation: normalized.variation,
       unit,
       custom: false,
-    }))
-  );
+    });
+  }));
 
-  const knownForms = new Map(rows.map((row) => [`${row.family}|${row.variation}|${row.unit}`.toLowerCase(), row]));
   recipes.forEach((recipe) => {
     (recipe.ingredients || []).forEach((ingredient) => {
       const sourceName = String(ingredient.name || "").trim();
       if (!sourceName) return;
-      const { family } = recipeFamilyForIngredient(sourceName);
-      const normalized = normalizedRecipeForm(family, sourceName, ingredient.unit || "packages");
-      const { variation, unit } = normalized;
-      const formKey = `${family}|${variation}|${unit}`.toLowerCase();
+      const previousFamily = recipeFamilyForIngredient(sourceName).family;
+      const previousNormalized = normalizedRecipeForm(previousFamily, sourceName, ingredient.unit || "packages");
+      const previousV8417RowId = `recipe-${slugify(previousFamily)}-${slugify(previousNormalized.variation)}-${slugify(previousNormalized.unit)}`;
+      const classification = classifyInventoryProduct(sourceName, ingredient.aisle);
+      const normalized = canonicalVariation(classification.productType, sourceName, previousNormalized.variation);
+      const variation = normalized.variation;
+      const unit = normalized.unit || defaultInventoryUnit(classification.categoryId, classification.productType);
       const legacyId = `recipe-${slugify(sourceName)}`;
       const previousRowId = legacyV8416RecipeRowId(sourceName, ingredient.unit || "packages");
-      const legacyIds = [...new Set([legacyId, previousRowId].filter(Boolean))];
-      if (knownForms.has(formKey)) {
-        const existing = knownForms.get(formKey);
-        existing.legacyIds = [...new Set([...(existing.legacyIds || []), ...legacyIds])];
-        return;
-      }
-      const row = {
-        id: `recipe-${slugify(family)}-${slugify(variation)}-${slugify(unit)}`,
-        categoryId: categoryForProduct(family, ingredient.aisle),
-        family,
+      const legacyIds = [...new Set([legacyId, previousRowId, previousV8417RowId].filter(Boolean))];
+      addOrMerge({
+        id: `recipe-${slugify(classification.productType)}-${slugify(variation)}-${slugify(unit)}`,
+        categoryId: classification.categoryId,
+        family: classification.productType,
         variation,
         unit,
         custom: false,
         recipeDerived: true,
+        brand: ingredient.brand || "",
         legacyIds,
-      };
-      rows.push(row);
-      knownForms.set(formKey, row);
+      });
     });
   });
 
   customItems.forEach((item) => {
     if (!item?.id || !item.family) return;
-    rows.push({
+    const classification = isApprovedInventoryProduct(item.categoryId, item.family)
+      ? { categoryId: item.categoryId, productType: item.family }
+      : classifyInventoryProduct(`${item.variation || ""} ${item.family}`, CATEGORY_AISLE_HINTS[item.categoryId]);
+    addOrMerge({
       id: item.id,
-      categoryId: item.categoryId || "other",
-      family: item.family,
+      categoryId: classification.categoryId,
+      family: classification.productType,
       variation: item.variation || "Custom item",
-      unit: item.unit || "each",
+      unit: item.unit || defaultInventoryUnit(classification.categoryId, classification.productType),
+      brand: item.brand || "",
       custom: true,
     });
   });
 
+  const concreteFamilies = new Set(rows.filter((row) => !row.taxonomyBase).map((row) => `${row.categoryId}|${row.family}`));
+  const visibleRows = rows.filter((row) => !row.taxonomyBase || !concreteFamilies.has(`${row.categoryId}|${row.family}`));
+
   return MASTER_INVENTORY_CATEGORIES.map((category) => ({
     ...category,
-    items: rows
+    items: visibleRows
       .filter((row) => row.categoryId === category.id)
       .sort((a, b) => {
-        const aOrder = curatedOrder(category.id, a.family, a.variation);
-        const bOrder = curatedOrder(category.id, b.family, b.variation);
-        if (category.id === "meat-poultry" && aOrder.family !== bOrder.family) return aOrder.family - bOrder.family;
-        if (a.family !== b.family) return a.family.localeCompare(b.family);
-        if (aOrder.variation !== bOrder.variation) return aOrder.variation - bOrder.variation;
-        return a.variation.localeCompare(b.variation);
+        const familyOrder = taxonomyProductOrder(category.id, a.family) - taxonomyProductOrder(category.id, b.family);
+        return familyOrder || a.cut.localeCompare(b.cut) || a.form.localeCompare(b.form) || a.variation.localeCompare(b.variation);
       }),
-  })).filter((category) => category.items.length);
+  }));
 }

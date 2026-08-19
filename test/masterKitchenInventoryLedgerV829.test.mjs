@@ -5,7 +5,7 @@ const page = await readFile(new URL("../src/components/MasterKitchenInventoryPag
 const styles = await readFile(new URL("../src/components/MasterKitchenInventoryPage.css", import.meta.url), "utf8");
 
 assert.match(page, /<h3 role="columnheader">\{familyGroup\.family\}<\/h3>/);
-for (const heading of ["Storage", "Form", "Cut / Variety", "Unit", "Have", "Buy", "Notes"]) assert.match(page, new RegExp(`role="columnheader">${heading.replace(" / ", " \/ ")}`));
+for (const heading of ["Cut / Variety", "Preparation / Form", "Brand", "Storage", "Unit", "Have", "Buy", "Notes"]) assert.match(page, new RegExp(`role="columnheader">${heading.replace(" / ", " \/ ")}`));
 assert.match(page, /className="masterInventoryLedger" role="table"/);
 assert.match(page, /className="masterInventoryLedgerFamily"/);
 assert.match(page, /className="masterInventoryLedgerRow"/);
