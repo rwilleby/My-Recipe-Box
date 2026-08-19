@@ -40,7 +40,7 @@ assert.equal(ingredient("DM-036", "Light coconut milk")?.qty, 13.5);
 assert.equal(ingredient("DM-038", "Unsalted cashews")?.qty, 1 / 3);
 assert.equal(ingredient("DM-039", "Low-sodium chicken broth")?.qty, 0.75);
 assert.equal(ingredient("DM-040", "Smoked paprika")?.qty, 0.5);
-assert.equal(byId["DM-041"].ingredients.length, 4, "DM-041 begins the next unverified batch");
+assert.ok(byId["DM-041"].ingredients.length >= 8, "later verified batches may replace the DM-041 fallback");
 
 assert.equal(
   Object.values(expectedCounts).reduce((sum, count) => sum + count, 0),
