@@ -19418,6 +19418,84 @@ button.browseRecipeWideFooterAction:focus-visible,
 }
 
 /* ================================================================
+   v84.26 — MATCHED INVENTORY ACCORDION TREATMENT
+   ================================================================ */
+.freezerCuisineAccordions,
+.pantryInventoryAccordions,
+.freezerAccordionList {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: 9px !important;
+}
+
+.freezerCuisineAccordion > .freezerManagementList {
+  display: grid;
+  gap: 8px;
+  padding: 10px;
+  background: #fff;
+}
+
+.pantryInventoryAccordions .pantryGroup {
+  overflow: hidden;
+  padding: 0;
+  border: 1px solid #d5cdbf;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: none;
+}
+
+.pantryAccordionBody {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 22px;
+  padding: 8px 16px 12px;
+}
+
+.freezerInventoryEmbedded .freezerAccordionSection {
+  overflow: hidden;
+  border: 1px solid #d5cdbf;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: none;
+}
+
+.freezerInventoryEmbedded .freezerAccordionButton {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+  min-height: 48px;
+  padding: 8px 14px;
+  border: 0;
+  border-radius: 0;
+  background: #eee8dd;
+  color: #403a31;
+  text-align: left;
+}
+
+.freezerInventoryEmbedded .freezerAccordionButton strong {
+  font-family: Georgia, serif;
+  font-size: 18px;
+}
+
+.freezerInventoryEmbedded .freezerAccordionButton em {
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #71685c;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 700;
+}
+
+@media (max-width: 700px) {
+  .pantryAccordionBody { grid-template-columns: minmax(0, 1fr); }
+  .freezerInventoryEmbedded .freezerAccordionButton { grid-template-columns: 20px minmax(0, 1fr); }
+  .freezerInventoryEmbedded .freezerAccordionButton em { grid-column: 2; }
+}
+
+/* ================================================================
    v84.25 — UNIFIED KITCHEN / FREEZER / PANTRY INVENTORY HUB
    ================================================================ */
 .inventoryHubPage {

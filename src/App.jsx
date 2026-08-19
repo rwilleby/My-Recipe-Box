@@ -7034,6 +7034,7 @@ function InventoryHubPage({
 function PantryStaplesPage({ pantry, setPantry, externalSearch = "", embedded = false }) {
   const [selectedPantryLevel, setSelectedPantryLevel] = useState(1);
   const [showDigitalStockCheck, setShowDigitalStockCheck] = useState(false);
+  const [expandedPantryGroups, setExpandedPantryGroups] = useState(() => new Set());
   const selectedLevelInfo =
     PANTRY_LEVELS.find((level) => level.id === selectedPantryLevel) ||
     PANTRY_LEVELS[0];
@@ -7057,6 +7058,14 @@ function PantryStaplesPage({ pantry, setPantry, externalSearch = "", embedded = 
         },
       },
     }));
+  }
+
+  function togglePantryGroup(groupName) {
+    setExpandedPantryGroups((current) => {
+      const next = new Set(current);
+      next.has(groupName) ? next.delete(groupName) : next.add(groupName);
+      return next;
+    });
   }
 
   function setPantryStatus(item, status) {
@@ -7197,12 +7206,19 @@ function PantryStaplesPage({ pantry, setPantry, externalSearch = "", embedded = 
         />
       )}
 
-      <div className="pantryGrid">
-        {visiblePantryGroups.map((group) => (
-          <section className="pantryGroup" key={group.group}>
-            <h2>{group.group}</h2>
+      <div className="masterInventoryAccordions pantryInventoryAccordions">
+        {visiblePantryGroups.map((group) => {
+          const isOpen = Boolean(normalizedExternalSearch) || expandedPantryGroups.has(group.group);
+          const stocked = group.items.filter((item) => pantryItemStatus(pantry, item.name) === "in-stock").length;
+          return (
+          <section className="masterInventoryCategory pantryGroup" key={group.group}>
+            <button type="button" className="masterInventoryCategoryButton" onClick={() => togglePantryGroup(group.group)} aria-expanded={isOpen}>
+              <span>{isOpen ? "▾" : "▸"}</span>
+              <strong>{group.group}</strong>
+              <em>{stocked} stocked / {group.items.length} items</em>
+            </button>
 
-            {group.items.map((item) => (
+            {isOpen && <div className="pantryAccordionBody">{group.items.map((item) => (
               <div
                 key={item.name}
                 className={`pantryItem${pantryItemStatus(pantry, item.name) === "in-stock" ? " checked" : ""} is-${pantryItemStatus(pantry, item.name)}`}
@@ -7222,9 +7238,10 @@ function PantryStaplesPage({ pantry, setPantry, externalSearch = "", embedded = 
                   <option value="out">Out</option>
                 </select>
               </div>
-            ))}
+            ))}</div>}
           </section>
-        ))}
+          );
+        })}
       </div>
     </main>
   );
@@ -7675,6 +7692,13 @@ function freezerManagementCompleteMealTitle(meal = {}) {
   return sides.length ? `${main} & ${sides.join(" & ")}` : main;
 }
 
+function freezerManagementCuisine(recipe = {}) {
+  const categoryCode = recipe.categoryCode || String(recipe.id || "").split("-")[0];
+  return String(
+    recipe.category || categories.find((category) => category.id === categoryCode)?.name || "Other",
+  ).trim() || "Other";
+}
+
 function FreezerInventoryManagementPage({
   preparedInventory,
   setPreparedInventory,
@@ -7688,6 +7712,7 @@ function FreezerInventoryManagementPage({
   const [activeKind, setActiveKind] = useState("completeMeal");
   const [search, setSearch] = useState("");
   const [stockFilter, setStockFilter] = useState("all");
+  const [expandedCuisineGroups, setExpandedCuisineGroups] = useState(() => new Set());
 
   const safeInventory = normalizePreparedInventory(preparedInventory);
   const managedItems = safeInventory.managedItems || [];
@@ -7704,13 +7729,18 @@ function FreezerInventoryManagementPage({
 
   const sourceItems = useMemo(() => {
     if (activeKind === "completeMeal") {
-      return dinnerCombinations.map((meal) => ({
-        kind: "completeMeal",
-        sourceId: meal.id,
-        code: String(meal.id || "").toUpperCase(),
-        title: freezerManagementCompleteMealTitle(meal),
-        meal,
-      }));
+      const recipeById = new Map(individualRecipes.map((recipe) => [recipe.id, recipe]));
+      return dinnerCombinations.map((meal) => {
+        const mainRecipe = recipeById.get(meal.mainRecipeId);
+        return {
+          kind: "completeMeal",
+          sourceId: meal.id,
+          code: String(meal.id || "").toUpperCase(),
+          title: freezerManagementCompleteMealTitle(meal),
+          cuisine: freezerManagementCuisine(mainRecipe || { id: meal.mainRecipeId }),
+          meal,
+        };
+      });
     }
 
     if (activeKind === "componentItem") return [];
@@ -7720,9 +7750,12 @@ function FreezerInventoryManagementPage({
       sourceId: recipe.id,
       code: recipe.id,
       title: recipe.title,
+      cuisine: freezerManagementCuisine(recipe),
       recipe,
     }));
   }, [activeKind, individualRecipes]);
+
+  useEffect(() => setExpandedCuisineGroups(new Set()), [activeKind]);
 
   const today = new Date().toISOString().slice(0, 10);
   const soonCutoff = (() => {
@@ -7731,12 +7764,12 @@ function FreezerInventoryManagementPage({
     return date.toISOString().slice(0, 10);
   })();
 
+  const effectiveManagementSearch = externalSearch.trim() || search.trim();
   const visibleItems = sourceItems.filter((source) => {
     const stock = stockMap.get(`${source.kind}:${source.sourceId}`);
     const quantity = Number(stock?.packagesAvailable || 0);
     const haystack = `${source.code} ${source.title}`.toLowerCase();
-    const effectiveSearch = externalSearch.trim() || search.trim();
-    const matchesSearch = !effectiveSearch || haystack.includes(effectiveSearch.toLowerCase());
+    const matchesSearch = !effectiveManagementSearch || haystack.includes(effectiveManagementSearch.toLowerCase());
     if (!matchesSearch) return false;
     if (stockFilter === "stocked" && quantity <= 0) return false;
     if (stockFilter === "empty" && quantity > 0) return false;
@@ -7745,6 +7778,13 @@ function FreezerInventoryManagementPage({
     }
     return true;
   });
+
+  const visibleCuisineGroups = [...visibleItems.reduce((groups, source) => {
+    const cuisine = source.cuisine || "Other";
+    if (!groups.has(cuisine)) groups.set(cuisine, []);
+    groups.get(cuisine).push(source);
+    return groups;
+  }, new Map()).entries()].map(([cuisine, items]) => ({ cuisine, items }));
 
   const totalComplete = managedItems
     .filter((item) => item.kind === "completeMeal")
@@ -7794,6 +7834,14 @@ function FreezerInventoryManagementPage({
     const stock = stockMap.get(`${source.kind}:${source.sourceId}`);
     updateManagedItem(source, {
       packagesAvailable: Math.max(0, Number(stock?.packagesAvailable || 0) + amount),
+    });
+  }
+
+  function toggleCuisineGroup(cuisine) {
+    setExpandedCuisineGroups((current) => {
+      const next = new Set(current);
+      next.has(cuisine) ? next.delete(cuisine) : next.add(cuisine);
+      return next;
     });
   }
 
@@ -7880,8 +7928,19 @@ function FreezerInventoryManagementPage({
             <span>{activeKind === "completeMeal" ? "Complete Meals" : "Individual Recipes"} shown</span>
           </div>
 
-          <section className="freezerManagementList">
-            {visibleItems.map((source) => {
+          <div className="freezerCuisineAccordions">
+            {visibleCuisineGroups.map((group) => {
+              const isOpen = Boolean(effectiveManagementSearch) || expandedCuisineGroups.has(group.cuisine);
+              const stocked = group.items.filter((source) => Number(stockMap.get(`${source.kind}:${source.sourceId}`)?.packagesAvailable || 0) > 0).length;
+              return (
+                <section className="masterInventoryCategory freezerCuisineAccordion" key={group.cuisine}>
+                  <button type="button" className="masterInventoryCategoryButton" onClick={() => toggleCuisineGroup(group.cuisine)} aria-expanded={isOpen}>
+                    <span>{isOpen ? "▾" : "▸"}</span>
+                    <strong>{group.cuisine}</strong>
+                    <em>{stocked} stocked / {group.items.length} {activeKind === "completeMeal" ? "meals" : "recipes"}</em>
+                  </button>
+                  {isOpen && <section className="freezerManagementList">
+                    {group.items.map((source) => {
           const stock = stockMap.get(`${source.kind}:${source.sourceId}`);
           const qty = Number(stock?.packagesAvailable || 0);
           const useSoon = qty > 0 && stock?.useByDate && stock.useByDate >= today && stock.useByDate <= soonCutoff;
@@ -7961,8 +8020,12 @@ function FreezerInventoryManagementPage({
               </div>
             </article>
           );
+                    })}
+                  </section>}
+                </section>
+              );
             })}
-          </section>
+          </div>
         </>
       )}
     </main>

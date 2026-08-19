@@ -1,3 +1,12 @@
+# v84.26 — Matching Inventory Accordions
+
+- Preserved the approved Kitchen Inventory accordion treatment as the visual standard for all three inventory views.
+- Grouped Freezer Complete Meals and Individual Recipes into cuisine/category accordions with stocked and total counts.
+- Kept Freezer Component Items organized by practical freezer-product categories and restyled those accordion headers to match Kitchen Inventory.
+- Converted every visible Pantry category into a matching accordion with stocked and total counts.
+- Started all new Freezer and Pantry accordions closed; searches automatically reveal only matching groups.
+- Left the v84.25 master Control Strip unchanged for the next design pass.
+
 # v84.25 — Unified Kitchen Inventory Hub
 
 - Merged Kitchen, Freezer, and Pantry Inventory into one user-facing Kitchen Inventory page with KITCHEN | FREEZER | PANTRY master tabs.

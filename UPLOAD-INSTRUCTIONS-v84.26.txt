@@ -1,0 +1,23 @@
+ROBERT'S RECIPE BOX v84.26 — GITHUB UPDATE
+
+Upload this update after v84.25.
+
+1. Open the repository root in GitHub.
+2. Upload the contents of My-Recipe-Box-v84.26-GitHub-Update.zip, preserving folders.
+3. Replace matching files when GitHub prompts you.
+4. Add the new files listed in UPDATE-MANIFEST-v84.26.json.
+5. Do not delete any existing files; this update has no deletions.
+6. Commit with a message such as:
+   v84.26: match Freezer and Pantry accordions
+7. Let the normal deployment build finish.
+
+VERIFY AFTER DEPLOYMENT
+
+- Kitchen Inventory retains its approved accordion treatment.
+- Freezer Complete Meals and Individual Recipes appear inside cuisine/category accordions.
+- Freezer Component Items use product-category accordions with the same visual treatment.
+- Pantry categories appear as matching accordions.
+- All accordions begin closed and matching search results open automatically.
+- The master Inventory Control Strip remains unchanged.
+
+See V84.26-INVENTORY-ACCORDIONS-REPORT.md for implementation and verification details.
