@@ -1,3 +1,11 @@
+# v83.12 — Shopping List Ingredient Detail
+
+- Made By Meal / Component the default Shopping List view, including after Clear & Start Over.
+- Kept every ingredient visible in the grouped view whether or not it matches kitchen inventory, allowing the user to check items individually.
+- Replaced DM-007's abbreviated category estimate with all 11 ingredients and quantities verified from its recipe card.
+- Added a durable recipe-card-verified ingredient override layer so additional recipes can replace broad category estimates without changing the Shopping List interface.
+- Expanded regression coverage for the default view and DM-007 ingredient completeness.
+
 # v83.11 — Diet Bulk Planning and Resettable Shopping Views
 
 - Added Diet Meals as the third Weekend Bulk Plan source after Individual Recipes and Complete Meals.

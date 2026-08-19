@@ -8735,7 +8735,7 @@ function FreezerInventoryPage({ freezer, setFreezer, setActivePage }) {
 
 function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry, refrigerator, freezer, setActivePage, preparedInventory, preparedReservations, componentDecisions, setComponentDecisions, shoppingComments, setShoppingComments }) {
   const [showDigitalStockCheck, setShowDigitalStockCheck] = useState(false);
-  const [shoppingView, setShoppingView] = useState("consolidated");
+  const [shoppingView, setShoppingView] = useState("needs");
   const recipeIdSet = useMemo(() => new Set(recipes.map((recipe) => recipe.id)), []);
   const recipeById = useMemo(
     () => Object.fromEntries(recipes.map((recipe) => [recipe.id, recipe])),
@@ -8968,7 +8968,7 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
     setShoppingComments({});
     setComponentDecisions({});
     setShowDigitalStockCheck(false);
-    setShoppingView("consolidated");
+    setShoppingView("needs");
   }
 
   function formatShoppingQuantity(value) {

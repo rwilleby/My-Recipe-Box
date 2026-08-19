@@ -1,0 +1,16 @@
+ROBERT'S RECIPE BOX v83.12 — GITHUB UPDATE
+
+This package is cumulative from the verified v83.11 update.
+It includes v83.2 through v83.12.
+
+1. Unzip My-Recipe-Box-v83.12-GitHub-Update.zip.
+2. Open the extracted My-Recipe-Box-v83.12-GitHub-Update folder.
+3. Upload the CONTENTS of that folder to the GitHub repository root.
+4. Replace matching files and preserve the included folder structure.
+5. Do not upload an earlier v83 package first.
+6. No GitHub files need to be deleted for this update.
+7. Wait for the GitHub Actions build and deployment checks to turn green.
+8. Add DM-007 to the Weekly Meal Planner and open Shopping List.
+9. Verify By Meal / Component is selected by default.
+10. Verify DM-007 lists all 11 recipe-card ingredients separately, including tortillas, green enchilada sauce, Greek yogurt, mozzarella, green chiles, and cilantro.
+11. Verify every ingredient remains visible and can be checked individually.

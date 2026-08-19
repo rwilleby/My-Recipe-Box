@@ -160,6 +160,24 @@ const CATEGORY_INGREDIENTS = {
   ],
 };
 
+// Recipe-card-verified shopping ingredients replace broad category estimates.
+// Add future verified cards here so Shopping List can show every item separately.
+const DETAILED_RECIPE_INGREDIENTS = {
+  "DM-007": [
+    { name: "Cooked chicken breast, shredded", qty: 8, unit: "oz", aisle: "Meat", cost: 0 },
+    { name: "Small corn tortillas", qty: 4, unit: "each", aisle: "Bread & Bakery", cost: 0 },
+    { name: "Cooked brown rice", qty: 2, unit: "cups", aisle: "Rice, Pasta & Grains", cost: 0 },
+    { name: "Mild green enchilada sauce", qty: 1, unit: "cup", aisle: "Sauces & Condiments", cost: 0 },
+    { name: "Plain nonfat Greek yogurt", qty: 0.5, unit: "cup", aisle: "Dairy", cost: 0 },
+    { name: "Shredded part-skim mozzarella", qty: 0.5, unit: "cup", aisle: "Dairy", cost: 0 },
+    { name: "Diced green chiles", qty: 0.25, unit: "cup", aisle: "Canned Goods", cost: 0 },
+    { name: "Ground cumin", qty: 0.5, unit: "tsp", aisle: "Spices & Seasonings", cost: 0 },
+    { name: "Garlic powder", qty: 0.25, unit: "tsp", aisle: "Spices & Seasonings", cost: 0 },
+    { name: "Fresh cilantro, chopped", qty: 2, unit: "tbsp", aisle: "Produce", cost: 0 },
+    { name: "Nonstick cooking spray", qty: 1, unit: "as needed", aisle: "Oils & Cooking Sprays", cost: 0 },
+  ],
+};
+
 function codePrefix(id = "") {
   return id.match(/^[A-Z]+/)?.[0] || "";
 }
@@ -521,7 +539,7 @@ function makeRecipe(entry) {
     cardImage: options.cardImage || `images/recipes/${id}.webp`,
     heroImage: options.heroImage || `images/heroes/${id}.webp`,
     cost: options.cost || defaultCost(price),
-    ingredients: options.ingredients || defaultIngredients(categoryCode, title, id),
+    ingredients: options.ingredients || DETAILED_RECIPE_INGREDIENTS[id] || defaultIngredients(categoryCode, title, id),
     mediaLinks: options.mediaLinks || undefined,
     mealBalance: options.mealBalance || estimateMealBalance(categoryCode, title),
   };

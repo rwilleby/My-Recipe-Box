@@ -5,6 +5,7 @@ const planner = fs.readFileSync(new URL("../src/components/WeekendBulkMealPlanne
 const plannerCss = fs.readFileSync(new URL("../src/components/WeekendBulkMealPlanner.v51.css", import.meta.url), "utf8");
 const app = fs.readFileSync(new URL("../src/App.jsx", import.meta.url), "utf8");
 const appCss = fs.readFileSync(new URL("../src/App.css", import.meta.url), "utf8");
+const recipeData = fs.readFileSync(new URL("../src/data/recipes.js", import.meta.url), "utf8");
 
 const individualPosition = planner.indexOf("Individual Recipes");
 const completePosition = planner.indexOf("Complete Meals", individualPosition);
@@ -17,6 +18,7 @@ assert.match(plannerCss, /grid-template-columns:repeat\(3,minmax\(150px,1fr\)\)/
 
 assert.match(app, /Consolidated List/);
 assert.match(app, /By Meal \/ Component/);
+assert.match(app, /useState\("needs"\)/);
 assert.match(app, /Items by Meal or Component/);
 assert.match(app, /function clearShoppingListAndStartOver\(\)/);
 assert.match(app, /setPlan\(emptyTwoWeekPlan\(\)\)/);
@@ -28,5 +30,17 @@ assert.match(app, /Refrigerator Restock/);
 assert.match(app, /Freezer Restock/);
 assert.match(appCss, /\.shoppingNeedGroups/);
 assert.match(appCss, /\.shoppingClearButton/);
+
+for (const ingredient of [
+  "Small corn tortillas",
+  "Mild green enchilada sauce",
+  "Plain nonfat Greek yogurt",
+  "Shredded part-skim mozzarella",
+  "Diced green chiles",
+  "Fresh cilantro, chopped",
+]) {
+  assert.ok(recipeData.includes(ingredient), `DM-007 must include ${ingredient}`);
+}
+assert.match(recipeData, /DETAILED_RECIPE_INGREDIENTS\[id\] \|\| defaultIngredients/);
 
 console.log("v83.11 Weekend Bulk Diet Meals and Shopping List regression contract passed.");

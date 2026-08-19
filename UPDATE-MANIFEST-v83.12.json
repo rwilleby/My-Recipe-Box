@@ -1,0 +1,34 @@
+{
+  "version": "83.12.0",
+  "release": "Shopping List Ingredient Detail",
+  "baseline": "Verified cumulative My-Recipe-Box v83.11 update",
+  "cumulativeIncludes": "v83.2 through v83.12",
+  "uploadMode": "replace matching files; no deletions required",
+  "changedFiles": [
+    "CHANGELOG.md",
+    "UPDATE-MANIFEST-v83.12.json",
+    "V83.12-SHOPPING-INGREDIENT-REPORT.md",
+    "UPLOAD-INSTRUCTIONS-v83.12.txt",
+    "package.json",
+    "package-lock.json",
+    "src/App.jsx",
+    "src/data/recipes.js",
+    "src/package.json",
+    "test/dietMealsCategoryV8215.test.mjs",
+    "test/weekendDietMealsShoppingV8311.test.mjs"
+  ],
+  "deletedFiles": [],
+  "shoppingList": {
+    "defaultView": "By Meal / Component",
+    "resetView": "By Meal / Component",
+    "inventoryBehavior": "all recipe ingredients remain visible and individually checkable"
+  },
+  "verifiedRecipeIngredients": {
+    "DM-007": 11
+  },
+  "preserves": [
+    "Consolidated List as an optional view",
+    "kitchen inventory and browser-saved data",
+    "all v83.2 through v83.11 website changes"
+  ]
+}
