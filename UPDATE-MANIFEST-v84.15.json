@@ -1,0 +1,44 @@
+{
+  "version": "84.15.0",
+  "release": "PM, QP, SB, SD, SF, and SG ingredient data",
+  "baseline": "v84.14 GitHub update",
+  "uploadMode": "replace matching files and add new files; no deletions required",
+  "changedFiles": [
+    "CHANGELOG.md",
+    "UPDATE-MANIFEST-v84.15.json",
+    "V84.15-PM-QP-SB-SD-SF-SG-INGREDIENT-DATA-REPORT.md",
+    "UPLOAD-INSTRUCTIONS-v84.15.txt",
+    "package.json",
+    "package-lock.json",
+    "src/data/proteinQuicheSaladIngredientsV8415.js",
+    "src/data/sideSeafoodGrillIngredientsV8415.js",
+    "src/data/recipes.js",
+    "src/package.json",
+    "test/pmQpSbSdSfSgIngredientDataV8415.test.mjs"
+  ],
+  "deletedFiles": [],
+  "ingredientData": {
+    "recipeCards": 161,
+    "ingredientRecords": 1713,
+    "broadFallbacks": 0,
+    "categories": {
+      "PM": { "recipes": 14, "ingredients": 189 },
+      "QP": { "recipes": 30, "ingredients": 359 },
+      "SB": { "recipes": 20, "ingredients": 251 },
+      "SD": { "recipes": 52, "ingredients": 407 },
+      "SF": { "recipes": 20, "ingredients": 196 },
+      "SG": { "recipes": 25, "ingredients": 311 }
+    }
+  },
+  "sourceNotes": {
+    "QP-021": "Duplicate printed salt line is one shopping checkbox.",
+    "SG-022": "Directions-only olive oil is excluded.",
+    "SG-012": "Card is Smoked Pork Ribs; Nutrition Database row incorrectly says Lemon Pepper Chicken and was not applied to ribs."
+  },
+  "verification": {
+    "dependencyFreeContractCommands": 82,
+    "passed": 82,
+    "productionBuild": "not run; dependencies are not installed in the clean update workspace"
+  },
+  "nextRecommendedStep": "Upload after v84.14, allow the normal GitHub/Vercel build, and spot-check By Meal / Component for one recipe in each new category"
+}

@@ -1,3 +1,13 @@
+# v84.15 — PM, QP, SB, SD, SF, and SG Ingredient Data
+
+- Added complete Shopping List detail for 161 active recipe cards across Protein Muffins, Quiche & Pies, Salads & Bowls, Side Dishes, Seafood Dishes, and Smoked & Grilled Meats.
+- Added 1,713 individually checkable ingredient records: 189 PM, 359 QP, 251 SB, 407 SD, 196 SF, and 311 SG.
+- Preserved printed quantities, package sizes, preparation wording, true alternatives, optional ingredients, and intentionally unmeasured items without guessing.
+- Collapsed QP-021's duplicate printed salt line into one shopping checkbox while retaining every distinct ingredient.
+- Excluded SG-022's directions-only olive oil because it is absent from the printed ingredient panel.
+- Aligned recipe titles to their Nutrition Database identities except SG-012, whose source card is Smoked Pork Ribs while the Nutrition Database incorrectly maps the code to Lemon Pepper Chicken; the mismatch remains explicit to prevent attaching chicken nutrition to ribs.
+- Added regression coverage for every category and recipe count, all 1,713 records, positive shopping fields, title alignment, and representative source-card edge cases.
+
 # v84.14 — Master Freezer Inventory
 
 - Simplified the Kitchen Inventory menu to Master Kitchen Inventory, Master Freezer Inventory, and Pantry Inventory.
