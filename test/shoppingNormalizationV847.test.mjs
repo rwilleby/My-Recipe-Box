@@ -21,6 +21,10 @@ const consolidated = consolidateShoppingItems([
   { name: "Evaporated skim milk", qty: 1, unit: "cup", aisle: "Dairy" },
   { name: "Cooked mashed potatoes", qty: 1.5, unit: "cups", aisle: "Prepared Sides" },
   { name: "Prepared mashed potatoes", qty: 2, unit: "cups", aisle: "Prepared Sides" },
+  { name: "Grated Parmesan", qty: 0.25, unit: "cup", aisle: "Dairy" },
+  { name: "Grated Parmesan cheese", qty: 2, unit: "tbsp", aisle: "Dairy" },
+  { name: "Large egg white", qty: 1, unit: "each", aisle: "Dairy" },
+  { name: "Large egg white, beaten", qty: 2, unit: "each", aisle: "Dairy" },
 ]);
 
 function item(name) {
@@ -37,11 +41,17 @@ assert.equal(item("Low-fat milk")?.qty, 1.375);
 assert.equal(item("Low-fat milk")?.unit, "cups");
 assert.equal(formatQty(item("Low-fat milk")?.qty), "1⅜");
 assert.equal(item("Prepared mashed potatoes")?.qty, 3.5);
+assert.equal(item("Grated Parmesan")?.qty, 0.375);
+assert.equal(item("Grated Parmesan")?.unit, "cups");
+assert.equal(formatQty(item("Grated Parmesan")?.qty), "⅜");
+assert.equal(item("Large egg white")?.qty, 3);
 assert.ok(item("Evaporated skim milk"), "evaporated milk must remain a separate product");
-assert.equal(consolidated.length, 5);
+assert.equal(consolidated.length, 7);
 
 assert.equal(canonicalShoppingName("Reduced-fat milk"), "Low-fat milk");
 assert.equal(canonicalShoppingName("Cooked chicken breast, sliced"), "Cooked chicken breast");
+assert.equal(canonicalShoppingName("Grated Parmesan cheese"), "Grated Parmesan");
+assert.equal(canonicalShoppingName("Large egg white, beaten"), "Large egg white");
 assert.equal(canonicalShoppingName("Light coconut milk"), "Light coconut milk");
 
 const sampleRecipes = [

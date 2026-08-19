@@ -1,0 +1,32 @@
+{
+  "version": "84.8.0",
+  "release": "American Ingredient Data, Batch 1",
+  "baseline": "v84.7 GitHub update",
+  "uploadMode": "replace matching files; no deletions required",
+  "changedFiles": [
+    "CHANGELOG.md",
+    "UPDATE-MANIFEST-v84.8.json",
+    "V84.8-AMERICAN-INGREDIENT-DATA-REPORT.md",
+    "UPLOAD-INSTRUCTIONS-v84.8.txt",
+    "package.json",
+    "package-lock.json",
+    "src/data/recipes.js",
+    "src/package.json",
+    "src/utils/ingredientNormalization.js",
+    "test/americanIngredientDataV848.test.mjs",
+    "test/shoppingNormalizationV847.test.mjs"
+  ],
+  "deletedFiles": [],
+  "ingredientData": {
+    "category": "AM",
+    "verifiedCards": ["AM-001", "AM-002", "AM-003", "AM-004", "AM-005", "AM-006", "AM-007", "AM-008", "AM-009", "AM-010"],
+    "structuredIngredientRecords": 146,
+    "nextFallbackCard": "AM-011"
+  },
+  "normalizationAliasesAdded": [
+    "Grated Parmesan / Grated Parmesan cheese",
+    "Large egg white / Large egg white, beaten"
+  ],
+  "sourceReviewFlags": ["AM-004", "AM-006", "AM-009", "AM-010"],
+  "nextRecommendedStep": "Transcribe and verify AM-011 through AM-020"
+}

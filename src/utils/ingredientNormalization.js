@@ -52,6 +52,19 @@ const NORMALIZATION_RULES = [
     targetUnit: "cups",
     matches: (name) => name === "prepared mashed potatoes" || name === "cooked mashed potatoes",
   },
+  {
+    id: "grated-parmesan",
+    shoppingName: "Grated Parmesan",
+    aisle: "Dairy",
+    targetUnit: "cups",
+    matches: (name) => name === "grated parmesan" || name === "grated parmesan cheese",
+  },
+  {
+    id: "large-egg-white",
+    shoppingName: "Large egg white",
+    aisle: "Dairy",
+    matches: (name) => name === "large egg white" || name === "large egg white beaten",
+  },
 ];
 
 function findRule(name) {

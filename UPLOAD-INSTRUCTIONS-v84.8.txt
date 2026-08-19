@@ -1,0 +1,14 @@
+ROBERT'S RECIPE BOX v84.8 — GITHUB UPDATE
+
+This update is based on the v84.7 GitHub update.
+
+1. Unzip My-Recipe-Box-v84.8-GitHub-Update.zip.
+2. Open the extracted My-Recipe-Box-v84.8-GitHub-Update folder.
+3. Upload the CONTENTS of that folder to the GitHub repository root.
+4. Replace matching files and preserve the included folder structure.
+5. No GitHub files need to be deleted.
+6. Wait for the GitHub Actions test, build, and deployment checks to turn green.
+7. Add one or more recipes from AM-001 through AM-010 to the Weekly Meal Planner.
+8. Open Shopping List and verify By Meal / Component displays every printed ingredient separately.
+9. Switch to Consolidated List and verify Parmesan-name variants and egg-white preparation variants merge correctly.
+10. Review V84.8-AMERICAN-INGREDIENT-DATA-REPORT.md before changing the four flagged title/card mismatches.

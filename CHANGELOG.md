@@ -1,3 +1,11 @@
+# v84.8 — American Ingredient Data, Batch 1
+
+- Transcribed and visually verified every ingredient and quantity from recipe cards AM-001 through AM-010.
+- Replaced broad American-category estimates with 146 individually checkable structured ingredient records.
+- Extended shopping-list normalization so “Grated Parmesan” and “Grated Parmesan cheese” consolidate, as do “Large egg white” and “Large egg white, beaten.”
+- Preserved four visible title/card mismatches exactly as approved source data and documented them for later content review.
+- Added regression coverage for all ten card counts, representative exact quantities and package sizes, normalization aliases, and the remaining fallback boundary at AM-011.
+
 # v84.7 — Shopping List Normalization
 
 - Added a dedicated canonical ingredient-normalization layer for the Consolidated Shopping List.
