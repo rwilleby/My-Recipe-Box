@@ -19728,14 +19728,14 @@ button.browseRecipeWideFooterAction:focus-visible,
 }
 
 /* ================================================================
-   v84.27 — CENTERED MASTER INVENTORY COMMAND STRIP
+   v84.28 — FULL-WIDTH MASTER INVENTORY COMMAND STRIP
    ================================================================ */
 .inventoryHubControlStrip {
-  width: fit-content !important;
+  width: 90% !important;
   max-width: 90% !important;
   margin-left: auto !important;
   margin-right: auto !important;
-  grid-template-columns: minmax(360px, 480px) repeat(4, minmax(88px, 108px)) !important;
+  grid-template-columns: minmax(0, 3fr) repeat(4, minmax(0, 1fr)) !important;
   justify-content: center !important;
 }
 

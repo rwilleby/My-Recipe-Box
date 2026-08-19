@@ -1,0 +1,32 @@
+{
+  "version": "84.28.0",
+  "release": "Full-width Master Kitchen Inventory command strip",
+  "baseline": "v84.27 GitHub update",
+  "uploadMode": "replace matching files and add new files; no deletions required",
+  "changedFiles": [
+    "CHANGELOG.md",
+    "UPDATE-MANIFEST-v84.28.json",
+    "V84.28-FULL-WIDTH-INVENTORY-CONTROLS-REPORT.md",
+    "UPLOAD-INSTRUCTIONS-v84.28.txt",
+    "package.json",
+    "package-lock.json",
+    "src/package.json",
+    "src/App.css",
+    "test/masterInventoryCommandStripV8427.test.mjs",
+    "test/masterInventoryFullWidthV8428.test.mjs"
+  ],
+  "deletedFiles": [],
+  "layout": {
+    "desktopWidth": "90%",
+    "desktopColumns": "seven equal control positions",
+    "alignment": "centered to the standard page gutters",
+    "responsive": "tabs and actions reflow on narrower screens"
+  },
+  "verification": {
+    "focusedContract": "test/masterInventoryFullWidthV8428.test.mjs",
+    "commandStripRegression": "test/masterInventoryCommandStripV8427.test.mjs",
+    "unifiedHubRegression": "test/unifiedInventoryHubV8425.test.mjs",
+    "accordionRegression": "test/inventoryAccordionsV8426.test.mjs",
+    "productionBuild": "not run; dependencies and the complete application source are not present in the incremental update workspace"
+  }
+}

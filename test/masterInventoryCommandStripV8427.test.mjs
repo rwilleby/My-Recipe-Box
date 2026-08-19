@@ -29,9 +29,9 @@ assert.match(app, /managedItems: \[\]/);
 assert.match(app, /setFreezer\(\{ items: \{\}, customItems: \[\], customLocations: \[\] \}\)/);
 assert.match(app, /setPantry\(\{\}\)/);
 
-const v8427Styles = styles.slice(styles.indexOf("v84.27 — CENTERED MASTER INVENTORY COMMAND STRIP"));
-assert.match(v8427Styles, /\.inventoryHubControlStrip \{[\s\S]*width: fit-content !important;[\s\S]*margin-left: auto !important;[\s\S]*margin-right: auto !important;/);
-assert.match(v8427Styles, /grid-template-columns: minmax\(360px, 480px\) repeat\(4, minmax\(88px, 108px\)\) !important;/);
+const v8427Styles = styles.slice(styles.indexOf("v84.28 — FULL-WIDTH MASTER INVENTORY COMMAND STRIP"));
+assert.match(v8427Styles, /\.inventoryHubControlStrip \{[\s\S]*width: 90% !important;[\s\S]*margin-left: auto !important;[\s\S]*margin-right: auto !important;/);
+assert.match(v8427Styles, /grid-template-columns: minmax\(0, 3fr\) repeat\(4, minmax\(0, 1fr\)\) !important;/);
 assert.match(v8427Styles, /\.inventoryHubClearButton \{[\s\S]*color: #a3312d !important;/);
 
 console.log("v84.27 master inventory command strip contracts passed.");

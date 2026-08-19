@@ -1,3 +1,9 @@
+# v84.28 — Full-Width Master Inventory Command Strip
+
+- Expanded the centered Master Kitchen Inventory command strip to the established 90% page width.
+- Divided the row into seven equal control positions: KITCHEN, FREEZER, PANTRY, QUICK ADD, MOVE ITEM, PRINT, and CLEAR.
+- Kept the responsive stacked layout for narrower screens.
+
 # v84.27 — Master Kitchen Inventory Command Strip
 
 - Renamed the unified inventory destination and page heading to Master Kitchen Inventory.
