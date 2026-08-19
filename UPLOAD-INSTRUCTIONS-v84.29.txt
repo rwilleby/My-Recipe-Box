@@ -1,0 +1,23 @@
+ROBERT'S RECIPE BOX v84.29 — GITHUB UPDATE
+
+Upload this update after v84.28.
+
+1. Open the repository root in GitHub.
+2. Upload the contents of My-Recipe-Box-v84.29-GitHub-Update.zip, preserving folders.
+3. Replace matching files when GitHub prompts you.
+4. Add the new files listed in UPDATE-MANIFEST-v84.29.json.
+5. Do not delete any existing files; this update has no deletions.
+6. Commit with a message such as:
+   v84.29: refine inventory width and sorting
+7. Let the normal deployment build finish.
+
+VERIFY AFTER DEPLOYMENT
+
+- The seven-part inventory command strip spans 100% of its page container.
+- Freezing & Reheating appears beneath Master Kitchen Inventory in Kitchen Details and no longer appears under Your Kitchen.
+- Kitchen, Freezer, and Pantry accordion headings are alphabetical.
+- Pantry items are alphabetical and all stock-status choices fit inside the wider selector.
+- Complete Meals and Individual Recipes show SERVINGS and the servings field aligns with the Frozen Packages control.
+- Every inventory accordion spans 100% of its container.
+
+See V84.29-INVENTORY-LAYOUT-SORTING-REPORT.md for implementation and verification details.

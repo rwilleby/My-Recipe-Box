@@ -59,7 +59,12 @@ function groupItemsByFamily(items = []) {
     if (!families.has(item.family)) families.set(item.family, []);
     families.get(item.family).push(item);
   });
-  return [...families.entries()].map(([family, familyItems]) => ({ family, items: familyItems }));
+  return [...families.entries()]
+    .map(([family, familyItems]) => ({
+      family,
+      items: familyItems.sort((a, b) => String(a.variation).localeCompare(String(b.variation), undefined, { sensitivity: "base", numeric: true })),
+    }))
+    .sort((a, b) => String(a.family).localeCompare(String(b.family), undefined, { sensitivity: "base", numeric: true }));
 }
 
 function inventoryIdsForItem(item) {
@@ -77,12 +82,15 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
     [recipes, safeInventory.customItems],
   );
   const normalizedSearch = (externalSearch.trim() || search.trim()).toLowerCase();
-  const visibleCatalog = catalog.map((category) => ({
-    ...category,
-    items: category.items.filter((item) =>
-      !normalizedSearch || `${item.family} ${item.variation} ${item.unit}`.toLowerCase().includes(normalizedSearch)
-    ),
-  })).filter((category) => category.items.length);
+  const visibleCatalog = catalog
+    .map((category) => ({
+      ...category,
+      items: category.items.filter((item) =>
+        !normalizedSearch || `${item.family} ${item.variation} ${item.unit}`.toLowerCase().includes(normalizedSearch)
+      ),
+    }))
+    .filter((category) => category.items.length)
+    .sort((a, b) => String(a.title).localeCompare(String(b.title), undefined, { sensitivity: "base", numeric: true }));
   const allItems = catalog.flatMap((category) => category.items);
   const recordForItem = (item) => inventoryIdsForItem(item).map((id) => safeInventory.records[id]).find(Boolean) || {};
   const additionalLocationRecords = Object.values(safeInventory.records).filter((record) => record?.sourceItemId);

@@ -1329,6 +1329,7 @@ const NAV_GROUPS = [
     label: "KITCHEN DETAILS",
     items: [
       { label: "MASTER KITCHEN INVENTORY", page: "Master Kitchen Inventory" },
+      { label: "FREEZING & REHEATING", page: "Freezer Tips" },
     ],
   },
   {
@@ -1358,7 +1359,6 @@ const NAV_GROUPS = [
       { label: "WEEKEND BULK MEAL PLANNER", page: "Weekend Bulk Meal Planner", detailedOnly: true },
       { label: "WEEKLY MEAL PLANNER — TEST", page: "Weekly Meal Planner Prototype", detailedOnly: true },
       { label: "HEALTHY SUBSTITUTIONS", page: "Grocery Picks" },
-      { label: "FREEZING & REHEATING", page: "Freezer Tips" },
     ],
   },
   {
@@ -7060,10 +7060,15 @@ function PantryStaplesPage({ pantry, setPantry, externalSearch = "", embedded = 
 
   const normalizedExternalSearch = externalSearch.trim().toLowerCase();
   const pantryMeta = pantryInventoryMeta(pantry);
-  const visiblePantryGroups = [...PANTRY_STAPLES, ...(pantryMeta.customItems.length ? [{ group: "Custom Pantry Items", items: pantryMeta.customItems.map((item) => ({ ...item, level: 1, custom: true })) }] : [])].map((group) => ({
-    ...group,
-    items: group.items.filter((item) => item.level <= selectedPantryLevel && (!normalizedExternalSearch || item.name.toLowerCase().includes(normalizedExternalSearch))),
-  })).filter((group) => group.items.length > 0);
+  const visiblePantryGroups = [...PANTRY_STAPLES, ...(pantryMeta.customItems.length ? [{ group: "Custom Pantry Items", items: pantryMeta.customItems.map((item) => ({ ...item, level: 1, custom: true })) }] : [])]
+    .map((group) => ({
+      ...group,
+      items: group.items
+        .filter((item) => item.level <= selectedPantryLevel && (!normalizedExternalSearch || item.name.toLowerCase().includes(normalizedExternalSearch)))
+        .sort((a, b) => String(a.name).localeCompare(String(b.name), undefined, { sensitivity: "base", numeric: true })),
+    }))
+    .filter((group) => group.items.length > 0)
+    .sort((a, b) => String(a.group).localeCompare(String(b.group), undefined, { sensitivity: "base", numeric: true }));
 
   function togglePantryItem(item) {
     setPantry((current) => ({
@@ -7803,7 +7808,12 @@ function FreezerInventoryManagementPage({
     if (!groups.has(cuisine)) groups.set(cuisine, []);
     groups.get(cuisine).push(source);
     return groups;
-  }, new Map()).entries()].map(([cuisine, items]) => ({ cuisine, items }));
+  }, new Map()).entries()]
+    .map(([cuisine, items]) => ({
+      cuisine,
+      items: items.sort((a, b) => String(a.title).localeCompare(String(b.title), undefined, { sensitivity: "base", numeric: true })),
+    }))
+    .sort((a, b) => String(a.cuisine).localeCompare(String(b.cuisine), undefined, { sensitivity: "base", numeric: true }));
 
   const totalComplete = managedItems
     .filter((item) => item.kind === "completeMeal")
@@ -7994,7 +8004,7 @@ function FreezerInventoryManagementPage({
               </div>
 
               <label className="freezerManagementServings">
-                <span>Servings / Package</span>
+                <span>Servings</span>
                 <input
                   type="number"
                   min="1"
@@ -8687,11 +8697,15 @@ function FreezerInventoryPage({ freezer, setFreezer, setActivePage, embedded = f
     return true;
   });
 
-  const visibleByCategory = FREEZER_CATEGORIES.map((category) => ({
-    ...category,
-    items: visibleItems.filter((item) => item.categoryId === category.id),
-    checkedCount: allItems.filter((item) => item.categoryId === category.id && item.onHand).length,
-  }));
+  const visibleByCategory = FREEZER_CATEGORIES
+    .map((category) => ({
+      ...category,
+      items: visibleItems
+        .filter((item) => item.categoryId === category.id)
+        .sort((a, b) => String(a.name).localeCompare(String(b.name), undefined, { sensitivity: "base", numeric: true })),
+      checkedCount: allItems.filter((item) => item.categoryId === category.id && item.onHand).length,
+    }))
+    .sort((a, b) => String(a.title).localeCompare(String(b.title), undefined, { sensitivity: "base", numeric: true }));
 
   function updateItem(itemId, patch) {
     setFreezer((current) => {

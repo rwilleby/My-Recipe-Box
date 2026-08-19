@@ -1,3 +1,11 @@
+# v84.29 — Inventory Width, Sorting, and Freezer Alignment
+
+- Expanded the Master Kitchen Inventory command strip and all inventory accordions to 100% of their page container.
+- Moved Freezing & Reheating into Kitchen Details directly below Master Kitchen Inventory.
+- Alphabetized Kitchen, Freezer, and Pantry accordion headings and alphabetized the items displayed inside their accordions.
+- Widened the Pantry stock-status selector so every option displays fully.
+- Shortened the Freezer meal and recipe field label from Servings / Package to Servings and aligned its entry bubble with Frozen Packages.
+
 # v84.28 — Full-Width Master Inventory Command Strip
 
 - Expanded the centered Master Kitchen Inventory command strip to the established 90% page width.

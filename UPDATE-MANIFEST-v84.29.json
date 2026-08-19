@@ -1,0 +1,35 @@
+{
+  "version": "84.29.0",
+  "release": "Inventory width, sorting, Pantry selector, and Freezer alignment",
+  "baseline": "v84.28 GitHub update",
+  "uploadMode": "replace matching files and add new files; no deletions required",
+  "changedFiles": [
+    "CHANGELOG.md",
+    "UPDATE-MANIFEST-v84.29.json",
+    "V84.29-INVENTORY-LAYOUT-SORTING-REPORT.md",
+    "UPLOAD-INSTRUCTIONS-v84.29.txt",
+    "package.json",
+    "package-lock.json",
+    "src/package.json",
+    "src/App.jsx",
+    "src/App.css",
+    "src/components/MasterKitchenInventoryPage.jsx",
+    "test/masterInventoryFullWidthV8428.test.mjs",
+    "test/inventoryLayoutSortingV8429.test.mjs"
+  ],
+  "deletedFiles": [],
+  "changes": {
+    "inventoryControls": "100% width",
+    "accordions": "100% width and alphabetized",
+    "pantry": "alphabetized items and 110px status selector",
+    "freezer": "Servings label and aligned package/servings controls",
+    "navigation": "Freezing & Reheating moved to Kitchen Details"
+  },
+  "verification": {
+    "focusedContract": "test/inventoryLayoutSortingV8429.test.mjs",
+    "fullWidthRegression": "test/masterInventoryFullWidthV8428.test.mjs",
+    "commandStripRegression": "test/masterInventoryCommandStripV8427.test.mjs",
+    "accordionRegression": "test/inventoryAccordionsV8426.test.mjs",
+    "productionBuild": "not run; dependencies and the complete application source are not present in the incremental update workspace"
+  }
+}
