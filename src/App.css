@@ -13587,6 +13587,17 @@ to {
   }
 }
 
+/* ================================================================
+   v83.10 — FINAL MAIN NAVIGATION HORIZONTAL CENTERING
+   ================================================================ */
+@media (min-width: 721px) {
+  .simpleHeaderNav {
+    justify-content: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+
 @media (max-width: 720px) {
   .homeCategoryGrid,
   .categoryGrid.homeCategoryGrid,

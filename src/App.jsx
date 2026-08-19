@@ -1497,17 +1497,17 @@ function Header({ activePage, setActivePage, favorites }) {
       items: NAV_GROUPS.find((group) => group.label === "ABOUT")?.items || [],
     },
     {
-      label: "KITCHEN INVENTORY",
-      page: "Master Kitchen Inventory",
-      items: NAV_GROUPS.find((group) => group.label === "KITCHEN INVENTORY")?.items || [],
-    },
-    {
       label: "RECIPES & MEALS",
       page: "Recipes",
       items: [
         ...(NAV_GROUPS.find((group) => group.label === "OUR RECIPES")?.items || []),
         ...(NAV_GROUPS.find((group) => group.label === "COLLECTIONS")?.items || []),
       ],
+    },
+    {
+      label: "KITCHEN INVENTORY",
+      page: "Master Kitchen Inventory",
+      items: NAV_GROUPS.find((group) => group.label === "KITCHEN INVENTORY")?.items || [],
     },
     {
       label: "MEAL PLANNING",

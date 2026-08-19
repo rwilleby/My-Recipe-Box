@@ -1,3 +1,11 @@
+# v83.10 — Main Navigation Horizontal Centering
+
+- Centered the complete top main-menu group horizontally beneath the Robert’s Recipe Box logo.
+- Ordered the centered group as ABOUT US, RECIPES & MEALS, KITCHEN INVENTORY, MEAL PLANNING, SHOPPING, RESOURCES, followed by the Favorites shortcut.
+- Preserved menu order, submenu destinations, video indicators, active states, saved Favorites count, and iPad tap behavior.
+- Kept the existing mobile navigation wrapping behavior unchanged.
+- Added a final-cascade regression contract so older left-alignment rules cannot move the menu back.
+
 # v83.9 — Desktop Hero Typography and Browse Favorites
 
 - Restored the original 15px desktop page-hero paragraph size and 1.45 line height.

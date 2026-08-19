@@ -1,0 +1,15 @@
+ROBERT'S RECIPE BOX v83.10 — GITHUB UPDATE
+
+This package is cumulative from the verified v83.9 update.
+It includes v83.2 through v83.10.
+
+1. Unzip My-Recipe-Box-v83.10-GitHub-Update.zip.
+2. Open the extracted My-Recipe-Box-v83.10-GitHub-Update folder.
+3. Upload the CONTENTS of that folder to the GitHub repository root.
+4. Replace matching files and preserve the included folder structure.
+5. Do not upload any earlier v83 package first.
+6. No GitHub files need to be deleted for this update.
+7. Wait for the GitHub Actions build and deployment checks to turn green.
+8. Verify the full main-menu group is centered beneath the logo on desktop and iPad.
+9. Verify RECIPES & MEALS appears before KITCHEN INVENTORY.
+10. Verify submenus and the Favorites shortcut still open normally.

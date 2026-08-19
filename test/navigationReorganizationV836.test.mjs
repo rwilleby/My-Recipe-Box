@@ -53,8 +53,8 @@ const headerEnd = app.indexOf("return (", headerStart);
 const headerSource = app.slice(headerStart, headerEnd);
 const expectedHeaderOrder = [
   "ABOUT US",
-  "KITCHEN INVENTORY",
   "RECIPES & MEALS",
+  "KITCHEN INVENTORY",
   "MEAL PLANNING",
   "SHOPPING",
   "RESOURCES",
