@@ -1,3 +1,11 @@
+# v84.20 — Shopping Print Accuracy and Preview
+
+- Excluded ingredients checked in By Meal / Component from the printed shopping list.
+- Applied checked-state filtering before ingredient normalization, so partially checked duplicate ingredients print only the remaining required quantity.
+- Honored checked consolidated grocery items and checked prepared components in the same printable result.
+- Added a Preview button that opens the exact shopping-list printout without immediately opening the browser print dialog.
+- Added a Print This List button inside the preview; preview-only controls are automatically hidden on paper.
+
 # v84.19 — Centered Header Logo
 
 - Centered the complete Robert's Recipe Box logo horizontally within the full-width header row at every responsive size.

@@ -88,6 +88,11 @@ import {
   consolidateShoppingItems,
 } from "./utils/ingredientNormalization.js";
 import {
+  collectPrintableGroceryItems,
+  collectPrintablePreparedRequirements,
+  shoppingNeedItemKey,
+} from "./utils/shoppingPrintList.js";
+import {
   PREPARED_COMPONENTS,
   PREPARED_COMPONENT_CATEGORIES,
   PREPARED_COMPONENT_SCHEMA_VERSION,
@@ -8909,6 +8914,16 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
     [recipeOnlyPlan, servings, dinnerCombinationShoppingReferences, refrigeratorShoppingItems, freezerShoppingItems]
   );
 
+  const printableList = useMemo(
+    () => mergeShoppingListEntries(collectPrintableGroceryItems(shoppingNeedGroups, checked)),
+    [shoppingNeedGroups, checked]
+  );
+
+  const printablePreparedToBuy = useMemo(
+    () => collectPrintablePreparedRequirements(preparedToBuy, shoppingNeedGroups, checked),
+    [preparedToBuy, shoppingNeedGroups, checked]
+  );
+
   const digitalShoppingGroups = Object.entries(list.reduce((groups, item) => {
     const aisle = item.aisle || "Other";
     const id = `${item.name}-${item.unit}-${item.aisle}`;
@@ -8942,6 +8957,11 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
     [list, pantry]
   );
 
+  const { needed: printableNeeded, pantry: printablePantryItems } = useMemo(
+    () => splitShoppingListByPantry(printableList, pantry),
+    [printableList, pantry]
+  );
+
   const groupedNeeded = needed.reduce((acc, item) => {
     return {
       ...acc,
@@ -8950,6 +8970,20 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
   }, {});
 
   const groupedPantry = pantryItems.reduce((acc, item) => {
+    return {
+      ...acc,
+      [item.aisle]: [...(acc[item.aisle] || []), item],
+    };
+  }, {});
+
+  const groupedPrintableNeeded = printableNeeded.reduce((acc, item) => {
+    return {
+      ...acc,
+      [item.aisle]: [...(acc[item.aisle] || []), item],
+    };
+  }, {});
+
+  const groupedPrintablePantry = printablePantryItems.reduce((acc, item) => {
     return {
       ...acc,
       [item.aisle]: [...(acc[item.aisle] || []), item],
@@ -8980,36 +9014,63 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
     return String(formatQty(value)).replace(/\b(\d+)\s+(\d+\/\d+)\b/g, "$1 - $2");
   }
 
-  function printShoppingList() {
+  function escapeShoppingPrintHtml(value = "") {
+    return String(value)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
+
+  function openShoppingListPrintout(autoPrint = false) {
     const printWindow = window.open("", "_blank", "width=900,height=700");
 
-    const neededGroups = Object.entries(groupedNeeded);
-    const pantryGroups = Object.entries(groupedPantry);
+    const neededGroups = Object.entries(groupedPrintableNeeded);
+    const pantryGroups = Object.entries(groupedPrintablePantry);
 
     const neededHtml = neededGroups.length
       ? neededGroups.map(([aisle, items]) => `
           <section>
-            <h2>${aisle}</h2>
+            <h2>${escapeShoppingPrintHtml(aisle)}</h2>
             ${items.map((item) => `
               <div class="item">
                 <span class="box"></span>
-                <strong>${item.name}</strong>
-                <em>${formatQty(item.qty)} ${item.unit}</em>
+                <strong>${escapeShoppingPrintHtml(item.name)}</strong>
+                <em>${escapeShoppingPrintHtml(`${formatQty(item.qty)} ${item.unit}`)}</em>
               </div>
             `).join("")}
           </section>
         `).join("")
       : `<p>No needed items.</p>`;
 
+    const preparedHtml = printablePreparedToBuy.length
+      ? `
+          <section>
+            <h2>Prepared Components</h2>
+            ${printablePreparedToBuy.map((item) => {
+              const component = getPreparedComponent(item.componentId, preparedInventory);
+              return `
+                <div class="item">
+                  <span class="box"></span>
+                  <strong>${escapeShoppingPrintHtml(component?.name || item.componentId)}</strong>
+                  <em>${escapeShoppingPrintHtml(`${item.packagesRequired} package(s)`)}</em>
+                </div>
+              `;
+            }).join("")}
+          </section>
+        `
+      : "";
+
     const pantryHtml = pantryGroups.length
       ? pantryGroups.map(([aisle, items]) => `
           <section>
-            <h2>${aisle}</h2>
+            <h2>${escapeShoppingPrintHtml(aisle)}</h2>
             ${items.map((item) => `
               <div class="item pantry">
                 <span class="box filled"></span>
-                <strong>${item.name}</strong>
-                <em>${formatQty(item.qty)} ${item.unit}</em>
+                <strong>${escapeShoppingPrintHtml(item.name)}</strong>
+                <em>${escapeShoppingPrintHtml(`${formatQty(item.qty)} ${item.unit}`)}</em>
               </div>
             `).join("")}
           </section>
@@ -9017,7 +9078,8 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
       : "";
 
     if (!printWindow) {
-      window.print();
+      if (autoPrint) window.print();
+      else window.alert("Please allow pop-up windows to preview the shopping list.");
       return;
     }
 
@@ -9109,16 +9171,49 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
               padding-top: 6px;
               border-top: 1px solid #111;
             }
+            .previewToolbar {
+              position: sticky;
+              top: 0;
+              z-index: 5;
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              gap: 12px;
+              margin: 0 0 12px;
+              padding: 9px 12px;
+              border: 1px solid #cbd5cc;
+              border-radius: 8px;
+              background: #f7f5ef;
+              color: #374151;
+              font-size: 12px;
+              font-weight: 700;
+            }
+            .previewToolbar button {
+              min-height: 34px;
+              padding: 0 16px;
+              border: 1px solid #14532d;
+              border-radius: 8px;
+              background: #14532d;
+              color: #fff;
+              font: 700 12px Arial, Helvetica, sans-serif;
+              cursor: pointer;
+            }
+            @media print { .previewToolbar { display: none !important; } }
           </style>
         </head>
         <body>
+          <div class="previewToolbar">
+            <span>Shopping List Print Preview</span>
+            <button type="button" onclick="window.print()">Print This List</button>
+          </div>
           <header>
             <h1>Shopping List</h1>
-            <div class="date">${new Date().toLocaleDateString()}</div>
+            <div class="date">${escapeShoppingPrintHtml(new Date().toLocaleDateString())}</div>
           </header>
 
           <div class="grid">
             ${neededHtml}
+            ${preparedHtml}
           </div>
 
           ${pantryHtml ? `<h1 class="pantryTitle">Already in Pantry</h1><div class="grid">${pantryHtml}</div>` : ""}
@@ -9126,7 +9221,7 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
           <script>
             window.onload = () => {
               window.focus();
-              window.print();
+              ${autoPrint ? "window.print();" : ""}
             };
           </script>
         </body>
@@ -9134,6 +9229,14 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
     `);
 
     printWindow.document.close();
+  }
+
+  function previewShoppingList() {
+    openShoppingListPrintout(false);
+  }
+
+  function printShoppingList() {
+    openShoppingListPrintout(true);
   }
 
   function printMasterShoppingStockWorksheet() {
@@ -9309,7 +9412,7 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
   }
 
   function renderNeedGroupItem(group, item, itemIndex) {
-    const key = `need-${group.id}-${item.id || itemIndex}`;
+    const key = shoppingNeedItemKey(group, item, itemIndex);
     const isComponent = item.kind === "component";
     const isInPantry = !isComponent && splitShoppingListByPantry([item], pantry).pantry.length > 0;
     const componentAvailable = isComponent && (preparedAvailability[item.componentId] || 0) >= Number(item.qty || 0);
@@ -9343,6 +9446,9 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
             By Meal / Component
           </button>
         </div>
+        <button className="secondary shoppingPreviewButton" onClick={previewShoppingList}>
+          Preview
+        </button>
         <button className="primary" onClick={printShoppingList}>
           Print List
         </button>

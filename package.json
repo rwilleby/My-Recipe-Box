@@ -1,6 +1,6 @@
 {
   "name": "rrb-browser-based-v1",
-  "version": "84.19.0",
+  "version": "84.20.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -43,6 +43,7 @@
     "test:kitchen-inventory-v8417": "node test/kitchenInventoryTaxonomyV8417.test.mjs",
     "test:kitchen-inventory-v8418": "node test/kitchenInventoryStandardTaxonomyV8418.test.mjs",
     "test:header-logo-centering-v8419": "node test/headerLogoCenteringV8419.test.mjs",
+    "test:shopping-print-preview-v8420": "node test/shoppingPrintPreviewV8420.test.mjs",
     "test:dinner-combinations": "node test/dinnerCombinationsPageContract.test.mjs",
     "test:classification": "node test/recipeClassificationDurability.test.mjs",
     "test:dinner-nutrition": "node test/completeDinnerNutritionDisplay.test.mjs",

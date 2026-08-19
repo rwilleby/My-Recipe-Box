@@ -1,0 +1,31 @@
+{
+  "version": "84.20.0",
+  "release": "Shopping-list checked-item printing and preview",
+  "baseline": "v84.19 GitHub update",
+  "uploadMode": "replace matching files and add new files; no deletions required",
+  "changedFiles": [
+    "CHANGELOG.md",
+    "UPDATE-MANIFEST-v84.20.json",
+    "V84.20-SHOPPING-PRINT-PREVIEW-REPORT.md",
+    "UPLOAD-INSTRUCTIONS-v84.20.txt",
+    "package.json",
+    "package-lock.json",
+    "src/package.json",
+    "src/App.jsx",
+    "src/utils/shoppingPrintList.js",
+    "test/shoppingPrintPreviewV8420.test.mjs"
+  ],
+  "deletedFiles": [],
+  "shoppingPrintBehavior": {
+    "checkedMealComponentItemsPrint": false,
+    "checkedConsolidatedItemsPrint": false,
+    "partialNormalizedQuantities": "remaining unchecked quantity only",
+    "previewBeforePrint": true,
+    "previewControlsPrint": false
+  },
+  "verification": {
+    "focusedContract": "test/shoppingPrintPreviewV8420.test.mjs",
+    "regressionContractsPassed": 5,
+    "productionBuild": "not run; dependencies are not installed in the clean update workspace"
+  }
+}
