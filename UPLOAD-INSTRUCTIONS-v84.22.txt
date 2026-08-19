@@ -1,0 +1,23 @@
+ROBERT'S RECIPE BOX v84.22 — GITHUB UPDATE
+
+Upload this update after v84.21.
+
+1. Open the repository root in GitHub.
+2. Upload the contents of My-Recipe-Box-v84.22-GitHub-Update.zip, preserving folders.
+3. Replace matching files when GitHub prompts you.
+4. Add the new files listed in UPDATE-MANIFEST-v84.22.json.
+5. Do not delete any existing files; this update has no deletions.
+6. Commit with a message such as:
+   v84.22: keep Shopping List controls and counters on one row
+7. Let the normal deployment build finish.
+
+VERIFY AFTER DEPLOYMENT
+
+- The complete Shopping List command strip stays on one desktop row.
+- All controls remain in their established left-to-right order with one-line labels.
+- List Items, Still Needed, Checked Off, and Pantry Items appear as compact counters at the far right.
+- There is no separate counter band above the Shopping List.
+- Narrow screens preserve one row and can scroll it horizontally rather than wrapping it.
+- All buttons and live counter updates continue working.
+
+See V84.22-SHOPPING-ONE-ROW-REPORT.md for implementation and verification details.

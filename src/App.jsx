@@ -6956,7 +6956,7 @@ function KosCompanionStatusBand({ kosUi }) {
   );
 }
 
-function KosPlanningStatusBand({ kosUi, mode }) {
+function KosPlanningStatusBand({ kosUi, mode, compact = false }) {
   const [kosState, setKosState] = useState(() => kosUi?.snapshot?.() || null);
 
   useEffect(() => {
@@ -6999,7 +6999,7 @@ function KosPlanningStatusBand({ kosUi, mode }) {
     const summary = kosState.shopping?.summary || {};
     return (
       <section
-        className="preparedInventorySummary"
+        className={compact ? "preparedInventorySummary shoppingCommandCounters" : "preparedInventorySummary"}
         aria-label="Kitchen Operations shopping status"
         data-kos-ui="shopping-status"
       >
@@ -8743,7 +8743,7 @@ function FreezerInventoryPage({ freezer, setFreezer, setActivePage, embedded = f
   );
 }
 
-function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry, refrigerator, freezer, setActivePage, preparedInventory, preparedReservations, componentDecisions, setComponentDecisions, shoppingComments, setShoppingComments }) {
+function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry, refrigerator, freezer, setActivePage, preparedInventory, preparedReservations, componentDecisions, setComponentDecisions, shoppingComments, setShoppingComments, kosUi }) {
   const [showDigitalStockCheck, setShowDigitalStockCheck] = useState(false);
   const [shoppingView, setShoppingView] = useState("needs");
   const recipeIdSet = useMemo(() => new Set(recipes.map((recipe) => recipe.id)), []);
@@ -9467,6 +9467,7 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
         <button className="secondary shoppingClearButton" onClick={clearShoppingListAndStartOver}>
           Clear &amp; Start Over
         </button>
+        <KosPlanningStatusBand kosUi={kosUi} mode="shopping" compact />
       </div>
 
       {showDigitalStockCheck && (
@@ -17630,9 +17631,6 @@ Use this collection to organize recipes that fit prep-ahead cooking, planned lef
             text="A clear grocery list helps turn a meal plan into an organized shopping trip. Add the ingredients needed for upcoming recipes, review the items already in your pantry, and avoid purchasing products you do not actually need.\n\nGrouping similar items together can make shopping faster and reduce forgotten ingredients. Your list can also help control impulse purchases, compare costs, and keep household staples from running out unexpectedly."
             className="pageHeroDepth464"
 />
-          <main className="pageShell" data-kos-ui="shopping-list">
-            <KosPlanningStatusBand kosUi={kosUi} mode="shopping" />
-          </main>
           <ShoppingListPage {...pageProps} />
         </>
       )}

@@ -1,3 +1,12 @@
+# v84.22 — One-Row Shopping Controls and Counters
+
+- Kept the complete Shopping List command strip in one left-to-right row.
+- Reduced button widths, padding, typography, gaps, and control height while keeping every label on one line.
+- Moved the four live shopping counters from their separate page band to the far-right end of the command strip.
+- Reduced each counter to a compact 40-pixel card while preserving List Items, Still Needed, Checked Off, and Pantry Items values.
+- Preserved the existing Kitchen Operations subscription so the relocated counters continue updating from the same live source.
+- Added safe horizontal scrolling on viewports too narrow for the complete one-row strip rather than wrapping controls into additional rows.
+
 # v84.21 — Shopping List Command Strip
 
 - Restyled the Shopping List controls to match the approved Weekly Planner command-strip design language.

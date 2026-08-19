@@ -13713,6 +13713,102 @@ to {
 }
 
 /* ================================================================
+   v84.22 — ONE-ROW SHOPPING COMMAND STRIP WITH COMPACT COUNTERS
+   ================================================================ */
+.shoppingListIntroActions {
+  width: 100% !important;
+  max-width: none !important;
+  display: grid !important;
+  grid-template-columns:
+    minmax(230px, 1.45fr)
+    minmax(68px, .44fr)
+    minmax(76px, .5fr)
+    minmax(88px, .58fr)
+    minmax(88px, .58fr)
+    minmax(96px, .64fr)
+    minmax(108px, .72fr)
+    minmax(320px, 1.9fr) !important;
+  grid-auto-flow: column !important;
+  align-items: stretch !important;
+  gap: 5px !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  scrollbar-width: thin !important;
+}
+
+.shoppingListIntroActions > button,
+.shoppingViewToggle {
+  min-height: 40px !important;
+  height: 40px !important;
+  border-radius: 14px !important;
+}
+
+.shoppingListIntroActions > button {
+  padding: 0 8px !important;
+  font-size: 10.5px !important;
+  white-space: nowrap !important;
+}
+
+.shoppingViewToggle {
+  grid-column: auto !important;
+  width: 100% !important;
+  min-width: 230px !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+
+.shoppingViewToggle button {
+  min-height: 38px !important;
+  height: 38px !important;
+  padding: 0 9px !important;
+  font-size: 10px !important;
+  white-space: nowrap !important;
+}
+
+.shoppingCommandCounters.preparedInventorySummary {
+  min-width: 320px !important;
+  height: 40px !important;
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(70px, 1fr)) !important;
+  gap: 4px !important;
+  margin: 0 !important;
+  align-self: stretch !important;
+}
+
+.shoppingCommandCounters.preparedInventorySummary > div {
+  min-width: 0 !important;
+  height: 40px !important;
+  display: grid !important;
+  grid-template-rows: auto auto !important;
+  align-content: center !important;
+  justify-items: center !important;
+  gap: 1px !important;
+  padding: 3px 5px !important;
+  border-radius: 12px !important;
+  box-shadow: none !important;
+}
+
+.shoppingCommandCounters.preparedInventorySummary small {
+  margin: 0 !important;
+  color: #667085 !important;
+  font: 700 8px/1 Inter, system-ui, sans-serif !important;
+  white-space: nowrap !important;
+}
+
+.shoppingCommandCounters.preparedInventorySummary strong {
+  margin: 0 !important;
+  color: #14532d !important;
+  font: 700 17px/.95 Georgia, serif !important;
+  white-space: nowrap !important;
+}
+
+@media (max-width: 1180px) {
+  .shoppingListIntroActions {
+    min-width: 1040px !important;
+    grid-template-columns: 230px 68px 76px 88px 88px 96px 108px 320px !important;
+  }
+}
+
+/* ================================================================
    v83.10 — FINAL MAIN NAVIGATION HORIZONTAL CENTERING
    ================================================================ */
 @media (min-width: 721px) {
@@ -19130,5 +19226,101 @@ button.browseRecipeWideFooterAction:focus-visible,
 
   .shoppingViewToggle {
     grid-column: 1 !important;
+  }
+}
+
+/* ================================================================
+   v84.22 — FINAL ONE-ROW SHOPPING STRIP WITH COMPACT COUNTERS
+   ================================================================ */
+.shoppingListIntroActions {
+  width: 100% !important;
+  max-width: none !important;
+  display: grid !important;
+  grid-template-columns:
+    minmax(230px, 1.45fr)
+    minmax(68px, .44fr)
+    minmax(76px, .5fr)
+    minmax(88px, .58fr)
+    minmax(88px, .58fr)
+    minmax(96px, .64fr)
+    minmax(108px, .72fr)
+    minmax(320px, 1.9fr) !important;
+  grid-auto-flow: column !important;
+  align-items: stretch !important;
+  gap: 5px !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  scrollbar-width: thin !important;
+}
+
+.shoppingListIntroActions > button,
+.shoppingViewToggle {
+  min-height: 40px !important;
+  height: 40px !important;
+  border-radius: 14px !important;
+}
+
+.shoppingListIntroActions > button {
+  padding: 0 8px !important;
+  font-size: 10.5px !important;
+  white-space: nowrap !important;
+}
+
+.shoppingViewToggle {
+  grid-column: auto !important;
+  width: 100% !important;
+  min-width: 230px !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+
+.shoppingViewToggle button {
+  min-height: 38px !important;
+  height: 38px !important;
+  padding: 0 9px !important;
+  font-size: 10px !important;
+  white-space: nowrap !important;
+}
+
+.shoppingCommandCounters.preparedInventorySummary {
+  min-width: 320px !important;
+  height: 40px !important;
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(70px, 1fr)) !important;
+  gap: 4px !important;
+  margin: 0 !important;
+  align-self: stretch !important;
+}
+
+.shoppingCommandCounters.preparedInventorySummary > div {
+  min-width: 0 !important;
+  height: 40px !important;
+  display: grid !important;
+  grid-template-rows: auto auto !important;
+  align-content: center !important;
+  justify-items: center !important;
+  gap: 1px !important;
+  padding: 3px 5px !important;
+  border-radius: 12px !important;
+  box-shadow: none !important;
+}
+
+.shoppingCommandCounters.preparedInventorySummary small {
+  margin: 0 !important;
+  color: #667085 !important;
+  font: 700 8px/1 Inter, system-ui, sans-serif !important;
+  white-space: nowrap !important;
+}
+
+.shoppingCommandCounters.preparedInventorySummary strong {
+  margin: 0 !important;
+  color: #14532d !important;
+  font: 700 17px/.95 Georgia, serif !important;
+  white-space: nowrap !important;
+}
+
+@media (max-width: 1180px) {
+  .shoppingListIntroActions {
+    min-width: 1040px !important;
+    grid-template-columns: 230px 68px 76px 88px 88px 96px 108px 320px !important;
   }
 }
