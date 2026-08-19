@@ -1,3 +1,10 @@
+# v84.24 — Hero-Aligned Shopping Command Strip
+
+- Matched the Shopping List command strip to the large hero's established 90% desktop width and centered gutters.
+- Compressed every control column and the four-counter group proportionally while preserving the approved single row.
+- Removed the old negative top margin so the standard 18-pixel SECTION INTRO gap now separates the supporting sentence from the controls.
+- Matched the hero's 96% width on smaller screens and retained single-row horizontal scrolling only when the viewport is too narrow.
+
 # v84.23 — Stacked Shopping Command Labels
 
 - Stacked every multiword Shopping List control label into two centered lines to reduce horizontal width.

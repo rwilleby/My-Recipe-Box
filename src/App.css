@@ -19416,3 +19416,41 @@ button.browseRecipeWideFooterAction:focus-visible,
     overflow-x: auto !important;
   }
 }
+
+/* ================================================================
+   v84.24 — HERO-ALIGNED SHOPPING COMMAND STRIP
+   Match the large hero's established gutters and restore the standard
+   SECTION INTRO breathing room above the controls.
+   ================================================================ */
+.shoppingListIntroActions {
+  width: 90% !important;
+  max-width: 90% !important;
+  margin: 0 auto 18px !important;
+  grid-template-columns:
+    minmax(160px, 1.32fr)
+    minmax(46px, .38fr)
+    minmax(50px, .41fr)
+    minmax(52px, .43fr)
+    minmax(52px, .43fr)
+    minmax(56px, .46fr)
+    minmax(68px, .55fr)
+    minmax(226px, 1.65fr) !important;
+}
+
+.shoppingViewToggle {
+  min-width: 160px !important;
+}
+
+.shoppingCommandCounters.preparedInventorySummary {
+  min-width: 226px !important;
+  grid-template-columns: repeat(4, minmax(51px, 1fr)) !important;
+}
+
+@media (max-width: 900px) {
+  .shoppingListIntroActions {
+    width: 96% !important;
+    max-width: 96% !important;
+    min-width: 760px !important;
+    grid-template-columns: 160px 46px 50px 52px 52px 56px 68px 226px !important;
+  }
+}
