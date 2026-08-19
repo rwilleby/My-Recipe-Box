@@ -1,3 +1,14 @@
+# v84.7 — Shopping List Normalization
+
+- Added a dedicated canonical ingredient-normalization layer for the Consolidated Shopping List.
+- Combined raw boneless skinless chicken-breast forms into one grocery item and converted compatible ounce and pound requirements into pounds.
+- Combined diced, sliced, and shredded cooked chicken breast into one cooked-chicken item while retaining its preparation-source details.
+- Combined low-fat and reduced-fat milk, converting tablespoons and cups into one cup total.
+- Combined cooked and prepared mashed potatoes into one prepared-mashed-potatoes total.
+- Preserved exact recipe-card wording and quantities in the default By Meal / Component view.
+- Kept materially different products, including evaporated milk and coconut milk, separate.
+- Added ⅜ and ⅝ quantity formatting plus regression coverage for canonical names, safe unit conversions, exclusions, recipe-detail preservation, and pantry-matching wiring.
+
 # v84.6 — Diet Meal Ingredient Data, Final Batch
 
 - Transcribed and visually verified every ingredient and quantity from recipe cards DM-051 through DM-060.

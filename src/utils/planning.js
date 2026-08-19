@@ -1,3 +1,5 @@
+import { consolidateShoppingItems } from "./ingredientNormalization.js";
+
 export const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 export function emptyPlan() {
@@ -40,7 +42,7 @@ export function planCost(plan, recipes, servings = 4) {
 
 export function buildShoppingList(plan, recipes, servings = 4) {
   const recipeIds = getPlannedRecipeIds(plan);
-  const grouped = new Map();
+  const items = [];
 
   recipeIds.forEach((recipeId) => {
     const recipe = recipes.find((item) => item.id === recipeId);
@@ -50,24 +52,15 @@ export function buildShoppingList(plan, recipes, servings = 4) {
     const multiplier = servings / recipeServings;
 
     recipe.ingredients.forEach((ingredient) => {
-      const aisle = ingredient.aisle || "Other";
-      const unit = ingredient.unit || "";
-      const key = `${ingredient.name}|${unit}|${aisle}`;
-      const current = grouped.get(key) || {
-        name: ingredient.name,
-        qty: 0,
-        unit,
-        aisle,
-        cost: 0,
-      };
-
-      current.qty += (Number(ingredient.qty) || 0) * multiplier;
-      current.cost += (Number(ingredient.cost) || 0) * multiplier;
-      grouped.set(key, current);
+      items.push({
+        ...ingredient,
+        qty: (Number(ingredient.qty) || 0) * multiplier,
+        cost: (Number(ingredient.cost) || 0) * multiplier,
+      });
     });
   });
 
-  return Array.from(grouped.values()).sort((a, b) => {
+  return consolidateShoppingItems(items).sort((a, b) => {
     const aisleSort = a.aisle.localeCompare(b.aisle);
     return aisleSort || a.name.localeCompare(b.name);
   });
@@ -82,7 +75,9 @@ export function formatQty(value) {
     [1 / 8, "⅛"],
     [1 / 4, "¼"],
     [1 / 3, "⅓"],
+    [3 / 8, "⅜"],
     [1 / 2, "½"],
+    [5 / 8, "⅝"],
     [2 / 3, "⅔"],
     [3 / 4, "¾"],
     [7 / 8, "⅞"],

@@ -84,6 +84,10 @@ import {
   formatQty,
 } from "./utils/planning";
 import {
+  canonicalShoppingName,
+  consolidateShoppingItems,
+} from "./utils/ingredientNormalization.js";
+import {
   PREPARED_COMPONENTS,
   PREPARED_COMPONENT_CATEGORIES,
   PREPARED_COMPONENT_SCHEMA_VERSION,
@@ -576,7 +580,7 @@ function normalizePantryText(value = "") {
 }
 
 function findPantryMatch(itemName = "") {
-  const normalizedItem = normalizePantryText(itemName);
+  const normalizedItem = normalizePantryText(canonicalShoppingName(itemName));
 
   return PANTRY_MATCHERS.find((matcher) =>
     matcher.terms.some((term) => {
@@ -7730,32 +7734,7 @@ function buildRefrigeratorGroceryItems(refrigerator) {
 }
 
 function mergeShoppingListEntries(items) {
-  const merged = new Map();
-
-  items.forEach((item) => {
-    if (!item?.name) return;
-    const unit = item.unit || "item";
-    const aisle = item.aisle || "Grocery List";
-    const key = `${String(item.name).trim().toLowerCase()}|${String(unit).trim().toLowerCase()}`;
-    const existing = merged.get(key);
-
-    if (!existing) {
-      merged.set(key, { ...item, unit, aisle });
-      return;
-    }
-
-    const currentQty = Number.parseFloat(existing.qty);
-    const nextQty = Number.parseFloat(item.qty);
-    merged.set(key, {
-      ...existing,
-      qty: Number.isFinite(currentQty) && Number.isFinite(nextQty)
-        ? currentQty + nextQty
-        : existing.qty || item.qty || 1,
-      aisle: existing.aisle === aisle ? aisle : `${existing.aisle} / ${aisle}`,
-    });
-  });
-
-  return [...merged.values()];
+  return consolidateShoppingItems(items);
 }
 
 function RefrigeratorInventoryPage({ refrigerator, setRefrigerator, setActivePage }) {
