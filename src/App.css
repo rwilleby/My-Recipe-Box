@@ -21760,3 +21760,75 @@ button.browseRecipeWideFooterAction:focus-visible,
   line-height: 1.05 !important;
   letter-spacing: -0.015em !important;
 }
+
+/* ================================================================
+   v87.1 — HOME DINNER/Diet MEAL CARD RECOVERY
+   Keep source food photography intact; normalize only its display box.
+   ================================================================ */
+
+/* Dinner Ideas use the clean original heroes. Reduce the complete image as
+   one unit against a matching pale field so tray scale and breathing room
+   align with Diet Meals without baking bands into the WebP files. */
+.homeDinnerIdeaImage {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  background: #f6f2e8 !important;
+}
+
+.homeDinnerIdeaImage .homeComboMealImageAsset,
+.homeComboMealImageCrossfadeStage .homeDinnerIdeaImage .homeComboMealImageAsset {
+  width: 84% !important;
+  height: 84% !important;
+  min-width: 84% !important;
+  min-height: 84% !important;
+  flex: 0 0 84% !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+  transform: none !important;
+}
+
+/* The balance badge sits at the lower right, so the title can use the full
+   card width. This keeps “Steak & Onions” together when space permits. */
+.homeComboMealText:not(.homeDietMealText) strong {
+  padding-right: 0 !important;
+}
+
+/* Diet Meal titles may use up to three lines, followed by the optional “With”
+   line and a guaranteed calorie line. Do not reserve three blank title lines
+   or clip the metadata area. */
+.homeDietMealText {
+  height: clamp(104px, 9.2vw, 122px) !important;
+  min-height: clamp(104px, 9.2vw, 122px) !important;
+  max-height: clamp(104px, 9.2vw, 122px) !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+  align-content: start !important;
+}
+
+.homeDietMealText strong {
+  min-height: 0 !important;
+  max-height: 3.15em !important;
+  padding-right: 0 !important;
+  overflow: hidden !important;
+  -webkit-box-orient: vertical !important;
+  -webkit-line-clamp: 3 !important;
+  line-clamp: 3 !important;
+}
+
+.homeDietMealText .homeDietMealWith,
+.homeDietMealText .homeDietMealMeta {
+  display: block !important;
+  min-height: 1.18em !important;
+  margin-top: 4px !important;
+  padding-right: 34px !important;
+  overflow: visible !important;
+  white-space: nowrap !important;
+  text-overflow: clip !important;
+}
+
+.homeDietMealText .homeDietMealMeta {
+  margin-top: 3px !important;
+}
