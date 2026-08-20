@@ -21744,73 +21744,19 @@ button.browseRecipeWideFooterAction:focus-visible,
 .recipeActions a.viewCard { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; }
 .recipeFullCardImageButton { display: block; text-decoration: none; }
 
-/* Use one compact title standard for both Complete Dinner and Diet Meal cards. */
-.homeComboMealText strong {
-  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif !important;
-  font-size: clamp(12.5px, 1.31vw, 18.75px) !important;
-  font-weight: 800 !important;
-  line-height: 1.05 !important;
-  letter-spacing: -0.015em !important;
-  padding-right: 0 !important;
-}
-
-/* The score badge sits at the bottom, so title copy can use the full equal-margin width. */
-.homeComboMealCard > .homeComboMealText {
-  padding-right: clamp(6px, 0.85vw, 12px) !important;
-}
-
-/* Keep the quick-action titles in the same font family without changing their size. */
-.homePhotoFeatureText strong {
+/* Home Complete Dinner card titles: compact, readable, and able to hold longer names. */
+.homeComboMealText:not(.homeDietMealText) strong {
   font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif !important;
   font-weight: 800 !important;
   line-height: 1.05 !important;
   letter-spacing: -0.015em !important;
 }
 
-/* Complete Dinner calories mirror the Diet Meal metadata line without a meal code. */
-.homeComboMealCalories {
-  margin-top: 3px !important;
-  padding-right: 34px !important;
-  text-align: left !important;
-  white-space: nowrap !important;
-}
-
-/* Diet Meal names use the same title/subtitle hierarchy as Complete Dinners. */
+/* Match the quick-action and Diet Meal card titles to the Complete Dinner title standard. */
+.homePhotoFeatureText strong,
 .homeDietMealText strong {
-  min-height: 0 !important;
-  max-height: 2.1em !important;
-  -webkit-line-clamp: 2 !important;
-  line-clamp: 2 !important;
-}
-
-.homeDietMealWith {
-  display: -webkit-box !important;
-  margin-top: 3px !important;
-  padding-right: 0 !important;
-  overflow: hidden !important;
-  white-space: normal !important;
-  text-overflow: clip !important;
-  -webkit-box-orient: vertical !important;
-  -webkit-line-clamp: 2 !important;
-  line-clamp: 2 !important;
-}
-
-.homeDietMealMeta {
-  margin-top: 3px !important;
-  padding-right: 34px !important;
-  text-align: left !important;
-  white-space: nowrap !important;
-}
-
-/* Crop the pale source-image margin so meal trays meet the card's rounded top edge. */
-.homeComboMealImageAsset,
-.homeDietMealTrayImage {
-  object-position: center bottom !important;
-  transform: scale(1.08) !important;
-  transform-origin: center bottom !important;
-}
-
-.homeComboMealCard:hover .homeComboMealImageAsset,
-.homeComboMealCard:hover .homeDietMealTrayImage {
-  transform: scale(1.095) !important;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif !important;
+  font-weight: 800 !important;
+  line-height: 1.05 !important;
+  letter-spacing: -0.015em !important;
 }
