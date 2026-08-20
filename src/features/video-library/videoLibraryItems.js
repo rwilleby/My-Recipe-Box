@@ -30,6 +30,7 @@ function plannedVideo(id, title, page, pageLabel) {
 
 export const VIDEO_LIBRARY_ITEMS = [
   availableVideo("welcome-recipe-box", "Welcome to Robert’s Recipe Box", "A short introduction to the site and its practical meal-planning tools.", "welcome-video", "Home", "Open Home Page"),
+  availableVideo("starting-fast-or-slow", "Starting Fast or Slow", "Start with the simpler tools or move into the detailed planning and inventory features at your own pace.", "starting-fast-or-slow", "Home", "Open Home Page"),
   availableVideo("easy-detailed", "Easy or Detailed", "Choose the simpler Easy experience or the fuller Detailed experience.", "easy-or-detailed", "Home", "Open Home Page"),
   availableVideo("welcome-site", "Welcome to Our Site", "Robert’s welcome and an overview of what visitors can find throughout the site.", "welcome-to-our-site", "About", "Open Welcome Page"),
   plannedVideo("view-video-library", "View Our Video Library", "Video Library", "Open Video Library"),
@@ -44,7 +45,7 @@ export const VIDEO_LIBRARY_ITEMS = [
   availableVideo("salad-jars-home", "Salad Jar Lunches", "Explore practical Salad Jar Lunches and their recipe-finding controls.", "salad-jars", "Salad Jars", "Open Salad Jar Lunches"),
   availableVideo("choose-level", "Choose Your Level", "Choose what you want to do and reveal the tools that fit that task.", "choose-your-level", "Home", "Open Home Page"),
   availableVideo("quick-links", "Browse Our Quick Links", "Use the category icons as a quick route into the recipe library.", "browse-our-quick-links", "Home", "Open Home Page"),
-  plannedVideo("master-inventory", "Kitchen Inventory", "Kitchen Inventory", "Open Kitchen Inventory"),
+  availableVideo("master-inventory", "Master Kitchen Inventory", "Manage kitchen, freezer, and pantry supplies from one practical inventory center.", "master-kitchen-inventory", "Master Kitchen Inventory", "Open Master Inventory"),
   plannedVideo("refrigerator-inventory", "Refrigerator Inventory", "Kitchen Refrigerator", "Open Refrigerator Inventory"),
   plannedVideo("prepared-freezer-inventory", "Prepared Freezer Inventory", "Prepared Freezer Inventory", "Open Prepared Freezer"),
   plannedVideo("freezer-inventory", "Freezer Inventory", "Kitchen Freezer", "Open Freezer Inventory"),
@@ -58,7 +59,7 @@ export const VIDEO_LIBRARY_ITEMS = [
   plannedVideo("weekly-planner", "Your Weekly Meal Planner", "Meal Planner", "Open Weekly Meal Planner"),
   plannedVideo("bulk-planner", "Weekend Bulk Meal Planner", "Weekend Bulk Meal Planner", "Open Bulk Meal Planner"),
   plannedVideo("freezing-reheating", "Freezing & Reheating", "Freezer Tips", "Open Freezing & Reheating"),
-  plannedVideo("grocery-list", "Your Grocery List", "Shopping Lists", "Open Grocery List"),
+  availableVideo("grocery-list", "Your Grocery List", "Build and review the detailed ingredient list created from planned meals and household needs.", "shopping-list", "Shopping Lists", "Open Grocery List"),
   plannedVideo("recommended-products", "Recommended Products", "Products I Use", "Open Recommended Products"),
   plannedVideo("food-safety", "Food Safety", "Safe Cooking Rules", "Open Food Safety"),
   plannedVideo("cooking-resource", "Cooking Resource", "Reference Guides", "Open Cooking Resources"),

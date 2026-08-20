@@ -1,0 +1,24 @@
+ROBERT'S RECIPE BOX v84.36 — GITHUB UPDATE
+
+Upload this update after v84.35.
+
+This package is larger than the recent layout updates because it contains three MP4 videos.
+
+1. Open the repository root in GitHub.
+2. Upload the contents of My-Recipe-Box-v84.36-GitHub-Update.zip, preserving folders.
+3. Replace matching files when GitHub prompts you.
+4. Add the new files listed in UPDATE-MANIFEST-v84.36.json.
+5. Do not delete any existing files; this update has no deletions.
+6. Commit with a message such as:
+   v84.36: add inventory and grocery videos
+7. Let the normal deployment build finish.
+
+VERIFY AFTER DEPLOYMENT
+
+- Master Kitchen Inventory opens the new video from its large hero.
+- Your Grocery List opens the new Shopping List video from its large hero.
+- Starting Fast or Slow appears as VIDEO 02 in the Video Library.
+- Master Kitchen Inventory and Your Grocery List play from their existing Video Library positions.
+- All three cards show their first-frame poster before playback.
+
+See V84.36-NEW-VIDEO-PLACEMENTS-REPORT.md for details.

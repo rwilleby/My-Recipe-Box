@@ -1,3 +1,11 @@
+# v84.36 — Inventory, Grocery List, and Video Library Videos
+
+- Added the Master Kitchen Inventory video to its large hero.
+- Added the Shopping List video to the Your Grocery List large hero.
+- Added Starting Fast or Slow as Video 02 in the ordered Video Library.
+- Activated the existing Master Kitchen Inventory and Your Grocery List Video Library placeholders.
+- Added first-frame posters for all three supplied videos.
+
 # v84.35 — Centered Pantry Level Summaries
 
 - Centered the Minimum, Medium, and Fully Stocked Pantry summary information.

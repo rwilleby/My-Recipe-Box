@@ -732,6 +732,10 @@ const ABOUT_RECIPES_VIDEO_URL = "videos/about-our-recipes.mp4";
 const ABOUT_RECIPES_VIDEO_POSTER = "images/video-posters/about-our-recipes-poster.webp";
 const RECIPE_LIBRARY_VIDEO_URL = "videos/browse-our-recipe-library.mp4";
 const RECIPE_LIBRARY_VIDEO_POSTER = "images/video-posters/browse-our-recipe-library-poster.webp";
+const MASTER_KITCHEN_INVENTORY_VIDEO_URL = "videos/master-kitchen-inventory.mp4";
+const MASTER_KITCHEN_INVENTORY_VIDEO_POSTER = "images/video-posters/library/master-kitchen-inventory.webp";
+const SHOPPING_LIST_VIDEO_URL = "videos/shopping-list.mp4";
+const SHOPPING_LIST_VIDEO_POSTER = "images/video-posters/library/shopping-list.webp";
 const WELCOME_TOUR_OPEN_EVENT = "rrb:open-welcome-tour";
 const LARGE_HERO_VIDEO_OPEN_EVENT = "rrb:open-large-hero-video";
 const LARGE_HERO_VIDEO_ACKNOWLEDGED_PREFIX = "rrb-large-hero-video-acknowledged:";
@@ -18138,6 +18142,8 @@ Use this collection to organize recipes that fit prep-ahead cooking, planned lef
             title="Your Grocery List"
             text="A clear grocery list helps turn a meal plan into an organized shopping trip. Add the ingredients needed for upcoming recipes, review the items already in your pantry, and avoid purchasing products you do not actually need.\n\nGrouping similar items together can make shopping faster and reduce forgotten ingredients. Your list can also help control impulse purchases, compare costs, and keep household staples from running out unexpectedly."
             className="pageHeroDepth464"
+            videoSrc={SHOPPING_LIST_VIDEO_URL}
+            videoPoster={SHOPPING_LIST_VIDEO_POSTER}
 />
           <ShoppingListPage {...pageProps} />
         </>
@@ -18151,6 +18157,8 @@ Use this collection to organize recipes that fit prep-ahead cooking, planned lef
             title="Master Kitchen Inventory"
             text="Manage kitchen, freezer, and pantry supplies from one practical inventory center. Keep product forms separate, see what is on hand, identify items that need restocking, and move food when its storage location changes."
             className="pageHeroDepth464"
+            videoSrc={MASTER_KITCHEN_INVENTORY_VIDEO_URL}
+            videoPoster={MASTER_KITCHEN_INVENTORY_VIDEO_POSTER}
           />
           <InventoryHubPage
             {...pageProps}

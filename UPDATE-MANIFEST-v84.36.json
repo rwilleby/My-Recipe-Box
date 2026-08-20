@@ -1,0 +1,35 @@
+{
+  "version": "84.36.0",
+  "release": "Master Kitchen Inventory, Your Grocery List, and Video Library videos",
+  "baseline": "v84.35 GitHub update",
+  "uploadMode": "replace matching files and add new files; no deletions required",
+  "changedFiles": [
+    "CHANGELOG.md",
+    "UPDATE-MANIFEST-v84.36.json",
+    "V84.36-NEW-VIDEO-PLACEMENTS-REPORT.md",
+    "UPLOAD-INSTRUCTIONS-v84.36.txt",
+    "package.json",
+    "package-lock.json",
+    "src/package.json",
+    "src/App.jsx",
+    "src/features/video-library/videoLibraryItems.js",
+    "public/videos/master-kitchen-inventory.mp4",
+    "public/videos/shopping-list.mp4",
+    "public/videos/starting-fast-or-slow.mp4",
+    "public/images/video-posters/library/master-kitchen-inventory.webp",
+    "public/images/video-posters/library/shopping-list.webp",
+    "public/images/video-posters/library/starting-fast-or-slow.webp",
+    "test/newHeroAndLibraryVideosV8436.test.mjs"
+  ],
+  "deletedFiles": [],
+  "videoPlacement": {
+    "masterKitchenInventory": "Large hero and existing Video Library position",
+    "yourGroceryList": "Large hero and existing Video Library position",
+    "startingFastOrSlow": "Video Library position 02"
+  },
+  "verification": {
+    "focusedContract": "test/newHeroAndLibraryVideosV8436.test.mjs",
+    "videoLibraryRegression": "test/videoLibraryV834.test.mjs",
+    "heroVideoRegression": "test/largeHeroVideoStandardV729.test.mjs"
+  }
+}
