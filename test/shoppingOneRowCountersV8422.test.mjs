@@ -7,19 +7,17 @@ const [app, styles] = await Promise.all([
 ]);
 
 const finalStart = styles.lastIndexOf(
-  "v84.22 — FINAL ONE-ROW SHOPPING STRIP WITH COMPACT COUNTERS",
+  "v85.3 final authority — keep Shopping List aligned to the approved inventory standard.",
 );
-const priorStrip = styles.lastIndexOf("v84.21 — FINAL SHOPPING LIST COMMAND STRIP");
+const priorStrip = styles.lastIndexOf("v84.22 — FINAL ONE-ROW SHOPPING STRIP WITH COMPACT COUNTERS");
 assert.ok(finalStart > priorStrip);
 
 const finalStyles = styles.slice(finalStart);
-assert.match(finalStyles, /\.shoppingListIntroActions \{[\s\S]*grid-template-columns:[\s\S]*minmax\(320px, 1\.9fr\) !important/);
+assert.match(finalStyles, /\.shoppingListIntroActions \{[\s\S]*grid-template-columns: minmax\(300px, 2\.2fr\) repeat\(6, minmax\(0, 1fr\)\) !important/);
 assert.match(finalStyles, /grid-auto-flow: column !important/);
-assert.match(finalStyles, /overflow-x: auto !important/);
-assert.match(finalStyles, /\.shoppingListIntroActions > button[\s\S]*font-size: 10\.5px !important[\s\S]*white-space: nowrap !important/);
-assert.match(finalStyles, /\.shoppingCommandCounters\.preparedInventorySummary \{[\s\S]*grid-template-columns: repeat\(4, minmax\(70px, 1fr\)\) !important/);
-assert.match(finalStyles, /\.shoppingCommandCounters\.preparedInventorySummary > div \{[\s\S]*height: 40px !important/);
-assert.match(finalStyles, /@media \(max-width: 1180px\)[\s\S]*min-width: 1040px !important/);
+assert.match(finalStyles, /overflow: visible !important/);
+assert.match(finalStyles, /\.shoppingListIntroActions > button[\s\S]*font-size: clamp\(13px, 1\.05vw, 17px\) !important/);
+assert.match(finalStyles, /\.shoppingListIntroActions > button,[\s\S]*\.shoppingViewToggle \{[\s\S]*height: 60px !important/);
 
 assert.match(app, /function KosPlanningStatusBand\(\{ kosUi, mode, compact = false \}\)/);
 assert.match(app, /shoppingCommandCounters/);
@@ -37,7 +35,6 @@ const orderedItems = [
   "<span>Digital</span><span>Check</span>",
   "<span>Grocery</span><span>Picks</span>",
   "<span>Clear &amp;</span><span>Start Over</span>",
-  '<KosPlanningStatusBand kosUi={kosUi} mode="shopping" compact />',
 ];
 let previousIndex = -1;
 for (const item of orderedItems) {
@@ -46,10 +43,6 @@ for (const item of orderedItems) {
   previousIndex = index;
 }
 
-assert.equal(
-  app.match(/<KosPlanningStatusBand kosUi=\{kosUi\} mode="shopping"/g)?.length,
-  1,
-  "shopping counters should render only once, inside the command strip",
-);
+assert.ok(!actions.includes('mode="shopping" compact'), "Shopping List counters must remain hidden");
 
-console.log("v84.22 one-row Shopping List controls and compact-counter contracts passed.");
+console.log("v85.3 full-width Shopping List controls and hidden-counter contracts passed.");

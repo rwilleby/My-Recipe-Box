@@ -7,23 +7,19 @@ const [app, styles] = await Promise.all([
 ]);
 
 const finalStart = styles.lastIndexOf(
-  "v84.23 — FINAL TWO-LINE LABELS FOR A NARROWER ONE-ROW STRIP",
+  "v85.3 final authority — keep Shopping List aligned to the approved inventory standard.",
 );
 const priorStrip = styles.lastIndexOf(
-  "v84.22 — FINAL ONE-ROW SHOPPING STRIP WITH COMPACT COUNTERS",
+  "v84.23 — FINAL TWO-LINE LABELS FOR A NARROWER ONE-ROW STRIP",
 );
 assert.ok(finalStart > priorStrip);
 
 const finalStyles = styles.slice(finalStart);
-assert.match(finalStyles, /minmax\(170px, 1\.35fr\)/);
-assert.match(finalStyles, /minmax\(240px, 1\.7fr\) !important/);
-assert.match(finalStyles, /gap: 4px !important/);
-assert.match(finalStyles, /overflow-x: hidden !important/);
-assert.match(finalStyles, /\.shoppingListIntroActions > button > span,[\s\S]*display: block !important[\s\S]*white-space: nowrap !important/);
-assert.match(finalStyles, /\.shoppingListIntroActions > button,[\s\S]*\.shoppingViewToggle \{[\s\S]*height: 46px !important/);
-assert.match(finalStyles, /\.shoppingCommandCounters\.preparedInventorySummary \{[\s\S]*min-width: 240px !important/);
-assert.match(finalStyles, /grid-template-columns: repeat\(4, minmax\(54px, 1fr\)\) !important/);
-assert.match(finalStyles, /@media \(max-width: 900px\)[\s\S]*min-width: 790px !important[\s\S]*overflow-x: auto !important/);
+assert.match(finalStyles, /minmax\(300px, 2\.2fr\) repeat\(6, minmax\(0, 1fr\)\) !important/);
+assert.match(finalStyles, /gap: 10px !important/);
+assert.match(finalStyles, /overflow: visible !important/);
+assert.match(finalStyles, /\.shoppingListIntroActions > button,[\s\S]*\.shoppingViewToggle \{[\s\S]*height: 60px !important/);
+assert.match(finalStyles, /\.shoppingListIntroActions > button \{[\s\S]*font-size: clamp\(13px, 1\.05vw, 17px\) !important/);
 
 const actionsStart = app.indexOf('<div className="shoppingListIntroActions">');
 const actionsEnd = app.indexOf("{showDigitalStockCheck && (", actionsStart);
@@ -40,6 +36,6 @@ for (const label of [
   assert.ok(actions.includes(label), `${label} must use the two-line label structure`);
 }
 assert.match(actions, /shoppingPreviewButton[\s\S]*Preview/);
-assert.match(actions, /<KosPlanningStatusBand kosUi=\{kosUi\} mode="shopping" compact \/>/);
+assert.doesNotMatch(actions, /<KosPlanningStatusBand kosUi=\{kosUi\} mode="shopping" compact \/>/);
 
-console.log("v84.23 stacked Shopping List command-label contracts passed.");
+console.log("v85.3 enlarged Shopping List command-label contracts passed.");

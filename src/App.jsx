@@ -10229,7 +10229,6 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
         <button className="secondary shoppingClearButton" onClick={clearShoppingListAndStartOver}>
           <span>Clear &amp;</span><span>Start Over</span>
         </button>
-        <KosPlanningStatusBand kosUi={kosUi} mode="shopping" compact />
       </div>
 
       {showDigitalStockCheck && (
@@ -10259,134 +10258,162 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
           </div>
           <div className="shoppingNeedGroups">
             {shoppingNeedGroups.map((group) => (
-              <article className="shoppingNeedGroup" key={group.id}>
-                <header>
-                  <h3>{group.title}</h3>
-                  <p>{group.subtitle}</p>
-                </header>
-                <div>
+              <details className="shoppingAccordion shoppingNeedGroupAccordion" key={group.id}>
+                <summary>
+                  <span className="shoppingAccordionArrow" aria-hidden="true">▶</span>
+                  <div>
+                    <h3>{group.title}</h3>
+                    <p>{group.subtitle}</p>
+                  </div>
+                  <strong>{group.items.length} {group.items.length === 1 ? "item" : "items"}</strong>
+                </summary>
+                <div className="shoppingAccordionBody shoppingNeedGroupBody">
                   {group.items.map((item, itemIndex) => renderNeedGroupItem(group, item, itemIndex))}
                 </div>
-              </article>
+              </details>
             ))}
           </div>
         </section>
       ) : (
         <>
         <div className="preparedShoppingSections">
-          <section className="shoppingListSection preparedOnHandSection">
-            <div className="shoppingListSectionHeader preparedStreamlinedHeader shoppingStreamlinedHeader">
+          <details className="shoppingAccordion preparedOnHandSection">
+            <summary>
+              <span className="shoppingAccordionArrow" aria-hidden="true">▶</span>
               <div>
                 <h2>Already On Hand</h2>
                 <p>Prepared components covered by freezer inventory or manually verified.</p>
               </div>
               <strong>{preparedOnHand.length}</strong>
+            </summary>
+            <div className="shoppingAccordionBody">
+              {preparedOnHand.length ? preparedOnHand.map((requirement) => {
+                const component = getPreparedComponent(requirement.componentId, preparedInventory);
+                return (
+                  <div className="preparedShoppingItem onHand" key={requirement.componentId}>
+                    <span className="preparedStatusDot" />
+                    <div><strong>{component?.name || requirement.componentId}</strong><small>{requirement.packagesRequired} package(s) required · {(preparedAvailability[requirement.componentId] || 0)} available</small></div>
+                    <span>On Hand</span>
+                  </div>
+                );
+              }) : <p className="preparedShoppingEmpty">No prepared components are currently verified on hand.</p>}
             </div>
-            {preparedOnHand.length ? preparedOnHand.map((requirement) => {
-              const component = getPreparedComponent(requirement.componentId, preparedInventory);
-              return (
-                <div className="preparedShoppingItem onHand" key={requirement.componentId}>
-                  <span className="preparedStatusDot" />
-                  <div><strong>{component?.name || requirement.componentId}</strong><small>{requirement.packagesRequired} package(s) required · {(preparedAvailability[requirement.componentId] || 0)} available</small></div>
-                  <span>On Hand</span>
-                </div>
-              );
-            }) : <p className="preparedShoppingEmpty">No prepared components are currently verified on hand.</p>}
-          </section>
+          </details>
 
-          <section className="shoppingListSection preparedMissingSection">
-            <div className="shoppingListSectionHeader shoppingStreamlinedHeader">
+          <details className="shoppingAccordion preparedMissingSection">
+            <summary>
+              <span className="shoppingAccordionArrow" aria-hidden="true">▶</span>
               <div>
                 <h2>Proteins or Components to Buy</h2>
                 <p>Choose how to handle unavailable prepared components.</p>
               </div>
               <strong>{preparedMissing.length}</strong>
-            </div>
-            {preparedMissing.length ? preparedMissing.map((requirement) => {
-              const component = getPreparedComponent(requirement.componentId, preparedInventory);
-              const decision = componentDecisions[requirement.componentId] || {};
-              return (
-                <div className="preparedShoppingItem missing" key={requirement.componentId}>
-                  <span className="preparedStatusDot" />
-                  <div><strong>{component?.name || requirement.componentId}</strong><small>{requirement.packagesRequired} package(s) required · Not On Hand</small></div>
-                  <select value={decision.action || ""} onChange={(e) => updateComponentDecision(requirement.componentId, { action: e.target.value })} aria-label={`Action for ${component?.name || requirement.componentId}`}>
-                    <option value="">Choose action</option>
-                    <option value="buy">Add to grocery list</option>
-                    <option value="batch">Add to batch-prep list</option>
-                    <option value="on-hand">Mark as already on hand</option>
-                    <option value="substitute">Substitute another component</option>
-                  </select>
-                  {decision.action === "substitute" && (
-                    <select value={decision.substituteComponentId || ""} onChange={(e) => updateComponentDecision(requirement.componentId, { substituteComponentId: e.target.value })}>
-                      <option value="">Choose substitute</option>
-                      {getAllPreparedComponents(preparedInventory).filter((item) => item.id !== requirement.componentId).map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}
+            </summary>
+            <div className="shoppingAccordionBody">
+              {preparedMissing.length ? preparedMissing.map((requirement) => {
+                const component = getPreparedComponent(requirement.componentId, preparedInventory);
+                const decision = componentDecisions[requirement.componentId] || {};
+                return (
+                  <div className="preparedShoppingItem missing" key={requirement.componentId}>
+                    <span className="preparedStatusDot" />
+                    <div><strong>{component?.name || requirement.componentId}</strong><small>{requirement.packagesRequired} package(s) required · Not On Hand</small></div>
+                    <select value={decision.action || ""} onChange={(e) => updateComponentDecision(requirement.componentId, { action: e.target.value })} aria-label={`Action for ${component?.name || requirement.componentId}`}>
+                      <option value="">Choose action</option>
+                      <option value="buy">Add to grocery list</option>
+                      <option value="batch">Add to batch-prep list</option>
+                      <option value="on-hand">Mark as already on hand</option>
+                      <option value="substitute">Substitute another component</option>
                     </select>
-                  )}
-                </div>
-              );
-            }) : <p className="preparedShoppingEmpty">All required prepared components are available.</p>}
-          </section>
+                    {decision.action === "substitute" && (
+                      <select value={decision.substituteComponentId || ""} onChange={(e) => updateComponentDecision(requirement.componentId, { substituteComponentId: e.target.value })}>
+                        <option value="">Choose substitute</option>
+                        {getAllPreparedComponents(preparedInventory).filter((item) => item.id !== requirement.componentId).map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}
+                      </select>
+                    )}
+                  </div>
+                );
+              }) : <p className="preparedShoppingEmpty">All required prepared components are available.</p>}
+            </div>
+          </details>
 
-          <section className="shoppingListSection preparedBatchSection">
-            <div className="shoppingListSectionHeader shoppingStreamlinedHeader">
+          <details className="shoppingAccordion preparedBatchSection">
+            <summary>
+              <span className="shoppingAccordionArrow" aria-hidden="true">▶</span>
               <div>
                 <h2>Batch Prep Needed</h2>
                 <p>Components selected for advance cooking.</p>
               </div>
               <strong>{preparedToBatch.length}</strong>
+            </summary>
+            <div className="shoppingAccordionBody">
+              {preparedToBatch.length ? preparedToBatch.map((item) => {
+                const component = getPreparedComponent(item.componentId, preparedInventory);
+                return <div className="preparedShoppingItem batch" key={item.componentId}><span className="preparedStatusDot" /><div><strong>{component?.name || item.componentId}</strong><small>Prepare {item.packagesRequired} package(s)</small></div></div>;
+              }) : <p className="preparedShoppingEmpty">No components are currently selected for batch preparation.</p>}
             </div>
-            {preparedToBatch.map((item) => {
-              const component = getPreparedComponent(item.componentId, preparedInventory);
-              return <div className="preparedShoppingItem batch" key={item.componentId}><span className="preparedStatusDot" /><div><strong>{component?.name || item.componentId}</strong><small>Prepare {item.packagesRequired} package(s)</small></div></div>;
-            })}
-          </section>
+          </details>
 
           {preparedToBuy.length > 0 && (
-            <section className="shoppingListSection preparedBuySection">
-              <div className="shoppingListSectionHeader"><div><h2>COMPONENTS SELECTED TO BUY</h2><p>These remain separate from prepared items already on hand.</p></div><strong>{preparedToBuy.length}</strong></div>
-              {preparedToBuy.map((item) => {
-                const component = getPreparedComponent(item.componentId, preparedInventory);
-                return <div className="preparedShoppingItem buy" key={item.componentId}><span className="preparedStatusDot" /><div><strong>{component?.name || item.componentId}</strong><small>Buy enough for {item.packagesRequired} prepared package(s)</small></div></div>;
-              })}
-            </section>
+            <details className="shoppingAccordion preparedBuySection">
+              <summary>
+                <span className="shoppingAccordionArrow" aria-hidden="true">▶</span>
+                <div><h2>Components Selected to Buy</h2><p>These remain separate from prepared items already on hand.</p></div>
+                <strong>{preparedToBuy.length}</strong>
+              </summary>
+              <div className="shoppingAccordionBody">
+                {preparedToBuy.map((item) => {
+                  const component = getPreparedComponent(item.componentId, preparedInventory);
+                  return <div className="preparedShoppingItem buy" key={item.componentId}><span className="preparedStatusDot" /><div><strong>{component?.name || item.componentId}</strong><small>Buy enough for {item.packagesRequired} prepared package(s)</small></div></div>;
+                })}
+              </div>
+            </details>
           )}
         </div>
 
         <div className="shoppingListSections">
-          <section className="shoppingListSection">
-            <div className="shoppingListSectionHeader shoppingStreamlinedHeader">
+          <details className="shoppingAccordion shoppingNeededItemsAccordion">
+            <summary>
+              <span className="shoppingAccordionArrow" aria-hidden="true">▶</span>
               <div>
                 <h2>Needed Items</h2>
                 <p>Open boxes are items to buy.</p>
               </div>
               <strong>{needed.length} items</strong>
+            </summary>
+
+            <div className="shoppingAccordionBody">
+              {needed.length === 0 ? (
+                <div className="emptyState compactEmpty">
+                  <h2>No needed items</h2>
+                  <p>Everything on this list is currently marked as in your pantry.</p>
+                </div>
+              ) : (
+                <div className="shoppingGrid">
+                  {Object.entries(groupedNeeded).map(([aisle, items]) => (
+                    <section className="shoppingGroup" key={aisle}>
+                      <h2>{aisle}</h2>
+                      {items.map(renderNeededItem)}
+                    </section>
+                  ))}
+                </div>
+              )}
             </div>
+          </details>
 
-            {needed.length === 0 ? (
-              <div className="emptyState compactEmpty">
-                <h2>No needed items</h2>
-                <p>Everything on this list is currently marked as in your pantry.</p>
-              </div>
-            ) : (
-              <div className="shoppingGrid">
-                {Object.entries(groupedNeeded).map(([aisle, items]) => (
-                  <section className="shoppingGroup" key={aisle}>
-                    <h2>{aisle}</h2>
-                    {items.map(renderNeededItem)}
-                  </section>
-                ))}
-              </div>
-            )}
-          </section>
-
-          <section className="shoppingListSection pantryListSection">
-            <div className="shoppingListSectionHeader shoppingStreamlinedHeader pantryStreamlinedHeader">
+          <details className="shoppingAccordion pantryListSection">
+            <summary>
+              <span className="shoppingAccordionArrow" aria-hidden="true">▶</span>
               <div>
                 <h2>Already in Pantry</h2>
                 <p>Filled black boxes are already in your pantry.</p>
               </div>
               <div className="pantryHeaderActions">
                 <strong>{pantryItems.length} items</strong>
+              </div>
+            </summary>
+
+            <div className="shoppingAccordionBody">
+              <div className="shoppingAccordionUtilityActions">
                 <button className="secondary smallSecondary" onClick={() => setActivePage("Pantry Staples")}>
                   Edit Pantry Staples
                 </button>
@@ -10394,40 +10421,39 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
                   Edit Refrigerator
                 </button>
               </div>
+              {pantryItems.length === 0 ? (
+                <div className="emptyState compactEmpty">
+                  <h2>No pantry matches yet</h2>
+                  <p>
+                    Check items on the Pantry Staples page to move matching shopping
+                    list items here.
+                  </p>
+                </div>
+              ) : (
+                <div className="shoppingGrid">
+                  {Object.entries(groupedPantry).map(([aisle, items]) => {
+                    const isComboMealIngredients = aisle === "Combo Meal Ingredients";
+                    return (
+                      <section
+                        className={isComboMealIngredients ? "shoppingGroup comboMealIngredientsGroup" : "shoppingGroup"}
+                        key={aisle}
+                      >
+                        {isComboMealIngredients ? (
+                          <div className="shoppingGroupStreamlinedHeader">
+                            <h2>Combo Meal Ingredients</h2>
+                            <p>Ingredients already available from pantry or inventory checks.</p>
+                          </div>
+                        ) : (
+                          <h2>{aisle}</h2>
+                        )}
+                        {items.map((item) => renderPantryItem(item, isComboMealIngredients))}
+                      </section>
+                    );
+                  })}
+                </div>
+              )}
             </div>
-
-            {pantryItems.length === 0 ? (
-              <div className="emptyState compactEmpty">
-                <h2>No pantry matches yet</h2>
-                <p>
-                  Check items on the Pantry Staples page to move matching shopping
-                  list items here.
-                </p>
-              </div>
-            ) : (
-              <div className="shoppingGrid">
-                {Object.entries(groupedPantry).map(([aisle, items]) => {
-                  const isComboMealIngredients = aisle === "Combo Meal Ingredients";
-                  return (
-                    <section
-                      className={isComboMealIngredients ? "shoppingGroup comboMealIngredientsGroup" : "shoppingGroup"}
-                      key={aisle}
-                    >
-                      {isComboMealIngredients ? (
-                        <div className="shoppingGroupStreamlinedHeader">
-                          <h2>Combo Meal Ingredients</h2>
-                          <p>Ingredients already available from pantry or inventory checks.</p>
-                        </div>
-                      ) : (
-                        <h2>{aisle}</h2>
-                      )}
-                      {items.map((item) => renderPantryItem(item, isComboMealIngredients))}
-                    </section>
-                  );
-                })}
-              </div>
-            )}
-          </section>
+          </details>
         </div>
         </>
       )}

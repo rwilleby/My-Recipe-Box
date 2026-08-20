@@ -14168,6 +14168,218 @@ to {
   .weeklyPlannerCardPreviewActions button { flex: 1 1 0 !important; min-width: 0 !important; }
 }
 
+/* ================================================================
+   v85.3 — SHOPPING LIST: FULL COMMAND STRIP + INVENTORY ACCORDIONS
+   ================================================================ */
+.shoppingListIntroActions {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  display: grid !important;
+  grid-template-columns: minmax(300px, 2.2fr) repeat(6, minmax(0, 1fr)) !important;
+  grid-auto-flow: column !important;
+  align-items: stretch !important;
+  gap: 10px !important;
+  margin: 0 auto 24px !important;
+  overflow: visible !important;
+}
+
+.shoppingListIntroActions .shoppingCommandCounters {
+  display: none !important;
+}
+
+.shoppingListIntroActions > button,
+.shoppingViewToggle {
+  min-width: 0 !important;
+  min-height: 60px !important;
+  height: 60px !important;
+  border-radius: 16px !important;
+}
+
+.shoppingListIntroActions > button {
+  padding: 0 12px !important;
+  font-size: clamp(13px, 1.05vw, 17px) !important;
+  line-height: 1.02 !important;
+}
+
+.shoppingViewToggle {
+  width: 100% !important;
+  min-width: 0 !important;
+  grid-column: auto !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+
+.shoppingViewToggle button {
+  min-height: 58px !important;
+  height: 58px !important;
+  padding: 0 12px !important;
+  font-size: clamp(12px, 1vw, 16px) !important;
+  line-height: 1.02 !important;
+}
+
+.preparedShoppingSections,
+.shoppingListSections,
+.shoppingNeedGroups {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: 11px !important;
+  width: 100% !important;
+}
+
+.shoppingNeedsViewHeader {
+  margin-bottom: 14px !important;
+}
+
+.shoppingAccordion {
+  width: 100% !important;
+  overflow: hidden !important;
+  border: 1px solid #d5cdbf !important;
+  border-radius: 14px !important;
+  background: #fff !important;
+  box-shadow: none !important;
+  box-sizing: border-box !important;
+}
+
+.shoppingAccordion > summary {
+  display: grid !important;
+  grid-template-columns: 26px minmax(0, 1fr) auto !important;
+  align-items: center !important;
+  gap: 12px !important;
+  width: 100% !important;
+  min-height: 72px !important;
+  padding: 12px 22px !important;
+  border: 0 !important;
+  background: #eee8dd !important;
+  color: #403a31 !important;
+  cursor: pointer !important;
+  list-style: none !important;
+  box-sizing: border-box !important;
+}
+
+.shoppingAccordion > summary::-webkit-details-marker {
+  display: none !important;
+}
+
+.shoppingAccordionArrow {
+  display: inline-block !important;
+  color: #403a31 !important;
+  font-size: 14px !important;
+  line-height: 1 !important;
+  transform-origin: center !important;
+  transition: transform .16s ease !important;
+}
+
+.shoppingAccordion[open] > summary .shoppingAccordionArrow {
+  transform: rotate(90deg) !important;
+}
+
+.shoppingAccordion > summary h2,
+.shoppingAccordion > summary h3 {
+  margin: 0 !important;
+  color: #403a31 !important;
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: clamp(20px, 1.55vw, 28px) !important;
+  font-weight: 700 !important;
+  line-height: 1.08 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+}
+
+.shoppingAccordion > summary p {
+  margin: 4px 0 0 !important;
+  color: #71685c !important;
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: clamp(11px, .85vw, 14px) !important;
+  font-weight: 650 !important;
+  line-height: 1.2 !important;
+}
+
+.shoppingAccordion > summary > strong,
+.shoppingAccordion > summary .pantryHeaderActions strong {
+  color: #71685c !important;
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: clamp(12px, .95vw, 16px) !important;
+  font-weight: 800 !important;
+  white-space: nowrap !important;
+}
+
+.shoppingAccordionBody {
+  display: grid !important;
+  gap: 0 !important;
+  padding: 10px 18px 14px !important;
+  border-top: 1px solid #d5cdbf !important;
+  background: #fff !important;
+}
+
+.shoppingNeedGroupBody {
+  padding-top: 5px !important;
+}
+
+.shoppingAccordionBody > .shoppingGrid {
+  padding-top: 4px !important;
+}
+
+.shoppingAccordionUtilityActions {
+  display: flex !important;
+  justify-content: flex-end !important;
+  gap: 8px !important;
+  padding: 2px 0 10px !important;
+}
+
+@media (max-width: 1100px) {
+  .shoppingListIntroActions {
+    grid-template-columns: minmax(260px, 2fr) repeat(3, minmax(120px, 1fr)) !important;
+    grid-auto-flow: row !important;
+  }
+
+  .shoppingViewToggle {
+    grid-column: span 2 !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .shoppingListIntroActions {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 7px !important;
+  }
+
+  .shoppingViewToggle {
+    grid-column: 1 / -1 !important;
+  }
+
+  .shoppingListIntroActions > button,
+  .shoppingViewToggle {
+    min-height: 54px !important;
+    height: 54px !important;
+  }
+
+  .shoppingViewToggle button {
+    min-height: 52px !important;
+    height: 52px !important;
+  }
+
+  .shoppingAccordion > summary {
+    grid-template-columns: 20px minmax(0, 1fr) !important;
+    gap: 8px !important;
+    min-height: 62px !important;
+    padding: 10px 13px !important;
+  }
+
+  .shoppingAccordion > summary > strong,
+  .shoppingAccordion > summary .pantryHeaderActions {
+    grid-column: 2 !important;
+  }
+
+  .shoppingAccordionBody {
+    padding: 8px 11px 12px !important;
+  }
+
+  .shoppingAccordionUtilityActions {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
 @media (max-width: 1050px){.weeklyCalendarPlannerShell {overflow-x: auto !important;}
 
 .weeklyCalendarPlannerGrid {min-width: 940px !important;}
@@ -20564,4 +20776,75 @@ button.browseRecipeWideFooterAction:focus-visible,
   .pantryManualItemForm label {
     grid-column: 1 / -1 !important;
   }
+}
+
+/* v85.3 final authority — keep Shopping List aligned to the approved inventory standard. */
+.shoppingListIntroActions {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  display: grid !important;
+  grid-template-columns: minmax(300px, 2.2fr) repeat(6, minmax(0, 1fr)) !important;
+  grid-auto-flow: column !important;
+  gap: 10px !important;
+  margin: 0 auto 24px !important;
+  overflow: visible !important;
+}
+
+.shoppingListIntroActions > button,
+.shoppingViewToggle {
+  min-width: 0 !important;
+  min-height: 60px !important;
+  height: 60px !important;
+  border-radius: 16px !important;
+}
+
+.shoppingListIntroActions > button {
+  padding: 0 12px !important;
+  font-size: clamp(13px, 1.05vw, 17px) !important;
+  line-height: 1.02 !important;
+}
+
+.shoppingViewToggle {
+  width: 100% !important;
+  min-width: 0 !important;
+  grid-column: auto !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+
+.shoppingViewToggle button {
+  min-height: 58px !important;
+  height: 58px !important;
+  padding: 0 12px !important;
+  font-size: clamp(12px, 1vw, 16px) !important;
+}
+
+.preparedShoppingSections,
+.shoppingListSections,
+.shoppingNeedGroups {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: 11px !important;
+  width: 100% !important;
+}
+
+@media (max-width: 1100px) {
+  .shoppingListIntroActions {
+    grid-template-columns: minmax(260px, 2fr) repeat(3, minmax(120px, 1fr)) !important;
+    grid-auto-flow: row !important;
+  }
+
+  .shoppingViewToggle { grid-column: span 2 !important; }
+}
+
+@media (max-width: 700px) {
+  .shoppingListIntroActions {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 7px !important;
+  }
+
+  .shoppingViewToggle { grid-column: 1 / -1 !important; }
+  .shoppingListIntroActions > button,
+  .shoppingViewToggle { min-height: 54px !important; height: 54px !important; }
+  .shoppingViewToggle button { min-height: 52px !important; height: 52px !important; }
 }
