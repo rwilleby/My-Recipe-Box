@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo, useState, useEffect, useRef } from "react";
+import { createContext, useCallback, useContext, useMemo, useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { categories, recipes as baseRecipes } from "./data/recipes";
 import AdminRecipeClassifier from "./components/AdminRecipeClassifier";
@@ -59,6 +59,17 @@ import {
   dinnerCombinations,
   getDinnerCombinationSearchText,
 } from "./data/dinnerCombinations.js";
+import {
+  applySeoMetadata,
+  parseRoute,
+  resolveInitialBrowserRoute,
+  routeForCompleteDinner,
+  routeForPage,
+  routeForRecipe,
+  seoForCompleteDinner,
+  seoForPage,
+  seoForRecipe,
+} from "./routing/seoRoutes.js";
 import { createRfisPlatform } from "./services/createRfisPlatform.js";
 import {
   createBrowserKos,
@@ -1694,9 +1705,13 @@ function Header({ activePage, setActivePage, favorites }) {
 
   return (
     <header className="topbar compactTopbar">
-      <button
+      <a
+        href={routeForPage("Home")}
         className="brand brandLogoButton"
-        onClick={() => setActivePage("Home")}
+        onClick={(event) => {
+          event.preventDefault();
+          setActivePage("Home");
+        }}
         aria-label="Go home"
       >
         <img
@@ -1709,7 +1724,7 @@ function Header({ activePage, setActivePage, favorites }) {
           <strong>Robert's Recipe Box</strong>
           <small>RECIPES • MEAL PLANNING • GROCERY LISTS • TIPS</small>
         </span>
-      </button>
+      </a>
 
       <nav ref={mainNavigationRef} className="navLinks simpleHeaderNav" aria-label="Main navigation">
         {headerGroups.map((group, groupIndex) => {
@@ -1721,17 +1736,21 @@ function Header({ activePage, setActivePage, favorites }) {
             className={isMenuOpen ? "simpleHeaderNavItem isOpen" : "simpleHeaderNavItem"}
             key={group.label}
           >
-            <button
+            <a
+              href={routeForPage(group.page)}
               className={activePage === group.page ? "simpleHeaderNavButton active" : "simpleHeaderNavButton"}
-              type="button"
-              onClick={() => setOpenNavMenu((current) => current === group.label ? null : group.label)}
+              onClick={(event) => {
+                event.preventDefault();
+                setOpenNavMenu((current) => current === group.label ? null : group.label);
+              }}
+              role="button"
               aria-haspopup="menu"
               aria-expanded={isMenuOpen}
               aria-controls={menuId}
             >
               <span>{group.label}</span>
               <span className="simpleHeaderNavChevron" aria-hidden="true">⌄</span>
-            </button>
+            </a>
             <div
               id={menuId}
               className="simpleHeaderSubmenu"
@@ -1741,15 +1760,16 @@ function Header({ activePage, setActivePage, favorites }) {
               {group.items
                 .filter((item) => siteMode === "detailed" || !item.detailedOnly)
                 .map((item) => (
-                <button
+                <a
+                  href={routeForPage(item.page)}
                   key={`${group.label}-${item.label}`}
-                  type="button"
                   role="menuitem"
                   className={[
                     activePage === item.page ? "active" : "",
                     item.level ? `simpleHeaderSubmenuLevel${item.level}` : "",
                   ].filter(Boolean).join(" ")}
-                  onClick={() => {
+                  onClick={(event) => {
+                    event.preventDefault();
                     setOpenNavMenu(null);
                     setActivePage(item.page);
                   }}
@@ -1768,21 +1788,22 @@ function Header({ activePage, setActivePage, favorites }) {
                       />
                     </span>
                   )}
-                </button>
+                </a>
               ))}
             </div>
           </div>
           );
         })}
 
-        <button
-          type="button"
+        <a
+          href={routeForPage("Favorites")}
           className={
             activePage === "Favorites"
               ? "simpleHeaderFavoriteButton active"
               : "simpleHeaderFavoriteButton"
           }
-          onClick={() => {
+          onClick={(event) => {
+            event.preventDefault();
             setOpenNavMenu(null);
             setActivePage("Favorites");
           }}
@@ -1796,7 +1817,7 @@ function Header({ activePage, setActivePage, favorites }) {
               {favorites.length}
             </span>
           )}
-        </button>
+        </a>
       </nav>
     </header>
   );
@@ -4152,7 +4173,14 @@ function RecipeCard({
               <span>{recipe.price}</span>
             </div>
             <div className="recipeActions">
-              <button className="viewCard" onClick={() => openRecipeCard(recipe.id, cardList)}>{viewButtonText}</button>
+              <a
+                className="viewCard"
+                href={routeForRecipe(recipe.id)}
+                onClick={(event) => {
+                  event.preventDefault();
+                  openRecipeCard(recipe.id, cardList);
+                }}
+              >{viewButtonText}</a>
               {showPlannerButton && <button className="addPlan" onClick={() => addToPlan(recipe.id)}>Add to planner</button>}
               <AddLeftoversToFreezerButton recipe={recipe} compact />
               <SmartTipsButton recipe={recipe} />
@@ -13034,15 +13062,18 @@ function PageHelpButtonStrip({ pageTitle }) {
       aria-label={`Page navigation for ${pageTitle}`}
     >
       {showSequenceButtons && (
-        <button
-          type="button"
+        <a
+          href={previousPage ? routeForPage(previousPage) : undefined}
           className="pageSequenceButton pageSequencePrev"
-          onClick={() => navigateTo(previousPage)}
-          disabled={!previousPage}
+          onClick={(event) => {
+            event.preventDefault();
+            navigateTo(previousPage);
+          }}
+          aria-disabled={!previousPage}
           aria-label="Go to previous menu page"
         >
           Prev
-        </button>
+        </a>
       )}
 
       {CLIFF_NOTES_ENABLED && (
@@ -13059,15 +13090,18 @@ function PageHelpButtonStrip({ pageTitle }) {
       )}
 
       {showSequenceButtons && (
-        <button
-          type="button"
+        <a
+          href={nextPage ? routeForPage(nextPage) : undefined}
           className="pageSequenceButton pageSequenceNext"
-          onClick={() => navigateTo(nextPage)}
-          disabled={!nextPage}
+          onClick={(event) => {
+            event.preventDefault();
+            navigateTo(nextPage);
+          }}
+          aria-disabled={!nextPage}
           aria-label="Go to next menu page"
         >
           Next
-        </button>
+        </a>
       )}
 
       {hasIntroVideo && (
@@ -13841,7 +13875,17 @@ function DinnerCombinationCard({ meal, plan = emptyTwoWeekPlan(), onAddMealToPla
         </section>
 
         <section className="dinnerArea dinnerAreaName" aria-label="Meal name">
-          <h3>{meal.title}</h3>
+          <h3>
+            <a
+              href={routeForCompleteDinner(meal.rfisId || meal.code || meal.id)}
+              onClick={(event) => {
+                event.preventDefault();
+                onViewRelatedMeal?.(meal.rfisId || meal.code || meal.id);
+              }}
+            >
+              {meal.title}
+            </a>
+          </h3>
           <p className="dinnerCombinationSubtitle">{meal.subtitle}</p>
           <MealBalanceDetails item={meal} prefix="Combo Meal Balance" className="comboMealBalanceDetails" />
           <div className="dinnerCombinationStackedMeal" aria-label="Main and side dishes">
@@ -14086,7 +14130,7 @@ function DinnerCombinationCard({ meal, plan = emptyTwoWeekPlan(), onAddMealToPla
   );
 }
 
-function DinnerCombinationsPage({ setActivePage, setFilter, plan, setPlan, openRecipeCard, favorites, toggleFavorite, targetMealId, setTargetMealId }) {
+function DinnerCombinationsPage({ setActivePage, setFilter, plan, setPlan, openRecipeCard, favorites, toggleFavorite, targetMealId, setTargetMealId, onOpenDinnerRoute }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [proteinFilter, setProteinFilter] = useState("all");
   const [sideFilter, setSideFilter] = useState("all");
@@ -14258,6 +14302,7 @@ function DinnerCombinationsPage({ setActivePage, setFilter, plan, setPlan, openR
 
   function viewRelatedDinner(mealId) {
     if (!mealId) return;
+    onOpenDinnerRoute?.(mealId);
     setProteinFilter("all");
     setSideFilter("all");
     setCuisineFilter("all");
@@ -17764,6 +17809,8 @@ function YourDataSecurityPage({ setActivePage, kosUi }) {
 
 
 export default function App() {
+  const initialRouteRef = useRef(null);
+  if (!initialRouteRef.current) initialRouteRef.current = resolveInitialBrowserRoute();
   const kosUi = useMemo(
     () =>
       createKosUiController(
@@ -17773,7 +17820,7 @@ export default function App() {
       ),
     [],
   );
-  const [activePage, setActivePage] = useState("Home");
+  const [activePage, setActivePageState] = useState(initialRouteRef.current.pageId);
   const [siteVisitCount] = useState(() => recordSiteVisit());
   const [favorites, setFavorites] = useState(() => {
     const storedFavorites = loadJSON(STORAGE_KEYS.favorites, []);
@@ -17822,8 +17869,17 @@ export default function App() {
   });
   const [leftoversRecipe, setLeftoversRecipe] = useState(null);
   const [filter, setFilter] = useState("");
-  const [cardViewer, setCardViewer] = useState(null);
-  const [completeDinnerTarget, setCompleteDinnerTarget] = useState("");
+  const [cardViewer, setCardViewer] = useState(() =>
+    initialRouteRef.current.type === "recipe"
+      ? { recipeId: initialRouteRef.current.code, recipeIds: recipes.map((recipe) => recipe.id), context: "Direct link" }
+      : null
+  );
+  const [completeDinnerTarget, setCompleteDinnerTarget] = useState(() =>
+    initialRouteRef.current.type === "completeDinner" ? initialRouteRef.current.code : ""
+  );
+  const [activeCompleteDinnerCode, setActiveCompleteDinnerCode] = useState(() =>
+    initialRouteRef.current.type === "completeDinner" ? initialRouteRef.current.code : ""
+  );
   const [recipeClassifications, setRecipeClassifications] = useState(() =>
     loadRecipeClassifications()
   );
@@ -17832,6 +17888,69 @@ export default function App() {
     () => mergeRecipeClassifications(recipes, recipeClassifications),
     [recipeClassifications]
   );
+  const setActivePage = useCallback((pageId, options = {}) => {
+    if (!pageId) return;
+    const path = routeForPage(pageId);
+    const method = options.replace ? "replaceState" : "pushState";
+    window.history[method]({ rrbRoute: true }, "", path);
+    setActivePageState(pageId);
+    setCardViewer(null);
+    setActiveCompleteDinnerCode("");
+  }, []);
+
+  const openCompleteDinnerRoute = useCallback((mealId, options = {}) => {
+    const meal = dinnerCombinations.find((item) =>
+      [item.id, item.rfisId, item.code, ...(item.legacyIds || [])]
+        .filter(Boolean)
+        .some((value) => String(value).toLowerCase() === String(mealId).toLowerCase())
+    );
+    const code = meal?.rfisId || meal?.code || mealId;
+    const method = options.replace ? "replaceState" : "pushState";
+    window.history[method]({ rrbRoute: true }, "", routeForCompleteDinner(code));
+    setCardViewer(null);
+    setActivePageState("Dinner Combinations");
+    setActiveCompleteDinnerCode(code);
+    setCompleteDinnerTarget(code);
+  }, []);
+
+  useEffect(() => {
+    function restoreBrowserRoute() {
+      const route = parseRoute(window.location.pathname);
+      setActivePageState(route.pageId);
+      if (route.type === "recipe") {
+        setCardViewer({ recipeId: route.code, recipeIds: classifiedRecipes.map((recipe) => recipe.id), context: "Direct link" });
+        setActiveCompleteDinnerCode("");
+      } else if (route.type === "completeDinner") {
+        setCardViewer(null);
+        setActiveCompleteDinnerCode(route.code);
+        setCompleteDinnerTarget(route.code);
+      } else {
+        setCardViewer(null);
+        setActiveCompleteDinnerCode("");
+      }
+    }
+    window.addEventListener("popstate", restoreBrowserRoute);
+    return () => window.removeEventListener("popstate", restoreBrowserRoute);
+  }, [classifiedRecipes]);
+
+  useEffect(() => {
+    const route = parseRoute(window.location.pathname);
+    if (route.type === "recipe") {
+      const recipe = classifiedRecipes.find((item) => item.id.toLowerCase() === route.code.toLowerCase());
+      applySeoMetadata(recipe ? seoForRecipe(recipe) : seoForPage("Recipes"));
+      return;
+    }
+    if (route.type === "completeDinner") {
+      const meal = dinnerCombinations.find((item) =>
+        [item.id, item.rfisId, item.code, ...(item.legacyIds || [])]
+          .filter(Boolean)
+          .some((value) => String(value).toLowerCase() === route.code.toLowerCase())
+      );
+      applySeoMetadata(meal ? seoForCompleteDinner(meal) : seoForPage("Dinner Combinations"));
+      return;
+    }
+    applySeoMetadata(seoForPage(activePage));
+  }, [activePage, activeCompleteDinnerCode, cardViewer?.recipeId, classifiedRecipes]);
   const [userDataRevision, setUserDataRevision] = useState(0);
 
   useEffect(() => {
@@ -17967,11 +18086,36 @@ export default function App() {
   }
 
   function openRecipeCard(recipeId, sourceRecipes = recipes, context = "") {
+    const recipe = sourceRecipes.find((item) => String(item.id).toLowerCase() === String(recipeId).toLowerCase());
+    if (!recipe) return;
+    const parentPath = window.location.pathname;
+    window.history.pushState({ rrbRoute: true, rrbParentPath: parentPath }, "", routeForRecipe(recipe.id));
     setCardViewer({
-      recipeId,
+      recipeId: recipe.id,
       recipeIds: sourceRecipes.map((recipe) => recipe.id),
       context,
     });
+  }
+
+  function closeRecipeCard() {
+    const parentPath = window.history.state?.rrbParentPath;
+    setCardViewer(null);
+    if (parentPath) {
+      window.history.back();
+      return;
+    }
+    window.history.replaceState({ rrbRoute: true }, "", routeForPage("Recipes"));
+    setActivePageState("Recipes");
+  }
+
+  function updateRecipeViewer(nextViewer) {
+    setCardViewer(nextViewer);
+    if (!nextViewer?.recipeId) return;
+    window.history.replaceState(
+      { ...window.history.state, rrbRoute: true },
+      "",
+      routeForRecipe(nextViewer.recipeId),
+    );
   }
 
   const pageProps = {
@@ -18191,10 +18335,7 @@ export default function App() {
             recipes={recipes}
             rfisPlatform={rfisPlatform}
             onOpenRecipe={(recipeId) => openRecipeCard(recipeId, recipes, "Dinner Builder")}
-            onOpenDinner={(mealId) => {
-              setCompleteDinnerTarget(mealId);
-              setActivePage("Dinner Combinations");
-            }}
+            onOpenDinner={openCompleteDinnerRoute}
             onBack={() => setActivePage("Dinner Combinations")}
           />
         </>
@@ -18219,6 +18360,7 @@ export default function App() {
             toggleFavorite={toggleFavorite}
             targetMealId={completeDinnerTarget}
             setTargetMealId={setCompleteDinnerTarget}
+            onOpenDinnerRoute={openCompleteDinnerRoute}
           />
         </>
       )}
@@ -18327,10 +18469,7 @@ These pages are designed to be easy to scan, print, or revisit when needed. They
           <RfisUnifiedSearch
             platform={rfisPlatform}
             onOpenRecipe={(recipeId) => openRecipeCard(recipeId, recipes, "RFIS Search")}
-            onOpenDinner={(mealId) => {
-              setCompleteDinnerTarget(mealId);
-              setActivePage("Dinner Combinations");
-            }}
+            onOpenDinner={openCompleteDinnerRoute}
             onOpenCollection={(collectionName) => {
               setCompleteDinnerTarget("");
               setActivePage("Dinner Combinations");
@@ -19982,16 +20121,14 @@ The score is not a judgment and it is not medical or dietary advice. It is one p
 
 <RecipeCardViewer
         viewer={cardViewer}
-        onClose={() => setCardViewer(null)}
-        setViewer={setCardViewer}
+        onClose={closeRecipeCard}
+        setViewer={updateRecipeViewer}
         favorites={favorites}
         toggleFavorite={toggleFavorite}
         addToPlan={addToPlan}
         recipeData={classifiedRecipes}
         onOpenCompleteDinner={(mealId) => {
-          setCardViewer(null);
-          setCompleteDinnerTarget(mealId);
-          setActivePage("Dinner Combinations");
+          openCompleteDinnerRoute(mealId);
         }}
       />
 
