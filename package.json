@@ -1,11 +1,12 @@
 {
   "name": "rrb-browser-based-v1",
-  "version": "85.0.0",
+  "version": "86.0.0",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && node scripts/generate-seo.mjs",
+    "test:seo-routing": "node test/seoRoutingV86.test.mjs",
     "preview": "vite preview",
     "test:rfis": "node test/completeDinnerEngine.test.mjs && node test/rfisPlatform.test.mjs && node test/rfisUiServiceContracts.test.mjs && npm run test:rfis:architecture",
     "check": "npm run test:all && npm run build",
