@@ -20278,3 +20278,43 @@ button.browseRecipeWideFooterAction:focus-visible,
     font-size: 7px !important;
   }
 }
+
+/* ================================================================
+   v84.35 — UNIFIED CENTERED PANTRY LEVEL SUMMARIES
+   ================================================================ */
+.inventoryHubContent .pantryPage .pantryLevelSummary,
+.inventoryHubContent .pantryPage .pantryLevelSummary-1,
+.inventoryHubContent .pantryPage .pantryLevelSummary-2,
+.inventoryHubContent .pantryPage .pantryLevelSummary-3 {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 4px !important;
+  padding-top: 14px !important;
+  padding-bottom: 14px !important;
+  text-align: center !important;
+}
+
+.inventoryHubContent .pantryPage .pantryLevelSummary > div,
+.inventoryHubContent .pantryPage .pantryLevelSummary > div h2,
+.inventoryHubContent .pantryPage .pantryLevelSummary > div p,
+.inventoryHubContent .pantryPage .pantryLevelSummary > span {
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  text-align: center !important;
+}
+
+.inventoryHubContent .pantryPage .pantryLevelSummary > div h2 {
+  margin-bottom: 4px !important;
+}
+
+.inventoryHubContent .pantryPage .pantryLevelSummary > div p {
+  margin-bottom: 0 !important;
+}
+
+.inventoryHubContent .pantryPage .pantryLevelSummary > span {
+  margin-top: 0 !important;
+  line-height: 1.15 !important;
+}

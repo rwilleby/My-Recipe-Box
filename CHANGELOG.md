@@ -1,3 +1,9 @@
+# v84.35 — Centered Pantry Level Summaries
+
+- Centered the Minimum, Medium, and Fully Stocked Pantry summary information.
+- Moved the shelf-stable note directly beneath each level description.
+- Standardized summary spacing and alignment across all three Pantry levels.
+
 # v84.34 — Beige Pantry and Kitchen Controls
 
 - Replaced Pantry and Kitchen green control treatments with the approved warm beige palette.

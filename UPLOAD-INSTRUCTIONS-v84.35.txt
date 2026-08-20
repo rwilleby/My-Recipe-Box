@@ -1,0 +1,21 @@
+ROBERT'S RECIPE BOX v84.35 — GITHUB UPDATE
+
+Upload this update after v84.34.
+
+1. Open the repository root in GitHub.
+2. Upload the contents of My-Recipe-Box-v84.35-GitHub-Update.zip, preserving folders.
+3. Replace matching files when GitHub prompts you.
+4. Add the new files listed in UPDATE-MANIFEST-v84.35.json.
+5. Do not delete any existing files; this update has no deletions.
+6. Commit with a message such as:
+   v84.35: align Pantry level summaries
+7. Let the normal deployment build finish.
+
+VERIFY AFTER DEPLOYMENT
+
+- Minimum Pantry summary information is centered.
+- Medium Pantry summary information is centered.
+- Fully Stocked Pantry summary information remains centered.
+- The shelf-stable note sits close beneath each description.
+
+See V84.35-PANTRY-SUMMARY-ALIGNMENT-REPORT.md for details.
