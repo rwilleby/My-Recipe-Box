@@ -21321,6 +21321,71 @@ button.browseRecipeWideFooterAction:focus-visible,
   margin-top: 8px !important;
 }
 
+/* v85.0 — Affiliate disclosure page copy and established accordion treatment. */
+.affiliateMarketingPage {
+  padding-top: 0 !important;
+}
+
+.affiliateMarketingSectionIntro.rrbSectionIntroComponent {
+  width: 100% !important;
+  margin: 0 auto var(--rrb-section-intro-bottom-gap, 18px) !important;
+  text-align: center !important;
+}
+
+.affiliateMarketingSectionIntro .rrbSectionIntroCopy,
+.affiliateMarketingSectionIntro .rrbSectionIntroTitleRow {
+  width: 100% !important;
+}
+
+.affiliateMarketingSectionIntro .rrbSectionIntroTitleRow {
+  justify-content: center !important;
+}
+
+.affiliateMarketingSectionIntro p {
+  max-width: 1120px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  font-weight: 400 !important;
+}
+
+.affiliateAmazonDisclosure {
+  width: 90% !important;
+  margin: 0 auto 14px !important;
+  padding: 12px 18px !important;
+  border-radius: 12px !important;
+  background: #a8a19d !important;
+  color: #ffffff !important;
+  font-size: 15px !important;
+  line-height: 1.35 !important;
+  font-weight: 700 !important;
+  text-align: center !important;
+}
+
+.affiliateMarketingAccordionContent .affiliatePrimaryList {
+  display: grid !important;
+  gap: 9px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  list-style: none !important;
+}
+
+.affiliateMarketingAccordionContent .affiliatePrimaryList li {
+  margin: 0 !important;
+  padding-left: 21px !important;
+}
+
+.affiliateMarketingAccordionContent .affiliatePrimaryList li::before {
+  color: #7a9a3d !important;
+}
+
+@media (max-width: 700px) {
+  .affiliateAmazonDisclosure {
+    width: 96% !important;
+    padding: 11px 14px !important;
+    font-size: 14px !important;
+  }
+}
+
 .disclaimerAccordionList {
   width: 90% !important;
   max-width: none !important;

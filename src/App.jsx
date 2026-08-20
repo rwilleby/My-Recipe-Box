@@ -15668,6 +15668,82 @@ const DISCLAIMER_ACCORDION_SECTIONS = [
 
 const DISCLAIMER_PAGE_INTRO = ["Robert’s Recipe Box is intended to make cooking, meal planning, and finding useful kitchen information easier and more enjoyable. This page explains the policies, responsibilities, limitations, privacy practices, and permitted uses associated with the website.", "Each numbered topic may be displayed as an expandable section. Select any topic to read its complete explanation.", "Use of Robert’s Recipe Box constitutes acknowledgment of these policies to the extent permitted by applicable law. Visitors who do not agree with these policies should discontinue use of the website."];
 
+const AFFILIATE_MARKETING_SECTIONS = Object.freeze([
+  {
+    title: "How Affiliate Marketing Works",
+    paragraphs: [
+      "When you click an affiliate link, you are taken to the retailer’s website. If you make a qualifying purchase, Robert’s Recipe Box may receive a small commission from the retailer.",
+      "You do not pay an additional affiliate fee, and using an affiliate link does not increase the price of the product. The commission is paid by the retailer and helps support the cost of maintaining, improving and expanding Robert’s Recipe Box.",
+      "Clicking a product link does not require you to purchase anything. You are always welcome to compare products, shop elsewhere or search for the item directly.",
+    ],
+  },
+  {
+    title: "Benefits for You",
+    bullets: [
+      "Convenient access to products that may be useful for a recipe, cooking method or kitchen task.",
+      "Product suggestions selected for their practical value and relevance to home cooking.",
+      "A simple way to help support Robert’s Recipe Box without paying a subscription fee or viewing intrusive advertising.",
+    ],
+  },
+  {
+    title: "Things to Keep in Mind",
+    bullets: [
+      "An affiliate link creates a financial relationship because Robert’s Recipe Box may earn a commission if you make a qualifying purchase.",
+      "Prices, product descriptions, availability, shipping terms, warranties and customer reviews can change at any time. Always confirm the current information on the retailer’s website before purchasing.",
+      "Clicking an affiliate link takes you to an outside website. Your purchase, payment, delivery, return and customer-service arrangements are made directly with that retailer.",
+      "The retailer may use cookies or other tracking methods to determine whether a purchase qualifies for a commission. Its own privacy policy and terms apply when you visit its website.",
+      "Robert’s Recipe Box does not receive your Amazon password, payment information, shipping address or other private account information.",
+    ],
+  },
+  {
+    title: "Our Commitment to You",
+    paragraphs: [
+      "Affiliate relationships will not change the cost of using Robert’s Recipe Box. The site will remain free, without memberships, display advertisements, pop-ups or autoplay advertising.",
+      "Product links are intended to be useful—not intrusive. We will clearly identify affiliate relationships, and you are never obligated to use an affiliate link or purchase a recommended product.",
+      "Amazon and the Amazon logo are trademarks of Amazon.com, Inc. or its affiliates. Robert’s Recipe Box is an independent website and is not owned, sponsored or endorsed by Amazon.",
+    ],
+  },
+]);
+
+function AffiliateMarketingPage() {
+  return (
+    <main className="pageShell affiliateMarketingPage">
+      <SectionIntro
+        className="affiliateMarketingSectionIntro"
+        title="Affiliate Marketing & Product Links"
+        text="Robert’s Recipe Box is completely free to use. Occasionally, you will see links to kitchen tools, cookware, food-storage products and other items that may be helpful when preparing our recipes. Some of these are affiliate links, primarily through the Amazon Associates Program."
+      />
+
+      <p className="affiliateAmazonDisclosure">
+        As an Amazon Associate I earn from qualifying purchases.
+      </p>
+
+      <section className="foodSafetyAccordion affiliateMarketingAccordion" aria-label="Affiliate marketing and product-link information">
+        {AFFILIATE_MARKETING_SECTIONS.map((section) => (
+          <details className="foodSafetyAccordionItem affiliateMarketingAccordionItem" key={section.title}>
+            <summary>
+              <span>{section.title}</span>
+              <span className="foodSafetyAccordionChevron" aria-hidden="true">⌄</span>
+            </summary>
+            <div className="foodSafetyAccordionContent affiliateMarketingAccordionContent">
+              {section.paragraphs?.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+              {section.bullets && (
+                <ul className="affiliatePrimaryList">
+                  {section.bullets.map((bullet) => (
+                    <li key={bullet}>{bullet}</li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </details>
+        ))}
+      </section>
+    </main>
+  );
+}
+
 function DisclaimersPage({ setActivePage }) {
   const [openDisclaimerSections, setOpenDisclaimerSections] = useState(() => new Set(["1. Recipes and Website Content"]));
 
@@ -19699,23 +19775,13 @@ The score is not a judgment and it is not medical or dietary advice. It is one p
             src="images/heroes/hero-page-affiliate.webp"
             alt="Affiliate marketing setup with laptop dashboard, notebook, coffee, and affiliate partner checklist"
             eyebrow="TIPS & ORGANIZATION"
-            title="Affiliate Marketing"
-            text="Some pages on Robert’s Recipe Box may include links to products sold by outside retailers. When a visitor makes a qualifying purchase through certain links, the website may receive a small commission without increasing the customer’s price.\n\nAffiliate relationships help support website expenses, recipe development, and future improvements. Product mentions should still be based on usefulness and relevance, and visitors are never required to purchase anything to use the site."
+            title="Affiliate Marketing & Product Links"
+            text="Robert’s Recipe Box is completely free to use. Some helpful product links are affiliate links, primarily through the Amazon Associates Program."
             className="pageHeroDepth464"
             videoSrc={AFFILIATE_MARKETING_VIDEO_URL}
             videoPoster={AFFILIATE_MARKETING_VIDEO_POSTER}
-/>
-          <PlaceholderInfoPage
-            eyebrow="TIPS & ORGANIZATION"
-            title="Affiliate Marketing"
-            text="This page will explain affiliate links, product recommendations, and how Robert’s Recipe Box may earn a small commission from qualifying purchases at no additional cost to the visitor."
-            setActivePage={setActivePage}
-            recipes={classifiedRecipes}
-            favorites={favorites}
-            toggleFavorite={toggleFavorite}
-            addToPlan={addToPlan}
-            openRecipeCard={openRecipeCard}
           />
+          <AffiliateMarketingPage />
         </>
       )}
       <AddLeftoversModal
