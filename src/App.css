@@ -19978,3 +19978,54 @@ button.browseRecipeWideFooterAction:focus-visible,
   grid-column: auto !important;
   min-width: 0 !important;
 }
+
+/* v84.32 final cascade — align the secondary strip to the content guides. */
+.inventoryHubContent > .freezerInventoryManagementPage > .freezerManagementKindTabs,
+.inventoryHubContent > .pantryPage > .pantryLevelTabs {
+  position: relative !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: -30px auto 12px !important;
+}
+
+.inventoryHubContent .freezerManagementKindTabs button {
+  position: relative !important;
+  justify-content: center !important;
+  padding-left: 52px !important;
+  padding-right: 52px !important;
+}
+
+.inventoryHubContent .inventorySegmentLabel {
+  width: 100% !important;
+  font-size: 14px !important;
+  font-weight: 850 !important;
+  text-align: center !important;
+}
+
+.inventoryHubContent .inventorySegmentCount {
+  position: absolute !important;
+  right: clamp(14px, 2vw, 36px) !important;
+  margin: 0 !important;
+}
+
+@media (max-width: 700px) {
+  .inventoryHubContent > .freezerInventoryManagementPage > .freezerManagementKindTabs,
+  .inventoryHubContent > .pantryPage > .pantryLevelTabs {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-top: -20px !important;
+  }
+
+  .inventoryHubContent .freezerManagementKindTabs button {
+    padding-left: 28px !important;
+    padding-right: 28px !important;
+  }
+
+  .inventoryHubContent .inventorySegmentLabel {
+    font-size: 10px !important;
+  }
+
+  .inventoryHubContent .inventorySegmentCount {
+    right: 6px !important;
+  }
+}

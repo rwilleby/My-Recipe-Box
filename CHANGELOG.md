@@ -1,3 +1,10 @@
+# v84.32 — Secondary Inventory Strip Size and Position
+
+- Extended the Freezer and Pantry secondary strips to the same full inner-content width as their filter rows and accordions.
+- Moved the secondary strip upward by 30px on desktop and tablet to reduce the oversized gap below the master controls.
+- Increased secondary segment labels to 14px with stronger weight.
+- Repositioned each count circle near the right side of its corresponding segment while keeping the category label visually centered.
+
 # v84.31 — One-Row Inventory Control Strips
 
 - Forced the seven-part Master Kitchen Inventory command strip to remain one row at 100% width across desktop, tablet, and phone breakpoints.
