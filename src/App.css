@@ -21743,3 +21743,11 @@ button.browseRecipeWideFooterAction:focus-visible,
 .pageSequenceButton[aria-disabled="true"] { opacity: .38 !important; pointer-events: none; box-shadow: none !important; }
 .recipeActions a.viewCard { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; }
 .recipeFullCardImageButton { display: block; text-decoration: none; }
+
+/* Home Complete Dinner card titles: compact, readable, and able to hold longer names. */
+.homeComboMealText:not(.homeDietMealText) strong {
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif !important;
+  font-weight: 800 !important;
+  line-height: 1.05 !important;
+  letter-spacing: -0.015em !important;
+}
