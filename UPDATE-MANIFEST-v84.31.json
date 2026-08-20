@@ -1,0 +1,31 @@
+{
+  "version": "84.31.0",
+  "release": "One-row master and counted secondary inventory strips",
+  "baseline": "v84.30 GitHub update",
+  "uploadMode": "replace matching files and add new files; no deletions required",
+  "changedFiles": [
+    "CHANGELOG.md",
+    "UPDATE-MANIFEST-v84.31.json",
+    "V84.31-INVENTORY-CONTROL-STRIPS-REPORT.md",
+    "UPLOAD-INSTRUCTIONS-v84.31.txt",
+    "package.json",
+    "package-lock.json",
+    "src/package.json",
+    "src/App.jsx",
+    "src/App.css",
+    "test/inventoryCountedStripsV8431.test.mjs"
+  ],
+  "deletedFiles": [],
+  "layout": {
+    "masterStrip": "100% width, seven controls, one row at every breakpoint",
+    "secondaryStrip": "90% width, three segments, one row",
+    "freezerCounts": "available Complete Meal packages, Individual Recipe packages, and stocked Component Items",
+    "pantryCounts": "cumulative stocked items through Minimum, Medium, and Fully Stocked levels"
+  },
+  "verification": {
+    "focusedContract": "test/inventoryCountedStripsV8431.test.mjs",
+    "pantryFreezerRegression": "test/pantryGroupingFreezerOrderV8430.test.mjs",
+    "inventoryLayoutRegression": "test/inventoryLayoutSortingV8429.test.mjs",
+    "productionBuild": "not run; dependencies and the complete application source are not present in the incremental update workspace"
+  }
+}

@@ -7136,6 +7136,14 @@ function PantryStaplesPage({ pantry, setPantry, externalSearch = "", embedded = 
 
   const normalizedExternalSearch = externalSearch.trim().toLowerCase();
   const pantryMeta = pantryInventoryMeta(pantry);
+  const pantryCountItems = [
+    ...PANTRY_STAPLES.flatMap((group) => group.items),
+    ...pantryMeta.customItems.map((item) => ({ ...item, level: 1 })),
+  ];
+  const pantryLevelCounts = Object.fromEntries(PANTRY_LEVELS.map((level) => [
+    level.id,
+    pantryCountItems.filter((item) => item.level <= level.id && pantryItemStatus(pantry, item.name) === "in-stock").length,
+  ]));
   const visiblePantryGroups = [...PANTRY_STAPLES, ...(pantryMeta.customItems.length ? [{ group: "Custom Pantry Items", items: pantryMeta.customItems.map((item) => ({ ...item, level: 1, custom: true })) }] : [])]
     .map((group) => ({
       ...group,
@@ -7232,12 +7240,6 @@ function PantryStaplesPage({ pantry, setPantry, externalSearch = "", embedded = 
         className="pantrySectionIntro"
       />}
 
-      <section className="freezerManagementSummary pantryInventorySummary" aria-label="Pantry inventory summary">
-        <div><small>Pantry Products</small><strong>{PANTRY_STAPLES.reduce((sum, group) => sum + group.items.length, 0) + pantryMeta.customItems.length}</strong></div>
-        <div><small>Items On Hand</small><strong>{[...PANTRY_STAPLES.flatMap((group) => group.items), ...pantryMeta.customItems].filter((item) => pantryItemStatus(pantry, item.name) === "in-stock").length}</strong></div>
-        <div><small>Items To Restock</small><strong>{buildPantryRestockItems(pantry).length}</strong></div>
-      </section>
-
       <div className="pantryLevelTabs freezerManagementKindTabs" role="tablist" aria-label="Pantry staple level">
         {PANTRY_LEVELS.map((level) => (
           <button
@@ -7246,7 +7248,8 @@ function PantryStaplesPage({ pantry, setPantry, externalSearch = "", embedded = 
             className={selectedPantryLevel === level.id ? "active isActive" : ""}
             onClick={() => setSelectedPantryLevel(level.id)}
           >
-            {level.label}
+            <span className="inventorySegmentLabel">{level.label}</span>
+            <strong className="inventorySegmentCount">{pantryLevelCounts[level.id]}</strong>
           </button>
         ))}
       </div>
@@ -7969,12 +7972,6 @@ function FreezerInventoryManagementPage({
         className="freezerManagementSectionIntro"
       />}
 
-      <section className="freezerManagementSummary" aria-label="Frozen meal inventory summary">
-        <div><small>Complete Meals</small><strong>{totalComplete}</strong></div>
-        <div><small>Individual Recipes</small><strong>{totalIndividuals}</strong></div>
-        <div><small>Component Items</small><strong>{totalComponents}</strong></div>
-      </section>
-
       <div className="freezerManagementKindTabs" role="tablist" aria-label="Freezer inventory type">
         <button
           type="button"
@@ -7982,7 +7979,8 @@ function FreezerInventoryManagementPage({
           aria-selected={activeKind === "completeMeal"}
           onClick={() => setActiveKind("completeMeal")}
         >
-          Complete Meals
+          <span className="inventorySegmentLabel">Complete Meals</span>
+          <strong className="inventorySegmentCount">{totalComplete}</strong>
         </button>
         <button
           type="button"
@@ -7990,7 +7988,8 @@ function FreezerInventoryManagementPage({
           aria-selected={activeKind === "mainCourse"}
           onClick={() => setActiveKind("mainCourse")}
         >
-          Individual Recipes
+          <span className="inventorySegmentLabel">Individual Recipes</span>
+          <strong className="inventorySegmentCount">{totalIndividuals}</strong>
         </button>
         <button
           type="button"
@@ -7998,7 +7997,8 @@ function FreezerInventoryManagementPage({
           aria-selected={activeKind === "componentItem"}
           onClick={() => setActiveKind("componentItem")}
         >
-          Component Items
+          <span className="inventorySegmentLabel">Component Items</span>
+          <strong className="inventorySegmentCount">{totalComponents}</strong>
         </button>
       </div>
 

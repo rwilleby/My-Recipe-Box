@@ -1,3 +1,10 @@
+# v84.31 — One-Row Inventory Control Strips
+
+- Forced the seven-part Master Kitchen Inventory command strip to remain one row at 100% width across desktop, tablet, and phone breakpoints.
+- Converted the Freezer selector into a 90%-wide one-row secondary strip with the Complete Meals, Individual Recipes, and Component Items counts inside their matching segments.
+- Converted the Pantry selector into the same 90%-wide one-row treatment with cumulative stocked counts for Minimum Pantry, Medium Pantry, and Fully Stocked Pantry.
+- Removed the separate Freezer and Pantry counter-card rows to reduce vertical space and avoid duplicate numbers.
+
 # v84.30 — Freezer Code Order and Pantry Product Groups
 
 - Sorted Complete Meals and Individual Recipes inside each Freezer accordion by their meal or recipe code using numeric order.
