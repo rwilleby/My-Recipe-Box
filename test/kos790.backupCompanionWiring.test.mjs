@@ -6,7 +6,6 @@ const app = fs.readFileSync("src/App.jsx", "utf8");
 for (const token of [
   "function KosCompanionStatusBand",
   'data-kos-ui="kitchen-companion-status"',
-  '<KosCompanionStatusBand kosUi={kosUi} />',
   "kosUi?.backupStatus?.()",
   "automaticRecoveryEnabled",
   'data-kos-ui="backup-status"',
@@ -16,4 +15,9 @@ for (const token of [
   assert.ok(app.includes(token), `Missing backup/companion KOS wiring: ${token}`);
 }
 
-console.log("KOS-790 Backup/Companion UI wiring contracts passed");
+assert.ok(
+  !app.includes('<KosCompanionStatusBand kosUi={kosUi} />'),
+  "Kitchen Companion counters should remain hidden",
+);
+
+console.log("KOS-790 Backup/Companion data contracts passed");

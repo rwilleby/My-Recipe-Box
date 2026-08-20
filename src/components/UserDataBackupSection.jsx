@@ -11,7 +11,7 @@ const SUCCESS_RESTORE = "Your Recipe Box information has been restored successfu
 const ERROR_RESTORE =
   "We could not restore this file. Please select a valid Robert’s Recipe Box backup file.";
 
-export default function UserDataBackupSection({ onRestored, onClose }) {
+export default function UserDataBackupSection({ onRestored, onClose, backupStatus }) {
   const inputRef = useRef(null);
   const dialogRef = useRef(null);
   const [pendingBackup, setPendingBackup] = useState(null);
@@ -74,33 +74,51 @@ export default function UserDataBackupSection({ onRestored, onClose }) {
 
   return (
     <section id="your-recipe-box-data" className="userDataSection" aria-labelledby="user-data-heading">
-      <div className="userDataSectionHeader">
+      <header className="userDataSectionHeader rrbSectionIntroComponent isCentered">
+        <div className="rrbSectionIntroCopy">
+          <div className="rrbSectionIntroTitleRow">
+            <h2 id="user-data-heading">
+              YOUR RECIPE BOX DATA IS <span className="userDataTitleHeart">♥</span> PRIVATE <span className="userDataTitleHeart">♥</span> LOCAL <span className="userDataTitleHeart">♥</span> PORTABLE
+            </h2>
+          </div>
+          <p className="userDataPrivacyText">
+            Your information stays in your browser and is not stored on our servers. Use Backup My Recipe Box to download a copy of your favorites, notes, lists, meal plans, and preferences. You can restore that file on this or another device at any time.
+          </p>
+        </div>
+      </header>
+
+      <div className="userDataControlStrip" aria-label="Backup and recovery controls and status">
+        <button type="button" className="isPrimary" onClick={handleBackup}>
+          <span>BACKUP MY RECIPE BOX</span>
+        </button>
+        <button type="button" onClick={() => inputRef.current?.click()}>
+          <span>RESTORE MY RECIPE BOX</span>
+        </button>
         <div>
-          <span className="userDataEyebrow">PRIVATE · LOCAL · PORTABLE</span>
-          <h2 id="user-data-heading">Your Recipe Box Data</h2>
+          <span>EXTERNAL BACKUP</span>
+          <strong>{backupStatus?.external?.status === "current" ? "Current" : "Due"}</strong>
+        </div>
+        <div>
+          <span>RECOVERY POINTS</span>
+          <strong>{backupStatus?.recovery?.recoveryPointCount || 0}</strong>
+        </div>
+        <div>
+          <span>AUTOMATIC RECOVERY</span>
+          <strong>{backupStatus?.recovery?.automaticRecoveryEnabled ? "On" : "Off"}</strong>
+        </div>
+        <div>
+          <span>REMINDER</span>
+          <strong>{backupStatus?.external?.reminderDays || 14} days</strong>
         </div>
       </div>
-
-      <p className="userDataPrivacyText">
-        Your information stays in your browser and is not stored on our servers. Use Backup My Recipe Box to download a copy of your favorites, notes, lists, meal plans, and preferences. You can restore that file on this or another device at any time.
-      </p>
-
-      <div className="userDataActions">
-        <button type="button" className="primary" onClick={handleBackup}>
-          Backup My Recipe Box
-        </button>
-        <button type="button" className="secondary" onClick={() => inputRef.current?.click()}>
-          Restore My Recipe Box
-        </button>
-        <input
-          ref={inputRef}
-          className="visuallyHiddenFileInput"
-          type="file"
-          accept=".json,application/json"
-          onChange={handleFileSelected}
-          aria-label="Select a Robert's Recipe Box backup file"
-        />
-      </div>
+      <input
+        ref={inputRef}
+        className="visuallyHiddenFileInput"
+        type="file"
+        accept=".json,application/json"
+        onChange={handleFileSelected}
+        aria-label="Select a Robert's Recipe Box backup file"
+      />
 
       <p className="userDataReminder">
         Keep your backup file somewhere safe, such as your Documents folder, a USB drive, iCloud Drive, Google Drive, Dropbox, or OneDrive. New changes made after a backup will not be included unless you create another backup.

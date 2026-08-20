@@ -27,6 +27,7 @@ assert.match(appSource, /<VideoLibraryPage setActivePage=\{setActivePage\} \/>/)
 
 const expectedTitles = [
   "Welcome to Robert’s Recipe Box",
+  "Starting Fast or Slow",
   "Easy or Detailed",
   "Welcome to Our Site",
   "View Our Video Library",
@@ -41,7 +42,7 @@ const expectedTitles = [
   "Salad Jar Lunches",
   "Choose Your Level",
   "Browse Our Quick Links",
-  "Kitchen Inventory",
+  "Master Kitchen Inventory",
   "Refrigerator Inventory",
   "Prepared Freezer Inventory",
   "Freezer Inventory",
@@ -61,14 +62,14 @@ const expectedTitles = [
   "Cooking Resource",
 ];
 
-assert.equal(VIDEO_LIBRARY_ITEMS.length, 33, "Video Library should contain all 33 requested positions");
+assert.equal(VIDEO_LIBRARY_ITEMS.length, 34, "Video Library should contain all 34 requested positions");
 assert.deepEqual(VIDEO_LIBRARY_ITEMS.map((item) => item.title), expectedTitles);
-assert.equal(new Set(VIDEO_LIBRARY_ITEMS.map((item) => item.id)).size, 33, "Every position needs a unique stable id");
+assert.equal(new Set(VIDEO_LIBRARY_ITEMS.map((item) => item.id)).size, 34, "Every position needs a unique stable id");
 
 const availableItems = VIDEO_LIBRARY_ITEMS.filter((item) => item.video);
 const plannedItems = VIDEO_LIBRARY_ITEMS.filter((item) => !item.video);
-assert.equal(availableItems.length, 18, "18 listed positions should use finished videos");
-assert.equal(plannedItems.length, 15, "15 listed positions should show color-bar placeholders");
+assert.equal(availableItems.length, 21, "21 listed positions should use finished videos");
+assert.equal(plannedItems.length, 13, "13 listed positions should show color-bar placeholders");
 
 for (const item of availableItems) {
   assert.ok(fs.existsSync(path.join(root, "public", item.video)), `Missing ${item.video}`);
@@ -87,10 +88,16 @@ assert.match(pageSource, /VIDEO NOT YET ASSIGNED/);
 assert.match(pageSource, /TEST PATTERN/);
 assert.match(pageSource, /controls/);
 assert.match(pageSource, /preload="metadata"/);
-assert.doesNotMatch(pageSource, /autoPlay/);
+assert.match(pageSource, /autoPlay/);
+assert.match(pageSource, /videoLibraryPosterButton/);
+assert.match(pageSource, /videoLibraryPlayIcon/);
+assert.doesNotMatch(pageSource, /WATCH & LEARN/);
 assert.match(pageSource, /key=\{item\.id\}/);
 assert.match(cssSource, /grid-template-columns: repeat\(3, minmax\(0, 1fr\)\)/);
 assert.match(cssSource, /\.videoLibraryPlaceholder/);
+assert.match(cssSource, /\.videoLibraryPosterButton img/);
+assert.match(cssSource, /filter: none/);
+assert.match(cssSource, /var\(--rrb-inventory-beige, #a59e99\)/);
 assert.match(cssSource, /object-fit: cover/);
 
 console.log("v83.7 ordered Video Library and placeholder contracts passed.");

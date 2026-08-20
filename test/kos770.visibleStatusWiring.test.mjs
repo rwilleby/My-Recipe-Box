@@ -7,7 +7,6 @@ for (const token of [
   "function KosKitchenStatusBand",
   'data-kos-ui="production-status"',
   'data-kos-ui="available-meals-status"',
-  '<KosKitchenStatusBand kosUi={kosUi} mode="production" />',
   '<KosKitchenStatusBand kosUi={kosUi} mode="available" />',
   "readyMealUnits",
   "componentUnits",
@@ -15,4 +14,9 @@ for (const token of [
   assert.ok(app.includes(token), `Missing visible KOS integration: ${token}`);
 }
 
-console.log("KOS-770 Production/Available UI wiring contracts passed");
+assert.ok(
+  !app.includes('<KosKitchenStatusBand kosUi={kosUi} mode="production" />'),
+  "Weekend Bulk Plan production counters should remain hidden",
+);
+
+console.log("KOS-770 Production data/Available UI wiring contracts passed");

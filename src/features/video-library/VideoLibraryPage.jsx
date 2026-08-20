@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import {
   VIDEO_LIBRARY_ITEMS,
   VIDEO_LIBRARY_PLACEHOLDER_POSTER,
@@ -13,6 +13,7 @@ function siteAsset(path) {
 
 export default function VideoLibraryPage({ setActivePage }) {
   const videoRefs = useRef([]);
+  const [startedVideos, setStartedVideos] = useState({});
 
   function handlePlay(activeIndex) {
     videoRefs.current.forEach((player, index) => {
@@ -27,13 +28,16 @@ export default function VideoLibraryPage({ setActivePage }) {
 
   return (
     <main className="pageShell videoLibraryPage">
-      <header className="videoLibraryIntro">
-        <span className="videoLibraryEyebrow">WATCH & LEARN</span>
-        <h2>Video Library</h2>
-        <p>
-          Browse the guides in Robert’s preferred order. A color-bar test pattern marks
-          each planned subject that does not yet have a finished video.
-        </p>
+      <header className="videoLibraryIntro rrbSectionIntroComponent isCentered">
+        <div className="rrbSectionIntroCopy">
+          <div className="rrbSectionIntroTitleRow">
+            <h2>Video Library</h2>
+          </div>
+          <p>
+            Browse the guides in Robert’s preferred order. A color-bar test pattern marks
+            each planned subject that does not yet have a finished video.
+          </p>
+        </div>
       </header>
 
       <div className="videoLibraryGrid" aria-label="Robert’s Recipe Box ordered video library">
@@ -41,20 +45,35 @@ export default function VideoLibraryPage({ setActivePage }) {
           <article className="videoLibraryCard" key={item.id}>
             <div className="videoLibraryPlayerFrame">
               {item.video ? (
-                <video
-                  ref={(node) => {
-                    videoRefs.current[index] = node;
-                  }}
-                  controls
-                  playsInline
-                  preload="metadata"
-                  poster={siteAsset(item.poster)}
-                  onPlay={() => handlePlay(index)}
-                  aria-label={`Watch ${item.title}`}
-                >
-                  <source src={siteAsset(item.video)} type="video/mp4" />
-                  Your browser does not support HTML5 video.
-                </video>
+                startedVideos[item.id] ? (
+                  <video
+                    ref={(node) => {
+                      videoRefs.current[index] = node;
+                    }}
+                    controls
+                    autoPlay
+                    playsInline
+                    preload="metadata"
+                    poster={siteAsset(item.poster)}
+                    onPlay={() => handlePlay(index)}
+                    aria-label={`Watch ${item.title}`}
+                  >
+                    <source src={siteAsset(item.video)} type="video/mp4" />
+                    Your browser does not support HTML5 video.
+                  </video>
+                ) : (
+                  <button
+                    className="videoLibraryPosterButton"
+                    type="button"
+                    onClick={() => {
+                      setStartedVideos((current) => ({ ...current, [item.id]: true }));
+                    }}
+                    aria-label={`Play ${item.title}`}
+                  >
+                    <img src={siteAsset(item.poster)} alt="" aria-hidden="true" />
+                    <span className="videoLibraryPlayIcon" aria-hidden="true">▶</span>
+                  </button>
+                )
               ) : (
                 <div
                   className="videoLibraryPlaceholder"

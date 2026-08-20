@@ -1,0 +1,32 @@
+{
+  "version": "85.0.0",
+  "release": "Consolidated Design and Planning Baseline",
+  "baseline": "v84.37 complete site",
+  "uploadMode": "complete replacement baseline",
+  "archive": "My-Recipe-Box-v85.zip",
+  "compactUpdate": "My-Recipe-Box-v85-Compact-Update.zip",
+  "scope": [
+    "Weekly Meal Planner backup coverage and occupied-meal recipe previews",
+    "Shopping List full-width control strip, hidden counters, and accordions",
+    "Standardized centered section introductions and tightened hero spacing",
+    "Healthy Substitutions, Cooking Tools, Food Safety, and Disclaimers accordions",
+    "Reference Guides typography and centered topic copy",
+    "Video Library full-color previews and beige destination buttons",
+    "Backup and Restore six-part control strip",
+    "Requested public-navigation hiding while preserving source pages"
+  ],
+  "versionFiles": [
+    "package.json",
+    "package-lock.json",
+    "src/package.json",
+    "CHANGELOG.md",
+    "UPDATE-MANIFEST-v85.json"
+  ],
+  "verification": {
+    "focusedContracts": "v85 feature and layout contracts passed",
+    "backupRegression": "passed",
+    "archiveStructure": "single My-Recipe-Box-v85 root directory",
+    "macMetadata": "excluded",
+    "productionBuild": "not run because node_modules are not included in the supplied workspace"
+  }
+}

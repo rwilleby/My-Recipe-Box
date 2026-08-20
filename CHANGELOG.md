@@ -1,3 +1,15 @@
+# v85.0 — Consolidated Design and Planning Baseline
+
+- Promoted the completed v84 work into the new v85 baseline.
+- Added complete Weekly Meal Planner data to Backup & Restore and added occupied-meal recipe-card previews with Close and Change actions.
+- Standardized Shopping List, Healthy Substitutions, Cooking Tools, Food Safety, Reference Guides, Disclaimers, and supporting-page introductions.
+- Applied the locked centered Section Intro standard with 25px Georgia titles and 14px Inter supporting text.
+- Tightened hero-to-content spacing across recipe collections, inventory, planning, and production pages and removed requested counters.
+- Reworked Backup & Restore into a centered privacy introduction followed by a six-part backup and recovery control strip.
+- Updated the Video Library with full-color playable previews, beige destination buttons, and the established centered introduction.
+- Hid the Weekly Meal Planner prototype and Submit Your Family Recipes from public navigation while preserving their source for later use.
+- Removed macOS metadata from the v85 distribution archive.
+
 # v84.37 — Expanded Fully Stocked Pantry
 
 - Replaced only the Level 3 Fully Stocked Pantry catalog with the approved 12-section master list while leaving Levels 1 and 2 unchanged.

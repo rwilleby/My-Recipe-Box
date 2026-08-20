@@ -1,0 +1,15 @@
+ROBERT'S RECIPE BOX — v85 COMPACT UPDATE
+
+This ZIP contains only the files changed while preparing the v85 baseline.
+It does not repeat the large image and video library.
+
+TO APPLY THE UPDATE
+
+1. Keep your original My-Recipe-Box-v85 folder as a safety copy.
+2. Unzip My-Recipe-Box-v85-Compact-Update.zip.
+3. Open the unzipped My-Recipe-Box-v85 folder.
+4. Copy its contents into your existing My-Recipe-Box-v85 project folder.
+5. When prompted, choose Replace for matching files and Merge for folders.
+6. No existing project files need to be deleted.
+
+The resulting project is the complete v85.0.0 baseline.

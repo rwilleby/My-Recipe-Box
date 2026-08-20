@@ -1373,7 +1373,6 @@ const NAV_GROUPS = [
       { label: "OUR NUTRITION STANDARDS", page: "Nutrition Standards" },
       { label: "UNDERSTANDING MEALBALANCE", page: "MealBalance Guide" },
       { label: "AFFILIATE MARKETING", page: "Affiliate Marketing" },
-      { label: "SUBMIT YOUR FAMILY RECIPES", page: "Submit Recipes" },
       { label: "CONTACT ME", page: "Contact Me" },
       { label: "BACKUP & RESTORE", page: "User Backup" },
       { label: "DISCLAIMERS", page: "Disclaimers" },
@@ -1411,7 +1410,6 @@ const NAV_GROUPS = [
     items: [
       { label: "YOUR WEEKLY MEAL PLANNER", page: "Meal Planner" },
       { label: "WEEKEND BULK MEAL PLANNER", page: "Weekend Bulk Meal Planner", detailedOnly: true },
-      { label: "WEEKLY MEAL PLANNER — TEST", page: "Weekly Meal Planner Prototype", detailedOnly: true },
       { label: "HEALTHY SUBSTITUTIONS", page: "Grocery Picks" },
     ],
   },
@@ -10494,12 +10492,7 @@ function FavoritesPage({
         ) : (
           <>
             {savedRecipes.length > 0 && (
-              <section className="favoritesLibrarySection" aria-labelledby="favorite-recipes-title">
-                <header className="favoritesLibraryHeader">
-                  <h2 id="favorite-recipes-title">Favorite Recipe Cards</h2>
-                  <span>{savedRecipes.length}</span>
-                </header>
-
+              <section className="favoritesLibrarySection favoritesRecipesNoHeader" aria-label="Favorite recipe cards">
                 <div className="recipeGrid browseRecipeGrid favoritesRecipeGrid">
                   {savedRecipes.map((recipe) => (
                     <RecipeCard
@@ -10620,8 +10613,6 @@ function getProductAffiliateUrl(product) {
 }
 
 function ProductsIUsePage({ setActivePage, productCategories, setProductCategories }) {
-  const [selectedCategory, setSelectedCategory] = useState("All Categories");
-
   const categorizedProducts = PRODUCTS_I_USE
     .map((product) => ({
       ...product,
@@ -10632,10 +10623,12 @@ function ProductsIUsePage({ setActivePage, productCategories, setProductCategori
       return categoryCompare || a.title.localeCompare(b.title);
     });
 
-  const visibleProducts =
-    selectedCategory === "All Categories"
-      ? categorizedProducts
-      : categorizedProducts.filter((product) => product.category === selectedCategory);
+  const productGroups = PRODUCT_CATEGORIES
+    .map((category) => ({
+      category,
+      products: categorizedProducts.filter((product) => product.category === category),
+    }))
+    .filter((group) => group.products.length > 0);
 
   function updateProductCategory(productTitle, category) {
     setProductCategories((current) => ({
@@ -10646,82 +10639,80 @@ function ProductsIUsePage({ setActivePage, productCategories, setProductCategori
 
   return (
     <main className="pageShell productsIUsePage">
-      <section className="aboutRecipesHero productsIUseHero">
-        <div>
-          <div className="aiBadge">TOOLS, STORAGE & ORGANIZATION</div>
-          <h1>Cooking Tools, Storage & Organization</h1>
-          <p>
-            Browse practical cookware, bakeware, appliances, preparation tools,
-            food-storage products, freezer supplies, meal-prep containers, and
-            organization products selected for everyday home cooking.
-          </p>
-        </div>
-      </section>
+      <SectionIntro
+        title="Cooking Tools, Storage & Organization"
+        text="Browse practical kitchen products organized by category, then open a section to compare tools for cooking, baking, meal preparation, storage, and everyday organization."
+        className="cookingToolsSectionIntro"
+      />
 
-      <section className="productsCategoryToolbar" aria-label="Product category controls">
-        <label>
-          <span>View Category</span>
-          <select value={selectedCategory} onChange={(event) => setSelectedCategory(event.target.value)}>
-            <option value="All Categories">All Categories</option>
-            {PRODUCT_CATEGORIES.map((category) => (
-              <option key={category} value={category}>{category}</option>
-            ))}
-          </select>
-        </label>
-        <p>{visibleProducts.length} product{visibleProducts.length === 1 ? "" : "s"} shown</p>
-      </section>
-
-      <div className="productsIUsePageGrid productsOneColumnGrid">
-        {visibleProducts.map((product) => (
-          <article className="productsIUsePageCard productsCompactCard" key={product.title}>
-            <div className="productsIUsePageImage productsCompactImage">
-              <img
-                src={`${import.meta.env.BASE_URL}${product.image}`}
-                alt={product.title}
-                loading="lazy"
-                decoding="async"
-              />
-            </div>
-
-            <div className="productsIUsePageContent productsCompactContent">
-              <div className="productsCompactCopy">
-                <h2>{product.title}</h2>
-                <p>{product.note}</p>
+      <div className="productsAccordionList">
+        {productGroups.map((group) => (
+          <details className="productsCategoryAccordion" key={group.category}>
+            <summary>
+              <span className="productsCategoryAccordionArrow" aria-hidden="true">▶</span>
+              <div>
+                <h2>{group.category}</h2>
+                <p>Open this category to review the available products.</p>
               </div>
+              <strong>{group.products.length} {group.products.length === 1 ? "product" : "products"}</strong>
+            </summary>
 
-              <div className="productsCompactControls">
-                <label className="productsCompactCategory">
-                  <span>Category</span>
-                  <select
-                    value={product.category}
-                    onChange={(event) => updateProductCategory(product.title, event.target.value)}
-                    aria-label={`Category for ${product.title}`}
-                  >
-                    {PRODUCT_CATEGORIES.map((category) => (
-                      <option key={category} value={category}>{category}</option>
-                    ))}
-                  </select>
-                </label>
+            <div className="productsCategoryAccordionBody">
+              <div className="productsIUsePageGrid productsOneColumnGrid">
+                {group.products.map((product) => (
+                  <article className="productsIUsePageCard productsCompactCard" key={product.title}>
+                    <div className="productsIUsePageImage productsCompactImage">
+                      <img
+                        src={`${import.meta.env.BASE_URL}${product.image}`}
+                        alt={product.title}
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </div>
 
-                <a
-                  className="productsIUseAmazonButton productsCompactAffiliate"
-                  href={getProductAffiliateUrl(product)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`View ${product.title} on Amazon`}
-                >
-                  <img
-                    className="productsIUseAmazonIcon"
-                    src={`${import.meta.env.BASE_URL}images/ui/amazon-smile.webp`}
-                    alt=""
-                    loading="lazy"
-                    decoding="async"
-                  />
-                  <span>View Product</span>
-                </a>
+                    <div className="productsIUsePageContent productsCompactContent">
+                      <div className="productsCompactCopy">
+                        <h2>{product.title}</h2>
+                        <p>{product.note}</p>
+                      </div>
+
+                      <div className="productsCompactControls">
+                        <label className="productsCompactCategory">
+                          <span>Category</span>
+                          <select
+                            value={product.category}
+                            onChange={(event) => updateProductCategory(product.title, event.target.value)}
+                            aria-label={`Category for ${product.title}`}
+                          >
+                            {PRODUCT_CATEGORIES.map((category) => (
+                              <option key={category} value={category}>{category}</option>
+                            ))}
+                          </select>
+                        </label>
+
+                        <a
+                          className="productsIUseAmazonButton productsCompactAffiliate"
+                          href={getProductAffiliateUrl(product)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={`View ${product.title} on Amazon`}
+                        >
+                          <img
+                            className="productsIUseAmazonIcon"
+                            src={`${import.meta.env.BASE_URL}images/ui/amazon-smile.webp`}
+                            alt=""
+                            loading="lazy"
+                            decoding="async"
+                          />
+                          <span>View Product</span>
+                        </a>
+                      </div>
+                    </div>
+                  </article>
+                ))}
               </div>
             </div>
-          </article>
+          </details>
         ))}
       </div>
 
@@ -10812,7 +10803,7 @@ function GroceryPicksPage({ setActivePage }) {
   return (
     <main className="pageShell groceryPicksPage">
       <SectionIntro
-        title="Smart Grocery Picks"
+        title="Healthy Substitutions"
         text="A reference list for lighter, lower-carb, freezer-friendly, and small-household grocery choices. Use it before shopping, or when a shopping-list item shows a suggested swap."
         className="smartGroceryPicksSectionIntro"
       />
@@ -10834,27 +10825,33 @@ function GroceryPicksPage({ setActivePage }) {
 
       <div className="groceryReferenceGrid">
         {GROCERY_REFERENCE_GROUPS.map((group) => (
-          <section className="groceryReferenceGroup" key={group.group}>
-            <div className="groceryReferenceGroupHeader">
-              <h2>{group.group}</h2>
-              <p>{group.intro}</p>
-            </div>
+          <details className="groceryReferenceAccordion" key={group.group}>
+            <summary>
+              <span className="groceryReferenceAccordionArrow" aria-hidden="true">▶</span>
+              <div>
+                <h2>{group.group}</h2>
+                <p>{group.intro}</p>
+              </div>
+              <strong>{group.items.length} {group.items.length === 1 ? "item" : "items"}</strong>
+            </summary>
 
-            <div className="groceryReferenceItems">
-              {group.items.map((item) => (
-                <article className="groceryReferenceItem" key={item.name}>
-                  <h3>{item.name}</h3>
-                  <span>{item.useFor}</span>
-                  <p>{item.note}</p>
-                  <div>
-                    {item.examples.map((example) => (
-                      <small key={example}>{example}</small>
-                    ))}
-                  </div>
-                </article>
-              ))}
+            <div className="groceryReferenceAccordionBody">
+              <div className="groceryReferenceItems">
+                {group.items.map((item) => (
+                  <article className="groceryReferenceItem" key={item.name}>
+                    <h3>{item.name}</h3>
+                    <span>{item.useFor}</span>
+                    <p>{item.note}</p>
+                    <div>
+                      {item.examples.map((example) => (
+                        <small key={example}>{example}</small>
+                      ))}
+                    </div>
+                  </article>
+                ))}
+              </div>
             </div>
-          </section>
+          </details>
         ))}
       </div>
     </main>
@@ -11232,17 +11229,13 @@ function AboutRecipesPage({ setActivePage }) {
         </div>
       </section>
 
-      <div className="aboutRecipesGrid">
-        <article className="aboutRecipesCard">
-          <h2>AI-assisted, directed by me</h2>
-          <p>
-            The recipes are generated with the assistance of artificial
-            intelligence, but they are guided by my choices for the meal idea,
-            flavors, servings, cooking method, practical goals, and recipe-card
-            format.
-          </p>
-        </article>
+      <SectionIntro
+        className="aboutRecipesSectionIntro"
+        title="AI-assisted, directed by me"
+        text="The recipes are generated with the assistance of artificial intelligence, but they are guided by my choices for the meal idea, flavors, servings, cooking method, practical goals, and recipe-card format."
+      />
 
+      <div className="aboutRecipesGrid">
         <article className="aboutRecipesCard">
           <h2>Practical recipe cards</h2>
           <p>
@@ -13142,20 +13135,11 @@ function HeroTopicPage({
 function NutritionStandardsPage({ setActivePage }) {
   return (
     <main className="pageShell nutritionStandardsPage">
-      <section className="nutritionStandardsIntro">
-        <div className="aiBadge">PRACTICAL • CONSISTENT • TRANSPARENT</div>
-        <h2>Practical nutrition information to help you make informed choices.</h2>
-        <p>
-          Nutrition information can be useful when you are deciding what to cook,
-          comparing recipes, or planning a complete meal. Robert’s Recipe Box
-          provides estimated nutrition information using consistent ingredients,
-          serving sizes, and preparation assumptions.
-        </p>
-        <p>
-          Our goal is not to tell you what you should or should not eat. It is to
-          give you useful information so you can make choices that work for you.
-        </p>
-      </section>
+      <SectionIntro
+        className="nutritionStandardsIntro"
+        title="Practical nutrition information to help you make informed choices."
+        text="Nutrition information can be useful when you are deciding what to cook, comparing recipes, or planning a complete meal. Robert’s Recipe Box provides estimated nutrition information using consistent ingredients, serving sizes, and preparation assumptions. Our goal is not to tell you what you should or should not eat. It is to give you useful information so you can make choices that work for you."
+      />
 
       <section className="nutritionStandardsGrid">
         <article>
@@ -14925,6 +14909,12 @@ function ReferenceGuidesPage() {
 
   return (
     <main className="pageShell referenceGuidesFeaturePage">
+      <SectionIntro
+        title="Reference Guides"
+        text="Choose a topic for quick kitchen measurements, cooking temperatures, equipment sizes, storage guidance, serving information, substitutions, and outdoor-cooking references."
+        className="referenceGuidesSectionIntro"
+      />
+
       <section className="referenceGuidesLayout referenceGuidesTopLayout" aria-label="Reference guides">
         <nav className="referenceGuidesTopNav" aria-label="Reference guide list">
           <div className="referenceGuideButtonList referenceGuideTopButtonList" role="tablist" aria-label="Choose a reference guide">
@@ -15701,14 +15691,16 @@ function DisclaimersPage({ setActivePage }) {
 
   return (
     <main className="pageShell disclaimersAccordionPage">
-      <section className="disclaimersIntroCard">
-        <div className="aiBadge">POLICIES, DISCLAIMERS & LEGAL INFORMATION</div>
-        <h1>Disclaimers</h1>
-        <p className="disclaimerEffectiveDate">Effective date: July 1, 2026</p>
-        {DISCLAIMER_PAGE_INTRO.map((paragraph, index) => (
-          <p key={index}>{paragraph}</p>
-        ))}
-      </section>
+      <SectionIntro
+        className="disclaimersSectionIntro"
+        title="Disclaimers"
+        text={(
+          <>
+            <strong>Effective date: July 1, 2026.</strong>{" "}
+            {DISCLAIMER_PAGE_INTRO.join(" ")}
+          </>
+        )}
+      />
 
       <section className="disclaimerAccordionList" aria-label="Policy and disclaimer topics">
         {DISCLAIMER_ACCORDION_SECTIONS.map((section) => {
@@ -17461,23 +17453,17 @@ function BackupReminderPanel({
 function YourDataSecurityPage({ setActivePage, kosUi }) {
   return (
     <main className="pageShell yourDataSecurityPage">
-      <section className="yourDataSecurityIntro">
-        <div>
-          <span className="yourDataSecurityEyebrow">YOUR INFORMATION</span>
-          <h2>Your recipe-box information stays in your browser.</h2>
-          <p>
-            Robert&apos;s Recipe Box does not require a user account. Favorites,
-            meal plans, grocery lists, inventory records, recipe notes, and site
-            preferences are saved locally by your browser on the device you are
-            using.
-          </p>
-        </div>
-        <aside className="yourDataSecurityStatus" aria-label="Data storage summary">
-          <span aria-hidden="true">♥</span>
-          <strong>Browser-only storage</strong>
-          <small>No account or cloud profile is required.</small>
-        </aside>
-      </section>
+      <SectionIntro
+        className="yourDataSecurityIntro"
+        title="Your recipe-box information stays in your browser."
+        text="Robert's Recipe Box does not require a user account. Favorites, meal plans, grocery lists, inventory records, recipe notes, and site preferences are saved locally by your browser on the device you are using."
+      />
+
+      <aside className="yourDataSecurityStatus" aria-label="Data storage summary">
+        <span aria-hidden="true">♥</span>
+        <strong>Browser-only storage</strong>
+        <small>No account or cloud profile is required.</small>
+      </aside>
 
       <section className="yourDataSecurityGrid" aria-label="Your data and security information">
         <article>
@@ -17848,10 +17834,6 @@ export default function App() {
             text="Turn one focused weekend cooking session into several easier meals. Choose crock-pot recipes, smoked or grilled meats, flexible base foods, complete dishes, and desserts; then decide what to refrigerate, what to freeze, and how each portion should be packaged."
             className="pageHeroDepth464 weekendBulkHero"
           />
-          <main className="pageShell" data-kos-ui="production-center">
-            <KosKitchenStatusBand kosUi={kosUi} mode="production" />
-            <KosCompanionStatusBand kosUi={kosUi} />
-          </main>
           <WeekendBulkMealPlanner
             recipes={classifiedRecipes}
             completeMeals={dinnerCombinations}
@@ -18389,9 +18371,6 @@ Use this collection to organize recipes that fit prep-ahead cooking, planned lef
             title="Weekly Dinner Planning"
             text="Meal planning can make the week feel more organized without removing flexibility. Select meals for specific days, account for leftovers, plan around appointments, and decide which foods need to be thawed or prepared in advance.\n\nYour plan can be as detailed or as simple as you prefer. Even choosing four or five dinners before grocery shopping can reduce stress, limit impulse purchases, and make it easier to use the food already in your home."
           />
-          <main className="pageShell" data-kos-ui="meal-planner">
-            <KosPlanningStatusBand kosUi={kosUi} mode="planner" />
-          </main>
           <PlannerPage {...pageProps} />
         </>
       )}
@@ -18643,12 +18622,12 @@ Use this section to check what is on hand, record dates, mark foods that should 
           text="Air fryers can create crisp, flavorful food with less oil and often less cleanup than traditional frying. They are especially useful for smaller portions, quick meals, reheating certain leftovers, and preparing foods without heating a full-size oven.\n\nThis collection includes meats, vegetables, side dishes, snacks, and other recipes suited to circulating hot air. Because air fryers vary, cooking times may need small adjustments based on the model and basket size."
           setActivePage={setActivePage}
         >
-          <article className="gasGrillGuide airFryerGuide" aria-labelledby="air-fryer-guide-title">
-            <header className="gasGrillGuideHeader">
-              <span className="gasGrillGuideKicker">Air Fryer Care & Cooking Guide</span>
-              <h2 id="air-fryer-guide-title">Taking Care of and Cooking With Your Air Fryer</h2>
-              <p>An air fryer can make meals faster, crispier, and easier to clean up—especially when it is used and maintained properly. These practical tips will help you get better cooking results while keeping your air fryer clean, safe, and working efficiently.</p>
-            </header>
+          <SectionIntro
+            title="Taking Care of and Cooking With Your Air Fryer"
+            text="An air fryer can make meals faster, crispier, and easier to clean up—especially when it is used and maintained properly. These practical tips will help you get better cooking results while keeping your air fryer clean, safe, and working efficiently."
+            className="careGuideSectionIntro"
+          />
+          <article className="gasGrillGuide airFryerGuide" aria-label="Air fryer care and cooking guide">
 
             <div className="gasGrillGuideGrid">
               <section><h3>Before You Start</h3><ul className="greenHeartList"><li>Place the air fryer on a flat, heat-resistant surface with plenty of open space around the air vents.</li><li>Check that the basket, tray, and removable inserts are clean and completely dry.</li><li>Preheat when the recipe recommends it; a short preheat often improves browning and crispness.</li><li>Avoid placing the appliance directly beneath low cabinets because hot air and steam escape from the top or back.</li></ul></section>
@@ -18679,12 +18658,12 @@ Use this section to check what is on hand, record dates, mark foods that should 
           text="The oven remains one of the most versatile tools in the kitchen. It can bake, roast, broil, brown, warm, and finish everything from casseroles and meats to vegetables, breads, and desserts.\n\nThis section includes recipes for everyday dinners as well as special occasions. Clear temperatures and timing guidance will help you plan the meal, although ovens can vary and food should always be checked for doneness."
           setActivePage={setActivePage}
         >
-          <article className="gasGrillGuide" aria-labelledby="oven-guide-title">
-            <header className="gasGrillGuideHeader">
-              <span className="gasGrillGuideKicker">Oven Care & Cooking Guide</span>
-              <h2 id="oven-guide-title">Taking Care of and Cooking in a Gas or Electric Oven</h2>
-              <p>A well-maintained oven heats more evenly, cooks food more reliably, and lasts longer. Gas and electric ovens operate differently, but both benefit from regular cleaning, careful use, and a few basic cooking habits.</p>
-            </header>
+          <SectionIntro
+            title="Taking Care of and Cooking in a Gas or Electric Oven"
+            text="A well-maintained oven heats more evenly, cooks food more reliably, and lasts longer. Gas and electric ovens operate differently, but both benefit from regular cleaning, careful use, and a few basic cooking habits."
+            className="careGuideSectionIntro"
+          />
+          <article className="gasGrillGuide" aria-label="Gas or electric oven care and cooking guide">
 
             <div className="gasGrillGuideGrid">
               <section><h3>Before Each Use</h3><p>Check that the oven is empty before preheating and remove stored pans, baking sheets, thermometers, or other unneeded items.</p><p>Position the racks before the oven becomes hot. Inspect the interior for grease, spills, or loose foil. Preheat fully unless the recipe says otherwise; most ovens need about 10 to 20 minutes.</p><p>Use an oven thermometer occasionally to confirm that the actual temperature matches the control setting.</p></section>
@@ -18717,12 +18696,12 @@ Use this section to check what is on hand, record dates, mark foods that should 
           text="Microwaves are usually associated with reheating leftovers, but they can also prepare simple meals, side dishes, sauces, vegetables, snacks, and individual portions. Used properly, they can save time and reduce the number of pans that need washing.\n\nThis section focuses on practical microwave uses rather than pretending it replaces every other appliance. Power levels and cooking times may vary, so recipes may require adjustment for your specific microwave."
           setActivePage={setActivePage}
         >
-          <article className="gasGrillGuide microwaveGuide" aria-labelledby="microwave-guide-title">
-            <header className="gasGrillGuideHeader">
-              <span className="gasGrillGuideKicker">Microwave Care & Cooking Guide</span>
-              <h2 id="microwave-guide-title">Taking Care of and Cooking in Your Microwave Oven</h2>
-              <p>A microwave oven is useful for much more than reheating coffee or warming leftovers. When used correctly, it can quickly steam vegetables, thaw frozen foods, soften ingredients and prepare complete meals. Keeping the oven clean and using the proper containers will also help it operate safely and efficiently.</p>
-            </header>
+          <SectionIntro
+            title="Taking Care of and Cooking in Your Microwave Oven"
+            text="A microwave oven is useful for much more than reheating coffee or warming leftovers. When used correctly, it can quickly steam vegetables, thaw frozen foods, soften ingredients and prepare complete meals. Keeping the oven clean and using the proper containers will also help it operate safely and efficiently."
+            className="careGuideSectionIntro"
+          />
+          <article className="gasGrillGuide microwaveGuide" aria-label="Microwave oven care and cooking guide">
 
             <div className="gasGrillGuideGrid microwaveGuideGrid">
               <section>
@@ -18924,12 +18903,12 @@ Use this section to check what is on hand, record dates, mark foods that should 
           text="Gas and electric griddles provide a broad, even cooking surface for breakfast foods, burgers, sandwiches, vegetables, seafood, and complete meals. They are especially useful when several foods need to cook at the same time without crowding a skillet.\n\nThis section covers preheating, temperature zones, seasoning and cleaning the surface, managing grease, preventing sticking, and cooking safely on both outdoor gas griddles and indoor electric griddles."
           setActivePage={setActivePage}
         >
-          <article className="gasGrillGuide griddleGuide" aria-labelledby="griddle-guide-title">
-            <header className="gasGrillGuideHeader">
-              <span className="gasGrillGuideKicker">Griddle Care & Cooking Guide</span>
-              <h2 id="griddle-guide-title">Taking Care of and Cooking on a Gas or Electric Griddle</h2>
-              <p>A griddle provides a broad, flat cooking surface for breakfasts, burgers, sandwiches, vegetables, seafood, and complete meals. Careful preheating, heat-zone management, grease control, and regular cleaning improve cooking results and help protect the surface.</p>
-            </header>
+          <SectionIntro
+            title="Taking Care of and Cooking on a Gas or Electric Griddle"
+            text="A griddle provides a broad, flat cooking surface for breakfasts, burgers, sandwiches, vegetables, seafood, and complete meals. Careful preheating, heat-zone management, grease control, and regular cleaning improve cooking results and help protect the surface."
+            className="careGuideSectionIntro"
+          />
+          <article className="gasGrillGuide griddleGuide" aria-label="Gas or electric griddle care and cooking guide">
 
             <div className="gasGrillGuideGrid griddleGuideGrid">
               <section>
@@ -19091,12 +19070,12 @@ Use this section to check what is on hand, record dates, mark foods that should 
           text="Gas grills provide fast heat, convenient temperature control, and the familiar flavor of outdoor cooking. They work well for meats, vegetables, sandwiches, flatbreads, side dishes, and complete meals prepared away from the indoor kitchen.\n\nThese recipes and tips will help with preheating, direct and indirect heat, flare-ups, turning, timing, and safe doneness. With a little practice, a gas grill can become one of the most dependable cooking tools you own."
           setActivePage={setActivePage}
         >
-          <article className="gasGrillGuide" aria-labelledby="gas-grill-guide-title">
-            <header className="gasGrillGuideHeader">
-              <span className="gasGrillGuideKicker">Gas Grill Care & Cooking Guide</span>
-              <h2 id="gas-grill-guide-title">Taking Care of and Cooking on a Gas Grill</h2>
-              <p>A gas grill is convenient, easy to control, and perfect for everything from quick weeknight dinners to summer cookouts. Regular cleaning, proper maintenance, and a few basic cooking techniques will help your grill perform better, last longer, and produce more flavorful food.</p>
-            </header>
+          <SectionIntro
+            title="Taking Care of and Cooking on a Gas Grill"
+            text="A gas grill is convenient, easy to control, and perfect for everything from quick weeknight dinners to summer cookouts. Regular cleaning, proper maintenance, and a few basic cooking techniques will help your grill perform better, last longer, and produce more flavorful food."
+            className="careGuideSectionIntro"
+          />
+          <article className="gasGrillGuide" aria-label="Gas grill care and cooking guide">
 
             <div className="gasGrillGuideGrid">
               <section><h3>Before Each Use</h3><p>Open the grill lid before turning on the gas. Check the propane tank, hose, regulator, and connections for visible damage. Confirm that the grease tray and drip pan are in place and not overflowing.</p><p>Preheat with the lid closed for 10 to 15 minutes. Once hot, clean the grates with a grill-safe scraper or brush. Lightly oil the food rather than pouring oil directly onto the grates.</p></section>
@@ -19138,12 +19117,12 @@ Use this section to check what is on hand, record dates, mark foods that should 
           primaryPage="About Smoking"
           primaryLabel="About Smoking & Grilling"
         >
-          <article className="gasGrillGuide pelletSmokerGuide" aria-labelledby="pellet-smoker-guide-title">
-            <header className="gasGrillGuideHeader">
-              <span className="gasGrillGuideKicker">Pellet Smoker Care & Cooking Guide</span>
-              <h2 id="pellet-smoker-guide-title">Taking Care of and Cooking on a Pellet Smoker</h2>
-              <p>A pellet smoker combines the convenience of digital temperature control with the flavor of wood-fired cooking. Proper cleaning, dry pellet storage, and a few basic cooking techniques will help your smoker operate reliably, produce steady heat, and give food a clean, balanced smoke flavor.</p>
-            </header>
+          <SectionIntro
+            title="Taking Care of and Cooking on a Pellet Smoker"
+            text="A pellet smoker combines the convenience of digital temperature control with the flavor of wood-fired cooking. Proper cleaning, dry pellet storage, and a few basic cooking techniques will help your smoker operate reliably, produce steady heat, and give food a clean, balanced smoke flavor."
+            className="careGuideSectionIntro"
+          />
+          <article className="gasGrillGuide pelletSmokerGuide" aria-label="Pellet smoker care and cooking guide">
 
             <div className="gasGrillGuideGrid pelletSmokerGuideGrid">
               <section><h3>Before Each Use</h3><p>Check the hopper and make sure the wood pellets are dry, firm, and free of moisture. Damp pellets can swell, crumble, jam the auger, and prevent the smoker from maintaining temperature.</p><p>Inspect the fire pot for excessive ash. A thin layer is normal, but accumulated ash can interfere with ignition and airflow.</p><p>Confirm that the grease tray, heat diffuser, and drip bucket are correctly installed.</p><p>Check the grease drain channel and make sure it is not blocked.</p><p>Look inside the cooking chamber for grease buildup, loose food particles, or anything that could restrict airflow.</p><p>Make sure the smoker is positioned outdoors on a stable, level, noncombustible surface with adequate clearance from walls, railings, overhangs, and combustible materials.</p></section>
@@ -19302,8 +19281,12 @@ Use this section to check what is on hand, record dates, mark foods that should 
             text="Safe food handling helps prevent cross-contamination, spoilage, and foodborne illness. Harmful bacteria cannot always be seen, smelled, or tasted, so food should be handled safely from the time it is purchased until it is served or stored.\n\nThe four basic food-safety rules are Clean, Separate, Cook, and Chill."
           />
 
-          <article className="foodSafetyGuide" aria-labelledby="food-safety-guide-title">
-            <h2 id="food-safety-guide-title" className="foodSafetyAccordionPrompt">Click the title to select your guide</h2>
+          <article className="foodSafetyGuide" aria-label="Food Safety Guide">
+            <SectionIntro
+              title="Food Safety Guide"
+              text="Open a topic below for practical guidance on handling, cooking, serving, refrigerating, and freezing food safely."
+              className="foodSafetySectionIntro"
+            />
             <div className="foodSafetyAccordion">
               
               <details className="foodSafetyAccordionItem">
@@ -19597,29 +19580,10 @@ Use this section to check what is on hand, record dates, mark foods that should 
             videoPoster={BACKUP_RESTORE_VIDEO_POSTER}
           />
           <main className="pageShell userBackupPage">
-            <section
-              className="preparedInventorySummary"
-              aria-label="Backup and recovery status"
-              data-kos-ui="backup-status"
-            >
-              <div>
-                <small>External Backup</small>
-                <strong>{kosUi.backupStatus().external.status === "current" ? "Current" : "Due"}</strong>
-              </div>
-              <div>
-                <small>Recovery Points</small>
-                <strong>{kosUi.backupStatus().recovery.recoveryPointCount || 0}</strong>
-              </div>
-              <div>
-                <small>Automatic Recovery</small>
-                <strong>{kosUi.backupStatus().recovery.automaticRecoveryEnabled ? "On" : "Off"}</strong>
-              </div>
-              <div>
-                <small>Reminder</small>
-                <strong>{kosUi.backupStatus().external.reminderDays} days</strong>
-              </div>
-            </section>
-            <UserDataBackupSection onClose={() => setActivePage("Home")} />
+            <UserDataBackupSection
+              backupStatus={kosUi.backupStatus()}
+              onClose={() => setActivePage("Home")}
+            />
           </main>
         </>
       )}

@@ -4,19 +4,19 @@ v78.2 responsive/component consolidation baseline.
 Appearance-preserving structural cleanup only.
 */
 
-:root{--rrb-font-heading: Georgia, "Times New Roman", serif; --rrb-font-body: Inter, Arial, sans-serif; --rrb-color-heading: #111827; --rrb-color-body: #667085; --rrb-color-link-green: #245C37; --rrb-color-army-green: #80994A; --rrb-section-intro-title-size: 28px; --rrb-section-intro-title-weight: 700; --rrb-section-intro-title-line-height: 1.1; --rrb-section-intro-copy-size: 16px; --rrb-section-intro-copy-weight: 600; --rrb-section-intro-copy-line-height: 1.3; --green: #14532d; --green-2: #2f6b3f; --cream: #fbfaf7; --line: #e8e4dc; --text: #151515; --muted: #676767; --shadow: 0 12px 34px rgba(23, 31, 22, .09); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: var(--text); background: var(--cream);}
+:root{--rrb-font-heading: Georgia, "Times New Roman", serif; --rrb-font-body: Inter, Arial, sans-serif; --rrb-color-heading: #111827; --rrb-color-body: #667085; --rrb-color-link-green: #245C37; --rrb-color-army-green: #80994A; --rrb-section-intro-title-size: 25px; --rrb-section-intro-title-weight: 700; --rrb-section-intro-title-line-height: 1.1; --rrb-section-intro-copy-size: 14px; --rrb-section-intro-copy-weight: 600; --rrb-section-intro-copy-line-height: 1.3; --green: #14532d; --green-2: #2f6b3f; --cream: #fbfaf7; --line: #e8e4dc; --text: #151515; --muted: #676767; --shadow: 0 12px 34px rgba(23, 31, 22, .09); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: var(--text); background: var(--cream);}
 
 
 /* SECTION INTRO — LOCKED MASTER TOKENS */
 :root {
   --rrb-section-intro-title-font: Georgia, "Times New Roman", serif;
-  --rrb-section-intro-title-size: 28px;
+  --rrb-section-intro-title-size: 25px;
   --rrb-section-intro-title-weight: 700;
   --rrb-section-intro-title-line-height: 1.1;
   --rrb-section-intro-title-color: #111827;
 
   --rrb-section-intro-copy-font: Inter, Arial, sans-serif;
-  --rrb-section-intro-copy-size: 16px;
+  --rrb-section-intro-copy-size: 14px;
   --rrb-section-intro-copy-weight: 600;
   --rrb-section-intro-copy-line-height: 1.3;
   --rrb-section-intro-copy-color: #667085;
@@ -1968,6 +1968,8 @@ h1 {font-size: clamp(38px, 12vw, 50px);}
 #about-smoking-grilling {scroll-margin-top: 92px;}
 
 .aboutRecipesPage {padding-top: 38px;}
+
+.aboutRecipesSectionIntro {margin: 0 auto var(--rrb-section-intro-bottom-gap, 18px) !important;}
 
 .aboutRecipesHero {background: #ffffff; border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow); padding: 32px; margin-bottom: 22px;}
 
@@ -10967,7 +10969,7 @@ to { opacity: 0; }
 
 .yourDataSecurityPage {display: grid !important; gap: 22px !important;}
 
-.yourDataSecurityIntro {display: grid !important; grid-template-columns: minmax(0, 1fr) minmax(240px, 320px) !important; gap: 24px !important; align-items: center !important; padding: 24px !important; border: 1px solid rgba(20, 83, 45, .15) !important; border-radius: 16px !important; background: #fbfaf7 !important;}
+.yourDataSecurityIntro {margin: 0 auto var(--rrb-section-intro-bottom-gap, 18px) !important;}
 
 .yourDataSecurityEyebrow {display: block !important; margin-bottom: 7px !important; color: #14532d !important; font-size: 12px !important; font-weight: 700 !important; letter-spacing: .075em !important; text-transform: uppercase !important;}
 
@@ -10980,7 +10982,7 @@ to { opacity: 0; }
 .yourDataSecurityPlainLanguage p,
 .yourDataSecurityGrid p {color: #4b5563 !important; line-height: 1.6 !important;}
 
-.yourDataSecurityStatus {display: grid !important; justify-items: center !important; gap: 6px !important; padding: 22px 18px !important; border: 1px solid #d8e4da !important; border-radius: 14px !important; background: #ffffff !important; text-align: center !important;}
+.yourDataSecurityStatus {display: grid !important; justify-self: center !important; justify-items: center !important; gap: 6px !important; width: min(420px, 100%) !important; box-sizing: border-box !important; padding: 22px 18px !important; border: 1px solid #d8e4da !important; border-radius: 14px !important; background: #ffffff !important; text-align: center !important;}
 
 .yourDataSecurityStatus > span {color: #14532d !important; font-size: 32px !important; line-height: 1 !important;}
 
@@ -11018,8 +11020,7 @@ to { opacity: 0; }
 
 .yourDataSecurityPolicyLink button {border: 0 !important; background: transparent !important; color: #14532d !important; padding: 0 !important; font: inherit !important; font-weight: 700 !important; text-decoration: underline !important; cursor: pointer !important;}
 
-@media (max-width: 900px){.yourDataSecurityIntro,
-  .yourDataSecurityBackupCallout {grid-template-columns: 1fr !important;}
+@media (max-width: 900px){.yourDataSecurityBackupCallout {grid-template-columns: 1fr !important;}
 
 .yourDataSecurityBackupCallout button {justify-self: start !important;}
 
@@ -11027,8 +11028,7 @@ to { opacity: 0; }
 
 @media (max-width: 680px){.yourDataSecurityGrid {grid-template-columns: 1fr !important;}
 
-.yourDataSecurityIntro,
-  .yourDataSecurityGrid article,
+.yourDataSecurityGrid article,
   .yourDataSecurityBackupCallout,
   .yourDataSecurityPlainLanguage {padding: 18px !important;}}
 
@@ -15138,13 +15138,12 @@ button.browseRecipeWideFooterAction:focus-visible,
 
 .nutritionStandardsPage {max-width: 1180px; margin: 0 auto;}
 
-.nutritionStandardsIntro,
+.nutritionStandardsIntro {margin: 0 auto var(--rrb-section-intro-bottom-gap, 18px) !important;}
+
 .nutritionStandardsDisclaimer {padding: 24px 28px; border: 1px solid #dfe4dc; border-radius: 16px; background: #fffdf8;}
 
-.nutritionStandardsIntro h2,
 .nutritionStandardsDisclaimer h2 {margin: 8px 0 10px; color: #172033; font-family: Georgia, "Times New Roman", serif; font-size: 27px; line-height: 1.15;}
 
-.nutritionStandardsIntro p,
 .nutritionStandardsDisclaimer p {max-width: 940px; margin: 9px 0; color: #465164; font-size: 15px; line-height: 1.55;}
 
 .nutritionStandardsGrid {display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 18px 0;}
@@ -20847,4 +20846,711 @@ button.browseRecipeWideFooterAction:focus-visible,
   .shoppingListIntroActions > button,
   .shoppingViewToggle { min-height: 54px !important; height: 54px !important; }
   .shoppingViewToggle button { min-height: 52px !important; height: 52px !important; }
+}
+
+/* v85.4 minor edit — align Crock Pot finder spacing and result count with Diet Meals. */
+.slowCookerRecipesPage {
+  padding-top: 0 !important;
+}
+
+.slowCookerResultCount {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  margin: 4px 0 14px !important;
+  color: #6b7280 !important;
+  font-family: var(--rrb-body-font, Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif) !important;
+  font-size: 13px !important;
+  line-height: 1 !important;
+}
+
+.slowCookerResultCount strong {
+  color: #2f8747 !important;
+  font-size: 15px !important;
+  line-height: 1 !important;
+}
+
+/* v85.4 minor edit — tighten Master Kitchen Inventory hero spacing. */
+.inventoryHubPage {
+  padding-top: 0 !important;
+}
+
+/* v85.4 minor edit — remove the planner status gap and align it beneath the hero. */
+.weeklyCalendarPlannerPage {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* v85.4 minor edit — Healthy Substitutions full-width header and 90% accordions. */
+.groceryPicksPage {
+  width: 100% !important;
+  max-width: none !important;
+  padding-top: 0 !important;
+}
+
+.groceryPicksPage .smartGroceryPicksSectionIntro,
+.groceryPicksPage .smartGroceryPicksIntroActions,
+.groceryPicksPage .groceryPicksIntro {
+  width: 100% !important;
+  max-width: none !important;
+  box-sizing: border-box !important;
+}
+
+.groceryPicksPage .smartGroceryPicksIntroActions {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+}
+
+.groceryPicksPage .smartGroceryPicksIntroActions > button {
+  width: 100% !important;
+  min-height: 58px !important;
+  border-radius: 16px !important;
+  font-size: 16px !important;
+}
+
+.groceryPicksPage .groceryPicksIntro {
+  margin: 0 0 18px !important;
+}
+
+.groceryPicksPage .groceryReferenceGrid {
+  width: 90% !important;
+  margin: 0 auto !important;
+  gap: 11px !important;
+}
+
+.groceryReferenceAccordion {
+  overflow: hidden !important;
+  border: 1px solid #d9d1c2 !important;
+  border-radius: 16px !important;
+  background: #f4efe5 !important;
+  box-shadow: none !important;
+}
+
+.groceryReferenceAccordion > summary {
+  display: grid !important;
+  grid-template-columns: 20px minmax(0, 1fr) auto !important;
+  align-items: center !important;
+  gap: 12px !important;
+  min-height: 72px !important;
+  padding: 13px 20px !important;
+  cursor: pointer !important;
+  list-style: none !important;
+  color: #403a31 !important;
+}
+
+.groceryReferenceAccordion > summary::-webkit-details-marker {
+  display: none !important;
+}
+
+.groceryReferenceAccordionArrow {
+  color: #625b50 !important;
+  font-size: 12px !important;
+  transition: transform 160ms ease !important;
+}
+
+.groceryReferenceAccordion[open] > summary .groceryReferenceAccordionArrow {
+  transform: rotate(90deg) !important;
+}
+
+.groceryReferenceAccordion > summary h2 {
+  margin: 0 0 4px !important;
+  color: #403a31 !important;
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: 20px !important;
+  line-height: 1.1 !important;
+}
+
+.groceryReferenceAccordion > summary p {
+  margin: 0 !important;
+  color: #71685c !important;
+  font-size: 12px !important;
+  line-height: 1.3 !important;
+}
+
+.groceryReferenceAccordion > summary > strong {
+  color: #71685c !important;
+  font-size: 12px !important;
+  white-space: nowrap !important;
+}
+
+.groceryReferenceAccordionBody {
+  border-top: 1px solid #d9d1c2 !important;
+  background: #fffdf8 !important;
+}
+
+.groceryReferenceAccordionBody .groceryReferenceItems {
+  padding: 16px !important;
+}
+
+@media (max-width: 700px) {
+  .groceryPicksPage .groceryReferenceGrid {
+    width: 96% !important;
+  }
+
+  .groceryReferenceAccordion > summary {
+    grid-template-columns: 18px minmax(0, 1fr) !important;
+    padding: 12px 14px !important;
+  }
+
+  .groceryReferenceAccordion > summary > strong {
+    grid-column: 2 !important;
+  }
+}
+
+/* v85.4 minor edit — category accordions for Cooking Tools. */
+.productsIUsePage {
+  width: 100% !important;
+  max-width: none !important;
+  padding-top: 0 !important;
+}
+
+.cookingToolsSectionIntro.rrbSectionIntroComponent {
+  width: 100% !important;
+  margin: 0 auto var(--rrb-section-intro-bottom-gap) !important;
+  text-align: center !important;
+}
+
+.cookingToolsSectionIntro .rrbSectionIntroCopy {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 auto !important;
+  text-align: center !important;
+}
+
+.cookingToolsSectionIntro .rrbSectionIntroTitleRow {
+  justify-content: center !important;
+}
+
+.cookingToolsSectionIntro p {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.productsAccordionList {
+  display: grid !important;
+  width: 90% !important;
+  margin: 0 auto !important;
+  gap: 11px !important;
+}
+
+.productsCategoryAccordion {
+  overflow: hidden !important;
+  border: 1px solid #d9d1c2 !important;
+  border-radius: 16px !important;
+  background: #f4efe5 !important;
+}
+
+.productsCategoryAccordion > summary {
+  display: grid !important;
+  grid-template-columns: 20px minmax(0, 1fr) auto !important;
+  align-items: center !important;
+  gap: 12px !important;
+  min-height: 72px !important;
+  padding: 13px 20px !important;
+  color: #403a31 !important;
+  cursor: pointer !important;
+  list-style: none !important;
+}
+
+.productsCategoryAccordion > summary::-webkit-details-marker {
+  display: none !important;
+}
+
+.productsCategoryAccordionArrow {
+  color: #625b50 !important;
+  font-size: 12px !important;
+  transition: transform 160ms ease !important;
+}
+
+.productsCategoryAccordion[open] > summary .productsCategoryAccordionArrow {
+  transform: rotate(90deg) !important;
+}
+
+.productsCategoryAccordion > summary h2 {
+  margin: 0 0 4px !important;
+  color: #403a31 !important;
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: 20px !important;
+  line-height: 1.1 !important;
+}
+
+.productsCategoryAccordion > summary p {
+  margin: 0 !important;
+  color: #71685c !important;
+  font-size: 12px !important;
+  line-height: 1.3 !important;
+}
+
+.productsCategoryAccordion > summary > strong {
+  color: #71685c !important;
+  font-size: 12px !important;
+  white-space: nowrap !important;
+}
+
+.productsCategoryAccordionBody {
+  padding: 16px !important;
+  border-top: 1px solid #d9d1c2 !important;
+  background: #fffdf8 !important;
+}
+
+.productsCategoryAccordionBody .productsIUsePageGrid {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+}
+
+.productsIUseActions {
+  width: 90% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+@media (max-width: 700px) {
+  .productsAccordionList,
+  .productsIUseActions {
+    width: 96% !important;
+  }
+
+  .productsCategoryAccordion > summary {
+    grid-template-columns: 18px minmax(0, 1fr) !important;
+    padding: 12px 14px !important;
+  }
+
+  .productsCategoryAccordion > summary > strong {
+    grid-column: 2 !important;
+  }
+}
+
+/* v85.4 minor edit — established Food Safety accordion and heart bullets. */
+.foodSafetyGuide {
+  padding-top: 0 !important;
+}
+
+.foodSafetySectionIntro.rrbSectionIntroComponent {
+  width: 100% !important;
+  margin: 0 auto var(--rrb-section-intro-bottom-gap) !important;
+  text-align: center !important;
+}
+
+.foodSafetySectionIntro .rrbSectionIntroCopy {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 auto !important;
+  text-align: center !important;
+}
+
+.foodSafetySectionIntro .rrbSectionIntroTitleRow {
+  justify-content: center !important;
+}
+
+.foodSafetySectionIntro p {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.foodSafetyAccordion {
+  width: 90% !important;
+  max-width: none !important;
+  margin: 0 auto !important;
+  gap: 11px !important;
+}
+
+.foodSafetyAccordionItem {
+  overflow: hidden !important;
+  border: 1px solid #d9d1c2 !important;
+  border-radius: 16px !important;
+  background: #f4efe5 !important;
+  box-shadow: none !important;
+}
+
+.foodSafetyAccordionItem summary {
+  display: grid !important;
+  grid-template-columns: 20px minmax(0, 1fr) !important;
+  align-items: center !important;
+  justify-content: initial !important;
+  gap: 12px !important;
+  min-height: 72px !important;
+  padding: 13px 20px !important;
+  border: 0 !important;
+  background: #f4efe5 !important;
+  color: #403a31 !important;
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: 20px !important;
+  line-height: 1.1 !important;
+}
+
+.foodSafetyAccordionItem[open] summary,
+.foodSafetyAccordionItem summary:hover {
+  background: #eee8dd !important;
+}
+
+.foodSafetyAccordionItem summary > span:first-child {
+  order: 2 !important;
+}
+
+.foodSafetyAccordionChevron {
+  order: 1 !important;
+  display: grid !important;
+  place-items: center !important;
+  width: 20px !important;
+  height: 20px !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: transparent !important;
+  font-size: 0 !important;
+  transform: none !important;
+}
+
+.foodSafetyAccordionChevron::before {
+  content: "▶" !important;
+  color: #625b50 !important;
+  font-size: 12px !important;
+  line-height: 1 !important;
+}
+
+.foodSafetyAccordionItem[open] .foodSafetyAccordionChevron {
+  transform: rotate(90deg) !important;
+}
+
+.foodSafetyAccordionContent {
+  padding: 16px 20px 18px !important;
+  border-top: 1px solid #d9d1c2 !important;
+  background: #fffdf8 !important;
+}
+
+.foodSafetyAccordionContent > p {
+  position: relative !important;
+  margin: 0 0 9px !important;
+  padding-left: 21px !important;
+}
+
+.foodSafetyAccordionContent > p::before,
+.foodSafetyAccordionContent li::before {
+  content: "♥" !important;
+  position: absolute !important;
+  left: 0 !important;
+  top: .12em !important;
+  font-size: 11px !important;
+  line-height: 1.4 !important;
+  font-weight: 700 !important;
+}
+
+.foodSafetyAccordionContent > p::before {
+  color: #7a9a3d !important;
+}
+
+.foodSafetyAccordionContent h4 + p::before,
+.foodSafetyAccordionContent li::before {
+  color: #c8b99f !important;
+}
+
+.foodSafetyAccordionContent ul {
+  margin-left: 21px !important;
+}
+
+.foodSafetyAccordionContent li {
+  padding-left: 20px !important;
+}
+
+@media (max-width: 700px) {
+  .foodSafetyAccordion {
+    width: 96% !important;
+  }
+
+  .foodSafetyAccordionItem summary {
+    min-height: 62px !important;
+    padding: 11px 14px !important;
+    font-size: 17px !important;
+  }
+
+  .foodSafetyAccordionContent {
+    padding: 14px !important;
+  }
+}
+
+/* v85.4 minor edit — Disclaimers centered intro and established accordion. */
+.disclaimersAccordionPage {
+  padding-top: 0 !important;
+}
+
+.disclaimersSectionIntro.rrbSectionIntroComponent {
+  width: 100% !important;
+  margin: 0 auto var(--rrb-section-intro-bottom-gap, 18px) !important;
+  text-align: center !important;
+}
+
+.disclaimersSectionIntro .rrbSectionIntroCopy,
+.disclaimersSectionIntro .rrbSectionIntroTitleRow {
+  width: 100% !important;
+}
+
+.disclaimersSectionIntro .rrbSectionIntroTitleRow {
+  justify-content: center !important;
+}
+
+.disclaimersSectionIntro p {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.disclaimerAccordionList {
+  width: 90% !important;
+  max-width: none !important;
+  margin: 0 auto !important;
+  gap: 11px !important;
+}
+
+.disclaimerAccordionSection {
+  overflow: hidden !important;
+  border: 1px solid #d9d1c2 !important;
+  border-radius: 16px !important;
+  background: #f4efe5 !important;
+  box-shadow: none !important;
+}
+
+.disclaimerAccordionTrigger {
+  display: grid !important;
+  grid-template-columns: 20px minmax(0, 1fr) !important;
+  align-items: center !important;
+  justify-content: initial !important;
+  gap: 12px !important;
+  min-height: 72px !important;
+  padding: 13px 20px !important;
+  border: 0 !important;
+  background: #f4efe5 !important;
+  color: #403a31 !important;
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: 20px !important;
+  line-height: 1.1 !important;
+}
+
+.disclaimerAccordionTrigger:hover,
+.disclaimerAccordionTrigger[aria-expanded="true"] {
+  background: #eee8dd !important;
+}
+
+.disclaimerAccordionTrigger > span:first-child {
+  order: 2 !important;
+}
+
+.disclaimerAccordionArrow {
+  order: 1 !important;
+  display: grid !important;
+  width: 20px !important;
+  min-width: 20px !important;
+  height: 20px !important;
+  min-height: 20px !important;
+  place-items: center !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: transparent !important;
+  font-size: 0 !important;
+}
+
+.disclaimerAccordionArrow::before {
+  content: "▶" !important;
+  color: #625b50 !important;
+  font-size: 12px !important;
+  line-height: 1 !important;
+}
+
+.disclaimerAccordionTrigger[aria-expanded="true"] .disclaimerAccordionArrow {
+  transform: rotate(90deg) !important;
+}
+
+.disclaimerAccordionPanel {
+  display: grid !important;
+  gap: 0 !important;
+  padding: 4px 20px 18px !important;
+  border-top: 1px solid #d9d1c2 !important;
+  background: #fffdf8 !important;
+}
+
+.disclaimerSubsection {
+  display: grid !important;
+  gap: 10px !important;
+  padding: 17px 0 !important;
+  border: 0 !important;
+  border-bottom: 1px solid #e5ddd0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+}
+
+.disclaimerSubsection:last-child {
+  border-bottom: 0 !important;
+}
+
+.disclaimerSubsection h2 {
+  font-size: 18px !important;
+}
+
+.disclaimerExplanationBlock,
+.disclaimerExplanationBlock.simple,
+.disclaimerExplanationBlock.formal {
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+}
+
+.disclaimerExplanationBlock h3 {
+  margin: 5px 0 7px !important;
+}
+
+.disclaimerExplanationBlock p {
+  position: relative !important;
+  margin: 0 0 8px !important;
+  padding-left: 21px !important;
+}
+
+.disclaimerExplanationBlock p::before {
+  content: "♥" !important;
+  position: absolute !important;
+  left: 0 !important;
+  top: .12em !important;
+  font-size: 11px !important;
+  line-height: 1.4 !important;
+  font-weight: 700 !important;
+}
+
+.disclaimerExplanationBlock.simple p::before {
+  color: #7a9a3d !important;
+}
+
+.disclaimerExplanationBlock.formal p::before {
+  color: #c8b99f !important;
+}
+
+@media (max-width: 700px) {
+  .disclaimerAccordionList {
+    width: 96% !important;
+  }
+
+  .disclaimerAccordionTrigger {
+    min-height: 62px !important;
+    padding: 11px 14px !important;
+    font-size: 17px !important;
+  }
+
+  .disclaimerAccordionPanel {
+    padding: 3px 14px 14px !important;
+  }
+}
+
+/* v85.4 minor edit — Reference Guides title, larger controls, centered topics. */
+.referenceGuidesFeaturePage {
+  width: 100% !important;
+  max-width: none !important;
+  padding-top: 0 !important;
+}
+
+.referenceGuidesSectionIntro.rrbSectionIntroComponent {
+  width: 100% !important;
+  margin: 0 auto var(--rrb-section-intro-bottom-gap) !important;
+  text-align: center !important;
+}
+
+.referenceGuidesSectionIntro .rrbSectionIntroCopy {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 auto !important;
+  text-align: center !important;
+}
+
+.referenceGuidesSectionIntro .rrbSectionIntroTitleRow {
+  justify-content: center !important;
+}
+
+.referenceGuidesSectionIntro p {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.referenceGuideTopButton {
+  min-height: 62px !important;
+  padding: 8px 7px !important;
+  font-size: clamp(16px, 1.2vw, 19px) !important;
+  line-height: 1.05 !important;
+  font-weight: 800 !important;
+}
+
+.referenceGuidePanelHeader {
+  text-align: center !important;
+}
+
+.referenceGuidePanelHeader > div {
+  width: 100% !important;
+}
+
+.referenceGuidePanelHeader h2 {
+  justify-content: center !important;
+  width: 100% !important;
+  text-align: center !important;
+}
+
+.referenceGuidePanelHeader p {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 10px auto 0 !important;
+  text-align: center !important;
+}
+
+@media (max-width: 1050px) {
+  .referenceGuideTopButton {
+    min-height: 56px !important;
+    font-size: 16px !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .referenceGuideTopButton {
+    min-height: 50px !important;
+    font-size: 14px !important;
+  }
+}
+
+/* v85.4 minor edit — dark beige privacy panel. */
+.glp1EducationPrivacyNote {
+  background: var(--rrb-inventory-beige, #a59e99) !important;
+  color: #ffffff !important;
+  text-align: center !important;
+}
+
+.glp1EducationPrivacyNote strong,
+.glp1EducationPrivacyNote p {
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  color: #ffffff !important;
+  text-align: center !important;
+}
+
+/* v85.4 minor edit — move care-guide introductions outside their content boxes. */
+.careGuideSectionIntro.rrbSectionIntroComponent {
+  display: block !important;
+  width: 100% !important;
+  margin: 0 auto var(--rrb-section-intro-bottom-gap) !important;
+  padding: 0 !important;
+  text-align: center !important;
+}
+
+.careGuideSectionIntro .rrbSectionIntroCopy {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 auto !important;
+  text-align: center !important;
+}
+
+.careGuideSectionIntro .rrbSectionIntroTitleRow {
+  justify-content: center !important;
+}
+
+.careGuideSectionIntro p {
+  max-width: var(--rrb-section-intro-max-copy-width) !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.careGuideSectionIntro + .gasGrillGuide {
+  margin-top: 0 !important;
 }
