@@ -3,6 +3,7 @@ import {
   previewCardImageCandidates,
   recipeImageCandidates,
 } from "./recipeAssets.js";
+import { routeForRecipe } from "../../routing/seoRoutes.js";
 
 export function RecipeImage({ recipe }) {
   const candidates = recipeImageCandidates(recipe);
@@ -45,9 +46,13 @@ export function FullRecipeCardPreview({ recipe, onOpen }) {
 
   if (imagePath) {
     return (
-      <button
+      <a
+        href={routeForRecipe(recipe.id)}
         className="recipeImage recipeFullCardImage recipeFullCardImageButton"
-        onClick={onOpen}
+        onClick={(event) => {
+          event.preventDefault();
+          onOpen?.();
+        }}
         aria-label={`Open ${recipe.title} recipe card`}
       >
         <img
@@ -57,7 +62,7 @@ export function FullRecipeCardPreview({ recipe, onOpen }) {
           decoding="async"
           onError={() => setImageIndex((current) => current + 1)}
         />
-      </button>
+      </a>
     );
   }
 
