@@ -23,6 +23,10 @@ import {
   MASTER_INVENTORY_CATEGORIES,
   buildMasterKitchenInventoryCatalog,
 } from "./data/masterKitchenInventoryCatalog.js";
+import {
+  FULLY_STOCKED_PANTRY_ITEMS,
+  FULLY_STOCKED_PANTRY_SECTIONS,
+} from "./data/fullyStockedPantry.js";
 import AdminPinDialog from "./features/home/AdminPinDialog";
 import HomeRecipeCounters from "./features/home/HomeRecipeCounters";
 import HomeMealJourneyAccordion, { MealJourneyContent } from "./features/home/HomeMealJourney.jsx";
@@ -284,6 +288,36 @@ const PANTRY_STAPLES = [
   },
 ];
 
+const PANTRY_LEVEL_1_2_GROUPS = PANTRY_STAPLES
+  .map((group) => ({
+    ...group,
+    items: group.items.filter((item) => item.level <= 2),
+  }))
+  .filter((group) => group.items.length);
+
+function standardPantryGroupsForLevel(level) {
+  if (Number(level) === 3) return FULLY_STOCKED_PANTRY_SECTIONS;
+  return PANTRY_LEVEL_1_2_GROUPS
+    .map((group) => ({
+      ...group,
+      items: group.items.filter((item) => item.level <= Number(level)),
+    }))
+    .filter((group) => group.items.length);
+}
+
+const ALL_STANDARD_PANTRY_ITEMS = [
+  ...PANTRY_LEVEL_1_2_GROUPS.flatMap((group) => group.items),
+  ...FULLY_STOCKED_PANTRY_ITEMS,
+];
+
+const PANTRY_PRIMARY_ITEM_KEY_BY_NAME = new Map();
+ALL_STANDARD_PANTRY_ITEMS.forEach((item) => {
+  const normalizedName = item.name.toLowerCase();
+  if (!PANTRY_PRIMARY_ITEM_KEY_BY_NAME.has(normalizedName)) {
+    PANTRY_PRIMARY_ITEM_KEY_BY_NAME.set(normalizedName, item.id || item.name);
+  }
+});
+
 const PANTRY_MATCHERS = [
   { pantry: "Salt", terms: ["salt"] },
   { pantry: "Black pepper", terms: ["pepper", "black pepper"] },
@@ -366,6 +400,13 @@ const PANTRY_MATCHERS = [
   { pantry: "Painter's tape", terms: ["painter's tape", "painters tape"] },
   { pantry: "Meal-prep containers", terms: ["meal prep containers", "storage containers"] },
 ];
+
+const FULLY_STOCKED_PANTRY_MATCHERS = FULLY_STOCKED_PANTRY_ITEMS.map((item) => ({
+  pantry: item.id,
+  pantryName: item.name,
+  item,
+  terms: [item.name],
+}));
 
 
 const GROCERY_REFERENCE_GROUPS = [
@@ -597,6 +638,11 @@ function findPantryMatch(itemName = "") {
       const normalizedTerm = normalizePantryText(term);
       return normalizedItem === normalizedTerm || normalizedItem.includes(normalizedTerm);
     })
+  ) || FULLY_STOCKED_PANTRY_MATCHERS.find((matcher) =>
+    matcher.terms.some((term) => {
+      const normalizedTerm = normalizePantryText(term);
+      return normalizedItem === normalizedTerm || normalizedItem.includes(normalizedTerm);
+    })
   );
 }
 
@@ -604,12 +650,16 @@ function splitShoppingListByPantry(list, pantry) {
   return list.reduce(
     (groups, item) => {
       const match = findPantryMatch(item.name);
-      const inPantry = match && pantry[match.pantry];
+      const inPantry = match && (
+        match.item
+          ? pantryItemStatus(pantry, match.item) === "in-stock"
+          : pantry[match.pantry]
+      );
 
       if (inPantry) {
         groups.pantry.push({
           ...item,
-          pantryName: match.pantry,
+          pantryName: match.pantryName || match.pantry,
         });
       } else {
         groups.needed.push(item);
@@ -6759,20 +6809,31 @@ function pantryInventoryMeta(pantry = {}) {
     : { statuses: {}, customItems: [] };
 }
 
-function pantryItemStatus(pantry, name) {
-  const saved = pantryInventoryMeta(pantry).statuses[name];
+function pantryItemKey(itemOrName) {
+  if (itemOrName && typeof itemOrName === "object") return itemOrName.id || itemOrName.name;
+  return String(itemOrName || "");
+}
+
+function pantryItemStatus(pantry, itemOrName) {
+  const key = pantryItemKey(itemOrName);
+  const legacyName = itemOrName && typeof itemOrName === "object" ? itemOrName.name : key;
+  const statuses = pantryInventoryMeta(pantry).statuses;
+  const isPrimaryLegacyTarget = PANTRY_PRIMARY_ITEM_KEY_BY_NAME.get(legacyName.toLowerCase()) === key;
+  const saved = statuses[key] || (isPrimaryLegacyTarget ? statuses[legacyName] : undefined);
   if (["not-set", "in-stock", "low", "out"].includes(saved)) return saved;
-  return pantry?.[name] ? "in-stock" : "not-set";
+  return pantry?.[key] || (isPrimaryLegacyTarget && pantry?.[legacyName]) ? "in-stock" : "not-set";
 }
 
 function buildPantryRestockItems(pantry = {}) {
   const meta = pantryInventoryMeta(pantry);
-  const standardNames = PANTRY_STAPLES.flatMap((group) => group.items.map((item) => item.name));
-  const customNames = meta.customItems.map((item) => item.name);
-  return [...new Set([...standardNames, ...customNames])]
-    .filter((name) => ["low", "out"].includes(meta.statuses[name]))
-    .map((name) => ({
-      name,
+  const byKey = new Map();
+  [...ALL_STANDARD_PANTRY_ITEMS, ...meta.customItems].forEach((item) => {
+    byKey.set(pantryItemKey(item), item);
+  });
+  return [...byKey.values()]
+    .filter((item) => ["low", "out"].includes(pantryItemStatus(pantry, item)))
+    .map((item) => ({
+      name: item.name,
       qty: 1,
       unit: "item",
       aisle: "Pantry Restock",
@@ -6835,7 +6896,7 @@ function pantryProductType(groupName = "", itemName = "") {
 function pantryProductTypeColumns(items = [], groupName = "") {
   const grouped = new Map();
   items.forEach((item) => {
-    const type = pantryProductType(groupName, item.name);
+    const type = item.type || pantryProductType(groupName, item.name);
     if (!grouped.has(type)) grouped.set(type, []);
     grouped.get(type).push(item);
   });
@@ -6934,7 +6995,8 @@ function InventoryHubPage({
   const freezerItems = [...getDefaultFreezerItems(), ...safeFreezer.customItems];
   const pantryMeta = pantryInventoryMeta(pantry);
   const pantryItems = [
-    ...PANTRY_STAPLES.flatMap((group) => group.items.map((item) => ({ ...item, group: group.group }))),
+    ...PANTRY_LEVEL_1_2_GROUPS.flatMap((group) => group.items.map((item) => ({ ...item, group: group.group }))),
+    ...FULLY_STOCKED_PANTRY_SECTIONS.flatMap((group) => group.items.map((item) => ({ ...item, group: group.group }))),
     ...pantryMeta.customItems.map((item) => ({ ...item, group: "Custom Pantry Items" })),
   ];
   const normalizedSearch = search.trim().toLowerCase();
@@ -7132,84 +7194,120 @@ function InventoryHubPage({
 
 function PantryStaplesPage({ pantry, setPantry, externalSearch = "", embedded = false }) {
   const [selectedPantryLevel, setSelectedPantryLevel] = useState(1);
-  const [showDigitalStockCheck, setShowDigitalStockCheck] = useState(false);
   const [expandedPantryGroups, setExpandedPantryGroups] = useState(() => new Set());
+  const [expandedPantryTypes, setExpandedPantryTypes] = useState(() => new Set());
+  const [showPantryItemForm, setShowPantryItemForm] = useState(false);
+  const [manualPantryItemName, setManualPantryItemName] = useState("");
   const selectedLevelInfo =
     PANTRY_LEVELS.find((level) => level.id === selectedPantryLevel) ||
     PANTRY_LEVELS[0];
 
   const normalizedExternalSearch = externalSearch.trim().toLowerCase();
   const pantryMeta = pantryInventoryMeta(pantry);
-  const pantryCountItems = [
-    ...PANTRY_STAPLES.flatMap((group) => group.items),
-    ...pantryMeta.customItems.map((item) => ({ ...item, level: 1 })),
-  ];
   const pantryLevelCounts = Object.fromEntries(PANTRY_LEVELS.map((level) => [
     level.id,
-    pantryCountItems.filter((item) => item.level <= level.id && pantryItemStatus(pantry, item.name) === "in-stock").length,
+    [
+      ...standardPantryGroupsForLevel(level.id).flatMap((group) => group.items),
+      ...pantryMeta.customItems.filter((item) => Number(item.level || 1) <= level.id),
+    ].filter((item) => pantryItemStatus(pantry, item) === "in-stock").length,
   ]));
-  const visiblePantryGroups = [...PANTRY_STAPLES, ...(pantryMeta.customItems.length ? [{ group: "Custom Pantry Items", items: pantryMeta.customItems.map((item) => ({ ...item, level: 1, custom: true })) }] : [])]
+  const visiblePantryGroups = [
+    ...standardPantryGroupsForLevel(selectedPantryLevel),
+    ...(pantryMeta.customItems.length ? [{
+      id: "custom-pantry-items",
+      group: "Custom Pantry Items",
+      items: pantryMeta.customItems.map((item) => ({ ...item, level: Number(item.level || 1), type: item.type || "Manual Items", custom: true })),
+    }] : []),
+  ]
     .map((group) => ({
       ...group,
       items: group.items
-        .filter((item) => item.level <= selectedPantryLevel && (!normalizedExternalSearch || item.name.toLowerCase().includes(normalizedExternalSearch)))
+        .filter((item) => item.level <= selectedPantryLevel && (!normalizedExternalSearch || `${item.name} ${item.type || ""}`.toLowerCase().includes(normalizedExternalSearch)))
         .sort((a, b) => String(a.name).localeCompare(String(b.name), undefined, { sensitivity: "base", numeric: true })),
     }))
     .filter((group) => group.items.length > 0)
     .sort((a, b) => String(a.group).localeCompare(String(b.group), undefined, { sensitivity: "base", numeric: true }));
 
   function togglePantryItem(item) {
-    setPantry((current) => ({
-      ...current,
-      [item.name]: !current[item.name],
-      [PANTRY_INVENTORY_META_KEY]: {
-        ...pantryInventoryMeta(current),
-        statuses: {
-          ...pantryInventoryMeta(current).statuses,
-          [item.name]: !current[item.name] ? "in-stock" : "not-set",
+    const key = pantryItemKey(item);
+    setPantry((current) => {
+      const isChecked = pantryItemStatus(current, item) === "in-stock";
+      const meta = pantryInventoryMeta(current);
+      return {
+        ...current,
+        [key]: !isChecked,
+        [PANTRY_INVENTORY_META_KEY]: {
+          ...meta,
+          statuses: { ...meta.statuses, [key]: !isChecked ? "in-stock" : "not-set" },
         },
-      },
-    }));
+      };
+    });
   }
 
-  function togglePantryGroup(groupName) {
+  function pantryTypeKeys(group) {
+    return pantryProductTypeColumns(group.items, group.group)
+      .flat()
+      .map((typeGroup) => `${group.group}::${typeGroup.type}`);
+  }
+
+  function togglePantryGroup(group) {
     setExpandedPantryGroups((current) => {
       const next = new Set(current);
-      next.has(groupName) ? next.delete(groupName) : next.add(groupName);
+      const isClosing = next.has(group.group);
+      isClosing ? next.delete(group.group) : next.add(group.group);
+      setExpandedPantryTypes((currentTypes) => {
+        const nextTypes = new Set(currentTypes);
+        pantryTypeKeys(group).forEach((key) => isClosing ? nextTypes.delete(key) : nextTypes.add(key));
+        return nextTypes;
+      });
+      return next;
+    });
+  }
+
+  function togglePantryType(typeKey) {
+    setExpandedPantryTypes((current) => {
+      const next = new Set(current);
+      next.has(typeKey) ? next.delete(typeKey) : next.add(typeKey);
       return next;
     });
   }
 
   function setPantryStatus(item, status) {
+    const key = pantryItemKey(item);
     setPantry((current) => {
       const meta = pantryInventoryMeta(current);
       return {
         ...current,
-        [item.name]: status === "in-stock",
+        [key]: status === "in-stock",
         [PANTRY_INVENTORY_META_KEY]: {
           ...meta,
-          statuses: { ...meta.statuses, [item.name]: status },
+          statuses: { ...meta.statuses, [key]: status },
         },
       };
     });
   }
 
   function clearPantry() {
-    setPantry({});
+    if (!window.confirm("Clear Pantry checks and purchase statuses? Manually added items will remain available.")) return;
+    setPantry((current) => ({
+      [PANTRY_INVENTORY_META_KEY]: {
+        ...pantryInventoryMeta(current),
+        statuses: {},
+      },
+    }));
   }
 
   function checkLevelStaples(level = selectedPantryLevel) {
-    const levelItems = PANTRY_STAPLES.flatMap((group) =>
-      group.items.filter((item) => item.level <= level).map((item) => item.name)
-    );
+    const levelItems = standardPantryGroupsForLevel(level).flatMap((group) => group.items);
 
     setPantry((current) => {
       const next = { ...current };
       const meta = pantryInventoryMeta(current);
       const statuses = { ...meta.statuses };
       levelItems.forEach((item) => {
-        next[item] = true;
-        statuses[item] = "in-stock";
+        const key = pantryItemKey(item);
+        next[key] = true;
+        statuses[key] = "in-stock";
       });
       next[PANTRY_INVENTORY_META_KEY] = { ...meta, statuses };
       return next;
@@ -7217,14 +7315,15 @@ function PantryStaplesPage({ pantry, setPantry, externalSearch = "", embedded = 
   }
 
   function printPantryStockWorksheet() {
+    const worksheetGroups = standardPantryGroupsForLevel(selectedPantryLevel);
     printManualInventoryWorksheet({
-      title: "Pantry Staples Stock-Check Worksheet",
+      title: `${selectedLevelInfo.label} Manual Inventory Worksheet`,
       instructions: "Check every staple currently in stock, record the quantity, and mark anything that needs to be added. Then transfer the checked items to Pantry Staples.",
-      groups: PANTRY_STAPLES.map((group) => ({
+      groups: worksheetGroups.map((group) => ({
         title: group.group,
         items: group.items.map((item) => ({
           name: item.name,
-          detail: `Pantry Level ${item.level}`,
+          detail: item.type || `Pantry Level ${item.level}`,
         })),
       })),
       columns: [
@@ -7233,6 +7332,63 @@ function PantryStaplesPage({ pantry, setPantry, externalSearch = "", embedded = 
         { label: "Need", kind: "checkbox" },
         { label: "Notes", kind: "line" },
       ],
+    });
+  }
+
+  function expandAllPantry() {
+    setExpandedPantryGroups(new Set(visiblePantryGroups.map((group) => group.group)));
+    setExpandedPantryTypes(new Set(visiblePantryGroups.flatMap(pantryTypeKeys)));
+  }
+
+  function collapseAllPantry() {
+    setExpandedPantryGroups(new Set());
+    setExpandedPantryTypes(new Set());
+  }
+
+  function addManualPantryItem(event) {
+    event.preventDefault();
+    const name = manualPantryItemName.trim();
+    if (!name) return;
+    setPantry((current) => {
+      const meta = pantryInventoryMeta(current);
+      const existing = meta.customItems.find((item) => item.name.toLowerCase() === name.toLowerCase());
+      if (existing) return current;
+      const item = {
+        id: `custom-pantry-${Date.now()}`,
+        name,
+        level: selectedPantryLevel,
+        type: "Manual Items",
+      };
+      return {
+        ...current,
+        [PANTRY_INVENTORY_META_KEY]: {
+          ...meta,
+          customItems: [...meta.customItems, item],
+        },
+      };
+    });
+    setManualPantryItemName("");
+    setShowPantryItemForm(false);
+    setExpandedPantryGroups((current) => new Set([...current, "Custom Pantry Items"]));
+    setExpandedPantryTypes((current) => new Set([...current, "Custom Pantry Items::Manual Items"]));
+  }
+
+  function recordPantryPurchases() {
+    const currentItems = visiblePantryGroups.flatMap((group) => group.items);
+    const purchaseItems = currentItems.filter((item) => ["low", "out"].includes(pantryItemStatus(pantry, item)));
+    if (!purchaseItems.length) return;
+    if (!window.confirm(`Mark ${purchaseItems.length} Low or Out Pantry item${purchaseItems.length === 1 ? "" : "s"} as purchased and in stock?`)) return;
+    setPantry((current) => {
+      const meta = pantryInventoryMeta(current);
+      const statuses = { ...meta.statuses };
+      const next = { ...current };
+      purchaseItems.forEach((item) => {
+        const key = pantryItemKey(item);
+        next[key] = true;
+        statuses[key] = "in-stock";
+      });
+      next[PANTRY_INVENTORY_META_KEY] = { ...meta, statuses };
+      return next;
     });
   }
 
@@ -7267,59 +7423,32 @@ function PantryStaplesPage({ pantry, setPantry, externalSearch = "", embedded = 
       </div>
 
       <div className="pantryActions inventoryControlStrip">
-        <button className="primary" type="button" onClick={printPantryStockWorksheet}>
-          Print Stock-Check Worksheet
-        </button>
-        <button className="secondary" type="button" onClick={() => setShowDigitalStockCheck((current) => !current)}>
-          {showDigitalStockCheck ? "Close Digital Stock Check" : "Open Digital Stock Check"}
-        </button>
-        <button className="primary" onClick={() => checkLevelStaples(selectedPantryLevel)}>
-          Check Level {selectedPantryLevel}
-        </button>
-        <button className="secondary" onClick={() => checkLevelStaples(1)}>
-          Check Minimum
-        </button>
-        <button className="secondary" onClick={clearPantry}>
-          Clear pantry checks
-        </button>
+        <button className="primary" type="button" onClick={printPantryStockWorksheet}>Manual Inventory</button>
+        <button className="secondary" type="button" onClick={expandAllPantry}>Expand</button>
+        <button className="secondary" type="button" onClick={collapseAllPantry}>Collapse</button>
+        <button className="secondary" type="button" onClick={() => setShowPantryItemForm((current) => !current)}>Add Item</button>
+        <button className="primary" type="button" onClick={recordPantryPurchases}>Purchase</button>
+        <button className="secondary" type="button" onClick={clearPantry}>Clear</button>
       </div>
 
-      {showDigitalStockCheck && (
-        <DigitalStockCheckPanel
-          worksheetId="pantry-staples"
-          title="Pantry Staples Digital Stock Check"
-          instructions="Check items and record quantities as you move through the pantry. Checks update Pantry Staples immediately; quantities and notes remain saved with this worksheet."
-          groups={PANTRY_STAPLES.map((group) => ({
-            title: group.group,
-            items: group.items.map((item) => ({
-              id: item.name,
-              name: item.name,
-              detail: `Pantry Level ${item.level}`,
-              checked: !!pantry[item.name],
-            })),
-          }))}
-          onCheckChange={(item, value) => setPantry((current) => {
-            const meta = pantryInventoryMeta(current);
-            return {
-              ...current,
-              [item.id]: value,
-              [PANTRY_INVENTORY_META_KEY]: {
-                ...meta,
-                statuses: { ...meta.statuses, [item.id]: value ? "in-stock" : "not-set" },
-              },
-            };
-          })}
-          onClose={() => setShowDigitalStockCheck(false)}
-        />
+      {showPantryItemForm && (
+        <form className="pantryManualItemForm" onSubmit={addManualPantryItem}>
+          <label>
+            <span>Product Name</span>
+            <input autoFocus required value={manualPantryItemName} onChange={(event) => setManualPantryItemName(event.target.value)} placeholder={`Add to ${selectedLevelInfo.label}`} />
+          </label>
+          <button type="button" className="secondary" onClick={() => setShowPantryItemForm(false)}>Cancel</button>
+          <button type="submit" className="primary">Save Item</button>
+        </form>
       )}
 
       <div className="masterInventoryAccordions pantryInventoryAccordions">
         {visiblePantryGroups.map((group) => {
           const isOpen = Boolean(normalizedExternalSearch) || expandedPantryGroups.has(group.group);
-          const stocked = group.items.filter((item) => pantryItemStatus(pantry, item.name) === "in-stock").length;
+          const stocked = group.items.filter((item) => pantryItemStatus(pantry, item) === "in-stock").length;
           return (
           <section className="masterInventoryCategory pantryGroup" key={group.group}>
-            <button type="button" className="masterInventoryCategoryButton" onClick={() => togglePantryGroup(group.group)} aria-expanded={isOpen}>
+            <button type="button" className="masterInventoryCategoryButton" onClick={() => togglePantryGroup(group)} aria-expanded={isOpen}>
               <span>{isOpen ? "▾" : "▸"}</span>
               <strong>{group.group}</strong>
               <em>{stocked} stocked / {group.items.length} items</em>
@@ -7328,23 +7457,30 @@ function PantryStaplesPage({ pantry, setPantry, externalSearch = "", embedded = 
             {isOpen && <div className="pantryAccordionBody">
               {pantryProductTypeColumns(group.items, group.group).map((column, columnIndex) => (
                 <div className="pantryAccordionColumn" key={`${group.group}-column-${columnIndex + 1}`}>
-                  {column.map((typeGroup) => (
+                  {column.map((typeGroup) => {
+                    const typeKey = `${group.group}::${typeGroup.type}`;
+                    const isTypeOpen = Boolean(normalizedExternalSearch) || expandedPantryTypes.has(typeKey);
+                    return (
                     <section className="pantryTypeGroup" key={typeGroup.type}>
-                      <h3>{typeGroup.type}</h3>
-                      {typeGroup.items.map((item) => (
+                      <button type="button" className="pantryTypeGroupButton" onClick={() => togglePantryType(typeKey)} aria-expanded={isTypeOpen}>
+                        <span>{isTypeOpen ? "▾" : "▸"}</span>
+                        <strong>{typeGroup.type}</strong>
+                        <em>{typeGroup.items.length}</em>
+                      </button>
+                      {isTypeOpen && typeGroup.items.map((item) => (
                         <div
-                          key={item.name}
-                          className={`pantryItem${pantryItemStatus(pantry, item.name) === "in-stock" ? " checked" : ""} is-${pantryItemStatus(pantry, item.name)}`}
+                          key={pantryItemKey(item)}
+                          className={`pantryItem${pantryItemStatus(pantry, item) === "in-stock" ? " checked" : ""} is-${pantryItemStatus(pantry, item)}`}
                         >
                           <input
                             type="checkbox"
-                            checked={!!pantry[item.name]}
+                            checked={pantryItemStatus(pantry, item) === "in-stock"}
                             onChange={() => togglePantryItem(item)}
                             aria-label={`${item.name} in stock`}
                           />
                           <span>{item.name}</span>
                           <em>L{item.level}</em>
-                          <select value={pantryItemStatus(pantry, item.name)} onChange={(event) => setPantryStatus(item, event.target.value)} aria-label={`${item.name} stock status`}>
+                          <select value={pantryItemStatus(pantry, item)} onChange={(event) => setPantryStatus(item, event.target.value)} aria-label={`${item.name} stock status`}>
                             <option value="not-set">Not Set</option>
                             <option value="in-stock">In Stock</option>
                             <option value="low">Low</option>
@@ -7353,7 +7489,8 @@ function PantryStaplesPage({ pantry, setPantry, externalSearch = "", embedded = 
                         </div>
                       ))}
                     </section>
-                  ))}
+                    );
+                  })}
                 </div>
               ))}
             </div>}

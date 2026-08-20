@@ -1,0 +1,40 @@
+{
+  "version": "84.37.0",
+  "release": "Expanded Level 3 Fully Stocked Pantry",
+  "baseline": "v84.36 GitHub update",
+  "uploadMode": "replace matching files and add new files; no deletions required",
+  "changedFiles": [
+    "CHANGELOG.md",
+    "UPDATE-MANIFEST-v84.37.json",
+    "V84.37-FULLY-STOCKED-PANTRY-REPORT.md",
+    "UPLOAD-INSTRUCTIONS-v84.37.txt",
+    "package.json",
+    "package-lock.json",
+    "src/package.json",
+    "src/App.jsx",
+    "src/App.css",
+    "src/data/fullyStockedPantry.js",
+    "test/fullyStockedPantryV8437.test.mjs"
+  ],
+  "deletedFiles": [],
+  "pantryScope": {
+    "level1": "unchanged",
+    "level2": "unchanged",
+    "level3": "replaced with 12-section, 565-item catalog",
+    "hierarchy": "Section > Type > Individual Item",
+    "manualItems": "preserved across Clear",
+    "controls": [
+      "Manual Inventory",
+      "Expand",
+      "Collapse",
+      "Add Item",
+      "Purchase",
+      "Clear"
+    ]
+  },
+  "verification": {
+    "focusedContract": "test/fullyStockedPantryV8437.test.mjs",
+    "dataSyntax": "node --check src/data/fullyStockedPantry.js",
+    "catalog": "12 sections, 565 stable unique item IDs"
+  }
+}

@@ -1,6 +1,6 @@
 {
   "name": "rrb-browser-based-v1",
-  "version": "84.36.0",
+  "version": "84.37.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -40,6 +40,7 @@
     "test:master-freezer-v8414": "node test/masterFreezerInventoryV8414.test.mjs",
     "test:ingredient-data-v8415": "node test/pmQpSbSdSfSgIngredientDataV8415.test.mjs",
     "test:kitchen-details-v8416": "node test/kitchenDetailsInventoryV8416.test.mjs",
+    "test:fully-stocked-pantry-v8437": "node test/fullyStockedPantryV8437.test.mjs",
     "test:kitchen-inventory-v8417": "node test/kitchenInventoryTaxonomyV8417.test.mjs",
     "test:kitchen-inventory-v8418": "node test/kitchenInventoryStandardTaxonomyV8418.test.mjs",
     "test:header-logo-centering-v8419": "node test/headerLogoCenteringV8419.test.mjs",

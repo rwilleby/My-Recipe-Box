@@ -1,3 +1,13 @@
+# v84.37 — Expanded Fully Stocked Pantry
+
+- Replaced only the Level 3 Fully Stocked Pantry catalog with the approved 12-section master list while leaving Levels 1 and 2 unchanged.
+- Organized Level 3 as Section → Type → Individual Item with independently collapsible section and type accordions.
+- Added stable record IDs and context-aware duplicate handling so canned, refrigerated, frozen, dried, bakery, and storage forms remain distinct.
+- Preserved Pantry checkboxes, stock statuses, restock and shopping-list behavior for every individual item.
+- Added the one-row Pantry controls: Manual Inventory, Expand, Collapse, Add Item, Purchase, and Clear.
+- Preserved manually added products when Pantry checks and purchase statuses are cleared.
+- Kept the approved beige Pantry styling and centered level summary treatment.
+
 # v84.36 — Inventory, Grocery List, and Video Library Videos
 
 - Added the Master Kitchen Inventory video to its large hero.

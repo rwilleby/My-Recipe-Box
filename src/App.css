@@ -20318,3 +20318,142 @@ button.browseRecipeWideFooterAction:focus-visible,
   margin-top: 0 !important;
   line-height: 1.15 !important;
 }
+
+/* ================================================================
+   v84.37 — EXPANDED FULLY STOCKED PANTRY PROTOTYPE
+   ================================================================ */
+.inventoryHubContent .pantryPage .pantryActions.inventoryControlStrip {
+  display: grid !important;
+  grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+  gap: 8px !important;
+  flex-wrap: nowrap !important;
+}
+
+.inventoryHubContent .pantryPage .pantryActions.inventoryControlStrip > button {
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 42px !important;
+  padding: 5px 8px !important;
+  font-size: clamp(9px, .82vw, 13px) !important;
+  font-weight: 800 !important;
+  line-height: 1.1 !important;
+  text-transform: uppercase !important;
+  white-space: nowrap !important;
+}
+
+.pantryManualItemForm {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto auto !important;
+  align-items: end !important;
+  gap: 8px !important;
+  margin: 0 0 16px !important;
+  padding: 12px !important;
+  border: 1px solid var(--rrb-inventory-beige-border, #d6cdbf) !important;
+  border-radius: 14px !important;
+  background: #fbfaf7 !important;
+}
+
+.pantryManualItemForm label {
+  display: grid !important;
+  gap: 5px !important;
+  color: var(--rrb-inventory-beige-dark, #5f574e) !important;
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 10px !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+}
+
+.pantryManualItemForm input {
+  width: 100% !important;
+  min-height: 40px !important;
+  padding: 0 11px !important;
+  border: 1px solid #cfc5b7 !important;
+  border-radius: 9px !important;
+  background: #fff !important;
+  color: #29261f !important;
+  font-size: 14px !important;
+  box-sizing: border-box !important;
+}
+
+.pantryManualItemForm > button {
+  min-height: 40px !important;
+  margin: 0 !important;
+}
+
+.pantryTypeGroup {
+  overflow: hidden !important;
+  border: 1px solid #ded5c8 !important;
+  border-radius: 9px !important;
+  background: #fffdf9 !important;
+}
+
+.pantryTypeGroupButton {
+  display: grid !important;
+  grid-template-columns: 16px minmax(0, 1fr) auto !important;
+  align-items: center !important;
+  width: 100% !important;
+  min-height: 34px !important;
+  padding: 5px 9px !important;
+  border: 0 !important;
+  border-bottom: 1px solid #ded5c8 !important;
+  background: #e5ded2 !important;
+  color: #4f493f !important;
+  font-family: Inter, Arial, sans-serif !important;
+  text-align: left !important;
+}
+
+.pantryTypeGroupButton[aria-expanded="false"] {
+  border-bottom-color: transparent !important;
+}
+
+.pantryTypeGroupButton > span {
+  font-size: 11px !important;
+}
+
+.pantryTypeGroupButton > strong {
+  overflow: hidden !important;
+  font-size: 10px !important;
+  font-weight: 850 !important;
+  letter-spacing: .035em !important;
+  text-overflow: ellipsis !important;
+  text-transform: uppercase !important;
+  white-space: nowrap !important;
+}
+
+.pantryTypeGroupButton > em {
+  min-width: 24px !important;
+  color: #786f64 !important;
+  font-size: 9px !important;
+  font-style: normal !important;
+  font-weight: 800 !important;
+  text-align: right !important;
+}
+
+.pantryTypeGroup .pantryItem {
+  padding-left: 8px !important;
+  padding-right: 8px !important;
+}
+
+@media (max-width: 700px) {
+  .inventoryHubContent .pantryPage .pantryActions.inventoryControlStrip {
+    grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+    gap: 3px !important;
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+  }
+
+  .inventoryHubContent .pantryPage .pantryActions.inventoryControlStrip > button {
+    min-height: 38px !important;
+    padding-left: 2px !important;
+    padding-right: 2px !important;
+    font-size: 7px !important;
+  }
+
+  .pantryManualItemForm {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  .pantryManualItemForm label {
+    grid-column: 1 / -1 !important;
+  }
+}
