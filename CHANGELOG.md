@@ -1,3 +1,10 @@
+# v84.33 — Standardized Freezer and Pantry Counted Strips
+
+- Locked the approved Freezer counted strip as the standard for this inventory section.
+- Applied the same segmented geometry, typography, active-state contrast, and count-circle placement to Pantry.
+- Removed Pantry label clipping so “Fully Stocked Pantry” remains readable at desktop widths.
+- Kept all five Pantry action buttons on one coordinated desktop row, with responsive wrapping on smaller screens.
+
 # v84.32 — Secondary Inventory Strip Size and Position
 
 - Extended the Freezer and Pantry secondary strips to the same full inner-content width as their filter rows and accordions.

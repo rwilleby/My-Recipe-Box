@@ -20029,3 +20029,119 @@ button.browseRecipeWideFooterAction:focus-visible,
     right: 6px !important;
   }
 }
+
+/* ================================================================
+   v84.33 — LOCKED COUNTED INVENTORY STRIP STANDARD
+   Freezer is the approved master; Pantry uses the same treatment.
+   ================================================================ */
+.inventoryHubContent > .freezerInventoryManagementPage > .freezerManagementKindTabs,
+.inventoryHubContent > .pantryPage > .pantryLevelTabs {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 0 !important;
+  height: 48px !important;
+  padding: 2px !important;
+  border: 1px solid var(--rrb-segmented-border, #c7ccc7) !important;
+  border-radius: var(--rrb-segmented-radius, 18px) !important;
+  background: var(--rrb-segmented-bg, #f1efe9) !important;
+  box-shadow: none !important;
+  overflow: hidden !important;
+}
+
+.inventoryHubContent .freezerManagementKindTabs button {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  padding: 0 58px 0 18px !important;
+  border: 0 !important;
+  border-right: 1px solid var(--rrb-segmented-divider, #d2d1cc) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: var(--rrb-segmented-text, #172033) !important;
+}
+
+.inventoryHubContent .freezerManagementKindTabs button:last-child {
+  border-right: 0 !important;
+}
+
+.inventoryHubContent .freezerManagementKindTabs button.isActive,
+.inventoryHubContent .pantryLevelTabs button.active {
+  border-radius: calc(var(--rrb-segmented-radius, 18px) - 3px) !important;
+  background: var(--rrb-segmented-active-bg, #9a938f) !important;
+  color: #fff !important;
+}
+
+.inventoryHubContent .freezerManagementKindTabs .inventorySegmentLabel,
+.inventoryHubContent .pantryLevelTabs .inventorySegmentLabel {
+  display: block !important;
+  width: auto !important;
+  max-width: 100% !important;
+  overflow: visible !important;
+  color: inherit !important;
+  font-size: 14px !important;
+  font-weight: 850 !important;
+  letter-spacing: 0 !important;
+  line-height: 1.1 !important;
+  text-align: center !important;
+  text-overflow: clip !important;
+  text-transform: none !important;
+  white-space: nowrap !important;
+}
+
+.inventoryHubContent .freezerManagementKindTabs .inventorySegmentCount,
+.inventoryHubContent .pantryLevelTabs .inventorySegmentCount {
+  right: 22px !important;
+  min-width: 28px !important;
+  height: 28px !important;
+  color: #172033 !important;
+}
+
+/* Keep all five Pantry actions on one coordinated desktop row. */
+.inventoryHubContent .pantryActions.inventoryControlStrip {
+  display: grid !important;
+  grid-template-columns: 1.35fr 1.2fr .75fr .85fr 1fr !important;
+  flex-wrap: nowrap !important;
+}
+
+.inventoryHubContent .pantryActions.inventoryControlStrip > button {
+  width: 100% !important;
+  min-width: 0 !important;
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+  font-size: 13px !important;
+  line-height: 1.15 !important;
+  white-space: normal !important;
+}
+
+@media (max-width: 900px) {
+  .inventoryHubContent .pantryActions.inventoryControlStrip {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .inventoryHubContent .freezerManagementKindTabs button {
+    padding-left: 8px !important;
+    padding-right: 32px !important;
+  }
+
+  .inventoryHubContent .freezerManagementKindTabs .inventorySegmentLabel,
+  .inventoryHubContent .pantryLevelTabs .inventorySegmentLabel {
+    max-width: 100% !important;
+    overflow: hidden !important;
+    font-size: 10px !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .inventoryHubContent .freezerManagementKindTabs .inventorySegmentCount,
+  .inventoryHubContent .pantryLevelTabs .inventorySegmentCount {
+    right: 4px !important;
+  }
+
+  .inventoryHubContent .pantryActions.inventoryControlStrip {
+    grid-template-columns: 1fr !important;
+  }
+}

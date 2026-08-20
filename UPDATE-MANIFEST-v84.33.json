@@ -1,0 +1,29 @@
+{
+  "version": "84.33.0",
+  "release": "Standardized Freezer and Pantry counted strips",
+  "baseline": "v84.32 GitHub update",
+  "uploadMode": "replace matching files and add new files; no deletions required",
+  "changedFiles": [
+    "CHANGELOG.md",
+    "UPDATE-MANIFEST-v84.33.json",
+    "V84.33-INVENTORY-STRIP-STANDARD-REPORT.md",
+    "UPLOAD-INSTRUCTIONS-v84.33.txt",
+    "package.json",
+    "package-lock.json",
+    "src/package.json",
+    "src/App.css",
+    "test/inventoryStripStandardV8433.test.mjs"
+  ],
+  "deletedFiles": [],
+  "layout": {
+    "standard": "The approved Freezer secondary strip is now the standard for Freezer and Pantry",
+    "pantryLabels": "Full desktop labels with approved 14px typography and white active text",
+    "countPosition": "22px from the right edge of each segment",
+    "pantryActions": "Five-button one-row desktop control strip"
+  },
+  "verification": {
+    "focusedContract": "test/inventoryStripStandardV8433.test.mjs",
+    "secondaryStripRegression": "test/inventorySecondaryStripPositionV8432.test.mjs",
+    "countedStripRegression": "test/inventoryCountedStripsV8431.test.mjs"
+  }
+}
