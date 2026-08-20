@@ -21751,3 +21751,12 @@ button.browseRecipeWideFooterAction:focus-visible,
   line-height: 1.05 !important;
   letter-spacing: -0.015em !important;
 }
+
+/* Match the quick-action and Diet Meal card titles to the Complete Dinner title standard. */
+.homePhotoFeatureText strong,
+.homeDietMealText strong {
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif !important;
+  font-weight: 800 !important;
+  line-height: 1.05 !important;
+  letter-spacing: -0.015em !important;
+}
