@@ -10658,6 +10658,9 @@ function ProductsIUsePage({ setActivePage, productCategories, setProductCategori
             </summary>
 
             <div className="productsCategoryAccordionBody">
+              <p className="productsAffiliateDisclosure">
+                Affiliate Disclosure: This page contains Amazon affiliate links. If you make a qualifying purchase through one of these links, Robert’s Recipe Box may earn a small commission at no additional cost to you.
+              </p>
               <div className="productsIUsePageGrid productsOneColumnGrid">
                 {group.products.map((product) => (
                   <article className="productsIUsePageCard productsCompactCard" key={product.title}>

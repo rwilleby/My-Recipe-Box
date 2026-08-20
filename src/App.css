@@ -21105,6 +21105,18 @@ button.browseRecipeWideFooterAction:focus-visible,
   background: #fffdf8 !important;
 }
 
+.productsAffiliateDisclosure {
+  margin: 0 0 14px !important;
+  padding: 0 2px 12px !important;
+  border-bottom: 1px solid #e5ddd0 !important;
+  color: #625b50 !important;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif !important;
+  font-size: 13px !important;
+  line-height: 1.45 !important;
+  font-style: italic !important;
+  font-weight: 400 !important;
+}
+
 .productsCategoryAccordionBody .productsIUsePageGrid {
   width: 100% !important;
   max-width: none !important;
@@ -21130,6 +21142,10 @@ button.browseRecipeWideFooterAction:focus-visible,
 
   .productsCategoryAccordion > summary > strong {
     grid-column: 2 !important;
+  }
+
+  .productsAffiliateDisclosure {
+    font-size: 12px !important;
   }
 }
 

@@ -13,10 +13,13 @@ test("Cooking Tools uses a titled category accordion layout", () => {
   assert.match(page, /text="Browse practical kitchen products organized by category/);
   assert.match(page, /const productGroups = PRODUCT_CATEGORIES/);
   assert.match(page, /<details className="productsCategoryAccordion"/);
+  assert.match(page, /className="productsAffiliateDisclosure"/);
+  assert.match(page, /Affiliate Disclosure: This page contains Amazon affiliate links\./);
   assert.match(page, /group\.products\.map/);
   assert.doesNotMatch(page, /productsCategoryToolbar/);
 
   const marker = "/* v85.4 minor edit — category accordions for Cooking Tools. */";
   const rules = css.slice(css.lastIndexOf(marker));
   assert.match(rules, /\.productsAccordionList\s*\{[^}]*width:\s*90%\s*!important;/s);
+  assert.match(rules, /\.productsAffiliateDisclosure\s*\{[^}]*font-family:\s*Inter[^}]*font-style:\s*italic\s*!important;/s);
 });
