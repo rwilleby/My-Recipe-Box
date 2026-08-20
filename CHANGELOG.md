@@ -10,6 +10,8 @@
 - Added the Amazon affiliate disclosure to the beginning of every Cooking Tools, Storage & Organization accordion panel.
 - Updated the Video Library with full-color playable previews, beige destination buttons, and the established centered introduction.
 - Removed native Video Library control bars; videos now use clean click-to-play/pause behavior with a play indicator only while inactive or paused.
+- Reordered the homepage to place “What Do You Want to Do Today?” directly after the hero, followed by Quick Dinner and Diet Meal ideas; removed the construction stamp and hid homepage Previous/Next controls.
+- Delayed all backup warnings until the visitor has saved custom recipe-box information while preserving other kitchen reminders.
 - Hid the Weekly Meal Planner prototype and Submit Your Family Recipes from public navigation while preserving their source for later use.
 - Removed macOS metadata from the v85 distribution archive.
 

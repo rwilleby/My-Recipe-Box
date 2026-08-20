@@ -41,6 +41,7 @@ export default function KitchenReminderRibbon({
   preparedInventory,
   kosUi,
   setActivePage,
+  enableBackupWarnings = false,
 }) {
   const [clock, setClock] = useState(() => Date.now());
   const [weekendPlan, setWeekendPlan] = useState(() => readJson(WEEKEND_BULK_PLAN_KEY, {}));
@@ -74,13 +75,13 @@ export default function KitchenReminderRibbon({
 
   const reminders = useMemo(() => buildKitchenReminders({
     now: clock,
-    backup,
+    backup: enableBackupWarnings ? backup : { ...backup, due: false, isDue: false },
     plan,
     weekendPlan,
     refrigerator,
     freezer,
     preparedInventory,
-  }), [backup, clock, freezer, plan, preparedInventory, refrigerator, weekendPlan]);
+  }), [backup, clock, enableBackupWarnings, freezer, plan, preparedInventory, refrigerator, weekendPlan]);
 
   useEffect(() => {
     setIndex((current) => reminders.length ? Math.min(current, reminders.length - 1) : 0);

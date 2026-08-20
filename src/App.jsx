@@ -136,6 +136,88 @@ const STORAGE_KEYS = {
   inventoryHubView: "rrb_inventoryHubView_v1",
 };
 
+const CUSTOM_USER_INFORMATION_MARKER_KEY = "rrb_has_custom_user_information";
+
+function objectHasSavedEntries(value) {
+  return Boolean(value && typeof value === "object" && Object.keys(value).length);
+}
+
+function hasStoredCustomUserInformation() {
+  if (typeof window === "undefined") return false;
+
+  try {
+    if (window.localStorage.getItem(CUSTOM_USER_INFORMATION_MARKER_KEY) === "true") {
+      return true;
+    }
+
+    for (let index = 0; index < window.localStorage.length; index += 1) {
+      const key = window.localStorage.key(index) || "";
+      if (
+        key.startsWith("rrb-recipe-note-") &&
+        (window.localStorage.getItem(key) || "").trim()
+      ) {
+        return true;
+      }
+    }
+
+    const weeklyNotes = loadJSON("rrb-weekly-planner-notes", {});
+    if (Object.values(weeklyNotes || {}).some((note) => String(note || "").trim())) {
+      return true;
+    }
+
+    const cookedRecipes = loadJSON("rrb_cookedRecipes", {});
+    if (Object.values(cookedRecipes || {}).some(Boolean)) return true;
+
+    const weekendPlan = loadJSON("rrb_weekendBulkMealPlanner_v1", {});
+    if (
+      (Array.isArray(weekendPlan?.items) && weekendPlan.items.length > 0) ||
+      String(weekendPlan?.notes || "").trim()
+    ) {
+      return true;
+    }
+  } catch {
+    return false;
+  }
+
+  return false;
+}
+
+function hasCustomUserState({
+  favorites,
+  plan,
+  servings,
+  checked,
+  pantry,
+  refrigerator,
+  freezer,
+  preparedInventory,
+  componentDecisions,
+  shoppingComments,
+  productCategories,
+  masterInventory,
+}) {
+  return Boolean(
+    (Array.isArray(favorites) && favorites.length > 0) ||
+    plannedMealCount(plan) > 0 ||
+    Number(servings) !== 4 ||
+    objectHasSavedEntries(checked) ||
+    objectHasSavedEntries(pantry) ||
+    objectHasSavedEntries(refrigerator?.items) ||
+    (Array.isArray(refrigerator?.customItems) && refrigerator.customItems.length > 0) ||
+    objectHasSavedEntries(freezer?.items) ||
+    (Array.isArray(freezer?.customItems) && freezer.customItems.length > 0) ||
+    (Array.isArray(freezer?.customLocations) && freezer.customLocations.length > 0) ||
+    (Array.isArray(preparedInventory?.records) && preparedInventory.records.length > 0) ||
+    (Array.isArray(preparedInventory?.customComponents) && preparedInventory.customComponents.length > 0) ||
+    (Array.isArray(preparedInventory?.managedItems) && preparedInventory.managedItems.length > 0) ||
+    objectHasSavedEntries(componentDecisions) ||
+    Object.values(shoppingComments || {}).some((comment) => String(comment || "").trim()) ||
+    objectHasSavedEntries(productCategories) ||
+    objectHasSavedEntries(masterInventory?.records) ||
+    (Array.isArray(masterInventory?.customItems) && masterInventory.customItems.length > 0)
+  );
+}
+
 const PANTRY_LEVELS = [
   {
     id: 1,
@@ -1954,7 +2036,7 @@ function WelcomeTour() {
   );
 }
 
-function Hero({ setActivePage, siteMode = "detailed", onSiteModeChange }) {
+function Hero({ setActivePage, siteMode = "detailed", onSiteModeChange, backupWarningsEnabled = false }) {
   const [heroIndex, setHeroIndex] = useState(0);
   const [backupReminderStatus, setBackupReminderStatus] = useState(() => {
     const reminderState = readBackupReminderState();
@@ -2022,7 +2104,7 @@ function Hero({ setActivePage, siteMode = "detailed", onSiteModeChange }) {
 
       <div className="heroOverlay" aria-hidden="true" />
 
-      {(backupReminderStatus.hasNeverBackedUp || backupReminderStatus.isDue) && (
+      {backupWarningsEnabled && (backupReminderStatus.hasNeverBackedUp || backupReminderStatus.isDue) && (
         <button
           type="button"
           className="homeHeroBackupDueButton"
@@ -2044,14 +2126,6 @@ function Hero({ setActivePage, siteMode = "detailed", onSiteModeChange }) {
         <h1>Plan. Cook. Eat. Freeze. Save.</h1>
 
         <p className="homeHeroIntroGhost">Welcome to my free recipe-card and meal-planning site. I use it every week for my own meal planning, and I designed it especially for seniors, couples, empty nesters, and smaller households who want practical meals, useful leftovers, freezer-friendly ideas, and organized grocery lists. <strong>Shop smarter. Save more.</strong></p>
-
-        <img
-          className="homeUnderConstructionStamp"
-          src={`${import.meta.env.BASE_URL}images/ui/under-construction-stamp.webp`}
-          alt="Under construction"
-          decoding="async"
-          draggable="false"
-        />
 
       </div>
 
@@ -3670,6 +3744,7 @@ function RecipeCard({
   function savePersonalNote() {
     try {
       window.localStorage.setItem(noteStorageKey, userNote);
+      window.dispatchEvent(new Event("rrb:user-data-changed"));
       setNoteSaved(true);
       window.setTimeout(() => setNoteSaved(false), 1600);
     } catch {
@@ -4181,6 +4256,7 @@ function RecipeCardViewer({
         `rrb-recipe-note-${recipe.id}`,
         viewerUserNote
       );
+      window.dispatchEvent(new Event("rrb:user-data-changed"));
       setViewerNoteSaved(true);
       window.setTimeout(() => setViewerNoteSaved(false), 1600);
     } catch {
@@ -5329,6 +5405,7 @@ function Home({
   classifiedRecipes,
   setPlan,
   kosUi,
+  hasCustomUserData,
 }) {
   const [showAdminAccess, setShowAdminAccess] = useState(false);
   const [siteMode, setSiteMode] = useState(() => {
@@ -5433,7 +5510,11 @@ function Home({
         setActivePage={setActivePage}
         siteMode={siteMode}
         onSiteModeChange={changeSiteMode}
+        backupWarningsEnabled={hasCustomUserData}
       />
+      {siteMode === "detailed" && (
+        <HomePhotoFeatureSection setActivePage={setActivePage} kosUi={kosUi} />
+      )}
       <HomeComboMealStrip
         setActivePage={setActivePage}
         openRecipeCard={openRecipeCard}
@@ -5450,9 +5531,6 @@ function Home({
         classifiedRecipes={classifiedRecipes}
         siteMode={siteMode}
       />
-      {siteMode === "detailed" && (
-        <HomePhotoFeatureSection setActivePage={setActivePage} kosUi={kosUi} />
-      )}
       <HomeCategoryGrid
         setFilter={setFilter}
         setActivePage={setActivePage}
@@ -5467,11 +5545,13 @@ function Home({
       />
 
 
-      <BackupReminderPanel
-        setActivePage={setActivePage}
-        className="homeBackupReminder"
-        kosUi={kosUi}
-      />
+      {hasCustomUserData && (
+        <BackupReminderPanel
+          setActivePage={setActivePage}
+          className="homeBackupReminder"
+          kosUi={kosUi}
+        />
+      )}
 
       <div className="homeAdminAccessArea">
         <button
@@ -6423,6 +6503,7 @@ function PlannerPage({
       });
       try {
         window.localStorage.setItem("rrb-weekly-planner-notes", JSON.stringify(next));
+        window.dispatchEvent(new Event("rrb:user-data-changed"));
       } catch {
         // Keep notes available in the current session if storage is unavailable.
       }
@@ -6446,6 +6527,7 @@ function PlannerPage({
       const next = { ...current, [noteKey(day, weekId)]: value };
       try {
         window.localStorage.setItem("rrb-weekly-planner-notes", JSON.stringify(next));
+        window.dispatchEvent(new Event("rrb:user-data-changed"));
       } catch {
         // Keep notes available in the current session if storage is unavailable.
       }
@@ -12888,6 +12970,7 @@ function PageHelpButtonStrip({ pageTitle }) {
       ? PAGE_NAVIGATION_ORDER[currentIndex + 1]
       : null;
   const hasIntroVideo = pageHasIntroVideo(activePage);
+  const showSequenceButtons = activePage !== "Home";
 
   if (!pageTitle) return null;
 
@@ -12915,15 +12998,17 @@ function PageHelpButtonStrip({ pageTitle }) {
       className={`pageHelpStrip pageNotesStrip${CLIFF_NOTES_ENABLED ? "" : " cliffNotesDisabled"}`}
       aria-label={`Page navigation for ${pageTitle}`}
     >
-      <button
-        type="button"
-        className="pageSequenceButton pageSequencePrev"
-        onClick={() => navigateTo(previousPage)}
-        disabled={!previousPage}
-        aria-label="Go to previous menu page"
-      >
-        Prev
-      </button>
+      {showSequenceButtons && (
+        <button
+          type="button"
+          className="pageSequenceButton pageSequencePrev"
+          onClick={() => navigateTo(previousPage)}
+          disabled={!previousPage}
+          aria-label="Go to previous menu page"
+        >
+          Prev
+        </button>
+      )}
 
       {CLIFF_NOTES_ENABLED && (
         <div className="pageHelpItem pageNotesItem">
@@ -12938,15 +13023,17 @@ function PageHelpButtonStrip({ pageTitle }) {
         </div>
       )}
 
-      <button
-        type="button"
-        className="pageSequenceButton pageSequenceNext"
-        onClick={() => navigateTo(nextPage)}
-        disabled={!nextPage}
-        aria-label="Go to next menu page"
-      >
-        Next
-      </button>
+      {showSequenceButtons && (
+        <button
+          type="button"
+          className="pageSequenceButton pageSequenceNext"
+          onClick={() => navigateTo(nextPage)}
+          disabled={!nextPage}
+          aria-label="Go to next menu page"
+        >
+          Next
+        </button>
+      )}
 
       {hasIntroVideo && (
         <button
@@ -13590,6 +13677,7 @@ function DinnerCombinationCard({ meal, plan = emptyTwoWeekPlan(), onAddMealToPla
     else delete nextCookedRecipes[meal.id];
 
     saveJSON("rrb_cookedRecipes", nextCookedRecipes);
+    window.dispatchEvent(new Event("rrb:user-data-changed"));
     setLastMade(value);
   }
 
@@ -17708,6 +17796,64 @@ export default function App() {
     () => mergeRecipeClassifications(recipes, recipeClassifications),
     [recipeClassifications]
   );
+  const [userDataRevision, setUserDataRevision] = useState(0);
+
+  useEffect(() => {
+    function refreshCustomUserData() {
+      setUserDataRevision((current) => current + 1);
+    }
+
+    window.addEventListener("storage", refreshCustomUserData);
+    window.addEventListener("rrb:user-data-changed", refreshCustomUserData);
+    window.addEventListener("rrb:weekend-bulk-plan-updated", refreshCustomUserData);
+    return () => {
+      window.removeEventListener("storage", refreshCustomUserData);
+      window.removeEventListener("rrb:user-data-changed", refreshCustomUserData);
+      window.removeEventListener("rrb:weekend-bulk-plan-updated", refreshCustomUserData);
+    };
+  }, []);
+
+  const hasCustomUserData = useMemo(
+    () =>
+      hasCustomUserState({
+        favorites,
+        plan,
+        servings,
+        checked,
+        pantry,
+        refrigerator,
+        freezer,
+        preparedInventory,
+        componentDecisions,
+        shoppingComments,
+        productCategories,
+        masterInventory,
+      }) || hasStoredCustomUserInformation(),
+    [
+      checked,
+      componentDecisions,
+      favorites,
+      freezer,
+      masterInventory,
+      pantry,
+      plan,
+      preparedInventory,
+      productCategories,
+      refrigerator,
+      servings,
+      shoppingComments,
+      userDataRevision,
+    ],
+  );
+
+  useEffect(() => {
+    if (!hasCustomUserData) return;
+    try {
+      window.localStorage.setItem(CUSTOM_USER_INFORMATION_MARKER_KEY, "true");
+    } catch {
+      // Backup warnings still work for the current session if storage is unavailable.
+    }
+  }, [hasCustomUserData]);
 
   useEffect(() => saveJSON(STORAGE_KEYS.favorites, favorites), [favorites]);
   useEffect(() => saveJSON(STORAGE_KEYS.plan, plan), [plan]);
@@ -17824,6 +17970,7 @@ export default function App() {
     setProductCategories,
     masterInventory,
     setMasterInventory,
+    hasCustomUserData,
     recipes: classifiedRecipes,
     classifiedRecipes,
     kosUi,
@@ -17840,6 +17987,7 @@ export default function App() {
           preparedInventory={preparedInventory}
           kosUi={kosUi}
           setActivePage={setActivePage}
+          enableBackupWarnings={hasCustomUserData}
         />
         <HomeMealJourneyAccordion setActivePage={setActivePage} />
 

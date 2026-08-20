@@ -431,7 +431,7 @@ function HomeDietMealStrip({
   return (
     <section className="section homeComboMealStrip homeDietMealStrip" aria-label="Diet Meal ideas">
       <SectionIntro
-        title="Looking for Diet Meal Ideas?"
+        title="Or maybe a Diet Meal?"
         className="homeComboMealStripHeader quickDinnerSectionIntro homeDietMealStripHeader"
         video={
           <SupplementalHoverVideo
