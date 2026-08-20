@@ -317,7 +317,7 @@ function HomeDietMealCardButton({ recipe, className = "", onOpen, imageLoading =
       <span className="homeComboMealText homeDietMealText">
         <strong>{mainTitle}</strong>
         {withTitle && <small className="homeDietMealWith">{withTitle}</small>}
-        <small className="homeDietMealMeta">{recipe.id}{calories !== null ? ` • ${Math.round(calories)} calories` : " • Diet Meal"}</small>
+        <small className="homeDietMealMeta">{calories !== null ? `${Math.round(calories)} calories` : "Diet Meal"}</small>
         {mealBalance !== null && (
           <span
             className="homeComboMealBalanceBadge"

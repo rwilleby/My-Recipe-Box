@@ -21801,3 +21801,16 @@ button.browseRecipeWideFooterAction:focus-visible,
   text-align: left !important;
   white-space: nowrap !important;
 }
+
+/* Crop the pale source-image margin so meal trays meet the card's rounded top edge. */
+.homeComboMealImageAsset,
+.homeDietMealTrayImage {
+  object-position: center bottom !important;
+  transform: scale(1.04) !important;
+  transform-origin: center bottom !important;
+}
+
+.homeComboMealCard:hover .homeComboMealImageAsset,
+.homeComboMealCard:hover .homeDietMealTrayImage {
+  transform: scale(1.055) !important;
+}
