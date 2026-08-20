@@ -14060,6 +14060,114 @@ to {
 
 .weeklyPlannerPickerClear {border: 1px solid #d9b1ad !important; background: #fff !important; color: #9b2c2c !important;}
 
+/* v85.2: occupied Weekly Meal Planner boxes open a recipe-card preview first. */
+.weeklyPlannerCardPreviewOverlay {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 100000 !important;
+  display: grid !important;
+  place-items: center !important;
+  padding: 18px !important;
+  background: rgba(25, 31, 39, .68) !important;
+  backdrop-filter: blur(2px) !important;
+}
+
+.weeklyPlannerCardPreview {
+  display: grid !important;
+  grid-template-rows: auto minmax(0, 1fr) auto !important;
+  width: min(920px, calc(100vw - 36px)) !important;
+  max-height: calc(100dvh - 36px) !important;
+  overflow: hidden !important;
+  border: 1px solid #d8ded8 !important;
+  border-radius: 18px !important;
+  background: #fbfaf6 !important;
+  box-shadow: 0 24px 64px rgba(17, 24, 39, .30) !important;
+}
+
+.weeklyPlannerCardPreviewHeader {
+  display: flex !important;
+  align-items: baseline !important;
+  gap: 12px !important;
+  padding: 15px 20px 12px !important;
+  border-bottom: 1px solid #e3e4df !important;
+}
+
+.weeklyPlannerCardPreviewHeader span {
+  flex: 0 0 auto !important;
+  padding: 5px 9px !important;
+  border-radius: 999px !important;
+  background: #e9e5dc !important;
+  color: #5f574d !important;
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+}
+
+.weeklyPlannerCardPreviewHeader h2 {
+  margin: 0 !important;
+  color: #172033 !important;
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: 23px !important;
+  line-height: 1.15 !important;
+}
+
+.weeklyPlannerCardPreviewStage {
+  display: grid !important;
+  place-items: center !important;
+  min-height: 0 !important;
+  padding: 14px 18px !important;
+  overflow: auto !important;
+  background: #f1eee7 !important;
+}
+
+.weeklyPlannerCardPreviewStage img {
+  display: block !important;
+  width: auto !important;
+  max-width: 100% !important;
+  max-height: calc(100dvh - 190px) !important;
+  object-fit: contain !important;
+  border-radius: 8px !important;
+  box-shadow: 0 8px 22px rgba(17, 24, 39, .18) !important;
+}
+
+.weeklyPlannerCardPreviewMissing {
+  display: grid !important;
+  gap: 6px !important;
+  padding: 40px !important;
+  color: #667085 !important;
+  text-align: center !important;
+}
+
+.weeklyPlannerCardPreviewActions {
+  display: flex !important;
+  justify-content: flex-end !important;
+  gap: 10px !important;
+  padding: 13px 20px 16px !important;
+  border-top: 1px solid #e3e4df !important;
+  background: #f7f4ec !important;
+}
+
+.weeklyPlannerCardPreviewActions button {
+  min-width: 116px !important;
+  min-height: 42px !important;
+  border-radius: 9px !important;
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+}
+
+@media (max-width: 700px) {
+  .weeklyPlannerCardPreviewOverlay { padding: 10px !important; }
+  .weeklyPlannerCardPreview { width: calc(100vw - 20px) !important; max-height: calc(100dvh - 20px) !important; }
+  .weeklyPlannerCardPreviewHeader { align-items: flex-start !important; padding-inline: 14px !important; }
+  .weeklyPlannerCardPreviewHeader h2 { font-size: 19px !important; }
+  .weeklyPlannerCardPreviewStage { padding: 10px !important; }
+  .weeklyPlannerCardPreviewStage img { max-height: calc(100dvh - 180px) !important; }
+  .weeklyPlannerCardPreviewActions { padding-inline: 14px !important; }
+  .weeklyPlannerCardPreviewActions button { flex: 1 1 0 !important; min-width: 0 !important; }
+}
+
 @media (max-width: 1050px){.weeklyCalendarPlannerShell {overflow-x: auto !important;}
 
 .weeklyCalendarPlannerGrid {min-width: 940px !important;}

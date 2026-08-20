@@ -6079,6 +6079,36 @@ function PlannerRecipeThumb({ recipe, className = "" }) {
   );
 }
 
+function WeeklyPlannerRecipeCardPreview({ recipe }) {
+  const candidates = useMemo(
+    () => (recipe ? fullCardImageCandidates(recipe) : []),
+    [recipe]
+  );
+  const [imageIndex, setImageIndex] = useState(0);
+
+  useEffect(() => setImageIndex(0), [recipe?.id]);
+
+  const imagePath = candidates[imageIndex];
+
+  if (!imagePath) {
+    return (
+      <div className="weeklyPlannerCardPreviewMissing">
+        <strong>Recipe card image not found.</strong>
+        <span>Expected: images/recipes/{recipe?.id}.webp</span>
+      </div>
+    );
+  }
+
+  return (
+    <img
+      src={`${import.meta.env.BASE_URL}${imagePath}`}
+      alt={`${recipe.id} ${recipe.title} recipe card`}
+      decoding="async"
+      onError={() => setImageIndex((current) => current + 1)}
+    />
+  );
+}
+
 const WEEKLY_PLANNER_ROWS = Object.freeze([
   { id: "M", label: "M", name: "Main Course", index: 0, type: "main" },
   { id: "S1", label: "S1", name: "Side 1", index: 1, type: "side" },
@@ -6126,6 +6156,7 @@ function PlannerPage({
   const [pickerSearch, setPickerSearch] = useState("");
   const [pickerCategory, setPickerCategory] = useState("all");
   const [pickerRecipeId, setPickerRecipeId] = useState("");
+  const [plannerCardPreview, setPlannerCardPreview] = useState(null);
   const [notes, setNotes] = useState(() => {
     try {
       return JSON.parse(window.localStorage.getItem("rrb-weekly-planner-notes") || "{}");
@@ -6134,7 +6165,7 @@ function PlannerPage({
     }
   });
 
-  usePopupPageMode(Boolean(picker));
+  usePopupPageMode(Boolean(picker || plannerCardPreview));
 
   useEffect(() => {
     function syncPlannerSiteMode(event) {
@@ -6293,6 +6324,32 @@ function PlannerPage({
     setPickerRecipeId(existing?.id || "");
     setPickerSearch("");
     setPickerCategory("all");
+  }
+
+  function openPlannerCell(day, row, weekId = activePlannerWeek) {
+    const existing = recipeFor(day, row.index, weekId);
+    if (!existing) {
+      openPicker(day, row, weekId);
+      return;
+    }
+
+    setPlannerCardPreview({
+      day,
+      row,
+      weekId,
+      recipeId: existing.id,
+    });
+  }
+
+  function closePlannerCardPreview() {
+    setPlannerCardPreview(null);
+  }
+
+  function changePlannerCardRecipe() {
+    if (!plannerCardPreview) return;
+    const { day, row, weekId } = plannerCardPreview;
+    setPlannerCardPreview(null);
+    openPicker(day, row, weekId);
   }
 
   function closePicker() {
@@ -6463,10 +6520,10 @@ function PlannerPage({
                   type="button"
                   className={`weeklyCalendarPlannerCell${recipe ? " hasRecipe" : ""}`}
                   key={`${weekId}-${day}-${row.id}`}
-                  onClick={() => openPicker(day, row, weekId)}
+                  onClick={() => openPlannerCell(day, row, weekId)}
                   aria-label={
                     recipe
-                      ? `${WEEKLY_PLANNER_DAY_LABELS[day]} ${row.name}: ${recipe.title}. Change recipe.`
+                      ? `${WEEKLY_PLANNER_DAY_LABELS[day]} ${row.name}: ${recipe.title}. Open recipe card.`
                       : `Add ${row.name} for ${WEEKLY_PLANNER_DAY_LABELS[day]}`
                   }
                 >
@@ -6658,6 +6715,48 @@ function PlannerPage({
         <span className="weeklyPlannerMealBalanceCircle">5</span>
         Green circle = MealBalance score
       </p>
+
+      {plannerCardPreview && (() => {
+        const previewRecipe = recipes.find(
+          (recipe) => recipe.id === plannerCardPreview.recipeId
+        );
+        if (!previewRecipe) return null;
+
+        return (
+          <div
+            className="weeklyPlannerCardPreviewOverlay"
+            role="presentation"
+            onMouseDown={(event) => {
+              if (event.target === event.currentTarget) closePlannerCardPreview();
+            }}
+          >
+            <section
+              className="weeklyPlannerCardPreview"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="weekly-planner-card-preview-title"
+            >
+              <header className="weeklyPlannerCardPreviewHeader">
+                <span>{previewRecipe.id}</span>
+                <h2 id="weekly-planner-card-preview-title">{previewRecipe.title}</h2>
+              </header>
+
+              <div className="weeklyPlannerCardPreviewStage">
+                <WeeklyPlannerRecipeCardPreview recipe={previewRecipe} />
+              </div>
+
+              <footer className="weeklyPlannerCardPreviewActions">
+                <button type="button" className="secondary" onClick={closePlannerCardPreview}>
+                  Close
+                </button>
+                <button type="button" className="primary" onClick={changePlannerCardRecipe}>
+                  Change
+                </button>
+              </footer>
+            </section>
+          </div>
+        );
+      })()}
 
       {picker && (
         <div
