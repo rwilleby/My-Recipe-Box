@@ -1,0 +1,31 @@
+{
+  "version": "84.34.0",
+  "release": "Beige Pantry and Kitchen controls",
+  "baseline": "v84.33 GitHub update",
+  "uploadMode": "replace matching files and add new files; no deletions required",
+  "changedFiles": [
+    "CHANGELOG.md",
+    "UPDATE-MANIFEST-v84.34.json",
+    "V84.34-BEIGE-INVENTORY-CONTROLS-REPORT.md",
+    "UPLOAD-INSTRUCTIONS-v84.34.txt",
+    "package.json",
+    "package-lock.json",
+    "src/package.json",
+    "src/App.jsx",
+    "src/App.css",
+    "src/components/MasterKitchenInventoryPage.jsx",
+    "test/beigeInventoryControlsV8434.test.mjs"
+  ],
+  "deletedFiles": [],
+  "layout": {
+    "pantryPalette": "Warm beige controls and summary treatment",
+    "fullyStockedSummary": "Centered title, description, and shelf-stable note",
+    "kitchenCounters": "Hidden visually; inventory data remains unchanged",
+    "kitchenCommands": "MANUAL INVENTORY | EXPAND | COLLAPSE | ADD ITEM | PURCHASE | CLEAR in one row"
+  },
+  "verification": {
+    "focusedContract": "test/beigeInventoryControlsV8434.test.mjs",
+    "inventoryStripRegression": "test/inventoryStripStandardV8433.test.mjs",
+    "secondaryStripRegression": "test/inventorySecondaryStripPositionV8432.test.mjs"
+  }
+}

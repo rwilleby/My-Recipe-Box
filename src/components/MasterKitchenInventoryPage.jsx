@@ -244,12 +244,12 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
 
       <section className="masterInventoryToolbar">
         {!embedded && <label className="masterInventorySearch"><span>Find an item</span><input type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search corn, chicken, gravy…" /></label>}
-        <button type="button" className="primary" onClick={printCountWorksheet}>Print Initial Count</button>
-        <button type="button" className="secondary" onClick={() => setExpanded(new Set(catalog.map((category) => category.id)))}>Expand All</button>
-        <button type="button" className="secondary" onClick={() => setExpanded(new Set())}>Collapse All</button>
-        <button type="button" className="secondary" onClick={() => setShowCustomForm((current) => !current)}>Add Custom Item</button>
-        <button type="button" className="primary" onClick={recordPurchases}>Record Purchases</button>
-        <button type="button" className="secondary" onClick={clearBuyQuantities}>Clear Buy Qty</button>
+        <button type="button" className="primary" onClick={printCountWorksheet}>Manual Inventory</button>
+        <button type="button" className="secondary" onClick={() => setExpanded(new Set(catalog.map((category) => category.id)))}>Expand</button>
+        <button type="button" className="secondary" onClick={() => setExpanded(new Set())}>Collapse</button>
+        <button type="button" className="secondary" onClick={() => setShowCustomForm((current) => !current)}>Add Item</button>
+        <button type="button" className="primary" onClick={recordPurchases}>Purchase</button>
+        <button type="button" className="secondary" onClick={clearBuyQuantities}>Clear</button>
       </section>
 
       {showCustomForm && (

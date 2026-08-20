@@ -20145,3 +20145,136 @@ button.browseRecipeWideFooterAction:focus-visible,
     grid-template-columns: 1fr !important;
   }
 }
+
+/* ================================================================
+   v84.34 — BEIGE PANTRY/KITCHEN CONTROLS AND KITCHEN COMMAND ROW
+   ================================================================ */
+:root {
+  --rrb-inventory-beige: #a59e99;
+  --rrb-inventory-beige-dark: #5f574e;
+  --rrb-inventory-beige-mid: #d8d0c4;
+  --rrb-inventory-beige-light: #f5f1ea;
+  --rrb-inventory-beige-border: #d6cdbf;
+}
+
+.inventoryHubContent .pantryPage .pantryLevelSummary {
+  border-color: var(--rrb-inventory-beige-border) !important;
+  background: var(--rrb-inventory-beige-light) !important;
+}
+
+.inventoryHubContent .pantryPage .pantryLevelSummary h2,
+.inventoryHubContent .pantryPage .pantryLevelSummary > span {
+  color: var(--rrb-inventory-beige-dark) !important;
+}
+
+.inventoryHubContent .pantryPage .pantryLevelSummary-3 {
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+}
+
+.inventoryHubContent .pantryPage .pantryLevelSummary-3 > div,
+.inventoryHubContent .pantryPage .pantryLevelSummary-3 p,
+.inventoryHubContent .pantryPage .pantryLevelSummary-3 > span {
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  text-align: center !important;
+}
+
+.inventoryHubContent .pantryPage .pantryActions {
+  border-color: var(--rrb-inventory-beige-border) !important;
+  background: #fbfaf7 !important;
+}
+
+.inventoryHubContent .pantryPage .pantryActions > button {
+  border-color: #9b8f7e !important;
+  background: #fff !important;
+  color: var(--rrb-inventory-beige-dark) !important;
+}
+
+.inventoryHubContent .pantryPage .pantryActions > button.primary {
+  border-color: #81786d !important;
+  background: #81786d !important;
+  color: #fff !important;
+}
+
+.inventoryHubContent .pantryPage .pantryItem.checked,
+.inventoryHubContent .pantryPage .pantryItem.checked em,
+.inventoryHubContent .pantryPage .pantryItem.checked span {
+  color: var(--rrb-inventory-beige-dark) !important;
+}
+
+.inventoryHubContent .pantryPage .pantryItem input {
+  accent-color: #81786d !important;
+}
+
+.inventoryHubContent .pantryPage .pantryItem select {
+  border-color: #cfc5b7 !important;
+  background: var(--rrb-inventory-beige-light) !important;
+  color: var(--rrb-inventory-beige-dark) !important;
+}
+
+.inventoryHubContent .masterKitchenInventoryPage .masterInventorySummary,
+.inventoryHubContent .masterKitchenInventoryPage .masterInventoryCategoryButton em {
+  display: none !important;
+}
+
+.inventoryHubContent .masterKitchenInventoryPage .masterInventoryToolbar {
+  display: grid !important;
+  grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+  align-items: stretch !important;
+  gap: 8px !important;
+  border-color: var(--rrb-inventory-beige-border) !important;
+  background: #fbfaf7 !important;
+}
+
+.inventoryHubContent .masterKitchenInventoryPage .masterInventoryToolbar > button {
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 42px !important;
+  margin: 0 !important;
+  padding: 5px 8px !important;
+  border-color: #9b8f7e !important;
+  background: #fff !important;
+  color: var(--rrb-inventory-beige-dark) !important;
+  font-size: clamp(9px, .82vw, 13px) !important;
+  font-weight: 800 !important;
+  line-height: 1.1 !important;
+  text-transform: uppercase !important;
+  white-space: nowrap !important;
+}
+
+.inventoryHubContent .masterKitchenInventoryPage .masterInventoryToolbar > button.primary {
+  border-color: #81786d !important;
+  background: #81786d !important;
+  color: #fff !important;
+}
+
+.inventoryHubContent .masterKitchenInventoryPage .masterInventoryFamilyColumnLabel,
+.inventoryHubContent .masterKitchenInventoryPage .masterInventoryAddLocation {
+  color: #786f64 !important;
+}
+
+.inventoryHubContent .masterKitchenInventoryPage .masterInventoryStatusSelect {
+  border-color: #cfc5b7 !important;
+  background: var(--rrb-inventory-beige-light) !important;
+  color: var(--rrb-inventory-beige-dark) !important;
+}
+
+@media (max-width: 700px) {
+  .inventoryHubContent .masterKitchenInventoryPage .masterInventoryToolbar {
+    grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+    gap: 3px !important;
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+  }
+
+  .inventoryHubContent .masterKitchenInventoryPage .masterInventoryToolbar > button {
+    min-height: 38px !important;
+    padding-left: 2px !important;
+    padding-right: 2px !important;
+    font-size: 7px !important;
+  }
+}

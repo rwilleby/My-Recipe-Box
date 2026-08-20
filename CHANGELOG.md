@@ -1,3 +1,11 @@
+# v84.34 — Beige Pantry and Kitchen Controls
+
+- Replaced Pantry and Kitchen green control treatments with the approved warm beige palette.
+- Centered the Fully Stocked Pantry summary information.
+- Hid Kitchen summary and accordion-header counters while preserving their saved data.
+- Replaced the Kitchen commands with Manual Inventory, Expand, Collapse, Add Item, Purchase, and Clear.
+- Locked the six Kitchen commands to one responsive row.
+
 # v84.33 — Standardized Freezer and Pantry Counted Strips
 
 - Locked the approved Freezer counted strip as the standard for this inventory section.

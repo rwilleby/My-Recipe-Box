@@ -7254,7 +7254,7 @@ function PantryStaplesPage({ pantry, setPantry, externalSearch = "", embedded = 
         ))}
       </div>
 
-      <div className="pantryLevelSummary">
+      <div className={`pantryLevelSummary pantryLevelSummary-${selectedPantryLevel}`}>
         <div>
           <h2>{selectedLevelInfo.label}</h2>
           <p>{selectedLevelInfo.description}</p>

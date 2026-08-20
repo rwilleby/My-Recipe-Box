@@ -1,0 +1,22 @@
+ROBERT'S RECIPE BOX v84.34 — GITHUB UPDATE
+
+Upload this update after v84.33.
+
+1. Open the repository root in GitHub.
+2. Upload the contents of My-Recipe-Box-v84.34-GitHub-Update.zip, preserving folders.
+3. Replace matching files when GitHub prompts you.
+4. Add the new files listed in UPDATE-MANIFEST-v84.34.json.
+5. Do not delete any existing files; this update has no deletions.
+6. Commit with a message such as:
+   v84.34: update Pantry and Kitchen controls
+7. Let the normal deployment build finish.
+
+VERIFY AFTER DEPLOYMENT
+
+- Pantry uses beige/taupe rather than green control treatments.
+- Fully Stocked Pantry summary information is centered.
+- Kitchen counters are hidden.
+- Kitchen shows MANUAL INVENTORY | EXPAND | COLLAPSE | ADD ITEM | PURCHASE | CLEAR.
+- All six Kitchen commands remain on one row.
+
+See V84.34-BEIGE-INVENTORY-CONTROLS-REPORT.md for details.
