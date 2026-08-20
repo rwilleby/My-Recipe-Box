@@ -1,7 +1,11 @@
 const APPLICATION = "Roberts Recipe Box";
 const BACKUP_VERSION = 3;
 const MIN_SUPPORTED_BACKUP_VERSION = 1;
-const STORAGE_PREFIXES = Object.freeze(["rrb_", "rrb-"]);
+// Robert's Recipe Box uses the rrb_* keys for the primary React interface and
+// kos.* keys for Kitchen Operations features such as the Weekly Meal Plan List.
+// Both namespaces belong to this application and must travel together in a
+// complete Backup & Restore file.
+const STORAGE_PREFIXES = Object.freeze(["rrb_", "rrb-", "kos."]);
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
 const BACKUP_REMINDER_KEY = "rrb_backupReminderSettings";
 const DEFAULT_REMINDER_DAYS = 30;
@@ -14,6 +18,9 @@ const CATEGORY_DEFINITIONS = Object.freeze([
   { key: "rrb_recipeNotes", label: "Personal Notes", type: "count" },
   { key: "rrb_groceryLists", label: "Grocery Lists", type: "count" },
   { key: "rrb_weeklyPlan", label: "Meal Plans", type: "filledObject" },
+  { key: "kos.mealPlanner.week.v1", label: "Weekly Meal Plan List", type: "filledObject" },
+  { key: "rrb-weekly-planner-notes", label: "Meal Planner Notes", type: "count" },
+  { key: "rrb-weekly-planner-week-start", label: "Meal Planner Week Start", type: "included" },
   { key: "rrb_pantryStaples", label: "Pantry Items", type: "truthyObject" },
   { key: "rrb_refrigeratorInventory", label: "Refrigerator Items", type: "count" },
   { key: "rrb_freezerInventory", label: "Freezer Items", type: "count" },
