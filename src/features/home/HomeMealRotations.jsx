@@ -29,6 +29,9 @@ const HOME_COMBO_PAUSE_MS = 650;
 const HOME_COMBO_CROSSFADE_MS = 1200;
 
 function HomeComboMealCardButton({ meal, className = "", onOpen, imageLoading = "eager" }) {
+  const calories = Number(meal?.calories);
+  const hasCalories = Number.isFinite(calories) && calories > 0;
+
   return (
     <button
       type="button"
@@ -46,7 +49,10 @@ function HomeComboMealCardButton({ meal, className = "", onOpen, imageLoading = 
 
       <span className="homeComboMealText">
         <strong>{meal.title}</strong>
-        <small>{meal.subtitle}</small>
+        <small className="homeComboMealSubtitle">{meal.subtitle}</small>
+        {hasCalories && (
+          <small className="homeComboMealCalories">{Math.round(calories)} calories</small>
+        )}
         <span
           className="homeComboMealBalanceBadge"
           title={`MealBalance ${getComboMealBalanceScore(meal)}`}
@@ -285,6 +291,11 @@ function selectRotatingDietMeals(allMeals, currentMeals = []) {
 function HomeDietMealCardButton({ recipe, className = "", onOpen, imageLoading = "eager" }) {
   const calories = getHealthyDinnerCalories(recipe);
   const mealBalance = getMealBalanceScore(recipe);
+  const titleMatch = String(recipe.title || "").match(/^(.*?)\s+(with\b.*)$/i);
+  const mainTitle = titleMatch?.[1] || recipe.title;
+  const withTitle = titleMatch?.[2]
+    ? titleMatch[2].replace(/^with/i, "With")
+    : "";
 
   return (
     <button
@@ -304,8 +315,9 @@ function HomeDietMealCardButton({ recipe, className = "", onOpen, imageLoading =
       </div>
 
       <span className="homeComboMealText homeDietMealText">
-        <strong>{recipe.title}</strong>
-        <small>{recipe.id}{calories !== null ? ` • ${Math.round(calories)} calories` : " • Diet Meal"}</small>
+        <strong>{mainTitle}</strong>
+        {withTitle && <small className="homeDietMealWith">{withTitle}</small>}
+        <small className="homeDietMealMeta">{recipe.id}{calories !== null ? ` • ${Math.round(calories)} calories` : " • Diet Meal"}</small>
         {mealBalance !== null && (
           <span
             className="homeComboMealBalanceBadge"

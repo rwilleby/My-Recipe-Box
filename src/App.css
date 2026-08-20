@@ -21766,3 +21766,38 @@ button.browseRecipeWideFooterAction:focus-visible,
   line-height: 1.05 !important;
   letter-spacing: -0.015em !important;
 }
+
+/* Complete Dinner calories mirror the Diet Meal metadata line without a meal code. */
+.homeComboMealCalories {
+  margin-top: 3px !important;
+  padding-right: 34px !important;
+  text-align: left !important;
+  white-space: nowrap !important;
+}
+
+/* Diet Meal names use the same title/subtitle hierarchy as Complete Dinners. */
+.homeDietMealText strong {
+  min-height: 0 !important;
+  max-height: 2.1em !important;
+  -webkit-line-clamp: 2 !important;
+  line-clamp: 2 !important;
+}
+
+.homeDietMealWith {
+  display: -webkit-box !important;
+  margin-top: 3px !important;
+  padding-right: 0 !important;
+  overflow: hidden !important;
+  white-space: normal !important;
+  text-overflow: clip !important;
+  -webkit-box-orient: vertical !important;
+  -webkit-line-clamp: 2 !important;
+  line-clamp: 2 !important;
+}
+
+.homeDietMealMeta {
+  margin-top: 3px !important;
+  padding-right: 34px !important;
+  text-align: left !important;
+  white-space: nowrap !important;
+}
