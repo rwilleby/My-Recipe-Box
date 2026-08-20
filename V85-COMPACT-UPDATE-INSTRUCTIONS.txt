@@ -12,4 +12,7 @@ TO APPLY THE UPDATE
 5. When prompted, choose Replace for matching files and Merge for folders.
 6. No existing project files need to be deleted.
 
-The resulting project is the complete v85.0.0 baseline.
+The resulting project is the complete v85.0.0 baseline with the latest v85
+homepage refinements, including tenth-visit reminders, welcome-video autoplay,
+the compact welcome accordion, the enlarged 7-by-2 cuisine grid, and larger
+Complete Dinner and Diet Meal card titles.

@@ -12,6 +12,11 @@
 - Removed native Video Library control bars; videos now use clean click-to-play/pause behavior with a play indicator only while inactive or paused.
 - Reordered the homepage to place “What Do You Want to Do Today?” directly after the hero, followed by Quick Dinner and Diet Meal ideas; removed the construction stamp and hid homepage Previous/Next controls.
 - Delayed all backup warnings until the visitor has saved custom recipe-box information while preserving other kitchen reminders.
+- Delayed the entire site reminder ribbon until the visitor reaches the tenth distinct browser session.
+- Restored welcome-video autoplay behavior and retained automatic dismissal after playback ends.
+- Reduced the height and type size of the “New to our page?” accordion strip.
+- Enlarged homepage cuisine icons and labels by 25% and arranged the 14 shortcuts in two rows of seven on desktop.
+- Enlarged Complete Dinner and Diet Meal homepage recipe-card titles by 25%.
 - Hid the Weekly Meal Planner prototype and Submit Your Family Recipes from public navigation while preserving their source for later use.
 - Removed macOS metadata from the v85 distribution archive.
 

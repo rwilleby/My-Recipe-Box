@@ -137,6 +137,29 @@ const STORAGE_KEYS = {
 };
 
 const CUSTOM_USER_INFORMATION_MARKER_KEY = "rrb_has_custom_user_information";
+const SITE_VISIT_COUNT_KEY = "rrb_site_visit_count";
+const SITE_VISIT_SESSION_KEY = "rrb_site_visit_counted_this_session";
+const REMINDER_RIBBON_MINIMUM_VISITS = 10;
+
+function recordSiteVisit() {
+  try {
+    const storedCount = Math.max(
+      0,
+      Number.parseInt(window.localStorage.getItem(SITE_VISIT_COUNT_KEY) || "0", 10) || 0,
+    );
+
+    if (window.sessionStorage.getItem(SITE_VISIT_SESSION_KEY) === "true") {
+      return storedCount;
+    }
+
+    const nextCount = storedCount + 1;
+    window.localStorage.setItem(SITE_VISIT_COUNT_KEY, String(nextCount));
+    window.sessionStorage.setItem(SITE_VISIT_SESSION_KEY, "true");
+    return nextCount;
+  } catch {
+    return 1;
+  }
+}
 
 function objectHasSavedEntries(value) {
   return Boolean(value && typeof value === "object" && Object.keys(value).length);
@@ -1989,6 +2012,7 @@ function WelcomeTour() {
               src={`${import.meta.env.BASE_URL}${WELCOME_TOUR_VIDEO_URL}`}
               poster={`${import.meta.env.BASE_URL}${WELCOME_TOUR_VIDEO_POSTER}`}
               title="Robert’s Recipe Box welcome video"
+              autoPlay
               playsInline
               preload="metadata"
               onPlay={() => setIsVideoPlaying(true)}
@@ -17739,6 +17763,7 @@ export default function App() {
     [],
   );
   const [activePage, setActivePage] = useState("Home");
+  const [siteVisitCount] = useState(() => recordSiteVisit());
   const [favorites, setFavorites] = useState(() => {
     const storedFavorites = loadJSON(STORAGE_KEYS.favorites, []);
     return Array.isArray(storedFavorites) ? storedFavorites : [];
@@ -17980,15 +18005,17 @@ export default function App() {
     <PageNavigationContext.Provider value={{ activePage, setActivePage }}>
       <div className="app">
         <Header activePage={activePage} setActivePage={setActivePage} favorites={favorites} />
-        <KitchenReminderRibbon
-          plan={plan}
-          refrigerator={refrigerator}
-          freezer={freezer}
-          preparedInventory={preparedInventory}
-          kosUi={kosUi}
-          setActivePage={setActivePage}
-          enableBackupWarnings={hasCustomUserData}
-        />
+        {siteVisitCount >= REMINDER_RIBBON_MINIMUM_VISITS && (
+          <KitchenReminderRibbon
+            plan={plan}
+            refrigerator={refrigerator}
+            freezer={freezer}
+            preparedInventory={preparedInventory}
+            kosUi={kosUi}
+            setActivePage={setActivePage}
+            enableBackupWarnings={hasCustomUserData}
+          />
+        )}
         <HomeMealJourneyAccordion setActivePage={setActivePage} />
 
       {activePage === "RFIS Project Dashboard" && (
