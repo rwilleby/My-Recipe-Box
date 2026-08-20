@@ -21806,11 +21806,11 @@ button.browseRecipeWideFooterAction:focus-visible,
 .homeComboMealImageAsset,
 .homeDietMealTrayImage {
   object-position: center bottom !important;
-  transform: scale(1.04) !important;
+  transform: scale(1.08) !important;
   transform-origin: center bottom !important;
 }
 
 .homeComboMealCard:hover .homeComboMealImageAsset,
 .homeComboMealCard:hover .homeDietMealTrayImage {
-  transform: scale(1.055) !important;
+  transform: scale(1.095) !important;
 }
