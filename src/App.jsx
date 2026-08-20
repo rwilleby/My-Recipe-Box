@@ -6776,6 +6776,82 @@ function buildPantryRestockItems(pantry = {}) {
     }));
 }
 
+function pantryProductType(groupName = "", itemName = "") {
+  const group = groupName.toLowerCase();
+  const name = itemName.toLowerCase();
+
+  if (group.includes("canned") || group.includes("jarred")) {
+    if (/broth|stock/.test(name)) return "Broths & Stocks";
+    if (/soup|chili/.test(name)) return "Soups";
+    if (/bean/.test(name)) return "Beans";
+    if (/tuna|chicken packet|canned chicken/.test(name)) return "Meat & Seafood";
+    if (/sauce|marinara|tomato paste/.test(name)) return "Sauces";
+    return "Vegetables";
+  }
+  if (group.includes("sauce") || group.includes("condiment")) {
+    if (/bbq|barbecue/.test(name)) return "Barbecue Sauces";
+    if (/soy|teriyaki/.test(name)) return "Asian Sauces";
+    if (/hot sauce|buffalo/.test(name)) return "Hot Sauces";
+    if (/honey|syrup/.test(name)) return "Sweeteners";
+    return "Condiments & Sauces";
+  }
+  if (group.includes("oil") || group.includes("vinegar") || group.includes("cooking basics")) {
+    if (/oil|cooking spray/.test(name)) return "Cooking Oils";
+    if (/vinegar/.test(name)) return "Vinegars";
+    if (/milk|buttermilk|ghee/.test(name)) return "Shelf-Stable Dairy";
+    return "Baking Basics";
+  }
+  if (group.includes("rice") || group.includes("pasta") || group.includes("grain")) {
+    if (/pasta|noodle/.test(name)) return "Pasta & Noodles";
+    if (/tortilla/.test(name)) return "Tortillas";
+    if (/breadcrumb|cracker/.test(name)) return "Breads & Crackers";
+    return "Rice & Grains";
+  }
+  if (group.includes("spice") || group.includes("seasoning")) {
+    if (/seasoning/.test(name)) return "Seasoning Blends";
+    if (/salt|black pepper/.test(name)) return "Salt & Pepper";
+    return "Herbs & Spices";
+  }
+  if (group.includes("baking") || group.includes("breakfast")) {
+    if (/mix|pie filling/.test(name)) return "Mixes & Fillings";
+    if (/protein/.test(name)) return "Protein & Supplements";
+    if (/flour|extract/.test(name)) return "Baking Ingredients";
+    return "Breakfast & Snacks";
+  }
+  if (group.includes("storage") || group.includes("freezer meal")) {
+    if (/bag/.test(name)) return "Bags";
+    if (/container|pan/.test(name)) return "Containers";
+    if (/foil|parchment/.test(name)) return "Wraps & Liners";
+    if (/label|marker|tape/.test(name)) return "Labels & Marking";
+    return "Other Supplies";
+  }
+  return "Other Items";
+}
+
+function pantryProductTypeColumns(items = [], groupName = "") {
+  const grouped = new Map();
+  items.forEach((item) => {
+    const type = pantryProductType(groupName, item.name);
+    if (!grouped.has(type)) grouped.set(type, []);
+    grouped.get(type).push(item);
+  });
+  const typeGroups = [...grouped.entries()]
+    .map(([type, typeItems]) => ({
+      type,
+      items: typeItems.sort((a, b) => String(a.name).localeCompare(String(b.name), undefined, { sensitivity: "base", numeric: true })),
+    }))
+    .sort((a, b) => String(a.type).localeCompare(String(b.type), undefined, { sensitivity: "base", numeric: true }));
+  const target = Math.ceil(items.length / 2);
+  const columns = [[], []];
+  let firstColumnCount = 0;
+  typeGroups.forEach((typeGroup) => {
+    const columnIndex = firstColumnCount < target ? 0 : 1;
+    columns[columnIndex].push(typeGroup);
+    if (columnIndex === 0) firstColumnCount += typeGroup.items.length;
+  });
+  return columns;
+}
+
 function buildMasterInventoryShoppingItems(masterInventory = {}, recipes = []) {
   const safe = masterInventory && typeof masterInventory === "object"
     ? { records: masterInventory.records || {}, customItems: masterInventory.customItems || [] }
@@ -7242,27 +7318,38 @@ function PantryStaplesPage({ pantry, setPantry, externalSearch = "", embedded = 
               <em>{stocked} stocked / {group.items.length} items</em>
             </button>
 
-            {isOpen && <div className="pantryAccordionBody">{group.items.map((item) => (
-              <div
-                key={item.name}
-                className={`pantryItem${pantryItemStatus(pantry, item.name) === "in-stock" ? " checked" : ""} is-${pantryItemStatus(pantry, item.name)}`}
-              >
-                <input
-                  type="checkbox"
-                  checked={!!pantry[item.name]}
-                  onChange={() => togglePantryItem(item)}
-                  aria-label={`${item.name} in stock`}
-                />
-                <span>{item.name}</span>
-                <em>Level {item.level}</em>
-                <select value={pantryItemStatus(pantry, item.name)} onChange={(event) => setPantryStatus(item, event.target.value)} aria-label={`${item.name} stock status`}>
-                  <option value="not-set">Not Set</option>
-                  <option value="in-stock">In Stock</option>
-                  <option value="low">Low</option>
-                  <option value="out">Out</option>
-                </select>
-              </div>
-            ))}</div>}
+            {isOpen && <div className="pantryAccordionBody">
+              {pantryProductTypeColumns(group.items, group.group).map((column, columnIndex) => (
+                <div className="pantryAccordionColumn" key={`${group.group}-column-${columnIndex + 1}`}>
+                  {column.map((typeGroup) => (
+                    <section className="pantryTypeGroup" key={typeGroup.type}>
+                      <h3>{typeGroup.type}</h3>
+                      {typeGroup.items.map((item) => (
+                        <div
+                          key={item.name}
+                          className={`pantryItem${pantryItemStatus(pantry, item.name) === "in-stock" ? " checked" : ""} is-${pantryItemStatus(pantry, item.name)}`}
+                        >
+                          <input
+                            type="checkbox"
+                            checked={!!pantry[item.name]}
+                            onChange={() => togglePantryItem(item)}
+                            aria-label={`${item.name} in stock`}
+                          />
+                          <span>{item.name}</span>
+                          <em>L{item.level}</em>
+                          <select value={pantryItemStatus(pantry, item.name)} onChange={(event) => setPantryStatus(item, event.target.value)} aria-label={`${item.name} stock status`}>
+                            <option value="not-set">Not Set</option>
+                            <option value="in-stock">In Stock</option>
+                            <option value="low">Low</option>
+                            <option value="out">Out</option>
+                          </select>
+                        </div>
+                      ))}
+                    </section>
+                  ))}
+                </div>
+              ))}
+            </div>}
           </section>
           );
         })}
@@ -7811,7 +7898,7 @@ function FreezerInventoryManagementPage({
   }, new Map()).entries()]
     .map(([cuisine, items]) => ({
       cuisine,
-      items: items.sort((a, b) => String(a.title).localeCompare(String(b.title), undefined, { sensitivity: "base", numeric: true })),
+      items: items.sort((a, b) => String(a.code).localeCompare(String(b.code), undefined, { sensitivity: "base", numeric: true })),
     }))
     .sort((a, b) => String(a.cuisine).localeCompare(String(b.cuisine), undefined, { sensitivity: "base", numeric: true }));
 

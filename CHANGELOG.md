@@ -1,3 +1,10 @@
+# v84.30 — Freezer Code Order and Pantry Product Groups
+
+- Sorted Complete Meals and Individual Recipes inside each Freezer accordion by their meal or recipe code using numeric order.
+- Changed Pantry level markers from Level 1, Level 2, and Level 3 to the compact L1, L2, and L3 format.
+- Rebuilt Pantry accordion contents as column-first alphabetical lists: the sequence runs down the left column before continuing at the top of the right column.
+- Grouped related Pantry products under alphabetized type headings such as Broths & Stocks, Soups, Vegetables, Sauces, Beans, Cooking Oils, and Baking Basics.
+
 # v84.29 — Inventory Width, Sorting, and Freezer Alignment
 
 - Expanded the Master Kitchen Inventory command strip and all inventory accordions to 100% of their page container.

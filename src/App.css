@@ -19728,6 +19728,42 @@ button.browseRecipeWideFooterAction:focus-visible,
 }
 
 /* ================================================================
+   v84.30 — PANTRY TYPE GROUPS AND COLUMN-FIRST ORDER
+   ================================================================ */
+.pantryAccordionBody {
+  align-items: start !important;
+}
+
+.pantryAccordionColumn {
+  display: grid !important;
+  align-content: start !important;
+  gap: 12px !important;
+  min-width: 0 !important;
+}
+
+.pantryTypeGroup {
+  min-width: 0 !important;
+}
+
+.pantryTypeGroup h3 {
+  margin: 0 0 3px !important;
+  padding: 4px 0 6px !important;
+  border-bottom: 1px solid #d8d1c6 !important;
+  color: #647142 !important;
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 10px !important;
+  font-weight: 850 !important;
+  letter-spacing: .04em !important;
+  text-transform: uppercase !important;
+}
+
+@media (max-width: 700px) {
+  .pantryAccordionColumn + .pantryAccordionColumn {
+    margin-top: 12px !important;
+  }
+}
+
+/* ================================================================
    v84.28 — FULL-WIDTH MASTER INVENTORY COMMAND STRIP
    ================================================================ */
 .inventoryHubControlStrip {

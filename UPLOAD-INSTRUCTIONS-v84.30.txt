@@ -1,0 +1,22 @@
+ROBERT'S RECIPE BOX v84.30 — GITHUB UPDATE
+
+Upload this update after v84.29.
+
+1. Open the repository root in GitHub.
+2. Upload the contents of My-Recipe-Box-v84.30-GitHub-Update.zip, preserving folders.
+3. Replace matching files when GitHub prompts you.
+4. Add the new files listed in UPDATE-MANIFEST-v84.30.json.
+5. Do not delete any existing files; this update has no deletions.
+6. Commit with a message such as:
+   v84.30: group Pantry products and sort Freezer codes
+7. Let the normal deployment build finish.
+
+VERIFY AFTER DEPLOYMENT
+
+- Complete Meals and Individual Recipes run in numeric meal/recipe-code order inside each Freezer accordion.
+- Pantry level markers read L1, L2, and L3.
+- Pantry type headings and their items are alphabetical.
+- The Pantry sequence runs down the left column before continuing at the top of the right column.
+- Related products such as broths, soups, vegetables, sauces, beans, oils, and baking basics remain together.
+
+See V84.30-PANTRY-GROUPING-FREEZER-ORDER-REPORT.md for implementation and verification details.
