@@ -78,7 +78,7 @@ export default function UserDataBackupSection({ onRestored, onClose, backupStatu
         <div className="rrbSectionIntroCopy">
           <div className="rrbSectionIntroTitleRow">
             <h2 id="user-data-heading">
-              YOUR RECIPE BOX DATA IS <span className="userDataTitleHeart">♥</span> PRIVATE <span className="userDataTitleHeart">♥</span> LOCAL <span className="userDataTitleHeart">♥</span> PORTABLE
+              Your Recipe Box Data Is <span className="userDataTitleHeart">♥</span> Private <span className="userDataTitleHeart">♥</span> Local <span className="userDataTitleHeart">♥</span> Portable
             </h2>
           </div>
           <p className="userDataPrivacyText">

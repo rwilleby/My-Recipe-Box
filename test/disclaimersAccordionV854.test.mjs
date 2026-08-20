@@ -15,11 +15,14 @@ assert.ok(start >= 0, "Disclaimers page should exist");
 assert.match(page, /<SectionIntro/);
 assert.match(page, /className="disclaimersSectionIntro"/);
 assert.match(page, /title="Disclaimers"/);
+assert.match(page, /className="disclaimerEffectiveDateLine">Effective date: July 1, 2026\.<\/span>/);
+assert.match(page, /className="disclaimerIntroParagraph"/);
 assert.doesNotMatch(page, /POLICIES, DISCLAIMERS & LEGAL INFORMATION/);
 assert.match(page, /className="disclaimerAccordionList"/);
 assert.match(css, /\.disclaimerAccordionList \{[\s\S]*?width: 90% !important/);
 assert.match(css, /\.disclaimerAccordionSection \{[\s\S]*?background: #f4efe5 !important/);
 assert.match(css, /\.disclaimerExplanationBlock\.simple p::before \{[\s\S]*?color: #7a9a3d !important/);
 assert.match(css, /\.disclaimerExplanationBlock\.formal p::before \{[\s\S]*?color: #c8b99f !important/);
+assert.match(css, /\.disclaimersSectionIntro p \{[\s\S]*?font-weight: 400 !important/);
 
 console.log("Disclaimers uses the centered intro, beige accordion, and two-level heart bullets.");

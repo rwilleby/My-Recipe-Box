@@ -563,15 +563,16 @@ export default function WeekendBulkMealPlanner({
 
   return (
     <main className="weekendBulkPage pageShell">
-      <section className="weekendBulkIntro">
-        <div className="weekendBulkIntroCopy">
-          <span className="aiBadge">WEEKEND PRODUCTION PLAN</span>
-          <h2>
-            <span>Plan, shop &amp; cook once.</span>
-            <span>Relax &amp; save for weeks.</span>
-          </h2>
+      <section className="weekendBulkSectionIntro rrbSectionIntroComponent isCentered">
+        <div className="rrbSectionIntroCopy">
+          <div className="rrbSectionIntroTitleRow">
+            <h2>Plan, shop &amp; cook once. Relax &amp; save for weeks.</h2>
+          </div>
           <p>Build a plan that fits your equipment, available time, household size, and freezer space. Your selections and packaging notes stay in this browser so you can return to the plan while you shop, cook, cool, label, and store everything.</p>
         </div>
+      </section>
+
+      <section className="weekendBulkSetupPanel" aria-label="Weekend production plan settings">
         <div className="weekendBulkPlanName">
           <label>
             <span>Plan name</span>

@@ -20910,6 +20910,18 @@ button.browseRecipeWideFooterAction:focus-visible,
 
 .groceryPicksPage .groceryPicksIntro {
   margin: 0 0 18px !important;
+  text-align: center !important;
+}
+
+.groceryPicksPage .groceryPicksIntro h2,
+.groceryPicksPage .groceryPicksIntro p {
+  text-align: center !important;
+}
+
+.groceryPicksPage .groceryPicksIntro p {
+  max-width: 980px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
 }
 
 .groceryPicksPage .groceryReferenceGrid {
@@ -21291,6 +21303,22 @@ button.browseRecipeWideFooterAction:focus-visible,
 .disclaimersSectionIntro p {
   margin-left: auto !important;
   margin-right: auto !important;
+  font-weight: 400 !important;
+}
+
+.disclaimerEffectiveDateLine,
+.disclaimerIntroParagraph {
+  display: block !important;
+  width: 100% !important;
+  text-align: center !important;
+}
+
+.disclaimerEffectiveDateLine {
+  margin-bottom: 10px !important;
+}
+
+.disclaimerIntroParagraph + .disclaimerIntroParagraph {
+  margin-top: 8px !important;
 }
 
 .disclaimerAccordionList {

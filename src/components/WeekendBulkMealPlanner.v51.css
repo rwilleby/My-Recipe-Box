@@ -439,6 +439,56 @@
   }
 }
 
+/* v85.0 baseline refinement: standard centered intro above plan settings. */
+.weekendBulkSectionIntro.rrbSectionIntroComponent{
+  width:100%!important;
+  margin:0 auto var(--rrb-section-intro-bottom-gap,18px)!important;
+  text-align:center!important;
+}
+.weekendBulkSectionIntro .rrbSectionIntroCopy,
+.weekendBulkSectionIntro .rrbSectionIntroTitleRow{
+  width:100%!important;
+}
+.weekendBulkSectionIntro .rrbSectionIntroTitleRow{
+  justify-content:center!important;
+}
+.weekendBulkSectionIntro p{
+  margin-left:auto!important;
+  margin-right:auto!important;
+}
+.weekendBulkSetupPanel{
+  width:100%!important;
+  box-sizing:border-box!important;
+  margin:0 0 18px!important;
+  padding:18px 22px!important;
+  border:1px solid #ded5c8!important;
+  border-radius:16px!important;
+  background:#fffdf8!important;
+}
+.weekendBulkSetupPanel .weekendBulkPlanName{
+  width:100%!important;
+  min-width:0!important;
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  grid-template-rows:auto auto!important;
+  gap:10px!important;
+  margin:0!important;
+}
+.weekendBulkSetupPanel .weekendBulkCounterRow{
+  grid-column:1/-1!important;
+}
+@media(max-width:600px){
+  .weekendBulkSetupPanel{
+    padding:14px!important;
+  }
+  .weekendBulkSetupPanel .weekendBulkPlanName{
+    grid-template-columns:1fr!important;
+  }
+  .weekendBulkSetupPanel .weekendBulkCounterRow{
+    grid-column:auto!important;
+  }
+}
+
 /* v85.4 minor edit: align the Weekend Bulk Plan directly beneath its hero. */
 .weekendBulkPage{
   padding-top:0!important;

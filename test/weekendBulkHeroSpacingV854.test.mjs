@@ -4,6 +4,7 @@ import test from "node:test";
 
 const app = fs.readFileSync(new URL("../src/App.jsx", import.meta.url), "utf8");
 const css = fs.readFileSync(new URL("../src/components/WeekendBulkMealPlanner.v51.css", import.meta.url), "utf8");
+const component = fs.readFileSync(new URL("../src/components/WeekendBulkMealPlanner.jsx", import.meta.url), "utf8");
 
 test("Weekend Bulk Plan hides operations counters and begins beneath the hero", () => {
   const route = app.slice(
@@ -20,4 +21,10 @@ test("Weekend Bulk Plan hides operations counters and begins beneath the hero", 
   const finalRules = css.slice(css.lastIndexOf(marker));
   assert.match(finalRules, /\.weekendBulkPage\s*\{[^}]*padding-top:\s*0\s*!important;/s);
   assert.match(finalRules, /\.weekendBulkIntro\s*\{[^}]*margin-top:\s*0\s*!important;/s);
+
+  assert.match(component, /weekendBulkSectionIntro rrbSectionIntroComponent isCentered/);
+  assert.match(component, /<h2>Plan, shop &amp; cook once\. Relax &amp; save for weeks\.<\/h2>/);
+  assert.match(component, /className="weekendBulkSetupPanel"/);
+  assert.doesNotMatch(component, /WEEKEND PRODUCTION PLAN/);
+  assert.match(css, /v85\.0 baseline refinement: standard centered intro above plan settings/);
 });

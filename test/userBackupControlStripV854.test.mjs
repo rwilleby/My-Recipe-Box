@@ -30,7 +30,8 @@ for (const label of orderedLabels) {
   previous = index;
 }
 
-assert.match(component, /YOUR RECIPE BOX DATA IS/);
+assert.match(component, /Your Recipe Box Data Is/);
+assert.doesNotMatch(component, /YOUR RECIPE BOX DATA IS/);
 assert.equal((component.match(/userDataTitleHeart/g) || []).length, 3);
 assert.match(component, /rrbSectionIntroComponent isCentered/);
 assert.match(component, /className="userDataControlStrip"/);

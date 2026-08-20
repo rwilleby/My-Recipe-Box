@@ -12,9 +12,12 @@ test("Healthy Substitutions uses a full-width top and 90% accordions", () => {
   assert.match(page, /<details className="groceryReferenceAccordion"/);
   assert.match(page, /<summary>/);
   assert.match(page, /groceryReferenceAccordionArrow/);
+  assert.doesNotMatch(page, /Back to Shopping List/);
+  assert.match(page, /<h2>How to use this list<\/h2>/);
 
   const marker = "/* v85.4 minor edit — Healthy Substitutions full-width header and 90% accordions. */";
   const rules = css.slice(css.lastIndexOf(marker));
   assert.match(rules, /\.groceryPicksPage\s*\{[^}]*width:\s*100%\s*!important;/s);
   assert.match(rules, /\.groceryPicksPage \.groceryReferenceGrid\s*\{[^}]*width:\s*90%\s*!important;/s);
+  assert.match(rules, /\.groceryPicksPage \.groceryPicksIntro h2,[\s\S]*?text-align:\s*center\s*!important;/s);
 });

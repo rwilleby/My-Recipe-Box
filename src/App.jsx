@@ -10808,12 +10808,6 @@ function GroceryPicksPage({ setActivePage }) {
         className="smartGroceryPicksSectionIntro"
       />
 
-      <div className="smartGroceryPicksIntroActions">
-        <button className="secondary" onClick={() => setActivePage("Shopping Lists")}>
-          Back to Shopping List
-        </button>
-      </div>
-
       <section className="groceryPicksIntro">
         <h2>How to use this list</h2>
         <p>
@@ -15696,8 +15690,10 @@ function DisclaimersPage({ setActivePage }) {
         title="Disclaimers"
         text={(
           <>
-            <strong>Effective date: July 1, 2026.</strong>{" "}
-            {DISCLAIMER_PAGE_INTRO.join(" ")}
+            <span className="disclaimerEffectiveDateLine">Effective date: July 1, 2026.</span>
+            {DISCLAIMER_PAGE_INTRO.map((paragraph) => (
+              <span className="disclaimerIntroParagraph" key={paragraph}>{paragraph}</span>
+            ))}
           </>
         )}
       />
