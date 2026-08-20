@@ -23,6 +23,7 @@
 }
 
 .videoLibraryPlayerFrame {
+  position: relative;
   aspect-ratio: 16 / 9;
   overflow: hidden;
   background: #1f1d1a;
@@ -39,6 +40,12 @@
 
 .videoLibraryPlayerFrame video {
   background: #1f1d1a;
+  cursor: pointer;
+}
+
+.videoLibraryPlayerFrame video:focus-visible {
+  outline: 4px solid rgba(165, 158, 153, 0.55);
+  outline-offset: -4px;
 }
 
 .videoLibraryPosterButton {
@@ -83,6 +90,26 @@
 .videoLibraryPosterButton:focus-visible {
   outline: 4px solid rgba(165, 158, 153, 0.55);
   outline-offset: -4px;
+}
+
+.videoLibraryPausedOverlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  display: grid;
+  width: clamp(52px, 6vw, 70px);
+  aspect-ratio: 1;
+  place-items: center;
+  padding-left: 4px;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  background: rgba(95, 87, 78, 0.78);
+  color: #fff;
+  font-size: clamp(23px, 2.6vw, 31px);
+  line-height: 1;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
 }
 
 .videoLibraryCardCopy {

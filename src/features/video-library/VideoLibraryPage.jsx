@@ -14,11 +14,24 @@ function siteAsset(path) {
 export default function VideoLibraryPage({ setActivePage }) {
   const videoRefs = useRef([]);
   const [startedVideos, setStartedVideos] = useState({});
+  const [activeVideoId, setActiveVideoId] = useState(null);
 
-  function handlePlay(activeIndex) {
+  function handlePlay(activeIndex, activeId) {
     videoRefs.current.forEach((player, index) => {
       if (player && index !== activeIndex && !player.paused) player.pause();
     });
+    setActiveVideoId(activeId);
+  }
+
+  function toggleVideo(index) {
+    const player = videoRefs.current[index];
+    if (!player) return;
+
+    if (player.paused || player.ended) {
+      player.play().catch(() => {});
+    } else {
+      player.pause();
+    }
   }
 
   function openAssociatedPage(page) {
@@ -46,21 +59,36 @@ export default function VideoLibraryPage({ setActivePage }) {
             <div className="videoLibraryPlayerFrame">
               {item.video ? (
                 startedVideos[item.id] ? (
-                  <video
-                    ref={(node) => {
-                      videoRefs.current[index] = node;
-                    }}
-                    controls
-                    autoPlay
-                    playsInline
-                    preload="metadata"
-                    poster={siteAsset(item.poster)}
-                    onPlay={() => handlePlay(index)}
-                    aria-label={`Watch ${item.title}`}
-                  >
-                    <source src={siteAsset(item.video)} type="video/mp4" />
-                    Your browser does not support HTML5 video.
-                  </video>
+                  <>
+                    <video
+                      ref={(node) => {
+                        videoRefs.current[index] = node;
+                      }}
+                      autoPlay
+                      playsInline
+                      preload="metadata"
+                      poster={siteAsset(item.poster)}
+                      onPlay={() => handlePlay(index, item.id)}
+                      onPause={() => setActiveVideoId((current) => current === item.id ? null : current)}
+                      onEnded={() => setActiveVideoId((current) => current === item.id ? null : current)}
+                      onClick={() => toggleVideo(index)}
+                      onKeyDown={(event) => {
+                        if (event.key === "Enter" || event.key === " ") {
+                          event.preventDefault();
+                          toggleVideo(index);
+                        }
+                      }}
+                      tabIndex="0"
+                      role="button"
+                      aria-label={`${activeVideoId === item.id ? "Pause" : "Play"} ${item.title}`}
+                    >
+                      <source src={siteAsset(item.video)} type="video/mp4" />
+                      Your browser does not support HTML5 video.
+                    </video>
+                    {activeVideoId !== item.id && (
+                      <span className="videoLibraryPausedOverlay" aria-hidden="true">▶</span>
+                    )}
+                  </>
                 ) : (
                   <button
                     className="videoLibraryPosterButton"

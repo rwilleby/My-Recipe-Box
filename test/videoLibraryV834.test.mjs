@@ -86,7 +86,9 @@ for (const item of plannedItems) {
 assert.match(pageSource, /item\.video \? \(/);
 assert.match(pageSource, /VIDEO NOT YET ASSIGNED/);
 assert.match(pageSource, /TEST PATTERN/);
-assert.match(pageSource, /controls/);
+assert.doesNotMatch(pageSource, /\scontrols(?:\s|=)/);
+assert.match(pageSource, /videoLibraryPausedOverlay/);
+assert.match(pageSource, /onClick=\{\(\) => toggleVideo\(index\)\}/);
 assert.match(pageSource, /preload="metadata"/);
 assert.match(pageSource, /autoPlay/);
 assert.match(pageSource, /videoLibraryPosterButton/);

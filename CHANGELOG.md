@@ -9,6 +9,7 @@
 - Replaced the Affiliate Marketing placeholder with the complete Amazon Associates disclosure, centered page introduction, and established beige accordion layout.
 - Added the Amazon affiliate disclosure to the beginning of every Cooking Tools, Storage & Organization accordion panel.
 - Updated the Video Library with full-color playable previews, beige destination buttons, and the established centered introduction.
+- Removed native Video Library control bars; videos now use clean click-to-play/pause behavior with a play indicator only while inactive or paused.
 - Hid the Weekly Meal Planner prototype and Submit Your Family Recipes from public navigation while preserving their source for later use.
 - Removed macOS metadata from the v85 distribution archive.
 
