@@ -14,5 +14,5 @@ TO APPLY THE UPDATE
 
 The resulting project is the complete v85.0.0 baseline with the latest v85
 homepage refinements, including tenth-visit reminders, welcome-video autoplay,
-the compact welcome accordion, the enlarged 7-by-2 cuisine grid, and larger
+the restored welcome accordion, the enlarged 7-by-2 cuisine grid, and larger
 Complete Dinner and Diet Meal card titles.

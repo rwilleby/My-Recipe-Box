@@ -21664,29 +21664,7 @@ button.browseRecipeWideFooterAction:focus-visible,
   margin-top: 0 !important;
 }
 
-/* v85.5 homepage refinements — quieter onboarding and larger discovery cards. */
-.homeMealJourneyToggle {
-  min-height: 44px !important;
-  padding: 6px 14px !important;
-  gap: 12px !important;
-}
-
-.homeMealJourneyToggleText strong {
-  font-size: 15.5px !important;
-  line-height: 1.08 !important;
-}
-
-.homeMealJourneyToggleText small {
-  font-size: 10.5px !important;
-  line-height: 1.12 !important;
-}
-
-.homeMealJourneyChevron {
-  width: 27px !important;
-  height: 27px !important;
-  font-size: 17px !important;
-}
-
+/* v85.5 homepage refinements — larger discovery cards. */
 @media (min-width: 901px) {
   .homeCategoryGrid,
   .categoryGrid.homeCategoryGrid {

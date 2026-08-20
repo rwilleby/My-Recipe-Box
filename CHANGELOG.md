@@ -13,8 +13,8 @@
 - Reordered the homepage to place “What Do You Want to Do Today?” directly after the hero, followed by Quick Dinner and Diet Meal ideas; removed the construction stamp and hid homepage Previous/Next controls.
 - Delayed all backup warnings until the visitor has saved custom recipe-box information while preserving other kitchen reminders.
 - Delayed the entire site reminder ribbon until the visitor reaches the tenth distinct browser session.
-- Restored welcome-video autoplay behavior and retained automatic dismissal after playback ends.
-- Reduced the height and type size of the “New to our page?” accordion strip.
+- Restored reliable welcome-video auto-open and autoplay behavior, with sound attempted first, a browser-safe muted fallback, and automatic dismissal after playback ends.
+- Restored the “New to our page?” accordion strip to its previous dimensions and typography.
 - Enlarged homepage cuisine icons and labels by 25% and arranged the 14 shortcuts in two rows of seven on desktop.
 - Enlarged Complete Dinner and Diet Meal homepage recipe-card titles by 25%.
 - Hid the Weekly Meal Planner prototype and Submit Your Family Recipes from public navigation while preserving their source for later use.

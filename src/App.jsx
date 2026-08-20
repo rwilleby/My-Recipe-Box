@@ -1896,6 +1896,20 @@ function WelcomeTour() {
   const closeTimerRef = useRef(null);
   const acknowledgedKey = `${LARGE_HERO_VIDEO_ACKNOWLEDGED_PREFIX}Home`;
 
+  function startWelcomeVideo({ restart = false } = {}) {
+    const player = videoRef.current;
+    if (!player) return;
+
+    if (restart) player.currentTime = 0;
+    player.muted = false;
+    player.play().catch(() => {
+      // Browsers may block sound-on autoplay. Keep the automatic welcome
+      // sequence moving with a muted fallback; a manual replay restores sound.
+      player.muted = true;
+      player.play().catch(() => {});
+    });
+  }
+
   useEffect(() => {
     try {
       const isAcknowledged =
@@ -1904,13 +1918,13 @@ function WelcomeTour() {
       if (!isAcknowledged) {
         setIsVisible(true);
         window.requestAnimationFrame(() => {
-          videoRef.current?.play().catch(() => {});
+          startWelcomeVideo({ restart: true });
         });
       }
     } catch {
       setIsVisible(true);
       window.requestAnimationFrame(() => {
-        videoRef.current?.play().catch(() => {});
+        startWelcomeVideo({ restart: true });
       });
     }
   }, [acknowledgedKey]);
@@ -1932,9 +1946,7 @@ function WelcomeTour() {
       setIsVideoPlaying(false);
       setIsVisible(true);
 
-      if (player) {
-        player.play().catch(() => {});
-      }
+      if (player) startWelcomeVideo({ restart: true });
     }
 
     window.addEventListener(WELCOME_TOUR_OPEN_EVENT, handleOpenTour);
@@ -1955,9 +1967,7 @@ function WelcomeTour() {
     const player = videoRef.current;
     if (!player) return;
 
-    player.play().catch(() => {
-      // If a browser blocks automatic playback, the Play Now control remains available.
-    });
+    startWelcomeVideo();
   }, [isVisible]);
 
   function acknowledgeVideo() {
@@ -1987,6 +1997,7 @@ function WelcomeTour() {
     const player = videoRef.current;
     if (!player) return;
 
+    player.muted = false;
     player.play().catch(() => {});
   }
 

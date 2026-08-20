@@ -11,14 +11,17 @@ test("the reminder ribbon waits until the tenth distinct browser session", () =>
   assert.match(app, /siteVisitCount >= REMINDER_RIBBON_MINIMUM_VISITS/);
 });
 
-test("the welcome video requests autoplay and keeps its ended cleanup", () => {
+test("the welcome video auto-opens, attempts sound, falls back safely, and closes when finished", () => {
   assert.match(app, /title="Robert’s Recipe Box welcome video"[\s\S]*?autoPlay/);
+  assert.match(app, /if \(!isAcknowledged\) \{[\s\S]*?setIsVisible\(true\)/);
+  assert.match(app, /player\.muted = false;[\s\S]*?player\.play\(\)\.catch\(\(\) => \{[\s\S]*?player\.muted = true;/);
   assert.match(app, /onEnded=\{handleEnded\}/);
   assert.match(app, /closeWindow\(\{ acknowledge: false \}\)/);
 });
 
-test("homepage discovery layout uses compact onboarding and two rows of seven icons", () => {
-  assert.match(css, /\.homeMealJourneyToggle\s*\{[\s\S]*?min-height: 44px !important;/);
+test("the welcome accordion uses its previous setting and cuisine links use two rows of seven", () => {
+  assert.match(css, /\.homeMealJourneyToggle \{min-height: 38px !important; padding: 4px 46px 4px 16px !important;/);
+  assert.match(css, /\.homeMealJourneyToggleText strong,[\s\S]*?\.homeMealJourneyToggleText small \{font-size: 15px !important;/);
   assert.match(css, /grid-template-columns: repeat\(7, minmax\(82px, 1fr\)\) !important;/);
   assert.match(css, /width: 58px !important;/);
   assert.match(css, /font-size: 11\.25px !important;/);
