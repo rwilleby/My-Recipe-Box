@@ -1,6 +1,6 @@
 // Selectable directions transcribed from the illustrated AS recipe cards.
 // The card images remain authoritative. Printed ingredient/direction conflicts
-// for AS-004 and AS-013 are documented in TEXT-RECIPE-REVIEW.md.
+// are documented by recipe code in TEXT-RECIPE-REVIEW.md.
 export const ASIAN_DIRECTIONS_V882 = {
   "AS-001": [
     "Toss beef with cornstarch.",
