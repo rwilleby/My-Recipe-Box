@@ -4215,6 +4215,38 @@ function getRecipeEstimatedCost(recipe) {
   return getRecipeCostEstimate(recipe);
 }
 
+function formatTextRecipeIngredient(ingredient) {
+  if (typeof ingredient === "string") return ingredient;
+
+  const name = String(ingredient?.name || ingredient?.item || "").trim();
+  const unit = String(ingredient?.unit || "").trim();
+  const normalizedUnit = unit.toLowerCase();
+  const quantity = ingredient?.qty ?? ingredient?.amount;
+  const formattedQuantity = quantity === undefined || quantity === null || quantity === ""
+    ? ""
+    : formatQty(quantity);
+
+  if (!name) return "";
+  if (normalizedUnit === "amount not specified") return name;
+  if (normalizedUnit === "optional") return /optional/i.test(name) ? name : `${name}, optional`;
+  if (normalizedUnit === "to taste") return /to taste/i.test(name) ? name : `${name}, to taste`;
+  if (normalizedUnit === "each") return [formattedQuantity, name].filter(Boolean).join(" ");
+  if (normalizedUnit === "optional garnish") {
+    return `${[formattedQuantity, name].filter(Boolean).join(" ")} (optional garnish)`;
+  }
+  if (normalizedUnit === "optional, for serving") return `${name}, for serving (optional)`;
+  if (/^(?:for |as needed)/i.test(unit)) {
+    return `${name}, ${unit}`;
+  }
+  if (/^(.+),\s*(optional|drained)$/i.test(unit)) {
+    const [, baseUnit, qualifier] = unit.match(/^(.+),\s*(optional|drained)$/i);
+    return `${[formattedQuantity, baseUnit, name].filter(Boolean).join(" ")}, ${qualifier.toLowerCase()}`;
+  }
+  if (normalizedUnit === "8.5-inch sheets") return `${formattedQuantity} (8.5-inch) ${name}`;
+
+  return [formattedQuantity, unit, name].filter(Boolean).join(" ");
+}
+
 function RecipeCardViewer({
   viewer,
   onClose,
@@ -4299,6 +4331,13 @@ function RecipeCardViewer({
   const recipeCompleteDinners = rfisPlatform.completeDinners
     .byRecipe(recipe.id)
     .slice(0, 4);
+  const textRecipeIngredients = (recipe.ingredients || [])
+    .map(formatTextRecipeIngredient)
+    .filter(Boolean);
+  const textRecipeDirections = Array.isArray(recipe.directions)
+    ? recipe.directions.filter(Boolean)
+    : [];
+  const hasTextRecipe = textRecipeIngredients.length > 0 && textRecipeDirections.length > 0;
 
   function goToOffset(offset) {
     if (!hasMultiple) return;
@@ -4642,6 +4681,7 @@ function RecipeCardViewer({
             <div className="viewerBottomSheetHeader">
               <strong>
                 {openPanel === "cooking" && "Cooking Options"}
+                {openPanel === "textRecipe" && "Text Recipe"}
                 {openPanel === "notesTips" && "Notes & Tips"}
                 {openPanel === "dinners" && "Dinners"}
                 {openPanel === "construction" && "Build Your Salad"}
@@ -4664,6 +4704,32 @@ function RecipeCardViewer({
                       <p>{option.text}</p>
                     </article>
                   ))}
+                </div>
+              </div>
+            )}
+
+            {openPanel === "textRecipe" && hasTextRecipe && (
+              <div className="viewerBottomSheetContent viewerTextRecipeSheet">
+                <p className="viewerSheetIntro">
+                  Select, enlarge, or copy this card-verified recipe text while cooking.
+                </p>
+                <div className="viewerTextRecipeGrid">
+                  <section aria-labelledby={`${recipe.id}-text-ingredients`}>
+                    <h3 id={`${recipe.id}-text-ingredients`}>Ingredients</h3>
+                    <ul>
+                      {textRecipeIngredients.map((ingredient, index) => (
+                        <li key={`${recipe.id}-text-ingredient-${index}`}>{ingredient}</li>
+                      ))}
+                    </ul>
+                  </section>
+                  <section aria-labelledby={`${recipe.id}-text-directions`}>
+                    <h3 id={`${recipe.id}-text-directions`}>Directions</h3>
+                    <ol>
+                      {textRecipeDirections.map((direction, index) => (
+                        <li key={`${recipe.id}-text-direction-${index}`}>{direction}</li>
+                      ))}
+                    </ol>
+                  </section>
                 </div>
               </div>
             )}
@@ -4871,6 +4937,16 @@ function RecipeCardViewer({
               }}
             >
               Add Meal
+            </button>
+
+            <button
+              className={openPanel === "textRecipe" ? "viewerActionButton viewerActionTextRecipe active" : "viewerActionButton viewerActionTextRecipe"}
+              type="button"
+              onClick={() => togglePanel("textRecipe")}
+              disabled={!hasTextRecipe}
+              title={hasTextRecipe ? "Open selectable ingredients and directions" : "Text recipe review is not complete for this card"}
+            >
+              Text Recipe
             </button>
 
             <button
