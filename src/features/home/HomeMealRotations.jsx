@@ -39,7 +39,7 @@ function HomeComboMealCardButton({ meal, className = "", onOpen, imageLoading = 
       onClick={() => onOpen(meal)}
       aria-label={`Open combo meal ${meal.number}: ${meal.title}`}
     >
-      <div className="homeComboMealImage homeDinnerIdeaImage">
+      <div className="homeComboMealImage">
         <DinnerCombinationImage
           meal={meal}
           className="homeComboMealImageAsset"
