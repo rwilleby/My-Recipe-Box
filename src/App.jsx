@@ -4299,6 +4299,13 @@ function RecipeCardViewer({
   const recipeCompleteDinners = rfisPlatform.completeDinners
     .byRecipe(recipe.id)
     .slice(0, 4);
+  const textRecipeIngredients = Array.isArray(recipe.ingredients)
+    ? recipe.ingredients.filter((item) => String(item || "").trim())
+    : [];
+  const textRecipeDirections = Array.isArray(recipe.directions)
+    ? recipe.directions.filter((item) => String(item || "").trim())
+    : [];
+  const hasTextRecipe = textRecipeIngredients.length > 0 && textRecipeDirections.length > 0;
 
   function goToOffset(offset) {
     if (!hasMultiple) return;
@@ -4642,6 +4649,7 @@ function RecipeCardViewer({
             <div className="viewerBottomSheetHeader">
               <strong>
                 {openPanel === "cooking" && "Cooking Options"}
+                {openPanel === "textRecipe" && "Text Recipe"}
                 {openPanel === "notesTips" && "Notes & Tips"}
                 {openPanel === "dinners" && "Dinners"}
                 {openPanel === "construction" && "Build Your Salad"}
@@ -4664,6 +4672,33 @@ function RecipeCardViewer({
                       <p>{option.text}</p>
                     </article>
                   ))}
+                </div>
+              </div>
+            )}
+
+            {openPanel === "textRecipe" && hasTextRecipe && (
+              <div className="viewerBottomSheetContent viewerTextRecipeSheet">
+                <p className="viewerSheetIntro">
+                  Select, enlarge, or copy the ingredients and directions while cooking.
+                </p>
+                <div className="viewerTextRecipeGrid">
+                  <section aria-labelledby={`${recipe.id}-text-ingredients`}>
+                    <h3 id={`${recipe.id}-text-ingredients`}>Ingredients</h3>
+                    <ul>
+                      {textRecipeIngredients.map((ingredient, index) => (
+                        <li key={`${recipe.id}-ingredient-${index}`}>{ingredient}</li>
+                      ))}
+                    </ul>
+                  </section>
+
+                  <section aria-labelledby={`${recipe.id}-text-directions`}>
+                    <h3 id={`${recipe.id}-text-directions`}>Directions</h3>
+                    <ol>
+                      {textRecipeDirections.map((direction, index) => (
+                        <li key={`${recipe.id}-direction-${index}`}>{direction}</li>
+                      ))}
+                    </ol>
+                  </section>
                 </div>
               </div>
             )}
@@ -4871,6 +4906,15 @@ function RecipeCardViewer({
               }}
             >
               Add Meal
+            </button>
+
+            <button
+              className={openPanel === "textRecipe" ? "viewerActionButton viewerActionTextRecipe active" : "viewerActionButton viewerActionTextRecipe"}
+              type="button"
+              onClick={() => togglePanel("textRecipe")}
+              disabled={!hasTextRecipe}
+            >
+              Text Recipe
             </button>
 
             <button

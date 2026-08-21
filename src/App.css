@@ -21992,3 +21992,53 @@ button.browseRecipeWideFooterAction:focus-visible,
   text-transform: uppercase !important;
   white-space: nowrap !important;
 }
+
+/* v88.2 — selectable text recipe panel */
+.viewerTextRecipeSheet {user-select: text; -webkit-user-select: text;}
+
+.viewerTextRecipeGrid {
+  display: grid;
+  grid-template-columns: minmax(0, .9fr) minmax(0, 1.35fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.viewerTextRecipeGrid section {
+  min-width: 0;
+  padding: 16px 18px;
+  border: 1px solid #d9e3db;
+  border-radius: 14px;
+  background: #fff;
+}
+
+.viewerTextRecipeGrid h3 {
+  margin: 0 0 12px;
+  color: #14532d;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 22px;
+  line-height: 1.15;
+}
+
+.viewerTextRecipeGrid ul,
+.viewerTextRecipeGrid ol {
+  margin: 0;
+  padding-left: 24px;
+  color: #374151;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.viewerTextRecipeGrid li + li {
+  margin-top: 8px;
+}
+
+.viewerActionTextRecipe:disabled {
+  cursor: not-allowed;
+  opacity: .48;
+}
+
+@media (max-width: 760px) {
+  .viewerTextRecipeGrid {
+    grid-template-columns: 1fr;
+  }
+}
