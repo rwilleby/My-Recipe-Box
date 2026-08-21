@@ -21918,13 +21918,14 @@ button.browseRecipeWideFooterAction:focus-visible,
 .homeCategoryGrid,
 .categoryGrid.homeCategoryGrid {
   display: grid !important;
-  grid-template-columns: repeat(14, minmax(0, 1fr)) !important;
+  grid-template-columns: repeat(14, 1fr) !important;
   grid-auto-flow: row !important;
   grid-auto-columns: unset !important;
   align-items: start !important;
+  justify-items: stretch !important;
   width: 100% !important;
   max-width: 100% !important;
-  gap: clamp(2px, .3vw, 5px) !important;
+  gap: 0 !important;
   margin-left: auto !important;
   margin-right: auto !important;
   padding: 7px 6px 6px !important;
@@ -21943,7 +21944,7 @@ button.browseRecipeWideFooterAction:focus-visible,
   gap: 4px !important;
   width: 100% !important;
   min-width: 0 !important;
-  padding: 4px 1px 3px !important;
+  padding: 4px 0 3px !important;
   border: 1px solid transparent !important;
   border-radius: 11px !important;
   background: transparent !important;
@@ -21983,7 +21984,7 @@ button.browseRecipeWideFooterAction:focus-visible,
   max-width: 100% !important;
   overflow: hidden !important;
   color: #182033 !important;
-  font-size: 9px !important;
+  font-size: clamp(7px, .52vw, 8px) !important;
   font-weight: 800 !important;
   line-height: 1.1 !important;
   text-align: center !important;

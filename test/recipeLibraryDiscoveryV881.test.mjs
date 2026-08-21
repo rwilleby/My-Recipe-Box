@@ -38,7 +38,8 @@ assert.match(component, /mealBalance === null \? "—" : mealBalance/);
 assert.match(app, /\{activePage === "Home" && <HomeMealJourneyAccordion setActivePage=\{setActivePage\} \/>\}/);
 
 assert.match(css, /\.recipeLibraryDiscoveryIntro[\s\S]*text-align: center/);
-assert.match(css, /\.libraryCategorySelectorRow[\s\S]*grid-template-columns: repeat\(15, minmax\(0, 1fr\)\)/);
+assert.match(css, /\.libraryCategorySelectorRow[\s\S]*grid-template-columns: repeat\(15, 1fr\)/);
+assert.match(css, /\.libraryCategorySelectorRow[\s\S]*gap: 0/);
 assert.match(css, /\.libraryCategorySelectorItem img,[\s\S]*width: min\(48px, 100%\)/);
 assert.match(css, /\.libraryCategorySelectorItem\.category-cp img[\s\S]*object-fit: cover/);
 assert.match(css, /text-transform: uppercase/);
@@ -47,7 +48,8 @@ assert.doesNotMatch(css, /overflow-x: auto/);
 assert.match(css, /\.libraryDiscoveryRecipeText[\s\S]*height: clamp\(88px, 7\.4vw, 104px\)/);
 assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
 assert.match(homeCategories, /code === "QP"[\s\S]*\? "Quiche"[\s\S]*code === "SD"[\s\S]*\? "Sides"/);
-assert.match(appCss, /compact homepage cuisine selector[\s\S]*grid-template-columns: repeat\(14, minmax\(0, 1fr\)\)/);
+assert.match(appCss, /compact homepage cuisine selector[\s\S]*grid-template-columns: repeat\(14, 1fr\)/);
+assert.match(appCss, /compact homepage cuisine selector[\s\S]*gap: 0 !important/);
 assert.match(appCss, /\.homeCategoryGrid \.crockPotCategoryIcon[\s\S]*object-fit: cover/);
 assert.match(appCss, /\.homeCategoryGrid \.categoryTile strong,[\s\S]*text-transform: uppercase/);
 
