@@ -59,6 +59,7 @@ export const ASIAN_INGREDIENTS_V8410 = cards({
 `,
   "AS-004": `
 1|lb|Flank steak, thinly sliced
+2|tbsp|Cornstarch
 1|tbsp|Vegetable oil
 1|each|Red bell pepper, sliced
 1|each|Green bell pepper, sliced
@@ -77,7 +78,7 @@ export const ASIAN_INGREDIENTS_V8410 = cards({
 1|each|Red bell pepper, sliced
 0.5|each|Onion, sliced
 2|each|Green onions, sliced
-1|amount not specified|Lee Kum Kee Black Pepper Sauce
+0.5|cup|Lee Kum Kee Black Pepper Sauce
 1|for serving|Cooked rice
 `,
   "AS-006": `
@@ -88,7 +89,7 @@ export const ASIAN_INGREDIENTS_V8410 = cards({
 1|tsp|Fresh ginger, minced
 0.5|cup|Bibigo Korean BBQ Sauce
 2|each|Green onions, sliced
-1|tsp|Sesame seeds
+1|tsp, optional|Sesame seeds
 1|for serving|Cooked rice
 `,
   "AS-007": `
@@ -156,7 +157,10 @@ export const ASIAN_INGREDIENTS_V8410 = cards({
 `,
   "AS-013": `
 1|lb|Chicken breast, cut into 1-inch pieces
+2|tbsp|Cornstarch
 2|tbsp|Vegetable oil
+2|cloves|Garlic, minced
+1|tbsp|Fresh ginger, minced
 0.5|cup|Lee Kum Kee General Tso's Sauce
 0.5|tsp, optional|Red pepper flakes
 2|each|Green onions, sliced
