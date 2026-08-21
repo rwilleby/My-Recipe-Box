@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import "./RecipeLibraryDiscovery.css";
 
-const FEATURED_RECIPE_COUNT = 4;
+const FEATURED_RECIPE_COUNT = 6;
 const ROTATION_INTERVAL_MS = 9000;
 
 const CATEGORY_COPY = {
@@ -159,11 +159,9 @@ export default function RecipeLibraryDiscovery({
   getCalories,
   getMealBalanceScore,
 }) {
-  const [selectorOpen, setSelectorOpen] = useState(false);
   const [featuredRecipes, setFeaturedRecipes] = useState([]);
   const [rotatingPosition, setRotatingPosition] = useState(null);
   const [paused, setPaused] = useState(false);
-  const selectorRef = useRef(null);
   const rotationPositionRef = useRef(0);
   const favoriteIds = useMemo(() => (Array.isArray(favorites) ? favorites : []), [favorites]);
   const selectedChoice = choices.find((choice) => choice.id === selectedChoiceId) || choices[0];
@@ -183,7 +181,7 @@ export default function RecipeLibraryDiscovery({
   }, [matchingRecipes]);
 
   useEffect(() => {
-    if (paused || selectorOpen || matchingRecipes.length <= FEATURED_RECIPE_COUNT) return undefined;
+    if (paused || matchingRecipes.length <= FEATURED_RECIPE_COUNT) return undefined;
     const reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
     if (reducedMotion) return undefined;
 
@@ -205,27 +203,7 @@ export default function RecipeLibraryDiscovery({
     }, ROTATION_INTERVAL_MS);
 
     return () => window.clearInterval(timer);
-  }, [matchingRecipes, paused, selectorOpen]);
-
-  useEffect(() => {
-    function closeOnOutsideClick(event) {
-      if (selectorRef.current && !selectorRef.current.contains(event.target)) setSelectorOpen(false);
-    }
-    function closeOnEscape(event) {
-      if (event.key === "Escape") setSelectorOpen(false);
-    }
-    document.addEventListener("pointerdown", closeOnOutsideClick);
-    document.addEventListener("keydown", closeOnEscape);
-    return () => {
-      document.removeEventListener("pointerdown", closeOnOutsideClick);
-      document.removeEventListener("keydown", closeOnEscape);
-    };
-  }, []);
-
-  function selectChoice(choice) {
-    onSelectChoice(choice);
-    setSelectorOpen(false);
-  }
+  }, [matchingRecipes, paused]);
 
   return (
     <section
@@ -243,59 +221,26 @@ export default function RecipeLibraryDiscovery({
         <p>{selectedCopy.text}</p>
       </header>
 
-      <div className="recipeLibraryDiscoveryGrid">
-        <div className="libraryCategorySelector" ref={selectorRef}>
+      <nav className="libraryCategorySelectorRow" aria-label="Select a recipe cuisine or category">
+        {choices.map((choice) => (
           <button
             type="button"
-            className="libraryCategorySelectorIcon"
-            onClick={() => setSelectorOpen((open) => !open)}
-            aria-haspopup="listbox"
-            aria-expanded={selectorOpen}
-            aria-label={`Choose a cuisine or recipe category. Current selection: ${selectedChoice?.displayName || "All Recipes"}`}
+            key={choice.id}
+            className={`libraryCategorySelectorItem${choice.id === selectedChoice?.id ? " active" : ""}`}
+            onClick={() => onSelectChoice(choice)}
+            aria-pressed={choice.id === selectedChoice?.id}
           >
-            {selectedChoice?.iconImage ? (
-              <img src={`${import.meta.env.BASE_URL}${selectedChoice.iconImage}`} alt="" aria-hidden="true" />
+            {choice.iconImage ? (
+              <img src={`${import.meta.env.BASE_URL}${choice.iconImage}`} alt="" aria-hidden="true" />
             ) : (
-              <span className="libraryCategorySelectorAll" aria-hidden="true">⌕</span>
+              <span className="libraryCategorySelectorAll" aria-hidden="true">ALL</span>
             )}
+            <strong>{choice.displayName}</strong>
           </button>
-          <div className="libraryCategorySelectorControls">
-            <small className="libraryCategorySelectorPrompt">Select Your Cuisine</small>
-            <button
-              type="button"
-              className="libraryCategorySelectorBubble"
-              onClick={() => setSelectorOpen((open) => !open)}
-              aria-haspopup="listbox"
-              aria-expanded={selectorOpen}
-            >
-              <span>{selectedChoice?.displayName || "Choose Cuisine"}</span>
-              <strong aria-hidden="true">{selectorOpen ? "▲" : "▼"}</strong>
-            </button>
-          </div>
+        ))}
+      </nav>
 
-          {selectorOpen && (
-            <div className="libraryCategoryMenu" role="listbox" aria-label="Recipe categories">
-              {choices.map((choice) => (
-                <button
-                  type="button"
-                  role="option"
-                  aria-selected={choice.id === selectedChoice?.id}
-                  key={choice.id}
-                  className={choice.id === selectedChoice?.id ? "active" : ""}
-                  onClick={() => selectChoice(choice)}
-                >
-                  {choice.iconImage ? (
-                    <img src={`${import.meta.env.BASE_URL}${choice.iconImage}`} alt="" aria-hidden="true" />
-                  ) : (
-                    <span className="libraryCategoryMenuAll" aria-hidden="true">⌕</span>
-                  )}
-                  <span>{choice.displayName}</span>
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-
+      <div className="recipeLibraryDiscoveryGrid">
         {featuredRecipes.map((recipe, position) => (
           <div
             className={`libraryDiscoveryRecipeSlot${rotatingPosition === position ? " isChanging" : ""}`}
