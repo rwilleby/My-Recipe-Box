@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { RecipeImage } from "../recipe-viewer/RecipeImages";
 import "./RecipeLibraryDiscovery.css";
 
 const FEATURED_RECIPE_COUNT = 5;
@@ -58,6 +57,37 @@ function displayTitleParts(title) {
   };
 }
 
+function LibraryRecipeHero({ recipe }) {
+  const candidates = useMemo(
+    () => [
+      `images/heroes/${recipe.id}.webp`,
+      `images/heroes/${recipe.id} .webp`,
+      recipe.heroImage,
+      `images/thumbs/recipes/${recipe.id}.webp`,
+      `images/thumbs/recipes/${recipe.id} .webp`,
+    ].filter(Boolean),
+    [recipe],
+  );
+  const [imageIndex, setImageIndex] = useState(0);
+
+  useEffect(() => setImageIndex(0), [recipe.id]);
+
+  if (!candidates[imageIndex]) {
+    return <span className="libraryDiscoveryHeroFallback" aria-hidden="true">{recipe.emoji || "♡"}</span>;
+  }
+
+  return (
+    <img
+      className="libraryDiscoveryHeroImage"
+      src={`${import.meta.env.BASE_URL}${candidates[imageIndex]}`}
+      alt={recipe.title}
+      loading="eager"
+      decoding="async"
+      onError={() => setImageIndex((current) => current + 1)}
+    />
+  );
+}
+
 function FeaturedRecipeCard({
   recipe,
   favorites,
@@ -80,7 +110,9 @@ function FeaturedRecipeCard({
         onClick={() => openRecipeCard(recipe.id, cardList, "Browse Our Recipe Library")}
         aria-label={`Open ${recipe.title}`}
       >
-        <RecipeImage recipe={recipe} />
+        <span className="libraryDiscoveryRecipeHero">
+          <LibraryRecipeHero recipe={recipe} />
+        </span>
         <span className="libraryDiscoveryRecipeText">
           <strong>{titleParts.title}</strong>
           {titleParts.subtitle && <small className="libraryDiscoveryRecipeSubtitle">{titleParts.subtitle}</small>}
@@ -216,23 +248,17 @@ export default function RecipeLibraryDiscovery({
         <div className="libraryCategorySelector" ref={selectorRef}>
           <button
             type="button"
-            className="libraryCategorySelectorCard"
+            className="libraryCategorySelectorIcon"
             onClick={() => setSelectorOpen((open) => !open)}
             aria-haspopup="listbox"
             aria-expanded={selectorOpen}
+            aria-label={`Choose a cuisine or recipe category. Current selection: ${selectedChoice?.displayName || "All Recipes"}`}
           >
-            <span className="libraryCategorySelectorImage">
-              {selectedChoice?.iconImage ? (
-                <img src={`${import.meta.env.BASE_URL}${selectedChoice.iconImage}`} alt="" aria-hidden="true" />
-              ) : (
-                <span aria-hidden="true">⌕</span>
-              )}
-            </span>
-            <span className="libraryCategorySelectorText">
-              <small>Choose a category</small>
-              <strong>{selectedChoice?.displayName || "All Recipes"}</strong>
-              <span>{matchingRecipes.length} recipes</span>
-            </span>
+            {selectedChoice?.iconImage ? (
+              <img src={`${import.meta.env.BASE_URL}${selectedChoice.iconImage}`} alt="" aria-hidden="true" />
+            ) : (
+              <span className="libraryCategorySelectorAll" aria-hidden="true">⌕</span>
+            )}
             <span className="libraryCategorySelectorChevron" aria-hidden="true">{selectorOpen ? "▲" : "▼"}</span>
           </button>
 
