@@ -76,6 +76,10 @@
   object-fit: cover;
 }
 
+.libraryCategorySelectorItem.category-cp img {
+  object-fit: cover;
+}
+
 .libraryCategorySelectorAll {
   display: grid;
   place-items: center;

@@ -21913,3 +21913,81 @@ button.browseRecipeWideFooterAction:focus-visible,
   white-space: nowrap !important;
   text-overflow: ellipsis !important;
 }
+
+/* v88.1 — compact homepage cuisine selector, matching Browse Recipes. */
+.homeCategoryGrid,
+.categoryGrid.homeCategoryGrid {
+  display: grid !important;
+  grid-template-columns: repeat(14, minmax(0, 1fr)) !important;
+  grid-auto-flow: row !important;
+  grid-auto-columns: unset !important;
+  align-items: start !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  gap: clamp(2px, .3vw, 5px) !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding: 7px 6px 6px !important;
+  box-sizing: border-box !important;
+  overflow: visible !important;
+  border: 1px solid rgba(20, 83, 45, .12) !important;
+  border-radius: 16px !important;
+  background: #fff !important;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, .05) !important;
+}
+
+.homeCategoryTile,
+.categoryTile.homeCategoryTile {
+  display: grid !important;
+  justify-items: center !important;
+  gap: 4px !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  padding: 4px 1px 3px !important;
+  border: 1px solid transparent !important;
+  border-radius: 11px !important;
+  background: transparent !important;
+}
+
+.homeCategoryTile:hover,
+.homeCategoryTile:focus-visible {
+  border-color: rgba(20, 83, 45, .25) !important;
+  background: #f3f8f4 !important;
+}
+
+.homeCategoryGrid .categoryIconImage,
+.homeCategoryGrid .categoryIconFallback,
+.homeCategoryGrid .homeFavoritesCategoryIcon,
+.homeCategoryGrid .secondRowCategoryTile .categoryIconImage,
+.homeCategoryGrid .secondRowCategoryTile .categoryIconFallback {
+  width: min(48px, 100%) !important;
+  height: auto !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  max-width: 48px !important;
+  max-height: none !important;
+  aspect-ratio: 1 !important;
+  margin: 0 auto !important;
+  border-radius: 10px !important;
+  object-fit: contain !important;
+}
+
+.homeCategoryGrid .crockPotCategoryIcon {
+  object-fit: cover !important;
+}
+
+.homeCategoryGrid .categoryTile strong,
+.homeCategoryGrid .secondRowCategoryTile strong {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
+  color: #182033 !important;
+  font-size: 9px !important;
+  font-weight: 800 !important;
+  line-height: 1.1 !important;
+  text-align: center !important;
+  text-overflow: ellipsis !important;
+  text-transform: uppercase !important;
+  white-space: nowrap !important;
+}

@@ -7,6 +7,7 @@ Changed files:
 - scripts/run-current-tests.mjs
 - src/App.jsx
 - src/App.css
+- src/features/home/HomeCategoryGrid.jsx
 - src/features/recipe-library/RecipeLibraryDiscovery.jsx
 - src/features/recipe-library/RecipeLibraryDiscovery.css
 - test/recipeLibraryDiscoveryV881.test.mjs

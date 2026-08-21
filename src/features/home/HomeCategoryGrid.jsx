@@ -97,7 +97,11 @@ export default function HomeCategoryGrid({
   const homeCategories = HOME_CATEGORY_CODES.slice(0, 13).map((code) => ({
     ...HOME_CATEGORY_FALLBACKS[code],
     ...(categoryLookup.get(code) || {}),
-    displayName: HOME_CATEGORY_LABELS[code],
+    displayName: code === "QP"
+      ? "Quiche"
+      : code === "SD"
+        ? "Sides"
+        : HOME_CATEGORY_LABELS[code],
     iconImage: CATEGORY_ICON_IMAGES[code],
   }));
 

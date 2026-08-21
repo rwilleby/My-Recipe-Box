@@ -222,7 +222,7 @@ export default function RecipeLibraryDiscovery({
           <button
             type="button"
             key={choice.id}
-            className={`libraryCategorySelectorItem${choice.id === selectedChoice?.id ? " active" : ""}`}
+            className={`libraryCategorySelectorItem category-${String(choice.id || "all").toLowerCase()}${choice.id === selectedChoice?.id ? " active" : ""}`}
             onClick={() => onSelectChoice(choice)}
             aria-pressed={choice.id === selectedChoice?.id}
           >

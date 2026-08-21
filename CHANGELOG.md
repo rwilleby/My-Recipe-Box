@@ -9,6 +9,7 @@
 - Preserved all browser-only storage keys and Backup & Restore compatibility.
 - Reworked Browse Our Recipe Library into a category-led discovery area with fifteen equal 48px category icons fitted into a full-width, non-scrolling selector above six non-scrolling recipe previews. Icon labels are uppercase with shortened QUICHE and SIDES wording; choosing one updates the centered title, supporting text, featured recipes, and complete filterable listing together. The shortened previews use only recipes confirmed in the hero-image manifest—never illustrated recipe-card fallbacks—and retain only the hero, two-line title, calories, favorite control, and MealBalance circle.
 - Restored all 60 confirmed Diet Meal heroes that postdate the audit manifest, displayed honest pending/unrated nutrition placeholders for Crock Pot recipes whose source data has not yet been rated, and limited the “New to our page?” quick-guide accordion to the homepage.
+- Corrected the Crock Pot icon’s apparent scale and brought the homepage Cuisine Quick Links into the same compact 48px, uppercase, single-row presentation as the Browse Recipes selector, without adding an ALL option or changing category destinations.
 
 # v88 — Canonical Homepage Meal Cards
 
