@@ -63,6 +63,8 @@ const supersededContracts = new Set([
   "test/homeStructureV832.test.mjs",
   "test/navigationReorganizationV836.test.mjs",
   "test/categoryIconCenteringV838.test.mjs",
+  "test/categoryQuickLinksV8217.test.mjs",
+  "test/heroAndBrowseCategoriesV839.test.mjs",
   "test/masterFreezerInventoryV8414.test.mjs",
   "test/kitchenDetailsInventoryV8416.test.mjs",
   "test/inventoryCountedStripsV8431.test.mjs",

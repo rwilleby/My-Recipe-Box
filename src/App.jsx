@@ -37,6 +37,7 @@ import HomeCategoryGrid, {
   HOME_CATEGORY_LABELS,
 } from "./features/home/HomeCategoryGrid.jsx";
 import { createHomeMealRotations } from "./features/home/HomeMealRotations.jsx";
+import RecipeLibraryDiscovery from "./features/recipe-library/RecipeLibraryDiscovery.jsx";
 import BrowseRecipeNutritionFacts from "./features/recipe-viewer/BrowseRecipeNutritionFacts";
 import { FullRecipeCardPreview, RecipeImage } from "./features/recipe-viewer/RecipeImages";
 import {
@@ -5747,6 +5748,12 @@ function RecipesPage({
   const browseQuickCategories = useMemo(
     () => [
       {
+        id: "ALL",
+        name: "All Recipes",
+        displayName: "All Recipes",
+        iconImage: "",
+      },
+      {
         id: "FAVORITES",
         name: "Favorites",
         displayName: "Favorites",
@@ -5769,19 +5776,11 @@ function RecipesPage({
   );
 
   function applyQuickCategory(category) {
-    if (category?.id === "FAVORITES") {
-      setActivePage("Favorites");
-      window.requestAnimationFrame(() => window.requestAnimationFrame(() => {
-        window.scrollTo({ top: 0, left: 0, behavior: "auto" });
-      }));
-      return;
-    }
-
-    const isActive = Boolean(
-      category &&
-      (selectedCategory === category.name || selectedCategory === category.id),
-    );
-    const nextCategory = isActive ? "" : category?.name || "";
+    const nextCategory = category?.id === "ALL"
+      ? ""
+      : category?.id === "FAVORITES"
+        ? "FAVORITES"
+        : category?.name || "";
     setSelectedCategory(nextCategory);
     setFilter(nextCategory);
     setPage(1);
@@ -5817,6 +5816,7 @@ function RecipesPage({
       );
       const matchesCategory =
         !selectedCategory ||
+        (selectedCategory === "FAVORITES" && favorites.includes(recipe.id)) ||
         recipe.category === selectedCategory ||
         recipe.categoryCode === selectedCategoryObject?.id ||
         recipe.id?.startsWith(`${selectedCategoryObject?.id}-`);
@@ -5866,6 +5866,7 @@ function RecipesPage({
     return sorted;
   }, [
     classifiedRecipes,
+    favorites,
     query,
     selectedCategory,
     selectedCookingMethod,
@@ -5896,6 +5897,13 @@ function RecipesPage({
   const safePage = Math.min(page, totalPages);
   const pageStart = (safePage - 1) * perPage;
   const visibleRecipes = filteredRecipes.slice(pageStart, pageStart + perPage);
+  const selectedQuickCategoryId = useMemo(() => {
+    if (!selectedCategory) return "ALL";
+    if (selectedCategory === "FAVORITES") return "FAVORITES";
+    return browseQuickCategories.find(
+      (category) => category.id === selectedCategory || category.name === selectedCategory,
+    )?.id || "ALL";
+  }, [browseQuickCategories, selectedCategory]);
 
   useEffect(() => {
     if (page > totalPages) setPage(totalPages);
@@ -5976,34 +5984,17 @@ function RecipesPage({
 
   return (
     <main className="pageShell browseRecipesPage">
-      <section className="browseCategoryQuickFilter" aria-label="Quick category filters">
-        <div className="browseCategoryQuickFilterRow">
-          {browseQuickCategories.map((category) => {
-            const active =
-              selectedCategory === category.name ||
-              selectedCategory === category.id;
-
-            return (
-              <button
-                type="button"
-                key={category.id}
-                className={`browseCategoryQuickFilterItem${active ? " active" : ""}`}
-                onClick={() => applyQuickCategory(category)}
-                aria-pressed={active}
-              >
-                <img
-                  src={`${import.meta.env.BASE_URL}${category.iconImage}`}
-                  alt=""
-                  aria-hidden="true"
-                  loading="lazy"
-                  decoding="async"
-                />
-                <strong>{category.displayName}</strong>
-              </button>
-            );
-          })}
-        </div>
-      </section>
+      <RecipeLibraryDiscovery
+        choices={browseQuickCategories}
+        selectedChoiceId={selectedQuickCategoryId}
+        onSelectChoice={applyQuickCategory}
+        recipes={classifiedRecipes}
+        favorites={favorites}
+        toggleFavorite={toggleFavorite}
+        openRecipeCard={openRecipeCard}
+        getCalories={getHealthyDinnerCalories}
+        getMealBalanceScore={getMealBalanceScore}
+      />
 
       <section className="browseInventoryStyleToolbar browseInventoryStyleToolbarSingleRow" aria-label="Recipe library sorting and filters">
         <label className="browseToolbarField">
