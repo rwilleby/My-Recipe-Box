@@ -21827,3 +21827,89 @@ button.browseRecipeWideFooterAction:focus-visible,
 .homeDietMealCard:focus-visible .homeDietMealTrayImage {
   transform: none !important;
 }
+
+/* ================================================================
+   v88.1 — MATCHED HOMEPAGE MEAL-CARD BODIES
+   Use the approved Texas Style Brisket card as the shared Dinner
+   Ideas / Diet Meal text-area standard. Keep the MealBalance badge
+   in its established bottom-right position.
+   ================================================================ */
+
+.homeComboMealCard,
+.homeDietMealCard {
+  grid-template-rows: auto auto !important;
+  height: auto !important;
+}
+
+.homeComboMealCardWrap,
+.homeComboMealFullCrossfadeStage {
+  height: auto !important;
+  min-height: 0 !important;
+}
+
+.homeComboMealCardWrap > .homeComboMealCard,
+.homeComboMealFullCrossfadeStage > .homeComboMealCard {
+  height: auto !important;
+}
+
+.homeComboMealCard > .homeComboMealText,
+.homeComboMealCard > .homeDietMealText {
+  position: relative !important;
+  display: block !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  aspect-ratio: 1.48 / 1 !important;
+  margin: 0 !important;
+  padding: 12px !important;
+  overflow: hidden !important;
+  background: #ffffff !important;
+  text-align: left !important;
+}
+
+.homeComboMealText strong,
+.homeDietMealText strong {
+  display: -webkit-box !important;
+  min-height: 0 !important;
+  max-height: 2.1em !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  -webkit-box-orient: vertical !important;
+  -webkit-line-clamp: 2 !important;
+  line-clamp: 2 !important;
+}
+
+.homeComboMealSubtitle,
+.homeDietMealWith {
+  display: -webkit-box !important;
+  max-height: 3.55em !important;
+  margin: 8px 0 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  white-space: normal !important;
+  text-overflow: clip !important;
+  -webkit-box-orient: vertical !important;
+  -webkit-line-clamp: 3 !important;
+  line-clamp: 3 !important;
+}
+
+.homeComboMealCalories,
+.homeDietMealMeta {
+  position: absolute !important;
+  left: 12px !important;
+  right: auto !important;
+  bottom: clamp(5px, 0.65vw, 9px) !important;
+  display: block !important;
+  width: auto !important;
+  max-width: calc(100% - 58px) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  color: #6b7280 !important;
+  text-align: left !important;
+  white-space: nowrap !important;
+  text-overflow: ellipsis !important;
+}

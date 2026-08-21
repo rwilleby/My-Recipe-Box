@@ -21,4 +21,15 @@ assert.match(rotations, /homeComboMealCalories/);
 assert.match(rotations, /homeDietMealMeta/);
 assert.match(rotations, /Math\.round\(calories\).*calories/);
 
-console.log("v88 homepage meal-card image frame and calorie contracts passed.");
+const matchedCardStart = css.lastIndexOf("v88.1 — MATCHED HOMEPAGE MEAL-CARD BODIES");
+assert.ok(matchedCardStart >= 0, "v88.1 matched homepage meal-card bodies are present");
+
+const matchedCardCss = css.slice(matchedCardStart);
+assert.match(matchedCardCss, /aspect-ratio:\s*1\.48\s*\/\s*1\s*!important/);
+assert.match(matchedCardCss, /padding:\s*12px\s*!important/);
+assert.match(matchedCardCss, /\.homeComboMealCalories,[\s\S]*\.homeDietMealMeta/);
+assert.match(matchedCardCss, /left:\s*12px\s*!important/);
+assert.match(matchedCardCss, /bottom:\s*clamp\(5px,\s*0\.65vw,\s*9px\)\s*!important/);
+assert.doesNotMatch(matchedCardCss, /\.homeComboMealBalanceBadge\s*\{/);
+
+console.log("v88.1 homepage meal-card frame, matched body, and calorie contracts passed.");
