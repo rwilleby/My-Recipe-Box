@@ -11670,7 +11670,7 @@ to { opacity: 0; }
   .recipeGrid.browseRecipeGrid,
   .recipeGrid.browseRecipeGrid.favoritesRecipeGrid {grid-template-columns: minmax(0, 1fr) !important;}}
 
-.browseRecipesPage {padding-top: 18px !important;}
+.browseRecipesPage {padding-top: 6px !important;}
 
 .browseCategoryQuickFilter {width: 100%; margin: 0 0 14px; padding: 14px 16px 12px; border: 1px solid rgba(20, 83, 45, .12); border-radius: 18px; background: #ffffff; box-shadow: 0 10px 24px rgba(15, 23, 42, .05);}
 

@@ -6,6 +6,7 @@ Changed files:
 - CHANGELOG.md
 - scripts/run-current-tests.mjs
 - src/App.jsx
+- src/App.css
 - src/features/recipe-library/RecipeLibraryDiscovery.jsx
 - src/features/recipe-library/RecipeLibraryDiscovery.css
 - test/recipeLibraryDiscoveryV881.test.mjs
