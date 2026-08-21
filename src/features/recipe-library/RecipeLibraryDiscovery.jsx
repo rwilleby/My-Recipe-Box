@@ -57,6 +57,33 @@ function displayTitleParts(title) {
   };
 }
 
+const RECIPE_DESCRIPTION_BY_CATEGORY = {
+  AM: "A familiar American favorite.",
+  AS: "A flavorful Asian-inspired favorite.",
+  IT: "A satisfying Italian-inspired favorite.",
+  MX: "A bold Mexican-inspired favorite.",
+  SF: "A practical seafood favorite.",
+  DM: "A lighter portion-conscious meal.",
+  QP: "A savory oven-baked favorite.",
+  CS: "An easy, comforting casserole.",
+  CP: "A dependable slow-cooked favorite.",
+  SB: "A fresh salad or composed bowl.",
+  SG: "A hearty meat-centered favorite.",
+  SD: "A practical side for your meal.",
+  DS: "A sweet finish for the table.",
+};
+
+function shortRecipeDescription(recipe, titleParts) {
+  if (titleParts.subtitle) return titleParts.subtitle;
+  return (
+    recipe.shortDescription ||
+    recipe.tagline ||
+    recipe.summary ||
+    RECIPE_DESCRIPTION_BY_CATEGORY[categoryCodeForRecipe(recipe)] ||
+    "A recipe worth discovering."
+  );
+}
+
 function LibraryRecipeHero({ recipe }) {
   const candidates = useMemo(
     () => [
@@ -101,6 +128,7 @@ function FeaturedRecipeCard({
   const calories = getCalories(recipe);
   const mealBalance = getMealBalanceScore(recipe);
   const titleParts = displayTitleParts(recipe.title);
+  const shortDescription = shortRecipeDescription(recipe, titleParts);
 
   return (
     <article className="libraryDiscoveryRecipeCard">
@@ -115,7 +143,7 @@ function FeaturedRecipeCard({
         </span>
         <span className="libraryDiscoveryRecipeText">
           <strong>{titleParts.title}</strong>
-          {titleParts.subtitle && <small className="libraryDiscoveryRecipeSubtitle">{titleParts.subtitle}</small>}
+          <small className="libraryDiscoveryRecipeSubtitle">{shortDescription}</small>
           <small className="libraryDiscoveryRecipeMeta">
             {Number.isFinite(calories) && calories > 0
               ? `${Math.round(calories)} calories`
@@ -259,7 +287,16 @@ export default function RecipeLibraryDiscovery({
             ) : (
               <span className="libraryCategorySelectorAll" aria-hidden="true">⌕</span>
             )}
-            <span className="libraryCategorySelectorChevron" aria-hidden="true">{selectorOpen ? "▲" : "▼"}</span>
+          </button>
+          <button
+            type="button"
+            className="libraryCategorySelectorBubble"
+            onClick={() => setSelectorOpen((open) => !open)}
+            aria-haspopup="listbox"
+            aria-expanded={selectorOpen}
+          >
+            <span>{selectedChoice?.displayName || "Choose Cuisine"}</span>
+            <strong aria-hidden="true">{selectorOpen ? "▲" : "▼"}</strong>
           </button>
 
           {selectorOpen && (

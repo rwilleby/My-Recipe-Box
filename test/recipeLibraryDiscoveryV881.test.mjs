@@ -24,11 +24,15 @@ assert.match(component, /onMouseEnter=\{\(\) => setPaused\(true\)\}/);
 assert.match(component, /onFocusCapture=\{\(\) => setPaused\(true\)\}/);
 assert.match(component, /`images\/heroes\/\$\{recipe\.id\}\.webp`/);
 assert.match(component, /className="libraryCategorySelectorIcon"/);
+assert.match(component, /className="libraryCategorySelectorBubble"/);
+assert.match(component, /shortRecipeDescription\(recipe, titleParts\)/);
 assert.match(component, /openRecipeCard\(recipe\.id, cardList, "Browse Our Recipe Library"\)/);
 
 assert.match(css, /\.recipeLibraryDiscoveryIntro[\s\S]*text-align: center/);
-assert.match(css, /\.recipeLibraryDiscoveryGrid[\s\S]*grid-template-columns: clamp\(116px, 8\.5vw, 155px\) repeat\(5, minmax\(0, 1fr\)\)/);
+assert.match(css, /\.recipeLibraryDiscoveryGrid[\s\S]*grid-template-columns: minmax\(92px, \.66fr\) repeat\(5, minmax\(140px, 1fr\)\)/);
+assert.match(css, /min-width: 880px/);
 assert.match(css, /\.libraryCategorySelectorIcon[\s\S]*aspect-ratio: 1/);
+assert.match(css, /\.libraryCategorySelectorBubble[\s\S]*border-radius: 999px/);
 assert.match(css, /\.libraryDiscoveryRecipeText[\s\S]*aspect-ratio: 1\.48 \/ 1/);
 assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
 
