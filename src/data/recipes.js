@@ -1,5 +1,7 @@
 import { AMERICAN_INGREDIENTS_V849 } from "./americanIngredientsV849.js";
+import { AMERICAN_DIRECTIONS_V881 } from "./americanDirectionsV881.js";
 import { ASIAN_INGREDIENTS_V8410 } from "./asianIngredientsV8410.js";
+import { ASIAN_DIRECTIONS_V882 } from "./asianDirectionsV882.js";
 import { CROCK_POT_INGREDIENTS_V8411 } from "./crockPotIngredientsV8411.js";
 import { DONUT_BURGER_INGREDIENTS_V8412 } from "./donutBurgerIngredientsV8412.js";
 import { ITALIAN_INGREDIENTS_V8412 } from "./italianIngredientsV8412.js";
@@ -1453,6 +1455,9 @@ function makeRecipe(entry) {
     heroImage: options.heroImage || `images/heroes/${id}.webp`,
     cost: options.cost || defaultCost(price),
     ingredients: DETAILED_RECIPE_INGREDIENTS[id] ? verifiedIngredients : (options.ingredients?.length ? options.ingredients : verifiedIngredients),
+    directions: options.directions?.length
+      ? options.directions
+      : (AMERICAN_DIRECTIONS_V881[id] || ASIAN_DIRECTIONS_V882[id] || []),
     mediaLinks: options.mediaLinks || undefined,
     mealBalance: options.mealBalance || estimateMealBalance(categoryCode, title),
   };
