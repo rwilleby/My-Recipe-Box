@@ -22061,6 +22061,9 @@ button.browseRecipeWideFooterAction:focus-visible,
 
 .homeCategorySection .homeCuisineSelectorRow .libraryCategorySelectorItem {
   display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  align-items: start !important;
+  justify-content: stretch !important;
   justify-items: center !important;
   gap: 4px !important;
   width: 100% !important;
@@ -22085,13 +22088,18 @@ button.browseRecipeWideFooterAction:focus-visible,
   transform: none !important;
 }
 
+.homeCategorySection .homeCuisineSelectorRow .category-cp .crockPotCategoryIcon {
+  width: min(55px, 100%) !important;
+  max-width: 55px !important;
+}
+
 .homeCategorySection .homeCuisineSelectorRow .libraryCategorySelectorItem strong {
   display: block !important;
   width: 100% !important;
   max-width: 100% !important;
   overflow: hidden !important;
   font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif !important;
-  font-size: clamp(7px, .52vw, 8px) !important;
+  font-size: clamp(9px, .72vw, 10.5px) !important;
   font-weight: 800 !important;
   line-height: 1.1 !important;
   text-align: center !important;
