@@ -7,7 +7,7 @@
 - Required the complete test suite to pass in GitHub Actions before the production build and GitHub Pages deployment can proceed.
 - Began reducing `App.jsx` by extracting the reusable supporting-page placeholder and its 500-line popup-copy catalog into focused feature/data modules without changing rendering or navigation behavior.
 - Preserved all browser-only storage keys and Backup & Restore compatibility.
-- Reworked Browse Our Recipe Library into a category-led discovery area with the original compact category icons in a selector above six rotating recipe previews. Choosing an icon now updates the centered title, supporting text, featured recipes, and complete filterable listing together; each shortened preview retains only its hero, two-line title, calories, favorite control, and MealBalance circle.
+- Reworked Browse Our Recipe Library into a category-led discovery area with fifteen equal 48px category icons fitted into a full-width, non-scrolling selector above six non-scrolling recipe previews. Icon labels are uppercase with shortened QUICHE and SIDES wording; choosing one updates the centered title, supporting text, featured recipes, and complete filterable listing together. The shortened previews use only recipes confirmed in the hero-image manifest—never illustrated recipe-card fallbacks—and retain only the hero, two-line title, calories, favorite control, and MealBalance circle.
 
 # v88 — Canonical Homepage Meal Cards
 

@@ -5765,7 +5765,11 @@ function RecipesPage({
           return category
             ? {
                 ...category,
-                displayName: HOME_CATEGORY_LABELS[code] || category.name,
+                displayName: code === "QP"
+                  ? "Quiche"
+                  : code === "SD"
+                    ? "Sides"
+                    : HOME_CATEGORY_LABELS[code] || category.name,
                 iconImage: CATEGORY_ICON_IMAGES[code],
               }
             : null;

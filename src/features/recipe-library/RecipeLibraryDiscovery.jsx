@@ -1,8 +1,15 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { HERO_IMAGE_MANIFEST } from "../../heroImageManifest.js";
 import "./RecipeLibraryDiscovery.css";
 
 const FEATURED_RECIPE_COUNT = 6;
 const ROTATION_INTERVAL_MS = 9000;
+
+const RECIPE_HERO_BY_CODE = new Map(
+  HERO_IMAGE_MANIFEST
+    .filter((item) => item.kind === "recipe" && item.path?.includes("images/heroes/"))
+    .map((item) => [String(item.code || "").toUpperCase(), item.path]),
+);
 
 const CATEGORY_COPY = {
   ALL: {
@@ -19,7 +26,7 @@ const CATEGORY_COPY = {
   MX: { title: "Mexican-Inspired Recipes", text: "Browse tacos, enchiladas, seasoned meats, and bright, flavorful Mexican-inspired meals." },
   SF: { title: "Seafood Recipes", text: "Choose from fish, shrimp, and other seafood recipes suited to weeknights or special dinners." },
   DM: { title: "Diet Meals", text: "Compare lighter, portion-conscious meals with complete recipe cards and estimated nutrition." },
-  QP: { title: "Quiche & Pies", text: "Explore savory quiches, hearty pies, and versatile baked dishes for breakfast, lunch, or dinner." },
+  QP: { title: "Quiche Recipes", text: "Explore savory quiches and versatile baked dishes for breakfast, lunch, or dinner." },
   CS: { title: "Casseroles", text: "Find dependable oven-ready meals designed for easy serving, sharing, and make-ahead convenience." },
   CP: { title: "Crock Pot Recipes", text: "Discover low-effort slow-cooked meals with tender results and practical make-ahead appeal." },
   SB: { title: "Salads & Bowls", text: "Browse fresh salads, composed bowls, and practical make-ahead choices for lighter meals." },
@@ -58,32 +65,15 @@ function displayTitleParts(title) {
 }
 
 function LibraryRecipeHero({ recipe }) {
-  const candidates = useMemo(
-    () => [
-      `images/heroes/${recipe.id}.webp`,
-      `images/heroes/${recipe.id} .webp`,
-      recipe.heroImage,
-      `images/thumbs/recipes/${recipe.id}.webp`,
-      `images/thumbs/recipes/${recipe.id} .webp`,
-    ].filter(Boolean),
-    [recipe],
-  );
-  const [imageIndex, setImageIndex] = useState(0);
-
-  useEffect(() => setImageIndex(0), [recipe.id]);
-
-  if (!candidates[imageIndex]) {
-    return <span className="libraryDiscoveryHeroFallback" aria-hidden="true">{recipe.emoji || "♡"}</span>;
-  }
+  const heroPath = RECIPE_HERO_BY_CODE.get(String(recipe.id || "").toUpperCase());
 
   return (
     <img
       className="libraryDiscoveryHeroImage"
-      src={`${import.meta.env.BASE_URL}${candidates[imageIndex]}`}
+      src={`${import.meta.env.BASE_URL}${heroPath}`}
       alt={recipe.title}
       loading="eager"
       decoding="async"
-      onError={() => setImageIndex((current) => current + 1)}
     />
   );
 }
@@ -170,7 +160,10 @@ export default function RecipeLibraryDiscovery({
     text: `Explore recipe ideas from the ${selectedChoice?.displayName || "selected"} collection.`,
   };
   const matchingRecipes = useMemo(
-    () => recipes.filter((recipe) => recipeMatchesChoice(recipe, selectedChoice, favoriteIds)),
+    () => recipes.filter(
+      (recipe) => RECIPE_HERO_BY_CODE.has(String(recipe.id || "").toUpperCase())
+        && recipeMatchesChoice(recipe, selectedChoice, favoriteIds),
+    ),
     [favoriteIds, recipes, selectedChoice],
   );
 
@@ -235,7 +228,7 @@ export default function RecipeLibraryDiscovery({
             ) : (
               <span className="libraryCategorySelectorAll" aria-hidden="true">ALL</span>
             )}
-            <strong>{choice.displayName}</strong>
+            <strong>{String(choice.displayName || "").toUpperCase()}</strong>
           </button>
         ))}
       </nav>

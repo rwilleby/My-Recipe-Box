@@ -23,16 +23,19 @@ assert.match(component, /prefers-reduced-motion: reduce/);
 assert.match(component, /matchingRecipes\.filter\(\(recipe\) => !currentIds\.has\(recipe\.id\)\)/);
 assert.match(component, /onMouseEnter=\{\(\) => setPaused\(true\)\}/);
 assert.match(component, /onFocusCapture=\{\(\) => setPaused\(true\)\}/);
-assert.match(component, /`images\/heroes\/\$\{recipe\.id\}\.webp`/);
+assert.match(component, /import \{ HERO_IMAGE_MANIFEST \} from "\.\.\/\.\.\/heroImageManifest\.js"/);
+assert.match(component, /RECIPE_HERO_BY_CODE\.has\(String\(recipe\.id \|\| ""\)\.toUpperCase\(\)\)/);
+assert.doesNotMatch(component, /images\/thumbs\/recipes/);
 assert.match(component, /className=\{`libraryCategorySelectorItem/);
 assert.doesNotMatch(component, /libraryDiscoveryRecipeSubtitle/);
 assert.match(component, /openRecipeCard\(recipe\.id, cardList, "Browse Our Recipe Library"\)/);
 
 assert.match(css, /\.recipeLibraryDiscoveryIntro[\s\S]*text-align: center/);
-assert.match(css, /\.libraryCategorySelectorRow[\s\S]*grid-template-columns: repeat\(15, minmax\(60px, 1fr\)\)/);
-assert.match(css, /\.libraryCategorySelectorItem img,[\s\S]*width: 52px;[\s\S]*height: 52px/);
-assert.match(css, /\.recipeLibraryDiscoveryGrid[\s\S]*grid-template-columns: repeat\(6, minmax\(150px, 1fr\)\)/);
-assert.match(css, /min-width: 960px/);
+assert.match(css, /\.libraryCategorySelectorRow[\s\S]*grid-template-columns: repeat\(15, minmax\(0, 1fr\)\)/);
+assert.match(css, /\.libraryCategorySelectorItem img,[\s\S]*width: min\(48px, 100%\)/);
+assert.match(css, /text-transform: uppercase/);
+assert.match(css, /\.recipeLibraryDiscoveryGrid[\s\S]*grid-template-columns: repeat\(6, minmax\(0, 1fr\)\)/);
+assert.doesNotMatch(css, /overflow-x: auto/);
 assert.match(css, /\.libraryDiscoveryRecipeText[\s\S]*height: clamp\(88px, 7\.4vw, 104px\)/);
 assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
 
