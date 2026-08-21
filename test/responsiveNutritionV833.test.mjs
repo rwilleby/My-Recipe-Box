@@ -39,10 +39,16 @@ for (const contract of [
   /@media \(min-width: 721px\) and \(max-width: 1100px\)/,
   /font-size: clamp\(9\.5px, 1\.22vw, 12px\) !important/,
   /grid-template-columns: repeat\(10, minmax\(50px, 70px\)\) !important/,
-  /homeCategoryGrid > :nth-child\(11\)[\s\S]*grid-column: 4 !important/,
+  /\.homeCategorySection \.homeCuisineSelectorRow[\s\S]*grid-template-columns: repeat\(14, minmax\(0, 1fr\)\) !important/,
   /browseCategoryQuickFilterRow > :nth-child\(11\)[\s\S]*grid-column: 4 !important/,
 ]) {
   assert.match(finalCascade, contract);
 }
+
+assert.doesNotMatch(
+  finalCascade,
+  /(?:\.homeCategoryGrid|\.categoryGrid\.homeCategoryGrid) > :nth-child\(11\)[\s\S]*?grid-column: 4 !important/,
+  "the homepage selector must not force icon 11 onto a second row",
+);
 
 console.log("v83.3 Crock Pot nutrition and responsive layout contracts passed.");
