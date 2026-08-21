@@ -17596,7 +17596,7 @@ export default function App() {
             enableBackupWarnings={hasCustomUserData}
           />
         )}
-        <HomeMealJourneyAccordion setActivePage={setActivePage} />
+        {activePage === "Home" && <HomeMealJourneyAccordion setActivePage={setActivePage} />}
 
       {activePage === "RFIS Project Dashboard" && (
         <RfisProjectDashboard rfisPlatform={rfisPlatform} onClose={() => setActivePage("Home")} />

@@ -11,6 +11,13 @@ const RECIPE_HERO_BY_CODE = new Map(
     .map((item) => [String(item.code || "").toUpperCase(), item.path]),
 );
 
+// The dedicated DM-001 through DM-060 heroes were added after the audit manifest's
+// last rebuild. All 60 files are present in public/images/heroes.
+for (let recipeNumber = 1; recipeNumber <= 60; recipeNumber += 1) {
+  const code = `DM-${String(recipeNumber).padStart(3, "0")}`;
+  if (!RECIPE_HERO_BY_CODE.has(code)) RECIPE_HERO_BY_CODE.set(code, `images/heroes/${code}.webp`);
+}
+
 const CATEGORY_COPY = {
   ALL: {
     title: "Discover Something New",
@@ -110,17 +117,15 @@ function FeaturedRecipeCard({
               ? `${Math.round(calories)} calories`
               : recipe.time
                 ? `${recipe.time} minutes`
-                : HOME_FALLBACK_LABEL}
+                : "Calories pending"}
           </small>
-          {mealBalance !== null && (
-            <span
-              className="libraryDiscoveryMealBalance"
-              title={`MealBalance ${mealBalance}`}
-              aria-label={`MealBalance ${mealBalance}`}
-            >
-              {mealBalance}
-            </span>
-          )}
+          <span
+            className={`libraryDiscoveryMealBalance${mealBalance === null ? " unrated" : ""}`}
+            title={mealBalance === null ? "MealBalance not yet rated" : `MealBalance ${mealBalance}`}
+            aria-label={mealBalance === null ? "MealBalance not yet rated" : `MealBalance ${mealBalance}`}
+          >
+            {mealBalance === null ? "—" : mealBalance}
+          </span>
         </span>
       </button>
       <button
@@ -135,8 +140,6 @@ function FeaturedRecipeCard({
     </article>
   );
 }
-
-const HOME_FALLBACK_LABEL = "View recipe";
 
 export default function RecipeLibraryDiscovery({
   choices,

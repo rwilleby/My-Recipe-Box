@@ -25,10 +25,15 @@ assert.match(component, /onMouseEnter=\{\(\) => setPaused\(true\)\}/);
 assert.match(component, /onFocusCapture=\{\(\) => setPaused\(true\)\}/);
 assert.match(component, /import \{ HERO_IMAGE_MANIFEST \} from "\.\.\/\.\.\/heroImageManifest\.js"/);
 assert.match(component, /RECIPE_HERO_BY_CODE\.has\(String\(recipe\.id \|\| ""\)\.toUpperCase\(\)\)/);
+assert.match(component, /recipeNumber <= 60/);
+assert.match(component, /`images\/heroes\/\$\{code\}\.webp`/);
 assert.doesNotMatch(component, /images\/thumbs\/recipes/);
 assert.match(component, /className=\{`libraryCategorySelectorItem/);
 assert.doesNotMatch(component, /libraryDiscoveryRecipeSubtitle/);
 assert.match(component, /openRecipeCard\(recipe\.id, cardList, "Browse Our Recipe Library"\)/);
+assert.match(component, /"Calories pending"/);
+assert.match(component, /mealBalance === null \? "—" : mealBalance/);
+assert.match(app, /\{activePage === "Home" && <HomeMealJourneyAccordion setActivePage=\{setActivePage\} \/>\}/);
 
 assert.match(css, /\.recipeLibraryDiscoveryIntro[\s\S]*text-align: center/);
 assert.match(css, /\.libraryCategorySelectorRow[\s\S]*grid-template-columns: repeat\(15, minmax\(0, 1fr\)\)/);
