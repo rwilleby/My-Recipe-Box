@@ -15,6 +15,7 @@ Changed files:
 No images or videos are included or need to be uploaded again.
 
 This revision keeps every cuisine icon on one evenly spaced row and reduces the selector-label size to fit.
+The homepage Cuisine Quick Links now use the same selector presentation as Browse Our Recipe Library, without an ALL icon.
 
 Validation completed:
 - 114/114 current test files passed

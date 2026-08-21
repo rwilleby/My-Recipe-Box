@@ -143,10 +143,13 @@ export default function HomeCategoryGrid({
         }
       />
 
-      <div className="categoryGrid homeCategoryGrid">
+      <nav
+        className="categoryGrid homeCategoryGrid libraryCategorySelectorRow homeCuisineSelectorRow"
+        aria-label="Cuisine Quick Links"
+      >
         <button
           type="button"
-          className="categoryTile homeCategoryTile homeFavoritesCategoryTile"
+          className="categoryTile homeCategoryTile homeFavoritesCategoryTile libraryCategorySelectorItem"
           onClick={() => {
             setActivePage("Favorites");
             window.requestAnimationFrame(() => window.requestAnimationFrame(() => {
@@ -170,7 +173,7 @@ export default function HomeCategoryGrid({
         {homeCategories.map((category) => (
           <button
             key={category.id}
-            className="categoryTile homeCategoryTile"
+            className={`categoryTile homeCategoryTile libraryCategorySelectorItem${category.id === "CP" ? " category-cp" : ""}`}
             onClick={() => openCategory(category)}
             aria-label={`View ${category.displayName} recipes`}
           >
@@ -191,7 +194,7 @@ export default function HomeCategoryGrid({
             <strong>{category.displayName}</strong>
           </button>
         ))}
-      </div>
+      </nav>
     </section>
   );
 }

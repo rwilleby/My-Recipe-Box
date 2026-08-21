@@ -2529,28 +2529,6 @@ to {
 
 .viewerCookingOption p {margin: 0; color: #374151; line-height: 1.45;}
 
-.viewerActionTextRecipe {border-color: #d8c5bc; color: #7f1d1d;}
-
-.viewerActionTextRecipe:hover,
-.viewerActionTextRecipe.active {border-color: #b91c1c; background: #fff7f7;}
-
-.viewerActionTextRecipe:disabled {border-color: #e5e7eb; background: #f8fafc; color: #9ca3af; cursor: not-allowed;}
-
-.viewerTextRecipeSheet {user-select: text; -webkit-user-select: text;}
-
-.viewerTextRecipeGrid {display: grid; grid-template-columns: minmax(250px, .8fr) minmax(360px, 1.2fr); gap: 24px; align-items: start;}
-
-.viewerTextRecipeGrid section {min-width: 0; border: 1px solid #ebe5dc; border-radius: 14px; background: #fffdf8; padding: 16px 18px;}
-
-.viewerTextRecipeGrid h3 {margin: 0 0 12px; color: #7f1d1d; font-family: Georgia, "Times New Roman", serif; font-size: 21px;}
-
-.viewerTextRecipeGrid ul,
-.viewerTextRecipeGrid ol {margin: 0; padding-left: 24px; display: grid; gap: 9px;}
-
-.viewerTextRecipeGrid li {color: #1f2937; font-size: 16px; line-height: 1.5;}
-
-@media (max-width: 780px){.viewerTextRecipeGrid {grid-template-columns: 1fr; gap: 14px;}}
-
 .viewerSmartTipsList {margin: 0; padding-left: 20px; display: grid; gap: 10px;}
 
 .viewerSmartTipsList li {color: #374151; line-height: 1.45;}

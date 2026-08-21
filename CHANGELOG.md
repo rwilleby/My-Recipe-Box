@@ -1,11 +1,3 @@
-# v88.2 — American and Asian Selectable Text Recipes
-
-- Added selectable, copyable ingredient and direction text to the recipe-card viewer without changing illustrated card images or recipe codes.
-- Completed card-authority direction review for 77 active American Cuisine recipes and all 24 Asian Cuisine recipes.
-- Preserved the printed-card conflicts on AS-004 and AS-013 without inventing missing ingredient quantities; AM-063 remains a reserved placeholder.
-- Preserved the newer v88.2 Browse Recipe Library and homepage changes while integrating the text-recipe interface.
-- Added category-specific regression tests and required the complete test suite to pass before the GitHub Pages production build.
-
 # v88.1 — Release Integrity Baseline
 
 - Removed all site-wide PREV and NEXT page-sequence controls while preserving menu links, direct routes, and browser Back/Forward navigation.
@@ -19,6 +11,7 @@
 - Restored all 60 confirmed Diet Meal heroes that postdate the audit manifest, displayed honest pending/unrated nutrition placeholders for Crock Pot recipes whose source data has not yet been rated, and limited the “New to our page?” quick-guide accordion to the homepage.
 - Corrected the Crock Pot icon’s apparent scale and brought the homepage Cuisine Quick Links into the same compact 48px, uppercase, single-row presentation as the Browse Recipes selector, without adding an ALL option or changing category destinations.
 - Locked both cuisine selectors to one evenly spaced row and reduced their uppercase label size so every icon and label fits cleanly without a slider or wrapped second row.
+- Reused the Recipe Library selector structure for the homepage Cuisine Quick Links so both rows now have the same icon framing, spacing, labels, and interaction treatment; the homepage intentionally omits ALL.
 
 # v88 — Canonical Homepage Meal Cards
 
