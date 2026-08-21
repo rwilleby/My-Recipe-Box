@@ -70,7 +70,7 @@ const supersededContracts = new Set([
 
 const recentReleaseTests = readdirSync(resolve("test"))
   .filter((file) =>
-    /V84(?:1[8-9]|2\d|3[0-7])\.test\.mjs$|V85\d*\.test\.mjs$|V88\.test\.mjs$|releaseIntegrityV881\.test\.mjs$/.test(file),
+    /V84(?:1[8-9]|2\d|3[0-7])\.test\.mjs$|V85\d*\.test\.mjs$|V88\d*\.test\.mjs$|releaseIntegrityV881\.test\.mjs$/.test(file),
   )
   .filter((file) => file !== "homeMainPageEditsV850.test.mjs")
   .map((file) => `test/${file}`);

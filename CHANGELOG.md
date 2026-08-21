@@ -1,5 +1,6 @@
 # v88.1 — Release Integrity Baseline
 
+- Removed all site-wide PREV and NEXT page-sequence controls while preserving menu links, direct routes, and browser Back/Forward navigation.
 - Standardized active application, lockfile, source-package, and release-manifest declarations on v88.1 (`88.1.0` where semantic versioning is required).
 - Matched Dinner Idea and Diet Meal card heights, body padding, calorie alignment, and fixed MealBalance placement while preserving the approved 4:3 hero treatment.
 - Expanded the defined current regression suite with SEO routing, v88 homepage card, and v88.1 release-integrity contracts.

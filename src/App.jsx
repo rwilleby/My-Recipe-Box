@@ -12498,23 +12498,10 @@ function LargeHeroVideoPanel({
 }
 
 function PageHelpButtonStrip({ pageTitle }) {
-  const { activePage, setActivePage } = useContext(PageNavigationContext);
-  const currentIndex = PAGE_NAVIGATION_ORDER.indexOf(activePage);
-  const previousPage = currentIndex > 0 ? PAGE_NAVIGATION_ORDER[currentIndex - 1] : null;
-  const nextPage =
-    currentIndex >= 0 && currentIndex < PAGE_NAVIGATION_ORDER.length - 1
-      ? PAGE_NAVIGATION_ORDER[currentIndex + 1]
-      : null;
+  const { activePage } = useContext(PageNavigationContext);
   const hasIntroVideo = pageHasIntroVideo(activePage);
-  const showSequenceButtons = activePage !== "Home";
 
   if (!pageTitle) return null;
-
-  function navigateTo(page) {
-    if (!page) return;
-    setActivePage(page);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
 
   function openHeroVideo() {
     if (pageTitle === "Home") {
@@ -12534,21 +12521,6 @@ function PageHelpButtonStrip({ pageTitle }) {
       className={`pageHelpStrip pageNotesStrip${CLIFF_NOTES_ENABLED ? "" : " cliffNotesDisabled"}`}
       aria-label={`Page navigation for ${pageTitle}`}
     >
-      {showSequenceButtons && (
-        <a
-          href={previousPage ? routeForPage(previousPage) : undefined}
-          className="pageSequenceButton pageSequencePrev"
-          onClick={(event) => {
-            event.preventDefault();
-            navigateTo(previousPage);
-          }}
-          aria-disabled={!previousPage}
-          aria-label="Go to previous menu page"
-        >
-          Prev
-        </a>
-      )}
-
       {CLIFF_NOTES_ENABLED && (
         <div className="pageHelpItem pageNotesItem">
           <button
@@ -12560,21 +12532,6 @@ function PageHelpButtonStrip({ pageTitle }) {
             <span>Cliff Notes</span>
           </button>
         </div>
-      )}
-
-      {showSequenceButtons && (
-        <a
-          href={nextPage ? routeForPage(nextPage) : undefined}
-          className="pageSequenceButton pageSequenceNext"
-          onClick={(event) => {
-            event.preventDefault();
-            navigateTo(nextPage);
-          }}
-          aria-disabled={!nextPage}
-          aria-label="Go to next menu page"
-        >
-          Next
-        </a>
       )}
 
       {hasIntroVideo && (
