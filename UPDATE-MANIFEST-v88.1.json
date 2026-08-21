@@ -1,0 +1,35 @@
+{
+  "version": "88.1",
+  "packageVersion": "88.1.0",
+  "baseline": "My-Recipe-Box-v88.1.zip",
+  "release": "Release Integrity Baseline",
+  "siteOrigin": "https://www.roberts-recipe-box.com",
+  "routing": {
+    "supportingPages": "readable permanent paths",
+    "recipes": "/recipes/{existing-recipe-code}/",
+    "completeDinners": "/complete-dinners/{existing-complete-dinner-code}/",
+    "historyApi": true,
+    "githubPagesFallback": "public/404.html"
+  },
+  "seo": {
+    "canonicalUrls": true,
+    "uniquePageMetadata": true,
+    "openGraph": true,
+    "twitterCards": true,
+    "recipeStructuredData": "added at runtime where ingredient and serving data are sufficient",
+    "robots": "public/robots.txt",
+    "sitemap": "generated during npm run build"
+  },
+  "quality": {
+    "completeTestCommand": "npm run test:all",
+    "ciTestsBeforeBuild": true,
+    "appExtractionStarted": [
+      "src/features/info-pages/PlaceholderInfoPage.jsx",
+      "src/data/pagePopupCopy.js"
+    ]
+  },
+  "dataCompatibility": {
+    "localStorageKeysRenamed": false,
+    "backupRestoreFormatChanged": false
+  }
+}

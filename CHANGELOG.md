@@ -1,3 +1,33 @@
+# v88.1 — Release Integrity Baseline
+
+- Standardized active application, lockfile, source-package, and release-manifest declarations on v88.1 (`88.1.0` where semantic versioning is required).
+- Matched Dinner Idea and Diet Meal card heights, body padding, calorie alignment, and fixed MealBalance placement while preserving the approved 4:3 hero treatment.
+- Expanded the defined current regression suite with SEO routing, v88 homepage card, and v88.1 release-integrity contracts.
+- Required the complete test suite to pass in GitHub Actions before the production build and GitHub Pages deployment can proceed.
+- Began reducing `App.jsx` by extracting the reusable supporting-page placeholder and its 500-line popup-copy catalog into focused feature/data modules without changing rendering or navigation behavior.
+- Preserved all browser-only storage keys and Backup & Restore compatibility.
+
+# v88 — Canonical Homepage Meal Cards
+
+- Standardized Dinner Idea and Diet Meal hero frames to the same 4:3 presentation without stretching, zooming, or inconsistent top gaps.
+- Unified the sans-serif card-title hierarchy, split smaller “With” companion text from primary meal titles, and displayed calories consistently across both card groups.
+- Preserved the established homepage design, favorites behavior, MealBalance values, recipe links, and source imagery.
+
+# v87 — Homepage Card Readability and Release Cleanup
+
+- Changed homepage discovery-card and meal-card titles to a more readable sans-serif treatment with improved character capacity.
+- Balanced left and right text-area padding and allowed longer dinner titles to use the available card width more effectively.
+- Removed meal codes from the compact homepage Diet Meal cards and aligned their calorie presentation with Dinner Ideas.
+- Consolidated the GitHub upload set around the current application files while retaining required images, videos, routing assets, and browser data compatibility.
+
+# v86 — SEO, Routing, and Shareable URLs
+
+- Added permanent readable routes for supporting pages and code-based shareable routes for recipes and Complete Dinners.
+- Added bookmark, refresh, direct-link, and browser Back/Forward support for GitHub Pages, including the direct-route fallback.
+- Converted navigation destinations to crawlable links while preserving their approved appearance and behavior.
+- Added page-specific titles, descriptions, canonical URLs, social metadata, Recipe structured data where sufficient information exists, `robots.txt`, and generated `sitemap.xml` output.
+- Preserved existing local-storage keys, favorites, notes, meal plans, grocery lists, inventory, preferences, and Backup & Restore compatibility.
+
 # v85.0 — Consolidated Design and Planning Baseline
 
 - Promoted the completed v84 work into the new v85 baseline.
