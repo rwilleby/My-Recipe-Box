@@ -1,3 +1,11 @@
+# v88.2 — American and Asian Selectable Text Recipes
+
+- Added selectable, copyable ingredient and direction text to the recipe-card viewer without changing illustrated card images or recipe codes.
+- Completed card-authority direction review for 77 active American Cuisine recipes and all 24 Asian Cuisine recipes.
+- Preserved the printed-card conflicts on AS-004 and AS-013 without inventing missing ingredient quantities; AM-063 remains a reserved placeholder.
+- Preserved the newer v88.2 Browse Recipe Library and homepage changes while integrating the text-recipe interface.
+- Added category-specific regression tests and required the complete test suite to pass before the GitHub Pages production build.
+
 # v88.1 — Release Integrity Baseline
 
 - Removed all site-wide PREV and NEXT page-sequence controls while preserving menu links, direct routes, and browser Back/Forward navigation.

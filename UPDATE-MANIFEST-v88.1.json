@@ -23,6 +23,12 @@
   "quality": {
     "completeTestCommand": "npm run test:all",
     "ciTestsBeforeBuild": true,
+    "textRecipeReview": {
+      "completedCategories": ["AM", "AS"],
+      "activeRecipesReviewed": 101,
+      "flaggedCodes": ["AM-063", "AS-004", "AS-013"],
+      "nextCategory": "BR"
+    },
     "appExtractionStarted": [
       "src/features/info-pages/PlaceholderInfoPage.jsx",
       "src/data/pagePopupCopy.js"
