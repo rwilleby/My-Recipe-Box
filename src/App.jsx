@@ -1608,7 +1608,6 @@ const NO_INTRO_VIDEO_PAGES = new Set([
   "Comfort Foods",
   "Easy 30-Minute Meals",
   "Grocery Picks",
-  "Build Your Own Meal",
 
   "Products I Use",
 

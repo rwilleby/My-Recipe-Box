@@ -9,6 +9,9 @@ const routes = await readFile(new URL("../src/routing/seoRoutes.js", import.meta
 assert.match(app, /label: "BUILD YOUR OWN MEAL", page: "Build Your Own Meal"/);
 assert.match(app, /activePage === "Build Your Own Meal"/);
 assert.match(app, /<BuildYourOwnMealPage/);
+const noVideoStart = app.indexOf("const NO_INTRO_VIDEO_PAGES = new Set([");
+const noVideoEnd = app.indexOf("]);", noVideoStart);
+assert.doesNotMatch(app.slice(noVideoStart, noVideoEnd), /Build Your Own Meal/);
 assert.match(routes, /"Build Your Own Meal": "\/build-your-own-meal\/"/);
 assert.match(component, /mealBuilderTrayInterior/);
 assert.match(component, /MealBuilderFoodImage recipe=\{mainRecipe\} position="main"/);

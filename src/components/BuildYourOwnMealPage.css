@@ -2,6 +2,7 @@
 .buildYourOwnMealIntro { max-width: 1050px; margin: 0 auto 24px; text-align: center; }
 .buildYourOwnMealIntro h1 { margin: 0 0 8px; color: #111827; font: 700 25px/1.15 Georgia,"Times New Roman",serif; }
 .buildYourOwnMealIntro p { margin: 0; color: #667085; font: 700 14px/1.45 Inter,Arial,sans-serif; }
+.buildYourOwnMealIntro p + p { margin-top: 7px; }
 
 .mealBuilderTopGrid { display: grid; grid-template-columns: minmax(0,58fr) minmax(0,42fr); gap: 18px; width: 100%; margin-bottom: 18px; align-items: stretch; }
 .mealBuilderTray { position: relative; overflow: hidden; width: 100%; aspect-ratio: 4/3; margin: 0; isolation: isolate; border-radius: 20px; background: #f6f4ef; box-shadow: 0 14px 32px rgba(55,45,34,.12); }
@@ -23,6 +24,7 @@
 .mealBuilderChoiceStrip { display: grid; grid-template-columns: 205px minmax(0,1fr); align-items: stretch; min-height: 185px; overflow: hidden; border: 1px solid #d7ded7; border-radius: 20px; background: #fff; box-shadow: 0 10px 25px rgba(33,45,38,.055); }
 .mealBuilderChoiceLead { display: grid; align-content: center; gap: 12px; padding: 18px; border-right: 1px solid #d7ded7; background: #f5f2ec; }
 .mealBuilderChoiceLead > strong { color: #111827; font: 800 17px/1.1 Inter,Arial,sans-serif; text-transform: uppercase; }
+.mealBuilderChoiceLead label > span { display: block; margin-bottom: 4px; color: #687386; font: 800 10px/1.2 Inter,Arial,sans-serif; letter-spacing: .045em; text-transform: uppercase; }
 .mealBuilderChoiceLead select,
 .mealBuilderChoiceLead input[type="search"],
 .mealBuilderPortionGrid select { width: 100%; min-height: 43px; padding: 0 38px 0 12px; border: 1px solid #c8d6cc; border-radius: 12px; color: #182033; background: #fff; font: 750 13px/1.25 Inter,Arial,sans-serif; }
@@ -71,8 +73,6 @@
 .mealBuilderActions p { margin: 9px 0 0; color: #6b7280; font: 500 11px/1.4 Inter,Arial,sans-serif; text-align: center; }
 
 @media (max-width: 900px) {
-  .mealBuilderTopGrid { grid-template-columns: 1fr; }
-  .mealBuilderTray { width: min(100%,650px); }
   .mealBuilderFinishRow { grid-template-rows: auto auto; }
   .mealBuilderChoiceStrip { grid-template-columns: 170px minmax(0,1fr); }
   .mealBuilderPortionGrid { grid-template-columns: repeat(2,minmax(0,1fr)); }

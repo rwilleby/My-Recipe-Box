@@ -103,7 +103,7 @@ function MealChoiceStrip({ label, categories, category, onCategoryChange, recipe
     () => {
       const query = searchQuery.trim().toLocaleLowerCase();
       return recipes
-      .filter((recipe) => (!query ? categoryCode(recipe) === category : true) && recipe.id !== excludeId)
+      .filter((recipe) => categoryCode(recipe) === category && recipe.id !== excludeId)
       .filter((recipe) => !query || `${normalizeRecipeTitle(recipe)} ${recipe.id}`.toLocaleLowerCase().includes(query))
       .sort((a, b) => {
         const proofDifference = Number(builderImageIds.has(b.id)) - Number(builderImageIds.has(a.id));
@@ -122,14 +122,14 @@ function MealChoiceStrip({ label, categories, category, onCategoryChange, recipe
       <div className="mealBuilderChoiceLead">
         <strong>{label}</strong>
         <label>
-          <span className="srOnly">Choose a category for {label}</span>
+          <span>Search by Name</span>
+          <input type="search" value={searchQuery} onChange={(event) => setSearchQuery(event.target.value)} placeholder="Enter recipe name" />
+        </label>
+        <label>
+          <span>Sort by Cuisine</span>
           <select value={category} onChange={(event) => onCategoryChange(event.target.value)}>
             {categories.map(([code, name]) => <option key={code} value={code}>{name}</option>)}
           </select>
-        </label>
-        <label>
-          <span className="srOnly">Search {label} recipes</span>
-          <input type="search" value={searchQuery} onChange={(event) => setSearchQuery(event.target.value)} placeholder={`Search ${label.toLowerCase()}`} />
         </label>
       </div>
       <div className="mealBuilderChoiceSlider">
@@ -195,7 +195,8 @@ export default function BuildYourOwnMealPage({ recipes = [] }) {
     <main className="pageShell buildYourOwnMealPage">
       <section className="buildYourOwnMealIntro" aria-labelledby="build-your-own-meal-title">
         <h1 id="build-your-own-meal-title">See Your Meal Come Together</h1>
-        <p>Mix and match a main dish and two sides using recipes already in your Recipe Box. Then decide what to eat now, refrigerate, or freeze for later.</p>
+        <p>Mix and match a main dish and two sides using recipes already in your Recipe Box.</p>
+        <p>Then decide what to eat now, refrigerate, or freeze for later.</p>
       </section>
 
       <div className="mealBuilderTopGrid">
