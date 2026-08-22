@@ -11,10 +11,10 @@ const MAIN_CATEGORIES = [
 const SIDE_CATEGORIES = [["SD", "Side Dishes"], ["SB", "Salads"], ["LF", "Breads & Rolls"]];
 
 const MEAL_BUILDER_MAIN_IDS = new Set([
-  "AM-001", "AM-008", "AM-010", "AM-018", "AM-020", "AM-037", "AM-041", "AM-053",
+  "AM-001", "AM-007", "AM-008", "AM-010", "AM-018", "AM-020", "AM-037", "AM-041", "AM-053",
 ]);
 const MEAL_BUILDER_SIDE_IDS = new Set([
-  "SD-001", "SD-004", "SD-005", "SD-007", "SD-008", "SD-009", "SD-012", "SD-025",
+  "SD-001", "SD-004", "SD-005", "SD-007", "SD-008", "SD-009", "SD-010", "SD-012", "SD-025",
 ]);
 
 function normalizeRecipeTitle(recipe) {
