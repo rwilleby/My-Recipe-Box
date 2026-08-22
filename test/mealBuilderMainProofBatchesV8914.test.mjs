@@ -1,0 +1,40 @@
+import assert from "node:assert/strict";
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const source = fs.readFileSync(path.join(root, "src/components/BuildYourOwnMealPage.jsx"), "utf8");
+const imageRoot = path.join(root, "public/images/meal-builder/main");
+const batchIds = fs.readdirSync(imageRoot).filter((name) => name.endsWith(".webp")).map((name) => name.replace(/\.webp$/, "")).sort();
+
+const fullTrayIds = ["AM-073", "AM-074", "AM-075", "AM-076", "AM-077", "AM-078", "AS-018", "AS-019"];
+const twoThirdIds = Array.from({ length: 17 }, (_, index) => `AS-${String(index + 1).padStart(3, "0")}`);
+const oneThirdIds = batchIds.filter((id) => id.startsWith("AM-") && !fullTrayIds.includes(id));
+
+assert.equal(batchIds.length, 75, "Batches 4–6 should contain 75 unique main-dish images");
+assert.equal(oneThirdIds.length, 50, "Batches 4–5 should contain 50 one-third American mains");
+
+function webpDimensions(file) {
+  const bytes = fs.readFileSync(file);
+  assert.equal(bytes.toString("ascii", 0, 4), "RIFF");
+  assert.equal(bytes.toString("ascii", 8, 12), "WEBP");
+  assert.equal(bytes.toString("ascii", 12, 16), "VP8X");
+  return {
+    width: 1 + bytes[24] + (bytes[25] << 8) + (bytes[26] << 16),
+    height: 1 + bytes[27] + (bytes[28] << 8) + (bytes[29] << 16),
+  };
+}
+
+for (const id of batchIds) {
+  assert.match(source, new RegExp(`"${id}"`), `${id} must be registered as a Meal Builder image`);
+  const dimensions = webpDimensions(path.join(imageRoot, `${id}.webp`));
+  if (fullTrayIds.includes(id)) assert.deepEqual(dimensions, { width: 1800, height: 1000 }, `${id} should use the full-tray canvas`);
+  else if (twoThirdIds.includes(id)) assert.deepEqual(dimensions, { width: 1260, height: 1000 }, `${id} should use the two-thirds canvas`);
+  else assert.deepEqual(dimensions, { width: 720, height: 1000 }, `${id} should use the one-third canvas`);
+}
+
+for (const id of fullTrayIds) assert.match(source, new RegExp(`\\["${id}", "full-tray"\\]`));
+for (const id of twoThirdIds) assert.match(source, new RegExp(`\\["${id}", "two-thirds"\\]`));
+
+console.log("v89.14 Meal Builder main-image Batches 4–6 and tray-layout contracts passed");

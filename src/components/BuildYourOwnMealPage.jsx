@@ -12,6 +12,14 @@ const SIDE_CATEGORIES = [["SD", "Side Dishes"], ["SB", "Salads"], ["LF", "Breads
 
 const MEAL_BUILDER_MAIN_IDS = new Set([
   "AM-001", "AM-005", "AM-007", "AM-008", "AM-010", "AM-015", "AM-018", "AM-020", "AM-037", "AM-041", "AM-053",
+  "AM-017", "AM-019", "AM-021", "AM-022", "AM-023", "AM-024", "AM-025", "AM-026", "AM-027", "AM-028",
+  "AM-029", "AM-030", "AM-031", "AM-032", "AM-033", "AM-034", "AM-035", "AM-036", "AM-038", "AM-039",
+  "AM-040", "AM-042", "AM-043", "AM-044", "AM-045", "AM-046", "AM-047", "AM-048", "AM-049", "AM-050",
+  "AM-051", "AM-052", "AM-054", "AM-055", "AM-056", "AM-057", "AM-058", "AM-059", "AM-060", "AM-061",
+  "AM-062", "AM-064", "AM-065", "AM-066", "AM-067", "AM-068", "AM-069", "AM-070", "AM-071", "AM-072",
+  "AM-073", "AM-074", "AM-075", "AM-076", "AM-077", "AM-078",
+  "AS-001", "AS-002", "AS-003", "AS-004", "AS-005", "AS-006", "AS-007", "AS-008", "AS-009", "AS-010",
+  "AS-011", "AS-012", "AS-013", "AS-014", "AS-015", "AS-016", "AS-017", "AS-018", "AS-019",
 ]);
 const MEAL_BUILDER_SIDE_IDS = new Set([
   "SD-001", "SD-004", "SD-005", "SD-007", "SD-008", "SD-009", "SD-010", "SD-012", "SD-025",
@@ -19,6 +27,31 @@ const MEAL_BUILDER_SIDE_IDS = new Set([
 const MEAL_BUILDER_MAIN_LAYOUTS = new Map([
   ["AM-005", "full-tray"],
   ["AM-015", "two-thirds"],
+  ["AM-073", "full-tray"],
+  ["AM-074", "full-tray"],
+  ["AM-075", "full-tray"],
+  ["AM-076", "full-tray"],
+  ["AM-077", "full-tray"],
+  ["AM-078", "full-tray"],
+  ["AS-001", "two-thirds"],
+  ["AS-002", "two-thirds"],
+  ["AS-003", "two-thirds"],
+  ["AS-004", "two-thirds"],
+  ["AS-005", "two-thirds"],
+  ["AS-006", "two-thirds"],
+  ["AS-007", "two-thirds"],
+  ["AS-008", "two-thirds"],
+  ["AS-009", "two-thirds"],
+  ["AS-010", "two-thirds"],
+  ["AS-011", "two-thirds"],
+  ["AS-012", "two-thirds"],
+  ["AS-013", "two-thirds"],
+  ["AS-014", "two-thirds"],
+  ["AS-015", "two-thirds"],
+  ["AS-016", "two-thirds"],
+  ["AS-017", "two-thirds"],
+  ["AS-018", "full-tray"],
+  ["AS-019", "full-tray"],
 ]);
 const MEAL_BUILDER_LABEL_SHEETS = {
   "8163": {
