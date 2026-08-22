@@ -20,23 +20,37 @@ const MEAL_BUILDER_MAIN_LAYOUTS = new Map([
   ["AM-005", "full-tray"],
   ["AM-015", "two-thirds"],
 ]);
-const AVERY_8163_LABEL_SHEET = {
-  name: "Avery 8163",
-  labelsPerSheet: 10,
-  columns: 2,
-  rows: 5,
+const MEAL_BUILDER_LABEL_SHEETS = {
+  "8163": {
+    name: "Avery 8163",
+    description: "Letter size · 2 columns × 5 rows · 2″ × 4″ labels",
+    labelsPerSheet: 10,
+    columns: 2,
+    rows: 5,
+    includesPhoto: true,
+  },
+  "5160": {
+    name: "Avery 5160",
+    description: "Letter size · 3 columns × 10 rows · 1″ × 2⅝″ labels",
+    labelsPerSheet: 30,
+    columns: 3,
+    rows: 10,
+    includesPhoto: false,
+  },
 };
 const MEAL_BUILDER_LABEL_SETTINGS_KEY = "rrb_mealBuilderLabelSettings_v1";
 
 function loadMealBuilderLabelSettings() {
-  const defaults = { unavailablePositions: [], offsetX: 0, offsetY: 0, printOutlines: false };
+  const defaults = { format: "8163", unavailable8163: [], unavailable5160: [], offsetX: 0, offsetY: 0, printOutlines: false };
   try {
     const stored = JSON.parse(window.localStorage.getItem(MEAL_BUILDER_LABEL_SETTINGS_KEY) || "null");
     if (!stored || typeof stored !== "object") return defaults;
     return {
-      unavailablePositions: Array.isArray(stored.unavailablePositions)
-        ? stored.unavailablePositions.filter((position) => Number.isInteger(position) && position >= 1 && position <= AVERY_8163_LABEL_SHEET.labelsPerSheet)
-        : [],
+      format: stored.format === "5160" ? "5160" : "8163",
+      unavailable8163: (Array.isArray(stored.unavailable8163) ? stored.unavailable8163 : stored.unavailablePositions || [])
+        .filter((position) => Number.isInteger(position) && position >= 1 && position <= 10),
+      unavailable5160: (Array.isArray(stored.unavailable5160) ? stored.unavailable5160 : [])
+        .filter((position) => Number.isInteger(position) && position >= 1 && position <= 30),
       offsetX: Number(stored.offsetX) || 0,
       offsetY: Number(stored.offsetY) || 0,
       printOutlines: Boolean(stored.printOutlines),
@@ -46,20 +60,20 @@ function loadMealBuilderLabelSettings() {
   }
 }
 
-export function createMealBuilderLabelPages(quantity, unavailablePositions = []) {
+export function createMealBuilderLabelPages(quantity, unavailablePositions = [], labelsPerSheet = 10) {
   const remainingLabels = Array.from({ length: Math.max(0, Number(quantity) || 0) }, (_, index) => ({ key: `meal-label-${index + 1}` }));
   const unavailable = new Set(unavailablePositions);
   const pages = [];
   let labelIndex = 0;
 
-  const firstPage = Array.from({ length: AVERY_8163_LABEL_SHEET.labelsPerSheet }, (_, index) => {
+  const firstPage = Array.from({ length: labelsPerSheet }, (_, index) => {
     if (unavailable.has(index + 1) || labelIndex >= remainingLabels.length) return null;
     return remainingLabels[labelIndex++];
   });
   if (firstPage.some(Boolean)) pages.push(firstPage);
 
   while (labelIndex < remainingLabels.length) {
-    pages.push(Array.from({ length: AVERY_8163_LABEL_SHEET.labelsPerSheet }, () => (
+    pages.push(Array.from({ length: labelsPerSheet }, () => (
       labelIndex < remainingLabels.length ? remainingLabels[labelIndex++] : null
     )));
   }
@@ -82,6 +96,10 @@ export function buildMealBuilderLabelTitle(mainRecipe, sideOneRecipe, sideTwoRec
   if (!sideTitles.length) return mainTitle;
   if (sideTitles.length === 1) return `${mainTitle} with ${sideTitles[0]}`;
   return `${mainTitle} with ${sideTitles[0]} and ${sideTitles[1]}`;
+}
+
+function formatMealBuilderPrintDate(date) {
+  return new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" }).format(date);
 }
 
 function categoryCode(recipe) {
@@ -246,6 +264,7 @@ export default function BuildYourOwnMealPage({ recipes = [] }) {
   const [showLabelSetup, setShowLabelSetup] = useState(false);
   const [labelQuantity, setLabelQuantity] = useState(1);
   const [labelSettings, setLabelSettings] = useState(loadMealBuilderLabelSettings);
+  const [labelPrintDate, setLabelPrintDate] = useState(() => new Date());
 
   const safeRecipes = Array.isArray(recipes) ? recipes : [];
   const recipeMap = useMemo(() => new Map(safeRecipes.map((recipe) => [recipe.id, recipe])), [safeRecipes]);
@@ -267,14 +286,18 @@ export default function BuildYourOwnMealPage({ recipes = [] }) {
   const mealBalanceValues = selectedRecipes.map(recipeMealBalance).filter((value) => value !== null);
   const combinedMealBalance = mealBalanceValues.length ? Math.max(1, Math.min(10, Math.round(mealBalanceValues.reduce((sum, value) => sum + value, 0) / mealBalanceValues.length))) : null;
   const mealLabelTitle = buildMealBuilderLabelTitle(mainRecipe, sideOneRecipe, sideTwoRecipe, mainTrayLayout);
+  const activeLabelSheet = MEAL_BUILDER_LABEL_SHEETS[labelSettings.format];
+  const activeUnavailableKey = labelSettings.format === "5160" ? "unavailable5160" : "unavailable8163";
+  const activeUnavailablePositions = labelSettings[activeUnavailableKey];
+  const mealLabelDetails = `${totalCalories === null ? "Calories —" : `${totalCalories} calories`} · MB ${combinedMealBalance ?? "—"} · Printed ${formatMealBuilderPrintDate(labelPrintDate)}`;
   const labelPages = useMemo(
-    () => createMealBuilderLabelPages(labelQuantity, labelSettings.unavailablePositions),
-    [labelQuantity, labelSettings.unavailablePositions],
+    () => createMealBuilderLabelPages(labelQuantity, activeUnavailablePositions, activeLabelSheet.labelsPerSheet),
+    [activeLabelSheet.labelsPerSheet, activeUnavailablePositions, labelQuantity],
   );
   const firstAvailableLabelPosition = Array.from(
-    { length: AVERY_8163_LABEL_SHEET.labelsPerSheet },
+    { length: activeLabelSheet.labelsPerSheet },
     (_, index) => index + 1,
-  ).find((position) => !labelSettings.unavailablePositions.includes(position)) || AVERY_8163_LABEL_SHEET.labelsPerSheet;
+  ).find((position) => !activeUnavailablePositions.includes(position)) || activeLabelSheet.labelsPerSheet;
   const firstPagePrintedPositions = new Set(
     (labelPages[0] || []).map((entry, index) => entry ? index + 1 : null).filter(Boolean),
   );
@@ -325,24 +348,26 @@ export default function BuildYourOwnMealPage({ recipes = [] }) {
       return;
     }
     setLabelQuantity(Math.max(1, Math.min(10, freezeLater || 1)));
+    setLabelPrintDate(new Date());
     setShowLabelSetup(true);
   }
   function chooseStartingLabelPosition(position) {
-    const start = Math.max(1, Math.min(AVERY_8163_LABEL_SHEET.labelsPerSheet, Number(position) || 1));
+    const start = Math.max(1, Math.min(activeLabelSheet.labelsPerSheet, Number(position) || 1));
     setLabelSettings((current) => ({
       ...current,
-      unavailablePositions: Array.from({ length: start - 1 }, (_, index) => index + 1),
+      [activeUnavailableKey]: Array.from({ length: start - 1 }, (_, index) => index + 1),
     }));
   }
   function toggleUnavailableLabelPosition(position) {
     setLabelSettings((current) => {
-      const unavailable = new Set(current.unavailablePositions);
+      const unavailable = new Set(current[activeUnavailableKey]);
       if (unavailable.has(position)) unavailable.delete(position);
-      else if (unavailable.size < AVERY_8163_LABEL_SHEET.labelsPerSheet - 1) unavailable.add(position);
-      return { ...current, unavailablePositions: [...unavailable].sort((a, b) => a - b) };
+      else if (unavailable.size < activeLabelSheet.labelsPerSheet - 1) unavailable.add(position);
+      return { ...current, [activeUnavailableKey]: [...unavailable].sort((a, b) => a - b) };
     });
   }
   function printConfiguredLabels() {
+    setLabelPrintDate(new Date());
     document.body.classList.add("printingMealBuilderLabels");
     if (labelSettings.printOutlines) document.body.classList.add("printingMealBuilderLabelOutlines");
     window.setTimeout(() => window.print(), 80);
@@ -392,7 +417,7 @@ export default function BuildYourOwnMealPage({ recipes = [] }) {
           <button type="button" onClick={openLabelSetup}>Print Meal Labels</button>
           <button type="button" className="secondary" onClick={clearBuilder}>Clear &amp; Start Over</button>
         </div>
-        <p>Print the assembled meal photo and its description on Avery 8163 2″ × 4″ labels.</p>
+        <p>Choose Avery 8163 photo labels or Avery 5160 text-only labels. Both include calories, MealBalance, and the date printed.</p>
       </div>
 
       {showLabelSetup && (
@@ -403,26 +428,26 @@ export default function BuildYourOwnMealPage({ recipes = [] }) {
             <header>
               <div>
                 <span className="aiBadge">LABEL SHEET SETUP</span>
-                <h2 id="meal-builder-label-setup-title">Print Meal Photo Labels</h2>
-                <p><strong>{AVERY_8163_LABEL_SHEET.name}</strong> · Letter size · 2 columns × 5 rows · 2″ × 4″ labels</p>
+                <h2 id="meal-builder-label-setup-title">Print Meal Labels</h2>
+                <p><strong>{activeLabelSheet.name}</strong> · {activeLabelSheet.description}</p>
               </div>
               <button type="button" className="mealBuilderLabelSetupClose" onClick={() => setShowLabelSetup(false)} aria-label="Close label sheet setup">×</button>
             </header>
 
             <div className="mealBuilderLabelSetupBody">
               <div className="mealBuilderLabelSheetPicker">
-                <div className="mealBuilderLabelPreview">
-                  <MealBuilderTrayPreview mainRecipe={mainRecipe} sideOneRecipe={sideOneRecipe} sideTwoRecipe={sideTwoRecipe} mainTrayLayout={mainTrayLayout} className="mealBuilderLabelTray" />
-                  <strong>{mealLabelTitle}</strong>
+                <div className={`mealBuilderLabelPreview${activeLabelSheet.includesPhoto ? "" : " is-text-only"}`}>
+                  {activeLabelSheet.includesPhoto && <MealBuilderTrayPreview mainRecipe={mainRecipe} sideOneRecipe={sideOneRecipe} sideTwoRecipe={sideTwoRecipe} mainTrayLayout={mainTrayLayout} className="mealBuilderLabelTray" />}
+                  <div className="mealBuilderLabelPreviewCopy"><strong>{mealLabelTitle}</strong><span>{mealLabelDetails}</span></div>
                 </div>
                 <div className="mealBuilderLabelPickerHeading">
                   <div><strong>Click any missing or previously used labels.</strong><span>Green positions will print. Gray positions will stay blank.</span></div>
-                  <button type="button" className="ghost" onClick={() => setLabelSettings((current) => ({ ...current, unavailablePositions: [] }))}>Use New Sheet</button>
+                  <button type="button" className="ghost" onClick={() => setLabelSettings((current) => ({ ...current, [activeUnavailableKey]: [] }))}>Use New Sheet</button>
                 </div>
-                <div className="mealBuilderLabelPositionGrid" aria-label="Ten Avery 8163 label positions">
-                  {Array.from({ length: AVERY_8163_LABEL_SHEET.labelsPerSheet }, (_, index) => {
+                <div className={`mealBuilderLabelPositionGrid is-avery-${labelSettings.format}`} aria-label={`${activeLabelSheet.labelsPerSheet} ${activeLabelSheet.name} label positions`}>
+                  {Array.from({ length: activeLabelSheet.labelsPerSheet }, (_, index) => {
                     const position = index + 1;
-                    const unavailable = labelSettings.unavailablePositions.includes(position);
+                    const unavailable = activeUnavailablePositions.includes(position);
                     const willPrint = firstPagePrintedPositions.has(position);
                     return (
                       <button
@@ -442,12 +467,13 @@ export default function BuildYourOwnMealPage({ recipes = [] }) {
               </div>
 
               <aside className="mealBuilderLabelControls">
+                <label><span>Label format</span><select value={labelSettings.format} onChange={(event) => setLabelSettings((current) => ({ ...current, format: event.target.value }))}><option value="8163">Avery 8163 — Photo + Text</option><option value="5160">Avery 5160 — Text Only</option></select></label>
                 <label><span>Number of labels</span><select value={labelQuantity} onChange={(event) => setLabelQuantity(Number(event.target.value))}>{Array.from({ length: 10 }, (_, index) => <option key={index + 1} value={index + 1}>{index + 1}</option>)}</select></label>
-                <label><span>Start at label</span><select value={firstAvailableLabelPosition} onChange={(event) => chooseStartingLabelPosition(event.target.value)}>{Array.from({ length: AVERY_8163_LABEL_SHEET.labelsPerSheet }, (_, index) => <option key={index + 1} value={index + 1}>{index + 1}</option>)}</select></label>
+                <label><span>Start at label</span><select value={firstAvailableLabelPosition} onChange={(event) => chooseStartingLabelPosition(event.target.value)}>{Array.from({ length: activeLabelSheet.labelsPerSheet }, (_, index) => <option key={index + 1} value={index + 1}>{index + 1}</option>)}</select></label>
                 <p className="mealBuilderLabelStartHelp">Choosing a starting number marks each earlier position as used. Click any position for further adjustments.</p>
                 <div className="mealBuilderLabelPrintSummary">
                   <div><strong>{labelQuantity}</strong><span>Labels to print</span></div>
-                  <div><strong>{10 - labelSettings.unavailablePositions.length}</strong><span>Open on first sheet</span></div>
+                  <div><strong>{activeLabelSheet.labelsPerSheet - activeUnavailablePositions.length}</strong><span>Open on first sheet</span></div>
                   <div><strong>{labelPages.length}</strong><span>Sheet{labelPages.length === 1 ? "" : "s"} needed</span></div>
                 </div>
                 <fieldset>
@@ -468,7 +494,7 @@ export default function BuildYourOwnMealPage({ recipes = [] }) {
       )}
 
       <section
-        className="mealBuilderLabelSheet"
+        className={`mealBuilderLabelSheet is-avery-${labelSettings.format}`}
         aria-hidden="true"
         style={{
           "--meal-builder-label-offset-x": `${labelSettings.offsetX}mm`,
@@ -478,9 +504,9 @@ export default function BuildYourOwnMealPage({ recipes = [] }) {
         {labelPages.map((page, pageIndex) => (
           <div className="mealBuilderLabelPage" key={`meal-label-page-${pageIndex + 1}`}>
             {page.map((entry, positionIndex) => entry ? (
-              <article className="mealBuilderPrintableLabel" key={entry.key}>
-                <MealBuilderTrayPreview mainRecipe={mainRecipe} sideOneRecipe={sideOneRecipe} sideTwoRecipe={sideTwoRecipe} mainTrayLayout={mainTrayLayout} className="mealBuilderLabelTray" />
-                <strong>{mealLabelTitle}</strong>
+              <article className={`mealBuilderPrintableLabel${activeLabelSheet.includesPhoto ? "" : " is-text-only"}`} key={entry.key}>
+                {activeLabelSheet.includesPhoto && <MealBuilderTrayPreview mainRecipe={mainRecipe} sideOneRecipe={sideOneRecipe} sideTwoRecipe={sideTwoRecipe} mainTrayLayout={mainTrayLayout} className="mealBuilderLabelTray" />}
+                <div className="mealBuilderPrintableLabelCopy"><strong>{mealLabelTitle}</strong><span>{mealLabelDetails}</span></div>
               </article>
             ) : <div className="mealBuilderPrintableLabel empty" key={`empty-${pageIndex}-${positionIndex}`} />)}
           </div>
