@@ -10,9 +10,11 @@ import AdminNutritionDatabase from "./components/AdminNutritionDatabase";
 import RfisProjectDashboard from "./components/RfisProjectDashboard";
 import RecipeIntelligencePanel from "./components/RecipeIntelligencePanel";
 import RfisDinnerBuilder from "./components/RfisDinnerBuilder";
+import BuildYourOwnMealPage from "./components/BuildYourOwnMealPage";
 import RfisUnifiedSearch from "./components/RfisUnifiedSearch";
 import "./components/RfisUnifiedSearch.css";
 import "./components/RfisDinnerBuilder.css";
+import "./components/BuildYourOwnMealPage.css";
 import DinnerCombinationHeroAudit from "./DinnerCombinationHeroAudit.jsx";
 import UserDataBackupSection from "./components/UserDataBackupSection";
 import FoodIntelligenceCard from "./components/FoodIntelligenceCard";
@@ -1527,6 +1529,7 @@ const NAV_GROUPS = [
   {
     label: "YOUR KITCHEN",
     items: [
+      { label: "BUILD YOUR OWN MEAL", page: "Build Your Own Meal" },
       { label: "YOUR WEEKLY MEAL PLANNER", page: "Meal Planner" },
       { label: "WEEKEND BULK MEAL PLANNER", page: "Weekend Bulk Meal Planner", detailedOnly: true },
       { label: "HEALTHY SUBSTITUTIONS", page: "Grocery Picks" },
@@ -1579,6 +1582,7 @@ const NO_INTRO_VIDEO_PAGES = new Set([
   "Comfort Foods",
   "Easy 30-Minute Meals",
   "Grocery Picks",
+  "Build Your Own Meal",
 
   "Products I Use",
 
@@ -17717,6 +17721,22 @@ export default function App() {
             setPreparedInventory={setPreparedInventory}
             setRefrigerator={setRefrigerator}
             openFreezerInventory={() => setActivePage("Freezer Inventory Management")}
+          />
+        </>
+      )}
+      {activePage === "Build Your Own Meal" && (
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-page-complete-dinners.webp"
+            alt="Meal planning setup with a prepared main dish, practical sides, recipe notes, and storage containers"
+            eyebrow="MEAL PLANNING"
+            title="Build Your Own Meal"
+            text="Choose a main dish and two sides from your Recipe Box, preview how they work together, and decide what to serve now, refrigerate, or freeze for later."
+            className="pageHeroDepth464"
+          />
+          <BuildYourOwnMealPage
+            recipes={classifiedRecipes}
+            openRecipeCard={(recipeId) => openRecipeCard(recipeId, classifiedRecipes, "Build Your Own Meal")}
           />
         </>
       )}
