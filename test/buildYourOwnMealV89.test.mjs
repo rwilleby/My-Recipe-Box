@@ -15,7 +15,7 @@ assert.match(component, /MealBuilderFoodImage recipe=\{mainRecipe\} position="ma
 assert.match(component, /MealBuilderFoodImage recipe=\{sideOneRecipe\} position="side-one"/);
 assert.match(component, /MealBuilderFoodImage recipe=\{sideTwoRecipe\} position="side-two"/);
 assert.match(component, /Freeze for Later/);
-assert.match(styles, /grid-template-columns: 40% 35% 25%/);
+assert.match(styles, /grid-template-columns: 40% 30% 30%/);
 assert.match(styles, /mealBuilderTrayRim/);
 
 await access(new URL("../public/images/meal-builder/meal-builder-tray-base.webp", import.meta.url));

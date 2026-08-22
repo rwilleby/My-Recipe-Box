@@ -32,8 +32,22 @@ function recipeCalories(recipe) {
 }
 
 function recipeMealBalance(recipe) {
-  const parsed = Number(recipe?.mealBalance?.score);
+  const raw = recipe?.mealBalance?.score;
+  if (raw === null || raw === undefined || raw === "") return null;
+  const parsed = Number(raw);
   return Number.isFinite(parsed) ? parsed : null;
+}
+
+function MealChoiceStats({ recipe }) {
+  const calories = recipeCalories(recipe);
+  const mealBalance = recipeMealBalance(recipe);
+
+  return (
+    <span className="mealBuilderChoiceStats" aria-label={`${calories === null ? "Calories unavailable" : `${Math.round(calories)} calories`}; ${mealBalance === null ? "MealBalance unrated" : `MealBalance ${mealBalance}`}`}>
+      <span className="mealBuilderChoiceCalories">{calories === null ? "Calories —" : `${Math.round(calories)} calories`}</span>
+      <span className={`mealBuilderChoiceMb${mealBalance === null ? " is-unrated" : ""}`} title={mealBalance === null ? "MealBalance not yet rated" : `MealBalance ${mealBalance}`}>{mealBalance ?? "—"}</span>
+    </span>
+  );
 }
 
 function HeroImage({ recipe, alt = "" }) {
@@ -105,6 +119,7 @@ function MealChoiceStrip({ label, categories, category, onCategoryChange, recipe
             <button type="button" key={recipe.id} className={`mealBuilderChoiceCard${selectedId === recipe.id ? " is-selected" : ""}`} onClick={() => onSelect(recipe.id)} aria-pressed={selectedId === recipe.id}>
               <span className="mealBuilderChoiceImage"><HeroImage recipe={recipe} /></span>
               <span className="mealBuilderChoiceTitle">{normalizeRecipeTitle(recipe)}</span>
+              <MealChoiceStats recipe={recipe} />
             </button>
           ))}
           {!visibleRecipes.length && <p className="mealBuilderChoiceEmpty">No recipes are available in this category.</p>}
@@ -163,14 +178,32 @@ export default function BuildYourOwnMealPage({ recipes = [] }) {
         <p>Mix and match a main dish and two sides using recipes already in your Recipe Box. Then decide what to eat now, refrigerate, or freeze for later.</p>
       </section>
 
-      <div className="mealBuilderTray" aria-label="Preview of the selected main dish and two sides">
-        <img className="mealBuilderTrayBase" src={`${import.meta.env.BASE_URL}images/meal-builder/meal-builder-tray-base.webp`} alt="Empty white rectangular meal-prep tray" />
-        <div className="mealBuilderTrayInterior" aria-hidden="true">
-          <MealBuilderFoodImage recipe={mainRecipe} position="main" />
-          <MealBuilderFoodImage recipe={sideOneRecipe} position="side-one" />
-          <MealBuilderFoodImage recipe={sideTwoRecipe} position="side-two" />
+      <div className="mealBuilderTopGrid">
+        <div className="mealBuilderTray" aria-label="Preview of the selected main dish and two sides">
+          <img className="mealBuilderTrayBase" src={`${import.meta.env.BASE_URL}images/meal-builder/meal-builder-tray-base.webp`} alt="Empty white rectangular meal-prep tray" />
+          <div className="mealBuilderTrayInterior" aria-hidden="true">
+            <MealBuilderFoodImage recipe={mainRecipe} position="main" />
+            <MealBuilderFoodImage recipe={sideOneRecipe} position="side-one" />
+            <MealBuilderFoodImage recipe={sideTwoRecipe} position="side-two" />
+          </div>
+          <div className="mealBuilderTrayRim" aria-hidden="true" />
         </div>
-        <div className="mealBuilderTrayRim" aria-hidden="true" />
+
+        <section className="mealBuilderFinishRow mealBuilderPlanColumn">
+          <div className="mealBuilderPortionPanel" aria-labelledby="meal-builder-portions-title">
+            <div className="mealBuilderStepHeading"><span>Step 2</span><h2 id="meal-builder-portions-title">Plan the Portions</h2></div>
+            <div className="mealBuilderPortionGrid">
+              <label><span>Total Portions</span><select value={servings} onChange={(event) => updateServings(event.target.value)}>{[2, 4, 6].map((value) => <option key={value} value={value}>{value}</option>)}</select></label>
+              <label><span>Eat Now</span><select value={eatNow} onChange={(event) => updateEatNow(event.target.value)}>{Array.from({ length: servings + 1 }, (_, value) => <option key={value} value={value}>{value}</option>)}</select></label>
+              <label><span>Refrigerate</span><select value={refrigerate} onChange={(event) => setRefrigerate(Number(event.target.value))}>{Array.from({ length: Math.max(0, servings - eatNow) + 1 }, (_, value) => <option key={value} value={value}>{value}</option>)}</select></label>
+              <div className="mealBuilderFreezeResult"><span>Freeze for Later</span><strong>{freezeLater}</strong></div>
+            </div>
+          </div>
+          <div className="mealBuilderNutritionSummary" aria-label="Combined meal estimate">
+            <div><span>Estimated Meal Calories</span><strong>{totalCalories ?? "—"}</strong><small>{totalCalories === null ? "Choose all three recipes for a complete estimate." : "Per assembled serving"}</small></div>
+            <div className="mealBuilderMbSummary"><span>MealBalance</span><strong>{combinedMealBalance ?? "—"}</strong></div>
+          </div>
+        </section>
       </div>
 
       <div className="mealBuilderSelectorStack">
@@ -178,22 +211,6 @@ export default function BuildYourOwnMealPage({ recipes = [] }) {
         <MealChoiceStrip label="Side 1" categories={SIDE_CATEGORIES} category={sideOneCategory} onCategoryChange={setSideOneCategory} recipes={sideRecipes} selectedId={sideOneId} onSelect={setSideOneId} excludeId={sideTwoId} builderImageIds={MEAL_BUILDER_SIDE_IDS} />
         <MealChoiceStrip label="Side 2" categories={SIDE_CATEGORIES} category={sideTwoCategory} onCategoryChange={setSideTwoCategory} recipes={sideRecipes} selectedId={sideTwoId} onSelect={setSideTwoId} excludeId={sideOneId} builderImageIds={MEAL_BUILDER_SIDE_IDS} />
       </div>
-
-      <section className="mealBuilderFinishRow">
-        <div className="mealBuilderPortionPanel" aria-labelledby="meal-builder-portions-title">
-          <div className="mealBuilderStepHeading"><span>Step 2</span><h2 id="meal-builder-portions-title">Plan the Portions</h2></div>
-          <div className="mealBuilderPortionGrid">
-            <label><span>Total Portions</span><select value={servings} onChange={(event) => updateServings(event.target.value)}>{[2, 4, 6].map((value) => <option key={value} value={value}>{value}</option>)}</select></label>
-            <label><span>Eat Now</span><select value={eatNow} onChange={(event) => updateEatNow(event.target.value)}>{Array.from({ length: servings + 1 }, (_, value) => <option key={value} value={value}>{value}</option>)}</select></label>
-            <label><span>Refrigerate</span><select value={refrigerate} onChange={(event) => setRefrigerate(Number(event.target.value))}>{Array.from({ length: Math.max(0, servings - eatNow) + 1 }, (_, value) => <option key={value} value={value}>{value}</option>)}</select></label>
-            <div className="mealBuilderFreezeResult"><span>Freeze for Later</span><strong>{freezeLater}</strong></div>
-          </div>
-        </div>
-        <div className="mealBuilderNutritionSummary" aria-label="Combined meal estimate">
-          <div><span>Estimated Meal Calories</span><strong>{totalCalories ?? "—"}</strong><small>{totalCalories === null ? "Choose all three recipes for a complete estimate." : "Per assembled serving"}</small></div>
-          <div className="mealBuilderMbSummary"><span>MealBalance</span><strong>{combinedMealBalance ?? "—"}</strong></div>
-        </div>
-      </section>
 
       <div className="mealBuilderActions">
         <button type="button" className="secondary" onClick={clearBuilder}>Clear &amp; Start Over</button>
