@@ -14908,6 +14908,344 @@ to {
 
 .supplementalHoverVideoPopover.supplementalHoverVideoPortal.isLeftAligned {transform: none !important;}
 
+/* ================================================================
+   v89.11 — HOW IT WORKS PAGE AND LARGE-HERO CHECKLIST ICON
+   ================================================================ */
+.howItWorksIconButton {
+  width: 37px !important;
+  min-width: 37px !important;
+  max-width: 37px !important;
+  height: 37px !important;
+  min-height: 37px !important;
+  max-height: 37px !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  border: 1px solid #78923d !important;
+  border-radius: 9px !important;
+  background: #7ca337 !important;
+  box-shadow: 0 5px 14px rgba(45, 67, 30, .18) !important;
+}
+
+.howItWorksIconButton:hover:not(:disabled),
+.howItWorksIconButton:focus-visible {
+  border-color: #627d2d !important;
+  background: #6f9430 !important;
+}
+
+.howItWorksIconButton:focus-visible {
+  outline: 3px solid #f2bd58 !important;
+  outline-offset: 2px !important;
+}
+
+.howItWorksIconButton img {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+}
+
+.howItWorksPage {
+  width: min(100%, 1440px) !important;
+  max-width: 1440px !important;
+  margin: 0 auto !important;
+  padding: 26px clamp(18px, 3.2vw, 48px) 58px !important;
+}
+
+.howItWorksSimpleIntro,
+.howItWorksDetailedIntro {
+  margin-bottom: 22px !important;
+}
+
+.howItWorksSimpleSection {
+  padding: clamp(24px, 3vw, 38px) !important;
+  border: 1px solid #e3d7bd !important;
+  border-radius: 22px !important;
+  background:
+    radial-gradient(circle at 100% 0, rgba(206, 189, 144, .22) 0 15%, transparent 15.2%),
+    radial-gradient(circle at 0 100%, rgba(145, 164, 112, .16) 0 17%, transparent 17.2%),
+    #f7eed8 !important;
+  box-shadow: 0 12px 30px rgba(59, 55, 43, .08) !important;
+}
+
+.howItWorksSimpleSection > .srOnly {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.howItWorksSimpleFlow {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 64px 72px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  list-style: none !important;
+}
+
+.howItWorksSimpleStep {
+  position: relative !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  min-width: 0 !important;
+  min-height: 210px !important;
+  padding: 46px 22px 20px !important;
+  border: 1px solid rgba(255, 255, 255, .9) !important;
+  border-radius: 20px !important;
+  background: #fff !important;
+  box-shadow: 0 10px 22px rgba(65, 58, 42, .10) !important;
+  color: #273f2d !important;
+  text-align: center !important;
+}
+
+.howItWorksSimpleStep:nth-child(4) {grid-column: 3 !important; grid-row: 2 !important;}
+.howItWorksSimpleStep:nth-child(5) {grid-column: 2 !important; grid-row: 2 !important;}
+.howItWorksSimpleStep:nth-child(6) {grid-column: 1 !important; grid-row: 2 !important;}
+
+.howItWorksSimpleStep::after {
+  position: absolute !important;
+  z-index: 2 !important;
+  color: #6f7d48 !important;
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: 46px !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+}
+
+.howItWorksSimpleStep:nth-child(1)::after,
+.howItWorksSimpleStep:nth-child(2)::after {
+  content: "→" !important;
+  top: 50% !important;
+  right: -60px !important;
+  transform: translateY(-50%) !important;
+}
+
+.howItWorksSimpleStep:nth-child(3)::after {
+  content: "↓" !important;
+  left: 50% !important;
+  bottom: -55px !important;
+  transform: translateX(-50%) !important;
+}
+
+.howItWorksSimpleStep:nth-child(4)::after,
+.howItWorksSimpleStep:nth-child(5)::after {
+  content: "←" !important;
+  top: 50% !important;
+  left: -60px !important;
+  transform: translateY(-50%) !important;
+}
+
+.howItWorksStepNumber {
+  position: absolute !important;
+  left: 20px !important;
+  top: 18px !important;
+  display: grid !important;
+  place-items: center !important;
+  width: 38px !important;
+  height: 38px !important;
+  border-radius: 999px !important;
+  background: #c9282d !important;
+  color: #fff !important;
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 18px !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+}
+
+.howItWorksSimpleStep h3 {
+  margin: 10px 0 12px !important;
+  color: #273f2d !important;
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: clamp(21px, 1.75vw, 27px) !important;
+  line-height: 1.08 !important;
+}
+
+.howItWorksSimpleStep p {
+  flex: 1 1 auto !important;
+  margin: 0 0 16px !important;
+  color: #625d54 !important;
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 14px !important;
+  line-height: 1.45 !important;
+}
+
+.howItWorksSimpleStep button,
+.howItWorksDetailedLinks button {
+  min-height: 34px !important;
+  padding: 7px 12px !important;
+  border: 1px solid rgba(20, 83, 45, .28) !important;
+  border-radius: 8px !important;
+  background: #f9faf7 !important;
+  color: #14532d !important;
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  line-height: 1.15 !important;
+  text-transform: uppercase !important;
+  cursor: pointer !important;
+}
+
+.howItWorksSimpleStep button:hover,
+.howItWorksDetailedLinks button:hover {
+  border-color: #14532d !important;
+  background: #eef4ea !important;
+}
+
+.howItWorksSimpleStep.isFinal {
+  border-color: #294a32 !important;
+  background: #294a32 !important;
+  color: #fff !important;
+}
+
+.howItWorksSimpleStep.isFinal h3,
+.howItWorksSimpleStep.isFinal p {color: #fff !important;}
+.howItWorksSimpleStep.isFinal button {border-color: rgba(255, 255, 255, .72) !important; background: #fff !important;}
+
+.howItWorksSimpleNote {
+  margin: 24px 0 0 !important;
+  color: #685f51 !important;
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 650 !important;
+  text-align: center !important;
+}
+
+.howItWorksDetailedIntro {margin-top: 42px !important;}
+
+.howItWorksDetailedFlow {
+  display: grid !important;
+  gap: 18px !important;
+}
+
+.howItWorksDetailedStage {
+  position: relative !important;
+  display: grid !important;
+  grid-template-columns: 64px minmax(0, 1fr) minmax(260px, 34%) !important;
+  gap: 22px !important;
+  align-items: center !important;
+  min-width: 0 !important;
+  padding: 22px 24px !important;
+  border: 1px solid #d9ded7 !important;
+  border-radius: 18px !important;
+  background: #fff !important;
+  box-shadow: 0 9px 22px rgba(34, 49, 38, .06) !important;
+}
+
+.howItWorksDetailedStage:not(:last-child)::after {
+  content: "↓" !important;
+  position: absolute !important;
+  left: 43px !important;
+  bottom: -20px !important;
+  z-index: 2 !important;
+  color: #78923d !important;
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: 28px !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+}
+
+.howItWorksDetailedNumber {
+  display: grid !important;
+  place-items: center !important;
+  width: 54px !important;
+  height: 54px !important;
+  border-radius: 999px !important;
+  background: #294a32 !important;
+  color: #fff !important;
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 23px !important;
+  font-weight: 850 !important;
+}
+
+.howItWorksDetailedCopy {min-width: 0 !important;}
+
+.howItWorksDetailedEyebrow {
+  margin: 0 0 5px !important;
+  color: #6f8738 !important;
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 850 !important;
+  line-height: 1.15 !important;
+  letter-spacing: .08em !important;
+}
+
+.howItWorksDetailedCopy h2,
+.howItWorksClosing h2 {
+  margin: 0 0 7px !important;
+  color: #172033 !important;
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: clamp(22px, 2vw, 28px) !important;
+  line-height: 1.1 !important;
+}
+
+.howItWorksDetailedCopy > p:last-child,
+.howItWorksClosing > div > p:last-child {
+  margin: 0 !important;
+  color: #4b5563 !important;
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+}
+
+.howItWorksDetailedLinks {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 9px !important;
+}
+
+.howItWorksDetailedLinks button {width: 100% !important; min-width: 0 !important; min-height: 42px !important;}
+
+.howItWorksClosing {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  gap: 28px !important;
+  align-items: center !important;
+  margin-top: 26px !important;
+  padding: 28px 30px !important;
+  border-radius: 18px !important;
+  background: #f7eed8 !important;
+}
+
+.howItWorksClosing .primary {white-space: nowrap !important;}
+
+@media (max-width: 900px) {
+  .howItWorksSimpleFlow {grid-template-columns: 1fr !important; gap: 46px !important;}
+  .howItWorksSimpleStep:nth-child(n) {grid-column: 1 !important; grid-row: auto !important; min-height: 0 !important;}
+  .howItWorksSimpleStep:nth-child(n)::after {
+    content: "↓" !important;
+    left: 50% !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: -41px !important;
+    transform: translateX(-50%) !important;
+    font-size: 32px !important;
+  }
+  .howItWorksSimpleStep:last-child::after {content: none !important;}
+  .howItWorksDetailedStage {grid-template-columns: 54px minmax(0, 1fr) !important;}
+  .howItWorksDetailedLinks {grid-column: 2 !important;}
+  .howItWorksDetailedStage:not(:last-child)::after {left: 36px !important;}
+}
+
+@media (max-width: 640px) {
+  .howItWorksIconButton {width: 34px !important; min-width: 34px !important; max-width: 34px !important; height: 34px !important; min-height: 34px !important; max-height: 34px !important;}
+  .howItWorksPage {padding-inline: 16px !important;}
+  .howItWorksSimpleSection {padding: 20px 16px !important; border-radius: 16px !important;}
+  .howItWorksSimpleStep {padding: 44px 16px 18px !important;}
+  .howItWorksDetailedStage {grid-template-columns: 44px minmax(0, 1fr) !important; gap: 14px !important; padding: 18px 16px !important;}
+  .howItWorksDetailedNumber {width: 42px !important; height: 42px !important; font-size: 18px !important;}
+  .howItWorksDetailedLinks {grid-column: 1 / -1 !important; grid-template-columns: 1fr !important;}
+  .howItWorksDetailedStage:not(:last-child)::after {left: 23px !important; bottom: -19px !important;}
+  .howItWorksClosing {grid-template-columns: 1fr !important; padding: 22px 20px !important;}
+  .howItWorksClosing .primary {width: 100% !important; white-space: normal !important;}
+}
+
 .largeHeroVideoPanel.isClosed {display: none !important;}
 
 .largeHeroVideoPanel.isOpen {display: block !important;}

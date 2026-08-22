@@ -900,6 +900,7 @@ const WELCOME_TOUR_VIDEO_URL = "videos/welcome-video.mp4";
 /* Locked video icon roles */
 const VIDEO_ICON_MAIN = "images/icons/video-red.webp";
 const VIDEO_ICON_SUPPLEMENTAL = "images/icons/video-gray.webp";
+const HOW_IT_WORKS_ICON = "images/icons/how-it-works-green.webp";
 const DINNER_IDEAS_VIDEO_URL = "videos/dinner-ideas.mp4";
 const WELCOME_TOUR_VIDEO_POSTER = "images/video-posters/welcome-video-poster.webp";
 const DINNER_IDEAS_VIDEO_POSTER = "images/video-posters/dinner-ideas-poster.webp";
@@ -1514,6 +1515,7 @@ const NAV_GROUPS = [
     label: "ABOUT",
     items: [
       { label: "WELCOME TO OUR SITE", page: "About" },
+      { label: "HOW IT WORKS", page: "How It Works" },
       { label: "VIDEO LIBRARY", page: "Video Library" },
       { label: "YOUR DATA & SECURITY", page: "Your Data & Security" },
       { label: "ABOUT OUR RECIPES", page: "About Recipes" },
@@ -1597,6 +1599,7 @@ const NAV_GROUPS = [
  * Every other main-menu page is intro-video eligible.
  */
 const NO_INTRO_VIDEO_PAGES = new Set([
+  "How It Works",
   "Submit Recipes",
   "Contact Me",
   "Disclaimers",
@@ -11197,6 +11200,164 @@ function FreezerTipsPage({ setActivePage }) {
 }
 
 
+const HOW_IT_WORKS_SIMPLE_STEPS = [
+  {
+    title: "Choose your goal",
+    text: "Tonight’s dinner, quick cooking, freezer meals, or inspiration.",
+    page: "Home",
+    action: "Choose a Goal",
+  },
+  {
+    title: "Find a recipe",
+    text: "Browse categories, search by name, or open a featured collection.",
+    page: "Recipes",
+    action: "Browse Recipes",
+  },
+  {
+    title: "Review the fit",
+    text: "Check time, servings, nutrition, MealBalance, and freezer notes.",
+    page: "Recipes",
+    action: "Compare Recipes",
+  },
+  {
+    title: "Open the card",
+    text: "Read ingredients, directions, Smart Tips, and substitutions.",
+    page: "Recipes",
+    action: "Open the Library",
+  },
+  {
+    title: "Cook with confidence",
+    text: "Choose servings, follow the steps, and store planned extras.",
+    page: "Safe Cooking Rules",
+    action: "Review Food Safety",
+  },
+  {
+    title: "Save your favorite",
+    text: "Tap the heart to make the recipe easy to find next time.",
+    page: "Favorites",
+    action: "View Favorites",
+  },
+];
+
+const HOW_IT_WORKS_DETAILED_STAGES = [
+  {
+    number: "1",
+    eyebrow: "CHOOSE WHERE TO BEGIN",
+    title: "Start with the task that matters today",
+    text: "You do not have to use every feature. Begin with a recipe, a complete dinner, the food already in your kitchen, or a full weekly plan.",
+    links: [
+      ["Browse Recipes", "Recipes"],
+      ["Complete Dinners", "Dinner Combinations"],
+      ["Build Your Own Meal", "Build Your Own Meal"],
+      ["Use What I Have", "Master Kitchen Inventory"],
+    ],
+  },
+  {
+    number: "2",
+    eyebrow: "REVIEW AND PLAN",
+    title: "Make sure the meal fits",
+    text: "Review servings, preparation time, calories, MealBalance, ingredients, and freezer guidance. Then decide what to eat now, refrigerate, or freeze for later.",
+    links: [
+      ["Weekly Meal Planner", "Meal Planner"],
+      ["MealBalance Guide", "MealBalance Guide"],
+      ["Healthy Substitutions", "Grocery Picks"],
+    ],
+  },
+  {
+    number: "3",
+    eyebrow: "CHECK BEFORE SHOPPING",
+    title: "Use what is already in your kitchen",
+    text: "Your Master Kitchen Inventory helps the site recognize pantry, refrigerator, and freezer items that are already on hand before missing ingredients move to the grocery list.",
+    links: [
+      ["Master Inventory", "Master Kitchen Inventory"],
+      ["Grocery List", "Shopping Lists"],
+    ],
+  },
+  {
+    number: "4",
+    eyebrow: "COOK, PORTION, AND STORE",
+    title: "Turn one cooking session into more than one meal",
+    text: "Follow the recipe, serve the Eat Now portions, safely refrigerate planned leftovers, and package freezer portions with clear labels and reheating notes.",
+    links: [
+      ["Freezing & Reheating", "Freezer Tips"],
+      ["Freezer Inventory", "Freezer Inventory Management"],
+    ],
+  },
+  {
+    number: "5",
+    eyebrow: "RETURN WHEN YOU NEED IT",
+    title: "Keep the useful parts easy to find",
+    text: "Save dependable recipes as Favorites, reuse successful meal plans, update inventory as food is used, and back up the information stored in your browser.",
+    links: [
+      ["Favorites", "Favorites"],
+      ["Backup & Restore", "User Backup"],
+    ],
+  },
+];
+
+function HowItWorksPage({ setActivePage }) {
+  return (
+    <main className="pageShell howItWorksPage">
+      <SectionIntro
+        className="howItWorksSimpleIntro"
+        eyebrow="START SIMPLE"
+        title="A Simple User Path"
+        text="Find it, cook it, and save it. Begin with one recipe and use only the features you need today."
+      />
+
+      <section className="howItWorksSimpleSection" aria-labelledby="how-it-works-simple-title">
+        <h2 className="srOnly" id="how-it-works-simple-title">Six simple steps</h2>
+        <ol className="howItWorksSimpleFlow">
+          {HOW_IT_WORKS_SIMPLE_STEPS.map((step, index) => (
+            <li className={`howItWorksSimpleStep${index === HOW_IT_WORKS_SIMPLE_STEPS.length - 1 ? " isFinal" : ""}`} key={step.title}>
+              <span className="howItWorksStepNumber" aria-hidden="true">{index + 1}</span>
+              <h3>{step.title}</h3>
+              <p>{step.text}</p>
+              <button type="button" onClick={() => setActivePage(step.page)}>{step.action}</button>
+            </li>
+          ))}
+        </ol>
+        <p className="howItWorksSimpleNote">No account. No setup. Start with only the features you need today.</p>
+      </section>
+
+      <SectionIntro
+        className="howItWorksDetailedIntro"
+        eyebrow="THE COMPLETE PATH"
+        title="Use More of the Site When You Are Ready"
+        text="The planning, inventory, shopping, cooking, and freezer tools connect together, but each one can also be used on its own."
+      />
+
+      <section className="howItWorksDetailedFlow" aria-label="Detailed Robert’s Recipe Box workflow">
+        {HOW_IT_WORKS_DETAILED_STAGES.map((stage) => (
+          <article className="howItWorksDetailedStage" key={stage.number}>
+            <div className="howItWorksDetailedNumber" aria-hidden="true">{stage.number}</div>
+            <div className="howItWorksDetailedCopy">
+              <p className="howItWorksDetailedEyebrow">{stage.eyebrow}</p>
+              <h2>{stage.title}</h2>
+              <p>{stage.text}</p>
+            </div>
+            <div className="howItWorksDetailedLinks" aria-label={`${stage.title} links`}>
+              {stage.links.map(([label, page]) => (
+                <button type="button" key={label} onClick={() => setActivePage(page)}>{label}</button>
+              ))}
+            </div>
+          </article>
+        ))}
+      </section>
+
+      <section className="howItWorksClosing">
+        <div>
+          <p className="howItWorksDetailedEyebrow">THE BASIC IDEA</p>
+          <h2>Know what you have. Plan what you need. Prepare what you can.</h2>
+          <p>Robert’s Recipe Box is designed to help you waste less food, make fewer last-minute decisions, and keep a few dependable meals ready for later.</p>
+        </div>
+        <button className="primary" type="button" onClick={() => setActivePage("Recipes")}>Start With a Recipe</button>
+      </section>
+    </main>
+  );
+}
+
+
 function HowToUsePage({ setActivePage }) {
   return (
     <main className="pageShell aboutRecipesPage howToUsePage">
@@ -12580,10 +12741,12 @@ function LargeHeroVideoPanel({
 }
 
 function PageHelpButtonStrip({ pageTitle }) {
-  const { activePage } = useContext(PageNavigationContext);
+  const { activePage, setActivePage } = useContext(PageNavigationContext);
   const hasIntroVideo = pageHasIntroVideo(activePage);
+  const showHowItWorks = activePage !== "How It Works";
 
   if (!pageTitle) return null;
+  if (!CLIFF_NOTES_ENABLED && !hasIntroVideo && !showHowItWorks) return null;
 
   function openHeroVideo() {
     if (pageTitle === "Home") {
@@ -12626,6 +12789,22 @@ function PageHelpButtonStrip({ pageTitle }) {
         >
           <img
             src={`${import.meta.env.BASE_URL}${VIDEO_ICON_MAIN}`}
+            alt=""
+            aria-hidden="true"
+          />
+        </button>
+      )}
+
+      {showHowItWorks && (
+        <button
+          type="button"
+          className="pageSequenceButton howItWorksIconButton"
+          onClick={() => setActivePage("How It Works")}
+          aria-label="Open How It Works"
+          title="How It Works"
+        >
+          <img
+            src={`${import.meta.env.BASE_URL}${HOW_IT_WORKS_ICON}`}
             alt=""
             aria-hidden="true"
           />
@@ -19548,6 +19727,21 @@ Use this section to check what is on hand, record dates, mark foods that should 
             addToPlan={addToPlan}
             openRecipeCard={openRecipeCard}
           />
+        </>
+      )}
+      {activePage === "How It Works" && (
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-page-about-us.webp"
+            alt="Recipe box, meal-planning notebook, and kitchen tools on a light counter"
+            eyebrow="START HERE"
+            title="How Robert’s Recipe Box Works"
+            text="Start with one recipe or follow the complete path from choosing a meal through planning, shopping, cooking, portioning, and freezing.
+
+No account is required. Use only the tools that are helpful today, then add more when you are ready."
+            className="pageHeroDepth464 howItWorksHero"
+          />
+          <HowItWorksPage setActivePage={setActivePage} />
         </>
       )}
       {activePage === "How To Use" && (
