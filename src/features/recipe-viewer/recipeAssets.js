@@ -33,6 +33,22 @@ export function recipeImageCandidates(recipe) {
   return [...new Set(candidates)];
 }
 
+export function recipeHeroImageCandidates(recipe) {
+  if (!recipe) return [];
+  const candidates = [];
+  const prefix = recipeCodePrefix(recipe.id);
+
+  if (recipe.heroImage) candidates.push(recipe.heroImage);
+  if (recipe.image && /(^|\/)heroes\//i.test(recipe.image)) candidates.push(recipe.image);
+
+  if (recipe.id && AUTO_IMAGE_PREFIXES.has(prefix)) {
+    candidates.push(`images/heroes/${recipe.id}.webp`);
+    candidates.push(`images/heroes/${recipe.id} .webp`);
+  }
+
+  return [...new Set(candidates)];
+}
+
 export function previewCardImageCandidates(recipe) {
   const candidates = [];
   const prefix = recipeCodePrefix(recipe.id);

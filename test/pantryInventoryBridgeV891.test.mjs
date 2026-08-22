@@ -12,8 +12,10 @@ assert.match(app, /pantryItemKeys\(item\)\.forEach\(\(key\) =>/);
 assert.match(app, /pantryItemStatus\(pantry, match\.item \|\| match\.pantry\) === "in-stock"/);
 assert.match(app, /score: \(exact \? 10000 : 0\) \+ normalizedTerm\.length/);
 
-assert.match(builder, /recipe \? recipeImageCandidates\(recipe\) : \[\]/);
+assert.match(builder, /recipeHeroImageCandidates\(recipe\)/);
+assert.match(builder, /if \(!recipe \|\| !candidates\[imageIndex\]\) return null/);
 assert.match(builder, /const safeRecipes = Array\.isArray\(recipes\) \? recipes : \[\]/);
 assert.match(assets, /export function recipeImageCandidates\(recipe\) \{\s*if \(!recipe\) return \[\];/);
+assert.match(assets, /export function recipeHeroImageCandidates\(recipe\) \{\s*if \(!recipe\) return \[\];/);
 
 console.log("v89.1 Pantry tier synchronization, shopping stock matching, and meal-builder blank-page guards passed");
