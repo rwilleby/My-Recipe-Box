@@ -10,6 +10,13 @@ const MAIN_CATEGORIES = [
 ];
 const SIDE_CATEGORIES = [["SD", "Side Dishes"], ["SB", "Salads"], ["LF", "Breads & Rolls"]];
 
+const MEAL_BUILDER_MAIN_IDS = new Set([
+  "AM-001", "AM-008", "AM-010", "AM-018", "AM-020", "AM-037", "AM-041", "AM-053",
+]);
+const MEAL_BUILDER_SIDE_IDS = new Set([
+  "SD-001", "SD-004", "SD-005", "SD-007", "SD-008", "SD-009", "SD-012", "SD-025",
+]);
+
 function normalizeRecipeTitle(recipe) {
   return recipe?.title || recipe?.name || recipe?.id || "Recipe";
 }
@@ -45,16 +52,35 @@ function MealBuilderFoodImage({ recipe, position }) {
       </div>
     );
   }
-  return <div className={`mealBuilderTrayFood mealBuilderTrayFood-${position}`}><HeroImage recipe={recipe} /></div>;
+
+  const isMain = position === "main";
+  const hasBuilderImage = (isMain ? MEAL_BUILDER_MAIN_IDS : MEAL_BUILDER_SIDE_IDS).has(recipe.id);
+  if (!hasBuilderImage) {
+    return (
+      <div className={`mealBuilderTrayFood mealBuilderTrayFood-${position} is-empty is-unavailable`}>
+        <span>Meal image coming soon</span>
+      </div>
+    );
+  }
+
+  const folder = isMain ? "main" : "sides";
+  return (
+    <div className={`mealBuilderTrayFood mealBuilderTrayFood-${position}`}>
+      <img src={`${import.meta.env.BASE_URL}images/meal-builder/${folder}/${recipe.id}.webp`} alt="" />
+    </div>
+  );
 }
 
-function MealChoiceStrip({ label, categories, category, onCategoryChange, recipes, selectedId, onSelect, excludeId = "" }) {
+function MealChoiceStrip({ label, categories, category, onCategoryChange, recipes, selectedId, onSelect, excludeId = "", builderImageIds }) {
   const railRef = useRef(null);
   const visibleRecipes = useMemo(
     () => recipes
       .filter((recipe) => categoryCode(recipe) === category && recipe.id !== excludeId)
-      .sort((a, b) => normalizeRecipeTitle(a).localeCompare(normalizeRecipeTitle(b))),
-    [category, excludeId, recipes],
+      .sort((a, b) => {
+        const proofDifference = Number(builderImageIds.has(b.id)) - Number(builderImageIds.has(a.id));
+        return proofDifference || normalizeRecipeTitle(a).localeCompare(normalizeRecipeTitle(b));
+      }),
+    [builderImageIds, category, excludeId, recipes],
   );
 
   function slide(direction) {
@@ -148,9 +174,9 @@ export default function BuildYourOwnMealPage({ recipes = [] }) {
       </div>
 
       <div className="mealBuilderSelectorStack">
-        <MealChoiceStrip label="Main Dish" categories={MAIN_CATEGORIES} category={mainCategory} onCategoryChange={setMainCategory} recipes={mainRecipes} selectedId={mainId} onSelect={setMainId} />
-        <MealChoiceStrip label="Side 1" categories={SIDE_CATEGORIES} category={sideOneCategory} onCategoryChange={setSideOneCategory} recipes={sideRecipes} selectedId={sideOneId} onSelect={setSideOneId} excludeId={sideTwoId} />
-        <MealChoiceStrip label="Side 2" categories={SIDE_CATEGORIES} category={sideTwoCategory} onCategoryChange={setSideTwoCategory} recipes={sideRecipes} selectedId={sideTwoId} onSelect={setSideTwoId} excludeId={sideOneId} />
+        <MealChoiceStrip label="Main Dish" categories={MAIN_CATEGORIES} category={mainCategory} onCategoryChange={setMainCategory} recipes={mainRecipes} selectedId={mainId} onSelect={setMainId} builderImageIds={MEAL_BUILDER_MAIN_IDS} />
+        <MealChoiceStrip label="Side 1" categories={SIDE_CATEGORIES} category={sideOneCategory} onCategoryChange={setSideOneCategory} recipes={sideRecipes} selectedId={sideOneId} onSelect={setSideOneId} excludeId={sideTwoId} builderImageIds={MEAL_BUILDER_SIDE_IDS} />
+        <MealChoiceStrip label="Side 2" categories={SIDE_CATEGORIES} category={sideTwoCategory} onCategoryChange={setSideTwoCategory} recipes={sideRecipes} selectedId={sideTwoId} onSelect={setSideTwoId} excludeId={sideOneId} builderImageIds={MEAL_BUILDER_SIDE_IDS} />
       </div>
 
       <section className="mealBuilderFinishRow">
