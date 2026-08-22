@@ -8,10 +8,11 @@ assert.match(component, /mealBuilderTopGrid[\s\S]*mealBuilderTray[\s\S]*mealBuil
 assert.match(component, /MealChoiceStats recipe=\{recipe\}/);
 assert.match(component, /mealBuilderChoiceCalories/);
 assert.match(component, /mealBuilderChoiceMb/);
-assert.match(styles, /\.mealBuilderTopGrid[^}]*grid-template-columns: minmax\(0,46fr\) minmax\(0,54fr\)/);
-assert.match(styles, /\.buildYourOwnMealPage[^}]*width: min\(100%,calc\(100vw - 11vw\)\)[^}]*max-width: none/);
+assert.match(styles, /\.mealBuilderTopGrid[^}]*grid-template-columns: minmax\(0,58fr\) minmax\(0,42fr\)/);
+assert.match(styles, /\.pageShell\.buildYourOwnMealPage[^}]*width: calc\(100vw - 11vw\)[^}]*max-width: none[^}]*padding:[^;]* 0 60px/);
 assert.match(styles, /\.mealBuilderFinishRow[^}]*grid-template-rows: minmax\(138px,1fr\) minmax\(0,2fr\)/);
-assert.match(component, /Plan the Portions/);
+assert.match(component, />Overview<\/h2>/);
+assert.doesNotMatch(component, /Plan the Portions/);
 assert.doesNotMatch(component, />Step 2</);
 assert.match(component, /<span>Portions<\/span>/);
 assert.match(component, /<span>Freeze<\/span><strong>\{freezeLater\}<\/strong>/);

@@ -211,7 +211,7 @@ export default function BuildYourOwnMealPage({ recipes = [] }) {
 
         <section className="mealBuilderFinishRow mealBuilderPlanColumn">
           <div className="mealBuilderPortionPanel" aria-labelledby="meal-builder-portions-title">
-            <div className="mealBuilderStepHeading"><h2 id="meal-builder-portions-title">Plan the Portions</h2></div>
+            <div className="mealBuilderStepHeading"><h2 id="meal-builder-portions-title">Overview</h2></div>
             <div className="mealBuilderPortionGrid">
               <label><span>Portions</span><select value={servings} onChange={(event) => updateServings(event.target.value)}>{[2, 4, 6].map((value) => <option key={value} value={value}>{value}</option>)}</select></label>
               <label><span>Eat Now</span><select value={eatNow} onChange={(event) => updateEatNow(event.target.value)}>{Array.from({ length: servings + 1 }, (_, value) => <option key={value} value={value}>{value}</option>)}</select></label>
