@@ -9,6 +9,7 @@ export function recipeCodePrefix(recipeId = "") {
 }
 
 export function recipeImageCandidates(recipe) {
+  if (!recipe) return [];
   const candidates = [];
   const prefix = recipeCodePrefix(recipe.id);
 

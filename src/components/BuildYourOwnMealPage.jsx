@@ -24,7 +24,13 @@ function recipeMealBalance(recipe) {
 }
 
 function MealBuilderFoodImage({ recipe, position }) {
-  const candidates = useMemo(() => recipeImageCandidates(recipe), [recipe]);
+  // Empty slots render before a recipe is selected. recipeImageCandidates
+  // expects a real recipe, so never call it with null during the initial page
+  // render.
+  const candidates = useMemo(
+    () => (recipe ? recipeImageCandidates(recipe) : []),
+    [recipe],
+  );
   const [imageIndex, setImageIndex] = useState(0);
 
   useEffect(() => setImageIndex(0), [recipe?.id]);
@@ -84,23 +90,24 @@ export default function BuildYourOwnMealPage({ recipes = [], openRecipeCard = ()
   const [eatNow, setEatNow] = useState(2);
   const [refrigerate, setRefrigerate] = useState(0);
 
+  const safeRecipes = Array.isArray(recipes) ? recipes : [];
   const recipeMap = useMemo(
-    () => new Map(recipes.map((recipe) => [recipe.id, recipe])),
-    [recipes],
+    () => new Map(safeRecipes.map((recipe) => [recipe.id, recipe])),
+    [safeRecipes],
   );
 
   const mainRecipes = useMemo(
-    () => recipes
+    () => safeRecipes
       .filter((recipe) => MAIN_CATEGORY_CODES.has(String(recipe?.categoryCode || "").toUpperCase()))
       .sort((a, b) => normalizeRecipeTitle(a).localeCompare(normalizeRecipeTitle(b))),
-    [recipes],
+    [safeRecipes],
   );
 
   const sideRecipes = useMemo(
-    () => recipes
+    () => safeRecipes
       .filter((recipe) => SIDE_CATEGORY_CODES.has(String(recipe?.categoryCode || "").toUpperCase()))
       .sort((a, b) => normalizeRecipeTitle(a).localeCompare(normalizeRecipeTitle(b))),
-    [recipes],
+    [safeRecipes],
   );
 
   const mainRecipe = recipeMap.get(mainId) || null;

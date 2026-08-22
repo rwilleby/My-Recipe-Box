@@ -431,13 +431,42 @@ const ALL_STANDARD_PANTRY_ITEMS = [
   ...FULLY_STOCKED_PANTRY_ITEMS,
 ];
 
-const PANTRY_PRIMARY_ITEM_KEY_BY_NAME = new Map();
+const PANTRY_ITEM_KEYS_BY_NAME = new Map();
 ALL_STANDARD_PANTRY_ITEMS.forEach((item) => {
-  const normalizedName = item.name.toLowerCase();
-  if (!PANTRY_PRIMARY_ITEM_KEY_BY_NAME.has(normalizedName)) {
-    PANTRY_PRIMARY_ITEM_KEY_BY_NAME.set(normalizedName, item.id || item.name);
-  }
+  const normalizedName = normalizePantryText(item.name);
+  const keys = PANTRY_ITEM_KEYS_BY_NAME.get(normalizedName) || [];
+  const key = item.id || item.name;
+  if (!keys.includes(key)) keys.push(key);
+  PANTRY_ITEM_KEYS_BY_NAME.set(normalizedName, keys);
 });
+
+// Minimum/Medium Pantry predate the detailed Fully Stocked catalog. These
+// aliases let an older broad staple and its detailed equivalent share one
+// stock decision without changing any saved local-storage keys.
+const PANTRY_NAME_ALIASES = new Map([
+  ["flour", ["all purpose flour"]],
+  ["all purpose flour", ["flour"]],
+  ["sugar", ["granulated sugar"]],
+  ["granulated sugar", ["sugar"]],
+  ["white vinegar", ["distilled white vinegar"]],
+  ["distilled white vinegar", ["white vinegar"]],
+  ["breadcrumbs", ["plain breadcrumbs"]],
+  ["plain breadcrumbs", ["breadcrumbs"]],
+]);
+
+function pantryItemKeys(itemOrName) {
+  const directKey = pantryItemKey(itemOrName);
+  const itemName = itemOrName && typeof itemOrName === "object"
+    ? itemOrName.name
+    : String(itemOrName || "");
+  const normalizedName = normalizePantryText(itemName);
+  const normalizedNames = [normalizedName, ...(PANTRY_NAME_ALIASES.get(normalizedName) || [])];
+  return [...new Set([
+    directKey,
+    itemName,
+    ...normalizedNames.flatMap((name) => PANTRY_ITEM_KEYS_BY_NAME.get(name) || []),
+  ].filter(Boolean))];
+}
 
 const PANTRY_MATCHERS = [
   { pantry: "Salt", terms: ["salt"] },
@@ -753,29 +782,26 @@ function normalizePantryText(value = "") {
 
 function findPantryMatch(itemName = "") {
   const normalizedItem = normalizePantryText(canonicalShoppingName(itemName));
+  const paddedItem = ` ${normalizedItem} `;
 
-  return PANTRY_MATCHERS.find((matcher) =>
-    matcher.terms.some((term) => {
+  return [...PANTRY_MATCHERS, ...FULLY_STOCKED_PANTRY_MATCHERS]
+    .flatMap((matcher) => matcher.terms.map((term) => {
       const normalizedTerm = normalizePantryText(term);
-      return normalizedItem === normalizedTerm || normalizedItem.includes(normalizedTerm);
-    })
-  ) || FULLY_STOCKED_PANTRY_MATCHERS.find((matcher) =>
-    matcher.terms.some((term) => {
-      const normalizedTerm = normalizePantryText(term);
-      return normalizedItem === normalizedTerm || normalizedItem.includes(normalizedTerm);
-    })
-  );
+      const exact = normalizedItem === normalizedTerm;
+      const phrase = paddedItem.includes(` ${normalizedTerm} `);
+      return exact || phrase
+        ? { matcher, score: (exact ? 10000 : 0) + normalizedTerm.length }
+        : null;
+    }))
+    .filter(Boolean)
+    .sort((a, b) => b.score - a.score)[0]?.matcher || null;
 }
 
 function splitShoppingListByPantry(list, pantry) {
   return list.reduce(
     (groups, item) => {
       const match = findPantryMatch(item.name);
-      const inPantry = match && (
-        match.item
-          ? pantryItemStatus(pantry, match.item) === "in-stock"
-          : pantry[match.pantry]
-      );
+      const inPantry = match && pantryItemStatus(pantry, match.item || match.pantry) === "in-stock";
 
       if (inPantry) {
         groups.pantry.push({
@@ -7102,13 +7128,15 @@ function pantryItemKey(itemOrName) {
 }
 
 function pantryItemStatus(pantry, itemOrName) {
-  const key = pantryItemKey(itemOrName);
-  const legacyName = itemOrName && typeof itemOrName === "object" ? itemOrName.name : key;
   const statuses = pantryInventoryMeta(pantry).statuses;
-  const isPrimaryLegacyTarget = PANTRY_PRIMARY_ITEM_KEY_BY_NAME.get(legacyName.toLowerCase()) === key;
-  const saved = statuses[key] || (isPrimaryLegacyTarget ? statuses[legacyName] : undefined);
+  const keys = pantryItemKeys(itemOrName);
+  const directSaved = statuses[keys[0]];
+  const saved = ["in-stock", "low", "out"].includes(directSaved)
+    ? directSaved
+    : keys.map((key) => statuses[key]).find((status) => ["in-stock", "low", "out"].includes(status))
+      || (directSaved === "not-set" ? "not-set" : undefined);
   if (["not-set", "in-stock", "low", "out"].includes(saved)) return saved;
-  return pantry?.[key] || (isPrimaryLegacyTarget && pantry?.[legacyName]) ? "in-stock" : "not-set";
+  return keys.some((key) => Boolean(pantry?.[key])) ? "in-stock" : "not-set";
 }
 
 function buildPantryRestockItems(pantry = {}) {
@@ -7516,16 +7544,21 @@ function PantryStaplesPage({ pantry, setPantry, externalSearch = "", embedded = 
     .sort((a, b) => String(a.group).localeCompare(String(b.group), undefined, { sensitivity: "base", numeric: true }));
 
   function togglePantryItem(item) {
-    const key = pantryItemKey(item);
     setPantry((current) => {
       const isChecked = pantryItemStatus(current, item) === "in-stock";
       const meta = pantryInventoryMeta(current);
+      const keys = pantryItemKeys(item);
+      const next = { ...current };
+      const statuses = { ...meta.statuses };
+      keys.forEach((key) => {
+        next[key] = !isChecked;
+        statuses[key] = !isChecked ? "in-stock" : "not-set";
+      });
       return {
-        ...current,
-        [key]: !isChecked,
+        ...next,
         [PANTRY_INVENTORY_META_KEY]: {
           ...meta,
-          statuses: { ...meta.statuses, [key]: !isChecked ? "in-stock" : "not-set" },
+          statuses,
         },
       };
     });
@@ -7560,15 +7593,20 @@ function PantryStaplesPage({ pantry, setPantry, externalSearch = "", embedded = 
   }
 
   function setPantryStatus(item, status) {
-    const key = pantryItemKey(item);
     setPantry((current) => {
       const meta = pantryInventoryMeta(current);
+      const keys = pantryItemKeys(item);
+      const next = { ...current };
+      const statuses = { ...meta.statuses };
+      keys.forEach((key) => {
+        next[key] = status === "in-stock";
+        statuses[key] = status;
+      });
       return {
-        ...current,
-        [key]: status === "in-stock",
+        ...next,
         [PANTRY_INVENTORY_META_KEY]: {
           ...meta,
-          statuses: { ...meta.statuses, [key]: status },
+          statuses,
         },
       };
     });
@@ -7592,9 +7630,10 @@ function PantryStaplesPage({ pantry, setPantry, externalSearch = "", embedded = 
       const meta = pantryInventoryMeta(current);
       const statuses = { ...meta.statuses };
       levelItems.forEach((item) => {
-        const key = pantryItemKey(item);
-        next[key] = true;
-        statuses[key] = "in-stock";
+        pantryItemKeys(item).forEach((key) => {
+          next[key] = true;
+          statuses[key] = "in-stock";
+        });
       });
       next[PANTRY_INVENTORY_META_KEY] = { ...meta, statuses };
       return next;
@@ -7670,9 +7709,10 @@ function PantryStaplesPage({ pantry, setPantry, externalSearch = "", embedded = 
       const statuses = { ...meta.statuses };
       const next = { ...current };
       purchaseItems.forEach((item) => {
-        const key = pantryItemKey(item);
-        next[key] = true;
-        statuses[key] = "in-stock";
+        pantryItemKeys(item).forEach((key) => {
+          next[key] = true;
+          statuses[key] = "in-stock";
+        });
       });
       next[PANTRY_INVENTORY_META_KEY] = { ...meta, statuses };
       return next;
