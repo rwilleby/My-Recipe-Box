@@ -20,9 +20,68 @@ const MEAL_BUILDER_MAIN_LAYOUTS = new Map([
   ["AM-005", "full-tray"],
   ["AM-015", "two-thirds"],
 ]);
+const AVERY_8163_LABEL_SHEET = {
+  name: "Avery 8163",
+  labelsPerSheet: 10,
+  columns: 2,
+  rows: 5,
+};
+const MEAL_BUILDER_LABEL_SETTINGS_KEY = "rrb_mealBuilderLabelSettings_v1";
+
+function loadMealBuilderLabelSettings() {
+  const defaults = { unavailablePositions: [], offsetX: 0, offsetY: 0, printOutlines: false };
+  try {
+    const stored = JSON.parse(window.localStorage.getItem(MEAL_BUILDER_LABEL_SETTINGS_KEY) || "null");
+    if (!stored || typeof stored !== "object") return defaults;
+    return {
+      unavailablePositions: Array.isArray(stored.unavailablePositions)
+        ? stored.unavailablePositions.filter((position) => Number.isInteger(position) && position >= 1 && position <= AVERY_8163_LABEL_SHEET.labelsPerSheet)
+        : [],
+      offsetX: Number(stored.offsetX) || 0,
+      offsetY: Number(stored.offsetY) || 0,
+      printOutlines: Boolean(stored.printOutlines),
+    };
+  } catch {
+    return defaults;
+  }
+}
+
+export function createMealBuilderLabelPages(quantity, unavailablePositions = []) {
+  const remainingLabels = Array.from({ length: Math.max(0, Number(quantity) || 0) }, (_, index) => ({ key: `meal-label-${index + 1}` }));
+  const unavailable = new Set(unavailablePositions);
+  const pages = [];
+  let labelIndex = 0;
+
+  const firstPage = Array.from({ length: AVERY_8163_LABEL_SHEET.labelsPerSheet }, (_, index) => {
+    if (unavailable.has(index + 1) || labelIndex >= remainingLabels.length) return null;
+    return remainingLabels[labelIndex++];
+  });
+  if (firstPage.some(Boolean)) pages.push(firstPage);
+
+  while (labelIndex < remainingLabels.length) {
+    pages.push(Array.from({ length: AVERY_8163_LABEL_SHEET.labelsPerSheet }, () => (
+      labelIndex < remainingLabels.length ? remainingLabels[labelIndex++] : null
+    )));
+  }
+  return pages;
+}
 
 function normalizeRecipeTitle(recipe) {
   return recipe?.title || recipe?.name || recipe?.id || "Recipe";
+}
+
+export function buildMealBuilderLabelTitle(mainRecipe, sideOneRecipe, sideTwoRecipe, mainTrayLayout = "standard") {
+  if (!mainRecipe) return "Build Your Own Meal";
+  const mainTitle = normalizeRecipeTitle(mainRecipe);
+  const sides = mainTrayLayout === "full-tray"
+    ? []
+    : mainTrayLayout === "two-thirds"
+      ? [sideTwoRecipe]
+      : [sideOneRecipe, sideTwoRecipe];
+  const sideTitles = sides.filter(Boolean).map(normalizeRecipeTitle);
+  if (!sideTitles.length) return mainTitle;
+  if (sideTitles.length === 1) return `${mainTitle} with ${sideTitles[0]}`;
+  return `${mainTitle} with ${sideTitles[0]} and ${sideTitles[1]}`;
 }
 
 function categoryCode(recipe) {
@@ -94,8 +153,22 @@ function MealBuilderFoodImage({ recipe, position, expanded = false }) {
 
   const folder = isMain ? "main" : "sides";
   return (
-    <div className={`mealBuilderTrayFood mealBuilderTrayFood-${position}${expanded ? " is-expanded" : ""}`}>
+    <div className={`mealBuilderTrayFood mealBuilderTrayFood-${position} mealBuilderTrayFood-recipe-${recipe.id.toLowerCase()}${expanded ? " is-expanded" : ""}`}>
       <img src={`${import.meta.env.BASE_URL}images/meal-builder/${folder}/${recipe.id}.webp`} alt="" />
+    </div>
+  );
+}
+
+function MealBuilderTrayPreview({ mainRecipe, sideOneRecipe, sideTwoRecipe, mainTrayLayout, className = "" }) {
+  return (
+    <div className={`mealBuilderTray${className ? ` ${className}` : ""}`} aria-label="Preview of the selected main dish and two sides">
+      <img className="mealBuilderTrayBase" src={`${import.meta.env.BASE_URL}images/meal-builder/meal-builder-tray-base.webp`} alt="Empty white rectangular meal-prep tray" />
+      <div className={`mealBuilderTrayInterior is-${mainTrayLayout}`} aria-hidden="true">
+        <MealBuilderFoodImage recipe={mainRecipe} position="main" expanded={mainTrayLayout !== "standard"} />
+        {mainTrayLayout === "standard" && <MealBuilderFoodImage recipe={sideOneRecipe} position="side-one" />}
+        {mainTrayLayout !== "full-tray" && <MealBuilderFoodImage recipe={sideTwoRecipe} position="side-two" />}
+      </div>
+      <div className="mealBuilderTrayRim" aria-hidden="true" />
     </div>
   );
 }
@@ -170,6 +243,9 @@ export default function BuildYourOwnMealPage({ recipes = [] }) {
   const [servings, setServings] = useState(4);
   const [eatNow, setEatNow] = useState(2);
   const [refrigerate, setRefrigerate] = useState(0);
+  const [showLabelSetup, setShowLabelSetup] = useState(false);
+  const [labelQuantity, setLabelQuantity] = useState(1);
+  const [labelSettings, setLabelSettings] = useState(loadMealBuilderLabelSettings);
 
   const safeRecipes = Array.isArray(recipes) ? recipes : [];
   const recipeMap = useMemo(() => new Map(safeRecipes.map((recipe) => [recipe.id, recipe])), [safeRecipes]);
@@ -190,6 +266,37 @@ export default function BuildYourOwnMealPage({ recipes = [] }) {
   const totalCalories = selectedRecipes.length && knownCalories.length === selectedRecipes.length ? Math.round(knownCalories.reduce((sum, value) => sum + value, 0)) : null;
   const mealBalanceValues = selectedRecipes.map(recipeMealBalance).filter((value) => value !== null);
   const combinedMealBalance = mealBalanceValues.length ? Math.max(1, Math.min(10, Math.round(mealBalanceValues.reduce((sum, value) => sum + value, 0) / mealBalanceValues.length))) : null;
+  const mealLabelTitle = buildMealBuilderLabelTitle(mainRecipe, sideOneRecipe, sideTwoRecipe, mainTrayLayout);
+  const labelPages = useMemo(
+    () => createMealBuilderLabelPages(labelQuantity, labelSettings.unavailablePositions),
+    [labelQuantity, labelSettings.unavailablePositions],
+  );
+  const firstAvailableLabelPosition = Array.from(
+    { length: AVERY_8163_LABEL_SHEET.labelsPerSheet },
+    (_, index) => index + 1,
+  ).find((position) => !labelSettings.unavailablePositions.includes(position)) || AVERY_8163_LABEL_SHEET.labelsPerSheet;
+  const firstPagePrintedPositions = new Set(
+    (labelPages[0] || []).map((entry, index) => entry ? index + 1 : null).filter(Boolean),
+  );
+
+  useEffect(() => {
+    try {
+      window.localStorage.setItem(MEAL_BUILDER_LABEL_SETTINGS_KEY, JSON.stringify(labelSettings));
+    } catch {
+      // Printing remains available when browser storage is disabled.
+    }
+  }, [labelSettings]);
+
+  useEffect(() => {
+    const clearPrintMode = () => {
+      document.body.classList.remove("printingMealBuilderLabels", "printingMealBuilderLabelOutlines");
+    };
+    window.addEventListener("afterprint", clearPrintMode);
+    return () => {
+      window.removeEventListener("afterprint", clearPrintMode);
+      clearPrintMode();
+    };
+  }, []);
 
   function updateServings(value) {
     const next = Number(value);
@@ -212,6 +319,34 @@ export default function BuildYourOwnMealPage({ recipes = [] }) {
     setMainId(""); setSideOneId(""); setSideTwoId("");
     setServings(4); setEatNow(2); setRefrigerate(0);
   }
+  function openLabelSetup() {
+    if (!mainRecipe) {
+      window.alert("Choose a main dish before printing meal labels.");
+      return;
+    }
+    setLabelQuantity(Math.max(1, Math.min(10, freezeLater || 1)));
+    setShowLabelSetup(true);
+  }
+  function chooseStartingLabelPosition(position) {
+    const start = Math.max(1, Math.min(AVERY_8163_LABEL_SHEET.labelsPerSheet, Number(position) || 1));
+    setLabelSettings((current) => ({
+      ...current,
+      unavailablePositions: Array.from({ length: start - 1 }, (_, index) => index + 1),
+    }));
+  }
+  function toggleUnavailableLabelPosition(position) {
+    setLabelSettings((current) => {
+      const unavailable = new Set(current.unavailablePositions);
+      if (unavailable.has(position)) unavailable.delete(position);
+      else if (unavailable.size < AVERY_8163_LABEL_SHEET.labelsPerSheet - 1) unavailable.add(position);
+      return { ...current, unavailablePositions: [...unavailable].sort((a, b) => a - b) };
+    });
+  }
+  function printConfiguredLabels() {
+    document.body.classList.add("printingMealBuilderLabels");
+    if (labelSettings.printOutlines) document.body.classList.add("printingMealBuilderLabelOutlines");
+    window.setTimeout(() => window.print(), 80);
+  }
 
   return (
     <main className="pageShell buildYourOwnMealPage">
@@ -222,15 +357,7 @@ export default function BuildYourOwnMealPage({ recipes = [] }) {
       </section>
 
       <div className="mealBuilderTopGrid">
-        <div className="mealBuilderTray" aria-label="Preview of the selected main dish and two sides">
-          <img className="mealBuilderTrayBase" src={`${import.meta.env.BASE_URL}images/meal-builder/meal-builder-tray-base.webp`} alt="Empty white rectangular meal-prep tray" />
-          <div className={`mealBuilderTrayInterior is-${mainTrayLayout}`} aria-hidden="true">
-            <MealBuilderFoodImage recipe={mainRecipe} position="main" expanded={mainTrayLayout !== "standard"} />
-            {mainTrayLayout === "standard" && <MealBuilderFoodImage recipe={sideOneRecipe} position="side-one" />}
-            {mainTrayLayout !== "full-tray" && <MealBuilderFoodImage recipe={sideTwoRecipe} position="side-two" />}
-          </div>
-          <div className="mealBuilderTrayRim" aria-hidden="true" />
-        </div>
+        <MealBuilderTrayPreview mainRecipe={mainRecipe} sideOneRecipe={sideOneRecipe} sideTwoRecipe={sideTwoRecipe} mainTrayLayout={mainTrayLayout} className="mealBuilderTrayPrimary" />
 
         <section className="mealBuilderFinishRow mealBuilderPlanColumn">
           <div className="mealBuilderPortionPanel" aria-labelledby="meal-builder-portions-title">
@@ -261,9 +388,104 @@ export default function BuildYourOwnMealPage({ recipes = [] }) {
       </div>
 
       <div className="mealBuilderActions">
-        <button type="button" className="secondary" onClick={clearBuilder}>Clear &amp; Start Over</button>
-        <p>This first version is a visual prototype. Saving the combination to the weekly plan and freezer inventory will be added after the tray presentation is approved.</p>
+        <div className="mealBuilderActionButtons">
+          <button type="button" onClick={openLabelSetup}>Print Meal Labels</button>
+          <button type="button" className="secondary" onClick={clearBuilder}>Clear &amp; Start Over</button>
+        </div>
+        <p>Print the assembled meal photo and its description on Avery 8163 2″ × 4″ labels.</p>
       </div>
+
+      {showLabelSetup && (
+        <div className="mealBuilderLabelSetupBackdrop" role="presentation" onMouseDown={(event) => {
+          if (event.target === event.currentTarget) setShowLabelSetup(false);
+        }}>
+          <section className="mealBuilderLabelSetup" role="dialog" aria-modal="true" aria-labelledby="meal-builder-label-setup-title">
+            <header>
+              <div>
+                <span className="aiBadge">LABEL SHEET SETUP</span>
+                <h2 id="meal-builder-label-setup-title">Print Meal Photo Labels</h2>
+                <p><strong>{AVERY_8163_LABEL_SHEET.name}</strong> · Letter size · 2 columns × 5 rows · 2″ × 4″ labels</p>
+              </div>
+              <button type="button" className="mealBuilderLabelSetupClose" onClick={() => setShowLabelSetup(false)} aria-label="Close label sheet setup">×</button>
+            </header>
+
+            <div className="mealBuilderLabelSetupBody">
+              <div className="mealBuilderLabelSheetPicker">
+                <div className="mealBuilderLabelPreview">
+                  <MealBuilderTrayPreview mainRecipe={mainRecipe} sideOneRecipe={sideOneRecipe} sideTwoRecipe={sideTwoRecipe} mainTrayLayout={mainTrayLayout} className="mealBuilderLabelTray" />
+                  <strong>{mealLabelTitle}</strong>
+                </div>
+                <div className="mealBuilderLabelPickerHeading">
+                  <div><strong>Click any missing or previously used labels.</strong><span>Green positions will print. Gray positions will stay blank.</span></div>
+                  <button type="button" className="ghost" onClick={() => setLabelSettings((current) => ({ ...current, unavailablePositions: [] }))}>Use New Sheet</button>
+                </div>
+                <div className="mealBuilderLabelPositionGrid" aria-label="Ten Avery 8163 label positions">
+                  {Array.from({ length: AVERY_8163_LABEL_SHEET.labelsPerSheet }, (_, index) => {
+                    const position = index + 1;
+                    const unavailable = labelSettings.unavailablePositions.includes(position);
+                    const willPrint = firstPagePrintedPositions.has(position);
+                    return (
+                      <button
+                        type="button"
+                        key={position}
+                        className={unavailable ? "used" : willPrint ? "willPrint" : "available"}
+                        aria-pressed={unavailable}
+                        aria-label={`Label position ${position}: ${unavailable ? "used" : willPrint ? "will print" : "available"}`}
+                        onClick={() => toggleUnavailableLabelPosition(position)}
+                      >
+                        <strong>{position}</strong>
+                        <span>{unavailable ? "USED" : willPrint ? "PRINT" : "OPEN"}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <aside className="mealBuilderLabelControls">
+                <label><span>Number of labels</span><select value={labelQuantity} onChange={(event) => setLabelQuantity(Number(event.target.value))}>{Array.from({ length: 10 }, (_, index) => <option key={index + 1} value={index + 1}>{index + 1}</option>)}</select></label>
+                <label><span>Start at label</span><select value={firstAvailableLabelPosition} onChange={(event) => chooseStartingLabelPosition(event.target.value)}>{Array.from({ length: AVERY_8163_LABEL_SHEET.labelsPerSheet }, (_, index) => <option key={index + 1} value={index + 1}>{index + 1}</option>)}</select></label>
+                <p className="mealBuilderLabelStartHelp">Choosing a starting number marks each earlier position as used. Click any position for further adjustments.</p>
+                <div className="mealBuilderLabelPrintSummary">
+                  <div><strong>{labelQuantity}</strong><span>Labels to print</span></div>
+                  <div><strong>{10 - labelSettings.unavailablePositions.length}</strong><span>Open on first sheet</span></div>
+                  <div><strong>{labelPages.length}</strong><span>Sheet{labelPages.length === 1 ? "" : "s"} needed</span></div>
+                </div>
+                <fieldset>
+                  <legend>Printer alignment</legend>
+                  <label><span>Left / right adjustment</span><div><input type="number" min="-5" max="5" step="0.1" value={labelSettings.offsetX} onChange={(event) => setLabelSettings((current) => ({ ...current, offsetX: Number(event.target.value) || 0 }))} /><em>mm</em></div></label>
+                  <label><span>Up / down adjustment</span><div><input type="number" min="-5" max="5" step="0.1" value={labelSettings.offsetY} onChange={(event) => setLabelSettings((current) => ({ ...current, offsetY: Number(event.target.value) || 0 }))} /><em>mm</em></div></label>
+                  <label className="mealBuilderOutlineChoice"><input type="checkbox" checked={labelSettings.printOutlines} onChange={(event) => setLabelSettings((current) => ({ ...current, printOutlines: event.target.checked }))} /><span>Print light outlines for a plain-paper test</span></label>
+                </fieldset>
+                <div className="mealBuilderLabelSetupActions">
+                  <button type="button" className="ghost" onClick={() => setShowLabelSetup(false)}>Cancel</button>
+                  <button type="button" onClick={printConfiguredLabels}>Print {labelQuantity} Label{labelQuantity === 1 ? "" : "s"}</button>
+                </div>
+                <small>In the printer window, use Letter paper, Actual Size or 100%, and turn off browser headers and footers.</small>
+              </aside>
+            </div>
+          </section>
+        </div>
+      )}
+
+      <section
+        className="mealBuilderLabelSheet"
+        aria-hidden="true"
+        style={{
+          "--meal-builder-label-offset-x": `${labelSettings.offsetX}mm`,
+          "--meal-builder-label-offset-y": `${labelSettings.offsetY}mm`,
+        }}
+      >
+        {labelPages.map((page, pageIndex) => (
+          <div className="mealBuilderLabelPage" key={`meal-label-page-${pageIndex + 1}`}>
+            {page.map((entry, positionIndex) => entry ? (
+              <article className="mealBuilderPrintableLabel" key={entry.key}>
+                <MealBuilderTrayPreview mainRecipe={mainRecipe} sideOneRecipe={sideOneRecipe} sideTwoRecipe={sideTwoRecipe} mainTrayLayout={mainTrayLayout} className="mealBuilderLabelTray" />
+                <strong>{mealLabelTitle}</strong>
+              </article>
+            ) : <div className="mealBuilderPrintableLabel empty" key={`empty-${pageIndex}-${positionIndex}`} />)}
+          </div>
+        ))}
+      </section>
     </main>
   );
 }
