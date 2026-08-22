@@ -8,7 +8,8 @@ assert.match(component, /mealBuilderTopGrid[\s\S]*mealBuilderTray[\s\S]*mealBuil
 assert.match(component, /MealChoiceStats recipe=\{recipe\}/);
 assert.match(component, /mealBuilderChoiceCalories/);
 assert.match(component, /mealBuilderChoiceMb/);
-assert.match(styles, /\.mealBuilderTopGrid[^}]*grid-template-columns: minmax\(0,2fr\) minmax\(0,3fr\)/);
+assert.match(styles, /\.mealBuilderTopGrid[^}]*grid-template-columns: minmax\(0,46fr\) minmax\(0,54fr\)/);
+assert.match(styles, /\.mealBuilderFinishRow[^}]*grid-template-rows: minmax\(0,3fr\) minmax\(132px,2fr\)/);
 assert.match(styles, /\.mealBuilderTray[^}]*width: 100%[^}]*margin: 0/);
 assert.match(styles, /\.mealBuilderSelectorStack[^}]*width: 100%/);
 assert.match(styles, /\.mealBuilderChoiceStats/);
