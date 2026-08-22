@@ -50,6 +50,17 @@ function MealChoiceStats({ recipe }) {
   );
 }
 
+function MealNutritionLine({ label, recipe }) {
+  const calories = recipeCalories(recipe);
+  return (
+    <div className="mealBuilderNutritionLine">
+      <span>{label}</span>
+      <strong>{recipe ? normalizeRecipeTitle(recipe) : "Choose a recipe"}</strong>
+      <b>{calories === null ? "—" : `${Math.round(calories)} calories`}</b>
+    </div>
+  );
+}
+
 function HeroImage({ recipe, alt = "" }) {
   const candidates = useMemo(() => recipeHeroImageCandidates(recipe), [recipe]);
   const [imageIndex, setImageIndex] = useState(0);
@@ -87,14 +98,19 @@ function MealBuilderFoodImage({ recipe, position }) {
 
 function MealChoiceStrip({ label, categories, category, onCategoryChange, recipes, selectedId, onSelect, excludeId = "", builderImageIds }) {
   const railRef = useRef(null);
+  const [searchQuery, setSearchQuery] = useState("");
   const visibleRecipes = useMemo(
-    () => recipes
-      .filter((recipe) => categoryCode(recipe) === category && recipe.id !== excludeId)
+    () => {
+      const query = searchQuery.trim().toLocaleLowerCase();
+      return recipes
+      .filter((recipe) => (!query ? categoryCode(recipe) === category : true) && recipe.id !== excludeId)
+      .filter((recipe) => !query || `${normalizeRecipeTitle(recipe)} ${recipe.id}`.toLocaleLowerCase().includes(query))
       .sort((a, b) => {
         const proofDifference = Number(builderImageIds.has(b.id)) - Number(builderImageIds.has(a.id));
         return proofDifference || normalizeRecipeTitle(a).localeCompare(normalizeRecipeTitle(b));
-      }),
-    [builderImageIds, category, excludeId, recipes],
+      });
+    },
+    [builderImageIds, category, excludeId, recipes, searchQuery],
   );
 
   function slide(direction) {
@@ -111,6 +127,10 @@ function MealChoiceStrip({ label, categories, category, onCategoryChange, recipe
             {categories.map(([code, name]) => <option key={code} value={code}>{name}</option>)}
           </select>
         </label>
+        <label>
+          <span className="srOnly">Search {label} recipes</span>
+          <input type="search" value={searchQuery} onChange={(event) => setSearchQuery(event.target.value)} placeholder={`Search ${label.toLowerCase()}`} />
+        </label>
       </div>
       <div className="mealBuilderChoiceSlider">
         <button type="button" className="mealBuilderSlideButton" onClick={() => slide(-1)} aria-label={`Previous ${label} recipes`}>‹</button>
@@ -122,7 +142,7 @@ function MealChoiceStrip({ label, categories, category, onCategoryChange, recipe
               <MealChoiceStats recipe={recipe} />
             </button>
           ))}
-          {!visibleRecipes.length && <p className="mealBuilderChoiceEmpty">No recipes are available in this category.</p>}
+          {!visibleRecipes.length && <p className="mealBuilderChoiceEmpty">No matching recipes found.</p>}
         </div>
         <button type="button" className="mealBuilderSlideButton" onClick={() => slide(1)} aria-label={`Next ${label} recipes`}>›</button>
       </div>
@@ -191,17 +211,22 @@ export default function BuildYourOwnMealPage({ recipes = [] }) {
 
         <section className="mealBuilderFinishRow mealBuilderPlanColumn">
           <div className="mealBuilderPortionPanel" aria-labelledby="meal-builder-portions-title">
-            <div className="mealBuilderStepHeading"><span>Step 2</span><h2 id="meal-builder-portions-title">Plan the Portions</h2></div>
+            <div className="mealBuilderStepHeading"><h2 id="meal-builder-portions-title">Plan the Portions</h2></div>
             <div className="mealBuilderPortionGrid">
-              <label><span>Total Portions</span><select value={servings} onChange={(event) => updateServings(event.target.value)}>{[2, 4, 6].map((value) => <option key={value} value={value}>{value}</option>)}</select></label>
+              <label><span>Portions</span><select value={servings} onChange={(event) => updateServings(event.target.value)}>{[2, 4, 6].map((value) => <option key={value} value={value}>{value}</option>)}</select></label>
               <label><span>Eat Now</span><select value={eatNow} onChange={(event) => updateEatNow(event.target.value)}>{Array.from({ length: servings + 1 }, (_, value) => <option key={value} value={value}>{value}</option>)}</select></label>
               <label><span>Refrigerate</span><select value={refrigerate} onChange={(event) => setRefrigerate(Number(event.target.value))}>{Array.from({ length: Math.max(0, servings - eatNow) + 1 }, (_, value) => <option key={value} value={value}>{value}</option>)}</select></label>
-              <div className="mealBuilderFreezeResult"><span>Freeze for Later</span><strong>{freezeLater}</strong></div>
+              <div className="mealBuilderFreezeResult"><span>Freeze</span><strong>{freezeLater}</strong></div>
             </div>
           </div>
-          <div className="mealBuilderNutritionSummary" aria-label="Combined meal estimate">
-            <div><span>Estimated Meal Calories</span><strong>{totalCalories ?? "—"}</strong><small>{totalCalories === null ? "Choose all three recipes for a complete estimate." : "Per assembled serving"}</small></div>
-            <div className="mealBuilderMbSummary"><span>MealBalance</span><strong>{combinedMealBalance ?? "—"}</strong></div>
+          <div className="mealBuilderNutritionSummary" aria-label="Estimated Meal Calories and MealBalance">
+            <MealNutritionLine label="Meal" recipe={mainRecipe} />
+            <MealNutritionLine label="Side 1" recipe={sideOneRecipe} />
+            <MealNutritionLine label="Side 2" recipe={sideTwoRecipe} />
+            <div className="mealBuilderNutritionTotal">
+              <div><strong>{totalCalories ?? "—"}</strong><span>Est Calories</span></div>
+              <div className="mealBuilderMbSummary"><span>MB</span><strong>{combinedMealBalance ?? "—"}</strong></div>
+            </div>
           </div>
         </section>
       </div>

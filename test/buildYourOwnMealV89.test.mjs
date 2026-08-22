@@ -14,7 +14,7 @@ assert.match(component, /mealBuilderTrayInterior/);
 assert.match(component, /MealBuilderFoodImage recipe=\{mainRecipe\} position="main"/);
 assert.match(component, /MealBuilderFoodImage recipe=\{sideOneRecipe\} position="side-one"/);
 assert.match(component, /MealBuilderFoodImage recipe=\{sideTwoRecipe\} position="side-two"/);
-assert.match(component, /Freeze for Later/);
+assert.match(component, /<span>Freeze<\/span>/);
 assert.match(styles, /grid-template-columns: 40% 30% 30%/);
 assert.match(styles, /mealBuilderTrayRim/);
 
