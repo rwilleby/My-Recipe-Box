@@ -213,7 +213,7 @@ function MealBuilderTrayPreview({ mainRecipe, sideOneRecipe, sideTwoRecipe, main
   );
 }
 
-function MealChoiceStrip({ label, recipes, selectedId, onSelect, excludeId = "", builderImageIds, disabled = false, disabledMessage = "", trayLayouts = null }) {
+function MealChoiceStrip({ label, recipes, selectedId, onSelect, onOpenRecipeCard, excludeId = "", builderImageIds, disabled = false, disabledMessage = "", trayLayouts = null }) {
   const railRef = useRef(null);
   const [searchQuery, setSearchQuery] = useState("");
   const visibleRecipes = useMemo(
@@ -255,7 +255,16 @@ function MealChoiceStrip({ label, recipes, selectedId, onSelect, excludeId = "",
         <button type="button" className="mealBuilderSlideButton" onClick={() => slide(-1)} aria-label={`Previous ${label} recipes`}>↑</button>
         <div className="mealBuilderChoiceRail" ref={railRef}>
           {visibleRecipes.map((recipe) => (
-            <button type="button" key={recipe.id} className={`mealBuilderChoiceCard${selectedId === recipe.id ? " is-selected" : ""}`} onClick={() => onSelect(recipe.id)} aria-pressed={selectedId === recipe.id}>
+            <button
+              type="button"
+              key={recipe.id}
+              className={`mealBuilderChoiceCard${selectedId === recipe.id ? " is-selected" : ""}`}
+              onClick={() => {
+                onSelect(recipe.id);
+                onOpenRecipeCard(recipe.id);
+              }}
+              aria-pressed={selectedId === recipe.id}
+            >
               <span className="mealBuilderChoiceImage">
                 <HeroImage recipe={recipe} />
                 {trayLayouts?.get(recipe.id) === "full-tray" && <span className="mealBuilderTrayTypeBadge">Full Tray</span>}
@@ -273,7 +282,7 @@ function MealChoiceStrip({ label, recipes, selectedId, onSelect, excludeId = "",
   );
 }
 
-export default function BuildYourOwnMealPage({ recipes = [] }) {
+export default function BuildYourOwnMealPage({ recipes = [], openRecipeCard = () => {} }) {
   const [mainId, setMainId] = useState("");
   const [sideOneId, setSideOneId] = useState("");
   const [sideTwoId, setSideTwoId] = useState("");
@@ -424,9 +433,9 @@ export default function BuildYourOwnMealPage({ recipes = [] }) {
 
         <section className="mealBuilderDishSelectors" aria-label="Dish selectors">
           <div className="mealBuilderSelectorColumns">
-            <MealChoiceStrip label="Main Dish" recipes={mainRecipes} selectedId={mainId} onSelect={selectMain} builderImageIds={MEAL_BUILDER_MAIN_IDS} trayLayouts={MEAL_BUILDER_MAIN_LAYOUTS} />
-            <MealChoiceStrip label="Side 1" recipes={sideRecipes} selectedId={sideOneId} onSelect={setSideOneId} excludeId={sideTwoId} builderImageIds={MEAL_BUILDER_SIDE_IDS} disabled={sideOneDisabled} disabledMessage={mainTrayLayout === "full-tray" ? "Complete meal — sides included" : "Included with selected main dish"} />
-            <MealChoiceStrip label="Side 2" recipes={sideRecipes} selectedId={sideTwoId} onSelect={setSideTwoId} excludeId={sideOneId} builderImageIds={MEAL_BUILDER_SIDE_IDS} disabled={sideTwoDisabled} disabledMessage="Complete meal — sides included" />
+            <MealChoiceStrip label="Main Dish" recipes={mainRecipes} selectedId={mainId} onSelect={selectMain} onOpenRecipeCard={openRecipeCard} builderImageIds={MEAL_BUILDER_MAIN_IDS} trayLayouts={MEAL_BUILDER_MAIN_LAYOUTS} />
+            <MealChoiceStrip label="Side 1" recipes={sideRecipes} selectedId={sideOneId} onSelect={setSideOneId} onOpenRecipeCard={openRecipeCard} excludeId={sideTwoId} builderImageIds={MEAL_BUILDER_SIDE_IDS} disabled={sideOneDisabled} disabledMessage={mainTrayLayout === "full-tray" ? "Complete meal — sides included" : "Included with selected main dish"} />
+            <MealChoiceStrip label="Side 2" recipes={sideRecipes} selectedId={sideTwoId} onSelect={setSideTwoId} onOpenRecipeCard={openRecipeCard} excludeId={sideOneId} builderImageIds={MEAL_BUILDER_SIDE_IDS} disabled={sideTwoDisabled} disabledMessage="Complete meal — sides included" />
           </div>
         </section>
       </div>
