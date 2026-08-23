@@ -32,7 +32,7 @@ export const ROUTABLE_PAGE_IDS = [
   "Dinner Combinations", "Disclaimers", "Easy 30-Minute Meals", "Favorites",
   "Free To Use", "Freezer Inventory Management", "Freezer Tips",
   "Freezer-Friendly Meals", "GLP-1 Nutrition", "Gas Grill Recipes", "Griddle Recipes",
-  "Grilling Tips", "Grocery Picks", "Healthy Dinners", "How It Works", "How To Use",
+  "Grilling Tips", "Grocery Picks", "Healthy Dinners", "How It Works",
   "Kitchen Freezer", "Kitchen Refrigerator", "Make-Ahead Meals", "Meal Planner",
   "Master Kitchen Inventory", "MealBalance Guide", "Meals for Two", "Microwave Recipes", "My Goals",
   "Nutrition Standards", "Other Interests", "Oven Recipes", "Packaging Options",
@@ -58,7 +58,7 @@ const PRIVATE_PAGE_IDS = new Set([
 const PAGE_TITLES = {
   Home: "Recipes, Meal Planning & Kitchen Tools",
   About: "Welcome to Robert's Recipe Box",
-  "How It Works": "How Your Recipe Box Works",
+  "How It Works": "How It Works",
   "About Recipes": "About Our Recipes",
   "Affiliate Marketing": "Affiliate Marketing & Product Links",
   "Your Data & Security": "Your Data & Security",
@@ -90,7 +90,7 @@ const PAGE_TITLES = {
 const PAGE_DESCRIPTIONS = {
   Home: "Free recipes, complete dinner ideas, meal planning, grocery lists, freezer guidance, kitchen organization, and practical cooking tools for smaller households.",
   About: "Meet Robert and learn how Robert's Recipe Box brings recipes, weekly planning, shopping, cooking, freezing, and storage together in one practical website.",
-  "How It Works": "Follow the simple or detailed Robert's Recipe Box path from choosing recipes through meal planning, kitchen inventory, grocery shopping, cooking, portioning, freezing, and saving favorites.",
+  "How It Works": "Your guide to using Robert's Recipe Box, with a quick overview, searchable instructions, page-specific help, roadmaps, and connected videos.",
   "About Recipes": "Learn how recipes in Robert's Recipe Box are developed, organized, reviewed, portioned, and presented for practical home cooking.",
   "Nutrition Standards": "Review the nutrition assumptions, serving standards, estimates, and practical guidance used throughout Robert's Recipe Box.",
   "MealBalance Guide": "Understand the Robert's Recipe Box MealBalance scale for comparing lighter, balanced, moderate, rich, and indulgent meals.",
@@ -153,6 +153,7 @@ export function routeForCompleteDinner(dinnerId = "") {
 const PAGE_BY_ROUTE = new Map(
   ROUTABLE_PAGE_IDS.map((pageId) => [routeForPage(pageId).toLowerCase(), pageId]),
 );
+PAGE_BY_ROUTE.set("/how-to-use/", "How It Works");
 
 export function normalizeRoutePath(pathname = "/") {
   const clean = `/${String(pathname).split(/[?#]/)[0].replace(/^\/+|\/+$/g, "")}`;

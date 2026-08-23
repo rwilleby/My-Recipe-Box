@@ -11,6 +11,12 @@ import RfisProjectDashboard from "./components/RfisProjectDashboard";
 import RecipeIntelligencePanel from "./components/RecipeIntelligencePanel";
 import RfisDinnerBuilder from "./components/RfisDinnerBuilder";
 import BuildYourOwnMealPage, { MealBuilderTrayPreview } from "./components/BuildYourOwnMealPage";
+import {
+  HowItWorksModalHost,
+  HowItWorksPage as UnifiedHowItWorksPage,
+  openHowItWorksGuide,
+} from "./components/HowItWorksSystem.jsx";
+import { getHowItWorksGuideForPage } from "./data/howItWorksGuides.js";
 import RfisUnifiedSearch from "./components/RfisUnifiedSearch";
 import "./components/RfisUnifiedSearch.css";
 import "./components/RfisDinnerBuilder.css";
@@ -128,6 +134,7 @@ import {
   recipeMatchesGLP1Preset,
 } from "./data/glp1Filters";
 import "./App.css";
+import "./components/HowItWorksSystem.css";
 
 const recipes = sortRecipesByCode(applyStoredRecipeOverrides(baseRecipes));
 const rfisPlatform = createRfisPlatform({
@@ -4569,6 +4576,9 @@ function RecipeCardViewer({
           </div>
 
           <div className="cardViewerHeaderActions compact">
+            <button className="cardViewerHowItWorks" type="button" onClick={() => openHowItWorksGuide("Recipe Cards")} aria-label="HOW IT WORKS: Recipe Cards" title="HOW IT WORKS">
+              <img src={`${import.meta.env.BASE_URL}${HOW_IT_WORKS_ICON}`} alt="" aria-hidden="true" />
+            </button>
             <button className="cardViewerClose" onClick={onClose} aria-label="Close recipe viewer">
               ×
             </button>
@@ -11254,451 +11264,6 @@ function FreezerTipsPage({ setActivePage }) {
 }
 
 
-const HOW_IT_WORKS_SIMPLE_STEPS = [
-  {
-    eyebrow: "START HERE",
-    title: "Choose your goal",
-    text: "Tonight’s dinner, quick cooking, freezer meals, or inspiration.",
-    page: "Home",
-    action: "Choose a Goal",
-  },
-  {
-    eyebrow: "FIND A RECIPE",
-    title: "Find a recipe",
-    text: "Browse categories, search by name, or open a featured collection.",
-    page: "Recipes",
-    action: "Browse Recipes",
-  },
-  {
-    eyebrow: "CHECK THE FIT",
-    title: "Review the fit",
-    text: "Check time, servings, nutrition, MealBalance, and freezer notes.",
-    page: "Recipes",
-    action: "Compare Recipes",
-  },
-  {
-    eyebrow: "OPEN THE CARD",
-    title: "Open the card",
-    text: "Read ingredients, directions, Smart Tips, and substitutions.",
-    page: "Recipes",
-    action: "Open the Library",
-  },
-  {
-    eyebrow: "COOK AND STORE",
-    title: "Cook with confidence",
-    text: "Choose servings, follow the steps, and store planned extras.",
-    page: "Safe Cooking Rules",
-    action: "Review Food Safety",
-  },
-  {
-    eyebrow: "SAVE FOR LATER",
-    title: "Save your favorite",
-    text: "Tap the heart to make the recipe easy to find next time.",
-    page: "Favorites",
-    action: "View Favorites",
-  },
-];
-
-const HOW_IT_WORKS_DETAILED_STAGES = [
-  {
-    number: "1",
-    eyebrow: "CHOOSE WHERE TO BEGIN",
-    title: "Start with the task that matters today",
-    text: "You do not have to use every feature. Begin with a recipe, a complete dinner, the food already in your kitchen, or a full weekly plan.",
-    links: [
-      ["Browse Recipes", "Recipes"],
-      ["Complete Dinners", "Dinner Combinations"],
-      ["Build Your Own Meal", "Build Your Own Meal"],
-      ["Use What I Have", "Master Kitchen Inventory"],
-    ],
-  },
-  {
-    number: "2",
-    eyebrow: "REVIEW AND PLAN",
-    title: "Make sure the meal fits",
-    text: "Review servings, preparation time, calories, MealBalance, ingredients, and freezer guidance. Then decide what to eat now, refrigerate, or freeze for later.",
-    links: [
-      ["Weekly Meal Planner", "Meal Planner"],
-      ["MealBalance Guide", "MealBalance Guide"],
-      ["Healthy Substitutions", "Grocery Picks"],
-    ],
-  },
-  {
-    number: "3",
-    eyebrow: "CHECK BEFORE SHOPPING",
-    title: "Use what is already in your kitchen",
-    text: "Your Master Kitchen Inventory helps the site recognize pantry, refrigerator, and freezer items that are already on hand before missing ingredients move to the grocery list.",
-    links: [
-      ["Master Inventory", "Master Kitchen Inventory"],
-      ["Grocery List", "Shopping Lists"],
-    ],
-  },
-  {
-    number: "4",
-    eyebrow: "COOK, PORTION, AND STORE",
-    title: "Turn one cooking session into more than one meal",
-    text: "Follow the recipe, serve the Eat Now portions, safely refrigerate planned leftovers, and package freezer portions with clear labels and reheating notes.",
-    links: [
-      ["Freezing & Reheating", "Freezer Tips"],
-      ["Freezer Inventory", "Freezer Inventory Management"],
-    ],
-  },
-  {
-    number: "5",
-    eyebrow: "RETURN WHEN YOU NEED IT",
-    title: "Keep the useful parts easy to find",
-    text: "Save dependable recipes as Favorites, reuse successful meal plans, update inventory as food is used, and back up the information stored in your browser.",
-    links: [
-      ["Favorites", "Favorites"],
-      ["Backup & Restore", "User Backup"],
-    ],
-  },
-];
-
-function HowItWorksPage({ setActivePage }) {
-  const [openSection, setOpenSection] = useState("easy");
-
-  function toggleSection(section) {
-    setOpenSection((current) => current === section ? "" : section);
-  }
-
-  return (
-    <main className="pageShell howItWorksPage">
-      <div className="howItWorksAccordionList">
-        <section className={`howItWorksAccordion${openSection === "easy" ? " isOpen" : ""}`}>
-          <button
-            className="howItWorksAccordionSummary"
-            type="button"
-            aria-expanded={openSection === "easy"}
-            aria-controls="how-it-works-easy-panel"
-            onClick={() => toggleSection("easy")}
-          >
-            <span className="howItWorksAccordionArrow" aria-hidden="true">▶</span>
-            <span>
-              <strong>Easy: Your Simple User Path</strong>
-              <small>Find it, cook it, and save it. Begin with one recipe and use only the features you need today.</small>
-            </span>
-            <em>{openSection === "easy" ? "Close" : "Open"}</em>
-          </button>
-
-          {openSection === "easy" && (
-            <div className="howItWorksAccordionBody" id="how-it-works-easy-panel">
-              <div className="howItWorksDetailedFlow" aria-label="Easy Robert’s Recipe Box workflow">
-                {HOW_IT_WORKS_SIMPLE_STEPS.map((step, index) => (
-                  <article className="howItWorksDetailedStage" key={step.title}>
-                    <div className="howItWorksDetailedNumber" aria-hidden="true">{index + 1}</div>
-                    <div className="howItWorksDetailedCopy">
-                      <p className="howItWorksDetailedEyebrow">{step.eyebrow}</p>
-                      <h2>{step.title}</h2>
-                      <p>{step.text}</p>
-                    </div>
-                    <div className="howItWorksDetailedLinks" aria-label={`${step.title} link`}>
-                      <button type="button" onClick={() => setActivePage(step.page)}>{step.action}</button>
-                    </div>
-                  </article>
-                ))}
-              </div>
-              <p className="howItWorksSimpleNote">No account. No setup. Start with only the features you need today.</p>
-            </div>
-          )}
-        </section>
-
-        <section className={`howItWorksAccordion${openSection === "detailed" ? " isOpen" : ""}`}>
-          <button
-            className="howItWorksAccordionSummary"
-            type="button"
-            aria-expanded={openSection === "detailed"}
-            aria-controls="how-it-works-detailed-panel"
-            onClick={() => toggleSection("detailed")}
-          >
-            <span className="howItWorksAccordionArrow" aria-hidden="true">▶</span>
-            <span>
-              <strong>Detailed: Use More Site Features When You're Ready</strong>
-              <small>See how planning, inventory, shopping, cooking, and freezer tools connect while remaining useful on their own.</small>
-            </span>
-            <em>{openSection === "detailed" ? "Close" : "Open"}</em>
-          </button>
-
-          {openSection === "detailed" && (
-            <div className="howItWorksAccordionBody" id="how-it-works-detailed-panel">
-              <div className="howItWorksDetailedFlow" aria-label="Detailed Robert’s Recipe Box workflow">
-                {HOW_IT_WORKS_DETAILED_STAGES.map((stage) => (
-                  <article className="howItWorksDetailedStage" key={stage.number}>
-                    <div className="howItWorksDetailedNumber" aria-hidden="true">{stage.number}</div>
-                    <div className="howItWorksDetailedCopy">
-                      <p className="howItWorksDetailedEyebrow">{stage.eyebrow}</p>
-                      <h2>{stage.title}</h2>
-                      <p>{stage.text}</p>
-                    </div>
-                    <div className="howItWorksDetailedLinks" aria-label={`${stage.title} links`}>
-                      {stage.links.map(([label, page]) => (
-                        <button type="button" key={label} onClick={() => setActivePage(page)}>{label}</button>
-                      ))}
-                    </div>
-                  </article>
-                ))}
-              </div>
-
-              <section className="howItWorksClosing">
-                <div>
-                  <p className="howItWorksDetailedEyebrow">THE BASIC IDEA</p>
-                  <h2>Know what you have. Plan what you need. Prepare what you can.</h2>
-                  <p>Robert’s Recipe Box is designed to help you waste less food, make fewer last-minute decisions, and keep a few dependable meals ready for later.</p>
-                </div>
-                <button className="primary" type="button" onClick={() => setActivePage("Recipes")}>Start With a Recipe</button>
-              </section>
-            </div>
-          )}
-        </section>
-      </div>
-    </main>
-  );
-}
-
-
-function HowToUsePage({ setActivePage }) {
-  return (
-    <main className="pageShell aboutRecipesPage howToUsePage">
-      <section className="aboutRecipesHero">
-        <div>
-          <div className="aiBadge">HOW TO USE THE SITE</div>
-          <h1>How to Use Robert’s Recipe Box</h1>
-          <p>
-            Robert’s Recipe Box is a free recipe-planning website created for
-            seniors, couples, empty nesters, and smaller households who want
-            practical meals without expensive meal-delivery subscriptions,
-            oversized recipes, or hours of daily cooking.
-          </p>
-        </div>
-      </section>
-
-      <div className="aboutRecipesGrid howToUseGrid">
-        <article className="aboutRecipesCard aboutRecipesWideCard">
-          <h2>What the site helps you do</h2>
-          <p>The site is designed to help you:</p>
-          <ul className="aboutCardList">
-            <li>Find recipes that fit your tastes and schedule</li>
-            <li>Prepare reasonable portions for one or two people</li>
-            <li>Plan for useful leftovers</li>
-            <li>Freeze extra servings for another day</li>
-            <li>Build weekly meal plans</li>
-            <li>Create organized grocery lists</li>
-            <li>Estimate grocery costs</li>
-            <li>Find practical ingredient substitutions</li>
-            <li>Make recipes lower in calories, lower in carbohydrates, more budget-friendly, or easier to freeze</li>
-          </ul>
-          <p>
-            The original recipe is always available. Optional suggestions allow
-            you to adjust it to better fit your household, dietary goals, budget,
-            or cooking routine.
-          </p>
-        </article>
-
-        <article className="aboutRecipesCard">
-          <h2>1. Browse by category</h2>
-          <p>
-            Start by selecting a recipe category from the home page. Categories
-            include American, Asian, Casseroles, Cheesecakes, Cinnamon Rolls,
-            Cobblers, Desserts, Donuts, Hamburgers, Italian, Jams & Jellies,
-            Kolaches, Loafs & Rolls, Mexican, Protein Muffins, Quiche & Pies,
-            Salads & Bowls, Sandwiches, Seafood, Side Dishes, and Smoked or
-            Grilled Foods.
-          </p>
-          <p>
-            Selecting a category opens the recipes available in that collection.
-          </p>
-        </article>
-
-        <article className="aboutRecipesCard">
-          <h2>2. Flip through recipe cards</h2>
-          <p>
-            Use the recipe-card viewer to move forward or backward through the
-            collection. Each recipe card is designed to provide the most
-            important information in one easy-to-read place.
-          </p>
-          <ul className="aboutCardList">
-            <li>Recipe name</li>
-            <li>Ingredients</li>
-            <li>Directions</li>
-            <li>Number of servings</li>
-            <li>Estimated nutrition information</li>
-            <li>Helpful preparation or serving notes</li>
-          </ul>
-        </article>
-
-        <article className="aboutRecipesCard">
-          <h2>3. Open the full recipe</h2>
-          <p>
-            Select a recipe card to view the full recipe page. The full page may
-            include detailed preparation instructions, substitutions,
-            lower-calorie options, lower-carbohydrate options, budget-friendly
-            alternatives, side-dish suggestions, freezer guidance, and product
-            recommendations.
-          </p>
-        </article>
-
-        <article className="aboutRecipesCard">
-          <h2>4. Adjust for your household</h2>
-          <p>
-            Many recipes can be prepared as written, divided into smaller
-            portions, or doubled for planned leftovers. For a two-person
-            household, a four-serving recipe can often provide dinner for two
-            tonight and a second meal for later in the week.
-          </p>
-          <p>
-            You may also freeze the extra two servings for a future meal.
-          </p>
-        </article>
-
-        <article className="aboutRecipesCard">
-          <h2>5. Use optional recipe picks</h2>
-          <p>Throughout the site, you may see helpful recommendations such as:</p>
-          <ul className="aboutCardList">
-            <li><strong>Robert’s Lower-Carb Pick:</strong> a practical ingredient replacement that reduces carbohydrates.</li>
-            <li><strong>Robert’s Lower-Calorie Pick:</strong> a lighter ingredient or preparation method.</li>
-            <li><strong>Best for Two-Person Meals:</strong> a recipe or product that divides easily into smaller portions.</li>
-            <li><strong>Best Freezer-Friendly Product:</strong> an ingredient or storage option for meals prepared in advance.</li>
-            <li><strong>Best Budget Substitution:</strong> a lower-cost alternative.</li>
-            <li><strong>Use Half-and-Half Swap:</strong> half original ingredient and half lighter alternative.</li>
-          </ul>
-          <p>These are optional suggestions. Choose the version that works best for you.</p>
-        </article>
-
-        <article className="aboutRecipesCard">
-          <h2>6. Build a weekly meal plan</h2>
-          <p>A practical weekly plan might include:</p>
-          <ul className="aboutCardList">
-            <li>Two freshly prepared meals</li>
-            <li>Two planned-leftover meals</li>
-            <li>One freezer meal</li>
-            <li>One simple sandwich, salad, or soup night</li>
-            <li>One flexible night for dining out or using remaining ingredients</li>
-          </ul>
-          <p>
-            Planning meals before shopping can help reduce duplicate purchases
-            and unused food.
-          </p>
-        </article>
-
-        <article className="aboutRecipesCard">
-          <h2>7. Create a grocery list</h2>
-          <p>
-            After selecting your meals, combine the required ingredients into one
-            shopping list. Before shopping, check what you already have, remove
-            duplicate items, combine repeated ingredients, note quantities, and
-            separate the list by grocery-store section.
-          </p>
-          <p>
-            Common sections include produce, meat and seafood, dairy, frozen
-            foods, canned goods, pantry items, bakery, and household supplies.
-          </p>
-        </article>
-
-        <article className="aboutRecipesCard">
-          <h2>8. Compare costs and substitute</h2>
-          <p>
-            Use estimated prices as a planning guide, but compare them with your
-            local grocery store. You can often reduce the weekly grocery bill by
-            buying store brands, choosing frozen vegetables, dividing family-size
-            meat packages, using planned leftovers, substituting pantry items,
-            choosing recipes with shared ingredients, and freezing food before it
-            spoils.
-          </p>
-        </article>
-
-        <article className="aboutRecipesCard">
-          <h2>9. Save or print recipes</h2>
-          <p>
-            Recipes may be saved, printed, or added to your personal recipe
-            collection depending on available site features. Printed cards are
-            useful for cooking without keeping a phone or tablet near the stove.
-          </p>
-          <p>
-            When printing, review the printer preview and select the recommended
-            card size or page layout.
-          </p>
-        </article>
-
-        <article className="aboutRecipesCard">
-          <h2>10. Use freezer and storage instructions</h2>
-          <p>
-            Allow cooked food to cool before placing it in the refrigerator or
-            freezer. Label stored meals with the recipe name, date prepared,
-            number of servings, and reheating instructions.
-          </p>
-          <p>
-            Freeze individual or two-person portions whenever possible. Smaller
-            packages thaw faster and reduce waste.
-          </p>
-        </article>
-
-        <article className="aboutRecipesCard">
-          <h2>A simple way to get started</h2>
-          <ol className="aboutNumberedList">
-            <li>Choose three main dishes.</li>
-            <li>Select two or three side dishes.</li>
-            <li>Plan which meals will provide leftovers.</li>
-            <li>Choose one meal to freeze.</li>
-            <li>Create one combined shopping list.</li>
-            <li>Check your pantry before shopping.</li>
-            <li>Prepare ingredients in advance when practical.</li>
-          </ol>
-          <p>
-            Begin with a few recipes and add meal planning, grocery lists,
-            substitutions, and freezer meals as you become familiar with the site.
-          </p>
-        </article>
-
-        <article className="aboutRecipesCard">
-          <h2>Important information</h2>
-          <p>
-            Nutrition values, grocery prices, serving sizes, and cooking times
-            are estimates and may vary depending on ingredients, brands,
-            equipment, and portion sizes.
-          </p>
-          <p>
-            Recipe suggestions are provided for general informational purposes.
-            Anyone with food allergies, dietary restrictions, swallowing
-            concerns, kidney disease, diabetes, heart conditions, or other
-            medical needs should follow the guidance of their physician or
-            registered dietitian.
-          </p>
-          <p>
-            Always verify that meat, poultry, seafood, eggs, and reheated foods
-            reach a safe internal temperature.
-          </p>
-        </article>
-
-        <article className="aboutRecipesCard aboutQuoteCard">
-          <h2>Our goal</h2>
-          <p>
-            <strong>
-              The goal of Robert’s Recipe Box is not to make cooking complicated.
-              It is to help you prepare enjoyable meals, shop more efficiently,
-              reduce waste, save money, spend less time in the kitchen, and keep
-              a few good meals ready for the days when you do not feel like
-              cooking.
-            </strong>
-          </p>
-        </article>
-      </div>
-
-      <div className="aboutRecipesActions">
-        <button className="primary" onClick={() => setActivePage("Recipes")}>
-          Browse Our Recipe Library
-        </button>
-        <button className="secondary" onClick={() => setActivePage("Meal Planner")}>
-          Start Meal Planning
-        </button>
-        <button className="secondary" onClick={() => setActivePage("Shopping Lists")}>
-          View Grocery List
-        </button>
-      </div>
-    </main>
-  );
-}
-
-
 function AboutRecipesPage({ setActivePage }) {
   return (
     <main className="pageShell aboutRecipesPage">
@@ -11804,8 +11369,8 @@ function AboutRecipesPage({ setActivePage }) {
         <button className="secondary" onClick={() => setActivePage("Meal Planner")}>
           Start Meal Planning
         </button>
-        <button className="secondary" onClick={() => setActivePage("How To Use")}>
-          How to Use This Site
+        <button className="secondary" onClick={() => setActivePage("How It Works")}>
+          How It Works
         </button>
       </div>
     </main>
@@ -12839,9 +12404,10 @@ function LargeHeroVideoPanel({
 }
 
 function PageHelpButtonStrip({ pageTitle }) {
-  const { activePage, setActivePage } = useContext(PageNavigationContext);
+  const { activePage } = useContext(PageNavigationContext);
   const hasIntroVideo = pageHasIntroVideo(activePage);
-  const showHowItWorks = activePage !== "How It Works";
+  const pageGuide = getHowItWorksGuideForPage(activePage);
+  const showHowItWorks = Boolean(pageGuide) && activePage !== "How It Works";
 
   if (!pageTitle) return null;
   if (!CLIFF_NOTES_ENABLED && !hasIntroVideo && !showHowItWorks) return null;
@@ -12882,8 +12448,8 @@ function PageHelpButtonStrip({ pageTitle }) {
           type="button"
           className="pageSequenceButton homeWelcomeTourIconButton"
           onClick={openHeroVideo}
-          aria-label={`Open ${pageTitle} video`}
-          title={`${pageTitle} video`}
+          aria-label={`WATCH VIDEO: ${pageTitle}`}
+          title="WATCH VIDEO"
         >
           <img
             src={`${import.meta.env.BASE_URL}${VIDEO_ICON_MAIN}`}
@@ -12897,9 +12463,9 @@ function PageHelpButtonStrip({ pageTitle }) {
         <button
           type="button"
           className="pageSequenceButton howItWorksIconButton"
-          onClick={() => setActivePage("How It Works")}
-          aria-label="Open How It Works"
-          title="How It Works"
+          onClick={() => openHowItWorksGuide(activePage)}
+          aria-label={`HOW IT WORKS: ${pageGuide.title}`}
+          title="HOW IT WORKS"
         >
           <img
             src={`${import.meta.env.BASE_URL}${HOW_IT_WORKS_ICON}`}
@@ -13015,8 +12581,8 @@ function HeroTopicPage({
   setActivePage,
   primaryPage = "Recipes",
   primaryLabel = "Browse Our Recipe Library",
-  secondaryPage = "How To Use",
-  secondaryLabel = "How to Use This Site",
+  secondaryPage = "How It Works",
+  secondaryLabel = "How It Works",
   heroClassName = "pageHeroDepth464",
   children = null,
 }) {
@@ -19877,25 +19443,11 @@ Use this section to check what is on hand, record dates, mark foods that should 
             src="images/heroes/hero-page-how-it-works.webp"
             alt="A connected recipe workflow showing recipe cards, meal planning, shopping, cooking, and freezer storage"
             eyebrow="START HERE"
-            title="How Your Recipe Box Works"
-            text="Start with one recipe or follow the complete path from choosing a meal through planning, shopping, cooking, portioning, and freezing.
-
-No account is required. Use only the tools that are helpful today, then add more when you are ready."
+            title="How It Works"
+            text="Your Guide to Using Robert’s Recipe Box"
             className="pageHeroDepth464 howItWorksHero"
           />
-          <HowItWorksPage setActivePage={setActivePage} />
-        </>
-      )}
-      {activePage === "How To Use" && (
-        <>
-          <PageHeroImage
-            src="images/heroes/hero-recipes.webp"
-            alt="Recipe card organization setup on a kitchen counter"
-            eyebrow="OUR RECIPES"
-            title="How to Use This Site"
-            text="Get the most from the recipe library, meal-planning tools, shopping lists, favorites, and practical kitchen features."
-          />
-          <HowToUsePage setActivePage={setActivePage} />
+          <UnifiedHowItWorksPage setActivePage={setActivePage} />
         </>
       )}
       {activePage === "About Recipes" && (
@@ -19982,6 +19534,8 @@ The score is not a judgment and it is not medical or dietary advice. It is one p
         preparedInventory={preparedInventory}
         setPreparedInventory={setPreparedInventory}
       />
+
+      <HowItWorksModalHost setActivePage={setActivePage} />
 
 <RecipeCardViewer
         viewer={cardViewer}

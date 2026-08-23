@@ -1,0 +1,92 @@
+.unifiedHowItWorksPage { padding-top: clamp(18px,2vw,30px); }
+.howItWorksLevelIntro { max-width: 980px; margin: 0 auto 18px; color: #566173; font: 650 14px/1.5 Inter,Arial,sans-serif; text-align: center; }
+.howItWorksQuickPath { display: grid; grid-template-columns: repeat(6,minmax(0,1fr)); gap: 10px; align-items: stretch; }
+.howItWorksQuickStep { position: relative; min-width: 0; min-height: 116px; display: grid; place-items: center; align-content: center; gap: 8px; padding: 15px 12px; border: 1px solid #ced9d0; border-radius: 14px; color: #14251b; background: #fff; text-align: center; box-shadow: 0 7px 18px rgba(33,45,38,.06); }
+.howItWorksQuickStep > span { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 50%; color: #fff; background: #24563a; font: 800 18px/1 Inter,Arial,sans-serif; }
+.howItWorksQuickStep > strong { font: 800 12px/1.25 Inter,Arial,sans-serif; text-transform: uppercase; }
+.howItWorksQuickStep > i { position: absolute; z-index: 2; right: -17px; top: 43%; color: #7d9d42; font: 900 23px/1 Inter,Arial,sans-serif; font-style: normal; }
+.howItWorksContinueButton { display: block; min-width: 220px; margin: 20px auto 2px; }
+.howItWorksGoalFinder { margin-bottom: 26px; padding: clamp(18px,2vw,28px); border: 1px solid #d4ddd5; border-radius: 16px; background: #f8f4ea; }
+.howItWorksGoalFinder h2 { margin: 0 0 14px; color: #162018; font: 700 22px/1.15 Georgia,"Times New Roman",serif; text-align: center; }
+.howItWorksGoalGrid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 8px; }
+.howItWorksGoalGrid button { min-height: 50px; padding: 8px 12px; border: 1px solid #bfd0c2; border-radius: 10px; color: #155d36; background: #fff; font: 800 11px/1.2 Inter,Arial,sans-serif; text-transform: uppercase; }
+.howItWorksGoalGrid button:hover { border-color: #155d36; background: #f1f6f2; }
+.howItWorksSearch { display: block; max-width: 720px; margin: 18px auto 0; }
+.howItWorksSearch span { display: block; margin-bottom: 5px; color: #59655c; font: 800 11px/1.2 Inter,Arial,sans-serif; text-align: center; text-transform: uppercase; letter-spacing: .045em; }
+.howItWorksSearch input { width: 100%; min-height: 46px; padding: 0 15px; border: 1px solid #bacbc0; border-radius: 12px; color: #17211a; background: #fff; font: 650 14px/1.2 Inter,Arial,sans-serif; }
+.howItWorksCategory { margin: 0 0 28px; scroll-margin-top: 28px; }
+.howItWorksCategory > h2 { margin: 0 0 10px; color: #17211a; font: 700 22px/1.2 Georgia,"Times New Roman",serif; }
+.howItWorksGuideCard { margin-bottom: 9px; overflow: hidden; scroll-margin-top: 24px; border: 1px solid #d5ddd6; border-radius: 13px; background: #fff; }
+.howItWorksGuideCard > summary { cursor: pointer; display: grid; grid-template-columns: minmax(190px,.32fr) 1fr; gap: 18px; align-items: center; padding: 15px 18px; color: #17211a; background: #f8f6f1; }
+.howItWorksGuideCard > summary::marker { color: #7d9d42; }
+.howItWorksGuideCard > summary strong { font: 700 18px/1.2 Georgia,"Times New Roman",serif; }
+.howItWorksGuideCard > summary span { color: #626d7d; font: 650 13px/1.4 Inter,Arial,sans-serif; }
+.howItWorksGuideBody { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px; padding: 18px; border-top: 1px solid #e1e6e1; }
+.howItWorksGuideBody h3 { margin: 0 0 7px; color: #155d36; font: 800 11px/1.2 Inter,Arial,sans-serif; letter-spacing: .045em; text-transform: uppercase; }
+.howItWorksGuideBody p,
+.howItWorksGuideBody li { color: #4f5b6c; font: 600 13px/1.5 Inter,Arial,sans-serif; }
+.howItWorksGuideBody p { margin: 0; }
+.howItWorksGuideBody ol,
+.howItWorksGuideBody ul { margin: 0; padding-left: 20px; }
+.howItWorksGuideBody aside { grid-column: 1/-1; padding: 14px 16px; border-left: 5px solid #7d9d42; border-radius: 8px; background: #f4f7ee; }
+.howItWorksGuideBody aside strong { display: block; margin-bottom: 4px; color: #486522; font: 800 11px/1.2 Inter,Arial,sans-serif; text-transform: uppercase; }
+.howItWorksGuideActions { grid-column: 1/-1; display: flex; flex-wrap: wrap; gap: 8px; }
+.howItWorksGuideActions button { min-height: 40px; padding: 7px 14px; }
+.howItWorksRoadmap { grid-column: 1/-1; display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: 8px; padding: 14px; border: 1px solid #cfd9c4; border-radius: 12px; background: #f8faF3; }
+.howItWorksRoadmapStep { position: relative; min-width: 0; display: grid; justify-items: center; align-content: center; gap: 6px; padding: 9px; text-align: center; }
+.howItWorksRoadmapStep > span { width: 28px; height: 28px; display: grid; place-items: center; border-radius: 50%; color: #fff; background: #24563a; font: 800 12px/1 Inter,Arial,sans-serif; }
+.howItWorksRoadmapStep > strong { color: #294233; font: 800 10px/1.25 Inter,Arial,sans-serif; text-transform: uppercase; }
+.howItWorksRoadmapStep > i { position: absolute; right: -9px; top: 42%; color: #7d9d42; font: 900 18px/1 Inter,Arial,sans-serif; font-style: normal; transform: rotate(-90deg); }
+.howItWorksNoResults { margin: 28px 0; color: #667085; font: 650 14px/1.5 Inter,Arial,sans-serif; text-align: center; }
+
+.howItWorksModalBackdrop { position: fixed; inset: 0; z-index: 10060; display: grid; place-items: center; padding: 24px; background: rgba(20,29,23,.64); backdrop-filter: blur(3px); }
+.howItWorksModal { width: min(860px,calc(100vw - 32px)); max-height: min(820px,calc(100vh - 32px)); overflow: hidden; display: grid; grid-template-rows: auto minmax(0,1fr) auto; border: 1px solid #c9d6cc; border-radius: 20px; background: #fff; box-shadow: 0 28px 90px rgba(0,0,0,.3); }
+.howItWorksModal:focus { outline: none; }
+.howItWorksModal > header { display: flex; justify-content: space-between; gap: 18px; align-items: flex-start; padding: 19px 22px 16px; border-bottom: 1px solid #d7ded7; background: #f8f3e8; }
+.howItWorksModal > header span { display: block; margin-bottom: 4px; color: #6d8b35; font: 800 11px/1 Inter,Arial,sans-serif; letter-spacing: .06em; text-transform: uppercase; }
+.howItWorksModal > header h2 { margin: 0; color: #14251b; font: 700 25px/1.15 Georgia,"Times New Roman",serif; }
+.howItWorksModal > header button { flex: 0 0 38px; width: 38px; height: 38px; padding: 0; border: 1px solid #c7d3ca; border-radius: 50%; color: #415148; background: #fff; font: 500 26px/1 Inter,Arial,sans-serif; }
+.howItWorksModalBody { overflow-y: auto; overscroll-behavior: contain; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px; padding: 20px 22px; }
+.howItWorksModalBody section:first-child,
+.howItWorksModalBody aside,
+.howItWorksModalBody .howItWorksRoadmap { grid-column: 1/-1; }
+.howItWorksModalBody h3 { margin: 0 0 7px; color: #155d36; font: 800 11px/1.2 Inter,Arial,sans-serif; letter-spacing: .045em; text-transform: uppercase; }
+.howItWorksModalBody p,
+.howItWorksModalBody li { color: #4f5b6c; font: 600 14px/1.5 Inter,Arial,sans-serif; }
+.howItWorksModalBody p { margin: 0; }
+.howItWorksModalBody ol,
+.howItWorksModalBody ul { margin: 0; padding-left: 21px; }
+.howItWorksModalBody aside { padding: 14px 16px; border-left: 5px solid #7d9d42; border-radius: 8px; background: #f4f7ee; }
+.howItWorksModalBody aside strong { display: block; margin-bottom: 4px; color: #486522; font: 800 11px/1.2 Inter,Arial,sans-serif; text-transform: uppercase; }
+.howItWorksModal > footer { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; padding: 14px 22px 17px; border-top: 1px solid #d7ded7; background: #faf9f6; }
+.howItWorksModal > footer button { min-height: 42px; padding: 7px 13px; }
+.howItWorksModal button:focus-visible,
+.unifiedHowItWorksPage button:focus-visible,
+.unifiedHowItWorksPage input:focus-visible,
+.howItWorksGuideCard > summary:focus-visible { outline: 3px solid rgba(124,163,55,.52); outline-offset: 2px; }
+
+@media (max-width: 1000px) {
+  .howItWorksQuickPath { grid-template-columns: repeat(3,minmax(0,1fr)); }
+  .howItWorksQuickStep > i { display: none; }
+  .howItWorksGoalGrid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .howItWorksRoadmap { grid-template-columns: repeat(3,minmax(0,1fr)); }
+  .howItWorksRoadmapStep > i { display: none; }
+}
+
+@media (max-width: 650px) {
+  .howItWorksQuickPath,
+  .howItWorksGoalGrid,
+  .howItWorksGuideBody,
+  .howItWorksModalBody,
+  .howItWorksRoadmap { grid-template-columns: 1fr; }
+  .howItWorksGuideCard > summary { grid-template-columns: 1fr; gap: 5px; }
+  .howItWorksModalBackdrop { padding: 8px; }
+  .howItWorksModal { width: calc(100vw - 16px); max-height: calc(100vh - 16px); border-radius: 14px; }
+  .howItWorksModal > header,
+  .howItWorksModalBody,
+  .howItWorksModal > footer { padding-left: 15px; padding-right: 15px; }
+  .howItWorksModal > header h2 { font-size: 22px; }
+  .howItWorksModal > footer { display: grid; grid-template-columns: 1fr 1fr; }
+  .howItWorksModal > footer button:first-child,
+  .howItWorksModal > footer button:last-child { grid-column: 1/-1; }
+}

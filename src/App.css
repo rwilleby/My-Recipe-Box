@@ -14944,6 +14944,22 @@ to {
   object-fit: contain !important;
 }
 
+.cardViewerHowItWorks {
+  width: 36px !important;
+  min-width: 36px !important;
+  height: 36px !important;
+  min-height: 36px !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  border: 1px solid #78923d !important;
+  border-radius: 9px !important;
+  background: #7ca337 !important;
+  box-shadow: 0 4px 12px rgba(45,67,30,.18) !important;
+}
+
+.cardViewerHowItWorks img { width: 100% !important; height: 100% !important; display: block !important; object-fit: contain !important; }
+.cardViewerHowItWorks:focus-visible { outline: 3px solid #f2bd58 !important; outline-offset: 2px !important; }
+
 .howItWorksPage {
   width: min(100%, 1440px) !important;
   max-width: 1440px !important;
@@ -15260,9 +15276,9 @@ to {
 }
 
 .howItWorksHero .pageHeroTextOverlay h1 {
-  font-size: var(--rrb-major-page-title) !important;
-  letter-spacing: normal !important;
-  line-height: 1.12 !important;
+  font-size: clamp(15px, 4vw, 58px) !important;
+  letter-spacing: -.035em !important;
+  line-height: .98 !important;
   white-space: nowrap !important;
 }
 
