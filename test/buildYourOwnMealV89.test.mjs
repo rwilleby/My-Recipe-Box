@@ -18,7 +18,12 @@ assert.match(component, /MealBuilderFoodImage recipe=\{mainRecipe\} position="ma
 assert.match(component, /MealBuilderFoodImage recipe=\{sideOneRecipe\} position="side-one"/);
 assert.match(component, /MealBuilderFoodImage recipe=\{sideTwoRecipe\} position="side-two"/);
 assert.match(component, /<span>Freeze<\/span>/);
-assert.match(styles, /grid-template-columns: 40% 30% 30%/);
+assert.match(styles, /\.mealBuilderTray\s*\{[^}]*aspect-ratio:\s*1448\/1086/);
+assert.match(styles, /\.mealBuilderTrayFood\s*\{[^}]*top:\s*21\.0866%[^}]*height:\s*57\.6427%/);
+assert.match(styles, /\.mealBuilderTrayInterior\.is-standard \.mealBuilderTrayFood-main\s*\{[^}]*width:\s*32\.5276%/);
+assert.match(styles, /\.mealBuilderTrayFood-side-one\s*\{[^}]*left:\s*46\.5470%[^}]*width:\s*19\.1989%/);
+assert.match(styles, /\.mealBuilderTrayFood-side-two\s*\{[^}]*left:\s*65\.8150%[^}]*width:\s*19\.8204%/);
+assert.match(styles, /\.mealBuilderTrayFood img\s*\{[^}]*object-fit:\s*contain/);
 assert.match(styles, /mealBuilderTrayRim/);
 
 await access(new URL("../public/images/meal-builder/meal-builder-tray-base.webp", import.meta.url));

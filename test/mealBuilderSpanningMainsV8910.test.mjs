@@ -14,8 +14,8 @@ assert.match(component, /Complete meal — sides included/);
 assert.match(component, /Included with selected main dish/);
 assert.match(component, /Full Tray/);
 assert.match(component, /2\/3 Tray/);
-assert.match(styles, /\.mealBuilderTrayInterior\.is-two-thirds[^}]*grid-template-columns: 70% 30%/);
-assert.match(styles, /\.mealBuilderTrayInterior\.is-full-tray[^}]*grid-template-columns: 100%/);
+assert.match(styles, /\.mealBuilderTrayInterior\.is-two-thirds \.mealBuilderTrayFood-main\s*\{[^}]*width:\s*51\.7956%/);
+assert.match(styles, /\.mealBuilderTrayInterior\.is-full-tray \.mealBuilderTrayFood-main\s*\{[^}]*width:\s*71\.6851%/);
 assert.match(styles, /\.mealBuilderChoiceColumn\.is-disabled/);
 
 await access(new URL("../public/images/meal-builder/main/AM-005.webp", import.meta.url));

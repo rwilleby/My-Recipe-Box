@@ -10,6 +10,7 @@ assert.match(css, /\.mealBuilderSelectorColumns\s*\{[^}]*grid-template-columns:\
 assert.match(css, /\.mealBuilderChoiceRail\s*\{[^}]*overflow-y:\s*auto[^}]*flex-direction:\s*column[^}]*overscroll-behavior-y:\s*contain[^}]*scroll-snap-type:\s*y mandatory/);
 assert.match(css, /\.mealBuilderChoiceRail\s*\{[^}]*height:\s*var\(--meal-builder-selector-depth\)[^}]*max-height:\s*var\(--meal-builder-selector-depth\)/);
 assert.match(css, /\.mealBuilderChoiceCard\s*\{[^}]*flex:\s*0 0 var\(--meal-builder-card-depth\)[^}]*height:\s*var\(--meal-builder-card-depth\)/);
+assert.match(css, /\.mealBuilderChoiceCard\s*\{[^}]*scroll-snap-align:\s*start/);
 assert.match(css, /\.mealBuilderMealSummaryCard\s*\{[^}]*overflow:\s*hidden[^}]*min-height:\s*96px/);
 assert.match(css, /\.mealBuilderChoiceRail::-webkit-scrollbar-thumb/);
 assert.match(jsx, /if \(a\.id === selectedId\) return -1;/);
@@ -24,7 +25,7 @@ assert.match(jsx, /placeholder="FILTER"/);
 assert.match(jsx, /<span>Portion<\/span>/);
 assert.match(jsx, />PRINT MEAL LABELS</);
 assert.match(jsx, />CLEAR &amp; START OVER</);
-assert.match(css, /\.mealBuilderTray\s*\{[^}]*aspect-ratio:\s*16\/9/);
+assert.match(css, /\.mealBuilderTray\s*\{[^}]*aspect-ratio:\s*1448\/1086/);
 assert.match(css, /\.mealBuilderChoiceLead input\[type="search"\][^}]*text-align:\s*center/);
 assert.match(css, /\.mealBuilderPortionGrid label > span,[\s\S]*?text-align:\s*center/);
 assert.doesNotMatch(jsx, /Sort by Cuisine/);
