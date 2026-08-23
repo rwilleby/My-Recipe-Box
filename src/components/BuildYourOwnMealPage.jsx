@@ -20,6 +20,8 @@ const MEAL_BUILDER_MAIN_IDS = new Set([
   "AM-073", "AM-074", "AM-075", "AM-076", "AM-077", "AM-078",
   "AS-001", "AS-002", "AS-003", "AS-004", "AS-005", "AS-006", "AS-007", "AS-008", "AS-009", "AS-010",
   "AS-011", "AS-012", "AS-013", "AS-014", "AS-015", "AS-016", "AS-017", "AS-018", "AS-019",
+  ...Array.from({ length: 20 }, (_, index) => `SF-${String(index + 1).padStart(3, "0")}`),
+  ...Array.from({ length: 44 }, (_, index) => `MX-${String(index + 1).padStart(3, "0")}`),
 ]);
 const MEAL_BUILDER_SIDE_IDS = new Set(
   Array.from({ length: 53 }, (_, index) => `SD-${String(index + 1).padStart(3, "0")}`),
@@ -52,6 +54,14 @@ const MEAL_BUILDER_MAIN_LAYOUTS = new Map([
   ["AS-017", "two-thirds"],
   ["AS-018", "full-tray"],
   ["AS-019", "full-tray"],
+  ...["SF-002", "SF-003", "SF-016", "SF-017", "SF-018"].map((id) => [id, "two-thirds"]),
+  ["SF-020", "full-tray"],
+  ...["MX-004", "MX-005", "MX-008", "MX-032"].map((id) => [id, "two-thirds"]),
+  ...[
+    "MX-001", "MX-002", "MX-011", "MX-012",
+    "MX-021", "MX-022", "MX-023", "MX-024", "MX-025", "MX-026", "MX-027", "MX-028", "MX-029", "MX-030",
+    "MX-033", "MX-034", "MX-040", "MX-041", "MX-042",
+  ].map((id) => [id, "full-tray"]),
 ]);
 const MEAL_BUILDER_LABEL_SHEETS = {
   "8163": {
