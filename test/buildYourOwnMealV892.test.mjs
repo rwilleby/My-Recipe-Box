@@ -11,11 +11,14 @@ assert.match(component, /label="Main Dish"/);
 assert.match(component, /label="Side 1"/);
 assert.match(component, /label="Side 2"/);
 assert.match(component, /mealBuilderChoiceSlider/);
-assert.match(component, /mealBuilderFinishRow/);
+assert.match(component, /mealBuilderWorkspaceGrid/);
+assert.match(component, /mealBuilderPreviewColumn/);
+assert.match(component, /mealBuilderDishSelectors/);
+assert.match(component, /mealBuilderSelectorColumns/);
 assert.match(component, /Estimated Meal Calories/);
-assert.match(styles, /mealBuilderChoiceStrip/);
-assert.match(styles, /grid-template-columns: 205px minmax\(0,1fr\)/);
+assert.match(styles, /mealBuilderChoiceColumn/);
+assert.match(styles, /\.mealBuilderSelectorColumns[^}]*grid-template-columns: repeat\(3,minmax\(0,1fr\)\)/);
 assert.match(assets, /export function recipeHeroImageCandidates/);
 assert.doesNotMatch(assets.match(/export function recipeHeroImageCandidates[\s\S]*?\n}/)?.[0] || "", /thumbs\/recipes/);
 
-console.log("v89.2 meal-builder selector strips and hero-only image contracts passed");
+console.log("Meal Builder vertical selector columns and hero-only image contracts passed");
