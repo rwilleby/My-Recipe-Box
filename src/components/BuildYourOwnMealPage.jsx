@@ -11,7 +11,8 @@ const MAIN_CATEGORIES = [
 const SIDE_CATEGORIES = [["SD", "Side Dishes"], ["SB", "Salads"], ["LF", "Breads & Rolls"]];
 
 const MEAL_BUILDER_MAIN_IDS = new Set([
-  "AM-001", "AM-005", "AM-007", "AM-008", "AM-010", "AM-015", "AM-018", "AM-020", "AM-037", "AM-041", "AM-053",
+  "AM-001", "AM-002", "AM-003", "AM-004", "AM-005", "AM-006", "AM-007", "AM-008", "AM-009", "AM-010",
+  "AM-011", "AM-012", "AM-013", "AM-014", "AM-015", "AM-016", "AM-018", "AM-020", "AM-037", "AM-041", "AM-053",
   "AM-017", "AM-019", "AM-021", "AM-022", "AM-023", "AM-024", "AM-025", "AM-026", "AM-027", "AM-028",
   "AM-029", "AM-030", "AM-031", "AM-032", "AM-033", "AM-034", "AM-035", "AM-036", "AM-038", "AM-039",
   "AM-040", "AM-042", "AM-043", "AM-044", "AM-045", "AM-046", "AM-047", "AM-048", "AM-049", "AM-050",
@@ -19,7 +20,9 @@ const MEAL_BUILDER_MAIN_IDS = new Set([
   "AM-062", "AM-064", "AM-065", "AM-066", "AM-067", "AM-068", "AM-069", "AM-070", "AM-071", "AM-072",
   "AM-073", "AM-074", "AM-075", "AM-076", "AM-077", "AM-078",
   "AS-001", "AS-002", "AS-003", "AS-004", "AS-005", "AS-006", "AS-007", "AS-008", "AS-009", "AS-010",
-  "AS-011", "AS-012", "AS-013", "AS-014", "AS-015", "AS-016", "AS-017", "AS-018", "AS-019",
+  "AS-011", "AS-012", "AS-013", "AS-014", "AS-015", "AS-016", "AS-017", "AS-018", "AS-019", "AS-020",
+  "AS-021", "AS-022", "AS-023", "AS-024",
+  ...Array.from({ length: 60 }, (_, index) => `IT-${String(index + 1).padStart(3, "0")}`),
   ...Array.from({ length: 20 }, (_, index) => `SF-${String(index + 1).padStart(3, "0")}`),
   ...Array.from({ length: 44 }, (_, index) => `MX-${String(index + 1).padStart(3, "0")}`),
 ]);
@@ -28,7 +31,12 @@ const MEAL_BUILDER_SIDE_IDS = new Set(
 );
 const MEAL_BUILDER_MAIN_LAYOUTS = new Map([
   ["AM-005", "full-tray"],
+  ["AM-002", "two-thirds"],
+  ["AM-008", "two-thirds"],
+  ["AM-009", "two-thirds"],
+  ["AM-014", "two-thirds"],
   ["AM-015", "two-thirds"],
+  ["AM-020", "full-tray"],
   ["AM-073", "full-tray"],
   ["AM-074", "full-tray"],
   ["AM-075", "full-tray"],
@@ -54,6 +62,15 @@ const MEAL_BUILDER_MAIN_LAYOUTS = new Map([
   ["AS-017", "two-thirds"],
   ["AS-018", "full-tray"],
   ["AS-019", "full-tray"],
+  ["AS-020", "full-tray"],
+  ["AS-021", "full-tray"],
+  ...[
+    "IT-001", "IT-002", "IT-006", "IT-010", "IT-011", "IT-012", "IT-013", "IT-015", "IT-016", "IT-018",
+    "IT-019", "IT-021", "IT-022", "IT-023", "IT-024", "IT-025", "IT-026", "IT-027", "IT-028", "IT-029",
+    "IT-031", "IT-032", "IT-033", "IT-034", "IT-037", "IT-038", "IT-039", "IT-040", "IT-041", "IT-042",
+    "IT-043", "IT-044", "IT-045", "IT-046", "IT-047", "IT-048", "IT-049", "IT-050", "IT-051", "IT-052",
+    "IT-053", "IT-054", "IT-055", "IT-056", "IT-057", "IT-058", "IT-059", "IT-060",
+  ].map((id) => [id, "full-tray"]),
   ...["SF-002", "SF-003", "SF-016", "SF-017", "SF-018"].map((id) => [id, "two-thirds"]),
   ["SF-020", "full-tray"],
   ...["MX-004", "MX-005", "MX-008", "MX-032"].map((id) => [id, "two-thirds"]),
@@ -204,7 +221,7 @@ function MealBuilderFoodImage({ recipe, position }) {
   const folder = isMain ? "main" : "sides";
   return (
     <div className={`mealBuilderTrayFood mealBuilderTrayFood-${position} mealBuilderTrayFood-recipe-${recipe.id.toLowerCase()}`}>
-      <img src={`${import.meta.env.BASE_URL}images/meal-builder/${folder}/${recipe.id}.webp`} alt="" />
+      <img src={`${import.meta.env.BASE_URL}images/build-your-own/${folder}/${recipe.id}.webp`} alt="" />
     </div>
   );
 }
