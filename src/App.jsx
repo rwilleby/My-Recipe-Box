@@ -11202,36 +11202,42 @@ function FreezerTipsPage({ setActivePage }) {
 
 const HOW_IT_WORKS_SIMPLE_STEPS = [
   {
+    eyebrow: "START HERE",
     title: "Choose your goal",
     text: "Tonight’s dinner, quick cooking, freezer meals, or inspiration.",
     page: "Home",
     action: "Choose a Goal",
   },
   {
+    eyebrow: "FIND A RECIPE",
     title: "Find a recipe",
     text: "Browse categories, search by name, or open a featured collection.",
     page: "Recipes",
     action: "Browse Recipes",
   },
   {
+    eyebrow: "CHECK THE FIT",
     title: "Review the fit",
     text: "Check time, servings, nutrition, MealBalance, and freezer notes.",
     page: "Recipes",
     action: "Compare Recipes",
   },
   {
+    eyebrow: "OPEN THE CARD",
     title: "Open the card",
     text: "Read ingredients, directions, Smart Tips, and substitutions.",
     page: "Recipes",
     action: "Open the Library",
   },
   {
+    eyebrow: "COOK AND STORE",
     title: "Cook with confidence",
     text: "Choose servings, follow the steps, and store planned extras.",
     page: "Safe Cooking Rules",
     action: "Review Food Safety",
   },
   {
+    eyebrow: "SAVE FOR LATER",
     title: "Save your favorite",
     text: "Tap the heart to make the recipe easy to find next time.",
     page: "Favorites",
@@ -11296,63 +11302,101 @@ const HOW_IT_WORKS_DETAILED_STAGES = [
 ];
 
 function HowItWorksPage({ setActivePage }) {
+  const [openSection, setOpenSection] = useState("easy");
+
+  function toggleSection(section) {
+    setOpenSection((current) => current === section ? "" : section);
+  }
+
   return (
     <main className="pageShell howItWorksPage">
-      <SectionIntro
-        className="howItWorksSimpleIntro"
-        eyebrow="START SIMPLE"
-        title="A Simple User Path"
-        text="Find it, cook it, and save it. Begin with one recipe and use only the features you need today."
-      />
+      <div className="howItWorksAccordionList">
+        <section className={`howItWorksAccordion${openSection === "easy" ? " isOpen" : ""}`}>
+          <button
+            className="howItWorksAccordionSummary"
+            type="button"
+            aria-expanded={openSection === "easy"}
+            aria-controls="how-it-works-easy-panel"
+            onClick={() => toggleSection("easy")}
+          >
+            <span className="howItWorksAccordionArrow" aria-hidden="true">▶</span>
+            <span>
+              <strong>Easy: Your Simple User Path</strong>
+              <small>Find it, cook it, and save it. Begin with one recipe and use only the features you need today.</small>
+            </span>
+            <em>{openSection === "easy" ? "Close" : "Open"}</em>
+          </button>
 
-      <section className="howItWorksSimpleSection" aria-labelledby="how-it-works-simple-title">
-        <h2 className="srOnly" id="how-it-works-simple-title">Six simple steps</h2>
-        <ol className="howItWorksSimpleFlow">
-          {HOW_IT_WORKS_SIMPLE_STEPS.map((step, index) => (
-            <li className={`howItWorksSimpleStep${index === HOW_IT_WORKS_SIMPLE_STEPS.length - 1 ? " isFinal" : ""}`} key={step.title}>
-              <span className="howItWorksStepNumber" aria-hidden="true">{index + 1}</span>
-              <h3>{step.title}</h3>
-              <p>{step.text}</p>
-              <button type="button" onClick={() => setActivePage(step.page)}>{step.action}</button>
-            </li>
-          ))}
-        </ol>
-        <p className="howItWorksSimpleNote">No account. No setup. Start with only the features you need today.</p>
-      </section>
-
-      <SectionIntro
-        className="howItWorksDetailedIntro"
-        eyebrow="THE COMPLETE PATH"
-        title="Use More of the Site When You Are Ready"
-        text="The planning, inventory, shopping, cooking, and freezer tools connect together, but each one can also be used on its own."
-      />
-
-      <section className="howItWorksDetailedFlow" aria-label="Detailed Robert’s Recipe Box workflow">
-        {HOW_IT_WORKS_DETAILED_STAGES.map((stage) => (
-          <article className="howItWorksDetailedStage" key={stage.number}>
-            <div className="howItWorksDetailedNumber" aria-hidden="true">{stage.number}</div>
-            <div className="howItWorksDetailedCopy">
-              <p className="howItWorksDetailedEyebrow">{stage.eyebrow}</p>
-              <h2>{stage.title}</h2>
-              <p>{stage.text}</p>
+          {openSection === "easy" && (
+            <div className="howItWorksAccordionBody" id="how-it-works-easy-panel">
+              <div className="howItWorksDetailedFlow" aria-label="Easy Robert’s Recipe Box workflow">
+                {HOW_IT_WORKS_SIMPLE_STEPS.map((step, index) => (
+                  <article className="howItWorksDetailedStage" key={step.title}>
+                    <div className="howItWorksDetailedNumber" aria-hidden="true">{index + 1}</div>
+                    <div className="howItWorksDetailedCopy">
+                      <p className="howItWorksDetailedEyebrow">{step.eyebrow}</p>
+                      <h2>{step.title}</h2>
+                      <p>{step.text}</p>
+                    </div>
+                    <div className="howItWorksDetailedLinks" aria-label={`${step.title} link`}>
+                      <button type="button" onClick={() => setActivePage(step.page)}>{step.action}</button>
+                    </div>
+                  </article>
+                ))}
+              </div>
+              <p className="howItWorksSimpleNote">No account. No setup. Start with only the features you need today.</p>
             </div>
-            <div className="howItWorksDetailedLinks" aria-label={`${stage.title} links`}>
-              {stage.links.map(([label, page]) => (
-                <button type="button" key={label} onClick={() => setActivePage(page)}>{label}</button>
-              ))}
-            </div>
-          </article>
-        ))}
-      </section>
+          )}
+        </section>
 
-      <section className="howItWorksClosing">
-        <div>
-          <p className="howItWorksDetailedEyebrow">THE BASIC IDEA</p>
-          <h2>Know what you have. Plan what you need. Prepare what you can.</h2>
-          <p>Robert’s Recipe Box is designed to help you waste less food, make fewer last-minute decisions, and keep a few dependable meals ready for later.</p>
-        </div>
-        <button className="primary" type="button" onClick={() => setActivePage("Recipes")}>Start With a Recipe</button>
-      </section>
+        <section className={`howItWorksAccordion${openSection === "detailed" ? " isOpen" : ""}`}>
+          <button
+            className="howItWorksAccordionSummary"
+            type="button"
+            aria-expanded={openSection === "detailed"}
+            aria-controls="how-it-works-detailed-panel"
+            onClick={() => toggleSection("detailed")}
+          >
+            <span className="howItWorksAccordionArrow" aria-hidden="true">▶</span>
+            <span>
+              <strong>Detailed: Use More Site Features When You're Ready</strong>
+              <small>See how planning, inventory, shopping, cooking, and freezer tools connect while remaining useful on their own.</small>
+            </span>
+            <em>{openSection === "detailed" ? "Close" : "Open"}</em>
+          </button>
+
+          {openSection === "detailed" && (
+            <div className="howItWorksAccordionBody" id="how-it-works-detailed-panel">
+              <div className="howItWorksDetailedFlow" aria-label="Detailed Robert’s Recipe Box workflow">
+                {HOW_IT_WORKS_DETAILED_STAGES.map((stage) => (
+                  <article className="howItWorksDetailedStage" key={stage.number}>
+                    <div className="howItWorksDetailedNumber" aria-hidden="true">{stage.number}</div>
+                    <div className="howItWorksDetailedCopy">
+                      <p className="howItWorksDetailedEyebrow">{stage.eyebrow}</p>
+                      <h2>{stage.title}</h2>
+                      <p>{stage.text}</p>
+                    </div>
+                    <div className="howItWorksDetailedLinks" aria-label={`${stage.title} links`}>
+                      {stage.links.map(([label, page]) => (
+                        <button type="button" key={label} onClick={() => setActivePage(page)}>{label}</button>
+                      ))}
+                    </div>
+                  </article>
+                ))}
+              </div>
+
+              <section className="howItWorksClosing">
+                <div>
+                  <p className="howItWorksDetailedEyebrow">THE BASIC IDEA</p>
+                  <h2>Know what you have. Plan what you need. Prepare what you can.</h2>
+                  <p>Robert’s Recipe Box is designed to help you waste less food, make fewer last-minute decisions, and keep a few dependable meals ready for later.</p>
+                </div>
+                <button className="primary" type="button" onClick={() => setActivePage("Recipes")}>Start With a Recipe</button>
+              </section>
+            </div>
+          )}
+        </section>
+      </div>
     </main>
   );
 }
@@ -19732,10 +19776,10 @@ Use this section to check what is on hand, record dates, mark foods that should 
       {activePage === "How It Works" && (
         <>
           <PageHeroImage
-            src="images/heroes/hero-page-about-us.webp"
-            alt="Recipe box, meal-planning notebook, and kitchen tools on a light counter"
+            src="images/heroes/hero-page-how-it-works.webp"
+            alt="A connected recipe workflow showing recipe cards, meal planning, shopping, cooking, and freezer storage"
             eyebrow="START HERE"
-            title="How Robert’s Recipe Box Works"
+            title="How Your Recipe Box Works"
             text="Start with one recipe or follow the complete path from choosing a meal through planning, shopping, cooking, portioning, and freezing.
 
 No account is required. Use only the tools that are helpful today, then add more when you are ready."

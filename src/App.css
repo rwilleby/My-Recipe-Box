@@ -15246,6 +15246,145 @@ to {
   .howItWorksClosing .primary {width: 100% !important; white-space: normal !important;}
 }
 
+/* v89.18 — How Your Recipe Box Works accordion flow. */
+.pageTopHeroImage + main.howItWorksPage,
+.howItWorksPage {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 auto !important;
+  padding: 0 0 58px !important;
+}
+
+.howItWorksHero .pageHeroTextOverlay {
+  max-width: min(62%, 900px) !important;
+}
+
+.howItWorksHero .pageHeroTextOverlay h1 {
+  font-size: clamp(15px, 4vw, 58px) !important;
+  letter-spacing: -.035em !important;
+  line-height: .98 !important;
+  white-space: nowrap !important;
+}
+
+.howItWorksAccordionList {
+  display: grid !important;
+  width: 90% !important;
+  margin: 0 auto !important;
+  gap: 11px !important;
+}
+
+.howItWorksAccordion {
+  overflow: hidden !important;
+  border: 1px solid #d9d1c2 !important;
+  border-radius: 16px !important;
+  background: #f4efe5 !important;
+  box-shadow: none !important;
+}
+
+.howItWorksAccordionSummary {
+  display: grid !important;
+  grid-template-columns: 20px minmax(0, 1fr) auto !important;
+  align-items: center !important;
+  gap: 12px !important;
+  width: 100% !important;
+  min-height: 72px !important;
+  padding: 13px 20px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  color: #403a31 !important;
+  background: #f4efe5 !important;
+  box-shadow: none !important;
+  text-align: left !important;
+  cursor: pointer !important;
+}
+
+.howItWorksAccordionSummary:hover,
+.howItWorksAccordionSummary:focus-visible {
+  background: #eee8dd !important;
+}
+
+.howItWorksAccordionSummary:focus-visible {
+  outline: 3px solid rgba(111, 135, 56, .45) !important;
+  outline-offset: -3px !important;
+}
+
+.howItWorksAccordionArrow {
+  color: #625b50 !important;
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 12px !important;
+  line-height: 1 !important;
+  transform-origin: center !important;
+  transition: transform 160ms ease !important;
+}
+
+.howItWorksAccordion.isOpen .howItWorksAccordionArrow {
+  transform: rotate(90deg) !important;
+}
+
+.howItWorksAccordionSummary > span:nth-child(2) {
+  min-width: 0 !important;
+}
+
+.howItWorksAccordionSummary strong,
+.howItWorksAccordionSummary small {
+  display: block !important;
+}
+
+.howItWorksAccordionSummary strong {
+  margin: 0 0 4px !important;
+  color: #403a31 !important;
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: 20px !important;
+  font-weight: 700 !important;
+  line-height: 1.1 !important;
+}
+
+.howItWorksAccordionSummary small {
+  color: #71685c !important;
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  line-height: 1.3 !important;
+}
+
+.howItWorksAccordionSummary em {
+  color: #71685c !important;
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 12px !important;
+  font-style: normal !important;
+  font-weight: 800 !important;
+  white-space: nowrap !important;
+}
+
+.howItWorksAccordionBody {
+  padding: 16px 18px 20px !important;
+  border-top: 1px solid #d9d1c2 !important;
+  background: #fffdf8 !important;
+}
+
+.howItWorksAccordionBody .howItWorksDetailedLinks button:only-child {
+  grid-column: 1 / -1 !important;
+}
+
+.howItWorksAccordionBody .howItWorksSimpleNote {
+  margin-bottom: 0 !important;
+}
+
+.howItWorksAccordionBody .howItWorksClosing {
+  margin-bottom: 0 !important;
+}
+
+@media (max-width: 700px) {
+  .howItWorksAccordionList {width: 96% !important;}
+  .howItWorksAccordionSummary {
+    grid-template-columns: 18px minmax(0, 1fr) !important;
+    padding: 12px 14px !important;
+  }
+  .howItWorksAccordionSummary strong {font-size: 18px !important;}
+  .howItWorksAccordionSummary em {grid-column: 2 !important;}
+  .howItWorksAccordionBody {padding: 12px 11px 16px !important;}
+}
+
 .largeHeroVideoPanel.isClosed {display: none !important;}
 
 .largeHeroVideoPanel.isOpen {display: block !important;}

@@ -58,7 +58,7 @@ const PRIVATE_PAGE_IDS = new Set([
 const PAGE_TITLES = {
   Home: "Recipes, Meal Planning & Kitchen Tools",
   About: "Welcome to Robert's Recipe Box",
-  "How It Works": "How Robert's Recipe Box Works",
+  "How It Works": "How Your Recipe Box Works",
   "About Recipes": "About Our Recipes",
   "Affiliate Marketing": "Affiliate Marketing & Product Links",
   "Your Data & Security": "Your Data & Security",
