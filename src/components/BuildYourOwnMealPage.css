@@ -4,7 +4,8 @@
 .buildYourOwnMealIntro p { margin: 0; color: #667085; font: 700 14px/1.45 Inter,Arial,sans-serif; }
 .buildYourOwnMealIntro p + p { margin-top: 7px; }
 
-.mealBuilderTopGrid { display: grid; grid-template-columns: minmax(0,58fr) minmax(0,42fr); gap: 18px; width: 100%; margin-bottom: 18px; align-items: stretch; }
+.mealBuilderWorkspaceGrid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 18px; width: 100%; margin-bottom: 12px; align-items: stretch; }
+.mealBuilderPreviewColumn { display: grid; grid-template-rows: auto 1fr; gap: 12px; min-width: 0; }
 .mealBuilderTray { position: relative; overflow: hidden; width: 100%; aspect-ratio: 4/3; margin: 0; isolation: isolate; border-radius: 20px; background: #f6f4ef; box-shadow: 0 14px 32px rgba(55,45,34,.12); }
 .mealBuilderTrayBase { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; object-fit: cover; }
 .mealBuilderTrayInterior { position: absolute; z-index: 1; left: 11.8%; right: 10.4%; top: 21.9%; bottom: 20.9%; overflow: hidden; display: grid; grid-template-columns: 40% 30% 30%; border-radius: 13%/17%; background: rgba(245,244,240,.72); box-shadow: inset 0 0 22px rgba(67,60,52,.12); }
@@ -26,28 +27,30 @@
 .mealBuilderTrayFood.is-unavailable span { max-width: 105px; }
 .mealBuilderTrayRim { position: absolute; z-index: 2; left: 10.1%; right: 8.8%; top: 19.1%; bottom: 18.3%; pointer-events: none; border: clamp(5px,.65vw,10px) solid rgba(255,255,255,.9); border-radius: 14%/18%; box-shadow: inset 0 4px 11px rgba(67,60,52,.16),0 2px 5px rgba(255,255,255,.88); }
 
-.mealBuilderSelectorStack { display: grid; gap: 12px; width: 100%; height: clamp(360px,42vh,520px); overflow-x: hidden; overflow-y: auto; overscroll-behavior-y: contain; scrollbar-gutter: stable; scroll-behavior: smooth; scroll-snap-type: y proximity; padding: 2px 10px 2px 2px; }
-.mealBuilderSelectorStack::-webkit-scrollbar { width: 10px; }
-.mealBuilderSelectorStack::-webkit-scrollbar-track { border-radius: 999px; background: #ece9e1; }
-.mealBuilderSelectorStack::-webkit-scrollbar-thumb { border: 2px solid #ece9e1; border-radius: 999px; background: #879f61; }
-.mealBuilderChoiceStrip { display: grid; grid-template-columns: 205px minmax(0,1fr); align-items: stretch; min-height: 185px; overflow: hidden; border: 1px solid #d7ded7; border-radius: 20px; background: #fff; box-shadow: 0 10px 25px rgba(33,45,38,.055); }
-.mealBuilderSelectorStack > .mealBuilderChoiceStrip { scroll-snap-align: start; scroll-margin-top: 2px; }
-.mealBuilderChoiceLead { display: grid; align-content: center; gap: 12px; padding: 18px; border-right: 1px solid #d7ded7; background: #f5f2ec; }
-.mealBuilderChoiceLead > strong { color: #111827; font: 800 17px/1.1 Inter,Arial,sans-serif; text-transform: uppercase; }
+.mealBuilderDishSelectors { min-width: 0; min-height: 0; display: grid; grid-template-rows: auto minmax(0,1fr); padding: 14px; border: 1px solid #d7ded7; border-radius: 20px; background: #fff; box-shadow: 0 10px 25px rgba(33,45,38,.055); }
+.mealBuilderSelectorsHeading { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; padding: 0 2px 11px; }
+.mealBuilderSelectorsHeading h2 { margin: 0; color: #111827; font: 800 17px/1.1 Inter,Arial,sans-serif; text-transform: uppercase; }
+.mealBuilderSelectorsHeading p { margin: 0; color: #687386; font: 650 11px/1.3 Inter,Arial,sans-serif; text-align: right; }
+.mealBuilderSelectorColumns { min-height: 0; display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 10px; }
+.mealBuilderChoiceColumn { min-width: 0; min-height: 0; overflow: hidden; display: grid; grid-template-rows: auto minmax(0,1fr); border: 1px solid #d7ded7; border-radius: 14px; background: #fff; }
+.mealBuilderChoiceLead { display: grid; align-content: start; gap: 8px; padding: 11px; border-bottom: 1px solid #d7ded7; background: #f5f2ec; }
+.mealBuilderChoiceLead > strong { color: #111827; font: 800 15px/1.1 Inter,Arial,sans-serif; text-align: center; text-transform: uppercase; }
 .mealBuilderChoiceLead label > span { display: block; margin-bottom: 4px; color: #687386; font: 800 10px/1.2 Inter,Arial,sans-serif; letter-spacing: .045em; text-transform: uppercase; }
 .mealBuilderChoiceLead select,
 .mealBuilderChoiceLead input[type="search"],
-.mealBuilderPortionGrid select { width: 100%; min-height: 43px; padding: 0 38px 0 12px; border: 1px solid #c8d6cc; border-radius: 12px; color: #182033; background: #fff; font: 750 13px/1.25 Inter,Arial,sans-serif; }
+.mealBuilderPortionGrid select { width: 100%; min-height: 40px; padding: 0 32px 0 9px; border: 1px solid #c8d6cc; border-radius: 10px; color: #182033; background: #fff; font: 750 12px/1.25 Inter,Arial,sans-serif; }
 .mealBuilderChoiceLead input[type="search"] { padding-right: 12px; }
 .mealBuilderChoiceLead input[type="search"]::placeholder { color: #8a938d; opacity: 1; }
-.mealBuilderChoiceSlider { display: grid; grid-template-columns: 42px minmax(0,1fr) 42px; align-items: stretch; min-width: 0; padding: 10px 5px; }
-.mealBuilderSlideButton { border: 0; color: #155d36; background: transparent; font: 500 38px/1 Inter,Arial,sans-serif; cursor: pointer; }
+.mealBuilderChoiceSlider { min-width: 0; min-height: 0; display: grid; grid-template-rows: 30px minmax(0,1fr) 30px; padding: 4px 6px; }
+.mealBuilderSlideButton { border: 0; color: #155d36; background: transparent; font: 800 20px/1 Inter,Arial,sans-serif; cursor: pointer; }
 .mealBuilderSlideButton:hover { background: #f3f5f1; }
-.mealBuilderChoiceRail { display: flex; gap: 10px; min-width: 0; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
-.mealBuilderChoiceRail::-webkit-scrollbar { display: none; }
-.mealBuilderChoiceCard { flex: 0 0 154px; min-width: 0; overflow: hidden; display: grid; grid-template-rows: 91px minmax(42px,auto) 34px; padding: 0; scroll-snap-align: start; border: 1px solid #ddd8cf; border-radius: 13px; color: #111827; background: #fff; text-align: left; cursor: pointer; }
+.mealBuilderChoiceRail { min-width: 0; min-height: 0; overflow-x: hidden; overflow-y: auto; display: flex; flex-direction: column; gap: 9px; padding-right: 4px; overscroll-behavior-y: contain; scroll-behavior: smooth; scroll-snap-type: y mandatory; scrollbar-color: #879f61 #ece9e1; scrollbar-width: thin; }
+.mealBuilderChoiceRail::-webkit-scrollbar { width: 8px; }
+.mealBuilderChoiceRail::-webkit-scrollbar-track { border-radius: 999px; background: #ece9e1; }
+.mealBuilderChoiceRail::-webkit-scrollbar-thumb { border: 2px solid #ece9e1; border-radius: 999px; background: #879f61; }
+.mealBuilderChoiceCard { flex: 0 0 auto; width: 100%; min-width: 0; overflow: hidden; display: grid; grid-template-rows: clamp(84px,8vw,124px) minmax(40px,auto) 34px; padding: 0; scroll-snap-align: start; border: 1px solid #ddd8cf; border-radius: 12px; color: #111827; background: #fff; text-align: left; cursor: pointer; }
 .mealBuilderChoiceCard.is-selected { border-color: #9d978f; box-shadow: inset 0 0 0 2px #9d978f; }
-.mealBuilderChoiceImage { position: relative; display: block; width: 100%; height: 91px; overflow: hidden; background: #f3f0ea; }
+.mealBuilderChoiceImage { position: relative; display: block; width: 100%; height: 100%; overflow: hidden; background: #f3f0ea; }
 .mealBuilderChoiceImage img { width: 100%; height: 100%; object-fit: cover; }
 .mealBuilderTrayTypeBadge { position: absolute; left: 6px; bottom: 6px; padding: 4px 6px; border-radius: 999px; color: #fff; background: rgba(21,93,54,.92); font: 800 9px/1 Inter,Arial,sans-serif; letter-spacing: .04em; text-transform: uppercase; box-shadow: 0 2px 6px rgba(0,0,0,.18); }
 .mealBuilderChoiceTitle { display: -webkit-box; overflow: hidden; min-height: 42px; padding: 8px 9px; font: 800 12px/1.15 Inter,Arial,sans-serif; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
@@ -56,24 +59,24 @@
 .mealBuilderChoiceMb { flex: 0 0 26px; width: 26px; height: 26px; display: grid; place-items: center; border-radius: 50%; color: #fff; background: #7ca337; font: 800 12px/1 Inter,Arial,sans-serif; box-shadow: 0 3px 8px rgba(74,103,30,.18); }
 .mealBuilderChoiceMb.is-unrated { color: #667085; background: #e7e9e5; box-shadow: none; }
 .mealBuilderChoiceEmpty { align-self: center; margin: auto; color: #687386; font: 600 13px/1.4 Inter,Arial,sans-serif; }
-.mealBuilderChoiceStrip.is-disabled { border-color: #dedbd4; background: #f7f5f0; }
-.mealBuilderChoiceStrip.is-disabled .mealBuilderChoiceLead { opacity: .58; }
+.mealBuilderChoiceColumn.is-disabled { border-color: #dedbd4; background: #f7f5f0; }
+.mealBuilderChoiceColumn.is-disabled .mealBuilderChoiceLead { opacity: .58; }
 .mealBuilderChoiceDisabled { display: grid; place-items: center; align-content: center; gap: 7px; min-width: 0; padding: 24px; color: #687386; background: linear-gradient(135deg,#fbfaf7,#f1eee7); text-align: center; }
 .mealBuilderChoiceDisabled strong { color: #155d36; font: 800 14px/1.2 Inter,Arial,sans-serif; text-transform: uppercase; letter-spacing: .045em; }
 .mealBuilderChoiceDisabled span { font: 650 12px/1.35 Inter,Arial,sans-serif; }
 
-.mealBuilderFinishRow { display: grid; grid-template-rows: minmax(138px,1fr) minmax(0,2fr); gap: 12px; min-width: 0; margin: 0; }
-.mealBuilderPortionPanel,
-.mealBuilderNutritionSummary,
+.mealBuilderMealSummaryCard,
 .mealBuilderActions { border: 1px solid #d7ded7; border-radius: 20px; background: #fff; box-shadow: 0 10px 25px rgba(33,45,38,.055); }
-.mealBuilderPortionPanel { display: grid; grid-template-rows: auto 1fr; gap: 12px; align-items: start; padding: 16px 20px; }
+.mealBuilderMealSummaryCard { overflow: hidden; display: grid; grid-template-rows: auto auto; }
+.mealBuilderPortionPanel { display: grid; grid-template-rows: auto 1fr; gap: 9px; align-items: start; padding: 13px 20px 16px; border-top: 1px solid #e5e8e4; background: #faf9f6; }
 .mealBuilderStepHeading h2 { margin: 0; color: #687386; font: 800 11px/1.2 Inter,Arial,sans-serif; letter-spacing: .045em; text-transform: uppercase; }
 .mealBuilderPortionGrid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 12px; align-items: end; }
 .mealBuilderPortionGrid label > span,
 .mealBuilderFreezeResult > span { display: block; margin-bottom: 4px; color: #687386; font: 800 11px/1.2 Inter,Arial,sans-serif; letter-spacing: .045em; text-transform: uppercase; }
 .mealBuilderFreezeResult { min-width: 0; }
 .mealBuilderFreezeResult strong { min-height: 43px; display: grid; place-items: center; border-radius: 12px; color: #fff; background: #155d36; font: 800 16px/1 Inter,Arial,sans-serif; }
-.mealBuilderNutritionSummary { display: grid; grid-template-rows: repeat(3,minmax(0,1fr)) auto; align-content: stretch; padding: 12px 22px 14px; }
+.mealBuilderNutritionSummary { display: grid; grid-template-rows: auto repeat(3,minmax(0,1fr)) auto; align-content: stretch; padding: 14px 22px 12px; }
+.mealBuilderSummaryHeading { padding-bottom: 7px; color: #687386; font: 800 11px/1.2 Inter,Arial,sans-serif; letter-spacing: .045em; text-transform: uppercase; }
 .mealBuilderNutritionLine { display: grid; grid-template-columns: 62px minmax(0,1fr) auto; gap: 12px; align-items: center; min-height: 43px; border-bottom: 1px solid #ece7df; }
 .mealBuilderNutritionLine span { color: #687386; font: 800 11px/1.2 Inter,Arial,sans-serif; letter-spacing: .045em; text-transform: uppercase; }
 .mealBuilderNutritionLine strong { overflow: hidden; color: #111827; font: 750 13px/1.25 Inter,Arial,sans-serif; white-space: nowrap; text-overflow: ellipsis; }
@@ -148,18 +151,34 @@
 .mealBuilderLabelControls > small { color: #667168; font: 500 10.5px/1.35 Inter,Arial,sans-serif; }
 
 @media (max-width: 900px) {
-  .mealBuilderFinishRow { grid-template-rows: auto auto; }
-  .mealBuilderChoiceStrip { grid-template-columns: 170px minmax(0,1fr); }
+  .mealBuilderWorkspaceGrid { gap: 10px; }
+  .mealBuilderDishSelectors { padding: 9px; }
+  .mealBuilderSelectorColumns { gap: 6px; }
+  .mealBuilderChoiceLead { padding: 8px; }
+  .mealBuilderSelectorsHeading p { display: none; }
   .mealBuilderPortionGrid { grid-template-columns: repeat(2,minmax(0,1fr)); }
 }
 @media (max-width: 650px) {
   .pageShell.buildYourOwnMealPage { width: calc(100vw - 32px); }
-  .mealBuilderChoiceStrip { grid-template-columns: 1fr; }
-  .mealBuilderChoiceLead { grid-template-columns: auto minmax(0,1fr); align-items: center; border-right: 0; border-bottom: 1px solid #d7ded7; }
-  .mealBuilderChoiceSlider { grid-template-columns: 34px minmax(0,1fr) 34px; }
-  .mealBuilderChoiceCard { flex-basis: 138px; }
+  .mealBuilderWorkspaceGrid { gap: 7px; }
+  .mealBuilderDishSelectors { padding: 6px; border-radius: 13px; }
+  .mealBuilderSelectorsHeading { padding: 2px 2px 7px; }
+  .mealBuilderSelectorsHeading h2 { font-size: 12px; }
+  .mealBuilderSelectorColumns { gap: 4px; }
+  .mealBuilderChoiceColumn { border-radius: 9px; }
+  .mealBuilderChoiceLead { gap: 5px; padding: 5px; }
+  .mealBuilderChoiceLead > strong { font-size: 10px; }
+  .mealBuilderChoiceLead label > span { font-size: 7px; }
+  .mealBuilderChoiceLead select,
+  .mealBuilderChoiceLead input[type="search"] { min-height: 31px; padding-left: 5px; padding-right: 5px; border-radius: 6px; font-size: 9px; }
+  .mealBuilderChoiceSlider { grid-template-rows: 24px minmax(0,1fr) 24px; padding: 2px; }
+  .mealBuilderSlideButton { font-size: 14px; }
+  .mealBuilderChoiceCard { grid-template-rows: clamp(48px,12vw,72px) minmax(34px,auto) 28px; border-radius: 7px; }
+  .mealBuilderChoiceTitle { padding: 5px; font-size: 9px; }
+  .mealBuilderChoiceStats { padding: 2px 3px; }
+  .mealBuilderChoiceCalories { font-size: 7px; }
+  .mealBuilderChoiceMb { width: 22px; height: 22px; flex-basis: 22px; font-size: 9px; }
   .mealBuilderPortionGrid { grid-template-columns: repeat(2,minmax(0,1fr)); }
-  .mealBuilderSelectorStack { height: clamp(330px,48vh,440px); padding-right: 7px; }
   .mealBuilderLabelSetupBackdrop { padding: 8px; }
   .mealBuilderLabelSetup { width: calc(100vw - 16px); max-height: calc(100vh - 16px); }
   .mealBuilderLabelSetup > header,

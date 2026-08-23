@@ -2,10 +2,17 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 
 const css = fs.readFileSync(new URL("../src/components/BuildYourOwnMealPage.css", import.meta.url), "utf8");
+const jsx = fs.readFileSync(new URL("../src/components/BuildYourOwnMealPage.jsx", import.meta.url), "utf8");
 
-assert.match(css, /\.mealBuilderSelectorStack\s*\{[^}]*height:\s*clamp\(360px,42vh,520px\)[^}]*overflow-y:\s*auto[^}]*overscroll-behavior-y:\s*contain[^}]*scroll-snap-type:\s*y proximity/);
-assert.match(css, /\.mealBuilderSelectorStack > \.mealBuilderChoiceStrip\s*\{[^}]*scroll-snap-align:\s*start/);
-assert.match(css, /\.mealBuilderSelectorStack::-webkit-scrollbar-thumb/);
-assert.doesNotMatch(css, /\.mealBuilderSelectorStack\s*\{[^}]*position:\s*sticky/);
+assert.match(css, /\.mealBuilderWorkspaceGrid\s*\{[^}]*grid-template-columns:\s*repeat\(2,minmax\(0,1fr\)\)/);
+assert.match(css, /\.mealBuilderSelectorColumns\s*\{[^}]*grid-template-columns:\s*repeat\(3,minmax\(0,1fr\)\)/);
+assert.match(css, /\.mealBuilderChoiceRail\s*\{[^}]*overflow-y:\s*auto[^}]*flex-direction:\s*column[^}]*overscroll-behavior-y:\s*contain[^}]*scroll-snap-type:\s*y mandatory/);
+assert.match(css, /\.mealBuilderChoiceRail::-webkit-scrollbar-thumb/);
+assert.match(jsx, /if \(a\.id === selectedId\) return -1;/);
+assert.match(jsx, /scrollTo\(\{ top: 0, behavior: "smooth" \}\)/);
+assert.match(jsx, /scrollBy\(\{ top: direction \* Math\.max/);
+assert.match(jsx, />Dish Selectors</);
+assert.match(jsx, />Calorie Overview</);
+assert.doesNotMatch(css, /\.mealBuilderWorkspaceGrid\s*\{[^}]*grid-template-columns:\s*1fr\s*;/);
 
-console.log("v89.15 Meal Builder internal selector-stack scrolling contract passed");
+console.log("Meal Builder two-column vertical selector-reel contract passed");
