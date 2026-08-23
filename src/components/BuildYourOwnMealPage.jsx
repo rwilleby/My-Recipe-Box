@@ -199,7 +199,7 @@ function MealBuilderFoodImage({ recipe, position, expanded = false }) {
   );
 }
 
-function MealBuilderTrayPreview({ mainRecipe, sideOneRecipe, sideTwoRecipe, mainTrayLayout, className = "" }) {
+export function MealBuilderTrayPreview({ mainRecipe, sideOneRecipe, sideTwoRecipe, mainTrayLayout, className = "" }) {
   return (
     <div className={`mealBuilderTray${className ? ` ${className}` : ""}`} aria-label="Preview of the selected main dish and two sides">
       <img className="mealBuilderTrayBase" src={`${import.meta.env.BASE_URL}images/meal-builder/meal-builder-tray-base.webp`} alt="Empty white rectangular meal-prep tray" />
@@ -282,7 +282,16 @@ function MealChoiceStrip({ label, recipes, selectedId, onSelect, onOpenRecipeCar
   );
 }
 
-export default function BuildYourOwnMealPage({ recipes = [], openRecipeCard = () => {} }) {
+export default function BuildYourOwnMealPage({
+  recipes = [],
+  openRecipeCard = () => {},
+  savedMeals = [],
+  onSaveMeal = () => {},
+  onToggleSavedMealFavorite = () => {},
+  onDeleteSavedMeal = () => {},
+  requestedSavedMealId = "",
+  onSavedMealLoaded = () => {},
+}) {
   const [mainId, setMainId] = useState("");
   const [sideOneId, setSideOneId] = useState("");
   const [sideTwoId, setSideTwoId] = useState("");
@@ -293,6 +302,8 @@ export default function BuildYourOwnMealPage({ recipes = [], openRecipeCard = ()
   const [labelQuantity, setLabelQuantity] = useState(1);
   const [labelSettings, setLabelSettings] = useState(loadMealBuilderLabelSettings);
   const [labelPrintDate, setLabelPrintDate] = useState(() => new Date());
+  const [activeSavedMealId, setActiveSavedMealId] = useState("");
+  const [saveConfirmation, setSaveConfirmation] = useState("");
 
   const safeRecipes = Array.isArray(recipes) ? recipes : [];
   const recipeMap = useMemo(() => new Map(safeRecipes.map((recipe) => [recipe.id, recipe])), [safeRecipes]);
@@ -330,6 +341,9 @@ export default function BuildYourOwnMealPage({ recipes = [], openRecipeCard = ()
     (labelPages[0] || []).map((entry, index) => entry ? index + 1 : null).filter(Boolean),
   );
 
+  const safeSavedMeals = Array.isArray(savedMeals) ? savedMeals : [];
+  const activeSavedMeal = safeSavedMeals.find((meal) => meal.id === activeSavedMealId) || null;
+
   useEffect(() => {
     try {
       window.localStorage.setItem(MEAL_BUILDER_LABEL_SETTINGS_KEY, JSON.stringify(labelSettings));
@@ -348,6 +362,13 @@ export default function BuildYourOwnMealPage({ recipes = [], openRecipeCard = ()
       clearPrintMode();
     };
   }, []);
+
+  useEffect(() => {
+    if (!requestedSavedMealId) return;
+    const savedMeal = safeSavedMeals.find((meal) => meal.id === requestedSavedMealId);
+    if (savedMeal) loadSavedMeal(savedMeal);
+    onSavedMealLoaded();
+  }, [requestedSavedMealId]);
 
   function updateServings(value) {
     const next = Number(value);
@@ -369,6 +390,57 @@ export default function BuildYourOwnMealPage({ recipes = [], openRecipeCard = ()
   function clearBuilder() {
     setMainId(""); setSideOneId(""); setSideTwoId("");
     setServings(4); setEatNow(2); setRefrigerate(0);
+    setActiveSavedMealId("");
+    setSaveConfirmation("");
+  }
+  function loadSavedMeal(savedMeal) {
+    if (!savedMeal) return;
+    const nextMainId = recipeMap.has(savedMeal.mainId) ? savedMeal.mainId : "";
+    const nextLayout = MEAL_BUILDER_MAIN_LAYOUTS.get(nextMainId) || "standard";
+    setMainId(nextMainId);
+    setSideOneId(nextLayout === "standard" && recipeMap.has(savedMeal.sideOneId) ? savedMeal.sideOneId : "");
+    setSideTwoId(nextLayout !== "full-tray" && recipeMap.has(savedMeal.sideTwoId) ? savedMeal.sideTwoId : "");
+    const nextServings = [2, 4, 6].includes(Number(savedMeal.servings)) ? Number(savedMeal.servings) : 4;
+    const nextEatNow = Math.max(0, Math.min(nextServings, Number(savedMeal.eatNow) || 0));
+    const nextRefrigerate = Math.max(0, Math.min(nextServings - nextEatNow, Number(savedMeal.refrigerate) || 0));
+    setServings(nextServings);
+    setEatNow(nextEatNow);
+    setRefrigerate(nextRefrigerate);
+    setActiveSavedMealId(savedMeal.id);
+    setSaveConfirmation(`Loaded ${savedMeal.title || "saved meal"}.`);
+  }
+  function saveCurrentMeal() {
+    if (!mainRecipe) {
+      window.alert("Choose a main dish before saving this meal.");
+      return;
+    }
+    const now = new Date().toISOString();
+    const savedMeal = {
+      id: activeSavedMealId || `BYOM-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+      schemaVersion: 1,
+      title: mealLabelTitle,
+      mainId,
+      mainTrayLayout,
+      sideOneId: mainTrayLayout === "standard" ? sideOneId : "",
+      sideTwoId: mainTrayLayout === "full-tray" ? "" : sideTwoId,
+      servings,
+      eatNow,
+      refrigerate,
+      favorite: activeSavedMeal?.favorite || false,
+      totalCalories,
+      mealBalance: combinedMealBalance,
+      createdAt: activeSavedMeal?.createdAt || now,
+      updatedAt: now,
+    };
+    onSaveMeal(savedMeal);
+    setActiveSavedMealId(savedMeal.id);
+    setSaveConfirmation(`Saved ${savedMeal.title}.`);
+  }
+  function deleteActiveSavedMeal() {
+    if (!activeSavedMeal) return;
+    onDeleteSavedMeal(activeSavedMeal.id);
+    setActiveSavedMealId("");
+    setSaveConfirmation(`Removed ${activeSavedMeal.title}.`);
   }
   function openLabelSetup() {
     if (!mainRecipe) {
@@ -441,7 +513,26 @@ export default function BuildYourOwnMealPage({ recipes = [], openRecipeCard = ()
       </div>
 
       <div className="mealBuilderActions">
+        <div className="mealBuilderSavedMealsBar">
+          <label>
+            <span>Saved Meals</span>
+            <select
+              value={activeSavedMealId}
+              onChange={(event) => loadSavedMeal(safeSavedMeals.find((meal) => meal.id === event.target.value))}
+            >
+              <option value="">Choose a saved meal</option>
+              {safeSavedMeals.map((meal) => <option key={meal.id} value={meal.id}>{meal.favorite ? "♥ " : ""}{meal.title}</option>)}
+            </select>
+          </label>
+          <button type="button" className="mealBuilderFavoriteSavedButton" disabled={!activeSavedMeal} onClick={() => onToggleSavedMealFavorite(activeSavedMeal.id)} aria-pressed={activeSavedMeal?.favorite || false}>
+            <span aria-hidden="true">{activeSavedMeal?.favorite ? "♥" : "♡"}</span>
+            {activeSavedMeal?.favorite ? "IN FAVORITES" : "ADD TO FAVORITES"}
+          </button>
+          <button type="button" className="secondary mealBuilderDeleteSavedButton" disabled={!activeSavedMeal} onClick={deleteActiveSavedMeal}>DELETE SAVED MEAL</button>
+        </div>
+        {saveConfirmation && <p className="mealBuilderSaveConfirmation" role="status">{saveConfirmation}</p>}
         <div className="mealBuilderActionButtons">
+          <button type="button" onClick={saveCurrentMeal}>{activeSavedMeal ? "UPDATE SAVED MEAL" : "SAVE MEAL"}</button>
           <button type="button" onClick={openLabelSetup}>PRINT MEAL LABELS</button>
           <button type="button" className="secondary" onClick={clearBuilder}>CLEAR &amp; START OVER</button>
         </div>

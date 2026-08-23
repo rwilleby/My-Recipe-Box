@@ -10,7 +10,7 @@ import AdminNutritionDatabase from "./components/AdminNutritionDatabase";
 import RfisProjectDashboard from "./components/RfisProjectDashboard";
 import RecipeIntelligencePanel from "./components/RecipeIntelligencePanel";
 import RfisDinnerBuilder from "./components/RfisDinnerBuilder";
-import BuildYourOwnMealPage from "./components/BuildYourOwnMealPage";
+import BuildYourOwnMealPage, { MealBuilderTrayPreview } from "./components/BuildYourOwnMealPage";
 import RfisUnifiedSearch from "./components/RfisUnifiedSearch";
 import "./components/RfisUnifiedSearch.css";
 import "./components/RfisDinnerBuilder.css";
@@ -150,12 +150,27 @@ const STORAGE_KEYS = {
   productCategories: "rrb_productCategoryAssignments",
   masterInventory: "rrb_masterKitchenInventory_v1",
   inventoryHubView: "rrb_inventoryHubView_v1",
+  savedCustomMeals: "rrb_savedCustomMeals_v1",
 };
 
 const CUSTOM_USER_INFORMATION_MARKER_KEY = "rrb_has_custom_user_information";
 const SITE_VISIT_COUNT_KEY = "rrb_site_visit_count";
 const SITE_VISIT_SESSION_KEY = "rrb_site_visit_counted_this_session";
 const REMINDER_RIBBON_MINIMUM_VISITS = 10;
+
+function normalizeSavedCustomMeals(value) {
+  if (!Array.isArray(value)) return [];
+  return value
+    .filter((meal) => meal && typeof meal === "object" && meal.id && meal.mainId)
+    .map((meal) => ({
+      ...meal,
+      id: String(meal.id),
+      mainId: String(meal.mainId),
+      sideOneId: meal.sideOneId ? String(meal.sideOneId) : "",
+      sideTwoId: meal.sideTwoId ? String(meal.sideTwoId) : "",
+      favorite: Boolean(meal.favorite),
+    }));
+}
 
 function recordSiteVisit() {
   try {
@@ -223,6 +238,7 @@ function hasStoredCustomUserInformation() {
 
 function hasCustomUserState({
   favorites,
+  savedCustomMeals,
   plan,
   servings,
   checked,
@@ -237,6 +253,7 @@ function hasCustomUserState({
 }) {
   return Boolean(
     (Array.isArray(favorites) && favorites.length > 0) ||
+    (Array.isArray(savedCustomMeals) && savedCustomMeals.length > 0) ||
     plannedMealCount(plan) > 0 ||
     Number(servings) !== 4 ||
     objectHasSavedEntries(checked) ||
@@ -1641,7 +1658,7 @@ const PageNavigationContext = createContext({
   setActivePage: () => {},
 });
 
-function Header({ activePage, setActivePage, favorites }) {
+function Header({ activePage, setActivePage, favorites, savedCustomMeals = [] }) {
   const [openNavMenu, setOpenNavMenu] = useState(null);
   const mainNavigationRef = useRef(null);
   const [siteMode, setSiteMode] = useState(() => {
@@ -1737,6 +1754,8 @@ function Header({ activePage, setActivePage, favorites }) {
       items: NAV_GROUPS.find((group) => group.label === "TIPS & GUIDES")?.items || [],
     },
   ];
+  const favoriteItemCount = (Array.isArray(favorites) ? favorites.length : 0)
+    + (Array.isArray(savedCustomMeals) ? savedCustomMeals.filter((meal) => meal?.favorite).length : 0);
 
   return (
     <header className="topbar compactTopbar">
@@ -1842,14 +1861,14 @@ function Header({ activePage, setActivePage, favorites }) {
             setOpenNavMenu(null);
             setActivePage("Favorites");
           }}
-          aria-label={`Open Favorites${Array.isArray(favorites) && favorites.length ? `, ${favorites.length} saved items` : ""}`}
+          aria-label={`Open Favorites${favoriteItemCount ? `, ${favoriteItemCount} saved items` : ""}`}
           title="Favorites"
         >
           <span className="simpleHeaderFavoriteHeart" aria-hidden="true">♥</span>
           <span className="simpleHeaderFavoriteLabel">FAVORITES</span>
-          {Array.isArray(favorites) && favorites.length > 0 && (
+          {favoriteItemCount > 0 && (
             <span className="simpleHeaderFavoriteCount" aria-hidden="true">
-              {favorites.length}
+              {favoriteItemCount}
             </span>
           )}
         </a>
@@ -10697,29 +10716,34 @@ function FavoritesPage({
   addToPlan,
   openRecipeCard,
   setPlan,
+  savedCustomMeals = [],
+  toggleSavedCustomMealFavorite = () => {},
+  openSavedCustomMeal = () => {},
 }) {
   const safeFavorites = Array.isArray(favorites) ? favorites : [];
   const savedRecipes = recipes.filter((recipe) => safeFavorites.includes(recipe.id));
   const savedComboMeals = uniqueRecordsByPermanentId(dinnerCombinations).filter((meal) =>
     safeFavorites.includes(meal.id)
   );
+  const favoriteBuiltMeals = (Array.isArray(savedCustomMeals) ? savedCustomMeals : []).filter((meal) => meal?.favorite);
+  const favoriteRecipeMap = new Map(recipes.map((recipe) => [recipe.id, recipe]));
   const [selectedMeal, setSelectedMeal] = useState(null);
   const [selectedMealCard, setSelectedMealCard] = useState(null);
-  const hasFavorites = savedRecipes.length > 0 || savedComboMeals.length > 0;
+  const hasFavorites = savedRecipes.length > 0 || savedComboMeals.length > 0 || favoriteBuiltMeals.length > 0;
 
   return (
     <>
       <main className="pageShell favoritesLibraryPage">
         <SectionIntro
           title="Favorites"
-          text="Recipe cards and Combo-Meals saved on this device. No login or sync required."
+          text="Recipe cards, Combo-Meals, and meals you build yourself—saved on this device. No login or sync required."
           className="favoritesSectionIntro"
         />
 
         {!hasFavorites ? (
           <EmptyState
             title="No favorites yet"
-            text="Tap the heart on any recipe card or Combo-Meal to save it here."
+            text="Tap the heart on a recipe card, Combo-Meal, or saved Build Your Own Meal to keep it here."
           />
         ) : (
           <>
@@ -10739,6 +10763,36 @@ function FavoritesPage({
                       favoritesOnly
                     />
                   ))}
+                </div>
+              </section>
+            )}
+
+            {favoriteBuiltMeals.length > 0 && (
+              <section className="favoritesLibrarySection" aria-labelledby="favorite-built-meals-title">
+                <header className="favoritesLibraryHeader">
+                  <h2 id="favorite-built-meals-title">Favorite Build Your Own Meals</h2>
+                  <span>{favoriteBuiltMeals.length}</span>
+                </header>
+                <div className="favoriteBuiltMealGrid">
+                  {favoriteBuiltMeals.map((meal) => {
+                    const mainRecipe = favoriteRecipeMap.get(meal.mainId) || null;
+                    const sideOneRecipe = favoriteRecipeMap.get(meal.sideOneId) || null;
+                    const sideTwoRecipe = favoriteRecipeMap.get(meal.sideTwoId) || null;
+                    const mainTrayLayout = meal.mainTrayLayout || (meal.sideOneId ? "standard" : meal.sideTwoId ? "two-thirds" : "full-tray");
+                    return (
+                      <article className="favoriteBuiltMealCard" key={meal.id}>
+                        <button type="button" className="favoriteBuiltMealOpen" onClick={() => openSavedCustomMeal(meal.id)} aria-label={`Open ${meal.title} in Build Your Own Meal`}>
+                          <MealBuilderTrayPreview mainRecipe={mainRecipe} sideOneRecipe={sideOneRecipe} sideTwoRecipe={sideTwoRecipe} mainTrayLayout={mainTrayLayout} className="favoriteBuiltMealPreview" />
+                          <span className="favoriteBuiltMealCopy">
+                            <strong>{meal.title}</strong>
+                            <span>{meal.totalCalories === null || meal.totalCalories === undefined ? "Calories —" : `${meal.totalCalories} calories`} · MB {meal.mealBalance ?? "—"} · {meal.servings || 4} portions</span>
+                            <span>Open in Meal Builder</span>
+                          </span>
+                        </button>
+                        <button type="button" className="favoriteBuiltMealHeart" onClick={() => toggleSavedCustomMealFavorite(meal.id)} aria-label={`Remove ${meal.title} from Favorites`} title="Remove from Favorites">♥</button>
+                      </article>
+                    );
+                  })}
                 </div>
               </section>
             )}
@@ -17561,6 +17615,10 @@ export default function App() {
     const storedFavorites = loadJSON(STORAGE_KEYS.favorites, []);
     return Array.isArray(storedFavorites) ? storedFavorites : [];
   });
+  const [savedCustomMeals, setSavedCustomMeals] = useState(() =>
+    normalizeSavedCustomMeals(loadJSON(STORAGE_KEYS.savedCustomMeals, []))
+  );
+  const [mealBuilderTargetId, setMealBuilderTargetId] = useState("");
   const [plan, setPlan] = useState(() =>
     normalizeTwoWeekPlan(loadJSON(STORAGE_KEYS.plan, emptyTwoWeekPlan()))
   );
@@ -17707,6 +17765,7 @@ export default function App() {
     () =>
       hasCustomUserState({
         favorites,
+        savedCustomMeals,
         plan,
         servings,
         checked,
@@ -17723,6 +17782,7 @@ export default function App() {
       checked,
       componentDecisions,
       favorites,
+      savedCustomMeals,
       freezer,
       masterInventory,
       pantry,
@@ -17746,6 +17806,7 @@ export default function App() {
   }, [hasCustomUserData]);
 
   useEffect(() => saveJSON(STORAGE_KEYS.favorites, favorites), [favorites]);
+  useEffect(() => saveJSON(STORAGE_KEYS.savedCustomMeals, savedCustomMeals), [savedCustomMeals]);
   useEffect(() => saveJSON(STORAGE_KEYS.plan, plan), [plan]);
   useEffect(() => saveJSON(STORAGE_KEYS.servings, servings), [servings]);
   useEffect(() => saveJSON(STORAGE_KEYS.checked, checked), [checked]);
@@ -17806,6 +17867,32 @@ export default function App() {
     });
   }
 
+  function saveCustomMeal(savedMeal) {
+    if (!savedMeal?.id || !savedMeal?.mainId) return;
+    setSavedCustomMeals((current) => {
+      const safeCurrent = normalizeSavedCustomMeals(current);
+      const existingIndex = safeCurrent.findIndex((meal) => meal.id === savedMeal.id);
+      if (existingIndex < 0) return [savedMeal, ...safeCurrent];
+      return safeCurrent.map((meal, index) => index === existingIndex ? { ...meal, ...savedMeal } : meal);
+    });
+  }
+
+  function toggleSavedCustomMealFavorite(id) {
+    setSavedCustomMeals((current) => normalizeSavedCustomMeals(current).map((meal) =>
+      meal.id === id ? { ...meal, favorite: !meal.favorite, updatedAt: new Date().toISOString() } : meal
+    ));
+  }
+
+  function deleteSavedCustomMeal(id) {
+    setSavedCustomMeals((current) => normalizeSavedCustomMeals(current).filter((meal) => meal.id !== id));
+  }
+
+  function openSavedCustomMeal(id) {
+    if (!id) return;
+    setMealBuilderTargetId(id);
+    setActivePage("Build Your Own Meal");
+  }
+
   function addToPlan(recipeId) {
     setPlan((current) => {
       const next = normalizeTwoWeekPlan(current);
@@ -17856,6 +17943,11 @@ export default function App() {
   const pageProps = {
     favorites,
     toggleFavorite,
+    savedCustomMeals,
+    saveCustomMeal,
+    toggleSavedCustomMealFavorite,
+    deleteSavedCustomMeal,
+    openSavedCustomMeal,
     addToPlan,
     openRecipeCard,
     setActivePage,
@@ -17894,7 +17986,7 @@ export default function App() {
   return (
     <PageNavigationContext.Provider value={{ activePage, setActivePage }}>
       <div className="app">
-        <Header activePage={activePage} setActivePage={setActivePage} favorites={favorites} />
+        <Header activePage={activePage} setActivePage={setActivePage} favorites={favorites} savedCustomMeals={savedCustomMeals} />
         {siteVisitCount >= REMINDER_RIBBON_MINIMUM_VISITS && (
           <KitchenReminderRibbon
             plan={plan}
@@ -17999,6 +18091,12 @@ export default function App() {
           <BuildYourOwnMealPage
             recipes={classifiedRecipes}
             openRecipeCard={(recipeId) => openRecipeCard(recipeId, classifiedRecipes, "Build Your Own Meal")}
+            savedMeals={savedCustomMeals}
+            onSaveMeal={saveCustomMeal}
+            onToggleSavedMealFavorite={toggleSavedCustomMealFavorite}
+            onDeleteSavedMeal={deleteSavedCustomMeal}
+            requestedSavedMealId={mealBuilderTargetId}
+            onSavedMealLoaded={() => setMealBuilderTargetId("")}
           />
         </>
       )}
