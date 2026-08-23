@@ -21,9 +21,9 @@ const MEAL_BUILDER_MAIN_IDS = new Set([
   "AS-001", "AS-002", "AS-003", "AS-004", "AS-005", "AS-006", "AS-007", "AS-008", "AS-009", "AS-010",
   "AS-011", "AS-012", "AS-013", "AS-014", "AS-015", "AS-016", "AS-017", "AS-018", "AS-019",
 ]);
-const MEAL_BUILDER_SIDE_IDS = new Set([
-  "SD-001", "SD-004", "SD-005", "SD-007", "SD-008", "SD-009", "SD-010", "SD-012", "SD-025",
-]);
+const MEAL_BUILDER_SIDE_IDS = new Set(
+  Array.from({ length: 53 }, (_, index) => `SD-${String(index + 1).padStart(3, "0")}`),
+);
 const MEAL_BUILDER_MAIN_LAYOUTS = new Map([
   ["AM-005", "full-tray"],
   ["AM-015", "two-thirds"],
@@ -172,7 +172,7 @@ function HeroImage({ recipe, alt = "" }) {
   return <img src={`${import.meta.env.BASE_URL}${candidates[imageIndex]}`} alt={alt} onError={() => setImageIndex((current) => current + 1)} />;
 }
 
-function MealBuilderFoodImage({ recipe, position, expanded = false }) {
+function MealBuilderFoodImage({ recipe, position }) {
   if (!recipe) {
     return (
       <div className={`mealBuilderTrayFood mealBuilderTrayFood-${position} is-empty`}>
@@ -193,7 +193,7 @@ function MealBuilderFoodImage({ recipe, position, expanded = false }) {
 
   const folder = isMain ? "main" : "sides";
   return (
-    <div className={`mealBuilderTrayFood mealBuilderTrayFood-${position} mealBuilderTrayFood-recipe-${recipe.id.toLowerCase()}${expanded ? " is-expanded" : ""}`}>
+    <div className={`mealBuilderTrayFood mealBuilderTrayFood-${position} mealBuilderTrayFood-recipe-${recipe.id.toLowerCase()}`}>
       <img src={`${import.meta.env.BASE_URL}images/meal-builder/${folder}/${recipe.id}.webp`} alt="" />
     </div>
   );
@@ -204,7 +204,7 @@ export function MealBuilderTrayPreview({ mainRecipe, sideOneRecipe, sideTwoRecip
     <div className={`mealBuilderTray${className ? ` ${className}` : ""}`} aria-label="Preview of the selected main dish and two sides">
       <img className="mealBuilderTrayBase" src={`${import.meta.env.BASE_URL}images/meal-builder/meal-builder-tray-base.webp`} alt="Empty white rectangular meal-prep tray" />
       <div className={`mealBuilderTrayInterior is-${mainTrayLayout}`} aria-hidden="true">
-        <MealBuilderFoodImage recipe={mainRecipe} position="main" expanded={mainTrayLayout !== "standard"} />
+        <MealBuilderFoodImage recipe={mainRecipe} position="main" />
         {mainTrayLayout === "standard" && <MealBuilderFoodImage recipe={sideOneRecipe} position="side-one" />}
         {mainTrayLayout !== "full-tray" && <MealBuilderFoodImage recipe={sideTwoRecipe} position="side-two" />}
       </div>
