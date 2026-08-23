@@ -26,7 +26,7 @@ assert.match(styles, /\.howItWorksAccordionList/);
 assert.match(styles, /\.howItWorksAccordionSummary/);
 assert.match(styles, /\.howItWorksAccordion\.isOpen \.howItWorksAccordionArrow/);
 assert.match(styles, /\.howItWorksDetailedStage/);
-assert.match(styles, /\.howItWorksHero \.pageHeroTextOverlay h1[\s\S]*?white-space:\s*nowrap/);
+assert.match(styles, /\.howItWorksHero \.pageHeroTextOverlay h1[\s\S]*?font-size:\s*var\(--rrb-major-page-title\)[\s\S]*?line-height:\s*1\.12[\s\S]*?white-space:\s*nowrap/);
 
 assert.equal(routeForPage("How It Works"), "/how-it-works/");
 assert.deepEqual(parseRoute("/how-it-works/"), {

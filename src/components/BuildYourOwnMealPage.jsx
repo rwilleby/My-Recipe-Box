@@ -224,14 +224,14 @@ function MealBuilderTrayPreview({ mainRecipe, sideOneRecipe, sideTwoRecipe, main
   );
 }
 
-function MealChoiceStrip({ label, categories, category, onCategoryChange, recipes, selectedId, onSelect, excludeId = "", builderImageIds, disabled = false, disabledMessage = "", trayLayouts = null }) {
+function MealChoiceStrip({ label, recipes, selectedId, onSelect, excludeId = "", builderImageIds, disabled = false, disabledMessage = "", trayLayouts = null }) {
   const railRef = useRef(null);
   const [searchQuery, setSearchQuery] = useState("");
   const visibleRecipes = useMemo(
     () => {
       const query = searchQuery.trim().toLocaleLowerCase();
       return recipes
-      .filter((recipe) => categoryCode(recipe) === category && recipe.id !== excludeId)
+      .filter((recipe) => recipe.id !== excludeId)
       .filter((recipe) => !query || `${normalizeRecipeTitle(recipe)} ${recipe.id}`.toLocaleLowerCase().includes(query))
       .sort((a, b) => {
         if (a.id === selectedId) return -1;
@@ -240,7 +240,7 @@ function MealChoiceStrip({ label, categories, category, onCategoryChange, recipe
         return proofDifference || normalizeRecipeTitle(a).localeCompare(normalizeRecipeTitle(b));
       });
     },
-    [builderImageIds, category, excludeId, recipes, searchQuery, selectedId],
+    [builderImageIds, excludeId, recipes, searchQuery, selectedId],
   );
 
   useEffect(() => {
@@ -258,12 +258,6 @@ function MealChoiceStrip({ label, categories, category, onCategoryChange, recipe
         <label>
           <span>Search by Name</span>
           <input type="search" value={searchQuery} onChange={(event) => setSearchQuery(event.target.value)} placeholder="Enter recipe name" disabled={disabled} />
-        </label>
-        <label>
-          <span>Sort by Cuisine</span>
-          <select value={category} onChange={(event) => onCategoryChange(event.target.value)} disabled={disabled}>
-            {categories.map(([code, name]) => <option key={code} value={code}>{name}</option>)}
-          </select>
         </label>
       </div>
       {disabled ? (
@@ -291,9 +285,6 @@ function MealChoiceStrip({ label, categories, category, onCategoryChange, recipe
 }
 
 export default function BuildYourOwnMealPage({ recipes = [] }) {
-  const [mainCategory, setMainCategory] = useState("AM");
-  const [sideOneCategory, setSideOneCategory] = useState("SD");
-  const [sideTwoCategory, setSideTwoCategory] = useState("SD");
   const [mainId, setMainId] = useState("");
   const [sideOneId, setSideOneId] = useState("");
   const [sideTwoId, setSideTwoId] = useState("");
@@ -421,6 +412,11 @@ export default function BuildYourOwnMealPage({ recipes = [] }) {
       </section>
 
       <div className="mealBuilderWorkspaceGrid">
+        <div className="mealBuilderSelectorsHeading">
+          <h2 id="meal-builder-selectors-title">Dish Selectors</h2>
+          <p>Scroll each column up or down. Your selection moves to the top.</p>
+        </div>
+
         <section className="mealBuilderPreviewColumn" aria-label="Meal tray and calorie overview">
           <MealBuilderTrayPreview mainRecipe={mainRecipe} sideOneRecipe={sideOneRecipe} sideTwoRecipe={sideTwoRecipe} mainTrayLayout={mainTrayLayout} className="mealBuilderTrayPrimary" />
           <div className="mealBuilderMealSummaryCard">
@@ -447,14 +443,10 @@ export default function BuildYourOwnMealPage({ recipes = [] }) {
         </section>
 
         <section className="mealBuilderDishSelectors" aria-labelledby="meal-builder-selectors-title">
-          <div className="mealBuilderSelectorsHeading">
-            <h2 id="meal-builder-selectors-title">Dish Selectors</h2>
-            <p>Scroll each column up or down. Your selection moves to the top.</p>
-          </div>
           <div className="mealBuilderSelectorColumns">
-            <MealChoiceStrip label="Main Dish" categories={MAIN_CATEGORIES} category={mainCategory} onCategoryChange={setMainCategory} recipes={mainRecipes} selectedId={mainId} onSelect={selectMain} builderImageIds={MEAL_BUILDER_MAIN_IDS} trayLayouts={MEAL_BUILDER_MAIN_LAYOUTS} />
-            <MealChoiceStrip label="Side 1" categories={SIDE_CATEGORIES} category={sideOneCategory} onCategoryChange={setSideOneCategory} recipes={sideRecipes} selectedId={sideOneId} onSelect={setSideOneId} excludeId={sideTwoId} builderImageIds={MEAL_BUILDER_SIDE_IDS} disabled={sideOneDisabled} disabledMessage={mainTrayLayout === "full-tray" ? "Complete meal — sides included" : "Included with selected main dish"} />
-            <MealChoiceStrip label="Side 2" categories={SIDE_CATEGORIES} category={sideTwoCategory} onCategoryChange={setSideTwoCategory} recipes={sideRecipes} selectedId={sideTwoId} onSelect={setSideTwoId} excludeId={sideOneId} builderImageIds={MEAL_BUILDER_SIDE_IDS} disabled={sideTwoDisabled} disabledMessage="Complete meal — sides included" />
+            <MealChoiceStrip label="Main Dish" recipes={mainRecipes} selectedId={mainId} onSelect={selectMain} builderImageIds={MEAL_BUILDER_MAIN_IDS} trayLayouts={MEAL_BUILDER_MAIN_LAYOUTS} />
+            <MealChoiceStrip label="Side 1" recipes={sideRecipes} selectedId={sideOneId} onSelect={setSideOneId} excludeId={sideTwoId} builderImageIds={MEAL_BUILDER_SIDE_IDS} disabled={sideOneDisabled} disabledMessage={mainTrayLayout === "full-tray" ? "Complete meal — sides included" : "Included with selected main dish"} />
+            <MealChoiceStrip label="Side 2" recipes={sideRecipes} selectedId={sideTwoId} onSelect={setSideTwoId} excludeId={sideOneId} builderImageIds={MEAL_BUILDER_SIDE_IDS} disabled={sideTwoDisabled} disabledMessage="Complete meal — sides included" />
           </div>
         </section>
       </div>

@@ -15260,9 +15260,9 @@ to {
 }
 
 .howItWorksHero .pageHeroTextOverlay h1 {
-  font-size: clamp(15px, 4vw, 58px) !important;
-  letter-spacing: -.035em !important;
-  line-height: .98 !important;
+  font-size: var(--rrb-major-page-title) !important;
+  letter-spacing: normal !important;
+  line-height: 1.12 !important;
   white-space: nowrap !important;
 }
 
