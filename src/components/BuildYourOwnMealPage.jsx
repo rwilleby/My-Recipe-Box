@@ -213,7 +213,7 @@ export function MealBuilderTrayPreview({ mainRecipe, sideOneRecipe, sideTwoRecip
   );
 }
 
-function MealChoiceStrip({ label, recipes, selectedId, onSelect, onOpenRecipeCard, excludeId = "", builderImageIds, disabled = false, disabledMessage = "", trayLayouts = null }) {
+function MealChoiceStrip({ label, recipes, selectedId, onSelect, excludeId = "", builderImageIds, disabled = false, disabledMessage = "", trayLayouts = null }) {
   const railRef = useRef(null);
   const [searchQuery, setSearchQuery] = useState("");
   const visibleRecipes = useMemo(
@@ -259,10 +259,7 @@ function MealChoiceStrip({ label, recipes, selectedId, onSelect, onOpenRecipeCar
               type="button"
               key={recipe.id}
               className={`mealBuilderChoiceCard${selectedId === recipe.id ? " is-selected" : ""}`}
-              onClick={() => {
-                onSelect(recipe.id);
-                onOpenRecipeCard(recipe.id);
-              }}
+              onClick={() => onSelect(recipe.id)}
               aria-pressed={selectedId === recipe.id}
             >
               <span className="mealBuilderChoiceImage">
@@ -484,6 +481,17 @@ export default function BuildYourOwnMealPage({
       <div className="mealBuilderWorkspaceGrid">
         <section className="mealBuilderPreviewColumn" aria-label="Meal tray and calorie overview">
           <MealBuilderTrayPreview mainRecipe={mainRecipe} sideOneRecipe={sideOneRecipe} sideTwoRecipe={sideTwoRecipe} mainTrayLayout={mainTrayLayout} className="mealBuilderTrayPrimary" />
+          <div className="mealBuilderTrayRecipeLinks" aria-label="View selected recipe cards">
+            <button type="button" disabled={!mainRecipe} onClick={() => mainRecipe && openRecipeCard(mainRecipe.id)} aria-label={mainRecipe ? `View recipe card for ${normalizeRecipeTitle(mainRecipe)}` : "Select a main dish to view its recipe card"}>
+              <span>Main</span><strong>{mainRecipe ? "View Recipe" : "Not Selected"}</strong>
+            </button>
+            <button type="button" disabled={!sideOneRecipe || sideOneDisabled} onClick={() => sideOneRecipe && !sideOneDisabled && openRecipeCard(sideOneRecipe.id)} aria-label={sideOneRecipe && !sideOneDisabled ? `View recipe card for ${normalizeRecipeTitle(sideOneRecipe)}` : "Select Side 1 to view its recipe card"}>
+              <span>Side 1</span><strong>{sideOneDisabled ? "Included in Main" : sideOneRecipe ? "View Recipe" : "Not Selected"}</strong>
+            </button>
+            <button type="button" disabled={!sideTwoRecipe || sideTwoDisabled} onClick={() => sideTwoRecipe && !sideTwoDisabled && openRecipeCard(sideTwoRecipe.id)} aria-label={sideTwoRecipe && !sideTwoDisabled ? `View recipe card for ${normalizeRecipeTitle(sideTwoRecipe)}` : "Select Side 2 to view its recipe card"}>
+              <span>Side 2</span><strong>{sideTwoDisabled ? "Included in Main" : sideTwoRecipe ? "View Recipe" : "Not Selected"}</strong>
+            </button>
+          </div>
           <div className="mealBuilderMealSummaryCard">
             <div className="mealBuilderNutritionSummary" aria-label="Estimated Meal Calories and MealBalance">
               <div className="mealBuilderNutritionTotal">
@@ -505,9 +513,9 @@ export default function BuildYourOwnMealPage({
 
         <section className="mealBuilderDishSelectors" aria-label="Dish selectors">
           <div className="mealBuilderSelectorColumns">
-            <MealChoiceStrip label="Main Dish" recipes={mainRecipes} selectedId={mainId} onSelect={selectMain} onOpenRecipeCard={openRecipeCard} builderImageIds={MEAL_BUILDER_MAIN_IDS} trayLayouts={MEAL_BUILDER_MAIN_LAYOUTS} />
-            <MealChoiceStrip label="Side 1" recipes={sideRecipes} selectedId={sideOneId} onSelect={setSideOneId} onOpenRecipeCard={openRecipeCard} excludeId={sideTwoId} builderImageIds={MEAL_BUILDER_SIDE_IDS} disabled={sideOneDisabled} disabledMessage={mainTrayLayout === "full-tray" ? "Complete meal — sides included" : "Included with selected main dish"} />
-            <MealChoiceStrip label="Side 2" recipes={sideRecipes} selectedId={sideTwoId} onSelect={setSideTwoId} onOpenRecipeCard={openRecipeCard} excludeId={sideOneId} builderImageIds={MEAL_BUILDER_SIDE_IDS} disabled={sideTwoDisabled} disabledMessage="Complete meal — sides included" />
+            <MealChoiceStrip label="Main Dish" recipes={mainRecipes} selectedId={mainId} onSelect={selectMain} builderImageIds={MEAL_BUILDER_MAIN_IDS} trayLayouts={MEAL_BUILDER_MAIN_LAYOUTS} />
+            <MealChoiceStrip label="Side 1" recipes={sideRecipes} selectedId={sideOneId} onSelect={setSideOneId} excludeId={sideTwoId} builderImageIds={MEAL_BUILDER_SIDE_IDS} disabled={sideOneDisabled} disabledMessage={mainTrayLayout === "full-tray" ? "Complete meal — sides included" : "Included with selected main dish"} />
+            <MealChoiceStrip label="Side 2" recipes={sideRecipes} selectedId={sideTwoId} onSelect={setSideTwoId} excludeId={sideOneId} builderImageIds={MEAL_BUILDER_SIDE_IDS} disabled={sideTwoDisabled} disabledMessage="Complete meal — sides included" />
           </div>
         </section>
       </div>
