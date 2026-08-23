@@ -164,17 +164,6 @@ function MealChoiceStats({ recipe }) {
   );
 }
 
-function MealNutritionLine({ label, recipe, includedMessage = "" }) {
-  const calories = recipeCalories(recipe);
-  return (
-    <div className={`mealBuilderNutritionLine${includedMessage ? " is-included" : ""}`}>
-      <span>{label}</span>
-      <strong>{includedMessage || (recipe ? normalizeRecipeTitle(recipe) : "Choose a recipe")}</strong>
-      <b>{includedMessage ? "Included" : calories === null ? "—" : `${Math.round(calories)} calories`}</b>
-    </div>
-  );
-}
-
 function HeroImage({ recipe, alt = "" }) {
   const candidates = useMemo(() => recipeHeroImageCandidates(recipe), [recipe]);
   const [imageIndex, setImageIndex] = useState(0);
@@ -257,7 +246,7 @@ function MealChoiceStrip({ label, recipes, selectedId, onSelect, excludeId = "",
         <strong>{label}</strong>
         <label>
           <span>Search by Name</span>
-          <input type="search" value={searchQuery} onChange={(event) => setSearchQuery(event.target.value)} placeholder="Enter recipe name" disabled={disabled} />
+          <input type="search" value={searchQuery} onChange={(event) => setSearchQuery(event.target.value)} placeholder="FILTER" disabled={disabled} />
         </label>
       </div>
       {disabled ? (
@@ -412,28 +401,19 @@ export default function BuildYourOwnMealPage({ recipes = [] }) {
       </section>
 
       <div className="mealBuilderWorkspaceGrid">
-        <div className="mealBuilderSelectorsHeading">
-          <h2 id="meal-builder-selectors-title">Dish Selectors</h2>
-          <p>Scroll each column up or down. Your selection moves to the top.</p>
-        </div>
-
         <section className="mealBuilderPreviewColumn" aria-label="Meal tray and calorie overview">
           <MealBuilderTrayPreview mainRecipe={mainRecipe} sideOneRecipe={sideOneRecipe} sideTwoRecipe={sideTwoRecipe} mainTrayLayout={mainTrayLayout} className="mealBuilderTrayPrimary" />
           <div className="mealBuilderMealSummaryCard">
             <div className="mealBuilderNutritionSummary" aria-label="Estimated Meal Calories and MealBalance">
-              <div className="mealBuilderSummaryHeading">Calorie Overview</div>
-            <MealNutritionLine label="Meal" recipe={mainRecipe} />
-            <MealNutritionLine label="Side 1" recipe={sideOneRecipe} includedMessage={sideOneDisabled ? "Included with main dish" : ""} />
-            <MealNutritionLine label="Side 2" recipe={sideTwoRecipe} includedMessage={sideTwoDisabled ? "Included with main dish" : ""} />
-            <div className="mealBuilderNutritionTotal">
-              <div><strong>{totalCalories ?? "—"}</strong><span>Est Calories</span></div>
-              <div className="mealBuilderMbSummary"><span>MB</span><strong>{combinedMealBalance ?? "—"}</strong></div>
+              <div className="mealBuilderNutritionTotal">
+                <div><strong>{totalCalories ?? "—"}</strong><span>Est Calories</span></div>
+                <div className="mealBuilderMbSummary"><span>MB</span><strong>{combinedMealBalance ?? "—"}</strong></div>
+              </div>
             </div>
-          </div>
             <div className="mealBuilderPortionPanel" aria-labelledby="meal-builder-portions-title">
               <div className="mealBuilderStepHeading"><h2 id="meal-builder-portions-title">Portion Plan</h2></div>
               <div className="mealBuilderPortionGrid">
-                <label><span>Portions</span><select value={servings} onChange={(event) => updateServings(event.target.value)}>{[2, 4, 6].map((value) => <option key={value} value={value}>{value}</option>)}</select></label>
+                <label><span>Portion</span><select value={servings} onChange={(event) => updateServings(event.target.value)}>{[2, 4, 6].map((value) => <option key={value} value={value}>{value}</option>)}</select></label>
                 <label><span>Eat Now</span><select value={eatNow} onChange={(event) => updateEatNow(event.target.value)}>{Array.from({ length: servings + 1 }, (_, value) => <option key={value} value={value}>{value}</option>)}</select></label>
                 <label><span>Refrigerate</span><select value={refrigerate} onChange={(event) => setRefrigerate(Number(event.target.value))}>{Array.from({ length: Math.max(0, servings - eatNow) + 1 }, (_, value) => <option key={value} value={value}>{value}</option>)}</select></label>
                 <div className="mealBuilderFreezeResult"><span>Freeze</span><strong>{freezeLater}</strong></div>
@@ -442,7 +422,7 @@ export default function BuildYourOwnMealPage({ recipes = [] }) {
           </div>
         </section>
 
-        <section className="mealBuilderDishSelectors" aria-labelledby="meal-builder-selectors-title">
+        <section className="mealBuilderDishSelectors" aria-label="Dish selectors">
           <div className="mealBuilderSelectorColumns">
             <MealChoiceStrip label="Main Dish" recipes={mainRecipes} selectedId={mainId} onSelect={selectMain} builderImageIds={MEAL_BUILDER_MAIN_IDS} trayLayouts={MEAL_BUILDER_MAIN_LAYOUTS} />
             <MealChoiceStrip label="Side 1" recipes={sideRecipes} selectedId={sideOneId} onSelect={setSideOneId} excludeId={sideTwoId} builderImageIds={MEAL_BUILDER_SIDE_IDS} disabled={sideOneDisabled} disabledMessage={mainTrayLayout === "full-tray" ? "Complete meal — sides included" : "Included with selected main dish"} />
@@ -453,10 +433,9 @@ export default function BuildYourOwnMealPage({ recipes = [] }) {
 
       <div className="mealBuilderActions">
         <div className="mealBuilderActionButtons">
-          <button type="button" onClick={openLabelSetup}>Print Meal Labels</button>
-          <button type="button" className="secondary" onClick={clearBuilder}>Clear &amp; Start Over</button>
+          <button type="button" onClick={openLabelSetup}>PRINT MEAL LABELS</button>
+          <button type="button" className="secondary" onClick={clearBuilder}>CLEAR &amp; START OVER</button>
         </div>
-        <p>Choose Avery 8163 photo labels or Avery 5160 text-only labels. Both include calories, MealBalance, and the date printed.</p>
       </div>
 
       {showLabelSetup && (
