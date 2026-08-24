@@ -1,12 +1,11 @@
-My Recipe Box v91.4 — changed files only
+My Recipe Box v91.5 — catch-up package
 
-Upload the contents of this folder to the repository root, preserving paths and replacing matching files.
+Upload every file and folder inside this package to the repository root, preserving paths and replacing all matching files.
 
-Included:
-- Responsive empty-tray partitions for the Build Your Own Meal preview
-- Two partitions for the standard 1/3 main layout
-- One right partition for the 2/3 main layout
-- No partitions for the full-tray 3/3 main layout
-- Updated Meal Builder tests
+This package includes:
+- Correct 1448 x 1086 divided-tray files for SD-027 through SD-053 in both directional side folders
+- The responsive empty-tray partition component and styles
+- The matching Meal Builder tests
 
-No recipe-card hero images or loaders were changed.
+This corrects the CI mismatch where GitHub retained the older 268 x 627 SD-027 Side 1 file.
+Recipe-card hero images and their loader remain unchanged.
