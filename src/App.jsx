@@ -11161,6 +11161,47 @@ function GroceryPicksPage({ setActivePage }) {
 
 
 function FreezerTipsPage({ setActivePage }) {
+  const [isPackagingAccordionOpen, setIsPackagingAccordionOpen] = useState(false);
+
+  const freezerPackagingSteps = [
+    {
+      image: "01-select-and-portion.webp",
+      title: "SELECT & PORTION",
+      copy: "Choose the meal components and place the portioned main dish into the container.",
+      alt: "A portion of glazed meatloaf being placed into a freezer-meal container beside brown rice and corn.",
+    },
+    {
+      image: "02-add-meal-pieces.webp",
+      title: "ADD THE MEAL PIECES",
+      copy: "Add the remaining meal components, keeping each portion neatly arranged.",
+      alt: "Brown rice being spooned into a meal container with meatloaf and corn.",
+    },
+    {
+      image: "03-secure-the-lid.webp",
+      title: "SECURE THE LID",
+      copy: "Attach the clear lid and press around the entire rim to make sure it is secure.",
+      alt: "Hands pressing a clear lid securely onto a prepared meal container.",
+    },
+    {
+      image: "04-apply-the-label.webp",
+      title: "LABEL THE MEAL",
+      copy: "Apply a printed label showing the meal name, contents, and freezing information.",
+      alt: "A printed meatloaf dinner label being applied to the clear container lid.",
+    },
+    {
+      image: "05-vacuum-seal.webp",
+      title: "VACUUM SEAL",
+      copy: "Place the entire closed container inside a vacuum-sealer bag and seal it securely.",
+      alt: "A labeled meal container inside a bag being positioned in a vacuum sealer.",
+    },
+    {
+      image: "06-store-in-freezer.webp",
+      title: "STORE IN THE FREEZER",
+      copy: "Arrange the sealed meals neatly in the freezer so the labels remain easy to see.",
+      alt: "Six labeled and vacuum-sealed meal containers arranged neatly inside a freezer drawer.",
+    },
+  ];
+
   const tipCards = [
     {
       title: "Cool before freezing",
@@ -11198,6 +11239,47 @@ function FreezerTipsPage({ setActivePage }) {
         text="Many Robert’s Recipe Box meals are intentionally planned for small households with enough food for dinner now and a second prepared meal to freeze for later."
         className="freezerMealsStorageSectionIntro"
       />
+
+      <section className={`freezerPackagingAccordion${isPackagingAccordionOpen ? " isOpen" : ""}`}>
+        <button
+          className="freezerPackagingAccordionHeader"
+          type="button"
+          aria-expanded={isPackagingAccordionOpen}
+          aria-controls="freezer-packaging-process-panel"
+          onClick={() => setIsPackagingAccordionOpen((current) => !current)}
+        >
+          <span className="freezerPackagingAccordionArrow" aria-hidden="true">▶</span>
+          <span className="freezerPackagingAccordionHeading">
+            <strong>How I Package My Freezer Meals</strong>
+            <small>See the complete process—from portioning the meal to storing it in the freezer.</small>
+          </span>
+          <em>{isPackagingAccordionOpen ? "Close" : "Open"}</em>
+        </button>
+
+        {isPackagingAccordionOpen && (
+          <div className="freezerPackagingAccordionBody" id="freezer-packaging-process-panel">
+            <p className="freezerPackagingIntro">Prepare, package, label, and protect each meal before placing it in the freezer.</p>
+            <div className="freezerPackagingSteps" aria-label="Six steps for packaging freezer meals">
+              {freezerPackagingSteps.map((step, index) => (
+                <article className="freezerPackagingStep" key={step.image}>
+                  <img
+                    src={`${import.meta.env.BASE_URL}images/freezer-packaging/${step.image}`}
+                    alt={step.alt}
+                    loading="lazy"
+                    decoding="async"
+                    width="1200"
+                    height="900"
+                  />
+                  <span className="freezerPackagingStepNumber" aria-hidden="true">{index + 1}</span>
+                  <h3>{step.title}</h3>
+                  <p>{step.copy}</p>
+                  {index < freezerPackagingSteps.length - 1 && <i className="freezerPackagingArrow" aria-hidden="true">→</i>}
+                </article>
+              ))}
+            </div>
+          </div>
+        )}
+      </section>
 
       <div className="freezerMealsStorageIntroActions">
         <button className="primary" onClick={() => setActivePage("Meal Planner")}>
