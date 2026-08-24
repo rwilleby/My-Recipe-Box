@@ -27,7 +27,7 @@ assert.match(jsx, /<span>Portion<\/span>/);
 assert.match(jsx, />PRINT MEAL LABELS</);
 assert.match(jsx, />CLEAR &amp; START OVER</);
 assert.match(css, /\.mealBuilderTray\s*\{[^}]*aspect-ratio:\s*1448\/1086/);
-assert.match(css, /\.mealBuilderPreviewColumn \.mealBuilderTrayPrimary\s*\{[^}]*aspect-ratio:\s*1448\/800/);
+assert.match(css, /\.mealBuilderPreviewColumn \.mealBuilderTrayPrimary\s*\{[^}]*aspect-ratio:\s*1448\/627/);
 assert.match(css, /\.mealBuilderChoiceLead input\[type="search"\][^}]*text-align:\s*center/);
 assert.match(css, /\.mealBuilderPortionGrid label > span,[\s\S]*?text-align:\s*center/);
 assert.match(jsx, /categoryLabel="Sort by Cuisine"/);
@@ -40,7 +40,7 @@ for (const category of ["AM", "AS", "HB", "IT", "MX", "SF", "SG"]) assert.match(
 for (const category of ["CP", "CS", "DM", "HBP", "QP", "SW"]) assert.doesNotMatch(jsx.slice(0, jsx.indexOf("const MEAL_BUILDER_MAIN_IDS")), new RegExp(`\\["${category}",`));
 assert.match(jsx, /mealBuilderSelectedDish/);
 assert.match(css, /\.mealBuilderSelectedDish\s*\{[^}]*aspect-ratio:\s*16\/9/);
-assert.match(css, /\.mealBuilderTrayFood\.is-empty\s*\{[^}]*top:\s*20\.5%[^}]*height:\s*59%/);
+assert.match(css, /\.mealBuilderTrayFood\.is-empty\s*\{[^}]*top:\s*21\.0866%[^}]*height:\s*57\.6427%/);
 assert.match(jsx, /className="mealBuilderSelectedDish has-selection" onClick=\{\(\) => onSelect\(""\)\}/);
 assert.match(css, /\.buildYourOwnMealIntro p \+ p\s*\{[^}]*margin-top:\s*0/);
 assert.doesNotMatch(css, /\.mealBuilderWorkspaceGrid\s*\{[^}]*grid-template-columns:\s*1fr\s*;/);

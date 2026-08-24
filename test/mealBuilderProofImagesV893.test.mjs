@@ -28,9 +28,9 @@ assert.doesNotMatch(styles, /mealBuilderTrayPartition/);
 assert.match(styles, /mealBuilderTrayFood-main\.is-empty[^}]*width:\s*23\.9497%/);
 assert.match(styles, /mealBuilderTrayFood-side-one\.is-empty[^}]*left:\s*37\.9%/);
 assert.match(styles, /mealBuilderTrayFood-side-two\.is-empty[^}]*left:\s*61\.3%/);
-assert.match(styles, /mealBuilderTrayFood\.is-empty[^}]*top:\s*20\.5%[^}]*height:\s*59%/);
-assert.match(styles, /mealBuilderTrayPrimary[^}]*aspect-ratio:\s*1448\/800/);
-assert.match(styles, /mealBuilderTrayPrimary > \.mealBuilderTrayBase,[\s\S]*height:\s*135\.75%/);
+assert.match(styles, /mealBuilderTrayFood\.is-empty[^}]*top:\s*21\.0866%[^}]*height:\s*57\.6427%/);
+assert.match(styles, /mealBuilderTrayPrimary[^}]*aspect-ratio:\s*1448\/627/);
+assert.match(styles, /mealBuilderTrayPrimary > \.mealBuilderTrayBase,[\s\S]*top:\s*-36\.5231%[^}]*height:\s*173\.2057%/);
 
 for (const id of mainIds) await access(new URL(`../public/images/build-your-own/main/${id}.webp`, import.meta.url));
 for (const id of sideIds) {

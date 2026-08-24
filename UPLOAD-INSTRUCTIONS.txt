@@ -1,13 +1,13 @@
-My Recipe Box v92.2 — changed files only
+My Recipe Box v92.3 — changed files only
 
 Upload the contents of this folder to the repository root, preserving paths and replacing matching files.
 
 Build Your Own Meal refinements:
-- Removed the tray canvas's unused top and bottom bands through internal cropping
+- Correctly removed the tray canvas's unused top and bottom bands using the tray's exact 627px visible bounds
 - Top-aligned the interactive tray with the selector rows without shifting the whole left column
 - Kept the 58px gutter between the interactive and selector areas
 - Reallocated the recovered horizontal space to the selector area so all three selector columns are wider
-- Confined ghosted Choose panels to the actual tray area
+- Confined ghosted Choose panels to the exact tray interior so they cannot extend above or below it
 - Made the selected-dish preview button deselect that dish when clicked
 - Added keyboard focus and hover feedback for deselection
 - Updated all affected Meal Builder contracts
