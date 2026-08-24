@@ -21,6 +21,11 @@
 .mealBuilderTrayFood-side-two { left: 65.8150%; width: 19.8204%; }
 .mealBuilderTrayFood img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; max-width: none; object-fit: contain; object-position: center; filter: saturate(.98) contrast(1.02); }
 .mealBuilderTrayFood-side-two img { left: 50%; width: 96.8641%; transform: translateX(-50%); }
+.mealBuilderTrayFood-side-one.is-divided-tray-layer,
+.mealBuilderTrayFood-side-two.is-divided-tray-layer { top: 0; left: 0; width: 100%; height: 100%; }
+.mealBuilderTrayFood-side-one.is-divided-tray-layer { clip-path: polygon(37.9% 20.5%,61.3% 20.5%,61.3% 79.5%,37.9% 79.5%); }
+.mealBuilderTrayFood-side-two.is-divided-tray-layer { clip-path: polygon(60.8% 20.5%,87% 20.5%,87% 79.5%,60.8% 79.5%); }
+.mealBuilderTrayFood.is-divided-tray-layer img { top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; transform: none; }
 .mealBuilderTray:not(.mealBuilderLabelTray) .mealBuilderTrayRim { display: none; }
 .mealBuilderTrayFood.is-empty { display: grid; place-items: center; padding: 12px; color: #677164; background: linear-gradient(135deg,rgba(255,255,255,.72),rgba(232,229,221,.75)),repeating-linear-gradient(45deg,transparent 0 12px,rgba(22,95,54,.035) 12px 24px); text-align: center; }
 .mealBuilderTrayFood.is-empty span { max-width: 90px; font: 800 clamp(10px,1vw,14px)/1.2 Inter,Arial,sans-serif; text-transform: uppercase; letter-spacing: .04em; }

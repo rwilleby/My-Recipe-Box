@@ -29,6 +29,9 @@ const MEAL_BUILDER_MAIN_IDS = new Set([
 const MEAL_BUILDER_SIDE_IDS = new Set(
   Array.from({ length: 53 }, (_, index) => `SD-${String(index + 1).padStart(3, "0")}`),
 );
+const MEAL_BUILDER_DIVIDED_TRAY_SIDE_IDS = new Set(
+  Array.from({ length: 25 }, (_, index) => `SD-${String(index + 2).padStart(3, "0")}`),
+);
 const MEAL_BUILDER_MAIN_LAYOUTS = new Map([
   ["AM-005", "full-tray"],
   ["AM-002", "two-thirds"],
@@ -223,8 +226,9 @@ function MealBuilderFoodImage({ recipe, position }) {
     : position === "side-one"
       ? "side-1-middle"
       : "side-2-right";
+  const usesDividedTrayLayer = !isMain && MEAL_BUILDER_DIVIDED_TRAY_SIDE_IDS.has(recipe.id);
   return (
-    <div className={`mealBuilderTrayFood mealBuilderTrayFood-${position} mealBuilderTrayFood-recipe-${recipe.id.toLowerCase()}`}>
+    <div className={`mealBuilderTrayFood mealBuilderTrayFood-${position} mealBuilderTrayFood-recipe-${recipe.id.toLowerCase()}${usesDividedTrayLayer ? " is-divided-tray-layer" : ""}`}>
       <img src={`${import.meta.env.BASE_URL}images/build-your-own/${folder}/${recipe.id}.webp`} alt="" />
     </div>
   );

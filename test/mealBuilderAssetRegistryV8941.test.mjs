@@ -15,11 +15,13 @@ const registrySource = source.slice(registryStart, registryEnd);
 const registry = vm.runInNewContext(`(() => { ${registrySource}; return {
   mainIds: [...MEAL_BUILDER_MAIN_IDS],
   sideIds: [...MEAL_BUILDER_SIDE_IDS],
+  dividedTraySideIds: [...MEAL_BUILDER_DIVIDED_TRAY_SIDE_IDS],
   layouts: [...MEAL_BUILDER_MAIN_LAYOUTS],
 }; })()`);
 
 const mainIds = new Set(registry.mainIds);
 const sideIds = new Set(registry.sideIds);
+const dividedTraySideIds = new Set(registry.dividedTraySideIds);
 const layouts = new Map(registry.layouts);
 const recipeIds = new Set(recipes.map((recipe) => recipe.id));
 const mainRoot = path.join(root, "public/images/build-your-own/main");
@@ -37,11 +39,20 @@ function webpInfo(file) {
   const bytes = fs.readFileSync(file);
   assert.equal(bytes.toString("ascii", 0, 4), "RIFF", `${file} must be a genuine WebP`);
   assert.equal(bytes.toString("ascii", 8, 12), "WEBP", `${file} must be a genuine WebP`);
-  assert.equal(bytes.toString("ascii", 12, 16), "VP8X", `${file} must use the extended WebP container`);
+  const chunk = bytes.toString("ascii", 12, 16);
+  if (chunk === "VP8X") {
+    return {
+      hasAlpha: Boolean(bytes[20] & 0x10),
+      width: 1 + bytes[24] + (bytes[25] << 8) + (bytes[26] << 16),
+      height: 1 + bytes[27] + (bytes[28] << 8) + (bytes[29] << 16),
+    };
+  }
+  assert.equal(chunk, "VP8 ", `${file} must use a supported WebP container`);
+  assert.deepEqual([...bytes.subarray(23, 26)], [0x9d, 0x01, 0x2a], `${file} must contain a valid lossy WebP frame`);
   return {
-    hasAlpha: Boolean(bytes[20] & 0x10),
-    width: 1 + bytes[24] + (bytes[25] << 8) + (bytes[26] << 16),
-    height: 1 + bytes[27] + (bytes[28] << 8) + (bytes[29] << 16),
+    hasAlpha: false,
+    width: bytes.readUInt16LE(26) & 0x3fff,
+    height: bytes.readUInt16LE(28) & 0x3fff,
   };
 }
 
@@ -78,14 +89,20 @@ for (const id of diskMainIds) {
 for (const id of diskSideOneIds) {
   const sideOneInfo = webpInfo(path.join(sideOneRoot, `${id}.webp`));
   const sideTwoInfo = webpInfo(path.join(sideTwoRoot, `${id}.webp`));
-  assert.deepEqual({ width: sideOneInfo.width, height: sideOneInfo.height }, { width: 268, height: 627 }, `${id} must use the Side 1 middle canvas`);
-  assert.deepEqual({ width: sideTwoInfo.width, height: sideTwoInfo.height }, { width: 257, height: 627 }, `${id} must use the Side 2 right canvas`);
-  assert.ok(sideOneInfo.hasAlpha && sideTwoInfo.hasAlpha, `${id} directional assets must retain genuine transparency`);
+  if (dividedTraySideIds.has(id)) {
+    assert.deepEqual({ width: sideOneInfo.width, height: sideOneInfo.height }, { width: 1448, height: 1086 }, `${id} Side 1 must use the divided-tray canvas`);
+    assert.deepEqual({ width: sideTwoInfo.width, height: sideTwoInfo.height }, { width: 1448, height: 1086 }, `${id} Side 2 must use the divided-tray canvas`);
+  } else {
+    assert.deepEqual({ width: sideOneInfo.width, height: sideOneInfo.height }, { width: 268, height: 627 }, `${id} must use the Side 1 middle canvas`);
+    assert.deepEqual({ width: sideTwoInfo.width, height: sideTwoInfo.height }, { width: 257, height: 627 }, `${id} must use the Side 2 right canvas`);
+    assert.ok(sideOneInfo.hasAlpha && sideTwoInfo.hasAlpha, `${id} directional assets must retain genuine transparency`);
+  }
 }
 
 assert.deepEqual(diskSideOneIds.filter((id) => !recipeIds.has(id)), ["SD-053"], "Only the known duplicate/orphan SD-053 asset may lack a recipe record");
 assert.match(source, /images\/build-your-own\/\$\{folder\}\/\$\{recipe\.id\}\.webp/, "Tray overlays must load the approved Build Your Own Meal assets");
 assert.match(source, /position === "side-one"[\s\S]*?"side-1-middle"[\s\S]*?"side-2-right"/, "Tray overlays must choose the directional side folder by position");
+assert.match(source, /MEAL_BUILDER_DIVIDED_TRAY_SIDE_IDS\.has\(recipe\.id\)/, "Divided-tray side proofs must use the full-canvas layer treatment");
 assert.match(source, /recipeHeroImageCandidates\(recipe\)/, "Recipe-card and selector heroes must retain their standard hero-image loader");
 
 console.log("v89.4.1 Build Your Own Meal asset tags, layouts, paths, transparency, and recipe links passed");

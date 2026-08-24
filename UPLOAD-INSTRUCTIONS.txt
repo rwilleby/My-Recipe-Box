@@ -1,8 +1,11 @@
-Upload the contents of this package into the root of the GitHub repository.
-Preserve the included folder structure and replace the matching source file.
+My Recipe Box v91.2 — changed files only
 
-This update adds directional Meal Builder side images:
-- Side 1 uses public/images/build-your-own/side-1-middle/{RECIPE-CODE}.webp
-- Side 2 uses public/images/build-your-own/side-2-right/{RECIPE-CODE}.webp
+Upload the contents of this folder to the repository root, preserving paths and replacing matching files.
 
-Recipe-card hero images are not included and must remain unchanged.
+Included:
+- 25 divided-tray images for Side 1: public/images/build-your-own/side-1-middle/SD-002.webp through SD-026.webp
+- 25 divided-tray images for Side 2: public/images/build-your-own/side-2-right/SD-002.webp through SD-026.webp
+- Build Your Own Meal component and styles needed for mixed divided-tray/transparent side assets
+- Updated Meal Builder asset tests
+
+Recipe-card hero images and their loader are unchanged.

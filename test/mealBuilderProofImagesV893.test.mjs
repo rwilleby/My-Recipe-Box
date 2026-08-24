@@ -9,11 +9,14 @@ const sideIds = ["SD-001", "SD-004", "SD-005", "SD-007", "SD-008", "SD-009", "SD
 
 assert.match(component, /MEAL_BUILDER_MAIN_IDS/);
 assert.match(component, /MEAL_BUILDER_SIDE_IDS/);
+assert.match(component, /MEAL_BUILDER_DIVIDED_TRAY_SIDE_IDS/);
 assert.match(component, /images\/build-your-own\/\$\{folder\}\/\$\{recipe\.id\}\.webp/);
 assert.match(component, /position === "side-one"[\s\S]*?"side-1-middle"[\s\S]*?"side-2-right"/);
 assert.match(component, /recipeHeroImageCandidates\(recipe\)/);
 assert.match(component, /Meal image coming soon/);
 assert.doesNotMatch(styles, /mealBuilderTrayFood img[^}]*transform:/);
+assert.match(styles, /mealBuilderTrayFood-side-one\.is-divided-tray-layer/);
+assert.match(styles, /mealBuilderTrayFood-side-two\.is-divided-tray-layer/);
 
 for (const id of mainIds) await access(new URL(`../public/images/build-your-own/main/${id}.webp`, import.meta.url));
 for (const id of sideIds) {
