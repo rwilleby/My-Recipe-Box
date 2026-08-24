@@ -218,7 +218,11 @@ function MealBuilderFoodImage({ recipe, position }) {
     );
   }
 
-  const folder = isMain ? "main" : "sides";
+  const folder = isMain
+    ? "main"
+    : position === "side-one"
+      ? "side-1-middle"
+      : "side-2-right";
   return (
     <div className={`mealBuilderTrayFood mealBuilderTrayFood-${position} mealBuilderTrayFood-recipe-${recipe.id.toLowerCase()}`}>
       <img src={`${import.meta.env.BASE_URL}images/build-your-own/${folder}/${recipe.id}.webp`} alt="" />

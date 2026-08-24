@@ -1,1 +1,8 @@
-Upload the contents of this package into the root of your GitHub repository. Preserve all folders and allow matching files to be replaced.
+Upload the contents of this package into the root of the GitHub repository.
+Preserve the included folder structure and replace the matching source file.
+
+This update adds directional Meal Builder side images:
+- Side 1 uses public/images/build-your-own/side-1-middle/{RECIPE-CODE}.webp
+- Side 2 uses public/images/build-your-own/side-2-right/{RECIPE-CODE}.webp
+
+Recipe-card hero images are not included and must remain unchanged.
