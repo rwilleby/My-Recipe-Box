@@ -23,7 +23,8 @@ const sideIds = new Set(registry.sideIds);
 const layouts = new Map(registry.layouts);
 const recipeIds = new Set(recipes.map((recipe) => recipe.id));
 const mainRoot = path.join(root, "public/images/build-your-own/main");
-const sideRoot = path.join(root, "public/images/build-your-own/sides");
+const sideOneRoot = path.join(root, "public/images/build-your-own/side-1-middle");
+const sideTwoRoot = path.join(root, "public/images/build-your-own/side-2-right");
 
 function assetIds(directory) {
   return fs.readdirSync(directory)
@@ -45,11 +46,15 @@ function webpInfo(file) {
 }
 
 const diskMainIds = assetIds(mainRoot);
-const diskSideIds = assetIds(sideRoot);
+const diskSideOneIds = assetIds(sideOneRoot);
+const diskSideTwoIds = assetIds(sideTwoRoot);
 assert.equal(diskMainIds.length, 225, "The approved Build Your Own Meal main collection should contain 225 assets");
-assert.equal(diskSideIds.length, 53, "The portable side collection should contain 53 assets");
+assert.equal(diskSideOneIds.length, 53, "The Side 1 middle collection should contain 53 assets");
+assert.equal(diskSideTwoIds.length, 53, "The Side 2 right collection should contain 53 assets");
 assert.deepEqual([...mainIds].sort(), diskMainIds, "Every main asset must be tagged for Meal Builder use");
-assert.deepEqual([...sideIds].sort(), diskSideIds, "Every portable side asset must be tagged for Meal Builder use");
+assert.deepEqual([...sideIds].sort(), diskSideOneIds, "Every side must have a Side 1 middle asset");
+assert.deepEqual([...sideIds].sort(), diskSideTwoIds, "Every side must have a Side 2 right asset");
+assert.deepEqual(diskSideOneIds, diskSideTwoIds, "Directional side collections must use matching recipe codes");
 
 const expectedLayoutByWidth = new Map([
   [340, "standard"], [471, "standard"],
@@ -70,13 +75,17 @@ for (const id of diskMainIds) {
   assert.equal(layouts.get(id) || "standard", expectedLayout, `${id} must be tagged ${expectedLayout}`);
 }
 
-for (const id of diskSideIds) {
-  const info = webpInfo(path.join(sideRoot, `${id}.webp`));
-  assert.deepEqual({ width: info.width, height: info.height }, { width: 278, height: 626 }, `${id} must use the portable side canvas`);
-  assert.ok(info.hasAlpha, `${id} must retain genuine transparency`);
+for (const id of diskSideOneIds) {
+  const sideOneInfo = webpInfo(path.join(sideOneRoot, `${id}.webp`));
+  const sideTwoInfo = webpInfo(path.join(sideTwoRoot, `${id}.webp`));
+  assert.deepEqual({ width: sideOneInfo.width, height: sideOneInfo.height }, { width: 268, height: 627 }, `${id} must use the Side 1 middle canvas`);
+  assert.deepEqual({ width: sideTwoInfo.width, height: sideTwoInfo.height }, { width: 257, height: 627 }, `${id} must use the Side 2 right canvas`);
+  assert.ok(sideOneInfo.hasAlpha && sideTwoInfo.hasAlpha, `${id} directional assets must retain genuine transparency`);
 }
 
-assert.deepEqual(diskSideIds.filter((id) => !recipeIds.has(id)), ["SD-053"], "Only the known duplicate/orphan SD-053 asset may lack a recipe record");
+assert.deepEqual(diskSideOneIds.filter((id) => !recipeIds.has(id)), ["SD-053"], "Only the known duplicate/orphan SD-053 asset may lack a recipe record");
 assert.match(source, /images\/build-your-own\/\$\{folder\}\/\$\{recipe\.id\}\.webp/, "Tray overlays must load the approved Build Your Own Meal assets");
+assert.match(source, /position === "side-one"[\s\S]*?"side-1-middle"[\s\S]*?"side-2-right"/, "Tray overlays must choose the directional side folder by position");
+assert.match(source, /recipeHeroImageCandidates\(recipe\)/, "Recipe-card and selector heroes must retain their standard hero-image loader");
 
 console.log("v89.4.1 Build Your Own Meal asset tags, layouts, paths, transparency, and recipe links passed");
