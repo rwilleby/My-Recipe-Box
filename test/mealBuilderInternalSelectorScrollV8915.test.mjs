@@ -4,8 +4,7 @@ import fs from "node:fs";
 const css = fs.readFileSync(new URL("../src/components/BuildYourOwnMealPage.css", import.meta.url), "utf8");
 const jsx = fs.readFileSync(new URL("../src/components/BuildYourOwnMealPage.jsx", import.meta.url), "utf8");
 
-assert.match(css, /\.mealBuilderWorkspaceGrid\s*\{[^}]*grid-template-columns:\s*minmax\(0,\.82fr\) minmax\(0,1fr\)[^}]*column-gap:\s*38px/);
-assert.match(css, /\.mealBuilderPreviewColumn\s*\{[^}]*margin-top:\s*clamp\(-42px,-2\.2vw,-18px\)/);
+assert.match(css, /\.mealBuilderWorkspaceGrid\s*\{[^}]*grid-template-columns:\s*minmax\(0,\.82fr\) minmax\(0,1fr\)[^}]*column-gap:\s*58px/);
 assert.match(css, /\.mealBuilderWorkspaceGrid\s*\{[^}]*--meal-builder-selector-depth:[^;]*calc\(\(var\(--meal-builder-card-depth\) \* 2\) \+ 9px\)[^}]*align-items:\s*stretch/);
 assert.match(css, /\.mealBuilderSelectorColumns\s*\{[^}]*grid-template-columns:\s*repeat\(3,minmax\(0,1fr\)\)/);
 assert.match(css, /\.mealBuilderChoiceRail\s*\{[^}]*overflow-y:\s*auto[^}]*flex-direction:\s*column[^}]*overscroll-behavior-y:\s*contain[^}]*scroll-snap-type:\s*y mandatory/);

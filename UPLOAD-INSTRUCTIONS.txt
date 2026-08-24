@@ -1,13 +1,11 @@
-My Recipe Box v92.0 — changed files only
+My Recipe Box v92.1 — undo v92.0 only
 
 Upload the contents of this folder to the repository root, preserving paths and replacing matching files.
 
-Build Your Own Meal alignment refinements:
-- Raised the complete left interactive column to align with the top of the selector columns
-- Kept the tray, recipe links, calorie summary, and Portion Plan together
-- Reduced the space between the two workspace columns
-- Increased the usable width of Column 2
-- Preserved the compact layout at tablet and mobile widths
-- Updated both affected layout contracts
+This restores the v91.9 layout by undoing only the most recent edits:
+- Restores the previous vertical position of the left interactive column
+- Restores the previous 58px center gap and Column 2 width
+- Restores the matching layout test contracts
 
-No recipe images or recipe-card hero loaders were changed.
+All v91.9 category restrictions, alphabetical sorting, and ghost-area sizing remain in place.
+No recipe images or recipe-card hero loaders are changed.
