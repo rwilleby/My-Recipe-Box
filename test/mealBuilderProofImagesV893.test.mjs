@@ -12,7 +12,8 @@ assert.match(component, /MEAL_BUILDER_SIDE_IDS/);
 assert.match(component, /MEAL_BUILDER_DIVIDED_TRAY_SIDE_IDS/);
 assert.doesNotMatch(component, /mealBuilderTrayPartitions/);
 assert.match(component, /Choose<br \/>Main/);
-assert.match(component, /className={`mealBuilderSelectedDish/);
+assert.match(component, /className="mealBuilderSelectedDish has-selection" onClick=\{\(\) => onSelect\(""\)\}/);
+assert.match(component, /aria-label=\{`Deselect \$\{normalizeRecipeTitle\(selectedRecipe\)\}`\}/);
 assert.match(component, /categoryLabel="Sort by Cuisine"/);
 assert.match(component, /categoryLabel="Sort by Type"/);
 assert.match(component, /categoryDifference \|\| normalizeRecipeTitle\(a\)\.localeCompare\(normalizeRecipeTitle\(b\)\)/);
@@ -27,7 +28,9 @@ assert.doesNotMatch(styles, /mealBuilderTrayPartition/);
 assert.match(styles, /mealBuilderTrayFood-main\.is-empty[^}]*width:\s*23\.9497%/);
 assert.match(styles, /mealBuilderTrayFood-side-one\.is-empty[^}]*left:\s*37\.9%/);
 assert.match(styles, /mealBuilderTrayFood-side-two\.is-empty[^}]*left:\s*61\.3%/);
-assert.match(styles, /mealBuilderTrayFood\.is-empty[^}]*top:\s*15\.5%[^}]*height:\s*62%/);
+assert.match(styles, /mealBuilderTrayFood\.is-empty[^}]*top:\s*20\.5%[^}]*height:\s*59%/);
+assert.match(styles, /mealBuilderTrayPrimary[^}]*aspect-ratio:\s*1448\/800/);
+assert.match(styles, /mealBuilderTrayPrimary > \.mealBuilderTrayBase,[\s\S]*height:\s*135\.75%/);
 
 for (const id of mainIds) await access(new URL(`../public/images/build-your-own/main/${id}.webp`, import.meta.url));
 for (const id of sideIds) {

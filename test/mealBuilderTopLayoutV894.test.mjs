@@ -24,8 +24,10 @@ assert.ok(summaryPosition > recipeLinksPosition, "Calories and portion plan must
 assert.ok(selectorsPosition > summaryPosition, "Dish selectors must remain the workspace's second column");
 
 assert.match(ruleFor(".mealBuilderWorkspaceGrid"), /display\s*:\s*grid/);
-assert.match(ruleFor(".mealBuilderWorkspaceGrid"), /grid-template-columns\s*:\s*minmax\(0,\.82fr\) minmax\(0,1fr\)/);
+assert.match(ruleFor(".mealBuilderWorkspaceGrid"), /grid-template-columns\s*:\s*minmax\(0,\.76fr\) minmax\(0,1fr\)/);
 assert.match(ruleFor(".mealBuilderWorkspaceGrid"), /column-gap\s*:\s*58px/);
+assert.match(ruleFor(".mealBuilderPreviewColumn"), /grid-template-rows\s*:\s*auto 36px auto/);
+assert.match(ruleFor(".mealBuilderPreviewColumn .mealBuilderTrayPrimary"), /aspect-ratio\s*:\s*1448\/800/);
 assert.match(ruleFor(".mealBuilderPreviewColumn"), /display\s*:\s*grid/);
 assert.match(ruleFor(".mealBuilderTrayRecipeLinks"), /grid-template-columns\s*:\s*repeat\(3/);
 assert.match(ruleFor(".mealBuilderSelectorColumns"), /grid-template-columns\s*:\s*repeat\(3/);

@@ -275,9 +275,11 @@ function MealChoiceStrip({ label, recipes, selectedId, onSelect, excludeId = "",
     <section className={`mealBuilderChoiceColumn${disabled ? " is-disabled" : ""}`} aria-label={`${label} recipe selector`} aria-disabled={disabled || undefined}>
       <div className="mealBuilderChoiceLead">
         <strong>{label}</strong>
-        <div className={`mealBuilderSelectedDish${selectedRecipe ? " has-selection" : ""}`}>
-          {selectedRecipe ? <><HeroImage recipe={selectedRecipe} /><span>{normalizeRecipeTitle(selectedRecipe)}</span></> : <span>Choose a Dish</span>}
-        </div>
+        {selectedRecipe ? (
+          <button type="button" className="mealBuilderSelectedDish has-selection" onClick={() => onSelect("")} aria-label={`Deselect ${normalizeRecipeTitle(selectedRecipe)}`}>
+            <HeroImage recipe={selectedRecipe} /><span>{normalizeRecipeTitle(selectedRecipe)}</span>
+          </button>
+        ) : <div className="mealBuilderSelectedDish"><span>Choose a Dish</span></div>}
         <label>
           <span>{categoryLabel}</span>
           <select value={categoryFilter} onChange={(event) => setCategoryFilter(event.target.value)} disabled={disabled}>

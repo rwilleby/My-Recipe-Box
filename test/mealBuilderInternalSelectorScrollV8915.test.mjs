@@ -4,8 +4,8 @@ import fs from "node:fs";
 const css = fs.readFileSync(new URL("../src/components/BuildYourOwnMealPage.css", import.meta.url), "utf8");
 const jsx = fs.readFileSync(new URL("../src/components/BuildYourOwnMealPage.jsx", import.meta.url), "utf8");
 
-assert.match(css, /\.mealBuilderWorkspaceGrid\s*\{[^}]*grid-template-columns:\s*minmax\(0,\.82fr\) minmax\(0,1fr\)[^}]*column-gap:\s*58px/);
-assert.match(css, /\.mealBuilderWorkspaceGrid\s*\{[^}]*--meal-builder-selector-depth:[^;]*calc\(\(var\(--meal-builder-card-depth\) \* 2\) \+ 9px\)[^}]*align-items:\s*stretch/);
+assert.match(css, /\.mealBuilderWorkspaceGrid\s*\{[^}]*grid-template-columns:\s*minmax\(0,\.76fr\) minmax\(0,1fr\)[^}]*column-gap:\s*58px/);
+assert.match(css, /\.mealBuilderWorkspaceGrid\s*\{[^}]*--meal-builder-selector-depth:[^;]*calc\(\(var\(--meal-builder-card-depth\) \* 2\) \+ 9px\)[^}]*align-items:\s*start/);
 assert.match(css, /\.mealBuilderSelectorColumns\s*\{[^}]*grid-template-columns:\s*repeat\(3,minmax\(0,1fr\)\)/);
 assert.match(css, /\.mealBuilderChoiceRail\s*\{[^}]*overflow-y:\s*auto[^}]*flex-direction:\s*column[^}]*overscroll-behavior-y:\s*contain[^}]*scroll-snap-type:\s*y mandatory/);
 assert.match(css, /\.mealBuilderChoiceRail\s*\{[^}]*height:\s*var\(--meal-builder-selector-depth\)[^}]*max-height:\s*var\(--meal-builder-selector-depth\)/);
@@ -27,6 +27,7 @@ assert.match(jsx, /<span>Portion<\/span>/);
 assert.match(jsx, />PRINT MEAL LABELS</);
 assert.match(jsx, />CLEAR &amp; START OVER</);
 assert.match(css, /\.mealBuilderTray\s*\{[^}]*aspect-ratio:\s*1448\/1086/);
+assert.match(css, /\.mealBuilderPreviewColumn \.mealBuilderTrayPrimary\s*\{[^}]*aspect-ratio:\s*1448\/800/);
 assert.match(css, /\.mealBuilderChoiceLead input\[type="search"\][^}]*text-align:\s*center/);
 assert.match(css, /\.mealBuilderPortionGrid label > span,[\s\S]*?text-align:\s*center/);
 assert.match(jsx, /categoryLabel="Sort by Cuisine"/);
@@ -39,7 +40,8 @@ for (const category of ["AM", "AS", "HB", "IT", "MX", "SF", "SG"]) assert.match(
 for (const category of ["CP", "CS", "DM", "HBP", "QP", "SW"]) assert.doesNotMatch(jsx.slice(0, jsx.indexOf("const MEAL_BUILDER_MAIN_IDS")), new RegExp(`\\["${category}",`));
 assert.match(jsx, /mealBuilderSelectedDish/);
 assert.match(css, /\.mealBuilderSelectedDish\s*\{[^}]*aspect-ratio:\s*16\/9/);
-assert.match(css, /\.mealBuilderTrayFood\.is-empty\s*\{[^}]*top:\s*15\.5%[^}]*height:\s*62%/);
+assert.match(css, /\.mealBuilderTrayFood\.is-empty\s*\{[^}]*top:\s*20\.5%[^}]*height:\s*59%/);
+assert.match(jsx, /className="mealBuilderSelectedDish has-selection" onClick=\{\(\) => onSelect\(""\)\}/);
 assert.match(css, /\.buildYourOwnMealIntro p \+ p\s*\{[^}]*margin-top:\s*0/);
 assert.doesNotMatch(css, /\.mealBuilderWorkspaceGrid\s*\{[^}]*grid-template-columns:\s*1fr\s*;/);
 

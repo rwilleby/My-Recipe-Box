@@ -1,11 +1,15 @@
-My Recipe Box v92.1 — undo v92.0 only
+My Recipe Box v92.2 — changed files only
 
 Upload the contents of this folder to the repository root, preserving paths and replacing matching files.
 
-This restores the v91.9 layout by undoing only the most recent edits:
-- Restores the previous vertical position of the left interactive column
-- Restores the previous 58px center gap and Column 2 width
-- Restores the matching layout test contracts
+Build Your Own Meal refinements:
+- Removed the tray canvas's unused top and bottom bands through internal cropping
+- Top-aligned the interactive tray with the selector rows without shifting the whole left column
+- Kept the 58px gutter between the interactive and selector areas
+- Reallocated the recovered horizontal space to the selector area so all three selector columns are wider
+- Confined ghosted Choose panels to the actual tray area
+- Made the selected-dish preview button deselect that dish when clicked
+- Added keyboard focus and hover feedback for deselection
+- Updated all affected Meal Builder contracts
 
-All v91.9 category restrictions, alphabetical sorting, and ghost-area sizing remain in place.
-No recipe images or recipe-card hero loaders are changed.
+No recipe images or recipe-card hero loaders were changed.
