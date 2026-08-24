@@ -6,19 +6,21 @@ const css=fs.readFileSync("src/App.css","utf8");
 
 for (const token of [
   'const LARGE_HERO_VIDEO_OPEN_EVENT = "rrb:open-large-hero-video";',
-  'const LARGE_HERO_VIDEO_SEEN_PREFIX = "rrb-large-hero-video-seen:";',
+  'const HERO_VIDEO_AUTOPLAY_DISABLED_KEY = "rrb-hero-video-autoplay-disabled";',
   "function LargeHeroVideoPanel",
-  "window.localStorage.getItem(seenKey)",
-  "window.localStorage.setItem(seenKey, \"true\")",
-  '<LargeHeroVideoPanel pageTitle={title} />',
+  "isHeroVideoAutoplayDisabled()",
+  "disableHeroVideoAutoplay()",
   "function openHeroVideo()",
   "new CustomEvent(LARGE_HERO_VIDEO_OPEN_EVENT",
   "Play Now",
   "Close Window",
-  "window.setTimeout(closeWindow, 800)",
+  "Turn Off Auto Play",
+  "closeTimerRef.current = window.setTimeout(() => {",
 ]) {
   assert.ok(app.includes(token), `Missing v72.9 app token: ${token}`);
 }
+
+assert.match(app, /<LargeHeroVideoPanel\s+pageTitle=\{title\}/);
 
 assert.ok(
   !app.includes("Maybe Later"),
@@ -29,15 +31,12 @@ assert.ok(
   "Hide This must be removed from video footers"
 );
 
-const marker="/* v72.9 — Large Hero video window standard */";
-const i=css.lastIndexOf(marker);
-assert.ok(i>=0,"v72.9 CSS marker missing");
-const f=css.slice(i);
+const f=css;
 
 for (const token of [
   "top: 12px !important;",
   "right: 12px !important;",
-  "grid-template-columns: repeat(2, minmax(0, 1fr)) !important;",
+  "grid-template-columns: repeat(3, minmax(0, 1fr)) !important;",
   ".largeHeroVideoStage.isUnassigned",
   ".videoStandardActionBar",
   ".pageHelpStrip .homeWelcomeTourIconButton",

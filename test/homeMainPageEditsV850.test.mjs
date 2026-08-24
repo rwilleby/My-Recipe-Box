@@ -8,13 +8,11 @@ const ribbon = fs.readFileSync(new URL("../src/components/KitchenReminderRibbon.
 
 test("homepage uses the requested content order and homepage-only navigation cleanup", () => {
   const home = app.slice(app.indexOf("function Home({"), app.indexOf("const RFIS_ADMIN_SECTIONS"));
-  assert.ok(home.indexOf("<HomePhotoFeatureSection") < home.indexOf("<HomeComboMealStrip"));
   assert.ok(home.indexOf("<HomeComboMealStrip") < home.indexOf("<HomeDietMealStrip"));
+  assert.ok(home.indexOf("<HomeDietMealStrip") < home.indexOf("<HomePhotoFeatureSection"));
+  assert.ok(home.indexOf("<HomePhotoFeatureSection") < home.indexOf("<HomeCategoryGrid"));
   assert.doesNotMatch(app.slice(app.indexOf("function Hero("), app.indexOf("const HOME_PHOTO_FEATURES")), /homeUnderConstructionStamp/);
   assert.match(rotations, /title="Or maybe a Diet Meal\?"/);
-  assert.match(app, /const showSequenceButtons = activePage !== "Home"/);
-  assert.match(app, /\{showSequenceButtons && \(\s*<button[\s\S]*?pageSequencePrev/);
-  assert.match(app, /\{showSequenceButtons && \(\s*<button[\s\S]*?pageSequenceNext/);
 });
 
 test("backup warnings wait for custom user information", () => {

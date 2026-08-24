@@ -7,9 +7,10 @@ const css = fs.readFileSync("src/App.css", "utf8");
 for (const token of [
   'const WELCOME_TOUR_VIDEO_URL = "videos/welcome-video.mp4"',
   'const WELCOME_TOUR_VIDEO_POSTER = "images/video-posters/welcome-video-poster.webp"',
-  "LARGE_HERO_VIDEO_ACKNOWLEDGED_PREFIX",
+  'const HERO_VIDEO_AUTOPLAY_DISABLED_KEY = "rrb-hero-video-autoplay-disabled"',
   "Play Now",
   "Close Window",
+  "Turn Off Auto Play",
   'const VIDEO_ICON_MAIN = "images/icons/video-red.webp"',
   "homeWelcomeTourIconButton",
   "rrb:open-welcome-tour",
@@ -20,7 +21,7 @@ for (const token of [
   assert.ok(app.includes(token), `Missing welcome-tour contract token: ${token}`);
 }
 
-assert.ok(app.includes("window.localStorage.setItem(acknowledgedKey"), "Welcome-video acknowledgement must persist locally");
+assert.ok(app.includes('window.localStorage.setItem(HERO_VIDEO_AUTOPLAY_DISABLED_KEY, "true")'), "Auto-play opt-out must persist locally");
 assert.ok(!app.includes("app.heygen.com/embeds/"), "The welcome video must use the optimized local asset");
 assert.ok(css.includes("aspect-ratio: 16 / 9"), "The video must preserve a 16:9 aspect ratio");
 assert.ok(css.includes("scale(1.18)"), "The embedded video must use the approved centered crop");

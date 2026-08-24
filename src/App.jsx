@@ -954,15 +954,29 @@ const ABOUT_RECIPES_VIDEO_URL = "videos/about-our-recipes.mp4";
 const ABOUT_RECIPES_VIDEO_POSTER = "images/video-posters/about-our-recipes-poster.webp";
 const RECIPE_LIBRARY_VIDEO_URL = "videos/browse-our-recipe-library.mp4";
 const RECIPE_LIBRARY_VIDEO_POSTER = "images/video-posters/browse-our-recipe-library-poster.webp";
-const HOW_IT_WORKS_VIDEO_URL = "videos/how-it-works.mp4";
-const HOW_IT_WORKS_VIDEO_POSTER = "images/video-posters/how-it-works-poster.webp";
 const MASTER_KITCHEN_INVENTORY_VIDEO_URL = "videos/master-kitchen-inventory.mp4";
 const MASTER_KITCHEN_INVENTORY_VIDEO_POSTER = "images/video-posters/library/master-kitchen-inventory.webp";
 const SHOPPING_LIST_VIDEO_URL = "videos/shopping-list.mp4";
 const SHOPPING_LIST_VIDEO_POSTER = "images/video-posters/library/shopping-list.webp";
 const WELCOME_TOUR_OPEN_EVENT = "rrb:open-welcome-tour";
 const LARGE_HERO_VIDEO_OPEN_EVENT = "rrb:open-large-hero-video";
-const LARGE_HERO_VIDEO_ACKNOWLEDGED_PREFIX = "rrb-large-hero-video-acknowledged:";
+const HERO_VIDEO_AUTOPLAY_DISABLED_KEY = "rrb-hero-video-autoplay-disabled";
+
+function isHeroVideoAutoplayDisabled() {
+  try {
+    return window.localStorage.getItem(HERO_VIDEO_AUTOPLAY_DISABLED_KEY) === "true";
+  } catch {
+    return false;
+  }
+}
+
+function disableHeroVideoAutoplay() {
+  try {
+    window.localStorage.setItem(HERO_VIDEO_AUTOPLAY_DISABLED_KEY, "true");
+  } catch {
+    // The current video still closes if storage is unavailable.
+  }
+}
 
 const HERO_INFO_BUTTONS = [
   {
@@ -1625,6 +1639,7 @@ const NAV_GROUPS = [
  * Every other main-menu page is intro-video eligible.
  */
 const NO_INTRO_VIDEO_PAGES = new Set([
+  "How It Works",
   "Submit Recipes",
   "Contact Me",
   "Disclaimers",
@@ -1977,7 +1992,6 @@ function WelcomeTour() {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const videoRef = useRef(null);
   const closeTimerRef = useRef(null);
-  const acknowledgedKey = `${LARGE_HERO_VIDEO_ACKNOWLEDGED_PREFIX}Home`;
 
   function startWelcomeVideo({ restart = false } = {}) {
     const player = videoRef.current;
@@ -1994,23 +2008,13 @@ function WelcomeTour() {
   }
 
   useEffect(() => {
-    try {
-      const isAcknowledged =
-        window.localStorage.getItem(acknowledgedKey) === "true";
-
-      if (!isAcknowledged) {
-        setIsVisible(true);
-        window.requestAnimationFrame(() => {
-          startWelcomeVideo({ restart: true });
-        });
-      }
-    } catch {
+    if (!isHeroVideoAutoplayDisabled()) {
       setIsVisible(true);
       window.requestAnimationFrame(() => {
         startWelcomeVideo({ restart: true });
       });
     }
-  }, [acknowledgedKey]);
+  }, []);
 
   useEffect(() => {
     function handleOpenTour() {
@@ -2053,22 +2057,10 @@ function WelcomeTour() {
     startWelcomeVideo();
   }, [isVisible]);
 
-  function acknowledgeVideo() {
-    try {
-      window.localStorage.setItem(acknowledgedKey, "true");
-    } catch {
-      // The window still closes normally if storage is unavailable.
-    }
-  }
-
-  function closeWindow({ acknowledge = true } = {}) {
+  function closeWindow() {
     if (closeTimerRef.current) {
       window.clearTimeout(closeTimerRef.current);
       closeTimerRef.current = null;
-    }
-
-    if (acknowledge) {
-      acknowledgeVideo();
     }
 
     videoRef.current?.pause();
@@ -2086,11 +2078,15 @@ function WelcomeTour() {
 
   function handleEnded() {
     setIsVideoPlaying(false);
-    acknowledgeVideo();
 
     closeTimerRef.current = window.setTimeout(() => {
-      closeWindow({ acknowledge: false });
+      closeWindow();
     }, 800);
+  }
+
+  function turnOffAutoPlay() {
+    disableHeroVideoAutoplay();
+    closeWindow();
   }
 
   return (
@@ -2143,9 +2139,13 @@ function WelcomeTour() {
 
             <button
               type="button"
-              onClick={() => closeWindow({ acknowledge: true })}
+              onClick={closeWindow}
             >
               Close Window
+            </button>
+
+            <button type="button" onClick={turnOffAutoPlay}>
+              Turn Off Auto Play
             </button>
           </div>
         </aside>
@@ -5684,9 +5684,6 @@ function Home({
         onSiteModeChange={changeSiteMode}
         backupWarningsEnabled={hasCustomUserData}
       />
-      {siteMode === "detailed" && (
-        <HomePhotoFeatureSection setActivePage={setActivePage} kosUi={kosUi} />
-      )}
       <HomeComboMealStrip
         setActivePage={setActivePage}
         openRecipeCard={openRecipeCard}
@@ -5703,6 +5700,9 @@ function Home({
         classifiedRecipes={classifiedRecipes}
         siteMode={siteMode}
       />
+      {siteMode === "detailed" && (
+        <HomePhotoFeatureSection setActivePage={setActivePage} kosUi={kosUi} />
+      )}
       <HomeCategoryGrid
         setFilter={setFilter}
         setActivePage={setActivePage}
@@ -12239,21 +12239,11 @@ function LargeHeroVideoPanel({
   const [isPlaying, setIsPlaying] = useState(false);
   const videoRef = useRef(null);
   const closeTimerRef = useRef(null);
-  const acknowledgedKey =
-    `${LARGE_HERO_VIDEO_ACKNOWLEDGED_PREFIX}${pageTitle}`;
-
   useEffect(() => {
-    try {
-      const isAcknowledged =
-        window.localStorage.getItem(acknowledgedKey) === "true";
-
-      if (!isAcknowledged) {
-        setIsVisible(true);
-      }
-    } catch {
+    if (!isHeroVideoAutoplayDisabled()) {
       setIsVisible(true);
     }
-  }, [acknowledgedKey]);
+  }, [pageTitle]);
 
   useEffect(() => {
     function handleOpen(event) {
@@ -12298,27 +12288,19 @@ function LargeHeroVideoPanel({
     const player = videoRef.current;
     if (!player) return;
 
+    player.muted = false;
     player.play().catch(() => {
-      // Browser policy may block sound-on autoplay on a non-click first visit.
+      // Browsers commonly block sound-on autoplay. Continue the requested
+      // page-entry playback muted; Play Now always restores sound.
+      player.muted = true;
+      player.play().catch(() => {});
     });
   }, [isVisible, videoSrc]);
 
-  function acknowledgeVideo() {
-    try {
-      window.localStorage.setItem(acknowledgedKey, "true");
-    } catch {
-      // The panel still closes normally if storage is unavailable.
-    }
-  }
-
-  function closeWindow({ acknowledge = true } = {}) {
+  function closeWindow() {
     if (closeTimerRef.current) {
       window.clearTimeout(closeTimerRef.current);
       closeTimerRef.current = null;
-    }
-
-    if (acknowledge) {
-      acknowledgeVideo();
     }
 
     videoRef.current?.pause();
@@ -12329,16 +12311,23 @@ function LargeHeroVideoPanel({
   function playVideo() {
     if (!videoSrc) return;
 
-    videoRef.current?.play().catch(() => {});
+    const player = videoRef.current;
+    if (!player) return;
+    player.muted = false;
+    player.play().catch(() => {});
   }
 
   function handleEnded() {
     setIsPlaying(false);
-    acknowledgeVideo();
 
     closeTimerRef.current = window.setTimeout(() => {
-      closeWindow({ acknowledge: false });
+      closeWindow();
     }, 800);
+  }
+
+  function turnOffAutoPlay() {
+    disableHeroVideoAutoplay();
+    closeWindow();
   }
 
   return (
@@ -12395,9 +12384,13 @@ function LargeHeroVideoPanel({
 
         <button
           type="button"
-          onClick={() => closeWindow({ acknowledge: true })}
+          onClick={closeWindow}
         >
           Close Window
+        </button>
+
+        <button type="button" onClick={turnOffAutoPlay}>
+          Turn Off Auto Play
         </button>
       </div>
     </aside>
@@ -19447,8 +19440,6 @@ Use this section to check what is on hand, record dates, mark foods that should 
             title="How It Works"
             text="Your Guide to Using Robert’s Recipe Box"
             className="pageHeroDepth464 howItWorksHero"
-            videoSrc={HOW_IT_WORKS_VIDEO_URL}
-            videoPoster={HOW_IT_WORKS_VIDEO_POSTER}
           />
           <UnifiedHowItWorksPage setActivePage={setActivePage} />
         </>
