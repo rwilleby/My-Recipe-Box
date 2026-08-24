@@ -1,11 +1,12 @@
-My Recipe Box v92.5 — changed files only
+My Recipe Box v92.8 — changed files only
 
 Upload the contents of this folder to the repository root, preserving paths and replacing matching files.
 
-Interactive tray correction:
-- Restores the entire 1448 × 1086 Meal Builder graphic represented by the blue box.
-- Removes the incorrect tight crop introduced in v92.3.
-- Prevents the primary tray graphic from being enlarged or cropped by the general tray scaling rule.
-- Keeps the ghosted Choose Main, Choose Side 1, and Choose Side 2 areas within the exact tray-interior bounds represented by the red box.
+Browse Our Recipes sorting:
+- All Recipes now defaults to alphabetical A–Z order.
+- Favorites and every category-filter view reset to alphabetical A–Z order when selected.
+- Recipe titles are compared without case sensitivity.
+- Recipe ID is used only as a stable tie-breaker when two titles match.
+- Users may still select another Sort By option after opening a view.
 
-No recipe-card heroes, food images, or selector behavior were changed.
+No recipe data, recipe images, or Meal Builder files are changed.

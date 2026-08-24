@@ -1597,7 +1597,7 @@ const NAV_GROUPS = [
   {
     label: "YOUR KITCHEN",
     items: [
-      { label: "BUILD YOUR OWN MEAL", page: "Build Your Own Meal" },
+      { label: "BUILD-A-MEAL", page: "Build Your Own Meal" },
       { label: "YOUR WEEKLY MEAL PLANNER", page: "Meal Planner" },
       { label: "WEEKEND BULK MEAL PLANNER", page: "Weekend Bulk Meal Planner", detailedOnly: true },
       { label: "HEALTHY SUBSTITUTIONS", page: "Grocery Picks" },
@@ -2374,7 +2374,7 @@ const HOME_ACTIONS = [
     id: "tonight",
     label: "Plan tonight’s dinner",
     subtext:
-      "Choose a ready-made Complete Dinner, build your own meal, or find a quick recipe for tonight.",
+      "Choose a ready-made Complete Dinner, build a meal, or find a quick recipe for tonight.",
     features: makeHomeActionFeatures([
       ["Complete Dinners", "Choose a complete main-and-sides dinner.", "Dinner Combinations"],
       ["Quick & Easy", "Find dinner ideas ready in about 30 minutes.", "Easy 30-Minute Meals"],
@@ -5848,7 +5848,7 @@ function RecipesPage({
   const [selectedGlp1Preset, setSelectedGlp1Preset] = useState("");
   const [selectedNutritionDietary, setSelectedNutritionDietary] = useState("all");
   const [showGlp1Filters, setShowGlp1Filters] = useState(false);
-  const [sortBy, setSortBy] = useState("code");
+  const [sortBy, setSortBy] = useState("az");
   const [page, setPage] = useState(1);
 
   const browseQuickCategories = useMemo(
@@ -5893,6 +5893,7 @@ function RecipesPage({
         : category?.name || "";
     setSelectedCategory(nextCategory);
     setFilter(nextCategory);
+    setSortBy("az");
     setPage(1);
   }
 
@@ -5906,6 +5907,7 @@ function RecipesPage({
       );
       setSelectedGlp1Filters(preset?.filters ? [...preset.filters] : []);
       setShowGlp1Filters(true);
+      setSortBy("az");
       return;
     }
 
@@ -5913,6 +5915,7 @@ function RecipesPage({
     setSelectedGlp1Preset("");
     setSelectedGlp1Filters([]);
     setSelectedNutritionDietary("all");
+    setSortBy("az");
   }, [filter]);
 
   const filteredRecipes = useMemo(() => {
@@ -5955,7 +5958,11 @@ function RecipesPage({
       case 'code':
         return sortRecipesByCode(sorted);
       case 'az':
-        sorted.sort((a, b) => a.title.localeCompare(b.title));
+        sorted.sort((a, b) => String(a.title || "").localeCompare(
+          String(b.title || ""),
+          undefined,
+          { sensitivity: "base", numeric: true },
+        ) || String(a.id || "").localeCompare(String(b.id || ""), undefined, { numeric: true }));
         break;
       case 'time-low':
         sorted.sort((a, b) => Number(a.time || 0) - Number(b.time || 0));
@@ -10754,7 +10761,7 @@ function FavoritesPage({
         {!hasFavorites ? (
           <EmptyState
             title="No favorites yet"
-            text="Tap the heart on a recipe card, Combo-Meal, or saved Build Your Own Meal to keep it here."
+            text="Tap the heart on a recipe card, Combo-Meal, or saved Build-A-Meal to keep it here."
           />
         ) : (
           <>
@@ -10781,7 +10788,7 @@ function FavoritesPage({
             {favoriteBuiltMeals.length > 0 && (
               <section className="favoritesLibrarySection" aria-labelledby="favorite-built-meals-title">
                 <header className="favoritesLibraryHeader">
-                  <h2 id="favorite-built-meals-title">Favorite Build Your Own Meals</h2>
+                  <h2 id="favorite-built-meals-title">Favorite Build-A-Meals</h2>
                   <span>{favoriteBuiltMeals.length}</span>
                 </header>
                 <div className="favoriteBuiltMealGrid">
@@ -10792,7 +10799,7 @@ function FavoritesPage({
                     const mainTrayLayout = meal.mainTrayLayout || (meal.sideOneId ? "standard" : meal.sideTwoId ? "two-thirds" : "full-tray");
                     return (
                       <article className="favoriteBuiltMealCard" key={meal.id}>
-                        <button type="button" className="favoriteBuiltMealOpen" onClick={() => openSavedCustomMeal(meal.id)} aria-label={`Open ${meal.title} in Build Your Own Meal`}>
+                        <button type="button" className="favoriteBuiltMealOpen" onClick={() => openSavedCustomMeal(meal.id)} aria-label={`Open ${meal.title} in Build-A-Meal`}>
                           <MealBuilderTrayPreview mainRecipe={mainRecipe} sideOneRecipe={sideOneRecipe} sideTwoRecipe={sideTwoRecipe} mainTrayLayout={mainTrayLayout} className="favoriteBuiltMealPreview" />
                           <span className="favoriteBuiltMealCopy">
                             <strong>{meal.title}</strong>
@@ -17644,7 +17651,7 @@ export default function App() {
             src="images/heroes/hero-page-complete-dinners.webp"
             alt="Meal planning setup with a prepared main dish, practical sides, recipe notes, and storage containers"
             eyebrow="MEAL PLANNING"
-            title="Build Your Own Meal"
+            title="Build-A-Meal"
             text="Choose a main dish and two sides from your Recipe Box, preview how they work together, and decide what to serve now, refrigerate, or freeze for later."
             className="pageHeroDepth464"
           />
