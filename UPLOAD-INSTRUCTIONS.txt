@@ -1,13 +1,13 @@
-My Recipe Box v91.9 — changed files only
+My Recipe Box v92.0 — changed files only
 
 Upload the contents of this folder to the repository root, preserving paths and replacing matching files.
 
-Build Your Own Meal selector and tray refinements:
-- Main Dish categories limited to AM, AS, HB, IT, MX, SF, and SG
-- Side 1 and Side 2 limited to the SD category
-- All-category results follow the approved category order and alphabetize dishes inside each category
-- Individual category results remain alphabetical
-- Ghosted empty-state panels reduced vertically to remain inside the tray boundaries
-- Updated all affected Meal Builder contracts
+Build Your Own Meal alignment refinements:
+- Raised the complete left interactive column to align with the top of the selector columns
+- Kept the tray, recipe links, calorie summary, and Portion Plan together
+- Reduced the space between the two workspace columns
+- Increased the usable width of Column 2
+- Preserved the compact layout at tablet and mobile widths
+- Updated both affected layout contracts
 
-Recipe-card hero images and their loader remain unchanged.
+No recipe images or recipe-card hero loaders were changed.
