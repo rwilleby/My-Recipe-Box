@@ -1,11 +1,12 @@
-My Recipe Box v91.2 — changed files only
+My Recipe Box v91.4 — changed files only
 
 Upload the contents of this folder to the repository root, preserving paths and replacing matching files.
 
 Included:
-- 25 divided-tray images for Side 1: public/images/build-your-own/side-1-middle/SD-002.webp through SD-026.webp
-- 25 divided-tray images for Side 2: public/images/build-your-own/side-2-right/SD-002.webp through SD-026.webp
-- Build Your Own Meal component and styles needed for mixed divided-tray/transparent side assets
-- Updated Meal Builder asset tests
+- Responsive empty-tray partitions for the Build Your Own Meal preview
+- Two partitions for the standard 1/3 main layout
+- One right partition for the 2/3 main layout
+- No partitions for the full-tray 3/3 main layout
+- Updated Meal Builder tests
 
-Recipe-card hero images and their loader are unchanged.
+No recipe-card hero images or loaders were changed.

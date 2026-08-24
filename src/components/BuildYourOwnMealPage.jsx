@@ -30,7 +30,7 @@ const MEAL_BUILDER_SIDE_IDS = new Set(
   Array.from({ length: 53 }, (_, index) => `SD-${String(index + 1).padStart(3, "0")}`),
 );
 const MEAL_BUILDER_DIVIDED_TRAY_SIDE_IDS = new Set(
-  Array.from({ length: 25 }, (_, index) => `SD-${String(index + 2).padStart(3, "0")}`),
+  Array.from({ length: 52 }, (_, index) => `SD-${String(index + 2).padStart(3, "0")}`),
 );
 const MEAL_BUILDER_MAIN_LAYOUTS = new Map([
   ["AM-005", "full-tray"],
@@ -242,6 +242,10 @@ export function MealBuilderTrayPreview({ mainRecipe, sideOneRecipe, sideTwoRecip
         <MealBuilderFoodImage recipe={mainRecipe} position="main" />
         {mainTrayLayout === "standard" && <MealBuilderFoodImage recipe={sideOneRecipe} position="side-one" />}
         {mainTrayLayout !== "full-tray" && <MealBuilderFoodImage recipe={sideTwoRecipe} position="side-two" />}
+        <div className="mealBuilderTrayPartitions">
+          <span className="mealBuilderTrayPartition mealBuilderTrayPartition-left" />
+          <span className="mealBuilderTrayPartition mealBuilderTrayPartition-right" />
+        </div>
       </div>
       <div className="mealBuilderTrayRim" aria-hidden="true" />
     </div>
