@@ -1,12 +1,12 @@
-My Recipe Box v91.6 — changed files only
+My Recipe Box v91.7 — test contract fix only
 
-Upload the contents of this folder to the repository root, preserving paths and replacing matching files.
+Upload the test folder to the repository root, preserving its path and replacing the matching file.
 
-Build Your Own Meal selector improvements:
-- Selected-dish image and name displayed beneath each column title
-- Sort by Cuisine above Search by Name for Main Dish
-- Sort by Type above Search by Name for Side 1 and Side 2
-- Scrolling recipe lists sorted alphabetically by dish name
-- Selected recipes are no longer moved out of alphabetical order
+This updates the legacy Meal Builder selector test so it validates the current approved behavior:
+- Alphabetical recipe lists
+- Selected-dish preview above the filters
+- Sort by Cuisine for mains
+- Sort by Type for sides
+- No selected-recipe pinning above alphabetical results
 
-Recipe-card hero images and their loader remain unchanged.
+No application code, images, or recipe-card heroes are changed.

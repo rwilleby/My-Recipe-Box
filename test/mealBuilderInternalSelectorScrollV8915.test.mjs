@@ -13,8 +13,9 @@ assert.match(css, /\.mealBuilderChoiceCard\s*\{[^}]*flex:\s*0 0 var\(--meal-buil
 assert.match(css, /\.mealBuilderChoiceCard\s*\{[^}]*scroll-snap-align:\s*start/);
 assert.match(css, /\.mealBuilderMealSummaryCard\s*\{[^}]*overflow:\s*hidden[^}]*min-height:\s*96px/);
 assert.match(css, /\.mealBuilderChoiceRail::-webkit-scrollbar-thumb/);
-assert.match(jsx, /if \(a\.id === selectedId\) return -1;/);
-assert.match(jsx, /scrollTo\(\{ top: 0, behavior: "smooth" \}\)/);
+assert.doesNotMatch(jsx, /if \(a\.id === selectedId\) return -1;/);
+assert.match(jsx, /normalizeRecipeTitle\(a\)\.localeCompare\(normalizeRecipeTitle\(b\)\)/);
+assert.doesNotMatch(jsx, /scrollTo\(\{ top: 0, behavior: "smooth" \}\)/);
 assert.match(jsx, /scrollBy\(\{ top: direction \* Math\.max/);
 assert.doesNotMatch(jsx, />Dish Selectors</);
 assert.doesNotMatch(jsx, /mealBuilderSelectorsHeading/);
@@ -28,8 +29,11 @@ assert.match(jsx, />CLEAR &amp; START OVER</);
 assert.match(css, /\.mealBuilderTray\s*\{[^}]*aspect-ratio:\s*1448\/1086/);
 assert.match(css, /\.mealBuilderChoiceLead input\[type="search"\][^}]*text-align:\s*center/);
 assert.match(css, /\.mealBuilderPortionGrid label > span,[\s\S]*?text-align:\s*center/);
-assert.doesNotMatch(jsx, /Sort by Cuisine/);
-assert.doesNotMatch(jsx, /categoryCode\(recipe\) === category/);
+assert.match(jsx, /categoryLabel="Sort by Cuisine"/);
+assert.match(jsx, /categoryLabel="Sort by Type"/);
+assert.match(jsx, /categoryCode\(recipe\) === categoryFilter/);
+assert.match(jsx, /mealBuilderSelectedDish/);
+assert.match(css, /\.mealBuilderSelectedDish\s*\{[^}]*aspect-ratio:\s*16\/9/);
 assert.match(css, /\.buildYourOwnMealIntro p \+ p\s*\{[^}]*margin-top:\s*0/);
 assert.doesNotMatch(css, /\.mealBuilderWorkspaceGrid\s*\{[^}]*grid-template-columns:\s*1fr\s*;/);
 
