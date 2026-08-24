@@ -1,11 +1,12 @@
-My Recipe Box v91.5 — catch-up package
+My Recipe Box v91.6 — changed files only
 
-Upload every file and folder inside this package to the repository root, preserving paths and replacing all matching files.
+Upload the contents of this folder to the repository root, preserving paths and replacing matching files.
 
-This package includes:
-- Correct 1448 x 1086 divided-tray files for SD-027 through SD-053 in both directional side folders
-- The responsive empty-tray partition component and styles
-- The matching Meal Builder tests
+Build Your Own Meal selector improvements:
+- Selected-dish image and name displayed beneath each column title
+- Sort by Cuisine above Search by Name for Main Dish
+- Sort by Type above Search by Name for Side 1 and Side 2
+- Scrolling recipe lists sorted alphabetically by dish name
+- Selected recipes are no longer moved out of alphabetical order
 
-This corrects the CI mismatch where GitHub retained the older 268 x 627 SD-027 Side 1 file.
 Recipe-card hero images and their loader remain unchanged.

@@ -252,28 +252,22 @@ export function MealBuilderTrayPreview({ mainRecipe, sideOneRecipe, sideTwoRecip
   );
 }
 
-function MealChoiceStrip({ label, recipes, selectedId, onSelect, excludeId = "", builderImageIds, disabled = false, disabledMessage = "", trayLayouts = null }) {
+function MealChoiceStrip({ label, recipes, selectedId, onSelect, excludeId = "", builderImageIds, categoryOptions, categoryLabel, disabled = false, disabledMessage = "", trayLayouts = null }) {
   const railRef = useRef(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("ALL");
+  const selectedRecipe = recipes.find((recipe) => recipe.id === selectedId) || null;
   const visibleRecipes = useMemo(
     () => {
       const query = searchQuery.trim().toLocaleLowerCase();
       return recipes
       .filter((recipe) => recipe.id !== excludeId)
+      .filter((recipe) => categoryFilter === "ALL" || categoryCode(recipe) === categoryFilter)
       .filter((recipe) => !query || `${normalizeRecipeTitle(recipe)} ${recipe.id}`.toLocaleLowerCase().includes(query))
-      .sort((a, b) => {
-        if (a.id === selectedId) return -1;
-        if (b.id === selectedId) return 1;
-        const proofDifference = Number(builderImageIds.has(b.id)) - Number(builderImageIds.has(a.id));
-        return proofDifference || normalizeRecipeTitle(a).localeCompare(normalizeRecipeTitle(b));
-      });
+      .sort((a, b) => normalizeRecipeTitle(a).localeCompare(normalizeRecipeTitle(b)) || a.id.localeCompare(b.id));
     },
-    [builderImageIds, excludeId, recipes, searchQuery, selectedId],
+    [categoryFilter, excludeId, recipes, searchQuery],
   );
-
-  useEffect(() => {
-    if (selectedId) railRef.current?.scrollTo({ top: 0, behavior: "smooth" });
-  }, [selectedId]);
 
   function slide(direction) {
     railRef.current?.scrollBy({ top: direction * Math.max(180, railRef.current.clientHeight * 0.62), behavior: "smooth" });
@@ -283,6 +277,16 @@ function MealChoiceStrip({ label, recipes, selectedId, onSelect, excludeId = "",
     <section className={`mealBuilderChoiceColumn${disabled ? " is-disabled" : ""}`} aria-label={`${label} recipe selector`} aria-disabled={disabled || undefined}>
       <div className="mealBuilderChoiceLead">
         <strong>{label}</strong>
+        <div className={`mealBuilderSelectedDish${selectedRecipe ? " has-selection" : ""}`}>
+          {selectedRecipe ? <><HeroImage recipe={selectedRecipe} /><span>{normalizeRecipeTitle(selectedRecipe)}</span></> : <span>Choose a Dish</span>}
+        </div>
+        <label>
+          <span>{categoryLabel}</span>
+          <select value={categoryFilter} onChange={(event) => setCategoryFilter(event.target.value)} disabled={disabled}>
+            <option value="ALL">All</option>
+            {categoryOptions.map(([code, name]) => <option key={code} value={code}>{name}</option>)}
+          </select>
+        </label>
         <label>
           <span>Search by Name</span>
           <input type="search" value={searchQuery} onChange={(event) => setSearchQuery(event.target.value)} placeholder="FILTER" disabled={disabled} />
@@ -552,9 +556,9 @@ export default function BuildYourOwnMealPage({
 
         <section className="mealBuilderDishSelectors" aria-label="Dish selectors">
           <div className="mealBuilderSelectorColumns">
-            <MealChoiceStrip label="Main Dish" recipes={mainRecipes} selectedId={mainId} onSelect={selectMain} builderImageIds={MEAL_BUILDER_MAIN_IDS} trayLayouts={MEAL_BUILDER_MAIN_LAYOUTS} />
-            <MealChoiceStrip label="Side 1" recipes={sideRecipes} selectedId={sideOneId} onSelect={setSideOneId} excludeId={sideTwoId} builderImageIds={MEAL_BUILDER_SIDE_IDS} disabled={sideOneDisabled} disabledMessage={mainTrayLayout === "full-tray" ? "Complete meal — sides included" : "Included with selected main dish"} />
-            <MealChoiceStrip label="Side 2" recipes={sideRecipes} selectedId={sideTwoId} onSelect={setSideTwoId} excludeId={sideOneId} builderImageIds={MEAL_BUILDER_SIDE_IDS} disabled={sideTwoDisabled} disabledMessage="Complete meal — sides included" />
+            <MealChoiceStrip label="Main Dish" recipes={mainRecipes} selectedId={mainId} onSelect={selectMain} builderImageIds={MEAL_BUILDER_MAIN_IDS} categoryOptions={MAIN_CATEGORIES} categoryLabel="Sort by Cuisine" trayLayouts={MEAL_BUILDER_MAIN_LAYOUTS} />
+            <MealChoiceStrip label="Side 1" recipes={sideRecipes} selectedId={sideOneId} onSelect={setSideOneId} excludeId={sideTwoId} builderImageIds={MEAL_BUILDER_SIDE_IDS} categoryOptions={SIDE_CATEGORIES} categoryLabel="Sort by Type" disabled={sideOneDisabled} disabledMessage={mainTrayLayout === "full-tray" ? "Complete meal — sides included" : "Included with selected main dish"} />
+            <MealChoiceStrip label="Side 2" recipes={sideRecipes} selectedId={sideTwoId} onSelect={setSideTwoId} excludeId={sideOneId} builderImageIds={MEAL_BUILDER_SIDE_IDS} categoryOptions={SIDE_CATEGORIES} categoryLabel="Sort by Type" disabled={sideTwoDisabled} disabledMessage="Complete meal — sides included" />
           </div>
         </section>
       </div>
