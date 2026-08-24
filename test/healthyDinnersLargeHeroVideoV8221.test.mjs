@@ -30,7 +30,8 @@ for (const token of [
   "function LargeHeroVideoPanel(",
   "Play Now",
   "Close Window",
-  "LARGE_HERO_VIDEO_ACKNOWLEDGED_PREFIX",
+  "Turn Off Auto Play",
+  "HERO_VIDEO_AUTOPLAY_DISABLED_KEY",
   "onEnded={handleEnded}",
   "<PageHelpButtonStrip pageTitle={title}",
 ]) {

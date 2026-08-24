@@ -13,10 +13,10 @@ test("the reminder ribbon waits until the tenth distinct browser session", () =>
 
 test("the welcome video auto-opens, attempts sound, falls back safely, and closes when finished", () => {
   assert.match(app, /title="Robert’s Recipe Box welcome video"[\s\S]*?autoPlay/);
-  assert.match(app, /if \(!isAcknowledged\) \{[\s\S]*?setIsVisible\(true\)/);
+  assert.match(app, /if \(!isHeroVideoAutoplayDisabled\(\)\) \{[\s\S]*?setIsVisible\(true\)/);
   assert.match(app, /player\.muted = false;[\s\S]*?player\.play\(\)\.catch\(\(\) => \{[\s\S]*?player\.muted = true;/);
   assert.match(app, /onEnded=\{handleEnded\}/);
-  assert.match(app, /closeWindow\(\{ acknowledge: false \}\)/);
+  assert.match(app, /closeTimerRef\.current = window\.setTimeout\(\(\) => \{[\s\S]*?closeWindow\(\)/);
 });
 
 test("the welcome accordion uses its previous setting and cuisine links use two rows of seven", () => {
