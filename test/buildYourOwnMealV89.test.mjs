@@ -6,7 +6,7 @@ const component = await readFile(new URL("../src/components/BuildYourOwnMealPage
 const styles = await readFile(new URL("../src/components/BuildYourOwnMealPage.css", import.meta.url), "utf8");
 const routes = await readFile(new URL("../src/routing/seoRoutes.js", import.meta.url), "utf8");
 
-assert.match(app, /label: "BUILD YOUR OWN MEAL", page: "Build Your Own Meal"/);
+assert.match(app, /label: "BUILD-A-MEAL", page: "Build Your Own Meal"/);
 assert.match(app, /activePage === "Build Your Own Meal"/);
 assert.match(app, /<BuildYourOwnMealPage/);
 const noVideoStart = app.indexOf("const NO_INTRO_VIDEO_PAGES = new Set([");
@@ -28,4 +28,4 @@ assert.match(styles, /mealBuilderTrayRim/);
 
 await access(new URL("../public/images/meal-builder/meal-builder-tray-base.webp", import.meta.url));
 
-console.log("v89 Build Your Own Meal visual prototype contracts passed");
+console.log("Build-A-Meal visual prototype contracts passed");

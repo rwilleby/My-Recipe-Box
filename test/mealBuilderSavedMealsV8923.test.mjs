@@ -11,7 +11,7 @@ assert.match(app, /saveJSON\(STORAGE_KEYS\.savedCustomMeals, savedCustomMeals\)/
 assert.match(app, /function saveCustomMeal\(savedMeal\)/);
 assert.match(app, /function toggleSavedCustomMealFavorite\(id\)/);
 assert.match(app, /function openSavedCustomMeal\(id\)[\s\S]*?setActivePage\("Build Your Own Meal"\)/);
-assert.match(app, /Favorite Build Your Own Meals/);
+assert.match(app, /Favorite Build-A-Meals/);
 assert.match(app, /<MealBuilderTrayPreview[\s\S]*?favoriteBuiltMealPreview/);
 assert.match(app, /savedCustomMeals=\{savedCustomMeals\}/);
 
@@ -25,4 +25,4 @@ assert.match(component, /DELETE SAVED MEAL/);
 assert.match(css, /\.mealBuilderSavedMealsBar/);
 assert.match(css, /\.favoriteBuiltMealGrid/);
 
-console.log("v89.23 saved Build Your Own Meals can be reopened and independently favorited");
+console.log("Saved Build-A-Meals can be reopened and independently favorited");
