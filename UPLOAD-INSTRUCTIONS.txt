@@ -1,0 +1,1 @@
+Upload the contents of this package into the root of your GitHub repository. Preserve all folders and allow matching files to be replaced.

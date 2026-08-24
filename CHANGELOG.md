@@ -1,3 +1,11 @@
+# v91 — Master 4 Combined Media and Meal Builder Update
+
+- Added the supplied compressed How It Works video to the How It Works large hero and enabled its standard hero-video control.
+- Added a first-frame poster generated directly from the new How It Works video.
+- Rebuilt the Master Kitchen Inventory poster from the current Master Kitchen Inventory video so its initial display no longer shows the older version.
+- Installed 48 optimized transparent Meal Builder main-dish replacements in the live Build Your Own Meal asset collection.
+- Preserved the established recipe IDs, tray-layout tags, tray base, serving templates, and all unrelated website content.
+
 # v88.1 — Release Integrity Baseline
 
 - Removed all site-wide PREV and NEXT page-sequence controls while preserving menu links, direct routes, and browser Back/Forward navigation.

@@ -53,15 +53,18 @@ assert.deepEqual([...sideIds].sort(), diskSideIds, "Every portable side asset mu
 
 const expectedLayoutByWidth = new Map([
   [340, "standard"], [471, "standard"],
+  [359, "standard"],
   [600, "two-thirds"], [750, "two-thirds"],
+  [628, "two-thirds"],
   [858, "full-tray"], [1038, "full-tray"],
+  [886, "full-tray"],
 ]);
 
 for (const id of diskMainIds) {
   assert.ok(recipeIds.has(id), `${id} must have a matching recipe record`);
   const info = webpInfo(path.join(mainRoot, `${id}.webp`));
   assert.ok(info.hasAlpha, `${id} must retain genuine transparency`);
-  assert.ok([610, 626].includes(info.height), `${id} has an unsupported Meal Builder height`);
+  assert.ok([610, 626, 627].includes(info.height), `${id} has an unsupported Meal Builder height`);
   const expectedLayout = expectedLayoutByWidth.get(info.width);
   assert.ok(expectedLayout, `${id} has an unsupported Meal Builder width: ${info.width}`);
   assert.equal(layouts.get(id) || "standard", expectedLayout, `${id} must be tagged ${expectedLayout}`);

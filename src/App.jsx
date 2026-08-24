@@ -954,6 +954,8 @@ const ABOUT_RECIPES_VIDEO_URL = "videos/about-our-recipes.mp4";
 const ABOUT_RECIPES_VIDEO_POSTER = "images/video-posters/about-our-recipes-poster.webp";
 const RECIPE_LIBRARY_VIDEO_URL = "videos/browse-our-recipe-library.mp4";
 const RECIPE_LIBRARY_VIDEO_POSTER = "images/video-posters/browse-our-recipe-library-poster.webp";
+const HOW_IT_WORKS_VIDEO_URL = "videos/how-it-works.mp4";
+const HOW_IT_WORKS_VIDEO_POSTER = "images/video-posters/how-it-works-poster.webp";
 const MASTER_KITCHEN_INVENTORY_VIDEO_URL = "videos/master-kitchen-inventory.mp4";
 const MASTER_KITCHEN_INVENTORY_VIDEO_POSTER = "images/video-posters/library/master-kitchen-inventory.webp";
 const SHOPPING_LIST_VIDEO_URL = "videos/shopping-list.mp4";
@@ -1623,7 +1625,6 @@ const NAV_GROUPS = [
  * Every other main-menu page is intro-video eligible.
  */
 const NO_INTRO_VIDEO_PAGES = new Set([
-  "How It Works",
   "Submit Recipes",
   "Contact Me",
   "Disclaimers",
@@ -19446,6 +19447,8 @@ Use this section to check what is on hand, record dates, mark foods that should 
             title="How It Works"
             text="Your Guide to Using Robert’s Recipe Box"
             className="pageHeroDepth464 howItWorksHero"
+            videoSrc={HOW_IT_WORKS_VIDEO_URL}
+            videoPoster={HOW_IT_WORKS_VIDEO_POSTER}
           />
           <UnifiedHowItWorksPage setActivePage={setActivePage} />
         </>
