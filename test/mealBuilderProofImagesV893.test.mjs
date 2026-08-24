@@ -15,7 +15,7 @@ assert.match(component, /Choose<br \/>Main/);
 assert.match(component, /className={`mealBuilderSelectedDish/);
 assert.match(component, /categoryLabel="Sort by Cuisine"/);
 assert.match(component, /categoryLabel="Sort by Type"/);
-assert.match(component, /normalizeRecipeTitle\(a\)\.localeCompare\(normalizeRecipeTitle\(b\)\)/);
+assert.match(component, /categoryDifference \|\| normalizeRecipeTitle\(a\)\.localeCompare\(normalizeRecipeTitle\(b\)\)/);
 assert.match(component, /images\/build-your-own\/\$\{folder\}\/\$\{recipe\.id\}\.webp/);
 assert.match(component, /position === "side-one"[\s\S]*?"side-1-middle"[\s\S]*?"side-2-right"/);
 assert.match(component, /recipeHeroImageCandidates\(recipe\)/);
@@ -27,6 +27,7 @@ assert.doesNotMatch(styles, /mealBuilderTrayPartition/);
 assert.match(styles, /mealBuilderTrayFood-main\.is-empty[^}]*width:\s*23\.9497%/);
 assert.match(styles, /mealBuilderTrayFood-side-one\.is-empty[^}]*left:\s*37\.9%/);
 assert.match(styles, /mealBuilderTrayFood-side-two\.is-empty[^}]*left:\s*61\.3%/);
+assert.match(styles, /mealBuilderTrayFood\.is-empty[^}]*top:\s*15\.5%[^}]*height:\s*62%/);
 
 for (const id of mainIds) await access(new URL(`../public/images/build-your-own/main/${id}.webp`, import.meta.url));
 for (const id of sideIds) {

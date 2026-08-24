@@ -3,12 +3,10 @@ import { getRecipeNutritionVariant } from "../data/recipeNutritionProfiles.js";
 import { recipeHeroImageCandidates } from "../features/recipe-viewer/recipeAssets.js";
 
 const MAIN_CATEGORIES = [
-  ["AM", "American"], ["AS", "Asian"], ["CP", "Crock Pot"], ["CS", "Casseroles"],
-  ["DM", "Diet Meals"], ["HB", "Hamburgers"], ["HBP", "Hamburger Patties"],
-  ["IT", "Italian"], ["MX", "Mexican"], ["QP", "Quiche"], ["SF", "Seafood"],
-  ["SG", "Meats"], ["SW", "Sandwiches"],
+  ["AM", "American"], ["AS", "Asian"], ["HB", "Hamburgers"], ["IT", "Italian"],
+  ["MX", "Mexican"], ["SF", "Seafood"], ["SG", "Meats"],
 ];
-const SIDE_CATEGORIES = [["SD", "Side Dishes"], ["SB", "Salads"], ["LF", "Breads & Rolls"]];
+const SIDE_CATEGORIES = [["SD", "Side Dishes"]];
 
 const MEAL_BUILDER_MAIN_IDS = new Set([
   "AM-001", "AM-002", "AM-003", "AM-004", "AM-005", "AM-006", "AM-007", "AM-008", "AM-009", "AM-010",
@@ -256,11 +254,15 @@ function MealChoiceStrip({ label, recipes, selectedId, onSelect, excludeId = "",
   const visibleRecipes = useMemo(
     () => {
       const query = searchQuery.trim().toLocaleLowerCase();
+      const categoryOrder = new Map(categoryOptions.map(([code], index) => [code, index]));
       return recipes
       .filter((recipe) => recipe.id !== excludeId)
       .filter((recipe) => categoryFilter === "ALL" || categoryCode(recipe) === categoryFilter)
       .filter((recipe) => !query || `${normalizeRecipeTitle(recipe)} ${recipe.id}`.toLocaleLowerCase().includes(query))
-      .sort((a, b) => normalizeRecipeTitle(a).localeCompare(normalizeRecipeTitle(b)) || a.id.localeCompare(b.id));
+      .sort((a, b) => {
+        const categoryDifference = (categoryOrder.get(categoryCode(a)) ?? 999) - (categoryOrder.get(categoryCode(b)) ?? 999);
+        return categoryDifference || normalizeRecipeTitle(a).localeCompare(normalizeRecipeTitle(b)) || a.id.localeCompare(b.id);
+      });
     },
     [categoryFilter, excludeId, recipes, searchQuery],
   );

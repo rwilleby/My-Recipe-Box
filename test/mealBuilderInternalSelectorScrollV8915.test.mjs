@@ -14,7 +14,7 @@ assert.match(css, /\.mealBuilderChoiceCard\s*\{[^}]*scroll-snap-align:\s*start/)
 assert.match(css, /\.mealBuilderMealSummaryCard\s*\{[^}]*overflow:\s*hidden[^}]*min-height:\s*96px/);
 assert.match(css, /\.mealBuilderChoiceRail::-webkit-scrollbar-thumb/);
 assert.doesNotMatch(jsx, /if \(a\.id === selectedId\) return -1;/);
-assert.match(jsx, /normalizeRecipeTitle\(a\)\.localeCompare\(normalizeRecipeTitle\(b\)\)/);
+assert.match(jsx, /categoryDifference \|\| normalizeRecipeTitle\(a\)\.localeCompare\(normalizeRecipeTitle\(b\)\)/);
 assert.doesNotMatch(jsx, /scrollTo\(\{ top: 0, behavior: "smooth" \}\)/);
 assert.match(jsx, /scrollBy\(\{ top: direction \* Math\.max/);
 assert.doesNotMatch(jsx, />Dish Selectors</);
@@ -32,8 +32,14 @@ assert.match(css, /\.mealBuilderPortionGrid label > span,[\s\S]*?text-align:\s*c
 assert.match(jsx, /categoryLabel="Sort by Cuisine"/);
 assert.match(jsx, /categoryLabel="Sort by Type"/);
 assert.match(jsx, /categoryCode\(recipe\) === categoryFilter/);
+assert.match(jsx, /const SIDE_CATEGORIES = \[\["SD", "Side Dishes"\]\]/);
+assert.doesNotMatch(jsx, /\["SB", "Salads"\]/);
+assert.doesNotMatch(jsx, /\["LF", "Breads & Rolls"\]/);
+for (const category of ["AM", "AS", "HB", "IT", "MX", "SF", "SG"]) assert.match(jsx, new RegExp(`\\["${category}",`));
+for (const category of ["CP", "CS", "DM", "HBP", "QP", "SW"]) assert.doesNotMatch(jsx.slice(0, jsx.indexOf("const MEAL_BUILDER_MAIN_IDS")), new RegExp(`\\["${category}",`));
 assert.match(jsx, /mealBuilderSelectedDish/);
 assert.match(css, /\.mealBuilderSelectedDish\s*\{[^}]*aspect-ratio:\s*16\/9/);
+assert.match(css, /\.mealBuilderTrayFood\.is-empty\s*\{[^}]*top:\s*15\.5%[^}]*height:\s*62%/);
 assert.match(css, /\.buildYourOwnMealIntro p \+ p\s*\{[^}]*margin-top:\s*0/);
 assert.doesNotMatch(css, /\.mealBuilderWorkspaceGrid\s*\{[^}]*grid-template-columns:\s*1fr\s*;/);
 
