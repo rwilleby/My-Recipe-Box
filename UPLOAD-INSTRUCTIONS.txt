@@ -1,12 +1,14 @@
-My Recipe Box v91.7 — test contract fix only
+My Recipe Box v91.8 — changed files only
 
-Upload the test folder to the repository root, preserving its path and replacing the matching file.
+Upload the contents of this folder to the repository root, preserving paths and replacing matching files.
 
-This updates the legacy Meal Builder selector test so it validates the current approved behavior:
-- Alphabetical recipe lists
-- Selected-dish preview above the filters
-- Sort by Cuisine for mains
-- Sort by Type for sides
-- No selected-recipe pinning above alphabetical results
+Build Your Own Meal layout corrections:
+- Removed the CSS-generated tray dividers
+- Realigned the ghosted Choose Main, Choose Side 1, and Choose Side 2 spaces to the true tray compartments
+- Stacked Choose Main on two lines
+- Shifted the workspace left and reduced the preview-column width
+- Widened the three selector columns across the newly available space
+- Matched Portion Plan typography to the Main Dish heading
+- Updated every affected Meal Builder layout contract
 
-No application code, images, or recipe-card heroes are changed.
+Recipe-card hero images and their loader remain unchanged.

@@ -10,8 +10,8 @@ const sideIds = ["SD-001", "SD-004", "SD-005", "SD-007", "SD-008", "SD-009", "SD
 assert.match(component, /MEAL_BUILDER_MAIN_IDS/);
 assert.match(component, /MEAL_BUILDER_SIDE_IDS/);
 assert.match(component, /MEAL_BUILDER_DIVIDED_TRAY_SIDE_IDS/);
-assert.match(component, /mealBuilderTrayPartition-left/);
-assert.match(component, /mealBuilderTrayPartition-right/);
+assert.doesNotMatch(component, /mealBuilderTrayPartitions/);
+assert.match(component, /Choose<br \/>Main/);
 assert.match(component, /className={`mealBuilderSelectedDish/);
 assert.match(component, /categoryLabel="Sort by Cuisine"/);
 assert.match(component, /categoryLabel="Sort by Type"/);
@@ -23,8 +23,10 @@ assert.match(component, /Meal image coming soon/);
 assert.doesNotMatch(styles, /mealBuilderTrayFood img[^}]*transform:/);
 assert.match(styles, /mealBuilderTrayFood-side-one\.is-divided-tray-layer/);
 assert.match(styles, /mealBuilderTrayFood-side-two\.is-divided-tray-layer/);
-assert.match(styles, /mealBuilderTrayInterior\.is-two-thirds \.mealBuilderTrayPartition-left/);
-assert.match(styles, /mealBuilderTrayInterior\.is-full-tray \.mealBuilderTrayPartitions/);
+assert.doesNotMatch(styles, /mealBuilderTrayPartition/);
+assert.match(styles, /mealBuilderTrayFood-main\.is-empty[^}]*width:\s*23\.9497%/);
+assert.match(styles, /mealBuilderTrayFood-side-one\.is-empty[^}]*left:\s*37\.9%/);
+assert.match(styles, /mealBuilderTrayFood-side-two\.is-empty[^}]*left:\s*61\.3%/);
 
 for (const id of mainIds) await access(new URL(`../public/images/build-your-own/main/${id}.webp`, import.meta.url));
 for (const id of sideIds) {

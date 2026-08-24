@@ -206,7 +206,7 @@ function MealBuilderFoodImage({ recipe, position }) {
   if (!recipe) {
     return (
       <div className={`mealBuilderTrayFood mealBuilderTrayFood-${position} is-empty`}>
-        <span>{position === "main" ? "Choose Main" : position === "side-one" ? "Choose Side 1" : "Choose Side 2"}</span>
+        <span>{position === "main" ? <>Choose<br />Main</> : position === "side-one" ? "Choose Side 1" : "Choose Side 2"}</span>
       </div>
     );
   }
@@ -242,10 +242,6 @@ export function MealBuilderTrayPreview({ mainRecipe, sideOneRecipe, sideTwoRecip
         <MealBuilderFoodImage recipe={mainRecipe} position="main" />
         {mainTrayLayout === "standard" && <MealBuilderFoodImage recipe={sideOneRecipe} position="side-one" />}
         {mainTrayLayout !== "full-tray" && <MealBuilderFoodImage recipe={sideTwoRecipe} position="side-two" />}
-        <div className="mealBuilderTrayPartitions">
-          <span className="mealBuilderTrayPartition mealBuilderTrayPartition-left" />
-          <span className="mealBuilderTrayPartition mealBuilderTrayPartition-right" />
-        </div>
       </div>
       <div className="mealBuilderTrayRim" aria-hidden="true" />
     </div>
