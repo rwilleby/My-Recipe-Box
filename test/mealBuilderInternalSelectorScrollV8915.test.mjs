@@ -27,7 +27,7 @@ assert.match(jsx, /<span>Portion<\/span>/);
 assert.match(jsx, />PRINT MEAL LABELS</);
 assert.match(jsx, />CLEAR &amp; START OVER</);
 assert.match(css, /\.mealBuilderTray\s*\{[^}]*aspect-ratio:\s*1448\/1086/);
-assert.match(css, /\.mealBuilderPreviewColumn \.mealBuilderTrayPrimary\s*\{[^}]*aspect-ratio:\s*1448\/627/);
+assert.match(css, /\.mealBuilderPreviewColumn \.mealBuilderTrayPrimary\s*\{[^}]*aspect-ratio:\s*1448\/1086/);
 assert.match(css, /\.mealBuilderChoiceLead input\[type="search"\][^}]*text-align:\s*center/);
 assert.match(css, /\.mealBuilderPortionGrid label > span,[\s\S]*?text-align:\s*center/);
 assert.match(jsx, /categoryLabel="Sort by Cuisine"/);

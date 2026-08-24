@@ -1,19 +1,11 @@
-My Recipe Box v92.4 — changed files only
+My Recipe Box v92.5 — changed files only
 
 Upload the contents of this folder to the repository root, preserving paths and replacing matching files.
 
-Front page order:
-1. Looking for Quick Dinner Ideas?
-2. Or Maybe a Diet Meal?
-3. What Do You Want to Do Today?
-4. Cuisine Quick Links
+Interactive tray correction:
+- Restores the entire 1448 × 1086 Meal Builder graphic represented by the blue box.
+- Removes the incorrect tight crop introduced in v92.3.
+- Prevents the primary tray graphic from being enlarged or cropped by the general tray scaling rule.
+- Keeps the ghosted Choose Main, Choose Side 1, and Choose Side 2 areas within the exact tray-interior bounds represented by the red box.
 
-Hero-video behavior:
-- Hero videos open and begin playing whenever the user enters an eligible page.
-- The video window closes automatically after playback ends.
-- Every hero-video window provides Play Now, Close Window, and Turn Off Auto Play.
-- Close Window closes only the current window; it does not disable future auto-play.
-- Turn Off Auto Play saves one site-wide preference. Afterward, hero videos open only when the user clicks a page's video button.
-- Play Now restores sound when browser auto-play had to begin muted.
-
-This package does not replace Meal Builder files or recipe-card hero assets.
+No recipe-card heroes, food images, or selector behavior were changed.
