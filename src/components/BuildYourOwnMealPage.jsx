@@ -26,7 +26,10 @@ export const MEAL_BUILDER_MAIN_IDS = new Set([
   ...Array.from({ length: 101 }, (_, index) => `CP-${String(index + 1).padStart(3, "0")}`),
 ]);
 export const MEAL_BUILDER_FULL_CANVAS_MAIN_IDS = new Set(
-  Array.from({ length: 101 }, (_, index) => `CP-${String(index + 1).padStart(3, "0")}`),
+  [
+    ...Array.from({ length: 101 }, (_, index) => `CP-${String(index + 1).padStart(3, "0")}`),
+    ...Array.from({ length: 20 }, (_, index) => `SF-${String(index + 1).padStart(3, "0")}`),
+  ],
 );
 export const MEAL_BUILDER_SIDE_IDS = new Set(
   Array.from({ length: 53 }, (_, index) => `SD-${String(index + 1).padStart(3, "0")}`),
@@ -76,8 +79,8 @@ export const MEAL_BUILDER_MAIN_LAYOUTS = new Map([
     "IT-043", "IT-044", "IT-045", "IT-046", "IT-047", "IT-048", "IT-049", "IT-050", "IT-051", "IT-052",
     "IT-053", "IT-054", "IT-055", "IT-056", "IT-057", "IT-058", "IT-059", "IT-060",
   ].map((id) => [id, "full-tray"]),
-  ...["SF-002", "SF-003", "SF-016", "SF-017", "SF-018"].map((id) => [id, "two-thirds"]),
-  ["SF-020", "full-tray"],
+  ...["SF-016", "SF-017"].map((id) => [id, "two-thirds"]),
+  ...["SF-002", "SF-003", "SF-018", "SF-020"].map((id) => [id, "full-tray"]),
   ...["MX-004", "MX-005", "MX-008", "MX-032"].map((id) => [id, "two-thirds"]),
   ...[
     "MX-001", "MX-002", "MX-011", "MX-012",
