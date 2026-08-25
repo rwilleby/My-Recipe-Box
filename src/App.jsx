@@ -1572,6 +1572,7 @@ const NAV_GROUPS = [
     items: [
       { label: "MASTER KITCHEN INVENTORY", page: "Master Kitchen Inventory" },
       { label: "FREEZING & REHEATING", page: "Freezer Tips" },
+      { label: "FOOD STORAGE & SHELF-LIFE GUIDE", page: "Food Storage Guide" },
     ],
   },
   {
@@ -1602,14 +1603,14 @@ const NAV_GROUPS = [
       { label: "BUILD-A-MEAL", page: "Build Your Own Meal" },
       { label: "YOUR WEEKLY MEAL PLANNER", page: "Meal Planner" },
       { label: "WEEKEND BULK MEAL PLANNER", page: "Weekend Bulk Meal Planner", detailedOnly: true },
-      { label: "HEALTHY SUBSTITUTIONS", page: "Grocery Picks" },
+      { label: "RECIPE ADJUSTMENTS & SUBSTITUTIONS", page: "Grocery Picks" },
     ],
   },
   {
     label: "SHOPPING",
     items: [
       { label: "YOUR GROCERY LIST", page: "Shopping Lists" },
-      { label: "COOKING TOOLS, STORAGE & ORGANIZATION", page: "Products I Use" },
+      { label: "RECOMMENDED KITCHEN TOOLS & STORAGE", page: "Products I Use" },
     ],
   },
   {
@@ -1618,12 +1619,12 @@ const NAV_GROUPS = [
       { label: "FOOD SAFETY", page: "Safe Cooking Rules" },
       { label: "REFERENCE GUIDES", page: "Reference Guides" },
       { label: "EATING WELL WITH GLP-1 MEDICATIONS", page: "GLP-1 Nutrition" },
-      { label: "TIPS: AIR FRYERS", page: "Air Fryer Recipes", level: 1 },
-      { label: "TIPS: MICROWAVE OVENS", page: "Microwave Recipes", level: 1 },
-      { label: "TIPS: GAS/ELECTRIC OVENS", page: "Oven Recipes", level: 1 },
-      { label: "TIPS: GAS/ELECTRIC GRIDDLES", page: "Griddle Recipes", level: 1 },
-      { label: "TIPS: GAS GRILLS", page: "Gas Grill Recipes", level: 1 },
-      { label: "TIPS: PELLET SMOKERS", page: "Smoker Recipes", level: 1 },
+      { label: "AIR FRYERS", page: "Air Fryer Recipes" },
+      { label: "MICROWAVE OVENS", page: "Microwave Recipes" },
+      { label: "GAS & ELECTRIC OVENS", page: "Oven Recipes" },
+      { label: "GAS & ELECTRIC GRIDDLES", page: "Griddle Recipes" },
+      { label: "GAS GRILLS", page: "Gas Grill Recipes" },
+      { label: "PELLET SMOKERS", page: "Smoker Recipes" },
     ],
   },
 ];
@@ -1648,6 +1649,7 @@ const NO_INTRO_VIDEO_PAGES = new Set([
 
   "RFIS Search",
   "Freezer-Friendly Meals",
+  "Food Storage Guide",
 
   "Summer Cookouts",
   "Comfort Foods",
@@ -1781,9 +1783,10 @@ function Header({ activePage, setActivePage, favorites, savedCustomMeals = [] })
     {
       label: "RECIPES & MEALS",
       page: "Recipes",
+      menuClass: "recipesMealsSubmenu",
       sections: [
         {
-          label: "FIND RECIPES",
+          label: "RECIPE LIBRARIES",
           items: [
             { label: "BROWSE OUR RECIPE LIBRARY", page: "Recipes" },
             { label: "VEGAN RECIPE LIBRARY", page: "Vegan Recipe Library" },
@@ -1791,15 +1794,9 @@ function Header({ activePage, setActivePage, favorites, savedCustomMeals = [] })
           ],
         },
         {
-          label: "BUILD A MEAL",
+          label: "COMPLETE MEALS & COLLECTIONS",
           items: [
             { label: "COMPLETE DINNERS", page: "Dinner Combinations" },
-            { label: "BUILD A MEAL", page: "Build Your Own Meal" },
-          ],
-        },
-        {
-          label: "MEAL COLLECTIONS",
-          items: [
             { label: "HEALTHY DINNERS", page: "Healthy Dinners" },
             { label: "SALAD JAR LUNCHES", page: "Salad Jars" },
             { label: "SLOW COOKER MEALS", page: "Slow Cooker Favorites" },
@@ -1815,22 +1812,71 @@ function Header({ activePage, setActivePage, favorites, savedCustomMeals = [] })
     {
       label: "KITCHEN DETAILS",
       page: "Master Kitchen Inventory",
-      items: NAV_GROUPS.find((group) => group.label === "KITCHEN DETAILS")?.items || [],
+      items: [
+        { label: "MASTER KITCHEN INVENTORY", page: "Master Kitchen Inventory" },
+        { label: "FREEZING & REHEATING", page: "Freezer Tips" },
+        { label: "FOOD STORAGE & SHELF-LIFE GUIDE", page: "Food Storage Guide" },
+      ],
     },
     {
       label: "MEAL PLANNING",
       page: "Meal Planner",
-      items: NAV_GROUPS.find((group) => group.label === "YOUR KITCHEN")?.items || [],
+      menuClass: "mealPlanningSubmenu",
+      sections: [
+        {
+          label: "CREATE A PLAN",
+          items: [
+            { label: "BUILD-A-MEAL", page: "Build Your Own Meal" },
+            { label: "YOUR WEEKLY MEAL PLANNER", page: "Meal Planner" },
+            { label: "WEEKEND BULK MEAL PLANNER", page: "Weekend Bulk Meal Planner", detailedOnly: true },
+          ],
+        },
+        {
+          label: "ADJUST YOUR MEALS",
+          items: [
+            { label: "RECIPE ADJUSTMENTS & SUBSTITUTIONS", page: "Grocery Picks" },
+          ],
+        },
+      ],
     },
     {
       label: "SHOPPING",
       page: "Shopping Lists",
-      items: NAV_GROUPS.find((group) => group.label === "SHOPPING")?.items || [],
+      items: [
+        { label: "YOUR GROCERY LIST", page: "Shopping Lists" },
+        { label: "RECOMMENDED KITCHEN TOOLS & STORAGE", page: "Products I Use" },
+      ],
     },
     {
       label: "RESOURCES",
       page: "Reference Guides",
-      items: NAV_GROUPS.find((group) => group.label === "TIPS & GUIDES")?.items || [],
+      menuClass: "resourcesSubmenu",
+      sections: [
+        {
+          label: "HEALTH & SAFETY",
+          items: [
+            { label: "FOOD SAFETY", page: "Safe Cooking Rules" },
+            { label: "EATING WELL WITH GLP-1 MEDICATIONS", page: "GLP-1 Nutrition" },
+          ],
+        },
+        {
+          label: "GUIDES",
+          items: [
+            { label: "REFERENCE GUIDES", page: "Reference Guides" },
+          ],
+        },
+        {
+          label: "COOKING METHOD TIPS",
+          items: [
+            { label: "AIR FRYERS", page: "Air Fryer Recipes" },
+            { label: "MICROWAVE OVENS", page: "Microwave Recipes" },
+            { label: "GAS & ELECTRIC OVENS", page: "Oven Recipes" },
+            { label: "GAS & ELECTRIC GRIDDLES", page: "Griddle Recipes" },
+            { label: "GAS GRILLS", page: "Gas Grill Recipes" },
+            { label: "PELLET SMOKERS", page: "Smoker Recipes" },
+          ],
+        },
+      ],
     },
   ];
   const favoriteItemCount = (Array.isArray(favorites) ? favorites.length : 0)
@@ -11237,50 +11283,233 @@ function RecommendationsPage({ setActivePage }) {
 
 
 function GroceryPicksPage({ setActivePage }) {
+  const adjustmentSections = [
+    {
+      title: "Lower-Sodium Adjustments",
+      intro: "Reduce sodium while protecting flavor and the way the recipe cooks.",
+      items: [
+        ["Choose lower-sodium products", "Use reduced-sodium broth, sauces, canned goods, and seasoning blends when the recipe calls for them."],
+        ["Start with no-salt-added ingredients", "Season after tasting so salt is added deliberately instead of automatically."],
+        ["Build flavor another way", "Herbs, spices, garlic, citrus, and vinegar can add brightness without simply adding more salt."],
+        ["Rinse when appropriate", "Draining and rinsing canned beans and vegetables can remove some surface sodium; do not rinse products whose sauce is part of the recipe."],
+      ],
+    },
+    {
+      title: "Lower-Carbohydrate Adjustments",
+      intro: "Choose practical swaps that still fit the dish and your preferred portions.",
+      items: [
+        ["Rice and grains", "Try cauliflower rice, a smaller grain portion, or more non-starchy vegetables when the recipe structure allows."],
+        ["Pasta and noodles", "Consider zucchini noodles, spaghetti squash, hearts-of-palm pasta, or a smaller amount of regular pasta."],
+        ["Bread and potatoes", "Use open-faced portions, lettuce wraps, mashed cauliflower, turnips, or smaller servings where appropriate."],
+        ["Check the result", "A lower-carbohydrate swap can change moisture, texture, cooking time, and the recipe’s nutrition estimate."],
+      ],
+    },
+    {
+      title: "Vegan and Plant-Based Adjustments",
+      intro: "Use products specifically labeled vegan; a recipe belongs in the Vegan Recipe Library only when it is vegan as written.",
+      items: [
+        ["Creamy ingredients", "Use vegan butter, unsweetened plant milk, vegan sour cream, vegan mayonnaise, or plant-based heavy cream as the recipe requires."],
+        ["Cheese and eggs", "Choose vegan cheese, vegan Parmesan, or an egg replacer suited to the egg’s binding, lifting, or moisture role."],
+        ["Savory foundations", "Use vegetable broth and vegan Worcestershire sauce; traditional Worcestershire may contain anchovies."],
+        ["Packaged foods", "Confirm that bread, pasta, pie crust, buns, condiments, and packaged dough contain no animal-derived ingredients."],
+      ],
+    },
+    {
+      title: "Dairy-Free Adjustments",
+      intro: "Dairy-free and vegan are not always the same; check the complete ingredient list for your goal.",
+      items: [
+        ["Milk and cream", "Choose an unsweetened plant milk or dairy-free cream with a thickness and flavor appropriate for the recipe."],
+        ["Butter and sour cream", "Use dairy-free butter or sour cream while accounting for differences in water and fat content."],
+        ["Cheese", "Select a dairy-free cheese that melts, browns, or blends the way the dish requires."],
+      ],
+    },
+    {
+      title: "Ingredient Replacements",
+      intro: "Emergency substitutions work best when the replacement performs the same job as the original ingredient.",
+      items: [
+        ["Match the ingredient’s job", "Consider whether it supplies structure, thickening, leavening, moisture, fat, acidity, sweetness, or flavor."],
+        ["Make one change at a time", "A familiar substitute is easier to evaluate when several other ingredients are not changing too."],
+        ["Know when not to substitute", "Baking, custards, emulsions, and thickened sauces may fail when the replacement cannot perform the original function."],
+      ],
+    },
+    {
+      title: "Serving and Portion Adjustments",
+      intro: "Scale recipes for two, four, or six servings while planning intentionally for leftovers and freezer portions.",
+      items: [
+        ["Scale the ingredients", "Multiply or divide each ingredient consistently, but season gradually and taste as you go."],
+        ["Plan the portions", "Separate planned leftovers and freezer portions promptly instead of leaving the full batch available for serving."],
+        ["Recheck the equipment", "Changing yield may require a different pan size, container size, cooking time, or batch arrangement."],
+      ],
+    },
+    {
+      title: "Cooking-Method Adjustments",
+      intro: "Appliance conversions require checking temperature and doneness rather than relying only on the original cooking time.",
+      items: [
+        ["Oven or air fryer", "Allow space for airflow, adjust batch size, and begin checking sooner when moving to a smaller convection appliance."],
+        ["Microwave", "Use microwave-safe cookware, rotate or stir as appropriate, allow standing time, and verify even heating."],
+        ["Slow cooker", "Use sufficient liquid, avoid unnecessary lid opening, and follow food-safe handling for meat and poultry."],
+        ["Grill or smoker", "Manage direct and indirect heat, monitor flare-ups, and verify doneness with a food thermometer."],
+      ],
+    },
+    {
+      title: "Nutrition and Medical Note",
+      intro: "Substitutions change the recipe and therefore change its nutrition estimate.",
+      items: [
+        ["Recalculate when needed", "Changing brands, quantities, serving size, or ingredients can alter calories, sodium, carbohydrates, protein, fat, and allergens."],
+        ["General guidance only", "These cooking suggestions are not medical advice and may not be appropriate for every allergy, medication, diagnosis, or prescribed eating plan."],
+      ],
+    },
+  ];
+
   return (
-    <main className="pageShell groceryPicksPage">
+    <main className="pageShell groceryPicksPage adjustmentGuidePage">
       <SectionIntro
-        title="Healthy Substitutions"
-        text="A reference list for lighter, lower-carb, freezer-friendly, and small-household grocery choices. Use it before shopping, or when a shopping-list item shows a suggested swap."
+        title="Recipe Adjustments & Substitutions"
+        text="Recipes do not always have to be prepared exactly one way. Use these practical substitutions and adjustments to better match your ingredients, equipment, serving needs, and personal food preferences."
         className="smartGroceryPicksSectionIntro"
       />
 
-      <section className="groceryPicksIntro">
-        <h2>How to use this list</h2>
-        <p>
-          These are not price estimates. They are product types and examples to
-          review so the user can choose items that better fit a lower-calorie,
-          lower-carb, or easier meal-prep lifestyle.
-        </p>
-      </section>
-
-      <div className="groceryReferenceGrid">
-        {GROCERY_REFERENCE_GROUPS.map((group) => (
-          <details className="groceryReferenceAccordion" key={group.group}>
+      <div className="supportGuideAccordionList">
+        {adjustmentSections.map((section) => (
+          <details className="supportGuideAccordion" key={section.title}>
             <summary>
-              <span className="groceryReferenceAccordionArrow" aria-hidden="true">▶</span>
+              <span className="supportGuideAccordionArrow" aria-hidden="true">▶</span>
               <div>
-                <h2>{group.group}</h2>
-                <p>{group.intro}</p>
+                <h2>{section.title}</h2>
+                <p>{section.intro}</p>
               </div>
-              <strong>{group.items.length} {group.items.length === 1 ? "item" : "items"}</strong>
             </summary>
-
-            <div className="groceryReferenceAccordionBody">
-              <div className="groceryReferenceItems">
-                {group.items.map((item) => (
-                  <article className="groceryReferenceItem" key={item.name}>
-                    <h3>{item.name}</h3>
-                    <span>{item.useFor}</span>
-                    <p>{item.note}</p>
-                    <div>
-                      {item.examples.map((example) => (
-                        <small key={example}>{example}</small>
-                      ))}
-                    </div>
+            <div className="supportGuideAccordionBody">
+              <div className="supportGuideCardGrid">
+                {section.items.map(([title, copy]) => (
+                  <article className="supportGuideCard" key={title}>
+                    <h3>{title}</h3>
+                    <p>{copy}</p>
                   </article>
                 ))}
               </div>
+            </div>
+          </details>
+        ))}
+      </div>
+    </main>
+  );
+}
+
+function FoodStorageGuidePage({ setActivePage }) {
+  const storageSections = [
+    {
+      title: "Refrigerator and Freezer Storage",
+      intro: "Organize food by type, package it securely, and use current authoritative guidance when a precise storage time matters.",
+      items: [
+        ["Common proteins", "Keep raw meat, poultry, and seafood cold, contained, and separated from ready-to-eat foods. Freeze promptly when it will not be cooked within the recommended refrigerated period."],
+        ["Cooked meals and leftovers", "Cool promptly in shallow containers, cover securely, label clearly, and refrigerate or freeze without leaving food at room temperature for an extended period."],
+        ["Soups and sauces", "Divide large batches into smaller shallow containers so they cool efficiently before refrigerator or freezer storage."],
+        ["Breads and baked goods", "Protect from air and moisture. Refrigerate only when the recipe or filling requires it; freeze well wrapped for longer storage."],
+        ["Fruits and vegetables", "Store according to the produce type, keep cut produce refrigerated, and remove spoiled pieces before they affect nearby food."],
+      ],
+    },
+    {
+      title: "Safe Thawing Methods",
+      intro: "Choose a controlled thawing method that keeps food out of unsafe temperatures.",
+      items: [
+        ["Refrigerator thawing", "Plan ahead and thaw food on a tray or in a container that prevents drips onto other foods."],
+        ["Cold-water thawing", "Keep food in leak-proof packaging, submerge it in cold water, change the water regularly, and cook promptly after thawing."],
+        ["Microwave thawing", "Use the appliance’s defrost setting and cook the food immediately because some areas may begin to warm or cook."],
+        ["Cooking from frozen", "Use this method only when it is appropriate for the food and cooking equipment, and allow enough time to reach a safe internal temperature."],
+        ["Never thaw on the counter", "Countertop thawing can allow the outside of food to warm while the center remains frozen."],
+      ],
+    },
+    {
+      title: "Packaging and Labeling",
+      intro: "A useful label tells you what the food is, when it was prepared, and how it should be used.",
+      items: [
+        ["Food name", "Use a clear name that distinguishes similar meals, sauces, ingredients, or batches."],
+        ["Preparation or freezing date", "Record the date the food was cooked, opened, packaged, or frozen as appropriate."],
+        ["Servings", "Note the number of portions so the package can be matched to the household’s needs."],
+        ["Reheating instructions", "Add the appliance, general method, and any finish-after-thawing directions."],
+        ["Use-first guidance", "Mark older or short-life items so they are easy to identify and use first."],
+      ],
+    },
+    {
+      title: "First In, First Out",
+      intro: "A simple rotation system reduces forgotten food and unnecessary waste.",
+      items: [
+        ["Move older food forward", "Place items with earlier preparation, opening, or freezing dates where they can be seen and reached first."],
+        ["Place newer food behind", "Add new purchases and newly prepared packages behind the older supply instead of covering it."],
+        ["Review regularly", "Check refrigerator, freezer, and pantry zones before shopping or preparing another batch."],
+      ],
+    },
+    {
+      title: "When to Throw Food Away",
+      intro: "Do not taste questionable food to decide whether it is safe.",
+      items: [
+        ["Spoilage warning signs", "Discard food with unexpected mold, odor, texture, color, gas, or container swelling."],
+        ["Damaged packaging", "Discard food from leaking, badly damaged, unsealed, or contaminated packaging when safety cannot be confirmed."],
+        ["Unknown history", "Discard food when you do not know how long it has been stored or whether it remained at a safe temperature."],
+        ["When in doubt", "When in doubt, throw it out—especially for people at greater risk from foodborne illness."],
+      ],
+    },
+    {
+      title: "Food Safety Note",
+      intro: "Storage guidance supports both safety and food quality, but it is not an exact guarantee.",
+      items: [
+        ["Use current guidance", "Storage conditions, packaging, temperature, ingredients, and handling all affect how long food remains safe and appealing."],
+        ["Authoritative sources", "For current storage times and food-safety instructions, consult USDA and FoodSafety.gov guidance."],
+        ["Use the Food Safety page", "Review the site’s Food Safety page for additional cleaning, separation, temperature, cooling, and handling guidance."],
+      ],
+    },
+  ];
+
+  const quickReference = [
+    ["Refrigerator", "Keep perishable food cold, covered, dated, and organized to prevent raw-food drips and cross-contamination."],
+    ["Freezer", "Use freezer-safe packaging, remove excess air, label every package, and protect food from temperature changes."],
+    ["Pantry", "Keep foods cool, dry, sealed, and rotated; inspect packages for moisture, pests, damage, or broken seals."],
+    ["Prepared meals and leftovers", "Cool promptly, portion into shallow containers, label, refrigerate or freeze, and reheat safely."],
+  ];
+
+  return (
+    <main className="pageShell foodStorageGuidePage">
+      <SectionIntro
+        title="Food Storage & Shelf-Life Guide"
+        text="Keep food fresher, reduce waste, and take the guesswork out of storing what you cook and buy. This guide brings together practical refrigerator, freezer, thawing, labeling, and food-discard guidance in one easy-to-use place."
+        className="foodStorageGuideSectionIntro"
+      />
+
+      <section className="storageQuickReference" aria-labelledby="storageQuickReferenceTitle">
+        <h2 id="storageQuickReferenceTitle">Quick Storage Reference</h2>
+        <div className="supportGuideCardGrid">
+          {quickReference.map(([title, copy]) => (
+            <article className="supportGuideCard" key={title}>
+              <h3>{title}</h3>
+              <p>{copy}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <div className="supportGuideAccordionList">
+        {storageSections.map((section) => (
+          <details className="supportGuideAccordion" key={section.title}>
+            <summary>
+              <span className="supportGuideAccordionArrow" aria-hidden="true">▶</span>
+              <div>
+                <h2>{section.title}</h2>
+                <p>{section.intro}</p>
+              </div>
+            </summary>
+            <div className="supportGuideAccordionBody">
+              <div className="supportGuideCardGrid">
+                {section.items.map(([title, copy]) => (
+                  <article className="supportGuideCard" key={title}>
+                    <h3>{title}</h3>
+                    <p>{copy}</p>
+                  </article>
+                ))}
+              </div>
+              {section.title === "Food Safety Note" && (
+                <button type="button" className="supportGuideRelatedButton" onClick={() => setActivePage("Safe Cooking Rules")}>Open Food Safety</button>
+              )}
             </div>
           </details>
         ))}
@@ -18735,8 +18964,8 @@ Use this section to check what is on hand, record dates, mark foods that should 
             src="images/heroes/hero-page-healthy-substitutions.webp"
             alt="Healthy substitutions setup with cauliflower, tofu, zucchini noodles, beans, grains, yogurt, and greens"
             eyebrow="TIPS & ORGANIZATION"
-            title="Healthy Substitutions"
-            text="Healthier cooking does not always require replacing the entire recipe. Small adjustments to ingredients, portions, cooking methods, or side dishes can make a familiar meal better suited to your goals.\n\nThis section includes practical substitutions for fats, sugar, sodium, refined carbohydrates, and higher-calorie ingredients. Not every replacement works in every recipe, so the suggestions also consider flavor, texture, and cooking performance."
+            title="Recipe Adjustments & Substitutions"
+            text="Recipes do not always have to be prepared exactly one way. Use practical substitutions and adjustments to better match your ingredients, equipment, serving needs, and personal food preferences.\n\nThe guidance covers sodium, carbohydrates, plant-based and dairy-free choices, ingredient roles, portion scaling, cooking-method changes, and the effect substitutions can have on nutrition estimates."
             className="pageHeroDepth464"
 />
           <GroceryPicksPage {...pageProps} />
@@ -18748,8 +18977,8 @@ Use this section to check what is on hand, record dates, mark foods that should 
             src="images/heroes/hero-page-healthy-substitutions.webp"
             alt="Healthy substitutions setup with cauliflower, tofu, zucchini noodles, beans, grains, yogurt, and greens"
             eyebrow="TIPS & ORGANIZATION"
-            title="Healthy Substitutions"
-            text="Healthier cooking does not always require replacing the entire recipe. Small adjustments to ingredients, portions, cooking methods, or side dishes can make a familiar meal better suited to your goals.\n\nThis section includes practical substitutions for fats, sugar, sodium, refined carbohydrates, and higher-calorie ingredients. Not every replacement works in every recipe, so the suggestions also consider flavor, texture, and cooking performance."
+            title="Recipe Adjustments & Substitutions"
+            text="Recipes do not always have to be prepared exactly one way. Use practical substitutions and adjustments to better match your ingredients, equipment, serving needs, and personal food preferences.\n\nThe guidance covers sodium, carbohydrates, plant-based and dairy-free choices, ingredient roles, portion scaling, cooking-method changes, and the effect substitutions can have on nutrition estimates."
             className="pageHeroDepth464"
 />
           <GroceryPicksPage {...pageProps} />
@@ -18766,6 +18995,19 @@ Use this section to check what is on hand, record dates, mark foods that should 
             text="Freezing meals can save time, reduce waste, and make busy days easier, but good results depend on proper preparation and packaging. Some foods freeze beautifully, while others require small changes to preserve their texture and flavor.\n\nThis section covers containers, freezer bags, vacuum sealing, portioning, cooling, labeling, storage times, safe thawing, reheating, and final preparation. Clear instructions can help make frozen meals feel more like freshly prepared food."
           />
           <FreezerTipsPage {...pageProps} />
+        </>
+      )}
+      {activePage === "Food Storage Guide" && (
+        <>
+          <PageHeroImage
+            src="images/heroes/hero-page-freeze-reheat.webp"
+            alt="Labeled prepared meals and food-storage supplies arranged on a pale kitchen counter"
+            eyebrow="KITCHEN DETAILS"
+            title="Food Storage & Shelf-Life Guide"
+            className="pageHeroDepth464"
+            text="Keep food fresher, reduce waste, and take the guesswork out of storing what you cook and buy.\n\nReview practical refrigerator, freezer, pantry, thawing, packaging, labeling, rotation, and food-discard guidance in one easy-to-use place."
+          />
+          <FoodStorageGuidePage {...pageProps} />
         </>
       )}
       {activePage === "About" && (
