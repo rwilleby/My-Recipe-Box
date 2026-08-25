@@ -5,10 +5,13 @@ import { recipes } from "../src/data/recipes.js";
 const app = await readFile(new URL("../src/App.jsx", import.meta.url), "utf8");
 const routes = await readFile(new URL("../src/routing/seoRoutes.js", import.meta.url), "utf8");
 const veganData = await readFile(new URL("../src/data/veganRecipes.js", import.meta.url), "utf8");
+const guides = await readFile(new URL("../src/data/howItWorksGuides.js", import.meta.url), "utf8");
 
 assert.match(app, /BROWSE OUR RECIPE LIBRARY[\s\S]*VEGAN RECIPE LIBRARY[\s\S]*YOUR FAVORITE RECIPES/);
 assert.match(app, /title="Vegan Recipe Library"/);
 assert.match(app, /Every recipe shown here is prepared without meat, seafood, dairy, eggs or other animal-derived ingredients/);
+assert.match(app, /src="images\/heroes\/vegan-recipe-library-hero-1440x464\.webp"/);
+assert.match(guides, /\["Vegan Recipe Library", "vegan-recipe-library"\]/);
 assert.match(app, /recipe\.isVegan === true && recipe\.veganStatus === "verified"/);
 assert.match(app, /No vegan recipes match your current selections\./);
 assert.match(routes, /"Vegan Recipe Library": "\/vegan-recipes\/"/);

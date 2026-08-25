@@ -1648,7 +1648,6 @@ const NO_INTRO_VIDEO_PAGES = new Set([
 
   "RFIS Search",
   "Freezer-Friendly Meals",
-  "Holidays and Special Occasions",
 
   "Summer Cookouts",
   "Comfort Foods",
@@ -6127,14 +6126,6 @@ function RecipesPage({
 
   return (
     <main className={`pageShell browseRecipesPage${veganOnly ? " veganRecipeLibraryPage" : ""}`}>
-      {veganOnly && (
-        <SectionIntro
-          title="Vegan Recipe Library"
-          text="Explore satisfying plant-based main courses, side dishes, soups, breads and more. Every recipe shown here is prepared without meat, seafood, dairy, eggs or other animal-derived ingredients."
-          className="veganRecipeLibrarySectionIntro"
-        />
-      )}
-
       {veganOnly ? (
         <nav className="libraryCategorySelectorRow veganLibraryCategorySelector" aria-label="Select a verified vegan recipe category">
           {browseQuickCategories.map((choice) => (
@@ -11275,12 +11266,6 @@ function HolidaysSpecialOccasionsPage({ setActivePage, setPlan, openRecipeCard }
 
   return (
     <main className="pageShell holidayOccasionsPage">
-      <SectionIntro
-        title="Holidays and Special Occasions"
-        text="Make holidays and special occasions easier to plan with complete menus for celebrations throughout the year. Choose an occasion to find a featured main dish with two complementary sides, then use the menu as presented or make it your own."
-        className="holidayOccasionsSectionIntro"
-      />
-
       <section className="holidayOccasionChooser" aria-labelledby="holidayOccasionChooserTitle">
         <label htmlFor="holidayOccasionSelect" id="holidayOccasionChooserTitle">Choose an Occasion</label>
         <select id="holidayOccasionSelect" value={selectedOccasion} onChange={(event) => setSelectedOccasion(event.target.value)}>
@@ -18160,13 +18145,23 @@ These pages are designed to be easy to scan, print, or revisit when needed. They
         </>
       )}
       {activePage === "Vegan Recipe Library" && (
-        <RecipesPage
-          {...pageProps}
-          veganOnly
-          filter=""
-          setFilter={() => {}}
-          openRecipeCard={(recipeId, sourceRecipes = classifiedRecipes, context = "Vegan Recipe Library") => openRecipeCard(recipeId, sourceRecipes, context)}
-        />
+        <>
+          <PageHeroImage
+            src="images/heroes/vegan-recipe-library-hero-1440x464.webp"
+            alt="Plant-based meal planning setup with a vegan grain bowl, fresh vegetables, herbs, lemons, and a recipe notebook"
+            eyebrow="OUR RECIPES"
+            title="Vegan Recipe Library"
+            text="Explore satisfying plant-based main courses, side dishes, soups, breads and more. Every recipe shown here is prepared without meat, seafood, dairy, eggs or other animal-derived ingredients."
+            className="pageHeroDepth464 veganRecipeLibraryHero"
+          />
+          <RecipesPage
+            {...pageProps}
+            veganOnly
+            filter=""
+            setFilter={() => {}}
+            openRecipeCard={(recipeId, sourceRecipes = classifiedRecipes, context = "Vegan Recipe Library") => openRecipeCard(recipeId, sourceRecipes, context)}
+          />
+        </>
       )}
       {activePage === "Collections" && (
         <>
@@ -18223,11 +18218,21 @@ These pages are designed to be easy to scan, print, or revisit when needed. They
         </>
       )}
       {activePage === "Holidays and Special Occasions" && (
-        <HolidaysSpecialOccasionsPage
-          setActivePage={setActivePage}
-          setPlan={setPlan}
-          openRecipeCard={openRecipeCard}
-        />
+        <>
+          <PageHeroImage
+            src="images/heroes/holidays-special-occasions-hero-1440x464.webp"
+            alt="Holiday dinner table with glazed roast, mashed potatoes, green beans, cranberry sauce, rolls, and place settings"
+            eyebrow="COLLECTIONS"
+            title="Holidays and Special Occasions"
+            text="Make holidays and special occasions easier to plan with complete menus for celebrations throughout the year. Choose an occasion to find a featured main dish with two complementary sides, then use the menu as presented or make it your own."
+            className="pageHeroDepth464 holidaysSpecialOccasionsHero"
+          />
+          <HolidaysSpecialOccasionsPage
+            setActivePage={setActivePage}
+            setPlan={setPlan}
+            openRecipeCard={openRecipeCard}
+          />
+        </>
       )}
       {activePage === "Summer Cookouts" && (
         <>

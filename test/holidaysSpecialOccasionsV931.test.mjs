@@ -4,10 +4,14 @@ import { readFile } from "node:fs/promises";
 const app = await readFile(new URL("../src/App.jsx", import.meta.url), "utf8");
 const css = await readFile(new URL("../src/App.css", import.meta.url), "utf8");
 const routes = await readFile(new URL("../src/routing/seoRoutes.js", import.meta.url), "utf8");
+const guides = await readFile(new URL("../src/data/howItWorksGuides.js", import.meta.url), "utf8");
 
 assert.match(app, /SLOW COOKER MEALS[\s\S]*HOLIDAYS AND SPECIAL OCCASIONS[\s\S]*QUICK & EASY FREEZER MEALS/);
 assert.match(app, /title="Holidays and Special Occasions"/);
 assert.match(app, /Make holidays and special occasions easier to plan with complete menus/);
+assert.match(app, /src="images\/heroes\/holidays-special-occasions-hero-1440x464\.webp"/);
+assert.doesNotMatch(app, /"Holidays and Special Occasions",\s*\n\s*\n\s*"Summer Cookouts"/);
+assert.match(guides, /\["Holidays and Special Occasions", "holidays-special-occasions"\]/);
 
 const occasions = [
   "New Year’s Day", "Valentine’s Day", "Mardi Gras", "St. Patrick’s Day", "Passover",
