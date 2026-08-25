@@ -11219,6 +11219,28 @@ function GroceryPicksPage({ setActivePage }) {
 }
 
 
+const HOLIDAY_OCCASION_IMAGE_FILES = [
+  "new-years-day.webp",
+  "valentines-day.webp",
+  "mardi-gras.webp",
+  "st-patricks-day.webp",
+  "passover.webp",
+  "easter.webp",
+  "cinco-de-mayo.webp",
+  "mothers-day.webp",
+  "memorial-day.webp",
+  "fathers-day.webp",
+  "independence-day.webp",
+  "labor-day.webp",
+  "rosh-hashanah.webp",
+  "halloween.webp",
+  "thanksgiving.webp",
+  "hanukkah.webp",
+  "christmas-eve.webp",
+  "christmas-day.webp",
+  "new-years-eve.webp",
+];
+
 const HOLIDAY_OCCASION_MENUS = [
   ["New Year’s Day", ["Smothered Pork Chops", "AM-048"], ["Black-Eyed Peas", "CP-170"], ["Southern Collard Greens", ""]],
   ["Valentine’s Day", ["Filet Mignon with Garlic-Herb Butter", ""], ["Creamy Mashed Potatoes", ""], ["Roasted Asparagus", "SD-030"]],
@@ -11239,8 +11261,9 @@ const HOLIDAY_OCCASION_MENUS = [
   ["Christmas Eve", ["Garlic-Butter Baked Cod", ""], ["Parmesan Risotto", ""], ["Roasted Broccolini", ""]],
   ["Christmas Day", ["Garlic-Herb Prime Rib", ""], ["Creamy Mashed Potatoes", ""], ["Green Beans Almondine", ""]],
   ["New Year’s Eve", ["Beef Wellington", ""], ["Duchess Potatoes", ""], ["Roasted Asparagus", "SD-030"]],
-].map(([occasion, main, sideOne, sideTwo]) => ({
+].map(([occasion, main, sideOne, sideTwo], index) => ({
   occasion,
+  image: `images/holiday-occasions/${HOLIDAY_OCCASION_IMAGE_FILES[index]}`,
   dishes: [
     { role: "Main Dish", name: main[0], recipeId: main[1] || null },
     { role: "Side 1", name: sideOne[0], recipeId: sideOne[1] || null },
@@ -11250,6 +11273,7 @@ const HOLIDAY_OCCASION_MENUS = [
 
 function HolidaysSpecialOccasionsPage({ setActivePage, setPlan, openRecipeCard }) {
   const [selectedOccasion, setSelectedOccasion] = useState(HOLIDAY_OCCASION_MENUS[0].occasion);
+  const featuredMenuRef = useRef(null);
   const selectedMenu = HOLIDAY_OCCASION_MENUS.find((menu) => menu.occasion === selectedOccasion) || HOLIDAY_OCCASION_MENUS[0];
   const availableRecipeIds = selectedMenu.dishes.map((dish) => dish.recipeId).filter(Boolean);
 
@@ -11264,16 +11288,45 @@ function HolidaysSpecialOccasionsPage({ setActivePage, setPlan, openRecipeCard }
     setActivePage(destinationPage);
   }
 
+  function selectOccasion(occasion) {
+    setSelectedOccasion(occasion);
+    window.requestAnimationFrame(() => {
+      featuredMenuRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }
+
   return (
     <main className="pageShell holidayOccasionsPage">
-      <section className="holidayOccasionChooser" aria-labelledby="holidayOccasionChooserTitle">
-        <label htmlFor="holidayOccasionSelect" id="holidayOccasionChooserTitle">Choose an Occasion</label>
-        <select id="holidayOccasionSelect" value={selectedOccasion} onChange={(event) => setSelectedOccasion(event.target.value)}>
-          {HOLIDAY_OCCASION_MENUS.map((menu) => <option key={menu.occasion} value={menu.occasion}>{menu.occasion}</option>)}
-        </select>
-      </section>
+      <nav className="holidayOccasionCalendar" aria-label="Choose a holiday or special occasion">
+        {HOLIDAY_OCCASION_MENUS.map((menu) => {
+          const isSelected = menu.occasion === selectedOccasion;
+          return (
+            <button
+              type="button"
+              className={`holidayOccasionTile${isSelected ? " isSelected" : ""}`}
+              key={menu.occasion}
+              onClick={() => selectOccasion(menu.occasion)}
+              aria-pressed={isSelected}
+              aria-controls="holidayFeaturedMenu"
+            >
+              <span className="holidayOccasionTileImage">
+                <img
+                  src={assetUrl(menu.image)}
+                  alt={`${menu.occasion} featured meal`}
+                  loading="lazy"
+                  decoding="async"
+                  width="640"
+                  height="640"
+                />
+              </span>
+              <strong>{menu.occasion}</strong>
+              <span className="holidayOccasionSelectedText" aria-hidden={!isSelected}>{isSelected ? "Selected" : ""}</span>
+            </button>
+          );
+        })}
+      </nav>
 
-      <section className="holidayFeaturedMenu" aria-live="polite" aria-labelledby="holidayFeaturedMenuTitle">
+      <section id="holidayFeaturedMenu" ref={featuredMenuRef} className="holidayFeaturedMenu" aria-live="polite" aria-labelledby="holidayFeaturedMenuTitle" tabIndex="-1">
         <div className="holidayFeaturedMenuHeading">
           <span>FEATURED MENU</span>
           <h2 id="holidayFeaturedMenuTitle">{selectedMenu.occasion}</h2>
