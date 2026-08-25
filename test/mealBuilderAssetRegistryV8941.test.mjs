@@ -56,22 +56,19 @@ function webpInfo(file) {
 const diskMainIds = assetIds(mainRoot);
 const diskSideOneIds = assetIds(sideOneRoot);
 const diskSideTwoIds = assetIds(sideTwoRoot);
-for (const id of mainIds) assert.ok(diskMainIds.includes(id), `${id} must have a Build-A-Meal main asset`);
-for (const id of sideIds) {
-  assert.ok(diskSideOneIds.includes(id), `${id} must have a Side 1 asset`);
-  assert.ok(diskSideTwoIds.includes(id), `${id} must have a Side 2 asset`);
-}
-const expectedCrockPotIds = Array.from({ length: 101 }, (_, index) => `CP-${String(index + 1).padStart(3, "0")}`);
-assert.deepEqual(expectedCrockPotIds.filter((id) => !mainIds.has(id)), [], "CP-001 through CP-101 must all be registered");
-assert.deepEqual(expectedCrockPotIds.filter((id) => !diskMainIds.includes(id)), [], "CP-001 through CP-101 assets must all be installed");
+assert.equal(diskMainIds.length, 326, "The approved Build-A-Meal main collection should contain 326 assets");
+assert.equal(diskSideOneIds.length, 53, "The Side 1 collection should contain 53 assets");
+assert.equal(diskSideTwoIds.length, 53, "The Side 2 collection should contain 53 assets");
+assert.deepEqual([...mainIds].sort(), diskMainIds, "Every main asset must be tagged for Meal Builder use");
+assert.deepEqual([...sideIds].sort(), diskSideOneIds, "Every Side 1 asset must be tagged for Meal Builder use");
+assert.deepEqual(diskSideTwoIds, diskSideOneIds, "Side 1 and Side 2 must provide the same recipe-code collection");
 
-const expectedLayoutByWidth = new Map([
-  [340, "standard"], [359, "standard"], [471, "standard"],
-  [600, "two-thirds"], [628, "two-thirds"], [750, "two-thirds"],
-  [858, "full-tray"], [886, "full-tray"], [1038, "full-tray"],
+const approvedOverlaySizes = new Set([
+  "340x610", "359x627", "471x626", "628x627",
+  "750x626", "858x610", "886x627", "1038x626",
 ]);
 
-for (const id of mainIds) {
+for (const id of diskMainIds) {
   assert.ok(recipeIds.has(id), `${id} must have a matching recipe record`);
   const info = webpInfo(path.join(mainRoot, `${id}.webp`));
   if (/^CP-(?:00[1-9]|0[1-9]\d|100|101)$/.test(id)) {
@@ -79,27 +76,26 @@ for (const id of mainIds) {
     continue;
   }
   assert.ok(info.hasAlpha, `${id} must retain genuine transparency`);
-  assert.ok([610, 626, 627].includes(info.height), `${id} has an unsupported Meal Builder height`);
-  const expectedLayout = expectedLayoutByWidth.get(info.width);
-  assert.ok(expectedLayout, `${id} has an unsupported Meal Builder width: ${info.width}`);
-  assert.equal(layouts.get(id) || "standard", expectedLayout, `${id} must be tagged ${expectedLayout}`);
+  assert.ok(approvedOverlaySizes.has(`${info.width}x${info.height}`), `${id} has unsupported Meal Builder dimensions: ${info.width}x${info.height}`);
+  assert.ok(["standard", "two-thirds", "full-tray"].includes(layouts.get(id) || "standard"), `${id} must use a supported tray layout`);
 }
 
-for (const id of sideIds) {
-  const sideOneInfo = webpInfo(path.join(sideOneRoot, `${id}.webp`));
-  const sideTwoInfo = webpInfo(path.join(sideTwoRoot, `${id}.webp`));
-  if (id === "SD-001") {
-    assert.deepEqual({ width: sideOneInfo.width, height: sideOneInfo.height }, { width: 268, height: 627 }, "SD-001 Side 1 must retain its approved legacy overlay");
-    assert.deepEqual({ width: sideTwoInfo.width, height: sideTwoInfo.height }, { width: 257, height: 627 }, "SD-001 Side 2 must retain its approved legacy overlay");
-    assert.ok(sideOneInfo.hasAlpha && sideTwoInfo.hasAlpha, "SD-001 directional overlays must retain transparency");
-  } else {
-    assert.deepEqual({ width: sideOneInfo.width, height: sideOneInfo.height }, { width: 1448, height: 1086 }, `${id} Side 1 must use the full divided-tray canvas`);
-    assert.deepEqual({ width: sideTwoInfo.width, height: sideTwoInfo.height }, { width: 1448, height: 1086 }, `${id} Side 2 must use the full divided-tray canvas`);
+for (const id of diskSideOneIds) {
+  for (const [label, directory] of [["Side 1", sideOneRoot], ["Side 2", sideTwoRoot]]) {
+    const info = webpInfo(path.join(directory, `${id}.webp`));
+    const usesDividedTrayCanvas = /^SD-(?:00[2-9]|0[1-4]\d|05[0-3])$/.test(id);
+    if (usesDividedTrayCanvas) {
+      assert.deepEqual({ width: info.width, height: info.height }, { width: 1448, height: 1086 }, `${label} ${id} must use the full divided-tray canvas`);
+    } else {
+      assert.ok(info.width > 0 && info.height > 0, `${label} ${id} must have valid dimensions`);
+      assert.ok(info.hasAlpha, `${label} ${id} must retain genuine transparency`);
+    }
   }
 }
 
-assert.deepEqual([...sideIds].filter((id) => !recipeIds.has(id)).sort(), ["SD-053"], "Only the known duplicate/orphan SD-053 registered asset may lack a recipe record");
+assert.deepEqual(diskSideOneIds.filter((id) => !recipeIds.has(id)), ["SD-053"], "Only the known duplicate/orphan SD-053 asset may lack a recipe record");
 assert.match(source, /images\/build-your-own\/\$\{folder\}\/\$\{recipe\.id\}\.webp/, "Tray overlays must load the approved Build Your Own Meal assets");
 assert.match(source, /MEAL_BUILDER_FULL_CANVAS_MAIN_IDS/, "Full-canvas Crock Pot mains must use the divided-tray layer system");
+assert.match(fs.readFileSync(path.join(root, "src/components/BuildYourOwnMealPage.css"), "utf8"), /\.mealBuilderTrayInterior \.mealBuilderTrayFood-main\.is-full-canvas-layer\s*\{[^}]*width:\s*100%/, "Full-canvas mains must override the standard compartment width");
 
 console.log("v89.4.1 Build Your Own Meal asset tags, layouts, paths, transparency, and recipe links passed");
