@@ -71,7 +71,7 @@ const approvedOverlaySizes = new Set([
 for (const id of diskMainIds) {
   assert.ok(recipeIds.has(id), `${id} must have a matching recipe record`);
   const info = webpInfo(path.join(mainRoot, `${id}.webp`));
-  if (/^CP-(?:00[1-9]|0[1-9]\d|100|101)$/.test(id)) {
+  if (/^(?:CP-(?:00[1-9]|0[1-9]\d|100|101)|SF-(?:00[1-9]|01\d|020))$/.test(id)) {
     assert.deepEqual({ width: info.width, height: info.height }, { width: 1448, height: 1086 }, `${id} must use the full divided-tray canvas`);
     continue;
   }
