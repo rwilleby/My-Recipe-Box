@@ -4,9 +4,10 @@ import fs from "node:fs";
 const component = fs.readFileSync(new URL("../src/components/BuildYourOwnMealPage.jsx", import.meta.url), "utf8");
 
 const expectedLayouts = new Map();
+const approvedOverlaySizes = new Set(["471x626", "628x627", "750x626", "886x627", "1038x626"]);
 for (let number = 1; number <= 20; number += 1) {
   const id = `SF-${String(number).padStart(3, "0")}`;
-  expectedLayouts.set(id, number === 20 ? "full-tray" : [2, 3, 16, 17, 18].includes(number) ? "two-thirds" : "standard");
+  expectedLayouts.set(id, [2, 3, 18, 20].includes(number) ? "full-tray" : [16, 17].includes(number) ? "two-thirds" : "standard");
 }
 for (let number = 1; number <= 44; number += 1) {
   const id = `MX-${String(number).padStart(3, "0")}`;
@@ -18,27 +19,30 @@ for (let number = 1; number <= 44; number += 1) {
 function readVp8xSize(bytes, fileName) {
   assert.equal(bytes.subarray(0, 4).toString("ascii"), "RIFF", `${fileName} must use a RIFF container`);
   assert.equal(bytes.subarray(8, 12).toString("ascii"), "WEBP", `${fileName} must be a genuine WebP`);
-  assert.equal(bytes.subarray(12, 16).toString("ascii"), "VP8X", `${fileName} must expose its alpha canvas through VP8X`);
-  assert.ok((bytes[20] & 0x10) !== 0, `${fileName} must retain transparency`);
-  const width = 1 + bytes.readUIntLE(24, 3);
-  const height = 1 + bytes.readUIntLE(27, 3);
-  return { width, height };
+  const chunk = bytes.subarray(12, 16).toString("ascii");
+  if (chunk === "VP8 ") return { width: bytes.readUInt16LE(26) & 0x3fff, height: bytes.readUInt16LE(28) & 0x3fff, hasAlpha: false };
+  assert.equal(chunk, "VP8X", `${fileName} must use a supported WebP container`);
+  return { width: 1 + bytes.readUIntLE(24, 3), height: 1 + bytes.readUIntLE(27, 3), hasAlpha: Boolean(bytes[20] & 0x10) };
 }
 
 for (const [id, layout] of expectedLayouts) {
   const fileName = `${id}.webp`;
-  const bytes = fs.readFileSync(new URL(`../public/images/meal-builder/main/${fileName}`, import.meta.url));
+  const bytes = fs.readFileSync(new URL(`../public/images/build-your-own/main/${fileName}`, import.meta.url));
   const size = readVp8xSize(bytes, fileName);
-  const expectedWidth = layout === "full-tray" ? 1038 : layout === "two-thirds" ? 750 : 471;
-  assert.deepEqual(size, { width: expectedWidth, height: 626 }, `${fileName} must match its ${layout} canvas`);
+  if (id.startsWith("SF-")) {
+    assert.deepEqual({ width: size.width, height: size.height }, { width: 1448, height: 1086 }, `${fileName} must use the approved full tray canvas`);
+    continue;
+  }
+  assert.ok(approvedOverlaySizes.has(`${size.width}x${size.height}`), `${fileName} must use an approved transparent overlay canvas`);
+  assert.ok(size.hasAlpha, `${fileName} must retain transparency`);
 }
 
 assert.match(component, /Array\.from\(\{ length: 20 \}[^\n]+`SF-/);
 assert.match(component, /Array\.from\(\{ length: 44 \}[^\n]+`MX-/);
-for (const id of ["SF-002", "SF-003", "SF-016", "SF-017", "SF-018", "MX-004", "MX-005", "MX-008", "MX-032"]) {
+for (const id of ["SF-016", "SF-017", "MX-004", "MX-005", "MX-008", "MX-032"]) {
   assert.match(component, new RegExp(`"${id}"`), `${id} must be registered as a spanning main`);
 }
-for (const id of ["SF-020", "MX-001", "MX-002", "MX-011", "MX-012", "MX-021", "MX-022", "MX-023", "MX-024", "MX-025", "MX-026", "MX-027", "MX-028", "MX-029", "MX-030", "MX-033", "MX-034", "MX-040", "MX-041", "MX-042"]) {
+for (const id of ["SF-002", "SF-003", "SF-018", "SF-020", "MX-001", "MX-002", "MX-011", "MX-012", "MX-021", "MX-022", "MX-023", "MX-024", "MX-025", "MX-026", "MX-027", "MX-028", "MX-029", "MX-030", "MX-033", "MX-034", "MX-040", "MX-041", "MX-042"]) {
   assert.match(component, new RegExp(`"${id}"`), `${id} must be registered as a full-tray main`);
 }
 

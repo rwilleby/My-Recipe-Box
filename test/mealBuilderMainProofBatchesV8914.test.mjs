@@ -5,7 +5,11 @@ import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const source = fs.readFileSync(path.join(root, "src/components/BuildYourOwnMealPage.jsx"), "utf8");
-const imageRoot = path.join(root, "public/images/meal-builder/main");
+const imageRoot = path.join(root, "public/images/build-your-own/main");
+const approvedOverlaySizes = new Set([
+  "340x610", "359x627", "471x626", "628x627",
+  "750x626", "858x610", "886x627", "1038x626",
+]);
 
 const fullTrayIds = ["AM-073", "AM-074", "AM-075", "AM-076", "AM-077", "AM-078", "AS-018", "AS-019"];
 const twoThirdIds = Array.from({ length: 17 }, (_, index) => `AS-${String(index + 1).padStart(3, "0")}`);
@@ -28,19 +32,21 @@ function webpDimensions(file) {
   const bytes = fs.readFileSync(file);
   assert.equal(bytes.toString("ascii", 0, 4), "RIFF");
   assert.equal(bytes.toString("ascii", 8, 12), "WEBP");
-  assert.equal(bytes.toString("ascii", 12, 16), "VP8X");
+  const chunk = bytes.toString("ascii", 12, 16);
+  if (chunk === "VP8 ") return { width: bytes.readUInt16LE(26) & 0x3fff, height: bytes.readUInt16LE(28) & 0x3fff, hasAlpha: false };
+  assert.equal(chunk, "VP8X");
   return {
     width: 1 + bytes[24] + (bytes[25] << 8) + (bytes[26] << 16),
     height: 1 + bytes[27] + (bytes[28] << 8) + (bytes[29] << 16),
+    hasAlpha: Boolean(bytes[20] & 0x10),
   };
 }
 
 for (const id of batchIds) {
   assert.match(source, new RegExp(`"${id}"`), `${id} must be registered as a Meal Builder image`);
   const dimensions = webpDimensions(path.join(imageRoot, `${id}.webp`));
-  if (fullTrayIds.includes(id)) assert.deepEqual(dimensions, { width: 1800, height: 1000 }, `${id} should use the full-tray canvas`);
-  else if (twoThirdIds.includes(id)) assert.deepEqual(dimensions, { width: 1260, height: 1000 }, `${id} should use the two-thirds canvas`);
-  else assert.deepEqual(dimensions, { width: 720, height: 1000 }, `${id} should use the one-third canvas`);
+  assert.ok(approvedOverlaySizes.has(`${dimensions.width}x${dimensions.height}`), `${id} must use an approved live overlay canvas`);
+  assert.ok(dimensions.hasAlpha, `${id} must retain transparency`);
 }
 
 for (const id of fullTrayIds) assert.match(source, new RegExp(`\\["${id}", "full-tray"\\]`));

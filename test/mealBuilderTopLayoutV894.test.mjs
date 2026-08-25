@@ -49,11 +49,17 @@ assert.doesNotMatch(ruleFor(".mealBuilderTrayFood img"), /object-fit\s*:\s*cover
 assert.match(ruleFor(".mealBuilderTrayFood-side-two img"), /width\s*:\s*96\.8641%/);
 
 const expectedPortableSides = Array.from({ length: 53 }, (_, index) => `SD-${String(index + 1).padStart(3, "0")}.webp`);
-const sideDirectory = new URL("../public/images/meal-builder/sides/", import.meta.url);
-for (const fileName of expectedPortableSides) {
-  const bytes = fs.readFileSync(new URL(fileName, sideDirectory));
-  assert.equal(bytes.subarray(0, 4).toString("ascii"), "RIFF", `${fileName} must be a genuine WebP`);
-  assert.equal(bytes.subarray(8, 12).toString("ascii"), "WEBP", `${fileName} must be a genuine WebP`);
+const sideDirectories = [
+  new URL("../public/images/build-your-own/side-1-middle/", import.meta.url),
+  new URL("../public/images/build-your-own/side-2-right/", import.meta.url),
+];
+for (const sideDirectory of sideDirectories) {
+  for (const fileName of expectedPortableSides) {
+    const bytes = fs.readFileSync(new URL(fileName, sideDirectory));
+    assert.ok(bytes.length > 0, `${fileName} must not be empty`);
+    assert.equal(bytes.subarray(0, 4).toString("ascii"), "RIFF", `${fileName} must be a genuine WebP`);
+    assert.equal(bytes.subarray(8, 12).toString("ascii"), "WEBP", `${fileName} must be a genuine WebP`);
+  }
 }
 
 assert.match(component, /MealChoiceStrip label="Main Dish"/);

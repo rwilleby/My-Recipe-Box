@@ -18,7 +18,7 @@ assert.match(styles, /\.mealBuilderTrayInterior\.is-two-thirds \.mealBuilderTray
 assert.match(styles, /\.mealBuilderTrayInterior\.is-full-tray \.mealBuilderTrayFood-main\s*\{[^}]*width:\s*71\.6851%/);
 assert.match(styles, /\.mealBuilderChoiceColumn\.is-disabled/);
 
-await access(new URL("../public/images/meal-builder/main/AM-005.webp", import.meta.url));
-await access(new URL("../public/images/meal-builder/main/AM-015.webp", import.meta.url));
+await access(new URL("../public/images/build-your-own/main/AM-005.webp", import.meta.url));
+await access(new URL("../public/images/build-your-own/main/AM-015.webp", import.meta.url));
 
 console.log("Spanning Meal Builder mains and occupied vertical-side controls passed");
