@@ -4,7 +4,6 @@ import fs from "node:fs";
 const component = fs.readFileSync(new URL("../src/components/BuildYourOwnMealPage.jsx", import.meta.url), "utf8");
 
 const expectedLayouts = new Map();
-const approvedOverlaySizes = new Set(["471x626", "628x627", "750x626", "886x627", "1038x626"]);
 for (let number = 1; number <= 20; number += 1) {
   const id = `SF-${String(number).padStart(3, "0")}`;
   expectedLayouts.set(id, [2, 3, 18, 20].includes(number) ? "full-tray" : [16, 17].includes(number) ? "two-thirds" : "standard");
@@ -29,16 +28,12 @@ for (const [id, layout] of expectedLayouts) {
   const fileName = `${id}.webp`;
   const bytes = fs.readFileSync(new URL(`../public/images/build-your-own/main/${fileName}`, import.meta.url));
   const size = readVp8xSize(bytes, fileName);
-  if (id.startsWith("SF-")) {
-    assert.deepEqual({ width: size.width, height: size.height }, { width: 1448, height: 1086 }, `${fileName} must use the approved full tray canvas`);
-    continue;
-  }
-  assert.ok(approvedOverlaySizes.has(`${size.width}x${size.height}`), `${fileName} must use an approved transparent overlay canvas`);
-  assert.ok(size.hasAlpha, `${fileName} must retain transparency`);
+  assert.deepEqual({ width: size.width, height: size.height }, { width: 1448, height: 1086 }, `${fileName} must use the approved full tray canvas`);
 }
 
 assert.match(component, /Array\.from\(\{ length: 20 \}[^\n]+`SF-/);
 assert.match(component, /Array\.from\(\{ length: 44 \}[^\n]+`MX-/);
+assert.match(component, /MEAL_BUILDER_FULL_CANVAS_MAIN_IDS[\s\S]*Array\.from\(\{ length: 44 \}[^\n]+`MX-/, "All MX heroes must use the full-canvas tray layer system");
 for (const id of ["SF-016", "SF-017", "MX-004", "MX-005", "MX-008", "MX-032"]) {
   assert.match(component, new RegExp(`"${id}"`), `${id} must be registered as a spanning main`);
 }
