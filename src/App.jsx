@@ -1583,6 +1583,7 @@ const NAV_GROUPS = [
       { label: "HEALTHY DINNERS", page: "Healthy Dinners" },
       { label: "SALAD JAR LUNCHES", page: "Salad Jars" },
       { label: "SLOW COOKER MEALS", page: "Slow Cooker Favorites" },
+      { label: "HOLIDAYS AND SPECIAL OCCASIONS", page: "Holidays and Special Occasions" },
       { label: "QUICK & EASY FREEZER MEALS", page: "Freezer-Friendly Meals", level: 1 },
     ],
   },
@@ -1646,6 +1647,7 @@ const NO_INTRO_VIDEO_PAGES = new Set([
 
   "RFIS Search",
   "Freezer-Friendly Meals",
+  "Holidays and Special Occasions",
 
   "Summer Cookouts",
   "Comfort Foods",
@@ -11160,6 +11162,94 @@ function GroceryPicksPage({ setActivePage }) {
 }
 
 
+const HOLIDAY_OCCASION_MENUS = [
+  ["New Year’s Day", ["Smothered Pork Chops", "AM-048"], ["Black-Eyed Peas", "CP-170"], ["Southern Collard Greens", ""]],
+  ["Valentine’s Day", ["Filet Mignon with Garlic-Herb Butter", ""], ["Creamy Mashed Potatoes", ""], ["Roasted Asparagus", "SD-030"]],
+  ["Mardi Gras", ["Chicken and Sausage Jambalaya", ""], ["Creole Green Beans", ""], ["Jalapeño Cheddar Cornbread", ""]],
+  ["St. Patrick’s Day", ["Corned Beef and Cabbage", ""], ["Colcannon Potatoes", ""], ["Irish Soda Bread", ""]],
+  ["Passover", ["Braised Beef Brisket", ""], ["Roasted Carrots and Parsnips", ""], ["Potato Kugel", ""]],
+  ["Easter", ["Brown Sugar–Glazed Ham", ""], ["Scalloped Potatoes", "SD-017"], ["Honey-Glazed Carrots", ""]],
+  ["Cinco de Mayo", ["Chicken Enchiladas", "MX-007"], ["Mexican Rice", "MX-013"], ["Seasoned Black Beans", ""]],
+  ["Mother’s Day", ["Ham and Cheese Quiche", ""], ["Breakfast Potatoes", ""], ["Fresh Berry Salad", ""]],
+  ["Memorial Day", ["Barbecue Pulled Pork", ""], ["Classic Potato Salad", ""], ["Creamy Coleslaw", ""]],
+  ["Father’s Day", ["Smoked Baby Back Ribs", ""], ["Loaded Baked Potato Casserole", ""], ["Grilled Corn on the Cob", ""]],
+  ["Independence Day", ["All-American Cheeseburgers", ""], ["Mustard Potato Salad", "SD-023"], ["Baked Beans", "SD-001"]],
+  ["Labor Day", ["Grilled Barbecue Chicken", ""], ["Macaroni Salad", ""], ["Grilled Summer Vegetables", ""]],
+  ["Rosh Hashanah", ["Honey-Garlic Roasted Chicken", ""], ["Sweet Carrot Tzimmes", ""], ["Apple and Cranberry Kugel", ""]],
+  ["Halloween", ["Hearty Beef and Bean Chili", ""], ["Skillet Cornbread", ""], ["Roasted Pumpkin Wedges", ""]],
+  ["Thanksgiving", ["Herb-Roasted Turkey", ""], ["Traditional Cornbread Dressing", ""], ["Green Bean Casserole", "CP-162"]],
+  ["Hanukkah", ["Slow-Braised Beef Brisket", ""], ["Potato Latkes", ""], ["Roasted Green Beans", ""]],
+  ["Christmas Eve", ["Garlic-Butter Baked Cod", ""], ["Parmesan Risotto", ""], ["Roasted Broccolini", ""]],
+  ["Christmas Day", ["Garlic-Herb Prime Rib", ""], ["Creamy Mashed Potatoes", ""], ["Green Beans Almondine", ""]],
+  ["New Year’s Eve", ["Beef Wellington", ""], ["Duchess Potatoes", ""], ["Roasted Asparagus", "SD-030"]],
+].map(([occasion, main, sideOne, sideTwo]) => ({
+  occasion,
+  dishes: [
+    { role: "Main Dish", name: main[0], recipeId: main[1] || null },
+    { role: "Side 1", name: sideOne[0], recipeId: sideOne[1] || null },
+    { role: "Side 2", name: sideTwo[0], recipeId: sideTwo[1] || null },
+  ],
+}));
+
+function HolidaysSpecialOccasionsPage({ setActivePage, setPlan, openRecipeCard }) {
+  const [selectedOccasion, setSelectedOccasion] = useState(HOLIDAY_OCCASION_MENUS[0].occasion);
+  const selectedMenu = HOLIDAY_OCCASION_MENUS.find((menu) => menu.occasion === selectedOccasion) || HOLIDAY_OCCASION_MENUS[0];
+  const availableRecipeIds = selectedMenu.dishes.map((dish) => dish.recipeId).filter(Boolean);
+
+  function addVerifiedMenuRecipes(destinationPage) {
+    if (!availableRecipeIds.length) return;
+    setPlan((current) => {
+      const next = normalizeTwoWeekPlan(current);
+      const firstOpenSlot = PLANNER_SLOTS.find((slot) => (next[slot.key] || []).length === 0)?.key || "week1-Mon";
+      next[firstOpenSlot] = [...availableRecipeIds];
+      return next;
+    });
+    setActivePage(destinationPage);
+  }
+
+  return (
+    <main className="pageShell holidayOccasionsPage">
+      <SectionIntro
+        title="Holidays and Special Occasions"
+        text="Make holidays and special occasions easier to plan with complete menus for celebrations throughout the year. Choose an occasion to find a featured main dish with two complementary sides, then use the menu as presented or make it your own."
+        className="holidayOccasionsSectionIntro"
+      />
+
+      <section className="holidayOccasionChooser" aria-labelledby="holidayOccasionChooserTitle">
+        <label htmlFor="holidayOccasionSelect" id="holidayOccasionChooserTitle">Choose an Occasion</label>
+        <select id="holidayOccasionSelect" value={selectedOccasion} onChange={(event) => setSelectedOccasion(event.target.value)}>
+          {HOLIDAY_OCCASION_MENUS.map((menu) => <option key={menu.occasion} value={menu.occasion}>{menu.occasion}</option>)}
+        </select>
+      </section>
+
+      <section className="holidayFeaturedMenu" aria-live="polite" aria-labelledby="holidayFeaturedMenuTitle">
+        <div className="holidayFeaturedMenuHeading">
+          <span>FEATURED MENU</span>
+          <h2 id="holidayFeaturedMenuTitle">{selectedMenu.occasion}</h2>
+        </div>
+        <div className="holidayMenuDishes">
+          {selectedMenu.dishes.map((dish) => (
+            <article className="holidayMenuDish" key={`${selectedMenu.occasion}-${dish.role}`} data-recipe-status={dish.recipeId ? "available" : "awaiting-recipe"}>
+              <span>{dish.role}</span>
+              <h3>{dish.name}</h3>
+              {dish.recipeId ? (
+                <button type="button" onClick={() => openRecipeCard(dish.recipeId, recipes, "Holidays and Special Occasions")}>Open Recipe Card</button>
+              ) : (
+                <p className="holidayRecipePending" aria-label={`${dish.name} recipe card is not yet available`}>Recipe card coming soon</p>
+              )}
+            </article>
+          ))}
+        </div>
+        <div className="holidayMenuActions">
+          <button type="button" className="primary" disabled={!availableRecipeIds.length} onClick={() => addVerifiedMenuRecipes("Meal Planner")}>Add Menu to Meal Planner</button>
+          <button type="button" className="secondary" disabled={!availableRecipeIds.length} onClick={() => addVerifiedMenuRecipes("Shopping Lists")}>Add Menu Ingredients to Grocery List</button>
+        </div>
+        {availableRecipeIds.length < 3 && <p className="holidayMenuAvailabilityNote">Available recipe cards are added now. Menu positions awaiting recipes remain unchanged.</p>}
+      </section>
+    </main>
+  );
+}
+
 function FreezerTipsPage({ setActivePage }) {
   const [isPackagingAccordionOpen, setIsPackagingAccordionOpen] = useState(false);
 
@@ -17340,6 +17430,10 @@ export default function App() {
     setActiveCompleteDinnerCode("");
   }, []);
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, [activePage]);
+
   const openCompleteDinnerRoute = useCallback((mealId, options = {}) => {
     const meal = dinnerCombinations.find((item) =>
       [item.id, item.rfisId, item.code, ...(item.legacyIds || [])]
@@ -18052,6 +18146,13 @@ These pages are designed to be easy to scan, print, or revisit when needed. They
             openRecipeCard={openRecipeCard}
           />
         </>
+      )}
+      {activePage === "Holidays and Special Occasions" && (
+        <HolidaysSpecialOccasionsPage
+          setActivePage={setActivePage}
+          setPlan={setPlan}
+          openRecipeCard={openRecipeCard}
+        />
       )}
       {activePage === "Summer Cookouts" && (
         <>

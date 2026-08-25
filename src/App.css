@@ -22772,3 +22772,187 @@ button.browseRecipeWideFooterAction:focus-visible,
   text-transform: uppercase !important;
   white-space: nowrap !important;
 }
+/* Holidays and Special Occasions supporting page */
+.holidayOccasionsPage {
+  padding-top: 30px;
+}
+
+.holidayOccasionsSectionIntro {
+  margin-bottom: 24px;
+}
+
+.holidayOccasionChooser {
+  max-width: 620px;
+  margin: 0 auto 24px;
+  padding: 18px 22px;
+  border: 1px solid #d8cbb5;
+  border-radius: 14px;
+  background: #f7eed8;
+  box-shadow: 0 6px 18px rgba(67, 53, 36, 0.08);
+}
+
+.holidayOccasionChooser label {
+  display: block;
+  margin-bottom: 8px;
+  color: #41382e;
+  font-family: Georgia, serif;
+  font-size: 18px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.holidayOccasionChooser select {
+  width: 100%;
+  min-height: 48px;
+  padding: 10px 42px 10px 14px;
+  border: 1px solid #b9aa92;
+  border-radius: 10px;
+  background: #fff;
+  color: #28231e;
+  font: 600 16px/1.35 Inter, sans-serif;
+}
+
+.holidayFeaturedMenu {
+  padding: 26px;
+  border: 1px solid #d8cbb5;
+  border-radius: 16px;
+  background: #fbfaf7;
+  box-shadow: 0 8px 24px rgba(67, 53, 36, 0.09);
+}
+
+.holidayFeaturedMenuHeading {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.holidayFeaturedMenuHeading span {
+  color: #6d7253;
+  font: 800 12px/1.2 Inter, sans-serif;
+  letter-spacing: 0.14em;
+}
+
+.holidayFeaturedMenuHeading h2 {
+  margin: 5px 0 0;
+  color: #3f352b;
+  font: 700 24px/1.25 Georgia, serif;
+}
+
+.holidayMenuDishes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.holidayMenuDish {
+  display: flex;
+  min-height: 190px;
+  padding: 20px 18px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  border: 1px solid #dfd5c5;
+  border-radius: 12px;
+  background: #fff;
+  text-align: center;
+}
+
+.holidayMenuDish > span {
+  color: #6d7253;
+  font: 800 12px/1.2 Inter, sans-serif;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.holidayMenuDish h3 {
+  margin: 11px 0 18px;
+  color: #352e27;
+  font: 700 19px/1.3 Georgia, serif;
+}
+
+.holidayMenuDish button {
+  min-height: 42px;
+  margin-top: auto;
+  padding: 9px 15px;
+  border: 1px solid #7b8061;
+  border-radius: 9px;
+  background: #f2f0e8;
+  color: #343723;
+  font: 700 14px/1.2 Inter, sans-serif;
+  cursor: pointer;
+}
+
+.holidayRecipePending {
+  margin: auto 0 0;
+  color: #766d62;
+  font: 600 13px/1.35 Inter, sans-serif;
+}
+
+.holidayMenuActions {
+  display: flex;
+  margin-top: 22px;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.holidayMenuActions button {
+  min-height: 46px;
+}
+
+.holidayMenuAvailabilityNote {
+  margin: 12px auto 0;
+  color: #6f665d;
+  font: 500 13px/1.45 Inter, sans-serif;
+  text-align: center;
+}
+
+@media (max-width: 900px) {
+  .holidayMenuDishes {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .holidayFeaturedMenu {
+    padding: 20px;
+  }
+
+  .holidayMenuDish {
+    min-height: 210px;
+    padding: 17px 13px;
+  }
+}
+
+@media (max-width: 680px) {
+  .holidayOccasionsPage {
+    padding-top: 22px;
+  }
+
+  .holidayOccasionChooser,
+  .holidayFeaturedMenu {
+    border-radius: 12px;
+  }
+
+  .holidayOccasionChooser {
+    padding: 16px;
+  }
+
+  .holidayMenuDishes {
+    grid-template-columns: 1fr;
+  }
+
+  .holidayMenuDish {
+    min-height: 0;
+  }
+
+  .holidayMenuDish h3 {
+    margin-bottom: 14px;
+  }
+
+  .holidayMenuActions {
+    flex-direction: column;
+  }
+
+  .holidayMenuActions button {
+    width: 100%;
+  }
+}

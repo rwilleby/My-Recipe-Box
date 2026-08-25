@@ -15,6 +15,7 @@ const expectedOrder = [
   "HEALTHY DINNERS",
   "SALAD JAR LUNCHES",
   "SLOW COOKER MEALS",
+  "HOLIDAYS AND SPECIAL OCCASIONS",
 ];
 
 let previousIndex = -1;
