@@ -11,6 +11,7 @@ import RfisProjectDashboard from "./components/RfisProjectDashboard";
 import RecipeIntelligencePanel from "./components/RecipeIntelligencePanel";
 import RfisDinnerBuilder from "./components/RfisDinnerBuilder";
 import BuildYourOwnMealPage, { MealBuilderTrayPreview } from "./components/BuildYourOwnMealPage";
+import AdminMealBuilderImageAudit from "./components/AdminMealBuilderImageAudit.jsx";
 import {
   HowItWorksModalHost,
   HowItWorksPage as UnifiedHowItWorksPage,
@@ -5918,6 +5919,13 @@ function Home({
               onClick={() => setActivePage("Admin Nutrition Database")}
             >
               Nutrition Database
+            </button>
+            <button
+              className="adminAccessButton homeAdminAccessButton"
+              type="button"
+              onClick={() => setActivePage("Admin Build-A-Meal Image Audit")}
+            >
+              Build-A-Meal Image Audit
             </button>
             <button
               className="adminAccessButton homeAdminAccessButton homeAdminLockButton"
@@ -18211,6 +18219,13 @@ export default function App() {
 
       {activePage === "Admin Nutrition Database" && (
         <AdminNutritionDatabase
+          recipes={recipes}
+          onClose={() => setActivePage("Home")}
+        />
+      )}
+
+      {activePage === "Admin Build-A-Meal Image Audit" && (
+        <AdminMealBuilderImageAudit
           recipes={recipes}
           onClose={() => setActivePage("Home")}
         />

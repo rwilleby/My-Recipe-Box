@@ -11,7 +11,7 @@ const registryStart = source.indexOf("const MEAL_BUILDER_MAIN_IDS");
 const registryEnd = source.indexOf("const MEAL_BUILDER_LABEL_SHEETS");
 assert.ok(registryStart >= 0 && registryEnd > registryStart, "Meal Builder asset registry must be present");
 
-const registrySource = source.slice(registryStart, registryEnd);
+const registrySource = source.slice(registryStart, registryEnd).replaceAll("export ", "");
 const registry = vm.runInNewContext(`(() => { ${registrySource}; return {
   mainIds: [...MEAL_BUILDER_MAIN_IDS],
   sideIds: [...MEAL_BUILDER_SIDE_IDS],

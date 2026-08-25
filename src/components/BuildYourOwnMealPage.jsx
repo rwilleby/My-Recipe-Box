@@ -2,13 +2,13 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { getRecipeNutritionVariant } from "../data/recipeNutritionProfiles.js";
 import { recipeHeroImageCandidates } from "../features/recipe-viewer/recipeAssets.js";
 
-const MAIN_CATEGORIES = [
+export const MAIN_CATEGORIES = [
   ["AM", "American"], ["AS", "Asian"], ["HB", "Hamburgers"], ["IT", "Italian"],
   ["MX", "Mexican"], ["SF", "Seafood"], ["SG", "Meats"], ["CP", "Crock Pot Meals"],
 ];
 const SIDE_CATEGORIES = [["SD", "Side Dishes"]];
 
-const MEAL_BUILDER_MAIN_IDS = new Set([
+export const MEAL_BUILDER_MAIN_IDS = new Set([
   "AM-001", "AM-002", "AM-003", "AM-004", "AM-005", "AM-006", "AM-007", "AM-008", "AM-009", "AM-010",
   "AM-011", "AM-012", "AM-013", "AM-014", "AM-015", "AM-016", "AM-018", "AM-020", "AM-037", "AM-041", "AM-053",
   "AM-017", "AM-019", "AM-021", "AM-022", "AM-023", "AM-024", "AM-025", "AM-026", "AM-027", "AM-028",
@@ -25,16 +25,16 @@ const MEAL_BUILDER_MAIN_IDS = new Set([
   ...Array.from({ length: 44 }, (_, index) => `MX-${String(index + 1).padStart(3, "0")}`),
   ...Array.from({ length: 101 }, (_, index) => `CP-${String(index + 1).padStart(3, "0")}`),
 ]);
-const MEAL_BUILDER_FULL_CANVAS_MAIN_IDS = new Set(
+export const MEAL_BUILDER_FULL_CANVAS_MAIN_IDS = new Set(
   Array.from({ length: 101 }, (_, index) => `CP-${String(index + 1).padStart(3, "0")}`),
 );
-const MEAL_BUILDER_SIDE_IDS = new Set(
+export const MEAL_BUILDER_SIDE_IDS = new Set(
   Array.from({ length: 53 }, (_, index) => `SD-${String(index + 1).padStart(3, "0")}`),
 );
-const MEAL_BUILDER_DIVIDED_TRAY_SIDE_IDS = new Set(
+export const MEAL_BUILDER_DIVIDED_TRAY_SIDE_IDS = new Set(
   Array.from({ length: 52 }, (_, index) => `SD-${String(index + 2).padStart(3, "0")}`),
 );
-const MEAL_BUILDER_MAIN_LAYOUTS = new Map([
+export const MEAL_BUILDER_MAIN_LAYOUTS = new Map([
   ["AM-005", "full-tray"],
   ["AM-002", "two-thirds"],
   ["AM-008", "two-thirds"],

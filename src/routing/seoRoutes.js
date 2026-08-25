@@ -28,7 +28,7 @@ const PAGE_ROUTE_OVERRIDES = {
 
 export const ROUTABLE_PAGE_IDS = [
   "Home", "About", "About Recipe Box Hidden", "About Recipes", "About Smoking",
-  "Admin Combo-Meal Builder", "Admin Nutrition Database", "Admin Recipe Editor",
+  "Admin Build-A-Meal Image Audit", "Admin Combo-Meal Builder", "Admin Nutrition Database", "Admin Recipe Editor",
   "Admin Recipes", "Affiliate Marketing", "Air Fryer Recipes", "Bread Tips",
   "Build Your Own Meal", "Collections", "Comfort Foods", "Complete Dinners", "Contact Me", "Cooking Methods", "Vegan Recipe Library",
   "Crockpot Recipes", "Dinner Builder", "Dinner Combination Hero Audit",
@@ -51,7 +51,7 @@ export const ROUTABLE_PAGE_IDS = [
 ];
 
 const PRIVATE_PAGE_IDS = new Set([
-  "About Recipe Box Hidden", "Admin Combo-Meal Builder", "Admin Nutrition Database",
+  "About Recipe Box Hidden", "Admin Build-A-Meal Image Audit", "Admin Combo-Meal Builder", "Admin Nutrition Database",
   "Admin Recipe Editor", "Admin Recipes", "Dinner Combination Hero Audit", "Favorites",
   "Build Your Own Meal", "Freezer Inventory Management", "Kitchen Freezer", "Kitchen Refrigerator", "Master Kitchen Inventory", "Meal Planner",
   "My Goals", "Pantry Organization", "Pantry Staples", "Prepared Freezer Inventory",
@@ -79,6 +79,7 @@ const PAGE_TITLES = {
   "Freezer-Friendly Meals": "Quick & Easy Freezer Meals",
   "Meal Planner": "Your Weekly Meal Planner",
   "Build Your Own Meal": "Build-A-Meal",
+  "Admin Build-A-Meal Image Audit": "Build-A-Meal Image Audit",
   "Weekend Bulk Meal Planner": "Weekend Bulk Meal Planner",
   "Grocery Picks": "Recipe Adjustments & Substitutions",
   "Food Storage Guide": "Food Storage & Shelf-Life Guide",
