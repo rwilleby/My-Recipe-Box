@@ -10,6 +10,7 @@ import { PRESERVES_BREAD_INGREDIENTS_V8413 } from "./preservesBreadIngredientsV8
 import { PROTEIN_QUICHE_SALAD_INGREDIENTS_V8415 } from "./proteinQuicheSaladIngredientsV8415.js";
 import { SIDE_SEAFOOD_GRILL_INGREDIENTS_V8415 } from "./sideSeafoodGrillIngredientsV8415.js";
 import { SPECIALTY_INGREDIENTS_V8411 } from "./specialtyIngredientsV8411.js";
+import { VEGAN_RECIPE_ROWS } from "./veganRecipes.js";
 
 const baseCategories = [
   { id: "AM", name: "American Cuisine", count: 0, icon: "🍽️", iconImage: "images/categories/AM.webp" },
@@ -39,6 +40,7 @@ const baseCategories = [
   { id: "SF", name: "Seafood Dishes", count: 0, icon: "🐟", iconImage: "images/categories/SF.webp" },
   { id: "SG", name: "Smoked & Grilled Meats", count: 0, icon: "🔥", iconImage: "images/categories/SG.webp" },
   { id: "SW", name: "Sandwiches", count: 0, icon: "🥪", iconImage: "images/categories/SW.webp" },
+  { id: "VG", name: "Vegan Main Courses", count: 0, icon: "🌱", iconImage: "" },
 ];
 
 const CATEGORY_INFO = Object.fromEntries(baseCategories.map((category) => [category.id, category]));
@@ -71,6 +73,7 @@ const CATEGORY_DEFAULTS = {
   SF: { time: 30, servings: 4, price: "$$$", emoji: "🐟" },
   SG: { time: 60, servings: 4, price: "$$", emoji: "🔥" },
   SW: { time: 20, servings: 4, price: "$$", emoji: "🥪" },
+  VG: { time: 45, servings: 4, price: "$$", emoji: "🌱" },
 };
 
 const CATEGORY_INGREDIENTS = {
@@ -1459,6 +1462,9 @@ function makeRecipe(entry) {
       ? options.directions
       : (AMERICAN_DIRECTIONS_V881[id] || ASIAN_DIRECTIONS_V882[id] || []),
     mediaLinks: options.mediaLinks || undefined,
+    isVegan: options.isVegan === true,
+    veganStatus: options.veganStatus || "",
+    dietaryTags: Array.isArray(options.dietaryTags) ? [...options.dietaryTags] : [],
     mealBalance: options.mealBalance || estimateMealBalance(categoryCode, title),
   };
 }
@@ -2293,7 +2299,7 @@ const recipeRows = [
   }]
 ];
 
-export const recipes = recipeRows.map(makeRecipe);
+export const recipes = [...recipeRows, ...VEGAN_RECIPE_ROWS].map(makeRecipe);
 
 const categoryCounts = recipes.reduce((counts, recipe) => {
   counts[recipe.categoryCode] = (counts[recipe.categoryCode] || 0) + 1;

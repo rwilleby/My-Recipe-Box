@@ -22956,3 +22956,48 @@ button.browseRecipeWideFooterAction:focus-visible,
     width: 100%;
   }
 }
+/* Vegan Recipe Library */
+.veganRecipeLibraryPage {
+  padding-top: 30px;
+}
+
+.veganRecipeLibrarySectionIntro {
+  margin-bottom: 24px;
+}
+
+.veganLibraryCategorySelector {
+  margin-bottom: 24px;
+  justify-content: center;
+}
+
+.veganLibraryCategorySelector .libraryCategorySelectorItem {
+  min-width: 142px;
+}
+
+.veganLibraryCategorySelector .libraryCategorySelectorItem small {
+  display: block;
+  margin-top: 3px;
+  color: inherit;
+  font: 700 12px/1.2 Inter, sans-serif;
+}
+
+.veganLibraryCategorySelector .category-vg .libraryCategorySelectorAll {
+  background: #d5e4d1;
+  color: #38523b;
+}
+
+@media (max-width: 680px) {
+  .veganRecipeLibraryPage {
+    padding-top: 22px;
+  }
+
+  .veganLibraryCategorySelector {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .veganLibraryCategorySelector .libraryCategorySelectorItem {
+    min-width: 0;
+    width: 100%;
+  }
+}

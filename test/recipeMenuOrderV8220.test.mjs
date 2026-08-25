@@ -11,6 +11,7 @@ assert.ok(recipesStart >= 0 && collectionsStart > recipesStart && kitchenStart >
 const recipeMenu = app.slice(recipesStart, collectionsStart);
 const collectionsMenu = app.slice(collectionsStart, kitchenStart);
 const expectedOrder = [
+  "VEGAN RECIPE LIBRARY",
   "DINNER COMBINATIONS",
   "HEALTHY DINNERS",
   "SALAD JAR LUNCHES",

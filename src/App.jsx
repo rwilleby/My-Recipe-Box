@@ -1578,6 +1578,7 @@ const NAV_GROUPS = [
     label: "OUR RECIPES",
     items: [
       { label: "BROWSE OUR RECIPE LIBRARY", page: "Recipes" },
+      { label: "VEGAN RECIPE LIBRARY", page: "Vegan Recipe Library" },
       { label: "YOUR FAVORITE RECIPES", page: "Favorites" },
       { label: "DINNER COMBINATIONS", page: "Dinner Combinations" },
       { label: "HEALTHY DINNERS", page: "Healthy Dinners" },
@@ -5837,6 +5838,7 @@ function RecipesPage({
   filter,
   setFilter,
   classifiedRecipes = recipes,
+  veganOnly = false,
 }) {
   const [query, setQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(
@@ -5853,8 +5855,30 @@ function RecipesPage({
   const [sortBy, setSortBy] = useState("az");
   const [page, setPage] = useState(1);
 
+  const libraryRecipes = useMemo(
+    () => veganOnly
+      ? classifiedRecipes.filter((recipe) => recipe.isVegan === true && recipe.veganStatus === "verified")
+      : classifiedRecipes,
+    [classifiedRecipes, veganOnly],
+  );
+
   const browseQuickCategories = useMemo(
-    () => [
+    () => veganOnly
+      ? [
+        { id: "ALL", name: "All Vegan Recipes", displayName: "All Vegan Recipes", iconImage: "" },
+        ...["VG", ...HOME_CATEGORY_CODES]
+          .filter((code, index, list) => list.indexOf(code) === index)
+          .filter((code) => libraryRecipes.some((recipe) => recipe.categoryCode === code))
+          .map((code) => {
+            const category = categories.find((item) => item.id === code);
+            return {
+              ...(category || { id: code, name: code }),
+              displayName: code === "VG" ? "Vegan Main Courses" : HOME_CATEGORY_LABELS[code] || category?.name || code,
+              iconImage: code === "VG" ? "" : CATEGORY_ICON_IMAGES[code],
+            };
+          }),
+      ]
+      : [
       {
         id: "ALL",
         name: "All Recipes",
@@ -5884,7 +5908,7 @@ function RecipesPage({
         })
         .filter(Boolean),
     ],
-    [],
+    [libraryRecipes, veganOnly],
   );
 
   function applyQuickCategory(category) {
@@ -5921,7 +5945,7 @@ function RecipesPage({
   }, [filter]);
 
   const filteredRecipes = useMemo(() => {
-    let list = classifiedRecipes.filter((recipe) => {
+    let list = libraryRecipes.filter((recipe) => {
       const matchesQuery = `${recipe.id} ${recipe.title} ${recipe.category}`
         .toLowerCase()
         .includes(query.toLowerCase());
@@ -5984,7 +6008,7 @@ function RecipesPage({
 
     return sorted;
   }, [
-    classifiedRecipes,
+    libraryRecipes,
     favorites,
     query,
     selectedCategory,
@@ -6102,20 +6126,45 @@ function RecipesPage({
   }
 
   return (
-    <main className="pageShell browseRecipesPage">
-      <RecipeLibraryDiscovery
+    <main className={`pageShell browseRecipesPage${veganOnly ? " veganRecipeLibraryPage" : ""}`}>
+      {veganOnly && (
+        <SectionIntro
+          title="Vegan Recipe Library"
+          text="Explore satisfying plant-based main courses, side dishes, soups, breads and more. Every recipe shown here is prepared without meat, seafood, dairy, eggs or other animal-derived ingredients."
+          className="veganRecipeLibrarySectionIntro"
+        />
+      )}
+
+      {veganOnly ? (
+        <nav className="libraryCategorySelectorRow veganLibraryCategorySelector" aria-label="Select a verified vegan recipe category">
+          {browseQuickCategories.map((choice) => (
+            <button
+              type="button"
+              key={choice.id}
+              className={`libraryCategorySelectorItem category-${String(choice.id).toLowerCase()}${choice.id === selectedQuickCategoryId ? " active" : ""}`}
+              onClick={() => applyQuickCategory(choice)}
+              aria-pressed={choice.id === selectedQuickCategoryId}
+              aria-label={`${choice.displayName}, ${libraryRecipes.filter((recipe) => choice.id === "ALL" || recipe.categoryCode === choice.id).length} recipes`}
+            >
+              {choice.iconImage ? <img src={`${import.meta.env.BASE_URL}${choice.iconImage}`} alt="" aria-hidden="true" /> : <span className="libraryCategorySelectorAll" aria-hidden="true">{choice.id === "ALL" ? "ALL" : choice.id}</span>}
+              <strong>{String(choice.displayName).toUpperCase()}</strong>
+              <small>{libraryRecipes.filter((recipe) => choice.id === "ALL" || recipe.categoryCode === choice.id).length}</small>
+            </button>
+          ))}
+        </nav>
+      ) : <RecipeLibraryDiscovery
         choices={browseQuickCategories}
         selectedChoiceId={selectedQuickCategoryId}
         onSelectChoice={applyQuickCategory}
-        recipes={classifiedRecipes}
+        recipes={libraryRecipes}
         favorites={favorites}
         toggleFavorite={toggleFavorite}
         openRecipeCard={openRecipeCard}
         getCalories={getHealthyDinnerCalories}
         getMealBalanceScore={getMealBalanceScore}
-      />
+      />}
 
-      <section className="browseInventoryStyleToolbar browseInventoryStyleToolbarSingleRow" aria-label="Recipe library sorting and filters">
+      <section className="browseInventoryStyleToolbar browseInventoryStyleToolbarSingleRow" aria-label={veganOnly ? "Vegan recipe library sorting and filters" : "Recipe library sorting and filters"}>
         <label className="browseToolbarField">
           <span>Sort By</span>
           <select value={sortBy} onChange={(event) => setSortBy(event.target.value)}>
@@ -6148,7 +6197,7 @@ function RecipesPage({
             type="search"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Search recipes..."
+            placeholder={veganOnly ? "Search vegan recipes..." : "Search recipes..."}
           />
         </label>
 
@@ -6178,7 +6227,7 @@ function RecipesPage({
         </label>
       </section>
       <div className="browseResultsRow">
-        <strong>{filteredRecipes.length} recipes found</strong>
+        <strong>{filteredRecipes.length} {veganOnly ? "vegan recipes" : "recipes"} found</strong>
         {totalPages > 1 && (
           <div className="browsePagination">
             <button
@@ -6216,6 +6265,23 @@ function RecipesPage({
           />
         ))}
       </div>
+      {veganOnly && filteredRecipes.length === 0 && (
+        <EmptyState
+          title="No vegan recipes match your current selections."
+          text="Try clearing a filter or choosing another category."
+        >
+          <button type="button" className="secondary" onClick={() => {
+            setQuery("");
+            setSelectedCategory("");
+            setSelectedCookingMethod("");
+            setSelectedMealType("");
+            setSelectedDietaryNeed("");
+            setSelectedMealBalance("all");
+            clearGlp1Filters();
+            setSortBy("az");
+          }}>Clear Filters</button>
+        </EmptyState>
+      )}
     </main>
   );
 }
@@ -18092,6 +18158,15 @@ These pages are designed to be easy to scan, print, or revisit when needed. They
             videoPoster={RECIPE_LIBRARY_VIDEO_POSTER}/>
           <RecipesPage {...pageProps} />
         </>
+      )}
+      {activePage === "Vegan Recipe Library" && (
+        <RecipesPage
+          {...pageProps}
+          veganOnly
+          filter=""
+          setFilter={() => {}}
+          openRecipeCard={(recipeId, sourceRecipes = classifiedRecipes, context = "Vegan Recipe Library") => openRecipeCard(recipeId, sourceRecipes, context)}
+        />
       )}
       {activePage === "Collections" && (
         <>
