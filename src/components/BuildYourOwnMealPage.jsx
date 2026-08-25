@@ -4,7 +4,7 @@ import { recipeHeroImageCandidates } from "../features/recipe-viewer/recipeAsset
 
 const MAIN_CATEGORIES = [
   ["AM", "American"], ["AS", "Asian"], ["HB", "Hamburgers"], ["IT", "Italian"],
-  ["MX", "Mexican"], ["SF", "Seafood"], ["SG", "Meats"],
+  ["MX", "Mexican"], ["SF", "Seafood"], ["SG", "Meats"], ["CP", "Crock Pot Meals"],
 ];
 const SIDE_CATEGORIES = [["SD", "Side Dishes"]];
 
@@ -23,7 +23,11 @@ const MEAL_BUILDER_MAIN_IDS = new Set([
   ...Array.from({ length: 60 }, (_, index) => `IT-${String(index + 1).padStart(3, "0")}`),
   ...Array.from({ length: 20 }, (_, index) => `SF-${String(index + 1).padStart(3, "0")}`),
   ...Array.from({ length: 44 }, (_, index) => `MX-${String(index + 1).padStart(3, "0")}`),
+  ...Array.from({ length: 101 }, (_, index) => `CP-${String(index + 1).padStart(3, "0")}`),
 ]);
+const MEAL_BUILDER_FULL_CANVAS_MAIN_IDS = new Set(
+  Array.from({ length: 101 }, (_, index) => `CP-${String(index + 1).padStart(3, "0")}`),
+);
 const MEAL_BUILDER_SIDE_IDS = new Set(
   Array.from({ length: 53 }, (_, index) => `SD-${String(index + 1).padStart(3, "0")}`),
 );
@@ -79,6 +83,16 @@ const MEAL_BUILDER_MAIN_LAYOUTS = new Map([
     "MX-001", "MX-002", "MX-011", "MX-012",
     "MX-021", "MX-022", "MX-023", "MX-024", "MX-025", "MX-026", "MX-027", "MX-028", "MX-029", "MX-030",
     "MX-033", "MX-034", "MX-040", "MX-041", "MX-042",
+  ].map((id) => [id, "full-tray"]),
+  ...[
+    "CP-013", "CP-040", "CP-042", "CP-046", "CP-047", "CP-048", "CP-049", "CP-050", "CP-051", "CP-052",
+    "CP-055", "CP-056", "CP-066", "CP-070", "CP-071", "CP-072", "CP-077", "CP-078", "CP-079", "CP-083",
+    "CP-084", "CP-085", "CP-086", "CP-087", "CP-088", "CP-089", "CP-090", "CP-091", "CP-092", "CP-093",
+    "CP-094", "CP-095", "CP-096", "CP-097", "CP-098", "CP-099", "CP-100",
+  ].map((id) => [id, "two-thirds"]),
+  ...[
+    "CP-003", "CP-004", "CP-005", "CP-006", "CP-007", "CP-009", "CP-010", "CP-011", "CP-020", "CP-023",
+    "CP-026", "CP-027", "CP-028", "CP-041", "CP-045", "CP-065", "CP-073", "CP-074", "CP-080", "CP-081", "CP-082",
   ].map((id) => [id, "full-tray"]),
 ]);
 const MEAL_BUILDER_LABEL_SHEETS = {
@@ -146,7 +160,7 @@ function normalizeRecipeTitle(recipe) {
 }
 
 export function buildMealBuilderLabelTitle(mainRecipe, sideOneRecipe, sideTwoRecipe, mainTrayLayout = "standard") {
-  if (!mainRecipe) return "Build Your Own Meal";
+  if (!mainRecipe) return "Build-A-Meal";
   const mainTitle = normalizeRecipeTitle(mainRecipe);
   const sides = mainTrayLayout === "full-tray"
     ? []
@@ -225,8 +239,9 @@ function MealBuilderFoodImage({ recipe, position }) {
       ? "side-1-middle"
       : "side-2-right";
   const usesDividedTrayLayer = !isMain && MEAL_BUILDER_DIVIDED_TRAY_SIDE_IDS.has(recipe.id);
+  const usesFullCanvasMainLayer = isMain && MEAL_BUILDER_FULL_CANVAS_MAIN_IDS.has(recipe.id);
   return (
-    <div className={`mealBuilderTrayFood mealBuilderTrayFood-${position} mealBuilderTrayFood-recipe-${recipe.id.toLowerCase()}${usesDividedTrayLayer ? " is-divided-tray-layer" : ""}`}>
+    <div className={`mealBuilderTrayFood mealBuilderTrayFood-${position} mealBuilderTrayFood-recipe-${recipe.id.toLowerCase()}${usesDividedTrayLayer ? " is-divided-tray-layer" : ""}${usesFullCanvasMainLayer ? " is-full-canvas-layer" : ""}`}>
       <img src={`${import.meta.env.BASE_URL}images/build-your-own/${folder}/${recipe.id}.webp`} alt="" />
     </div>
   );

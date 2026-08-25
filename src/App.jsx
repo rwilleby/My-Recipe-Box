@@ -11274,7 +11274,6 @@ const HOLIDAY_OCCASION_MENUS = [
 function HolidaysSpecialOccasionsPage({ setActivePage, setPlan, openRecipeCard }) {
   const [selectedOccasion, setSelectedOccasion] = useState(HOLIDAY_OCCASION_MENUS[0].occasion);
   const occasionTrackRef = useRef(null);
-  const featuredMenuRef = useRef(null);
   const selectedMenu = HOLIDAY_OCCASION_MENUS.find((menu) => menu.occasion === selectedOccasion) || HOLIDAY_OCCASION_MENUS[0];
   const availableRecipeIds = selectedMenu.dishes.map((dish) => dish.recipeId).filter(Boolean);
 
@@ -11291,9 +11290,6 @@ function HolidaysSpecialOccasionsPage({ setActivePage, setPlan, openRecipeCard }
 
   function selectOccasion(occasion) {
     setSelectedOccasion(occasion);
-    window.requestAnimationFrame(() => {
-      featuredMenuRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    });
   }
 
   function scrollOccasions(direction) {
@@ -11344,7 +11340,7 @@ function HolidaysSpecialOccasionsPage({ setActivePage, setPlan, openRecipeCard }
         <button type="button" className="holidayOccasionScrollButton isNext" onClick={() => scrollOccasions(1)} aria-label="See later occasions">›</button>
       </section>
 
-      <section id="holidayFeaturedMenu" ref={featuredMenuRef} className="holidayFeaturedMenu" aria-live="polite" aria-labelledby="holidayFeaturedMenuTitle" tabIndex="-1">
+      <section id="holidayFeaturedMenu" className="holidayFeaturedMenu" aria-live="polite" aria-labelledby="holidayFeaturedMenuTitle" tabIndex="-1">
         <div className="holidayFeaturedMenuHeading">
           <span>FEATURED MENU</span>
           <h2 id="holidayFeaturedMenuTitle">{selectedMenu.occasion}</h2>

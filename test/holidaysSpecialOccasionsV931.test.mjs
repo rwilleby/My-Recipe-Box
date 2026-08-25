@@ -40,7 +40,7 @@ assert.match(app, /aria-label="See earlier occasions"/);
 assert.match(app, /aria-label="See later occasions"/);
 assert.match(app, /className=\{`holidayOccasionTile\$\{isSelected \? " isSelected" : ""\}`\}/);
 assert.match(app, /aria-pressed=\{isSelected\}/);
-assert.match(app, /scrollIntoView\(\{ behavior: "smooth", block: "start" \}\)/);
+assert.doesNotMatch(app, /featuredMenuRef\.current\?\.scrollIntoView/);
 assert.match(app, /window\.scrollTo\(\{ top: 0, left: 0, behavior: "auto" \}\)/);
 assert.match(routes, /"Holidays and Special Occasions": "\/holidays-and-special-occasions\/"/);
 assert.match(css, /\.holidayMenuDishes[\s\S]*grid-template-columns: repeat\(3/);
