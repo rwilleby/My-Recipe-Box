@@ -1748,7 +1748,35 @@ function Header({ activePage, setActivePage, favorites, savedCustomMeals = [] })
     {
       label: "ABOUT US",
       page: "About",
-      items: NAV_GROUPS.find((group) => group.label === "ABOUT")?.items || [],
+      menuClass: "aboutUsSubmenu",
+      sections: [
+        {
+          label: "GETTING STARTED",
+          items: [
+            { label: "WELCOME TO OUR SITE", page: "About" },
+            { label: "HOW IT WORKS", page: "How It Works" },
+            { label: "VIDEO LIBRARY", page: "Video Library" },
+          ],
+        },
+        {
+          label: "ABOUT THE RECIPE BOX",
+          items: [
+            { label: "ABOUT OUR RECIPES", page: "About Recipes" },
+            { label: "OUR NUTRITION STANDARDS", page: "Nutrition Standards" },
+            { label: "UNDERSTANDING MEALBALANCE", page: "MealBalance Guide" },
+            { label: "AFFILIATE MARKETING", page: "Affiliate Marketing" },
+          ],
+        },
+        {
+          label: "HELP, DATA & POLICIES",
+          items: [
+            { label: "YOUR DATA & SECURITY", page: "Your Data & Security" },
+            { label: "BACKUP & RESTORE", page: "User Backup" },
+            { label: "CONTACT ME", page: "Contact Me" },
+            { label: "DISCLAIMERS", page: "Disclaimers" },
+          ],
+        },
+      ],
     },
     {
       label: "RECIPES & MEALS",
@@ -1858,7 +1886,10 @@ function Header({ activePage, setActivePage, favorites, savedCustomMeals = [] })
             </a>
             <div
               id={menuId}
-              className={group.sections ? "simpleHeaderSubmenu recipesMealsSubmenu" : "simpleHeaderSubmenu"}
+              className={[
+                "simpleHeaderSubmenu",
+                group.menuClass || (group.sections ? "recipesMealsSubmenu" : ""),
+              ].filter(Boolean).join(" ")}
               role="menu"
               aria-label={`${group.label} submenu`}
             >

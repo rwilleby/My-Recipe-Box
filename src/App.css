@@ -22395,7 +22395,8 @@ button.browseRecipeWideFooterAction:focus-visible,
 .simpleHeaderSubmenu a.simpleHeaderSubmenuLevel1::before { content: "–"; position: absolute; left: 10px; color: #95a097; }
 
 /* v94: grouped Recipes & Meals dropdown. */
-.simpleHeaderSubmenu.recipesMealsSubmenu {
+.simpleHeaderSubmenu.recipesMealsSubmenu,
+.simpleHeaderSubmenu.aboutUsSubmenu {
   min-width: 350px !important;
   padding: 9px 10px !important;
 }
@@ -22417,29 +22418,34 @@ button.browseRecipeWideFooterAction:focus-visible,
   text-transform: uppercase;
 }
 
-.simpleHeaderSubmenu.recipesMealsSubmenu a {
+.simpleHeaderSubmenu.recipesMealsSubmenu a,
+.simpleHeaderSubmenu.aboutUsSubmenu a {
   display: grid !important;
   grid-template-columns: minmax(0, 1fr) 17px;
   column-gap: 8px;
   padding-left: 27px !important;
 }
 
-.recipesMealsSubmenu .simpleHeaderSubmenuLabel {
+.recipesMealsSubmenu .simpleHeaderSubmenuLabel,
+.aboutUsSubmenu .simpleHeaderSubmenuLabel {
   white-space: nowrap;
 }
 
-.recipesMealsSubmenu .simpleHeaderVideoIndicator {
+.recipesMealsSubmenu .simpleHeaderVideoIndicator,
+.aboutUsSubmenu .simpleHeaderVideoIndicator {
   margin-left: 0 !important;
   justify-self: end;
 }
 
 @media (max-width: 900px) {
-  .simpleHeaderSubmenu.recipesMealsSubmenu {
+  .simpleHeaderSubmenu.recipesMealsSubmenu,
+  .simpleHeaderSubmenu.aboutUsSubmenu {
     width: min(88vw, 390px) !important;
     min-width: 0 !important;
   }
 
-  .recipesMealsSubmenu .simpleHeaderSubmenuLabel {
+  .recipesMealsSubmenu .simpleHeaderSubmenuLabel,
+  .aboutUsSubmenu .simpleHeaderSubmenuLabel {
     white-space: normal;
     overflow-wrap: anywhere;
   }
