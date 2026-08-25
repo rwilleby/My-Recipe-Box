@@ -22778,7 +22778,7 @@ button.browseRecipeWideFooterAction:focus-visible,
 }
 
 .holidayOccasionsSectionIntro {
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 .holidayOccasionChooser {
@@ -22812,18 +22812,60 @@ button.browseRecipeWideFooterAction:focus-visible,
   font: 600 16px/1.35 Inter, sans-serif;
 }
 
-.holidayOccasionCalendar {
+.holidayOccasionCarousel {
+  position: relative;
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 16px;
-  margin: 0 auto 28px;
+  grid-template-columns: 44px minmax(0, 1fr) 44px;
+  align-items: center;
+  gap: 10px;
+  margin: 0 auto 22px;
+}
+
+.holidayOccasionCalendar {
+  display: flex;
+  gap: 13px;
+  min-width: 0;
+  margin: 0;
+  padding: 5px 4px 10px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  scroll-snap-type: x proximity;
+  scrollbar-color: #a79d91 #eee8dd;
+  scrollbar-width: thin;
+  overscroll-behavior-inline: contain;
+}
+
+.holidayOccasionScrollButton {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 58px;
+  padding: 0 0 5px;
+  border: 1px solid #cfc4b3;
+  border-radius: 12px;
+  background: #f4efe6;
+  color: #514940;
+  font: 400 38px/1 Georgia, serif;
+  cursor: pointer;
+}
+
+.holidayOccasionScrollButton:hover {
+  background: #e9e2d7;
+}
+
+.holidayOccasionScrollButton:focus-visible,
+.holidayOccasionCalendar:focus-visible {
+  outline: 3px solid #14532d;
+  outline-offset: 3px;
 }
 
 .holidayOccasionTile {
   display: grid;
   grid-template-rows: auto minmax(42px, auto) 16px;
   align-content: start;
-  min-width: 0;
+  flex: 0 0 148px;
+  min-width: 148px;
   padding: 8px 8px 9px;
   overflow: hidden;
   border: 1px solid #d8cbb5;
@@ -22833,6 +22875,7 @@ button.browseRecipeWideFooterAction:focus-visible,
   box-shadow: 0 5px 14px rgba(67, 53, 36, 0.08);
   cursor: pointer;
   transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+  scroll-snap-align: start;
 }
 
 .holidayOccasionTile:hover {
@@ -22985,9 +23028,13 @@ button.browseRecipeWideFooterAction:focus-visible,
 }
 
 @media (max-width: 900px) {
-  .holidayOccasionCalendar {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 13px;
+  .holidayOccasionCarousel {
+    grid-template-columns: 42px minmax(0, 1fr) 42px;
+    gap: 8px;
+  }
+
+  .holidayOccasionScrollButton {
+    width: 42px;
   }
 
   .holidayMenuDishes {
@@ -23019,13 +23066,26 @@ button.browseRecipeWideFooterAction:focus-visible,
     padding: 16px;
   }
 
+  .holidayOccasionCarousel {
+    grid-template-columns: 36px minmax(0, 1fr) 36px;
+    gap: 5px;
+    margin-bottom: 18px;
+  }
+
   .holidayOccasionCalendar {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 11px;
-    margin-bottom: 22px;
+    gap: 9px;
+  }
+
+  .holidayOccasionScrollButton {
+    width: 36px;
+    height: 52px;
+    border-radius: 10px;
+    font-size: 32px;
   }
 
   .holidayOccasionTile {
+    flex-basis: 126px;
+    min-width: 126px;
     padding: 6px 6px 8px;
     border-radius: 11px;
   }

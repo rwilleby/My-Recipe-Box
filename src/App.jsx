@@ -11245,9 +11245,9 @@ const HOLIDAY_OCCASION_MENUS = [
   ["New Year’s Day", ["Smothered Pork Chops", "AM-048"], ["Black-Eyed Peas", "CP-170"], ["Southern Collard Greens", ""]],
   ["Valentine’s Day", ["Filet Mignon with Garlic-Herb Butter", ""], ["Creamy Mashed Potatoes", ""], ["Roasted Asparagus", "SD-030"]],
   ["Mardi Gras", ["Chicken and Sausage Jambalaya", ""], ["Creole Green Beans", ""], ["Jalapeño Cheddar Cornbread", ""]],
-  ["St. Patrick’s Day", ["Corned Beef and Cabbage", ""], ["Colcannon Potatoes", ""], ["Irish Soda Bread", ""]],
+  ["St. Patrick’s Day", ["Corned Beef and Cabbage", "CP-042"], ["Colcannon Potatoes", ""], ["Irish Soda Bread", ""]],
   ["Passover", ["Braised Beef Brisket", ""], ["Roasted Carrots and Parsnips", ""], ["Potato Kugel", ""]],
-  ["Easter", ["Brown Sugar–Glazed Ham", ""], ["Scalloped Potatoes", "SD-017"], ["Honey-Glazed Carrots", ""]],
+  ["Easter", ["Brown Sugar–Glazed Ham", "AM-013"], ["Scalloped Potatoes", "SD-017"], ["Honey-Glazed Carrots", ""]],
   ["Cinco de Mayo", ["Chicken Enchiladas", "MX-007"], ["Mexican Rice", "MX-013"], ["Seasoned Black Beans", ""]],
   ["Mother’s Day", ["Ham and Cheese Quiche", ""], ["Breakfast Potatoes", ""], ["Fresh Berry Salad", ""]],
   ["Memorial Day", ["Barbecue Pulled Pork", ""], ["Classic Potato Salad", ""], ["Creamy Coleslaw", ""]],
@@ -11273,6 +11273,7 @@ const HOLIDAY_OCCASION_MENUS = [
 
 function HolidaysSpecialOccasionsPage({ setActivePage, setPlan, openRecipeCard }) {
   const [selectedOccasion, setSelectedOccasion] = useState(HOLIDAY_OCCASION_MENUS[0].occasion);
+  const occasionTrackRef = useRef(null);
   const featuredMenuRef = useRef(null);
   const selectedMenu = HOLIDAY_OCCASION_MENUS.find((menu) => menu.occasion === selectedOccasion) || HOLIDAY_OCCASION_MENUS[0];
   const availableRecipeIds = selectedMenu.dishes.map((dish) => dish.recipeId).filter(Boolean);
@@ -11295,36 +11296,53 @@ function HolidaysSpecialOccasionsPage({ setActivePage, setPlan, openRecipeCard }
     });
   }
 
+  function scrollOccasions(direction) {
+    const track = occasionTrackRef.current;
+    if (!track) return;
+    track.scrollBy({ left: direction * Math.max(260, track.clientWidth * 0.78), behavior: "smooth" });
+  }
+
   return (
     <main className="pageShell holidayOccasionsPage">
-      <nav className="holidayOccasionCalendar" aria-label="Choose a holiday or special occasion">
-        {HOLIDAY_OCCASION_MENUS.map((menu) => {
-          const isSelected = menu.occasion === selectedOccasion;
-          return (
-            <button
-              type="button"
-              className={`holidayOccasionTile${isSelected ? " isSelected" : ""}`}
-              key={menu.occasion}
-              onClick={() => selectOccasion(menu.occasion)}
-              aria-pressed={isSelected}
-              aria-controls="holidayFeaturedMenu"
-            >
-              <span className="holidayOccasionTileImage">
-                <img
-                  src={assetUrl(menu.image)}
-                  alt={`${menu.occasion} featured meal`}
-                  loading="lazy"
-                  decoding="async"
-                  width="640"
-                  height="640"
-                />
-              </span>
-              <strong>{menu.occasion}</strong>
-              <span className="holidayOccasionSelectedText" aria-hidden={!isSelected}>{isSelected ? "Selected" : ""}</span>
-            </button>
-          );
-        })}
-      </nav>
+      <SectionIntro
+        title="Holidays and Special Occasions"
+        text="Make holidays and special occasions easier to plan with complete menus for celebrations throughout the year. Choose an occasion to find a featured main dish with two complementary sides, then use the menu as presented or make it your own."
+        centered
+        className="holidayOccasionsSectionIntro"
+      />
+
+      <section className="holidayOccasionCarousel" aria-label="Holiday and special occasion menu chooser">
+        <button type="button" className="holidayOccasionScrollButton isPrevious" onClick={() => scrollOccasions(-1)} aria-label="See earlier occasions">‹</button>
+        <nav ref={occasionTrackRef} className="holidayOccasionCalendar" aria-label="Choose a holiday or special occasion" tabIndex="0">
+          {HOLIDAY_OCCASION_MENUS.map((menu) => {
+            const isSelected = menu.occasion === selectedOccasion;
+            return (
+              <button
+                type="button"
+                className={`holidayOccasionTile${isSelected ? " isSelected" : ""}`}
+                key={menu.occasion}
+                onClick={() => selectOccasion(menu.occasion)}
+                aria-pressed={isSelected}
+                aria-controls="holidayFeaturedMenu"
+              >
+                <span className="holidayOccasionTileImage">
+                  <img
+                    src={assetUrl(menu.image)}
+                    alt={`${menu.occasion} featured meal`}
+                    loading="lazy"
+                    decoding="async"
+                    width="640"
+                    height="640"
+                  />
+                </span>
+                <strong>{menu.occasion}</strong>
+                <span className="holidayOccasionSelectedText" aria-hidden={!isSelected}>{isSelected ? "Selected" : ""}</span>
+              </button>
+            );
+          })}
+        </nav>
+        <button type="button" className="holidayOccasionScrollButton isNext" onClick={() => scrollOccasions(1)} aria-label="See later occasions">›</button>
+      </section>
 
       <section id="holidayFeaturedMenu" ref={featuredMenuRef} className="holidayFeaturedMenu" aria-live="polite" aria-labelledby="holidayFeaturedMenuTitle" tabIndex="-1">
         <div className="holidayFeaturedMenuHeading">

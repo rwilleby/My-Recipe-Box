@@ -31,7 +31,13 @@ assert.match(app, /data-recipe-status=\{dish\.recipeId \? "available" : "awaitin
 assert.match(app, /Add Menu to Meal Planner/);
 assert.match(app, /Add Menu Ingredients to Grocery List/);
 assert.doesNotMatch(app, /id="holidayOccasionSelect"/);
+assert.match(app, /className="holidayOccasionsSectionIntro"/);
 assert.match(app, /className="holidayOccasionCalendar"/);
+assert.match(app, /className="holidayOccasionCarousel"/);
+assert.match(app, /occasionTrackRef/);
+assert.match(app, /track\.scrollBy\(\{ left: direction \* Math\.max\(260, track\.clientWidth \* 0\.78\), behavior: "smooth" \}\)/);
+assert.match(app, /aria-label="See earlier occasions"/);
+assert.match(app, /aria-label="See later occasions"/);
 assert.match(app, /className=\{`holidayOccasionTile\$\{isSelected \? " isSelected" : ""\}`\}/);
 assert.match(app, /aria-pressed=\{isSelected\}/);
 assert.match(app, /scrollIntoView\(\{ behavior: "smooth", block: "start" \}\)/);
@@ -39,9 +45,11 @@ assert.match(app, /window\.scrollTo\(\{ top: 0, left: 0, behavior: "auto" \}\)/)
 assert.match(routes, /"Holidays and Special Occasions": "\/holidays-and-special-occasions\/"/);
 assert.match(css, /\.holidayMenuDishes[\s\S]*grid-template-columns: repeat\(3/);
 assert.match(css, /@media \(max-width: 680px\)[\s\S]*\.holidayMenuDishes[\s\S]*grid-template-columns: 1fr/);
-assert.match(css, /\.holidayOccasionCalendar[\s\S]*grid-template-columns: repeat\(5/);
-assert.match(css, /@media \(max-width: 900px\)[\s\S]*\.holidayOccasionCalendar[\s\S]*repeat\(3/);
-assert.match(css, /@media \(max-width: 680px\)[\s\S]*\.holidayOccasionCalendar[\s\S]*repeat\(2/);
+assert.match(css, /\.holidayOccasionCalendar[\s\S]*display: flex[\s\S]*overflow-x: auto[\s\S]*scroll-snap-type: x proximity/);
+assert.match(css, /\.holidayOccasionTile[\s\S]*flex: 0 0 148px/);
+assert.match(css, /@media \(max-width: 680px\)[\s\S]*\.holidayOccasionTile[\s\S]*flex-basis: 126px/);
+assert.match(app, /\["Corned Beef and Cabbage", "CP-042"\]/);
+assert.match(app, /\["Brown Sugar–Glazed Ham", "AM-013"\]/);
 
 const imageFiles = [
   "new-years-day.webp", "valentines-day.webp", "mardi-gras.webp", "st-patricks-day.webp",
