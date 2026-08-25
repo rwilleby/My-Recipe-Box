@@ -14,9 +14,10 @@ const css = fs.readFileSync(new URL("../src/components/HowItWorksSystem.css", im
 const routes = fs.readFileSync(new URL("../src/routing/seoRoutes.js", import.meta.url), "utf8");
 
 const expectedGuideIds = [
-  "home", "browse-recipes", "recipe-cards", "complete-dinners", "meal-builder",
-  "weekly-meal-planner", "shopping-list", "kitchen-inventory", "favorites-notes",
-  "backup-restore", "data-security", "mealbalance",
+  "home", "browse-recipes", "recipe-cards", "vegan-recipe-library",
+  "complete-dinners", "holidays-special-occasions", "meal-builder", "weekly-meal-planner",
+  "shopping-list", "kitchen-inventory", "favorites-notes", "backup-restore",
+  "data-security", "mealbalance",
 ];
 
 assert.deepEqual(HOW_IT_WORKS_GUIDES.map((guide) => guide.id), expectedGuideIds);
@@ -31,7 +32,7 @@ for (const guide of HOW_IT_WORKS_GUIDES) {
   assert.ok(guide.features.length > 0 && guide.tip);
 }
 
-for (const pageId of ["Home", "Recipes", "Dinner Combinations", "Build Your Own Meal", "Meal Planner", "Shopping Lists", "Master Kitchen Inventory", "Favorites", "User Backup", "Your Data & Security", "MealBalance Guide"]) {
+for (const pageId of ["Home", "Recipes", "Vegan Recipe Library", "Dinner Combinations", "Holidays and Special Occasions", "Build Your Own Meal", "Meal Planner", "Shopping Lists", "Master Kitchen Inventory", "Favorites", "User Backup", "Your Data & Security", "MealBalance Guide"]) {
   assert.ok(getHowItWorksGuideForPage(pageId), `Missing page guide for ${pageId}`);
 }
 assert.equal(getHowItWorksGuideForPage("Contact Me"), null);
