@@ -2,21 +2,28 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 
 const app = await readFile(new URL("../src/App.jsx", import.meta.url), "utf8");
-const recipesStart = app.indexOf('label: "OUR RECIPES"');
-const collectionsStart = app.indexOf('label: "COLLECTIONS"', recipesStart);
-const kitchenStart = app.indexOf('label: "YOUR KITCHEN"', collectionsStart);
+const menuStart = app.indexOf('label: "RECIPES & MEALS"');
+const kitchenMenuStart = app.indexOf('label: "KITCHEN DETAILS"', menuStart);
 
-assert.ok(recipesStart >= 0 && collectionsStart > recipesStart && kitchenStart > collectionsStart);
+assert.ok(menuStart >= 0 && kitchenMenuStart > menuStart);
 
-const recipeMenu = app.slice(recipesStart, collectionsStart);
-const collectionsMenu = app.slice(collectionsStart, kitchenStart);
+const recipeMenu = app.slice(menuStart, kitchenMenuStart);
 const expectedOrder = [
+  "FIND RECIPES",
+  "BROWSE OUR RECIPE LIBRARY",
   "VEGAN RECIPE LIBRARY",
-  "DINNER COMBINATIONS",
+  "YOUR FAVORITE RECIPES",
+  "BUILD A MEAL",
+  "COMPLETE DINNERS",
+  "MEAL COLLECTIONS",
   "HEALTHY DINNERS",
   "SALAD JAR LUNCHES",
   "SLOW COOKER MEALS",
-  "HOLIDAYS AND SPECIAL OCCASIONS",
+  "HOLIDAYS & SPECIAL OCCASIONS",
+  "QUICK & EASY FREEZER MEALS",
+  "SUMMER COOKOUTS",
+  "COMFORT FOODS",
+  "EASY 30-MINUTE MEALS",
 ];
 
 let previousIndex = -1;
@@ -26,14 +33,11 @@ for (const label of expectedOrder) {
   previousIndex = index;
 }
 
-for (const label of expectedOrder.slice(1)) {
-  assert.match(
-    recipeMenu,
-    new RegExp(`\\{ label: "${label}", page: "[^"]+" \\}`),
-    `${label} must be a non-indented top-level menu item`,
-  );
-  assert.ok(!collectionsMenu.includes(`label: "${label}"`), `${label} must be removed from Collections`);
-  assert.equal(app.split(`label: "${label}"`).length - 1, 1, `${label} must appear once in NAV_GROUPS`);
-}
+assert.match(recipeMenu, /label: "COMPLETE DINNERS", page: "Dinner Combinations"/);
+assert.match(recipeMenu, /label: "BUILD A MEAL", page: "Build Your Own Meal"/);
+assert.doesNotMatch(recipeMenu, /DINNER COMBINATIONS/);
+assert.doesNotMatch(recipeMenu, /level:\s*1/);
+assert.match(app, /className="recipesMealsMenuHeading"/);
+assert.match(app, /role=\{group\.sections \? "group" : undefined\}/);
 
-console.log("Recipe menu top-level order v82.20 tests passed.");
+console.log("Grouped Recipes & Meals menu tests passed.");

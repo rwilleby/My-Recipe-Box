@@ -1580,20 +1580,20 @@ const NAV_GROUPS = [
       { label: "BROWSE OUR RECIPE LIBRARY", page: "Recipes" },
       { label: "VEGAN RECIPE LIBRARY", page: "Vegan Recipe Library" },
       { label: "YOUR FAVORITE RECIPES", page: "Favorites" },
-      { label: "DINNER COMBINATIONS", page: "Dinner Combinations" },
+      { label: "COMPLETE DINNERS", page: "Dinner Combinations" },
       { label: "HEALTHY DINNERS", page: "Healthy Dinners" },
       { label: "SALAD JAR LUNCHES", page: "Salad Jars" },
       { label: "SLOW COOKER MEALS", page: "Slow Cooker Favorites" },
       { label: "HOLIDAYS AND SPECIAL OCCASIONS", page: "Holidays and Special Occasions" },
-      { label: "QUICK & EASY FREEZER MEALS", page: "Freezer-Friendly Meals", level: 1 },
+      { label: "QUICK & EASY FREEZER MEALS", page: "Freezer-Friendly Meals" },
     ],
   },
   {
     label: "COLLECTIONS",
     items: [
-      { label: "SUMMER COOKOUTS", page: "Summer Cookouts", level: 1 },
-      { label: "COMFORT FOODS", page: "Comfort Foods", level: 1 },
-      { label: "EASY 30-MINUTE MEALS", page: "Easy 30-Minute Meals", level: 1 },
+      { label: "SUMMER COOKOUTS", page: "Summer Cookouts" },
+      { label: "COMFORT FOODS", page: "Comfort Foods" },
+      { label: "EASY 30-MINUTE MEALS", page: "Easy 30-Minute Meals" },
     ],
   },
   {
@@ -1753,9 +1753,35 @@ function Header({ activePage, setActivePage, favorites, savedCustomMeals = [] })
     {
       label: "RECIPES & MEALS",
       page: "Recipes",
-      items: [
-        ...(NAV_GROUPS.find((group) => group.label === "OUR RECIPES")?.items || []),
-        ...(NAV_GROUPS.find((group) => group.label === "COLLECTIONS")?.items || []),
+      sections: [
+        {
+          label: "FIND RECIPES",
+          items: [
+            { label: "BROWSE OUR RECIPE LIBRARY", page: "Recipes" },
+            { label: "VEGAN RECIPE LIBRARY", page: "Vegan Recipe Library" },
+            { label: "YOUR FAVORITE RECIPES", page: "Favorites" },
+          ],
+        },
+        {
+          label: "BUILD A MEAL",
+          items: [
+            { label: "COMPLETE DINNERS", page: "Dinner Combinations" },
+            { label: "BUILD A MEAL", page: "Build Your Own Meal" },
+          ],
+        },
+        {
+          label: "MEAL COLLECTIONS",
+          items: [
+            { label: "HEALTHY DINNERS", page: "Healthy Dinners" },
+            { label: "SALAD JAR LUNCHES", page: "Salad Jars" },
+            { label: "SLOW COOKER MEALS", page: "Slow Cooker Favorites" },
+            { label: "HOLIDAYS & SPECIAL OCCASIONS", page: "Holidays and Special Occasions" },
+            { label: "QUICK & EASY FREEZER MEALS", page: "Freezer-Friendly Meals" },
+            { label: "SUMMER COOKOUTS", page: "Summer Cookouts" },
+            { label: "COMFORT FOODS", page: "Comfort Foods" },
+            { label: "EASY 30-MINUTE MEALS", page: "Easy 30-Minute Meals" },
+          ],
+        },
       ],
     },
     {
@@ -1832,13 +1858,25 @@ function Header({ activePage, setActivePage, favorites, savedCustomMeals = [] })
             </a>
             <div
               id={menuId}
-              className="simpleHeaderSubmenu"
+              className={group.sections ? "simpleHeaderSubmenu recipesMealsSubmenu" : "simpleHeaderSubmenu"}
               role="menu"
               aria-label={`${group.label} submenu`}
             >
-              {group.items
-                .filter((item) => siteMode === "detailed" || !item.detailedOnly)
-                .map((item) => (
+              {(group.sections || [{ items: group.items }]).map((section, sectionIndex) => (
+                <div
+                  className={group.sections ? "recipesMealsMenuSection" : "simpleHeaderMenuSection"}
+                  role={group.sections ? "group" : undefined}
+                  aria-labelledby={group.sections ? `${menuId}-section-${sectionIndex}` : undefined}
+                  key={section.label || `${group.label}-items`}
+                >
+                  {section.label && (
+                    <div className="recipesMealsMenuHeading" id={`${menuId}-section-${sectionIndex}`}>
+                      {section.label}
+                    </div>
+                  )}
+                  {section.items
+                    .filter((item) => siteMode === "detailed" || !item.detailedOnly)
+                    .map((item) => (
                 <a
                   href={routeForPage(item.page)}
                   key={`${group.label}-${item.label}`}
@@ -1868,6 +1906,8 @@ function Header({ activePage, setActivePage, favorites, savedCustomMeals = [] })
                     </span>
                   )}
                 </a>
+                    ))}
+                </div>
               ))}
             </div>
           </div>
