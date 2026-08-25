@@ -952,6 +952,10 @@ const AFFILIATE_MARKETING_VIDEO_URL = "videos/affiliate-marketing.mp4";
 const AFFILIATE_MARKETING_VIDEO_POSTER = "images/video-posters/affiliate-marketing-poster.webp";
 const ABOUT_RECIPES_VIDEO_URL = "videos/about-our-recipes.mp4";
 const ABOUT_RECIPES_VIDEO_POSTER = "images/video-posters/about-our-recipes-poster.webp";
+const HOW_IT_WORKS_VIDEO_URL = "videos/how-it-works.mp4";
+const HOW_IT_WORKS_VIDEO_POSTER = "images/video-posters/how-it-works-poster.webp";
+const VIDEO_LIBRARY_VIDEO_URL = "videos/about-us-video-library.mp4";
+const VIDEO_LIBRARY_VIDEO_POSTER = "images/heroes/hero-page-about-us.webp";
 const RECIPE_LIBRARY_VIDEO_URL = "videos/browse-our-recipe-library.mp4";
 const RECIPE_LIBRARY_VIDEO_POSTER = "images/video-posters/browse-our-recipe-library-poster.webp";
 const MASTER_KITCHEN_INVENTORY_VIDEO_URL = "videos/master-kitchen-inventory.mp4";
@@ -1642,7 +1646,6 @@ const NAV_GROUPS = [
  * Every other main-menu page is intro-video eligible.
  */
 const NO_INTRO_VIDEO_PAGES = new Set([
-  "How It Works",
   "Submit Recipes",
   "Contact Me",
   "Disclaimers",
@@ -19034,6 +19037,8 @@ Use this section to check what is on hand, record dates, mark foods that should 
             title="Video Library"
             text="Watch the short guides used throughout Robert’s Recipe Box in one convenient place. The library follows Robert’s preferred sequence and includes every planned subject in its intended position.\n\nChoose any finished video to watch it here. Color-bar test patterns identify guides that have not yet been produced, and every entry links to the section it will explain."
             className="pageHeroDepth464"
+            videoSrc={VIDEO_LIBRARY_VIDEO_URL}
+            videoPoster={VIDEO_LIBRARY_VIDEO_POSTER}
           />
           <VideoLibraryPage setActivePage={setActivePage} />
         </>
@@ -20090,6 +20095,8 @@ Use this section to check what is on hand, record dates, mark foods that should 
             title="How It Works"
             text="Your Guide to Using Robert’s Recipe Box"
             className="pageHeroDepth464 howItWorksHero"
+            videoSrc={HOW_IT_WORKS_VIDEO_URL}
+            videoPoster={HOW_IT_WORKS_VIDEO_POSTER}
           />
           <UnifiedHowItWorksPage setActivePage={setActivePage} />
         </>

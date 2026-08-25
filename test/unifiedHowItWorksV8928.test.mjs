@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import fs from "node:fs";
+import { createHash } from "node:crypto";
 import {
   HOW_IT_WORKS_CATEGORIES,
   HOW_IT_WORKS_GOALS,
@@ -12,9 +13,11 @@ const app = fs.readFileSync(new URL("../src/App.jsx", import.meta.url), "utf8");
 const system = fs.readFileSync(new URL("../src/components/HowItWorksSystem.jsx", import.meta.url), "utf8");
 const css = fs.readFileSync(new URL("../src/components/HowItWorksSystem.css", import.meta.url), "utf8");
 const routes = fs.readFileSync(new URL("../src/routing/seoRoutes.js", import.meta.url), "utf8");
+const howItWorksVideo = fs.readFileSync(new URL("../public/videos/how-it-works.mp4", import.meta.url));
+const videoLibraryVideo = fs.readFileSync(new URL("../public/videos/about-us-video-library.mp4", import.meta.url));
 
 const expectedGuideIds = [
-  "home", "browse-recipes", "recipe-cards", "vegan-recipe-library",
+  "home", "video-library", "browse-recipes", "recipe-cards", "vegan-recipe-library",
   "complete-dinners", "holidays-special-occasions", "meal-builder", "weekly-meal-planner",
   "shopping-list", "kitchen-inventory", "favorites-notes", "backup-restore",
   "data-security", "mealbalance",
@@ -32,7 +35,7 @@ for (const guide of HOW_IT_WORKS_GUIDES) {
   assert.ok(guide.features.length > 0 && guide.tip);
 }
 
-for (const pageId of ["Home", "Recipes", "Vegan Recipe Library", "Dinner Combinations", "Holidays and Special Occasions", "Build Your Own Meal", "Meal Planner", "Shopping Lists", "Master Kitchen Inventory", "Favorites", "User Backup", "Your Data & Security", "MealBalance Guide"]) {
+for (const pageId of ["Home", "Video Library", "Recipes", "Vegan Recipe Library", "Dinner Combinations", "Holidays and Special Occasions", "Build Your Own Meal", "Meal Planner", "Shopping Lists", "Master Kitchen Inventory", "Favorites", "User Backup", "Your Data & Security", "MealBalance Guide"]) {
   assert.ok(getHowItWorksGuideForPage(pageId), `Missing page guide for ${pageId}`);
 }
 assert.equal(getHowItWorksGuideForPage("Contact Me"), null);
@@ -43,6 +46,12 @@ assert.match(app, /getHowItWorksGuideForPage\(activePage\)/);
 assert.match(app, /openHowItWorksGuide\(activePage\)/);
 assert.match(app, /openHowItWorksGuide\("Recipe Cards"\)/);
 assert.match(app, /title="How It Works"[\s\S]*?text="Your Guide to Using Robert’s Recipe Box"/);
+assert.match(app, /title="How It Works"[\s\S]*?videoSrc=\{HOW_IT_WORKS_VIDEO_URL\}/);
+assert.match(app, /title="Video Library"[\s\S]*?videoSrc=\{VIDEO_LIBRARY_VIDEO_URL\}/);
+assert.equal(howItWorksVideo.length, 9397332);
+assert.equal(videoLibraryVideo.length, 8958256);
+assert.equal(createHash("sha256").update(howItWorksVideo).digest("hex"), "18a8bcd44ef1f443837475972bce874939383c8fcab8df4a9e5cc98d2606f501");
+assert.equal(createHash("sha256").update(videoLibraryVideo).digest("hex"), "e7c0fa4ffa154b081a025f5493c3e076e24fba07535c69f9c3991df69ac3069a");
 assert.match(app, /<UnifiedHowItWorksPage setActivePage=\{setActivePage\}/);
 assert.doesNotMatch(app, /activePage === "How To Use"/);
 

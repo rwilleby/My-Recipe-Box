@@ -48,6 +48,23 @@ export const HOW_IT_WORKS_GUIDES = [
     roadmap: ["Choose a Task", "Open a Tool", "Complete Today’s Step", "Return When Ready"],
   },
   {
+    id: "video-library",
+    title: "Video Library",
+    category: "Getting Started",
+    purpose: "Find and watch the short guides used throughout Robert’s Recipe Box from one organized page.",
+    steps: [
+      "Open the Video Library from the About Us menu.",
+      "Browse the videos in their intended learning order.",
+      "Select a finished video to watch it, or use the linked page button to open the feature it explains.",
+      "Return as new guides replace the clearly marked test-pattern placeholders.",
+    ],
+    features: ["Ordered video guides", "Finished-video playback", "Test-pattern placeholders", "Links to explained pages"],
+    tip: "Use the green How It Works button for written steps whenever you prefer reading to watching a video.",
+    page: "Video Library",
+    centralAnchor: "guide-video-library",
+    video: { pageTitle: "Video Library", label: "Video Library Overview" },
+  },
+  {
     id: "browse-recipes",
     title: "Browse Recipes",
     category: "Finding Recipes",
@@ -275,6 +292,7 @@ const GUIDE_BY_ID = new Map(HOW_IT_WORKS_GUIDES.map((guide) => [guide.id, guide]
 
 const GUIDE_ID_BY_PAGE = new Map([
   ["Home", "home"],
+  ["Video Library", "video-library"],
   ["Recipes", "browse-recipes"],
   ["Vegan Recipe Library", "vegan-recipe-library"],
   ["Recipe Cards", "recipe-cards"],
