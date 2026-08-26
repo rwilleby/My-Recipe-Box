@@ -30,6 +30,7 @@ export const MEAL_BUILDER_FULL_CANVAS_MAIN_IDS = new Set(
     ...Array.from({ length: 101 }, (_, index) => `CP-${String(index + 1).padStart(3, "0")}`),
     ...Array.from({ length: 20 }, (_, index) => `SF-${String(index + 1).padStart(3, "0")}`),
     ...Array.from({ length: 44 }, (_, index) => `MX-${String(index + 1).padStart(3, "0")}`),
+    ...Array.from({ length: 60 }, (_, index) => `IT-${String(index + 1).padStart(3, "0")}`),
   ],
 );
 export const MEAL_BUILDER_SIDE_IDS = new Set(
