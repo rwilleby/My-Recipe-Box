@@ -36,7 +36,7 @@ export const MEAL_BUILDER_SIDE_IDS = new Set(
   Array.from({ length: 53 }, (_, index) => `SD-${String(index + 1).padStart(3, "0")}`),
 );
 export const MEAL_BUILDER_DIVIDED_TRAY_SIDE_IDS = new Set(
-  Array.from({ length: 52 }, (_, index) => `SD-${String(index + 2).padStart(3, "0")}`),
+  Array.from({ length: 53 }, (_, index) => `SD-${String(index + 1).padStart(3, "0")}`),
 );
 export const MEAL_BUILDER_MAIN_LAYOUTS = new Map([
   ["AM-005", "full-tray"],
