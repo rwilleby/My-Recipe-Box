@@ -24,6 +24,8 @@ assert.match(component, /Meal image coming soon/);
 assert.doesNotMatch(styles, /mealBuilderTrayFood img[^}]*transform:/);
 assert.match(styles, /mealBuilderTrayFood-side-one\.is-divided-tray-layer/);
 assert.match(styles, /mealBuilderTrayFood-side-two\.is-divided-tray-layer/);
+assert.match(styles, /mealBuilderTrayFood-side-one\.is-divided-tray-layer[^}]*clip-path:\s*inset\(21\.0866% 38\.7% 21\.2707% 37\.9% round 2\.4%\)/);
+assert.match(styles, /mealBuilderTrayFood-side-two\.is-divided-tray-layer[^}]*clip-path:\s*inset\(21\.0866% 13% 21\.2707% 61\.3% round 2\.4%\)/);
 assert.doesNotMatch(styles, /mealBuilderTrayPartition/);
 assert.match(styles, /mealBuilderTrayFood-main\.is-empty[^}]*width:\s*23\.9497%/);
 assert.match(styles, /mealBuilderTrayFood-side-one\.is-empty[^}]*left:\s*37\.9%/);
