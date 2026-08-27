@@ -14,11 +14,13 @@ assert.ok(registryStart >= 0 && registryEnd > registryStart, "Meal Builder asset
 const registrySource = source.slice(registryStart, registryEnd).replaceAll("export ", "");
 const registry = vm.runInNewContext(`(() => { ${registrySource}; return {
   mainIds: [...MEAL_BUILDER_MAIN_IDS],
+  fullCanvasMainIds: [...MEAL_BUILDER_FULL_CANVAS_MAIN_IDS],
   sideIds: [...MEAL_BUILDER_SIDE_IDS],
   layouts: [...MEAL_BUILDER_MAIN_LAYOUTS],
 }; })()`);
 
 const mainIds = new Set(registry.mainIds);
+const fullCanvasMainIds = new Set(registry.fullCanvasMainIds);
 const sideIds = new Set(registry.sideIds);
 const layouts = new Map(registry.layouts);
 const recipeIds = new Set(recipes.map((recipe) => recipe.id));
@@ -71,7 +73,7 @@ const approvedOverlaySizes = new Set([
 for (const id of diskMainIds) {
   assert.ok(recipeIds.has(id), `${id} must have a matching recipe record`);
   const info = webpInfo(path.join(mainRoot, `${id}.webp`));
-  if (/^(?:CP-(?:00[1-9]|0[1-9]\d|100|101)|SF-(?:00[1-9]|01\d|020)|MX-(?:00[1-9]|0[1-3]\d|04[0-4])|IT-(?:00[1-9]|0[1-5]\d|060))$/.test(id)) {
+  if (fullCanvasMainIds.has(id)) {
     assert.deepEqual({ width: info.width, height: info.height }, { width: 1448, height: 1086 }, `${id} must use the full divided-tray canvas`);
     continue;
   }
