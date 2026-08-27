@@ -27,10 +27,6 @@ export const MEAL_BUILDER_MAIN_IDS = new Set([
 ]);
 export const MEAL_BUILDER_FULL_CANVAS_MAIN_IDS = new Set(
   [
-    ...Array.from({ length: 78 }, (_, index) => index + 1)
-      .filter((number) => number !== 63)
-      .map((number) => `AM-${String(number).padStart(3, "0")}`),
-    ...Array.from({ length: 21 }, (_, index) => `AS-${String(index + 1).padStart(3, "0")}`),
     ...Array.from({ length: 101 }, (_, index) => `CP-${String(index + 1).padStart(3, "0")}`),
     ...Array.from({ length: 20 }, (_, index) => `SF-${String(index + 1).padStart(3, "0")}`),
     ...Array.from({ length: 44 }, (_, index) => `MX-${String(index + 1).padStart(3, "0")}`),
@@ -43,12 +39,69 @@ export const MEAL_BUILDER_SIDE_IDS = new Set(
 export const MEAL_BUILDER_DIVIDED_TRAY_SIDE_IDS = new Set(
   Array.from({ length: 53 }, (_, index) => `SD-${String(index + 1).padStart(3, "0")}`),
 );
+export const MEAL_BUILDER_POSITIONED_SIDE_TWO_IDS = new Set(
+  Array.from({ length: 53 }, (_, index) => `SD-${String(index + 1).padStart(3, "0")}`),
+);
 export const MEAL_BUILDER_MAIN_LAYOUTS = new Map([
-  ...Array.from(MEAL_BUILDER_MAIN_IDS)
-    .filter((id) => !["AS-022", "AS-023", "AS-024"].includes(id))
-    .filter((id) => !/^MX-02[5-9]$|^MX-030$/.test(id))
-    .map((id) => [id, "two-thirds"]),
-  ...Array.from({ length: 6 }, (_, index) => [`MX-${String(index + 25).padStart(3, "0")}`, "full-tray"]),
+  ["AM-005", "full-tray"],
+  ["AM-002", "two-thirds"],
+  ["AM-008", "two-thirds"],
+  ["AM-009", "two-thirds"],
+  ["AM-014", "two-thirds"],
+  ["AM-015", "two-thirds"],
+  ["AM-020", "full-tray"],
+  ["AM-073", "full-tray"],
+  ["AM-074", "full-tray"],
+  ["AM-075", "full-tray"],
+  ["AM-076", "full-tray"],
+  ["AM-077", "full-tray"],
+  ["AM-078", "full-tray"],
+  ["AS-001", "two-thirds"],
+  ["AS-002", "two-thirds"],
+  ["AS-003", "two-thirds"],
+  ["AS-004", "two-thirds"],
+  ["AS-005", "two-thirds"],
+  ["AS-006", "two-thirds"],
+  ["AS-007", "two-thirds"],
+  ["AS-008", "two-thirds"],
+  ["AS-009", "two-thirds"],
+  ["AS-010", "two-thirds"],
+  ["AS-011", "two-thirds"],
+  ["AS-012", "two-thirds"],
+  ["AS-013", "two-thirds"],
+  ["AS-014", "two-thirds"],
+  ["AS-015", "two-thirds"],
+  ["AS-016", "two-thirds"],
+  ["AS-017", "two-thirds"],
+  ["AS-018", "full-tray"],
+  ["AS-019", "full-tray"],
+  ["AS-020", "full-tray"],
+  ["AS-021", "full-tray"],
+  ...[
+    "IT-001", "IT-002", "IT-006", "IT-010", "IT-011", "IT-012", "IT-013", "IT-015", "IT-016", "IT-018",
+    "IT-019", "IT-021", "IT-022", "IT-023", "IT-024", "IT-025", "IT-026", "IT-027", "IT-028", "IT-029",
+    "IT-031", "IT-032", "IT-033", "IT-034", "IT-037", "IT-038", "IT-039", "IT-040", "IT-041", "IT-042",
+    "IT-043", "IT-044", "IT-045", "IT-046", "IT-047", "IT-048", "IT-049", "IT-050", "IT-051", "IT-052",
+    "IT-053", "IT-054", "IT-055", "IT-056", "IT-057", "IT-058", "IT-059", "IT-060",
+  ].map((id) => [id, "full-tray"]),
+  ...["SF-016", "SF-017"].map((id) => [id, "two-thirds"]),
+  ...["SF-002", "SF-003", "SF-018", "SF-020"].map((id) => [id, "full-tray"]),
+  ...["MX-004", "MX-005", "MX-008", "MX-032"].map((id) => [id, "two-thirds"]),
+  ...[
+    "MX-001", "MX-002", "MX-011", "MX-012",
+    "MX-021", "MX-022", "MX-023", "MX-024", "MX-025", "MX-026", "MX-027", "MX-028", "MX-029", "MX-030",
+    "MX-033", "MX-034", "MX-040", "MX-041", "MX-042",
+  ].map((id) => [id, "full-tray"]),
+  ...[
+    "CP-013", "CP-040", "CP-042", "CP-046", "CP-047", "CP-048", "CP-049", "CP-050", "CP-051", "CP-052",
+    "CP-055", "CP-056", "CP-066", "CP-070", "CP-071", "CP-072", "CP-077", "CP-078", "CP-079", "CP-083",
+    "CP-084", "CP-085", "CP-086", "CP-087", "CP-088", "CP-089", "CP-090", "CP-091", "CP-092", "CP-093",
+    "CP-094", "CP-095", "CP-096", "CP-097", "CP-098", "CP-099", "CP-100",
+  ].map((id) => [id, "two-thirds"]),
+  ...[
+    "CP-003", "CP-004", "CP-005", "CP-006", "CP-007", "CP-009", "CP-010", "CP-011", "CP-020", "CP-023",
+    "CP-026", "CP-027", "CP-028", "CP-041", "CP-045", "CP-065", "CP-073", "CP-074", "CP-080", "CP-081", "CP-082",
+  ].map((id) => [id, "full-tray"]),
 ]);
 const MEAL_BUILDER_LABEL_SHEETS = {
   "8163": {
@@ -193,10 +246,11 @@ function MealBuilderFoodImage({ recipe, position }) {
     : position === "side-one"
       ? "side-1-middle"
       : "side-2-right";
-  const usesDividedTrayLayer = !isMain && MEAL_BUILDER_DIVIDED_TRAY_SIDE_IDS.has(recipe.id);
+  const usesDividedTrayLayer = position === "side-one" && MEAL_BUILDER_DIVIDED_TRAY_SIDE_IDS.has(recipe.id);
+  const usesPositionedSideOverlay = position === "side-two" && MEAL_BUILDER_POSITIONED_SIDE_TWO_IDS.has(recipe.id);
   const usesFullCanvasMainLayer = isMain && MEAL_BUILDER_FULL_CANVAS_MAIN_IDS.has(recipe.id);
   return (
-    <div className={`mealBuilderTrayFood mealBuilderTrayFood-${position} mealBuilderTrayFood-recipe-${recipe.id.toLowerCase()}${usesDividedTrayLayer ? " is-divided-tray-layer" : ""}${usesFullCanvasMainLayer ? " is-full-canvas-layer" : ""}`}>
+    <div className={`mealBuilderTrayFood mealBuilderTrayFood-${position} mealBuilderTrayFood-recipe-${recipe.id.toLowerCase()}${usesDividedTrayLayer ? " is-divided-tray-layer" : ""}${usesPositionedSideOverlay ? " is-positioned-overlay" : ""}${usesFullCanvasMainLayer ? " is-full-canvas-layer" : ""}`}>
       <img src={`${import.meta.env.BASE_URL}images/build-your-own/${folder}/${recipe.id}.webp`} alt="" />
     </div>
   );
