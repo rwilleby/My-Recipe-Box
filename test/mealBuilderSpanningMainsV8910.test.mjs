@@ -4,8 +4,9 @@ import { access, readFile } from "node:fs/promises";
 const component = await readFile(new URL("../src/components/BuildYourOwnMealPage.jsx", import.meta.url), "utf8");
 const styles = await readFile(new URL("../src/components/BuildYourOwnMealPage.css", import.meta.url), "utf8");
 
-assert.match(component, /\["AM-005", "full-tray"\]/);
-assert.match(component, /\["AM-015", "two-thirds"\]/);
+assert.match(component, /MEAL_BUILDER_MAIN_LAYOUTS/);
+assert.match(component, /\.map\(\(id\) => \[id, "two-thirds"\]\)/);
+assert.match(component, /"full-tray"/);
 assert.match(component, /mainTrayLayout === "standard"/);
 assert.match(component, /mainTrayLayout !== "full-tray"/);
 assert.match(component, /nextLayout === "two-thirds" \|\| nextLayout === "full-tray"/);

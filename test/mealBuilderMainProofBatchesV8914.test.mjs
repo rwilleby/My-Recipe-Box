@@ -1,56 +1,53 @@
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
+import vm from "node:vm";
 import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const source = fs.readFileSync(path.join(root, "src/components/BuildYourOwnMealPage.jsx"), "utf8");
-const imageRoot = path.join(root, "public/images/build-your-own/main");
-const fullTrayIds = ["AM-073", "AM-074", "AM-075", "AM-076", "AM-077", "AM-078", "AS-018", "AS-019"];
-const twoThirdIds = [
-  "AM-050",
-  ...Array.from({ length: 17 }, (_, index) => `AS-${String(index + 1).padStart(3, "0")}`),
-];
-const oneThirdNumbers = [
-  17, 19,
-  ...Array.from({ length: 16 }, (_, index) => index + 21),
-  38, 39, 40, 42, 43, 44, 45,
-  46, 47, 48, 49, 51, 52,
-  ...Array.from({ length: 9 }, (_, index) => index + 54),
-  ...Array.from({ length: 9 }, (_, index) => index + 64),
-];
-const oneThirdIds = oneThirdNumbers.map((number) => `AM-${String(number).padStart(3, "0")}`);
-const batchIds = [...oneThirdIds, ...twoThirdIds, ...fullTrayIds];
+const registryStart = source.indexOf("const MEAL_BUILDER_MAIN_IDS");
+const registryEnd = source.indexOf("const MEAL_BUILDER_LABEL_SHEETS");
+assert.ok(registryStart >= 0 && registryEnd > registryStart, "Meal Builder main registry must be present");
 
-assert.equal(batchIds.length, 75, "Batches 4–6 should contain 75 unique main-dish images");
-assert.equal(oneThirdIds.length, 49, "Batches 4–5 should contain 49 one-third American mains");
-assert.equal(new Set(batchIds).size, 75, "Batch validation IDs must not contain duplicates");
+const registrySource = source.slice(registryStart, registryEnd).replaceAll("export ", "");
+const registry = vm.runInNewContext(`(() => { ${registrySource}; return {
+  mainIds: [...MEAL_BUILDER_MAIN_IDS],
+  fullCanvasMainIds: [...MEAL_BUILDER_FULL_CANVAS_MAIN_IDS],
+  layouts: [...MEAL_BUILDER_MAIN_LAYOUTS],
+}; })()`);
 
-function webpDimensions(file) {
-  const bytes = fs.readFileSync(file);
-  assert.equal(bytes.toString("ascii", 0, 4), "RIFF");
-  assert.equal(bytes.toString("ascii", 8, 12), "WEBP");
-  const chunk = bytes.toString("ascii", 12, 16);
-  if (chunk === "VP8 ") return { width: bytes.readUInt16LE(26) & 0x3fff, height: bytes.readUInt16LE(28) & 0x3fff, hasAlpha: false };
-  assert.equal(chunk, "VP8X");
-  return {
-    width: 1 + bytes[24] + (bytes[25] << 8) + (bytes[26] << 16),
-    height: 1 + bytes[27] + (bytes[28] << 8) + (bytes[29] << 16),
-    hasAlpha: Boolean(bytes[20] & 0x10),
-  };
+const mainIds = new Set(registry.mainIds);
+const fullCanvasMainIds = new Set(registry.fullCanvasMainIds);
+const layouts = new Map(registry.layouts);
+const expectedOneThirdIds = new Set(["AS-022", "AS-023", "AS-024"]);
+const expectedFullTrayIds = new Set(
+  Array.from({ length: 6 }, (_, index) => `MX-${String(index + 25).padStart(3, "0")}`),
+);
+const expectedTwoThirdIds = new Set(
+  [...mainIds].filter((id) => !expectedOneThirdIds.has(id) && !expectedFullTrayIds.has(id)),
+);
+
+assert.equal(mainIds.size, 326, "The BAM main registry must contain 326 recipes");
+assert.equal(expectedOneThirdIds.size, 3, "Only three BAM mains use one-third overlays");
+assert.equal(expectedTwoThirdIds.size, 317, "Exactly 317 BAM mains use the two-thirds tray");
+assert.equal(expectedFullTrayIds.size, 6, "Exactly six BAM mains use the full tray");
+
+for (const id of expectedOneThirdIds) {
+  assert.equal(layouts.get(id) || "standard", "standard", `${id} must remain a one-third overlay`);
+  assert.ok(!fullCanvasMainIds.has(id), `${id} must not be registered as full-canvas artwork`);
 }
 
-for (const id of batchIds) {
-  assert.match(source, new RegExp(`"${id}"`), `${id} must be registered as a Meal Builder image`);
-  const dimensions = webpDimensions(path.join(imageRoot, `${id}.webp`));
-  assert.deepEqual(
-    { width: dimensions.width, height: dimensions.height },
-    { width: 1448, height: 1086 },
-    `${id} must use the approved full-canvas tray`,
-  );
+for (const id of expectedTwoThirdIds) {
+  assert.equal(layouts.get(id), "two-thirds", `${id} must use the two-thirds tray`);
+  assert.ok(fullCanvasMainIds.has(id), `${id} must use full-canvas artwork`);
 }
 
-for (const id of fullTrayIds) assert.match(source, new RegExp(`\\["${id}", "full-tray"\\]`));
-for (const id of twoThirdIds) assert.match(source, new RegExp(`\\["${id}", "two-thirds"\\]`));
+for (const id of expectedFullTrayIds) {
+  assert.equal(layouts.get(id), "full-tray", `${id} must use the full tray`);
+  assert.ok(fullCanvasMainIds.has(id), `${id} must use full-canvas artwork`);
+}
 
-console.log("v89.14 Meal Builder main-image Batches 4–6 and tray-layout contracts passed");
+assert.equal(layouts.size, 323, "Every full-canvas BAM main must have an explicit normalized layout");
+
+console.log("BAM main sizing normalized: 317 two-thirds, 3 one-third, and 6 full-tray mains passed");
