@@ -27,6 +27,10 @@ export const MEAL_BUILDER_MAIN_IDS = new Set([
 ]);
 export const MEAL_BUILDER_FULL_CANVAS_MAIN_IDS = new Set(
   [
+    ...Array.from({ length: 78 }, (_, index) => index + 1)
+      .filter((number) => number !== 63)
+      .map((number) => `AM-${String(number).padStart(3, "0")}`),
+    ...Array.from({ length: 21 }, (_, index) => `AS-${String(index + 1).padStart(3, "0")}`),
     ...Array.from({ length: 101 }, (_, index) => `CP-${String(index + 1).padStart(3, "0")}`),
     ...Array.from({ length: 20 }, (_, index) => `SF-${String(index + 1).padStart(3, "0")}`),
     ...Array.from({ length: 44 }, (_, index) => `MX-${String(index + 1).padStart(3, "0")}`),
