@@ -50,6 +50,7 @@ export const MEAL_BUILDER_MAIN_LAYOUTS = new Map([
   ["AM-009", "two-thirds"],
   ["AM-014", "two-thirds"],
   ["AM-015", "two-thirds"],
+  ["AM-050", "two-thirds"],
   ["AM-020", "full-tray"],
   ["AM-073", "full-tray"],
   ["AM-074", "full-tray"],

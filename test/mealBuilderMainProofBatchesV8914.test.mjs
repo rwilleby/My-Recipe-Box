@@ -7,12 +7,15 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const source = fs.readFileSync(path.join(root, "src/components/BuildYourOwnMealPage.jsx"), "utf8");
 const imageRoot = path.join(root, "public/images/build-your-own/main");
 const fullTrayIds = ["AM-073", "AM-074", "AM-075", "AM-076", "AM-077", "AM-078", "AS-018", "AS-019"];
-const twoThirdIds = Array.from({ length: 17 }, (_, index) => `AS-${String(index + 1).padStart(3, "0")}`);
+const twoThirdIds = [
+  "AM-050",
+  ...Array.from({ length: 17 }, (_, index) => `AS-${String(index + 1).padStart(3, "0")}`),
+];
 const oneThirdNumbers = [
   17, 19,
   ...Array.from({ length: 16 }, (_, index) => index + 21),
   38, 39, 40, 42, 43, 44, 45,
-  ...Array.from({ length: 7 }, (_, index) => index + 46),
+  46, 47, 48, 49, 51, 52,
   ...Array.from({ length: 9 }, (_, index) => index + 54),
   ...Array.from({ length: 9 }, (_, index) => index + 64),
 ];
@@ -20,7 +23,7 @@ const oneThirdIds = oneThirdNumbers.map((number) => `AM-${String(number).padStar
 const batchIds = [...oneThirdIds, ...twoThirdIds, ...fullTrayIds];
 
 assert.equal(batchIds.length, 75, "Batches 4–6 should contain 75 unique main-dish images");
-assert.equal(oneThirdIds.length, 50, "Batches 4–5 should contain 50 one-third American mains");
+assert.equal(oneThirdIds.length, 49, "Batches 4–5 should contain 49 one-third American mains");
 assert.equal(new Set(batchIds).size, 75, "Batch validation IDs must not contain duplicates");
 
 function webpDimensions(file) {
