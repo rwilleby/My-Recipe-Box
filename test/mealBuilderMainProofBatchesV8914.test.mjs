@@ -6,11 +6,6 @@ import { fileURLToPath } from "node:url";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const source = fs.readFileSync(path.join(root, "src/components/BuildYourOwnMealPage.jsx"), "utf8");
 const imageRoot = path.join(root, "public/images/build-your-own/main");
-const approvedOverlaySizes = new Set([
-  "340x610", "359x627", "471x626", "628x627",
-  "750x626", "858x610", "886x627", "1038x626",
-]);
-
 const fullTrayIds = ["AM-073", "AM-074", "AM-075", "AM-076", "AM-077", "AM-078", "AS-018", "AS-019"];
 const twoThirdIds = Array.from({ length: 17 }, (_, index) => `AS-${String(index + 1).padStart(3, "0")}`);
 const oneThirdNumbers = [
@@ -45,8 +40,11 @@ function webpDimensions(file) {
 for (const id of batchIds) {
   assert.match(source, new RegExp(`"${id}"`), `${id} must be registered as a Meal Builder image`);
   const dimensions = webpDimensions(path.join(imageRoot, `${id}.webp`));
-  assert.ok(approvedOverlaySizes.has(`${dimensions.width}x${dimensions.height}`), `${id} must use an approved live overlay canvas`);
-  assert.ok(dimensions.hasAlpha, `${id} must retain transparency`);
+  assert.deepEqual(
+    { width: dimensions.width, height: dimensions.height },
+    { width: 1448, height: 1086 },
+    `${id} must use the approved full-canvas tray`,
+  );
 }
 
 for (const id of fullTrayIds) assert.match(source, new RegExp(`\\["${id}", "full-tray"\\]`));
