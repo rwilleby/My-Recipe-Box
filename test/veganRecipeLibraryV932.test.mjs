@@ -14,6 +14,7 @@ assert.match(app, /src="images\/heroes\/vegan-recipe-library-hero-1440x464\.webp
 assert.match(guides, /\["Vegan Recipe Library", "vegan-recipe-library"\]/);
 assert.match(app, /recipe\.isVegan === true && recipe\.veganStatus === "verified"/);
 assert.match(app, /No vegan recipes match your current selections\./);
+assert.match(app, /code === "VG" \? "images\/categories\/VG\.webp"/);
 assert.match(routes, /"Vegan Recipe Library": "\/vegan-recipes\/"/);
 
 const veganRecipes = recipes.filter((recipe) => recipe.isVegan === true && recipe.veganStatus === "verified");
@@ -39,5 +40,9 @@ for (let index = 1; index <= 30; index += 1) {
   assert.ok((await stat(asset)).size > 0, `${code}.webp must not be empty`);
   assert.match(veganData, new RegExp(`"${code}"`));
 }
+
+const veganIcon = new URL("../public/images/categories/VG.webp", import.meta.url);
+await access(veganIcon);
+assert.ok((await stat(veganIcon)).size > 0, "VG.webp must not be empty");
 
 console.log("Vegan Recipe Library v93.2 tests passed.");

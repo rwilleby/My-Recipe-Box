@@ -40,7 +40,7 @@ const baseCategories = [
   { id: "SF", name: "Seafood Dishes", count: 0, icon: "🐟", iconImage: "images/categories/SF.webp" },
   { id: "SG", name: "Smoked & Grilled Meats", count: 0, icon: "🔥", iconImage: "images/categories/SG.webp" },
   { id: "SW", name: "Sandwiches", count: 0, icon: "🥪", iconImage: "images/categories/SW.webp" },
-  { id: "VG", name: "Vegan Main Courses", count: 0, icon: "🌱", iconImage: "" },
+  { id: "VG", name: "Vegan Main Courses", count: 0, icon: "🌱", iconImage: "images/categories/VG.webp" },
 ];
 
 const CATEGORY_INFO = Object.fromEntries(baseCategories.map((category) => [category.id, category]));
