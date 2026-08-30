@@ -77,9 +77,10 @@ const recentReleaseTests = readdirSync(resolve("test"))
   .filter((file) => file !== "homeMainPageEditsV850.test.mjs")
   .map((file) => `test/${file}`);
 files.push(...recentReleaseTests);
+files.push("test/mealBuilderCurrent.test.mjs");
 
 const uniqueFiles = [...new Set(files)].filter(
-  (file) => !supersededContracts.has(file),
+  (file) => !supersededContracts.has(file) && !/^test\/mealBuilder.*V\d+.*\.test\.mjs$/.test(file),
 );
 const failures = [];
 for (const [index, file] of uniqueFiles.entries()) {
