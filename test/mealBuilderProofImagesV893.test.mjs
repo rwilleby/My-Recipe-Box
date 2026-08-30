@@ -28,10 +28,10 @@ assert.match(styles, /mealBuilderTrayFood-side-one\.is-divided-tray-layer[^}]*cl
 assert.match(styles, /mealBuilderTrayFood-side-two\.is-divided-tray-layer[^}]*clip-path:\s*inset\(15% 12% 15% 63\.5%\)/);
 assert.doesNotMatch(styles, /mealBuilderTrayFood-side-(?:one|two)\.is-divided-tray-layer[^}]*transform:/);
 assert.doesNotMatch(styles, /mealBuilderTrayPartition/);
-assert.match(styles, /mealBuilderTrayFood-main\.is-empty[^}]*width:\s*32\.5276%/);
-assert.match(styles, /mealBuilderTrayFood-side-one\.is-empty[^}]*left:\s*46\.5470%[^}]*width:\s*19\.1989%/);
-assert.match(styles, /mealBuilderTrayFood-side-two\.is-empty[^}]*left:\s*65\.8150%[^}]*width:\s*19\.8204%/);
-assert.match(styles, /mealBuilderTrayFood\.is-empty[^}]*top:\s*21\.0866%[^}]*height:\s*57\.6427%/);
+assert.match(styles, /mealBuilderTrayFood-main\.is-empty[^}]*width:\s*23\.9497%/);
+assert.match(styles, /mealBuilderTrayFood-side-one\.is-empty[^}]*left:\s*48\.5%[^}]*width:\s*14\.5%/);
+assert.match(styles, /mealBuilderTrayFood-side-two\.is-empty[^}]*left:\s*64%[^}]*width:\s*14\.5%/);
+assert.match(styles, /mealBuilderTrayFood\.is-empty[^}]*top:\s*22\.5%[^}]*height:\s*52\.5%/);
 assert.match(styles, /mealBuilderTrayPrimary[^}]*aspect-ratio:\s*1448\/1086/);
 assert.match(styles, /mealBuilderTray\.mealBuilderTrayPrimary > \.mealBuilderTrayBase,[\s\S]*inset:\s*0[^}]*height:\s*100%[^}]*transform:\s*none/);
 
