@@ -16191,6 +16191,87 @@ button.browseRecipeWideFooterAction:focus-visible,
 
 .dinnerFavoriteFilter button.isActive {border-color: #efb4bf; background: #fff7f8; color: #e94f6d;}
 
+/* v95.5 Complete Dinners: compact browsing with one selection-based detail. */
+.compactDinnerGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin: 14px 0 0;
+}
+
+.compactDinnerCard {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #d8ded7;
+  border-radius: 15px;
+  background: #fff;
+  box-shadow: 0 7px 18px rgba(35, 48, 39, .07);
+}
+
+.compactDinnerCard.isSelected {border-color: #80994A; box-shadow: 0 0 0 3px rgba(128, 153, 74, .18), 0 8px 20px rgba(35, 48, 39, .1);}
+
+.compactDinnerCardMain {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
+  gap: 0;
+  padding: 0;
+  border: 0;
+  background: #fff;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.compactDinnerCardMain:focus-visible {outline: 3px solid rgba(128, 153, 74, .55); outline-offset: -3px;}
+.compactDinnerCardMain:hover .compactDinnerCardAction {background: #70883f;}
+
+.compactDinnerCardMedia {position: relative; min-height: 178px; overflow: hidden; background: #f2efe8;}
+.compactDinnerCardMedia img {width: 100%; height: 100%; display: block; object-fit: cover;}
+.compactDinnerCardPlaceholder {height: 100%; display: grid; place-items: center; padding: 16px; color: #6b7469; font: 700 14px/1.3 Inter, Arial, sans-serif; text-align: center;}
+.compactDinnerCardNumber {position: absolute; left: 8px; bottom: 8px; padding: 5px 8px; border-radius: 999px; background: rgba(29, 90, 54, .92); color: #fff; font: 800 11px/1 Inter, Arial, sans-serif;}
+
+.compactDinnerCardCopy {min-width: 0; display: flex; flex-direction: column; padding: 15px 42px 13px 15px;}
+.compactDinnerCardCopy > strong {color: #172033; font: 700 19px/1.15 Georgia, "Times New Roman", serif;}
+.compactDinnerCardMainDish {margin-top: 7px; color: #1d5a36; font: 800 13px/1.25 Inter, Arial, sans-serif;}
+.compactDinnerCardSides {margin-top: 4px; color: #667085; font: 600 12px/1.35 Inter, Arial, sans-serif;}
+.compactDinnerCardFacts {display: flex; flex-wrap: wrap; gap: 5px; margin-top: auto; padding-top: 10px;}
+.compactDinnerCardFacts > span {padding: 4px 6px; border-radius: 6px; background: #f3f5ee; color: #53633b; font: 800 10px/1 Inter, Arial, sans-serif;}
+.compactDinnerCardAction {align-self: flex-start; margin-top: 9px; padding: 7px 10px; border-radius: 7px; background: #80994A; color: #fff; font: 800 11px/1 Inter, Arial, sans-serif;}
+
+.compactDinnerFavorite {position: absolute; z-index: 2; top: 9px; right: 9px; width: 32px; height: 32px; display: grid; place-items: center; padding: 0; border: 1px solid #d8ded7; border-radius: 50%; background: rgba(255,255,255,.94); color: #aeb7c2; font-size: 18px; cursor: pointer;}
+.compactDinnerFavorite.saved {border-color: #efb4bf; background: #fff7f8; color: #e94f6d;}
+
+.selectedCompleteDinnerDetail {margin: 16px 0 22px; padding: 12px; border: 2px solid #80994A; border-radius: 17px; background: #f7f8f1; scroll-margin-top: 20px;}
+.selectedCompleteDinnerHeading {display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 2px 4px 11px;}
+.selectedCompleteDinnerHeading div span,
+.selectedCompleteDinnerHeading div strong {display: block;}
+.selectedCompleteDinnerHeading div span {color: #64713f; font: 800 11px/1 Inter, Arial, sans-serif; letter-spacing: .05em; text-transform: uppercase;}
+.selectedCompleteDinnerHeading div strong {margin-top: 4px; color: #172033; font: 700 22px/1.15 Georgia, "Times New Roman", serif;}
+.selectedCompleteDinnerHeading button {min-height: 38px; padding: 0 13px; border: 1px solid #bfc9ae; border-radius: 8px; background: #fff; color: #1d5a36; font: 800 12px/1 Inter, Arial, sans-serif; cursor: pointer;}
+
+.completeDinnerShowMore {display: grid; justify-items: center; gap: 7px; margin: 22px 0 8px;}
+.completeDinnerShowMore button {min-width: 230px; min-height: 46px; padding: 0 22px; border: 1px solid #70883f; border-radius: 10px; background: #80994A; color: #fff; font: 800 14px/1 Inter, Arial, sans-serif; cursor: pointer;}
+.completeDinnerShowMore button:hover,
+.completeDinnerShowMore button:focus-visible {background: #70883f;}
+.completeDinnerShowMore span {color: #6b7480; font: 700 12px/1 Inter, Arial, sans-serif;}
+
+@media (max-width: 1150px) {.compactDinnerGrid {grid-template-columns: repeat(2, minmax(0, 1fr));}}
+@media (max-width: 720px) {
+  .compactDinnerGrid {grid-template-columns: 1fr;}
+  .compactDinnerCardMain {grid-template-columns: 128px minmax(0, 1fr);}
+  .compactDinnerCardMedia {min-height: 168px;}
+  .selectedCompleteDinnerHeading {align-items: flex-start;}
+}
+@media (max-width: 430px) {
+  .compactDinnerCardMain {grid-template-columns: 1fr;}
+  .compactDinnerCardMedia {height: 190px; min-height: 0;}
+  .compactDinnerCardCopy {padding-right: 15px;}
+  .selectedCompleteDinnerHeading {display: grid;}
+}
+
 @media (max-width: 1050px){.dinnerCategorySegmented {grid-template-columns: repeat(4, minmax(0, 1fr));}
 
 .dinnerCombinationToolbarCompact {grid-template-columns: repeat(3, minmax(0, 1fr)) !important;}}

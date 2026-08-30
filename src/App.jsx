@@ -13513,6 +13513,63 @@ function formatDinnerLastMade(value) {
   return date.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
 }
 
+const COMPLETE_DINNER_BATCH_SIZE = 12;
+
+function CompactDinnerCard({ meal, isSelected, onSelect, favorites, toggleFavorite }) {
+  const imageCandidates = dinnerMealImageCandidates(meal);
+  const [imageIndex, setImageIndex] = useState(0);
+  const activeImage = imageCandidates[imageIndex] || "";
+  const sideNames = (meal.sides || []).filter(Boolean).map((side) => side.name);
+
+  return (
+    <article className={`compactDinnerCard${isSelected ? " isSelected" : ""}`}>
+      <button
+        type="button"
+        className="compactDinnerCardMain"
+        onClick={() => onSelect(meal.id)}
+        aria-expanded={isSelected}
+        aria-controls="selected-complete-dinner-detail"
+      >
+        <span className="compactDinnerCardMedia">
+          {activeImage ? (
+            <img
+              src={`${import.meta.env.BASE_URL}${activeImage}`}
+              alt=""
+              loading="lazy"
+              decoding="async"
+              onError={() => setImageIndex((current) => current + 1)}
+            />
+          ) : (
+            <span className="compactDinnerCardPlaceholder" aria-hidden="true">Complete Dinner</span>
+          )}
+          <span className="compactDinnerCardNumber">Meal #{meal.number}</span>
+        </span>
+        <span className="compactDinnerCardCopy">
+          <strong>{meal.title}</strong>
+          <span className="compactDinnerCardMainDish">{meal.mainDish}</span>
+          <span className="compactDinnerCardSides">{sideNames.join(" · ") || "Sides not selected"}</span>
+          <span className="compactDinnerCardFacts">
+            <span>{meal.calories || "—"} cal</span>
+            <span>{meal.protein || "—"}g protein</span>
+            <span>MB {getComboMealBalanceScore(meal)}</span>
+          </span>
+          <span className="compactDinnerCardAction">{isSelected ? "Details Open" : "View Dinner Details"}</span>
+        </span>
+      </button>
+      {typeof toggleFavorite === "function" && (
+        <button
+          type="button"
+          className={`compactDinnerFavorite${Array.isArray(favorites) && favorites.includes(meal.id) ? " saved" : ""}`}
+          onClick={() => toggleFavorite(meal.id)}
+          aria-label={Array.isArray(favorites) && favorites.includes(meal.id) ? `Remove ${meal.title} from favorites` : `Add ${meal.title} to favorites`}
+        >
+          <span aria-hidden="true">♥</span>
+        </button>
+      )}
+    </article>
+  );
+}
+
 function DinnerCombinationCard({ meal, plan = emptyTwoWeekPlan(), onAddMealToPlan, onViewRelatedMeal, openRecipeCard, favorites, toggleFavorite }) {
   const preparedRequirements = getComboPreparedRequirements(meal);
   const relatedDinners = useMemo(
@@ -14102,6 +14159,8 @@ function DinnerCombinationsPage({ setActivePage, setFilter, plan, setPlan, openR
   const [calorieRange, setCalorieRange] = useState("all");
   const [favoriteOnly, setFavoriteOnly] = useState(false);
   const [dinnerCategory, setDinnerCategory] = useState("american");
+  const [visibleDinnerCount, setVisibleDinnerCount] = useState(COMPLETE_DINNER_BATCH_SIZE);
+  const [selectedDinnerId, setSelectedDinnerId] = useState("");
 
   useEffect(() => {
     if (!targetMealId) return;
@@ -14116,6 +14175,8 @@ function DinnerCombinationsPage({ setActivePage, setFilter, plan, setPlan, openR
     setHigherProteinOnly(false);
     setSortMode("meal-number");
     setSearchTerm(targetMealId);
+    setSelectedDinnerId(targetMealId);
+    setVisibleDinnerCount(COMPLETE_DINNER_BATCH_SIZE);
     setTargetMealId?.("");
     window.requestAnimationFrame(() => {
       document.querySelector(".dinnerCombinationsPage")?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -14271,9 +14332,28 @@ function DinnerCombinationsPage({ setActivePage, setFilter, plan, setPlan, openR
     setHigherProteinOnly(false);
     setSortMode("meal-number");
     setSearchTerm(mealId);
+    setSelectedDinnerId(mealId);
+    setVisibleDinnerCount(COMPLETE_DINNER_BATCH_SIZE);
 
     window.requestAnimationFrame(() => {
       document.querySelector(".dinnerCombinationsPage")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }
+
+  useEffect(() => {
+    setVisibleDinnerCount(COMPLETE_DINNER_BATCH_SIZE);
+    setSelectedDinnerId("");
+  }, [calorieRange, collectionFilter, cookingMethodFilter, cuisineFilter, favoriteOnly, freezerFilter, higherProteinOnly, lowerCalorieOnly, mealBalanceFilter, proteinFilter, sideFilter, sortMode]);
+
+  const visibleMeals = filteredMeals.slice(0, visibleDinnerCount);
+  const selectedDinner = filteredMeals.find((meal) =>
+    [meal.id, meal.rfisId, meal.code].filter(Boolean).includes(selectedDinnerId)
+  ) || null;
+
+  function selectDinnerDetails(mealId) {
+    setSelectedDinnerId((current) => current === mealId ? "" : mealId);
+    window.requestAnimationFrame(() => {
+      document.getElementById("selected-complete-dinner-detail")?.scrollIntoView({ behavior: "smooth", block: "start" });
     });
   }
 
@@ -14328,7 +14408,11 @@ function DinnerCombinationsPage({ setActivePage, setFilter, plan, setPlan, openR
           <input
             type="search"
             value={searchTerm}
-            onChange={(event) => setSearchTerm(event.target.value)}
+            onChange={(event) => {
+              setSearchTerm(event.target.value);
+              setSelectedDinnerId("");
+              setVisibleDinnerCount(COMPLETE_DINNER_BATCH_SIZE);
+            }}
             placeholder="Search dinners..."
           />
         </label>
@@ -14393,27 +14477,54 @@ function DinnerCombinationsPage({ setActivePage, setFilter, plan, setPlan, openR
 
       <div className="dinnerCombinationResultsBar">
         <strong>{filteredMeals.length}</strong>
-        <span>{filteredMeals.length === 1 ? "Complete Dinner" : "Complete Dinners"} shown</span>
+        <span>{filteredMeals.length === 1 ? "Complete Dinner" : "Complete Dinners"} found · showing {Math.min(visibleDinnerCount, filteredMeals.length)}</span>
       </div>
 
       {filteredMeals.length > 0 ? (
-        <section
-          className="dinnerCombinationGrid dinnerCombinationGrid--grid"
-          aria-label="Dinner combination results"
-        >
-          {filteredMeals.map((meal) => (
-            <DinnerCombinationCard
-              key={meal.id}
-              meal={meal}
-              plan={plan}
-              onAddMealToPlan={addDinnerMealToPlan}
-              onViewRelatedMeal={viewRelatedDinner}
-              openRecipeCard={openRecipeCard}
-              favorites={favorites}
-              toggleFavorite={toggleFavorite}
-            />
-          ))}
-        </section>
+        <>
+          {selectedDinner && (
+            <section id="selected-complete-dinner-detail" className="selectedCompleteDinnerDetail" aria-label={`Details for ${selectedDinner.title}`}>
+              <div className="selectedCompleteDinnerHeading">
+                <div>
+                  <span>Selected Complete Dinner</span>
+                  <strong>{selectedDinner.title}</strong>
+                </div>
+                <button type="button" onClick={() => setSelectedDinnerId("")} aria-label="Close selected dinner details">Close Details ×</button>
+              </div>
+              <DinnerCombinationCard
+                meal={selectedDinner}
+                plan={plan}
+                onAddMealToPlan={addDinnerMealToPlan}
+                onViewRelatedMeal={viewRelatedDinner}
+                openRecipeCard={openRecipeCard}
+                favorites={favorites}
+                toggleFavorite={toggleFavorite}
+              />
+            </section>
+          )}
+
+          <section className="compactDinnerGrid" aria-label="Complete Dinner results">
+            {visibleMeals.map((meal) => (
+              <CompactDinnerCard
+                key={meal.id}
+                meal={meal}
+                isSelected={meal.id === selectedDinnerId}
+                onSelect={selectDinnerDetails}
+                favorites={favorites}
+                toggleFavorite={toggleFavorite}
+              />
+            ))}
+          </section>
+
+          {visibleDinnerCount < filteredMeals.length && (
+            <div className="completeDinnerShowMore">
+              <button type="button" onClick={() => setVisibleDinnerCount((count) => count + COMPLETE_DINNER_BATCH_SIZE)}>
+                Show More Dinners
+              </button>
+              <span>{filteredMeals.length - visibleDinnerCount} remaining</span>
+            </div>
+          )}
+        </>
       ) : (
         <section className="dinnerCombinationEmpty">
           <h2>No Complete Dinners found</h2>
