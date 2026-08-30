@@ -31,9 +31,10 @@
 .mealBuilderTrayInterior .mealBuilderTrayFood-main.is-full-canvas-layer { top: 0; left: 0; width: 100%; height: 100%; }
 .mealBuilderTrayFood-main.is-full-canvas-layer img { top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; transform: none; }
 .mealBuilderTray:not(.mealBuilderLabelTray) .mealBuilderTrayRim { display: none; }
-.mealBuilderTrayInterior.is-standard .mealBuilderTrayFood-main.is-empty { left: 13.9503%; width: 23.9497%; }
-.mealBuilderTrayFood-side-one.is-empty { left: 37.9%; width: 23.4%; }
-.mealBuilderTrayFood-side-two.is-empty { left: 61.3%; width: 25.7%; }
+.mealBuilderTrayInterior.is-standard .mealBuilderTrayFood-main.is-empty { left: 13.9503%; width: 32.5276%; }
+.mealBuilderTrayFood-side-one.is-empty { left: 46.5470%; width: 19.1989%; }
+.mealBuilderTrayFood-side-two.is-empty { left: 65.8150%; width: 19.8204%; }
+.mealBuilderTrayInterior.is-two-thirds .mealBuilderTrayFood-side-one { display: none; }
 .mealBuilderTrayFood.is-empty { top: 21.0866%; height: 57.6427%; display: grid; place-items: center; padding: 12px; color: rgba(68,79,69,.68); background: linear-gradient(135deg,rgba(255,255,255,.56),rgba(238,236,229,.54)); text-align: center; }
 .mealBuilderTrayFood.is-empty span { max-width: 90px; font: 800 clamp(10px,1vw,14px)/1.2 Inter,Arial,sans-serif; text-transform: uppercase; letter-spacing: .04em; }
 .mealBuilderTrayFood.is-unavailable span { max-width: 105px; }
