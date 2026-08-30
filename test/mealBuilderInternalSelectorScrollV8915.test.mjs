@@ -40,7 +40,7 @@ for (const category of ["AM", "AS", "HB", "IT", "MX", "SF", "SG", "CP"]) assert.
 for (const category of ["CS", "DM", "HBP", "QP", "SW"]) assert.doesNotMatch(jsx.slice(0, jsx.indexOf("const MEAL_BUILDER_MAIN_IDS")), new RegExp(`\\["${category}",`));
 assert.match(jsx, /mealBuilderSelectedDish/);
 assert.match(css, /\.mealBuilderSelectedDish\s*\{[^}]*aspect-ratio:\s*16\/9/);
-assert.match(css, /\.mealBuilderTrayFood\.is-empty\s*\{[^}]*top:\s*21\.0866%[^}]*height:\s*57\.6427%/);
+assert.match(css, /\.mealBuilderTrayFood\.is-empty\s*\{[^}]*top:\s*22\.5%[^}]*height:\s*52\.5%/);
 assert.match(jsx, /className="mealBuilderSelectedDish has-selection" onClick=\{\(\) => onSelect\(""\)\}/);
 assert.match(css, /\.buildYourOwnMealIntro p \+ p\s*\{[^}]*margin-top:\s*0/);
 assert.doesNotMatch(css, /\.mealBuilderWorkspaceGrid\s*\{[^}]*grid-template-columns:\s*1fr\s*;/);
