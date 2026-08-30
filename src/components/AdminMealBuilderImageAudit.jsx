@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import {
   MAIN_CATEGORIES,
+  SIDE_CATEGORIES,
   MEAL_BUILDER_MAIN_IDS,
   MEAL_BUILDER_MAIN_LAYOUTS,
   MEAL_BUILDER_SIDE_IDS,
@@ -71,7 +72,7 @@ function AuditCard({ item, review, onReview }) {
     <article className={`mealBuilderAuditCard${stateClass}`}>
       <AssetProbe src={src} onResult={setAssetInfo} />
       <div className="mealBuilderAuditTray">
-        <MealBuilderTrayPreview {...previewProps} mainTrayLayout={layout} />
+        <MealBuilderTrayPreview {...previewProps} mainTrayLayout={layout} suppressEmptySlots />
       </div>
       <header>
         <div><strong>{item.id}</strong><span>{recipeTitle(item.recipe)}</span></div>
@@ -194,7 +195,7 @@ export default function AdminMealBuilderImageAudit({ recipes = [], onClose }) {
 
       <section className="mealBuilderAuditFilters" aria-label="Audit filters">
         <label><span>Search</span><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Recipe code or name" /></label>
-        <label><span>Category</span><select value={category} onChange={(event) => setCategory(event.target.value)}><option value="ALL">All Categories</option>{(kind === "main" ? MAIN_CATEGORIES : [["SD", "Side Dishes"]]).map(([code, name]) => <option key={code} value={code}>{name}</option>)}</select></label>
+        <label><span>Category</span><select value={category} onChange={(event) => setCategory(event.target.value)}><option value="ALL">All Categories</option>{(kind === "main" ? MAIN_CATEGORIES : SIDE_CATEGORIES).map(([code, name]) => <option key={code} value={code}>{name}</option>)}</select></label>
         {kind === "main" && <label><span>Tray Layout</span><select value={layout} onChange={(event) => setLayout(event.target.value)}><option value="ALL">All Layouts</option><option value="standard">1/3 Main</option><option value="two-thirds">2/3 Main</option><option value="full-tray">Full Tray Main</option></select></label>}
         <label><span>Review Status</span><select value={reviewFilter} onChange={(event) => setReviewFilter(event.target.value)}><option value="ALL">All Statuses</option><option value="unreviewed">Unreviewed</option><option value="pass">Passed</option><option value="needs-fix">Needs Correction</option></select></label>
       </section>

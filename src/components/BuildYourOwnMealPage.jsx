@@ -6,7 +6,7 @@ export const MAIN_CATEGORIES = [
   ["AM", "American"], ["AS", "Asian"], ["HB", "Hamburgers"], ["IT", "Italian"],
   ["MX", "Mexican"], ["SF", "Seafood"], ["SG", "Meats"], ["CP", "Crock Pot Meals"],
 ];
-const SIDE_CATEGORIES = [["SD", "Side Dishes"]];
+export const SIDE_CATEGORIES = [["SD", "Side Dishes"]];
 
 export const MEAL_BUILDER_MAIN_IDS = new Set([
   "AM-001", "AM-002", "AM-003", "AM-004", "AM-005", "AM-006", "AM-007", "AM-008", "AM-009", "AM-010",
@@ -210,14 +210,19 @@ function MealBuilderFoodImage({ recipe, position }) {
   );
 }
 
-export function MealBuilderTrayPreview({ mainRecipe, sideOneRecipe, sideTwoRecipe, mainTrayLayout, className = "" }) {
+export function MealBuilderTrayPreview({ mainRecipe, sideOneRecipe, sideTwoRecipe, mainTrayLayout, className = "", suppressEmptySlots = false }) {
   return (
     <div className={`mealBuilderTray${className ? ` ${className}` : ""}`} aria-label="Preview of the selected main dish and two sides">
       <img className="mealBuilderTrayBase" src={`${import.meta.env.BASE_URL}images/meal-builder/meal-builder-tray-base.webp`} alt="Empty white three-compartment meal-prep tray" />
       <div className={`mealBuilderTrayInterior is-${mainTrayLayout}`} aria-hidden="true">
-        <MealBuilderFoodImage recipe={mainRecipe} position="main" />
-        {mainTrayLayout === "standard" && <MealBuilderFoodImage recipe={sideOneRecipe} position="side-one" />}
-        {mainTrayLayout !== "full-tray" && <MealBuilderFoodImage recipe={sideTwoRecipe} position="side-two" />}
+        {!suppressEmptySlots && <>
+          <MealBuilderFoodImage recipe={mainRecipe} position="main" />
+          {mainTrayLayout === "standard" && <MealBuilderFoodImage recipe={sideOneRecipe} position="side-one" />}
+          {mainTrayLayout !== "full-tray" && <MealBuilderFoodImage recipe={sideTwoRecipe} position="side-two" />}
+        </>}
+        {suppressEmptySlots && mainRecipe && <MealBuilderFoodImage recipe={mainRecipe} position="main" />}
+        {suppressEmptySlots && mainTrayLayout === "standard" && sideOneRecipe && <MealBuilderFoodImage recipe={sideOneRecipe} position="side-one" />}
+        {suppressEmptySlots && mainTrayLayout !== "full-tray" && sideTwoRecipe && <MealBuilderFoodImage recipe={sideTwoRecipe} position="side-two" />}
       </div>
       <div className="mealBuilderTrayRim" aria-hidden="true" />
     </div>
