@@ -20,22 +20,28 @@ const registry = vm.runInNewContext(`(() => { ${registrySource}; return {
 const mainIds = new Set(registry.mainIds);
 const fullCanvasMainIds = new Set(registry.fullCanvasMainIds);
 const layouts = new Map(registry.layouts);
-const expectedOneThirdIds = new Set(["AS-022", "AS-023", "AS-024"]);
+const expectedStandardIds = new Set([
+  "AS-022", "AS-023", "AS-024",
+  ...Array.from({ length: 60 }, (_, index) => `IT-${String(index + 1).padStart(3, "0")}`),
+  ...Array.from({ length: 20 }, (_, index) => `SF-${String(index + 1).padStart(3, "0")}`),
+  ...[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 21, 22, 23, 24, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44]
+    .map((number) => `MX-${String(number).padStart(3, "0")}`),
+]);
 const expectedFullTrayIds = new Set(
   Array.from({ length: 6 }, (_, index) => `MX-${String(index + 25).padStart(3, "0")}`),
 );
 const expectedTwoThirdIds = new Set(
-  [...mainIds].filter((id) => !expectedOneThirdIds.has(id) && !expectedFullTrayIds.has(id)),
+  [...mainIds].filter((id) => !expectedStandardIds.has(id) && !expectedFullTrayIds.has(id)),
 );
 
 assert.equal(mainIds.size, 326, "The BAM main registry must contain 326 recipes");
-assert.equal(expectedOneThirdIds.size, 3, "Only three BAM mains use one-third overlays");
-assert.equal(expectedTwoThirdIds.size, 317, "Exactly 317 BAM mains use the two-thirds tray");
+assert.equal(expectedStandardIds.size, 112, "Exactly 112 BAM mains use the standard three-compartment tray");
+assert.equal(expectedTwoThirdIds.size, 208, "Exactly 208 BAM mains use the two-thirds tray");
 assert.equal(expectedFullTrayIds.size, 6, "Exactly six BAM mains use the full tray");
 
-for (const id of expectedOneThirdIds) {
-  assert.equal(layouts.get(id) || "standard", "standard", `${id} must remain a one-third overlay`);
-  assert.ok(!fullCanvasMainIds.has(id), `${id} must not be registered as full-canvas artwork`);
+for (const id of expectedStandardIds) {
+  assert.equal(layouts.get(id) || "standard", "standard", `${id} must use the standard three-compartment tray`);
+  if (!["AS-022", "AS-023", "AS-024"].includes(id)) assert.ok(fullCanvasMainIds.has(id), `${id} must use full-canvas artwork`);
 }
 
 for (const id of expectedTwoThirdIds) {
@@ -48,6 +54,6 @@ for (const id of expectedFullTrayIds) {
   assert.ok(fullCanvasMainIds.has(id), `${id} must use full-canvas artwork`);
 }
 
-assert.equal(layouts.size, 323, "Every full-canvas BAM main must have an explicit normalized layout");
+assert.equal(layouts.size, 214, "Only two-thirds and full-tray BAM mains need explicit layout entries");
 
-console.log("BAM main sizing normalized: 317 two-thirds, 3 one-third, and 6 full-tray mains passed");
+console.log("BAM main sizing passed: 112 standard, 208 two-thirds, and 6 full-tray mains");

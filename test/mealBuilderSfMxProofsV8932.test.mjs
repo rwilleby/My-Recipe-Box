@@ -7,11 +7,12 @@ const component = fs.readFileSync(new URL("../src/components/BuildYourOwnMealPag
 const expectedLayouts = new Map();
 for (let number = 1; number <= 20; number += 1) {
   const id = `SF-${String(number).padStart(3, "0")}`;
-  expectedLayouts.set(id, "two-thirds");
+  expectedLayouts.set(id, "standard");
 }
+const standardMxNumbers = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 21, 22, 23, 24, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44]);
 for (let number = 1; number <= 44; number += 1) {
   const id = `MX-${String(number).padStart(3, "0")}`;
-  expectedLayouts.set(id, number >= 25 && number <= 30 ? "full-tray" : "two-thirds");
+  expectedLayouts.set(id, number >= 25 && number <= 30 ? "full-tray" : standardMxNumbers.has(number) ? "standard" : "two-thirds");
 }
 
 const registryStart = component.indexOf("const MEAL_BUILDER_MAIN_IDS");
@@ -33,7 +34,7 @@ for (const [id, layout] of expectedLayouts) {
   const bytes = fs.readFileSync(new URL(`../public/images/build-your-own/main/${fileName}`, import.meta.url));
   const size = readVp8xSize(bytes, fileName);
   assert.deepEqual({ width: size.width, height: size.height }, { width: 1448, height: 1086 }, `${fileName} must use the approved full tray canvas`);
-  assert.equal(actualLayouts.get(id), layout, `${id} must use the audited ${layout} layout`);
+  assert.equal(actualLayouts.get(id) || "standard", layout, `${id} must use the audited ${layout} layout`);
 }
 
 assert.match(component, /Array\.from\(\{ length: 20 \}[^\n]+`SF-/);

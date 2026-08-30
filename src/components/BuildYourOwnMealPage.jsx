@@ -43,9 +43,16 @@ export const MEAL_BUILDER_SIDE_IDS = new Set(
 export const MEAL_BUILDER_DIVIDED_TRAY_SIDE_IDS = new Set(
   Array.from({ length: 53 }, (_, index) => `SD-${String(index + 1).padStart(3, "0")}`),
 );
+export const MEAL_BUILDER_STANDARD_FULL_CANVAS_MAIN_IDS = new Set([
+  ...Array.from({ length: 60 }, (_, index) => `IT-${String(index + 1).padStart(3, "0")}`),
+  ...Array.from({ length: 20 }, (_, index) => `SF-${String(index + 1).padStart(3, "0")}`),
+  ...[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 21, 22, 23, 24, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44]
+    .map((number) => `MX-${String(number).padStart(3, "0")}`),
+]);
 export const MEAL_BUILDER_MAIN_LAYOUTS = new Map([
   ...Array.from(MEAL_BUILDER_MAIN_IDS)
     .filter((id) => !["AS-022", "AS-023", "AS-024"].includes(id))
+    .filter((id) => !MEAL_BUILDER_STANDARD_FULL_CANVAS_MAIN_IDS.has(id))
     .filter((id) => !/^MX-02[5-9]$|^MX-030$/.test(id))
     .map((id) => [id, "two-thirds"]),
   ...Array.from({ length: 6 }, (_, index) => [`MX-${String(index + 25).padStart(3, "0")}`, "full-tray"]),
