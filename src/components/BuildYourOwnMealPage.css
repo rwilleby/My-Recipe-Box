@@ -23,11 +23,11 @@
 .mealBuilderTrayFood-side-two { left: 65.8150%; width: 19.8204%; }
 .mealBuilderTrayFood img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; max-width: none; object-fit: contain; object-position: center; filter: saturate(.98) contrast(1.02); }
 .mealBuilderTrayFood-side-two img { left: 50%; width: 96.8641%; transform: translateX(-50%); }
-.mealBuilderTrayFood-side-one.is-divided-tray-layer { top: 0; left: 0; width: 100%; height: 100%; }
-.mealBuilderTrayFood-side-one.is-divided-tray-layer { clip-path: inset(24.6374% 40.1368% 24.7989% 39.3368% round 2.1%); transform: scale(1.14); transform-origin: 49.6% 50%; }
+.mealBuilderTrayFood-side-one.is-divided-tray-layer,
+.mealBuilderTrayFood-side-two.is-divided-tray-layer { top: 0; left: 0; width: 100%; height: 100%; }
+.mealBuilderTrayFood-side-one.is-divided-tray-layer { clip-path: inset(15% 36% 15% 43.5%); }
+.mealBuilderTrayFood-side-two.is-divided-tray-layer { clip-path: inset(15% 12% 15% 63.5%); }
 .mealBuilderTrayFood.is-divided-tray-layer img { top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; transform: none; }
-.mealBuilderTrayFood-side-two.is-positioned-overlay { top: 0; left: 0; width: 100%; height: 100%; }
-.mealBuilderTrayFood-side-two.is-positioned-overlay img { top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; transform: none; }
 .mealBuilderTrayInterior .mealBuilderTrayFood-main.is-full-canvas-layer { top: 0; left: 0; width: 100%; height: 100%; }
 .mealBuilderTrayFood-main.is-full-canvas-layer img { top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; transform: none; }
 .mealBuilderTray:not(.mealBuilderLabelTray) .mealBuilderTrayRim { display: none; }

@@ -43,9 +43,6 @@ export const MEAL_BUILDER_SIDE_IDS = new Set(
 export const MEAL_BUILDER_DIVIDED_TRAY_SIDE_IDS = new Set(
   Array.from({ length: 53 }, (_, index) => `SD-${String(index + 1).padStart(3, "0")}`),
 );
-export const MEAL_BUILDER_POSITIONED_SIDE_TWO_IDS = new Set(
-  Array.from({ length: 53 }, (_, index) => `SD-${String(index + 1).padStart(3, "0")}`),
-);
 export const MEAL_BUILDER_MAIN_LAYOUTS = new Map([
   ...Array.from(MEAL_BUILDER_MAIN_IDS)
     .filter((id) => !["AS-022", "AS-023", "AS-024"].includes(id))
@@ -196,11 +193,10 @@ function MealBuilderFoodImage({ recipe, position }) {
     : position === "side-one"
       ? "side-1-middle"
       : "side-2-right";
-  const usesDividedTrayLayer = position === "side-one" && MEAL_BUILDER_DIVIDED_TRAY_SIDE_IDS.has(recipe.id);
-  const usesPositionedSideOverlay = position === "side-two" && MEAL_BUILDER_POSITIONED_SIDE_TWO_IDS.has(recipe.id);
+  const usesDividedTrayLayer = !isMain && MEAL_BUILDER_DIVIDED_TRAY_SIDE_IDS.has(recipe.id);
   const usesFullCanvasMainLayer = isMain && MEAL_BUILDER_FULL_CANVAS_MAIN_IDS.has(recipe.id);
   return (
-    <div className={`mealBuilderTrayFood mealBuilderTrayFood-${position} mealBuilderTrayFood-recipe-${recipe.id.toLowerCase()}${usesDividedTrayLayer ? " is-divided-tray-layer" : ""}${usesPositionedSideOverlay ? " is-positioned-overlay" : ""}${usesFullCanvasMainLayer ? " is-full-canvas-layer" : ""}`}>
+    <div className={`mealBuilderTrayFood mealBuilderTrayFood-${position} mealBuilderTrayFood-recipe-${recipe.id.toLowerCase()}${usesDividedTrayLayer ? " is-divided-tray-layer" : ""}${usesFullCanvasMainLayer ? " is-full-canvas-layer" : ""}`}>
       <img src={`${import.meta.env.BASE_URL}images/build-your-own/${folder}/${recipe.id}.webp`} alt="" />
     </div>
   );

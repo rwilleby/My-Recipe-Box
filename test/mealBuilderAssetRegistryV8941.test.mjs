@@ -83,18 +83,17 @@ for (const id of diskMainIds) {
 }
 
 for (const id of diskSideOneIds) {
-  const sideOneInfo = webpInfo(path.join(sideOneRoot, `${id}.webp`));
-  assert.deepEqual({ width: sideOneInfo.width, height: sideOneInfo.height }, { width: 1448, height: 1086 }, `Side 1 ${id} must use the current full divided-tray canvas`);
-
-  const sideTwoInfo = webpInfo(path.join(sideTwoRoot, `${id}.webp`));
-  assert.deepEqual({ width: sideTwoInfo.width, height: sideTwoInfo.height }, { width: 1448, height: 1086 }, `Side 2 ${id} must use the positioned overlay canvas`);
-  assert.ok(sideTwoInfo.hasAlpha, `Side 2 ${id} must retain genuine transparency`);
+  for (const [label, directory] of [["Side 1", sideOneRoot], ["Side 2", sideTwoRoot]]) {
+    const info = webpInfo(path.join(directory, `${id}.webp`));
+    assert.deepEqual({ width: info.width, height: info.height }, { width: 1448, height: 1086 }, `${label} ${id} must use the full divided-tray canvas`);
+    if (id !== "SD-053") assert.equal(info.hasAlpha, false, `${label} ${id} must use the approved opaque tray canvas`);
+  }
 }
 
 assert.deepEqual(diskSideOneIds.filter((id) => !recipeIds.has(id)), ["SD-053"], "Only the known duplicate/orphan SD-053 asset may lack a recipe record");
 assert.match(source, /images\/build-your-own\/\$\{folder\}\/\$\{recipe\.id\}\.webp/, "Tray overlays must load the approved Build Your Own Meal assets");
 assert.match(source, /MEAL_BUILDER_FULL_CANVAS_MAIN_IDS/, "Full-canvas CP, SF, MX, and IT mains must use the divided-tray layer system");
-assert.match(source, /MEAL_BUILDER_POSITIONED_SIDE_TWO_IDS/, "Side 2 assets must use the positioned transparent-overlay system");
+assert.match(source, /MEAL_BUILDER_DIVIDED_TRAY_SIDE_IDS/, "Both side positions must use the full divided-tray canvas system");
 assert.match(fs.readFileSync(path.join(root, "src/components/BuildYourOwnMealPage.css"), "utf8"), /\.mealBuilderTrayInterior \.mealBuilderTrayFood-main\.is-full-canvas-layer\s*\{[^}]*width:\s*100%/, "Full-canvas mains must override the standard compartment width");
 
 console.log("v89.4.1 Build Your Own Meal asset tags, layouts, paths, transparency, and recipe links passed");
