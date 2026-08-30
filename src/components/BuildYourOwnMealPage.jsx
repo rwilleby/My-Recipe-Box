@@ -45,7 +45,7 @@ export const MEAL_BUILDER_DIVIDED_TRAY_SIDE_IDS = new Set(
 );
 export const MEAL_BUILDER_STANDARD_FULL_CANVAS_MAIN_IDS = new Set([
   ...Array.from({ length: 78 }, (_, index) => index + 1)
-    .filter((number) => number !== 63 && number !== 66)
+    .filter((number) => number !== 63 && number !== 66 && number !== 70)
     .map((number) => `AM-${String(number).padStart(3, "0")}`),
   ...Array.from({ length: 21 }, (_, index) => `AS-${String(index + 1).padStart(3, "0")}`),
   ...Array.from({ length: 180 }, (_, index) => `CP-${String(index + 1).padStart(3, "0")}`),
@@ -537,10 +537,10 @@ export default function BuildYourOwnMealPage({
         </section>
 
         <section className="mealBuilderDishSelectors" aria-label="Dish selectors">
-          <div className={`mealBuilderSelectorColumns is-${mainTrayLayout}`}>
+          <div className="mealBuilderSelectorColumns">
             <MealChoiceStrip label="Main Dish" recipes={mainRecipes} selectedId={mainId} onSelect={selectMain} builderImageIds={MEAL_BUILDER_MAIN_IDS} categoryOptions={MAIN_CATEGORIES} categoryLabel="Sort by Cuisine" trayLayouts={MEAL_BUILDER_MAIN_LAYOUTS} />
-            {mainTrayLayout === "standard" && <MealChoiceStrip label="Side 1" recipes={sideRecipes} selectedId={sideOneId} onSelect={setSideOneId} excludeId={sideTwoId} builderImageIds={MEAL_BUILDER_SIDE_IDS} categoryOptions={SIDE_CATEGORIES} categoryLabel="Sort by Type" />}
-            {mainTrayLayout !== "full-tray" && <MealChoiceStrip label="Side 2" recipes={sideRecipes} selectedId={sideTwoId} onSelect={setSideTwoId} excludeId={sideOneId} builderImageIds={MEAL_BUILDER_SIDE_IDS} categoryOptions={SIDE_CATEGORIES} categoryLabel="Sort by Type" />}
+            <MealChoiceStrip label="Side 1" recipes={sideRecipes} selectedId={sideOneId} onSelect={setSideOneId} excludeId={sideTwoId} builderImageIds={MEAL_BUILDER_SIDE_IDS} categoryOptions={SIDE_CATEGORIES} categoryLabel="Sort by Type" disabled={sideOneDisabled} disabledMessage={mainTrayLayout === "full-tray" ? "Complete meal — sides included" : "Included with selected main dish"} />
+            <MealChoiceStrip label="Side 2" recipes={sideRecipes} selectedId={sideTwoId} onSelect={setSideTwoId} excludeId={sideOneId} builderImageIds={MEAL_BUILDER_SIDE_IDS} categoryOptions={SIDE_CATEGORIES} categoryLabel="Sort by Type" disabled={sideTwoDisabled} disabledMessage="Complete meal — sides included" />
           </div>
         </section>
       </div>

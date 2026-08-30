@@ -38,7 +38,7 @@ const layouts = new Map(registry.layouts);
 
 assert.equal(mainIds.size, 405, "BAM must expose exactly 405 active main dishes");
 assert.equal(sideIds.size, 53, "BAM must expose SD-001 through SD-053");
-assert.equal([...layouts.values()].filter((layout) => layout === "two-thirds").length, 10, "Exactly 10 mains use two-thirds trays");
+assert.equal([...layouts.values()].filter((layout) => layout === "two-thirds").length, 11, "Exactly 11 mains use two-thirds trays");
 assert.equal([...layouts.values()].filter((layout) => layout === "full-tray").length, 6, "Exactly six mains use full trays");
 for (const [id, layout] of layouts) {
   assert.ok(mainIds.has(id), `${id} layout must reference an active main`);
@@ -65,15 +65,15 @@ assertWebp(trayBasePath);
 assert.match(source, /alt="Empty white three-compartment meal-prep tray"/);
 assert.match(source, /mainTrayLayout === "standard" && <MealBuilderFoodImage recipe=\{sideOneRecipe\}/);
 assert.match(source, /mainTrayLayout !== "full-tray" && <MealBuilderFoodImage recipe=\{sideTwoRecipe\}/);
-assert.match(source, /mainTrayLayout === "standard" && <MealChoiceStrip label="Side 1"/);
-assert.match(source, /mainTrayLayout !== "full-tray" && <MealChoiceStrip label="Side 2"/);
+assert.match(source, /<MealChoiceStrip label="Side 1"[\s\S]*?disabled=\{sideOneDisabled\}/);
+assert.match(source, /<MealChoiceStrip label="Side 2"[\s\S]*?disabled=\{sideTwoDisabled\}/);
 assert.match(source, /nextLayout === "two-thirds" \|\| nextLayout === "full-tray"\) setSideOneId\(""\)/);
 assert.match(source, /nextLayout === "full-tray"\) setSideTwoId\(""\)/);
+assert.equal(layouts.get("AM-070"), "two-thirds", "AM-070 Cheeseburger Casserole must disable Side 1");
 assert.match(styles, /\.mealBuilderTrayFood-side-one\.is-empty[^}]*left:\s*48\.5%[^}]*width:\s*14\.5%/);
 assert.match(styles, /\.mealBuilderTrayFood-side-two\.is-empty[^}]*left:\s*64%[^}]*width:\s*14\.5%/);
 assert.match(styles, /\.mealBuilderTrayFood\.is-empty[^}]*top:\s*22\.5%[^}]*height:\s*52\.5%/);
-assert.match(styles, /\.mealBuilderSelectorColumns\.is-two-thirds[^}]*repeat\(2/);
-assert.match(styles, /\.mealBuilderSelectorColumns\.is-full-tray[^}]*minmax\(0,1fr\)/);
+assert.match(styles, /\.mealBuilderChoiceColumn\.is-disabled[^}]*background:\s*#f7f5f0/);
 
 assert.match(source, /buildMealBuilderLabelTitle/);
 assert.match(source, /"8163":[\s\S]*?labelsPerSheet:\s*10[\s\S]*?includesPhoto:\s*true/);
