@@ -28,7 +28,7 @@ const currentScriptNames = [
   "test:ingredient-data-v8410", "test:ingredient-data-v8411",
   "test:ingredient-data-v8412", "test:ingredient-data-v8413",
   "test:master-freezer-v8414", "test:ingredient-data-v8415",
-  "test:kitchen-details-v8416", "test:seo-routing", "test:release-integrity",
+  "test:kitchen-details-v8416", "test:seo-routing", "test:seo-complete-coverage", "test:release-integrity",
 ];
 
 const files = [];

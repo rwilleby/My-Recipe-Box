@@ -12,18 +12,14 @@ import {
   routeForCompleteDinner,
   routeForPage,
   routeForRecipe,
+  seoForRecipe,
 } from "../src/routing/seoRoutes.js";
+import { recipes } from "../src/data/recipes.js";
 
 const projectRoot = process.cwd();
 const distRoot = join(projectRoot, "dist");
 const shell = await readFile(join(distRoot, "index.html"), "utf8");
-const recipeSource = await readFile(join(projectRoot, "src/data/recipes.js"), "utf8");
 const dinnerSource = await readFile(join(projectRoot, "src/data/completeDinners.js"), "utf8");
-
-const recipes = [];
-for (const match of recipeSource.matchAll(/^\s*\["([A-Z]{2,4}-\d+)",\s*"([^"]+)"/gm)) {
-  recipes.push({ id: match[1], title: match[2] });
-}
 
 const dinners = [];
 for (const match of dinnerSource.matchAll(/"id":\s*"(CD-\d+)"[\s\S]{0,240}?"title":\s*"([^"]+)"/g)) {
@@ -44,7 +40,7 @@ function replaceMeta(html, selector, value) {
   return pattern.test(html) ? html.replace(pattern, tag) : html.replace("</head>", `  ${tag}\n  </head>`);
 }
 
-function routeHtml({ title, description, path, image = "/images/ui/rrb-recipe-box-mark.webp", type = "website", noindex = false }) {
+function routeHtml({ title, description, path, image = "/images/ui/rrb-recipe-box-mark.webp", type = "website", noindex = false, structuredData = null }) {
   const fullTitle = title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`;
   const canonical = absoluteSiteUrl(path);
   const socialImage = absoluteSiteUrl(image);
@@ -57,10 +53,16 @@ function routeHtml({ title, description, path, image = "/images/ui/rrb-recipe-bo
   html = replaceMeta(html, "property:og:type", type);
   html = replaceMeta(html, "property:og:url", canonical);
   html = replaceMeta(html, "property:og:image", socialImage);
+  html = replaceMeta(html, "property:og:image:alt", `${title} — ${SITE_NAME}`);
   html = replaceMeta(html, "twitter:card", "summary_large_image");
   html = replaceMeta(html, "twitter:title", fullTitle);
   html = replaceMeta(html, "twitter:description", description);
   html = replaceMeta(html, "twitter:image", socialImage);
+  html = replaceMeta(html, "twitter:image:alt", `${title} — ${SITE_NAME}`);
+  if (structuredData) {
+    const jsonLd = JSON.stringify(structuredData).replace(/</g, "\\u003c");
+    html = html.replace("</head>", `  <script type="application/ld+json">${jsonLd}</script>\n  </head>`);
+  }
   return html;
 }
 
@@ -84,13 +86,8 @@ for (const pageId of ROUTABLE_PAGE_IDS) {
 }
 
 for (const recipe of recipes) {
-  const path = routeForRecipe(recipe.id);
-  await writeRoute(path, routeHtml({
-    title: `${recipe.title} (${recipe.id})`,
-    description: `${recipe.title} recipe with ingredients, serving information, nutrition estimates, and practical cooking details.`,
-    path,
-    type: "article",
-  }));
+  const seo = seoForRecipe(recipe);
+  await writeRoute(seo.path, routeHtml(seo));
 }
 
 for (const dinner of dinners) {
@@ -108,9 +105,9 @@ const sitemapPaths = [
   ...recipes.map((recipe) => routeForRecipe(recipe.id)),
   ...dinners.map((dinner) => routeForCompleteDinner(dinner.id)),
 ];
-const uniquePaths = [...new Set(sitemapPaths)];
+const uniquePaths = [...new Set(sitemapPaths)].sort();
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${uniquePaths
-  .map((path) => `  <url><loc>${escapeHtml(absoluteSiteUrl(path))}</loc><lastmod>2026-08-20</lastmod></url>`)
+  .map((path) => `  <url><loc>${escapeHtml(absoluteSiteUrl(path))}</loc></url>`)
   .join("\n")}\n</urlset>\n`;
 await writeFile(join(distRoot, "sitemap.xml"), sitemap);
 await cp(join(projectRoot, "public/404.html"), join(distRoot, "404.html"));

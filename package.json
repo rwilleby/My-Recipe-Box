@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "vite build && node scripts/generate-seo.mjs",
     "test:seo-routing": "node test/seoRoutingV86.test.mjs",
+    "test:seo-complete-coverage": "node test/seoCompleteRecipeCoverageV952.test.mjs",
     "preview": "vite preview",
     "test:rfis": "node test/completeDinnerEngine.test.mjs && node test/rfisPlatform.test.mjs && node test/rfisUiServiceContracts.test.mjs && npm run test:rfis:architecture",
     "check": "npm run release:gate",

@@ -230,10 +230,12 @@ export function applySeoMetadata({ title, description, path, image, type = "webs
   upsertMeta('meta[property="og:type"]', { property: "og:type", content: type });
   upsertMeta('meta[property="og:url"]', { property: "og:url", content: canonicalUrl });
   upsertMeta('meta[property="og:image"]', { property: "og:image", content: socialImage });
+  upsertMeta('meta[property="og:image:alt"]', { property: "og:image:alt", content: `${title} — ${SITE_NAME}` });
   upsertMeta('meta[name="twitter:card"]', { name: "twitter:card", content: "summary_large_image" });
   upsertMeta('meta[name="twitter:title"]', { name: "twitter:title", content: fullTitle });
   upsertMeta('meta[name="twitter:description"]', { name: "twitter:description", content: description });
   upsertMeta('meta[name="twitter:image"]', { name: "twitter:image", content: socialImage });
+  upsertMeta('meta[name="twitter:image:alt"]', { name: "twitter:image:alt", content: `${title} — ${SITE_NAME}` });
   let canonical = document.head.querySelector('link[rel="canonical"]');
   if (!canonical) {
     canonical = document.createElement("link");
@@ -268,20 +270,28 @@ export function seoForRecipe(recipe) {
   const minutes = Number(recipe.time || recipe.totalTime || 0);
   const servings = Number(recipe.servings || 0);
   const image = recipe.heroImage || recipe.image || DEFAULT_SOCIAL_IMAGE;
-  const structuredData = ingredients.length >= 2 && servings > 0 ? {
+  const directions = (Array.isArray(recipe.directions) ? recipe.directions : [])
+    .map((step) => typeof step === "string" ? step : step?.text)
+    .filter(Boolean)
+    .map((text) => ({ "@type": "HowToStep", text }));
+  const structuredData = {
     "@context": "https://schema.org",
     "@type": "Recipe",
     name: recipe.title,
     identifier: recipe.id,
     url: absoluteSiteUrl(path),
+    mainEntityOfPage: absoluteSiteUrl(path),
     image: [absoluteSiteUrl(image)],
     description,
     author: { "@type": "Person", name: "Robert Willeby" },
-    recipeYield: `${servings} servings`,
+    publisher: { "@type": "Organization", name: SITE_NAME, url: `${SITE_ORIGIN}/` },
+    ...(servings > 0 ? { recipeYield: `${servings} servings` } : {}),
     ...(minutes > 0 ? { totalTime: `PT${minutes}M` } : {}),
     ...(recipe.category ? { recipeCategory: recipe.category } : {}),
-    recipeIngredient: ingredients,
-  } : null;
+    ...(recipe.category ? { keywords: [recipe.id, recipe.category, ...(recipe.dietaryTags || [])].join(", ") } : {}),
+    ...(ingredients.length ? { recipeIngredient: ingredients } : {}),
+    ...(directions.length ? { recipeInstructions: directions } : {}),
+  };
   return { title: `${recipe.title} (${recipe.id})`, description, path, image, type: "article", structuredData };
 }
 
