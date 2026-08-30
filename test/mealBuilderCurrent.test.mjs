@@ -38,7 +38,7 @@ const layouts = new Map(registry.layouts);
 
 assert.equal(mainIds.size, 405, "BAM must expose exactly 405 active main dishes");
 assert.equal(sideIds.size, 53, "BAM must expose SD-001 through SD-053");
-assert.equal([...layouts.values()].filter((layout) => layout === "two-thirds").length, 53, "Exactly 53 visually audited mains use two-thirds trays");
+assert.equal([...layouts.values()].filter((layout) => layout === "two-thirds").length, 190, "Exactly 190 owner-approved mains use two-thirds trays");
 assert.equal([...layouts.values()].filter((layout) => layout === "full-tray").length, 6, "Exactly six mains use full trays");
 for (const [id, layout] of layouts) {
   assert.ok(mainIds.has(id), `${id} layout must reference an active main`);
@@ -70,14 +70,16 @@ assert.match(source, /<MealChoiceStrip label="Side 2"[\s\S]*?disabled=\{sideTwoD
 assert.match(source, /nextLayout === "two-thirds" \|\| nextLayout === "full-tray"\) setSideOneId\(""\)/);
 assert.match(source, /nextLayout === "full-tray"\) setSideTwoId\(""\)/);
 assert.equal(layouts.get("AM-070"), "two-thirds", "AM-070 Cheeseburger Casserole must disable Side 1");
-for (const id of [
-  "AM-066", "AM-070",
+const approvedTwoThirdsIds = [
+  ...[2, 8, 9, 14, 15, 19, 20, 21, 22, 23, 24, 25, 26, 27, 29, 30, 31, 32, 33, 34, 35, 36, 38, 39, 40, 41, 42, 43, 44, 45, 46, 50, 51, 52, 55, 56, 57, 58, 59, 60, 61, 62, 64, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78].map((number) => `AM-${String(number).padStart(3, "0")}`),
   ...Array.from({ length: 21 }, (_, index) => `AS-${String(index + 1).padStart(3, "0")}`),
+  ...[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 25, 26, 27, 28, 29, 30, 31, 41, 42, 45, 46, 47, 48, 49, 50, 70, 71, 72, 73, 79, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 100, 108, 109, 110, 123, 125, 126, 140, 147, 148, 151, 152, 153, 154, 155, 156, 162].map((number) => `CP-${String(number).padStart(3, "0")}`),
+  ...Array.from({ length: 10 }, (_, index) => `IT-${String(index + 51).padStart(3, "0")}`),
+  ...[14, 15, 16, 17, 20, 21, 22, 23, 24, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44].map((number) => `MX-${String(number).padStart(3, "0")}`),
   ...Array.from({ length: 20 }, (_, index) => `SF-${String(index + 1).padStart(3, "0")}`),
-  ...[14, 15, 16, 17, 21, 22, 23, 24, 31, 32].map((number) => `MX-${String(number).padStart(3, "0")}`),
-]) assert.equal(layouts.get(id), "two-thirds", `${id} must use a two-thirds tray`);
-for (const id of ["MX-018", "MX-019", "MX-020"])
-  assert.equal(layouts.has(id), false, `${id} must use the standard three-section tray`);
+];
+for (const id of approvedTwoThirdsIds)
+  assert.equal(layouts.get(id), "two-thirds", `${id} must use a two-thirds tray`);
 assert.match(styles, /\.mealBuilderTrayFood-side-one\.is-empty[^}]*left:\s*48\.5%[^}]*width:\s*14\.5%/);
 assert.match(styles, /\.mealBuilderTrayFood-side-two\.is-empty[^}]*left:\s*64%[^}]*width:\s*14\.5%/);
 assert.match(styles, /\.mealBuilderTrayFood\.is-empty[^}]*top:\s*22\.5%[^}]*height:\s*52\.5%/);

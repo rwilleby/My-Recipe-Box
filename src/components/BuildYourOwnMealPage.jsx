@@ -43,21 +43,19 @@ export const MEAL_BUILDER_SIDE_IDS = new Set(
 export const MEAL_BUILDER_DIVIDED_TRAY_SIDE_IDS = new Set(
   Array.from({ length: 53 }, (_, index) => `SD-${String(index + 1).padStart(3, "0")}`),
 );
-export const MEAL_BUILDER_STANDARD_FULL_CANVAS_MAIN_IDS = new Set([
-  ...Array.from({ length: 78 }, (_, index) => index + 1)
-    .filter((number) => number !== 63 && number !== 66 && number !== 70)
+export const MEAL_BUILDER_TWO_THIRDS_MAIN_IDS = new Set([
+  ...[2, 8, 9, 14, 15, 19, 20, 21, 22, 23, 24, 25, 26, 27, 29, 30, 31, 32, 33, 34, 35, 36, 38, 39, 40, 41, 42, 43, 44, 45, 46, 50, 51, 52, 55, 56, 57, 58, 59, 60, 61, 62, 64, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78]
     .map((number) => `AM-${String(number).padStart(3, "0")}`),
-  ...Array.from({ length: 180 }, (_, index) => `CP-${String(index + 1).padStart(3, "0")}`),
-  ...Array.from({ length: 60 }, (_, index) => `IT-${String(index + 1).padStart(3, "0")}`),
-  ...[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 18, 19, 20, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44]
+  ...Array.from({ length: 21 }, (_, index) => `AS-${String(index + 1).padStart(3, "0")}`),
+  ...[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 25, 26, 27, 28, 29, 30, 31, 41, 42, 45, 46, 47, 48, 49, 50, 70, 71, 72, 73, 79, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 100, 108, 109, 110, 123, 125, 126, 140, 147, 148, 151, 152, 153, 154, 155, 156, 162]
+    .map((number) => `CP-${String(number).padStart(3, "0")}`),
+  ...Array.from({ length: 10 }, (_, index) => `IT-${String(index + 51).padStart(3, "0")}`),
+  ...[14, 15, 16, 17, 20, 21, 22, 23, 24, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44]
     .map((number) => `MX-${String(number).padStart(3, "0")}`),
+  ...Array.from({ length: 20 }, (_, index) => `SF-${String(index + 1).padStart(3, "0")}`),
 ]);
 export const MEAL_BUILDER_MAIN_LAYOUTS = new Map([
-  ...Array.from(MEAL_BUILDER_MAIN_IDS)
-    .filter((id) => !["AS-022", "AS-023", "AS-024"].includes(id))
-    .filter((id) => !MEAL_BUILDER_STANDARD_FULL_CANVAS_MAIN_IDS.has(id))
-    .filter((id) => !/^MX-02[5-9]$|^MX-030$/.test(id))
-    .map((id) => [id, "two-thirds"]),
+  ...Array.from(MEAL_BUILDER_TWO_THIRDS_MAIN_IDS).map((id) => [id, "two-thirds"]),
   ...Array.from({ length: 6 }, (_, index) => [`MX-${String(index + 25).padStart(3, "0")}`, "full-tray"]),
 ]);
 const MEAL_BUILDER_LABEL_SHEETS = {
