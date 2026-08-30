@@ -42,11 +42,8 @@ jobs:
       - name: Verify Vite
         run: pnpm exec vite --version
 
-      - name: Run complete test suite
-        run: npm run test:all
-
-      - name: Build website
-        run: pnpm run build
+      - name: Run complete release gate
+        run: npm run release:gate
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
