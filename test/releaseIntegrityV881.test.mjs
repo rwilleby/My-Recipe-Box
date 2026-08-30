@@ -16,10 +16,9 @@ assert.equal(sourcePackage.version, "88.1.0");
 assert.equal(manifest.version, "88.1");
 assert.equal(manifest.baseline, "My-Recipe-Box-v88.1.zip");
 
-const testStep = workflow.indexOf("npm run test:all");
-const buildStep = workflow.indexOf("npm run build");
-assert.ok(testStep >= 0, "CI must run the complete test suite");
-assert.ok(buildStep > testStep, "CI tests must run before the production build");
+assert.equal(packageJson.scripts["release:gate"], "npm run test:all && npm run build");
+const gateStep = workflow.indexOf("npm run release:gate");
+assert.ok(gateStep >= 0, "CI must run the complete test-and-build release gate");
 assert.match(appSource, /features\/info-pages\/PlaceholderInfoPage\.jsx/);
 assert.match(appSource, /data\/pagePopupCopy\.js/);
 assert.doesNotMatch(appSource, /function PlaceholderInfoPage\s*\(/);

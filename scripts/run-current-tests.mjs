@@ -72,15 +72,18 @@ const supersededContracts = new Set([
 
 const recentReleaseTests = readdirSync(resolve("test"))
   .filter((file) =>
-    /V84(?:1[8-9]|2\d|3[0-7])\.test\.mjs$|V85\d*\.test\.mjs$|V88\d*\.test\.mjs$|V89\d*\.test\.mjs$|V93\d*\.test\.mjs$|releaseIntegrityV881\.test\.mjs$/.test(file),
+    /V84(?:1[8-9]|2\d|3[0-7])\.test\.mjs$|V85\d*\.test\.mjs$|V88\d*\.test\.mjs$|V89\d*\.test\.mjs$|V9[2-5]\d*\.test\.mjs$|releaseIntegrityV881\.test\.mjs$/.test(file),
   )
   .filter((file) => file !== "homeMainPageEditsV850.test.mjs")
   .map((file) => `test/${file}`);
 files.push(...recentReleaseTests);
+// v95.2 is the consolidated Build-A-Meal contract and intentionally uses a
+// stable "Current" filename so later asset refreshes do not duplicate a 400+
+// image integrity test.
 files.push("test/mealBuilderCurrent.test.mjs");
 
 const uniqueFiles = [...new Set(files)].filter(
-  (file) => !supersededContracts.has(file) && !/^test\/mealBuilder.*V\d+.*\.test\.mjs$/.test(file),
+  (file) => !supersededContracts.has(file),
 );
 const failures = [];
 for (const [index, file] of uniqueFiles.entries()) {

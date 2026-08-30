@@ -6,6 +6,7 @@ import AdminRecipeClassifier from "./components/AdminRecipeClassifier";
 import VideoIcon from "./components/VideoIcon";
 import AdminRecipeEditor from "./components/AdminRecipeEditor";
 import AdminComboMealBuilder from "./components/AdminComboMealBuilder";
+import AdminMealBuilderImageAudit from "./components/AdminMealBuilderImageAudit";
 import AdminNutritionDatabase from "./components/AdminNutritionDatabase";
 import RfisProjectDashboard from "./components/RfisProjectDashboard";
 import RecipeIntelligencePanel from "./components/RecipeIntelligencePanel";
@@ -5904,6 +5905,13 @@ function Home({
               onClick={() => setActivePage("Dinner Combination Hero Audit")}
             >
               Hero Audit
+            </button>
+            <button
+              className="adminAccessButton homeAdminAccessButton"
+              type="button"
+              onClick={() => setActivePage("Admin Build-A-Meal Image Audit")}
+            >
+              Build-A-Meal Image Audit
             </button>
             <button
               className="adminAccessButton homeAdminAccessButton"
@@ -18205,6 +18213,13 @@ export default function App() {
         <AdminComboMealBuilder
           recipes={recipes}
           onOpenHeroAudit={() => setActivePage("Dinner Combination Hero Audit")}
+          onClose={() => setActivePage("Home")}
+        />
+      )}
+
+      {activePage === "Admin Build-A-Meal Image Audit" && (
+        <AdminMealBuilderImageAudit
+          recipes={recipes}
           onClose={() => setActivePage("Home")}
         />
       )}
