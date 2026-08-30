@@ -31,7 +31,7 @@
 .mealBuilderTrayInterior .mealBuilderTrayFood-main.is-full-canvas-layer { top: 0; left: 0; width: 100%; height: 100%; }
 .mealBuilderTrayFood-main.is-full-canvas-layer img { top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; transform: none; }
 .mealBuilderTray:not(.mealBuilderLabelTray) .mealBuilderTrayRim { display: none; }
-.mealBuilderTrayInterior.is-standard .mealBuilderTrayFood-main.is-empty { left: 13.9503%; width: 23.9497%; }
+.mealBuilderTrayInterior.is-standard .mealBuilderTrayFood-main.is-empty { left: 17.25%; width: 23.9497%; }
 .mealBuilderTrayFood-side-one.is-empty { left: 48.5%; width: 14.5%; }
 .mealBuilderTrayFood-side-two.is-empty { left: 64%; width: 14.5%; }
 .mealBuilderTrayFood.is-empty { top: 22.5%; height: 52.5%; display: grid; place-items: center; padding: 12px; color: rgba(68,79,69,.68); background: linear-gradient(135deg,rgba(255,255,255,.56),rgba(238,236,229,.54)); text-align: center; }

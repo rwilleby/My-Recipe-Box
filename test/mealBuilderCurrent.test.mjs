@@ -82,6 +82,7 @@ for (const id of approvedTwoThirdsIds)
   assert.equal(layouts.get(id), "two-thirds", `${id} must use a two-thirds tray`);
 assert.match(styles, /\.mealBuilderTrayFood-side-one\.is-empty[^}]*left:\s*48\.5%[^}]*width:\s*14\.5%/);
 assert.match(styles, /\.mealBuilderTrayFood-side-two\.is-empty[^}]*left:\s*64%[^}]*width:\s*14\.5%/);
+assert.match(styles, /\.mealBuilderTrayInterior\.is-standard \.mealBuilderTrayFood-main\.is-empty[^}]*left:\s*17\.25%[^}]*width:\s*23\.9497%/);
 assert.match(styles, /\.mealBuilderTrayFood\.is-empty[^}]*top:\s*22\.5%[^}]*height:\s*52\.5%/);
 assert.match(styles, /\.mealBuilderTrayInterior\.is-two-thirds \.mealBuilderTrayFood-side-two\.is-empty[^}]*top:\s*17%[^}]*left:\s*65%[^}]*width:\s*16\.25%[^}]*height:\s*55%/);
 assert.match(styles, /\.mealBuilderChoiceColumn\.is-disabled[^}]*background:\s*#f7f5f0/);
