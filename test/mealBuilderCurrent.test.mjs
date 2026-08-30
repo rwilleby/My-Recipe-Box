@@ -38,7 +38,7 @@ const layouts = new Map(registry.layouts);
 
 assert.equal(mainIds.size, 405, "BAM must expose exactly 405 active main dishes");
 assert.equal(sideIds.size, 53, "BAM must expose SD-001 through SD-053");
-assert.equal([...layouts.values()].filter((layout) => layout === "two-thirds").length, 11, "Exactly 11 mains use two-thirds trays");
+assert.equal([...layouts.values()].filter((layout) => layout === "two-thirds").length, 53, "Exactly 53 visually audited mains use two-thirds trays");
 assert.equal([...layouts.values()].filter((layout) => layout === "full-tray").length, 6, "Exactly six mains use full trays");
 for (const [id, layout] of layouts) {
   assert.ok(mainIds.has(id), `${id} layout must reference an active main`);
@@ -70,9 +70,18 @@ assert.match(source, /<MealChoiceStrip label="Side 2"[\s\S]*?disabled=\{sideTwoD
 assert.match(source, /nextLayout === "two-thirds" \|\| nextLayout === "full-tray"\) setSideOneId\(""\)/);
 assert.match(source, /nextLayout === "full-tray"\) setSideTwoId\(""\)/);
 assert.equal(layouts.get("AM-070"), "two-thirds", "AM-070 Cheeseburger Casserole must disable Side 1");
+for (const id of [
+  "AM-066", "AM-070",
+  ...Array.from({ length: 21 }, (_, index) => `AS-${String(index + 1).padStart(3, "0")}`),
+  ...Array.from({ length: 20 }, (_, index) => `SF-${String(index + 1).padStart(3, "0")}`),
+  ...[14, 15, 16, 17, 21, 22, 23, 24, 31, 32].map((number) => `MX-${String(number).padStart(3, "0")}`),
+]) assert.equal(layouts.get(id), "two-thirds", `${id} must use a two-thirds tray`);
+for (const id of ["MX-018", "MX-019", "MX-020"])
+  assert.equal(layouts.has(id), false, `${id} must use the standard three-section tray`);
 assert.match(styles, /\.mealBuilderTrayFood-side-one\.is-empty[^}]*left:\s*48\.5%[^}]*width:\s*14\.5%/);
 assert.match(styles, /\.mealBuilderTrayFood-side-two\.is-empty[^}]*left:\s*64%[^}]*width:\s*14\.5%/);
 assert.match(styles, /\.mealBuilderTrayFood\.is-empty[^}]*top:\s*22\.5%[^}]*height:\s*52\.5%/);
+assert.match(styles, /\.mealBuilderTrayInterior\.is-two-thirds \.mealBuilderTrayFood-side-two\.is-empty[^}]*top:\s*17%[^}]*left:\s*65%[^}]*width:\s*16\.25%[^}]*height:\s*55%/);
 assert.match(styles, /\.mealBuilderChoiceColumn\.is-disabled[^}]*background:\s*#f7f5f0/);
 
 assert.match(source, /buildMealBuilderLabelTitle/);

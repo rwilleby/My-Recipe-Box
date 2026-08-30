@@ -47,11 +47,9 @@ export const MEAL_BUILDER_STANDARD_FULL_CANVAS_MAIN_IDS = new Set([
   ...Array.from({ length: 78 }, (_, index) => index + 1)
     .filter((number) => number !== 63 && number !== 66 && number !== 70)
     .map((number) => `AM-${String(number).padStart(3, "0")}`),
-  ...Array.from({ length: 21 }, (_, index) => `AS-${String(index + 1).padStart(3, "0")}`),
   ...Array.from({ length: 180 }, (_, index) => `CP-${String(index + 1).padStart(3, "0")}`),
   ...Array.from({ length: 60 }, (_, index) => `IT-${String(index + 1).padStart(3, "0")}`),
-  ...Array.from({ length: 20 }, (_, index) => `SF-${String(index + 1).padStart(3, "0")}`),
-  ...[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 21, 22, 23, 24, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44]
+  ...[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 18, 19, 20, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44]
     .map((number) => `MX-${String(number).padStart(3, "0")}`),
 ]);
 export const MEAL_BUILDER_MAIN_LAYOUTS = new Map([
