@@ -58,7 +58,7 @@ function webpInfo(file) {
 const diskMainIds = assetIds(mainRoot);
 const diskSideOneIds = assetIds(sideOneRoot);
 const diskSideTwoIds = assetIds(sideTwoRoot);
-assert.equal(diskMainIds.length, 326, "The approved Build-A-Meal main collection should contain 326 assets");
+assert.equal(diskMainIds.length, 405, "The approved Build-A-Meal main collection should contain 405 assets");
 assert.equal(diskSideOneIds.length, 53, "The Side 1 collection should contain 53 assets");
 assert.equal(diskSideTwoIds.length, 53, "The Side 2 collection should contain 53 assets");
 assert.deepEqual([...mainIds].sort(), diskMainIds, "Every main asset must be tagged for Meal Builder use");
