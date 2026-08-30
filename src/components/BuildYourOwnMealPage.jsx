@@ -174,7 +174,7 @@ function HeroImage({ recipe, alt = "" }) {
   const [imageIndex, setImageIndex] = useState(0);
   useEffect(() => setImageIndex(0), [recipe?.id]);
   if (!recipe || !candidates[imageIndex]) return null;
-  return <img src={`${import.meta.env.BASE_URL}${candidates[imageIndex]}`} alt={alt} onError={() => setImageIndex((current) => current + 1)} />;
+  return <img src={`${import.meta.env.BASE_URL}${candidates[imageIndex]}`} alt={alt} loading="lazy" decoding="async" onError={() => setImageIndex((current) => current + 1)} />;
 }
 
 function MealBuilderFoodImage({ recipe, position }) {
@@ -205,7 +205,7 @@ function MealBuilderFoodImage({ recipe, position }) {
   const usesFullCanvasMainLayer = isMain && MEAL_BUILDER_FULL_CANVAS_MAIN_IDS.has(recipe.id);
   return (
     <div className={`mealBuilderTrayFood mealBuilderTrayFood-${position} mealBuilderTrayFood-recipe-${recipe.id.toLowerCase()}${usesDividedTrayLayer ? " is-divided-tray-layer" : ""}${usesFullCanvasMainLayer ? " is-full-canvas-layer" : ""}`}>
-      <img src={`${import.meta.env.BASE_URL}images/build-your-own/${folder}/${recipe.id}.webp`} alt="" />
+      <img src={`${import.meta.env.BASE_URL}images/build-your-own/${folder}/${recipe.id}.webp`} alt="" loading="lazy" decoding="async" />
     </div>
   );
 }
@@ -230,9 +230,11 @@ export function MealBuilderTrayPreview({ mainRecipe, sideOneRecipe, sideTwoRecip
 }
 
 function MealChoiceStrip({ label, recipes, selectedId, onSelect, excludeId = "", builderImageIds, categoryOptions, categoryLabel, disabled = false, disabledMessage = "", trayLayouts = null }) {
+  const PAGE_SIZE = 12;
   const railRef = useRef(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("ALL");
+  const [page, setPage] = useState(0);
   const selectedRecipe = recipes.find((recipe) => recipe.id === selectedId) || null;
   const visibleRecipes = useMemo(
     () => {
@@ -249,9 +251,18 @@ function MealChoiceStrip({ label, recipes, selectedId, onSelect, excludeId = "",
     },
     [categoryFilter, excludeId, recipes, searchQuery],
   );
+  const pageCount = Math.max(1, Math.ceil(visibleRecipes.length / PAGE_SIZE));
+  const currentPage = Math.min(page, pageCount - 1);
+  const pagedRecipes = visibleRecipes.slice(currentPage * PAGE_SIZE, (currentPage + 1) * PAGE_SIZE);
+
+  useEffect(() => setPage(0), [categoryFilter, excludeId, searchQuery]);
+  useEffect(() => {
+    if (page > pageCount - 1) setPage(Math.max(0, pageCount - 1));
+  }, [page, pageCount]);
 
   function slide(direction) {
-    railRef.current?.scrollBy({ top: direction * Math.max(180, railRef.current.clientHeight * 0.62), behavior: "smooth" });
+    setPage((current) => Math.min(pageCount - 1, Math.max(0, current + direction)));
+    railRef.current?.scrollTo({ top: 0, behavior: "instant" });
   }
 
   return (
@@ -278,9 +289,9 @@ function MealChoiceStrip({ label, recipes, selectedId, onSelect, excludeId = "",
       {disabled ? (
         <div className="mealBuilderChoiceDisabled"><strong>{disabledMessage}</strong><span>This tray space is already occupied by the selected main dish.</span></div>
       ) : <div className="mealBuilderChoiceSlider">
-        <button type="button" className="mealBuilderSlideButton" onClick={() => slide(-1)} aria-label={`Previous ${label} recipes`}>↑</button>
+        <button type="button" className="mealBuilderSlideButton" onClick={() => slide(-1)} disabled={currentPage === 0} aria-label={`Previous ${label} recipes page`}>↑</button>
         <div className="mealBuilderChoiceRail" ref={railRef}>
-          {visibleRecipes.map((recipe) => (
+          {pagedRecipes.map((recipe) => (
             <button
               type="button"
               key={recipe.id}
@@ -299,7 +310,8 @@ function MealChoiceStrip({ label, recipes, selectedId, onSelect, excludeId = "",
           ))}
           {!visibleRecipes.length && <p className="mealBuilderChoiceEmpty">No matching recipes found.</p>}
         </div>
-        <button type="button" className="mealBuilderSlideButton" onClick={() => slide(1)} aria-label={`Next ${label} recipes`}>↓</button>
+        <div className="mealBuilderChoicePageStatus" aria-live="polite">{visibleRecipes.length ? `${currentPage * PAGE_SIZE + 1}–${Math.min((currentPage + 1) * PAGE_SIZE, visibleRecipes.length)} of ${visibleRecipes.length}` : "0 choices"}</div>
+        <button type="button" className="mealBuilderSlideButton" onClick={() => slide(1)} disabled={currentPage >= pageCount - 1} aria-label={`Next ${label} recipes page`}>↓</button>
       </div>}
     </section>
   );
