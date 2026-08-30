@@ -22,6 +22,9 @@ const fullCanvasMainIds = new Set(registry.fullCanvasMainIds);
 const layouts = new Map(registry.layouts);
 const expectedStandardIds = new Set([
   "AS-022", "AS-023", "AS-024",
+  ...Array.from({ length: 78 }, (_, index) => index + 1)
+    .filter((number) => number !== 63 && number !== 66)
+    .map((number) => `AM-${String(number).padStart(3, "0")}`),
   ...Array.from({ length: 21 }, (_, index) => `AS-${String(index + 1).padStart(3, "0")}`),
   ...Array.from({ length: 180 }, (_, index) => `CP-${String(index + 1).padStart(3, "0")}`),
   ...Array.from({ length: 60 }, (_, index) => `IT-${String(index + 1).padStart(3, "0")}`),
@@ -37,8 +40,8 @@ const expectedTwoThirdIds = new Set(
 );
 
 assert.equal(mainIds.size, 405, "The BAM main registry must contain 405 recipes");
-assert.equal(expectedStandardIds.size, 313, "Exactly 313 BAM mains use the standard three-compartment tray");
-assert.equal(expectedTwoThirdIds.size, 86, "Exactly 86 BAM mains use the two-thirds tray");
+assert.equal(expectedStandardIds.size, 389, "Exactly 389 BAM mains use the standard three-compartment tray");
+assert.equal(expectedTwoThirdIds.size, 10, "Exactly 10 BAM mains use the two-thirds tray");
 assert.equal(expectedFullTrayIds.size, 6, "Exactly six BAM mains use the full tray");
 
 for (const id of expectedStandardIds) {
@@ -56,6 +59,6 @@ for (const id of expectedFullTrayIds) {
   assert.ok(fullCanvasMainIds.has(id), `${id} must use full-canvas artwork`);
 }
 
-assert.equal(layouts.size, 92, "Only two-thirds and full-tray BAM mains need explicit layout entries");
+assert.equal(layouts.size, 16, "Only two-thirds and full-tray BAM mains need explicit layout entries");
 
-console.log("BAM main sizing passed: 313 standard, 86 two-thirds, and 6 full-tray mains");
+console.log("BAM main sizing passed: 389 standard, 10 two-thirds, and 6 full-tray mains");

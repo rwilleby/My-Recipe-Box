@@ -44,6 +44,9 @@ export const MEAL_BUILDER_DIVIDED_TRAY_SIDE_IDS = new Set(
   Array.from({ length: 53 }, (_, index) => `SD-${String(index + 1).padStart(3, "0")}`),
 );
 export const MEAL_BUILDER_STANDARD_FULL_CANVAS_MAIN_IDS = new Set([
+  ...Array.from({ length: 78 }, (_, index) => index + 1)
+    .filter((number) => number !== 63 && number !== 66)
+    .map((number) => `AM-${String(number).padStart(3, "0")}`),
   ...Array.from({ length: 21 }, (_, index) => `AS-${String(index + 1).padStart(3, "0")}`),
   ...Array.from({ length: 180 }, (_, index) => `CP-${String(index + 1).padStart(3, "0")}`),
   ...Array.from({ length: 60 }, (_, index) => `IT-${String(index + 1).padStart(3, "0")}`),
