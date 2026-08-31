@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import "./AdminNutritionDatabase.css";
 import FoodIntelligenceCard from "./FoodIntelligenceCard";
 import {
   getRecipeNutritionRecord,

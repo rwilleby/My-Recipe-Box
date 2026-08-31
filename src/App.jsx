@@ -1,14 +1,8 @@
-import { createContext, useCallback, useContext, useMemo, useState, useEffect, useRef } from "react";
+import { createContext, lazy, useCallback, useContext, useMemo, useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { categories, recipes as baseRecipes } from "./data/recipes";
 import { PAGE_POPUP_COPY } from "./data/pagePopupCopy.js";
-import AdminRecipeClassifier from "./components/AdminRecipeClassifier";
 import VideoIcon from "./components/VideoIcon";
-import AdminRecipeEditor from "./components/AdminRecipeEditor";
-import AdminComboMealBuilder from "./components/AdminComboMealBuilder";
-import AdminMealBuilderImageAudit from "./components/AdminMealBuilderImageAudit";
-import AdminNutritionDatabase from "./components/AdminNutritionDatabase";
-import RfisProjectDashboard from "./components/RfisProjectDashboard";
 import RecipeIntelligencePanel from "./components/RecipeIntelligencePanel";
 import RfisDinnerBuilder from "./components/RfisDinnerBuilder";
 import BuildYourOwnMealPage, { MealBuilderTrayPreview } from "./components/BuildYourOwnMealPage";
@@ -25,10 +19,8 @@ import "./components/BuildYourOwnMealPage.css";
 import DinnerCombinationHeroAudit from "./DinnerCombinationHeroAudit.jsx";
 import UserDataBackupSection from "./components/UserDataBackupSection";
 import FoodIntelligenceCard from "./components/FoodIntelligenceCard";
-import WeekendBulkMealPlanner from "./components/WeekendBulkMealPlanner";
 import KitchenReminderRibbon from "./components/KitchenReminderRibbon";
 import DigitalStockCheckPanel from "./components/DigitalStockCheckPanel";
-import MasterKitchenInventoryPage from "./components/MasterKitchenInventoryPage";
 import {
   MASTER_INVENTORY_CATEGORIES,
   buildMasterKitchenInventoryCatalog,
@@ -56,7 +48,6 @@ import {
 } from "./features/recipe-viewer/recipeAssets.js";
 import { getRecipeNutritionVariant, hasRecipeNutritionRecord } from "./data/recipeNutritionProfiles";
 import "./components/UserDataBackupSection.css";
-import "./components/AdminNutritionDatabase.css";
 import {
   loadRecipeClassifications,
   mergeRecipeClassifications,
@@ -108,8 +99,6 @@ import { applyStoredRecipeOverrides } from "./utils/recipeOverrides";
 import { printManualInventoryWorksheet } from "./utils/manualInventoryWorksheets.js";
 import { uniqueRecordsByPermanentId } from "./utils/records.js";
 import { getCrockPotNutritionEstimate } from "./utils/crockPotNutritionEstimate.js";
-import VideoLibraryPage from "./features/video-library/VideoLibraryPage.jsx";
-import PlaceholderInfoPage from "./features/info-pages/PlaceholderInfoPage.jsx";
 import {
   buildShoppingList,
   formatQty,
@@ -136,6 +125,18 @@ import {
 } from "./data/glp1Filters";
 import "./App.css";
 import "./components/HowItWorksSystem.css";
+
+// Keep administrative and specialty pages out of the initial visitor bundle.
+const AdminRecipeClassifier = lazy(() => import("./components/AdminRecipeClassifier"));
+const AdminRecipeEditor = lazy(() => import("./components/AdminRecipeEditor"));
+const AdminComboMealBuilder = lazy(() => import("./components/AdminComboMealBuilder"));
+const AdminMealBuilderImageAudit = lazy(() => import("./components/AdminMealBuilderImageAudit"));
+const AdminNutritionDatabase = lazy(() => import("./components/AdminNutritionDatabase"));
+const RfisProjectDashboard = lazy(() => import("./components/RfisProjectDashboard"));
+const WeekendBulkMealPlanner = lazy(() => import("./components/WeekendBulkMealPlanner"));
+const MasterKitchenInventoryPage = lazy(() => import("./components/MasterKitchenInventoryPage"));
+const VideoLibraryPage = lazy(() => import("./features/video-library/VideoLibraryPage.jsx"));
+const PlaceholderInfoPage = lazy(() => import("./features/info-pages/PlaceholderInfoPage.jsx"));
 
 const recipes = sortRecipesByCode(applyStoredRecipeOverrides(baseRecipes));
 const rfisPlatform = createRfisPlatform({

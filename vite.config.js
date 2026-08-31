@@ -18,5 +18,12 @@ export default defineConfig({
   define: {
     __APP_VERSION__: JSON.stringify(release.label),
   },
+  build: {
+    cssCodeSplit: true,
+    rollupOptions: { output: { manualChunks: {
+      react: ["react", "react-dom"],
+      "recipe-data": ["./src/data/recipes.js", "./src/data/recipeNutritionProfiles.js", "./src/data/recipeCosts.js"],
+    } } },
+  },
   base: "/",
 });
