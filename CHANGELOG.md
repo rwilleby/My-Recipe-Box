@@ -1,3 +1,60 @@
+# v95.8 — Authoritative Release Versioning
+
+- Established `release.json` as the single authoritative source for the public release label, semantic package version, release date, and master ZIP name.
+- Synchronized the npm package, lockfile, and retained source-package metadata to v95.8 and added a drift check to the deployment gate.
+- Embedded the authoritative release label in the production build as application metadata and a compile-time constant.
+- Added a current release-integrity contract and retired the obsolete v88.1 integrity contract from the active test runner.
+- Brought this changelog forward through the actual v95.8 master while preserving earlier release history.
+
+# v95.6 — Complete Recipe SEO Coverage
+
+- Generated permanent routes and sitemap entries for the complete recipe catalog.
+- Completed Recipe structured data and recipe-specific sharing metadata across the library.
+
+# v95.5 — Meal Selection Performance
+
+- Reduced the number of simultaneously rendered Build-A-Meal controls through paged recipe choices.
+- Added lazy image loading while preserving search, filters, selection behavior, and the approved tray design.
+
+# v95.4 — Compact Complete Dinners
+
+- Replaced the fully expanded Complete Dinners catalog with compact selectable cards and progressive Show More paging.
+- Preserved recipe details, planner actions, nutrition information, and approved meal imagery.
+
+# v95.3 — Meal Builder Geometry and Image Audit
+
+- Corrected Build-A-Meal compartment and ghost geometry for the approved tray configurations.
+- Connected the existing administrative image-audit system to the live Meal Builder assets.
+
+# v95.2 — Consolidated Release Test Gate
+
+- Added the v92–v95.2 regression contracts to the official current-test runner.
+- Required the complete current test suite and production build to pass before GitHub Pages deployment.
+
+# v95.1 — Two-Compartment Meal Builder Layout
+
+- Corrected the two-compartment tray state, disabled the unavailable middle-side choice, and aligned placeholder geometry to its usable compartments.
+
+# v94.5 — Meal Builder Administrative Image Audit
+
+- Added administrative coverage for auditing Meal Builder image availability and fit.
+
+# v93.2 — Vegan Recipe Library
+
+- Added the Vegan recipe-library presentation and its associated recipe-card treatment.
+
+# v93.1 — Holidays and Special Occasions
+
+- Added the Holidays and Special Occasions collection and its navigation coverage.
+
+# v93.0 — Freezer Packaging Guidance
+
+- Added the freezer-packaging accordion and its release contract.
+
+# v92.8 — Alphabetical Recipe Browsing
+
+- Standardized alphabetical Browse Recipes ordering and added regression coverage.
+
 # v91 — Master 4 Combined Media and Meal Builder Update
 
 - Added the supplied compressed How It Works video to the How It Works large hero and enabled its standard hero-video control.

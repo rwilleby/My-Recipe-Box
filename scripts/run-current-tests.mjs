@@ -74,6 +74,7 @@ const recentReleaseTests = readdirSync(resolve("test"))
   .filter((file) =>
     /V84(?:1[8-9]|2\d|3[0-7])\.test\.mjs$|V85\d*\.test\.mjs$|V88\d*\.test\.mjs$|V89\d*\.test\.mjs$|V9[2-5]\d*\.test\.mjs$|releaseIntegrityV881\.test\.mjs$/.test(file),
   )
+  .filter((file) => file !== "releaseIntegrityV881.test.mjs")
   .filter((file) => file !== "homeMainPageEditsV850.test.mjs")
   .map((file) => `test/${file}`);
 files.push(...recentReleaseTests);

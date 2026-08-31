@@ -16,6 +16,10 @@ npm run dev
 
 ## Release verification
 
+`release.json` is the authoritative version source. `package.json`,
+`package-lock.json`, and `src/package.json` are compatibility mirrors. After
+changing a release, run `npm run version:sync`; the release gate rejects drift.
+
 Run the same test-and-build command used by GitHub Pages:
 
 ```bash
@@ -49,6 +53,6 @@ Before changing a storage key or adding a new user-data feature:
 
 ## Release hygiene
 
-- Update `package.json`, `package-lock.json`, `CHANGELOG.md`, and the current update manifest together.
+- Update `release.json` and `CHANGELOG.md`, then run `npm run version:sync`.
 - Do not commit `node_modules`, `dist`, `.DS_Store`, `._*`, or `__MACOSX` content.
 - Use the committed npm lockfile; do not deploy with an unlocked dependency install.
