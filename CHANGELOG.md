@@ -1,3 +1,9 @@
+# v95.10 — Accessible Recipe Viewer & Text Recipes
+
+- Completed keyboard modal behavior for the Recipe Viewer and enlarged-card view, including initial focus, contained Tab navigation, Escape handling, and focus restoration.
+- Continued the selectable Text Recipe conversion with all 10 active Bread Machine recipes, transcribed from the illustrated recipe cards.
+- Added the v95.10 accessibility and Bread Machine text-recipe regression contract to the official release test runner.
+
 # v95.9 — Complete Dinners & Site Clarity
 
 - Standardized the ready-made main-and-sides feature as “Complete Dinners” across customer-facing navigation, home features, Favorites, search metadata, help copy, privacy copy, and video labels.

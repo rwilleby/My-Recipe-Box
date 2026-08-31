@@ -4418,7 +4418,28 @@ function RecipeCardViewer({
   const [zoomScale, setZoomScale] = useState(1);
   const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
   const zoomDragRef = useRef(null);
+  const viewerDialogRef = useRef(null);
+  const viewerCloseRef = useRef(null);
+  const zoomDialogRef = useRef(null);
   usePopupPageMode(Boolean(viewer));
+
+  useEffect(() => {
+    if (!viewer) return undefined;
+    const returnFocusTarget = document.activeElement;
+    const focusFrame = window.requestAnimationFrame(() => viewerCloseRef.current?.focus());
+    return () => {
+      window.cancelAnimationFrame(focusFrame);
+      window.requestAnimationFrame(() => returnFocusTarget?.focus?.());
+    };
+  }, [Boolean(viewer)]);
+
+  useEffect(() => {
+    if (!zoomOpen) return undefined;
+    const focusFrame = window.requestAnimationFrame(() => {
+      zoomDialogRef.current?.querySelector(".recipeCardZoomClose")?.focus();
+    });
+    return () => window.cancelAnimationFrame(focusFrame);
+  }, [zoomOpen]);
 
   const viewerIds = viewer?.recipeIds?.length
     ? viewer.recipeIds
@@ -4687,13 +4708,53 @@ function RecipeCardViewer({
     if (!wasDrag) closeRecipeCardZoom();
   }
 
+  function handleViewerKeyDown(event) {
+    const activeDialog = zoomOpen ? zoomDialogRef.current : viewerDialogRef.current;
+    if (!activeDialog) return;
+
+    if (event.key === "Escape") {
+      event.preventDefault();
+      if (zoomOpen) closeRecipeCardZoom();
+      else if (openPanel) setOpenPanel(null);
+      else onClose();
+      return;
+    }
+
+    if (event.key !== "Tab") return;
+    const focusable = [...activeDialog.querySelectorAll(
+      'button:not([disabled]), a[href], input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
+    )].filter((element) => !element.hidden && element.getAttribute("aria-hidden") !== "true");
+    if (!focusable.length) {
+      event.preventDefault();
+      activeDialog.focus();
+      return;
+    }
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  }
+
   return (
-    <div className="cardViewerOverlay" onClick={onClose}>
-      <div className="cardViewer cardViewerBottomActions" onClick={(event) => event.stopPropagation()}>
+    <div className="cardViewerOverlay" onClick={onClose} onKeyDown={handleViewerKeyDown}>
+      <div
+        className="cardViewer cardViewerBottomActions"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={`${recipe.id}-viewer-title`}
+        tabIndex="-1"
+        ref={viewerDialogRef}
+        onClick={(event) => event.stopPropagation()}
+      >
         <div className="cardViewerHeader">
           <div className="cardViewerHeaderIdentity">
             <span className="cardViewerCode">{recipe.id}</span>
-            <h2>{recipe.title}</h2>
+            <h2 id={`${recipe.id}-viewer-title`}>{recipe.title}</h2>
             <div className="cardViewerMealBalanceRow">
               <MealBalanceDetails item={recipe} />
             </div>
@@ -4703,7 +4764,7 @@ function RecipeCardViewer({
             <button className="cardViewerHowItWorks" type="button" onClick={() => openHowItWorksGuide("Recipe Cards")} aria-label="HOW IT WORKS: Recipe Cards" title="HOW IT WORKS">
               <img src={`${import.meta.env.BASE_URL}${HOW_IT_WORKS_ICON}`} alt="" aria-hidden="true" />
             </button>
-            <button className="cardViewerClose" onClick={onClose} aria-label="Close recipe viewer">
+            <button ref={viewerCloseRef} className="cardViewerClose" onClick={onClose} aria-label="Close recipe viewer">
               ×
             </button>
           </div>
@@ -4770,6 +4831,8 @@ function RecipeCardViewer({
             role="dialog"
             aria-modal="true"
             aria-label={`${recipe.id} ${recipe.title} enlarged recipe card`}
+            tabIndex="-1"
+            ref={zoomDialogRef}
             onClick={closeRecipeCardZoom}
           >
             <div className="recipeCardZoomBackdropHint" aria-hidden="true">

@@ -2,6 +2,7 @@ import { AMERICAN_INGREDIENTS_V849 } from "./americanIngredientsV849.js";
 import { AMERICAN_DIRECTIONS_V881 } from "./americanDirectionsV881.js";
 import { ASIAN_INGREDIENTS_V8410 } from "./asianIngredientsV8410.js";
 import { ASIAN_DIRECTIONS_V882 } from "./asianDirectionsV882.js";
+import { BREAD_MACHINE_DIRECTIONS_V9510 } from "./breadMachineDirectionsV9510.js";
 import { CROCK_POT_INGREDIENTS_V8411 } from "./crockPotIngredientsV8411.js";
 import { DONUT_BURGER_INGREDIENTS_V8412 } from "./donutBurgerIngredientsV8412.js";
 import { ITALIAN_INGREDIENTS_V8412 } from "./italianIngredientsV8412.js";
@@ -1460,7 +1461,7 @@ function makeRecipe(entry) {
     ingredients: DETAILED_RECIPE_INGREDIENTS[id] ? verifiedIngredients : (options.ingredients?.length ? options.ingredients : verifiedIngredients),
     directions: options.directions?.length
       ? options.directions
-      : (AMERICAN_DIRECTIONS_V881[id] || ASIAN_DIRECTIONS_V882[id] || []),
+      : (AMERICAN_DIRECTIONS_V881[id] || ASIAN_DIRECTIONS_V882[id] || BREAD_MACHINE_DIRECTIONS_V9510[id] || []),
     mediaLinks: options.mediaLinks || undefined,
     isVegan: options.isVegan === true,
     veganStatus: options.veganStatus || "",

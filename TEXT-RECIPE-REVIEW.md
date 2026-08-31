@@ -6,6 +6,7 @@ The illustrated recipe cards remain the authority. Recipe codes and card images 
 
 - **American Cuisine (AM):** 77 active recipes reviewed.
 - **Asian Cuisine (AS):** 24 active recipes reviewed.
+- **Bread Machine (BR):** 10 active recipes reviewed.
 - **Ingredients:** Existing card-verified ingredient records retained.
 - **Directions:** Card wording transcribed and reviewed for all active AM and AS recipes.
 
@@ -17,4 +18,4 @@ The illustrated recipe cards remain the authority. Recipe codes and card images 
 
 ## Next category
 
-- **Bread Machine (BR):** Ingredients are already card-verified; selectable directions remain under review.
+- **Cheesecakes (CC):** Ingredients are already card-verified; selectable directions remain under review.
