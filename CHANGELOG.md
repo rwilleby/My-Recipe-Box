@@ -1,3 +1,11 @@
+# v95.9 — Complete Dinners & Site Clarity
+
+- Standardized the ready-made main-and-sides feature as “Complete Dinners” across customer-facing navigation, home features, Favorites, search metadata, help copy, privacy copy, and video labels.
+- Clarified that Complete Dinners contain dishes already paired together, while Build-A-Meal lets customers choose their own main dish and sides.
+- Renamed the overlapping recipe-only collection to “Recipes for Complete Dinners” and gave it a distinct collection route.
+- Corrected unfinished and awkward customer-facing wording without changing approved layouts or internal data identifiers.
+- Added a regression contract for terminology and route clarity.
+
 # v95.8 — Authoritative Release Versioning
 
 - Established `release.json` as the single authoritative source for the public release label, semantic package version, release date, and master ZIP name.

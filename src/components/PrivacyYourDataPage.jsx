@@ -53,7 +53,7 @@ export default function PrivacyYourDataPage({ setActivePage }) {
         <PrivacySection title="Information Saved in Your Browser">
           <p>Some personal website features save information directly in the browser you are using. Depending on the features available, this can include:</p>
           <ul>
-            <li>Favorite recipes and Combo-Meals</li><li>Checked grocery items and shopping comments</li><li>Meal plans and serving-size selections</li><li>Pantry, refrigerator, and freezer information</li><li>Prepared-food inventory and reservations</li><li>Product category assignments and Recipe Box settings</li><li>Other supported data stored with a Robert’s Recipe Box browser-storage key</li>
+            <li>Favorite recipes and Complete Dinners</li><li>Checked grocery items and shopping comments</li><li>Meal plans and serving-size selections</li><li>Pantry, refrigerator, and freezer information</li><li>Prepared-food inventory and reservations</li><li>Product category assignments and Recipe Box settings</li><li>Other supported data stored with a Robert’s Recipe Box browser-storage key</li>
           </ul>
           <p>This information is connected to the particular browser and device where it was created. Information saved in Safari on one computer will not automatically appear in Chrome, on another computer, or on a phone.</p>
         </PrivacySection>

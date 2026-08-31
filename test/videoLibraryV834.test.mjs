@@ -49,7 +49,7 @@ const expectedTitles = [
   "Pantry Inventory",
   "Browse Our Recipes",
   "Your Favorite Recipes",
-  "Dinner Combinations",
+  "Complete Dinners",
   "Healthy Dinners",
   "Salad Jar Lunches",
   "Slow Cooker Meals",

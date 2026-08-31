@@ -1457,7 +1457,7 @@ function getComboRegularGroceryIngredients(meal) {
     name: side.name,
     qty: 1,
     unit: side.serving || "serving",
-    aisle: "Combo Meal Ingredients",
+    aisle: "Complete Dinner Ingredients",
   }));
 }
 
@@ -2424,7 +2424,7 @@ const HOME_PHOTO_FEATURES = [
     title: "Meal Planning",
     description: "Organize meals for the coming week.",
     explanation:
-      "Place recipes and Combo-Meals into the weekly planner before shopping. Build the week around cooking days, leftovers, freezer meals, appointments, and the number of people being served.",
+      "Place individual recipes or Complete Dinners into the weekly planner before shopping. Build the week around cooking days, leftovers, freezer meals, appointments, and the number of people being served.",
     benefits:
       "Planning ahead reduces last-minute decisions, helps ingredients work across several meals, and makes it easier to balance fresh cooking with convenient reheating days.",
     image: "images/home-features/hero-process-02-planning.webp",
@@ -5337,14 +5337,14 @@ function FeaturedSelectionPanel({ setActivePage }) {
   return (
     <section className="homeFeatureCard featuredSelectionCard dinnerCombinationsFeatureCard">
       <div className="homeMiniSectionHeader">
-        <h2>Combo-Meals</h2>
+        <h2>Complete Dinners</h2>
       </div>
 
       <button
         type="button"
         className="featuredSelectionButton dinnerCombinationsFeatureButton"
         onClick={() => setActivePage("Dinner Combinations")}
-        aria-label="Open Dinner Combinations"
+        aria-label="Open Complete Dinners"
       >
         <div className="featuredSelectionImage dinnerCombinationsFeatureImage">
           <div className="featuredDinnerImageStack" aria-hidden="true">
@@ -8367,7 +8367,7 @@ function PreparedFreezerInventoryPage({
     <main className="pageShell preparedInventoryPage">
       <SectionIntro
         title="Freezer Inventory"
-        text="Track prepared proteins, sauces, doughs, main dishes, sides, and other freezer items by package. Planned Combo Meals reserve packages without removing them until the meal is completed."
+        text="Track prepared proteins, sauces, doughs, main dishes, sides, and other freezer items by package. Planned Complete Dinners reserve packages without removing them until the dinner is completed."
         className="freezerInventorySectionIntro"
       />
 
@@ -10886,7 +10886,7 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
               ) : (
                 <div className="shoppingGrid">
                   {Object.entries(groupedPantry).map(([aisle, items]) => {
-                    const isComboMealIngredients = aisle === "Combo Meal Ingredients";
+                    const isComboMealIngredients = aisle === "Complete Dinner Ingredients";
                     return (
                       <section
                         className={isComboMealIngredients ? "shoppingGroup comboMealIngredientsGroup" : "shoppingGroup"}
@@ -10894,7 +10894,7 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
                       >
                         {isComboMealIngredients ? (
                           <div className="shoppingGroupStreamlinedHeader">
-                            <h2>Combo Meal Ingredients</h2>
+                            <h2>Complete Dinner Ingredients</h2>
                             <p>Ingredients already available from pantry or inventory checks.</p>
                           </div>
                         ) : (
@@ -10941,14 +10941,14 @@ function FavoritesPage({
       <main className="pageShell favoritesLibraryPage">
         <SectionIntro
           title="Favorites"
-          text="Recipe cards, Combo-Meals, and meals you build yourself—saved on this device. No login or sync required."
+          text="Recipe cards, Complete Dinners, and Build-A-Meals you create yourself—saved on this device. No login or sync required."
           className="favoritesSectionIntro"
         />
 
         {!hasFavorites ? (
           <EmptyState
             title="No favorites yet"
-            text="Tap the heart on a recipe card, Combo-Meal, or saved Build-A-Meal to keep it here."
+            text="Tap the heart on a recipe card, Complete Dinner, or saved Build-A-Meal to keep it here."
           />
         ) : (
           <>
@@ -11005,7 +11005,7 @@ function FavoritesPage({
             {savedComboMeals.length > 0 && (
               <section className="favoritesLibrarySection" aria-labelledby="favorite-combos-title">
                 <header className="favoritesLibraryHeader">
-                  <h2 id="favorite-combos-title">Favorite Combo-Meals</h2>
+                  <h2 id="favorite-combos-title">Favorite Complete Dinners</h2>
                   <span>{savedComboMeals.length}</span>
                 </header>
 
@@ -11016,7 +11016,7 @@ function FavoritesPage({
                       className="homeComboMealCard favoriteComboMealCard"
                       key={meal.id}
                       onClick={() => setSelectedMeal(meal)}
-                      aria-label={`Open favorite combo meal ${meal.number}: ${meal.title}`}
+                      aria-label={`Open favorite Complete Dinner ${meal.number}: ${meal.title}`}
                     >
                       <div className="homeComboMealImage">
                         <DinnerCombinationImage
@@ -13901,7 +13901,7 @@ function DinnerCombinationCard({ meal, plan = emptyTwoWeekPlan(), onAddMealToPla
             </a>
           </h3>
           <p className="dinnerCombinationSubtitle">{meal.subtitle}</p>
-          <MealBalanceDetails item={meal} prefix="Combo Meal Balance" className="comboMealBalanceDetails" />
+          <MealBalanceDetails item={meal} prefix="Complete Dinner MealBalance" className="comboMealBalanceDetails" />
           <div className="dinnerCombinationStackedMeal" aria-label="Main and side dishes">
             <p>
               <span>M</span>
@@ -18485,8 +18485,8 @@ export default function App() {
             src="images/heroes/hero-page-complete-dinners.webp"
             alt="Complete dinner setup with steak, sides, recipe box, clipboard, and iced tea"
             eyebrow="COLLECTIONS"
-            title="Dinner Combinations"
-            text="These dinner combinations are designed to help you quickly choose practical meals with a main dish, sides, portion guidance, and estimated nutrition. They can be used for weekly planning, freezer meal prep, or simple dinner ideas for smaller households.\n\nNutrition values are estimates and may vary based on brands, portions, and preparation methods."
+            title="Complete Dinners"
+            text="Complete Dinners are ready-made pairings of one main dish and practical sides. Review the included recipe cards, portion guidance, whole-meal nutrition estimate, and freezer notes together, then add the entire dinner to your weekly plan.\n\nChoose Build-A-Meal instead when you want to select your own main dish and sides. Nutrition values are estimates and may vary based on brands, portions, and preparation methods."
             className="pageHeroDepth464"
           />
           <DinnerCombinationsPage
@@ -18847,15 +18847,15 @@ Use this page to group the recipes you want for relaxed weekends, family visits,
             src="images/heroes/hero-page-complete-dinners.webp"
             alt="Complete dinner setup with main dish, sides, recipe box, and meal-planning clipboard"
             eyebrow="COLLECTIONS"
-            title="Complete Dinners"
-            text="Complete dinners bring together recipes that work well as a full meal idea. These may include hearty mains, practical sides, freezer-friendly options, or meals that are especially easy to plan for two to six servings.
+            title="Recipes for Complete Dinners"
+            text="This collection contains individual recipe cards that work especially well as mains or sides in a complete dinner. Use it when you want to browse the building blocks and choose the dishes yourself.
 
-Use this collection to assign individual recipe cards that belong in a complete-dinner planning group without duplicating recipes or changing their official category codes."
+For ready-made main-and-side pairings with whole-meal nutrition and one-step planning, open Complete Dinners instead."
             className="pageHeroDepth464"
           />
           <CollectionDetailPage
-            title="Complete Dinners"
-            text="A collection page for recipes that work especially well as part of a complete dinner plan."
+            title="Recipes for Complete Dinners"
+            text="Individual mains and sides that work especially well when you assemble your own complete dinner."
             setActivePage={setActivePage}
             recipes={classifiedRecipes}
             favorites={favorites}

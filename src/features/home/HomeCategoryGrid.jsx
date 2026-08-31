@@ -156,7 +156,7 @@ export default function HomeCategoryGrid({
               window.scrollTo({ top: 0, left: 0, behavior: "auto" });
             }));
           }}
-          aria-label="View favorite recipes and combo meals"
+          aria-label="View favorite recipes, Complete Dinners, and saved Build-A-Meals"
         >
           <img
             className="categoryIconImage homeFavoritesCategoryIcon"

@@ -186,20 +186,20 @@ export const PAGE_POPUP_COPY = {
     tip: "Return here whenever you have a question about site policies.",
   },
   "Dinner Combinations": {
-    title: "Dinner Combinations",
-    intro: "Explore practical ways to combine entrées, sides, and extras into complete meals.",
+    title: "Complete Dinners",
+    intro: "Choose a ready-made dinner with one entrée and practical sides already paired for you.",
     bullets: [
-      "Find dishes that work well together.",
-      "Build balanced meals without starting from scratch.",
+      "Review the recipes, whole-meal nutrition estimate, and planning notes together.",
+      "Add the entire dinner to your planner without choosing each dish separately.",
     ],
     tip: "Use MealBalance ratings to help compare different combinations.",
   },
   "Complete Dinners": {
-    title: "Dinner Combinations",
-    intro: "Explore practical ways to combine entrées, sides, and extras into complete meals.",
+    title: "Recipes for Complete Dinners",
+    intro: "Browse individual recipes tagged as useful parts of a complete dinner.",
     bullets: [
-      "Find dishes that work well together.",
-      "Build balanced meals without starting from scratch.",
+      "Find mains and sides that are useful when assembling your own dinner.",
+      "Open Complete Dinners when you want the dishes already paired for you.",
     ],
     tip: "Use MealBalance ratings to help compare different combinations.",
   },

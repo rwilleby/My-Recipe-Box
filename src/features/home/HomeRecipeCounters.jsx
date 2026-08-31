@@ -35,7 +35,7 @@ export default function HomeRecipeCounters({
   }).length;
   const counters = [
     { label: "Recipes", value: allUniqueRecipes.length, className: "recipes" },
-    { label: "Complete Meals", value: allUniqueCompleteMeals.length, className: "complete" },
+    { label: "Complete Dinners", value: allUniqueCompleteMeals.length, className: "complete" },
     { label: "Freezer-Friendly", value: freezerFriendlyCount, className: "freezer" },
     {
       label: "Collections",

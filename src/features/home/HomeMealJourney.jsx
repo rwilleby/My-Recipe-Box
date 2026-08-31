@@ -136,7 +136,7 @@ export function MealJourneyContent({ setActivePage, compact = false }) {
   return (
     <div className={compact ? "mealJourneyContent compact" : "mealJourneyContent"}>
       <header className="mealJourneyHeader">
-        <h2>{compact ? "Use this as your quick reference source to using our site" : "Your Complete Meal Journey"}</h2>
+        <h2>{compact ? "Use this as your quick guide to the site" : "Your Complete Meal Journey"}</h2>
         {compact ? (
           <>
             <p>Robert’s Recipe Box can be used as simply or as completely as you choose.</p>

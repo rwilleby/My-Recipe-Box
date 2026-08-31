@@ -52,7 +52,7 @@ export const VIDEO_LIBRARY_ITEMS = [
   plannedVideo("pantry-inventory", "Pantry Inventory", "Pantry Staples", "Open Pantry Inventory"),
   availableVideo("browse-recipes", "Browse Our Recipes", "Search, filter, and open recipes in the main library.", "browse-our-recipe-library", "Recipes", "Open Recipe Library"),
   plannedVideo("favorite-recipes", "Your Favorite Recipes", "Favorites", "Open Favorite Recipes"),
-  plannedVideo("dinner-combinations", "Dinner Combinations", "Dinner Combinations", "Open Dinner Combinations"),
+  plannedVideo("dinner-combinations", "Complete Dinners", "Complete Dinners", "Open Complete Dinners"),
   availableVideo("healthy-dinners", "Healthy Dinners", "Explore the Healthy Dinners collection and its lighter Diet Meal choices.", "diet-meals", "Healthy Dinners", "Open Healthy Dinners"),
   availableVideo("salad-jars-collection", "Salad Jar Lunches", "Explore the complete Salad Jar Lunches collection.", "salad-jars", "Salad Jars", "Open Salad Jar Lunches"),
   availableVideo("slow-cooker", "Slow Cooker Meals", "Explore the Crock Pot recipe collection and practical slow-cooker meal ideas.", "crock-pot-meals", "Slow Cooker Favorites", "Open Slow Cooker Meals"),

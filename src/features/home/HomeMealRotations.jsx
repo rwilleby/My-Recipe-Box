@@ -37,7 +37,7 @@ function HomeComboMealCardButton({ meal, className = "", onOpen, imageLoading = 
       type="button"
       className={`homeComboMealCard ${className}`.trim()}
       onClick={() => onOpen(meal)}
-      aria-label={`Open combo meal ${meal.number}: ${meal.title}`}
+      aria-label={`Open Complete Dinner ${meal.number}: ${meal.title}`}
     >
       <div className="homeComboMealImage">
         <DinnerCombinationImage
@@ -189,7 +189,7 @@ function HomeComboMealStrip({
 
   return (
     <>
-      <section className="section homeComboMealStrip" aria-label="Complete meal ideas">
+      <section className="section homeComboMealStrip" aria-label="Complete Dinner ideas">
         <SectionIntro
           title="Looking for Quick Dinner Ideas?"
           className="homeComboMealStripHeader quickDinnerSectionIntro"
@@ -208,7 +208,7 @@ function HomeComboMealStrip({
           }
           text={
             <>
-              Ready-made dinner combinations that pair a main dish with practical sides.{" "}
+              Ready-made Complete Dinners pair a main dish with practical sides, so you can review and plan the whole meal together.{" "}
               <button
                 type="button"
                 className="homeComboMealMoreIdeas"
