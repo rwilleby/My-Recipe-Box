@@ -13440,26 +13440,6 @@ to {
   overflow-x: hidden !important;
 }
 
-.homeCategoryGrid,
-.categoryGrid.homeCategoryGrid {
-  grid-auto-flow: row !important;
-  grid-auto-columns: unset !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  overflow-x: hidden !important;
-  overflow-y: visible !important;
-  overscroll-behavior-inline: auto !important;
-  scrollbar-width: none !important;
-  padding-bottom: 0 !important;
-}
-
-.homeCategoryGrid::-webkit-scrollbar,
-.categoryGrid.homeCategoryGrid::-webkit-scrollbar {
-  display: none !important;
-  width: 0 !important;
-  height: 0 !important;
-}
-
 /* ================================================================
    v83.3 — CROCK POT NUTRITION + RESPONSIVE HEADER/HERO/CATEGORIES
    ================================================================ */
@@ -13602,111 +13582,6 @@ to {
   gap: var(--rrb-control-gap, 8px) !important;
 }
 
-.shoppingListIntroActions > button,
-.shoppingViewToggle {
-  min-height: var(--rrb-control-row-height, 44px) !important;
-  height: var(--rrb-control-row-height, 44px) !important;
-  border: var(--rrb-control-border-width, 1px) solid var(--rrb-control-border, #cbd6cd) !important;
-  border-radius: var(--rrb-control-radius, 18px) !important;
-  box-shadow: none !important;
-}
-
-.shoppingListIntroActions > button {
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  min-width: 0 !important;
-  padding: 0 14px !important;
-  background: var(--rrb-control-bg, #ffffff) !important;
-  color: var(--rrb-control-secondary-text, #14532d) !important;
-  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif !important;
-  font-size: var(--rrb-control-font-size, 12px) !important;
-  font-weight: var(--rrb-control-font-weight, 800) !important;
-  line-height: 1 !important;
-  white-space: nowrap !important;
-}
-
-.shoppingViewToggle {
-  width: 100% !important;
-  display: grid !important;
-  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  padding: 0 !important;
-  overflow: hidden !important;
-  background: var(--rrb-control-muted-bg, #f3f1eb) !important;
-}
-
-.shoppingViewToggle button {
-  min-width: 0 !important;
-  min-height: calc(var(--rrb-control-row-height, 44px) - 2px) !important;
-  height: calc(var(--rrb-control-row-height, 44px) - 2px) !important;
-  padding: 0 16px !important;
-  border: 0 !important;
-  border-radius: 0 !important;
-  background: transparent !important;
-  color: var(--rrb-control-text, #172033) !important;
-  font-size: var(--rrb-control-font-size, 12px) !important;
-  font-weight: var(--rrb-control-font-weight, 800) !important;
-}
-
-.shoppingViewToggle button + button {
-  border-left: 1px solid var(--rrb-control-border, #cbd6cd) !important;
-}
-
-.shoppingViewToggle button[aria-selected="true"] {
-  background: #9d9792 !important;
-  color: #ffffff !important;
-}
-
-.shoppingListIntroActions > .shoppingPrintButton {
-  border-color: var(--rrb-control-primary-bg, #80994A) !important;
-  background: var(--rrb-control-primary-bg, #80994A) !important;
-  color: var(--rrb-control-primary-text, #ffffff) !important;
-}
-
-.shoppingListIntroActions > .shoppingClearButton {
-  border-color: var(--rrb-control-danger-border, #ddb3ad) !important;
-  background: var(--rrb-control-bg, #ffffff) !important;
-  color: var(--rrb-control-danger, #a3312d) !important;
-}
-
-.shoppingListIntroActions > button:hover,
-.shoppingListIntroActions > button:focus-visible,
-.shoppingViewToggle button:hover,
-.shoppingViewToggle button:focus-visible {
-  filter: brightness(.97) !important;
-}
-
-@media (max-width: 1240px) {
-  .shoppingListIntroActions {
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  }
-
-  .shoppingViewToggle {
-    grid-column: 1 / -1 !important;
-  }
-}
-
-@media (max-width: 720px) {
-  .shoppingListIntroActions {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  }
-
-  .shoppingViewToggle {
-    grid-column: 1 / -1 !important;
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  }
-}
-
-@media (max-width: 480px) {
-  .shoppingListIntroActions {
-    grid-template-columns: 1fr !important;
-  }
-
-  .shoppingViewToggle {
-    grid-column: 1 !important;
-  }
-}
-
 /* ================================================================
    v84.22 — ONE-ROW SHOPPING COMMAND STRIP WITH COMPACT COUNTERS
    ================================================================ */
@@ -13729,78 +13604,6 @@ to {
   overflow-x: auto !important;
   overflow-y: hidden !important;
   scrollbar-width: thin !important;
-}
-
-.shoppingListIntroActions > button,
-.shoppingViewToggle {
-  min-height: 40px !important;
-  height: 40px !important;
-  border-radius: 14px !important;
-}
-
-.shoppingListIntroActions > button {
-  padding: 0 8px !important;
-  font-size: 10.5px !important;
-  white-space: nowrap !important;
-}
-
-.shoppingViewToggle {
-  grid-column: auto !important;
-  width: 100% !important;
-  min-width: 230px !important;
-  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-}
-
-.shoppingViewToggle button {
-  min-height: 38px !important;
-  height: 38px !important;
-  padding: 0 9px !important;
-  font-size: 10px !important;
-  white-space: nowrap !important;
-}
-
-.shoppingCommandCounters.preparedInventorySummary {
-  min-width: 320px !important;
-  height: 40px !important;
-  display: grid !important;
-  grid-template-columns: repeat(4, minmax(70px, 1fr)) !important;
-  gap: 4px !important;
-  margin: 0 !important;
-  align-self: stretch !important;
-}
-
-.shoppingCommandCounters.preparedInventorySummary > div {
-  min-width: 0 !important;
-  height: 40px !important;
-  display: grid !important;
-  grid-template-rows: auto auto !important;
-  align-content: center !important;
-  justify-items: center !important;
-  gap: 1px !important;
-  padding: 3px 5px !important;
-  border-radius: 12px !important;
-  box-shadow: none !important;
-}
-
-.shoppingCommandCounters.preparedInventorySummary small {
-  margin: 0 !important;
-  color: #667085 !important;
-  font: 700 8px/1 Inter, system-ui, sans-serif !important;
-  white-space: nowrap !important;
-}
-
-.shoppingCommandCounters.preparedInventorySummary strong {
-  margin: 0 !important;
-  color: #14532d !important;
-  font: 700 17px/.95 Georgia, serif !important;
-  white-space: nowrap !important;
-}
-
-@media (max-width: 1180px) {
-  .shoppingListIntroActions {
-    min-width: 1040px !important;
-    grid-template-columns: 230px 68px 76px 88px 88px 96px 108px 320px !important;
-  }
 }
 
 /* ================================================================
@@ -14183,42 +13986,12 @@ to {
   display: none !important;
 }
 
-.shoppingListIntroActions > button,
-.shoppingViewToggle {
-  min-width: 0 !important;
-  min-height: 60px !important;
-  height: 60px !important;
-  border-radius: 16px !important;
-}
-
-.shoppingListIntroActions > button {
-  padding: 0 12px !important;
-  font-size: clamp(13px, 1.05vw, 17px) !important;
-  line-height: 1.02 !important;
-}
-
-.shoppingViewToggle {
-  width: 100% !important;
-  min-width: 0 !important;
-  grid-column: auto !important;
-  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-}
-
 .shoppingViewToggle button {
   min-height: 58px !important;
   height: 58px !important;
   padding: 0 12px !important;
   font-size: clamp(12px, 1vw, 16px) !important;
   line-height: 1.02 !important;
-}
-
-.preparedShoppingSections,
-.shoppingListSections,
-.shoppingNeedGroups {
-  display: grid !important;
-  grid-template-columns: minmax(0, 1fr) !important;
-  gap: 11px !important;
-  width: 100% !important;
 }
 
 .shoppingNeedsViewHeader {
@@ -16149,6 +15922,24 @@ button.browseRecipeWideFooterAction:focus-visible,
 
 .browseRecipeNutritionFacts .browseNutritionServingRow strong {justify-self: end !important; text-align: right !important; white-space: nowrap !important;}
 
+/* v95.12 — compact Crock Pot estimate label and unified card-control type. */
+.browseRecipeNutritionFacts .browseNutritionEstimateNote {
+  flex: 0 0 auto !important;
+  margin: auto 0 0 !important;
+  padding-top: 3px !important;
+  overflow: hidden !important;
+  color: #4b5563 !important;
+  font-size: clamp(6.5px, 1.05cqw, 8.5px) !important;
+  line-height: 1 !important;
+  text-align: center !important;
+  white-space: nowrap !important;
+}
+
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseRecipeWideFooterTime strong {
+  font-size: clamp(9px, 1.65cqw, 12px) !important;
+}
+
 .recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid) .browseRecipeWideFooterAction.isPrimary:hover,
 .recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid) .browseRecipeWideFooterAction.isPrimary:focus-visible {background: #70883f !important; border-color: #70883f !important; color: #fff !important;}
 
@@ -17167,15 +16958,6 @@ button.browseRecipeWideFooterAction:focus-visible,
   box-sizing: border-box !important;
 }
 
-.rrbSectionIntroCopy {
-  min-width: 0 !important;
-}
-
-.rrbSectionIntroComponent.isCentered {
-  display: block !important;
-  text-align: center !important;
-}
-
 .rrbSectionIntroComponent.isCentered .rrbSectionIntroCopy {
   width: 100% !important;
   margin-left: auto !important;
@@ -17188,10 +16970,6 @@ button.browseRecipeWideFooterAction:focus-visible,
   align-items: center !important;
   gap: 7px !important;
   min-width: 0 !important;
-}
-
-.rrbSectionIntroComponent.isCentered .rrbSectionIntroTitleRow {
-  justify-content: center !important;
 }
 
 .rrbSectionIntroComponent h2 {
@@ -17218,15 +16996,6 @@ button.browseRecipeWideFooterAction:focus-visible,
   line-height: var(--rrb-section-intro-copy-line-height, 1.3) !important;
   letter-spacing: 0 !important;
   color: var(--rrb-color-body, #667085) !important;
-}
-
-.rrbSectionIntroComponent.isCentered p {
-  margin-left: auto !important;
-  margin-right: auto !important;
-}
-
-.rrbSectionIntroEyebrow {
-  margin: 0 0 9px !important;
 }
 
 .rrbSectionIntroActions {
@@ -20828,11 +20597,6 @@ button.browseRecipeWideFooterAction:focus-visible,
   grid-auto-flow: column !important;
   grid-auto-rows: 1fr !important;
   flex-wrap: nowrap !important;
-}
-
-.inventoryHubTabs {
-  grid-column: auto !important;
-  min-width: 0 !important;
 }
 
 .inventoryHubControlStrip > button {

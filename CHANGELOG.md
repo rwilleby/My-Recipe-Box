@@ -1,3 +1,18 @@
+# v95.12 — Recipe Card Icons & Readability
+
+- Replaced the shared All and Favorites navigation icons with the approved artwork.
+- Kept Crock Pot nutrition panels aligned to their recipe cards and shortened the estimate note to a compact one-line label.
+- Matched recipe-card cooking-time typography to the Notes control.
+
+# v95.11 — Media Reduction & Deferred Loading
+
+- Compressed the five approved instructional videos using visually lossless H.264/AAC delivery settings.
+- Added optimized deployed Complete Dinner heroes while preserving the original 1448×1086 masters outside `public`.
+- Normalized category and navigation icons, corrected oversized recipe thumbnails, and reduced active product imagery.
+- Removed verified obsolete, duplicate, review-only, prototype, and operating-system metadata files.
+- Deferred Build-A-Meal, recipe intelligence, RFIS, inventory, and Admin feature modules until opened.
+- Removed exact duplicate CSS blocks without changing the approved visual presentation.
+
 # v95.10 — Accessible Recipe Viewer & Text Recipes
 
 - Completed keyboard modal behavior for the Recipe Viewer and enlarged-card view, including initial focus, contained Tab navigation, Escape handling, and focus restoration.

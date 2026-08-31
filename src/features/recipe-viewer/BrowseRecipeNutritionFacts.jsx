@@ -67,7 +67,7 @@ export default function BrowseRecipeNutritionFacts({ recipe }) {
         <strong>{formatNutritionValue(nutrition?.protein, "g")}</strong>
       </div>
       {nutrition?.estimatedRange && (
-        <p className="browseNutritionEstimateNote">{nutrition.estimateNote}</p>
+        <p className="browseNutritionEstimateNote">Estimated Range</p>
       )}
     </aside>
   );
