@@ -5152,14 +5152,9 @@ function RecipeCardViewer({
 
           <div className="cardViewerFooterActions viewerUnifiedActions">
             {sisterRecipe && (
-              <>
-                <span className="viewerVeganIcon" title="Vegan alternative available" aria-label="Vegan alternative available">
-                  <img src={`${import.meta.env.BASE_URL}images/icons/VGW.webp`} alt="" aria-hidden="true" />
-                </span>
-                <button className="viewerActionButton viewerVeganSwitchButton" type="button" onClick={switchSisterRecipe}>
-                  {recipe.originalRecipeId ? "Original Version" : "Vegan Version"}
-                </button>
-              </>
+              <button className="viewerActionButton viewerVeganSwitchButton" type="button" onClick={switchSisterRecipe}>
+                {recipe.originalRecipeId ? "Original Version" : "Vegan Version"}
+              </button>
             )}
 
             <button
