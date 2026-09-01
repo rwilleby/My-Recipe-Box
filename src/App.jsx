@@ -18070,7 +18070,7 @@ export default function App() {
       const route = parseRoute(window.location.pathname);
       setActivePageState(route.pageId);
       if (route.type === "recipe") {
-        setCardViewer({ recipeId: route.code, recipeIds: classifiedRecipes.map((recipe) => recipe.id), context: "Direct link" });
+        setCardViewer({ recipeId: route.code, recipeIds: classifiedRecipes.map((recipe) => recipe.id), context: "Direct link", historyDepth: Number(window.history.state?.rrbViewerDepth) || 0 });
         setActiveCompleteDinnerCode("");
       } else if (route.type === "completeDinner") {
         setCardViewer(null);
@@ -18270,11 +18270,12 @@ export default function App() {
     const recipe = sourceRecipes.find((item) => String(item.id).toLowerCase() === String(recipeId).toLowerCase());
     if (!recipe) return;
     const parentPath = window.location.pathname;
-    window.history.pushState({ rrbRoute: true, rrbParentPath: parentPath }, "", routeForRecipe(recipe.id));
+    window.history.pushState({ rrbRoute: true, rrbParentPath: parentPath, rrbViewerDepth: 0 }, "", routeForRecipe(recipe.id));
     setCardViewer({
       recipeId: recipe.id,
       recipeIds: sourceRecipes.map((recipe) => recipe.id),
       context,
+      historyDepth: 0,
     });
   }
 
@@ -18282,7 +18283,8 @@ export default function App() {
     const parentPath = window.history.state?.rrbParentPath;
     setCardViewer(null);
     if (parentPath) {
-      window.history.back();
+      const historyDepth = Math.max(0, Number(cardViewer?.historyDepth) || Number(window.history.state?.rrbViewerDepth) || 0);
+      window.history.go(-(historyDepth + 1));
       return;
     }
     window.history.replaceState({ rrbRoute: true }, "", routeForPage("Recipes"));
@@ -18290,10 +18292,13 @@ export default function App() {
   }
 
   function updateRecipeViewer(nextViewer, options = {}) {
-    setCardViewer(nextViewer);
     if (!nextViewer?.recipeId) return;
+    const currentDepth = Math.max(0, Number(cardViewer?.historyDepth) || 0);
+    const historyDepth = options.push ? currentDepth + 1 : currentDepth;
+    const viewerWithHistory = { ...nextViewer, historyDepth };
+    setCardViewer(viewerWithHistory);
     window.history[options.push ? "pushState" : "replaceState"](
-      { ...window.history.state, rrbRoute: true },
+      { ...window.history.state, rrbRoute: true, rrbViewerDepth: historyDepth },
       "",
       routeForRecipe(nextViewer.recipeId),
     );

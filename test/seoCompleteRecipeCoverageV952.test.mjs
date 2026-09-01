@@ -3,8 +3,8 @@ import { readFile } from "node:fs/promises";
 import { recipes } from "../src/data/recipes.js";
 import { seoForRecipe } from "../src/routing/seoRoutes.js";
 
-assert.equal(recipes.length, 768, "the authoritative recipe catalog must include all approved Vegan sister recipes");
-assert.equal(new Set(recipes.map(({ id }) => id)).size, 768, "recipe codes must be unique");
+assert.equal(recipes.length, 773, "the authoritative recipe catalog must include all approved Vegan sister recipes");
+assert.equal(new Set(recipes.map(({ id }) => id)).size, 773, "recipe codes must be unique");
 
 for (const recipe of recipes) {
   const seo = seoForRecipe(recipe);

@@ -18,10 +18,13 @@ assert.match(app, /code === "VG" \? "images\/categories\/VG\.webp"/);
 assert.match(routes, /"Vegan Recipe Library": "\/vegan-recipes\/"/);
 
 const veganRecipes = recipes.filter((recipe) => recipe.isVegan === true && recipe.veganStatus === "verified");
-assert.equal(veganRecipes.length, 36);
+assert.equal(veganRecipes.length, 41);
 assert.deepEqual(veganRecipes.filter((recipe) => recipe.categoryCode === "VG").map((recipe) => recipe.id), Array.from({ length: 30 }, (_, index) => `VG-${String(index + 1).padStart(3, "0")}`));
 assert.ok(veganRecipes.some((recipe) => recipe.id === "AM-007-VG" && recipe.originalRecipeId === "AM-007"));
 for (const id of ["AM-025-VG", "AS-019-VG", "IT-023-VG", "MX-008-VG", "SF-005-VG"]) {
+  assert.ok(veganRecipes.some((recipe) => recipe.id === id), `${id} must appear in the Vegan Recipe Library`);
+}
+for (const id of ["AM-001-VG", "AM-009-VG", "AS-007-VG", "AS-010-VG", "IT-020-VG"]) {
   assert.ok(veganRecipes.some((recipe) => recipe.id === id), `${id} must appear in the Vegan Recipe Library`);
 }
 assert.ok(veganRecipes.every((recipe) => recipe.dietaryTags.includes("vegan")));

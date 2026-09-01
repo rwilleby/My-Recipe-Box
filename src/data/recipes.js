@@ -2307,9 +2307,14 @@ const recipeRows = [
 ];
 
 const SISTER_LINKS = Object.freeze({
+  "AM-001": "AM-001-VG",
   "AM-007": "AM-007-VG",
+  "AM-009": "AM-009-VG",
   "AM-025": "AM-025-VG",
+  "AS-007": "AS-007-VG",
+  "AS-010": "AS-010-VG",
   "AS-019": "AS-019-VG",
+  "IT-020": "IT-020-VG",
   "IT-023": "IT-023-VG",
   "MX-008": "MX-008-VG",
   "SF-005": "SF-005-VG",

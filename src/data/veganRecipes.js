@@ -64,8 +64,13 @@ export const VEGAN_SISTER_RECIPE_ROWS = [["AM-007-VG", "Lentil Mushroom Loaf", {
 }]];
 
 const SISTER_SOURCE_MAP = [
+  ["VG-002", "AM-001-VG", "AM-001", "AM", "American Cuisine", "Vegan Salisbury Steak", 4, 320],
+  ["VG-006", "AM-009-VG", "AM-009", "AM", "American Cuisine", "Three-Bean Chili", 3, 300],
   ["VG-007", "AM-025-VG", "AM-025", "AM", "American Cuisine", "Lentil Stuffed Peppers", 3, 290],
+  ["VG-009", "AS-007-VG", "AS-007", "AS", "Asian Cuisine", "Teriyaki Tofu Vegetables", 3, 340],
+  ["VG-010", "AS-010-VG", "AS-010", "AS", "Asian Cuisine", "Orange Cauliflower", 4, 360],
   ["VG-012", "AS-019-VG", "AS-019", "AS", "Asian Cuisine", "Vegetable Tofu Lo Mein", 4, 390],
+  ["VG-013", "IT-020-VG", "IT-020", "IT", "Italian Cuisine", "Vegan Meatballs Marinara", 4, 380],
   ["VG-005", "MX-008-VG", "MX-008", "MX", "Mexican Cuisine", "Lentil Walnut Tacos", 4, 410],
   ["VG-021", "SF-005-VG", "SF-005", "SF", "Seafood Dishes", "Vegan Crab Cakes", 3, 260],
 ];

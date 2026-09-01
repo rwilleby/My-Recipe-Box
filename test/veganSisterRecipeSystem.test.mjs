@@ -19,6 +19,13 @@ for (const [originalId, veganId] of [["AM-025", "AM-025-VG"], ["AS-019", "AS-019
   assert.ok(veganRecipe.ingredients.length && veganRecipe.directions.length && veganRecipe.nutrition);
   assert.ok(existsSync(`public/images/recipes/${veganId}.webp`), `${veganId} must have its own card asset`);
 }
+for (const [originalId, veganId] of [["AM-001", "AM-001-VG"], ["AM-009", "AM-009-VG"], ["AS-007", "AS-007-VG"], ["AS-010", "AS-010-VG"], ["IT-020", "IT-020-VG"]]) {
+  const regularRecipe = recipes.find((recipe) => recipe.id === originalId);
+  const veganRecipe = recipes.find((recipe) => recipe.id === veganId);
+  assert.equal(regularRecipe?.veganAlternativeId, veganId);
+  assert.equal(veganRecipe?.originalRecipeId, originalId);
+  assert.ok(existsSync(`public/images/recipes/${veganId}.webp`));
+}
 assert.equal(new Set(recipes.map((recipe) => recipe.id)).size, recipes.length, "recipe IDs must be unique");
 assert.equal(parseRoute(routeForRecipe(vegan.id)).code, vegan.id, "Vegan direct URL must round-trip");
 assert.ok(vegan.ingredients.length && vegan.directions.length && vegan.nutrition && vegan.mealBalance);
@@ -38,6 +45,9 @@ assert.match(app, /Vegan Version/);
 assert.match(app, /Original Version/);
 assert.doesNotMatch(app, /className={`veganSisterSwitch/);
 assert.match(app, /setViewer\(\{ \.\.\.viewer, recipeId: sisterRecipe\.id \}, \{ push: true \}\)/);
+assert.match(app, /rrbViewerDepth: 0/);
+assert.match(app, /historyDepth \+ 1/);
+assert.match(app, /window\.history\.go\(-\(historyDepth \+ 1\)\)/, "Close must skip sister history and return to the parent library route");
 assert.match(app, /excludeFromRegularLibrary !== true/);
 assert.match(app, /`rrb-recipe-note-\$\{recipe\.id\}`/, "notes must remain ID-scoped");
 assert.match(app, /toggleFavorite\(recipe\.id\)/, "favorites must remain ID-scoped");
