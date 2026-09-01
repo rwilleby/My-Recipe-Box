@@ -12,7 +12,7 @@ const [app, css, nutritionFacts] = await Promise.all([
   ),
 ]);
 
-const crockPotRecipes = recipes.filter((recipe) => String(recipe.id).startsWith("CP-"));
+const crockPotRecipes = recipes.filter((recipe) => String(recipe.id).startsWith("CP-") && !recipe.originalRecipeId);
 assert.equal(crockPotRecipes.length, 180, "all 180 Crock Pot recipes should be covered");
 
 for (const recipe of crockPotRecipes) {

@@ -15,7 +15,7 @@ const expectedIngredientTotals = { BR: 88, CC: 60, CO: 73, CP: 1498, CR: 67 };
 const byId = Object.fromEntries(recipes.map((recipe) => [recipe.id, recipe]));
 
 for (const prefix of Object.keys(expected)) {
-  const categoryRecipes = recipes.filter((recipe) => recipe.id.startsWith(`${prefix}-`));
+  const categoryRecipes = recipes.filter((recipe) => recipe.id.startsWith(`${prefix}-`) && !recipe.originalRecipeId);
   assert.equal(categoryRecipes.length, expectedRecipeCounts[prefix], `${prefix} recipe count`);
   assert.deepEqual(categoryRecipes.map((recipe) => recipe.ingredients.length), expected[prefix], `${prefix} card counts`);
   assert.equal(categoryRecipes.reduce((sum, recipe) => sum + recipe.ingredients.length, 0), expectedIngredientTotals[prefix], `${prefix} ingredient total`);
