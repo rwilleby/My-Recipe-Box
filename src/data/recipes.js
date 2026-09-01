@@ -2306,7 +2306,14 @@ const recipeRows = [
   }]
 ];
 
-const SISTER_LINKS = Object.freeze({ "AM-007": "AM-007-VG" });
+const SISTER_LINKS = Object.freeze({
+  "AM-007": "AM-007-VG",
+  "AM-025": "AM-025-VG",
+  "AS-019": "AS-019-VG",
+  "IT-023": "IT-023-VG",
+  "MX-008": "MX-008-VG",
+  "SF-005": "SF-005-VG",
+});
 export const recipes = [...recipeRows, ...VEGAN_RECIPE_ROWS, ...VEGAN_SISTER_RECIPE_ROWS]
   .map(makeRecipe)
   .map((recipe) => SISTER_LINKS[recipe.id] ? { ...recipe, veganAlternativeId: SISTER_LINKS[recipe.id] } : recipe);

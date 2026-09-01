@@ -3,7 +3,7 @@ import fs from "node:fs";
 import { recipes } from "../src/data/recipes.js";
 
 const categories = { PM: [14, 189], QP: [30, 359], SB: [20, 251], SD: [52, 407], SF: [20, 196], SG: [25, 311] };
-const selected = recipes.filter((recipe) => categories[recipe.categoryCode]);
+const selected = recipes.filter((recipe) => categories[recipe.categoryCode] && !recipe.originalRecipeId);
 assert.equal(selected.length, 161, "all 161 active source cards must be represented");
 assert.equal(selected.reduce((sum, recipe) => sum + recipe.ingredients.length, 0), 1713);
 

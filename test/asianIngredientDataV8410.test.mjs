@@ -3,7 +3,7 @@ import fs from "node:fs";
 import { recipes } from "../src/data/recipes.js";
 
 const expectedCounts = [9, 9, 9, 11, 9, 9, 9, 9, 9, 9, 8, 7, 9, 8, 8, 10, 11, 8, 9, 9, 10, 10, 6, 5];
-const asian = recipes.filter((recipe) => recipe.id.startsWith("AS-"));
+const asian = recipes.filter((recipe) => recipe.id.startsWith("AS-") && !recipe.originalRecipeId);
 const byId = Object.fromEntries(asian.map((recipe) => [recipe.id, recipe]));
 const nutritionRows = JSON.parse(fs.readFileSync(new URL("../src/data/nutrition/AS.json", import.meta.url)));
 const normalizeTitle = (title) => String(title).replace(/[’‘]/g, "'");

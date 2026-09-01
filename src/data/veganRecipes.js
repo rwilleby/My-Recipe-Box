@@ -62,3 +62,40 @@ export const VEGAN_SISTER_RECIPE_ROWS = [["AM-007-VG", "Lentil Mushroom Loaf", {
   freezerGuidance: "Cool completely, wrap individual slices, and freeze up to 3 months.", storageGuidance: "Refrigerate covered up to 4 days; reheat to 165°F.",
   image: "images/recipes/AM-007-VG.webp", cardImage: "images/recipes/AM-007-VG.webp", heroImage: "",
 }]];
+
+const SISTER_SOURCE_MAP = [
+  ["VG-007", "AM-025-VG", "AM-025", "AM", "American Cuisine", "Lentil Stuffed Peppers", 3, 290],
+  ["VG-012", "AS-019-VG", "AS-019", "AS", "Asian Cuisine", "Vegetable Tofu Lo Mein", 4, 390],
+  ["VG-005", "MX-008-VG", "MX-008", "MX", "Mexican Cuisine", "Lentil Walnut Tacos", 4, 410],
+  ["VG-021", "SF-005-VG", "SF-005", "SF", "Seafood Dishes", "Vegan Crab Cakes", 3, 260],
+];
+
+for (const [sourceId, id, originalRecipeId, categoryCode, category, title, mealBalanceScore, calories] of SISTER_SOURCE_MAP) {
+  const source = VEGAN_RECIPE_ROWS.find(([recipeId]) => recipeId === sourceId)?.[2];
+  VEGAN_SISTER_RECIPE_ROWS.push([id, title, {
+    ...source,
+    categoryCode,
+    category,
+    originalRecipeId,
+    excludeFromRegularLibrary: true,
+    image: `images/recipes/${id}.webp`,
+    cardImage: `images/recipes/${id}.webp`,
+    heroImage: "",
+    mealBalance: { score: mealBalanceScore, label: mealBalanceScore <= 4 ? "Balanced" : "Moderate", status: "estimated" },
+    nutrition: { servingSize: "1 serving", servingsPerRecipe: 6, calories, totalFat: 11, saturatedFat: 1.5, transFat: 0, cholesterol: 0, sodium: 470, totalCarbohydrate: 48, dietaryFiber: 9, totalSugars: 7, addedSugars: 2, protein: 15, estimatedRange: true },
+    freezerGuidance: "Cool completely, package in meal-size portions, and freeze up to 3 months.",
+    storageGuidance: "Refrigerate covered up to 4 days and reheat thoroughly before serving.",
+  }]);
+}
+
+VEGAN_SISTER_RECIPE_ROWS.push(["IT-023-VG", "Vegan Pasta Primavera", {
+  categoryCode: "IT", category: "Italian Cuisine", time: 35, servings: 6, price: "$$", emoji: "🌱",
+  isVegan: true, veganStatus: "verified", originalRecipeId: "IT-023", excludeFromRegularLibrary: true,
+  dietaryTags: ["vegan", "plant-based"],
+  ingredients: [pantry("Egg-free pasta", 12, "oz"), pantry("Olive oil", 2, "tbsp"), produce("Zucchini, sliced", 1, "each"), produce("Yellow squash, sliced", 1, "each"), produce("Red bell pepper, sliced", 1, "each"), produce("Broccoli florets", 2, "cups"), produce("Garlic, minced", 3, "cloves"), produce("Cherry tomatoes", 1, "cup"), chilled("Unsweetened plant cream", 0.75, "cup"), chilled("Vegan Parmesan", 0.5, "cup"), produce("Fresh basil, chopped", 2, "tbsp")],
+  directions: ["Cook pasta until al dente; drain.", "Sauté zucchini, squash, pepper, and broccoli in olive oil.", "Add garlic and tomatoes; cook 2 minutes.", "Pour in plant cream and warm gently.", "Stir in vegan Parmesan until smooth.", "Toss pasta with the vegetables and sauce.", "Garnish with basil and serve."],
+  nutrition: { servingSize: "1 serving", servingsPerRecipe: 6, calories: 360, totalFat: 12, saturatedFat: 2, transFat: 0, cholesterol: 0, sodium: 390, totalCarbohydrate: 54, dietaryFiber: 7, totalSugars: 8, addedSugars: 0, protein: 12, estimatedRange: true },
+  mealBalance: { score: 3, label: "Balanced", status: "estimated" },
+  freezerGuidance: "Cool completely and freeze in meal-size containers up to 2 months.", storageGuidance: "Refrigerate covered up to 4 days; loosen with a splash of plant milk when reheating.",
+  image: "images/recipes/IT-023-VG.webp", cardImage: "images/recipes/IT-023-VG.webp", heroImage: "",
+}]);

@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { recipes } from "../src/data/recipes.js";
 import { ASIAN_DIRECTIONS_V882 } from "../src/data/asianDirectionsV882.js";
 
-const asian = recipes.filter((recipe) => recipe.id.startsWith("AS-"));
+const asian = recipes.filter((recipe) => recipe.id.startsWith("AS-") && !recipe.originalRecipeId);
 const byId = Object.fromEntries(asian.map((recipe) => [recipe.id, recipe]));
 
 assert.equal(asian.length, 24, "all 24 Asian recipe cards must remain active");

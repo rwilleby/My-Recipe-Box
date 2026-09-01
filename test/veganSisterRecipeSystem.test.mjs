@@ -9,6 +9,16 @@ const vegan = recipes.find((recipe) => recipe.id === "AM-007-VG");
 assert.ok(original && vegan, "sample pair must contain two permanent records");
 assert.equal(original.veganAlternativeId, vegan.id);
 assert.equal(vegan.originalRecipeId, original.id);
+for (const [originalId, veganId] of [["AM-025", "AM-025-VG"], ["AS-019", "AS-019-VG"], ["IT-023", "IT-023-VG"], ["MX-008", "MX-008-VG"], ["SF-005", "SF-005-VG"]]) {
+  const regularRecipe = recipes.find((recipe) => recipe.id === originalId);
+  const veganRecipe = recipes.find((recipe) => recipe.id === veganId);
+  assert.ok(regularRecipe && veganRecipe, `${originalId} sister pair must contain two permanent records`);
+  assert.equal(regularRecipe.veganAlternativeId, veganId);
+  assert.equal(veganRecipe.originalRecipeId, originalId);
+  assert.equal(veganRecipe.excludeFromRegularLibrary, true);
+  assert.ok(veganRecipe.ingredients.length && veganRecipe.directions.length && veganRecipe.nutrition);
+  assert.ok(existsSync(`public/images/recipes/${veganId}.webp`), `${veganId} must have its own card asset`);
+}
 assert.equal(new Set(recipes.map((recipe) => recipe.id)).size, recipes.length, "recipe IDs must be unique");
 assert.equal(parseRoute(routeForRecipe(vegan.id)).code, vegan.id, "Vegan direct URL must round-trip");
 assert.ok(vegan.ingredients.length && vegan.directions.length && vegan.nutrition && vegan.mealBalance);
