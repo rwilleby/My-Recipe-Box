@@ -1,3 +1,8 @@
+# v96.2 — Complete Dinner Hero Visibility
+
+- Restored every deployed Complete Dinner hero image even when its older catalog approval-status field is stale.
+- Changed compact Complete Dinner cards to show the complete hero from left to right without cropping, with unused space below the image when necessary.
+
 # v96.1 — Text Recipe Rendering
 
 - Corrected the Text Recipe viewer so structured ingredient records render as readable quantity, unit, and ingredient lines instead of causing a blank screen.

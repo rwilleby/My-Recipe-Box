@@ -6491,7 +6491,17 @@ function RecipesPage({
 
 
 function dinnerMealImageCandidates(meal, variant = "large") {
-  return rfisPlatform.heroes.candidates(meal, { variant });
+  const candidates = rfisPlatform.heroes.candidates(meal, { variant });
+  const mealNumber = Number(meal?.number);
+  const legacyHero = Number.isFinite(mealNumber) && mealNumber > 0
+    ? `images/dinner-combinations/meal-${String(mealNumber).padStart(3, "0")}.webp`
+    : "";
+
+  // The deployed collection contains approved legacy hero files whose older
+  // catalog records still say "not-started". Try the actual numbered asset
+  // after RFIS candidates; the image error handler retains the placeholder for
+  // dinners that genuinely do not have a hero file.
+  return [...new Set([...candidates, legacyHero].filter(Boolean))];
 }
 
 function DinnerCombinationImage({ meal, className = "", loading = "lazy", fetchPriority = "auto" }) {
@@ -13604,6 +13614,8 @@ function CompactDinnerCard({ meal, isSelected, onSelect, favorites, toggleFavori
   const [imageIndex, setImageIndex] = useState(0);
   const activeImage = imageCandidates[imageIndex] || "";
   const sideNames = (meal.sides || []).filter(Boolean).map((side) => side.name);
+
+  useEffect(() => setImageIndex(0), [meal?.id]);
 
   return (
     <article className={`compactDinnerCard${isSelected ? " isSelected" : ""}`}>
