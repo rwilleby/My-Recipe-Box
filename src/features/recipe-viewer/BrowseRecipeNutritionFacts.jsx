@@ -22,7 +22,7 @@ function formatNutritionValue(value, unit = "") {
 export default function BrowseRecipeNutritionFacts({ recipe }) {
   const nutrition =
     getRecipeNutritionVariant(recipe.id)?.profile?.nutritionFacts ||
-    getCrockPotNutritionEstimate(recipe);
+    getCrockPotNutritionEstimate(recipe) || recipe.nutrition;
   const rows = [
     ["Total Fat", nutrition?.totalFat, "g", true],
     ["Saturated Fat", nutrition?.saturatedFat, "g", false],

@@ -4444,10 +4444,9 @@ function RecipeCardViewer({
   const viewerIds = viewer?.recipeIds?.length
     ? viewer.recipeIds
     : recipeData.map((recipe) => recipe.id);
-  const currentIndex = viewer
-    ? Math.max(0, viewerIds.indexOf(viewer.recipeId))
-    : 0;
-  const currentRecipeId = viewerIds[currentIndex] || viewer?.recipeId;
+  const viewerIndex = viewer ? viewerIds.indexOf(viewer.recipeId) : -1;
+  const currentIndex = viewerIndex >= 0 ? viewerIndex : 0;
+  const currentRecipeId = viewerIndex >= 0 ? viewerIds[currentIndex] : viewer?.recipeId;
   const recipe = viewer
     ? recipeData.find((item) => item.id === currentRecipeId) ||
       recipeData.find((item) => item.id === viewer.recipeId)
@@ -4486,7 +4485,8 @@ function RecipeCardViewer({
   const hasFoodIntelligence = Boolean(recipeRfisProfile?.hasNutritionRecord);
   const liveNutrition =
     getRecipeNutritionVariant(recipe.id)?.profile?.nutritionFacts ||
-    getCrockPotNutritionEstimate(recipe);
+    getCrockPotNutritionEstimate(recipe) ||
+    recipe.nutrition;
   const quickNutrition = [
     ["Calories", liveNutrition?.calories],
     ["Protein", liveNutrition?.protein],
@@ -4509,6 +4509,13 @@ function RecipeCardViewer({
     ? recipe.directions.filter((item) => String(item || "").trim())
     : [];
   const hasTextRecipe = textRecipeIngredients.length > 0 && textRecipeDirections.length > 0;
+  const sisterRecipeId = recipe.originalRecipeId || recipe.veganAlternativeId;
+  const sisterRecipe = sisterRecipeId ? recipeData.find((item) => item.id === sisterRecipeId) : null;
+
+  function switchSisterRecipe() {
+    if (!sisterRecipe) return;
+    setViewer({ ...viewer, recipeId: sisterRecipe.id }, { push: true });
+  }
 
   function goToOffset(offset) {
     if (!hasMultiple) return;
@@ -4769,6 +4776,16 @@ function RecipeCardViewer({
             </button>
           </div>
         </div>
+
+        {sisterRecipe && (
+          <section className={`veganSisterSwitch ${recipe.originalRecipeId ? "isVeganVersion" : "isOriginalVersion"}`} aria-label="Vegan sister recipe">
+            <div>
+              <strong>{recipe.originalRecipeId ? "YOU ARE VIEWING THE VEGAN VERSION" : "VEGAN ALTERNATIVE AVAILABLE"}</strong>
+              <span>{recipe.originalRecipeId ? `Original recipe: ${sisterRecipe.id}` : `Vegan recipe: ${sisterRecipe.id}`}</span>
+            </div>
+            <button type="button" onClick={switchSisterRecipe}>{recipe.originalRecipeId ? "RETURN TO ORIGINAL" : "VIEW VEGAN VERSION"}</button>
+          </section>
+        )}
 
         <div className="cardViewerStage cardViewerCombinedStage">
           <button
@@ -6048,7 +6065,7 @@ function RecipesPage({
   const libraryRecipes = useMemo(
     () => veganOnly
       ? classifiedRecipes.filter((recipe) => recipe.isVegan === true && recipe.veganStatus === "verified")
-      : classifiedRecipes,
+      : classifiedRecipes.filter((recipe) => recipe.excludeFromRegularLibrary !== true),
     [classifiedRecipes, veganOnly],
   );
 
@@ -18276,10 +18293,10 @@ export default function App() {
     setActivePageState("Recipes");
   }
 
-  function updateRecipeViewer(nextViewer) {
+  function updateRecipeViewer(nextViewer, options = {}) {
     setCardViewer(nextViewer);
     if (!nextViewer?.recipeId) return;
-    window.history.replaceState(
+    window.history[options.push ? "pushState" : "replaceState"](
       { ...window.history.state, rrbRoute: true },
       "",
       routeForRecipe(nextViewer.recipeId),

@@ -11,7 +11,7 @@ import { PRESERVES_BREAD_INGREDIENTS_V8413 } from "./preservesBreadIngredientsV8
 import { PROTEIN_QUICHE_SALAD_INGREDIENTS_V8415 } from "./proteinQuicheSaladIngredientsV8415.js";
 import { SIDE_SEAFOOD_GRILL_INGREDIENTS_V8415 } from "./sideSeafoodGrillIngredientsV8415.js";
 import { SPECIALTY_INGREDIENTS_V8411 } from "./specialtyIngredientsV8411.js";
-import { VEGAN_RECIPE_ROWS } from "./veganRecipes.js";
+import { VEGAN_RECIPE_ROWS, VEGAN_SISTER_RECIPE_ROWS } from "./veganRecipes.js";
 
 const baseCategories = [
   { id: "AM", name: "American Cuisine", count: 0, icon: "🍽️", iconImage: "images/categories/AM.webp" },
@@ -1465,6 +1465,12 @@ function makeRecipe(entry) {
     mediaLinks: options.mediaLinks || undefined,
     isVegan: options.isVegan === true,
     veganStatus: options.veganStatus || "",
+    veganAlternativeId: options.veganAlternativeId || "",
+    originalRecipeId: options.originalRecipeId || "",
+    excludeFromRegularLibrary: options.excludeFromRegularLibrary === true,
+    nutrition: options.nutrition || undefined,
+    freezerGuidance: options.freezerGuidance || "",
+    storageGuidance: options.storageGuidance || "",
     dietaryTags: Array.isArray(options.dietaryTags) ? [...options.dietaryTags] : [],
     mealBalance: options.mealBalance || estimateMealBalance(categoryCode, title),
   };
@@ -2300,7 +2306,10 @@ const recipeRows = [
   }]
 ];
 
-export const recipes = [...recipeRows, ...VEGAN_RECIPE_ROWS].map(makeRecipe);
+const SISTER_LINKS = Object.freeze({ "AM-007": "AM-007-VG" });
+export const recipes = [...recipeRows, ...VEGAN_RECIPE_ROWS, ...VEGAN_SISTER_RECIPE_ROWS]
+  .map(makeRecipe)
+  .map((recipe) => SISTER_LINKS[recipe.id] ? { ...recipe, veganAlternativeId: SISTER_LINKS[recipe.id] } : recipe);
 
 const categoryCounts = recipes.reduce((counts, recipe) => {
   counts[recipe.categoryCode] = (counts[recipe.categoryCode] || 0) + 1;

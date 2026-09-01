@@ -18,9 +18,9 @@ assert.match(app, /code === "VG" \? "images\/categories\/VG\.webp"/);
 assert.match(routes, /"Vegan Recipe Library": "\/vegan-recipes\/"/);
 
 const veganRecipes = recipes.filter((recipe) => recipe.isVegan === true && recipe.veganStatus === "verified");
-assert.equal(veganRecipes.length, 30);
-assert.deepEqual(veganRecipes.map((recipe) => recipe.id), Array.from({ length: 30 }, (_, index) => `VG-${String(index + 1).padStart(3, "0")}`));
-assert.ok(veganRecipes.every((recipe) => recipe.categoryCode === "VG" && recipe.category === "Vegan Main Courses"));
+assert.equal(veganRecipes.length, 31);
+assert.deepEqual(veganRecipes.filter((recipe) => recipe.categoryCode === "VG").map((recipe) => recipe.id), Array.from({ length: 30 }, (_, index) => `VG-${String(index + 1).padStart(3, "0")}`));
+assert.ok(veganRecipes.some((recipe) => recipe.id === "AM-007-VG" && recipe.originalRecipeId === "AM-007"));
 assert.ok(veganRecipes.every((recipe) => recipe.dietaryTags.includes("vegan")));
 
 const prohibitedUnqualified = /(^|\b)(beef|chicken|pork|turkey|fish sauce|oyster sauce|shrimp paste|gelatin|lard|honey|egg|eggs|butter|cheese|mayonnaise)(\b|$)/i;

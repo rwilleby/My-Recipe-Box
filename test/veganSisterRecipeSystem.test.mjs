@@ -1,0 +1,37 @@
+import assert from "node:assert/strict";
+import { readFileSync, existsSync } from "node:fs";
+import { recipes } from "../src/data/recipes.js";
+import { routeForRecipe, parseRoute } from "../src/routing/seoRoutes.js";
+import { buildShoppingList } from "../src/utils/planning.js";
+
+const original = recipes.find((recipe) => recipe.id === "AM-007");
+const vegan = recipes.find((recipe) => recipe.id === "AM-007-VG");
+assert.ok(original && vegan, "sample pair must contain two permanent records");
+assert.equal(original.veganAlternativeId, vegan.id);
+assert.equal(vegan.originalRecipeId, original.id);
+assert.equal(new Set(recipes.map((recipe) => recipe.id)).size, recipes.length, "recipe IDs must be unique");
+assert.equal(parseRoute(routeForRecipe(vegan.id)).code, vegan.id, "Vegan direct URL must round-trip");
+assert.ok(vegan.ingredients.length && vegan.directions.length && vegan.nutrition && vegan.mealBalance);
+const shopping = buildShoppingList({ "week1-Mon": [vegan.id] }, recipes, vegan.servings);
+assert.ok(shopping.some((item) => /lentils/i.test(item.name)), "Vegan sister must supply its own grocery ingredients");
+assert.ok(!shopping.some((item) => /ground beef/i.test(item.name)), "Vegan groceries must not come from the original recipe");
+assert.equal(vegan.excludeFromRegularLibrary, true);
+assert.equal(vegan.isVegan, true);
+assert.equal(vegan.veganStatus, "verified");
+assert.ok(existsSync("public/images/recipes/AM-007-VG.webp"), "Vegan sister card must have its own asset");
+
+const app = readFileSync("src/App.jsx", "utf8");
+const css = readFileSync("src/App.css", "utf8");
+assert.match(app, /sisterRecipe &&/);
+assert.match(app, /VIEW VEGAN VERSION/);
+assert.match(app, /RETURN TO ORIGINAL/);
+assert.match(app, /setViewer\(\{ \.\.\.viewer, recipeId: sisterRecipe\.id \}, \{ push: true \}\)/);
+assert.match(app, /excludeFromRegularLibrary !== true/);
+assert.match(app, /`rrb-recipe-note-\$\{recipe\.id\}`/, "notes must remain ID-scoped");
+assert.match(app, /toggleFavorite\(recipe\.id\)/, "favorites must remain ID-scoped");
+assert.match(app, /addToPlan\(recipe\.id\)/, "planner must receive the selected sister ID");
+assert.match(css, /@media \(max-width:700px\)[\s\S]*\.veganSisterSwitch/);
+
+const backup = readFileSync("src/utils/recipeBoxBackup.js", "utf8");
+for (const prefix of ['"rrb_"', '"rrb-"']) assert.ok(backup.includes(prefix));
+console.log("Vegan sister recipe Stage 1 regression contracts passed.");

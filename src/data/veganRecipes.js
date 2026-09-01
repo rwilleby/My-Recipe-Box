@@ -50,3 +50,15 @@ export const VEGAN_RECIPE_ROWS = TITLES.map((title, index) => {
     image: `images/recipes/${id}.webp`, cardImage: `images/recipes/${id}.webp`, heroImage: "",
   }];
 });
+
+export const VEGAN_SISTER_RECIPE_ROWS = [["AM-007-VG", "Lentil Mushroom Loaf", {
+  categoryCode: "AM", category: "American Cuisine", time: 75, servings: 6, price: "$$", emoji: "🌱",
+  isVegan: true, veganStatus: "verified", originalRecipeId: "AM-007", excludeFromRegularLibrary: true,
+  dietaryTags: ["vegan", "plant-based"],
+  ingredients: [produce("Cooked brown or green lentils", 2, "cups"), produce("Mushrooms, finely chopped", 8, "oz"), pantry("Olive oil", 1, "tbsp"), produce("Medium onion, finely diced", 1, "each"), produce("Carrot, finely diced", 1, "each"), produce("Celery rib, finely diced", 1, "each"), produce("Garlic, minced", 3, "cloves"), pantry("Old-fashioned rolled oats", 1, "cup"), pantry("Walnuts, finely chopped", 0.5, "cup"), pantry("Ground flaxseed", 2, "tbsp"), pantry("Water", 5, "tbsp"), pantry("Tomato paste", 3, "tbsp"), pantry("Reduced-sodium soy sauce", 1, "tbsp"), pantry("Vegan Worcestershire sauce", 1, "tbsp"), pantry("Ketchup and maple tomato glaze", 1, "batch")],
+  directions: ["Mix the flaxseed and water; rest 5–10 minutes.", "Heat the oven to 375°F. Line a 9 × 5-inch loaf pan with parchment.", "Pulse the oats into coarse crumbs and transfer to a large bowl.", "Sauté the onion, carrot, and celery in oil for 6–8 minutes. Add mushrooms; cook until their moisture evaporates, then add garlic and seasonings.", "Pulse half the lentils with the vegetables, tomato paste, soy sauce, vegan Worcestershire, and flax mixture.", "Mix with oats, remaining lentils, and walnuts. Press firmly into the pan.", "Spread two-thirds of the glaze over the loaf and bake 40 minutes. Add the remaining glaze and bake 15 minutes more.", "Rest 10 minutes before lifting out and slicing."],
+  nutrition: { servingSize: "1 slice (1/6 recipe)", servingsPerRecipe: 6, calories: 310, totalFat: 12, saturatedFat: 1.5, transFat: 0, cholesterol: 0, sodium: 430, totalCarbohydrate: 39, dietaryFiber: 10, totalSugars: 8, addedSugars: 3, protein: 14, estimatedRange: true },
+  mealBalance: { score: 3, label: "Balanced", status: "estimated" },
+  freezerGuidance: "Cool completely, wrap individual slices, and freeze up to 3 months.", storageGuidance: "Refrigerate covered up to 4 days; reheat to 165°F.",
+  image: "images/recipes/AM-007-VG.webp", cardImage: "images/recipes/AM-007-VG.webp", heroImage: "",
+}]];

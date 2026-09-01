@@ -15,7 +15,7 @@ AM-071:13 AM-072:12 AM-073:10 AM-074:10 AM-075:13 AM-076:12 AM-077:10 AM-078:12
   return [id, Number(count)];
 }));
 
-const american = recipes.filter((recipe) => recipe.id.startsWith("AM-"));
+const american = recipes.filter((recipe) => recipe.id.startsWith("AM-") && !recipe.originalRecipeId);
 const byId = Object.fromEntries(american.map((recipe) => [recipe.id, recipe]));
 const nutritionRows = JSON.parse(fs.readFileSync(new URL("../src/data/nutrition/AM.json", import.meta.url)));
 const authoritativeTitles = Object.fromEntries(nutritionRows.map((row) => [row.recipeCode, row.title]));

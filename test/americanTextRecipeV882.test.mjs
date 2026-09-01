@@ -3,7 +3,7 @@ import fs from "node:fs";
 import { recipes } from "../src/data/recipes.js";
 import { AMERICAN_DIRECTIONS_V881 } from "../src/data/americanDirectionsV881.js";
 
-const american = recipes.filter((recipe) => recipe.id.startsWith("AM-"));
+const american = recipes.filter((recipe) => recipe.id.startsWith("AM-") && !recipe.originalRecipeId);
 const byId = Object.fromEntries(american.map((recipe) => [recipe.id, recipe]));
 const app = fs.readFileSync(new URL("../src/App.jsx", import.meta.url), "utf8");
 const css = fs.readFileSync(new URL("../src/App.css", import.meta.url), "utf8");
