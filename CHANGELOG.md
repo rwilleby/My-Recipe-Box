@@ -1,3 +1,8 @@
+# v96 — Authoritative Master Baseline
+
+- Established the supplied v96 archive as the authoritative base for future website updates.
+- Synchronized the release label and all package-version mirrors to v96.
+
 # v95.12 — Recipe Card Icons & Readability
 
 - Replaced the shared All and Favorites navigation icons with the approved artwork.

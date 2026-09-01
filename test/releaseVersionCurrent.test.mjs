@@ -9,9 +9,9 @@ const sourcePackage = readJson("src/package.json");
 const changelog = readFileSync("CHANGELOG.md", "utf8");
 const viteConfig = readFileSync("vite.config.js", "utf8");
 
-assert.equal(release.version, "95.12.0");
-assert.equal(release.label, "v95.12");
-assert.equal(release.archive, "My-Recipe-Box-v95.12.zip");
+assert.equal(release.version, "96.0.0");
+assert.equal(release.label, "v96");
+assert.equal(release.archive, "My-Recipe-Box-v96.zip");
 assert.equal(packageJson.version, release.version);
 assert.equal(packageLock.version, release.version);
 assert.equal(packageLock.packages[""].version, release.version);

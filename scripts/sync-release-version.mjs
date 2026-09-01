@@ -9,7 +9,8 @@ const semverPattern = /^\d+\.\d+\.\d+$/;
 if (!semverPattern.test(release.version)) {
   throw new Error(`release.json version must be semantic (x.y.z): ${release.version}`);
 }
-if (release.label !== `v${release.version.replace(/\.0$/, "")}`) {
+const expectedLabel = `v${release.version.replace(/\.0\.0$/, "").replace(/\.0$/, "")}`;
+if (release.label !== expectedLabel) {
   throw new Error("release.json label must match its semantic version");
 }
 if (release.archive !== `My-Recipe-Box-${release.label}.zip`) {
