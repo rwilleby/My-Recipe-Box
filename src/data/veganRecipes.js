@@ -50,7 +50,7 @@ const TITLES = [
   "Lentil Mushroom Loaf", "Vegan Salisbury Steak", "Chickpea Vegetable Patties", "Black Bean Corn Enchiladas", "Lentil Walnut Tacos", "Three-Bean Chili", "Lentil Stuffed Peppers", "Vegetable Chickpea Curry", "Teriyaki Tofu Vegetables", "Orange Cauliflower", "Sweet and Sour Tofu", "Vegetable Tofu Lo Mein", "Vegan Meatballs Marinara", "Lentil Bolognese", "Eggplant Marinara Bake", "Tofu Ricotta Stuffed Shells", "Vegan Mushroom Stroganoff", "Vegan Shepherd’s Pie", "Chickpea Pot Pie", "Red Beans and Rice", "Cajun Chickpea Cakes", "BBQ Jackfruit", "BBQ Lentil Patties", "Smoky Black Bean Burgers", "Lentil Stuffed Cabbage Rolls", "Vegan Gumbo", "Mediterranean Chickpea Cakes", "Falafel with Tahini Sauce", "White Bean Stuffed Tomatoes", "Quinoa Black Bean Bowl",
 ];
 
-export const VEGAN_RECIPE_ROWS = TITLES.map((title, index) => {
+const VEGAN_RECIPE_TEMPLATES = TITLES.map((title, index) => {
   const id = `VG-${String(index + 1).padStart(3, "0")}`;
   return [id, title, {
     categoryCode: "VG", category: "Vegan Main Courses", time: 35 + (index % 4) * 10, servings: 4, price: "$$", emoji: "🌱",
@@ -59,6 +59,11 @@ export const VEGAN_RECIPE_ROWS = TITLES.map((title, index) => {
     image: `images/recipes/${id}.webp`, cardImage: `images/recipes/${id}.webp`, heroImage: "",
   }];
 });
+
+// VG-001 through VG-019 were promoted to permanent category-code sister
+// records. Keep their tested recipe content as templates, but do not expose
+// duplicate standalone records in the Vegan Library or permanent URL catalog.
+export const VEGAN_RECIPE_ROWS = VEGAN_RECIPE_TEMPLATES.filter(([id]) => Number(id.slice(3)) >= 20);
 
 export const VEGAN_SISTER_RECIPE_ROWS = [["AM-007-VG", "Lentil Mushroom Loaf", {
   categoryCode: "AM", category: "American Cuisine", time: 75, servings: 6, price: "$$", emoji: "🌱",
@@ -95,7 +100,7 @@ const SISTER_SOURCE_MAP = [
 ];
 
 for (const [sourceId, id, originalRecipeId, categoryCode, category, title, mealBalanceScore, calories] of SISTER_SOURCE_MAP) {
-  const source = VEGAN_RECIPE_ROWS.find(([recipeId]) => recipeId === sourceId)?.[2];
+  const source = VEGAN_RECIPE_TEMPLATES.find(([recipeId]) => recipeId === sourceId)?.[2];
   VEGAN_SISTER_RECIPE_ROWS.push([id, title, {
     ...source,
     categoryCode,

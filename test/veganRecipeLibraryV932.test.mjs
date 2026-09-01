@@ -19,8 +19,8 @@ assert.match(app, /VEGAN_LIBRARY_CATEGORIES/);
 assert.match(routes, /"Vegan Recipe Library": "\/vegan-recipes\/"/);
 
 const veganRecipes = recipes.filter((recipe) => recipe.isVegan === true && recipe.veganStatus === "verified");
-assert.equal(veganRecipes.length, 51);
-assert.deepEqual(veganRecipes.filter((recipe) => recipe.categoryCode === "VG").map((recipe) => recipe.id), Array.from({ length: 30 }, (_, index) => `VG-${String(index + 1).padStart(3, "0")}`));
+assert.equal(veganRecipes.length, 32);
+assert.deepEqual(veganRecipes.filter((recipe) => recipe.categoryCode === "VG").map((recipe) => recipe.id), Array.from({ length: 11 }, (_, index) => `VG-${String(index + 20).padStart(3, "0")}`));
 assert.ok(veganRecipes.some((recipe) => recipe.id === "AM-007-VG" && recipe.originalRecipeId === "AM-007"));
 for (const id of ["AM-025-VG", "AS-019-VG", "IT-023-VG", "MX-008-VG", "SF-005-VG"]) {
   assert.ok(veganRecipes.some((recipe) => recipe.id === id), `${id} must appear in the Vegan Recipe Library`);
@@ -38,7 +38,7 @@ assert.ok(veganRecipes.every((recipe) => recipe.dietaryTags.includes("vegan")));
 assert.ok(veganRecipes.every((recipe) => recipe.veganLibraryCategoryId), "every Vegan recipe needs one type category");
 assert.deepEqual(
   Object.fromEntries([...new Set(veganRecipes.map((recipe) => recipe.veganLibraryCategoryId))].sort().map((id) => [id, veganRecipes.filter((recipe) => recipe.veganLibraryCategoryId === id).length])),
-  { VAF: 10, VBA: 10, VBR: 2, VMF: 4, VPM: 13, VPN: 7, VSB: 2, VSS: 3 },
+  { VAF: 5, VBA: 6, VBR: 2, VMF: 2, VPM: 9, VPN: 4, VSB: 2, VSS: 2 },
 );
 assert.match(app, /Plant-Based Mains[\s\S]*images\/categories\/SG\.webp/);
 for (const label of ["Bakes & Casseroles", "Pasta & Noodles", "Bowls & Rice", "Sandwiches & Burgers", "Asian Favorites", "Mexican Favorites", "Soups & Stews"]) {
@@ -64,12 +64,18 @@ for (const recipe of veganRecipes) {
   }
 }
 
-for (let index = 1; index <= 30; index += 1) {
+for (let index = 20; index <= 30; index += 1) {
   const code = `VG-${String(index).padStart(3, "0")}`;
   const asset = new URL(`../public/images/recipes/${code}.webp`, import.meta.url);
   await access(asset);
   assert.ok((await stat(asset)).size > 0, `${code}.webp must not be empty`);
   assert.match(veganData, new RegExp(`"${code}"`));
+}
+
+for (let index = 1; index <= 19; index += 1) {
+  const code = `VG-${String(index).padStart(3, "0")}`;
+  assert.ok(!recipes.some((recipe) => recipe.id === code), `${code} duplicate record must be removed`);
+  await assert.rejects(access(new URL(`../public/images/recipes/${code}.webp`, import.meta.url)), `${code}.webp duplicate asset must be removed`);
 }
 
 const veganIcon = new URL("../public/images/categories/VG.webp", import.meta.url);
