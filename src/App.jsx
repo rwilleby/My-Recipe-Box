@@ -6491,17 +6491,10 @@ function RecipesPage({
 
 
 function dinnerMealImageCandidates(meal, variant = "large") {
-  const candidates = rfisPlatform.heroes.candidates(meal, { variant });
-  const mealNumber = Number(meal?.number);
-  const legacyHero = Number.isFinite(mealNumber) && mealNumber > 0
-    ? `images/dinner-combinations/meal-${String(mealNumber).padStart(3, "0")}.webp`
-    : "";
-
-  // The deployed collection contains approved legacy hero files whose older
-  // catalog records still say "not-started". Try the actual numbered asset
-  // after RFIS candidates; the image error handler retains the placeholder for
-  // dinners that genuinely do not have a hero file.
-  return [...new Set([...candidates, legacyHero].filter(Boolean))];
+  // RFIS approval is the recipe-to-image verification gate. Legacy numbered
+  // files can belong to an earlier catalog and must never be attached to a
+  // current dinner solely because the meal number happens to match.
+  return rfisPlatform.heroes.candidates(meal, { variant });
 }
 
 function DinnerCombinationImage({ meal, className = "", loading = "lazy", fetchPriority = "auto" }) {

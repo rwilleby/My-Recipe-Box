@@ -10,20 +10,29 @@ const css = fs.readFileSync(path.join(root, "src/App.css"), "utf8");
 const heroDirectory = path.join(root, "public/images/dinner-combinations");
 const heroFiles = new Set(fs.readdirSync(heroDirectory));
 
-const catalogHeroes = completeDinners.filter((meal) =>
+const deployedCatalogHeroes = completeDinners.filter((meal) =>
   heroFiles.has(`meal-${String(meal.number).padStart(3, "0")}.webp`),
 );
+const approvedCatalogHeroes = completeDinners.filter((meal) =>
+  ["approved", "published"].includes(String(meal.hero?.status || "").toLowerCase()),
+);
 
-assert.equal(catalogHeroes.length, 122, "Expected all 122 deployed Complete Dinner heroes to map to catalog meals");
+assert.equal(deployedCatalogHeroes.length, 122, "Expected 122 legacy or current Complete Dinner hero files");
+assert.equal(approvedCatalogHeroes.length, 35, "Expected 35 recipe-to-image verified Complete Dinner heroes");
 assert.match(
   app,
-  /legacyHero[\s\S]*images\/dinner-combinations\/meal-\$\{String\(mealNumber\)\.padStart\(3, "0"\)\}\.webp/,
-  "Complete Dinner cards must try the deployed numbered hero even when an old status field is stale",
+  /RFIS approval is the recipe-to-image verification gate[\s\S]*return rfisPlatform\.heroes\.candidates\(meal, \{ variant \}\);/,
+  "Complete Dinner cards must not attach legacy numbered images to unrelated current recipes",
 );
 assert.match(
   css,
   /\.compactDinnerCardMedia img\s*\{[^}]*width:\s*100%;[^}]*height:\s*100%;[^}]*object-fit:\s*contain;[^}]*object-position:\s*center top;/,
   "Compact Complete Dinner heroes must remain fully visible, full-width, and top-aligned",
 );
+assert.match(
+  css,
+  /\.dinnerRecipePopupItem > button \.dinnerRecipeTileMbCircle\s*\{color:\s*#fff\s*!important;\}/,
+  "Recipe-card MealBalance circle numbers must stay white inside recipe buttons",
+);
 
-console.log(`v96.2 Complete Dinner hero visibility contracts passed for ${catalogHeroes.length} images.`);
+console.log(`v96.3 Complete Dinner hero verification passed: ${approvedCatalogHeroes.length} current heroes; ${deployedCatalogHeroes.length - approvedCatalogHeroes.length} legacy files withheld.`);

@@ -1,3 +1,9 @@
+# v96.3 — Verified Complete Dinner Heroes
+
+- Prevented legacy Complete Dinner images from being paired with unrelated recipes solely by matching an obsolete meal number.
+- Preserved full, uncropped display for the 35 recipe-to-image verified current heroes and retained placeholders for dinners awaiting correct artwork.
+- Forced Recipe Cards MealBalance circle numbers to remain white inside their olive circles.
+
 # v96.2 — Complete Dinner Hero Visibility
 
 - Restored every deployed Complete Dinner hero image even when its older catalog approval-status field is stale.

@@ -16269,6 +16269,8 @@ button.browseRecipeWideFooterAction:focus-visible,
 
 .dinnerRecipeTileMbCircle {position: absolute !important; top: 7px !important; left: 7px !important; z-index: 4 !important; display: grid !important; place-items: center !important; width: 31px !important; height: 31px !important; border: 2px solid #fff !important; border-radius: 50% !important; background: #80994A !important; color: #fff !important; box-shadow: 0 2px 7px rgba(0,0,0,.18) !important; font-family: Inter, Arial, sans-serif !important; font-size: 14px !important; font-weight: 800 !important; line-height: 1 !important;}
 
+.dinnerRecipePopupItem > button .dinnerRecipeTileMbCircle {color: #fff !important;}
+
 .weeklyCalendarPlannerPage {width: min(100%, 1580px) !important; max-width: 1580px !important; padding-left: clamp(10px, 1.2vw, 20px) !important; padding-right: clamp(10px, 1.2vw, 20px) !important;}
 
 .weeklyCalendarPlannerHeaderV3,
