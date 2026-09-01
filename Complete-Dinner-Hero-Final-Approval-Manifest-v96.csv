@@ -1,0 +1,69 @@
+Meal,Main Recipe,Side 1,Side 2,Output Filename,Layout,Reference Status,Approval Status,Visual Audit,Dimensions,WebP Quality
+045,SG-014 — Chicken Legs,SD-016 — Dirty Rice,SD-033 — Cabbage,meal-045.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+046,SG-015 — Chicken Wings,SD-043 — Waffle Fries,,meal-046.webp,One-side,Clear,APPROVED,PASS,1448x1086,88
+047,SG-016 — Chicken Quarters,SD-002 — Cornbread Stuffing,SD-004 — Green Beans,meal-047.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+048,IT-001 — Chicken Alfredo,SD-005 — Broccoli,SD-030 — Roasted Asparagus,meal-048.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+049,IT-002 — Chicken Parmesan,SD-020 — Spaghetti Noodles,SD-021 — Italian Vegetables,meal-049.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+050,IT-003 — Chicken Marsala,SD-018 — Rice Pilaf,SD-030 — Roasted Asparagus,meal-050.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+051,IT-004 — Chicken Piccata,SD-006 — Garlic Parmesan Pasta,SD-036 — Roasted Zucchini,meal-051.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+052,IT-005 — Tuscan Chicken,SD-018 — Rice Pilaf,SD-005 — Broccoli,meal-052.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+053,IT-006 — Creamy Garlic Chicken Pasta,SD-005 — Broccoli,SD-030 — Roasted Asparagus,meal-053.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+054,IT-007 — Italian Baked Chicken,SD-037 — Roasted Red Potatoes,SD-021 — Italian Vegetables,meal-054.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+055,IT-008 — Chicken Cacciatore,SD-020 — Spaghetti Noodles,SD-036 — Roasted Zucchini,meal-055.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+056,IT-009 — Chicken Florentine,SD-018 — Rice Pilaf,SD-025 — Glazed Carrots,meal-056.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+057,IT-010 — Chicken Scampi,SD-006 — Garlic Parmesan Pasta,SD-005 — Broccoli,meal-057.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+058,IT-011 — Spaghetti & Meatballs,SD-021 — Italian Vegetables,SD-030 — Roasted Asparagus,meal-058.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+059,IT-012 — Baked Ziti with Italian Sausage,SD-005 — Broccoli,SD-036 — Roasted Zucchini,meal-059.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+060,IT-013 — Lasagna,SD-021 — Italian Vegetables,SD-030 — Roasted Asparagus,meal-060.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+061,IT-014 — Italian Meatloaf,SD-003 — Mashed Potatoes,SD-036 — Roasted Zucchini,meal-061.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+062,IT-015 — Beef Ragu,SD-020 — Spaghetti Noodles,SD-021 — Italian Vegetables,meal-062.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+063,IT-017 — Sausage & Peppers,SD-037 — Roasted Red Potatoes,SD-036 — Roasted Zucchini,meal-063.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+064,IT-018 — Stuffed Shells with Meat Sauce,SD-005 — Broccoli,SD-030 — Roasted Asparagus,meal-064.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+065,IT-019 — Manicotti with Meat Sauce,SD-021 — Italian Vegetables,SD-036 — Roasted Zucchini,meal-065.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+066,IT-020 — Italian Meatballs,SD-020 — Spaghetti Noodles,SD-005 — Broccoli,meal-066.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+067,IT-021 — Fettuccine Alfredo,SD-005 — Broccoli,SD-030 — Roasted Asparagus,meal-067.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+068,IT-030 — Eggplant Parmesan,SD-020 — Spaghetti Noodles,SD-021 — Italian Vegetables,meal-068.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+069,MX-001 — Beef Enchilada Bake,SD-049 — Cilantro Lime Rice,SD-019 — Refried Beans,meal-069.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+070,MX-002 — Chicken Enchilada Bake,SD-015 — Spanish Rice,MX-017 — Corn Maque Choux,meal-070.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+071,MX-006 — Beef Enchiladas,SD-049 — Cilantro Lime Rice,SD-019 — Refried Beans,meal-071.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+072,MX-007 — Chicken Enchiladas,SD-015 — Spanish Rice,MX-015 — Black Beans,meal-072.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+073,MX-008 — Tacos,SD-049 — Cilantro Lime Rice,MX-016 — Pinto Beans,meal-073.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+074,MX-009 — Burritos,SD-015 — Spanish Rice,SD-019 — Refried Beans,meal-074.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+075,MX-010 — Quesadillas,MX-017 — Corn Maque Choux,MX-015 — Black Beans,meal-075.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+076,MX-012 — Tamale Pie,SD-036 — Roasted Zucchini,MX-016 — Pinto Beans,meal-076.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+077,MX-021 — Enchilada Casserole,MX-017 — Corn Maque Choux,MX-015 — Black Beans,meal-077.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+078,MX-022 — Taco Casserole,MX-017 — Corn Maque Choux,MX-016 — Pinto Beans,meal-078.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+079,MX-023 — Mexican Lasagna,SD-036 — Roasted Zucchini,MX-015 — Black Beans,meal-079.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+080,MX-024 — Tamale Casserole,SD-019 — Refried Beans,MX-017 — Corn Maque Choux,meal-080.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+081,MX-025 — Beef Fajita Rice Bowls,MX-017 — Corn Maque Choux,,meal-081.webp,One-side,Clear,APPROVED,PASS,1448x1086,88
+082,MX-026 — Beef Taco Rice Bowls,MX-015 — Black Beans,,meal-082.webp,One-side,Clear,APPROVED,PASS,1448x1086,88
+083,MX-027 — Carnitas Rice Bowls,MX-016 — Pinto Beans,,meal-083.webp,One-side,Clear,APPROVED,PASS,1448x1086,88
+084,MX-028 — Chicken Burrito Bowls,MX-017 — Corn Maque Choux,,meal-084.webp,One-side,Clear,APPROVED,PASS,1448x1086,88
+085,MX-029 — Chicken Enchilada Verde Bowls,MX-015 — Black Beans,,meal-085.webp,One-side,Clear,APPROVED,PASS,1448x1086,88
+086,MX-030 — Chicken Fajita Rice Bowls,MX-017 — Corn Maque Choux,,meal-086.webp,One-side,Clear,APPROVED,PASS,1448x1086,88
+087,MX-034 — Chicken Tortilla Soup,MX-015 — Black Beans,,meal-087.webp,One-side,Clear,APPROVED,PASS,1448x1086,88
+088,MX-035 — Chile Colorado,SD-048 — White Rice,MX-016 — Pinto Beans,meal-088.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+089,MX-036 — Chile Verde Pork,SD-049 — Cilantro Lime Rice,MX-015 — Black Beans,meal-089.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+090,MX-040 — King Ranch Chicken,MX-017 — Corn Maque Choux,SD-036 — Roasted Zucchini,meal-090.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+091,AS-001 — Beef & Broccoli,SD-052 — Jasmine Rice,SD-009 — Oriental Stir-Fry,meal-091.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+092,AS-002 — Beijing Beef,SD-052 — Jasmine Rice,SD-005 — Broccoli,meal-092.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+093,AS-003 — Mongolian Beef,SD-052 — Jasmine Rice,SD-009 — Oriental Stir-Fry,meal-093.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+094,AS-004 — Pepper Steak,SD-048 — White Rice,SD-005 — Broccoli,meal-094.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+095,AS-005 — Black Pepper Beef,SD-052 — Jasmine Rice,SD-009 — Oriental Stir-Fry,meal-095.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+096,AS-006 — Korean Beef,SD-052 — Jasmine Rice,SD-005 — Broccoli,meal-096.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+097,AS-007 — Teriyaki Chicken,SD-052 — Jasmine Rice,SD-009 — Oriental Stir-Fry,meal-097.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+098,AS-008 — Sweet & Sour Chicken,SD-048 — White Rice,SD-005 — Broccoli,meal-098.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+099,AS-009 — Sesame Chicken,SD-052 — Jasmine Rice,SD-009 — Oriental Stir-Fry,meal-099.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+100,AS-010 — Orange Chicken,SD-052 — Jasmine Rice,SD-005 — Broccoli,meal-100.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+101,AS-011 — Kung Pao Chicken,SD-048 — White Rice,SD-009 — Oriental Stir-Fry,meal-101.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+102,AS-012 — Honey Garlic Chicken,SD-052 — Jasmine Rice,SD-005 — Broccoli,meal-102.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+103,AS-013 — General Tso’s Chicken,SD-052 — Jasmine Rice,SD-009 — Oriental Stir-Fry,meal-103.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+104,AS-014 — Cashew Chicken,SD-048 — White Rice,SD-005 — Broccoli,meal-104.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+105,AS-015 — Hunan Chicken,SD-052 — Jasmine Rice,SD-009 — Oriental Stir-Fry,meal-105.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+106,AS-016 — Szechuan Chicken,SD-048 — White Rice,SD-005 — Broccoli,meal-106.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+107,AS-017 — Black Pepper Chicken,SD-052 — Jasmine Rice,SD-009 — Oriental Stir-Fry,meal-107.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88
+108,AS-018 — Fried Rice,SD-005 — Broccoli,,meal-108.webp,One-side,Clear,APPROVED,PASS,1448x1086,88
+109,AS-019 — Lo Mein,SD-009 — Oriental Stir-Fry,,meal-109.webp,One-side,Clear,APPROVED,PASS,1448x1086,88
+110,AS-020 — Chow Mein,SD-005 — Broccoli,,meal-110.webp,One-side,Clear,APPROVED,PASS,1448x1086,88
+111,AS-021 — Singapore Noodles,SD-009 — Oriental Stir-Fry,,meal-111.webp,One-side,Clear,APPROVED,PASS,1448x1086,88
+116,SF-004 — Salmon Patties,SD-028 — Baked Sweet Potato,SD-005 — Broccoli,meal-116.webp,Three-item,Clear,APPROVED,PASS,1448x1086,88

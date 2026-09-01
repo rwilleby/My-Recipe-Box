@@ -4,6 +4,22 @@ const DEFAULT_FREEZER_LIFE = "Best quality within 3 months of the freeze date.";
 const DEFAULT_OVEN = "Remove the lid, cover with foil, and heat at 350°F until the center reaches 165°F. Re-crisp separately packaged fried items in an air fryer or oven.";
 const DEFAULT_MICROWAVE = "Thaw overnight when possible. Transfer to a microwave-safe dish and heat in short intervals until the center reaches 165°F, stirring or rotating the sides as needed.";
 
+// Complete Dinner hero rebuild v96: visually audited replacement assets.
+const APPROVED_REBUILT_HERO_MEALS_V96 = new Set([
+  45, 46, 47, 48, 49, 50, 51, 52, 53, 54,
+  55, 56, 57, 58, 59, 60, 61, 62, 63, 64,
+  65, 66, 67, 68, 69, 70, 71, 72, 73, 74,
+  75, 76, 77, 78, 79, 80, 81, 82, 83, 84,
+  85, 86, 87, 88, 89, 90, 91, 92, 93, 94,
+  95, 96, 97, 98, 99, 100, 101, 102, 103, 104,
+  105, 106, 107, 108, 109, 110, 111, 116,
+]);
+
+function isHeroApproved(dinner) {
+  return APPROVED_REBUILT_HERO_MEALS_V96.has(Number(dinner.number))
+    || ["approved", "published"].includes(String(dinner.hero?.status || "").toLowerCase());
+}
+
 const PROTEIN_TAGS = [
   ["chicken", ["chicken"]],
   ["beef", ["beef", "steak", "brisket", "meatloaf", "hamburger", "barbacoa", "roast"]],
@@ -113,11 +129,11 @@ export function adaptCompleteDinnerForLegacyUi(dinner, recipes = []) {
     number: dinner.number,
     // Do not expose a hero path until the replacement image has been formally approved.
     // This prevents legacy MEAL-### files from appearing against newly rebuilt dinners.
-    heroAvailable: ["approved", "published"].includes(String(dinner.hero?.status || "").toLowerCase()),
-    image: ["approved", "published"].includes(String(dinner.hero?.status || "").toLowerCase())
+    heroAvailable: isHeroApproved(dinner),
+    image: isHeroApproved(dinner)
       ? (dinner.hero?.image || `images/dinner-combinations/MEAL-${String(dinner.number).padStart(3, "0")}.webp`)
       : "",
-    thumbnail: ["approved", "published"].includes(String(dinner.hero?.status || "").toLowerCase())
+    thumbnail: isHeroApproved(dinner)
       ? (dinner.hero?.thumbnail || "")
       : "",
     title: entree?.title || dinner.title.replace(/\s+Complete Dinner$/i, ""),
