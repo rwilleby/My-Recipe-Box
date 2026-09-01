@@ -15940,6 +15940,28 @@ button.browseRecipeWideFooterAction:focus-visible,
   font-size: clamp(9px, 1.65cqw, 12px) !important;
 }
 
+/* Let the recipe-card image establish the grid-row height. The Nutrition panel
+   then stretches to that height without a percentage-height sizing loop. */
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseRecipeNutritionPrototypeMain {
+  align-items: stretch !important;
+}
+
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseRecipeNutritionPrototypeCard {
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+}
+
+.recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid)
+  .browseRecipeNutritionFacts {
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  align-self: stretch !important;
+}
+
 .recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid) .browseRecipeWideFooterAction.isPrimary:hover,
 .recipeGrid.browseRecipeGrid:not(.favoritesRecipeGrid) .browseRecipeWideFooterAction.isPrimary:focus-visible {background: #70883f !important; border-color: #70883f !important; color: #fff !important;}
 

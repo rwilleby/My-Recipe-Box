@@ -21,5 +21,7 @@ assert.match(nutritionFacts, /browseNutritionEstimateNote">Estimated Range</);
 assert.match(css, /v95\.12 — compact Crock Pot estimate label/);
 assert.match(css, /\.browseRecipeNutritionFacts \.browseNutritionEstimateNote[\s\S]*white-space: nowrap !important/);
 assert.match(css, /\.browseRecipeWideFooterTime strong[\s\S]*font-size: clamp\(9px, 1\.65cqw, 12px\) !important/);
+assert.match(css, /recipe-card image establish the grid-row height/);
+assert.match(css, /\.browseRecipeNutritionFacts \{[\s\S]*height: auto !important;[\s\S]*min-height: 0 !important;[\s\S]*max-height: none !important;[\s\S]*align-self: stretch !important/);
 
 console.log("v95.12 recipe-card icon, nutrition, and time contracts passed.");
