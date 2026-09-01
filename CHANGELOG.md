@@ -1,9 +1,18 @@
-# v96 — Text Recipe Expansion
+# v96.3 — Verified Complete Dinner Heroes
 
-- Added selectable card-derived directions for IT, MX, SF, DM, CP, QP, SB, and SD.
-- Completed 476 active recipes across the eight requested categories, including 10 active vegan sister cards.
-- Preserved all illustrated recipe cards and existing recipe codes.
-- Added a release test that requires selectable ingredients, directions, and an illustrated card for every requested recipe.
+- Prevented legacy Complete Dinner images from being paired with unrelated recipes solely by matching an obsolete meal number.
+- Preserved full, uncropped display for the 35 recipe-to-image verified current heroes and retained placeholders for dinners awaiting correct artwork.
+- Forced Recipe Cards MealBalance circle numbers to remain white inside their olive circles.
+
+# v96.2 — Complete Dinner Hero Visibility
+
+- Restored every deployed Complete Dinner hero image even when its older catalog approval-status field is stale.
+- Changed compact Complete Dinner cards to show the complete hero from left to right without cropping, with unused space below the image when necessary.
+
+# v96.1 — Text Recipe Rendering
+
+- Corrected the Text Recipe viewer so structured ingredient records render as readable quantity, unit, and ingredient lines instead of causing a blank screen.
+- Added complete Text Recipe coverage for every currently enabled recipe.
 
 # v96 — Authoritative Master Baseline
 
