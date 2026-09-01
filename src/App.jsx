@@ -100,6 +100,7 @@ import { applyStoredRecipeOverrides } from "./utils/recipeOverrides";
 import { printManualInventoryWorksheet } from "./utils/manualInventoryWorksheets.js";
 import { uniqueRecordsByPermanentId } from "./utils/records.js";
 import { getCrockPotNutritionEstimate } from "./utils/crockPotNutritionEstimate.js";
+import { getTextRecipeContent } from "./utils/textRecipe.js";
 import {
   buildShoppingList,
   formatQty,
@@ -4513,13 +4514,10 @@ function RecipeCardViewer({
   const recipeCompleteDinners = rfisPlatform.completeDinners
     .byRecipe(recipe.id)
     .slice(0, 4);
-  const textRecipeIngredients = Array.isArray(recipe.ingredients)
-    ? recipe.ingredients.filter((item) => String(item || "").trim())
-    : [];
-  const textRecipeDirections = Array.isArray(recipe.directions)
-    ? recipe.directions.filter((item) => String(item || "").trim())
-    : [];
-  const hasTextRecipe = textRecipeIngredients.length > 0 && textRecipeDirections.length > 0;
+  const textRecipeContent = getTextRecipeContent(recipe);
+  const textRecipeIngredients = textRecipeContent.ingredients;
+  const textRecipeDirections = textRecipeContent.directions;
+  const hasTextRecipe = textRecipeContent.available;
   const sisterRecipeId = recipe.originalRecipeId || recipe.veganAlternativeId;
   const sisterRecipe = sisterRecipeId ? recipeData.find((item) => item.id === sisterRecipeId) : null;
 

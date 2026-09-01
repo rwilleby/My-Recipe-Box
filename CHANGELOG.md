@@ -1,3 +1,8 @@
+# v96.1 — Text Recipe Rendering
+
+- Corrected the Text Recipe viewer so structured ingredient records render as readable quantity, unit, and ingredient lines instead of causing a blank screen.
+- Added complete Text Recipe coverage for every currently enabled recipe.
+
 # v96 — Authoritative Master Baseline
 
 - Established the supplied v96 archive as the authoritative base for future website updates.
