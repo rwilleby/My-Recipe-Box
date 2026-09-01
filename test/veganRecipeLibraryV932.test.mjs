@@ -14,11 +14,11 @@ assert.match(app, /src="images\/heroes\/vegan-recipe-library-hero-1440x464\.webp
 assert.match(guides, /\["Vegan Recipe Library", "vegan-recipe-library"\]/);
 assert.match(app, /recipe\.isVegan === true && recipe\.veganStatus === "verified"/);
 assert.match(app, /No vegan recipes match your current selections\./);
-assert.match(app, /code === "VG" \? "images\/categories\/VG\.webp"/);
+assert.match(app, /VEGAN_LIBRARY_CATEGORIES/);
 assert.match(routes, /"Vegan Recipe Library": "\/vegan-recipes\/"/);
 
 const veganRecipes = recipes.filter((recipe) => recipe.isVegan === true && recipe.veganStatus === "verified");
-assert.equal(veganRecipes.length, 46);
+assert.equal(veganRecipes.length, 51);
 assert.deepEqual(veganRecipes.filter((recipe) => recipe.categoryCode === "VG").map((recipe) => recipe.id), Array.from({ length: 30 }, (_, index) => `VG-${String(index + 1).padStart(3, "0")}`));
 assert.ok(veganRecipes.some((recipe) => recipe.id === "AM-007-VG" && recipe.originalRecipeId === "AM-007"));
 for (const id of ["AM-025-VG", "AS-019-VG", "IT-023-VG", "MX-008-VG", "SF-005-VG"]) {
@@ -30,7 +30,20 @@ for (const id of ["AM-001-VG", "AM-009-VG", "AS-007-VG", "AS-010-VG", "IT-020-VG
 for (const id of ["MX-006-VG", "AS-008-VG", "IT-015-VG", "IT-029-VG", "AM-020-VG"]) {
   assert.ok(veganRecipes.some((recipe) => recipe.id === id), `${id} must appear in the Vegan Recipe Library`);
 }
+for (const id of ["SF-004-VG", "CP-131-VG", "IT-030-VG", "AM-067-VG", "AM-030-VG"]) {
+  assert.ok(veganRecipes.some((recipe) => recipe.id === id), `${id} must appear in the Vegan Recipe Library`);
+}
 assert.ok(veganRecipes.every((recipe) => recipe.dietaryTags.includes("vegan")));
+assert.ok(veganRecipes.every((recipe) => recipe.veganLibraryCategoryId), "every Vegan recipe needs one type category");
+assert.deepEqual(
+  Object.fromEntries([...new Set(veganRecipes.map((recipe) => recipe.veganLibraryCategoryId))].sort().map((id) => [id, veganRecipes.filter((recipe) => recipe.veganLibraryCategoryId === id).length])),
+  { VAF: 10, VBA: 10, VBR: 2, VMF: 4, VPM: 13, VPN: 7, VSB: 2, VSS: 3 },
+);
+assert.match(app, /Plant-Based Mains[\s\S]*images\/categories\/SG\.webp/);
+for (const label of ["Bakes & Casseroles", "Pasta & Noodles", "Bowls & Rice", "Sandwiches & Burgers", "Asian Favorites", "Mexican Favorites", "Soups & Stews"]) {
+  assert.ok(app.includes(label), `${label} Vegan category must be available`);
+}
+assert.match(app, /recipe\.veganLibraryCategoryId === selectedCategory/);
 
 const prohibitedUnqualified = /(^|\b)(beef|chicken|pork|turkey|fish sauce|oyster sauce|shrimp paste|gelatin|lard|honey|egg|eggs|butter|cheese|mayonnaise)(\b|$)/i;
 for (const recipe of veganRecipes) {

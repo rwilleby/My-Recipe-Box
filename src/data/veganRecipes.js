@@ -37,6 +37,15 @@ const SPECIALTY = {
   "VG-030": [pantry("Quinoa", 1.5, "cups"), pantry("Black beans", 2, "cans"), pantry("Corn", 1.5, "cups"), produce("Avocado", 2, "each")],
 };
 
+const VEGAN_LIBRARY_CATEGORY_BY_ID = Object.freeze({
+  "VG-001": "VPM", "VG-002": "VPM", "VG-003": "VPM", "VG-004": "VMF", "VG-005": "VMF",
+  "VG-006": "VSS", "VG-007": "VBA", "VG-008": "VAF", "VG-009": "VAF", "VG-010": "VAF",
+  "VG-011": "VAF", "VG-012": "VAF", "VG-013": "VPM", "VG-014": "VPN", "VG-015": "VBA",
+  "VG-016": "VPN", "VG-017": "VPN", "VG-018": "VBA", "VG-019": "VBA", "VG-020": "VBR",
+  "VG-021": "VPM", "VG-022": "VSB", "VG-023": "VPM", "VG-024": "VSB", "VG-025": "VBA",
+  "VG-026": "VSS", "VG-027": "VPM", "VG-028": "VPM", "VG-029": "VBA", "VG-030": "VBR",
+});
+
 const TITLES = [
   "Lentil Mushroom Loaf", "Vegan Salisbury Steak", "Chickpea Vegetable Patties", "Black Bean Corn Enchiladas", "Lentil Walnut Tacos", "Three-Bean Chili", "Lentil Stuffed Peppers", "Vegetable Chickpea Curry", "Teriyaki Tofu Vegetables", "Orange Cauliflower", "Sweet and Sour Tofu", "Vegetable Tofu Lo Mein", "Vegan Meatballs Marinara", "Lentil Bolognese", "Eggplant Marinara Bake", "Tofu Ricotta Stuffed Shells", "Vegan Mushroom Stroganoff", "Vegan Shepherd’s Pie", "Chickpea Pot Pie", "Red Beans and Rice", "Cajun Chickpea Cakes", "BBQ Jackfruit", "BBQ Lentil Patties", "Smoky Black Bean Burgers", "Lentil Stuffed Cabbage Rolls", "Vegan Gumbo", "Mediterranean Chickpea Cakes", "Falafel with Tahini Sauce", "White Bean Stuffed Tomatoes", "Quinoa Black Bean Bowl",
 ];
@@ -45,7 +54,7 @@ export const VEGAN_RECIPE_ROWS = TITLES.map((title, index) => {
   const id = `VG-${String(index + 1).padStart(3, "0")}`;
   return [id, title, {
     categoryCode: "VG", category: "Vegan Main Courses", time: 35 + (index % 4) * 10, servings: 4, price: "$$", emoji: "🌱",
-    isVegan: true, veganStatus: "verified", dietaryTags: ["vegan", "plant-based"], ingredients: [...SPECIALTY[id], ...BASE],
+    isVegan: true, veganStatus: "verified", veganLibraryCategoryId: VEGAN_LIBRARY_CATEGORY_BY_ID[id], dietaryTags: ["vegan", "plant-based"], ingredients: [...SPECIALTY[id], ...BASE],
     directions: ["Prepare and measure all ingredients, confirming that every packaged product is labeled vegan.", "Cook the vegetables and seasonings until fragrant and tender, then add the principal beans, lentils, tofu, grain, or vegetable component.", "Finish the dish using the cooking method shown on the supplied recipe card and cook until heated through and properly set.", "Taste, adjust the vegan seasonings, and serve hot with the suggested plant-based accompaniments."],
     image: `images/recipes/${id}.webp`, cardImage: `images/recipes/${id}.webp`, heroImage: "",
   }];
@@ -53,7 +62,7 @@ export const VEGAN_RECIPE_ROWS = TITLES.map((title, index) => {
 
 export const VEGAN_SISTER_RECIPE_ROWS = [["AM-007-VG", "Lentil Mushroom Loaf", {
   categoryCode: "AM", category: "American Cuisine", time: 75, servings: 6, price: "$$", emoji: "🌱",
-  isVegan: true, veganStatus: "verified", originalRecipeId: "AM-007", excludeFromRegularLibrary: true,
+  isVegan: true, veganStatus: "verified", veganLibraryCategoryId: "VPM", originalRecipeId: "AM-007", excludeFromRegularLibrary: true,
   dietaryTags: ["vegan", "plant-based"],
   ingredients: [produce("Cooked brown or green lentils", 2, "cups"), produce("Mushrooms, finely chopped", 8, "oz"), pantry("Olive oil", 1, "tbsp"), produce("Medium onion, finely diced", 1, "each"), produce("Carrot, finely diced", 1, "each"), produce("Celery rib, finely diced", 1, "each"), produce("Garlic, minced", 3, "cloves"), pantry("Old-fashioned rolled oats", 1, "cup"), pantry("Walnuts, finely chopped", 0.5, "cup"), pantry("Ground flaxseed", 2, "tbsp"), pantry("Water", 5, "tbsp"), pantry("Tomato paste", 3, "tbsp"), pantry("Reduced-sodium soy sauce", 1, "tbsp"), pantry("Vegan Worcestershire sauce", 1, "tbsp"), pantry("Ketchup and maple tomato glaze", 1, "batch")],
   directions: ["Mix the flaxseed and water; rest 5–10 minutes.", "Heat the oven to 375°F. Line a 9 × 5-inch loaf pan with parchment.", "Pulse the oats into coarse crumbs and transfer to a large bowl.", "Sauté the onion, carrot, and celery in oil for 6–8 minutes. Add mushrooms; cook until their moisture evaporates, then add garlic and seasonings.", "Pulse half the lentils with the vegetables, tomato paste, soy sauce, vegan Worcestershire, and flax mixture.", "Mix with oats, remaining lentils, and walnuts. Press firmly into the pan.", "Spread two-thirds of the glaze over the loaf and bake 40 minutes. Add the remaining glaze and bake 15 minutes more.", "Rest 10 minutes before lifting out and slicing."],
@@ -78,6 +87,11 @@ const SISTER_SOURCE_MAP = [
   ["VG-014", "IT-015-VG", "IT-015", "IT", "Italian Cuisine", "Lentil Bolognese", 4, 400],
   ["VG-016", "IT-029-VG", "IT-029", "IT", "Italian Cuisine", "Tofu Ricotta Stuffed Shells", 4, 410],
   ["VG-017", "AM-020-VG", "AM-020", "AM", "American Cuisine", "Vegan Mushroom Stroganoff", 5, 420],
+  ["VG-003", "SF-004-VG", "SF-004", "SF", "Seafood Dishes", "Chickpea Vegetable Patties", 3, 280],
+  ["VG-008", "CP-131-VG", "CP-131", "CP", "Crock Pot Meals", "Vegetable Chickpea Curry", 3, 350],
+  ["VG-015", "IT-030-VG", "IT-030", "IT", "Italian Cuisine", "Eggplant Marinara Bake", 4, 390],
+  ["VG-018", "AM-067-VG", "AM-067", "AM", "American Cuisine", "Vegan Shepherd’s Pie", 4, 410],
+  ["VG-019", "AM-030-VG", "AM-030", "AM", "American Cuisine", "Chickpea Pot Pie", 4, 400],
 ];
 
 for (const [sourceId, id, originalRecipeId, categoryCode, category, title, mealBalanceScore, calories] of SISTER_SOURCE_MAP) {
@@ -100,7 +114,7 @@ for (const [sourceId, id, originalRecipeId, categoryCode, category, title, mealB
 
 VEGAN_SISTER_RECIPE_ROWS.push(["IT-023-VG", "Vegan Pasta Primavera", {
   categoryCode: "IT", category: "Italian Cuisine", time: 35, servings: 6, price: "$$", emoji: "🌱",
-  isVegan: true, veganStatus: "verified", originalRecipeId: "IT-023", excludeFromRegularLibrary: true,
+  isVegan: true, veganStatus: "verified", veganLibraryCategoryId: "VPN", originalRecipeId: "IT-023", excludeFromRegularLibrary: true,
   dietaryTags: ["vegan", "plant-based"],
   ingredients: [pantry("Egg-free pasta", 12, "oz"), pantry("Olive oil", 2, "tbsp"), produce("Zucchini, sliced", 1, "each"), produce("Yellow squash, sliced", 1, "each"), produce("Red bell pepper, sliced", 1, "each"), produce("Broccoli florets", 2, "cups"), produce("Garlic, minced", 3, "cloves"), produce("Cherry tomatoes", 1, "cup"), chilled("Unsweetened plant cream", 0.75, "cup"), chilled("Vegan Parmesan", 0.5, "cup"), produce("Fresh basil, chopped", 2, "tbsp")],
   directions: ["Cook pasta until al dente; drain.", "Sauté zucchini, squash, pepper, and broccoli in olive oil.", "Add garlic and tomatoes; cook 2 minutes.", "Pour in plant cream and warm gently.", "Stir in vegan Parmesan until smooth.", "Toss pasta with the vegetables and sauce.", "Garnish with basil and serve."],

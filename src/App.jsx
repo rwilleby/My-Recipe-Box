@@ -68,6 +68,17 @@ import {
   createKosUiController,
 } from "./kos/index.js";
 import { getRecipeCostEstimate, RECIPE_COST_NOTE, RECIPE_COST_TAGLINE } from "./data/recipeCosts";
+
+const VEGAN_LIBRARY_CATEGORIES = Object.freeze([
+  { id: "VPM", name: "Plant-Based Mains", displayName: "Plant-Based Mains", iconImage: "images/categories/SG.webp" },
+  { id: "VBA", name: "Bakes & Casseroles", displayName: "Bakes & Casseroles", iconImage: "images/categories/CS.webp" },
+  { id: "VPN", name: "Pasta & Noodles", displayName: "Pasta & Noodles", iconImage: "images/categories/IT.webp" },
+  { id: "VBR", name: "Bowls & Rice", displayName: "Bowls & Rice", iconImage: "images/categories/SB.webp" },
+  { id: "VSB", name: "Sandwiches & Burgers", displayName: "Sandwiches & Burgers", iconImage: "images/categories/SW.webp" },
+  { id: "VAF", name: "Asian Favorites", displayName: "Asian Favorites", iconImage: "images/categories/AS.webp" },
+  { id: "VMF", name: "Mexican Favorites", displayName: "Mexican Favorites", iconImage: "images/categories/MX.webp" },
+  { id: "VSS", name: "Soups & Stews", displayName: "Soups & Stews", iconImage: "images/icons/CP-bulk.webp" },
+]);
 import {
   REFRIGERATOR_CATEGORIES,
   REFRIGERATOR_FILTERS,
@@ -6069,17 +6080,9 @@ function RecipesPage({
     () => veganOnly
       ? [
         { id: "ALL", name: "All Vegan Recipes", displayName: "All Vegan Recipes", iconImage: "images/icons/all-recipes-v9512.webp" },
-        ...["VG", ...HOME_CATEGORY_CODES]
-          .filter((code, index, list) => list.indexOf(code) === index)
-          .filter((code) => libraryRecipes.some((recipe) => recipe.categoryCode === code))
-          .map((code) => {
-            const category = categories.find((item) => item.id === code);
-            return {
-              ...(category || { id: code, name: code }),
-              displayName: code === "VG" ? "Vegan Main Courses" : HOME_CATEGORY_LABELS[code] || category?.name || code,
-              iconImage: code === "VG" ? "images/categories/VG.webp" : CATEGORY_ICON_IMAGES[code],
-            };
-          }),
+        ...VEGAN_LIBRARY_CATEGORIES.filter((category) =>
+          libraryRecipes.some((recipe) => recipe.veganLibraryCategoryId === category.id)
+        ),
       ]
       : [
       {
@@ -6159,6 +6162,7 @@ function RecipesPage({
       const matchesCategory =
         !selectedCategory ||
         (selectedCategory === "FAVORITES" && favorites.includes(recipe.id)) ||
+        (veganOnly && recipe.veganLibraryCategoryId === selectedCategory) ||
         recipe.category === selectedCategory ||
         recipe.categoryCode === selectedCategoryObject?.id ||
         recipe.id?.startsWith(`${selectedCategoryObject?.id}-`);
@@ -6251,6 +6255,10 @@ function RecipesPage({
     )?.id || "ALL";
   }, [browseQuickCategories, selectedCategory]);
 
+  const quickCategoryRecipeCount = (choice) => libraryRecipes.filter((recipe) =>
+    choice.id === "ALL" || (veganOnly ? recipe.veganLibraryCategoryId === choice.id : recipe.categoryCode === choice.id)
+  ).length;
+
   useEffect(() => {
     if (page > totalPages) setPage(totalPages);
   }, [page, totalPages]);
@@ -6339,11 +6347,11 @@ function RecipesPage({
               className={`libraryCategorySelectorItem category-${String(choice.id).toLowerCase()}${choice.id === selectedQuickCategoryId ? " active" : ""}`}
               onClick={() => applyQuickCategory(choice)}
               aria-pressed={choice.id === selectedQuickCategoryId}
-              aria-label={`${choice.displayName}, ${libraryRecipes.filter((recipe) => choice.id === "ALL" || recipe.categoryCode === choice.id).length} recipes`}
+              aria-label={`${choice.displayName}, ${quickCategoryRecipeCount(choice)} recipes`}
             >
               {choice.iconImage ? <img src={`${import.meta.env.BASE_URL}${choice.iconImage}`} alt="" aria-hidden="true" /> : <span className="libraryCategorySelectorAll" aria-hidden="true">{choice.id === "ALL" ? "ALL" : choice.id}</span>}
               <strong>{String(choice.displayName).toUpperCase()}</strong>
-              <small>{libraryRecipes.filter((recipe) => choice.id === "ALL" || recipe.categoryCode === choice.id).length}</small>
+              <small>{quickCategoryRecipeCount(choice)}</small>
             </button>
           ))}
         </nav>
