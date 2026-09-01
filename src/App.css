@@ -23228,12 +23228,18 @@ button.browseRecipeWideFooterAction:focus-visible,
 }
 
 .veganLibraryCategorySelector {
+  display: grid;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+  align-items: start;
+  justify-items: stretch;
+  width: 100%;
   margin-bottom: 24px;
-  justify-content: center;
+  overflow: visible;
 }
 
 .veganLibraryCategorySelector .libraryCategorySelectorItem {
-  min-width: 142px;
+  min-width: 0;
+  width: 100%;
 }
 
 .veganLibraryCategorySelector .libraryCategorySelectorItem small {
@@ -23248,14 +23254,21 @@ button.browseRecipeWideFooterAction:focus-visible,
   color: #38523b;
 }
 
+@media (max-width: 1100px) {
+  .veganLibraryCategorySelector {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+  }
+}
+
 @media (max-width: 680px) {
   .veganRecipeLibraryPage {
     padding-top: 22px;
   }
 
   .veganLibraryCategorySelector {
-    display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 5px;
   }
 
   .veganLibraryCategorySelector .libraryCategorySelectorItem {

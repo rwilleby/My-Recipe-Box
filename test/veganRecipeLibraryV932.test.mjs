@@ -3,6 +3,7 @@ import { access, readFile, stat } from "node:fs/promises";
 import { recipes } from "../src/data/recipes.js";
 
 const app = await readFile(new URL("../src/App.jsx", import.meta.url), "utf8");
+const css = await readFile(new URL("../src/App.css", import.meta.url), "utf8");
 const routes = await readFile(new URL("../src/routing/seoRoutes.js", import.meta.url), "utf8");
 const veganData = await readFile(new URL("../src/data/veganRecipes.js", import.meta.url), "utf8");
 const guides = await readFile(new URL("../src/data/howItWorksGuides.js", import.meta.url), "utf8");
@@ -44,6 +45,9 @@ for (const label of ["Bakes & Casseroles", "Pasta & Noodles", "Bowls & Rice", "S
   assert.ok(app.includes(label), `${label} Vegan category must be available`);
 }
 assert.match(app, /recipe\.veganLibraryCategoryId === selectedCategory/);
+assert.match(css, /\.veganLibraryCategorySelector\s*\{[\s\S]*grid-template-columns:\s*repeat\(9,\s*minmax\(0,\s*1fr\)\)/);
+assert.match(css, /\.veganLibraryCategorySelector \.libraryCategorySelectorItem\s*\{[\s\S]*min-width:\s*0/);
+assert.doesNotMatch(css, /\.veganLibraryCategorySelector \.libraryCategorySelectorItem\s*\{[^}]*min-width:\s*142px/);
 
 const prohibitedUnqualified = /(^|\b)(beef|chicken|pork|turkey|fish sauce|oyster sauce|shrimp paste|gelatin|lard|honey|egg|eggs|butter|cheese|mayonnaise)(\b|$)/i;
 for (const recipe of veganRecipes) {
