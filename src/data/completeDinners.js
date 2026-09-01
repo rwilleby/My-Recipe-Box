@@ -273,7 +273,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64 recipe codes; approved Batch 1 composition."
   },
@@ -331,7 +331,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64 recipe codes; approved Batch 1 composition."
   },
@@ -360,7 +360,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64 recipe codes; approved Batch 1 composition."
   },
@@ -418,7 +418,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64 recipe codes; approved Batch 1 composition."
   },
@@ -505,7 +505,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64 recipe codes; approved Batch 1 composition."
   },
@@ -649,7 +649,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Tater tots should be packaged separately and re-crisped; broccoli may be frozen with the meal."
   },
@@ -822,7 +822,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Rustic sausage dinner with freezer-compatible vegetables."
   },
@@ -908,7 +908,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Freezer-friendly family comfort meal."
   },
@@ -936,7 +936,7 @@ export const completeDinners = [
       "layout": "one-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Baked beans freeze with the meal; coleslaw is prepared fresh."
   },
@@ -965,7 +965,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Steakhouse-inspired combination."
   },
@@ -1339,7 +1339,7 @@ export const completeDinners = [
       "layout": "one-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Waffle fries freeze separately and should be re-crisped; coleslaw is fresh."
   },
@@ -1368,7 +1368,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Traditional smoked chicken dinner."
   },
@@ -1397,7 +1397,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Chicken Alfredo already contains pasta; both tray sides are vegetables."
   },
@@ -1426,7 +1426,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Classic Chicken Parmesan dinner with one pasta and one vegetable side."
   },
@@ -1455,7 +1455,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Restaurant-inspired Marsala dinner."
   },
@@ -1484,7 +1484,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Piccata pairs with garlic pasta and a lighter vegetable."
   },
@@ -1513,7 +1513,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Balanced Tuscan chicken dinner."
   },
@@ -1542,7 +1542,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Creamy pasta entr\u00e9e receives two vegetables rather than another starch."
   },
@@ -1571,7 +1571,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Italian baked chicken with roasted potatoes and Italian vegetables."
   },
@@ -1600,7 +1600,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Chicken Cacciatore served with spaghetti and roasted zucchini."
   },
@@ -1629,7 +1629,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Chicken Florentine with rice pilaf and glazed carrots."
   },
@@ -1658,7 +1658,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Chicken Scampi with garlic pasta and broccoli."
   },
@@ -1687,7 +1687,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Spaghetti is contained in the entr\u00e9e; tray sides are vegetables."
   },
@@ -1716,7 +1716,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Baked ziti is a complete starch-containing entr\u00e9e; both tray sides are vegetables."
   },
@@ -1745,7 +1745,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Lasagna is a complete entr\u00e9e; both tray sides are vegetables."
   },
@@ -1774,7 +1774,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Italian comfort-food variation with mashed potatoes and zucchini."
   },
@@ -1803,7 +1803,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Beef Ragu served with spaghetti and Italian vegetables."
   },
@@ -1832,7 +1832,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Rustic sausage-and-peppers dinner."
   },
@@ -1861,7 +1861,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Stuffed shells are a complete entr\u00e9e; both tray sides are vegetables."
   },
@@ -1890,7 +1890,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Manicotti is a complete entr\u00e9e; both tray sides are vegetables."
   },
@@ -1919,7 +1919,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Classic meatballs with spaghetti and broccoli."
   },
@@ -1948,7 +1948,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Fettuccine Alfredo receives two vegetable sides."
   },
@@ -1977,7 +1977,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Eggplant Parmesan with spaghetti and Italian vegetables."
   },
@@ -2006,7 +2006,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Beef enchilada bake with cilantro lime rice and refried beans."
   },
@@ -2035,7 +2035,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Chicken enchilada bake with Spanish rice and corn maque choux."
   },
@@ -2064,7 +2064,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Classic beef enchilada dinner."
   },
@@ -2093,7 +2093,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Chicken enchiladas with Spanish rice and black beans."
   },
@@ -2122,7 +2122,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Tacos with cilantro lime rice and pinto beans."
   },
@@ -2151,7 +2151,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Burritos with Spanish rice and refried beans."
   },
@@ -2180,7 +2180,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Quesadillas with corn maque choux and black beans."
   },
@@ -2209,7 +2209,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Tamale pie is starch-containing; paired with zucchini and pinto beans."
   },
@@ -2238,7 +2238,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Enchilada casserole with corn and black beans."
   },
@@ -2267,7 +2267,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Taco casserole with corn and pinto beans."
   },
@@ -2296,7 +2296,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Mexican lasagna is a complete entr\u00e9e; paired with zucchini and black beans."
   },
@@ -2325,7 +2325,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Tamale casserole with refried beans and corn."
   },
@@ -2353,7 +2353,7 @@ export const completeDinners = [
       "layout": "one-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Beef fajita rice bowl already contains rice; one freezer side only."
   },
@@ -2381,7 +2381,7 @@ export const completeDinners = [
       "layout": "one-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Beef taco rice bowl with black beans."
   },
@@ -2409,7 +2409,7 @@ export const completeDinners = [
       "layout": "one-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Carnitas rice bowl with pinto beans."
   },
@@ -2437,7 +2437,7 @@ export const completeDinners = [
       "layout": "one-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Chicken burrito bowl with corn maque choux."
   },
@@ -2465,7 +2465,7 @@ export const completeDinners = [
       "layout": "one-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Chicken enchilada verde bowl with black beans."
   },
@@ -2493,7 +2493,7 @@ export const completeDinners = [
       "layout": "one-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Chicken fajita rice bowl with corn maque choux."
   },
@@ -2521,7 +2521,7 @@ export const completeDinners = [
       "layout": "one-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Chicken tortilla soup with black beans; tortilla strips stay separate."
   },
@@ -2550,7 +2550,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Chile Colorado with white rice and pinto beans."
   },
@@ -2579,7 +2579,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. Chile Verde Pork with cilantro lime rice and black beans."
   },
@@ -2608,7 +2608,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64. King Ranch Chicken with corn maque choux and roasted zucchini."
   },
@@ -2637,7 +2637,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64 recipe codes."
   },
@@ -2666,7 +2666,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64 recipe codes."
   },
@@ -2695,7 +2695,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64 recipe codes."
   },
@@ -2724,7 +2724,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64 recipe codes."
   },
@@ -2753,7 +2753,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64 recipe codes."
   },
@@ -2782,7 +2782,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64 recipe codes."
   },
@@ -2811,7 +2811,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64 recipe codes."
   },
@@ -2840,7 +2840,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64 recipe codes."
   },
@@ -2869,7 +2869,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64 recipe codes."
   },
@@ -2898,7 +2898,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64 recipe codes."
   },
@@ -2927,7 +2927,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64 recipe codes."
   },
@@ -2956,7 +2956,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64 recipe codes."
   },
@@ -3242,7 +3242,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64 recipe codes."
   },
@@ -3271,7 +3271,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64 recipe codes."
   },
@@ -3299,7 +3299,7 @@ export const completeDinners = [
       "layout": "one-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64 recipe codes."
   },
@@ -3328,7 +3328,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64 recipe codes."
   },
@@ -3357,7 +3357,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64 recipe codes."
   },
@@ -3386,7 +3386,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64 recipe codes."
   },
@@ -3415,7 +3415,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64 recipe codes."
   },
@@ -3444,7 +3444,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64 recipe codes."
   },
@@ -3473,7 +3473,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64 recipe codes."
   },
@@ -3502,7 +3502,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64 recipe codes."
   },
@@ -3531,7 +3531,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64 recipe codes."
   },
@@ -3559,7 +3559,7 @@ export const completeDinners = [
       "layout": "one-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Potato-salad handling corrected. Cornmeal tilapia with roasted red potatoes."
   },
@@ -3588,7 +3588,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64 recipe codes."
   },
@@ -3617,7 +3617,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64 recipe codes."
   },
@@ -3646,7 +3646,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64 recipe codes."
   },
@@ -3675,7 +3675,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64 recipe codes."
   },
@@ -3704,7 +3704,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64 recipe codes."
   },
@@ -3732,7 +3732,7 @@ export const completeDinners = [
       "layout": "one-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64 recipe codes."
   },
@@ -3760,7 +3760,7 @@ export const completeDinners = [
       "layout": "one-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64 recipe codes."
   },
@@ -3789,7 +3789,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "not-started"
+      "status": "approved"
     },
     "notes": "Validated against v64 recipe codes."
   },
