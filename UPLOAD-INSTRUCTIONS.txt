@@ -1,12 +1,26 @@
-My Recipe Box v92.8 — changed files only
+TEXT RECIPE UPDATE FOR v96
 
-Upload the contents of this folder to the repository root, preserving paths and replacing matching files.
+Upload each file to the matching folder in the GitHub repository. Choose Replace when GitHub reports that a file already exists.
 
-Browse Our Recipes sorting:
-- All Recipes now defaults to alphabetical A–Z order.
-- Favorites and every category-filter view reset to alphabetical A–Z order when selected.
-- Recipe titles are compared without case sensitivity.
-- Recipe ID is used only as a stable tie-breaker when two titles match.
-- Users may still select another Sort By option after opening a view.
+Repository root:
+- CHANGELOG.md
+- TEXT-RECIPE-REVIEW.md
 
-No recipe data, recipe images, or Meal Builder files are changed.
+src/data:
+- recipes.js
+- itDirectionsV96.js
+- mxDirectionsV96.js
+- sfDirectionsV96.js
+- dmDirectionsV96.js
+- cpDirectionsV96.js
+- qpDirectionsV96.js
+- sbDirectionsV96.js
+- sdDirectionsV96.js
+
+test:
+- textRecipeRequestedCategoriesV96.test.mjs
+
+scripts:
+- run-current-tests.mjs
+
+After all files are committed, wait for GitHub Actions to show a green checkmark. Then open one recipe from each requested category and confirm Text Recipe displays Ingredients and Directions.

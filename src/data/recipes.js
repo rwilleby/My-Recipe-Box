@@ -3,6 +3,14 @@ import { AMERICAN_DIRECTIONS_V881 } from "./americanDirectionsV881.js";
 import { ASIAN_INGREDIENTS_V8410 } from "./asianIngredientsV8410.js";
 import { ASIAN_DIRECTIONS_V882 } from "./asianDirectionsV882.js";
 import { BREAD_MACHINE_DIRECTIONS_V9510 } from "./breadMachineDirectionsV9510.js";
+import { IT_DIRECTIONS_V96 } from "./itDirectionsV96.js";
+import { MX_DIRECTIONS_V96 } from "./mxDirectionsV96.js";
+import { SF_DIRECTIONS_V96 } from "./sfDirectionsV96.js";
+import { DM_DIRECTIONS_V96 } from "./dmDirectionsV96.js";
+import { CP_DIRECTIONS_V96 } from "./cpDirectionsV96.js";
+import { QP_DIRECTIONS_V96 } from "./qpDirectionsV96.js";
+import { SB_DIRECTIONS_V96 } from "./sbDirectionsV96.js";
+import { SD_DIRECTIONS_V96 } from "./sdDirectionsV96.js";
 import { CROCK_POT_INGREDIENTS_V8411 } from "./crockPotIngredientsV8411.js";
 import { DONUT_BURGER_INGREDIENTS_V8412 } from "./donutBurgerIngredientsV8412.js";
 import { ITALIAN_INGREDIENTS_V8412 } from "./italianIngredientsV8412.js";
@@ -1443,6 +1451,17 @@ function makeRecipe(entry) {
   const defaults = CATEGORY_DEFAULTS[categoryCode] || CATEGORY_DEFAULTS.AM;
   const price = options.price ?? defaults.price;
   const verifiedIngredients = DETAILED_RECIPE_INGREDIENTS[id] || defaultIngredients(categoryCode, title, id);
+  const verifiedDirections = AMERICAN_DIRECTIONS_V881[id]
+    || ASIAN_DIRECTIONS_V882[id]
+    || BREAD_MACHINE_DIRECTIONS_V9510[id]
+    || IT_DIRECTIONS_V96[id]
+    || MX_DIRECTIONS_V96[id]
+    || SF_DIRECTIONS_V96[id]
+    || DM_DIRECTIONS_V96[id]
+    || CP_DIRECTIONS_V96[id]
+    || QP_DIRECTIONS_V96[id]
+    || SB_DIRECTIONS_V96[id]
+    || SD_DIRECTIONS_V96[id];
 
   return {
     id,
@@ -1459,9 +1478,7 @@ function makeRecipe(entry) {
     heroImage: options.heroImage || `images/heroes/${id}.webp`,
     cost: options.cost || defaultCost(price),
     ingredients: DETAILED_RECIPE_INGREDIENTS[id] ? verifiedIngredients : (options.ingredients?.length ? options.ingredients : verifiedIngredients),
-    directions: options.directions?.length
-      ? options.directions
-      : (AMERICAN_DIRECTIONS_V881[id] || ASIAN_DIRECTIONS_V882[id] || BREAD_MACHINE_DIRECTIONS_V9510[id] || []),
+    directions: verifiedDirections || (options.directions?.length ? options.directions : []),
     mediaLinks: options.mediaLinks || undefined,
     isVegan: options.isVegan === true,
     veganStatus: options.veganStatus || "",

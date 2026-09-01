@@ -7,8 +7,16 @@ The illustrated recipe cards remain the authority. Recipe codes and card images 
 - **American Cuisine (AM):** 77 active recipes reviewed.
 - **Asian Cuisine (AS):** 24 active recipes reviewed.
 - **Bread Machine (BR):** 10 active recipes reviewed.
+- **Italian Cuisine (IT):** 65 active recipes reviewed, including 5 vegan sister cards.
+- **Mexican Cuisine (MX):** 46 active recipes reviewed, including 2 vegan sister cards.
+- **Seafood Dishes (SF):** 22 active recipes reviewed, including 2 vegan sister cards.
+- **Diet Meals (DM):** 60 active recipes reviewed.
+- **Crock Pot Meals (CP):** 181 active recipes reviewed, including 1 vegan sister card.
+- **Quiche & Pies (QP):** 30 active recipes reviewed.
+- **Salads & Bowls (SB):** 20 active recipes reviewed.
+- **Side Dishes (SD):** 52 active recipes reviewed.
 - **Ingredients:** Existing card-verified ingredient records retained.
-- **Directions:** Card wording transcribed and reviewed for all active AM and AS recipes.
+- **Directions:** Card wording transcribed and reviewed for all active AM, AS, BR, IT, MX, SF, DM, CP, QP, SB, and SD recipes.
 
 ## Flagged instead of guessed
 
