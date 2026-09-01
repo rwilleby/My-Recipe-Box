@@ -22,15 +22,18 @@ assert.ok(existsSync("public/images/recipes/AM-007-VG.webp"), "Vegan sister card
 
 const app = readFileSync("src/App.jsx", "utf8");
 const css = readFileSync("src/App.css", "utf8");
-assert.match(app, /sisterRecipe &&/);
-assert.match(app, /VIEW VEGAN VERSION/);
-assert.match(app, /RETURN TO ORIGINAL/);
+assert.match(app, /viewerVeganIcon/);
+assert.match(app, /images\/icons\/VGW\.webp/);
+assert.match(app, /Vegan Version/);
+assert.match(app, /Original Version/);
+assert.doesNotMatch(app, /className={`veganSisterSwitch/);
 assert.match(app, /setViewer\(\{ \.\.\.viewer, recipeId: sisterRecipe\.id \}, \{ push: true \}\)/);
 assert.match(app, /excludeFromRegularLibrary !== true/);
 assert.match(app, /`rrb-recipe-note-\$\{recipe\.id\}`/, "notes must remain ID-scoped");
 assert.match(app, /toggleFavorite\(recipe\.id\)/, "favorites must remain ID-scoped");
 assert.match(app, /addToPlan\(recipe\.id\)/, "planner must receive the selected sister ID");
-assert.match(css, /@media \(max-width:700px\)[\s\S]*\.veganSisterSwitch/);
+assert.match(css, /\.viewerVeganIcon[\s\S]*height:30px/);
+assert.match(css, /\.viewerVeganSwitchButton/);
 
 const backup = readFileSync("src/utils/recipeBoxBackup.js", "utf8");
 for (const prefix of ['"rrb_"', '"rrb-"']) assert.ok(backup.includes(prefix));

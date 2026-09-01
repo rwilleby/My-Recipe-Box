@@ -23263,8 +23263,8 @@ button.browseRecipeWideFooterAction:focus-visible,
     width: 100%;
   }
 }
-/* Stage 1: original/Vegan sister recipe switch. */
-.veganSisterSwitch {display:flex;align-items:center;justify-content:center;gap:18px;margin:10px 16px 0;padding:12px 16px;border:1px solid #a9bea0;border-radius:14px;background:#f3f7ed;box-shadow:0 4px 14px rgba(47,79,52,.08);color:#294b2e;}
-.veganSisterSwitch>div {display:flex;flex-direction:column;gap:2px;min-width:0;}.veganSisterSwitch strong {font-size:13px;letter-spacing:.035em;line-height:1.25;}.veganSisterSwitch span {font-size:12px;color:#586b58;}
-.veganSisterSwitch button {min-height:44px;padding:0 20px;border:1px solid #526f4b;border-radius:10px;background:#5d7954;color:#fff;font:800 13px/1 Inter,system-ui,sans-serif;letter-spacing:.02em;cursor:pointer;box-shadow:0 3px 8px rgba(36,66,39,.16);}.veganSisterSwitch button:hover,.veganSisterSwitch button:focus-visible {background:#496542;transform:translateY(-1px);}
-@media (max-width:700px){.veganSisterSwitch{align-items:stretch;flex-direction:column;gap:9px;margin:8px 10px 0;padding:11px 12px;text-align:center}.veganSisterSwitch button{width:100%;min-height:48px}}
+/* Original/Vegan sister controls live in the viewer's bottom control strip. */
+.viewerVeganIcon {box-sizing:border-box;display:inline-grid;place-items:center;flex:0 0 38px;width:38px;height:30px;min-height:30px;padding:2px;border:1px solid #d9eadc;border-radius:10px;background:#fff;overflow:hidden;}
+.viewerVeganIcon img {display:block;width:100%;height:100%;object-fit:contain;}
+.viewerVeganSwitchButton {white-space:nowrap;border-color:#a9bea0!important;background:#f3f7ed!important;color:#294b2e!important;}
+.viewerVeganSwitchButton:hover,.viewerVeganSwitchButton:focus-visible {border-color:#5d7954!important;background:#e6efdd!important;}

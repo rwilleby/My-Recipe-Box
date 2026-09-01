@@ -4777,16 +4777,6 @@ function RecipeCardViewer({
           </div>
         </div>
 
-        {sisterRecipe && (
-          <section className={`veganSisterSwitch ${recipe.originalRecipeId ? "isVeganVersion" : "isOriginalVersion"}`} aria-label="Vegan sister recipe">
-            <div>
-              <strong>{recipe.originalRecipeId ? "YOU ARE VIEWING THE VEGAN VERSION" : "VEGAN ALTERNATIVE AVAILABLE"}</strong>
-              <span>{recipe.originalRecipeId ? `Original recipe: ${sisterRecipe.id}` : `Vegan recipe: ${sisterRecipe.id}`}</span>
-            </div>
-            <button type="button" onClick={switchSisterRecipe}>{recipe.originalRecipeId ? "RETURN TO ORIGINAL" : "VIEW VEGAN VERSION"}</button>
-          </section>
-        )}
-
         <div className="cardViewerStage cardViewerCombinedStage">
           <button
             className="cardViewerNav"
@@ -5161,6 +5151,17 @@ function RecipeCardViewer({
           </span>
 
           <div className="cardViewerFooterActions viewerUnifiedActions">
+            {sisterRecipe && (
+              <>
+                <span className="viewerVeganIcon" title="Vegan alternative available" aria-label="Vegan alternative available">
+                  <img src={`${import.meta.env.BASE_URL}images/icons/VGW.webp`} alt="" aria-hidden="true" />
+                </span>
+                <button className="viewerActionButton viewerVeganSwitchButton" type="button" onClick={switchSisterRecipe}>
+                  {recipe.originalRecipeId ? "Original Version" : "Vegan Version"}
+                </button>
+              </>
+            )}
+
             <button
               className="viewerActionButton viewerActionAddMeal"
               type="button"
