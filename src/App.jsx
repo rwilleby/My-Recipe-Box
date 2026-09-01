@@ -6122,7 +6122,9 @@ function RecipesPage({
       ? ""
       : category?.id === "FAVORITES"
         ? "FAVORITES"
-        : category?.name || "";
+        : veganOnly
+          ? category?.id || ""
+          : category?.name || "";
     setSelectedCategory(nextCategory);
     setFilter(nextCategory);
     setSortBy("az");

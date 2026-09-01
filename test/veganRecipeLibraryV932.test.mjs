@@ -45,6 +45,11 @@ for (const label of ["Bakes & Casseroles", "Pasta & Noodles", "Bowls & Rice", "S
   assert.ok(app.includes(label), `${label} Vegan category must be available`);
 }
 assert.match(app, /recipe\.veganLibraryCategoryId === selectedCategory/);
+assert.match(app, /veganOnly\s*\?\s*category\?\.id \|\| ""\s*:\s*category\?\.name \|\| ""/);
+for (const categoryId of ["VPM", "VBA", "VPN", "VBR", "VSB", "VAF", "VMF", "VSS"]) {
+  const matches = veganRecipes.filter((recipe) => recipe.veganLibraryCategoryId === categoryId);
+  assert.ok(matches.length > 0, `${categoryId} must return Vegan recipes when selected`);
+}
 assert.match(css, /\.veganLibraryCategorySelector\s*\{[\s\S]*grid-template-columns:\s*repeat\(9,\s*minmax\(0,\s*1fr\)\)/);
 assert.match(css, /\.veganLibraryCategorySelector \.libraryCategorySelectorItem\s*\{[\s\S]*min-width:\s*0/);
 assert.doesNotMatch(css, /\.veganLibraryCategorySelector \.libraryCategorySelectorItem\s*\{[^}]*min-width:\s*142px/);
