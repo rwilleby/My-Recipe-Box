@@ -9,7 +9,7 @@ const [css, nutritionFacts] = await Promise.all([
   ),
 ]);
 
-for (const icon of ["AL.webp", "favorites.webp"]) {
+for (const icon of ["AL.webp", "favorites.webp", "all-recipes-v9512.webp", "favorites-v9512.webp"]) {
   const path = new URL(`../public/images/icons/${icon}`, import.meta.url);
   assert.ok((await stat(path)).size > 0, `${icon} must be nonempty`);
   const bytes = await readFile(path);

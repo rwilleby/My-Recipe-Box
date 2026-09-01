@@ -3,24 +3,14 @@ import { createPortal } from "react-dom";
 import { categories, recipes as baseRecipes } from "./data/recipes";
 import { PAGE_POPUP_COPY } from "./data/pagePopupCopy.js";
 import VideoIcon from "./components/VideoIcon";
-import RecipeIntelligencePanel from "./components/RecipeIntelligencePanel";
-import RfisDinnerBuilder from "./components/RfisDinnerBuilder";
-import BuildYourOwnMealPage, { MealBuilderTrayPreview } from "./components/BuildYourOwnMealPage";
 import {
   HowItWorksModalHost,
   HowItWorksPage as UnifiedHowItWorksPage,
   openHowItWorksGuide,
 } from "./components/HowItWorksSystem.jsx";
 import { getHowItWorksGuideForPage } from "./data/howItWorksGuides.js";
-import RfisUnifiedSearch from "./components/RfisUnifiedSearch";
-import "./components/RfisUnifiedSearch.css";
-import "./components/RfisDinnerBuilder.css";
-import "./components/BuildYourOwnMealPage.css";
-import DinnerCombinationHeroAudit from "./DinnerCombinationHeroAudit.jsx";
 import UserDataBackupSection from "./components/UserDataBackupSection";
-import FoodIntelligenceCard from "./components/FoodIntelligenceCard";
 import KitchenReminderRibbon from "./components/KitchenReminderRibbon";
-import DigitalStockCheckPanel from "./components/DigitalStockCheckPanel";
 import {
   MASTER_INVENTORY_CATEGORIES,
   buildMasterKitchenInventoryCatalog,
@@ -137,6 +127,15 @@ const WeekendBulkMealPlanner = lazy(() => import("./components/WeekendBulkMealPl
 const MasterKitchenInventoryPage = lazy(() => import("./components/MasterKitchenInventoryPage"));
 const VideoLibraryPage = lazy(() => import("./features/video-library/VideoLibraryPage.jsx"));
 const PlaceholderInfoPage = lazy(() => import("./features/info-pages/PlaceholderInfoPage.jsx"));
+const RecipeIntelligencePanel = lazy(() => import("./components/RecipeIntelligencePanel"));
+const RfisDinnerBuilder = lazy(() => import("./components/RfisDinnerBuilder"));
+const RfisUnifiedSearch = lazy(() => import("./components/RfisUnifiedSearch"));
+const DinnerCombinationHeroAudit = lazy(() => import("./DinnerCombinationHeroAudit.jsx"));
+const DigitalStockCheckPanel = lazy(() => import("./components/DigitalStockCheckPanel"));
+const BuildYourOwnMealPage = lazy(() => import("./components/BuildYourOwnMealPage"));
+const MealBuilderTrayPreview = lazy(() =>
+  import("./components/BuildYourOwnMealPage").then((module) => ({ default: module.MealBuilderTrayPreview })),
+);
 
 const recipes = sortRecipesByCode(applyStoredRecipeOverrides(baseRecipes));
 const rfisPlatform = createRfisPlatform({
@@ -6056,7 +6055,7 @@ function RecipesPage({
   const browseQuickCategories = useMemo(
     () => veganOnly
       ? [
-        { id: "ALL", name: "All Vegan Recipes", displayName: "All Vegan Recipes", iconImage: "" },
+        { id: "ALL", name: "All Vegan Recipes", displayName: "All Vegan Recipes", iconImage: "images/icons/all-recipes-v9512.webp" },
         ...["VG", ...HOME_CATEGORY_CODES]
           .filter((code, index, list) => list.indexOf(code) === index)
           .filter((code) => libraryRecipes.some((recipe) => recipe.categoryCode === code))
@@ -6074,13 +6073,13 @@ function RecipesPage({
         id: "ALL",
         name: "All Recipes",
         displayName: "All Recipes",
-        iconImage: "",
+        iconImage: "images/icons/all-recipes-v9512.webp",
       },
       {
         id: "FAVORITES",
         name: "Favorites",
         displayName: "Favorites",
-        iconImage: "images/category-icons/favorites.webp",
+        iconImage: "images/icons/favorites-v9512.webp",
       },
       ...HOME_CATEGORY_CODES.slice(0, 13)
         .map((code) => {

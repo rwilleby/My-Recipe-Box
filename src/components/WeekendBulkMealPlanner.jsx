@@ -24,12 +24,12 @@ const STORAGE_KEY = "rrb_weekendBulkMealPlanner_v1";
 const LABEL_SETTINGS_KEY = "rrb_weekendBulkLabelSettings_v1";
 
 const PLAN_TYPES = [
-  { key: "ALL", label: "All Recipes", icon: "images/icons/AL.webp" },
-  { key: "FAVORITES", label: "Your Favorites", icon: "images/icons/favorites.webp" },
-  { key: "SG", label: "Meats", icon: "images/icons/SG.webp" },
+  { key: "ALL", label: "All Recipes", icon: "images/icons/all-recipes-v9512.webp" },
+  { key: "FAVORITES", label: "Your Favorites", icon: "images/icons/favorites-v9512.webp" },
+  { key: "SG", label: "Meats", icon: "images/categories/SG.webp" },
   { key: "CP", label: "Crock Pot", icon: "images/icons/CP-bulk.webp" },
-  { key: "CS", label: "Casseroles", icon: "images/icons/CS.webp" },
-  { key: "SD", label: "Side Dishes", icon: "images/icons/SD.webp" },
+  { key: "CS", label: "Casseroles", icon: "images/categories/CS.webp" },
+  { key: "SD", label: "Side Dishes", icon: "images/categories/SD.webp" },
   { key: "DS", label: "Desserts", icon: "images/icons/DS-bulk.webp" },
 ];
 

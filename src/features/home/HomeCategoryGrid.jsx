@@ -160,7 +160,7 @@ export default function HomeCategoryGrid({
         >
           <img
             className="categoryIconImage homeFavoritesCategoryIcon"
-            src={`${import.meta.env.BASE_URL}images/category-icons/favorites.webp`}
+            src={`${import.meta.env.BASE_URL}images/icons/favorites-v9512.webp`}
             alt=""
             aria-hidden="true"
             loading="eager"
