@@ -26,6 +26,14 @@ for (const [originalId, veganId] of [["AM-001", "AM-001-VG"], ["AM-009", "AM-009
   assert.equal(veganRecipe?.originalRecipeId, originalId);
   assert.ok(existsSync(`public/images/recipes/${veganId}.webp`));
 }
+for (const [originalId, veganId] of [["MX-006", "MX-006-VG"], ["AS-008", "AS-008-VG"], ["IT-015", "IT-015-VG"], ["IT-029", "IT-029-VG"], ["AM-020", "AM-020-VG"]]) {
+  const regularRecipe = recipes.find((recipe) => recipe.id === originalId);
+  const veganRecipe = recipes.find((recipe) => recipe.id === veganId);
+  assert.equal(regularRecipe?.veganAlternativeId, veganId);
+  assert.equal(veganRecipe?.originalRecipeId, originalId);
+  assert.equal(veganRecipe?.excludeFromRegularLibrary, true);
+  assert.ok(existsSync(`public/images/recipes/${veganId}.webp`));
+}
 assert.equal(new Set(recipes.map((recipe) => recipe.id)).size, recipes.length, "recipe IDs must be unique");
 assert.equal(parseRoute(routeForRecipe(vegan.id)).code, vegan.id, "Vegan direct URL must round-trip");
 assert.ok(vegan.ingredients.length && vegan.directions.length && vegan.nutrition && vegan.mealBalance);

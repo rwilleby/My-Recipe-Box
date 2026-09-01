@@ -73,6 +73,11 @@ const SISTER_SOURCE_MAP = [
   ["VG-013", "IT-020-VG", "IT-020", "IT", "Italian Cuisine", "Vegan Meatballs Marinara", 4, 380],
   ["VG-005", "MX-008-VG", "MX-008", "MX", "Mexican Cuisine", "Lentil Walnut Tacos", 4, 410],
   ["VG-021", "SF-005-VG", "SF-005", "SF", "Seafood Dishes", "Vegan Crab Cakes", 3, 260],
+  ["VG-004", "MX-006-VG", "MX-006", "MX", "Mexican Cuisine", "Black Bean Corn Enchiladas", 4, 390],
+  ["VG-011", "AS-008-VG", "AS-008", "AS", "Asian Cuisine", "Sweet and Sour Tofu", 4, 370],
+  ["VG-014", "IT-015-VG", "IT-015", "IT", "Italian Cuisine", "Lentil Bolognese", 4, 400],
+  ["VG-016", "IT-029-VG", "IT-029", "IT", "Italian Cuisine", "Tofu Ricotta Stuffed Shells", 4, 410],
+  ["VG-017", "AM-020-VG", "AM-020", "AM", "American Cuisine", "Vegan Mushroom Stroganoff", 5, 420],
 ];
 
 for (const [sourceId, id, originalRecipeId, categoryCode, category, title, mealBalanceScore, calories] of SISTER_SOURCE_MAP) {
