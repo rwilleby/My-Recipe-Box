@@ -128,7 +128,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "approved"
+      "status": "not-started"
     },
     "notes": "Validated against v64 recipe codes; approved Batch 1 composition."
   },
@@ -157,7 +157,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "approved"
+      "status": "not-started"
     },
     "notes": "Validated against v64 recipe codes; approved Batch 1 composition."
   },
@@ -186,7 +186,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "approved"
+      "status": "not-started"
     },
     "notes": "Validated against v64 recipe codes; approved Batch 1 composition."
   },
@@ -273,7 +273,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "approved"
+      "status": "not-started"
     },
     "notes": "Validated against v64 recipe codes; approved Batch 1 composition."
   },
@@ -331,7 +331,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "approved"
+      "status": "not-started"
     },
     "notes": "Validated against v64 recipe codes; approved Batch 1 composition."
   },
@@ -360,7 +360,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "approved"
+      "status": "not-started"
     },
     "notes": "Validated against v64 recipe codes; approved Batch 1 composition."
   },
@@ -418,7 +418,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "approved"
+      "status": "not-started"
     },
     "notes": "Validated against v64 recipe codes; approved Batch 1 composition."
   },
@@ -447,7 +447,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "approved"
+      "status": "not-started"
     },
     "notes": "Validated against v64 recipe codes; approved Batch 1 composition."
   },
@@ -476,7 +476,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "approved"
+      "status": "not-started"
     },
     "notes": "Validated against v64 recipe codes; approved Batch 1 composition."
   },
@@ -505,7 +505,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "approved"
+      "status": "not-started"
     },
     "notes": "Validated against v64 recipe codes; approved Batch 1 composition."
   },
@@ -534,7 +534,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "approved"
+      "status": "not-started"
     },
     "notes": "Validated against v64 recipe codes; approved Batch 1 composition."
   },
@@ -563,7 +563,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "approved"
+      "status": "not-started"
     },
     "notes": "Validated against v64 recipe codes; approved Batch 1 composition."
   },
@@ -592,7 +592,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "approved"
+      "status": "not-started"
     },
     "notes": "Validated against v64 recipe codes; approved Batch 1 composition."
   },
@@ -620,7 +620,7 @@ export const completeDinners = [
       "layout": "one-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "approved"
+      "status": "not-started"
     },
     "notes": "Validated against v64. Crinkle-cut fries freeze separately and should be re-crisped in an air fryer or oven."
   },
@@ -649,7 +649,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "approved"
+      "status": "not-started"
     },
     "notes": "Validated against v64. Tater tots should be packaged separately and re-crisped; broccoli may be frozen with the meal."
   },
@@ -735,7 +735,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "approved"
+      "status": "not-started"
     },
     "notes": "Validated against v64. Restaurant-inspired lean pork dinner."
   },
@@ -764,7 +764,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "approved"
+      "status": "not-started"
     },
     "notes": "Validated against v64. Traditional Sunday pork dinner."
   },
@@ -793,7 +793,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "approved"
+      "status": "not-started"
     },
     "notes": "Validated against v64. White rice carries the gravy; green beans provide contrast."
   },
@@ -822,7 +822,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "approved"
+      "status": "not-started"
     },
     "notes": "Validated against v64. Rustic sausage dinner with freezer-compatible vegetables."
   },
@@ -879,7 +879,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "approved"
+      "status": "not-started"
     },
     "notes": "Potato-salad handling corrected. BBQ ribs with baked beans and corn on the cob."
   },
@@ -908,7 +908,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "approved"
+      "status": "not-started"
     },
     "notes": "Validated against v64. Freezer-friendly family comfort meal."
   },
@@ -936,7 +936,7 @@ export const completeDinners = [
       "layout": "one-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "approved"
+      "status": "not-started"
     },
     "notes": "Validated against v64. Baked beans freeze with the meal; coleslaw is prepared fresh."
   },
@@ -965,7 +965,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "approved"
+      "status": "not-started"
     },
     "notes": "Validated against v64. Steakhouse-inspired combination."
   },
@@ -1167,7 +1167,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "approved"
+      "status": "not-started"
     },
     "notes": "Validated against v64. Hearty Southern-style dinner."
   },
@@ -1253,7 +1253,7 @@ export const completeDinners = [
       "layout": "two-side",
       "largeSize": "960x720",
       "thumbnailSize": "480x360",
-      "status": "approved"
+      "status": "not-started"
     },
     "notes": "Validated against v64. Rich ribs balanced by a green vegetable."
   },

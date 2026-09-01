@@ -18,20 +18,26 @@ const approvedCatalogHeroes = completeDinners.filter((meal) =>
 );
 
 assert.equal(deployedCatalogHeroes.length, 131, "Expected 131 deployed Complete Dinner hero files");
-assert.equal(approvedCatalogHeroes.length, 122, "Expected 122 recipe-to-image verified Complete Dinner heroes");
+assert.equal(approvedCatalogHeroes.length, 97, "Expected 97 owner-verified Complete Dinner heroes");
 
-const expectedHiddenMeals = new Set([
-  ...Array.from({ length: 9 }, (_, index) => index + 103),
-  ...Array.from({ length: 20 }, (_, index) => index + 132),
+const ownerVerifiedMeals = new Set([
+  1, 2, 3, 7, 8, 10, 13, 23, 24, 29,
+  34, 35, 36, 37, 38, 39, 41, 42, 44, 45,
+  ...Array.from({ length: 20 }, (_, index) => index + 46),
+  ...Array.from({ length: 37 }, (_, index) => index + 66),
+  ...Array.from({ length: 20 }, (_, index) => index + 112),
 ]);
+const expectedHiddenMeals = completeDinners
+  .filter((meal) => !ownerVerifiedMeals.has(meal.number))
+  .map((meal) => meal.number);
 const hiddenCatalogHeroes = completeDinners.filter((meal) =>
   !["approved", "published"].includes(String(meal.hero?.status || "").toLowerCase()),
 );
 
 assert.deepEqual(
   hiddenCatalogHeroes.map((meal) => meal.number),
-  [...expectedHiddenMeals],
-  "Only the 29 unaudited Complete Dinner heroes may remain hidden",
+  expectedHiddenMeals,
+  "Every unverified Complete Dinner hero must remain hidden",
 );
 
 for (const meal of approvedCatalogHeroes) {
@@ -56,4 +62,4 @@ assert.match(
   "Recipe-card MealBalance circle numbers must stay white inside recipe buttons",
 );
 
-console.log(`v96.3 Complete Dinner hero verification passed: ${approvedCatalogHeroes.length} approved heroes; ${hiddenCatalogHeroes.length} unaudited meals hidden.`);
+console.log(`v96.3 Complete Dinner hero verification passed: ${approvedCatalogHeroes.length} owner-approved heroes; ${hiddenCatalogHeroes.length} unapproved meals hidden.`);
