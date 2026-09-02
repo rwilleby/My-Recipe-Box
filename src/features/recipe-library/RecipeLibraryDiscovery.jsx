@@ -93,6 +93,7 @@ function FeaturedRecipeCard({
   cardList,
   getCalories,
   getMealBalanceScore,
+  cardContextLabel = "Browse Our Recipe Library",
 }) {
   const isFavorite = favorites.includes(recipe.id);
   const calories = getCalories(recipe);
@@ -104,7 +105,7 @@ function FeaturedRecipeCard({
       <button
         type="button"
         className="libraryDiscoveryRecipeOpen"
-        onClick={() => openRecipeCard(recipe.id, cardList, "Browse Our Recipe Library")}
+        onClick={() => openRecipeCard(recipe.id, cardList, cardContextLabel)}
         aria-label={`Open ${recipe.title}`}
       >
         <span className="libraryDiscoveryRecipeHero">
@@ -151,6 +152,11 @@ export default function RecipeLibraryDiscovery({
   openRecipeCard,
   getCalories,
   getMealBalanceScore,
+  copyByChoice = CATEGORY_COPY,
+  rotationRecipes = null,
+  rotateAcrossAll = false,
+  ariaLabel = "Select a recipe cuisine or category",
+  cardContextLabel = "Browse Our Recipe Library",
 }) {
   const [featuredRecipes, setFeaturedRecipes] = useState([]);
   const [rotatingPosition, setRotatingPosition] = useState(null);
@@ -158,16 +164,16 @@ export default function RecipeLibraryDiscovery({
   const rotationPositionRef = useRef(0);
   const favoriteIds = useMemo(() => (Array.isArray(favorites) ? favorites : []), [favorites]);
   const selectedChoice = choices.find((choice) => choice.id === selectedChoiceId) || choices[0];
-  const selectedCopy = CATEGORY_COPY[selectedChoice?.id] || {
+  const selectedCopy = copyByChoice[selectedChoice?.id] || {
     title: selectedChoice?.displayName || "Browse Recipes",
     text: `Explore recipe ideas from the ${selectedChoice?.displayName || "selected"} collection.`,
   };
   const matchingRecipes = useMemo(
-    () => recipes.filter(
+    () => (rotationRecipes || recipes).filter(
       (recipe) => RECIPE_HERO_BY_CODE.has(String(recipe.id || "").toUpperCase())
-        && recipeMatchesChoice(recipe, selectedChoice, favoriteIds),
+        && (rotateAcrossAll || recipeMatchesChoice(recipe, selectedChoice, favoriteIds)),
     ),
-    [favoriteIds, recipes, selectedChoice],
+    [favoriteIds, recipes, rotateAcrossAll, rotationRecipes, selectedChoice],
   );
 
   useEffect(() => {
@@ -217,7 +223,7 @@ export default function RecipeLibraryDiscovery({
         <p>{selectedCopy.text}</p>
       </header>
 
-      <nav className="libraryCategorySelectorRow" aria-label="Select a recipe cuisine or category">
+      <nav className="libraryCategorySelectorRow" aria-label={ariaLabel}>
         {choices.map((choice) => (
           <button
             type="button"
@@ -251,6 +257,7 @@ export default function RecipeLibraryDiscovery({
               cardList={matchingRecipes}
               getCalories={getCalories}
               getMealBalanceScore={getMealBalanceScore}
+              cardContextLabel={cardContextLabel}
             />
           </div>
         ))}

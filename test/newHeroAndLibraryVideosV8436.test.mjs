@@ -6,7 +6,7 @@ const items = fs.readFileSync(new URL("../src/features/video-library/videoLibrar
 const root = new URL("..", import.meta.url);
 
 assert.match(app, /const MASTER_KITCHEN_INVENTORY_VIDEO_URL = "videos\/master-kitchen-inventory\.mp4";/);
-assert.match(app, /title="Master Kitchen Inventory"[\s\S]*videoSrc=\{MASTER_KITCHEN_INVENTORY_VIDEO_URL\}[\s\S]*videoPoster=\{MASTER_KITCHEN_INVENTORY_VIDEO_POSTER\}/);
+assert.match(app, /title="Your Kitchen Inventory"[\s\S]*videoSrc=\{MASTER_KITCHEN_INVENTORY_VIDEO_URL\}[\s\S]*videoPoster=\{MASTER_KITCHEN_INVENTORY_VIDEO_POSTER\}/);
 assert.match(app, /title="Your Grocery List"[\s\S]*videoSrc=\{SHOPPING_LIST_VIDEO_URL\}[\s\S]*videoPoster=\{SHOPPING_LIST_VIDEO_POSTER\}/);
 
 const welcomeIndex = items.indexOf('availableVideo("welcome-recipe-box"');

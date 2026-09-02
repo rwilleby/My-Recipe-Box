@@ -7,14 +7,14 @@ const [app, styles, kitchenPage] = await Promise.all([
   readFile(new URL("../src/components/MasterKitchenInventoryPage.jsx", import.meta.url), "utf8"),
 ]);
 
-const kitchenDetailsStart = app.indexOf('label: "KITCHEN DETAILS"');
+const kitchenDetailsStart = app.indexOf('label: "YOUR KITCHEN"');
 const recipesStart = app.indexOf('label: "OUR RECIPES"', kitchenDetailsStart);
 const kitchenDetails = app.slice(kitchenDetailsStart, recipesStart);
-const yourKitchenStart = app.indexOf('label: "YOUR KITCHEN"');
-const shoppingStart = app.indexOf('label: "SHOPPING"', yourKitchenStart);
-const yourKitchen = app.slice(yourKitchenStart, shoppingStart);
-assert.match(kitchenDetails, /MASTER KITCHEN INVENTORY[\s\S]*FREEZING & REHEATING/);
-assert.doesNotMatch(yourKitchen, /FREEZING & REHEATING/);
+const mealPlanningStart = app.indexOf('label: "MEAL PLANNING"');
+const shoppingStart = app.indexOf('label: "SHOPPING"', mealPlanningStart);
+const mealPlanning = app.slice(mealPlanningStart, shoppingStart);
+assert.match(kitchenDetails, /YOUR KITCHEN INVENTORY[\s\S]*FREEZING & REHEATING/);
+assert.doesNotMatch(mealPlanning, /FREEZING & REHEATING/);
 
 assert.match(kitchenPage, /\.sort\(\(a, b\) => String\(a\.title\)\.localeCompare\(String\(b\.title\)/);
 assert.match(kitchenPage, /\.sort\(\(a, b\) => String\(a\.family\)\.localeCompare\(String\(b\.family\)/);

@@ -232,7 +232,7 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
   return (
     <main className="pageShell masterKitchenInventoryPage">
       {!embedded && <section className="inventoryPageHeading">
-        <h1>Master Kitchen Inventory</h1>
+        <h1>Your Kitchen Inventory</h1>
         <p>Count foods used throughout the recipe library, then keep each fresh, frozen, canned, packaged, and prepared variation current.</p>
       </section>}
 

@@ -37,7 +37,7 @@ const headerGroups = app.slice(headerGroupsStart, headerGroupsEnd);
 const expectedOrder = [
   "ABOUT US",
   "RECIPES & MEALS",
-  "KITCHEN DETAILS",
+  "YOUR KITCHEN",
   "MEAL PLANNING",
   "SHOPPING",
   "RESOURCES",

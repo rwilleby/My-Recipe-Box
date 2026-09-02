@@ -8,10 +8,10 @@ const [app, styles, kitchenPage, kitchenStyles] = await Promise.all([
   readFile(new URL("../src/components/MasterKitchenInventoryPage.css", import.meta.url), "utf8"),
 ]);
 
-const navStart = app.indexOf('label: "KITCHEN DETAILS"');
+const navStart = app.indexOf('label: "YOUR KITCHEN"');
 const navEnd = app.indexOf('label: "OUR RECIPES"', navStart);
 const kitchenMenu = app.slice(navStart, navEnd);
-assert.match(kitchenMenu, /label: "MASTER KITCHEN INVENTORY", page: "Master Kitchen Inventory"/);
+assert.match(kitchenMenu, /label: "YOUR KITCHEN INVENTORY", page: "Master Kitchen Inventory"/);
 assert.doesNotMatch(kitchenMenu, /label: "FREEZER INVENTORY"/);
 assert.doesNotMatch(kitchenMenu, /label: "PANTRY INVENTORY"/);
 

@@ -10,7 +10,7 @@ const [app, appCss, homeCategories, component, css] = await Promise.all([
 ]);
 
 assert.match(app, /import RecipeLibraryDiscovery from "\.\/features\/recipe-library\/RecipeLibraryDiscovery\.jsx"/);
-assert.match(app, /<RecipeLibraryDiscovery[\s\S]*choices=\{browseQuickCategories\}[\s\S]*recipes=\{classifiedRecipes\}/);
+assert.match(app, /<RecipeLibraryDiscovery[\s\S]*choices=\{browseQuickCategories\}[\s\S]*recipes=\{libraryRecipes\}/);
 assert.match(app, /id: "ALL"[\s\S]*id: "FAVORITES"[\s\S]*HOME_CATEGORY_CODES\.slice\(0, 13\)/);
 assert.match(app, /selectedCategory === "FAVORITES" && favorites\.includes\(recipe\.id\)/);
 assert.match(app, /<section className="browseInventoryStyleToolbar browseInventoryStyleToolbarSingleRow"/);
@@ -32,7 +32,7 @@ assert.match(component, /`images\/heroes\/\$\{code\}\.webp`/);
 assert.doesNotMatch(component, /images\/thumbs\/recipes/);
 assert.match(component, /className=\{`libraryCategorySelectorItem/);
 assert.doesNotMatch(component, /libraryDiscoveryRecipeSubtitle/);
-assert.match(component, /openRecipeCard\(recipe\.id, cardList, "Browse Our Recipe Library"\)/);
+assert.match(component, /openRecipeCard\(recipe\.id, cardList, cardContextLabel\)/);
 assert.match(component, /"Calories pending"/);
 assert.match(component, /mealBalance === null \? "—" : mealBalance/);
 assert.match(app, /\{activePage === "Home" && <HomeMealJourneyAccordion setActivePage=\{setActivePage\} \/>\}/);

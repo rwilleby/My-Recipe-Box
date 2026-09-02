@@ -5,7 +5,7 @@ const app = await readFile(new URL("../src/App.jsx", import.meta.url), "utf8");
 const css = await readFile(new URL("../src/App.css", import.meta.url), "utf8");
 const routes = await readFile(new URL("../src/routing/seoRoutes.js", import.meta.url), "utf8");
 
-const topLabels = ["ABOUT US", "RECIPES & MEALS", "KITCHEN DETAILS", "MEAL PLANNING", "SHOPPING", "RESOURCES"];
+const topLabels = ["ABOUT US", "RECIPES & MEALS", "YOUR KITCHEN", "MEAL PLANNING", "SHOPPING", "RESOURCES"];
 const menuSlices = {};
 const headerStart = app.indexOf("const headerGroups");
 for (let index = 0; index < topLabels.length; index += 1) {
@@ -37,15 +37,14 @@ assertLabelOrder(menuSlices["RECIPES & MEALS"], [
   "RECIPE LIBRARIES", "BROWSE OUR RECIPE LIBRARY", "VEGAN RECIPE LIBRARY",
   "YOUR FAVORITE RECIPES", "COMPLETE MEALS & COLLECTIONS", "COMPLETE DINNERS",
   "HEALTHY DINNERS", "SALAD JAR LUNCHES", "SLOW COOKER MEALS",
-  "HOLIDAYS & SPECIAL OCCASIONS", "QUICK & EASY FREEZER MEALS", "SUMMER COOKOUTS",
-  "COMFORT FOODS", "EASY 30-MINUTE MEALS",
+  "HOLIDAYS & SPECIAL OCCASIONS",
 ], "RECIPES & MEALS");
 assert.doesNotMatch(menuSlices["RECIPES & MEALS"], /BUILD(?:-| )A(?:-| )MEAL/);
 assert.match(menuSlices["RECIPES & MEALS"], /label: "COMPLETE DINNERS", page: "Dinner Combinations"/);
 
-assertLabelOrder(menuSlices["KITCHEN DETAILS"], [
-  "MASTER KITCHEN INVENTORY", "FREEZING & REHEATING", "FOOD STORAGE & SHELF-LIFE GUIDE",
-], "KITCHEN DETAILS");
+assertLabelOrder(menuSlices["YOUR KITCHEN"], [
+  "YOUR KITCHEN INVENTORY", "FREEZING & REHEATING", "FOOD STORAGE & SHELF-LIFE GUIDE",
+], "YOUR KITCHEN");
 
 assertLabelOrder(menuSlices["MEAL PLANNING"], [
   "CREATE A PLAN", "BUILD-A-MEAL", "YOUR WEEKLY MEAL PLANNER", "WEEKEND BULK MEAL PLANNER",

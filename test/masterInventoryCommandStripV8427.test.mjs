@@ -7,9 +7,9 @@ const [app, styles, kitchenPage] = await Promise.all([
   readFile(new URL("../src/components/MasterKitchenInventoryPage.jsx", import.meta.url), "utf8"),
 ]);
 
-assert.match(app, /label: "MASTER KITCHEN INVENTORY", page: "Master Kitchen Inventory"/);
-assert.match(app, /title="Master Kitchen Inventory"/);
-assert.match(kitchenPage, /<h1>Master Kitchen Inventory<\/h1>/);
+assert.match(app, /label: "YOUR KITCHEN INVENTORY", page: "Master Kitchen Inventory"/);
+assert.match(app, /title="Your Kitchen Inventory"/);
+assert.match(kitchenPage, /<h1>Your Kitchen Inventory<\/h1>/);
 
 const stripStart = app.indexOf('<section className="inventoryHubControlStrip"');
 const stripEnd = app.indexOf("</section>", stripStart);

@@ -23228,6 +23228,27 @@ button.browseRecipeWideFooterAction:focus-visible,
   padding-top: 30px;
 }
 
+/* Match the main Recipe Library discovery design while keeping all nine
+   verified-vegan category icons in one horizontal row at every width. */
+.veganRecipeLibraryPage .libraryCategorySelectorRow {
+  grid-template-columns: repeat(9, minmax(0, 1fr)) !important;
+  grid-auto-flow: column !important;
+  overflow: hidden !important;
+}
+
+.veganRecipeLibraryPage .libraryCategorySelectorItem {
+  min-width: 0 !important;
+}
+
+.veganRecipeLibraryPage .libraryCategorySelectorItem img,
+.veganRecipeLibraryPage .libraryCategorySelectorAll {
+  width: min(48px, 72%) !important;
+}
+
+.veganRecipeLibraryPage .libraryCategorySelectorItem strong {
+  font-size: clamp(6px, .52vw, 8px) !important;
+}
+
 .veganRecipeLibrarySectionIntro {
   margin-bottom: 24px;
 }
@@ -23279,6 +23300,17 @@ button.browseRecipeWideFooterAction:focus-visible,
   .veganLibraryCategorySelector .libraryCategorySelectorItem {
     min-width: 0;
     width: 100%;
+  }
+}
+
+/* Complete Dinners has ALL plus seven focused categories. */
+.completeDinnerCategorySegmented {
+  grid-template-columns: repeat(8, minmax(0, 1fr)) !important;
+}
+
+@media (max-width: 820px) {
+  .completeDinnerCategorySegmented {
+    grid-template-columns: repeat(8, minmax(0, 1fr)) !important;
   }
 }
 /* Original/Vegan sister control lives in the viewer's bottom control strip. */

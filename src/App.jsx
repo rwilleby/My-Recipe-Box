@@ -80,6 +80,21 @@ const VEGAN_LIBRARY_CATEGORIES = Object.freeze([
   { id: "VMF", name: "Mexican Favorites", displayName: "Mexican Favorites", iconImage: "images/categories/MX.webp" },
   { id: "VSS", name: "Soups & Stews", displayName: "Soups & Stews", iconImage: "images/icons/CP-bulk.webp" },
 ]);
+
+const VEGAN_LIBRARY_DISCOVERY_COPY = Object.freeze({
+  ALL: {
+    title: "Discover Vegan Favorites",
+    text: "Browse a changing selection from the entire verified vegan recipe library, or choose a category to focus the full list below.",
+  },
+  VPM: { title: "Plant-Based Main Dishes", text: "Explore satisfying plant-based entrées designed to stand at the center of the meal." },
+  VBA: { title: "Vegan Bakes & Casseroles", text: "Find comforting oven-baked vegan dishes suited to family meals and make-ahead cooking." },
+  VPN: { title: "Vegan Pasta & Noodles", text: "Browse hearty pasta and noodle recipes made entirely with plant-based ingredients." },
+  VBR: { title: "Vegan Bowls & Rice", text: "Discover colorful grain bowls, rice dishes, and balanced plant-based combinations." },
+  VSB: { title: "Vegan Sandwiches & Burgers", text: "Choose satisfying handheld meals built around flavorful plant-based fillings and patties." },
+  VAF: { title: "Vegan Asian Favorites", text: "Explore plant-based stir-fries, noodles, rice dishes, and Asian-inspired favorites." },
+  VMF: { title: "Vegan Mexican Favorites", text: "Browse tacos, enchiladas, bowls, and other Mexican-inspired vegan dishes." },
+  VSS: { title: "Vegan Soups & Stews", text: "Find warming soups and stews made with vegetables, beans, grains, and plant-based proteins." },
+});
 import {
   REFRIGERATOR_CATEGORIES,
   REFRIGERATOR_FILTERS,
@@ -1586,9 +1601,9 @@ const NAV_GROUPS = [
     ],
   },
   {
-    label: "KITCHEN DETAILS",
+    label: "YOUR KITCHEN",
     items: [
-      { label: "MASTER KITCHEN INVENTORY", page: "Master Kitchen Inventory" },
+      { label: "YOUR KITCHEN INVENTORY", page: "Master Kitchen Inventory" },
       { label: "FREEZING & REHEATING", page: "Freezer Tips" },
       { label: "FOOD STORAGE & SHELF-LIFE GUIDE", page: "Food Storage Guide" },
     ],
@@ -1604,19 +1619,10 @@ const NAV_GROUPS = [
       { label: "SALAD JAR LUNCHES", page: "Salad Jars" },
       { label: "SLOW COOKER MEALS", page: "Slow Cooker Favorites" },
       { label: "HOLIDAYS AND SPECIAL OCCASIONS", page: "Holidays and Special Occasions" },
-      { label: "QUICK & EASY FREEZER MEALS", page: "Freezer-Friendly Meals" },
     ],
   },
   {
-    label: "COLLECTIONS",
-    items: [
-      { label: "SUMMER COOKOUTS", page: "Summer Cookouts" },
-      { label: "COMFORT FOODS", page: "Comfort Foods" },
-      { label: "EASY 30-MINUTE MEALS", page: "Easy 30-Minute Meals" },
-    ],
-  },
-  {
-    label: "YOUR KITCHEN",
+    label: "MEAL PLANNING",
     items: [
       { label: "BUILD-A-MEAL", page: "Build Your Own Meal" },
       { label: "YOUR WEEKLY MEAL PLANNER", page: "Meal Planner" },
@@ -1818,19 +1824,15 @@ function Header({ activePage, setActivePage, favorites, savedCustomMeals = [] })
             { label: "SALAD JAR LUNCHES", page: "Salad Jars" },
             { label: "SLOW COOKER MEALS", page: "Slow Cooker Favorites" },
             { label: "HOLIDAYS & SPECIAL OCCASIONS", page: "Holidays and Special Occasions" },
-            { label: "QUICK & EASY FREEZER MEALS", page: "Freezer-Friendly Meals" },
-            { label: "SUMMER COOKOUTS", page: "Summer Cookouts" },
-            { label: "COMFORT FOODS", page: "Comfort Foods" },
-            { label: "EASY 30-MINUTE MEALS", page: "Easy 30-Minute Meals" },
           ],
         },
       ],
     },
     {
-      label: "KITCHEN DETAILS",
+      label: "YOUR KITCHEN",
       page: "Master Kitchen Inventory",
       items: [
-        { label: "MASTER KITCHEN INVENTORY", page: "Master Kitchen Inventory" },
+        { label: "YOUR KITCHEN INVENTORY", page: "Master Kitchen Inventory" },
         { label: "FREEZING & REHEATING", page: "Freezer Tips" },
         { label: "FOOD STORAGE & SHELF-LIFE GUIDE", page: "Food Storage Guide" },
       ],
@@ -6339,24 +6341,7 @@ function RecipesPage({
 
   return (
     <main className={`pageShell browseRecipesPage${veganOnly ? " veganRecipeLibraryPage" : ""}`}>
-      {veganOnly ? (
-        <nav className="libraryCategorySelectorRow veganLibraryCategorySelector" aria-label="Select a verified vegan recipe category">
-          {browseQuickCategories.map((choice) => (
-            <button
-              type="button"
-              key={choice.id}
-              className={`libraryCategorySelectorItem category-${String(choice.id).toLowerCase()}${choice.id === selectedQuickCategoryId ? " active" : ""}`}
-              onClick={() => applyQuickCategory(choice)}
-              aria-pressed={choice.id === selectedQuickCategoryId}
-              aria-label={`${choice.displayName}, ${quickCategoryRecipeCount(choice)} recipes`}
-            >
-              {choice.iconImage ? <img src={`${import.meta.env.BASE_URL}${choice.iconImage}`} alt="" aria-hidden="true" /> : <span className="libraryCategorySelectorAll" aria-hidden="true">{choice.id === "ALL" ? "ALL" : choice.id}</span>}
-              <strong>{String(choice.displayName).toUpperCase()}</strong>
-              <small>{quickCategoryRecipeCount(choice)}</small>
-            </button>
-          ))}
-        </nav>
-      ) : <RecipeLibraryDiscovery
+      <RecipeLibraryDiscovery
         choices={browseQuickCategories}
         selectedChoiceId={selectedQuickCategoryId}
         onSelectChoice={applyQuickCategory}
@@ -6366,7 +6351,12 @@ function RecipesPage({
         openRecipeCard={openRecipeCard}
         getCalories={getHealthyDinnerCalories}
         getMealBalanceScore={getMealBalanceScore}
-      />}
+        copyByChoice={veganOnly ? VEGAN_LIBRARY_DISCOVERY_COPY : undefined}
+        rotationRecipes={veganOnly ? libraryRecipes : undefined}
+        rotateAcrossAll={veganOnly}
+        ariaLabel={veganOnly ? "Select a verified vegan recipe category" : undefined}
+        cardContextLabel={veganOnly ? "Vegan Recipe Library" : undefined}
+      />
 
       <section className="browseInventoryStyleToolbar browseInventoryStyleToolbarSingleRow" aria-label={veganOnly ? "Vegan recipe library sorting and filters" : "Recipe library sorting and filters"}>
         <label className="browseToolbarField">
@@ -7757,7 +7747,7 @@ function InventoryHubPage({
   return (
     <div className="pageShell inventoryHubPage" data-inventory-tab={activeTab}>
       <SectionIntro
-        title="Master Kitchen Inventory"
+        title="Your Kitchen Inventory"
         text="Manage kitchen, freezer, and pantry supplies from one page. Search what you have, mark items that need restocking, and move products when their storage location changes."
         className="inventoryHubSectionIntro"
       />
@@ -14264,7 +14254,7 @@ function DinnerCombinationsPage({ setActivePage, setFilter, plan, setPlan, openR
   const [sortMode, setSortMode] = useState("meal-number");
   const [calorieRange, setCalorieRange] = useState("all");
   const [favoriteOnly, setFavoriteOnly] = useState(false);
-  const [dinnerCategory, setDinnerCategory] = useState("american");
+  const [dinnerCategory, setDinnerCategory] = useState("all");
   const [visibleDinnerCount, setVisibleDinnerCount] = useState(COMPLETE_DINNER_BATCH_SIZE);
   const [selectedDinnerId, setSelectedDinnerId] = useState("");
 
@@ -14485,8 +14475,9 @@ function DinnerCombinationsPage({ setActivePage, setFilter, plan, setPlan, openR
           }
         />
 
-        <div className="dinnerCategorySegmented" role="group" aria-label="Complete Dinner categories">
+        <div className="dinnerCategorySegmented completeDinnerCategorySegmented" role="group" aria-label="Complete Dinner categories">
           {[
+            ["all", "ALL"],
             ["american", "AMERICAN"],
             ["asian", "ASIAN"],
             ["italian", "ITALIAN"],
@@ -19080,8 +19071,8 @@ Use this collection to organize recipes that fit prep-ahead cooking, planned lef
           <PageHeroImage
             src="images/heroes/hero-page-your-pantry.webp"
             alt="Kitchen inventory setup with pantry foods, fresh ingredients, freezer packages, notebook, and checklist"
-            eyebrow="KITCHEN DETAILS"
-            title="Master Kitchen Inventory"
+            eyebrow="YOUR KITCHEN"
+            title="Your Kitchen Inventory"
             text="Manage kitchen, freezer, and pantry supplies from one practical inventory center. Keep product forms separate, see what is on hand, identify items that need restocking, and move food when its storage location changes."
             className="pageHeroDepth464"
             videoSrc={MASTER_KITCHEN_INVENTORY_VIDEO_URL}
