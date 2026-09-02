@@ -340,6 +340,7 @@ export default function BuildYourOwnMealPage({
   const [labelPrintDate, setLabelPrintDate] = useState(() => new Date());
   const [activeSavedMealId, setActiveSavedMealId] = useState("");
   const [saveConfirmation, setSaveConfirmation] = useState("");
+  const workspaceRef = useRef(null);
 
   const safeRecipes = Array.isArray(recipes) ? recipes : [];
   const recipeMap = useMemo(() => new Map(safeRecipes.map((recipe) => [recipe.id, recipe])), [safeRecipes]);
@@ -379,6 +380,13 @@ export default function BuildYourOwnMealPage({
 
   const safeSavedMeals = Array.isArray(savedMeals) ? savedMeals : [];
   const activeSavedMeal = safeSavedMeals.find((meal) => meal.id === activeSavedMealId) || null;
+  const savedMealsForGallery = useMemo(
+    () => [...safeSavedMeals].sort((a, b) => {
+      if (Boolean(a.favorite) !== Boolean(b.favorite)) return a.favorite ? -1 : 1;
+      return String(b.updatedAt || b.createdAt || "").localeCompare(String(a.updatedAt || a.createdAt || ""));
+    }),
+    [safeSavedMeals],
+  );
 
   useEffect(() => {
     try {
@@ -444,6 +452,13 @@ export default function BuildYourOwnMealPage({
     setRefrigerate(nextRefrigerate);
     setActiveSavedMealId(savedMeal.id);
     setSaveConfirmation(`Loaded ${savedMeal.title || "saved meal"}.`);
+  }
+  function openSavedMealFromGallery(savedMeal) {
+    loadSavedMeal(savedMeal);
+    window.requestAnimationFrame(() => {
+      workspaceRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      workspaceRef.current?.focus({ preventScroll: true });
+    });
   }
   function saveCurrentMeal() {
     if (!mainRecipe) {
@@ -517,7 +532,7 @@ export default function BuildYourOwnMealPage({
         <p>Then decide what to eat now, refrigerate, or freeze for later.</p>
       </section>
 
-      <div className="mealBuilderWorkspaceGrid">
+      <div className="mealBuilderWorkspaceGrid" ref={workspaceRef} tabIndex="-1">
         <section className="mealBuilderPreviewColumn" aria-label="Meal tray and calorie overview">
           <MealBuilderTrayPreview mainRecipe={mainRecipe} sideOneRecipe={sideOneRecipe} sideTwoRecipe={sideTwoRecipe} mainTrayLayout={mainTrayLayout} className="mealBuilderTrayPrimary" />
           <div className="mealBuilderTrayRecipeLinks" aria-label="View selected recipe cards">
@@ -584,6 +599,65 @@ export default function BuildYourOwnMealPage({
           <button type="button" className="secondary" onClick={clearBuilder}>CLEAR &amp; START OVER</button>
         </div>
       </div>
+
+      <section className="mealBuilderSavedGallery" aria-labelledby="meal-builder-saved-gallery-title">
+        <div className="mealBuilderSavedGalleryIntro">
+          <h2 id="meal-builder-saved-gallery-title">Your Saved Build-A-Meals</h2>
+          <p>Choose a meal image to reopen its dishes, portions and freezer plan in Build A Meal.</p>
+        </div>
+        {savedMealsForGallery.length ? (
+          <div className="mealBuilderSavedGalleryGrid">
+            {savedMealsForGallery.map((savedMeal) => {
+              const savedMain = recipeMap.get(savedMeal.mainId) || null;
+              const savedLayout = savedMeal.mainTrayLayout || MEAL_BUILDER_MAIN_LAYOUTS.get(savedMeal.mainId) || "standard";
+              const savedSideOne = savedLayout === "standard" ? recipeMap.get(savedMeal.sideOneId) || null : null;
+              const savedSideTwo = savedLayout === "full-tray" ? null : recipeMap.get(savedMeal.sideTwoId) || null;
+              const hasSavedCalories = savedMeal.totalCalories !== null && savedMeal.totalCalories !== undefined && Number.isFinite(Number(savedMeal.totalCalories));
+              const hasSavedMealBalance = savedMeal.mealBalance !== null && savedMeal.mealBalance !== undefined && Number.isFinite(Number(savedMeal.mealBalance));
+              return (
+                <article className={`mealBuilderSavedGalleryCard${activeSavedMealId === savedMeal.id ? " is-active" : ""}`} key={savedMeal.id}>
+                  <button
+                    type="button"
+                    className="mealBuilderSavedGalleryOpen"
+                    onClick={() => openSavedMealFromGallery(savedMeal)}
+                    aria-label={`Open saved Build-A-Meal: ${savedMeal.title || "Saved meal"}`}
+                  >
+                    <MealBuilderTrayPreview
+                      mainRecipe={savedMain}
+                      sideOneRecipe={savedSideOne}
+                      sideTwoRecipe={savedSideTwo}
+                      mainTrayLayout={savedLayout}
+                      className="mealBuilderSavedGalleryTray"
+                      suppressEmptySlots
+                    />
+                  </button>
+                  <button
+                    type="button"
+                    className={`mealBuilderSavedGalleryHeart${savedMeal.favorite ? " is-favorite" : ""}`}
+                    onClick={() => onToggleSavedMealFavorite(savedMeal.id)}
+                    aria-label={`${savedMeal.favorite ? "Remove" : "Add"} ${savedMeal.title || "saved meal"} ${savedMeal.favorite ? "from" : "to"} Favorites`}
+                    aria-pressed={Boolean(savedMeal.favorite)}
+                  >
+                    <span aria-hidden="true">{savedMeal.favorite ? "♥" : "♡"}</span>
+                  </button>
+                  <div className="mealBuilderSavedGalleryCopy">
+                    <strong>{savedMeal.title || "Saved Build-A-Meal"}</strong>
+                    <div>
+                      <span>{hasSavedCalories ? `${Math.round(Number(savedMeal.totalCalories))} calories` : "Calories —"}</span>
+                      <span className={`mealBuilderSavedGalleryMb${hasSavedMealBalance ? "" : " is-unrated"}`} title={hasSavedMealBalance ? `MealBalance ${savedMeal.mealBalance}` : "MealBalance not yet rated"}>{hasSavedMealBalance ? savedMeal.mealBalance : "—"}</span>
+                    </div>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        ) : (
+          <div className="mealBuilderSavedGalleryEmpty">
+            <strong>No saved meals yet.</strong>
+            <span>Build your first meal above, then choose Save Meal to keep it here for easy reference.</span>
+          </div>
+        )}
+      </section>
 
       {showLabelSetup && (
         <div className="mealBuilderLabelSetupBackdrop" role="presentation" onMouseDown={(event) => {
