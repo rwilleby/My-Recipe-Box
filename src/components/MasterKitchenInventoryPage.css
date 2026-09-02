@@ -42,6 +42,12 @@
 .masterInventoryCustomForm { display: grid; grid-template-columns: 1fr 1fr 1.35fr 1fr .7fr auto; gap: 10px; align-items: end; margin: 10px 0; padding: 14px; border: 1px solid #d6cdbf; border-radius: 12px; background: #fbfaf7; }
 .masterInventoryCustomForm label { display: grid; gap: 4px; color: #5d554a; font-size: 10px; font-weight: 800; text-transform: uppercase; }
 .masterInventoryBackupNote, .masterInventoryAutomationNote { margin: 10px 0 14px; padding: 10px 14px; border-left: 4px solid #9b8f7e; background: #f7f3ec; color: #62594d; font-size: 12px; }
+.currentInventoryHeading { margin: 22px auto 12px; text-align: center; }
+.currentInventoryHeading h2 { margin: 0; color: #172033; font-family: Georgia, serif; font-size: 22px; }
+.currentInventoryHeading p { margin: 5px auto 0; color: #667085; font-size: 14px; }
+.currentInventoryFilters { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin: 0 0 12px; }
+.currentInventoryFilters button { min-height: 38px; border: 1px solid #cfc7bb; border-radius: 9px; background: #f3f0eb; padding: 7px 13px; color: #37332d; font: 750 12px Inter, Arial, sans-serif; }
+.currentInventoryFilters button.is-active { background: #77716b; color: #fff; }
 .masterInventoryAccordions { display: grid; gap: 9px; }
 .masterInventoryCategory { overflow: hidden; border: 1px solid #d5cdbf; border-radius: 12px; background: #fff; }
 .masterInventoryCategoryButton { display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; align-items: center; width: 100%; min-height: 48px; border: 0; background: #eee8dd; padding: 8px 14px; color: #403a31; text-align: left; }
@@ -94,6 +100,7 @@
   .masterInventoryToolbar > button { flex: 1 1 44%; }
   .masterInventorySearch { width: 100%; }
   .masterInventoryCustomForm { grid-template-columns: 1fr; }
+  .currentInventoryFilters button { flex: 1 1 30%; }
   .storeInventoryPanel { padding: 10px; }
   .storeInventorySegments button { padding: 6px 4px; font-size: 11px; }
   .storeInventoryImportGrid, .storeInventoryConfirmation { grid-template-columns: 1fr; }

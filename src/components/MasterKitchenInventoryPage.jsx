@@ -76,9 +76,9 @@ function inventoryIdsForItem(item) {
 export default function MasterKitchenInventoryPage({ recipes, inventory, setInventory, externalSearch = "", embedded = false }) {
   const safeInventory = normalizeState(inventory);
   const [search, setSearch] = useState("");
+  const [inventoryFilter, setInventoryFilter] = useState("all");
   const [expanded, setExpanded] = useState(() => new Set());
-  const [showCustomForm, setShowCustomForm] = useState(false);
-  const [customForm, setCustomForm] = useState({ categoryId: "vegetables", family: "Artichokes", variation: "", brand: "", unit: "each" });
+  const [customForm, setCustomForm] = useState({ categoryId: "vegetables", family: "Artichokes", variation: "", brand: "", unit: "each", quantity: "1", storage: "Pantry", lowStockLevel: "1" });
   const [entryMode, setEntryMode] = useState("manual");
   const [storeDraft, setStoreDraft] = useState(null);
   const [storeThumbnail, setStoreThumbnail] = useState(null);
@@ -88,18 +88,32 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
     () => buildMasterKitchenInventoryCatalog(recipes, safeInventory.customItems),
     [recipes, safeInventory.customItems],
   );
+  const recordForItem = (item) => inventoryIdsForItem(item).map((id) => safeInventory.records[id]).find(Boolean) || {};
+  const itemHasSavedRecord = (item) => inventoryIdsForItem(item).some((id) => Object.prototype.hasOwnProperty.call(safeInventory.records, id))
+    || Object.values(safeInventory.records).some((record) => inventoryIdsForItem(item).includes(record?.sourceItemId));
+  const recordMatchesFilter = (record) => {
+    if (inventoryFilter === "all") return true;
+    if (["Refrigerator", "Freezer", "Pantry"].includes(inventoryFilter)) return record.storage === inventoryFilter;
+    if (inventoryFilter === "low") return record.stockStatus === "low" || record.stockStatus === "out" || (record.lowStockLevel !== undefined && Number(record.have || 0) <= Number(record.lowStockLevel || 0));
+    if (inventoryFilter === "expiring") {
+      if (!record.expirationDate) return false;
+      const days = (new Date(`${record.expirationDate}T12:00:00`) - new Date()) / 86400000;
+      return days >= 0 && days <= 14;
+    }
+    return true;
+  };
   const normalizedSearch = (externalSearch.trim() || search.trim()).toLowerCase();
   const visibleCatalog = catalog
     .map((category) => ({
       ...category,
       items: category.items.filter((item) =>
-        !normalizedSearch || `${item.family} ${item.variation} ${item.unit}`.toLowerCase().includes(normalizedSearch)
+        itemHasSavedRecord(item) && recordMatchesFilter(recordForItem(item))
+        && (!normalizedSearch || `${item.family} ${item.variation} ${item.brand || ""} ${item.unit}`.toLowerCase().includes(normalizedSearch))
       ),
     }))
     .filter((category) => category.items.length)
     .sort((a, b) => String(a.title).localeCompare(String(b.title), undefined, { sensitivity: "base", numeric: true }));
-  const allItems = catalog.flatMap((category) => category.items);
-  const recordForItem = (item) => inventoryIdsForItem(item).map((id) => safeInventory.records[id]).find(Boolean) || {};
+  const allItems = catalog.flatMap((category) => category.items).filter(itemHasSavedRecord);
   const additionalLocationRecords = Object.values(safeInventory.records).filter((record) => record?.sourceItemId);
   const withStock = allItems.filter((item) => Number(recordForItem(item).have) > 0).length
     + additionalLocationRecords.filter((record) => Number(record.have) > 0).length;
@@ -142,12 +156,12 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
       const safe = normalizeState(current);
       return {
         ...safe,
-        customItems: [...safe.customItems, { ...customForm, id, family: customForm.family.trim(), variation: customForm.variation.trim() || "Custom item" }],
+        customItems: [...safe.customItems, { categoryId: customForm.categoryId, family: customForm.family.trim(), variation: customForm.variation.trim() || customForm.family.trim(), brand: customForm.brand.trim(), unit: customForm.unit.trim() || "each", id }],
+        records: { ...safe.records, [id]: { have: customForm.quantity, buy: "", brand: customForm.brand.trim(), storage: customForm.storage, lowStockLevel: customForm.lowStockLevel, stockStatus: Number(customForm.quantity) <= Number(customForm.lowStockLevel || 0) ? "low" : "in-stock", updatedAt: new Date().toISOString() } },
       };
     });
     setExpanded((current) => new Set([...current, customForm.categoryId]));
-    setCustomForm({ categoryId: customForm.categoryId, family: customForm.family, variation: "", brand: "", unit: "each" });
-    setShowCustomForm(false);
+    setCustomForm({ categoryId: customForm.categoryId, family: customForm.family, variation: "", brand: "", unit: customForm.unit, quantity: "1", storage: customForm.storage, lowStockLevel: customForm.lowStockLevel });
   }
 
   function removeCustomItem(item) {
@@ -289,10 +303,10 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
   function printCountWorksheet() {
     printManualInventoryWorksheet({
       title: "Kitchen Inventory Count Worksheet",
-      instructions: "Complete the one-time starting count by recording how many packages, containers, pounds, or individual pieces are currently on hand. Enter the results into Kitchen Inventory.",
-      groups: catalog.map((category) => ({
+      instructions: "Review the products currently saved in Your Kitchen Inventory and record any quantity changes.",
+      groups: catalog.filter((category) => category.items.some(itemHasSavedRecord)).map((category) => ({
         title: category.title,
-        items: category.items.map((item) => ({ name: item.family, detail: `${item.variation} · ${item.unit}` })),
+        items: category.items.filter(itemHasSavedRecord).map((item) => ({ name: item.family, detail: `${item.variation} · ${item.unit}` })),
       })),
       columns: [
         { label: "Have", kind: "line" },
@@ -311,39 +325,42 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
       </section>}
 
       <section className="masterInventorySummary" aria-label="Kitchen inventory summary">
-        <div><span>Product Forms</span><strong>{allItems.length}</strong></div>
+        <div><span>Current Products</span><strong>{allItems.length}</strong></div>
         <div><span>Items On Hand</span><strong>{withStock}</strong></div>
         <div><span>Items To Buy</span><strong>{toBuy}</strong></div>
       </section>
 
       <StoreInventoryImport mode={entryMode} setMode={setEntryMode} draft={storeDraft} setDraft={setStoreDraft} previewUrl={storePreviewUrl} onImage={acceptStoreImage} onConfirm={saveStoreProduct} onCancel={resetStoreImport} isEditing={Boolean(editingStoreItemId)} />
 
-      <section className="masterInventoryToolbar">
+      <section className="masterInventoryToolbar" aria-label="Current inventory tools">
         {!embedded && <label className="masterInventorySearch"><span>Find an item</span><input type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search corn, chicken, gravy…" /></label>}
-        <button type="button" className="primary" onClick={printCountWorksheet}>Manual Inventory</button>
-        <button type="button" className="secondary" onClick={() => setExpanded(new Set(catalog.map((category) => category.id)))}>Expand</button>
-        <button type="button" className="secondary" onClick={() => setExpanded(new Set())}>Collapse</button>
-        <button type="button" className="secondary" onClick={() => setShowCustomForm((current) => !current)}>Add Item</button>
-        <button type="button" className="primary" onClick={recordPurchases}>Purchase</button>
-        <button type="button" className="secondary" onClick={clearBuyQuantities}>Clear</button>
+        <button type="button" className="secondary" onClick={printCountWorksheet}>Print</button>
       </section>
 
-      {showCustomForm && (
+      {entryMode === "manual" && (
         <form className="masterInventoryCustomForm" onSubmit={addCustomItem}>
-          <label><span>Master Category</span><select value={customForm.categoryId} onChange={(event) => {
+          <label><span>Category</span><select value={customForm.categoryId} onChange={(event) => {
             const categoryId = event.target.value;
             const family = MASTER_KITCHEN_INVENTORY_TAXONOMY.find((category) => category.id === categoryId)?.products[0] || "";
             setCustomForm((current) => ({ ...current, categoryId, family }));
           }}>{MASTER_INVENTORY_CATEGORIES.map((category) => <option key={category.id} value={category.id}>{category.title}</option>)}</select></label>
-          <label><span>Product Type</span><select required value={customForm.family} onChange={(event) => setCustomForm((current) => ({ ...current, family: event.target.value }))}>{(MASTER_KITCHEN_INVENTORY_TAXONOMY.find((category) => category.id === customForm.categoryId)?.products || []).map((product) => <option key={product} value={product}>{product}</option>)}</select></label>
-          <label><span>Cut / Variety &amp; Preparation</span><input value={customForm.variation} onChange={(event) => setCustomForm((current) => ({ ...current, variation: event.target.value }))} placeholder="Example: Diced, raw" /></label>
+          <label><span>Item</span><select required value={customForm.family} onChange={(event) => setCustomForm((current) => ({ ...current, family: event.target.value }))}>{(MASTER_KITCHEN_INVENTORY_TAXONOMY.find((category) => category.id === customForm.categoryId)?.products || []).map((product) => <option key={product} value={product}>{product}</option>)}</select></label>
+          <label><span>Product name or variety</span><input value={customForm.variation} onChange={(event) => setCustomForm((current) => ({ ...current, variation: event.target.value }))} placeholder={`Example: ${customForm.family}`} /></label>
           <label><span>Brand</span><input value={customForm.brand} onChange={(event) => setCustomForm((current) => ({ ...current, brand: event.target.value }))} placeholder="Example: Tyson" /></label>
-          <label><span>Counting unit</span><input value={customForm.unit} onChange={(event) => setCustomForm((current) => ({ ...current, unit: event.target.value }))} placeholder="bags" /></label>
-          <button type="submit" className="primary">Save Item</button>
+          <label><span>Quantity</span><input type="number" min="0" step="any" value={customForm.quantity} onChange={(event) => setCustomForm((current) => ({ ...current, quantity: event.target.value }))} /></label>
+          <label><span>Tracking unit</span><input value={customForm.unit} onChange={(event) => setCustomForm((current) => ({ ...current, unit: event.target.value }))} placeholder="bags" /></label>
+          <label><span>Storage</span><select value={customForm.storage} onChange={(event) => setCustomForm((current) => ({ ...current, storage: event.target.value }))}>{STORAGE_OPTIONS.map((option) => <option key={option}>{option}</option>)}</select></label>
+          <label><span>Low-stock level</span><input type="number" min="0" step="any" value={customForm.lowStockLevel} onChange={(event) => setCustomForm((current) => ({ ...current, lowStockLevel: event.target.value }))} /></label>
+          <button type="submit" className="primary">Add to Inventory</button>
         </form>
       )}
 
       <p className="masterInventoryBackupNote"><strong>Saved automatically on this device.</strong> Kitchen Inventory is included in the full Recipe Box Backup &amp; Restore file for transfer between your iPad and laptop.</p>
+
+      <section className="currentInventoryHeading"><h2>MY CURRENT INVENTORY</h2><p>Only products you have added are shown. Adjust quantities here whenever something is used or restocked.</p></section>
+      <div className="currentInventoryFilters" aria-label="Filter current inventory">{[
+        ["all", "All Items"], ["low", "Low Stock"], ["expiring", "Expiring Soon"], ["Refrigerator", "Refrigerator"], ["Freezer", "Freezer"], ["Pantry", "Pantry"],
+      ].map(([value, label]) => <button type="button" key={value} className={inventoryFilter === value ? "is-active" : ""} aria-pressed={inventoryFilter === value} onClick={() => setInventoryFilter(value)}>{label}</button>)}</div>
 
       <div className="masterInventoryAccordions">
         {visibleCatalog.map((category) => {
@@ -431,7 +448,7 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
         })}
       </div>
 
-      {visibleCatalog.length === 0 && <p className="masterInventoryEmpty">No inventory items match “{search}.”</p>}
+      {visibleCatalog.length === 0 && <p className="masterInventoryEmpty">{allItems.length ? "No current inventory items match this search or filter." : "Your Kitchen Inventory is empty. Add your first item above."}</p>}
       <p className="masterInventoryAutomationNote"><strong>Inventory-counting rule:</strong> the system should deduct an item automatically only when a recipe identifies the exact product form and compatible unit. Alternative ingredients remain unchanged until the form actually used is selected.</p>
     </main>
   );

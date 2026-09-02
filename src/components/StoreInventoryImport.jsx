@@ -72,7 +72,7 @@ export default function StoreInventoryImport({ mode, setMode, draft, setDraft, p
       <button type="button" role="tab" aria-selected={mode === "store"} aria-controls="inventory-store-panel" onClick={() => setMode("store")}>Add From Store</button>
       <button type="button" role="tab" aria-selected={mode === "barcode"} aria-controls="inventory-barcode-panel" onClick={() => setMode("barcode")}><span>Scan Barcode</span><small>Coming Soon</small></button>
     </div>
-    {mode === "manual" && <p id="inventory-manual-panel" role="tabpanel" className="storeInventoryModeNote">Use <strong>Add Item</strong> below to enter an item yourself, or update quantities directly in your inventory.</p>}
+    {mode === "manual" && <p id="inventory-manual-panel" role="tabpanel" className="storeInventoryModeNote">Choose a category and item below, add the quantity you have, then save it to your current inventory.</p>}
     {mode === "barcode" && <p id="inventory-barcode-panel" role="tabpanel" className="storeInventoryModeNote"><strong>Scan Barcode is coming soon.</strong> Use manual entry or Add From Store for this test.</p>}
     {mode === "store" && <div id="inventory-store-panel" role="tabpanel">
       <div className="storeInventoryImportGrid">
