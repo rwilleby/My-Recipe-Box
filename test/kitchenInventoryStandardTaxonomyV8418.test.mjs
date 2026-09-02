@@ -55,7 +55,7 @@ assert.match(page, /productNameForItem/);
 assert.match(page, /currentInventoryIdentity/);
 assert.match(page, /InventoryItemEditor/);
 assert.match(page, /MASTER_KITCHEN_INVENTORY_TAXONOMY\.find/);
-assert.match(styles, /\.currentInventoryIdentity strong \{[^}]*overflow-wrap: anywhere/s, "full names remain readable");
+assert.match(styles, /\.currentInventoryIdentity strong \{[^}]*white-space: nowrap/s, "full names remain readable on one line");
 assert.match(styles, /\.currentInventoryRow \{[^}]*grid-template-columns/s);
 
 console.log("v84.18 standardized Kitchen Inventory taxonomy contracts passed.");

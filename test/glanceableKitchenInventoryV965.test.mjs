@@ -25,7 +25,9 @@ assert.match(editor, /event\.key === "Escape"/);
 assert.doesNotMatch(page.slice(page.indexOf("MY CURRENT INVENTORY")), /type="number"[^>]*className="masterInventory/);
 assert.match(css, /\.currentInventoryRow \{[^}]*grid-template-columns:/s);
 assert.match(css, /\.masterKitchenInventoryPage \{[^}]*width: 100% !important/s);
-assert.match(css, /\.currentInventoryIdentity strong \{[^}]*font-size: 15px/s);
+assert.match(css, /\.currentInventoryIdentity strong \{[^}]*font: 800 12px/s);
+assert.match(page, /<header className="masterInventoryCategoryButton">/);
+assert.match(page, /<strong aria-label=\{`\$\{quantity\} \$\{unit\}`\}>\{quantity\}<\/strong>/);
 assert.match(css, /@media \(max-width: 700px\)[\s\S]*\.currentInventoryRow \{ grid-template-columns: minmax\(0, 1fr\)/);
 assert.match(css, /focus-visible/);
 

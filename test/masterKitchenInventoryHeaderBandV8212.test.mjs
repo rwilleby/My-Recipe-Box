@@ -9,6 +9,6 @@ assert.match(page, /lowCount/);
 assert.match(page, /expiringCount/);
 assert.match(page, /className="currentInventorySubcategory"/);
 assert.match(styles, /\.masterInventoryCategoryButton/);
-assert.match(styles, /\.currentInventorySubcategory > h3 \{[^}]*font: 800 11px/s);
+assert.match(styles, /\.currentInventorySubcategory > h3 \{[^}]*font: 800 12px/s);
 
 console.log("Master Kitchen Inventory category summary header tests passed.");
