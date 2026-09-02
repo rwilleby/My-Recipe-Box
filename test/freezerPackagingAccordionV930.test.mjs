@@ -4,6 +4,10 @@ import { access, readFile } from "node:fs/promises";
 const app = await readFile(new URL("../src/App.jsx", import.meta.url), "utf8");
 const css = await readFile(new URL("../src/App.css", import.meta.url), "utf8");
 const packagingData = await readFile(new URL("../src/data/freezerPackagingAccordions.js", import.meta.url), "utf8");
+const { FREEZER_ACCORDION_GROUPS, FREEZER_PACKAGING_ACCORDIONS } = await import("../src/data/freezerPackagingAccordions.js");
+
+assert.equal(FREEZER_ACCORDION_GROUPS.length, 4, "The freezer guides must use four groups");
+assert.equal(FREEZER_PACKAGING_ACCORDIONS.length, 32, "All 32 recommended accordions must be present");
 
 const pageStart = app.indexOf("function FreezerTipsPage");
 const pageEnd = app.indexOf("function AboutRecipesPage", pageStart);
@@ -13,6 +17,15 @@ assert.ok(pageStart >= 0 && pageEnd > pageStart, "Freezer Meals & Storage page m
 assert.match(page, /useState\(null\)/, "All packaging accordions must load closed");
 assert.match(page, /aria-expanded=\{isOpen\}/);
 assert.match(page, /aria-controls=\{panelId\}/);
+assert.match(app, /FREEZER_ACCORDION_GROUPS\.map\(\(group\) =>/);
+for (const heading of [
+  "Packaging Freezer Meals",
+  "Preparing Food for the Freezer",
+  "Using and Managing the Freezer",
+  "Pantry and Meal-Preparation Support",
+]) {
+  assert.ok(packagingData.includes(heading), `Missing freezer guide group: ${heading}`);
+}
 for (const title of [
   "How I Package My Individual Freezer Meals",
   "How I Package My Freezer Dinners For Two",
@@ -54,6 +67,8 @@ assert.match(page, /height="900"/);
 assert.match(css, /\.freezerPackagingSteps\s*\{[\s\S]*grid-template-columns:\s*repeat\(6,/);
 assert.match(css, /\.freezerPackagingAccordion\s*\{[\s\S]*width:\s*100%/);
 assert.match(css, /\.freezerPackagingAccordionList\s*\{[\s\S]*width:\s*100%/);
+assert.match(css, /\.freezerAccordionGroups\s*\{/);
+assert.match(css, /\.freezerAccordionGroupHeader h2\s*\{/);
 assert.match(css, /\.freezerPackagingTextStep\s*\{/);
 assert.match(css, /@media \(max-width: 1100px\)[\s\S]*\.freezerPackagingSteps\s*\{grid-template-columns:\s*repeat\(3,/);
 assert.match(css, /@media \(max-width: 650px\)[\s\S]*\.freezerPackagingSteps\s*\{grid-template-columns:\s*1fr/);
