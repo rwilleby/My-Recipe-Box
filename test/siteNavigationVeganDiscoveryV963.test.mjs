@@ -24,10 +24,10 @@ for (const hiddenLabel of [
 assert.match(header, /label: "YOUR KITCHEN"/);
 assert.match(header, /label: "YOUR KITCHEN INVENTORY", page: "Master Kitchen Inventory"/);
 assert.match(app, /VEGAN_LIBRARY_DISCOVERY_COPY/);
-assert.match(app, /rotationRecipes=\{veganOnly \? libraryRecipes : undefined\}/);
+assert.match(app, /rotationRecipes=\{veganOnly \? libraryRecipes\.filter\(\(recipe\) => recipe\.originalRecipeId\) : undefined\}/);
 assert.match(app, /rotateAcrossAll=\{veganOnly\}/);
-assert.match(discovery, /rotateAcrossAll \|\| recipeMatchesChoice/);
-assert.match(discovery, /recipeImageCandidates\(recipe\)/);
+assert.match(discovery, /const rotationChoiceId = rotateAcrossAll \? "ALL"/);
+assert.match(discovery, /recipeHeroImageCandidates\(recipe\)/);
 assert.doesNotMatch(discovery, /RECIPE_HERO_BY_CODE/);
 assert.match(css, /\.veganRecipeLibraryPage \.libraryCategorySelectorRow[\s\S]*repeat\(9/);
 for (const label of ["All Recipes", "Plant Mains", "Bakes", "Pastas", "Bowls", "Sandwiches", "Asian", "Mexican", "Soups"]) {
@@ -35,7 +35,7 @@ for (const label of ["All Recipes", "Plant Mains", "Bakes", "Pastas", "Bowls", "
 }
 assert.match(app, /browse the changing six-recipe selection for fresh inspiration/);
 assert.match(app, /className="holidayMenuDishHero"/);
-assert.match(app, /<RecipeImage recipe=\{dishRecipe\} \/>/);
+assert.match(app, /<RecipeHeroImage recipe=\{dishRecipe\} \/>/);
 assert.match(css, /\.holidayMenuDishHero[\s\S]*aspect-ratio: 16 \/ 9/);
 assert.doesNotMatch(app, /<small>\{quickCategoryRecipeCount\(choice\)\}<\/small>/);
 assert.match(app, /\["all", "ALL"\]/);

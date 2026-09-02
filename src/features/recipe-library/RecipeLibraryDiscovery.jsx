@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { recipeImageCandidates } from "../recipe-viewer/recipeAssets.js";
+import { recipeHeroImageCandidates } from "../recipe-viewer/recipeAssets.js";
 import "./RecipeLibraryDiscovery.css";
 
 const FEATURED_RECIPE_COUNT = 6;
@@ -59,7 +59,7 @@ function displayTitleParts(title) {
 }
 
 function LibraryRecipeHero({ recipe }) {
-  const candidates = recipeImageCandidates(recipe);
+  const candidates = recipeHeroImageCandidates(recipe);
   const [imageIndex, setImageIndex] = useState(0);
   const imagePath = candidates[imageIndex];
 
@@ -160,16 +160,17 @@ export default function RecipeLibraryDiscovery({
   const rotationPositionRef = useRef(0);
   const favoriteIds = useMemo(() => (Array.isArray(favorites) ? favorites : []), [favorites]);
   const selectedChoice = choices.find((choice) => choice.id === selectedChoiceId) || choices[0];
+  const rotationChoiceId = rotateAcrossAll ? "ALL" : selectedChoice?.id;
   const selectedCopy = copyByChoice[selectedChoice?.id] || {
     title: selectedChoice?.displayName || "Browse Recipes",
     text: `Explore recipe ideas from the ${selectedChoice?.displayName || "selected"} collection.`,
   };
   const matchingRecipes = useMemo(
     () => (rotationRecipes || recipes).filter(
-      (recipe) => recipeImageCandidates(recipe).length > 0
-        && (rotateAcrossAll || recipeMatchesChoice(recipe, selectedChoice, favoriteIds)),
+      (recipe) => recipeHeroImageCandidates(recipe).length > 0
+        && recipeMatchesChoice(recipe, { id: rotationChoiceId }, favoriteIds),
     ),
-    [favoriteIds, recipes, rotateAcrossAll, rotationRecipes, selectedChoice],
+    [favoriteIds, recipes, rotationChoiceId, rotationRecipes],
   );
 
   useEffect(() => {

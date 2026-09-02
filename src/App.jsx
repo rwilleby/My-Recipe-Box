@@ -30,7 +30,7 @@ import HomeCategoryGrid, {
 import { createHomeMealRotations } from "./features/home/HomeMealRotations.jsx";
 import RecipeLibraryDiscovery from "./features/recipe-library/RecipeLibraryDiscovery.jsx";
 import BrowseRecipeNutritionFacts from "./features/recipe-viewer/BrowseRecipeNutritionFacts";
-import { FullRecipeCardPreview, RecipeImage } from "./features/recipe-viewer/RecipeImages";
+import { FullRecipeCardPreview, RecipeHeroImage, RecipeImage } from "./features/recipe-viewer/RecipeImages";
 import {
   AUTO_IMAGE_PREFIXES,
   fullCardImageCandidates,
@@ -6352,7 +6352,7 @@ function RecipesPage({
         getCalories={getHealthyDinnerCalories}
         getMealBalanceScore={getMealBalanceScore}
         copyByChoice={veganOnly ? VEGAN_LIBRARY_DISCOVERY_COPY : undefined}
-        rotationRecipes={veganOnly ? libraryRecipes : undefined}
+        rotationRecipes={veganOnly ? libraryRecipes.filter((recipe) => recipe.originalRecipeId) : undefined}
         rotateAcrossAll={veganOnly}
         ariaLabel={veganOnly ? "Select a verified vegan recipe category" : undefined}
         cardContextLabel={veganOnly ? "Vegan Recipe Library" : undefined}
@@ -11742,7 +11742,7 @@ function HolidaysSpecialOccasionsPage({ setActivePage, setPlan, openRecipeCard }
               <span>{dish.role}</span>
               {dishRecipe && (
                 <div className="holidayMenuDishHero">
-                  <RecipeImage recipe={dishRecipe} />
+                    <RecipeHeroImage recipe={dishRecipe} />
                 </div>
               )}
               <h3>{dish.name}</h3>

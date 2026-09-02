@@ -46,6 +46,12 @@ export function recipeHeroImageCandidates(recipe) {
     candidates.push(`images/heroes/${recipe.id} .webp`);
   }
 
+  const originalPrefix = recipeCodePrefix(recipe.originalRecipeId);
+  if (recipe.originalRecipeId && AUTO_IMAGE_PREFIXES.has(originalPrefix)) {
+    candidates.push(`images/heroes/${recipe.originalRecipeId}.webp`);
+    candidates.push(`images/heroes/${recipe.originalRecipeId} .webp`);
+  }
+
   return [...new Set(candidates)];
 }
 

@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import {
   fullCardImageCandidates,
   previewCardImageCandidates,
+  recipeHeroImageCandidates,
   recipeImageCandidates,
 } from "../src/features/recipe-viewer/recipeAssets.js";
 
@@ -18,7 +19,7 @@ for (const requiredImport of [
   'import AdminPinDialog from "./features/home/AdminPinDialog"',
   'import HomeRecipeCounters from "./features/home/HomeRecipeCounters"',
   'import BrowseRecipeNutritionFacts from "./features/recipe-viewer/BrowseRecipeNutritionFacts"',
-  'import { FullRecipeCardPreview, RecipeImage } from "./features/recipe-viewer/RecipeImages"',
+  'import { FullRecipeCardPreview, RecipeHeroImage, RecipeImage } from "./features/recipe-viewer/RecipeImages"',
 ]) {
   assert.ok(app.includes(requiredImport), `Missing v83.1 feature import: ${requiredImport}`);
 }
@@ -51,6 +52,7 @@ assert.equal(recipeImageCandidates(recipe)[0], "images/thumbs/recipes/DM-001.web
 assert.equal(previewCardImageCandidates(recipe)[0], "images/thumbs/recipes/DM-001.webp");
 assert.equal(fullCardImageCandidates(recipe)[0], "images/recipes/DM-001.webp");
 assert.equal(new Set(fullCardImageCandidates(recipe)).size, fullCardImageCandidates(recipe).length);
+assert.ok(recipeHeroImageCandidates({ id: "AM-002-VG", originalRecipeId: "AM-002" }).includes("images/heroes/AM-002.webp"));
 
 // v89.25: the unified HOW IT WORKS data, modal, and page wiring intentionally
 // expanded App.jsx slightly beyond the original pre-v83.1 ceiling.

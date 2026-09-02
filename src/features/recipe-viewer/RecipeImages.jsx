@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import {
   previewCardImageCandidates,
+  recipeHeroImageCandidates,
   recipeImageCandidates,
 } from "./recipeAssets.js";
 import { routeForRecipe } from "../../routing/seoRoutes.js";
@@ -31,6 +32,30 @@ export function RecipeImage({ recipe }) {
   return (
     <div className="recipeImage" style={{ background: recipe.imageStyle }}>
       <span>{recipe.emoji}</span>
+    </div>
+  );
+}
+
+export function RecipeHeroImage({ recipe, loading = "lazy" }) {
+  const candidates = recipeHeroImageCandidates(recipe);
+  const [imageIndex, setImageIndex] = useState(0);
+  const imagePath = candidates[imageIndex];
+
+  useEffect(() => {
+    setImageIndex(0);
+  }, [recipe.id]);
+
+  if (!imagePath) return null;
+
+  return (
+    <div className="recipeImage recipePhoto recipeHeroPhoto">
+      <img
+        src={`${import.meta.env.BASE_URL}${imagePath}`}
+        alt={recipe.title}
+        loading={loading}
+        decoding="async"
+        onError={() => setImageIndex((current) => current + 1)}
+      />
     </div>
   );
 }
