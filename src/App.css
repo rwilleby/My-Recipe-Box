@@ -15191,34 +15191,6 @@ to {
   gap: 14px !important;
 }
 
-.freezerAccordionGroups {
-  display: grid !important;
-  width: 100% !important;
-  gap: 28px !important;
-  margin: 0 0 20px !important;
-}
-
-.freezerAccordionGroup {width: 100% !important;}
-
-.freezerAccordionGroupHeader {
-  margin: 0 0 12px !important;
-  padding: 0 4px !important;
-  text-align: center !important;
-}
-
-.freezerAccordionGroupHeader h2 {
-  margin: 0 0 5px !important;
-  color: #403a31 !important;
-  font: 700 22px/1.15 Georgia, "Times New Roman", serif !important;
-}
-
-.freezerAccordionGroupHeader p {
-  max-width: 760px !important;
-  margin: 0 auto !important;
-  color: #71685c !important;
-  font: 600 13px/1.45 Inter, Arial, sans-serif !important;
-}
-
 .freezerPackagingAccordionHeader {
   display: grid !important;
   grid-template-columns: 20px minmax(0, 1fr) auto !important;
@@ -15365,10 +15337,6 @@ to {
   font-size: 11px !important;
 }
 
-.freezerPackagingSteps.textOnly {
-  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)) !important;
-}
-
 .freezerPackagingArrow {
   position: absolute !important;
   z-index: 3 !important;
@@ -15387,8 +15355,6 @@ to {
 }
 
 @media (max-width: 650px) {
-  .freezerAccordionGroups {gap: 24px !important;}
-  .freezerAccordionGroupHeader h2 {font-size: 20px !important;}
   .freezerPackagingAccordionList {width: 100% !important;}
   .freezerPackagingAccordionHeader {
     grid-template-columns: 18px minmax(0, 1fr) !important;
@@ -22911,6 +22877,12 @@ button.browseRecipeWideFooterAction:focus-visible,
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.holidayOccasionTileImage .recipeImage,
+.holidayOccasionTileImage .recipePhoto {
+  width: 100%;
+  height: 100%;
 }
 
 .holidayOccasionTile strong {

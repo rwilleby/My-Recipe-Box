@@ -69,7 +69,8 @@ import {
 } from "./kos/index.js";
 import { getRecipeCostEstimate, RECIPE_COST_NOTE, RECIPE_COST_TAGLINE } from "./data/recipeCosts";
 import { isFreezerFriendlyCompleteDinner } from "./data/completeDinnerFreezerRatings.js";
-import { FREEZER_ACCORDION_GROUPS } from "./data/freezerPackagingAccordions.js";
+import { FREEZER_PACKAGING_ACCORDIONS } from "./data/freezerPackagingAccordions.js";
+import { HOLIDAY_OCCASION_MENUS } from "./data/holidayOccasionMenus.js";
 
 const VEGAN_LIBRARY_CATEGORIES = Object.freeze([
   { id: "VPM", name: "Plant Mains", displayName: "Plant Mains", iconImage: "images/categories/SG.webp" },
@@ -11609,58 +11610,6 @@ function FoodStorageGuidePage({ setActivePage }) {
 }
 
 
-const HOLIDAY_OCCASION_IMAGE_FILES = [
-  "new-years-day.webp",
-  "valentines-day.webp",
-  "mardi-gras.webp",
-  "st-patricks-day.webp",
-  "passover.webp",
-  "easter.webp",
-  "cinco-de-mayo.webp",
-  "mothers-day.webp",
-  "memorial-day.webp",
-  "fathers-day.webp",
-  "independence-day.webp",
-  "labor-day.webp",
-  "rosh-hashanah.webp",
-  "halloween.webp",
-  "thanksgiving.webp",
-  "hanukkah.webp",
-  "christmas-eve.webp",
-  "christmas-day.webp",
-  "new-years-eve.webp",
-];
-
-const HOLIDAY_OCCASION_MENUS = [
-  ["New Year’s Day", ["Smothered Pork Chops", "AM-048"], ["Black-Eyed Peas", "CP-170"], ["Southern Collard Greens", ""]],
-  ["Valentine’s Day", ["Filet Mignon with Garlic-Herb Butter", ""], ["Creamy Mashed Potatoes", ""], ["Roasted Asparagus", "SD-030"]],
-  ["Mardi Gras", ["Chicken and Sausage Jambalaya", ""], ["Creole Green Beans", ""], ["Jalapeño Cheddar Cornbread", ""]],
-  ["St. Patrick’s Day", ["Corned Beef and Cabbage", "CP-042"], ["Colcannon Potatoes", ""], ["Irish Soda Bread", ""]],
-  ["Passover", ["Braised Beef Brisket", ""], ["Roasted Carrots and Parsnips", ""], ["Potato Kugel", ""]],
-  ["Easter", ["Brown Sugar–Glazed Ham", "AM-013"], ["Scalloped Potatoes", "SD-017"], ["Honey-Glazed Carrots", ""]],
-  ["Cinco de Mayo", ["Chicken Enchiladas", "MX-007"], ["Mexican Rice", "MX-013"], ["Seasoned Black Beans", ""]],
-  ["Mother’s Day", ["Ham and Cheese Quiche", ""], ["Breakfast Potatoes", ""], ["Fresh Berry Salad", ""]],
-  ["Memorial Day", ["Barbecue Pulled Pork", ""], ["Classic Potato Salad", ""], ["Creamy Coleslaw", ""]],
-  ["Father’s Day", ["Smoked Baby Back Ribs", ""], ["Loaded Baked Potato Casserole", ""], ["Grilled Corn on the Cob", ""]],
-  ["Independence Day", ["All-American Cheeseburgers", ""], ["Mustard Potato Salad", "SD-023"], ["Baked Beans", "SD-001"]],
-  ["Labor Day", ["Grilled Barbecue Chicken", ""], ["Macaroni Salad", ""], ["Grilled Summer Vegetables", ""]],
-  ["Rosh Hashanah", ["Honey-Garlic Roasted Chicken", ""], ["Sweet Carrot Tzimmes", ""], ["Apple and Cranberry Kugel", ""]],
-  ["Halloween", ["Hearty Beef and Bean Chili", ""], ["Skillet Cornbread", ""], ["Roasted Pumpkin Wedges", ""]],
-  ["Thanksgiving", ["Herb-Roasted Turkey", ""], ["Traditional Cornbread Dressing", ""], ["Green Bean Casserole", "CP-162"]],
-  ["Hanukkah", ["Slow-Braised Beef Brisket", ""], ["Potato Latkes", ""], ["Roasted Green Beans", ""]],
-  ["Christmas Eve", ["Garlic-Butter Baked Cod", ""], ["Parmesan Risotto", ""], ["Roasted Broccolini", ""]],
-  ["Christmas Day", ["Garlic-Herb Prime Rib", ""], ["Creamy Mashed Potatoes", ""], ["Green Beans Almondine", ""]],
-  ["New Year’s Eve", ["Beef Wellington", ""], ["Duchess Potatoes", ""], ["Roasted Asparagus", "SD-030"]],
-].map(([occasion, main, sideOne, sideTwo], index) => ({
-  occasion,
-  image: `images/holiday-occasions/${HOLIDAY_OCCASION_IMAGE_FILES[index]}`,
-  dishes: [
-    { role: "Main Dish", name: main[0], recipeId: main[1] || null },
-    { role: "Side 1", name: sideOne[0], recipeId: sideOne[1] || null },
-    { role: "Side 2", name: sideTwo[0], recipeId: sideTwo[1] || null },
-  ],
-}));
-
 function HolidaysSpecialOccasionsPage({ setActivePage, setPlan, openRecipeCard }) {
   const [selectedOccasion, setSelectedOccasion] = useState(HOLIDAY_OCCASION_MENUS[0].occasion);
   const occasionTrackRef = useRef(null);
@@ -11702,6 +11651,7 @@ function HolidaysSpecialOccasionsPage({ setActivePage, setPlan, openRecipeCard }
         <nav ref={occasionTrackRef} className="holidayOccasionCalendar" aria-label="Choose a holiday or special occasion" tabIndex="0">
           {HOLIDAY_OCCASION_MENUS.map((menu) => {
             const isSelected = menu.occasion === selectedOccasion;
+            const menuMainRecipe = recipes.find((recipe) => recipe.id === menu.dishes[0].recipeId);
             return (
               <button
                 type="button"
@@ -11712,14 +11662,7 @@ function HolidaysSpecialOccasionsPage({ setActivePage, setPlan, openRecipeCard }
                 aria-controls="holidayFeaturedMenu"
               >
                 <span className="holidayOccasionTileImage">
-                  <img
-                    src={assetUrl(menu.image)}
-                    alt={`${menu.occasion} featured meal`}
-                    loading="lazy"
-                    decoding="async"
-                    width="640"
-                    height="640"
-                  />
+                  <RecipeHeroImage recipe={menuMainRecipe} />
                 </span>
                 <strong>{menu.occasion}</strong>
                 <span className="holidayOccasionSelectedText" aria-hidden={!isSelected}>{isSelected ? "Selected" : ""}</span>
@@ -11747,11 +11690,9 @@ function HolidaysSpecialOccasionsPage({ setActivePage, setPlan, openRecipeCard }
                 </div>
               )}
               <h3>{dish.name}</h3>
-              {dish.recipeId ? (
+              {dishRecipe ? (
                 <button type="button" onClick={() => openRecipeCard(dish.recipeId, recipes, "Holidays and Special Occasions")}>Open Recipe Card</button>
-              ) : (
-                <p className="holidayRecipePending" aria-label={`${dish.name} recipe card is not yet available`}>Recipe card coming soon</p>
-              )}
+              ) : null}
             </article>
             );
           })}
@@ -11760,7 +11701,6 @@ function HolidaysSpecialOccasionsPage({ setActivePage, setPlan, openRecipeCard }
           <button type="button" className="primary" disabled={!availableRecipeIds.length} onClick={() => addVerifiedMenuRecipes("Meal Planner")}>Add Menu to Meal Planner</button>
           <button type="button" className="secondary" disabled={!availableRecipeIds.length} onClick={() => addVerifiedMenuRecipes("Shopping Lists")}>Add Menu Ingredients to Grocery List</button>
         </div>
-        {availableRecipeIds.length < 3 && <p className="holidayMenuAvailabilityNote">Available recipe cards are added now. Menu positions awaiting recipes remain unchanged.</p>}
       </section>
     </main>
   );
@@ -11807,15 +11747,8 @@ function FreezerTipsPage({ setActivePage }) {
         className="freezerMealsStorageSectionIntro"
       />
 
-      <div className="freezerAccordionGroups">
-        {FREEZER_ACCORDION_GROUPS.map((group) => (
-          <section className="freezerAccordionGroup" key={group.id} aria-labelledby={`freezer-group-${group.id}`}>
-            <header className="freezerAccordionGroupHeader">
-              <h2 id={`freezer-group-${group.id}`}>{group.title}</h2>
-              <p>{group.description}</p>
-            </header>
-            <div className="freezerPackagingAccordionList">
-              {group.accordions.map((accordion) => {
+      <div className="freezerPackagingAccordionList">
+        {FREEZER_PACKAGING_ACCORDIONS.map((accordion) => {
           const isOpen = openPackagingAccordion === accordion.id;
           const panelId = `freezer-packaging-${accordion.id}-panel`;
           return (
@@ -11838,7 +11771,7 @@ function FreezerTipsPage({ setActivePage }) {
               {isOpen && (
                 <div className="freezerPackagingAccordionBody" id={panelId}>
                   <p className="freezerPackagingIntro">{accordion.intro}</p>
-                  <div className={`freezerPackagingSteps${accordion.illustrated ? "" : " textOnly"}`} aria-label={`Helpful guidance for ${accordion.title.toLowerCase()}`}>
+                  <div className={`freezerPackagingSteps${accordion.illustrated ? "" : " textOnly"}`} aria-label={`Six steps for ${accordion.title.toLowerCase()}`}>
                     {accordion.steps.map((step, index) => (
                       <article className={`freezerPackagingStep${accordion.illustrated ? "" : " freezerPackagingTextStep"}`} key={step.image || step.title}>
                         {accordion.illustrated && (
@@ -11862,10 +11795,7 @@ function FreezerTipsPage({ setActivePage }) {
               )}
             </section>
           );
-              })}
-            </div>
-          </section>
-        ))}
+        })}
       </div>
 
       <div className="freezerMealsStorageIntroActions">

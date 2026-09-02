@@ -20,6 +20,7 @@ import { PROTEIN_QUICHE_SALAD_INGREDIENTS_V8415 } from "./proteinQuicheSaladIngr
 import { SIDE_SEAFOOD_GRILL_INGREDIENTS_V8415 } from "./sideSeafoodGrillIngredientsV8415.js";
 import { SPECIALTY_INGREDIENTS_V8411 } from "./specialtyIngredientsV8411.js";
 import { VEGAN_RECIPE_ROWS, VEGAN_SISTER_RECIPE_ROWS } from "./veganRecipes.js";
+import { HOLIDAY_SPECIAL_RECIPE_ROWS } from "./holidaySpecialRecipes.js";
 
 const baseCategories = [
   { id: "AM", name: "American Cuisine", count: 0, icon: "🍽️", iconImage: "images/categories/AM.webp" },
@@ -50,6 +51,7 @@ const baseCategories = [
   { id: "SG", name: "Smoked & Grilled Meats", count: 0, icon: "🔥", iconImage: "images/categories/SG.webp" },
   { id: "SW", name: "Sandwiches", count: 0, icon: "🥪", iconImage: "images/categories/SW.webp" },
   { id: "VG", name: "Vegan Main Courses", count: 0, icon: "🌱", iconImage: "images/categories/VG.webp" },
+  { id: "HS", name: "Special Holiday Recipes", count: 0, icon: "🎉", iconImage: "images/icons/all-recipes-v9512.webp" },
 ];
 
 const CATEGORY_INFO = Object.fromEntries(baseCategories.map((category) => [category.id, category]));
@@ -83,6 +85,7 @@ const CATEGORY_DEFAULTS = {
   SG: { time: 60, servings: 4, price: "$$", emoji: "🔥" },
   SW: { time: 20, servings: 4, price: "$$", emoji: "🥪" },
   VG: { time: 45, servings: 4, price: "$$", emoji: "🌱" },
+  HS: { time: null, servings: 6, price: "$$", emoji: "🎉" },
 };
 
 const CATEGORY_INGREDIENTS = {
@@ -1489,6 +1492,9 @@ function makeRecipe(entry) {
     nutrition: options.nutrition || undefined,
     freezerGuidance: options.freezerGuidance || "",
     storageGuidance: options.storageGuidance || "",
+    description: options.description || "",
+    occasion: options.occasion || "",
+    ribbon: options.ribbon || "",
     dietaryTags: Array.isArray(options.dietaryTags) ? [...options.dietaryTags] : [],
     mealBalance: options.mealBalance || estimateMealBalance(categoryCode, title),
   };
@@ -2347,7 +2353,7 @@ const SISTER_LINKS = Object.freeze({
   "SF-005": "SF-005-VG",
   "SF-004": "SF-004-VG",
 });
-export const recipes = [...recipeRows, ...VEGAN_RECIPE_ROWS, ...VEGAN_SISTER_RECIPE_ROWS]
+export const recipes = [...recipeRows, ...VEGAN_RECIPE_ROWS, ...VEGAN_SISTER_RECIPE_ROWS, ...HOLIDAY_SPECIAL_RECIPE_ROWS]
   .map(makeRecipe)
   .map((recipe) => SISTER_LINKS[recipe.id] ? { ...recipe, veganAlternativeId: SISTER_LINKS[recipe.id] } : recipe);
 

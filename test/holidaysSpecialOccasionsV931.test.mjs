@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { access, readFile, stat } from "node:fs/promises";
+import { HOLIDAY_OCCASION_MENUS } from "../src/data/holidayOccasionMenus.js";
 
 const app = await readFile(new URL("../src/App.jsx", import.meta.url), "utf8");
 const css = await readFile(new URL("../src/App.css", import.meta.url), "utf8");
@@ -19,12 +20,7 @@ const occasions = [
   "Independence Day", "Labor Day", "Rosh Hashanah", "Halloween", "Thanksgiving",
   "Hanukkah", "Christmas Eve", "Christmas Day", "New Year’s Eve",
 ];
-let prior = -1;
-for (const occasion of occasions) {
-  const index = app.indexOf(`["${occasion}"`);
-  assert.ok(index > prior, `${occasion} must remain in calendar order`);
-  prior = index;
-}
+assert.deepEqual(HOLIDAY_OCCASION_MENUS.map(({ occasion }) => occasion), occasions);
 
 assert.equal((app.match(/data-recipe-status=/g) || []).length, 1);
 assert.match(app, /data-recipe-status=\{dish\.recipeId \? "available" : "awaiting-recipe"\}/);
@@ -48,8 +44,8 @@ assert.match(css, /@media \(max-width: 680px\)[\s\S]*\.holidayMenuDishes[\s\S]*g
 assert.match(css, /\.holidayOccasionCalendar[\s\S]*display: flex[\s\S]*overflow-x: auto[\s\S]*scroll-snap-type: x proximity/);
 assert.match(css, /\.holidayOccasionTile[\s\S]*flex: 0 0 148px/);
 assert.match(css, /@media \(max-width: 680px\)[\s\S]*\.holidayOccasionTile[\s\S]*flex-basis: 126px/);
-assert.match(app, /\["Corned Beef and Cabbage", "CP-042"\]/);
-assert.match(app, /\["Brown Sugar–Glazed Ham", "AM-013"\]/);
+assert.equal(HOLIDAY_OCCASION_MENUS.find(({ occasion }) => occasion === "St. Patrick’s Day").dishes[0].recipeId, "CP-042");
+assert.equal(HOLIDAY_OCCASION_MENUS.find(({ occasion }) => occasion === "Easter").dishes[0].recipeId, "AM-013");
 
 const imageFiles = [
   "new-years-day.webp", "valentines-day.webp", "mardi-gras.webp", "st-patricks-day.webp",

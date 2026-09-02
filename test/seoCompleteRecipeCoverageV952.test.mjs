@@ -3,8 +3,8 @@ import { readFile } from "node:fs/promises";
 import { recipes } from "../src/data/recipes.js";
 import { seoForRecipe } from "../src/routing/seoRoutes.js";
 
-assert.equal(recipes.length, 764, "the authoritative recipe catalog must include all approved Vegan sister recipes without duplicate VG records");
-assert.equal(new Set(recipes.map(({ id }) => id)).size, 764, "recipe codes must be unique");
+assert.equal(recipes.length, 794, "the authoritative recipe catalog must include all approved Vegan sister and Holiday Special recipes");
+assert.equal(new Set(recipes.map(({ id }) => id)).size, 794, "recipe codes must be unique");
 
 for (const recipe of recipes) {
   const seo = seoForRecipe(recipe);

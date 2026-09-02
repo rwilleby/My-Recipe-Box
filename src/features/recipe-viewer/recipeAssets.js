@@ -1,6 +1,6 @@
 export const AUTO_IMAGE_PREFIXES = new Set([
   "AM", "AS", "CC", "CO", "CP", "CR", "DM", "DN", "DS", "HB", "HBP", "IT", "JJ", "KR", "LF",
-  "MR", "MX", "PM", "QP", "CS", "RS", "SB", "SD", "SF", "SG", "SW", "VG",
+  "MR", "MX", "PM", "QP", "CS", "RS", "SB", "SD", "SF", "SG", "SW", "VG", "HS",
 ]);
 
 export function recipeCodePrefix(recipeId = "") {
