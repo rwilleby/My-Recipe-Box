@@ -802,11 +802,14 @@ export const HOLIDAY_SPECIAL_RECIPE_MANIFEST = Object.freeze([
       "1/4 tsp nutmeg"
     ],
     "directions": [
-      "Boil potatoes until tender; drain and dry well.",
-      "Rice or mash until completely smooth.",
-      "Beat in butter, cream, yolks, Parmesan and seasonings.",
-      "Pipe rosettes onto a parchment-lined pan.",
-      "Bake at 425°F for 18–22 min until golden."
+      "Preheat oven to 425°F; line a large baking sheet with parchment.",
+      "Cover potatoes with cold salted water in a large saucepan.",
+      "Boil 15–20 min until tender; drain and return to the warm pan.",
+      "Dry potatoes over low heat 1–2 min, then rice or mash smooth.",
+      "Warm butter and cream; beat into the potatoes until fluffy.",
+      "Mix in egg yolks, Parmesan, salt, white pepper and nutmeg.",
+      "Pipe 2-inch rosettes onto the prepared baking sheet.",
+      "Bake 18–22 min until set with deeply golden edges; serve hot."
     ],
     "card": "cards/HS-030.webp",
     "hero": "heroes/HS-030.webp"
@@ -842,4 +845,3 @@ export const HOLIDAY_SPECIAL_RECIPE_ROWS = HOLIDAY_SPECIAL_RECIPE_MANIFEST.map((
     cardImage: `images/recipes/${record.code}.webp`,
   },
 ]);
-

@@ -14,6 +14,7 @@ const expectedOccasions = [
 assert.equal(HOLIDAY_SPECIAL_RECIPE_MANIFEST.length, 30);
 assert.deepEqual(HOLIDAY_SPECIAL_RECIPE_MANIFEST.map(({ code }) => code), Array.from({ length: 30 }, (_, i) => `HS-${String(i + 1).padStart(3, "0")}`));
 assert.equal(new Set(HOLIDAY_SPECIAL_RECIPE_MANIFEST.map(({ code }) => code)).size, 30);
+assert.equal(HOLIDAY_SPECIAL_RECIPE_MANIFEST.find(({ code }) => code === "HS-030")?.directions.length, 8);
 assert.equal(categories.find(({ id }) => id === "HS")?.name, "Special Holiday Recipes");
 assert.equal(categories.find(({ id }) => id === "HS")?.count, 30);
 
