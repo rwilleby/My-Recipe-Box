@@ -68,6 +68,7 @@ import {
   createKosUiController,
 } from "./kos/index.js";
 import { getRecipeCostEstimate, RECIPE_COST_NOTE, RECIPE_COST_TAGLINE } from "./data/recipeCosts";
+import { isFreezerFriendlyCompleteDinner } from "./data/completeDinnerFreezerRatings.js";
 
 const VEGAN_LIBRARY_CATEGORIES = Object.freeze([
   { id: "VPM", name: "Plant-Based Mains", displayName: "Plant-Based Mains", iconImage: "images/categories/SG.webp" },
@@ -13607,6 +13608,7 @@ function CompactDinnerCard({ meal, isSelected, onSelect, favorites, toggleFavori
   const [imageIndex, setImageIndex] = useState(0);
   const activeImage = imageCandidates[imageIndex] || "";
   const sideNames = (meal.sides || []).filter(Boolean).map((side) => side.name);
+  const isFreezerFriendly = isFreezerFriendlyCompleteDinner(meal);
 
   useEffect(() => setImageIndex(0), [meal?.id]);
 
@@ -13642,7 +13644,22 @@ function CompactDinnerCard({ meal, isSelected, onSelect, favorites, toggleFavori
             <span>{meal.protein || "—"}g protein</span>
             <span>MB {getComboMealBalanceScore(meal)}</span>
           </span>
-          <span className="compactDinnerCardAction">{isSelected ? "Details Open" : "View Dinner Details"}</span>
+          <span className="compactDinnerCardActionRow">
+            <span className="compactDinnerCardAction">{isSelected ? "Details Open" : "View Dinner Details"}</span>
+            {isFreezerFriendly && (
+              <span
+                className="compactDinnerFreezerFriendly"
+                title="Freezer-friendly complete dinner"
+                aria-label="Freezer-friendly complete dinner"
+              >
+                <img
+                  src={`${import.meta.env.BASE_URL}images/categories/FZ.webp`}
+                  alt=""
+                  aria-hidden="true"
+                />
+              </span>
+            )}
+          </span>
         </span>
       </button>
       {typeof toggleFavorite === "function" && (

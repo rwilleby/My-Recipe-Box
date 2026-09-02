@@ -16052,7 +16052,10 @@ button.browseRecipeWideFooterAction:focus-visible,
 .compactDinnerCardSides {margin-top: 4px; color: #667085; font: 600 12px/1.35 Inter, Arial, sans-serif;}
 .compactDinnerCardFacts {display: flex; flex-wrap: wrap; gap: 5px; margin-top: auto; padding-top: 10px;}
 .compactDinnerCardFacts > span {padding: 4px 6px; border-radius: 6px; background: #f3f5ee; color: #53633b; font: 800 10px/1 Inter, Arial, sans-serif;}
-.compactDinnerCardAction {align-self: flex-start; margin-top: 9px; padding: 7px 10px; border-radius: 7px; background: #80994A; color: #fff; font: 800 11px/1 Inter, Arial, sans-serif;}
+.compactDinnerCardActionRow {display: flex; align-items: center; gap: 8px; align-self: flex-start; margin-top: 9px;}
+.compactDinnerCardAction {padding: 7px 10px; border-radius: 7px; background: #80994A; color: #fff; font: 800 11px/1 Inter, Arial, sans-serif;}
+.compactDinnerFreezerFriendly {width: 30px; height: 30px; flex: 0 0 30px; display: inline-grid; place-items: center;}
+.compactDinnerFreezerFriendly img {width: 100%; height: 100%; display: block; object-fit: contain;}
 
 .compactDinnerFavorite {position: absolute; z-index: 2; top: 9px; right: 9px; width: 32px; height: 32px; display: grid; place-items: center; padding: 0; border: 1px solid #d8ded7; border-radius: 50%; background: rgba(255,255,255,.94); color: #aeb7c2; font-size: 18px; cursor: pointer;}
 .compactDinnerFavorite.saved {border-color: #efb4bf; background: #fff7f8; color: #e94f6d;}
