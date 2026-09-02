@@ -39,7 +39,11 @@ assert.match(css, /\.currentInventoryQuantityValue \{[^}]*text-align: right/s);
 assert.match(css, /\.currentInventoryFlatList \{[^}]*box-sizing: border-box;[^}]*max-width: 100%;[^}]*overflow: hidden/s);
 assert.match(css, /\.currentInventoryRow > \* \{ min-width: 0; \}/);
 assert.match(css, /\.currentInventoryBuy, \.currentInventoryEdit \{[^}]*width: 100%/s);
-assert.match(css, /\.currentInventoryLocationText \{[^}]*font: 400 12px/s);
+assert.match(page, /className="currentInventoryLocationSelect"/);
+assert.match(page, /aria-label=\{`Storage location for \$\{productName\}`\}/);
+assert.match(page, /onChange=\{\(event\) => updateRecord\(rowId, \{ storage: event\.target\.value/);
+assert.match(css, /\.currentInventoryLocationSelect \{[^}]*font: 400 12px/s);
+assert.match(css, /\.currentInventoryBuy, \.currentInventoryEdit \{[^}]*font: 800 12px/s);
 assert.match(css, /@media \(max-width: 700px\)[\s\S]*\.currentInventoryRow \{ grid-template-columns: minmax\(0, 1fr\)/);
 assert.match(css, /focus-visible/);
 

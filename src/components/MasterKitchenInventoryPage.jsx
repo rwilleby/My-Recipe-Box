@@ -516,7 +516,9 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
               <strong className="currentInventoryQuantityValue" aria-label={`${quantity} ${unit}`}>{quantity}</strong>
               <button type="button" className="currentInventoryQuantityButton is-plus" onClick={() => setQuantity(item, rowId, record, quantity + 1)} aria-label={`Increase ${productName} quantity`}>+</button>
               <button type="button" className="currentInventoryQuantityButton is-minus" onClick={() => setQuantity(item, rowId, record, quantity - 1)} aria-label={`Decrease ${productName} quantity`}>−</button>
-              <div className="currentInventoryLocationText">{record.storage || inventoryDetails(item, category.id).storage}</div>
+              <select className="currentInventoryLocationSelect" aria-label={`Storage location for ${productName}`} value={record.storage || inventoryDetails(item, category.id).storage} onChange={(event) => updateRecord(rowId, { storage: event.target.value, ...(additional ? { sourceItemId: item.id } : {}) })}>
+                {STORAGE_OPTIONS.map((option) => <option key={option} value={option}>{option}</option>)}
+              </select>
               <div className="currentInventoryBadges">{low && <span className="is-low">LOW</span>}{expiry === "expiring" && <span className="is-expiring">SOON</span>}{expiry === "expired" && <span className="is-expired">EXPIRED</span>}</div>
               <button type="button" className={`currentInventoryBuy${onShoppingList ? " is-on-list" : ""}`} onClick={() => updateRecord(rowId, { buy: onShoppingList ? "" : "1", ...(additional ? { sourceItemId: item.id } : {}) })}>{onShoppingList ? "On List" : "Buy"}</button>
               <button type="button" className="currentInventoryEdit" onClick={() => openItemEditor(item, rowId, record)}>Edit</button>
