@@ -24,7 +24,7 @@ const EMPTY_DRAFT = {
   expirationDate: "", lowStockLevel: "1", retailer: "", cleanUrl: "", price: "", priceRecordedAt: "", retailerItemId: "",
 };
 
-export default function StoreInventoryImport({ mode, setMode, draft, setDraft, previewUrl, onImage, onConfirm, onCancel, isEditing }) {
+export default function StoreInventoryImport({ mode, setMode, draft, setDraft, previewUrl, onImage, onConfirm, onCancel, isEditing, receiptPanel }) {
   const [link, setLink] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
@@ -68,12 +68,14 @@ export default function StoreInventoryImport({ mode, setMode, draft, setDraft, p
   return <section className="storeInventoryPanel" aria-labelledby="storeInventoryTitle">
     <h2 id="storeInventoryTitle">ADD TO MY KITCHEN</h2>
     <div className="storeInventorySegments" role="tablist" aria-label="Choose how to add an inventory item">
-      <button type="button" role="tab" aria-selected={mode === "manual"} aria-controls="inventory-manual-panel" onClick={() => setMode("manual")}>Enter Manually</button>
+      <button type="button" role="tab" aria-selected={mode === "products"} aria-controls="inventory-products-panel" onClick={() => setMode("products")}>Choose Products</button>
       <button type="button" role="tab" aria-selected={mode === "store"} aria-controls="inventory-store-panel" onClick={() => setMode("store")}>Add From Store</button>
-      <button type="button" role="tab" aria-selected={mode === "barcode"} aria-controls="inventory-barcode-panel" onClick={() => setMode("barcode")}><span>Scan Barcode</span><small>Coming Soon</small></button>
+      <button type="button" role="tab" aria-selected={mode === "receipt"} aria-controls="inventory-receipt-panel" onClick={() => setMode("receipt")}>Add From Receipt</button>
+      <button type="button" role="tab" aria-selected={mode === "manual"} aria-controls="inventory-manual-panel" onClick={() => setMode("manual")}>Enter Manually</button>
     </div>
-    {mode === "manual" && <p id="inventory-manual-panel" role="tabpanel" className="storeInventoryModeNote">Choose a category and item below, add the quantity you have, then save it to your current inventory.</p>}
-    {mode === "barcode" && <p id="inventory-barcode-panel" role="tabpanel" className="storeInventoryModeNote"><strong>Scan Barcode is coming soon.</strong> Use manual entry or Add From Store for this test.</p>}
+    {mode === "products" && <p id="inventory-products-panel" role="tabpanel" className="storeInventoryModeNote">Choose a category and item below, add the quantity you have, then save it to your current inventory.</p>}
+    {mode === "manual" && <p id="inventory-manual-panel" role="tabpanel" className="storeInventoryModeNote">Enter a product name or variety below and save it to your current inventory.</p>}
+    {mode === "receipt" && receiptPanel}
     {mode === "store" && <div id="inventory-store-panel" role="tabpanel">
       <div className="storeInventoryImportGrid">
         <div className="storeInventoryDropTarget" onDragOver={(event) => event.preventDefault()} onDrop={handleDrop}>

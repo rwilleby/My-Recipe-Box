@@ -32,7 +32,7 @@ restoreRecipeBoxBackup(backup, "replace", target);
 assert.deepEqual(JSON.parse(target.getItem("rrb_masterKitchenInventory_v1")), inventory);
 
 const component = fs.readFileSync(new URL("../src/components/StoreInventoryImport.jsx", import.meta.url), "utf8");
-for (const phrase of ["ADD TO MY KITCHEN", "Enter Manually", "Add From Store", "Scan Barcode", "Coming Soon", "Drag a product image or product link here", "Add to Inventory", "Cancel", "aria-selected"]) assert.match(component, new RegExp(phrase));
+for (const phrase of ["ADD TO MY KITCHEN", "Choose Products", "Add From Store", "Add From Receipt", "Enter Manually", "Drag a product image or product link here", "Add to Inventory", "Cancel", "aria-selected"]) assert.match(component, new RegExp(phrase));
 const page = fs.readFileSync(new URL("../src/components/MasterKitchenInventoryPage.jsx", import.meta.url), "utf8");
 assert.match(page, /saveInventoryProductThumbnail/);
 assert.match(page, /InventoryItemEditor/);

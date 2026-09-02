@@ -10,7 +10,7 @@
 .masterInventoryToolbar { display: flex; align-items: end; flex-wrap: wrap; gap: 9px; margin: 14px 0 10px; padding: 10px 12px; border: 1px solid #d4ddd6; border-radius: 18px; background: #fff; }
 .storeInventoryPanel { margin: 14px 0 10px; padding: 14px; border: 1px solid #d4ddd6; border-radius: 18px; background: #fff; }
 .storeInventoryPanel h2 { margin: 0 0 10px; color: #172033; font-family: Georgia, serif; font-size: 20px; text-align: center; }
-.storeInventorySegments { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); overflow: hidden; max-width: 720px; margin: 0 auto; border: 1px solid #cfc7bb; border-radius: 10px; }
+.storeInventorySegments { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); overflow: hidden; max-width: 920px; margin: 0 auto; border: 1px solid #cfc7bb; border-radius: 10px; }
 .storeInventorySegments button { min-height: 44px; border: 0; border-right: 1px solid #cfc7bb; background: #f3f0eb; padding: 6px 12px; color: #37332d; font: 750 13px Inter, Arial, sans-serif; }
 .storeInventorySegments button:last-child { border-right: 0; }
 .storeInventorySegments button[aria-selected="true"] { background: #77716b; color: #fff; }
@@ -32,6 +32,36 @@
 .storeInventoryConfirmation label.is-wide { grid-column: span 2; }
 .storeInventoryConfirmation input, .storeInventoryConfirmation select { min-width: 0; height: 40px; border: 1px solid #cfc7bb; border-radius: 9px; background: #fff; padding: 0 11px; color: #29261f; font-size: 14px; }
 .storeInventoryConfirmationActions { display: flex; align-items: end; gap: 8px; }
+.receiptInventoryPanel { margin-top: 12px; }
+.receiptInventoryDrop { display: grid; place-items: center; gap: 8px; min-height: 150px; border: 2px dashed #bcb2a3; border-radius: 12px; background: #fbfaf7; padding: 18px; text-align: center; }
+.receiptInventoryDrop strong { color: #172033; font: 700 18px Georgia, serif; }
+.receiptInventoryDrop span, .receiptInventoryPrivacy { color: #667085; font: 12px/1.4 Inter, Arial, sans-serif; }
+.receiptInventoryFile { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 9px; margin-top: 10px; }
+.receiptInventoryFile > span { display: grid; min-width: 220px; }
+.receiptInventoryFile small { color: #667085; }
+.receiptInventoryFeedback, .receiptImportSummary { margin: 10px 0; border-radius: 9px; background: #eef5ef; padding: 10px 12px; color: #28583a; font: 12px/1.4 Inter, Arial, sans-serif; }
+.receiptInventoryFeedback.is-error { background: #fff3f1; color: #922e2a; }
+.receiptReview { margin-top: 12px; }
+.receiptReview > header { display: flex; justify-content: space-between; align-items: end; gap: 14px; margin-bottom: 10px; }
+.receiptReview h3 { margin: 0; color: #172033; font: 700 19px Georgia, serif; }
+.receiptReview p { margin: 3px 0 0; color: #667085; font-size: 12px; }
+.receiptReview label { display: grid; gap: 3px; min-width: 0; color: #5d554a; font: 800 9px Inter, Arial, sans-serif; text-transform: uppercase; }
+.receiptReview input, .receiptReview select { min-width: 0; height: 36px; border: 1px solid #cfc7bb; border-radius: 7px; background: #fff; padding: 0 8px; color: #29261f; font: 12px Inter, Arial, sans-serif; }
+.receiptReviewRows { display: grid; gap: 7px; }
+.receiptReviewRow { display: grid; grid-template-columns: 28px minmax(170px, 1.2fr) minmax(220px, 1.6fr) 58px 80px 100px minmax(145px, .9fr) auto auto; align-items: end; gap: 6px; border: 1px solid #ddd5c8; border-radius: 9px; padding: 8px; background: #fff; }
+.receiptReviewRow.is-review { border-color: #d5aa54; background: #fffaf0; }
+.receiptReviewRow.is-new { border-color: #b8c0ca; background: #f8fafc; }
+.receiptReviewRow.is-ignored { opacity: .62; }
+.receiptSelect { align-self: center; }
+.receiptSelect input { width: 20px; height: 20px; }
+.receiptStatus { align-self: center; border-radius: 999px; background: #e7efe8; padding: 5px 7px; color: #355f3e; font: 800 9px Inter, Arial, sans-serif; white-space: nowrap; }
+.is-review .receiptStatus { background: #fff0c9; color: #795500; }
+.is-new .receiptStatus { background: #e8edf3; color: #46556a; }
+.receiptIgnore { align-self: center; min-height: 32px; border: 1px solid #aaa093; border-radius: 7px; background: #fff; color: #4a453e; font-weight: 750; }
+.receiptReview footer { display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.receiptReview footer span { margin-right: auto; color: #667085; font-size: 12px; }
+.receiptInventoryPrivacy { margin: 10px 0 0; text-align: center; }
+.receiptImportSummary { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; }
 .masterInventoryVariety.is-store-product { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 1px 5px; align-items: center; white-space: normal; }
 .masterInventoryVariety.is-store-product > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .masterInventoryVariety.is-store-product small { grid-column: 2; }
@@ -93,6 +123,8 @@
   .masterInventoryCustomForm { grid-template-columns: 1fr 1fr; }
   .storeInventoryConfirmation { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .masterInventoryLedger { grid-template-columns: minmax(145px, 1.25fr) 100px 95px 120px 90px 44px 44px 90px 122px; column-gap: 5px; }
+  .receiptReviewRow { grid-template-columns: 28px minmax(180px, 1fr) minmax(220px, 1.2fr) 58px 80px; }
+  .receiptReviewRow > :nth-child(n+6) { grid-column: auto; }
 }
 
 @media (max-width: 700px) {
@@ -103,11 +135,19 @@
   .masterInventoryCustomForm { grid-template-columns: 1fr; }
   .currentInventoryFilters button { flex: 1 1 30%; }
   .storeInventoryPanel { padding: 10px; }
+  .storeInventorySegments { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .storeInventorySegments button:nth-child(2) { border-right: 0; }
+  .storeInventorySegments button:nth-child(-n+2) { border-bottom: 1px solid #cfc7bb; }
   .storeInventorySegments button { padding: 6px 4px; font-size: 11px; }
   .storeInventoryImportGrid, .storeInventoryConfirmation { grid-template-columns: 1fr; }
   .storeInventoryConfirmation label.is-wide { grid-column: auto; }
   .storeInventoryLinkRow { flex-direction: column; }
   .storeInventoryImagePreview { min-height: 120px; }
+  .receiptReview > header { align-items: stretch; flex-direction: column; }
+  .receiptReviewRow { grid-template-columns: 28px minmax(0, 1fr); align-items: stretch; }
+  .receiptReviewRow > * { grid-column: 2; }
+  .receiptReviewRow .receiptSelect { grid-column: 1; grid-row: 1; }
+  .receiptReview footer button { flex: 1 1 42%; }
   .masterInventoryCategoryButton { grid-template-columns: 20px minmax(0, 1fr); }
   .masterInventoryCategoryButton em { grid-column: 2; }
   .masterInventoryLedger { grid-template-columns: minmax(0, 1fr); column-gap: 0; }
