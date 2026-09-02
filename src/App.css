@@ -22966,7 +22966,7 @@ button.browseRecipeWideFooterAction:focus-visible,
   width: 100%;
   margin: 14px 0 0;
   overflow: hidden;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 1 / 1;
   border: 1px solid #e7dfd3;
   border-radius: 10px;
   background: #f6f4ee;
@@ -22981,7 +22981,7 @@ button.browseRecipeWideFooterAction:focus-visible,
 
 .holidayMenuDishHero img {
   display: block;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .holidayMenuDish button {

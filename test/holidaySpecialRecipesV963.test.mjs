@@ -47,6 +47,12 @@ for (const menu of HOLIDAY_OCCASION_MENUS) {
     assert.ok(recipes.some(({ id }) => id === dish.recipeId), `${menu.occasion}: ${dish.name} must resolve to ${dish.recipeId}`);
   }
 }
+const holidayOnlyHeroIds = [...new Set(HOLIDAY_OCCASION_MENUS.flatMap(({ dishes }) =>
+  dishes.map(({ recipeId }) => recipeId).filter((recipeId) => !recipeId.startsWith("HS-"))))];
+assert.equal(holidayOnlyHeroIds.length, 25);
+for (const recipeId of holidayOnlyHeroIds) {
+  assert.ok(existsSync(`public/images/holiday-recipe-heroes/${recipeId}.webp`), `${recipeId} must have a Holiday-only full-plate hero`);
+}
 for (const code of HOLIDAY_SPECIAL_RECIPE_MANIFEST.map(({ code }) => code)) {
   assert.ok(allMenuIds.includes(code), `${code} must be connected to a holiday menu`);
 }
@@ -65,7 +71,8 @@ const holidayMenusSource = readFileSync("src/data/holidayOccasionMenus.js", "utf
 const holidayPage = app.slice(app.indexOf("function HolidaysSpecialOccasionsPage"), app.indexOf("function FreezerTipsPage"));
 assert.match(holidayPage, /holidayOccasionTileImage[\s\S]*?src=\{assetUrl\(menu\.image\)\}/);
 assert.match(holidayMenusSource, /images\/holiday-occasions\/\$\{HOLIDAY_OCCASION_IMAGE_FILES\[index\]\}/);
-assert.match(holidayPage, /holidayMenuDishHero[\s\S]*?<RecipeHeroImage recipe=\{dishRecipe\}/);
+assert.match(holidayPage, /holidayMenuDishHero[\s\S]*?images\/holiday-recipe-heroes\/\$\{dish\.recipeId\}\.webp/);
+assert.match(holidayPage, /images\/heroes\/\$\{dish\.recipeId\}\.webp/);
 assert.doesNotMatch(holidayPage, /FullRecipeCardPreview|RecipeImage|images\/recipes\//);
 assert.match(holidayPage, /openRecipeCard\(dish\.recipeId, recipes, "Holidays and Special Occasions"\)/);
 assert.match(holidayPage, /next\[firstOpenSlot\] = \[\.\.\.availableRecipeIds\]/);
