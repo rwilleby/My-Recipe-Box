@@ -498,7 +498,7 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
                             const onShoppingList = Number(record.buy || 0) > 0 || ["low", "out"].includes(record.stockStatus);
                             return (
                               <article className="currentInventoryRow" key={rowId}>
-                                <InventoryProductThumbnail imageKey={item.imageKey || record.imageKey} alt="" />
+                                <div className="currentInventoryThumbnailSlot" aria-hidden="true"><InventoryProductThumbnail imageKey={item.imageKey || record.imageKey} alt="" /></div>
                                 <button type="button" className="currentInventoryIdentity" onClick={() => openItemEditor(item, rowId, record)}><strong>{productName}</strong>{description && <small>{description}</small>}</button>
                                 <div className="currentInventoryQuantity" aria-label={`${productName} quantity`}><button type="button" onClick={() => setQuantity(item, rowId, record, quantity - 1)} aria-label={`Decrease ${productName} quantity`}>−</button><strong>{quantity} <span>{unit}</span></strong><button type="button" onClick={() => setQuantity(item, rowId, record, quantity + 1)} aria-label={`Increase ${productName} quantity`}>+</button></div>
                                 <div className="currentInventoryLocationText">{record.storage || inventoryDetails(item, category.id).storage}</div>
