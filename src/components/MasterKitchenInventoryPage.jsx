@@ -369,14 +369,14 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
         if (existingId && !separate) {
           const previous = Number(existingRecord?.have || 0);
           const nextQuantity = receiptItem.restockMode === "replace" ? Number(receiptItem.quantity || 0) : previous + Number(receiptItem.quantity || 0);
-          records[existingId] = { ...(existingRecord || {}), have: String(nextQuantity), unit: receiptItem.unit || existingRecord?.unit || "items", storage: receiptItem.storage || existingRecord?.storage || "Pantry", stockStatus: nextQuantity <= Number(existingRecord?.lowStockLevel || 0) ? "low" : "in-stock", lastReceiptDate: purchaseDate, updatedAt: new Date().toISOString() };
+          records[existingId] = { ...(existingRecord || {}), have: String(nextQuantity), unit: receiptItem.unit || existingRecord?.unit || "items", storage: receiptItem.storage || existingRecord?.storage || "Pantry", retailer: receiptItem.retailer === "Unknown store" ? existingRecord?.retailer || "" : receiptItem.retailer, stockStatus: nextQuantity <= Number(existingRecord?.lowStockLevel || 0) ? "low" : "in-stock", lastReceiptDate: purchaseDate, updatedAt: new Date().toISOString() };
           receiptAliases[normalizedDescription] = existingId;
           matched += 1; updated += 1;
           return;
         }
         const id = `custom-receipt-${Date.now()}-${index}`;
-        customItems.push({ id, categoryId: receiptItem.categoryId || "prepared-packaged", family: receiptItem.family || receiptItem.description, variation: receiptItem.description, productName: receiptItem.description, unit: receiptItem.unit || "items", importedFromReceipt: true });
-        records[id] = { have: String(Number(receiptItem.quantity || 0)), unit: receiptItem.unit || "items", storage: receiptItem.storage || "Pantry", stockStatus: "in-stock", lastReceiptDate: purchaseDate, updatedAt: new Date().toISOString() };
+        customItems.push({ id, categoryId: receiptItem.categoryId || "prepared-packaged", family: receiptItem.family || receiptItem.description, variation: receiptItem.description, productName: receiptItem.description, unit: receiptItem.unit || "items", retailer: receiptItem.retailer === "Unknown store" ? "" : receiptItem.retailer, importedFromReceipt: true });
+        records[id] = { have: String(Number(receiptItem.quantity || 0)), unit: receiptItem.unit || "items", storage: receiptItem.storage || "Pantry", retailer: receiptItem.retailer === "Unknown store" ? "" : receiptItem.retailer, stockStatus: "in-stock", lastReceiptDate: purchaseDate, updatedAt: new Date().toISOString() };
         created += 1;
       });
       return { ...safe, records, customItems, receiptAliases, receiptFingerprints: fingerprint ? [...new Set([...safe.receiptFingerprints, fingerprint])] : safe.receiptFingerprints };

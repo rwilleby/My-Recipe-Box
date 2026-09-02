@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { createReceiptFingerprint, extractPdfTextFromBuffer, matchReceiptItems, parseWalmartReceiptText } from "../src/utils/walmartReceiptImport.js";
+import { createReceiptFingerprint, extractPdfTextFromBuffer, matchReceiptItems, parseGroceryDocumentText, parseWalmartReceiptText } from "../src/utils/walmartReceiptImport.js";
 import { createRecipeBoxBackup, restoreRecipeBoxBackup } from "../src/utils/recipeBoxBackup.js";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -11,9 +11,9 @@ const store = fs.readFileSync(path.join(root, "src/components/StoreInventoryImpo
 const receipt = fs.readFileSync(path.join(root, "src/components/ReceiptInventoryImport.jsx"), "utf8");
 const css = fs.readFileSync(path.join(root, "src/components/MasterKitchenInventoryPage.css"), "utf8");
 
-for (const label of ["Choose Products", "Add From Store", "Add From Receipt", "Enter Manually"]) assert.match(store, new RegExp(label));
-for (const text of ["Drag a Walmart receipt PDF here", "Upload Receipt PDF", "Read Receipt", "Review Receipt Items", "Add Selected Items", "Add to existing quantity", "Replace current quantity", "Create separate entry", "Skip this item"]) assert.match(receipt, new RegExp(text));
-assert.match(receipt, /accept="application\/pdf,\.pdf"/);
+for (const label of ["Choose Products", "Add From Store", "Import Receipt or List", "Enter Manually"]) assert.match(store, new RegExp(label));
+for (const text of ["Drag a grocery receipt or shopping list here", "Upload Receipt or List", "Read Receipt or List", "Review Imported Items", "Add Selected Items", "Add to existing quantity", "Replace current quantity", "Create separate entry", "Skip this item"]) assert.match(receipt, new RegExp(text));
+assert.match(receipt, /accept="application\/pdf,\.pdf,image\/jpeg,image\/png,image\/webp,image\/heic,image\/heif"/);
 assert.match(receipt, /role="tabpanel"/);
 assert.match(receipt, /not saved/);
 assert.match(page, /receiptAliases/);
@@ -26,6 +26,10 @@ assert.equal(parsed.items.length, 1);
 assert.equal(parsed.items[0].quantity, 2);
 assert.match(parsed.items[0].description, /GREAT VALUE WHOLE MILK/);
 assert.throws(() => parseWalmartReceiptText("KROGER\nMILK 3.48"), /Walmart receipt/);
+const groceryList = parseGroceryDocumentText("GROCERY LIST\nMilk\nEggs\n2 x Chicken broth");
+assert.equal(groceryList.retailer, "Unknown store");
+assert.deepEqual(groceryList.items.map((item) => [item.description, item.quantity]), [["Milk", 1], ["Eggs", 1], ["Chicken broth", 2]]);
+assert.equal(parseGroceryDocumentText("H-E-B\nWHOLE MILK 4.29\nTAX 0.00").retailer, "H-E-B");
 
 const catalog = [{ id: "dairy-eggs", title: "Dairy & Eggs", items: [{ id: "milk-whole", family: "Milk", variation: "Whole milk", unit: "gallons" }] }];
 const matched = matchReceiptItems(parsed.items, catalog, {});

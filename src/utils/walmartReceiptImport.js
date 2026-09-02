@@ -65,6 +65,28 @@ export async function readWalmartReceiptPdf(file) {
   return text;
 }
 
+const IMAGE_TYPES = /^(image\/(?:jpeg|png|webp|heic|heif))$/i;
+
+async function readImageText(file) {
+  if (typeof globalThis.TextDetector !== "function") throw new Error("Automatic image reading is not available in this browser. Paste or type the visible product lines below, then continue.");
+  let bitmap;
+  try {
+    bitmap = await createImageBitmap(file);
+    const blocks = await new globalThis.TextDetector().detect(bitmap);
+    return blocks.map((block) => block.rawValue || block.text || "").filter(Boolean).join("\n").trim();
+  } catch {
+    throw new Error("We could not read text from that image. Try a clearer, straighter image or paste the visible product lines below.");
+  } finally { bitmap?.close?.(); }
+}
+
+export async function readGroceryDocument(file) {
+  if (!file) throw new Error("Choose a grocery receipt or list first.");
+  if (file.size > RECEIPT_LIMIT) throw new Error("That file is too large. Please choose a file smaller than 12 MB.");
+  if (/\.pdf$/i.test(file.name || "") || file.type === "application/pdf") return extractPdfTextFromBuffer(await file.arrayBuffer());
+  if (IMAGE_TYPES.test(file.type || "") || /\.(?:jpe?g|png|webp|heic|heif)$/i.test(file.name || "")) return readImageText(file);
+  throw new Error("Please choose a PDF, JPG, PNG, WebP or compatible HEIC grocery receipt or list.");
+}
+
 function cleanDescription(value = "") {
   return value.replace(/^\d{8,14}\s+/, "").replace(/\s+(?:[A-Z])?\$?\d+\.\d{2}\s*$/i, "").replace(/\s+/g, " ").trim();
 }
@@ -86,6 +108,41 @@ export function parseWalmartReceiptText(text = "") {
   const unique = [...new Map(items.map((item) => [`${item.description.toLowerCase()}|${item.quantity}`, item])).values()];
   if (!unique.length) throw new Error("We could not find readable Walmart product lines in this PDF. Try a clearer PDF or add the items manually.");
   return { retailer: "Walmart", purchaseDate: date, items: unique };
+}
+
+function detectRetailer(text = "") {
+  const retailers = [
+    [/\bwalmart\b/i, "Walmart"], [/\bh[‐‑–—-]?e[‐‑–—-]?b\b/i, "H-E-B"], [/\bkroger\b/i, "Kroger"],
+    [/\baldi\b/i, "Aldi"], [/\bcostco\b/i, "Costco"], [/\bsam'?s club\b/i, "Sam's Club"],
+    [/\btarget\b/i, "Target"], [/\bamazon\b/i, "Amazon"], [/\balbertsons\b/i, "Albertsons"],
+    [/\bwhole foods\b/i, "Whole Foods"], [/\btrader joe'?s\b/i, "Trader Joe's"], [/\bpublix\b/i, "Publix"],
+  ];
+  return retailers.find(([pattern]) => pattern.test(text))?.[1] || "Unknown store";
+}
+
+export function parseGroceryDocumentText(text = "") {
+  const normalized = String(text).replace(/\r/g, "\n").replace(/[•☐□✓✔]/g, "\n");
+  if (!normalized.trim()) throw new Error("No readable product text was found. Paste or type the product lines, then continue.");
+  const retailer = detectRetailer(normalized);
+  const purchaseDate = normalized.match(/\b(\d{1,2}[\/-]\d{1,2}[\/-](?:\d{2}|\d{4}))\b/)?.[1] || "";
+  const sourceLines = normalized.split(/\n+/).map((line) => line.replace(/^[-*]\s*/, "").trim()).filter(Boolean);
+  const looksLikeReceipt = sourceLines.some((line) => /\$?\d+\.\d{2}\s*$/.test(line));
+  const items = [];
+  sourceLines.forEach((line, index) => {
+    if (line.length < 2 || line.length > 160 || IGNORE_LINE.test(line) || NON_FOOD.test(line)) return;
+    if (/^(receipt|grocery list|shopping list|thank you|customer copy|store|address|phone|date|time|cashier)\b/i.test(line)) return;
+    if (/\b(?:visa|mastercard|amex|discover|account|approval|authorization|card ending)\b/i.test(line)) return;
+    if (/^\d{1,2}[\/-]\d{1,2}[\/-](?:\d{2}|\d{4})(?:\s|$)/.test(line)) return;
+    if (looksLikeReceipt && !/\$?\d+\.\d{2}\s*$/.test(line) && !/^\d+\s*[xX]\s+/.test(line)) return;
+    const quantity = Number(line.match(/^(\d+)\s*(?:[xX]|×)\s+/)?.[1] || line.match(/\bqty\s*[:x]?\s*(\d+)/i)?.[1] || 1);
+    const weight = line.match(/(\d+(?:\.\d+)?)\s*(lb|lbs|oz|kg|g)\b/i);
+    const description = cleanDescription(line.replace(/^\d+\s*(?:[xX]|×)\s+/, "").replace(/\bqty\s*[:x]?\s*\d+/ig, "").replace(/\b\d+(?:\.\d+)?\s*(?:lb|lbs|oz|kg|g)\b/ig, ""));
+    if (!description || /^\d+[.:\/-]*$/.test(description)) return;
+    items.push({ id: `document-${index}-${description.toLowerCase().replace(/[^a-z0-9]+/g, "-").slice(0, 40)}`, description, quantity, weight: weight ? `${weight[1]} ${weight[2]}` : "", status: "new" });
+  });
+  const unique = [...new Map(items.slice(0, 200).map((item) => [`${item.description.toLowerCase()}|${item.quantity}`, item])).values()];
+  if (!unique.length) throw new Error("We could not identify product lines. Paste or correct the product list below, then continue.");
+  return { retailer, purchaseDate, items: unique };
 }
 
 function words(value = "") { return new Set(value.toLowerCase().replace(/[^a-z0-9 ]/g, " ").split(/\s+/).filter((word) => word.length > 2)); }

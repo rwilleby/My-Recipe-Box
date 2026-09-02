@@ -1,5 +1,5 @@
-import { useRef, useState } from "react";
-import { createReceiptFingerprint, matchReceiptItems, parseWalmartReceiptText, readWalmartReceiptPdf } from "../utils/walmartReceiptImport.js";
+import { useEffect, useRef, useState } from "react";
+import { createReceiptFingerprint, matchReceiptItems, parseGroceryDocumentText, readGroceryDocument } from "../utils/walmartReceiptImport.js";
 
 const STATUS_LABELS = { matched: "Matched", review: "Needs Review", new: "New Item", ignored: "Ignored" };
 
@@ -11,26 +11,37 @@ export default function ReceiptInventoryImport({ catalog, inventory, onComplete,
   const [purchaseDate, setPurchaseDate] = useState("");
   const [items, setItems] = useState([]);
   const [fingerprint, setFingerprint] = useState("");
+  const [rawText, setRawText] = useState("");
+  const [previewUrl, setPreviewUrl] = useState("");
+  useEffect(() => () => { if (previewUrl) URL.revokeObjectURL(previewUrl); }, [previewUrl]);
   const choices = catalog.flatMap((category) => category.items.map((item) => ({ ...item, categoryId: category.id, categoryTitle: category.title })));
 
   function acceptFile(nextFile) {
     setError(""); setStatus(""); setItems([]); setFingerprint("");
-    if (!nextFile || (!/\.pdf$/i.test(nextFile.name || "") && nextFile.type !== "application/pdf")) { setFile(null); setError("Please choose a Walmart receipt PDF."); return; }
+    if (!nextFile || (!/\.(?:pdf|jpe?g|png|webp|heic|heif)$/i.test(nextFile.name || "") && !/^(?:application\/pdf|image\/)/i.test(nextFile.type || ""))) { setFile(null); setError("Please choose a PDF, JPG, PNG, WebP or compatible HEIC grocery receipt or list."); return; }
+    if (previewUrl) URL.revokeObjectURL(previewUrl);
+    setPreviewUrl(String(nextFile.type).startsWith("image/") ? URL.createObjectURL(nextFile) : "");
     setFile(nextFile);
   }
 
+  async function processText(text) {
+    const parsed = parseGroceryDocumentText(text);
+    const nextFingerprint = await createReceiptFingerprint(parsed.purchaseDate, parsed.items);
+    setPurchaseDate(parsed.purchaseDate);
+    setFingerprint(nextFingerprint);
+    setItems(matchReceiptItems(parsed.items, catalog, inventory.receiptAliases || {}).map((item) => ({ ...item, retailer: parsed.retailer })));
+    setStatus((inventory.receiptFingerprints || []).includes(nextFingerprint)
+      ? "This receipt or list appears to have been imported before. Review carefully before importing it again."
+      : "Import ready. Review every item before adding it to inventory.");
+  }
+
   async function readReceipt() {
-    if (!file) return setError("Choose a Walmart receipt PDF first.");
-    setError(""); setStatus("Reading receipt on this device…");
+    if (!file && !rawText.trim()) return setError("Choose a grocery receipt or list first.");
+    setError(""); setStatus("Reading on this device…");
     try {
-      const parsed = parseWalmartReceiptText(await readWalmartReceiptPdf(file));
-      const nextFingerprint = await createReceiptFingerprint(parsed.purchaseDate, parsed.items);
-      setPurchaseDate(parsed.purchaseDate);
-      setFingerprint(nextFingerprint);
-      setItems(matchReceiptItems(parsed.items, catalog, inventory.receiptAliases || {}));
-      setStatus((inventory.receiptFingerprints || []).includes(nextFingerprint)
-        ? "This receipt appears to have been imported before. Review carefully before importing it again."
-        : "Receipt ready. Review every item before adding it to inventory.");
+      const text = rawText.trim() || await readGroceryDocument(file);
+      setRawText(text);
+      await processText(text);
     } catch (reason) { setStatus(""); setError(reason.message); }
   }
 
@@ -47,17 +58,20 @@ export default function ReceiptInventoryImport({ catalog, inventory, onComplete,
   return <div id="inventory-receipt-panel" role="tabpanel" className="receiptInventoryPanel">
     {!items.length && <>
       <div className="receiptInventoryDrop" onDragOver={(event) => event.preventDefault()} onDrop={(event) => { event.preventDefault(); acceptFile([...(event.dataTransfer.files || [])][0]); }}>
-        <strong>Drag a Walmart receipt PDF here</strong>
-        <span>or choose a PDF saved from your Walmart order or receipt page.</span>
-        <input ref={inputRef} className="visuallyHidden" type="file" accept="application/pdf,.pdf" onChange={(event) => acceptFile(event.target.files?.[0])} />
-        <button type="button" className="secondary" onClick={() => inputRef.current?.click()}>Upload Receipt PDF</button>
+        <strong>Drag a grocery receipt or shopping list here</strong>
+        <span>Upload a PDF, screenshot, or photo from any grocery store. You’ll review everything before it is added.</span>
+        <input ref={inputRef} className="visuallyHidden" type="file" accept="application/pdf,.pdf,image/jpeg,image/png,image/webp,image/heic,image/heif" onChange={(event) => acceptFile(event.target.files?.[0])} />
+        <button type="button" className="secondary" onClick={() => inputRef.current?.click()}>Upload Receipt or List</button>
       </div>
-      {file && <div className="receiptInventoryFile"><span><strong>{file.name}</strong><small>{(file.size / 1024).toFixed(1)} KB</small></span><button type="button" className="primary" onClick={readReceipt}>Read Receipt</button><button type="button" className="secondary" onClick={() => { setFile(null); onCancel?.(); }}>Cancel</button></div>}
+      {previewUrl && <div className="receiptDocumentPreview"><img src={previewUrl} alt="Selected grocery receipt or list preview" /></div>}
+      {file && <div className="receiptInventoryFile"><span><strong>{file.name}</strong><small>{(file.size / 1024).toFixed(1)} KB</small></span><button type="button" className="primary" onClick={readReceipt}>Read Receipt or List</button><button type="button" className="secondary" onClick={() => { setFile(null); setRawText(""); setPreviewUrl(""); onCancel?.(); }}>Cancel</button></div>}
+      <label className="receiptTextFallback"><span>Optional: paste or type product lines</span><textarea value={rawText} onChange={(event) => setRawText(event.target.value)} placeholder={'Milk\nEggs\n2 x Chicken broth'} /></label>
+      {rawText.trim() && <button type="button" className="secondary receiptTextRead" onClick={readReceipt}>Review Pasted List</button>}
     </>}
     {error && <p className="receiptInventoryFeedback is-error" role="alert">{error}</p>}
     {status && <p className="receiptInventoryFeedback" role="status">{status}</p>}
     {items.length > 0 && <section className="receiptReview" aria-labelledby="receiptReviewTitle">
-      <header><div><h3 id="receiptReviewTitle">Review Receipt Items</h3><p>Check matched products, correct uncertain lines, and choose how existing inventory should be updated.</p></div><label><span>Purchase date</span><input type="text" value={purchaseDate} onChange={(event) => setPurchaseDate(event.target.value)} /></label></header>
+      <header><div><h3 id="receiptReviewTitle">Review Imported Items</h3><p>Check matched products, correct uncertain lines, and choose how existing inventory should be updated.</p></div><label><span>Purchase or list date</span><input type="text" value={purchaseDate} onChange={(event) => setPurchaseDate(event.target.value)} /></label></header>
       <div className="receiptReviewRows">{items.map((item, index) => <article className={`receiptReviewRow is-${item.status}`} key={item.id}>
         <label className="receiptSelect"><input type="checkbox" checked={Boolean(item.selected)} disabled={item.status === "ignored"} onChange={(event) => updateItem(index, { selected: event.target.checked })} /><span className="visuallyHidden">Select {item.description}</span></label>
         <label className="receiptDescription"><span>Receipt description</span><input value={item.description} onChange={(event) => updateItem(index, { description: event.target.value })} /></label>
@@ -71,6 +85,6 @@ export default function ReceiptInventoryImport({ catalog, inventory, onComplete,
       </article>)}</div>
       <footer><span>{selectedCount} of {items.length} items selected</span><button type="button" className="primary" disabled={!selectedCount} onClick={() => { onComplete({ items, fingerprint, purchaseDate }); setItems([]); setFile(null); setStatus(""); }}>Add Selected Items</button><button type="button" className="secondary" onClick={() => { setItems([]); setFile(null); setStatus(""); onCancel?.(); }}>Cancel</button></footer>
     </section>}
-    <p className="receiptInventoryPrivacy">Your receipt is read locally in this browser. The PDF, receipt text, payment details, and account information are not saved.</p>
+    <p className="receiptInventoryPrivacy">Your document is read locally in this browser. The PDF, image, extracted text, payment details, and account information are not saved.</p>
   </div>;
 }

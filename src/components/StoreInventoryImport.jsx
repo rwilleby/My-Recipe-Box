@@ -70,7 +70,7 @@ export default function StoreInventoryImport({ mode, setMode, draft, setDraft, p
     <div className="storeInventorySegments" role="tablist" aria-label="Choose how to add an inventory item">
       <button type="button" role="tab" aria-selected={mode === "products"} aria-controls="inventory-products-panel" onClick={() => setMode("products")}>Choose Products</button>
       <button type="button" role="tab" aria-selected={mode === "store"} aria-controls="inventory-store-panel" onClick={() => setMode("store")}>Add From Store</button>
-      <button type="button" role="tab" aria-selected={mode === "receipt"} aria-controls="inventory-receipt-panel" onClick={() => setMode("receipt")}>Add From Receipt</button>
+      <button type="button" role="tab" aria-selected={mode === "receipt"} aria-controls="inventory-receipt-panel" onClick={() => setMode("receipt")}>Import Receipt or List</button>
       <button type="button" role="tab" aria-selected={mode === "manual"} aria-controls="inventory-manual-panel" onClick={() => setMode("manual")}>Enter Manually</button>
     </div>
     {mode === "products" && <p id="inventory-products-panel" role="tabpanel" className="storeInventoryModeNote">Choose a category and item below, add the quantity you have, then save it to your current inventory.</p>}
