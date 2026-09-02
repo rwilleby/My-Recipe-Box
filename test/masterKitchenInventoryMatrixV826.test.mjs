@@ -23,13 +23,12 @@ const styles = await readFile(new URL("../src/components/MasterKitchenInventoryP
 
 assert.match(page, /groupItemsByFamily/);
 assert.match(page, /STORAGE_FORM_ORDER/);
-assert.match(page, /masterInventoryLedger/);
-assert.match(page, /masterInventoryLedgerFamily/);
-assert.match(page, /masterInventoryLedgerQuantity/);
-assert.match(page, /family-note-/);
-assert.match(page, /masterInventoryLedgerNotes/);
-assert.match(styles, /masterInventoryFamilyColumnLabel/);
-assert.match(styles, /masterInventoryLedgerRow/);
+assert.match(page, /currentInventoryList/);
+assert.match(page, /currentInventoryRow/);
+assert.match(page, /currentInventoryQuantity/);
+assert.match(page, /InventoryItemEditor/);
+assert.match(styles, /masterInventoryCategory/);
+assert.match(styles, /currentInventoryRow/);
 assert.match(styles, /@media \(max-width: 700px\)/);
 
 console.log("Master Kitchen Inventory compact matrix v82.6 tests passed.");

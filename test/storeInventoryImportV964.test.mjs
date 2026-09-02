@@ -34,8 +34,12 @@ assert.deepEqual(JSON.parse(target.getItem("rrb_masterKitchenInventory_v1")), in
 const component = fs.readFileSync(new URL("../src/components/StoreInventoryImport.jsx", import.meta.url), "utf8");
 for (const phrase of ["ADD TO MY KITCHEN", "Enter Manually", "Add From Store", "Scan Barcode", "Coming Soon", "Drag a product image or product link here", "Add to Inventory", "Cancel", "aria-selected"]) assert.match(component, new RegExp(phrase));
 const page = fs.readFileSync(new URL("../src/components/MasterKitchenInventoryPage.jsx", import.meta.url), "utf8");
-assert.match(page, /target="_blank" rel="noopener noreferrer"/);
 assert.match(page, /saveInventoryProductThumbnail/);
+assert.match(page, /InventoryItemEditor/);
+const editor = fs.readFileSync(new URL("../src/components/InventoryItemEditor.jsx", import.meta.url), "utf8");
+assert.match(editor, /Product-page link/);
+assert.match(editor, /Retailer/);
+assert.match(editor, /Product image/);
 const css = fs.readFileSync(new URL("../src/components/MasterKitchenInventoryPage.css", import.meta.url), "utf8");
 assert.match(css, /button\[aria-selected="true"\]\s*\{[^}]*background:\s*#77716b;[^}]*color:\s*#fff;/s);
 assert.match(css, /@media \(max-width: 700px\)/);

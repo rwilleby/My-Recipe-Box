@@ -32,8 +32,10 @@ assert.match(app, /externalSearch=\{currentSearch\} embedded/);
 
 assert.match(kitchenPage, /externalSearch = "", embedded = false/);
 assert.match(kitchenPage, /useState\(\(\) => new Set\(\)\)/);
-assert.match(kitchenPage, /className=\{`masterInventoryStatusSelect is-/);
-assert.match(kitchenStyles, /\.masterInventoryStatusSelect/);
+assert.match(kitchenPage, /className="currentInventoryBadges"/);
+assert.match(kitchenPage, /Add to List/);
+assert.match(kitchenPage, /updateRecord\(rowId, \{ buy:/);
+assert.match(kitchenStyles, /\.currentInventoryRow/);
 
 const hubStyles = styles.slice(styles.lastIndexOf("v84.25 — UNIFIED KITCHEN / FREEZER / PANTRY INVENTORY HUB"));
 assert.match(hubStyles, /\.inventoryHubControlStrip \{[\s\S]*width: 90%/);

@@ -7,10 +7,11 @@ const styles = await readFile(new URL("../src/components/MasterKitchenInventoryP
 assert.doesNotMatch(page, /const INVENTORY_COLUMNS = \[/);
 assert.doesNotMatch(page, /familyGroup\.columns\.map/);
 assert.doesNotMatch(page, /masterInventoryFourColumns/);
-assert.match(page, /masterInventoryLedger/);
 assert.match(page, /splitStorageForm/);
-assert.match(styles, /masterInventoryLedgerFamily/);
-assert.match(styles, /masterInventoryLedgerQuantity input/);
+assert.match(page, /currentInventoryRow/);
+assert.match(page, /currentInventoryLocation/);
+assert.match(styles, /currentInventoryRow/);
+assert.match(styles, /currentInventoryQuantity/);
 assert.match(styles, /@media \(max-width: 1020px\)/);
 
 console.log("Master Kitchen Inventory v82.8 data compatibility tests passed after the v82.9 ledger upgrade.");

@@ -51,16 +51,11 @@ assert.equal(classifyInventoryProduct("canned diced tomatoes", "Canned Goods").p
 assert.equal(classifyInventoryProduct("frozen diced potatoes", "Frozen Foods").productType, "Frozen Potatoes");
 assert.equal(classifyInventoryProduct("deli turkey", "Meat & Seafood").productType, "Deli Meats");
 
-const columnOrder = ["Cut / Variety", "Preparation / Form", "Brand", "Storage", "Unit", "Have", "Buy", "Notes"];
-let position = -1;
-for (const label of columnOrder) {
-  const next = page.indexOf(`role="columnheader">${label}`, position + 1);
-  assert.ok(next > position, `${label} follows the standardized hierarchy`);
-  position = next;
-}
-assert.match(page, /className="masterInventoryBrand"/);
+assert.match(page, /productNameForItem/);
+assert.match(page, /currentInventoryIdentity/);
+assert.match(page, /InventoryItemEditor/);
 assert.match(page, /MASTER_KITCHEN_INVENTORY_TAXONOMY\.find/);
-assert.match(styles, /\.masterInventoryLedger \{[^}]*minmax\(110px, \.85fr\)/s, "Unit retains a wide responsive column");
-assert.match(styles, /\.masterInventoryLedgerNotes \{[^}]*grid-column: 8/s);
+assert.match(styles, /\.currentInventoryIdentity strong \{[^}]*overflow-wrap: anywhere/s, "full names remain readable");
+assert.match(styles, /\.currentInventoryRow \{[^}]*grid-template-columns/s);
 
 console.log("v84.18 standardized Kitchen Inventory taxonomy contracts passed.");

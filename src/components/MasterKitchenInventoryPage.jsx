@@ -3,6 +3,8 @@ import { MASTER_INVENTORY_CATEGORIES, MASTER_KITCHEN_INVENTORY_TAXONOMY, buildMa
 import { printManualInventoryWorksheet } from "../utils/manualInventoryWorksheets.js";
 import StoreInventoryImport, { InventoryProductThumbnail } from "./StoreInventoryImport.jsx";
 import { deleteInventoryProductThumbnail, loadInventoryProductThumbnail, saveInventoryProductThumbnail } from "../utils/inventoryProductImages.js";
+import { createInventoryThumbnail } from "../utils/storeProductImport.js";
+import InventoryItemEditor from "./InventoryItemEditor.jsx";
 import "./MasterKitchenInventoryPage.css";
 
 function normalizeState(value) {
@@ -73,6 +75,25 @@ function inventoryIdsForItem(item) {
   return [item.id, ...(item.legacyIds || [])];
 }
 
+function productNameForItem(item, record = {}) {
+  if (record.productName || item.productName) return record.productName || item.productName;
+  const variation = String(record.variation || item.variation || "").trim();
+  if (!variation || /^(standard|custom item)$/i.test(variation)) return item.family;
+  return variation.toLowerCase().includes(String(item.family).toLowerCase()) ? variation : `${variation} ${item.family}`;
+}
+
+function expirationState(record, now = new Date()) {
+  if (!record.expirationDate) return "";
+  const days = (new Date(`${record.expirationDate}T12:00:00`) - now) / 86400000;
+  if (days < 0) return "expired";
+  if (days <= 14) return "expiring";
+  return "";
+}
+
+function isLowStock(record = {}) {
+  return record.stockStatus === "low" || record.stockStatus === "out" || (record.lowStockLevel !== undefined && Number(record.have || 0) <= Number(record.lowStockLevel || 0));
+}
+
 export default function MasterKitchenInventoryPage({ recipes, inventory, setInventory, externalSearch = "", embedded = false }) {
   const safeInventory = normalizeState(inventory);
   const [search, setSearch] = useState("");
@@ -84,32 +105,43 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
   const [storeThumbnail, setStoreThumbnail] = useState(null);
   const [storePreviewUrl, setStorePreviewUrl] = useState("");
   const [editingStoreItemId, setEditingStoreItemId] = useState("");
+  const [editItem, setEditItem] = useState(null);
+  const [editDraft, setEditDraft] = useState(null);
+  const [editThumbnail, setEditThumbnail] = useState(null);
+  const [editImageUrl, setEditImageUrl] = useState("");
+  const [locationFilter, setLocationFilter] = useState("all");
+  const [zeroQuantityChoice, setZeroQuantityChoice] = useState(null);
   const catalog = useMemo(
     () => buildMasterKitchenInventoryCatalog(recipes, safeInventory.customItems),
     [recipes, safeInventory.customItems],
   );
   const recordForItem = (item) => inventoryIdsForItem(item).map((id) => safeInventory.records[id]).find(Boolean) || {};
+  const savedRowsForItem = (item) => {
+    const mainRowId = inventoryIdsForItem(item).find((id) => Object.prototype.hasOwnProperty.call(safeInventory.records, id));
+    const rows = mainRowId ? [{ rowId: mainRowId, additional: false, record: safeInventory.records[mainRowId] || {} }] : [];
+    Object.entries(safeInventory.records).forEach(([rowId, record]) => {
+      if (inventoryIdsForItem(item).includes(record?.sourceItemId)) rows.push({ rowId, additional: true, record });
+    });
+    return rows;
+  };
   const itemHasSavedRecord = (item) => inventoryIdsForItem(item).some((id) => Object.prototype.hasOwnProperty.call(safeInventory.records, id))
     || Object.values(safeInventory.records).some((record) => inventoryIdsForItem(item).includes(record?.sourceItemId));
   const recordMatchesFilter = (record) => {
     if (inventoryFilter === "all") return true;
-    if (["Refrigerator", "Freezer", "Pantry"].includes(inventoryFilter)) return record.storage === inventoryFilter;
-    if (inventoryFilter === "low") return record.stockStatus === "low" || record.stockStatus === "out" || (record.lowStockLevel !== undefined && Number(record.have || 0) <= Number(record.lowStockLevel || 0));
-    if (inventoryFilter === "expiring") {
-      if (!record.expirationDate) return false;
-      const days = (new Date(`${record.expirationDate}T12:00:00`) - new Date()) / 86400000;
-      return days >= 0 && days <= 14;
-    }
+    if (inventoryFilter === "low") return isLowStock(record);
+    if (inventoryFilter === "expiring") return ["expiring", "expired"].includes(expirationState(record));
     return true;
   };
   const normalizedSearch = (externalSearch.trim() || search.trim()).toLowerCase();
+  const visibleRowsForItem = (item, category) => savedRowsForItem(item).filter(({ record }) =>
+    recordMatchesFilter(record)
+    && (locationFilter === "all" || record.storage === locationFilter)
+    && (!normalizedSearch || `${productNameForItem(item, record)} ${record.brand || item.brand || ""} ${record.variety || item.variety || ""} ${category.title} ${item.family}`.toLowerCase().includes(normalizedSearch))
+  );
   const visibleCatalog = catalog
     .map((category) => ({
       ...category,
-      items: category.items.filter((item) =>
-        itemHasSavedRecord(item) && recordMatchesFilter(recordForItem(item))
-        && (!normalizedSearch || `${item.family} ${item.variation} ${item.brand || ""} ${item.unit}`.toLowerCase().includes(normalizedSearch))
-      ),
+      items: category.items.filter((item) => itemHasSavedRecord(item) && visibleRowsForItem(item, category).length),
     }))
     .filter((category) => category.items.length)
     .sort((a, b) => String(a.title).localeCompare(String(b.title), undefined, { sensitivity: "base", numeric: true }));
@@ -160,7 +192,7 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
         records: { ...safe.records, [id]: { have: customForm.quantity, buy: "", brand: customForm.brand.trim(), storage: customForm.storage, lowStockLevel: customForm.lowStockLevel, stockStatus: Number(customForm.quantity) <= Number(customForm.lowStockLevel || 0) ? "low" : "in-stock", updatedAt: new Date().toISOString() } },
       };
     });
-    setExpanded((current) => new Set([...current, customForm.categoryId]));
+    setExpanded((current) => { const next = new Set(current); next.delete(customForm.categoryId); return next; });
     setCustomForm({ categoryId: customForm.categoryId, family: customForm.family, variation: "", brand: "", unit: customForm.unit, quantity: "1", storage: customForm.storage, lowStockLevel: customForm.lowStockLevel });
   }
 
@@ -209,6 +241,83 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
+  async function openItemEditor(item, rowId = item.id, record = recordForItem(item)) {
+    const details = inventoryDetails(item, item.categoryId);
+    setEditItem({ item, rowId });
+    setEditDraft({
+      productName: productNameForItem(item, record), brand: record.brand ?? item.brand ?? "", variety: record.variety ?? item.variety ?? details.variety,
+      form: record.form ?? item.form ?? details.form, packageSize: record.packageSize ?? item.packageSize ?? "", packageCount: record.packageCount ?? item.packageCount ?? "",
+      quantity: numberValue(record.have), unit: record.unit || item.unit || "each", categoryId: item.categoryId, family: item.family,
+      storage: record.storage || details.storage, expirationDate: record.expirationDate || "", lowStockLevel: numberValue(record.lowStockLevel), notes: record.notes || "",
+      retailer: record.retailer || item.retailer || "", productUrl: record.productUrl || item.productUrl || "", price: numberValue(record.price), priceRecordedAt: record.priceRecordedAt || "",
+    });
+    const imageKey = record.imageKey || item.imageKey;
+    if (imageKey) {
+      const blob = await loadInventoryProductThumbnail(imageKey).catch(() => null);
+      if (blob) setEditImageUrl(URL.createObjectURL(blob));
+    }
+  }
+
+  function closeItemEditor() {
+    if (editImageUrl) URL.revokeObjectURL(editImageUrl);
+    setEditItem(null); setEditDraft(null); setEditThumbnail(null); setEditImageUrl("");
+  }
+
+  async function acceptEditImage(file) {
+    if (!file) return;
+    const thumbnail = await createInventoryThumbnail(file).catch(() => null);
+    if (!thumbnail) return;
+    if (editImageUrl) URL.revokeObjectURL(editImageUrl);
+    setEditThumbnail(thumbnail);
+    setEditImageUrl(URL.createObjectURL(file));
+  }
+
+  async function saveEditedItem() {
+    if (!editItem || !editDraft?.productName.trim()) return;
+    const { item, rowId } = editItem;
+    let imageKey = recordForItem(item).imageKey || item.imageKey || "";
+    if (editThumbnail) {
+      imageKey = item.id;
+      await saveInventoryProductThumbnail(imageKey, editThumbnail).catch(() => { imageKey = ""; });
+    }
+    setInventory((current) => {
+      const safe = normalizeState(current);
+      const customItems = safe.customItems.map((entry) => entry.id === item.id ? { ...entry, productName: editDraft.productName.trim(), variation: editDraft.productName.trim(), brand: editDraft.brand, variety: editDraft.variety, form: editDraft.form, packageSize: editDraft.packageSize, packageCount: editDraft.packageCount, unit: editDraft.unit, categoryId: editDraft.categoryId, family: editDraft.family, retailer: editDraft.retailer, productUrl: editDraft.productUrl, imageKey } : entry);
+      const stockStatus = Number(editDraft.quantity) <= Number(editDraft.lowStockLevel || 0) ? "low" : "in-stock";
+      return { ...safe, customItems, records: { ...safe.records, [rowId]: { ...(safe.records[rowId] || {}), productName: editDraft.productName.trim(), brand: editDraft.brand, variety: editDraft.variety, form: editDraft.form, packageSize: editDraft.packageSize, packageCount: editDraft.packageCount, have: editDraft.quantity, unit: editDraft.unit, categoryId: editDraft.categoryId, family: editDraft.family, storage: editDraft.storage, expirationDate: editDraft.expirationDate, lowStockLevel: editDraft.lowStockLevel, notes: editDraft.notes, retailer: editDraft.retailer, productUrl: editDraft.productUrl, price: editDraft.price, priceRecordedAt: editDraft.priceRecordedAt, stockStatus, imageKey, updatedAt: new Date().toISOString() } } };
+    });
+    closeItemEditor();
+  }
+
+  function deleteEditedItem() {
+    if (!editItem || !window.confirm(`Delete ${editDraft.productName} from Kitchen Inventory?`)) return;
+    const { item, rowId } = editItem;
+    setInventory((current) => {
+      const safe = normalizeState(current); const records = { ...safe.records }; delete records[rowId];
+      return { ...safe, records, customItems: item.custom ? safe.customItems.filter((entry) => entry.id !== item.id) : safe.customItems };
+    });
+    if (item.imageKey) deleteInventoryProductThumbnail(item.imageKey).catch(() => {});
+    closeItemEditor();
+  }
+
+  function setQuantity(item, rowId, record, nextQuantity) {
+    const next = Math.max(0, nextQuantity);
+    if (next === 0 && Number(record.have || 0) > 0) return setZeroQuantityChoice({ item, rowId, record });
+    updateRecord(rowId, { have: String(next), stockStatus: next <= Number(record.lowStockLevel || 0) ? "low" : "in-stock", ...(record.sourceItemId ? { sourceItemId: record.sourceItemId } : {}) });
+  }
+
+  function removeZeroItem() {
+    const { rowId } = zeroQuantityChoice;
+    setInventory((current) => { const safe = normalizeState(current); const records = { ...safe.records }; delete records[rowId]; return { ...safe, records }; });
+    setZeroQuantityChoice(null);
+  }
+
+  function keepZeroAndShop() {
+    const { rowId, record } = zeroQuantityChoice;
+    updateRecord(rowId, { have: "0", buy: Number(record.buy || 0) > 0 ? record.buy : "1", stockStatus: "out", ...(record.sourceItemId ? { sourceItemId: record.sourceItemId } : {}) });
+    setZeroQuantityChoice(null);
+  }
+
   async function saveStoreProduct() {
     if (!storeDraft?.productName.trim() || !storeDraft.family) return;
     const id = editingStoreItemId || `custom-store-${Date.now()}`;
@@ -238,7 +347,7 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
         price: storeDraft.price, priceRecordedAt: storeDraft.priceRecordedAt, imageKey, updatedAt: new Date().toISOString(),
       } } };
     });
-    setExpanded((current) => new Set([...current, storeDraft.categoryId]));
+    setExpanded((current) => { const next = new Set(current); next.delete(storeDraft.categoryId); return next; });
     resetStoreImport();
   }
 
@@ -332,11 +441,6 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
 
       <StoreInventoryImport mode={entryMode} setMode={setEntryMode} draft={storeDraft} setDraft={setStoreDraft} previewUrl={storePreviewUrl} onImage={acceptStoreImage} onConfirm={saveStoreProduct} onCancel={resetStoreImport} isEditing={Boolean(editingStoreItemId)} />
 
-      <section className="masterInventoryToolbar" aria-label="Current inventory tools">
-        {!embedded && <label className="masterInventorySearch"><span>Find an item</span><input type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search corn, chicken, gravy…" /></label>}
-        <button type="button" className="secondary" onClick={printCountWorksheet}>Print</button>
-      </section>
-
       {entryMode === "manual" && (
         <form className="masterInventoryCustomForm" onSubmit={addCustomItem}>
           <label><span>Category</span><select value={customForm.categoryId} onChange={(event) => {
@@ -357,87 +461,54 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
 
       <p className="masterInventoryBackupNote"><strong>Saved automatically on this device.</strong> Kitchen Inventory is included in the full Recipe Box Backup &amp; Restore file for transfer between your iPad and laptop.</p>
 
-      <section className="currentInventoryHeading"><h2>MY CURRENT INVENTORY</h2><p>Only products you have added are shown. Adjust quantities here whenever something is used or restocked.</p></section>
-      <div className="currentInventoryFilters" aria-label="Filter current inventory">{[
-        ["all", "All Items"], ["low", "Low Stock"], ["expiring", "Expiring Soon"], ["Refrigerator", "Refrigerator"], ["Freezer", "Freezer"], ["Pantry", "Pantry"],
-      ].map(([value, label]) => <button type="button" key={value} className={inventoryFilter === value ? "is-active" : ""} aria-pressed={inventoryFilter === value} onClick={() => setInventoryFilter(value)}>{label}</button>)}</div>
+      <section className="currentInventoryHeading"><h2>MY CURRENT INVENTORY</h2><p>See what you have, how much remains, where it is stored, and which items need attention.</p></section>
+      <section className="currentInventoryFilterRow" aria-label="Filter current inventory">
+        <label className="currentInventorySearch"><span>Search My Inventory</span><input type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search products, brands or categories" /></label>
+        <div className="currentInventoryFilters">{[["all", "All Items"], ["low", "Low Stock"], ["expiring", "Expiring Soon"]].map(([value, label]) => <button type="button" key={value} className={inventoryFilter === value ? "is-active" : ""} aria-pressed={inventoryFilter === value} onClick={() => setInventoryFilter(value)}>{label}</button>)}</div>
+        <label className="currentInventoryLocation"><span>Location</span><select value={locationFilter} onChange={(event) => setLocationFilter(event.target.value)}><option value="all">All Locations</option><option>Refrigerator</option><option>Freezer</option><option>Pantry</option></select></label>
+        <button type="button" className="secondary currentInventoryPrint" onClick={printCountWorksheet}>Print</button>
+      </section>
 
       <div className="masterInventoryAccordions">
         {visibleCatalog.map((category) => {
-          const isOpen = normalizedSearch || expanded.has(category.id);
-          const categoryItemIds = new Set(category.items.flatMap(inventoryIdsForItem));
-          const stocked = category.items.filter((item) => Number(recordForItem(item).have) > 0).length
-            + Object.values(safeInventory.records).filter((record) => categoryItemIds.has(record?.sourceItemId) && Number(record.have) > 0).length;
+          const isOpen = normalizedSearch || !expanded.has(category.id);
+          const categoryItems = catalog.find((entry) => entry.id === category.id)?.items.filter(itemHasSavedRecord) || [];
+          const lowCount = categoryItems.filter((item) => isLowStock(recordForItem(item))).length;
+          const expiringCount = categoryItems.filter((item) => ["expiring", "expired"].includes(expirationState(recordForItem(item)))).length;
           return (
             <section className="masterInventoryCategory" key={category.id}>
               <button type="button" className="masterInventoryCategoryButton" onClick={() => toggleCategory(category.id)} aria-expanded={Boolean(isOpen)}>
-                <span>{isOpen ? "▾" : "▸"}</span><strong>{category.title}</strong><em>{stocked} stocked / {category.items.length} forms</em>
+                <span>{isOpen ? "▾" : "▸"}</span><strong>{category.title}</strong><em>{categoryItems.length} {categoryItems.length === 1 ? "item" : "items"}{lowCount ? ` · ${lowCount} low` : ""}{expiringCount ? ` · ${expiringCount} expiring soon` : ""}</em>
               </button>
               {isOpen && (
-                <div className="masterInventoryLedger" role="table" aria-label={`${category.title} inventory`}>
+                <div className="currentInventoryList" aria-label={`${category.title} inventory`}>
                   {groupItemsByFamily(category.items).map((familyGroup) => {
-                    const familyNoteId = `family-note-${category.id}-${familyGroup.family.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
-                    const familyNote = safeInventory.records[familyNoteId]?.notes || "";
                     return (
-                      <section className="masterInventoryLedgerFamily" key={familyGroup.family} role="rowgroup">
-                        <div className="masterInventoryFamilyHeader" role="row">
-                          <h3 role="columnheader">{familyGroup.family}</h3>
-                          <span className="masterInventoryFamilyColumnLabel" role="columnheader">Cut / Variety</span>
-                          <span className="masterInventoryFamilyColumnLabel" role="columnheader">Preparation / Form</span>
-                          <span className="masterInventoryFamilyColumnLabel" role="columnheader">Brand</span>
-                          <span className="masterInventoryFamilyColumnLabel" role="columnheader">Storage</span>
-                          <span className="masterInventoryFamilyColumnLabel" role="columnheader">Unit</span>
-                          <span className="masterInventoryFamilyColumnLabel masterInventoryHaveLabel" role="columnheader">Have</span>
-                          <span className="masterInventoryFamilyColumnLabel masterInventoryBuyLabel" role="columnheader">Buy</span>
-                          <span className="masterInventoryFamilyColumnLabel" role="columnheader">Notes</span>
-                          <span className="masterInventoryFamilyColumnLabel" aria-hidden="true" />
-                        </div>
-                        <div className="masterInventoryLedgerItems">
+                      <section className="currentInventorySubcategory" key={familyGroup.family}>
+                        <h3>{familyGroup.family}</h3>
+                        <div className="currentInventoryItems">
                           {familyGroup.items.flatMap((item) => {
-                            const additionalRows = Object.entries(safeInventory.records)
-                              .filter(([, record]) => inventoryIdsForItem(item).includes(record?.sourceItemId))
-                              .map(([rowId]) => ({ rowId, additional: true }));
-                            return [{ rowId: item.id, additional: false }, ...additionalRows].map(({ rowId, additional }) => {
-                            const record = additional ? (safeInventory.records[rowId] || {}) : recordForItem(item);
-                            const details = inventoryDetails(item, category.id);
+                            return visibleRowsForItem(item, category).map(({ rowId, additional, record }) => {
+                            const productName = productNameForItem(item, record);
+                            const description = [record.brand || item.brand || "Any Brand", record.variety || item.variety, record.packageSize || item.packageSize, (record.packageCount || item.packageCount) ? `${record.packageCount || item.packageCount}-count` : ""].filter(Boolean).join(" · ");
+                            const quantity = Number(record.have || 0);
+                            const unit = record.unit || item.unit || "items";
+                            const expiry = expirationState(record);
+                            const low = isLowStock(record);
+                            const onShoppingList = Number(record.buy || 0) > 0 || ["low", "out"].includes(record.stockStatus);
                             return (
-                              <div className="masterInventoryLedgerRow" key={rowId} role="row">
-                                <span className={`masterInventoryVariety${item.importedFromStore ? " is-store-product" : ""}`} role="cell">
-                                  {item.importedFromStore && <InventoryProductThumbnail imageKey={item.imageKey || record.imageKey} alt="" />}
-                                  <span>{details.variety}</span>
-                                  {item.importedFromStore && <small>{item.retailer}{item.productUrl && <> · <a href={item.productUrl} target="_blank" rel="noopener noreferrer">View Product</a></>}</small>}
-                                </span>
-                                <span className="masterInventoryForm" role="cell">{details.form}</span>
-                                <input className="masterInventoryBrand" type="text" value={record.brand ?? item.brand ?? ""} onChange={(event) => updateRecord(rowId, { brand: event.target.value, ...(additional ? { sourceItemId: item.id } : {}) })} placeholder="Any brand" aria-label={`${item.family} ${item.variation} brand`} />
-                                <select className="masterInventoryStorageSelect" value={record.storage || details.storage} onChange={(event) => updateRecord(rowId, { storage: event.target.value, ...(additional ? { sourceItemId: item.id } : {}) })} aria-label={`${item.family} ${item.variation} storage location`}>
-                                  {STORAGE_OPTIONS.map((option) => <option key={option} value={option}>{option}</option>)}
-                                </select>
-                                <span className="masterInventoryPackage" role="cell">{item.unit}</span>
-                                <label className="masterInventoryLedgerQuantity"><span>Have</span><input type="number" inputMode="decimal" min="0" step="any" placeholder="0" value={numberValue(record.have)} onChange={(event) => updateRecord(rowId, { have: event.target.value, ...(additional ? { sourceItemId: item.id } : {}) })} aria-label={`${item.family} ${item.variation} quantity on hand`} /></label>
-                                <label className="masterInventoryLedgerQuantity"><span>Buy</span><input type="number" inputMode="decimal" min="0" step="any" placeholder="0" value={numberValue(record.buy)} onChange={(event) => updateRecord(rowId, { buy: event.target.value, ...(additional ? { sourceItemId: item.id } : {}) })} aria-label={`${item.family} ${item.variation} quantity to buy`} /></label>
-                                <span className="masterInventoryNotesSpacer" aria-hidden="true" />
-                                <span className="masterInventoryRowActions">
-                                  <select
-                                    className={`masterInventoryStatusSelect is-${record.stockStatus || (Number(record.have || 0) > 0 ? "in-stock" : "not-set")}`}
-                                    value={record.stockStatus || (Number(record.have || 0) > 0 ? "in-stock" : "not-set")}
-                                    onChange={(event) => updateStockStatus(rowId, record, event.target.value, additional, item.id)}
-                                    aria-label={`${item.family} ${item.variation} stock status`}
-                                  >
-                                    <option value="not-set">Not Set</option>
-                                    <option value="in-stock">In Stock</option>
-                                    <option value="low">Low</option>
-                                    <option value="out">Out</option>
-                                  </select>
-                                  {additional
-                                    ? <button type="button" className="masterInventoryRemove masterInventoryRemoveLocation" onClick={() => removeStorageLocation(rowId)} aria-label={`Remove additional ${item.family} storage location`}>×</button>
-                                    : <><button type="button" className="masterInventoryAddLocation" onClick={() => addStorageLocation(item, category.id)}>+ Storage</button>{item.importedFromStore && <button type="button" className="masterInventoryEditProduct" onClick={() => editStoreItem(item)}>Edit</button>}{item.custom && <button type="button" className="masterInventoryRemove" onClick={() => removeCustomItem(item)} aria-label={`Remove ${item.family} ${item.variation}`}>×</button>}</>}
-                                </span>
-                              </div>
+                              <article className="currentInventoryRow" key={rowId}>
+                                <InventoryProductThumbnail imageKey={item.imageKey || record.imageKey} alt="" />
+                                <button type="button" className="currentInventoryIdentity" onClick={() => openItemEditor(item, rowId, record)}><strong>{productName}</strong>{description && <small>{description}</small>}</button>
+                                <div className="currentInventoryQuantity" aria-label={`${productName} quantity`}><button type="button" onClick={() => setQuantity(item, rowId, record, quantity - 1)} aria-label={`Decrease ${productName} quantity`}>−</button><strong>{quantity} <span>{unit}</span></strong><button type="button" onClick={() => setQuantity(item, rowId, record, quantity + 1)} aria-label={`Increase ${productName} quantity`}>+</button></div>
+                                <div className="currentInventoryLocationText">{record.storage || inventoryDetails(item, category.id).storage}</div>
+                                <div className="currentInventoryBadges">{low && <span className="is-low">LOW STOCK</span>}{expiry === "expiring" && <span className="is-expiring">EXPIRING SOON</span>}{expiry === "expired" && <span className="is-expired">EXPIRED</span>}{onShoppingList && <span className="is-shopping">ON SHOPPING LIST</span>}</div>
+                                <div className="currentInventoryActions"><button type="button" className={onShoppingList ? "is-on-list" : ""} onClick={() => updateRecord(rowId, { buy: onShoppingList ? "" : "1", ...(additional ? { sourceItemId: item.id } : {}) })}>{onShoppingList ? "On Shopping List" : "Add to List"}</button><button type="button" onClick={() => openItemEditor(item, rowId, record)}>Edit</button></div>
+                              </article>
                             );
                             });
                           })}
                         </div>
-                        <label className="masterInventoryLedgerNotes"><span>Notes</span><input type="text" value={familyNote} onChange={(event) => updateRecord(familyNoteId, { notes: event.target.value })} placeholder="Your Notes..." /></label>
                       </section>
                     );
                   })}
@@ -448,7 +519,9 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
         })}
       </div>
 
-      {visibleCatalog.length === 0 && <p className="masterInventoryEmpty">{allItems.length ? "No current inventory items match this search or filter." : "Your Kitchen Inventory is empty. Add your first item above."}</p>}
+      {visibleCatalog.length === 0 && <div className="masterInventoryEmpty"><strong>{allItems.length ? "No inventory items match this view." : "Your Kitchen Inventory is empty."}</strong>{!allItems.length && <><p>Add products manually, choose them from the product list, or import them from a store.</p><button type="button" className="primary" onClick={() => { setEntryMode("manual"); window.scrollTo({ top: 0, behavior: "smooth" }); }}>Add an Item</button></>}</div>}
+      <InventoryItemEditor draft={editDraft} setDraft={setEditDraft} imageUrl={editImageUrl} onImage={acceptEditImage} onSave={saveEditedItem} onDelete={deleteEditedItem} onClose={closeItemEditor} />
+      {zeroQuantityChoice && <div className="inventoryZeroBackdrop" role="presentation"><section className="inventoryZeroDialog" role="dialog" aria-modal="true" aria-labelledby="zeroQuantityTitle"><h2 id="zeroQuantityTitle">Quantity Reached Zero</h2><p>What would you like to do with {productNameForItem(zeroQuantityChoice.item, zeroQuantityChoice.record)}?</p><button type="button" className="danger" onClick={removeZeroItem}>Remove from Current Inventory</button><button type="button" className="primary" onClick={keepZeroAndShop}>Keep at Zero and Add to Shopping List</button><button type="button" className="secondary" onClick={() => setZeroQuantityChoice(null)}>Cancel</button></section></div>}
       <p className="masterInventoryAutomationNote"><strong>Inventory-counting rule:</strong> the system should deduct an item automatically only when a recipe identifies the exact product form and compatible unit. Alternative ingredients remain unchanged until the form actually used is selected.</p>
     </main>
   );
