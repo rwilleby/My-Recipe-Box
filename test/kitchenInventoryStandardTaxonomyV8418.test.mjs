@@ -13,9 +13,9 @@ const catalog = buildMasterKitchenInventoryCatalog(recipes, []);
 
 assert.deepEqual(catalog.map((category) => category.title), [
   "Meat & Poultry", "Seafood", "Vegetables", "Fruits", "Dairy & Eggs", "Bread & Bakery",
-  "Rice, Pasta & Grains", "Canned & Jarred Foods", "Sauces, Condiments & Baking", "Frozen Foods", "Prepared & Packaged Foods",
+  "Rice, Pasta & Grains", "Beverages", "Canned & Jarred Foods", "Sauces, Condiments & Baking", "Frozen Foods", "Prepared & Packaged Foods",
 ]);
-assert.equal(MASTER_KITCHEN_INVENTORY_TAXONOMY.reduce((sum, category) => sum + category.products.length, 0), 248);
+assert.equal(MASTER_KITCHEN_INVENTORY_TAXONOMY.reduce((sum, category) => sum + category.products.length, 0), 253);
 assert.deepEqual(MASTER_KITCHEN_INVENTORY_TAXONOMY.find((category) => category.id === "meat-poultry").products, [
   "Bacon", "Beef", "Ground Beef", "Chicken", "Ground Chicken", "Corned Beef", "Duck", "Ham", "Lamb", "Ground Lamb",
   "Pork", "Ground Pork", "Sausages", "Smoking Meats", "Turkey", "Ground Turkey", "Deli Meats", "Hot Dogs & Bratwurst",

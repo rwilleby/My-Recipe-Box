@@ -7,6 +7,36 @@
 .masterInventorySummary strong { color: #172033; font-family: Georgia, serif; font-size: 23px; }
 .masterInventorySummary span { color: #667085; font-size: 11px; font-weight: 800; text-transform: uppercase; }
 .masterInventoryToolbar { display: flex; align-items: end; flex-wrap: wrap; gap: 9px; margin: 14px 0 10px; padding: 10px 12px; border: 1px solid #d4ddd6; border-radius: 18px; background: #fff; }
+.storeInventoryPanel { margin: 14px 0 10px; padding: 14px; border: 1px solid #d4ddd6; border-radius: 18px; background: #fff; }
+.storeInventoryPanel h2 { margin: 0 0 10px; color: #172033; font-family: Georgia, serif; font-size: 20px; text-align: center; }
+.storeInventorySegments { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); overflow: hidden; max-width: 720px; margin: 0 auto; border: 1px solid #cfc7bb; border-radius: 10px; }
+.storeInventorySegments button { min-height: 44px; border: 0; border-right: 1px solid #cfc7bb; background: #f3f0eb; padding: 6px 12px; color: #37332d; font: 750 13px Inter, Arial, sans-serif; }
+.storeInventorySegments button:last-child { border-right: 0; }
+.storeInventorySegments button[aria-selected="true"] { background: #77716b; color: #fff; }
+.storeInventorySegments button small { display: block; margin-top: 2px; font-size: 9px; letter-spacing: .04em; text-transform: uppercase; }
+.storeInventoryModeNote, .storeInventoryPrivacy { margin: 9px auto 0; color: #62594d; font-size: 12px; text-align: center; }
+.storeInventoryImportGrid { display: grid; grid-template-columns: minmax(0, 1fr) 150px; gap: 12px; margin-top: 12px; }
+.storeInventoryDropTarget { display: grid; place-items: center; gap: 8px; min-height: 142px; padding: 14px; border: 2px dashed #bbb1a2; border-radius: 12px; background: #fbfaf7; text-align: center; }
+.storeInventoryDropTarget > strong { color: #29261f; font-family: Georgia, serif; font-size: 17px; }
+.storeInventoryDropTarget > span { color: #667085; font-size: 12px; }
+.storeInventoryLinkRow { display: flex; gap: 8px; width: min(720px, 100%); }
+.storeInventoryLinkRow input { min-width: 0; flex: 1; height: 40px; border: 1px solid #cfc7bb; border-radius: 9px; padding: 0 11px; font-size: 14px; }
+.storeInventoryImagePreview { display: grid; place-items: center; overflow: hidden; min-height: 142px; border: 1px solid #d6cdbf; border-radius: 12px; background: #f7f3ec; }
+.storeInventoryImagePreview img { display: block; width: 100%; height: 142px; object-fit: contain; }
+.storeInventoryFeedback { margin: 10px 0 0; padding: 9px 12px; border-radius: 8px; background: #eef5ef; color: #28583a; font-size: 12px; }
+.storeInventoryFeedback.is-error { background: #fff3f1; color: #922e2a; }
+.storeInventoryConfirmation { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 12px; padding: 14px; border: 1px solid #d6cdbf; border-radius: 12px; background: #fbfaf7; }
+.storeInventoryConfirmation h3 { grid-column: 1 / -1; margin: 0; color: #172033; font-family: Georgia, serif; font-size: 18px; }
+.storeInventoryConfirmation label { display: grid; gap: 4px; color: #5d554a; font-size: 10px; font-weight: 800; text-transform: uppercase; }
+.storeInventoryConfirmation label.is-wide { grid-column: span 2; }
+.storeInventoryConfirmation input, .storeInventoryConfirmation select { min-width: 0; height: 40px; border: 1px solid #cfc7bb; border-radius: 9px; background: #fff; padding: 0 11px; color: #29261f; font-size: 14px; }
+.storeInventoryConfirmationActions { display: flex; align-items: end; gap: 8px; }
+.masterInventoryVariety.is-store-product { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 1px 5px; align-items: center; white-space: normal; }
+.masterInventoryVariety.is-store-product > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.masterInventoryVariety.is-store-product small { grid-column: 2; }
+.masterInventoryVariety.is-store-product a { color: #3f6548; font-weight: 800; }
+.storeInventorySavedThumbnail { grid-row: 1 / 3; width: 28px; height: 28px; border-radius: 5px; object-fit: contain; background: #f5f2ed; }
+.masterInventoryEditProduct { min-height: 22px; border: 0; background: transparent; padding: 0 2px; color: #5d554a; font: 800 8px Inter, Arial, sans-serif; text-transform: uppercase; }
 .masterInventorySearch { display: grid; gap: 4px; min-width: min(310px, 100%); margin-right: auto; color: #5d554a; font-size: 11px; font-weight: 800; text-transform: uppercase; }
 .masterInventorySearch input, .masterInventoryCustomForm input, .masterInventoryCustomForm select { height: 40px; border: 1px solid #cfc7bb; border-radius: 9px; background: #fff; padding: 0 11px; color: #29261f; font-size: 14px; }
 .masterInventoryCustomForm { display: grid; grid-template-columns: 1fr 1fr 1.35fr 1fr .7fr auto; gap: 10px; align-items: end; margin: 10px 0; padding: 14px; border: 1px solid #d6cdbf; border-radius: 12px; background: #fbfaf7; }
@@ -54,6 +84,7 @@
 @media (max-width: 1020px) {
   .masterInventorySummary { min-width: 0; }
   .masterInventoryCustomForm { grid-template-columns: 1fr 1fr; }
+  .storeInventoryConfirmation { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .masterInventoryLedger { grid-template-columns: minmax(145px, 1.25fr) 100px 95px 120px 90px 44px 44px 90px 122px; column-gap: 5px; }
 }
 
@@ -63,6 +94,12 @@
   .masterInventoryToolbar > button { flex: 1 1 44%; }
   .masterInventorySearch { width: 100%; }
   .masterInventoryCustomForm { grid-template-columns: 1fr; }
+  .storeInventoryPanel { padding: 10px; }
+  .storeInventorySegments button { padding: 6px 4px; font-size: 11px; }
+  .storeInventoryImportGrid, .storeInventoryConfirmation { grid-template-columns: 1fr; }
+  .storeInventoryConfirmation label.is-wide { grid-column: auto; }
+  .storeInventoryLinkRow { flex-direction: column; }
+  .storeInventoryImagePreview { min-height: 120px; }
   .masterInventoryCategoryButton { grid-template-columns: 20px minmax(0, 1fr); }
   .masterInventoryCategoryButton em { grid-column: 2; }
   .masterInventoryLedger { grid-template-columns: minmax(0, 1fr); column-gap: 0; }

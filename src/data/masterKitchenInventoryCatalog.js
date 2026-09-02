@@ -437,6 +437,7 @@ export function buildMasterKitchenInventoryCatalog(recipes = [], customItems = [
       ? { categoryId: item.categoryId, productType: item.family }
       : classifyInventoryProduct(`${item.variation || ""} ${item.family}`, CATEGORY_AISLE_HINTS[item.categoryId]);
     addOrMerge({
+      ...item,
       id: item.id,
       categoryId: classification.categoryId,
       family: classification.productType,

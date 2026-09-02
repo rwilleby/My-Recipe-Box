@@ -1,6 +1,8 @@
 import { useMemo, useState } from "react";
 import { MASTER_INVENTORY_CATEGORIES, MASTER_KITCHEN_INVENTORY_TAXONOMY, buildMasterKitchenInventoryCatalog } from "../data/masterKitchenInventoryCatalog.js";
 import { printManualInventoryWorksheet } from "../utils/manualInventoryWorksheets.js";
+import StoreInventoryImport, { InventoryProductThumbnail } from "./StoreInventoryImport.jsx";
+import { deleteInventoryProductThumbnail, loadInventoryProductThumbnail, saveInventoryProductThumbnail } from "../utils/inventoryProductImages.js";
 import "./MasterKitchenInventoryPage.css";
 
 function normalizeState(value) {
@@ -77,6 +79,11 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
   const [expanded, setExpanded] = useState(() => new Set());
   const [showCustomForm, setShowCustomForm] = useState(false);
   const [customForm, setCustomForm] = useState({ categoryId: "vegetables", family: "Artichokes", variation: "", brand: "", unit: "each" });
+  const [entryMode, setEntryMode] = useState("manual");
+  const [storeDraft, setStoreDraft] = useState(null);
+  const [storeThumbnail, setStoreThumbnail] = useState(null);
+  const [storePreviewUrl, setStorePreviewUrl] = useState("");
+  const [editingStoreItemId, setEditingStoreItemId] = useState("");
   const catalog = useMemo(
     () => buildMasterKitchenInventoryCatalog(recipes, safeInventory.customItems),
     [recipes, safeInventory.customItems],
@@ -152,6 +159,73 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
       Object.entries(records).forEach(([id, record]) => { if (record?.sourceItemId === item.id) delete records[id]; });
       return { ...safe, records, customItems: safe.customItems.filter((entry) => entry.id !== item.id) };
     });
+    if (item.imageKey) deleteInventoryProductThumbnail(item.imageKey).catch(() => {});
+  }
+
+  function resetStoreImport() {
+    if (storePreviewUrl) URL.revokeObjectURL(storePreviewUrl);
+    setStoreDraft(null);
+    setStoreThumbnail(null);
+    setStorePreviewUrl("");
+    setEditingStoreItemId("");
+  }
+
+  function acceptStoreImage(file, thumbnail) {
+    if (storePreviewUrl) URL.revokeObjectURL(storePreviewUrl);
+    setStorePreviewUrl(URL.createObjectURL(file));
+    setStoreThumbnail(thumbnail);
+  }
+
+  async function editStoreItem(item) {
+    const record = recordForItem(item);
+    setEntryMode("store");
+    setEditingStoreItemId(item.id);
+    setStoreDraft({
+      productName: item.productName || item.variation || "", brand: record.brand ?? item.brand ?? "", variety: item.variety || "",
+      packageSize: item.packageSize || "", packageCount: item.packageCount || "", quantityOwned: numberValue(record.have) || "1",
+      unit: item.unit || "packages", categoryId: item.categoryId, family: item.family, storage: record.storage || "Pantry",
+      expirationDate: record.expirationDate || "", lowStockLevel: numberValue(record.lowStockLevel) || "1", retailer: item.retailer || record.retailer || "",
+      cleanUrl: item.productUrl || record.productUrl || "", price: numberValue(record.price), priceRecordedAt: record.priceRecordedAt || "",
+      retailerItemId: item.retailerItemId || record.retailerItemId || "",
+    });
+    if (item.imageKey) {
+      const blob = await loadInventoryProductThumbnail(item.imageKey).catch(() => null);
+      if (blob) setStorePreviewUrl(URL.createObjectURL(blob));
+    }
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  async function saveStoreProduct() {
+    if (!storeDraft?.productName.trim() || !storeDraft.family) return;
+    const id = editingStoreItemId || `custom-store-${Date.now()}`;
+    let imageKey = safeInventory.customItems.find((item) => item.id === id)?.imageKey || "";
+    if (storeThumbnail) {
+      try { await saveInventoryProductThumbnail(id, storeThumbnail); imageKey = id; } catch { imageKey = ""; }
+    }
+    const item = {
+      id, categoryId: storeDraft.categoryId, family: storeDraft.family, variation: storeDraft.productName.trim(),
+      productName: storeDraft.productName.trim(), brand: storeDraft.brand.trim(), variety: storeDraft.variety.trim(),
+      packageSize: storeDraft.packageSize.trim(), packageCount: storeDraft.packageCount, unit: storeDraft.unit.trim() || "packages",
+      retailer: storeDraft.retailer.trim(), productUrl: storeDraft.cleanUrl.trim(), retailerItemId: storeDraft.retailerItemId.trim(),
+      imageKey, importedFromStore: true,
+    };
+    const quantity = storeDraft.quantityOwned;
+    const lowLevel = storeDraft.lowStockLevel;
+    const stockStatus = Number(quantity) <= 0 ? "out" : Number(quantity) <= Number(lowLevel || 0) ? "low" : "in-stock";
+    setInventory((current) => {
+      const safe = normalizeState(current);
+      const customItems = editingStoreItemId
+        ? safe.customItems.map((entry) => entry.id === id ? item : entry)
+        : [...safe.customItems, item];
+      return { ...safe, customItems, records: { ...safe.records, [id]: {
+        ...(safe.records[id] || {}), have: quantity, buy: safe.records[id]?.buy || "", brand: storeDraft.brand.trim(),
+        storage: storeDraft.storage, stockStatus, lowStockLevel: lowLevel, expirationDate: storeDraft.expirationDate,
+        retailer: storeDraft.retailer.trim(), productUrl: storeDraft.cleanUrl.trim(), retailerItemId: storeDraft.retailerItemId.trim(),
+        price: storeDraft.price, priceRecordedAt: storeDraft.priceRecordedAt, imageKey, updatedAt: new Date().toISOString(),
+      } } };
+    });
+    setExpanded((current) => new Set([...current, storeDraft.categoryId]));
+    resetStoreImport();
   }
 
   function addStorageLocation(item, categoryId) {
@@ -242,6 +316,8 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
         <div><span>Items To Buy</span><strong>{toBuy}</strong></div>
       </section>
 
+      <StoreInventoryImport mode={entryMode} setMode={setEntryMode} draft={storeDraft} setDraft={setStoreDraft} previewUrl={storePreviewUrl} onImage={acceptStoreImage} onConfirm={saveStoreProduct} onCancel={resetStoreImport} isEditing={Boolean(editingStoreItemId)} />
+
       <section className="masterInventoryToolbar">
         {!embedded && <label className="masterInventorySearch"><span>Find an item</span><input type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search corn, chicken, gravy…" /></label>}
         <button type="button" className="primary" onClick={printCountWorksheet}>Manual Inventory</button>
@@ -309,7 +385,11 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
                             const details = inventoryDetails(item, category.id);
                             return (
                               <div className="masterInventoryLedgerRow" key={rowId} role="row">
-                                <span className="masterInventoryVariety" role="cell">{details.variety}</span>
+                                <span className={`masterInventoryVariety${item.importedFromStore ? " is-store-product" : ""}`} role="cell">
+                                  {item.importedFromStore && <InventoryProductThumbnail imageKey={item.imageKey || record.imageKey} alt="" />}
+                                  <span>{details.variety}</span>
+                                  {item.importedFromStore && <small>{item.retailer}{item.productUrl && <> · <a href={item.productUrl} target="_blank" rel="noopener noreferrer">View Product</a></>}</small>}
+                                </span>
                                 <span className="masterInventoryForm" role="cell">{details.form}</span>
                                 <input className="masterInventoryBrand" type="text" value={record.brand ?? item.brand ?? ""} onChange={(event) => updateRecord(rowId, { brand: event.target.value, ...(additional ? { sourceItemId: item.id } : {}) })} placeholder="Any brand" aria-label={`${item.family} ${item.variation} brand`} />
                                 <select className="masterInventoryStorageSelect" value={record.storage || details.storage} onChange={(event) => updateRecord(rowId, { storage: event.target.value, ...(additional ? { sourceItemId: item.id } : {}) })} aria-label={`${item.family} ${item.variation} storage location`}>
@@ -333,7 +413,7 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
                                   </select>
                                   {additional
                                     ? <button type="button" className="masterInventoryRemove masterInventoryRemoveLocation" onClick={() => removeStorageLocation(rowId)} aria-label={`Remove additional ${item.family} storage location`}>×</button>
-                                    : <><button type="button" className="masterInventoryAddLocation" onClick={() => addStorageLocation(item, category.id)}>+ Storage</button>{item.custom && <button type="button" className="masterInventoryRemove" onClick={() => removeCustomItem(item)} aria-label={`Remove ${item.family} ${item.variation}`}>×</button>}</>}
+                                    : <><button type="button" className="masterInventoryAddLocation" onClick={() => addStorageLocation(item, category.id)}>+ Storage</button>{item.importedFromStore && <button type="button" className="masterInventoryEditProduct" onClick={() => editStoreItem(item)}>Edit</button>}{item.custom && <button type="button" className="masterInventoryRemove" onClick={() => removeCustomItem(item)} aria-label={`Remove ${item.family} ${item.variation}`}>×</button>}</>}
                                 </span>
                               </div>
                             );

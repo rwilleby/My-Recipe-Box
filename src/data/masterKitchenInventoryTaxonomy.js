@@ -20,6 +20,9 @@ export const MASTER_KITCHEN_INVENTORY_TAXONOMY = Object.freeze([
   { id: "rice-pasta-grains", title: "Rice, Pasta & Grains", products: [
     "Rice", "Pasta", "Noodles", "Macaroni & Cheese", "Couscous", "Quinoa", "Barley", "Bulgur", "Farro", "Oats", "Grits", "Cornmeal", "Polenta", "Cereal", "Granola", "Grain Blends", "Other Grains",
   ] },
+  { id: "beverages", title: "Beverages", products: [
+    "Coffee", "Tea", "Cocoa", "Drink Mixes", "Other Beverages",
+  ] },
   { id: "canned-jarred", title: "Canned & Jarred Foods", products: [
     "Beans", "Broth & Stock", "Canned Fruit", "Canned Meat", "Canned Poultry", "Canned Seafood", "Canned Tomatoes", "Canned Vegetables", "Chili", "Condensed Soups", "Pasta Meals", "Pie Filling", "Pizza Sauce", "Prepared Soups", "Refried Beans", "Roasted Peppers", "Sauerkraut", "Tomato Paste", "Tomato Sauce", "Jarred Specialty Foods",
   ] },
@@ -44,6 +47,10 @@ export const MASTER_KITCHEN_INVENTORY_TAXONOMY = Object.freeze([
 export const MASTER_INVENTORY_CATEGORIES = Object.freeze(MASTER_KITCHEN_INVENTORY_TAXONOMY.map(({ id, title }) => ({ id, title })));
 
 const PRODUCT_RULES = [
+  ["beverages", "Coffee", /\b(coffee|coffee pods?|k-?cups?)\b/i],
+  ["beverages", "Tea", /\btea\b/i],
+  ["beverages", "Cocoa", /\b(hot cocoa|drinking chocolate)\b/i],
+  ["beverages", "Drink Mixes", /\b(drink|beverage) mix\b/i],
   ["prepared-packaged", "Instant Potatoes", /\binstant (mashed )?potatoes\b/i],
   ["prepared-packaged", "Refrigerated Pasta", /\brefrigerated (pasta|ravioli|tortellini)\b/i],
   ["prepared-packaged", "Refrigerated Side Dishes", /\brefrigerated (side|mashed potatoes|macaroni|pasta salad)\b/i],
