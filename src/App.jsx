@@ -69,7 +69,7 @@ import {
 } from "./kos/index.js";
 import { getRecipeCostEstimate, RECIPE_COST_NOTE, RECIPE_COST_TAGLINE } from "./data/recipeCosts";
 import { isFreezerFriendlyCompleteDinner } from "./data/completeDinnerFreezerRatings.js";
-import { FREEZER_PACKAGING_ACCORDIONS } from "./data/freezerPackagingAccordions.js";
+import { FREEZER_ACCORDION_GROUPS } from "./data/freezerPackagingAccordions.js";
 
 const VEGAN_LIBRARY_CATEGORIES = Object.freeze([
   { id: "VPM", name: "Plant Mains", displayName: "Plant Mains", iconImage: "images/categories/SG.webp" },
@@ -11807,8 +11807,15 @@ function FreezerTipsPage({ setActivePage }) {
         className="freezerMealsStorageSectionIntro"
       />
 
-      <div className="freezerPackagingAccordionList">
-        {FREEZER_PACKAGING_ACCORDIONS.map((accordion) => {
+      <div className="freezerAccordionGroups">
+        {FREEZER_ACCORDION_GROUPS.map((group) => (
+          <section className="freezerAccordionGroup" key={group.id} aria-labelledby={`freezer-group-${group.id}`}>
+            <header className="freezerAccordionGroupHeader">
+              <h2 id={`freezer-group-${group.id}`}>{group.title}</h2>
+              <p>{group.description}</p>
+            </header>
+            <div className="freezerPackagingAccordionList">
+              {group.accordions.map((accordion) => {
           const isOpen = openPackagingAccordion === accordion.id;
           const panelId = `freezer-packaging-${accordion.id}-panel`;
           return (
@@ -11831,7 +11838,7 @@ function FreezerTipsPage({ setActivePage }) {
               {isOpen && (
                 <div className="freezerPackagingAccordionBody" id={panelId}>
                   <p className="freezerPackagingIntro">{accordion.intro}</p>
-                  <div className={`freezerPackagingSteps${accordion.illustrated ? "" : " textOnly"}`} aria-label={`Six steps for ${accordion.title.toLowerCase()}`}>
+                  <div className={`freezerPackagingSteps${accordion.illustrated ? "" : " textOnly"}`} aria-label={`Helpful guidance for ${accordion.title.toLowerCase()}`}>
                     {accordion.steps.map((step, index) => (
                       <article className={`freezerPackagingStep${accordion.illustrated ? "" : " freezerPackagingTextStep"}`} key={step.image || step.title}>
                         {accordion.illustrated && (
@@ -11855,7 +11862,10 @@ function FreezerTipsPage({ setActivePage }) {
               )}
             </section>
           );
-        })}
+              })}
+            </div>
+          </section>
+        ))}
       </div>
 
       <div className="freezerMealsStorageIntroActions">
