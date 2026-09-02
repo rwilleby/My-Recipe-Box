@@ -25,7 +25,7 @@ assert.match(editor, /event\.key === "Escape"/);
 assert.doesNotMatch(page.slice(page.indexOf("MY CURRENT INVENTORY")), /type="number"[^>]*className="masterInventory/);
 assert.match(css, /\.currentInventoryRow \{[^}]*grid-template-columns:/s);
 assert.match(css, /\.masterKitchenInventoryPage \{[^}]*width: 100% !important/s);
-assert.match(css, /\.currentInventoryIdentity strong \{[^}]*font: 800 12px/s);
+assert.match(css, /\.currentInventoryIdentity strong \{[^}]*font-size: 12px !important;[^}]*font-weight: 800/s);
 assert.match(page, /className="currentInventoryFlatList"/);
 assert.doesNotMatch(page.slice(page.indexOf("MY CURRENT INVENTORY")), /className="currentInventorySubcategory"/);
 assert.match(page, /className="currentInventoryQuantityValue" aria-label=\{`\$\{quantity\} \$\{unit\}`\}>\{quantity\}<\/strong>/);
@@ -42,8 +42,9 @@ assert.match(css, /\.currentInventoryBuy, \.currentInventoryEdit \{[^}]*width: 1
 assert.match(page, /className="currentInventoryLocationSelect"/);
 assert.match(page, /aria-label=\{`Storage location for \$\{productName\}`\}/);
 assert.match(page, /onChange=\{\(event\) => updateRecord\(rowId, \{ storage: event\.target\.value/);
-assert.match(css, /\.currentInventoryLocationSelect \{[^}]*font: 400 12px/s);
-assert.match(css, /\.currentInventoryBuy, \.currentInventoryEdit \{[^}]*font: 800 12px/s);
+assert.match(css, /\.currentInventoryCategorySelect \{[^}]*font-size: 12px !important;[^}]*font-weight: 600/s);
+assert.match(css, /\.currentInventoryLocationSelect \{[^}]*font-size: 12px !important;[^}]*font-weight: 400/s);
+assert.match(css, /\.currentInventoryBuy, \.currentInventoryEdit \{[^}]*font-size: 12px !important;[^}]*font-weight: 800/s);
 assert.match(css, /@media \(max-width: 700px\)[\s\S]*\.currentInventoryRow \{ grid-template-columns: minmax\(0, 1fr\)/);
 assert.match(css, /focus-visible/);
 
