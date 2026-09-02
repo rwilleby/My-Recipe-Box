@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { MASTER_INVENTORY_CATEGORIES, MASTER_KITCHEN_INVENTORY_TAXONOMY, buildMasterKitchenInventoryCatalog } from "../data/masterKitchenInventoryCatalog.js";
 import { printManualInventoryWorksheet } from "../utils/manualInventoryWorksheets.js";
-import StoreInventoryImport, { InventoryProductThumbnail } from "./StoreInventoryImport.jsx";
+import StoreInventoryImport from "./StoreInventoryImport.jsx";
 import { deleteInventoryProductThumbnail, loadInventoryProductThumbnail, saveInventoryProductThumbnail } from "../utils/inventoryProductImages.js";
 import { createInventoryThumbnail } from "../utils/storeProductImport.js";
 import InventoryItemEditor from "./InventoryItemEditor.jsx";
@@ -490,7 +490,7 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
                           {familyGroup.items.flatMap((item) => {
                             return visibleRowsForItem(item, category).map(({ rowId, additional, record }) => {
                             const productName = productNameForItem(item, record);
-                            const description = [record.brand || item.brand || "Any Brand", record.variety || item.variety, record.packageSize || item.packageSize, (record.packageCount || item.packageCount) ? `${record.packageCount || item.packageCount}-count` : ""].filter(Boolean).join(" · ");
+                            const description = [record.brand || item.brand, record.variety || item.variety, record.packageSize || item.packageSize, (record.packageCount || item.packageCount) ? `${record.packageCount || item.packageCount}-count` : ""].filter(Boolean).join(" · ");
                             const quantity = Number(record.have || 0);
                             const unit = record.unit || item.unit || "items";
                             const expiry = expirationState(record);
@@ -498,7 +498,6 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
                             const onShoppingList = Number(record.buy || 0) > 0 || ["low", "out"].includes(record.stockStatus);
                             return (
                               <article className="currentInventoryRow" key={rowId}>
-                                <div className="currentInventoryThumbnailSlot" aria-hidden="true"><InventoryProductThumbnail imageKey={item.imageKey || record.imageKey} alt="" /></div>
                                 <button type="button" className="currentInventoryIdentity" onClick={() => openItemEditor(item, rowId, record)}><strong>{productName}</strong>{description && <small>{description}</small>}</button>
                                 <div className="currentInventoryQuantity" aria-label={`${productName} quantity`}><button type="button" onClick={() => setQuantity(item, rowId, record, quantity - 1)} aria-label={`Decrease ${productName} quantity`}>−</button><strong>{quantity} <span>{unit}</span></strong><button type="button" onClick={() => setQuantity(item, rowId, record, quantity + 1)} aria-label={`Increase ${productName} quantity`}>+</button></div>
                                 <div className="currentInventoryLocationText">{record.storage || inventoryDetails(item, category.id).storage}</div>

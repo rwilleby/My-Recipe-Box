@@ -7804,7 +7804,7 @@ function InventoryHubPage({
         </form>
       )}
 
-      <section className="inventoryHubContent" role="tabpanel">
+      <section className={`inventoryHubContent${activeTab === "kitchen" ? " isKitchen" : ""}`} role="tabpanel">
         {activeTab === "kitchen" && <MasterKitchenInventoryPage {...pageProps} recipes={recipes} inventory={masterInventory} setInventory={setMasterInventory} externalSearch={currentSearch} embedded />}
         {activeTab === "freezer" && <FreezerInventoryManagementPage {...pageProps} classifiedRecipes={classifiedRecipes} preparedInventory={preparedInventory} setPreparedInventory={setPreparedInventory} freezer={freezer} setFreezer={setFreezer} setActivePage={setActivePage} externalSearch={currentSearch} embedded />}
         {activeTab === "pantry" && <PantryStaplesPage pantry={pantry} setPantry={setPantry} externalSearch={currentSearch} embedded />}

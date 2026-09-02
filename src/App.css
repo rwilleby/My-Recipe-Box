@@ -20505,6 +20505,7 @@ button.browseRecipeWideFooterAction:focus-visible,
   width: 90%;
   margin: 0 auto 16px;
 }
+.inventoryHubContent.isKitchen { width: 100%; max-width: 100%; }
 
 .inventoryHubPanel {
   padding: 14px;

@@ -6,7 +6,8 @@ const editor = fs.readFileSync(new URL("../src/components/InventoryItemEditor.js
 const css = fs.readFileSync(new URL("../src/components/MasterKitchenInventoryPage.css", import.meta.url), "utf8");
 
 assert.match(page, /MY CURRENT INVENTORY/);
-assert.match(page, /currentInventoryThumbnailSlot/);
+assert.doesNotMatch(page, /<InventoryProductThumbnail/);
+assert.doesNotMatch(page.slice(page.indexOf("MY CURRENT INVENTORY")), /Any Brand/);
 assert.match(page, /Search My Inventory/);
 for (const label of ["All Items", "Low Stock", "Expiring Soon", "All Locations", "Refrigerator", "Freezer", "Pantry"]) assert.match(page, new RegExp(label));
 for (const label of ["LOW STOCK", "EXPIRING SOON", "EXPIRED", "ON SHOPPING LIST"]) assert.match(page, new RegExp(label));
@@ -23,7 +24,8 @@ assert.match(editor, /aria-modal="true"/);
 assert.match(editor, /event\.key === "Escape"/);
 assert.doesNotMatch(page.slice(page.indexOf("MY CURRENT INVENTORY")), /type="number"[^>]*className="masterInventory/);
 assert.match(css, /\.currentInventoryRow \{[^}]*grid-template-columns:/s);
-assert.match(css, /\.currentInventoryThumbnailSlot \{[^}]*width: 48px/s);
+assert.match(css, /\.masterKitchenInventoryPage \{[^}]*width: 100% !important/s);
+assert.match(css, /\.currentInventoryIdentity strong \{[^}]*font-size: 15px/s);
 assert.match(css, /@media \(max-width: 700px\)[\s\S]*\.currentInventoryRow \{ grid-template-columns: minmax\(0, 1fr\)/);
 assert.match(css, /focus-visible/);
 

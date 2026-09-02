@@ -1,4 +1,4 @@
-.masterKitchenInventoryPage { padding-top: 20px; }
+.masterKitchenInventoryPage { width: 100% !important; max-width: none !important; padding-top: 20px; }
 .inventoryPageHeading { max-width: 1160px; margin: 0 auto 18px; text-align: center; }
 .inventoryPageHeading h1 { margin: 0 0 7px; color: #111827; font-family: Georgia, serif; font-size: 25px; line-height: 1.15; }
 .inventoryPageHeading p { margin: 0 auto; color: #667085; font-size: 14px; font-weight: 650; line-height: 1.4; }
@@ -141,13 +141,10 @@
 .currentInventorySubcategory:last-child { border-bottom: 0; }
 .currentInventorySubcategory > h3 { margin: 0 0 5px; color: #81786b; font: 800 11px Inter, Arial, sans-serif; letter-spacing: .05em; text-transform: uppercase; }
 .currentInventoryItems { display: grid; gap: 5px; }
-.currentInventoryRow { display: grid; grid-template-columns: auto minmax(240px, 1fr) minmax(170px, auto) 95px minmax(130px, auto) minmax(190px, auto); gap: 12px; align-items: center; min-width: 0; padding: 10px 8px; border-top: 1px solid #eee9e1; }
+.currentInventoryRow { display: grid; grid-template-columns: minmax(280px, 1fr) minmax(170px, auto) 95px minmax(130px, auto) minmax(190px, auto); gap: 12px; align-items: center; min-width: 0; padding: 10px 8px; border-top: 1px solid #eee9e1; }
 .currentInventoryRow:first-child { border-top: 0; }
-.currentInventoryThumbnailSlot { display: grid; place-items: center; width: 48px; min-width: 48px; height: 48px; overflow: hidden; border-radius: 8px; background: #f7f3ec; }
-.currentInventoryThumbnailSlot:empty { visibility: hidden; }
-.currentInventoryThumbnailSlot > .storeInventorySavedThumbnail { width: 48px; height: 48px; grid-row: auto; }
 .currentInventoryIdentity { display: grid; min-width: 0; border: 0; background: transparent; padding: 0; color: #172033; text-align: left; }
-.currentInventoryIdentity strong { font-family: Georgia, serif; font-size: 17px; line-height: 1.2; overflow-wrap: anywhere; }
+.currentInventoryIdentity strong { font-family: Georgia, serif; font-size: 15px; line-height: 1.25; overflow-wrap: anywhere; }
 .currentInventoryIdentity small { margin-top: 3px; color: #6a7280; font: 12px/1.3 Inter, Arial, sans-serif; overflow-wrap: anywhere; }
 .currentInventoryQuantity { display: grid; grid-template-columns: 40px minmax(80px, auto) 40px; align-items: center; gap: 5px; }
 .currentInventoryQuantity button { display: grid; place-items: center; width: 40px; height: 40px; border: 1px solid #aaa093; border-radius: 9px; background: #f5f1ea; color: #35312b; font-size: 24px; line-height: 1; }
@@ -189,8 +186,8 @@
 
 @media (max-width: 1000px) {
   .currentInventoryFilterRow { grid-template-columns: 1fr 1fr; }
-  .currentInventoryRow { grid-template-columns: auto minmax(200px, 1fr) minmax(165px, auto) 85px; }
-  .currentInventoryBadges { grid-column: 2 / 4; }
+  .currentInventoryRow { grid-template-columns: minmax(200px, 1fr) minmax(165px, auto) 85px minmax(155px, auto); }
+  .currentInventoryBadges { grid-column: 1 / 3; }
   .currentInventoryActions { grid-column: 4; grid-row: 1 / 3; flex-direction: column; }
 }
 
@@ -198,7 +195,6 @@
   .currentInventoryFilterRow { grid-template-columns: 1fr; }
   .currentInventoryFilters { width: 100%; }
   .currentInventoryRow { grid-template-columns: minmax(0, 1fr); gap: 8px; padding: 13px 5px; }
-  .currentInventoryThumbnailSlot { grid-row: 1; grid-column: 1; margin-bottom: 4px; }
   .currentInventoryIdentity, .currentInventoryQuantity, .currentInventoryLocationText, .currentInventoryBadges, .currentInventoryActions { grid-column: 1; grid-row: auto; }
   .currentInventoryQuantity { justify-content: start; }
   .currentInventoryActions { flex-direction: row; justify-content: flex-start; }
