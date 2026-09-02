@@ -32,7 +32,9 @@ restoreRecipeBoxBackup(backup, "replace", target);
 assert.deepEqual(JSON.parse(target.getItem("rrb_masterKitchenInventory_v1")), inventory);
 
 const component = fs.readFileSync(new URL("../src/components/StoreInventoryImport.jsx", import.meta.url), "utf8");
-for (const phrase of ["ADD TO MY KITCHEN", "Choose Products", "Add From Store", "Import Receipt or List", "Enter Manually", "Drag a product image or product link here", "Add to Inventory", "Cancel", "aria-selected"]) assert.match(component, new RegExp(phrase));
+for (const phrase of ["ADD TO MY KITCHEN", "Choose Products", "Add From Store", "Enter Manually", "Drag a product image or product link here", "Confirm & Add to Inventory", "aria-selected"]) assert.match(component, new RegExp(phrase));
+assert.doesNotMatch(component, /Import Receipt or List/);
+assert.doesNotMatch(component, /storeInventoryConfirmation/);
 const page = fs.readFileSync(new URL("../src/components/MasterKitchenInventoryPage.jsx", import.meta.url), "utf8");
 assert.match(page, /saveInventoryProductThumbnail/);
 assert.match(page, /InventoryItemEditor/);
@@ -43,5 +45,8 @@ assert.match(editor, /Product image/);
 const css = fs.readFileSync(new URL("../src/components/MasterKitchenInventoryPage.css", import.meta.url), "utf8");
 assert.match(css, /button\[aria-selected="true"\]\s*\{[^}]*background:\s*#77716b;[^}]*color:\s*#fff;/s);
 assert.match(css, /@media \(max-width: 700px\)/);
+assert.match(css, /\.storeInventoryImportGrid[^}]*width:\s*min\(920px, 100%\)[^}]*margin:\s*12px auto 0/s);
+assert.match(css, /\.storeInventoryFeedbackSlot\s*\{[^}]*min-height:/s);
+assert.match(css, /\.storeInventoryPanel \.visuallyHidden/);
 
 console.log("v96.4 store inventory import, privacy, persistence, backup and responsive contracts passed.");

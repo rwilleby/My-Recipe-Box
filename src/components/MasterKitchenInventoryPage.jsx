@@ -5,7 +5,6 @@ import StoreInventoryImport from "./StoreInventoryImport.jsx";
 import { deleteInventoryProductThumbnail, loadInventoryProductThumbnail, saveInventoryProductThumbnail } from "../utils/inventoryProductImages.js";
 import { createInventoryThumbnail } from "../utils/storeProductImport.js";
 import InventoryItemEditor from "./InventoryItemEditor.jsx";
-import ReceiptInventoryImport from "./ReceiptInventoryImport.jsx";
 import "./MasterKitchenInventoryPage.css";
 
 function normalizeState(value) {
@@ -112,7 +111,6 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
   const [editImageUrl, setEditImageUrl] = useState("");
   const [locationFilter, setLocationFilter] = useState("all");
   const [zeroQuantityChoice, setZeroQuantityChoice] = useState(null);
-  const [receiptSummary, setReceiptSummary] = useState(null);
   const catalog = useMemo(
     () => buildMasterKitchenInventoryCatalog(recipes, safeInventory.customItems),
     [recipes, safeInventory.customItems],
@@ -353,37 +351,6 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
     resetStoreImport();
   }
 
-  function importReceiptItems({ items, fingerprint, purchaseDate }) {
-    const selected = items.filter((item) => item.selected && item.status !== "ignored" && item.restockMode !== "skip");
-    let matched = 0; let created = 0; let updated = 0; let skipped = items.length - selected.length;
-    setInventory((current) => {
-      const safe = normalizeState(current);
-      const records = { ...safe.records };
-      const customItems = [...safe.customItems];
-      const receiptAliases = { ...safe.receiptAliases };
-      selected.forEach((receiptItem, index) => {
-        const normalizedDescription = receiptItem.description.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
-        const existingId = receiptItem.matchedItemId;
-        const existingRecord = existingId ? records[existingId] : null;
-        const separate = receiptItem.restockMode === "separate";
-        if (existingId && !separate) {
-          const previous = Number(existingRecord?.have || 0);
-          const nextQuantity = receiptItem.restockMode === "replace" ? Number(receiptItem.quantity || 0) : previous + Number(receiptItem.quantity || 0);
-          records[existingId] = { ...(existingRecord || {}), have: String(nextQuantity), unit: receiptItem.unit || existingRecord?.unit || "items", storage: receiptItem.storage || existingRecord?.storage || "Pantry", retailer: receiptItem.retailer === "Unknown store" ? existingRecord?.retailer || "" : receiptItem.retailer, stockStatus: nextQuantity <= Number(existingRecord?.lowStockLevel || 0) ? "low" : "in-stock", lastReceiptDate: purchaseDate, updatedAt: new Date().toISOString() };
-          receiptAliases[normalizedDescription] = existingId;
-          matched += 1; updated += 1;
-          return;
-        }
-        const id = `custom-receipt-${Date.now()}-${index}`;
-        customItems.push({ id, categoryId: receiptItem.categoryId || "prepared-packaged", family: receiptItem.family || receiptItem.description, variation: receiptItem.description, productName: receiptItem.description, unit: receiptItem.unit || "items", retailer: receiptItem.retailer === "Unknown store" ? "" : receiptItem.retailer, importedFromReceipt: true });
-        records[id] = { have: String(Number(receiptItem.quantity || 0)), unit: receiptItem.unit || "items", storage: receiptItem.storage || "Pantry", retailer: receiptItem.retailer === "Unknown store" ? "" : receiptItem.retailer, stockStatus: "in-stock", lastReceiptDate: purchaseDate, updatedAt: new Date().toISOString() };
-        created += 1;
-      });
-      return { ...safe, records, customItems, receiptAliases, receiptFingerprints: fingerprint ? [...new Set([...safe.receiptFingerprints, fingerprint])] : safe.receiptFingerprints };
-    });
-    setReceiptSummary({ selected: selected.length, matched, created, updated, skipped });
-  }
-
   function addStorageLocation(item, categoryId) {
     const details = inventoryDetails(item, categoryId);
     const existingLocations = new Set([
@@ -472,9 +439,7 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
         <div><span>Items To Buy</span><strong>{toBuy}</strong></div>
       </section>
 
-      <StoreInventoryImport mode={entryMode} setMode={(mode) => { setEntryMode(mode); setReceiptSummary(null); }} draft={storeDraft} setDraft={setStoreDraft} previewUrl={storePreviewUrl} onImage={acceptStoreImage} onConfirm={saveStoreProduct} onCancel={resetStoreImport} isEditing={Boolean(editingStoreItemId)} receiptPanel={<ReceiptInventoryImport catalog={catalog} inventory={safeInventory} onComplete={importReceiptItems} onCancel={() => setReceiptSummary(null)} />} />
-
-      {receiptSummary && <div className="receiptImportSummary" role="status"><strong>Receipt import complete.</strong><span>{receiptSummary.selected} selected · {receiptSummary.matched} matched · {receiptSummary.created} new · {receiptSummary.updated} updated · {receiptSummary.skipped} skipped</span></div>}
+      <StoreInventoryImport mode={entryMode} setMode={setEntryMode} draft={storeDraft} setDraft={setStoreDraft} previewUrl={storePreviewUrl} onImage={acceptStoreImage} onConfirm={saveStoreProduct} onCancel={resetStoreImport} isEditing={Boolean(editingStoreItemId)} />
 
       {(entryMode === "products" || entryMode === "manual") && (
         <form className="masterInventoryCustomForm" onSubmit={addCustomItem}>

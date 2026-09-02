@@ -11,14 +11,16 @@ const store = fs.readFileSync(path.join(root, "src/components/StoreInventoryImpo
 const receipt = fs.readFileSync(path.join(root, "src/components/ReceiptInventoryImport.jsx"), "utf8");
 const css = fs.readFileSync(path.join(root, "src/components/MasterKitchenInventoryPage.css"), "utf8");
 
-for (const label of ["Choose Products", "Add From Store", "Import Receipt or List", "Enter Manually"]) assert.match(store, new RegExp(label));
+for (const label of ["Choose Products", "Add From Store", "Enter Manually"]) assert.match(store, new RegExp(label));
+assert.doesNotMatch(store, /Import Receipt or List/);
+assert.doesNotMatch(page, /ReceiptInventoryImport/);
 for (const text of ["Drag a grocery receipt or shopping list here", "Upload Receipt or List", "Read Receipt or List", "Review Imported Items", "Add Selected Items", "Add to existing quantity", "Replace current quantity", "Create separate entry", "Skip this item"]) assert.match(receipt, new RegExp(text));
 assert.match(receipt, /accept="application\/pdf,\.pdf,image\/jpeg,image\/png,image\/webp,image\/heic,image\/heif"/);
 assert.match(receipt, /role="tabpanel"/);
 assert.match(receipt, /not saved/);
 assert.match(page, /receiptAliases/);
 assert.match(page, /receiptFingerprints/);
-assert.match(css, /grid-template-columns:\s*repeat\(4/);
+assert.match(css, /grid-template-columns:\s*repeat\(3/);
 
 const parsed = parseWalmartReceiptText(`WALMART\n09/01/2026\n2 X GREAT VALUE WHOLE MILK 3.48\nPAPER TOWELS 9.97\nSUBTOTAL 16.93\nTAX 1.02\nVISA 17.95`);
 assert.equal(parsed.retailer, "Walmart");
