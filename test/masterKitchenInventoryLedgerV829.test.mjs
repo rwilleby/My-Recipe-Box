@@ -10,10 +10,10 @@ assert.match(page, /className="currentInventoryFlatList"/);
 assert.match(page, /className="currentInventoryRow"/);
 assert.match(page, /setQuantity/);
 assert.match(page, /setZeroQuantityChoice/);
-assert.match(page, /Add to List/);
+assert.match(page, />\{onShoppingList \? "On List" : "Buy"\}<\/button>/);
 assert.doesNotMatch(page, /masterInventoryFourColumns/);
 assert.match(styles, /\.currentInventoryRow/);
-assert.match(styles, /\.currentInventoryQuantity/);
+assert.match(styles, /\.currentInventoryQuantityValue/);
 assert.match(styles, /@media \(max-width: 700px\)[\s\S]*\.currentInventoryRow/s);
 
 console.log("Master Kitchen Inventory ledger retirement and glanceable-list compatibility tests passed.");

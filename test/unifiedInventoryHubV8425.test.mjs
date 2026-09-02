@@ -33,7 +33,7 @@ assert.match(app, /externalSearch=\{currentSearch\} embedded/);
 assert.match(kitchenPage, /externalSearch = "", embedded = false/);
 assert.match(kitchenPage, /useState\(\(\) => new Set\(\)\)/);
 assert.match(kitchenPage, /className="currentInventoryBadges"/);
-assert.match(kitchenPage, /Add to List/);
+assert.match(kitchenPage, />\{onShoppingList \? "On List" : "Buy"\}<\/button>/);
 assert.match(kitchenPage, /updateRecord\(rowId, \{ buy:/);
 assert.match(kitchenStyles, /\.currentInventoryRow/);
 

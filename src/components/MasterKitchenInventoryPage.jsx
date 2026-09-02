@@ -82,6 +82,11 @@ function productNameForItem(item, record = {}) {
   return variation.toLowerCase().includes(String(item.family).toLowerCase()) ? variation : `${variation} ${item.family}`;
 }
 
+function initialCaps(value = "") {
+  return String(value).toLowerCase().replace(/\b[a-z]/g, (letter) => letter.toUpperCase())
+    .replace(/\bBbq\b/g, "BBQ").replace(/\bH-e-b\b/g, "H-E-B");
+}
+
 function expirationState(record, now = new Date()) {
   if (!record.expirationDate) return "";
   const days = (new Date(`${record.expirationDate}T12:00:00`) - now) / 86400000;
@@ -470,6 +475,7 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
       </section>
 
       <div className="currentInventoryFlatList" aria-label="Current inventory items">
+        <div className="currentInventoryColumnHeader" aria-hidden="true"><span>Product Name</span><span>Category</span><span>Qty</span><span>+</span><span>−</span><span>Location</span><span>Low</span><span>Buy</span><span>Edit</span></div>
         {visibleCatalog.flatMap((category) => category.items.flatMap((item) =>
           visibleRowsForItem(item, category).map(({ rowId, additional, record }) => ({ category, item, rowId, additional, record }))
         )).sort((a, b) => `${a.category.title}|${a.item.family}|${productNameForItem(a.item, a.record)}`.localeCompare(`${b.category.title}|${b.item.family}|${productNameForItem(b.item, b.record)}`, undefined, { sensitivity: "base", numeric: true })).map(({ category, item, rowId, additional, record }) => {
@@ -482,11 +488,15 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
           const onShoppingList = Number(record.buy || 0) > 0 || ["low", "out"].includes(record.stockStatus);
           return (
             <article className="currentInventoryRow" key={rowId}>
-              <button type="button" className="currentInventoryIdentity" onClick={() => openItemEditor(item, rowId, record)}><strong>{productName}</strong>{description && <small>{description}</small>}</button>
-              <div className="currentInventoryQuantity" aria-label={`${productName} quantity`}><button type="button" onClick={() => setQuantity(item, rowId, record, quantity - 1)} aria-label={`Decrease ${productName} quantity`}>−</button><strong aria-label={`${quantity} ${unit}`}>{quantity}</strong><button type="button" onClick={() => setQuantity(item, rowId, record, quantity + 1)} aria-label={`Increase ${productName} quantity`}>+</button></div>
+              <button type="button" className="currentInventoryIdentity" onClick={() => openItemEditor(item, rowId, record)}><strong>{initialCaps(productName)}</strong>{description && <small>{description}</small>}</button>
+              <div className="currentInventoryCategoryText">{category.title}</div>
+              <strong className="currentInventoryQuantityValue" aria-label={`${quantity} ${unit}`}>{quantity}</strong>
+              <button type="button" className="currentInventoryQuantityButton is-plus" onClick={() => setQuantity(item, rowId, record, quantity + 1)} aria-label={`Increase ${productName} quantity`}>+</button>
+              <button type="button" className="currentInventoryQuantityButton is-minus" onClick={() => setQuantity(item, rowId, record, quantity - 1)} aria-label={`Decrease ${productName} quantity`}>−</button>
               <div className="currentInventoryLocationText">{record.storage || inventoryDetails(item, category.id).storage}</div>
-              <div className="currentInventoryBadges">{low && <span className="is-low">LOW STOCK</span>}{expiry === "expiring" && <span className="is-expiring">EXPIRING SOON</span>}{expiry === "expired" && <span className="is-expired">EXPIRED</span>}{onShoppingList && <span className="is-shopping">ON SHOPPING LIST</span>}</div>
-              <div className="currentInventoryActions"><button type="button" className={onShoppingList ? "is-on-list" : ""} onClick={() => updateRecord(rowId, { buy: onShoppingList ? "" : "1", ...(additional ? { sourceItemId: item.id } : {}) })}>{onShoppingList ? "On Shopping List" : "Add to List"}</button><button type="button" onClick={() => openItemEditor(item, rowId, record)}>Edit</button></div>
+              <div className="currentInventoryBadges">{low && <span className="is-low">LOW</span>}{expiry === "expiring" && <span className="is-expiring">SOON</span>}{expiry === "expired" && <span className="is-expired">EXPIRED</span>}</div>
+              <button type="button" className={`currentInventoryBuy${onShoppingList ? " is-on-list" : ""}`} onClick={() => updateRecord(rowId, { buy: onShoppingList ? "" : "1", ...(additional ? { sourceItemId: item.id } : {}) })}>{onShoppingList ? "On List" : "Buy"}</button>
+              <button type="button" className="currentInventoryEdit" onClick={() => openItemEditor(item, rowId, record)}>Edit</button>
             </article>
           );
         })}
