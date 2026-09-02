@@ -81,6 +81,7 @@ files.push(...recentReleaseTests);
 // stable "Current" filename so later asset refreshes do not duplicate a 400+
 // image integrity test.
 files.push("test/mealBuilderCurrent.test.mjs");
+files.push("test/completeDinnerHeroVisibilityV96.test.mjs");
 
 const uniqueFiles = [...new Set(files)].filter(
   (file) => !supersededContracts.has(file),
