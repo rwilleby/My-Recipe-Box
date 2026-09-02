@@ -15176,12 +15176,19 @@ to {
 
 /* v93.0 — Freezer Meals & Storage packaging-process accordion. */
 .freezerPackagingAccordion {
-  width: 90% !important;
-  margin: 0 auto 18px !important;
+  width: 100% !important;
+  margin: 0 !important;
   overflow: hidden !important;
   border: 1px solid #d9d1c2 !important;
   border-radius: 16px !important;
   background: #f4efe5 !important;
+}
+
+.freezerPackagingAccordionList {
+  display: grid !important;
+  width: 100% !important;
+  margin: 0 0 18px !important;
+  gap: 14px !important;
 }
 
 .freezerPackagingAccordionHeader {
@@ -15312,6 +15319,24 @@ to {
   font: 600 10px/1.35 Inter, Arial, sans-serif !important;
 }
 
+.freezerPackagingTextStep {
+  min-height: 190px !important;
+  grid-template-rows: auto auto 1fr !important;
+  padding: 20px 14px 16px !important;
+}
+
+.freezerPackagingTextStep .freezerPackagingStepNumber {
+  margin: 0 0 12px !important;
+}
+
+.freezerPackagingTextStep h3 {
+  font-size: 12px !important;
+}
+
+.freezerPackagingTextStep p {
+  font-size: 11px !important;
+}
+
 .freezerPackagingArrow {
   position: absolute !important;
   z-index: 3 !important;
@@ -15330,7 +15355,7 @@ to {
 }
 
 @media (max-width: 650px) {
-  .freezerPackagingAccordion {width: 96% !important;}
+  .freezerPackagingAccordionList {width: 100% !important;}
   .freezerPackagingAccordionHeader {
     grid-template-columns: 18px minmax(0, 1fr) !important;
     min-height: 82px !important;
