@@ -31,7 +31,14 @@ assert.doesNotMatch(page.slice(page.indexOf("MY CURRENT INVENTORY")), /className
 assert.match(page, /className="currentInventoryQuantityValue" aria-label=\{`\$\{quantity\} \$\{unit\}`\}>\{quantity\}<\/strong>/);
 assert.match(page, /Product Name<\/span><span>Category<\/span><span>Qty<\/span><span>\+<\/span><span>−<\/span><span>Location<\/span><span>Low<\/span><span>Buy<\/span><span>Edit/);
 assert.match(page, /initialCaps\(productName\)/);
+assert.match(page, /SORTED_INVENTORY_CATEGORIES = \[\.\.\.MASTER_INVENTORY_CATEGORIES\]\.sort/);
+assert.match(page, /className="currentInventoryCategorySelect"/);
+assert.match(page, /onChange=\{\(event\) => updateRowCategory\(item, rowId, event\.target\.value\)\}/);
+assert.match(page, /\[rowId\]: \{ \.\.\.\(safe\.records\[rowId\] \|\| \{\}\), categoryId, updatedAt:/);
 assert.match(css, /\.currentInventoryQuantityValue \{[^}]*text-align: right/s);
+assert.match(css, /\.currentInventoryFlatList \{[^}]*box-sizing: border-box;[^}]*max-width: 100%;[^}]*overflow: hidden/s);
+assert.match(css, /\.currentInventoryRow > \* \{ min-width: 0; \}/);
+assert.match(css, /\.currentInventoryBuy, \.currentInventoryEdit \{[^}]*width: 100%/s);
 assert.match(css, /\.currentInventoryLocationText \{[^}]*font: 400 12px/s);
 assert.match(css, /@media \(max-width: 700px\)[\s\S]*\.currentInventoryRow \{ grid-template-columns: minmax\(0, 1fr\)/);
 assert.match(css, /focus-visible/);

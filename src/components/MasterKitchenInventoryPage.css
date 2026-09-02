@@ -183,8 +183,9 @@
 .currentInventoryFilters button:last-child { border-right: 0; }
 .currentInventoryFilters button.is-active { background: #77716b; color: #fff; }
 .currentInventoryPrint { min-height: 42px; }
-.currentInventoryFlatList { display: grid; width: 100%; overflow: hidden; border: 1px solid #d5cdbf; border-radius: 12px; background: #fff; }
-.currentInventoryColumnHeader, .currentInventoryRow { display: grid; grid-template-columns: minmax(430px, 1fr) 135px 38px 32px 32px 74px 82px 74px 56px; gap: 6px; align-items: center; min-width: 0; }
+.currentInventoryFlatList { display: grid; box-sizing: border-box; width: 100%; max-width: 100%; overflow: hidden; border: 1px solid #d5cdbf; border-radius: 12px; background: #fff; }
+.currentInventoryColumnHeader, .currentInventoryRow { display: grid; box-sizing: border-box; width: 100%; max-width: 100%; grid-template-columns: minmax(320px, 1fr) minmax(128px, 150px) 34px 30px 30px 70px 68px 66px 54px; gap: 5px; align-items: center; min-width: 0; }
+.currentInventoryColumnHeader > *, .currentInventoryRow > * { min-width: 0; }
 .currentInventoryColumnHeader { min-height: 34px; padding: 4px 10px; background: #eee8dd; color: #5d554a; font: 800 9px/1 Inter, Arial, sans-serif; letter-spacing: .04em; text-transform: uppercase; }
 .currentInventoryColumnHeader span:nth-child(3) { text-align: right; }
 .currentInventoryColumnHeader span:nth-child(n+4) { text-align: center; }
@@ -192,8 +193,8 @@
 .currentInventoryRow:first-child { border-top: 0; }
 .currentInventoryIdentity { display: grid; min-width: 0; border: 0; background: transparent; padding: 0; color: #172033; text-align: left; }
 .currentInventoryIdentity strong { display: -webkit-box; overflow: hidden; color: #172033; font: 800 12px/1.2 Inter, Arial, sans-serif; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
-.currentInventoryIdentity small { margin-top: 2px; color: #6a7280; font: 12px/1.2 Inter, Arial, sans-serif; white-space: nowrap; }
-.currentInventoryCategoryText { overflow: hidden; color: #5f6672; font: 600 11px/1.15 Inter, Arial, sans-serif; text-overflow: ellipsis; white-space: nowrap; }
+.currentInventoryIdentity small { margin-top: 2px; overflow: hidden; color: #6a7280; font: 12px/1.2 Inter, Arial, sans-serif; text-overflow: ellipsis; white-space: nowrap; }
+.currentInventoryCategorySelect { width: 100%; height: 30px; overflow: hidden; border: 1px solid #c8c0b5; border-radius: 7px; background: #fff; padding: 0 22px 0 7px; color: #5f6672; font: 600 10px/1.15 Inter, Arial, sans-serif; text-overflow: ellipsis; }
 .currentInventoryQuantityValue { color: #172033; font: 800 13px Inter, Arial, sans-serif; text-align: right; }
 .currentInventoryQuantityButton { display: grid; place-items: center; width: 28px; height: 28px; border: 1px solid #aaa093; border-radius: 7px; background: #f5f1ea; color: #35312b; font: 800 16px/1 Inter, Arial, sans-serif; }
 .currentInventoryLocationText { color: #6a7280; font: 400 12px/1.2 Inter, Arial, sans-serif; }
@@ -203,7 +204,7 @@
 .currentInventoryBadges .is-expiring { background: #fff0df; color: #8a4c10; }
 .currentInventoryBadges .is-expired { background: #fde5e2; color: #9a2925; }
 .currentInventoryBadges .is-shopping { background: #e7efe8; color: #355f3e; }
-.currentInventoryBuy, .currentInventoryEdit { min-height: 30px; border: 1px solid #77716b; border-radius: 7px; background: #fff; padding: 3px 5px; color: #4a453e; font: 800 9px/1.1 Inter, Arial, sans-serif; text-transform: uppercase; }
+.currentInventoryBuy, .currentInventoryEdit { width: 100%; min-height: 30px; border: 1px solid #77716b; border-radius: 7px; background: #fff; padding: 3px 4px; color: #4a453e; font: 800 9px/1.1 Inter, Arial, sans-serif; text-transform: uppercase; }
 .currentInventoryBuy.is-on-list { background: #f0f3ef; color: #44614a; }
 .currentInventoryRow button:focus-visible, .currentInventoryFilterRow button:focus-visible, .currentInventoryFilterRow input:focus-visible, .currentInventoryFilterRow select:focus-visible, .inventoryEditor button:focus-visible, .inventoryEditor input:focus-visible, .inventoryEditor select:focus-visible, .inventoryEditor textarea:focus-visible { outline: 3px solid #bd8f3e; outline-offset: 2px; }
 .masterInventoryEmpty { display: grid; justify-items: center; gap: 8px; }
@@ -231,7 +232,7 @@
 
 @media (max-width: 1000px) {
   .currentInventoryFilterRow { grid-template-columns: 1fr 1fr; }
-  .currentInventoryColumnHeader, .currentInventoryRow { grid-template-columns: minmax(260px, 1fr) 105px 34px 30px 30px 66px 68px 66px 50px; gap: 4px; }
+  .currentInventoryColumnHeader, .currentInventoryRow { grid-template-columns: minmax(220px, 1fr) 110px 30px 28px 28px 60px 56px 56px 46px; gap: 3px; }
 }
 
 @media (max-width: 700px) {
@@ -240,7 +241,7 @@
   .currentInventoryColumnHeader { display: none; }
   .currentInventoryRow { grid-template-columns: minmax(0, 1fr) 66px 34px 34px; gap: 7px; padding: 11px 8px; }
   .currentInventoryIdentity { grid-column: 1 / -1; }
-  .currentInventoryCategoryText { grid-column: 1; }
+  .currentInventoryCategorySelect { grid-column: 1; }
   .currentInventoryQuantityValue { grid-column: 2; }
   .currentInventoryQuantityButton.is-plus { grid-column: 3; }
   .currentInventoryQuantityButton.is-minus { grid-column: 4; }

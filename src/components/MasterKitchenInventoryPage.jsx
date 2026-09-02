@@ -18,6 +18,9 @@ function numberValue(value) {
 }
 
 const STORAGE_OPTIONS = ["Refrigerator", "Freezer", "Pantry", "Counter", "Other"];
+const SORTED_INVENTORY_CATEGORIES = [...MASTER_INVENTORY_CATEGORIES].sort((a, b) =>
+  String(a.title).localeCompare(String(b.title), undefined, { sensitivity: "base", numeric: true }),
+);
 const STORAGE_FORM_ORDER = ["Raw", "Fresh", "Frozen", "Canned", "Jarred", "Refrigerated", "Instant", "Dry", "Cooked", "Homemade", "Commercial", "Prepared"];
 function splitStorageForm(variation = "") {
   const form = STORAGE_FORM_ORDER.find((label) => variation.toLowerCase().startsWith(`${label.toLowerCase()} `));
@@ -165,6 +168,20 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
         records: {
           ...safe.records,
           [itemId]: { ...(safe.records[itemId] || {}), ...patch, updatedAt: new Date().toISOString() },
+        },
+      };
+    });
+  }
+
+  function updateRowCategory(item, rowId, categoryId) {
+    setInventory((current) => {
+      const safe = normalizeState(current);
+      return {
+        ...safe,
+        customItems: safe.customItems.map((entry) => entry.id === item.id ? { ...entry, categoryId } : entry),
+        records: {
+          ...safe.records,
+          [rowId]: { ...(safe.records[rowId] || {}), categoryId, updatedAt: new Date().toISOString() },
         },
       };
     });
@@ -478,7 +495,11 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
         <div className="currentInventoryColumnHeader" aria-hidden="true"><span>Product Name</span><span>Category</span><span>Qty</span><span>+</span><span>−</span><span>Location</span><span>Low</span><span>Buy</span><span>Edit</span></div>
         {visibleCatalog.flatMap((category) => category.items.flatMap((item) =>
           visibleRowsForItem(item, category).map(({ rowId, additional, record }) => ({ category, item, rowId, additional, record }))
-        )).sort((a, b) => `${a.category.title}|${a.item.family}|${productNameForItem(a.item, a.record)}`.localeCompare(`${b.category.title}|${b.item.family}|${productNameForItem(b.item, b.record)}`, undefined, { sensitivity: "base", numeric: true })).map(({ category, item, rowId, additional, record }) => {
+        )).sort((a, b) => {
+          const aCategory = SORTED_INVENTORY_CATEGORIES.find((entry) => entry.id === (a.record.categoryId || a.item.categoryId || a.category.id))?.title || a.category.title;
+          const bCategory = SORTED_INVENTORY_CATEGORIES.find((entry) => entry.id === (b.record.categoryId || b.item.categoryId || b.category.id))?.title || b.category.title;
+          return `${aCategory}|${productNameForItem(a.item, a.record)}`.localeCompare(`${bCategory}|${productNameForItem(b.item, b.record)}`, undefined, { sensitivity: "base", numeric: true });
+        }).map(({ category, item, rowId, additional, record }) => {
           const productName = productNameForItem(item, record);
           const description = [record.brand || item.brand, record.variety || item.variety, record.packageSize || item.packageSize, (record.packageCount || item.packageCount) ? `${record.packageCount || item.packageCount}-count` : ""].filter(Boolean).join(" · ");
           const quantity = Number(record.have || 0);
@@ -489,7 +510,9 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
           return (
             <article className="currentInventoryRow" key={rowId}>
               <button type="button" className="currentInventoryIdentity" onClick={() => openItemEditor(item, rowId, record)}><strong>{initialCaps(productName)}</strong>{description && <small>{description}</small>}</button>
-              <div className="currentInventoryCategoryText">{category.title}</div>
+              <select className="currentInventoryCategorySelect" aria-label={`Category for ${productName}`} value={record.categoryId || item.categoryId || category.id} onChange={(event) => updateRowCategory(item, rowId, event.target.value)}>
+                {SORTED_INVENTORY_CATEGORIES.map((entry) => <option key={entry.id} value={entry.id}>{entry.title}</option>)}
+              </select>
               <strong className="currentInventoryQuantityValue" aria-label={`${quantity} ${unit}`}>{quantity}</strong>
               <button type="button" className="currentInventoryQuantityButton is-plus" onClick={() => setQuantity(item, rowId, record, quantity + 1)} aria-label={`Increase ${productName} quantity`}>+</button>
               <button type="button" className="currentInventoryQuantityButton is-minus" onClick={() => setQuantity(item, rowId, record, quantity - 1)} aria-label={`Decrease ${productName} quantity`}>−</button>
