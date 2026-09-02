@@ -612,6 +612,9 @@ export default function BuildYourOwnMealPage({
               const savedLayout = savedMeal.mainTrayLayout || MEAL_BUILDER_MAIN_LAYOUTS.get(savedMeal.mainId) || "standard";
               const savedSideOne = savedLayout === "standard" ? recipeMap.get(savedMeal.sideOneId) || null : null;
               const savedSideTwo = savedLayout === "full-tray" ? null : recipeMap.get(savedMeal.sideTwoId) || null;
+              const savedMainTitle = normalizeRecipeTitle(savedMain);
+              const savedSideTitles = [savedSideOne, savedSideTwo].filter(Boolean).map(normalizeRecipeTitle);
+              const savedSidesLine = savedSideTitles.length ? `With ${savedSideTitles.join(" & ")}` : "Complete meal";
               const hasSavedCalories = savedMeal.totalCalories !== null && savedMeal.totalCalories !== undefined && Number.isFinite(Number(savedMeal.totalCalories));
               const hasSavedMealBalance = savedMeal.mealBalance !== null && savedMeal.mealBalance !== undefined && Number.isFinite(Number(savedMeal.mealBalance));
               return (
@@ -641,7 +644,10 @@ export default function BuildYourOwnMealPage({
                     <span aria-hidden="true">{savedMeal.favorite ? "♥" : "♡"}</span>
                   </button>
                   <div className="mealBuilderSavedGalleryCopy">
-                    <strong>{savedMeal.title || "Saved Build-A-Meal"}</strong>
+                    <div className="mealBuilderSavedGalleryTitles">
+                      <strong>{savedMainTitle}</strong>
+                      <span>{savedSidesLine}</span>
+                    </div>
                     <div>
                       <span>{hasSavedCalories ? `${Math.round(Number(savedMeal.totalCalories))} calories` : "Calories —"}</span>
                       <span className={`mealBuilderSavedGalleryMb${hasSavedMealBalance ? "" : " is-unrated"}`} title={hasSavedMealBalance ? `MealBalance ${savedMeal.mealBalance}` : "MealBalance not yet rated"}>{hasSavedMealBalance ? savedMeal.mealBalance : "—"}</span>

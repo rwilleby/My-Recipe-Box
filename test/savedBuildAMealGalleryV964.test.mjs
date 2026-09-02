@@ -13,7 +13,11 @@ assert.match(component, /openSavedMealFromGallery\(savedMeal\)/, "selecting a ga
 assert.match(component, /<MealBuilderTrayPreview[\s\S]*className="mealBuilderSavedGalleryTray"/, "saved meal cards should display the assembled BAM tray");
 assert.match(component, /onToggleSavedMealFavorite\(savedMeal\.id\)/, "gallery hearts should use the existing saved-meal favorite behavior");
 assert.match(component, /scrollIntoView\(\{ behavior: "smooth", block: "start" \}\)/, "opening a saved card should return the user to the builder workspace");
+assert.match(component, /const savedMainTitle = normalizeRecipeTitle\(savedMain\)/, "saved cards should show the main dish as their headline");
+assert.match(component, /`With \$\{savedSideTitles\.join\(" & "\)\}`/, "saved cards should show sides on a separate With line");
 assert.match(styles, /\.mealBuilderSavedGalleryGrid\s*\{[^}]*grid-template-columns:\s*repeat\(6/, "desktop should display six compact saved-meal cards per row");
+assert.match(styles, /\.mealBuilderSavedGalleryTitles strong\s*\{[^}]*font:\s*800[^;]*Inter/, "saved BAM headlines should use the bold Inter treatment");
+assert.match(styles, /\.mealBuilderSavedGalleryTitles span\s*\{[^}]*color:\s*#687386[^}]*Inter/, "saved BAM sides should use the smaller gray Inter treatment");
 assert.match(styles, /@media \(max-width: 900px\)[\s\S]*\.mealBuilderSavedGalleryGrid\s*\{[^}]*repeat\(3/, "tablet should reflow saved meals to three columns");
 assert.match(styles, /@media \(max-width: 650px\)[\s\S]*\.mealBuilderSavedGalleryGrid\s*\{[^}]*repeat\(2/, "mobile should reflow saved meals to two columns");
 
