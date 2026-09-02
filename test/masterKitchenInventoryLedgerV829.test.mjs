@@ -6,7 +6,7 @@ const styles = await readFile(new URL("../src/components/MasterKitchenInventoryP
 
 assert.doesNotMatch(page, /className="masterInventoryLedger" role="table"/);
 for (const heading of ["Cut / Variety", "Preparation / Form", "Brand", "Unit", "Buy", "Notes"]) assert.doesNotMatch(page, new RegExp(`role="columnheader">${heading}`));
-assert.match(page, /className="currentInventoryList"/);
+assert.match(page, /className="currentInventoryFlatList"/);
 assert.match(page, /className="currentInventoryRow"/);
 assert.match(page, /setQuantity/);
 assert.match(page, /setZeroQuantityChoice/);

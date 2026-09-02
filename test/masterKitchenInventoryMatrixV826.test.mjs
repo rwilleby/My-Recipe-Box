@@ -23,11 +23,11 @@ const styles = await readFile(new URL("../src/components/MasterKitchenInventoryP
 
 assert.match(page, /groupItemsByFamily/);
 assert.match(page, /STORAGE_FORM_ORDER/);
-assert.match(page, /currentInventoryList/);
+assert.match(page, /currentInventoryFlatList/);
 assert.match(page, /currentInventoryRow/);
 assert.match(page, /currentInventoryQuantity/);
 assert.match(page, /InventoryItemEditor/);
-assert.match(styles, /masterInventoryCategory/);
+assert.match(styles, /currentInventoryFlatList/);
 assert.match(styles, /currentInventoryRow/);
 assert.match(styles, /@media \(max-width: 700px\)/);
 

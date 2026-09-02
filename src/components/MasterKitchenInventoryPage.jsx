@@ -469,48 +469,25 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
         <button type="button" className="secondary currentInventoryPrint" onClick={printCountWorksheet}>Print</button>
       </section>
 
-      <div className="masterInventoryAccordions currentInventoryGroups">
-        {visibleCatalog.map((category) => {
-          const categoryItems = catalog.find((entry) => entry.id === category.id)?.items.filter(itemHasSavedRecord) || [];
-          const lowCount = categoryItems.filter((item) => isLowStock(recordForItem(item))).length;
-          const expiringCount = categoryItems.filter((item) => ["expiring", "expired"].includes(expirationState(recordForItem(item)))).length;
+      <div className="currentInventoryFlatList" aria-label="Current inventory items">
+        {visibleCatalog.flatMap((category) => category.items.flatMap((item) =>
+          visibleRowsForItem(item, category).map(({ rowId, additional, record }) => ({ category, item, rowId, additional, record }))
+        )).sort((a, b) => `${a.category.title}|${a.item.family}|${productNameForItem(a.item, a.record)}`.localeCompare(`${b.category.title}|${b.item.family}|${productNameForItem(b.item, b.record)}`, undefined, { sensitivity: "base", numeric: true })).map(({ category, item, rowId, additional, record }) => {
+          const productName = productNameForItem(item, record);
+          const description = [record.brand || item.brand, record.variety || item.variety, record.packageSize || item.packageSize, (record.packageCount || item.packageCount) ? `${record.packageCount || item.packageCount}-count` : ""].filter(Boolean).join(" · ");
+          const quantity = Number(record.have || 0);
+          const unit = record.unit || item.unit || "items";
+          const expiry = expirationState(record);
+          const low = isLowStock(record);
+          const onShoppingList = Number(record.buy || 0) > 0 || ["low", "out"].includes(record.stockStatus);
           return (
-            <section className="masterInventoryCategory" key={category.id}>
-              <header className="masterInventoryCategoryButton">
-                <strong>{category.title}</strong><em>{categoryItems.length} {categoryItems.length === 1 ? "item" : "items"}{lowCount ? ` · ${lowCount} low` : ""}{expiringCount ? ` · ${expiringCount} expiring soon` : ""}</em>
-              </header>
-                <div className="currentInventoryList" aria-label={`${category.title} inventory`}>
-                  {groupItemsByFamily(category.items).map((familyGroup) => {
-                    return (
-                      <section className="currentInventorySubcategory" key={familyGroup.family}>
-                        <h3>{familyGroup.family}</h3>
-                        <div className="currentInventoryItems">
-                          {familyGroup.items.flatMap((item) => {
-                            return visibleRowsForItem(item, category).map(({ rowId, additional, record }) => {
-                            const productName = productNameForItem(item, record);
-                            const description = [record.brand || item.brand, record.variety || item.variety, record.packageSize || item.packageSize, (record.packageCount || item.packageCount) ? `${record.packageCount || item.packageCount}-count` : ""].filter(Boolean).join(" · ");
-                            const quantity = Number(record.have || 0);
-                            const unit = record.unit || item.unit || "items";
-                            const expiry = expirationState(record);
-                            const low = isLowStock(record);
-                            const onShoppingList = Number(record.buy || 0) > 0 || ["low", "out"].includes(record.stockStatus);
-                            return (
-                              <article className="currentInventoryRow" key={rowId}>
-                                <button type="button" className="currentInventoryIdentity" onClick={() => openItemEditor(item, rowId, record)}><strong>{productName}</strong>{description && <small>{description}</small>}</button>
-                                <div className="currentInventoryQuantity" aria-label={`${productName} quantity`}><button type="button" onClick={() => setQuantity(item, rowId, record, quantity - 1)} aria-label={`Decrease ${productName} quantity`}>−</button><strong aria-label={`${quantity} ${unit}`}>{quantity}</strong><button type="button" onClick={() => setQuantity(item, rowId, record, quantity + 1)} aria-label={`Increase ${productName} quantity`}>+</button></div>
-                                <div className="currentInventoryLocationText">{record.storage || inventoryDetails(item, category.id).storage}</div>
-                                <div className="currentInventoryBadges">{low && <span className="is-low">LOW STOCK</span>}{expiry === "expiring" && <span className="is-expiring">EXPIRING SOON</span>}{expiry === "expired" && <span className="is-expired">EXPIRED</span>}{onShoppingList && <span className="is-shopping">ON SHOPPING LIST</span>}</div>
-                                <div className="currentInventoryActions"><button type="button" className={onShoppingList ? "is-on-list" : ""} onClick={() => updateRecord(rowId, { buy: onShoppingList ? "" : "1", ...(additional ? { sourceItemId: item.id } : {}) })}>{onShoppingList ? "On Shopping List" : "Add to List"}</button><button type="button" onClick={() => openItemEditor(item, rowId, record)}>Edit</button></div>
-                              </article>
-                            );
-                            });
-                          })}
-                        </div>
-                      </section>
-                    );
-                  })}
-                </div>
-            </section>
+            <article className="currentInventoryRow" key={rowId}>
+              <button type="button" className="currentInventoryIdentity" onClick={() => openItemEditor(item, rowId, record)}><strong>{productName}</strong>{description && <small>{description}</small>}</button>
+              <div className="currentInventoryQuantity" aria-label={`${productName} quantity`}><button type="button" onClick={() => setQuantity(item, rowId, record, quantity - 1)} aria-label={`Decrease ${productName} quantity`}>−</button><strong aria-label={`${quantity} ${unit}`}>{quantity}</strong><button type="button" onClick={() => setQuantity(item, rowId, record, quantity + 1)} aria-label={`Increase ${productName} quantity`}>+</button></div>
+              <div className="currentInventoryLocationText">{record.storage || inventoryDetails(item, category.id).storage}</div>
+              <div className="currentInventoryBadges">{low && <span className="is-low">LOW STOCK</span>}{expiry === "expiring" && <span className="is-expiring">EXPIRING SOON</span>}{expiry === "expired" && <span className="is-expired">EXPIRED</span>}{onShoppingList && <span className="is-shopping">ON SHOPPING LIST</span>}</div>
+              <div className="currentInventoryActions"><button type="button" className={onShoppingList ? "is-on-list" : ""} onClick={() => updateRecord(rowId, { buy: onShoppingList ? "" : "1", ...(additional ? { sourceItemId: item.id } : {}) })}>{onShoppingList ? "On Shopping List" : "Add to List"}</button><button type="button" onClick={() => openItemEditor(item, rowId, record)}>Edit</button></div>
+            </article>
           );
         })}
       </div>

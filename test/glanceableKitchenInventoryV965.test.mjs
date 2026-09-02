@@ -26,8 +26,10 @@ assert.doesNotMatch(page.slice(page.indexOf("MY CURRENT INVENTORY")), /type="num
 assert.match(css, /\.currentInventoryRow \{[^}]*grid-template-columns:/s);
 assert.match(css, /\.masterKitchenInventoryPage \{[^}]*width: 100% !important/s);
 assert.match(css, /\.currentInventoryIdentity strong \{[^}]*font: 800 12px/s);
-assert.match(page, /<header className="masterInventoryCategoryButton">/);
+assert.match(page, /className="currentInventoryFlatList"/);
+assert.doesNotMatch(page.slice(page.indexOf("MY CURRENT INVENTORY")), /className="currentInventorySubcategory"/);
 assert.match(page, /<strong aria-label=\{`\$\{quantity\} \$\{unit\}`\}>\{quantity\}<\/strong>/);
+assert.match(css, /\.currentInventoryLocationText \{[^}]*font: 400 12px/s);
 assert.match(css, /@media \(max-width: 700px\)[\s\S]*\.currentInventoryRow \{ grid-template-columns: minmax\(0, 1fr\)/);
 assert.match(css, /focus-visible/);
 
