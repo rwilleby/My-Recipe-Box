@@ -13,6 +13,7 @@ const sideTwoDir = path.join(root, "public/images/build-your-own/side-2-right");
 const trayBasePath = path.join(root, "public/images/meal-builder/meal-builder-tray-base.webp");
 const source = fs.readFileSync(componentPath, "utf8");
 const styles = fs.readFileSync(stylesPath, "utf8");
+assert.match(source, /import "\.\/BuildYourOwnMealPage\.css";/, "Build a Meal must load its dedicated stylesheet");
 
 function assertWebp(filePath) {
   const bytes = fs.readFileSync(filePath);

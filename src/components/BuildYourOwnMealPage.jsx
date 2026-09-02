@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { getRecipeNutritionVariant } from "../data/recipeNutritionProfiles.js";
 import { recipeHeroImageCandidates } from "../features/recipe-viewer/recipeAssets.js";
+import "./BuildYourOwnMealPage.css";
 
 export const MAIN_CATEGORIES = [
   ["AM", "American"], ["AS", "Asian"], ["HB", "Hamburgers"], ["IT", "Italian"],
