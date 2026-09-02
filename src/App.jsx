@@ -11651,7 +11651,6 @@ function HolidaysSpecialOccasionsPage({ setActivePage, setPlan, openRecipeCard }
         <nav ref={occasionTrackRef} className="holidayOccasionCalendar" aria-label="Choose a holiday or special occasion" tabIndex="0">
           {HOLIDAY_OCCASION_MENUS.map((menu) => {
             const isSelected = menu.occasion === selectedOccasion;
-            const menuMainRecipe = recipes.find((recipe) => recipe.id === menu.dishes[0].recipeId);
             return (
               <button
                 type="button"
@@ -11662,7 +11661,14 @@ function HolidaysSpecialOccasionsPage({ setActivePage, setPlan, openRecipeCard }
                 aria-controls="holidayFeaturedMenu"
               >
                 <span className="holidayOccasionTileImage">
-                  <RecipeHeroImage recipe={menuMainRecipe} />
+                  <img
+                    src={assetUrl(menu.image)}
+                    alt={`${menu.occasion} celebration`}
+                    loading="lazy"
+                    decoding="async"
+                    width="640"
+                    height="640"
+                  />
                 </span>
                 <strong>{menu.occasion}</strong>
                 <span className="holidayOccasionSelectedText" aria-hidden={!isSelected}>{isSelected ? "Selected" : ""}</span>

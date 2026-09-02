@@ -1,4 +1,12 @@
 // Approved Holidays and Special Occasions menu order and recipe connections.
+const HOLIDAY_OCCASION_IMAGE_FILES = [
+  "new-years-day.webp", "valentines-day.webp", "mardi-gras.webp", "st-patricks-day.webp",
+  "passover.webp", "easter.webp", "cinco-de-mayo.webp", "mothers-day.webp",
+  "memorial-day.webp", "fathers-day.webp", "independence-day.webp", "labor-day.webp",
+  "rosh-hashanah.webp", "halloween.webp", "thanksgiving.webp", "hanukkah.webp",
+  "christmas-eve.webp", "christmas-day.webp", "new-years-eve.webp",
+];
+
 export const HOLIDAY_OCCASION_MENUS = Object.freeze([
   { occasion: "New Year’s Day", dishes: [["Main Dish", "Smothered Pork Chops", "AM-048"], ["Side 1", "Black-Eyed Peas", "CP-170"], ["Side 2", "Southern Collard Greens", "CP-167"]] },
   { occasion: "Valentine’s Day", dishes: [["Main Dish", "Filet Mignon with Garlic-Herb Butter", "HS-001"], ["Side 1", "Creamy Mashed Potatoes", "SD-003"], ["Side 2", "Roasted Asparagus", "SD-030"]] },
@@ -19,8 +27,8 @@ export const HOLIDAY_OCCASION_MENUS = Object.freeze([
   { occasion: "Christmas Eve", dishes: [["Main Dish", "Garlic-Butter Baked Cod", "HS-024"], ["Side 1", "Parmesan Risotto", "HS-025"], ["Side 2", "Roasted Broccolini", "HS-026"]] },
   { occasion: "Christmas Day", dishes: [["Main Dish", "Garlic-Herb Prime Rib", "HS-027"], ["Side 1", "Creamy Mashed Potatoes", "SD-003"], ["Side 2", "Green Beans Almondine", "HS-028"]] },
   { occasion: "New Year’s Eve", dishes: [["Main Dish", "Beef Wellington", "HS-029"], ["Side 1", "Duchess Potatoes", "HS-030"], ["Side 2", "Roasted Asparagus", "SD-030"]] },
-].map((menu) => Object.freeze({
+].map((menu, index) => Object.freeze({
   occasion: menu.occasion,
+  image: `images/holiday-occasions/${HOLIDAY_OCCASION_IMAGE_FILES[index]}`,
   dishes: Object.freeze(menu.dishes.map(([role, name, recipeId]) => Object.freeze({ role, name, recipeId }))),
 })));
-

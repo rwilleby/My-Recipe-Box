@@ -61,11 +61,12 @@ for (const dish of HOLIDAY_OCCASION_MENUS.flatMap(({ dishes }) => dishes)) {
 }
 
 const app = readFileSync("src/App.jsx", "utf8");
+const holidayMenusSource = readFileSync("src/data/holidayOccasionMenus.js", "utf8");
 const holidayPage = app.slice(app.indexOf("function HolidaysSpecialOccasionsPage"), app.indexOf("function FreezerTipsPage"));
-assert.match(holidayPage, /holidayOccasionTileImage[\s\S]*?<RecipeHeroImage recipe=\{menuMainRecipe\}/);
+assert.match(holidayPage, /holidayOccasionTileImage[\s\S]*?src=\{assetUrl\(menu\.image\)\}/);
+assert.match(holidayMenusSource, /images\/holiday-occasions\/\$\{HOLIDAY_OCCASION_IMAGE_FILES\[index\]\}/);
 assert.match(holidayPage, /holidayMenuDishHero[\s\S]*?<RecipeHeroImage recipe=\{dishRecipe\}/);
 assert.doesNotMatch(holidayPage, /FullRecipeCardPreview|RecipeImage|images\/recipes\//);
 assert.match(holidayPage, /openRecipeCard\(dish\.recipeId, recipes, "Holidays and Special Occasions"\)/);
 assert.match(holidayPage, /next\[firstOpenSlot\] = \[\.\.\.availableRecipeIds\]/);
 console.log("Holiday Special Recipe registration and menu contracts passed.");
-
