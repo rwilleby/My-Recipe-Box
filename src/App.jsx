@@ -11693,9 +11693,7 @@ function HolidaysSpecialOccasionsPage({ setActivePage, setPlan, openRecipeCard }
               {dishRecipe && (
                 <div className="holidayMenuDishHero">
                   <img
-                    src={assetUrl(dish.recipeId.startsWith("HS-")
-                      ? `images/heroes/${dish.recipeId}.webp`
-                      : `images/holiday-recipe-heroes/${dish.recipeId}.webp`)}
+                    src={assetUrl(`images/holiday-recipe-heroes/${dish.recipeId}.webp`)}
                     alt={`${dish.name} plated hero`}
                     loading="lazy"
                     decoding="async"
