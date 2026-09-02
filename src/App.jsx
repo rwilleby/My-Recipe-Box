@@ -71,14 +71,14 @@ import { getRecipeCostEstimate, RECIPE_COST_NOTE, RECIPE_COST_TAGLINE } from "./
 import { isFreezerFriendlyCompleteDinner } from "./data/completeDinnerFreezerRatings.js";
 
 const VEGAN_LIBRARY_CATEGORIES = Object.freeze([
-  { id: "VPM", name: "Plant-Based Mains", displayName: "Plant-Based Mains", iconImage: "images/categories/SG.webp" },
-  { id: "VBA", name: "Bakes & Casseroles", displayName: "Bakes & Casseroles", iconImage: "images/categories/CS.webp" },
-  { id: "VPN", name: "Pasta & Noodles", displayName: "Pasta & Noodles", iconImage: "images/categories/IT.webp" },
-  { id: "VBR", name: "Bowls & Rice", displayName: "Bowls & Rice", iconImage: "images/categories/SB.webp" },
-  { id: "VSB", name: "Sandwiches & Burgers", displayName: "Sandwiches & Burgers", iconImage: "images/categories/SW.webp" },
-  { id: "VAF", name: "Asian Favorites", displayName: "Asian Favorites", iconImage: "images/categories/AS.webp" },
-  { id: "VMF", name: "Mexican Favorites", displayName: "Mexican Favorites", iconImage: "images/categories/MX.webp" },
-  { id: "VSS", name: "Soups & Stews", displayName: "Soups & Stews", iconImage: "images/icons/CP-bulk.webp" },
+  { id: "VPM", name: "Plant Mains", displayName: "Plant Mains", iconImage: "images/categories/SG.webp" },
+  { id: "VBA", name: "Bakes", displayName: "Bakes", iconImage: "images/categories/CS.webp" },
+  { id: "VPN", name: "Pastas", displayName: "Pastas", iconImage: "images/categories/IT.webp" },
+  { id: "VBR", name: "Bowls", displayName: "Bowls", iconImage: "images/categories/SB.webp" },
+  { id: "VSB", name: "Sandwiches", displayName: "Sandwiches", iconImage: "images/categories/SW.webp" },
+  { id: "VAF", name: "Asian", displayName: "Asian", iconImage: "images/categories/AS.webp" },
+  { id: "VMF", name: "Mexican", displayName: "Mexican", iconImage: "images/categories/MX.webp" },
+  { id: "VSS", name: "Soups", displayName: "Soups", iconImage: "images/icons/CP-bulk.webp" },
 ]);
 
 const VEGAN_LIBRARY_DISCOVERY_COPY = Object.freeze({
@@ -6080,7 +6080,7 @@ function RecipesPage({
   const browseQuickCategories = useMemo(
     () => veganOnly
       ? [
-        { id: "ALL", name: "All Vegan Recipes", displayName: "All Vegan Recipes", iconImage: "images/icons/all-recipes-v9512.webp" },
+        { id: "ALL", name: "All Recipes", displayName: "All Recipes", iconImage: "images/icons/all-recipes-v9512.webp" },
         ...VEGAN_LIBRARY_CATEGORIES.filter((category) =>
           libraryRecipes.some((recipe) => recipe.veganLibraryCategoryId === category.id)
         ),
@@ -11735,9 +11735,16 @@ function HolidaysSpecialOccasionsPage({ setActivePage, setPlan, openRecipeCard }
           <h2 id="holidayFeaturedMenuTitle">{selectedMenu.occasion}</h2>
         </div>
         <div className="holidayMenuDishes">
-          {selectedMenu.dishes.map((dish) => (
+          {selectedMenu.dishes.map((dish) => {
+            const dishRecipe = dish.recipeId ? recipes.find((recipe) => recipe.id === dish.recipeId) : null;
+            return (
             <article className="holidayMenuDish" key={`${selectedMenu.occasion}-${dish.role}`} data-recipe-status={dish.recipeId ? "available" : "awaiting-recipe"}>
               <span>{dish.role}</span>
+              {dishRecipe && (
+                <div className="holidayMenuDishHero">
+                  <RecipeImage recipe={dishRecipe} />
+                </div>
+              )}
               <h3>{dish.name}</h3>
               {dish.recipeId ? (
                 <button type="button" onClick={() => openRecipeCard(dish.recipeId, recipes, "Holidays and Special Occasions")}>Open Recipe Card</button>
@@ -11745,7 +11752,8 @@ function HolidaysSpecialOccasionsPage({ setActivePage, setPlan, openRecipeCard }
                 <p className="holidayRecipePending" aria-label={`${dish.name} recipe card is not yet available`}>Recipe card coming soon</p>
               )}
             </article>
-          ))}
+            );
+          })}
         </div>
         <div className="holidayMenuActions">
           <button type="button" className="primary" disabled={!availableRecipeIds.length} onClick={() => addVerifiedMenuRecipes("Meal Planner")}>Add Menu to Meal Planner</button>
@@ -18749,7 +18757,7 @@ These pages are designed to be easy to scan, print, or revisit when needed. They
             alt="Plant-based meal planning setup with a vegan grain bowl, fresh vegetables, herbs, lemons, and a recipe notebook"
             eyebrow="OUR RECIPES"
             title="Vegan Recipe Library"
-            text="Explore satisfying plant-based main courses, side dishes, soups, breads and more. Every recipe shown here is prepared without meat, seafood, dairy, eggs or other animal-derived ingredients."
+            text="Explore satisfying plant-based main courses, side dishes, soups, breads, bowls, pastas, sandwiches, bakes, and more. Every verified recipe in this library is prepared without meat, seafood, dairy, eggs, or other animal-derived ingredients.\n\nChoose a category to narrow the full recipe list, or browse the changing six-recipe selection for fresh inspiration. Open any recipe to view its illustrated card, ingredients, preparation directions, nutrition details, and any available connection to an original or Vegan sister recipe."
             className="pageHeroDepth464 veganRecipeLibraryHero"
           />
           <RecipesPage

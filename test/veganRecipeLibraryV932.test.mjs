@@ -10,7 +10,7 @@ const guides = await readFile(new URL("../src/data/howItWorksGuides.js", import.
 
 assert.match(app, /BROWSE OUR RECIPE LIBRARY[\s\S]*VEGAN RECIPE LIBRARY[\s\S]*YOUR FAVORITE RECIPES/);
 assert.match(app, /title="Vegan Recipe Library"/);
-assert.match(app, /Every recipe shown here is prepared without meat, seafood, dairy, eggs or other animal-derived ingredients/);
+assert.match(app, /Every verified recipe in this library is prepared without meat, seafood, dairy, eggs, or other animal-derived ingredients/);
 assert.match(app, /src="images\/heroes\/vegan-recipe-library-hero-1440x464\.webp"/);
 assert.match(guides, /\["Vegan Recipe Library", "vegan-recipe-library"\]/);
 assert.match(app, /recipe\.isVegan === true && recipe\.veganStatus === "verified"/);
@@ -40,8 +40,8 @@ assert.deepEqual(
   Object.fromEntries([...new Set(veganRecipes.map((recipe) => recipe.veganLibraryCategoryId))].sort().map((id) => [id, veganRecipes.filter((recipe) => recipe.veganLibraryCategoryId === id).length])),
   { VAF: 5, VBA: 6, VBR: 2, VMF: 2, VPM: 9, VPN: 4, VSB: 2, VSS: 2 },
 );
-assert.match(app, /Plant-Based Mains[\s\S]*images\/categories\/SG\.webp/);
-for (const label of ["Bakes & Casseroles", "Pasta & Noodles", "Bowls & Rice", "Sandwiches & Burgers", "Asian Favorites", "Mexican Favorites", "Soups & Stews"]) {
+assert.match(app, /Plant Mains[\s\S]*images\/categories\/SG\.webp/);
+for (const label of ["Bakes", "Pastas", "Bowls", "Sandwiches", "Asian", "Mexican", "Soups"]) {
   assert.ok(app.includes(label), `${label} Vegan category must be available`);
 }
 assert.match(app, /recipe\.veganLibraryCategoryId === selectedCategory/);

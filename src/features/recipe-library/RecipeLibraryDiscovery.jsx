@@ -1,22 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { HERO_IMAGE_MANIFEST } from "../../heroImageManifest.js";
+import { recipeImageCandidates } from "../recipe-viewer/recipeAssets.js";
 import "./RecipeLibraryDiscovery.css";
 
 const FEATURED_RECIPE_COUNT = 6;
 const ROTATION_INTERVAL_MS = 9000;
-
-const RECIPE_HERO_BY_CODE = new Map(
-  HERO_IMAGE_MANIFEST
-    .filter((item) => item.kind === "recipe" && item.path?.includes("images/heroes/"))
-    .map((item) => [String(item.code || "").toUpperCase(), item.path]),
-);
-
-// The dedicated DM-001 through DM-060 heroes were added after the audit manifest's
-// last rebuild. All 60 files are present in public/images/heroes.
-for (let recipeNumber = 1; recipeNumber <= 60; recipeNumber += 1) {
-  const code = `DM-${String(recipeNumber).padStart(3, "0")}`;
-  if (!RECIPE_HERO_BY_CODE.has(code)) RECIPE_HERO_BY_CODE.set(code, `images/heroes/${code}.webp`);
-}
 
 const CATEGORY_COPY = {
   ALL: {
@@ -72,15 +59,24 @@ function displayTitleParts(title) {
 }
 
 function LibraryRecipeHero({ recipe }) {
-  const heroPath = RECIPE_HERO_BY_CODE.get(String(recipe.id || "").toUpperCase());
+  const candidates = recipeImageCandidates(recipe);
+  const [imageIndex, setImageIndex] = useState(0);
+  const imagePath = candidates[imageIndex];
+
+  useEffect(() => {
+    setImageIndex(0);
+  }, [recipe.id]);
+
+  if (!imagePath) return null;
 
   return (
     <img
       className="libraryDiscoveryHeroImage"
-      src={`${import.meta.env.BASE_URL}${heroPath}`}
+      src={`${import.meta.env.BASE_URL}${imagePath}`}
       alt={recipe.title}
       loading="eager"
       decoding="async"
+      onError={() => setImageIndex((current) => current + 1)}
     />
   );
 }
@@ -170,7 +166,7 @@ export default function RecipeLibraryDiscovery({
   };
   const matchingRecipes = useMemo(
     () => (rotationRecipes || recipes).filter(
-      (recipe) => RECIPE_HERO_BY_CODE.has(String(recipe.id || "").toUpperCase())
+      (recipe) => recipeImageCandidates(recipe).length > 0
         && (rotateAcrossAll || recipeMatchesChoice(recipe, selectedChoice, favoriteIds)),
     ),
     [favoriteIds, recipes, rotateAcrossAll, rotationRecipes, selectedChoice],
@@ -262,10 +258,17 @@ export default function RecipeLibraryDiscovery({
           </div>
         ))}
 
-        {!featuredRecipes.length && (
+        {!featuredRecipes.length && selectedChoice?.id === "FAVORITES" && (
           <div className="libraryDiscoveryEmpty">
             <strong>No saved recipes yet.</strong>
             <span>Use the heart on a recipe to add it to Favorites.</span>
+          </div>
+        )}
+
+        {!featuredRecipes.length && selectedChoice?.id !== "FAVORITES" && (
+          <div className="libraryDiscoveryEmpty">
+            <strong>No recipes are available in this selection yet.</strong>
+            <span>Choose another category to keep browsing.</span>
           </div>
         )}
       </div>

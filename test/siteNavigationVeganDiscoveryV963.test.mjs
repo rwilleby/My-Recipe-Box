@@ -27,7 +27,16 @@ assert.match(app, /VEGAN_LIBRARY_DISCOVERY_COPY/);
 assert.match(app, /rotationRecipes=\{veganOnly \? libraryRecipes : undefined\}/);
 assert.match(app, /rotateAcrossAll=\{veganOnly\}/);
 assert.match(discovery, /rotateAcrossAll \|\| recipeMatchesChoice/);
+assert.match(discovery, /recipeImageCandidates\(recipe\)/);
+assert.doesNotMatch(discovery, /RECIPE_HERO_BY_CODE/);
 assert.match(css, /\.veganRecipeLibraryPage \.libraryCategorySelectorRow[\s\S]*repeat\(9/);
+for (const label of ["All Recipes", "Plant Mains", "Bakes", "Pastas", "Bowls", "Sandwiches", "Asian", "Mexican", "Soups"]) {
+  assert.match(app, new RegExp(`displayName: "${label}"`), `Vegan category label ${label} must be present`);
+}
+assert.match(app, /browse the changing six-recipe selection for fresh inspiration/);
+assert.match(app, /className="holidayMenuDishHero"/);
+assert.match(app, /<RecipeImage recipe=\{dishRecipe\} \/>/);
+assert.match(css, /\.holidayMenuDishHero[\s\S]*aspect-ratio: 16 \/ 9/);
 assert.doesNotMatch(app, /<small>\{quickCategoryRecipeCount\(choice\)\}<\/small>/);
 assert.match(app, /\["all", "ALL"\]/);
 assert.match(css, /\.completeDinnerCategorySegmented[\s\S]*repeat\(8/);
