@@ -12,7 +12,7 @@ assert.match(page, /Decrease .* quantity/);
 assert.match(page, /Increase .* quantity/);
 assert.doesNotMatch(page, /className="currentInventoryRow"[\s\S]{0,2500}<input type="number"/);
 assert.match(styles, /\.currentInventoryQuantityButton \{[^}]*width: 28px/s);
-assert.match(styles, /\.currentInventoryIdentity strong \{[^}]*font: 800 12px[^}]*-webkit-line-clamp: 2/s);
+assert.match(styles, /\.currentInventoryIdentity strong \{[^}]*font-size: 12px !important;[^}]*font-weight: 800;[^}]*-webkit-line-clamp: 2/s);
 assert.match(styles, /@media \(max-width: 700px\)/);
 
 console.log("Master Kitchen Inventory density refinements v82.7 tests passed.");
