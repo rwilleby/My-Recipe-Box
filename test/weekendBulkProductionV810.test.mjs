@@ -129,5 +129,9 @@ for (const contract of ["completeMeals={dinnerCombinations}", "setPreparedInvent
   assert.ok(app.includes(contract), `Missing App inventory wiring: ${contract}`);
 assert.ok(css.includes('button[aria-selected="true"]'));
 assert.ok(css.includes("background:#77716b!important"));
+assert.match(component, /const nonVeganRecipes = useMemo\(\(\) => recipes\.filter/);
+assert.match(component, /!id\.startsWith\("VG-"\) && !id\.endsWith\("-VG"\)/);
+assert.match(component, /\? nonVeganRecipes\.map\(\(recipe\) => \(\{ \.\.\.recipe, sourceType: "recipe" \}\)\)/, "typed All Recipes searches must also exclude Vegan recipes");
+assert.doesNotMatch(component, /\? recipes\.map\(\(recipe\) => \(\{ \.\.\.recipe, sourceType: "recipe" \}\)\)/, "the bulk planner must not search the unfiltered recipe library");
 
 console.log("Weekend Bulk Plan v81 production and inventory contracts passed.");

@@ -274,6 +274,10 @@ export default function WeekendBulkMealPlanner({
   const [catalogMode, setCatalogMode] = useState("individual-recipes");
   const [activeType, setActiveType] = useState("ALL");
   const [search, setSearch] = useState("");
+  const nonVeganRecipes = useMemo(() => recipes.filter((recipe) => {
+    const id = String(recipe?.id || "").trim().toUpperCase();
+    return !id.startsWith("VG-") && !id.endsWith("-VG");
+  }), [recipes]);
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(plan));
@@ -302,27 +306,27 @@ export default function WeekendBulkMealPlanner({
     }
     if (catalogMode === "diet-meals") {
       return sortRecipesByCode(
-        recipes.filter((recipe) => recipeCode(recipe) === "DM"),
+        nonVeganRecipes.filter((recipe) => recipeCode(recipe) === "DM"),
       ).map((recipe) => ({ ...recipe, sourceType: "recipe" }));
     }
     const matchingRecipes = activeType === "ALL"
-      ? recipes
+      ? nonVeganRecipes
       : activeType === "FAVORITES"
-        ? recipes.filter((recipe) => favorites.includes(recipe.id))
-        : recipes.filter((recipe) => recipeCode(recipe) === activeType);
+        ? nonVeganRecipes.filter((recipe) => favorites.includes(recipe.id))
+        : nonVeganRecipes.filter((recipe) => recipeCode(recipe) === activeType);
     return sortRecipesByCode(matchingRecipes).map((recipe) => ({ ...recipe, sourceType: "recipe" }));
-  }, [activeType, catalogMode, completeMeals, favorites, recipes]);
+  }, [activeType, catalogMode, completeMeals, favorites, nonVeganRecipes]);
 
   const filteredCatalog = useMemo(() => {
     const term = search.trim().toLowerCase();
     if (!term) return catalog;
     const searchableCatalog = term && catalogMode === "individual-recipes"
-      ? recipes.map((recipe) => ({ ...recipe, sourceType: "recipe" }))
+      ? nonVeganRecipes.map((recipe) => ({ ...recipe, sourceType: "recipe" }))
       : catalog;
     return sortRecipesByCode(
       searchableCatalog.filter((item) => `${item.id} ${item.title} ${item.detail || ""}`.toLowerCase().includes(term)),
     );
-  }, [catalog, catalogMode, recipes, search]);
+  }, [catalog, catalogMode, nonVeganRecipes, search]);
 
   const summary = useMemo(() => {
     const totalPortions = plan.items.reduce((sum, item) => sum + Number(item.portions || 0) * Number(item.batches || 1), 0);
