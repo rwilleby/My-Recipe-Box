@@ -5,6 +5,7 @@ import StoreInventoryImport from "./StoreInventoryImport.jsx";
 import { deleteInventoryProductThumbnail, loadInventoryProductThumbnail, saveInventoryProductThumbnail } from "../utils/inventoryProductImages.js";
 import { createInventoryThumbnail } from "../utils/storeProductImport.js";
 import InventoryItemEditor from "./InventoryItemEditor.jsx";
+import { BASE_KITCHEN_PRODUCTS, baseProductName } from "../data/baseKitchenProducts.js";
 import "./MasterKitchenInventoryPage.css";
 
 function normalizeState(value) {
@@ -29,6 +30,7 @@ function splitStorageForm(variation = "") {
 }
 
 function defaultStorageForItem(item, categoryId) {
+  if (item.storage) return item.storage;
   const variation = item.variation.toLowerCase();
   if (/frozen/.test(variation) || categoryId === "frozen-foods") return "Freezer";
   if (/canned|jarred|instant|dry|dried|boxed|bagged|shelf-stable|pouch/.test(variation)) return "Pantry";
@@ -81,8 +83,8 @@ function inventoryIdsForItem(item) {
 function productNameForItem(item, record = {}) {
   if (record.productName || item.productName) return record.productName || item.productName;
   const variation = String(record.variation || item.variation || "").trim();
-  if (!variation || /^(standard|custom item)$/i.test(variation)) return item.family;
-  return variation.toLowerCase().includes(String(item.family).toLowerCase()) ? variation : `${variation} ${item.family}`;
+  if (!variation || /^(standard|custom item)$/i.test(variation) || variation.toLowerCase() === String(item.family).toLowerCase()) return item.family;
+  return `${item.family} — ${variation}`;
 }
 
 function initialCaps(value = "") {
@@ -107,7 +109,7 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
   const [search, setSearch] = useState("");
   const [inventoryFilter, setInventoryFilter] = useState("all");
   const [expanded, setExpanded] = useState(() => new Set());
-  const [customForm, setCustomForm] = useState({ categoryId: "vegetables", family: "Artichokes", variation: "", brand: "", unit: "each", quantity: "1", storage: "Pantry", lowStockLevel: "1" });
+  const [customForm, setCustomForm] = useState({ categoryId: "meat-poultry", productId: "base-meat-poultry-bacon-sliced", family: "Bacon", variation: "Sliced", brand: "", unit: "packages", quantity: "1", storage: "Refrigerator", lowStockLevel: "1" });
   const [entryMode, setEntryMode] = useState("products");
   const [storeDraft, setStoreDraft] = useState(null);
   const [storeThumbnail, setStoreThumbnail] = useState(null);
@@ -123,6 +125,11 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
     () => buildMasterKitchenInventoryCatalog(recipes, safeInventory.customItems),
     [recipes, safeInventory.customItems],
   );
+  const baseProductOptions = BASE_KITCHEN_PRODUCTS.filter((item) => item.categoryId === customForm.categoryId);
+  const selectedBaseProduct = baseProductOptions.find((item) => item.id === customForm.productId) || baseProductOptions[0] || null;
+  const selectableCategories = entryMode === "products"
+    ? MASTER_INVENTORY_CATEGORIES.filter((category) => BASE_KITCHEN_PRODUCTS.some((item) => item.categoryId === category.id))
+    : MASTER_INVENTORY_CATEGORIES;
   const recordForItem = (item) => inventoryIdsForItem(item).map((id) => safeInventory.records[id]).find(Boolean) || {};
   const savedRowsForItem = (item) => {
     const mainRowId = inventoryIdsForItem(item).find((id) => Object.prototype.hasOwnProperty.call(safeInventory.records, id));
@@ -144,7 +151,7 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
   const visibleRowsForItem = (item, category) => savedRowsForItem(item).filter(({ record }) =>
     recordMatchesFilter(record)
     && (locationFilter === "all" || record.storage === locationFilter)
-    && (!normalizedSearch || `${productNameForItem(item, record)} ${record.brand || item.brand || ""} ${record.variety || item.variety || ""} ${category.title} ${item.family}`.toLowerCase().includes(normalizedSearch))
+    && (!normalizedSearch || `${productNameForItem(item, record)} ${record.brand || item.brand || ""} ${record.variety || item.variety || ""} ${category.title} ${item.family} ${(item.aliases || []).join(" ")}`.toLowerCase().includes(normalizedSearch))
   );
   const visibleCatalog = catalog
     .map((category) => ({
@@ -204,6 +211,31 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
 
   function addCustomItem(event) {
     event.preventDefault();
+    if (entryMode === "products" && selectedBaseProduct) {
+      const item = { ...selectedBaseProduct, id: `base-${selectedBaseProduct.categoryId}-${selectedBaseProduct.family}-${selectedBaseProduct.variation}`.toLowerCase().replace(/&/g, "and").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""), productName: baseProductName(selectedBaseProduct), baseProduct: true, custom: true };
+      setInventory((current) => {
+        const safe = normalizeState(current);
+        const existing = safe.records[item.id] || {};
+        return {
+          ...safe,
+          customItems: safe.customItems.some((entry) => entry.id === item.id) ? safe.customItems : [...safe.customItems, item],
+          records: {
+            ...safe.records,
+            [item.id]: {
+              ...existing,
+              have: customForm.quantity,
+              buy: existing.buy || "",
+              brand: customForm.brand.trim(),
+              storage: customForm.storage || item.storage || defaultStorageForItem(item, item.categoryId),
+              lowStockLevel: customForm.lowStockLevel,
+              stockStatus: Number(customForm.quantity) <= Number(customForm.lowStockLevel || 0) ? "low" : "in-stock",
+              updatedAt: new Date().toISOString(),
+            },
+          },
+        };
+      });
+      return;
+    }
     if (!customForm.family.trim()) return;
     const id = `custom-master-${Date.now()}`;
     setInventory((current) => {
@@ -215,7 +247,7 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
       };
     });
     setExpanded((current) => { const next = new Set(current); next.delete(customForm.categoryId); return next; });
-    setCustomForm({ categoryId: customForm.categoryId, family: customForm.family, variation: "", brand: "", unit: customForm.unit, quantity: "1", storage: customForm.storage, lowStockLevel: customForm.lowStockLevel });
+    setCustomForm({ categoryId: customForm.categoryId, productId: "", family: customForm.family, variation: "", brand: "", unit: customForm.unit, quantity: "1", storage: customForm.storage, lowStockLevel: customForm.lowStockLevel });
   }
 
   function removeCustomItem(item) {
@@ -467,11 +499,18 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
         <form className="masterInventoryCustomForm" onSubmit={addCustomItem}>
           <label><span>Category</span><select value={customForm.categoryId} onChange={(event) => {
             const categoryId = event.target.value;
-            const family = MASTER_KITCHEN_INVENTORY_TAXONOMY.find((category) => category.id === categoryId)?.products[0] || "";
-            setCustomForm((current) => ({ ...current, categoryId, family }));
-          }}>{MASTER_INVENTORY_CATEGORIES.map((category) => <option key={category.id} value={category.id}>{category.title}</option>)}</select></label>
-          <label><span>Item</span><select required value={customForm.family} onChange={(event) => setCustomForm((current) => ({ ...current, family: event.target.value }))}>{(MASTER_KITCHEN_INVENTORY_TAXONOMY.find((category) => category.id === customForm.categoryId)?.products || []).map((product) => <option key={product} value={product}>{product}</option>)}</select></label>
-          <label><span>Product name or variety</span><input value={customForm.variation} onChange={(event) => setCustomForm((current) => ({ ...current, variation: event.target.value }))} placeholder={`Example: ${customForm.family}`} /></label>
+            const baseProduct = BASE_KITCHEN_PRODUCTS.find((item) => item.categoryId === categoryId);
+            const family = MASTER_KITCHEN_INVENTORY_TAXONOMY.find((entry) => entry.id === categoryId)?.products[0] || "";
+            setCustomForm((current) => ({ ...current, categoryId, productId: baseProduct?.id || "", family: baseProduct?.family || family, variation: entryMode === "products" ? baseProduct?.variation || "" : "", unit: baseProduct?.unit || current.unit, storage: baseProduct?.storage || defaultStorageForItem(baseProduct || { variation: "" }, categoryId) }));
+          }}>{selectableCategories.map((category) => <option key={category.id} value={category.id}>{category.title}</option>)}</select></label>
+          {entryMode === "products" ? <label className="masterInventoryProductChoice"><span>Product</span><select required value={selectedBaseProduct?.id || ""} onChange={(event) => {
+            const product = baseProductOptions.find((item) => item.id === event.target.value);
+            if (!product) return;
+            setCustomForm((current) => ({ ...current, productId: product.id, family: product.family, variation: product.variation, unit: product.unit, storage: product.storage || defaultStorageForItem(product, product.categoryId) }));
+          }}>{baseProductOptions.map((product) => <option key={`${product.categoryId}-${product.family}-${product.variation}`} value={product.id || `${product.categoryId}-${product.family}-${product.variation}`}>{baseProductName(product)}</option>)}</select></label> : <>
+            <label><span>Product Family</span><select required value={customForm.family} onChange={(event) => setCustomForm((current) => ({ ...current, family: event.target.value }))}>{(MASTER_KITCHEN_INVENTORY_TAXONOMY.find((category) => category.id === customForm.categoryId)?.products || []).map((product) => <option key={product} value={product}>{product}</option>)}</select></label>
+            <label><span>Product name or variety</span><input value={customForm.variation} onChange={(event) => setCustomForm((current) => ({ ...current, variation: event.target.value }))} placeholder={`Example: ${customForm.family} variety`} /></label>
+          </>}
           <label><span>Brand</span><input value={customForm.brand} onChange={(event) => setCustomForm((current) => ({ ...current, brand: event.target.value }))} placeholder="Example: Tyson" /></label>
           <label><span>Quantity</span><input type="number" min="0" step="any" value={customForm.quantity} onChange={(event) => setCustomForm((current) => ({ ...current, quantity: event.target.value }))} /></label>
           <label><span>Tracking unit</span><input value={customForm.unit} onChange={(event) => setCustomForm((current) => ({ ...current, unit: event.target.value }))} placeholder="bags" /></label>
