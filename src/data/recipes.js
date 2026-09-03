@@ -21,6 +21,7 @@ import { SIDE_SEAFOOD_GRILL_INGREDIENTS_V8415 } from "./sideSeafoodGrillIngredie
 import { SPECIALTY_INGREDIENTS_V8411 } from "./specialtyIngredientsV8411.js";
 import { VEGAN_RECIPE_ROWS, VEGAN_SISTER_RECIPE_ROWS } from "./veganRecipes.js";
 import { HOLIDAY_SPECIAL_RECIPE_ROWS } from "./holidaySpecialRecipes.js";
+import { standardizeAmericanIngredients } from "../utils/americanIngredientStandardization.js";
 
 const baseCategories = [
   { id: "AM", name: "American Cuisine", count: 0, icon: "🍽️", iconImage: "images/categories/AM.webp" },
@@ -1480,7 +1481,7 @@ function makeRecipe(entry) {
     cardImage: options.cardImage || `images/recipes/${id}.webp`,
     heroImage: options.heroImage || `images/heroes/${id}.webp`,
     cost: options.cost || defaultCost(price),
-    ingredients: DETAILED_RECIPE_INGREDIENTS[id] ? verifiedIngredients : (options.ingredients?.length ? options.ingredients : verifiedIngredients),
+    ingredients: standardizeAmericanIngredients(id, DETAILED_RECIPE_INGREDIENTS[id] ? verifiedIngredients : (options.ingredients?.length ? options.ingredients : verifiedIngredients)),
     directions: verifiedDirections || (options.directions?.length ? options.directions : []),
     mediaLinks: options.mediaLinks || undefined,
     isVegan: options.isVegan === true,
