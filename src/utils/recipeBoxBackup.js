@@ -33,6 +33,7 @@ const CATEGORY_DEFINITIONS = Object.freeze([
   { key: "rrb_personalRatings", label: "Personal Ratings", type: "count" },
   { key: "rrb_checkedShoppingItems", label: "Checked Grocery Items", type: "truthyObject" },
   { key: "rrb_shoppingItemComments", label: "Shopping Comments", type: "count" },
+  { key: "rrb_shoppingOrderQuantities", label: "Shopping Order Quantities", type: "count" },
   { key: "rrb_productCategoryAssignments", label: "Product Assignments", type: "count" },
   { key: "rrb_preparedComponentReservations", label: "Prepared Item Reservations", type: "count" },
   { key: "rrb_preparedComponentDecisions", label: "Prepared Item Decisions", type: "count" },

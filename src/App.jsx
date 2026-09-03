@@ -185,6 +185,7 @@ const STORAGE_KEYS = {
   preparedReservations: "rrb_preparedComponentReservations",
   componentDecisions: "rrb_preparedComponentDecisions",
   shoppingComments: "rrb_shoppingItemComments",
+  shoppingOrderQuantities: "rrb_shoppingOrderQuantities",
   productCategories: "rrb_productCategoryAssignments",
   masterInventory: "rrb_masterKitchenInventory_v1",
   inventoryHubView: "rrb_inventoryHubView_v1",
@@ -286,6 +287,7 @@ function hasCustomUserState({
   preparedInventory,
   componentDecisions,
   shoppingComments,
+  shoppingOrderQuantities,
   productCategories,
   masterInventory,
 }) {
@@ -306,6 +308,7 @@ function hasCustomUserState({
     (Array.isArray(preparedInventory?.managedItems) && preparedInventory.managedItems.length > 0) ||
     objectHasSavedEntries(componentDecisions) ||
     Object.values(shoppingComments || {}).some((comment) => String(comment || "").trim()) ||
+    objectHasSavedEntries(shoppingOrderQuantities) ||
     objectHasSavedEntries(productCategories) ||
     objectHasSavedEntries(masterInventory?.records) ||
     (Array.isArray(masterInventory?.customItems) && masterInventory.customItems.length > 0)
@@ -10023,7 +10026,7 @@ function FreezerInventoryPage({ freezer, setFreezer, setActivePage, embedded = f
   );
 }
 
-function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry, refrigerator, freezer, masterInventory, setActivePage, preparedInventory, preparedReservations, componentDecisions, setComponentDecisions, shoppingComments, setShoppingComments, kosUi }) {
+function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry, refrigerator, freezer, masterInventory, setActivePage, preparedInventory, preparedReservations, componentDecisions, setComponentDecisions, shoppingComments, setShoppingComments, shoppingOrderQuantities, setShoppingOrderQuantities, kosUi }) {
   const [showDigitalStockCheck, setShowDigitalStockCheck] = useState(false);
   const [shoppingView, setShoppingView] = useState("consolidated");
   const recipeIdSet = useMemo(() => new Set(recipes.map((recipe) => recipe.id)), []);
@@ -10301,6 +10304,7 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
     setPlan(emptyTwoWeekPlan());
     setChecked({});
     setShoppingComments({});
+    setShoppingOrderQuantities({});
     setComponentDecisions({});
     setShowDigitalStockCheck(false);
     setShoppingView("needs");
@@ -10589,26 +10593,41 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
 
   function renderNeededItem(item) {
     const key = `${item.name}-${item.unit}-${item.aisle}`;
-    const reference = findGroceryReference(item.name);
+    const orderQuantity = Number(shoppingOrderQuantities[key] ?? item.qty ?? 0);
+
+    function setOrderQuantity(value) {
+      const nextValue = Math.max(0, Number(value) || 0);
+      setShoppingOrderQuantities((current) => ({ ...(current || {}), [key]: nextValue }));
+    }
 
     return (
-      <div key={key} className="shoppingItemWrap shoppingThinRow">
-        <label
-          className={checked[key] ? "checked shoppingItem shoppingProductCell" : "shoppingItem shoppingProductCell"}
-        >
+      <div key={key} className={checked[key] ? "shoppingListDataRow isChecked" : "shoppingListDataRow"}>
+        <label className="shoppingListCheckCell">
           <input
             type="checkbox"
             checked={!!checked[key]}
             onChange={() => toggleItem(key)}
+            aria-label={`Mark ${item.name} as purchased`}
           />
-          <span>{item.name}</span>
         </label>
-
-        <div className="shoppingPortionCell" aria-label={`${item.name} portion size`}>
-          {formatShoppingQuantity(item.qty)} {item.unit}
+        <div className="shoppingListProductCell">
+          <strong>{item.name}</strong>
+          <span>Shopping item</span>
         </div>
-
-        <label className="shoppingItemComment shoppingCommentCell">
+        <div className="shoppingListLocationCell">
+          <strong>To Buy</strong>
+          <span>{item.aisle || "Other"}</span>
+        </div>
+        <div className="shoppingListNeededCell" aria-label={`${item.name} quantity needed`}>
+          <strong>{formatShoppingQuantity(item.qty)}</strong>
+          <span>{item.unit || "item(s)"}</span>
+        </div>
+        <div className="shoppingListOrderCell" aria-label={`${item.name} quantity to order`}>
+          <button type="button" onClick={() => setOrderQuantity(orderQuantity - 1)} aria-label={`Decrease quantity to order for ${item.name}`}>−</button>
+          <input type="number" min="0" step="any" value={orderQuantity} onChange={(event) => setOrderQuantity(event.target.value)} aria-label={`Quantity to order for ${item.name}`} />
+          <button type="button" onClick={() => setOrderQuantity(orderQuantity + 1)} aria-label={`Increase quantity to order for ${item.name}`}>+</button>
+        </div>
+        <label className="shoppingListNotesCell">
           <input
             type="text"
             value={shoppingComments[key] || ""}
@@ -10618,91 +10637,30 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
                 [key]: event.target.value,
               }))
             }
-            placeholder="Comments, brand, size, substitution, or store…"
-            aria-label={`Comments or suggestions for ${item.name}`}
+            placeholder="Brand, size, substitution, or store…"
+            aria-label={`Notes for ${item.name}`}
           />
         </label>
-
-        <div className={reference ? "shoppingSuggestionCell hasSuggestion" : "shoppingSuggestionCell"}>
-          {reference ? (
-            <>
-              <div>
-                <strong>{reference.name}</strong>
-                <small>{reference.examples.slice(0, 2).join(" · ")}</small>
-              </div>
-              <button type="button" onClick={() => setActivePage("Grocery Picks")}>
-                Review
-              </button>
-            </>
-          ) : (
-            <small>No suggested pick</small>
-          )}
-        </div>
       </div>
     );
   }
 
-  function renderPantryItem(item, compact = false) {
+  function renderPantryItem(item) {
     const key = `${item.name}-${item.unit}-${item.aisle}-pantry`;
-    const reference = findGroceryReference(item.name);
-
-    if (compact) {
-      return (
-        <div key={key} className="shoppingItemWrap shoppingThinRow pantryThinRow">
-          <div className="shoppingItem pantryShoppingItem shoppingProductCell">
-            <span className="pantryFilledBox" aria-hidden="true" />
-            <span>{item.name}</span>
-          </div>
-
-          <div className="shoppingPortionCell" aria-label={`${item.name} portion size`}>
-            {formatShoppingQuantity(item.qty)} {item.unit}
-          </div>
-
-          <label className="shoppingItemComment shoppingCommentCell">
-            <input
-              type="text"
-              value={shoppingComments[key] || ""}
-              onChange={(event) =>
-                setShoppingComments((current) => ({
-                  ...(current || {}),
-                  [key]: event.target.value,
-                }))
-              }
-              placeholder="Comments, brand, size, substitution, or store…"
-              aria-label={`Comments or suggestions for ${item.name}`}
-            />
-          </label>
-
-          <div className={reference ? "shoppingSuggestionCell hasSuggestion" : "shoppingSuggestionCell"}>
-            {reference ? (
-              <>
-                <div>
-                  <strong>{reference.name}</strong>
-                  <small>{reference.examples.slice(0, 2).join(" · ")}</small>
-                </div>
-                <button type="button" onClick={() => setActivePage("Grocery Picks")}>
-                  Review
-                </button>
-              </>
-            ) : (
-              <small>No suggested pick</small>
-            )}
-          </div>
-        </div>
-      );
-    }
 
     return (
-      <div key={key} className="shoppingItemWrap">
-        <div className="shoppingItem pantryShoppingItem">
-          <span className="pantryFilledBox" aria-hidden="true" />
-          <span>{item.name}</span>
-          <small>
-            {formatShoppingQuantity(item.qty)} {item.unit}
-          </small>
+      <div key={key} className="shoppingListDataRow pantryDataRow">
+        <div className="shoppingListCheckCell"><span className="pantryFilledBox" aria-hidden="true" /></div>
+        <div className="shoppingListProductCell">
+          <strong>{item.name}</strong>
+          <span>Already available</span>
         </div>
-
-        {renderGroceryReference(item)}
+        <div className="shoppingListLocationCell"><strong>Pantry</strong><span>{item.aisle || "Other"}</span></div>
+        <div className="shoppingListNeededCell"><strong>{formatShoppingQuantity(item.qty)}</strong><span>{item.unit || "item(s)"}</span></div>
+        <div className="shoppingListOrderCell shoppingListOrderCellDisabled" aria-label="No order needed">—</div>
+        <label className="shoppingListNotesCell">
+          <input type="text" value={shoppingComments[key] || ""} onChange={(event) => setShoppingComments((current) => ({ ...(current || {}), [key]: event.target.value }))} placeholder="Notes…" aria-label={`Notes for ${item.name}`} />
+        </label>
       </div>
     );
   }
@@ -10916,14 +10874,12 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
                   <p>Everything on this list is currently marked as in your pantry.</p>
                 </div>
               ) : (
-                <div className="shoppingFlatRows" role="list" aria-label="Items to buy">
+                <div className="shoppingListTable" role="table" aria-label="Items to buy">
+                  <div className="shoppingListColumnHeader" role="row">
+                    <span aria-hidden="true">✓</span><span>Product Name / Description</span><span>Location / Category</span><span>Qty Needed</span><span>Qty to Order</span><span>Notes</span>
+                  </div>
                   {Object.entries(groupedNeeded).sort(([a], [b]) => a.localeCompare(b)).flatMap(([aisle, items]) =>
-                    items.map((item) => (
-                      <div className="shoppingFlatRowWithCategory" role="listitem" key={`${aisle}-${item.name}-${item.unit}`}>
-                        <span className="shoppingFlatCategory">{aisle}</span>
-                        {renderNeededItem(item)}
-                      </div>
-                    ))
+                    items.map((item) => renderNeededItem({ ...item, aisle }))
                   )}
                 </div>
               )}
@@ -10959,14 +10915,12 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
                   </p>
                 </div>
               ) : (
-                <div className="shoppingFlatRows" role="list" aria-label="Items already on hand">
+                <div className="shoppingListTable" role="table" aria-label="Items already on hand">
+                  <div className="shoppingListColumnHeader" role="row">
+                    <span aria-hidden="true">✓</span><span>Product Name / Description</span><span>Location / Category</span><span>Qty Needed</span><span>Qty to Order</span><span>Notes</span>
+                  </div>
                   {Object.entries(groupedPantry).sort(([a], [b]) => a.localeCompare(b)).flatMap(([aisle, items]) =>
-                    items.map((item) => (
-                      <div className="shoppingFlatRowWithCategory" role="listitem" key={`${aisle}-${item.name}-${item.unit}-pantry`}>
-                        <span className="shoppingFlatCategory">{aisle}</span>
-                        {renderPantryItem(item, aisle === "Complete Dinner Ingredients")}
-                      </div>
-                    ))
+                    items.map((item) => renderPantryItem({ ...item, aisle }))
                   )}
                 </div>
               )}
@@ -17955,6 +17909,10 @@ export default function App() {
     const stored = loadJSON(STORAGE_KEYS.shoppingComments, {});
     return stored && typeof stored === "object" ? stored : {};
   });
+  const [shoppingOrderQuantities, setShoppingOrderQuantities] = useState(() => {
+    const stored = loadJSON(STORAGE_KEYS.shoppingOrderQuantities, {});
+    return stored && typeof stored === "object" ? stored : {};
+  });
   const [productCategories, setProductCategories] = useState(() => {
     const stored = loadJSON(STORAGE_KEYS.productCategories, {});
     return stored && typeof stored === "object" ? stored : {};
@@ -18082,6 +18040,7 @@ export default function App() {
         preparedInventory,
         componentDecisions,
         shoppingComments,
+        shoppingOrderQuantities,
         productCategories,
         masterInventory,
       }) || hasStoredCustomUserInformation(),
@@ -18099,6 +18058,7 @@ export default function App() {
       refrigerator,
       servings,
       shoppingComments,
+      shoppingOrderQuantities,
       userDataRevision,
     ],
   );
@@ -18124,6 +18084,7 @@ export default function App() {
   useEffect(() => saveJSON(STORAGE_KEYS.preparedReservations, preparedReservations), [preparedReservations]);
   useEffect(() => saveJSON(STORAGE_KEYS.componentDecisions, componentDecisions), [componentDecisions]);
   useEffect(() => saveJSON(STORAGE_KEYS.shoppingComments, shoppingComments), [shoppingComments]);
+  useEffect(() => saveJSON(STORAGE_KEYS.shoppingOrderQuantities, shoppingOrderQuantities), [shoppingOrderQuantities]);
   useEffect(() => saveJSON(STORAGE_KEYS.productCategories, productCategories), [productCategories]);
   useEffect(() => saveJSON(STORAGE_KEYS.masterInventory, masterInventory), [masterInventory]);
 
@@ -18285,6 +18246,8 @@ export default function App() {
     setComponentDecisions,
     shoppingComments,
     setShoppingComments,
+    shoppingOrderQuantities,
+    setShoppingOrderQuantities,
     productCategories,
     setProductCategories,
     masterInventory,

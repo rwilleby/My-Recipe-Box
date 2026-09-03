@@ -21486,6 +21486,126 @@ button.browseRecipeWideFooterAction:focus-visible,
 
 .shoppingFlatRows { width: 100%; }
 
+.shoppingListTable { width: 100%; min-width: 0; }
+
+.shoppingListColumnHeader,
+.shoppingListDataRow {
+  display: grid;
+  grid-template-columns: 44px minmax(250px, 2.25fr) minmax(135px, .85fr) minmax(88px, .55fr) minmax(150px, .9fr) minmax(190px, 1.2fr);
+  gap: 10px;
+  align-items: center;
+  min-width: 0;
+}
+
+.shoppingListColumnHeader {
+  min-height: 38px;
+  padding: 7px 10px;
+  border-bottom: 1px solid #d8d0c2;
+  color: #5f5a52;
+  font: 800 11px/1.15 Inter, system-ui, sans-serif;
+  letter-spacing: .035em;
+  text-transform: uppercase;
+}
+
+.shoppingListColumnHeader span:first-child { text-align: center; }
+
+.shoppingListDataRow {
+  min-height: 62px;
+  padding: 8px 10px;
+  border-bottom: 1px solid #e7e0d5;
+}
+
+.shoppingListDataRow:last-child { border-bottom: 0; }
+
+.shoppingListCheckCell {
+  display: grid;
+  place-items: center;
+  margin: 0;
+}
+
+.shoppingListCheckCell input {
+  width: 24px;
+  height: 24px;
+  margin: 0;
+  accent-color: #716b65;
+}
+
+.shoppingListProductCell,
+.shoppingListLocationCell,
+.shoppingListNeededCell {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.shoppingListProductCell strong {
+  color: #172033;
+  font: 700 14px/1.22 Inter, system-ui, sans-serif;
+  overflow-wrap: anywhere;
+}
+
+.shoppingListProductCell span,
+.shoppingListLocationCell span,
+.shoppingListNeededCell span {
+  color: #667085;
+  font: 400 11px/1.2 Inter, system-ui, sans-serif;
+}
+
+.shoppingListLocationCell strong,
+.shoppingListNeededCell strong {
+  color: #343b46;
+  font: 700 12px/1.2 Inter, system-ui, sans-serif;
+}
+
+.shoppingListOrderCell {
+  display: grid;
+  grid-template-columns: 34px minmax(48px, 1fr) 34px;
+  gap: 4px;
+  align-items: center;
+}
+
+.shoppingListOrderCell button,
+.shoppingListOrderCell input {
+  height: 36px;
+  min-width: 0;
+  border: 1px solid #aaa196;
+  border-radius: 8px;
+  background: #faf8f4;
+  color: #27231f;
+  font: 700 14px/1 Inter, system-ui, sans-serif;
+}
+
+.shoppingListOrderCell button { padding: 0; cursor: pointer; }
+.shoppingListOrderCell input { width: 100%; padding: 0 5px; text-align: center; }
+.shoppingListOrderCell button:focus-visible,
+.shoppingListOrderCell input:focus-visible,
+.shoppingListNotesCell input:focus-visible { outline: 3px solid rgba(119, 113, 107, .28); outline-offset: 1px; }
+
+.shoppingListOrderCellDisabled {
+  display: block;
+  color: #8b857d;
+  font-size: 15px;
+  text-align: center;
+}
+
+.shoppingListNotesCell { min-width: 0; margin: 0; }
+.shoppingListNotesCell input {
+  width: 100%;
+  height: 36px;
+  min-width: 0;
+  padding: 0 9px;
+  border: 1px solid #c9d5cc;
+  border-radius: 8px;
+  background: #fff;
+  color: #172033;
+  font: 400 12px/1 Inter, system-ui, sans-serif;
+}
+
+.shoppingListDataRow.isChecked .shoppingListProductCell strong {
+  color: #77716b;
+  text-decoration: line-through;
+}
+
 .shoppingFlatRowWithCategory {
   display: grid;
   grid-template-columns: minmax(115px, .55fr) minmax(0, 3.45fr);
@@ -21530,6 +21650,11 @@ button.browseRecipeWideFooterAction:focus-visible,
 }
 
 @media (max-width: 1050px) {
+  .shoppingListColumnHeader,
+  .shoppingListDataRow {
+    grid-template-columns: 40px minmax(210px, 1.8fr) minmax(120px, .8fr) 82px minmax(138px, .9fr) minmax(150px, 1fr);
+    gap: 7px;
+  }
   .shoppingFlatRowWithCategory {
     grid-template-columns: 105px minmax(0, 1fr);
   }
@@ -21542,6 +21667,18 @@ button.browseRecipeWideFooterAction:focus-visible,
 }
 
 @media (max-width: 720px) {
+  .shoppingListColumnHeader { display: none; }
+  .shoppingListDataRow {
+    grid-template-columns: 36px minmax(0, 1fr) auto;
+    gap: 7px 9px;
+    padding: 11px 2px;
+  }
+  .shoppingListCheckCell { grid-row: 1 / span 2; }
+  .shoppingListProductCell { grid-column: 2 / -1; }
+  .shoppingListLocationCell { grid-column: 2; }
+  .shoppingListNeededCell { grid-column: 3; text-align: right; }
+  .shoppingListOrderCell { grid-column: 2 / -1; max-width: 180px; }
+  .shoppingListNotesCell { grid-column: 2 / -1; }
   .shoppingFlatGroupHeader,
   .shoppingFlatListTitle {
     align-items: flex-start;

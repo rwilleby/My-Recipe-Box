@@ -21,8 +21,10 @@ for (const token of [
   'className="shoppingFlatGroup preparedBatchSection"',
   'className="shoppingFlatList shoppingNeededItemsList"',
   'className="shoppingFlatList pantryListSection"',
-  'className="shoppingFlatRows"',
-  'className="shoppingFlatCategory"',
+  'className="shoppingListTable"',
+  'className="shoppingListColumnHeader"',
+  'shoppingListDataRow',
+  'className="shoppingListOrderCell"',
   'useState("consolidated")',
 ]) {
   assert.ok(shopping.includes(token), `Missing Shopping List flat-list behavior: ${token}`);
@@ -32,8 +34,9 @@ for (const token of [
   "v96.6 — Shopping List: visible, inventory-style list without accordions.",
   "grid-template-columns: minmax(300px, 2.2fr) repeat(6, minmax(0, 1fr))",
   ".shoppingFlatListTitle",
-  ".shoppingFlatRowWithCategory",
-  ".shoppingFlatCategory",
+  ".shoppingListColumnHeader",
+  ".shoppingListDataRow",
+  ".shoppingListOrderCell",
 ]) {
   assert.ok(css.includes(token), `Missing Shopping List flat-list style: ${token}`);
 }
