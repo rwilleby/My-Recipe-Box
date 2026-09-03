@@ -172,6 +172,55 @@
 
 @media print { .masterKitchenInventoryPage { display: none !important; } }
 
+/* v96.7 — lightweight, batch-oriented Master Product List */
+.baseProductSelector { position: relative; margin: 10px 0 18px; border-top: 1px solid #ddd5c9; border-bottom: 1px solid #ddd5c9; background: #fff; }
+.baseProductSearch { display: grid; gap: 5px; padding: 12px 0; color: #5d554a; font: 800 10px Inter, Arial, sans-serif; letter-spacing: .04em; text-transform: uppercase; }
+.baseProductSearch input { width: 100%; height: 42px; border: 1px solid #cfc7bb; border-radius: 9px; background: #fff; padding: 0 12px; color: #29261f; font: 14px Inter, Arial, sans-serif; text-transform: none; }
+.baseProductCategories { border-top: 1px solid #e3ddd3; }
+.baseProductCategory { border-bottom: 1px solid #e3ddd3; }
+.baseProductCategoryButton { display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; align-items: center; width: 100%; min-height: 46px; border: 0; background: #faf8f4; padding: 8px 12px; color: #3f3a33; text-align: left; }
+.baseProductCategoryButton:hover { background: #f3efe8; }
+.baseProductCategoryButton strong { font: 800 15px Inter, Arial, sans-serif; }
+.baseProductCategoryButton small { color: #756d62; font: 700 11px Inter, Arial, sans-serif; }
+.baseProductRows, .baseProductSearchResults { display: grid; }
+.baseProductRow { display: grid; grid-template-columns: minmax(260px, 1fr) minmax(0, auto); gap: 10px; align-items: center; min-height: 42px; padding: 7px 12px 7px 30px; border-top: 1px solid #ece7df; }
+.baseProductRow.is-selected { background: #fbfaf7; }
+.baseProductIdentity { display: flex; align-items: center; gap: 10px; min-width: 0; cursor: pointer; }
+.baseProductIdentity input { width: 20px; height: 20px; accent-color: #77716b; }
+.baseProductIdentity > span { display: flex; align-items: baseline; gap: 8px; min-width: 0; }
+.baseProductIdentity strong { color: #172033; font: 750 13px/1.25 Inter, Arial, sans-serif; }
+.baseProductIdentity small { flex: 0 0 auto; border-radius: 999px; background: #e7efe8; padding: 3px 7px; color: #355f3e; font: 800 9px Inter, Arial, sans-serif; text-transform: uppercase; }
+.baseProductControls { display: grid; grid-template-columns: 126px 130px 140px; gap: 8px; align-items: end; }
+.baseProductControls label { display: grid; gap: 3px; color: #6a6258; font: 800 9px Inter, Arial, sans-serif; letter-spacing: .03em; text-transform: uppercase; }
+.baseProductControls select { width: 100%; height: 34px; border: 1px solid #c9c0b4; border-radius: 7px; background: #fff; padding: 0 24px 0 8px; color: #39342d; font: 12px Inter, Arial, sans-serif; text-transform: none; }
+.baseProductQuantity { display: grid; grid-template-columns: 34px 52px 34px; gap: 3px; }
+.baseProductQuantity button, .baseProductQuantity input { height: 34px; border: 1px solid #b9afa1; border-radius: 7px; background: #fff; color: #302c27; font: 800 15px Inter, Arial, sans-serif; text-align: center; }
+.baseProductQuantity input { min-width: 0; padding: 0 3px; font-size: 12px; appearance: textfield; }
+.baseProductQuantity input::-webkit-inner-spin-button { appearance: none; }
+.baseProductResultCategory { color: #756d62; font: 700 11px Inter, Arial, sans-serif; }
+.baseProductSearchResults .baseProductRow { grid-template-columns: minmax(240px, 1fr) 130px auto; padding-left: 12px; }
+.baseProductActionBar { position: sticky; bottom: 8px; z-index: 20; display: flex; justify-content: space-between; align-items: center; gap: 10px; margin: 12px; padding: 10px 12px; border: 1px solid #bfb5a7; border-radius: 10px; background: #f4f0e9; box-shadow: 0 7px 24px rgba(50,42,34,.15); }
+.baseProductActionBar strong { color: #302c27; font: 800 13px Inter, Arial, sans-serif; }
+.baseProductActionBar div { display: flex; gap: 7px; }
+.baseProductActionBar button { min-height: 38px; }
+.baseProductMessage { margin: 10px 12px; border-radius: 8px; background: #eaf2eb; padding: 10px 12px; color: #315b3a; font: 700 12px Inter, Arial, sans-serif; }
+.baseProductSelector button:focus-visible, .baseProductSelector input:focus-visible, .baseProductSelector select:focus-visible { outline: 3px solid #bd8f3e; outline-offset: 2px; }
+
+@media (max-width: 900px) {
+  .baseProductRow, .baseProductSearchResults .baseProductRow { grid-template-columns: minmax(0, 1fr); padding-left: 12px; }
+  .baseProductControls { grid-template-columns: 126px minmax(110px, 1fr) minmax(120px, 1fr); }
+  .baseProductResultCategory { display: none; }
+}
+@media (max-width: 600px) {
+  .baseProductCategoryButton { grid-template-columns: 20px minmax(0, 1fr); }
+  .baseProductCategoryButton small { grid-column: 2; }
+  .baseProductIdentity > span { display: grid; gap: 3px; }
+  .baseProductControls { grid-template-columns: 1fr 1fr; }
+  .baseProductControls label:last-child { grid-column: 1 / -1; }
+  .baseProductActionBar { align-items: stretch; flex-direction: column; }
+  .baseProductActionBar div { display: grid; }
+}
+
 /* v96.5 — glanceable current-inventory overview */
 .inventoryPageHeading h1 { font-size: 25px; }
 .inventoryPageHeading p { font-size: 14px; }

@@ -6,7 +6,7 @@ const p = (categoryId, family, variation, unit, storage, aliases = []) => Object
   categoryId, family, variation, unit, storage, aliases: Object.freeze(aliases),
 });
 
-export const BASE_KITCHEN_PRODUCTS = Object.freeze([
+const LEGACY_BASE_KITCHEN_PRODUCTS = Object.freeze([
   // Meat & Seafood
   p("meat-poultry", "Bacon", "Sliced", "packages", "Refrigerator", ["bacon strips"]),
   p("meat-poultry", "Beef", "Brisket", "lb", "Refrigerator", ["beef brisket"]),
@@ -199,6 +199,178 @@ export const BASE_KITCHEN_PRODUCTS = Object.freeze([
   p("frozen-foods", "Frozen Pizza", "Regular", "each", "Freezer"),
   p("frozen-foods", "Ice Cream & Frozen Treats", "Ice Cream", "containers", "Freezer"),
 ]);
+
+export const BASE_KITCHEN_CATEGORIES = Object.freeze([
+  ["meat-seafood", "Meat/Seafood"], ["dairy-eggs", "Dairy/Eggs"], ["breads", "Breads"],
+  ["produce", "Produce"], ["deli", "Deli"], ["pantry-canned", "Pantry/Canned"],
+  ["grains-pasta", "Grains/Pasta"], ["cereal-breakfast", "Cereal/Breakfast"],
+  ["condiments", "Condiments"], ["chips-snacks", "Chips/Snacks"], ["frozen-foods", "Frozen Foods"],
+  ["beverages", "Beverages"], ["household-cleaning", "Household/Cleaning"], ["pet-care", "Pet Care"],
+].map(([id, title]) => Object.freeze({ id, title })));
+
+const DISPLAY_CATEGORY = {
+  "meat-poultry": "meat-seafood", seafood: "meat-seafood", "dairy-eggs": "dairy-eggs",
+  "bread-bakery": "breads", vegetables: "produce", fruit: "produce", "canned-jarred": "pantry-canned",
+  "rice-pasta-grains": "grains-pasta", "sauces-condiments": "condiments", "frozen-foods": "frozen-foods",
+  beverages: "beverages", "prepared-packaged": "chips-snacks",
+};
+
+// Compact source rows keep the shipped catalog reviewable while expanding into
+// distinct, practical products. Format: Family|comma-separated varieties|unit|location.
+const EXPANSION_GROUPS = {
+  "meat-seafood": [
+    "Beef|Filet Mignon,Flank Steak,Flat Iron Steak,New York Strip,Short Ribs,Top Round Roast,Bottom Round Roast,Cubed Steak,Ground 85/15,Ground 90/10|lb|Refrigerator",
+    "Chicken|Bone-In Breasts,Split Breasts,Leg Quarters,Thin-Sliced Breasts,Ground,Whole Fryer|lb|Refrigerator",
+    "Pork|Country-Style Ribs,Loin Roast,Spareribs,Ground,Sirloin Chops,Center-Cut Chops|lb|Refrigerator",
+    "Fish|Cod Fillets,Haddock Fillets,Halibut Fillets,Mahi-Mahi Fillets,Red Snapper Fillets,Trout Fillets,Catfish Fillets,Tilapia Fillets|lb|Refrigerator",
+    "Shellfish|Clams,Crab Legs,Crawfish,Lobster Tails,Mussels,Oysters,Scallops|lb|Refrigerator",
+    "Sausage|Andouille,Bratwurst,Chorizo,Italian Hot,Italian Mild,Polish,Smoked,Turkey|packages|Refrigerator",
+    "Turkey|Cutlets,Drumsticks,Ground 85/15,Ground 93/7,Thighs,Wings|lb|Refrigerator",
+  ],
+  "dairy-eggs": [
+    "Cheese|Crumbled Blue,Crumbled Feta,Fresh Mozzarella,Shredded Colby Jack,Shredded Monterey Jack,Sliced Cheddar,Sliced Pepper Jack,Whole-Milk Ricotta,Part-Skim Ricotta|packages|Refrigerator",
+    "Milk|1%,2%,Chocolate,Evaporated,Lactose-Free Whole,Skim,Whole|cartons|Refrigerator",
+    "Yogurt|Greek Strawberry,Greek Vanilla,Plain Whole-Milk,Plain Low-Fat,Vanilla,Strawberry|containers|Refrigerator",
+    "Eggs|Large,Extra Large,Jumbo,Brown Large,Pasture-Raised Large|dozen|Refrigerator",
+    "Cream|Heavy Whipping,Light,Table,Whipping|cartons|Refrigerator",
+    "Butter|Salted,Unsalted,European-Style,Spreadable|packages|Refrigerator",
+    "Dairy|Cottage Cheese,Half-And-Half,Sour Cream,Whipped Cream,Buttermilk,Kefir|containers|Refrigerator",
+  ],
+  breads: [
+    "Bread|White Sandwich,Whole Wheat,Multigrain,Sourdough,Rye,Italian,French,Texas Toast,Cinnamon Raisin,Low-Carb,Gluten-Free|loaves|Pantry",
+    "Rolls|Dinner,Hawaiian,Slider,Hoagie,Kaiser,Ciabatta|packages|Pantry",
+    "Buns|Hamburger,Brioche Hamburger,Hot Dog,Brioche Hot Dog|packages|Pantry",
+    "Bakery|Bagels,English Muffins,Croissants,Biscuits,Cornbread,Muffins,Pita,Flatbread,Naan,Tortillas Flour,Tortillas Corn|packages|Pantry",
+  ],
+  produce: [
+    "Apples|Fuji,Gala,Granny Smith,Honeycrisp,Red Delicious|each|Refrigerator",
+    "Berries|Blackberries,Blueberries,Raspberries,Strawberries|containers|Refrigerator",
+    "Citrus|Grapefruit,Lemons,Limes,Mandarins,Navel Oranges|each|Refrigerator",
+    "Fruit|Bananas,Cherries,Grapes Green,Grapes Red,Kiwi,Mangoes,Nectarines,Peaches,Pears,Pineapple,Plums,Watermelon,Cantaloupe|each|Counter",
+    "Greens|Arugula,Baby Spinach,Collard Greens,Kale,Romaine Hearts,Spring Mix|packages|Refrigerator",
+    "Vegetables|Artichokes,Asparagus,Avocados,Beets,Broccoli,Brussels Sprouts,Cabbage,Carrots,Cauliflower,Celery,Corn,Cucumbers,Eggplant,Green Beans,Mushrooms,Okra,Radishes,Snap Peas,Zucchini|each|Refrigerator",
+    "Peppers|Green Bell,Red Bell,Yellow Bell,Jalapeño,Poblano,Serrano|each|Refrigerator",
+    "Potatoes|Gold,Red,Russet,Sweet|lb|Pantry",
+    "Fresh Herbs|Basil,Cilantro,Dill,Mint,Parsley,Rosemary,Thyme|bunches|Refrigerator",
+  ],
+  deli: [
+    "Deli Meat|Black Forest Ham,Honey Ham,Oven-Roasted Turkey,Smoked Turkey,Roast Beef,Chicken Breast,Bologna,Salami,Pastrami,Prosciutto,Capicola,Pepperoni|packages|Refrigerator",
+    "Deli Cheese|American,Cheddar,Provolone,Swiss,Pepper Jack|packages|Refrigerator",
+    "Deli Salad|Chicken,Egg,Macaroni,Pasta,Potato,Tuna,Coleslaw|containers|Refrigerator",
+    "Prepared Deli|Hummus,Guacamole,Pimento Cheese,Rotisserie Chicken,Fresh Salsa,Olives|containers|Refrigerator",
+  ],
+  "pantry-canned": [
+    "Beans|Black,Cannellini,Garbanzo,Kidney,Navy,Pinto,Refried,Red|cans|Pantry",
+    "Broth|Beef,Beef Low Sodium,Chicken,Chicken Low Sodium,Vegetable,Vegetable Low Sodium|cartons|Pantry",
+    "Tomatoes|Crushed,Diced,Diced No Salt Added,Fire-Roasted Diced,Stewed,Whole Peeled|cans|Pantry",
+    "Soup|Cream Of Celery,Cream Of Chicken,Cream Of Mushroom,Tomato,Chicken Noodle,Vegetable|cans|Pantry",
+    "Canned Vegetables|Carrots,Corn,Green Beans,Peas,Potatoes,Spinach,Mushrooms|cans|Pantry",
+    "Canned Fruit|Applesauce,Fruit Cocktail,Mandarin Oranges,Peaches,Pears,Pineapple|cans|Pantry",
+    "Canned Protein|Chicken,Roast Beef,Salmon,Tuna In Oil,Tuna In Water,Vienna Sausage|cans|Pantry",
+    "Pantry Staple|Bread Crumbs,Cornmeal,Cornstarch,Flour All-Purpose,Flour Bread,Flour Self-Rising,Sugar Brown,Sugar Granulated,Sugar Powdered,Yeast Active Dry|bags|Pantry",
+    "Baking|Cake Mix Chocolate,Cake Mix Yellow,Brownie Mix,Chocolate Chips,Cocoa Powder,Frosting Vanilla,Frosting Chocolate,Vanilla Extract,Baking Powder,Baking Soda|boxes|Pantry",
+  ],
+  "grains-pasta": [
+    "Rice|Arborio,Basmati,Brown,Jasmine,Long-Grain White,Wild Blend,Parboiled|bags|Pantry",
+    "Pasta|Angel Hair,Elbow Macaroni,Fettuccine,Lasagna,Linguine,Penne,Rigatoni,Rotini,Shells,Spaghetti,Ziti|boxes|Pantry",
+    "Grain|Barley,Bulgur,Couscous,Farro,Millet,Quinoa,Polenta|bags|Pantry",
+    "Noodles|Egg,Ramen,Rice,Soba,Udon|packages|Pantry",
+  ],
+  "cereal-breakfast": [
+    "Cereal|Bran Flakes,Corn Flakes,Crispy Rice,Frosted Flakes,Granola,Honey Oat Rings,Raisin Bran,Shredded Wheat|boxes|Pantry",
+    "Oatmeal|Old-Fashioned,Quick,Steel-Cut,Instant Original,Instant Maple Brown Sugar|containers|Pantry",
+    "Breakfast|Pancake Mix,Waffle Mix,Grits,Cream Of Wheat,Granola Bars,Protein Bars,Toaster Pastries|boxes|Pantry",
+    "Syrup|Maple,Pancake,Sugar-Free|bottles|Pantry",
+  ],
+  condiments: [
+    "Sauce|Barbecue,Buffalo,Hot,Marinara,Pizza,Steak,Teriyaki,Wing,Worcestershire,Enchilada Red,Enchilada Green|bottles|Pantry",
+    "Dressing|Balsamic Vinaigrette,Blue Cheese,Caesar,Honey Mustard,Italian,Ranch,Thousand Island|bottles|Refrigerator",
+    "Mustard|Dijon,Honey,Spicy Brown,Yellow|bottles|Refrigerator",
+    "Mayonnaise|Regular,Light,Olive Oil|jars|Refrigerator",
+    "Vinegar|Apple Cider,Balsamic,Red Wine,Rice,White,White Wine|bottles|Pantry",
+    "Condiment|Ketchup,Pickle Relish,Dill Pickles,Sweet Pickles,Salsa Red,Salsa Verde,Soy Sauce,Tartar Sauce|jars|Refrigerator",
+    "Spread|Almond Butter,Peanut Butter,Cookie Butter,Hazelnut Spread,Strawberry Jam,Grape Jelly,Orange Marmalade|jars|Pantry",
+  ],
+  "chips-snacks": [
+    "Chips|Barbecue Potato,Corn Tortilla,Kettle Potato,Plain Potato,Ranch Tortilla,Salt And Vinegar|bags|Pantry",
+    "Crackers|Butter,Cheese,Graham,Multigrain,Oyster,Saltine,Wheat|boxes|Pantry",
+    "Nuts|Almonds,Cashews,Peanuts,Pecans,Pistachios,Walnuts,Mixed|containers|Pantry",
+    "Snack|Beef Jerky,Cheese Puffs,Popcorn,Pretzels,Rice Cakes,Trail Mix,Fruit Snacks,Snack Mix|bags|Pantry",
+    "Cookies|Chocolate Chip,Oatmeal,Rice Crispy,Sandwich,Shortbread|packages|Pantry",
+  ],
+  "frozen-foods": [
+    "Frozen Vegetables|Broccoli,Cauliflower,Corn,Green Beans,Mixed Vegetables,Peas,Spinach,Stir-Fry Blend|bags|Freezer",
+    "Frozen Fruit|Blueberries,Mango,Mixed Berries,Peaches,Pineapple,Strawberries|bags|Freezer",
+    "Frozen Potatoes|Crinkle Fries,French Fries,Hash Browns,Tater Tots,Waffle Fries|bags|Freezer",
+    "Frozen Protein|Beef Meatballs,Chicken Breasts,Chicken Nuggets,Chicken Tenders,Ground Beef,Raw Shrimp,Salmon Fillets,Turkey Burgers|packages|Freezer",
+    "Frozen Meal|Burritos,Lasagna,Macaroni And Cheese,Pot Pie,Pizza,Ravioli,Vegetable Stir-Fry|packages|Freezer",
+    "Frozen Breakfast|Biscuits,Breakfast Sandwiches,Pancakes,Sausage Patties,Waffles|packages|Freezer",
+    "Frozen Dessert|Ice Cream,Fruit Bars,Sorbet,Cheesecake,Pie|containers|Freezer",
+  ],
+  beverages: [
+    "Coffee|Ground Dark Roast,Ground Medium Roast,Ground Light Roast,Instant,Pods Dark Roast,Pods Medium Roast,Pods Decaf,Whole Bean Dark Roast,Whole Bean Medium Roast|containers|Pantry",
+    "Tea|Black Bags,Green Bags,Herbal Bags,Sweet Bottled,Unsweet Bottled|boxes|Pantry",
+    "Water|Bottled,Sparkling,Flavored,Distilled|cases|Pantry",
+    "Juice|Apple,Cranberry,Grape,Orange,Pineapple,Tomato|bottles|Refrigerator",
+    "Soft Drink|Cola,Diet Cola,Lemon-Lime,Root Beer,Ginger Ale|cases|Pantry",
+    "Drink|Sports Drink,Energy Drink,Drink Mix,Hot Cocoa,Lemonade Mix|containers|Pantry",
+  ],
+  "household-cleaning": [
+    "Paper Towels|Regular,Select-A-Size|rolls|Other",
+    "Toilet Paper|Regular,Mega Roll|rolls|Other",
+    "Trash Bags|Kitchen Tall,Lawn And Leaf,Small|boxes|Other",
+    "Dish Care|Liquid Soap,Dishwasher Pods,Rinse Aid,Sponges,Scrub Pads|packages|Other",
+    "Laundry|Liquid Detergent,Detergent Pods,Fabric Softener,Dryer Sheets,Stain Remover,Bleach|containers|Other",
+    "Cleaner|All-Purpose,Bathroom,Glass,Floor,Disinfecting Spray,Disinfecting Wipes,Oven Cleaner|containers|Other",
+    "Kitchen Supply|Aluminum Foil,Plastic Wrap,Parchment Paper,Food Storage Bags,Disposable Plates,Disposable Cups,Napkins|packages|Other",
+  ],
+  "pet-care": [
+    "Dog Food|Dry,Wet,Refrigerated|bags|Other",
+    "Dog Treats|Biscuits,Dental Chews,Training Treats|bags|Other",
+    "Cat Food|Dry,Wet|bags|Other",
+    "Cat Care|Litter,Deodorizer,Treats|bags|Other",
+    "Pet Care|Waste Bags,Flea Treatment,Shampoo,Training Pads|packages|Other",
+  ],
+};
+
+const INTERNAL_CATEGORY = {
+  "meat-seafood": "meat-poultry", "dairy-eggs": "dairy-eggs", breads: "bread-bakery", produce: "vegetables",
+  deli: "meat-poultry", "pantry-canned": "canned-jarred", "grains-pasta": "rice-pasta-grains",
+  "cereal-breakfast": "rice-pasta-grains", condiments: "sauces-condiments", "chips-snacks": "prepared-packaged",
+  "frozen-foods": "frozen-foods", beverages: "beverages", "household-cleaning": "prepared-packaged", "pet-care": "prepared-packaged",
+};
+
+const expansionProducts = Object.entries(EXPANSION_GROUPS).flatMap(([baseCategoryId, groups]) => groups.flatMap((row) => {
+  const [family, varieties, unit, storage] = row.split("|");
+  return varieties.split(",").map((variation) => p(INTERNAL_CATEGORY[baseCategoryId], family, variation, unit, storage));
+})).map((item) => Object.freeze({ ...item, baseCategoryId: Object.entries(EXPANSION_GROUPS).find(([, groups]) => groups.some((row) => row.startsWith(`${item.family}|`) && row.split("|")[1].split(",").includes(item.variation)))?.[0] || DISPLAY_CATEGORY[item.categoryId] }));
+
+const remappedLegacy = LEGACY_BASE_KITCHEN_PRODUCTS.map((item) => Object.freeze({ ...item,
+  baseCategoryId: /Deli Meats/.test(item.family) ? "deli" : DISPLAY_CATEGORY[item.categoryId] || "pantry-canned",
+}));
+
+const uniqueProducts = new Map();
+[...remappedLegacy, ...expansionProducts].forEach((item) => {
+  const baseCategoryId = item.baseCategoryId || DISPLAY_CATEGORY[item.categoryId];
+  const key = `${baseCategoryId}|${item.family}|${item.variation}`.toLowerCase();
+  const commonAliases = [
+    /Dog Food.*Dry/i.test(`${item.family} ${item.variation}`) && "dog kibble",
+    /Broth.*Chicken/i.test(`${item.family} ${item.variation}`) && "chicken stock",
+    /Cheese.*Grated Parmesan/i.test(`${item.family} ${item.variation}`) && "parmesan cheese",
+    /Coffee.*Pods/i.test(`${item.family} ${item.variation}`) && "k-cups",
+    /^Mayonnaise/i.test(item.family) && "mayo",
+  ].filter(Boolean);
+  if (!uniqueProducts.has(key)) uniqueProducts.set(key, Object.freeze({ ...item, baseCategoryId,
+    id: `base-${baseCategoryId}-${item.family}-${item.variation}`.toLowerCase().replace(/&/g, "and").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""),
+    aliases: Object.freeze([...new Set([...(item.aliases || []), ...commonAliases])]),
+  }));
+});
+
+const CATEGORY_TARGETS = { "meat-seafood": 65, "dairy-eggs": 40, breads: 30, produce: 80, deli: 30,
+  "pantry-canned": 75, "grains-pasta": 35, "cereal-breakfast": 30, condiments: 50, "chips-snacks": 35,
+  "frozen-foods": 50, beverages: 35, "household-cleaning": 35, "pet-care": 20 };
+export const BASE_KITCHEN_PRODUCTS = Object.freeze(BASE_KITCHEN_CATEGORIES.flatMap((category) =>
+  [...uniqueProducts.values()].filter((item) => item.baseCategoryId === category.id).slice(0, CATEGORY_TARGETS[category.id])));
 
 export function baseProductName(product) {
   return product?.variation ? `${product.family} — ${product.variation}` : product?.family || "";

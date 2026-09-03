@@ -6,6 +6,7 @@ import { deleteInventoryProductThumbnail, loadInventoryProductThumbnail, saveInv
 import { createInventoryThumbnail } from "../utils/storeProductImport.js";
 import InventoryItemEditor from "./InventoryItemEditor.jsx";
 import { BASE_KITCHEN_PRODUCTS, baseProductName } from "../data/baseKitchenProducts.js";
+import BaseKitchenProductSelector from "./BaseKitchenProductSelector.jsx";
 import "./MasterKitchenInventoryPage.css";
 
 function normalizeState(value) {
@@ -495,7 +496,9 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
 
       <StoreInventoryImport mode={entryMode} setMode={setEntryMode} draft={storeDraft} setDraft={setStoreDraft} previewUrl={storePreviewUrl} onImage={acceptStoreImage} onConfirm={saveStoreProduct} onCancel={resetStoreImport} isEditing={Boolean(editingStoreItemId)} />
 
-      {(entryMode === "products" || entryMode === "manual") && (
+      {entryMode === "products" && <BaseKitchenProductSelector inventory={safeInventory} setInventory={setInventory} />}
+
+      {entryMode === "manual" && (
         <form className="masterInventoryCustomForm" onSubmit={addCustomItem}>
           <label><span>Category</span><select value={customForm.categoryId} onChange={(event) => {
             const categoryId = event.target.value;
