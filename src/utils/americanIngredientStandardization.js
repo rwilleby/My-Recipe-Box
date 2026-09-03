@@ -4,7 +4,7 @@ const CATEGORY_BY_AISLE = [
   ["Meat/Seafood", /meat|seafood/],
   ["Dairy/Eggs", /dairy/],
   ["Breads", /bread|bakery|refrigerated dough/],
-  ["Produce", /produce/],
+  ["Fresh Produce", /produce/],
   ["Deli", /deli/],
   ["Grains/Pasta", /rice|pasta|grain/],
   ["Cereal/Breakfast", /cereal|breakfast/],
@@ -13,6 +13,142 @@ const CATEGORY_BY_AISLE = [
   ["Frozen Foods", /frozen/],
   ["Beverages", /beverage/],
 ];
+
+export const APPROVED_INVENTORY_SUBCATEGORIES = Object.freeze({
+  "Meat/Seafood": Object.freeze(["Beef", "Chicken", "Pork", "Turkey", "Seafood", "Sausage"]),
+  "Dairy/Eggs": Object.freeze(["Butter", "Cheese", "Eggs", "Milk", "Cream", "Yogurt"]),
+  Breads: Object.freeze(["Buns", "Bread", "Rolls", "Bakery", "Tortillas"]),
+  "Fresh Produce": Object.freeze([]), // Produce kinds are the subcategories and may expand as recipes are audited.
+  Deli: Object.freeze(["Deli Meat", "Deli Cheese", "Deli Salad", "Deli Prepared"]),
+  "Pantry/Canned": Object.freeze(["Beans", "Broth", "Fruit", "Tomato", "Vegetables", "Soups", "Poultry", "Seafood", "Meats", "Baking", "Staples"]),
+  "Grains/Pasta": Object.freeze(["Oats", "Pasta", "Rice", "Grain", "Noodles", "Potatoes"]),
+  "Cereal/Breakfast": Object.freeze(["Cereal", "Oatmeal", "Hot Cereals", "Mixes", "Bars", "Syrups", "Jams/Jellies"]),
+  Condiments: Object.freeze(["Condiment", "Pasta", "Salad Dressing", "Salsa", "Sauce", "Vinegar", "Mustard"]),
+  "Chips/Snacks": Object.freeze(["Chips", "Crackers", "Nuts", "Sweet Snacks", "Salty Snacks", "Cookies", "Cakes"]),
+  "Frozen Foods": Object.freeze(["Fruit", "Beef", "Poultry", "Seafood", "Vegetables", "Pizza", "Breads", "Ice Cream", "Potatoes", "Meals", "Breakfast"]),
+  Beverages: Object.freeze(["Coffee", "Tea", "Water", "Juices", "Soft Drinks"]),
+  "Household/Cleaning": Object.freeze(["Paper", "Trash", "Dish", "Laundry", "Cleaners", "Supplies"]),
+  "Pet Care": Object.freeze(["Dog", "Cat"]),
+});
+
+const FRESH_PRODUCE_KINDS = [
+  ["Apple", /\bapples?\b/i], ["Asparagus", /\basparagus\b/i], ["Avocado", /\bavocados?\b/i],
+  ["Banana", /\bbananas?\b/i], ["Bean", /\b(green|wax) beans?\b/i], ["Beet", /\bbeets?\b/i],
+  ["Broccoli", /\bbroccoli\b/i], ["Brussels Sprout", /\bbrussels? sprouts?\b/i], ["Cabbage", /\b(cabbage|coleslaw mix)\b/i],
+  ["Carrot", /\bcarrots?\b/i], ["Cauliflower", /\bcauliflower\b/i], ["Celery", /\bcelery\b/i],
+  ["Corn", /\b(corn|ears?)\b/i], ["Cucumber", /\bcucumbers?\b/i], ["Garlic", /\bgarlic\b/i],
+  ["Lemon", /\blemons?\b/i], ["Lettuce", /\b(lettuce|romaine)\b/i], ["Lime", /\blimes?\b/i],
+  ["Mushroom", /\bmushrooms?\b/i], ["Onion", /\b(onions?|shallots?|scallions?|green onions?)\b/i],
+  ["Pea", /\bpeas?\b/i], ["Pepper", /\b(peppers?|jalape[nñ]os?|chiles?)\b/i], ["Potato", /\bpotato(?:es)?\b/i],
+  ["Spinach", /\bspinach\b/i], ["Sweet Potato", /\b(sweet potatoes?|yams?)\b/i],
+  ["Tomato", /\btomatoes?\b/i], ["Zucchini", /\bzucchini\b/i],
+  ["Herbs", /\b(parsley|cilantro|basil|rosemary|thyme|dill|chives|mint)\b/i],
+];
+
+function approvedCategoryAndSubcategory(name = "", aisle = "") {
+  const value = `${name} ${aisle}`.toLowerCase();
+  const has = (pattern) => pattern.test(value);
+
+  if (has(/\bfrozen\b/)) {
+    if (has(/fruit|berr|peach|mango|pineapple|cherr/)) return ["Frozen Foods", "Fruit"];
+    if (has(/beef|meatball/)) return ["Frozen Foods", "Beef"];
+    if (has(/chicken|turkey|poultry/)) return ["Frozen Foods", "Poultry"];
+    if (has(/fish|shrimp|salmon|seafood|crab/)) return ["Frozen Foods", "Seafood"];
+    if (has(/potato|fries|hash brown|tater tot/)) return ["Frozen Foods", "Potatoes"];
+    if (has(/bread|roll|biscuit|dough|pie crust/)) return ["Frozen Foods", "Breads"];
+    if (has(/pizza/)) return ["Frozen Foods", "Pizza"];
+    if (has(/ice cream|sherbet|sorbet|popsicle/)) return ["Frozen Foods", "Ice Cream"];
+    if (has(/breakfast|waffle|pancake/)) return ["Frozen Foods", "Breakfast"];
+    if (has(/vegetable|corn|peas|beans|broccoli|spinach|carrot|cauliflower/)) return ["Frozen Foods", "Vegetables"];
+    return ["Frozen Foods", "Meals"];
+  }
+
+  if (has(/\b(deli|lunch meat|salami|capicola|prosciutto|bologna|pastrami)\b/)) {
+    if (has(/cheese/)) return ["Deli", "Deli Cheese"];
+    if (has(/salad/)) return ["Deli", "Deli Salad"];
+    if (has(/prepared|sandwich|meal/)) return ["Deli", "Deli Prepared"];
+    return ["Deli", "Deli Meat"];
+  }
+  if (has(/\bcoleslaw\b/)) return ["Deli", "Deli Salad"];
+  if (has(/\bpickles?\b/)) return ["Condiments", "Condiment"];
+
+  if (has(/\b(canned|can of|condensed|broth|stock|bouillon|tomato paste|tomato sauce|soup)\b/)) {
+    if (has(/beans?|refried/)) return ["Pantry/Canned", "Beans"];
+    if (has(/broth|stock|bouillon/)) return ["Pantry/Canned", "Broth"];
+    if (has(/fruit|peach|pear|pineapple|cherr|apple/)) return ["Pantry/Canned", "Fruit"];
+    if (has(/tomato/)) return ["Pantry/Canned", "Tomato"];
+    if (has(/soup/)) return ["Pantry/Canned", "Soups"];
+    if (has(/chicken|turkey|poultry/)) return ["Pantry/Canned", "Poultry"];
+    if (has(/tuna|salmon|crab|shrimp|seafood/)) return ["Pantry/Canned", "Seafood"];
+    if (has(/beef|ham|pork|meat/)) return ["Pantry/Canned", "Meats"];
+    return ["Pantry/Canned", "Vegetables"];
+  }
+
+  if (has(/\b(ground beef|beef|steak|roast|brisket|stew meat|cube steaks?)\b/)) return ["Meat/Seafood", "Beef"];
+  if (has(/\b(chicken|poultry)\b/)) return ["Meat/Seafood", "Chicken"];
+  if (has(/\b(pork|ham|bacon)\b/)) return ["Meat/Seafood", "Pork"];
+  if (has(/\bturkey\b/)) return ["Meat/Seafood", "Turkey"];
+  if (has(/\b(sausage|bratwurst|kielbasa|chorizo|hot dogs?)\b/)) return ["Meat/Seafood", "Sausage"];
+  if (has(/\b(fish|shrimp|salmon|tuna|crab|seafood|tilapia|cod|catfish|scallops?)\b/)) return ["Meat/Seafood", "Seafood"];
+
+  if (has(/\bbutter\b/) && !has(/peanut|almond|nut butter/)) return ["Dairy/Eggs", "Butter"];
+  if (has(/\b(cheese|cheddar|mozzarella|parmesan|provolone|ricotta|feta)\b/)) return ["Dairy/Eggs", "Cheese"];
+  if (has(/\b(eggs?|egg whites?|egg yolks?)\b/)) return ["Dairy/Eggs", "Eggs"];
+  if (has(/\b(milk|buttermilk)\b/)) return ["Dairy/Eggs", "Milk"];
+  if (has(/\b(cream|half-and-half|sour cream)\b/)) return ["Dairy/Eggs", "Cream"];
+  if (has(/\byogurt\b/)) return ["Dairy/Eggs", "Yogurt"];
+
+  if (has(/\b(hamburger|hot dog|slider) buns?\b/)) return ["Breads", "Buns"];
+  if (has(/\b(dinner|crescent|kaiser) rolls?\b/)) return ["Breads", "Rolls"];
+  if (has(/\btortillas?|wraps?\b/)) return ["Breads", "Tortillas"];
+  if (has(/\b(bagels?|biscuits?|croissants?|muffins?|pie crusts?|bakery)\b/)) return ["Breads", "Bakery"];
+  if (has(/\b(bread|loaf|cornbread|pita|flatbread)\b/)) return ["Breads", "Bread"];
+
+  if (!has(/powder|dried|canned|frozen|juice|sauce|paste/) && /produce/.test(aisle.toLowerCase())) {
+    const kind = FRESH_PRODUCE_KINDS.find(([, pattern]) => pattern.test(name))?.[0] || "Other";
+    return ["Fresh Produce", kind];
+  }
+
+  if (has(/\boats?\b/)) return ["Grains/Pasta", "Oats"];
+  if (has(/\b(spaghetti|macaroni|penne|rotini|lasagna|pasta|ravioli|tortellini|linguine|fettuccine)\b/)) return ["Grains/Pasta", "Pasta"];
+  if (has(/\brice\b/)) return ["Grains/Pasta", "Rice"];
+  if (has(/\bnoodles?|ramen\b/)) return ["Grains/Pasta", "Noodles"];
+  if (has(/\b(instant|dehydrated|boxed) (mashed )?potatoes?\b/)) return ["Grains/Pasta", "Potatoes"];
+  if (has(/\b(quinoa|barley|farro|couscous|bulgur|polenta|cornmeal)\b/)) return ["Grains/Pasta", "Grain"];
+
+  if (has(/\bcereal\b/)) return ["Cereal/Breakfast", "Cereal"];
+  if (has(/\boatmeal\b/)) return ["Cereal/Breakfast", "Oatmeal"];
+  if (has(/\b(grits|cream of wheat|hot cereal)\b/)) return ["Cereal/Breakfast", "Hot Cereals"];
+  if (has(/\b(pancake|waffle|biscuit) mix\b/)) return ["Cereal/Breakfast", "Mixes"];
+  if (has(/\b(granola|breakfast|protein) bars?\b/)) return ["Cereal/Breakfast", "Bars"];
+  if (has(/\b(maple|pancake) syrup\b/)) return ["Cereal/Breakfast", "Syrups"];
+  if (has(/\b(jam|jelly|preserves|marmalade)\b/)) return ["Cereal/Breakfast", "Jams/Jellies"];
+
+  if (has(/\b(pasta|marinara|alfredo|spaghetti) sauce\b/)) return ["Condiments", "Pasta"];
+  if (has(/\b(dressing|vinaigrette)\b/)) return ["Condiments", "Salad Dressing"];
+  if (has(/\bsalsa\b/)) return ["Condiments", "Salsa"];
+  if (has(/\bvinegar\b/)) return ["Condiments", "Vinegar"];
+  if (has(/\bmustard\b/)) return ["Condiments", "Mustard"];
+  if (has(/\bsauce\b/)) return ["Condiments", "Sauce"];
+  if (has(/\b(ketchup|mayonnaise|mayo|relish|pickles?)\b/)) return ["Condiments", "Condiment"];
+
+  if (has(/\bcrackers?\b/)) return ["Chips/Snacks", "Crackers"];
+  if (has(/\bchips?\b/)) return ["Chips/Snacks", "Chips"];
+  if (has(/\b(pecans?|walnuts?|almonds?|peanuts?|cashews?|nuts?)\b/)) return ["Chips/Snacks", "Nuts"];
+  if (has(/\bcookies?\b/)) return ["Chips/Snacks", "Cookies"];
+  if (has(/\bcakes?\b/)) return ["Chips/Snacks", "Cakes"];
+  if (has(/\b(pretzels?|popcorn|salty snack)\b/)) return ["Chips/Snacks", "Salty Snacks"];
+  if (has(/\b(candy|sweet snack)\b/)) return ["Chips/Snacks", "Sweet Snacks"];
+
+  if (has(/\bcoffee\b/)) return ["Beverages", "Coffee"];
+  if (has(/\btea\b/)) return ["Beverages", "Tea"];
+  if (has(/\bwater\b/)) return ["Beverages", "Water"];
+  if (has(/\bjuice\b/)) return ["Beverages", "Juices"];
+  if (has(/\b(soda|soft drink|cola)\b/)) return ["Beverages", "Soft Drinks"];
+
+  if (has(/\b(flour|baking powder|baking soda|yeast|sugar|cornstarch|vanilla|extract|shortening|chocolate chips?|cocoa|cake mix|brownie mix)\b/)) return ["Pantry/Canned", "Baking"];
+  return ["Pantry/Canned", "Staples"];
+}
 
 const UNIT_ALIASES = Object.freeze({
   cups: "cup", cup: "cup", tbsp: "tablespoon", tsp: "teaspoon", lb: "pound", oz: "ounce",
@@ -145,9 +281,10 @@ export function standardizeAmericanIngredient(ingredient, recipeId = "") {
   const parsedName = splitName(ingredient.name);
   const unit = normalizeUnit(ingredient.unit);
   const match = resolveMasterProduct(parsedName.matchName);
-  const category = match.masterItemId
+  const legacyCategory = match.masterItemId
     ? BASE_KITCHEN_CATEGORIES.find((item) => item.id === productByDisplayName.get(match.canonicalName)?.baseCategoryId)?.title
     : CATEGORY_BY_AISLE.find(([, pattern]) => pattern.test(String(ingredient.aisle || "").toLowerCase()))?.[0] || "Pantry/Canned";
+  const [category, subcategory] = approvedCategoryAndSubcategory(parsedName.matchName, ingredient.aisle);
   const preparation = [parsedName.preparation, unit.instruction].filter(Boolean).join(", ");
   return {
     ...ingredient,
@@ -164,6 +301,8 @@ export function standardizeAmericanIngredient(ingredient, recipeId = "") {
     masterItemId: match.masterItemId,
     matchStatus: match.matchStatus,
     inventoryCategory: category,
+    inventorySubcategory: subcategory,
+    legacyInventoryCategory: legacyCategory,
     auditSource: `${recipeId} illustrated recipe card transcription`,
   };
 }
