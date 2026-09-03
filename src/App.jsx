@@ -10593,11 +10593,17 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
 
   function renderNeededItem(item) {
     const key = `${item.name}-${item.unit}-${item.aisle}`;
-    const orderQuantity = Number(shoppingOrderQuantities[key] ?? item.qty ?? 0);
+    const orderQuantity = shoppingOrderQuantities[key] ?? "";
 
     function setOrderQuantity(value) {
-      const nextValue = Math.max(0, Number(value) || 0);
+      const nextValue = value === "" ? "" : Math.max(0, Number(value) || 0);
       setShoppingOrderQuantities((current) => ({ ...(current || {}), [key]: nextValue }));
+    }
+
+    function initialCapsShoppingName(value) {
+      return String(value || "")
+        .toLocaleLowerCase()
+        .replace(/\b([a-z])/g, (letter) => letter.toLocaleUpperCase());
     }
 
     return (
@@ -10611,7 +10617,7 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
           />
         </label>
         <div className="shoppingListProductCell">
-          <strong>{item.name}</strong>
+          <strong>{initialCapsShoppingName(item.name)}</strong>
           <span>Shopping item</span>
         </div>
         <div className="shoppingListLocationCell">
@@ -10623,9 +10629,9 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
           <span>{item.unit || "item(s)"}</span>
         </div>
         <div className="shoppingListOrderCell" aria-label={`${item.name} quantity to order`}>
-          <button type="button" onClick={() => setOrderQuantity(orderQuantity - 1)} aria-label={`Decrease quantity to order for ${item.name}`}>−</button>
-          <input type="number" min="0" step="any" value={orderQuantity} onChange={(event) => setOrderQuantity(event.target.value)} aria-label={`Quantity to order for ${item.name}`} />
-          <button type="button" onClick={() => setOrderQuantity(orderQuantity + 1)} aria-label={`Increase quantity to order for ${item.name}`}>+</button>
+          <button type="button" onClick={() => setOrderQuantity(Math.max(0, (Number(orderQuantity) || 0) - 1))} aria-label={`Decrease quantity to order for ${item.name}`}>−</button>
+          <input type="number" min="0" step="any" value={orderQuantity} placeholder="—" onChange={(event) => setOrderQuantity(event.target.value)} aria-label={`Quantity to order for ${item.name}`} />
+          <button type="button" onClick={() => setOrderQuantity((Number(orderQuantity) || 0) + 1)} aria-label={`Increase quantity to order for ${item.name}`}>+</button>
         </div>
         <label className="shoppingListNotesCell">
           <input
@@ -10647,12 +10653,13 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
 
   function renderPantryItem(item) {
     const key = `${item.name}-${item.unit}-${item.aisle}-pantry`;
+    const displayName = String(item.name || "").toLocaleLowerCase().replace(/\b([a-z])/g, (letter) => letter.toLocaleUpperCase());
 
     return (
       <div key={key} className="shoppingListDataRow pantryDataRow">
         <div className="shoppingListCheckCell"><span className="pantryFilledBox" aria-hidden="true" /></div>
         <div className="shoppingListProductCell">
-          <strong>{item.name}</strong>
+          <strong>{displayName}</strong>
           <span>Already available</span>
         </div>
         <div className="shoppingListLocationCell"><strong>Pantry</strong><span>{item.aisle || "Other"}</span></div>
@@ -10879,7 +10886,7 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
                     <span aria-hidden="true">✓</span><span>Product Name / Description</span><span>Location / Category</span><span>Qty Needed</span><span>Qty to Order</span><span>Notes</span>
                   </div>
                   {Object.entries(groupedNeeded).sort(([a], [b]) => a.localeCompare(b)).flatMap(([aisle, items]) =>
-                    items.map((item) => renderNeededItem({ ...item, aisle }))
+                    [...items].sort((a, b) => String(a.name).localeCompare(String(b.name))).map((item) => renderNeededItem({ ...item, aisle }))
                   )}
                 </div>
               )}
@@ -10920,7 +10927,7 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
                     <span aria-hidden="true">✓</span><span>Product Name / Description</span><span>Location / Category</span><span>Qty Needed</span><span>Qty to Order</span><span>Notes</span>
                   </div>
                   {Object.entries(groupedPantry).sort(([a], [b]) => a.localeCompare(b)).flatMap(([aisle, items]) =>
-                    items.map((item) => renderPantryItem({ ...item, aisle }))
+                    [...items].sort((a, b) => String(a.name).localeCompare(String(b.name))).map((item) => renderPantryItem({ ...item, aisle }))
                   )}
                 </div>
               )}

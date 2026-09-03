@@ -16,5 +16,7 @@ for (const label of ["Category", "Item", "Product name or variety", "Quantity", 
 assert.match(storePanel, /Choose a category and item below/);
 assert.match(css, /\.currentInventoryFilterRow/);
 assert.match(css, /\.currentInventoryFilters button\.is-active \{ background: #77716b; color: #fff; \}/);
+assert.match(css, /\.currentInventoryLocationSelect \{[^}]*min-width: 108px/s);
+assert.match(css, /30px 108px 68px 66px 54px/);
 
 console.log("v96.4 current-only Kitchen Inventory and guided item-entry contracts passed.");

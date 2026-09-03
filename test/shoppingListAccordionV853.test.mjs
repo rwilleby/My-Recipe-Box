@@ -13,6 +13,9 @@ assert.ok(!shopping.includes('<KosPlanningStatusBand kosUi={kosUi} mode="shoppin
 
 assert.ok(!shopping.includes("<details"), "Shopping List must not hide items in accordions");
 assert.ok(!shopping.includes("shoppingAccordion"), "Shopping List must use the flat-list pattern");
+assert.match(shopping, /shoppingOrderQuantities\[key\] \?\? ""/, "Quantity to order must not copy quantity needed");
+assert.match(shopping, /sort\(\(a, b\) => String\(a\.name\)\.localeCompare\(String\(b\.name\)\)\)/, "Items must sort alphabetically within category");
+assert.match(shopping, /initialCapsShoppingName\(item\.name\)/, "Shopping item names must display in Initial Caps");
 
 for (const token of [
   'className="shoppingFlatGroup shoppingMealGroup"',
