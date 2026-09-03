@@ -20505,7 +20505,6 @@ button.browseRecipeWideFooterAction:focus-visible,
   width: 90%;
   margin: 0 auto 16px;
 }
-.inventoryHubContent.isKitchen { width: 100% !important; max-width: 100% !important; margin-left: 0 !important; margin-right: 0 !important; }
 
 .inventoryHubPanel {
   padding: 14px;
@@ -21433,6 +21432,142 @@ button.browseRecipeWideFooterAction:focus-visible,
   .shoppingListIntroActions > button,
   .shoppingViewToggle { min-height: 54px !important; height: 54px !important; }
   .shoppingViewToggle button { min-height: 52px !important; height: 52px !important; }
+}
+
+/* v96.6 — Shopping List: visible, inventory-style list without accordions. */
+.shoppingFlatGroup,
+.shoppingFlatList {
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #d8d0c2;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 5px 16px rgba(33, 28, 20, .035);
+}
+
+.shoppingFlatGroupHeader,
+.shoppingFlatListTitle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 64px;
+  padding: 11px 18px;
+  border-bottom: 1px solid #ddd5c8;
+  background: #f0ebe2;
+}
+
+.shoppingFlatGroupHeader h2,
+.shoppingFlatGroupHeader h3,
+.shoppingFlatListTitle h2 {
+  margin: 0;
+  color: #172033;
+  font: 700 18px/1.2 Georgia, "Times New Roman", serif;
+}
+
+.shoppingFlatGroupHeader p,
+.shoppingFlatListTitle p {
+  margin: 3px 0 0;
+  color: #667085;
+  font: 400 12px/1.3 Inter, system-ui, sans-serif;
+}
+
+.shoppingFlatGroupHeader > strong,
+.shoppingFlatListTitle > strong,
+.shoppingFlatListTitle .pantryHeaderActions strong {
+  color: #4b5563;
+  font: 700 12px/1 Inter, system-ui, sans-serif;
+  white-space: nowrap;
+}
+
+.shoppingFlatGroupBody,
+.shoppingFlatListBody { padding: 0 16px; }
+
+.shoppingFlatRows { width: 100%; }
+
+.shoppingFlatRowWithCategory {
+  display: grid;
+  grid-template-columns: minmax(115px, .55fr) minmax(0, 3.45fr);
+  align-items: center;
+  min-width: 0;
+  border-bottom: 1px solid #e7e0d5;
+}
+
+.shoppingFlatRowWithCategory:last-child { border-bottom: 0; }
+
+.shoppingFlatCategory {
+  min-width: 0;
+  padding: 10px 12px 10px 0;
+  color: #5f5a52;
+  font: 700 12px/1.25 Inter, system-ui, sans-serif;
+}
+
+.shoppingFlatRowWithCategory .shoppingItemWrap {
+  min-width: 0;
+  padding: 7px 0 !important;
+  border-bottom: 0 !important;
+}
+
+.shoppingFlatRowWithCategory .shoppingThinRow {
+  grid-template-columns: minmax(180px, 1.45fr) minmax(90px, .45fr) minmax(190px, 1fr) minmax(180px, .9fr) !important;
+  gap: 8px !important;
+  align-items: center !important;
+}
+
+.shoppingFlatRowWithCategory .shoppingProductCell span {
+  overflow: visible !important;
+  white-space: normal !important;
+  text-overflow: clip !important;
+}
+
+.shoppingListUtilityActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 10px 0;
+  border-bottom: 1px solid #e7e0d5;
+}
+
+@media (max-width: 1050px) {
+  .shoppingFlatRowWithCategory {
+    grid-template-columns: 105px minmax(0, 1fr);
+  }
+  .shoppingFlatRowWithCategory .shoppingThinRow {
+    grid-template-columns: minmax(170px, 1fr) 90px minmax(150px, .8fr) !important;
+  }
+  .shoppingFlatRowWithCategory .shoppingSuggestionCell {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 720px) {
+  .shoppingFlatGroupHeader,
+  .shoppingFlatListTitle {
+    align-items: flex-start;
+    padding: 10px 12px;
+  }
+  .shoppingFlatGroupBody,
+  .shoppingFlatListBody { padding: 0 12px; }
+  .shoppingFlatRowWithCategory {
+    grid-template-columns: 1fr;
+    padding: 9px 0;
+  }
+  .shoppingFlatCategory {
+    padding: 0 0 4px;
+    color: #786f64;
+    font-size: 10px;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+  }
+  .shoppingFlatRowWithCategory .shoppingThinRow {
+    grid-template-columns: minmax(0, 1fr) auto !important;
+  }
+  .shoppingFlatRowWithCategory .shoppingPortionCell { text-align: right; }
+  .shoppingFlatRowWithCategory .shoppingCommentCell,
+  .shoppingFlatRowWithCategory .shoppingSuggestionCell { grid-column: 1 / -1; }
+  .shoppingListUtilityActions { justify-content: stretch; }
+  .shoppingListUtilityActions button { flex: 1; }
 }
 
 /* v85.4 minor edit — align Crock Pot finder spacing and result count with Diet Meals. */

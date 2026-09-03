@@ -18,7 +18,7 @@ assert.match(plannerCss, /grid-template-columns:repeat\(3,minmax\(150px,1fr\)\)/
 
 assert.match(app, /<span>Consolidated<\/span><span>List<\/span>/);
 assert.match(app, /<span>By Meal \/<\/span><span>Component<\/span>/);
-assert.match(app, /useState\("needs"\)/);
+assert.match(app, /useState\("consolidated"\)/);
 assert.match(app, /Items by Meal or Component/);
 assert.match(app, /function clearShoppingListAndStartOver\(\)/);
 assert.match(app, /setPlan\(emptyTwoWeekPlan\(\)\)/);

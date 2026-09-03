@@ -7804,7 +7804,7 @@ function InventoryHubPage({
         </form>
       )}
 
-      <section className={`inventoryHubContent${activeTab === "kitchen" ? " isKitchen" : ""}`} role="tabpanel">
+      <section className="inventoryHubContent" role="tabpanel">
         {activeTab === "kitchen" && <MasterKitchenInventoryPage {...pageProps} recipes={recipes} inventory={masterInventory} setInventory={setMasterInventory} externalSearch={currentSearch} embedded />}
         {activeTab === "freezer" && <FreezerInventoryManagementPage {...pageProps} classifiedRecipes={classifiedRecipes} preparedInventory={preparedInventory} setPreparedInventory={setPreparedInventory} freezer={freezer} setFreezer={setFreezer} setActivePage={setActivePage} externalSearch={currentSearch} embedded />}
         {activeTab === "pantry" && <PantryStaplesPage pantry={pantry} setPantry={setPantry} externalSearch={currentSearch} embedded />}
@@ -10025,7 +10025,7 @@ function FreezerInventoryPage({ freezer, setFreezer, setActivePage, embedded = f
 
 function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry, refrigerator, freezer, masterInventory, setActivePage, preparedInventory, preparedReservations, componentDecisions, setComponentDecisions, shoppingComments, setShoppingComments, kosUi }) {
   const [showDigitalStockCheck, setShowDigitalStockCheck] = useState(false);
-  const [shoppingView, setShoppingView] = useState("needs");
+  const [shoppingView, setShoppingView] = useState("consolidated");
   const recipeIdSet = useMemo(() => new Set(recipes.map((recipe) => recipe.id)), []);
   const recipeById = useMemo(
     () => Object.fromEntries(recipes.map((recipe) => [recipe.id, recipe])),
@@ -10792,35 +10792,33 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
           </div>
           <div className="shoppingNeedGroups">
             {shoppingNeedGroups.map((group) => (
-              <details className="shoppingAccordion shoppingNeedGroupAccordion" key={group.id}>
-                <summary>
-                  <span className="shoppingAccordionArrow" aria-hidden="true">▶</span>
+              <section className="shoppingFlatGroup shoppingMealGroup" key={group.id}>
+                <header className="shoppingFlatGroupHeader">
                   <div>
                     <h3>{group.title}</h3>
                     <p>{group.subtitle}</p>
                   </div>
                   <strong>{group.items.length} {group.items.length === 1 ? "item" : "items"}</strong>
-                </summary>
-                <div className="shoppingAccordionBody shoppingNeedGroupBody">
+                </header>
+                <div className="shoppingFlatGroupBody shoppingNeedGroupBody">
                   {group.items.map((item, itemIndex) => renderNeedGroupItem(group, item, itemIndex))}
                 </div>
-              </details>
+              </section>
             ))}
           </div>
         </section>
       ) : (
         <>
         <div className="preparedShoppingSections">
-          <details className="shoppingAccordion preparedOnHandSection">
-            <summary>
-              <span className="shoppingAccordionArrow" aria-hidden="true">▶</span>
+          <section className="shoppingFlatGroup preparedOnHandSection">
+            <header className="shoppingFlatGroupHeader">
               <div>
                 <h2>Already On Hand</h2>
                 <p>Prepared components covered by freezer inventory or manually verified.</p>
               </div>
               <strong>{preparedOnHand.length}</strong>
-            </summary>
-            <div className="shoppingAccordionBody">
+            </header>
+            <div className="shoppingFlatGroupBody">
               {preparedOnHand.length ? preparedOnHand.map((requirement) => {
                 const component = getPreparedComponent(requirement.componentId, preparedInventory);
                 return (
@@ -10832,18 +10830,17 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
                 );
               }) : <p className="preparedShoppingEmpty">No prepared components are currently verified on hand.</p>}
             </div>
-          </details>
+          </section>
 
-          <details className="shoppingAccordion preparedMissingSection">
-            <summary>
-              <span className="shoppingAccordionArrow" aria-hidden="true">▶</span>
+          <section className="shoppingFlatGroup preparedMissingSection">
+            <header className="shoppingFlatGroupHeader">
               <div>
                 <h2>Proteins or Components to Buy</h2>
                 <p>Choose how to handle unavailable prepared components.</p>
               </div>
               <strong>{preparedMissing.length}</strong>
-            </summary>
-            <div className="shoppingAccordionBody">
+            </header>
+            <div className="shoppingFlatGroupBody">
               {preparedMissing.length ? preparedMissing.map((requirement) => {
                 const component = getPreparedComponent(requirement.componentId, preparedInventory);
                 const decision = componentDecisions[requirement.componentId] || {};
@@ -10868,75 +10865,73 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
                 );
               }) : <p className="preparedShoppingEmpty">All required prepared components are available.</p>}
             </div>
-          </details>
+          </section>
 
-          <details className="shoppingAccordion preparedBatchSection">
-            <summary>
-              <span className="shoppingAccordionArrow" aria-hidden="true">▶</span>
+          <section className="shoppingFlatGroup preparedBatchSection">
+            <header className="shoppingFlatGroupHeader">
               <div>
                 <h2>Batch Prep Needed</h2>
                 <p>Components selected for advance cooking.</p>
               </div>
               <strong>{preparedToBatch.length}</strong>
-            </summary>
-            <div className="shoppingAccordionBody">
+            </header>
+            <div className="shoppingFlatGroupBody">
               {preparedToBatch.length ? preparedToBatch.map((item) => {
                 const component = getPreparedComponent(item.componentId, preparedInventory);
                 return <div className="preparedShoppingItem batch" key={item.componentId}><span className="preparedStatusDot" /><div><strong>{component?.name || item.componentId}</strong><small>Prepare {item.packagesRequired} package(s)</small></div></div>;
               }) : <p className="preparedShoppingEmpty">No components are currently selected for batch preparation.</p>}
             </div>
-          </details>
+          </section>
 
           {preparedToBuy.length > 0 && (
-            <details className="shoppingAccordion preparedBuySection">
-              <summary>
-                <span className="shoppingAccordionArrow" aria-hidden="true">▶</span>
+            <section className="shoppingFlatGroup preparedBuySection">
+              <header className="shoppingFlatGroupHeader">
                 <div><h2>Components Selected to Buy</h2><p>These remain separate from prepared items already on hand.</p></div>
                 <strong>{preparedToBuy.length}</strong>
-              </summary>
-              <div className="shoppingAccordionBody">
+              </header>
+              <div className="shoppingFlatGroupBody">
                 {preparedToBuy.map((item) => {
                   const component = getPreparedComponent(item.componentId, preparedInventory);
                   return <div className="preparedShoppingItem buy" key={item.componentId}><span className="preparedStatusDot" /><div><strong>{component?.name || item.componentId}</strong><small>Buy enough for {item.packagesRequired} prepared package(s)</small></div></div>;
                 })}
               </div>
-            </details>
+            </section>
           )}
         </div>
 
         <div className="shoppingListSections">
-          <details className="shoppingAccordion shoppingNeededItemsAccordion">
-            <summary>
-              <span className="shoppingAccordionArrow" aria-hidden="true">▶</span>
+          <section className="shoppingFlatList shoppingNeededItemsList">
+            <header className="shoppingFlatListTitle">
               <div>
                 <h2>Needed Items</h2>
                 <p>Open boxes are items to buy.</p>
               </div>
               <strong>{needed.length} items</strong>
-            </summary>
+            </header>
 
-            <div className="shoppingAccordionBody">
+            <div className="shoppingFlatListBody">
               {needed.length === 0 ? (
                 <div className="emptyState compactEmpty">
                   <h2>No needed items</h2>
                   <p>Everything on this list is currently marked as in your pantry.</p>
                 </div>
               ) : (
-                <div className="shoppingGrid">
-                  {Object.entries(groupedNeeded).map(([aisle, items]) => (
-                    <section className="shoppingGroup" key={aisle}>
-                      <h2>{aisle}</h2>
-                      {items.map(renderNeededItem)}
-                    </section>
-                  ))}
+                <div className="shoppingFlatRows" role="list" aria-label="Items to buy">
+                  {Object.entries(groupedNeeded).sort(([a], [b]) => a.localeCompare(b)).flatMap(([aisle, items]) =>
+                    items.map((item) => (
+                      <div className="shoppingFlatRowWithCategory" role="listitem" key={`${aisle}-${item.name}-${item.unit}`}>
+                        <span className="shoppingFlatCategory">{aisle}</span>
+                        {renderNeededItem(item)}
+                      </div>
+                    ))
+                  )}
                 </div>
               )}
             </div>
-          </details>
+          </section>
 
-          <details className="shoppingAccordion pantryListSection">
-            <summary>
-              <span className="shoppingAccordionArrow" aria-hidden="true">▶</span>
+          <section className="shoppingFlatList pantryListSection">
+            <header className="shoppingFlatListTitle">
               <div>
                 <h2>Already in Pantry</h2>
                 <p>Filled black boxes are already in your pantry.</p>
@@ -10944,10 +10939,10 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
               <div className="pantryHeaderActions">
                 <strong>{pantryItems.length} items</strong>
               </div>
-            </summary>
+            </header>
 
-            <div className="shoppingAccordionBody">
-              <div className="shoppingAccordionUtilityActions">
+            <div className="shoppingFlatListBody">
+              <div className="shoppingListUtilityActions">
                 <button className="secondary smallSecondary" onClick={() => setActivePage("Pantry Staples")}>
                   Edit Pantry Staples
                 </button>
@@ -10964,30 +10959,19 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
                   </p>
                 </div>
               ) : (
-                <div className="shoppingGrid">
-                  {Object.entries(groupedPantry).map(([aisle, items]) => {
-                    const isComboMealIngredients = aisle === "Complete Dinner Ingredients";
-                    return (
-                      <section
-                        className={isComboMealIngredients ? "shoppingGroup comboMealIngredientsGroup" : "shoppingGroup"}
-                        key={aisle}
-                      >
-                        {isComboMealIngredients ? (
-                          <div className="shoppingGroupStreamlinedHeader">
-                            <h2>Complete Dinner Ingredients</h2>
-                            <p>Ingredients already available from pantry or inventory checks.</p>
-                          </div>
-                        ) : (
-                          <h2>{aisle}</h2>
-                        )}
-                        {items.map((item) => renderPantryItem(item, isComboMealIngredients))}
-                      </section>
-                    );
-                  })}
+                <div className="shoppingFlatRows" role="list" aria-label="Items already on hand">
+                  {Object.entries(groupedPantry).sort(([a], [b]) => a.localeCompare(b)).flatMap(([aisle, items]) =>
+                    items.map((item) => (
+                      <div className="shoppingFlatRowWithCategory" role="listitem" key={`${aisle}-${item.name}-${item.unit}-pantry`}>
+                        <span className="shoppingFlatCategory">{aisle}</span>
+                        {renderPantryItem(item, aisle === "Complete Dinner Ingredients")}
+                      </div>
+                    ))
+                  )}
                 </div>
               )}
             </div>
-          </details>
+          </section>
         </div>
         </>
       )}

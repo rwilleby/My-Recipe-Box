@@ -11,28 +11,31 @@ const shopping = app.slice(shoppingStart, shoppingEnd);
 assert.ok(shoppingStart >= 0 && shoppingEnd > shoppingStart, "Shopping List page not found");
 assert.ok(!shopping.includes('<KosPlanningStatusBand kosUi={kosUi} mode="shopping" compact />'), "Shopping counters must be hidden");
 
+assert.ok(!shopping.includes("<details"), "Shopping List must not hide items in accordions");
+assert.ok(!shopping.includes("shoppingAccordion"), "Shopping List must use the flat-list pattern");
+
 for (const token of [
-  'className="shoppingAccordion shoppingNeedGroupAccordion"',
-  'className="shoppingAccordion preparedOnHandSection"',
-  'className="shoppingAccordion preparedMissingSection"',
-  'className="shoppingAccordion preparedBatchSection"',
-  'className="shoppingAccordion shoppingNeededItemsAccordion"',
-  'className="shoppingAccordion pantryListSection"',
-  'className="shoppingAccordionArrow"',
-  'className="shoppingAccordionBody"',
+  'className="shoppingFlatGroup shoppingMealGroup"',
+  'className="shoppingFlatGroup preparedOnHandSection"',
+  'className="shoppingFlatGroup preparedMissingSection"',
+  'className="shoppingFlatGroup preparedBatchSection"',
+  'className="shoppingFlatList shoppingNeededItemsList"',
+  'className="shoppingFlatList pantryListSection"',
+  'className="shoppingFlatRows"',
+  'className="shoppingFlatCategory"',
+  'useState("consolidated")',
 ]) {
-  assert.ok(shopping.includes(token), `Missing Shopping List accordion behavior: ${token}`);
+  assert.ok(shopping.includes(token), `Missing Shopping List flat-list behavior: ${token}`);
 }
 
 for (const token of [
-  "v85.3 — SHOPPING LIST: FULL COMMAND STRIP + INVENTORY ACCORDIONS",
+  "v96.6 — Shopping List: visible, inventory-style list without accordions.",
   "grid-template-columns: minmax(300px, 2.2fr) repeat(6, minmax(0, 1fr))",
-  ".shoppingListIntroActions .shoppingCommandCounters",
-  ".shoppingAccordion > summary",
-  ".shoppingAccordion[open] > summary .shoppingAccordionArrow",
-  ".shoppingAccordionBody",
+  ".shoppingFlatListTitle",
+  ".shoppingFlatRowWithCategory",
+  ".shoppingFlatCategory",
 ]) {
-  assert.ok(css.includes(token), `Missing Shopping List v85.3 style: ${token}`);
+  assert.ok(css.includes(token), `Missing Shopping List flat-list style: ${token}`);
 }
 
-console.log("v85.3 Shopping List full-width controls and accordion layout passed");
+console.log("Shopping List full-width controls and visible flat-list layout passed");
