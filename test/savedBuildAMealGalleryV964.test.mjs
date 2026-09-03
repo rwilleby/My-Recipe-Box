@@ -18,6 +18,10 @@ assert.match(component, /`With \$\{savedSideTitles\.join\(" & "\)\}`/, "saved ca
 assert.match(styles, /\.mealBuilderSavedGalleryGrid\s*\{[^}]*grid-template-columns:\s*repeat\(6/, "desktop should display six compact saved-meal cards per row");
 assert.match(styles, /\.mealBuilderSavedGalleryTitles strong\s*\{[^}]*font:\s*800[^;]*Inter/, "saved BAM headlines should use the bold Inter treatment");
 assert.match(styles, /\.mealBuilderSavedGalleryTitles span\s*\{[^}]*color:\s*#687386[^}]*Inter/, "saved BAM sides should use the smaller gray Inter treatment");
+assert.match(styles, /\.mealBuilderSavedGalleryCard\s*\{[^}]*display:\s*flex;[^}]*flex-direction:\s*column/, "saved BAM cards should use a compact vertical card structure");
+assert.match(styles, /\.mealBuilderSavedGalleryCopy\s*\{[^}]*flex-direction:\s*column;[^}]*min-height:\s*clamp\(145px,13vw,190px\)/, "saved BAM copy should use a controlled compact height");
+assert.match(styles, /\.mealBuilderSavedGalleryTitles\s*\{[^}]*display:\s*block;[^}]*flex:\s*1/, "main and side titles should stack instead of sharing a row");
+assert.match(styles, /\.mealBuilderSavedGalleryCopy > div:last-child\s*\{[^}]*display:\s*flex/, "only the calories and MealBalance footer should use the horizontal layout");
 assert.match(styles, /@media \(max-width: 900px\)[\s\S]*\.mealBuilderSavedGalleryGrid\s*\{[^}]*repeat\(3/, "tablet should reflow saved meals to three columns");
 assert.match(styles, /@media \(max-width: 650px\)[\s\S]*\.mealBuilderSavedGalleryGrid\s*\{[^}]*repeat\(2/, "mobile should reflow saved meals to two columns");
 
