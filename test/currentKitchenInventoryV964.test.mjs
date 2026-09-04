@@ -17,6 +17,7 @@ assert.match(storePanel, /Choose a category and item below/);
 assert.match(css, /\.currentInventoryFilterRow/);
 assert.match(css, /\.currentInventoryFilters button\.is-active \{ background: #77716b; color: #fff; \}/);
 assert.match(css, /\.currentInventoryLocationSelect \{[^}]*min-width: 108px/s);
-assert.match(css, /30px 108px 68px 66px 54px/);
+assert.match(css, /30px 108px 46px 58px 58px/, "Low is narrower and Buy/Edit use equal widths");
+assert.match(page, /Product Name<\/span><span>Notes<\/span><span>Category/);
 
 console.log("v96.4 current-only Kitchen Inventory and guided item-entry contracts passed.");

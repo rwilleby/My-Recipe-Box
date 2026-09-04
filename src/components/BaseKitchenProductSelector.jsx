@@ -8,9 +8,14 @@ const unitLabel = (value = "each") => ({ lb: "Pounds", each: "Each" }[String(val
 const unitValue = (label) => ({ Pounds: "lb", Each: "each" }[label] || label.toLowerCase());
 
 function existingRecord(product, inventory) {
-  if (inventory.records?.[product.id]) return { rowId: product.id, record: inventory.records[product.id] };
+  const matchedId = [product.id, ...(product.aliases || [])].find((id) => inventory.records?.[id]);
+  if (matchedId) return { rowId: matchedId, record: inventory.records[matchedId] };
   const custom = (inventory.customItems || []).find((item) => item.id === product.id || String(item.productName || "").toLowerCase() === baseProductName(product).toLowerCase());
   return custom && inventory.records?.[custom.id] ? { rowId: custom.id, record: inventory.records[custom.id] } : null;
+}
+
+function selectedProductName(product, draft = {}) {
+  return [baseProductName(product), draft.variant || ""].filter(Boolean).join(" - ");
 }
 
 export default function BaseKitchenProductSelector({ inventory, setInventory }) {
@@ -22,7 +27,7 @@ export default function BaseKitchenProductSelector({ inventory, setInventory }) 
   const normalized = search.trim().toLowerCase();
   const products = useMemo(() => BASE_KITCHEN_PRODUCTS.map((product) => {
     const saved = existingRecord(product, inventory);
-    return { ...product, saved, text: `${product.family} ${product.variation} ${baseProductName(product)} ${(product.aliases || []).join(" ")}`.toLowerCase() };
+    return { ...product, saved, text: `${product.family} ${product.variation} ${baseProductName(product)} ${(product.variantOptions || []).join(" ")} ${(product.aliases || []).join(" ")}`.toLowerCase() };
   }), [inventory]);
   const selectedCount = Object.values(drafts).filter((draft) => draft.checked).length;
   const newCount = Object.values(drafts).filter((draft) => draft.checked && !draft.existing).length;
@@ -31,7 +36,8 @@ export default function BaseKitchenProductSelector({ inventory, setInventory }) 
   function productDraft(product) {
     const saved = product.saved;
     return drafts[product.id] || { checked: Boolean(saved), existing: Boolean(saved), changed: false,
-      quantity: saved?.record?.have ?? "1", unit: saved?.record?.unit || product.unit, location: saved?.record?.storage || product.storage };
+      quantity: saved?.record?.have ?? "1", unit: saved?.record?.unit || product.unit, location: saved?.record?.storage || product.storage,
+      variant: saved?.record?.variant || product.variantOptions?.[0] || "", notes: saved?.record?.notes || "" };
   }
   function updateDraft(product, patch) {
     const current = productDraft(product);
@@ -64,8 +70,8 @@ export default function BaseKitchenProductSelector({ inventory, setInventory }) 
         const classification = classifyInventoryProduct(baseProductName(product), BASE_KITCHEN_CATEGORIES.find((category) => category.id === product.baseCategoryId)?.title || "");
         if (!customItems.some((item) => item.id === rowId)) customItems.push({ ...product, id: rowId,
           categoryId: classification.categoryId, family: classification.productType,
-          productName: baseProductName(product), baseCategoryId: product.baseCategoryId, baseProduct: true, custom: true });
-        records[rowId] = { ...(records[rowId] || {}), productName: baseProductName(product), have: String(draft.quantity), unit: draft.unit,
+          productName: selectedProductName(product, draft), baseCategoryId: product.baseCategoryId, baseProduct: true, custom: true });
+        records[rowId] = { ...(records[rowId] || {}), productName: selectedProductName(product, draft), variant: draft.variant, notes: draft.notes, have: String(draft.quantity), unit: draft.unit,
           storage: draft.location, categoryId: classification.categoryId, baseCategoryId: product.baseCategoryId, updatedAt: new Date().toISOString() };
       });
       return { ...current, records, customItems };
@@ -82,11 +88,13 @@ export default function BaseKitchenProductSelector({ inventory, setInventory }) 
     const draft = productDraft(product);
     return <div className={`baseProductRow${draft.checked ? " is-selected" : ""}`} key={product.id}>
       <label className="baseProductIdentity"><input type="checkbox" checked={draft.checked} aria-label={`I Have This: ${baseProductName(product)}`} onChange={(event) => toggleProduct(product, event.target.checked)} /><span><strong>{baseProductName(product)}</strong>{product.saved && <small>In Inventory</small>}</span></label>
+      {product.variantOptions?.length > 0 && <label className="baseProductVariant"><span>{/cake mix|frosting/i.test(baseProductName(product)) ? "Select Flavor" : "Select Type"}</span><select value={draft.variant} onChange={(event) => updateDraft(product, { variant: event.target.value })}>{product.variantOptions.map((option) => <option key={option}>{option}</option>)}</select></label>}
       {normalized && <span className="baseProductResultCategory">{BASE_KITCHEN_CATEGORIES.find((category) => category.id === product.baseCategoryId)?.title}</span>}
       {draft.checked && <div className="baseProductControls">
         <label><span>How Many?</span><div className="baseProductQuantity"><button type="button" aria-label={`Decrease ${baseProductName(product)}`} onClick={() => updateDraft(product, { quantity: String(Math.max(0, Number(draft.quantity || 0) - 1)) })}>−</button><input type="number" min="0" step="any" value={draft.quantity} onChange={(event) => updateDraft(product, { quantity: event.target.value })} aria-label={`How many ${baseProductName(product)}`} /><button type="button" aria-label={`Increase ${baseProductName(product)}`} onClick={() => updateDraft(product, { quantity: String(Number(draft.quantity || 0) + 1) })}>+</button></div></label>
         <label><span>Counted As</span><select value={unitLabel(draft.unit)} onChange={(event) => updateDraft(product, { unit: unitValue(event.target.value) })}>{UNITS.map((unit) => <option key={unit}>{unit}</option>)}</select></label>
         <label><span>Location</span><select value={draft.location} onChange={(event) => updateDraft(product, { location: event.target.value })}>{LOCATIONS.map((location) => <option key={location}>{location}</option>)}</select></label>
+        <label className="baseProductNotes"><span>Short Notes</span><input type="text" maxLength="80" value={draft.notes} onChange={(event) => updateDraft(product, { notes: event.target.value })} placeholder="Optional note" /></label>
       </div>}
     </div>;
   }

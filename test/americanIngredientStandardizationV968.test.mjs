@@ -16,7 +16,6 @@ for (const field of ["canonicalName", "quantity", "unitStandard", "packageSize",
 assert.ok(rows.every(({ ingredient }) => ["exact", "approved-equivalence", "ambiguous", "unmatched"].includes(ingredient.matchStatus)));
 assert.ok(rows.every(({ ingredient }) => ingredient.quantity === ingredient.qty));
 assert.ok(rows.every(({ ingredient }) => {
-  if (ingredient.inventoryCategory === "Fresh Produce") return Boolean(ingredient.inventorySubcategory);
   return APPROVED_INVENTORY_SUBCATEGORIES[ingredient.inventoryCategory]?.includes(ingredient.inventorySubcategory);
 }), "every AM ingredient uses an approved category and subcategory");
 assert.ok(rows.every(({ ingredient }) => ingredient.inventoryCategory !== "Produce"), "Produce is renamed Fresh Produce");

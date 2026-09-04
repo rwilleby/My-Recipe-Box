@@ -534,7 +534,7 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
       </section>
 
       <div className="currentInventoryFlatList" aria-label="Current inventory items">
-        <div className="currentInventoryColumnHeader" aria-hidden="true"><span>Product Name</span><span>Category</span><span>Qty</span><span>+</span><span>−</span><span>Location</span><span>Low</span><span>Buy</span><span>Edit</span></div>
+        <div className="currentInventoryColumnHeader" aria-hidden="true"><span>Product Name</span><span>Notes</span><span>Category</span><span>Qty</span><span>+</span><span>−</span><span>Location</span><span>Low</span><span>Buy</span><span>Edit</span></div>
         {visibleCatalog.flatMap((category) => category.items.flatMap((item) =>
           visibleRowsForItem(item, category).map(({ rowId, additional, record }) => ({ category, item, rowId, additional, record }))
         )).sort((a, b) => {
@@ -552,6 +552,7 @@ export default function MasterKitchenInventoryPage({ recipes, inventory, setInve
           return (
             <article className="currentInventoryRow" key={rowId}>
               <button type="button" className="currentInventoryIdentity" onClick={() => openItemEditor(item, rowId, record)}><strong>{initialCaps(productName)}</strong>{description && <small>{description}</small>}</button>
+              <details className="currentInventoryNotes"><summary aria-label={`Notes for ${productName}`}>{record.notes ? "View" : "Add"}</summary><textarea maxLength="160" value={record.notes || ""} onChange={(event) => updateRecord(rowId, { notes: event.target.value, ...(additional ? { sourceItemId: item.id } : {}) })} placeholder="Short notes" /></details>
               <select className="currentInventoryCategorySelect" aria-label={`Category for ${productName}`} value={record.categoryId || item.categoryId || category.id} onChange={(event) => updateRowCategory(item, rowId, event.target.value)}>
                 {SORTED_INVENTORY_CATEGORIES.map((entry) => <option key={entry.id} value={entry.id}>{entry.title}</option>)}
               </select>

@@ -233,14 +233,15 @@ const EXPANSION_GROUPS = {
     "Yogurt|Greek Strawberry,Greek Vanilla,Plain Whole-Milk,Plain Low-Fat,Vanilla,Strawberry|containers|Refrigerator",
     "Eggs|Large,Extra Large,Jumbo,Brown Large,Pasture-Raised Large|dozen|Refrigerator",
     "Cream|Heavy Whipping,Light,Table,Whipping|cartons|Refrigerator",
-    "Butter|Salted,Unsalted,European-Style,Spreadable|packages|Refrigerator",
+    "Butter|Margarine,Salted,Unsalted,European-Style,Spreadable|packages|Refrigerator",
     "Dairy|Cottage Cheese,Half-And-Half,Sour Cream,Whipped Cream,Buttermilk,Kefir|containers|Refrigerator",
   ],
   breads: [
-    "Bread|White Sandwich,Whole Wheat,Multigrain,Sourdough,Rye,Italian,French,Texas Toast,Cinnamon Raisin,Low-Carb,Gluten-Free|loaves|Pantry",
+    "Bread|Bagels,English Muffins,White Sandwich,Whole Wheat,Multigrain,Sourdough,Rye,Italian,French,Texas Toast,Cinnamon Raisin,Low-Carb,Gluten-Free|loaves|Pantry",
     "Rolls|Dinner,Hawaiian,Slider,Hoagie,Kaiser,Ciabatta|packages|Pantry",
     "Buns|Hamburger,Brioche Hamburger,Hot Dog,Brioche Hot Dog|packages|Pantry",
-    "Bakery|Bagels,English Muffins,Croissants,Biscuits,Cornbread,Muffins,Pita,Flatbread,Naan,Tortillas Flour,Tortillas Corn|packages|Pantry",
+    "Bakery|Croissants,Biscuits,Cornbread,Muffins,Pita,Flatbread,Naan|packages|Pantry",
+    "Tortillas|Corn,Flour,Low-Carb Flour|packages|Pantry",
   ],
   produce: [
     "Apples|Fuji,Gala,Granny Smith,Honeycrisp,Red Delicious|each|Refrigerator",
@@ -260,15 +261,15 @@ const EXPANSION_GROUPS = {
     "Prepared Deli|Hummus,Guacamole,Pimento Cheese,Rotisserie Chicken,Fresh Salsa,Olives|containers|Refrigerator",
   ],
   "pantry-canned": [
-    "Beans|Black,Cannellini,Garbanzo,Kidney,Navy,Pinto,Refried,Red|cans|Pantry",
+    "Beans|Black,Cannellini,Charro,Garbanzo,Kidney,Navy,Pinto,Refried,Red|cans|Pantry",
     "Broth|Beef,Beef Low Sodium,Chicken,Chicken Low Sodium,Vegetable,Vegetable Low Sodium|cartons|Pantry",
-    "Tomatoes|Crushed,Diced,Diced No Salt Added,Fire-Roasted Diced,Stewed,Whole Peeled|cans|Pantry",
+    "Tomato|Crushed,Diced,Diced No Salt Added,Fire-Roasted Diced,Stewed,Whole Peeled|cans|Pantry",
     "Soup|Cream Of Celery,Cream Of Chicken,Cream Of Mushroom,Tomato,Chicken Noodle,Vegetable|cans|Pantry",
     "Canned Vegetables|Carrots,Corn,Green Beans,Peas,Potatoes,Spinach,Mushrooms|cans|Pantry",
     "Canned Fruit|Applesauce,Fruit Cocktail,Mandarin Oranges,Peaches,Pears,Pineapple|cans|Pantry",
     "Canned Protein|Chicken,Roast Beef,Salmon,Tuna In Oil,Tuna In Water,Vienna Sausage|cans|Pantry",
     "Pantry Staple|Bread Crumbs,Cornmeal,Cornstarch,Flour All-Purpose,Flour Bread,Flour Self-Rising,Sugar Brown,Sugar Granulated,Sugar Powdered,Yeast Active Dry|bags|Pantry",
-    "Baking|Cake Mix Chocolate,Cake Mix Yellow,Brownie Mix,Chocolate Chips,Cocoa Powder,Frosting Vanilla,Frosting Chocolate,Vanilla Extract,Baking Powder,Baking Soda|boxes|Pantry",
+    "Baking|Cake Mix,Frosting,Brownie Mix,Chocolate Chips,Cocoa Powder,Vanilla Extract,Baking Powder,Baking Soda|boxes|Pantry",
   ],
   "grains-pasta": [
     "Rice|Arborio,Basmati,Brown,Jasmine,Long-Grain White,Wild Blend,Parboiled|bags|Pantry",
@@ -302,8 +303,8 @@ const EXPANSION_GROUPS = {
     "Frozen Vegetables|Broccoli,Cauliflower,Corn,Green Beans,Mixed Vegetables,Peas,Spinach,Stir-Fry Blend|bags|Freezer",
     "Frozen Fruit|Blueberries,Mango,Mixed Berries,Peaches,Pineapple,Strawberries|bags|Freezer",
     "Frozen Potatoes|Crinkle Fries,French Fries,Hash Browns,Tater Tots,Waffle Fries|bags|Freezer",
-    "Frozen Protein|Beef Meatballs,Chicken Breasts,Chicken Nuggets,Chicken Tenders,Ground Beef,Raw Shrimp,Salmon Fillets,Turkey Burgers|packages|Freezer",
-    "Frozen Meal|Burritos,Lasagna,Macaroni And Cheese,Pot Pie,Pizza,Ravioli,Vegetable Stir-Fry|packages|Freezer",
+    "Frozen Meal|Burritos,Lasagna,Macaroni And Cheese,Pot Pie,Ravioli,Vegetable Stir-Fry|packages|Freezer",
+    "Frozen Pizza|Pizza|packages|Freezer",
     "Frozen Breakfast|Biscuits,Breakfast Sandwiches,Pancakes,Sausage Patties,Waffles|packages|Freezer",
     "Frozen Dessert|Ice Cream,Fruit Bars,Sorbet,Cheesecake,Pie|containers|Freezer",
   ],
@@ -349,13 +350,114 @@ const remappedLegacy = LEGACY_BASE_KITCHEN_PRODUCTS.map((item) => Object.freeze(
   baseCategoryId: /Deli Meats/.test(item.family) ? "deli" : DISPLAY_CATEGORY[item.categoryId] || "pantry-canned",
 }));
 
-function normalizeMeatSeafoodProduct(item) {
-  if (item.baseCategoryId !== "meat-seafood") return item;
+function normalizeBaseProduct(item) {
   const oldId = item.id;
+  let baseCategoryId = item.baseCategoryId;
   let family = item.family;
   let variation = item.variation;
+  let variantOptions = item.variantOptions;
 
-  if (family === "Bacon") ({ family, variation } = { family: "Pork", variation: `Bacon - ${variation}` });
+  if (baseCategoryId === "dairy-eggs") {
+    if (family === "Buttermilk") ({ family, variation } = { family: "Milk", variation: "Buttermilk" });
+    else if (family === "Half-and-Half") ({ family, variation } = { family: "Milk", variation: "Half-and-Half" });
+    else if (family === "Sour Cream") ({ family, variation } = { family: "Cream", variation: "Sour Cream" });
+    else if (family === "Cottage Cheese") ({ family, variation } = { family: "Cheese", variation: "Cottage" });
+    else if (family === "Dairy" && /cottage cheese/i.test(variation)) ({ family, variation } = { family: "Cheese", variation: "Cottage" });
+    else if (family === "Dairy" && /half-and-half|buttermilk/i.test(variation)) ({ family, variation } = { family: "Milk", variation });
+    else if (family === "Dairy" && /sour cream|whipped cream/i.test(variation)) ({ family, variation } = { family: "Cream", variation });
+    else if (family === "Egg Substitutes") ({ family, variation } = { family: "Eggs", variation: "Liquid Egg Whites" });
+    else if (family === "Plant-Based Milk") ({ family, variation } = { family: "Milk", variation: `Plant-Based - ${variation}` });
+  }
+
+  if (baseCategoryId === "breads") {
+    if (["Bagels", "English Muffins", "Sandwich Bread"].includes(family)) {
+      variation = family === "Sandwich Bread" ? variation : family;
+      family = "Bread";
+    } else if (family === "Hamburger Buns") ({ family, variation } = { family: "Buns", variation: "Hamburger" });
+    else if (family === "Hot Dog Buns") ({ family, variation } = { family: "Buns", variation: "Hot Dog" });
+  }
+
+  if (baseCategoryId === "produce") {
+    const fruitFamilies = ["Apples", "Apricots", "Bananas", "Blackberries", "Blueberries", "Cherries", "Cranberries", "Grapefruit", "Grapes", "Kiwi", "Lemons", "Limes", "Mangoes", "Melons", "Oranges", "Peaches", "Pears", "Pineapple", "Plums", "Raspberries", "Strawberries", "Berries", "Citrus", "Fruit"];
+    const isFruit = fruitFamilies.includes(family);
+    const kind = family === "Fruit" || family === "Vegetables" ? "" : family;
+    const cleanVariation = /^(fresh|standard)$/i.test(variation) ? "" : variation;
+    family = isFruit ? "Fruits" : "Vegetables";
+    variation = [kind, cleanVariation].filter(Boolean).join(" - ") || (isFruit ? "Other Fruit" : "Other Vegetable");
+  }
+
+  if (baseCategoryId === "grains-pasta" && family === "Oats") {
+    baseCategoryId = "cereal-breakfast";
+    family = "Oatmeal";
+    variation = variation.replace(/Old-Fashioned Rolled/i, "Old-Fashioned");
+  }
+
+  if (baseCategoryId === "condiments" && ["Baking Powder", "Baking Soda", "Flour", "Sugar & Sweeteners", "Yeast"].includes(family)) {
+    baseCategoryId = "pantry-canned";
+    variation = family === "Sugar & Sweeteners" ? variation : [family, variation].filter((value) => value && value !== "Regular").join(" - ");
+    family = "Baking";
+  } else if (baseCategoryId === "condiments" && ["Salt", "Pepper"].includes(family)) {
+    baseCategoryId = "pantry-canned";
+    variation = `${family} - ${variation}`;
+    family = "Staples";
+  } else if (baseCategoryId === "condiments" && /jam|jelly|marmalade|preserves/i.test(`${family} ${variation}`)) {
+    baseCategoryId = "cereal-breakfast";
+    family = "Jams/Jellies";
+  } else if (baseCategoryId === "condiments") {
+    if (family === "Pasta Sauce") family = "Pasta";
+    else if (family === "Salad Dressing" || family === "Dressing") family = "Salad Dressing";
+    else if (family === "Barbecue Sauce" || family === "Soy Sauce") family = "Sauce";
+    else if (["Ketchup", "Mayonnaise", "Spread"].includes(family)) family = "Condiment";
+  }
+
+  if (baseCategoryId === "pantry-canned") {
+    if (family === "Broth & Stock") family = "Broth";
+    else if (family === "Refried Beans") ({ family, variation } = { family: "Beans", variation: "Refried" });
+    else if (["Condensed Soups", "Prepared Soups"].includes(family)) family = "Soup";
+    else if (["Canned Tomatoes", "Tomatoes", "Tomato Paste", "Tomato Sauce"].includes(family)) {
+      variation = family === "Tomato Paste" ? "Paste" : family === "Tomato Sauce" ? "Sauce" : variation;
+      family = "Tomato";
+    } else if (family === "Canned Fruit") family = "Fruit";
+    else if (family === "Canned Vegetables") family = "Vegetables";
+    else if (family === "Canned Poultry") family = "Poultry";
+    else if (family === "Canned Seafood") family = "Seafood";
+    else if (family === "Canned Meat") family = "Meats";
+    else if (family === "Pantry Staple") family = "Staples";
+    else if (family === "Canned Protein") {
+      if (/chicken|turkey/i.test(variation)) family = "Poultry";
+      else if (/salmon|tuna|shrimp|crab/i.test(variation)) family = "Seafood";
+      else family = "Meats";
+    }
+    if (family === "Staples" && /flour|sugar|yeast|cornstarch|cornmeal/i.test(variation)) family = "Baking";
+    if (family === "Baking" && variation === "Cake Mix") variantOptions = ["Chocolate", "White", "Yellow", "German Chocolate", "Spice", "Devil's Food"];
+    if (family === "Baking" && variation === "Frosting") variantOptions = ["Chocolate", "White", "Cream Cheese", "German Chocolate", "Vanilla"];
+  }
+
+  if (baseCategoryId === "frozen-foods") {
+    if (family === "Ice Cream & Frozen Treats") family = "Frozen Dessert";
+    if (family === "Frozen Desserts") family = "Frozen Dessert";
+    if (family === "Frozen Pizza") {
+      family = "Pizza";
+      variation = "Select Type";
+      variantOptions = ["Thin - Cheese", "Thin - Pepperoni", "Rising Crust - Cheese", "Rising Crust - Pepperoni", "Hand-Tossed - Cheese", "Hand-Tossed - Pepperoni"];
+    }
+    if (family === "Frozen Breakfast") family = "Breakfast";
+    else if (family === "Frozen Bread & Dough") family = "Breads";
+    else if (family === "Frozen Fruit") family = "Fruit";
+    else if (family === "Frozen Meal" || family === "Frozen Dinners") family = "Meals";
+    else if (family === "Frozen Potatoes") family = "Potatoes";
+    else if (family === "Frozen Vegetables") family = "Vegetables";
+    if (["Frozen Meat", "Frozen Poultry", "Frozen Protein", "Frozen Seafood"].includes(family)) {
+      baseCategoryId = "meat-seafood";
+      if (/ground beef/i.test(variation)) ({ family, variation } = { family: "Beef", variation: "Ground 90/10 - Frozen" });
+      else if (/beef|meatballs?/i.test(variation)) ({ family, variation } = { family: "Beef", variation: `${variation} - Frozen` });
+      else if (/chicken/i.test(variation)) ({ family, variation } = { family: "Chicken", variation: `${variation.replace(/Chicken\s*/i, "")} - Frozen` });
+      else if (/turkey/i.test(variation)) ({ family, variation } = { family: "Turkey", variation: `${variation.replace(/Turkey\s*/i, "")} - Frozen` });
+      else ({ family, variation } = { family: "Seafood", variation: `${variation} - Frozen` });
+    }
+  }
+
+  if (baseCategoryId === "meat-seafood" && family === "Bacon") ({ family, variation } = { family: "Pork", variation: `Bacon - ${variation}` });
   else if (family === "Ground Beef") ({ family, variation } = { family: "Beef", variation: `Ground ${variation}` });
   else if (family === "Ground Chicken") ({ family, variation } = { family: "Chicken", variation: `Ground ${variation}` });
   else if (family === "Ground Pork") ({ family, variation } = { family: "Pork", variation: `Ground - ${variation}` });
@@ -375,18 +477,32 @@ function normalizeMeatSeafoodProduct(item) {
   if (family === "Chicken" && variation === "Ground") variation = "Ground Lean";
   if (family === "Pork" && variation === "Ground") variation = "Ground - Regular";
 
+  if (baseCategoryId === "cereal-breakfast") {
+    if (family === "Breakfast") {
+      if (/grits|cream of wheat/i.test(variation)) family = "Hot Cereals";
+      else if (/mix/i.test(variation)) family = "Mixes";
+      else if (/bars?/i.test(variation)) family = "Bars";
+      else family = "Cereal";
+    }
+    if (family === "Syrup") family = "Syrups";
+  }
+
+  if (baseCategoryId === "deli" && family === "Prepared Deli") family = "Deli Prepared";
+
   return Object.freeze({
     ...item,
+    baseCategoryId,
     family,
     variation,
+    ...(variantOptions ? { variantOptions: Object.freeze(variantOptions) } : {}),
     aliases: Object.freeze([...new Set([...(item.aliases || []), oldId].filter(Boolean))]),
   });
 }
 
 const uniqueProducts = new Map();
-[...remappedLegacy, ...expansionProducts].map(normalizeMeatSeafoodProduct).forEach((item) => {
+[...remappedLegacy, ...expansionProducts].map(normalizeBaseProduct).forEach((item) => {
   const baseCategoryId = item.baseCategoryId || DISPLAY_CATEGORY[item.categoryId];
-  const key = `${baseCategoryId}|${item.family}|${item.variation}`.toLowerCase();
+  const key = `${baseCategoryId}|${item.family}|${item.variation}`.toLowerCase().replace(/[^a-z0-9]+/g, "-");
   const commonAliases = [
     /Dog Food.*Dry/i.test(`${item.family} ${item.variation}`) && "dog kibble",
     /Broth.*Chicken/i.test(`${item.family} ${item.variation}`) && "chicken stock",
@@ -400,7 +516,7 @@ const uniqueProducts = new Map();
   }));
 });
 
-const CATEGORY_TARGETS = { "meat-seafood": 100, "dairy-eggs": 40, breads: 30, produce: 80, deli: 30,
+const CATEGORY_TARGETS = { "meat-seafood": 100, "dairy-eggs": 55, breads: 40, produce: 110, deli: 30,
   "pantry-canned": 75, "grains-pasta": 35, "cereal-breakfast": 30, condiments: 50, "chips-snacks": 35,
   "frozen-foods": 50, beverages: 35, "household-cleaning": 35, "pet-care": 20 };
 export const BASE_KITCHEN_PRODUCTS = Object.freeze(BASE_KITCHEN_CATEGORIES.flatMap((category) =>
@@ -412,6 +528,9 @@ export const BASE_KITCHEN_PRODUCTS = Object.freeze(BASE_KITCHEN_CATEGORIES.flatM
 
 export function baseProductName(product) {
   if (!product?.variation) return product?.family || "";
+  if (product.baseCategoryId === "produce") return `${product.family} - ${product.variation}`;
+  if (product.baseCategoryId === "pantry-canned" && product.family === "Tomato") return `Tomatoes - ${product.variation}`;
+  if (product.baseCategoryId === "frozen-foods" && product.family === "Pizza") return "Frozen Pizza";
   return product.baseCategoryId === "meat-seafood"
     ? `${product.family} - ${product.variation}`
     : `${product.family} — ${product.variation}`;
