@@ -855,10 +855,10 @@ function findPantryMatch(itemName = "") {
     .sort((a, b) => b.score - a.score)[0]?.matcher || null;
 }
 
-function splitShoppingListByPantry(list, pantry, masterInventory = {}, recipes = []) {
+function splitShoppingListByPantry(list, getCoverage) {
   return list.reduce(
     (groups, item) => {
-      const coverage = shoppingInventoryCoverage(item, pantry, masterInventory, recipes);
+      const coverage = getCoverage(item);
 
       if (coverage.covered) {
         groups.pantry.push({
@@ -893,7 +893,7 @@ function inventoryNameMatches(shoppingName, candidateName) {
   return wantedTokens.length > 1 && wantedTokens.every((token) => candidateTokens.has(token));
 }
 
-function masterInventoryCoverage(item, masterInventory = {}, recipes = []) {
+function buildMasterInventoryCoverageIndex(masterInventory = {}, recipes = []) {
   const safe = masterInventory && typeof masterInventory === "object"
     ? { records: masterInventory.records || {}, customItems: masterInventory.customItems || [] }
     : { records: {}, customItems: [] };
@@ -903,7 +903,7 @@ function masterInventoryCoverage(item, masterInventory = {}, recipes = []) {
     [catalogItem.id, ...(catalogItem.legacyIds || [])].forEach((id) => itemById.set(id, catalogItem));
   }));
 
-  const matches = Object.entries(safe.records).flatMap(([recordId, record]) => {
+  return Object.entries(safe.records).flatMap(([recordId, record]) => {
     if (!record || recordId.startsWith("family-note-") || Number(record.have || 0) <= 0 || record.stockStatus === "out") return [];
     const catalogItem = itemById.get(record.sourceItemId || recordId);
     if (!catalogItem) return [];
@@ -914,9 +914,12 @@ function masterInventoryCoverage(item, masterInventory = {}, recipes = []) {
       `${catalogItem.family} ${record.variation || catalogItem.variation || ""}`,
       ...(catalogItem.aliases || []),
     ].filter(Boolean);
-    if (!names.some((name) => inventoryNameMatches(item.name, name))) return [];
-    return [{ record, catalogItem, quantity: Number(record.have || 0) }];
+    return [{ record, catalogItem, names, quantity: Number(record.have || 0) }];
   });
+}
+
+function masterInventoryCoverage(item, inventoryIndex = []) {
+  const matches = inventoryIndex.filter(({ names }) => names.some((name) => inventoryNameMatches(item.name, name)));
   if (!matches.length) return null;
 
   const required = Number(item.qty || 0);
@@ -934,8 +937,8 @@ function masterInventoryCoverage(item, masterInventory = {}, recipes = []) {
   return { covered: false, partial: true, status: `Need ${formatQty(required - available)} More`, location, quantityTracked: true, available, shortfall: required - available };
 }
 
-function shoppingInventoryCoverage(item, pantry, masterInventory, recipes = []) {
-  const masterMatch = masterInventoryCoverage(item, masterInventory, recipes);
+function shoppingInventoryCoverage(item, pantry, inventoryIndex = []) {
+  const masterMatch = masterInventoryCoverage(item, inventoryIndex);
   if (masterMatch) return masterMatch;
   const match = findPantryMatch(item.name);
   if (match && pantryItemStatus(pantry, match.item || match.pantry) === "in-stock") {
@@ -10286,6 +10289,19 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
     [recipeOnlyPlan, servings, dinnerCombinationShoppingReferences, refrigeratorShoppingItems, freezerShoppingItems, kitchenShoppingItems, pantryRestockItems]
   );
 
+  const masterCoverageIndex = useMemo(
+    () => buildMasterInventoryCoverageIndex(masterInventory, recipes),
+    [masterInventory]
+  );
+  const inventoryCoverageCache = useMemo(() => new Map(), [pantry, masterCoverageIndex]);
+  const getShoppingCoverage = useCallback((item) => {
+    const key = [item.name, item.qty, item.unit, item.aisle].map((value) => String(value || "").toLocaleLowerCase()).join("|");
+    if (!inventoryCoverageCache.has(key)) {
+      inventoryCoverageCache.set(key, shoppingInventoryCoverage(item, pantry, masterCoverageIndex));
+    }
+    return inventoryCoverageCache.get(key);
+  }, [inventoryCoverageCache, pantry, masterCoverageIndex]);
+
   const printableList = useMemo(
     () => mergeShoppingListEntries(collectPrintableGroceryItems(shoppingNeedGroups, checked)),
     [shoppingNeedGroups, checked]
@@ -10299,14 +10315,15 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
   const digitalShoppingGroups = Object.entries(list.reduce((groups, item) => {
     const aisle = item.aisle || "Other";
     const id = `${item.name}-${item.unit}-${item.aisle}`;
-    const coverage = shoppingInventoryCoverage(item, pantry, masterInventory, recipes);
+    const coverage = getShoppingCoverage(item);
     const isCovered = Object.prototype.hasOwnProperty.call(checked, id) ? !!checked[id] : coverage.covered;
-    groups[aisle] = [...(groups[aisle] || []), {
+    if (!groups[aisle]) groups[aisle] = [];
+    groups[aisle].push({
       id,
       name: item.name,
       detail: `${coverage.status} · Planned amount: ${formatShoppingQuantity(item.qty)} ${item.unit}`,
       checked: isCovered,
-    }];
+    });
     return groups;
   }, {})).map(([title, items]) => ({ title, items }));
 
@@ -10327,13 +10344,13 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
   }
 
   const { needed, pantry: pantryItems } = useMemo(
-    () => splitShoppingListByPantry(list, pantry, masterInventory, recipes),
-    [list, pantry, masterInventory]
+    () => splitShoppingListByPantry(list, getShoppingCoverage),
+    [list, getShoppingCoverage]
   );
 
   const { needed: printableNeeded, pantry: printablePantryItems } = useMemo(
-    () => splitShoppingListByPantry(printableList, pantry, masterInventory, recipes),
-    [printableList, pantry, masterInventory]
+    () => splitShoppingListByPantry(printableList, getShoppingCoverage),
+    [printableList, getShoppingCoverage]
   );
 
   const groupedNeeded = needed.reduce((acc, item) => {
@@ -10765,7 +10782,7 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
   function renderNeedGroupItem(group, item, itemIndex) {
     const key = shoppingNeedItemKey(group, item, itemIndex);
     const isComponent = item.kind === "component";
-    const coverage = isComponent ? null : shoppingInventoryCoverage(item, pantry, masterInventory, recipes);
+    const coverage = isComponent ? null : getShoppingCoverage(item);
     const componentAvailable = isComponent && (preparedAvailability[item.componentId] || 0) >= Number(item.qty || 0);
     const status = isComponent
       ? (componentAvailable ? "On hand" : "Component needed")

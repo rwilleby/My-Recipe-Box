@@ -5,6 +5,7 @@ const app = fs.readFileSync(new URL("../src/App.jsx", import.meta.url), "utf8");
 
 for (const contract of [
   "function masterInventoryCoverage(",
+  "function buildMasterInventoryCoverageIndex(",
   "function shoppingInventoryCoverage(",
   'status: "In Inventory"',
   'status: "Need to Buy"',
@@ -21,8 +22,13 @@ for (const contract of [
   assert.ok(app.includes(contract), `Missing shopping inventory coverage contract: ${contract}`);
 }
 
-assert.match(app, /splitShoppingListByPantry\(list, pantry, masterInventory, recipes\)/);
-assert.match(app, /shoppingInventoryCoverage\(item, pantry, masterInventory, recipes\)/);
+assert.match(app, /splitShoppingListByPantry\(list, getShoppingCoverage\)/);
+assert.match(app, /shoppingInventoryCoverage\(item, pantry, masterCoverageIndex\)/);
+assert.match(app, /const masterCoverageIndex = useMemo\(/);
+assert.match(app, /const inventoryCoverageCache = useMemo\(\(\) => new Map\(\)/);
+assert.match(app, /const getShoppingCoverage = useCallback\(/);
+assert.equal((app.match(/buildMasterKitchenInventoryCatalog\(recipes, safe\.customItems\)/g) || []).length, 2,
+  "Shopping coverage must build the catalog once per inventory change, not once per shopping item");
 assert.match(app, /Number\(record\.have \|\| 0\) <= 0/);
 assert.match(app, /record\.stockStatus === "out"/);
 assert.match(app, /const uniqueRestockItems = new Map\(\)/);
