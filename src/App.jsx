@@ -7522,15 +7522,20 @@ function buildPantryRestockItems(pantry = {}) {
   [...ALL_STANDARD_PANTRY_ITEMS, ...meta.customItems].forEach((item) => {
     byKey.set(pantryItemKey(item), item);
   });
-  return [...byKey.values()]
+  const uniqueRestockItems = new Map();
+  [...byKey.values()]
     .filter((item) => ["low", "out"].includes(pantryItemStatus(pantry, item)))
-    .map((item) => ({
-      name: item.name,
-      qty: 1,
-      unit: "item",
-      aisle: "Pantry Restock",
-      source: "Pantry",
-    }));
+    .forEach((item) => {
+      const identity = normalizePantryText(canonicalShoppingName(item.name));
+      if (!uniqueRestockItems.has(identity)) uniqueRestockItems.set(identity, item);
+    });
+  return [...uniqueRestockItems.values()].map((item) => ({
+    name: String(item.name || "").toLocaleLowerCase().replace(/\b([a-z])/g, (letter) => letter.toLocaleUpperCase()),
+    qty: 1,
+    unit: "item",
+    aisle: "Pantry Restock",
+    source: "Pantry",
+  }));
 }
 
 function pantryProductType(groupName = "", itemName = "") {

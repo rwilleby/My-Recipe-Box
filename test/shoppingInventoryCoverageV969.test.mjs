@@ -25,6 +25,9 @@ assert.match(app, /splitShoppingListByPantry\(list, pantry, masterInventory, rec
 assert.match(app, /shoppingInventoryCoverage\(item, pantry, masterInventory, recipes\)/);
 assert.match(app, /Number\(record\.have \|\| 0\) <= 0/);
 assert.match(app, /record\.stockStatus === "out"/);
+assert.match(app, /const uniqueRestockItems = new Map\(\)/);
+assert.match(app, /normalizePantryText\(canonicalShoppingName\(item\.name\)\)/);
+assert.match(app, /if \(!uniqueRestockItems\.has\(identity\)\) uniqueRestockItems\.set\(identity, item\)/);
 assert.doesNotMatch(app, />In pantry</i);
 
 console.log("v96.9 quantity-aware shopping and unified inventory coverage contracts passed.");
