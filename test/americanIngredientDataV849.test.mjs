@@ -42,7 +42,7 @@ assert.equal(Object.keys(expectedCounts).length, 67);
 assert.equal(Object.values(expectedCounts).reduce((sum, count) => sum + count, 0), 905);
 assert.equal(american.reduce((sum, recipe) => sum + recipe.ingredients.length, 0), 1051);
 
-assert.ok(byId["AM-013"].ingredients.some((item) => item.name === "Cooked ham, 3–4 lb" && item.qty === 1));
+assert.ok(byId["AM-013"].ingredients.some((item) => item.originalName === "Cooked ham, 3–4 lb" && item.qty === 1 && item.reviewStatus === "needs-review"));
 assert.ok(byId["AM-030"].ingredients.some((item) => item.name === "All-purpose flour" && Math.abs(item.qty - 1 / 3) < 1e-9));
 assert.ok(byId["AM-038"].ingredients.some((item) => item.name.includes("Bone-in skin-on chicken pieces") && item.qty === 6));
 assert.ok(byId["AM-051"].ingredients.some((item) => item.name === "Refrigerated biscuits" && item.unit.includes("16.3 oz")));

@@ -1,4 +1,5 @@
 import { BASE_KITCHEN_CATEGORIES, BASE_KITCHEN_PRODUCTS, baseProductName } from "../data/baseKitchenProducts.js";
+import { AM_001_020_REVIEW_FLAGS, INGREDIENT_STANDARD_VERSION, ONION_VOLUME_EQUIVALENTS } from "../data/ingredientStandards.js";
 
 const CATEGORY_BY_AISLE = [
   ["Meat/Seafood", /meat|seafood/],
@@ -235,6 +236,11 @@ function initialCaps(value = "") {
     .replace(/\bBbq\b/g, "BBQ").replace(/\bDijon\b/g, "Dijon");
 }
 
+function sentenceCase(value = "") {
+  const text = String(value).trim();
+  return text ? `${text.charAt(0).toUpperCase()}${text.slice(1)}` : "";
+}
+
 function splitName(rawName = "") {
   const parts = String(rawName).split(",").map((part) => part.trim()).filter(Boolean);
   const nameParts = [parts.shift() || ""];
@@ -280,6 +286,60 @@ function resolveMasterProduct(name) {
   return { masterItemId: "", canonicalName: initialCaps(name), matchStatus: "unmatched" };
 }
 
+function canonicalKey(match, name) {
+  return match.masterItemId || normalizeIngredientIdentity(name).replace(/\s+/g, ".");
+}
+
+function splitAlternatives(name = "") {
+  if (!/\s+or\s+/i.test(name)) return [];
+  return name.split(/\s+or\s+/i).map((value) => value.trim()).filter(Boolean).map((alternativeName) => {
+    const match = resolveMasterProduct(alternativeName);
+    return {
+      canonicalKey: canonicalKey(match, alternativeName),
+      canonicalName: match.canonicalName,
+      recipeName: sentenceCase(alternativeName),
+      masterItemId: match.masterItemId,
+      matchStatus: match.matchStatus,
+    };
+  });
+}
+
+function auditedRecipe(recipeId = "") {
+  return /^AM-(?:00[1-9]|01\d|020)$/.test(recipeId);
+}
+
+function standardizedCookingAmount(ingredient, parsedName, unit, recipeId) {
+  if (!auditedRecipe(recipeId)) return { quantity: ingredient.qty, unit: unit.unitStandard, shoppingEquivalent: "" };
+
+  if ((unit.optional || unit.instruction === "to taste") && !unit.unitStandard) {
+    return { quantity: null, unit: "", shoppingEquivalent: "" };
+  }
+
+  const onionSize = parsedName.matchName.match(/^(small|medium|large|extra[- ]large) onions?\b/i)?.[1]
+    ?.toLowerCase().replace(" ", "-");
+  if (onionSize && ONION_VOLUME_EQUIVALENTS[onionSize] && /\b(sliced|chopped|diced)\b/i.test(parsedName.preparation)) {
+    const standard = ONION_VOLUME_EQUIVALENTS[onionSize];
+    return {
+      quantity: Number(ingredient.qty) * standard.cups,
+      unit: "cup",
+      shoppingEquivalent: Number(ingredient.qty) === 1
+        ? standard.shoppingEquivalent
+        : `About ${ingredient.qty} ${onionSize} onions`,
+    };
+  }
+
+  if (unit.packageSize && /^(can|jar)$/.test(unit.unitStandard)) {
+    const ounces = Number.parseFloat(unit.packageSize);
+    if (Number.isFinite(ounces)) return {
+      quantity: Number(ingredient.qty) * ounces,
+      unit: "ounce",
+      shoppingEquivalent: `${ingredient.qty} × ${ounces}-ounce ${unit.unitStandard}`,
+    };
+  }
+
+  return { quantity: ingredient.qty, unit: unit.unitStandard, shoppingEquivalent: "" };
+}
+
 export function standardizeAmericanIngredient(ingredient, recipeId = "") {
   const original = { ...ingredient };
   const parsedName = splitName(ingredient.name);
@@ -290,18 +350,36 @@ export function standardizeAmericanIngredient(ingredient, recipeId = "") {
     : CATEGORY_BY_AISLE.find(([, pattern]) => pattern.test(String(ingredient.aisle || "").toLowerCase()))?.[0] || "Pantry/Canned";
   const [category, subcategory, kind = ""] = approvedCategoryAndSubcategory(parsedName.matchName, ingredient.aisle);
   const preparation = [parsedName.preparation, unit.instruction].filter(Boolean).join(", ");
+  const cooking = standardizedCookingAmount(ingredient, parsedName, unit, recipeId);
+  const alternatives = splitAlternatives(parsedName.matchName);
+  const reviewReason = AM_001_020_REVIEW_FLAGS[`${recipeId}|${original.name}`] || "";
+  const recipeName = sentenceCase(parsedName.matchName
+    .replace(/^(small|medium|large|extra[- ]large)\s+(onions?)$/i, "$2"));
   return {
     ...ingredient,
+    ...(auditedRecipe(recipeId) ? { name: recipeName, qty: cooking.quantity ?? ingredient.qty, unit: cooking.unit || ingredient.unit } : {}),
     originalName: original.name,
     originalUnit: original.unit,
+    recipeName,
     canonicalName: match.canonicalName,
-    quantity: ingredient.qty,
-    unitStandard: unit.unitStandard,
+    canonicalKey: canonicalKey(match, parsedName.matchName),
+    quantity: cooking.quantity,
+    cookingQuantity: cooking.quantity,
+    unitStandard: cooking.unit,
+    cookingUnit: cooking.unit,
     packageSize: parsedName.packageSize || unit.packageSize,
     packageCount: unit.packageCount,
     packageContents: unit.packageContents,
     preparation,
     optional: unit.optional || /\boptional\b/i.test(preparation),
+    acceptableAlternatives: alternatives,
+    substitutionGroup: alternatives.length ? `${recipeId}-${normalizeIngredientIdentity(original.name)}` : "",
+    shoppingName: alternatives.length ? initialCaps(parsedName.matchName) : match.canonicalName,
+    shoppingEquivalent: cooking.shoppingEquivalent,
+    reviewStatus: reviewReason ? "needs-review" : "approved",
+    reviewReason,
+    standardVersion: INGREDIENT_STANDARD_VERSION,
+    displayPreparationSeparately: auditedRecipe(recipeId),
     masterItemId: match.masterItemId,
     matchStatus: match.matchStatus,
     inventoryCategory: category,

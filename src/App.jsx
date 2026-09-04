@@ -919,7 +919,14 @@ function buildMasterInventoryCoverageIndex(masterInventory = {}, recipes = []) {
 }
 
 function masterInventoryCoverage(item, inventoryIndex = []) {
-  const matches = inventoryIndex.filter(({ names }) => names.some((name) => inventoryNameMatches(item.name, name)));
+  const requestedNames = [
+    item.name,
+    item.shoppingName,
+    item.canonicalName,
+    ...(item.acceptableAlternatives || []).flatMap((alternative) => [alternative.recipeName, alternative.canonicalName]),
+  ].filter(Boolean);
+  const matches = inventoryIndex.filter(({ names }) => requestedNames.some((requestedName) =>
+    names.some((name) => inventoryNameMatches(requestedName, name))));
   if (!matches.length) return null;
 
   const required = Number(item.qty || 0);

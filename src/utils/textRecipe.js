@@ -6,16 +6,25 @@ export function formatTextRecipeIngredient(ingredient) {
   }
   if (!ingredient || typeof ingredient !== "object") return "";
 
-  const quantity = ingredient.amount ?? ingredient.qty ?? ingredient.quantity;
+  const quantity = Object.prototype.hasOwnProperty.call(ingredient, "cookingQuantity")
+    ? ingredient.cookingQuantity
+    : (ingredient.amount ?? ingredient.qty ?? ingredient.quantity);
   const quantityText = quantity === null || quantity === undefined || quantity === ""
     ? ""
     : String(formatQty(quantity)).trim();
-  const unit = String(ingredient.unit || "").trim();
+  const unit = String(Object.prototype.hasOwnProperty.call(ingredient, "cookingUnit")
+    ? ingredient.cookingUnit
+    : (ingredient.unit || "")).trim();
   const name = String(
     ingredient.item || ingredient.name || ingredient.ingredient || ingredient.label || "",
   ).trim();
 
-  return [quantityText, unit, name].filter(Boolean).join(" ");
+  const preparation = ingredient.displayPreparationSeparately
+    ? String(ingredient.preparation || "").trim()
+    : "";
+  const optional = ingredient.displayPreparationSeparately && ingredient.optional && !/\boptional\b/i.test(preparation) ? "optional" : "";
+  const detail = [preparation, optional].filter(Boolean).join(", ");
+  return `${[quantityText, unit, name].filter(Boolean).join(" ")}${detail ? `, ${detail}` : ""}`;
 }
 
 export function getTextRecipeContent(recipe) {

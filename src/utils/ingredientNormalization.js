@@ -106,6 +106,22 @@ export function canonicalShoppingName(name = "") {
 
 export function normalizeIngredientForShopping(item = {}) {
   if (!item?.name) return item;
+  if (item.canonicalKey || item.masterItemId) {
+    const displayName = item.shoppingName || item.canonicalName || item.name;
+    return {
+      ...item,
+      name: displayName,
+      qty: Object.prototype.hasOwnProperty.call(item, "cookingQuantity")
+        ? item.cookingQuantity
+        : (item.quantity ?? item.qty),
+      unit: Object.prototype.hasOwnProperty.call(item, "cookingUnit")
+        ? item.cookingUnit
+        : (item.unitStandard || item.unit || "item"),
+      normalizationKey: item.canonicalKey || item.masterItemId,
+      sourceNames: [String(item.recipeName || item.name).trim()],
+      preparationNotes: item.preparation ? [item.preparation] : [],
+    };
+  }
   if (item.normalizationKey) {
     return { ...item, unit: item.unit || "item", aisle: item.aisle || "Grocery List" };
   }
