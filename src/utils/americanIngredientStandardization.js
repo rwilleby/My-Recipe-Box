@@ -15,7 +15,7 @@ const CATEGORY_BY_AISLE = [
 ];
 
 export const APPROVED_INVENTORY_SUBCATEGORIES = Object.freeze({
-  "Meat/Seafood": Object.freeze(["Beef", "Chicken", "Pork", "Turkey", "Seafood", "Sausage"]),
+  "Meat/Seafood": Object.freeze(["Beef", "Chicken", "Hot Dogs", "Pork", "Sausage", "Seafood", "Turkey"]),
   "Dairy/Eggs": Object.freeze(["Butter", "Cheese", "Eggs", "Milk", "Cream", "Yogurt"]),
   Breads: Object.freeze(["Buns", "Bread", "Rolls", "Bakery", "Tortillas"]),
   "Fresh Produce": Object.freeze([]), // Produce kinds are the subcategories and may expand as recipes are audited.
@@ -88,7 +88,8 @@ function approvedCategoryAndSubcategory(name = "", aisle = "") {
   if (has(/\b(chicken|poultry)\b/)) return ["Meat/Seafood", "Chicken"];
   if (has(/\b(pork|ham|bacon)\b/)) return ["Meat/Seafood", "Pork"];
   if (has(/\bturkey\b/)) return ["Meat/Seafood", "Turkey"];
-  if (has(/\b(sausage|bratwurst|kielbasa|chorizo|hot dogs?)\b/)) return ["Meat/Seafood", "Sausage"];
+  if (has(/\bhot dogs?\b/)) return ["Meat/Seafood", "Hot Dogs"];
+  if (has(/\b(sausage|bratwurst|kielbasa|chorizo)\b/)) return ["Meat/Seafood", "Sausage"];
   if (has(/\b(fish|shrimp|salmon|tuna|crab|seafood|tilapia|cod|catfish|scallops?)\b/)) return ["Meat/Seafood", "Seafood"];
 
   if (has(/\bbutter\b/) && !has(/peanut|almond|nut butter/)) return ["Dairy/Eggs", "Butter"];
@@ -221,7 +222,7 @@ const MASTER_NAME_OVERRIDES = Object.freeze({
   "all purpose flour": "Flour — All-Purpose",
   "brown sugar": "Sugar & Sweeteners — Brown Sugar",
   "sandwich bread": "Sandwich Bread — White",
-  "beef hot dogs": "Sausage - Beef Hot Dogs",
+  "beef hot dogs": "Hot Dogs - Beef",
   "bacon": "Pork - Bacon - Sliced",
 });
 

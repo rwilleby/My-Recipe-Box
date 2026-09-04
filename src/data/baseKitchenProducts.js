@@ -362,7 +362,10 @@ function normalizeMeatSeafoodProduct(item) {
   else if (family === "Ground Turkey") ({ family, variation } = { family: "Turkey", variation: `Ground - ${variation}` });
   else if (family === "Meatballs") ({ family, variation } = { family: "Beef", variation: `Meatballs - ${variation}` });
   else if (family === "Ham") ({ family, variation } = { family: "Pork", variation: `Ham - ${variation}` });
-  else if (family === "Hot Dogs & Bratwurst") ({ family, variation } = { family: "Sausage", variation });
+  else if (family === "Hot Dogs & Bratwurst") {
+    if (/hot dogs?/i.test(variation)) ({ family, variation } = { family: "Hot Dogs", variation: variation.replace(/\s*hot dogs?\s*/i, "").trim() || "Regular" });
+    else ({ family, variation } = { family: "Sausage", variation });
+  }
   else if (family === "Sausages") family = "Sausage";
   else if (["Fish", "Salmon", "Tuna", "Shrimp", "Crab", "Scallops"].includes(family)) {
     variation = `${family} - ${variation}`;

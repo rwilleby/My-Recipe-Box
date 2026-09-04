@@ -12,8 +12,8 @@ for (const category of BASE_KITCHEN_CATEGORIES) assert.ok(BASE_KITCHEN_PRODUCTS.
 for (const name of ["Cheese — Grated Parmesan", "Cheese — Sliced American", "Milk — Whole", "Eggs — Large", "Coffee — Ground Medium Roast", "Beef - Ground 90/10", "Chicken - Boneless Skinless Breasts", "Broth — Chicken Low Sodium", "Tomatoes — Diced No Salt Added", "Rice — Long-Grain White"]) assert.ok(BASE_KITCHEN_PRODUCTS.some((item) => baseProductName(item) === name), `${name} is selectable`);
 
 const meat = BASE_KITCHEN_PRODUCTS.filter((item) => item.baseCategoryId === "meat-seafood");
-assert.deepEqual([...new Set(meat.map((item) => item.family))], ["Beef", "Chicken", "Pork", "Sausage", "Seafood", "Turkey"], "Meat/Seafood uses one alphabetical family list");
-for (const name of ["Pork - Bacon - Sliced", "Chicken - Ground Lean", "Pork - Ground - Regular", "Turkey - Ground - Lean", "Beef - Meatballs - Fresh", "Seafood - Fish - Catfish Fillets"]) assert.equal(meat.filter((item) => baseProductName(item) === name).length, 1, `${name} appears once`);
+assert.deepEqual([...new Set(meat.map((item) => item.family))], ["Beef", "Chicken", "Hot Dogs", "Pork", "Sausage", "Seafood", "Turkey"], "Meat/Seafood uses one alphabetical family list");
+for (const name of ["Pork - Bacon - Sliced", "Chicken - Ground Lean", "Hot Dogs - Beef", "Pork - Ground - Regular", "Turkey - Ground - Lean", "Beef - Meatballs - Fresh", "Seafood - Fish - Catfish Fillets"]) assert.equal(meat.filter((item) => baseProductName(item) === name).length, 1, `${name} appears once`);
 assert.equal(new Set(meat.map(baseProductName)).size, meat.length, "Meat/Seafood contains no duplicate display entries");
 assert.ok(BASE_KITCHEN_PRODUCTS.some((item) => item.aliases.includes("hamburger")));
 assert.ok(BASE_KITCHEN_PRODUCTS.some((item) => item.aliases.includes("k cups")));
