@@ -1,6 +1,6 @@
 # Robert's Recipe Box Ingredient Standard
 
-Version 1.0 — approved September 4, 2026
+Version 1.1 — approved September 4, 2026
 
 Each audited ingredient separates: canonical inventory identity, recipe-facing
 name, cooking quantity and unit, preparation, and practical shopping equivalent.
@@ -17,6 +17,14 @@ name, cooking quantity and unit, preparation, and practical shopping equivalent.
 - Preparation such as sliced, diced, drained, softened, divided, or optional is stored separately.
 - `optional`, `to taste`, and `as needed` are instructions, never units.
 - Uncertain conversions are retained from the source and marked `needs-review`; they are never guessed.
+
+## Approved missing-detail defaults
+
+- Optional garnishes without amounts remain visible in recipes and are excluded from automatic Shopping Lists.
+- Six cube steaks or six chicken cutlets without total weight retain the six-piece recipe amount and use about 2 pounds for inventory and shopping.
+- An unspecified prepared onion means 1 cup, with about 1 medium onion as the shopping equivalent.
+- A displayed 3–4-pound ham range uses 3 1/2 pounds only for consolidation, cost, and inventory calculations.
+- An unspecified diced potato in a measured filling means 1 cup, with about 1 medium russet potato as the shopping equivalent.
 
 ## Inventory matching
 

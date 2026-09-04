@@ -1,6 +1,6 @@
 # AM-001–AM-020 Ingredient Audit
 
-Checkpoint completed September 4, 2026 using My-Recipe-Box-v96.11 as the authoritative base.
+Finalized September 4, 2026 using My-Recipe-Box-v96.11 as the authoritative base.
 
 ## Applied
 
@@ -12,26 +12,18 @@ Checkpoint completed September 4, 2026 using My-Recipe-Box-v96.11 as the authori
 - Updated Shopping List consolidation to prefer canonical identity.
 - Updated inventory coverage to consider canonical names and recipe-approved alternatives.
 
-## Needs review — preserved without guessing
+## Approved missing-detail resolutions
 
-| Recipe | Ingredient | Reason |
+| Recipes | Ingredient issue | Approved resolution |
 | --- | --- | --- |
-| AM-001 | Chopped parsley | Optional garnish has no quantity. |
-| AM-002 | Chopped parsley | Optional garnish has no quantity. |
-| AM-003 | 6 cube steaks | Total weight is not stated. |
-| AM-005 | Parsley | Optional garnish has no quantity. |
-| AM-006 | Fresh parsley or basil | Optional garnish has no quantity. |
-| AM-010 | 6 thin chicken breasts or cutlets | Total weight is not stated. |
-| AM-011 | 6 chicken breasts or cutlets | Total weight is not stated. |
-| AM-011 | Parsley | Optional garnish has no quantity. |
-| AM-013 | Cooked ham, 3–4 lb | Source provides a weight range rather than one required amount. |
-| AM-014 | Onion, cut in chunks | Onion size is not stated. |
-| AM-015 | Onion, chopped | Onion size is not stated. |
-| AM-016 | Onion, sliced | Onion size is not stated. |
-| AM-019 | Potato, diced and cooked | Potato size is not stated. |
-| AM-020 | Onion, sliced | Onion size is not stated. |
-| AM-020 | Parsley | Optional garnish has no quantity. |
+| AM-001, AM-002, AM-005, AM-006, AM-011, AM-020 | Optional herb garnish without quantity | Keep visible in recipe; exclude from automatic Shopping List. |
+| AM-003 | 6 cube steaks without total weight | Retain 6 pieces; use about 2 pounds for inventory and shopping. |
+| AM-010, AM-011 | 6 chicken breasts/cutlets without total weight | Retain 6 pieces; use about 2 pounds for inventory and shopping. |
+| AM-014, AM-015, AM-016, AM-020 | Prepared onion without size | Use 1 cup; shop for about 1 medium onion. |
+| AM-013 | Cooked ham listed as 3–4 pounds | Display 3–4 pounds; use 3 1/2 pounds for calculations. |
+| AM-019 | Diced potato without size | Use 1 cup; shop for about 1 medium russet potato. |
 
-All listed source quantities and wording remain available in `originalName` and
-`originalUnit`. Recipe IDs, images, directions, designs, and unrelated features
-were not changed.
+All 15 previously flagged entries are resolved. There are no outstanding
+conversion questions in AM-001–AM-020. Original source quantities and wording
+remain available in `originalName` and `originalUnit`. Recipe IDs, images,
+directions, designs, and unrelated features were not changed.

@@ -10235,7 +10235,7 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
               aisle: ingredient.aisle || "Other",
               unit: ingredient.unit || "",
               kind: "grocery",
-            })),
+            })).filter((ingredient) => ingredient.includeInShopping !== false),
           });
           return;
         }

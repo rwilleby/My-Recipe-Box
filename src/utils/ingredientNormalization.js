@@ -111,12 +111,12 @@ export function normalizeIngredientForShopping(item = {}) {
     return {
       ...item,
       name: displayName,
-      qty: Object.prototype.hasOwnProperty.call(item, "cookingQuantity")
+      qty: item.shoppingQuantity ?? (Object.prototype.hasOwnProperty.call(item, "cookingQuantity")
         ? item.cookingQuantity
-        : (item.quantity ?? item.qty),
-      unit: Object.prototype.hasOwnProperty.call(item, "cookingUnit")
+        : (item.quantity ?? item.qty)),
+      unit: item.shoppingUnit || (Object.prototype.hasOwnProperty.call(item, "cookingUnit")
         ? item.cookingUnit
-        : (item.unitStandard || item.unit || "item"),
+        : (item.unitStandard || item.unit || "item")),
       normalizationKey: item.canonicalKey || item.masterItemId,
       sourceNames: [String(item.recipeName || item.name).trim()],
       preparationNotes: item.preparation ? [item.preparation] : [],
@@ -150,7 +150,7 @@ export function consolidateShoppingItems(items = []) {
   const merged = new Map();
 
   items.forEach((sourceItem) => {
-    if (!sourceItem?.name) return;
+    if (!sourceItem?.name || sourceItem.includeInShopping === false) return;
     const item = normalizeIngredientForShopping(sourceItem);
     const unit = item.unit || "item";
     const aisle = item.aisle || "Grocery List";

@@ -9,9 +9,9 @@ export function formatTextRecipeIngredient(ingredient) {
   const quantity = Object.prototype.hasOwnProperty.call(ingredient, "cookingQuantity")
     ? ingredient.cookingQuantity
     : (ingredient.amount ?? ingredient.qty ?? ingredient.quantity);
-  const quantityText = quantity === null || quantity === undefined || quantity === ""
+  const quantityText = ingredient.recipeQuantityText || (quantity === null || quantity === undefined || quantity === ""
     ? ""
-    : String(formatQty(quantity)).trim();
+    : String(formatQty(quantity)).trim());
   const unit = String(Object.prototype.hasOwnProperty.call(ingredient, "cookingUnit")
     ? ingredient.cookingUnit
     : (ingredient.unit || "")).trim();

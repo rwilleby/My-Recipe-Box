@@ -1,5 +1,5 @@
 import { BASE_KITCHEN_CATEGORIES, BASE_KITCHEN_PRODUCTS, baseProductName } from "../data/baseKitchenProducts.js";
-import { AM_001_020_REVIEW_FLAGS, INGREDIENT_STANDARD_VERSION, ONION_VOLUME_EQUIVALENTS } from "../data/ingredientStandards.js";
+import { AM_001_020_APPROVED_RESOLUTIONS, INGREDIENT_STANDARD_VERSION, ONION_VOLUME_EQUIVALENTS } from "../data/ingredientStandards.js";
 
 const CATEGORY_BY_AISLE = [
   ["Meat/Seafood", /meat|seafood/],
@@ -160,7 +160,7 @@ const UNIT_ALIASES = Object.freeze({
   packet: "packet", sleeve: "sleeve", each: "each", "large head": "head",
 });
 
-const PREPARATION_WORDS = /\b(sliced|chopped|diced|minced|cubed|quartered|crumbled|crushed|drained|rinsed|melted|softened|thawed|cooked|uncooked|packed|divided|warmed|washed|dried|peeled|shredded|beaten|thinly|finely|crispy|chilled|for topping|for dish|for pan|for garnish|for serving|for frying|egg wash)\b/i;
+const PREPARATION_WORDS = /\b(sliced|chopped|diced|minced|cubed|quartered|crumbled|crushed|drained|rinsed|melted|softened|thawed|cooked|uncooked|packed|divided|warmed|washed|dried|peeled|shredded|beaten|thinly|finely|crispy|chilled|cut in chunks|for topping|for dish|for pan|for garnish|for serving|for frying|egg wash)\b/i;
 
 export function normalizeIngredientIdentity(value = "") {
   return String(value).toLowerCase()
@@ -340,6 +340,10 @@ function standardizedCookingAmount(ingredient, parsedName, unit, recipeId) {
   return { quantity: ingredient.qty, unit: unit.unitStandard, shoppingEquivalent: "" };
 }
 
+function approvedResolution(recipeId, originalName) {
+  return AM_001_020_APPROVED_RESOLUTIONS[`${recipeId}|${originalName}`] || null;
+}
+
 export function standardizeAmericanIngredient(ingredient, recipeId = "") {
   const original = { ...ingredient };
   const parsedName = splitName(ingredient.name);
@@ -352,21 +356,27 @@ export function standardizeAmericanIngredient(ingredient, recipeId = "") {
   const preparation = [parsedName.preparation, unit.instruction].filter(Boolean).join(", ");
   const cooking = standardizedCookingAmount(ingredient, parsedName, unit, recipeId);
   const alternatives = splitAlternatives(parsedName.matchName);
-  const reviewReason = AM_001_020_REVIEW_FLAGS[`${recipeId}|${original.name}`] || "";
-  const recipeName = sentenceCase(parsedName.matchName
+  const resolution = approvedResolution(recipeId, original.name);
+  const resolvedCooking = resolution?.quantity !== undefined
+    ? { ...cooking, quantity: resolution.quantity, unit: resolution.unit, shoppingEquivalent: resolution.shoppingEquivalent }
+    : cooking;
+  const optionalGarnish = resolution?.type === "optional-garnish";
+  const recipeName = resolution?.recipeName || sentenceCase(parsedName.matchName
     .replace(/^(small|medium|large|extra[- ]large)\s+(onions?)$/i, "$2"));
+  const resolvedCanonicalName = resolution?.canonicalName || match.canonicalName;
+  const resolvedCanonicalKey = resolution?.canonicalKey || canonicalKey(match, parsedName.matchName);
   return {
     ...ingredient,
-    ...(auditedRecipe(recipeId) ? { name: recipeName, qty: cooking.quantity ?? ingredient.qty, unit: cooking.unit || ingredient.unit } : {}),
+    ...(auditedRecipe(recipeId) ? { name: recipeName, qty: resolvedCooking.quantity ?? ingredient.qty, unit: resolvedCooking.unit || ingredient.unit } : {}),
     originalName: original.name,
     originalUnit: original.unit,
     recipeName,
-    canonicalName: match.canonicalName,
-    canonicalKey: canonicalKey(match, parsedName.matchName),
-    quantity: cooking.quantity,
-    cookingQuantity: cooking.quantity,
-    unitStandard: cooking.unit,
-    cookingUnit: cooking.unit,
+    canonicalName: resolvedCanonicalName,
+    canonicalKey: resolvedCanonicalKey,
+    quantity: resolvedCooking.quantity,
+    cookingQuantity: optionalGarnish ? null : resolvedCooking.quantity,
+    unitStandard: optionalGarnish ? "" : resolvedCooking.unit,
+    cookingUnit: optionalGarnish ? "" : resolvedCooking.unit,
     packageSize: parsedName.packageSize || unit.packageSize,
     packageCount: unit.packageCount,
     packageContents: unit.packageContents,
@@ -374,10 +384,16 @@ export function standardizeAmericanIngredient(ingredient, recipeId = "") {
     optional: unit.optional || /\boptional\b/i.test(preparation),
     acceptableAlternatives: alternatives,
     substitutionGroup: alternatives.length ? `${recipeId}-${normalizeIngredientIdentity(original.name)}` : "",
-    shoppingName: alternatives.length ? initialCaps(parsedName.matchName) : match.canonicalName,
-    shoppingEquivalent: cooking.shoppingEquivalent,
-    reviewStatus: reviewReason ? "needs-review" : "approved",
-    reviewReason,
+    shoppingName: alternatives.length ? initialCaps(parsedName.matchName) : resolvedCanonicalName,
+    shoppingQuantity: resolution?.shoppingQuantity ?? resolvedCooking.quantity,
+    shoppingUnit: resolution?.shoppingUnit || resolvedCooking.unit,
+    shoppingEquivalent: resolution?.shoppingEquivalent || resolvedCooking.shoppingEquivalent,
+    includeInShopping: !optionalGarnish,
+    approximateShoppingQuantity: resolution?.type === "piece-count-with-shopping-weight",
+    recipeQuantityText: resolution?.recipeQuantityText || "",
+    reviewStatus: "approved",
+    reviewReason: "",
+    resolutionType: resolution?.type || "source-specific",
     standardVersion: INGREDIENT_STANDARD_VERSION,
     displayPreparationSeparately: auditedRecipe(recipeId),
     masterItemId: match.masterItemId,
