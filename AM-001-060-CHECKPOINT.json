@@ -1,11 +1,11 @@
 {
   "base": "My-Recipe-Box-v96.11",
-  "checkpoint": "AM-001-AM-040",
+  "checkpoint": "AM-001-AM-060",
   "completed": "2026-09-04",
-  "ingredientStandardVersion": "1.2",
-  "recipesAudited": 40,
-  "resolvedPriorFlags": 15,
-  "approvedMissingDetailResolutions": 13,
+  "ingredientStandardVersion": "1.3",
+  "recipesAudited": 60,
+  "resolvedPriorFlags": 33,
+  "approvedMissingDetailResolutions": 5,
   "newReviewFlags": 0,
   "verification": {
     "checkpointTests": "passed",
@@ -20,6 +20,8 @@
     "AM-001-020-INGREDIENT-AUDIT.md",
     "AM-001-040-CHECKPOINT.json",
     "AM-021-040-INGREDIENT-AUDIT.md",
+    "AM-001-060-CHECKPOINT.json",
+    "AM-041-060-INGREDIENT-AUDIT.md",
     "docs/INGREDIENT-STANDARD.md",
     "src/App.jsx",
     "src/data/ingredientStandards.js",
@@ -30,6 +32,7 @@
     "test/americanIngredientDataV849.test.mjs",
     "test/americanIngredientStandardizationV968.test.mjs",
     "test/ingredientStandardCheckpointAM001020.test.mjs",
-    "test/ingredientStandardCheckpointAM021040.test.mjs"
+    "test/ingredientStandardCheckpointAM021040.test.mjs",
+    "test/ingredientStandardCheckpointAM041060.test.mjs"
   ]
 }

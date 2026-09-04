@@ -14,14 +14,14 @@ for (const field of ["canonicalName", "quantity", "unitStandard", "packageSize",
   assert.ok(rows.every(({ ingredient }) => Object.prototype.hasOwnProperty.call(ingredient, field)), `${field} exists on every AM ingredient`);
 }
 assert.ok(rows.every(({ ingredient }) => ["exact", "approved-equivalence", "ambiguous", "unmatched"].includes(ingredient.matchStatus)));
-assert.ok(rows.every(({ recipeId, ingredient }) => /^AM-(?:00[1-9]|0[1-3]\d|040)$/.test(recipeId) || ingredient.quantity === ingredient.qty));
+assert.ok(rows.every(({ recipeId, ingredient }) => (/^AM-(?:00[1-9]|0[1-7]\d|078)$/.test(recipeId) && recipeId !== "AM-063") || ingredient.quantity === ingredient.qty));
 assert.ok(rows.every(({ ingredient }) => {
   return APPROVED_INVENTORY_SUBCATEGORIES[ingredient.inventoryCategory]?.includes(ingredient.inventorySubcategory);
 }), "every AM ingredient uses an approved category and subcategory");
 assert.ok(rows.every(({ ingredient }) => ingredient.inventoryCategory !== "Produce"), "Produce is renamed Fresh Produce");
 assert.equal(recipes.find((recipe) => recipe.id === "AM-001").ingredients.find((item) => item.originalName === "Black pepper").inventoryCategory, "Pantry/Canned");
 assert.ok(rows.every(({ recipeId, ingredient }) => formatTextRecipeIngredient(ingredient).includes(
-  /^AM-(?:00[1-9]|0[1-3]\d|040)$/.test(recipeId) ? ingredient.recipeName : ingredient.originalName
+  /^AM-(?:00[1-9]|0[1-7]\d|078)$/.test(recipeId) && recipeId !== "AM-063" ? ingredient.recipeName : ingredient.originalName
 )), "selectable recipes use the audited recipe-facing name without changing later checkpoints");
 
 const kidneyBeans = recipes.find((recipe) => recipe.id === "AM-009").ingredients.find((item) => item.originalName === "Kidney beans, drained");

@@ -45,11 +45,11 @@ assert.equal(american.reduce((sum, recipe) => sum + recipe.ingredients.length, 0
 assert.ok(byId["AM-013"].ingredients.some((item) => item.originalName === "Cooked ham, 3–4 lb" && item.qty === 3.5 && item.recipeQuantityText === "3–4" && item.reviewStatus === "approved"));
 assert.ok(byId["AM-030"].ingredients.some((item) => item.name === "All-purpose flour" && Math.abs(item.qty - 1 / 3) < 1e-9));
 assert.ok(byId["AM-038"].ingredients.some((item) => item.name.includes("Bone-in skin-on chicken pieces") && item.qty === 6));
-assert.ok(byId["AM-051"].ingredients.some((item) => item.name === "Refrigerated biscuits" && item.unit.includes("16.3 oz")));
-assert.ok(byId["AM-054"].ingredients.some((item) => item.name === "Pork shoulder roast, 3–4 lb"));
-assert.ok(byId["AM-056"].ingredients.some((item) => item.name === "Tuna in water, drained" && item.unit === "5 oz cans"));
+assert.ok(byId["AM-051"].ingredients.some((item) => item.name === "Refrigerated biscuits" && item.qty === 16.3 && item.unit === "ounce" && item.packageCount === 8));
+assert.ok(byId["AM-054"].ingredients.some((item) => item.originalName === "Pork shoulder roast, 3–4 lb" && item.qty === 3.5 && item.recipeQuantityText === "3–4"));
+assert.ok(byId["AM-056"].ingredients.some((item) => item.originalName === "Tuna in water, drained" && item.qty === 10 && item.unit === "ounce"));
 assert.ok(byId["AM-061"].ingredients.some((item) => item.name === "Beef hot dogs" && item.qty === 8));
-assert.ok(byId["AM-066"].ingredients.some((item) => item.name === "Prepared mashed potatoes" && item.qty === 4));
-assert.ok(byId["AM-078"].ingredients.some((item) => item.name === "Cooked ham, diced" && item.qty === 2));
+assert.ok(byId["AM-066"].ingredients.some((item) => item.originalName === "Prepared mashed potatoes" && item.qty === 4 && item.shoppingQuantity === 2));
+assert.ok(byId["AM-078"].ingredients.some((item) => item.originalName === "Cooked ham, diced" && item.qty === 2 && item.shoppingQuantity === 12));
 
 console.log("v84.9 AM-011 through AM-078 ingredient and registry contracts passed.");

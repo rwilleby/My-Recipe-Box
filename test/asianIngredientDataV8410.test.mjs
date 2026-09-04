@@ -27,15 +27,15 @@ assert.deepEqual(
 );
 
 assert.ok(byId["AS-001"].ingredients.some((item) => item.name === "Lee Kum Kee Panda Brand Oyster Sauce" && item.qty === 0.5));
-assert.ok(byId["AS-004"].ingredients.some((item) => item.name === "Cornstarch" && item.qty === 2 && item.unit === "tbsp"));
+assert.ok(byId["AS-004"].ingredients.some((item) => item.name === "Cornstarch" && item.qty === 2 && item.unit === "tablespoon"));
 assert.ok(byId["AS-005"].ingredients.some((item) => item.name === "Lee Kum Kee Black Pepper Sauce" && item.qty === 0.5 && item.unit === "cup"));
-assert.ok(byId["AS-006"].ingredients.some((item) => item.name === "Sesame seeds" && item.unit === "tsp, optional"));
-assert.ok(byId["AS-013"].ingredients.some((item) => item.name === "Cornstarch" && item.qty === 2 && item.unit === "tbsp"));
-assert.ok(byId["AS-013"].ingredients.some((item) => item.name === "Garlic, minced" && item.qty === 2 && item.unit === "cloves"));
-assert.ok(byId["AS-013"].ingredients.some((item) => item.name === "Fresh ginger, minced" && item.qty === 1 && item.unit === "tbsp"));
-assert.ok(byId["AS-008"].ingredients.some((item) => item.name === "Kikkoman Sweet & Sour Sauce" && item.unit === "15 oz bottle"));
-assert.ok(byId["AS-014"].ingredients.some((item) => item.name === "Kikkoman Cashew Sauce for Chicken" && item.unit === "15 oz bottle"));
-assert.ok(byId["AS-021"].ingredients.some((item) => item.name.includes("or 1 lb shrimp")));
+assert.ok(byId["AS-006"].ingredients.some((item) => item.name === "Sesame seeds" && item.originalUnit === "tsp, optional" && item.includeInShopping === false));
+assert.ok(byId["AS-013"].ingredients.some((item) => item.name === "Cornstarch" && item.qty === 2 && item.unit === "tablespoon"));
+assert.ok(byId["AS-013"].ingredients.some((item) => item.originalName === "Garlic, minced" && item.qty === 2 && item.unit === "clove"));
+assert.ok(byId["AS-013"].ingredients.some((item) => item.originalName === "Fresh ginger, minced" && item.qty === 1 && item.unit === "tablespoon"));
+assert.ok(byId["AS-008"].ingredients.some((item) => item.name === "Kikkoman Sweet & Sour Sauce" && item.qty === 15 && item.unit === "ounce"));
+assert.ok(byId["AS-014"].ingredients.some((item) => item.name === "Kikkoman Cashew Sauce for Chicken" && item.qty === 15 && item.unit === "ounce"));
+assert.ok(byId["AS-021"].ingredients.some((item) => item.originalName.includes("or 1 lb shrimp") && item.acceptableAlternatives.length === 2));
 assert.ok(byId["AS-024"].ingredients.some((item) => item.name === "Wonton wrappers" && item.qty === 24));
 
 console.log("v84.10 complete Asian recipe-card ingredient contracts passed.");

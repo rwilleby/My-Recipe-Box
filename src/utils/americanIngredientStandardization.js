@@ -3,6 +3,12 @@ import {
   AM_001_020_APPROVED_RESOLUTIONS,
   AM_021_040_APPROVED_RESOLUTIONS,
   AM_021_040_REVIEW_FLAGS,
+  AM_041_060_APPROVED_RESOLUTIONS,
+  AM_041_060_REVIEW_FLAGS,
+  AM_061_078_APPROVED_RESOLUTIONS,
+  AM_061_078_REVIEW_FLAGS,
+  AS_001_024_APPROVED_RESOLUTIONS,
+  AS_001_024_REVIEW_FLAGS,
   INGREDIENT_STANDARD_VERSION,
   ONION_VOLUME_EQUIVALENTS,
 } from "../data/ingredientStandards.js";
@@ -269,8 +275,9 @@ function splitName(rawName = "") {
 function normalizeUnit(rawUnit = "") {
   const value = String(rawUnit).trim();
   const optional = /\boptional\b/i.test(value);
-  const instruction = value.match(/\b(?:as needed|to taste|for frying|for garnish|for serving)\b/i)?.[0] || "";
-  const packageMatch = value.match(/^(\d+(?:\.\d+)?)\s*oz\s+(can|jar|bag)s?(?:,\s*(\d+)\s+(.+))?$/i);
+  const instruction = value.match(/\b(?:as needed|to taste|for frying|for garnish|for serving|optional garnish)\b/i)?.[0] || "";
+  const preparation = value.match(/\bdrained\b/i)?.[0] || "";
+  const packageMatch = value.match(/^(\d+(?:\.\d+)?)\s*oz\s+(can|jar|bag|bottle)s?(?:,\s*(\d+)\s+(.+))?$/i);
   if (packageMatch) return {
     unitStandard: packageMatch[2].toLowerCase(),
     packageSize: `${packageMatch[1]} ounces`,
@@ -278,9 +285,10 @@ function normalizeUnit(rawUnit = "") {
     packageContents: packageMatch[4] || "",
     optional,
     instruction,
+    preparation,
   };
-  const cleaned = value.replace(/,?\s*optional\b/ig, "").replace(/,?\s*or to taste\b/ig, "").trim().toLowerCase();
-  return { unitStandard: UNIT_ALIASES[cleaned] || (instruction ? "" : cleaned), packageSize: "", packageCount: null, packageContents: "", optional, instruction };
+  const cleaned = value.replace(/,?\s*optional\b/ig, "").replace(/,?\s*or to taste\b/ig, "").replace(/,?\s*drained\b/ig, "").trim().toLowerCase();
+  return { unitStandard: UNIT_ALIASES[cleaned] || (instruction ? "" : cleaned), packageSize: "", packageCount: null, packageContents: "", optional, instruction, preparation };
 }
 
 function resolveMasterProduct(name) {
@@ -311,7 +319,7 @@ function splitAlternatives(name = "") {
 }
 
 function auditedRecipe(recipeId = "") {
-  return /^AM-(?:00[1-9]|0[1-3]\d|040)$/.test(recipeId);
+  return (/^AM-(?:00[1-9]|0[1-7]\d|078)$/.test(recipeId) && recipeId !== "AM-063") || /^AS-(?:00[1-9]|01\d|02[0-4])$/.test(recipeId);
 }
 
 function standardizedCookingAmount(ingredient, parsedName, unit, recipeId) {
@@ -321,20 +329,21 @@ function standardizedCookingAmount(ingredient, parsedName, unit, recipeId) {
     return { quantity: null, unit: "", shoppingEquivalent: "" };
   }
 
-  const onionSize = parsedName.matchName.match(/^(small|medium|large|extra[- ]large) onions?\b/i)?.[1]
+  const sizedOnion = parsedName.matchName.match(/^(small|medium|large|extra[- ]large) (?:(red|white|yellow|sweet) )?onions?\b/i);
+  const onionSize = sizedOnion?.[1]
     ?.toLowerCase().replace(" ", "-");
   if (onionSize && ONION_VOLUME_EQUIVALENTS[onionSize] && /\b(sliced|chopped|diced)\b/i.test(parsedName.preparation)) {
     const standard = ONION_VOLUME_EQUIVALENTS[onionSize];
     return {
       quantity: Number(ingredient.qty) * standard.cups,
       unit: "cup",
-      shoppingEquivalent: Number(ingredient.qty) === 1
+      shoppingEquivalent: Number(ingredient.qty) === 1 && !sizedOnion?.[2]
         ? standard.shoppingEquivalent
-        : `About ${ingredient.qty} ${onionSize} onions`,
+        : `About ${Number(ingredient.qty) === 0.5 ? "1/2" : ingredient.qty} ${onionSize}${sizedOnion?.[2] ? ` ${sizedOnion[2].toLowerCase()}` : ""} onion${Number(ingredient.qty) <= 1 ? "" : "s"}`,
     };
   }
 
-  if (unit.packageSize && /^(can|jar)$/.test(unit.unitStandard)) {
+  if (unit.packageSize && /^(can|jar|bag|bottle)$/.test(unit.unitStandard)) {
     const ounces = Number.parseFloat(unit.packageSize);
     if (Number.isFinite(ounces)) return {
       quantity: Number(ingredient.qty) * ounces,
@@ -346,9 +355,13 @@ function standardizedCookingAmount(ingredient, parsedName, unit, recipeId) {
   return { quantity: ingredient.qty, unit: unit.unitStandard, shoppingEquivalent: "" };
 }
 
-function approvedResolution(recipeId, originalName) {
-  const key = `${recipeId}|${originalName}`;
-  return AM_001_020_APPROVED_RESOLUTIONS[key] || AM_021_040_APPROVED_RESOLUTIONS[key] || null;
+function approvedResolution(recipeId, originalName, originalUnit = "") {
+  const keys = [`${recipeId}|${originalName}|${originalUnit}`, `${recipeId}|${originalName}`];
+  for (const key of keys) {
+    const resolution = AM_001_020_APPROVED_RESOLUTIONS[key] || AM_021_040_APPROVED_RESOLUTIONS[key] || AM_041_060_APPROVED_RESOLUTIONS[key] || AM_061_078_APPROVED_RESOLUTIONS[key] || AS_001_024_APPROVED_RESOLUTIONS[key];
+    if (resolution) return resolution;
+  }
+  return null;
 }
 
 export function standardizeAmericanIngredient(ingredient, recipeId = "") {
@@ -360,20 +373,23 @@ export function standardizeAmericanIngredient(ingredient, recipeId = "") {
     ? BASE_KITCHEN_CATEGORIES.find((item) => item.id === productByDisplayName.get(match.canonicalName)?.baseCategoryId)?.title
     : CATEGORY_BY_AISLE.find(([, pattern]) => pattern.test(String(ingredient.aisle || "").toLowerCase()))?.[0] || "Pantry/Canned";
   const [category, subcategory, kind = ""] = approvedCategoryAndSubcategory(parsedName.matchName, ingredient.aisle);
-  const preparation = [parsedName.preparation, unit.instruction].filter(Boolean).join(", ");
+  const preparation = [parsedName.preparation, unit.preparation, unit.instruction].filter(Boolean).join(", ");
   const cooking = standardizedCookingAmount(ingredient, parsedName, unit, recipeId);
   const alternatives = splitAlternatives(parsedName.matchName);
-  const resolution = approvedResolution(recipeId, original.name);
+  const resolution = approvedResolution(recipeId, original.name, original.unit);
   const resolvedCooking = resolution?.quantity !== undefined
     ? { ...cooking, quantity: resolution.quantity, unit: resolution.unit, shoppingEquivalent: resolution.shoppingEquivalent }
     : cooking;
   const optionalGarnish = resolution?.type === "optional-garnish";
   const unmeasuredSupply = resolution?.type === "unmeasured-cooking-supply";
-  const reviewReason = AM_021_040_REVIEW_FLAGS[`${recipeId}|${original.name}`] || "";
+  const unmeasuredServingSuggestion = resolution?.type === "unmeasured-serving-suggestion";
+  const unmeasuredOptionalIngredient = resolution?.type === "unmeasured-optional-ingredient";
+  const reviewReason = AM_021_040_REVIEW_FLAGS[`${recipeId}|${original.name}`] || AM_041_060_REVIEW_FLAGS[`${recipeId}|${original.name}`] || AM_061_078_REVIEW_FLAGS[`${recipeId}|${original.name}`] || AS_001_024_REVIEW_FLAGS[`${recipeId}|${original.name}`] || "";
+  const sizedOnionIdentity = parsedName.matchName.match(/^(small|medium|large|extra[- ]large) (?:(red|white|yellow|sweet) )?onions?\b/i);
   const recipeName = resolution?.recipeName || sentenceCase(parsedName.matchName
     .replace(/^(small|medium|large|extra[- ]large)\s+(onions?)$/i, "$2"));
-  const resolvedCanonicalName = resolution?.canonicalName || match.canonicalName;
-  const resolvedCanonicalKey = resolution?.canonicalKey || canonicalKey(match, parsedName.matchName);
+  const resolvedCanonicalName = resolution?.canonicalName || (sizedOnionIdentity ? `${sizedOnionIdentity[2] ? `${initialCaps(sizedOnionIdentity[2])} ` : ""}Onion` : match.canonicalName);
+  const resolvedCanonicalKey = resolution?.canonicalKey || (sizedOnionIdentity ? `produce.onion${sizedOnionIdentity[2] ? `.${sizedOnionIdentity[2].toLowerCase()}` : ""}` : canonicalKey(match, parsedName.matchName));
   return {
     ...ingredient,
     ...(auditedRecipe(recipeId) ? { name: recipeName, qty: resolvedCooking.quantity ?? ingredient.qty, unit: resolvedCooking.unit || ingredient.unit } : {}),
@@ -383,22 +399,22 @@ export function standardizeAmericanIngredient(ingredient, recipeId = "") {
     canonicalName: resolvedCanonicalName,
     canonicalKey: resolvedCanonicalKey,
     quantity: resolvedCooking.quantity,
-    cookingQuantity: optionalGarnish || unmeasuredSupply ? null : resolvedCooking.quantity,
-    unitStandard: optionalGarnish || unmeasuredSupply ? "" : resolvedCooking.unit,
-    cookingUnit: optionalGarnish || unmeasuredSupply ? "" : resolvedCooking.unit,
+    cookingQuantity: optionalGarnish || unmeasuredSupply || unmeasuredServingSuggestion || unmeasuredOptionalIngredient ? null : resolvedCooking.quantity,
+    unitStandard: optionalGarnish || unmeasuredSupply || unmeasuredServingSuggestion || unmeasuredOptionalIngredient ? "" : resolvedCooking.unit,
+    cookingUnit: optionalGarnish || unmeasuredSupply || unmeasuredServingSuggestion || unmeasuredOptionalIngredient ? "" : resolvedCooking.unit,
     packageSize: parsedName.packageSize || unit.packageSize,
     packageCount: unit.packageCount,
     packageContents: unit.packageContents,
-    preparation,
+    preparation: resolution?.preparation || preparation,
     optional: unit.optional || /\boptional\b/i.test(preparation),
-    acceptableAlternatives: alternatives,
+    acceptableAlternatives: resolution?.acceptableAlternatives || alternatives,
     substitutionGroup: alternatives.length ? `${recipeId}-${normalizeIngredientIdentity(original.name)}` : "",
     shoppingName: alternatives.length ? initialCaps(parsedName.matchName) : resolvedCanonicalName,
     shoppingQuantity: resolution?.shoppingQuantity ?? resolvedCooking.quantity,
     shoppingUnit: resolution?.shoppingUnit || resolvedCooking.unit,
     shoppingEquivalent: resolution?.shoppingEquivalent || resolvedCooking.shoppingEquivalent,
-    includeInShopping: !(optionalGarnish || unmeasuredSupply || resolvedCooking.quantity === null),
-    approximateShoppingQuantity: resolution?.type === "piece-count-with-shopping-weight",
+    includeInShopping: !(optionalGarnish || unmeasuredSupply || unmeasuredServingSuggestion || unmeasuredOptionalIngredient || resolvedCooking.quantity === null),
+    approximateShoppingQuantity: Boolean(resolution?.approximate || resolution?.type === "piece-count-with-shopping-weight"),
     recipeQuantityText: resolution?.recipeQuantityText || "",
     reviewStatus: reviewReason ? "needs-review" : "approved",
     reviewReason,
@@ -416,6 +432,6 @@ export function standardizeAmericanIngredient(ingredient, recipeId = "") {
 }
 
 export function standardizeAmericanIngredients(recipeId, ingredients = []) {
-  if (!/^AM-(?:00[1-9]|0[1-7]\d|078)$/.test(recipeId) || recipeId === "AM-063") return ingredients;
+  if (!auditedRecipe(recipeId)) return ingredients;
   return ingredients.map((ingredient) => standardizeAmericanIngredient(ingredient, recipeId));
 }

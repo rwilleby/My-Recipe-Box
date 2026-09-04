@@ -1,11 +1,13 @@
 {
   "base": "My-Recipe-Box-v96.11",
-  "checkpoint": "AM-001-AM-040",
+  "checkpoint": "AM-001-AM-078",
   "completed": "2026-09-04",
-  "ingredientStandardVersion": "1.2",
-  "recipesAudited": 40,
-  "resolvedPriorFlags": 15,
-  "approvedMissingDetailResolutions": 13,
+  "ingredientStandardVersion": "1.4",
+  "recipesAudited": 78,
+  "catalogRecipesPresent": 77,
+  "intentionallyAbsentRecipeIds": ["AM-063"],
+  "resolvedPriorFlags": 34,
+  "approvedMissingDetailResolutions": 1,
   "newReviewFlags": 0,
   "verification": {
     "checkpointTests": "passed",
@@ -20,6 +22,10 @@
     "AM-001-020-INGREDIENT-AUDIT.md",
     "AM-001-040-CHECKPOINT.json",
     "AM-021-040-INGREDIENT-AUDIT.md",
+    "AM-001-060-CHECKPOINT.json",
+    "AM-041-060-INGREDIENT-AUDIT.md",
+    "AM-001-078-CHECKPOINT.json",
+    "AM-061-078-INGREDIENT-AUDIT.md",
     "docs/INGREDIENT-STANDARD.md",
     "src/App.jsx",
     "src/data/ingredientStandards.js",
@@ -30,6 +36,8 @@
     "test/americanIngredientDataV849.test.mjs",
     "test/americanIngredientStandardizationV968.test.mjs",
     "test/ingredientStandardCheckpointAM001020.test.mjs",
-    "test/ingredientStandardCheckpointAM021040.test.mjs"
+    "test/ingredientStandardCheckpointAM021040.test.mjs",
+    "test/ingredientStandardCheckpointAM041060.test.mjs",
+    "test/ingredientStandardCheckpointAM061078.test.mjs"
   ]
 }

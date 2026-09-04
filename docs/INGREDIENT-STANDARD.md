@@ -1,6 +1,6 @@
 # Robert's Recipe Box Ingredient Standard
 
-Version 1.1 — approved September 4, 2026
+Version 1.5 — Asian recipe category audit checkpoint, September 4, 2026
 
 Each audited ingredient separates: canonical inventory identity, recipe-facing
 name, cooking quantity and unit, preparation, and practical shopping equivalent.
@@ -25,6 +25,25 @@ name, cooking quantity and unit, preparation, and practical shopping equivalent.
 - An unspecified prepared onion means 1 cup, with about 1 medium onion as the shopping equivalent.
 - A displayed 3–4-pound ham range uses 3 1/2 pounds only for consolidation, cost, and inventory calculations.
 - An unspecified diced potato in a measured filling means 1 cup, with about 1 medium russet potato as the shopping equivalent.
+- Two cups cooked diced or shredded chicken use about 1 pound raw boneless chicken for shopping; 3 cups use about 1 1/2 pounds.
+- Six cups mashed potatoes use about 3 pounds potatoes for shopping; prepared mashed potatoes are an accepted alternative.
+- Unmeasured serving suggestions remain visible in recipes and are excluded from automatic Shopping Lists.
+- Six cooked bacon slices use about 6 ounces raw bacon for shopping; 1/2 cup cooked crumbled bacon uses about 8 ounces raw.
+- Six mixed bone-in chicken pieces remain six recipe pieces and use about 3 pounds for shopping.
+- The same approved chicken yield extends proportionally: 4 cups cooked chicken use about 2 pounds raw boneless chicken.
+- Six bone-in chicken thighs use about 3 pounds for shopping.
+- Unmeasured optional accompaniments and optional ingredients remain visible in recipes and are excluded from automatic Shopping Lists.
+- Six boneless pork chops use about 2 pounds for shopping; six bone-in pork chops use about 3 pounds.
+- Six half-inch ham steaks use about 3 pounds for shopping.
+- One meaty ham hock uses about 1 1/2 pounds for shopping; the recipe-approved alternative of 2 cups diced ham uses about 12 ounces.
+- Four cups prepared mashed potatoes use about 2 pounds potatoes or prepared mashed potatoes for shopping.
+- One cup cooked crumbled bacon uses about 16 ounces raw bacon for shopping.
+- Two cups cooked diced ham use about 12 ounces diced ham for shopping.
+- Sized red, white, yellow, and sweet onions use the same approved volume equivalents as standard onions while retaining the onion variety.
+- Two cups sliced cooked turkey use about 1 pound raw boneless turkey or 12 ounces prepared cooked turkey for shopping.
+- Package-size separation applies to bottles and bags as well as cans and jars.
+- Ingredient preparation written in the source unit, such as `drained`, is moved into the separate preparation field.
+- Repeated ingredients within one recipe may use unit-specific resolutions so a measured ingredient is not confused with an unmeasured frying or serving entry.
 
 ## Inventory matching
 

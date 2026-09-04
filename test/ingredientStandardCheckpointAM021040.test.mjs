@@ -9,8 +9,8 @@ const get = (recipeId, originalName) => recipes.find((recipe) => recipe.id === r
   .ingredients.find((ingredient) => ingredient.originalName === originalName);
 
 assert.equal(audited.length, 20);
-assert.ok(rows.every(({ ingredient }) => ingredient.standardVersion === "1.1"));
-assert.equal(rows.filter(({ ingredient }) => ingredient.reviewStatus === "needs-review").length, 13);
+assert.ok(rows.every(({ ingredient }) => ingredient.standardVersion === "1.5"));
+assert.equal(rows.filter(({ ingredient }) => ingredient.reviewStatus === "needs-review").length, 0);
 
 assert.deepEqual(
   (({ qty, unit, preparation, shoppingEquivalent }) => ({ qty, unit, preparation, shoppingEquivalent }))(get("AM-021", "Medium onion, finely diced")),
@@ -35,7 +35,23 @@ assert.equal(consolidateShoppingItems([optionalParsley]).length, 0);
 assert.equal(formatTextRecipeIngredient(optionalParsley), "Parsley, chopped, optional");
 
 const servingSide = get("AM-028", "Mashed potatoes");
-assert.equal(servingSide.reviewStatus, "needs-review");
+assert.equal(servingSide.reviewStatus, "approved");
 assert.equal(servingSide.includeInShopping, false);
 
-console.log("AM-021 through AM-040 ingredient checkpoint passed with 13 review flags.");
+assert.deepEqual(
+  (({ shoppingQuantity, shoppingUnit, shoppingEquivalent }) => ({ shoppingQuantity, shoppingUnit, shoppingEquivalent }))(get("AM-021", "Mashed potatoes")),
+  { shoppingQuantity: 3, shoppingUnit: "pound", shoppingEquivalent: "About 3 pounds potatoes or prepared mashed potatoes" },
+);
+for (const recipeId of ["AM-030", "AM-031", "AM-032", "AM-033", "AM-034", "AM-035"]) {
+  const chicken = recipes.find((recipe) => recipe.id === recipeId).ingredients.find((ingredient) => /^Cooked chicken/.test(ingredient.originalName));
+  assert.equal(chicken.shoppingQuantity, 1);
+  assert.equal(chicken.shoppingUnit, "pound");
+}
+assert.equal(get("AM-036", "Cooked chicken, shredded").shoppingQuantity, 1.5);
+assert.deepEqual(
+  [get("AM-035", "Bacon, cooked and crumbled"), get("AM-036", "Cooked bacon, crumbled")].map(({ shoppingQuantity, shoppingUnit }) => [shoppingQuantity, shoppingUnit]),
+  [[6, "ounce"], [8, "ounce"]],
+);
+assert.equal(get("AM-038", "Bone-in skin-on chicken pieces, thighs, drumsticks, or breasts").shoppingQuantity, 3);
+
+console.log("AM-021 through AM-040 ingredient checkpoint passed with zero review flags.");

@@ -1,12 +1,13 @@
 {
   "base": "My-Recipe-Box-v96.11",
-  "checkpoint": "AM-001-AM-040",
+  "priorCheckpoint": "My-Recipe-Box-v96.15-AM-001-078",
+  "checkpoint": "AS-001-AS-024",
   "completed": "2026-09-04",
-  "ingredientStandardVersion": "1.2",
-  "recipesAudited": 40,
-  "resolvedPriorFlags": 15,
-  "approvedMissingDetailResolutions": 13,
-  "newReviewFlags": 0,
+  "ingredientStandardVersion": "1.5",
+  "recipesAuditedThisCheckpoint": 24,
+  "ingredientRowsAuditedThisCheckpoint": 210,
+  "priorUnresolvedFlags": 0,
+  "newReviewFlags": 3,
   "verification": {
     "checkpointTests": "passed",
     "currentTestFiles": 151,
@@ -20,6 +21,12 @@
     "AM-001-020-INGREDIENT-AUDIT.md",
     "AM-001-040-CHECKPOINT.json",
     "AM-021-040-INGREDIENT-AUDIT.md",
+    "AM-001-060-CHECKPOINT.json",
+    "AM-041-060-INGREDIENT-AUDIT.md",
+    "AM-001-078-CHECKPOINT.json",
+    "AM-061-078-INGREDIENT-AUDIT.md",
+    "AS-001-024-CHECKPOINT.json",
+    "AS-001-024-INGREDIENT-AUDIT.md",
     "docs/INGREDIENT-STANDARD.md",
     "src/App.jsx",
     "src/data/ingredientStandards.js",
@@ -29,7 +36,11 @@
     "test/americanIngredientDataV848.test.mjs",
     "test/americanIngredientDataV849.test.mjs",
     "test/americanIngredientStandardizationV968.test.mjs",
+    "test/asianIngredientDataV8410.test.mjs",
     "test/ingredientStandardCheckpointAM001020.test.mjs",
-    "test/ingredientStandardCheckpointAM021040.test.mjs"
+    "test/ingredientStandardCheckpointAM021040.test.mjs",
+    "test/ingredientStandardCheckpointAM041060.test.mjs",
+    "test/ingredientStandardCheckpointAM061078.test.mjs",
+    "test/ingredientStandardCheckpointAS001024.test.mjs"
   ]
 }
