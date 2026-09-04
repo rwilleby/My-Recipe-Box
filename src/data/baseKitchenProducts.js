@@ -202,7 +202,7 @@ const LEGACY_BASE_KITCHEN_PRODUCTS = Object.freeze([
 
 export const BASE_KITCHEN_CATEGORIES = Object.freeze([
   ["meat-seafood", "Meat/Seafood"], ["dairy-eggs", "Dairy/Eggs"], ["breads", "Breads"],
-  ["produce", "Produce"], ["deli", "Deli"], ["pantry-canned", "Pantry/Canned"],
+  ["produce", "Fresh Produce"], ["deli", "Deli"], ["pantry-canned", "Pantry/Canned"],
   ["grains-pasta", "Grains/Pasta"], ["cereal-breakfast", "Cereal/Breakfast"],
   ["condiments", "Condiments"], ["chips-snacks", "Chips/Snacks"], ["frozen-foods", "Frozen Foods"],
   ["beverages", "Beverages"], ["household-cleaning", "Household/Cleaning"], ["pet-care", "Pet Care"],
@@ -222,8 +222,8 @@ const EXPANSION_GROUPS = {
     "Beef|Filet Mignon,Flank Steak,Flat Iron Steak,New York Strip,Short Ribs,Top Round Roast,Bottom Round Roast,Cubed Steak,Ground 85/15,Ground 90/10|lb|Refrigerator",
     "Chicken|Bone-In Breasts,Split Breasts,Leg Quarters,Thin-Sliced Breasts,Ground,Whole Fryer|lb|Refrigerator",
     "Pork|Country-Style Ribs,Loin Roast,Spareribs,Ground,Sirloin Chops,Center-Cut Chops|lb|Refrigerator",
-    "Fish|Cod Fillets,Haddock Fillets,Halibut Fillets,Mahi-Mahi Fillets,Red Snapper Fillets,Trout Fillets,Catfish Fillets,Tilapia Fillets|lb|Refrigerator",
-    "Shellfish|Clams,Crab Legs,Crawfish,Lobster Tails,Mussels,Oysters,Scallops|lb|Refrigerator",
+    "Seafood|Fish - Cod Fillets,Fish - Haddock Fillets,Fish - Halibut Fillets,Fish - Mahi-Mahi Fillets,Fish - Red Snapper Fillets,Fish - Trout Fillets,Fish - Catfish Fillets,Fish - Tilapia Fillets|lb|Refrigerator",
+    "Seafood|Shellfish - Clams,Crab - Legs,Shellfish - Crawfish,Shellfish - Lobster Tails,Shellfish - Mussels,Shellfish - Oysters,Scallops - Fresh|lb|Refrigerator",
     "Sausage|Andouille,Bratwurst,Chorizo,Italian Hot,Italian Mild,Polish,Smoked,Turkey|packages|Refrigerator",
     "Turkey|Cutlets,Drumsticks,Ground 85/15,Ground 93/7,Thighs,Wings|lb|Refrigerator",
   ],
@@ -349,8 +349,39 @@ const remappedLegacy = LEGACY_BASE_KITCHEN_PRODUCTS.map((item) => Object.freeze(
   baseCategoryId: /Deli Meats/.test(item.family) ? "deli" : DISPLAY_CATEGORY[item.categoryId] || "pantry-canned",
 }));
 
+function normalizeMeatSeafoodProduct(item) {
+  if (item.baseCategoryId !== "meat-seafood") return item;
+  const oldId = item.id;
+  let family = item.family;
+  let variation = item.variation;
+
+  if (family === "Bacon") ({ family, variation } = { family: "Pork", variation: `Bacon - ${variation}` });
+  else if (family === "Ground Beef") ({ family, variation } = { family: "Beef", variation: `Ground ${variation}` });
+  else if (family === "Ground Chicken") ({ family, variation } = { family: "Chicken", variation: `Ground ${variation}` });
+  else if (family === "Ground Pork") ({ family, variation } = { family: "Pork", variation: `Ground - ${variation}` });
+  else if (family === "Ground Turkey") ({ family, variation } = { family: "Turkey", variation: `Ground - ${variation}` });
+  else if (family === "Meatballs") ({ family, variation } = { family: "Beef", variation: `Meatballs - ${variation}` });
+  else if (family === "Ham") ({ family, variation } = { family: "Pork", variation: `Ham - ${variation}` });
+  else if (family === "Hot Dogs & Bratwurst") ({ family, variation } = { family: "Sausage", variation });
+  else if (family === "Sausages") family = "Sausage";
+  else if (["Fish", "Salmon", "Tuna", "Shrimp", "Crab", "Scallops"].includes(family)) {
+    variation = `${family} - ${variation}`;
+    family = "Seafood";
+  }
+
+  if (family === "Chicken" && variation === "Ground") variation = "Ground Lean";
+  if (family === "Pork" && variation === "Ground") variation = "Ground - Regular";
+
+  return Object.freeze({
+    ...item,
+    family,
+    variation,
+    aliases: Object.freeze([...new Set([...(item.aliases || []), oldId].filter(Boolean))]),
+  });
+}
+
 const uniqueProducts = new Map();
-[...remappedLegacy, ...expansionProducts].forEach((item) => {
+[...remappedLegacy, ...expansionProducts].map(normalizeMeatSeafoodProduct).forEach((item) => {
   const baseCategoryId = item.baseCategoryId || DISPLAY_CATEGORY[item.categoryId];
   const key = `${baseCategoryId}|${item.family}|${item.variation}`.toLowerCase();
   const commonAliases = [
@@ -366,12 +397,19 @@ const uniqueProducts = new Map();
   }));
 });
 
-const CATEGORY_TARGETS = { "meat-seafood": 65, "dairy-eggs": 40, breads: 30, produce: 80, deli: 30,
+const CATEGORY_TARGETS = { "meat-seafood": 100, "dairy-eggs": 40, breads: 30, produce: 80, deli: 30,
   "pantry-canned": 75, "grains-pasta": 35, "cereal-breakfast": 30, condiments: 50, "chips-snacks": 35,
   "frozen-foods": 50, beverages: 35, "household-cleaning": 35, "pet-care": 20 };
 export const BASE_KITCHEN_PRODUCTS = Object.freeze(BASE_KITCHEN_CATEGORIES.flatMap((category) =>
-  [...uniqueProducts.values()].filter((item) => item.baseCategoryId === category.id).slice(0, CATEGORY_TARGETS[category.id])));
+  [...uniqueProducts.values()]
+    .filter((item) => item.baseCategoryId === category.id)
+    .slice(0, CATEGORY_TARGETS[category.id])
+    .sort((a, b) => `${a.family}|${a.variation}`.localeCompare(`${b.family}|${b.variation}`, undefined, { sensitivity: "base" }))
+));
 
 export function baseProductName(product) {
-  return product?.variation ? `${product.family} — ${product.variation}` : product?.family || "";
+  if (!product?.variation) return product?.family || "";
+  return product.baseCategoryId === "meat-seafood"
+    ? `${product.family} - ${product.variation}`
+    : `${product.family} — ${product.variation}`;
 }

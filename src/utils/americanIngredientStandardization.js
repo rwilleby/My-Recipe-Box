@@ -198,9 +198,10 @@ const MASTER_NAME_OVERRIDES = Object.freeze({
   "shredded mozzarella cheese": "Cheese — Shredded Mozzarella",
   "grated parmesan cheese": "Cheese — Grated Parmesan",
   "parmesan cheese": "Cheese — Grated Parmesan",
-  "boneless skinless chicken breasts": "Chicken — Boneless Skinless Breasts",
-  "boneless skinless chicken breast": "Chicken — Boneless Skinless Breasts",
-  "boneless skinless chicken thighs": "Chicken — Boneless Skinless Thighs",
+  "ground beef": "Beef - Ground 90/10",
+  "boneless skinless chicken breasts": "Chicken - Boneless Skinless Breasts",
+  "boneless skinless chicken breast": "Chicken - Boneless Skinless Breasts",
+  "boneless skinless chicken thighs": "Chicken - Boneless Skinless Thighs",
   "low sodium chicken broth": "Broth & Stock — Chicken Low Sodium",
   "low sodium beef broth": "Broth & Stock — Beef Low Sodium",
   "diced tomatoes": "Canned Tomatoes — Diced",
@@ -220,8 +221,8 @@ const MASTER_NAME_OVERRIDES = Object.freeze({
   "all purpose flour": "Flour — All-Purpose",
   "brown sugar": "Sugar & Sweeteners — Brown Sugar",
   "sandwich bread": "Sandwich Bread — White",
-  "beef hot dogs": "Hot Dogs & Bratwurst — Beef Hot Dogs",
-  "bacon": "Bacon — Sliced",
+  "beef hot dogs": "Sausage - Beef Hot Dogs",
+  "bacon": "Pork - Bacon - Sliced",
 });
 
 const productByDisplayName = new Map(BASE_KITCHEN_PRODUCTS.map((product) => [baseProductName(product), product]));
