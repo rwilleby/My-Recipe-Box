@@ -31,4 +31,37 @@ export const AM_001_020_APPROVED_RESOLUTIONS = Object.freeze({
   "AM-020|Parsley": Object.freeze({ type: "optional-garnish" }),
 });
 
+export const AM_021_040_APPROVED_RESOLUTIONS = Object.freeze({
+  "AM-021|Chopped parsley": Object.freeze({ type: "optional-garnish" }),
+  "AM-023|Chopped green onions": Object.freeze({ type: "optional-garnish" }),
+  "AM-025|Chopped fresh parsley": Object.freeze({ type: "optional-garnish" }),
+  "AM-026|Chopped fresh parsley": Object.freeze({ type: "optional-garnish" }),
+  "AM-027|Chopped parsley": Object.freeze({ type: "optional-garnish" }),
+  "AM-028|Chopped parsley": Object.freeze({ type: "optional-garnish" }),
+  "AM-029|Chopped fresh parsley": Object.freeze({ type: "optional-garnish" }),
+  "AM-035|Chopped fresh parsley": Object.freeze({ type: "optional-garnish" }),
+  "AM-035|Cream cheese, softened": Object.freeze({ type: "soft-cheese-weight", quantity: 8, unit: "ounce", shoppingQuantity: 8, shoppingUnit: "ounce", shoppingEquivalent: "One 8-ounce package" }),
+  "AM-036|Cream cheese, softened": Object.freeze({ type: "soft-cheese-weight", quantity: 8, unit: "ounce", shoppingQuantity: 8, shoppingUnit: "ounce", shoppingEquivalent: "One 8-ounce package" }),
+  "AM-037|Boneless skinless chicken breasts": Object.freeze({ type: "piece-count-with-shopping-weight", shoppingQuantity: 2, shoppingUnit: "pound", shoppingEquivalent: "About 2 pounds" }),
+  "AM-037|Cooking spray or olive oil, for pan": Object.freeze({ type: "unmeasured-cooking-supply" }),
+  "AM-038|Cooking spray": Object.freeze({ type: "unmeasured-cooking-supply" }),
+  "AM-039|Cooking oil": Object.freeze({ type: "unmeasured-cooking-supply" }),
+});
+
+export const AM_021_040_REVIEW_FLAGS = Object.freeze({
+  "AM-021|Mashed potatoes": "Six cups are required, but the source does not say homemade, refrigerated, or instant; the shopping equivalent depends on that choice.",
+  "AM-028|Mashed potatoes": "A serving suggestion is listed without a quantity or preferred product form.",
+  "AM-028|Green beans": "A serving suggestion is listed without a quantity or preferred fresh, frozen, or canned form.",
+  "AM-030|Cooked chicken, diced": "A practical raw or prepared chicken shopping equivalent requires an approved cooked-cup yield standard.",
+  "AM-031|Cooked chicken, diced": "A practical raw or prepared chicken shopping equivalent requires an approved cooked-cup yield standard.",
+  "AM-032|Cooked chicken, shredded": "A practical raw or prepared chicken shopping equivalent requires an approved cooked-cup yield standard.",
+  "AM-033|Cooked chicken, shredded": "A practical raw or prepared chicken shopping equivalent requires an approved cooked-cup yield standard.",
+  "AM-034|Cooked chicken, shredded": "A practical raw or prepared chicken shopping equivalent requires an approved cooked-cup yield standard.",
+  "AM-035|Cooked chicken, shredded": "A practical raw or prepared chicken shopping equivalent requires an approved cooked-cup yield standard.",
+  "AM-036|Cooked chicken, shredded": "A practical raw or prepared chicken shopping equivalent requires an approved cooked-cup yield standard.",
+  "AM-035|Bacon, cooked and crumbled": "Six cooked slices vary substantially by thickness; a shopping-weight equivalent needs an approved standard.",
+  "AM-036|Cooked bacon, crumbled": "One-half cup cooked crumbled bacon needs an approved raw shopping-weight yield.",
+  "AM-038|Bone-in skin-on chicken pieces, thighs, drumsticks, or breasts": "Six mixed bone-in pieces have materially different weights; do not guess one total shopping weight.",
+});
+
 export const INGREDIENT_STANDARD_VERSION = "1.1";
