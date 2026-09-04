@@ -855,25 +855,93 @@ function findPantryMatch(itemName = "") {
     .sort((a, b) => b.score - a.score)[0]?.matcher || null;
 }
 
-function splitShoppingListByPantry(list, pantry) {
+function splitShoppingListByPantry(list, pantry, masterInventory = {}, recipes = []) {
   return list.reduce(
     (groups, item) => {
-      const match = findPantryMatch(item.name);
-      const inPantry = match && pantryItemStatus(pantry, match.item || match.pantry) === "in-stock";
+      const coverage = shoppingInventoryCoverage(item, pantry, masterInventory, recipes);
 
-      if (inPantry) {
+      if (coverage.covered) {
         groups.pantry.push({
           ...item,
-          pantryName: match.pantryName || match.pantry,
+          inventoryCoverage: coverage,
         });
       } else {
-        groups.needed.push(item);
+        groups.needed.push({ ...item, inventoryCoverage: coverage });
       }
 
       return groups;
     },
     { needed: [], pantry: [] }
   );
+}
+
+function normalizeInventoryMatchText(value = "") {
+  return normalizePantryText(canonicalShoppingName(value))
+    .split(" ")
+    .map((word) => word.length > 3 && word.endsWith("s") ? word.slice(0, -1) : word)
+    .filter((word) => !["fresh", "raw", "large", "medium", "small"].includes(word))
+    .join(" ");
+}
+
+function inventoryNameMatches(shoppingName, candidateName) {
+  const wanted = normalizeInventoryMatchText(shoppingName);
+  const candidate = normalizeInventoryMatchText(candidateName);
+  if (!wanted || !candidate) return false;
+  if (wanted === candidate) return true;
+  const wantedTokens = wanted.split(" ");
+  const candidateTokens = new Set(candidate.split(" "));
+  return wantedTokens.length > 1 && wantedTokens.every((token) => candidateTokens.has(token));
+}
+
+function masterInventoryCoverage(item, masterInventory = {}, recipes = []) {
+  const safe = masterInventory && typeof masterInventory === "object"
+    ? { records: masterInventory.records || {}, customItems: masterInventory.customItems || [] }
+    : { records: {}, customItems: [] };
+  const catalog = buildMasterKitchenInventoryCatalog(recipes, safe.customItems);
+  const itemById = new Map();
+  catalog.forEach((category) => category.items.forEach((catalogItem) => {
+    [catalogItem.id, ...(catalogItem.legacyIds || [])].forEach((id) => itemById.set(id, catalogItem));
+  }));
+
+  const matches = Object.entries(safe.records).flatMap(([recordId, record]) => {
+    if (!record || recordId.startsWith("family-note-") || Number(record.have || 0) <= 0 || record.stockStatus === "out") return [];
+    const catalogItem = itemById.get(record.sourceItemId || recordId);
+    if (!catalogItem) return [];
+    const names = [
+      record.productName,
+      catalogItem.productName,
+      catalogItem.family,
+      `${catalogItem.family} ${record.variation || catalogItem.variation || ""}`,
+      ...(catalogItem.aliases || []),
+    ].filter(Boolean);
+    if (!names.some((name) => inventoryNameMatches(item.name, name))) return [];
+    return [{ record, catalogItem, quantity: Number(record.have || 0) }];
+  });
+  if (!matches.length) return null;
+
+  const required = Number(item.qty || 0);
+  const itemUnit = normalizePantryText(item.unit || "item").replace(/s$/, "");
+  const comparable = matches.filter(({ record, catalogItem }) => {
+    const inventoryUnit = normalizePantryText(record.unit || catalogItem.unit || "item").replace(/s$/, "");
+    return inventoryUnit === itemUnit;
+  });
+  const location = [...new Set(matches.map(({ record }) => record.storage).filter(Boolean))].join(" / ") || "Inventory";
+  if (!required || comparable.length !== matches.length) {
+    return { covered: true, status: "In Inventory", location, quantityTracked: false };
+  }
+  const available = comparable.reduce((total, match) => total + match.quantity, 0);
+  if (available >= required) return { covered: true, status: "In Inventory", location, quantityTracked: true, available };
+  return { covered: false, partial: true, status: `Need ${formatQty(required - available)} More`, location, quantityTracked: true, available, shortfall: required - available };
+}
+
+function shoppingInventoryCoverage(item, pantry, masterInventory, recipes = []) {
+  const masterMatch = masterInventoryCoverage(item, masterInventory, recipes);
+  if (masterMatch) return masterMatch;
+  const match = findPantryMatch(item.name);
+  if (match && pantryItemStatus(pantry, match.item || match.pantry) === "in-stock") {
+    return { covered: true, status: "In Inventory", location: "Pantry", quantityTracked: false };
+  }
+  return { covered: false, partial: false, status: "Need to Buy", location: item.aisle || "Other", quantityTracked: false };
 }
 
 const SUPPORTING_PAGE_HERO_IMAGES = [
@@ -10226,11 +10294,13 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
   const digitalShoppingGroups = Object.entries(list.reduce((groups, item) => {
     const aisle = item.aisle || "Other";
     const id = `${item.name}-${item.unit}-${item.aisle}`;
+    const coverage = shoppingInventoryCoverage(item, pantry, masterInventory, recipes);
+    const isCovered = Object.prototype.hasOwnProperty.call(checked, id) ? !!checked[id] : coverage.covered;
     groups[aisle] = [...(groups[aisle] || []), {
       id,
       name: item.name,
-      detail: `Planned amount: ${formatShoppingQuantity(item.qty)} ${item.unit}`,
-      checked: !!checked[id],
+      detail: `${coverage.status} · Planned amount: ${formatShoppingQuantity(item.qty)} ${item.unit}`,
+      checked: isCovered,
     }];
     return groups;
   }, {})).map(([title, items]) => ({ title, items }));
@@ -10252,13 +10322,13 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
   }
 
   const { needed, pantry: pantryItems } = useMemo(
-    () => splitShoppingListByPantry(list, pantry),
-    [list, pantry]
+    () => splitShoppingListByPantry(list, pantry, masterInventory, recipes),
+    [list, pantry, masterInventory]
   );
 
   const { needed: printableNeeded, pantry: printablePantryItems } = useMemo(
-    () => splitShoppingListByPantry(printableList, pantry),
-    [printableList, pantry]
+    () => splitShoppingListByPantry(printableList, pantry, masterInventory, recipes),
+    [printableList, pantry, masterInventory]
   );
 
   const groupedNeeded = needed.reduce((acc, item) => {
@@ -10294,6 +10364,15 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
       ...current,
       [key]: !current[key],
     }));
+  }
+
+  function effectiveChecked(key, automaticallyCovered = false) {
+    return Object.prototype.hasOwnProperty.call(checked, key) ? !!checked[key] : automaticallyCovered;
+  }
+
+  function toggleCoverage(key, automaticallyCovered = false) {
+    const currentValue = effectiveChecked(key, automaticallyCovered);
+    setChecked((current) => ({ ...current, [key]: !currentValue }));
   }
 
   function clearShoppingListAndStartOver() {
@@ -10594,6 +10673,8 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
   function renderNeededItem(item) {
     const key = `${item.name}-${item.unit}-${item.aisle}`;
     const orderQuantity = shoppingOrderQuantities[key] ?? "";
+    const coverage = item.inventoryCoverage || { covered: false, status: "Need to Buy", location: item.aisle || "Other" };
+    const isCovered = effectiveChecked(key, false);
 
     function setOrderQuantity(value) {
       const nextValue = value === "" ? "" : Math.max(0, Number(value) || 0);
@@ -10607,13 +10688,13 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
     }
 
     return (
-      <div key={key} className={checked[key] ? "shoppingListDataRow isChecked" : "shoppingListDataRow"}>
+      <div key={key} className={isCovered ? "shoppingListDataRow isChecked" : "shoppingListDataRow"}>
         <label className="shoppingListCheckCell">
           <input
             type="checkbox"
-            checked={!!checked[key]}
-            onChange={() => toggleItem(key)}
-            aria-label={`Mark ${item.name} as purchased`}
+            checked={isCovered}
+            onChange={() => toggleCoverage(key, false)}
+            aria-label={`Mark ${item.name} as covered`}
           />
         </label>
         <div className="shoppingListProductCell">
@@ -10621,8 +10702,8 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
           <span>Shopping item</span>
         </div>
         <div className="shoppingListLocationCell">
-          <strong>To Buy</strong>
-          <span>{item.aisle || "Other"}</span>
+          <strong>{isCovered ? "Purchased" : coverage.status}</strong>
+          <span>{coverage.partial ? `${formatShoppingQuantity(coverage.available)} ${item.unit || "item(s)"} in inventory` : item.aisle || "Other"}</span>
         </div>
         <div className="shoppingListNeededCell" aria-label={`${item.name} quantity needed`}>
           <strong>{formatShoppingQuantity(item.qty)}</strong>
@@ -10654,15 +10735,19 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
   function renderPantryItem(item) {
     const key = `${item.name}-${item.unit}-${item.aisle}-pantry`;
     const displayName = String(item.name || "").toLocaleLowerCase().replace(/\b([a-z])/g, (letter) => letter.toLocaleUpperCase());
+    const coverage = item.inventoryCoverage || { covered: true, status: "In Inventory", location: "Inventory" };
+    const isCovered = effectiveChecked(key, true);
 
     return (
-      <div key={key} className="shoppingListDataRow pantryDataRow">
-        <div className="shoppingListCheckCell"><span className="pantryFilledBox" aria-hidden="true" /></div>
+      <div key={key} className={isCovered ? "shoppingListDataRow pantryDataRow isChecked" : "shoppingListDataRow pantryDataRow"}>
+        <label className="shoppingListCheckCell">
+          <input type="checkbox" checked={isCovered} onChange={() => toggleCoverage(key, true)} aria-label={`Mark ${item.name} as covered`} />
+        </label>
         <div className="shoppingListProductCell">
           <strong>{displayName}</strong>
-          <span>Already available</span>
+          <span>{coverage.quantityTracked ? `${formatShoppingQuantity(coverage.available)} ${item.unit || "item(s)"} available` : "Quantity not tracked"}</span>
         </div>
-        <div className="shoppingListLocationCell"><strong>Pantry</strong><span>{item.aisle || "Other"}</span></div>
+        <div className="shoppingListLocationCell"><strong>{coverage.status}</strong><span>{coverage.location}</span></div>
         <div className="shoppingListNeededCell"><strong>{formatShoppingQuantity(item.qty)}</strong><span>{item.unit || "item(s)"}</span></div>
         <div className="shoppingListOrderCell shoppingListOrderCellDisabled" aria-label="No order needed">—</div>
         <label className="shoppingListNotesCell">
@@ -10675,17 +10760,19 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
   function renderNeedGroupItem(group, item, itemIndex) {
     const key = shoppingNeedItemKey(group, item, itemIndex);
     const isComponent = item.kind === "component";
-    const isInPantry = !isComponent && splitShoppingListByPantry([item], pantry).pantry.length > 0;
+    const coverage = isComponent ? null : shoppingInventoryCoverage(item, pantry, masterInventory, recipes);
     const componentAvailable = isComponent && (preparedAvailability[item.componentId] || 0) >= Number(item.qty || 0);
     const status = isComponent
       ? (componentAvailable ? "On hand" : "Component needed")
-      : (isInPantry ? "In pantry" : item.aisle || "Other");
+      : coverage.status;
+    const automaticallyCovered = componentAvailable || Boolean(coverage?.covered);
+    const isCovered = effectiveChecked(key, automaticallyCovered);
     return (
-      <label className={checked[key] ? "shoppingNeedItem checked" : "shoppingNeedItem"} key={key}>
-        <input type="checkbox" checked={!!checked[key]} onChange={() => toggleItem(key)} />
+      <label className={isCovered ? "shoppingNeedItem checked" : "shoppingNeedItem"} key={key}>
+        <input type="checkbox" checked={isCovered} onChange={() => toggleCoverage(key, automaticallyCovered)} aria-label={`Mark ${item.name} as covered`} />
         <span>{item.name}</span>
         <small>{formatShoppingQuantity(item.qty)} {item.unit}</small>
-        <em className={isInPantry || componentAvailable ? "available" : ""}>{status}</em>
+        <em className={automaticallyCovered ? "available" : coverage?.partial ? "partial" : ""}>{status}</em>
       </label>
     );
   }
@@ -10694,7 +10781,7 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
     <main className="pageShell">
       <SectionIntro
         title="Shopping List"
-        text="Needed items stay open for shopping. Pantry staples you already have are shown separately."
+        text="Checked items are covered by your inventory or purchase. Unchecked items still need to be bought."
         className="shoppingListSectionIntro"
       />
 
@@ -10869,7 +10956,7 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
             <header className="shoppingFlatListTitle">
               <div>
                 <h2>Needed Items</h2>
-                <p>Open boxes are items to buy.</p>
+                <p>Unchecked boxes still need to be bought. Check an item after purchasing it.</p>
               </div>
               <strong>{needed.length} items</strong>
             </header>
@@ -10878,7 +10965,7 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
               {needed.length === 0 ? (
                 <div className="emptyState compactEmpty">
                   <h2>No needed items</h2>
-                  <p>Everything on this list is currently marked as in your pantry.</p>
+                  <p>Everything on this list is currently covered.</p>
                 </div>
               ) : (
                 <div className="shoppingListTable" role="table" aria-label="Items to buy">
@@ -10896,8 +10983,8 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
           <section className="shoppingFlatList pantryListSection">
             <header className="shoppingFlatListTitle">
               <div>
-                <h2>Already in Pantry</h2>
-                <p>Filled black boxes are already in your pantry.</p>
+                <h2>Already in Inventory</h2>
+                <p>Checked items are already available in your pantry, refrigerator, freezer, or other inventory location.</p>
               </div>
               <div className="pantryHeaderActions">
                 <strong>{pantryItems.length} items</strong>
@@ -10915,10 +11002,10 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
               </div>
               {pantryItems.length === 0 ? (
                 <div className="emptyState compactEmpty">
-                  <h2>No pantry matches yet</h2>
+                  <h2>No inventory matches yet</h2>
                   <p>
-                    Check items on the Pantry Staples page to move matching shopping
-                    list items here.
+                    Add or update products in Master Kitchen Inventory to have matching
+                    shopping-list ingredients checked automatically.
                   </p>
                 </div>
               ) : (
