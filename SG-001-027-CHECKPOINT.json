@@ -1,0 +1,22 @@
+{
+  "release": "v96.22",
+  "category": "Smoked & Grilled Meats",
+  "range": "SG-001–SG-005 and SG-008–SG-027",
+  "ingredientStandardVersion": "1.11",
+  "recipesAuditedThisCheckpoint": 25,
+  "ingredientRowsAuditedThisCheckpoint": 311,
+  "priorUnresolvedFlags": 0,
+  "approvedMissingDetailResolutions": 29,
+  "newReviewFlags": 0,
+  "approvalRuleGroups": 13,
+  "verification": {
+    "checkpointTests": "passed",
+    "currentTestFiles": 151,
+    "currentTests": "passed",
+    "productionBuild": "passed",
+    "seoRecipes": 794,
+    "completeDinners": 151
+  },
+  "preserved": ["recipe IDs", "approved images", "recipe-card designs", "directions", "unrelated functionality"],
+  "changedFiles": ["src/data/ingredientStandards.js", "src/utils/americanIngredientStandardization.js", "test/ingredientStandardCheckpointAM021040.test.mjs", "test/ingredientStandardCheckpointAM041060.test.mjs", "test/ingredientStandardCheckpointAM061078.test.mjs", "test/ingredientStandardCheckpointAS001024.test.mjs", "test/ingredientStandardCheckpointIT001060.test.mjs", "test/ingredientStandardCheckpointMX001044.test.mjs", "test/ingredientStandardCheckpointQP001030.test.mjs", "test/ingredientStandardCheckpointSB001020.test.mjs", "test/ingredientStandardCheckpointSF001020.test.mjs", "test/ingredientStandardCheckpointSG001027.test.mjs", "docs/INGREDIENT-STANDARD.md", "SG-001-027-INGREDIENT-AUDIT.md", "SG-001-027-CHECKPOINT.json"]
+}

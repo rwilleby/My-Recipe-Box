@@ -9,8 +9,8 @@ const get = (recipeId, originalName) => recipes.find((recipe) => recipe.id === r
 
 assert.equal(audited.length, 24);
 assert.equal(rows.length, 210);
-assert.ok(rows.every(({ ingredient }) => ingredient.standardVersion === "1.5"));
-assert.equal(rows.filter(({ ingredient }) => ingredient.reviewStatus === "needs-review").length, 3);
+assert.ok(rows.every(({ ingredient }) => ingredient.standardVersion === "1.14"));
+assert.equal(rows.filter(({ ingredient }) => ingredient.reviewStatus === "needs-review").length, 0);
 
 assert.equal(get("AS-001", "Small onion, sliced").qty, 0.25);
 assert.equal(get("AS-001", "Small onion, sliced").canonicalName, "Onion");
@@ -30,4 +30,7 @@ assert.equal(proteinChoice.acceptableAlternatives.length, 2);
 assert.equal(proteinChoice.shoppingQuantity, 1);
 assert.equal(proteinChoice.shoppingUnit, "pound");
 
-console.log("AS-001 through AS-024 ingredient checkpoint passed with 3 review flags.");
+assert.equal(get("AS-019", "Cooked chicken or beef strips").shoppingQuantity, 0.5);
+assert.equal(get("AS-020", "Cooked chicken or pork strips").shoppingQuantity, 0.5);
+assert.equal(get("AS-023", "Cooked shrimp, peeled, or shredded chicken").shoppingQuantity, 0.75);
+console.log("AS-001 through AS-024 ingredient checkpoint passed with zero review flags.");

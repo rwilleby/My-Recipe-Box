@@ -1,6 +1,6 @@
 # AS-001–AS-024 Ingredient Audit
 
-Audited September 4, 2026 from the finalized AM-001–AM-078 checkpoint.
+Finalized September 4, 2026 from the approved AM-001–AM-078 checkpoint.
 
 ## Applied standards
 
@@ -10,13 +10,11 @@ Audited September 4, 2026 from the finalized AM-001–AM-078 checkpoint.
 - Excluded optional garnishes, frying oil, and unmeasured serving suggestions from automatic Shopping Lists.
 - Preserved equal-weight chicken-or-shrimp choices as one recipe requirement with two canonical inventory identities.
 - Kept measured mustard and oil separate from repeated optional or frying entries.
+- Standardized 1 cup cooked chicken, beef, or pork strips to about 1/2 pound of the corresponding raw protein for shopping.
+- Standardized 1/2 pound cooked shrimp or shredded chicken to about 3/4 pound raw peeled shrimp or raw boneless chicken, with 8 ounces prepared cooked protein accepted as an alternative.
 
-## Review flags
+## Review status
 
-| Recipe | Ingredient | Approval needed |
-| --- | --- | --- |
-| AS-019 | 1 cup cooked chicken or beef strips | Approve raw shopping weights for both alternatives. |
-| AS-020 | 1 cup cooked chicken or pork strips | Approve raw shopping weights for both alternatives. |
-| AS-023 | 1/2 pound cooked shrimp or shredded chicken | Approve raw or prepared shopping equivalents for both alternatives. |
+All three previously flagged Asian ingredients now use the approved rules. No unresolved ingredient conversions remain in AS-001–AS-024.
 
-No flagged value has been guessed. Recipe IDs, images, directions, designs, and unrelated functionality remain unchanged.
+Recipe IDs, images, directions, designs, and unrelated functionality remain unchanged.

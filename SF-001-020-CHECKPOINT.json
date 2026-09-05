@@ -1,0 +1,22 @@
+{
+  "release": "v96.19",
+  "category": "Seafood Dishes",
+  "range": "SF-001–SF-020",
+  "ingredientStandardVersion": "1.8",
+  "recipesAuditedThisCheckpoint": 20,
+  "ingredientRowsAuditedThisCheckpoint": 196,
+  "priorUnresolvedFlags": 0,
+  "approvedMissingDetailResolutions": 7,
+  "newReviewFlags": 0,
+  "approvalRuleGroups": 2,
+  "verification": {
+    "checkpointTests": "passed",
+    "currentTestFiles": 151,
+    "currentTests": "passed",
+    "productionBuild": "passed",
+    "seoRecipes": 794,
+    "completeDinners": 151
+  },
+  "preserved": ["recipe IDs", "approved images", "recipe-card designs", "directions", "unrelated functionality"],
+  "changedFiles": ["src/data/ingredientStandards.js", "src/utils/americanIngredientStandardization.js", "test/ingredientStandardCheckpointAM021040.test.mjs", "test/ingredientStandardCheckpointAM041060.test.mjs", "test/ingredientStandardCheckpointAM061078.test.mjs", "test/ingredientStandardCheckpointAS001024.test.mjs", "test/ingredientStandardCheckpointIT001060.test.mjs", "test/ingredientStandardCheckpointMX001044.test.mjs", "test/ingredientStandardCheckpointSF001020.test.mjs", "docs/INGREDIENT-STANDARD.md", "SF-001-020-INGREDIENT-AUDIT.md", "SF-001-020-CHECKPOINT.json"]
+}

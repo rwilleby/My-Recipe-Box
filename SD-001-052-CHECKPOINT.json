@@ -1,0 +1,15 @@
+{
+  "release": "v96.23",
+  "category": "Side Dishes",
+  "range": "SD-001–SD-052",
+  "ingredientStandardVersion": "1.12",
+  "recipesAuditedThisCheckpoint": 52,
+  "ingredientRowsAuditedThisCheckpoint": 407,
+  "priorUnresolvedFlags": 0,
+  "approvedMissingDetailResolutions": 46,
+  "newReviewFlags": 0,
+  "approvalRuleGroups": 15,
+  "verification": { "checkpointTests": "passed", "currentTestFiles": 151, "currentTests": "passed", "productionBuild": "passed", "seoRecipes": 794, "completeDinners": 151 },
+  "preserved": ["recipe IDs", "approved images", "recipe-card designs", "directions", "unrelated functionality"],
+  "changedFiles": ["src/data/ingredientStandards.js", "src/utils/americanIngredientStandardization.js", "test/ingredientStandardCheckpointAM021040.test.mjs", "test/ingredientStandardCheckpointAM041060.test.mjs", "test/ingredientStandardCheckpointAM061078.test.mjs", "test/ingredientStandardCheckpointAS001024.test.mjs", "test/ingredientStandardCheckpointIT001060.test.mjs", "test/ingredientStandardCheckpointMX001044.test.mjs", "test/ingredientStandardCheckpointQP001030.test.mjs", "test/ingredientStandardCheckpointSB001020.test.mjs", "test/ingredientStandardCheckpointSD001052.test.mjs", "test/ingredientStandardCheckpointSF001020.test.mjs", "test/ingredientStandardCheckpointSG001027.test.mjs", "docs/INGREDIENT-STANDARD.md", "SD-001-052-INGREDIENT-AUDIT.md", "SD-001-052-CHECKPOINT.json"]
+}

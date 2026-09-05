@@ -25,7 +25,7 @@ for (const recipe of selected) {
 }
 
 const recipe = (id) => recipes.find((entry) => entry.id === id);
-const item = (id, name) => recipe(id).ingredients.find((entry) => entry.name === name);
+const item = (id, name) => recipe(id).ingredients.find((entry) => entry.name === name || entry.originalName === name);
 assert.equal(item("PM-001", "Rolled oats").qty, 1.5);
 assert.equal(item("PM-012", "Salt").qty, 0.5);
 assert.equal(item("QP-017", "Frozen peas").qty, 0.5);

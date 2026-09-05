@@ -1,0 +1,14 @@
+{
+  "release": "v96.25",
+  "category": "Loaf & Bread",
+  "range": "LF-001–LF-015",
+  "ingredientStandardVersion": "1.14",
+  "recipesAuditedThisCheckpoint": 15,
+  "ingredientRowsAuditedThisCheckpoint": 119,
+  "ingredientFreeReferenceGuides": ["LF-FZ1", "LF-FZ2"],
+  "priorUnresolvedFlags": 0,
+  "newReviewFlags": 0,
+  "verification": { "checkpointTests": "passed", "currentTestFiles": 151, "currentTests": "passed", "productionBuild": "passed", "seoRecipes": 794, "completeDinners": 151 },
+  "preserved": ["recipe IDs", "approved images", "recipe-card designs", "directions", "metric references", "unrelated functionality"],
+  "changedFiles": ["src/data/ingredientStandards.js", "src/utils/americanIngredientStandardization.js", "src/utils/textRecipe.js", "test/jjKrLfMxIngredientDataV8413.test.mjs", "test/ingredientStandardCheckpointAM021040.test.mjs", "test/ingredientStandardCheckpointAM041060.test.mjs", "test/ingredientStandardCheckpointAM061078.test.mjs", "test/ingredientStandardCheckpointAS001024.test.mjs", "test/ingredientStandardCheckpointHBHBP.test.mjs", "test/ingredientStandardCheckpointIT001060.test.mjs", "test/ingredientStandardCheckpointLF001015.test.mjs", "test/ingredientStandardCheckpointMX001044.test.mjs", "test/ingredientStandardCheckpointQP001030.test.mjs", "test/ingredientStandardCheckpointSB001020.test.mjs", "test/ingredientStandardCheckpointSD001052.test.mjs", "test/ingredientStandardCheckpointSF001020.test.mjs", "test/ingredientStandardCheckpointSG001027.test.mjs", "docs/INGREDIENT-STANDARD.md", "LF-001-015-INGREDIENT-AUDIT.md", "LF-001-015-CHECKPOINT.json"]
+}

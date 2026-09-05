@@ -36,11 +36,11 @@ for (const prefix of Object.keys(expected)) {
 assert.ok(byId["DN-001"].ingredients.some((item) => item.name === "Vegetable oil for frying" && item.unit === "amount not specified"));
 assert.ok(byId["DN-007"].ingredients.some((item) => item.name.startsWith("Fresh blueberries") && item.qty === 1));
 assert.ok(byId["HB-025"].ingredients.some((item) => item.name === "Ground beef, 80/20" && item.qty === 1.25));
-assert.ok(byId["HB-031"].ingredients.some((item) => item.name === "Soft hamburger bun" && item.unit === "each per burger"));
+assert.ok(byId["HB-031"].ingredients.some((item) => item.name === "Soft hamburger bun" && item.unit === "each" && item.preparation === "per burger"));
 assert.ok(!byId["HB-031"].ingredients.some((item) => item.name === "Thin griddled patty"), "derived patties must not double-count patty ingredients");
 assert.ok(!byId["HB-031"].ingredients.some((item) => item.name === "Chili sauce"), "derived chili sauce must not double-count chili ingredients");
 assert.ok(byId["HBP-012"].ingredients.some((item) => item.name === "Ground beef" && item.qty === 2));
-assert.ok(byId["IT-032"].ingredients.some((item) => item.name === "Bay scallops" && item.qty === 0.5 && item.unit === "lb"));
+assert.ok(byId["IT-032"].ingredients.some((item) => item.name === "Bay scallops" && item.qty === 0.5 && item.unit === "pound"));
 assert.ok(byId["IT-037"].ingredients.some((item) => item.name === "Red pepper flakes" && item.qty === 0.5));
 assert.ok(!byId["IT-015"].ingredients.some((item) => /parmesan|parsley/i.test(item.name)), "directions-only garnish must not be invented as a measured ingredient");
 assert.ok(!byId["IT-056"].ingredients.some((item) => item.name === "Black pepper"), "IT-056 must follow the printed ingredient list");

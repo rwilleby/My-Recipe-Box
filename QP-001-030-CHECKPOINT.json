@@ -1,0 +1,22 @@
+{
+  "release": "v96.20",
+  "category": "Quiche & Pies",
+  "range": "QP-001–QP-030",
+  "ingredientStandardVersion": "1.9",
+  "recipesAuditedThisCheckpoint": 30,
+  "ingredientRowsAuditedThisCheckpoint": 359,
+  "priorUnresolvedFlags": 0,
+  "approvedMissingDetailResolutions": 82,
+  "newReviewFlags": 0,
+  "approvalRuleGroups": 14,
+  "verification": {
+    "checkpointTests": "passed",
+    "currentTestFiles": 151,
+    "currentTests": "passed",
+    "productionBuild": "passed",
+    "seoRecipes": 794,
+    "completeDinners": 151
+  },
+  "preserved": ["recipe IDs", "approved images", "recipe-card designs", "directions", "unrelated functionality"],
+  "changedFiles": ["src/data/ingredientStandards.js", "src/utils/americanIngredientStandardization.js", "test/ingredientStandardCheckpointAM021040.test.mjs", "test/ingredientStandardCheckpointAM041060.test.mjs", "test/ingredientStandardCheckpointAM061078.test.mjs", "test/ingredientStandardCheckpointAS001024.test.mjs", "test/ingredientStandardCheckpointIT001060.test.mjs", "test/ingredientStandardCheckpointMX001044.test.mjs", "test/ingredientStandardCheckpointQP001030.test.mjs", "test/ingredientStandardCheckpointSF001020.test.mjs", "docs/INGREDIENT-STANDARD.md", "QP-001-030-INGREDIENT-AUDIT.md", "QP-001-030-CHECKPOINT.json"]
+}

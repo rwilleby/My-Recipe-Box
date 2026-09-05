@@ -8,7 +8,7 @@ const get = (recipeId, originalName) => recipes.find((recipe) => recipe.id === r
   .ingredients.find((ingredient) => ingredient.originalName === originalName);
 
 assert.equal(audited.length, 20);
-assert.ok(rows.every(({ ingredient }) => ingredient.standardVersion === "1.5"));
+assert.ok(rows.every(({ ingredient }) => ingredient.standardVersion === "1.14"));
 assert.equal(rows.filter(({ ingredient }) => ingredient.reviewStatus === "needs-review").length, 0);
 
 assert.equal(get("AM-041", "Bone-in skin-on chicken thighs").shoppingQuantity, 3);

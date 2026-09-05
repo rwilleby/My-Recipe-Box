@@ -1,0 +1,22 @@
+{
+  "release": "v96.17",
+  "category": "Italian",
+  "range": "IT-001–IT-060",
+  "ingredientStandardVersion": "1.6",
+  "recipesAuditedThisCheckpoint": 60,
+  "ingredientRowsAuditedThisCheckpoint": 646,
+  "priorUnresolvedFlags": 0,
+  "approvedMissingDetailResolutions": 31,
+  "approvalRuleGroups": 8,
+  "newReviewFlags": 0,
+  "verification": {
+    "checkpointTests": "passed",
+    "currentTestFiles": 151,
+    "currentTests": "passed",
+    "productionBuild": "passed",
+    "seoRecipes": 794,
+    "completeDinners": 151
+  },
+  "preserved": ["recipe IDs", "approved images", "recipe-card designs", "directions", "unrelated functionality"],
+  "changedFiles": ["src/data/ingredientStandards.js", "src/utils/americanIngredientStandardization.js", "test/ingredientStandardCheckpointAM021040.test.mjs", "test/ingredientStandardCheckpointAM041060.test.mjs", "test/ingredientStandardCheckpointAM061078.test.mjs", "test/ingredientStandardCheckpointAS001024.test.mjs", "test/ingredientStandardCheckpointIT001060.test.mjs", "test/dnHbHbpItIngredientDataV8412.test.mjs", "docs/INGREDIENT-STANDARD.md", "AS-001-024-CHECKPOINT.json", "AS-001-024-INGREDIENT-AUDIT.md", "IT-001-060-INGREDIENT-AUDIT.md", "IT-001-060-CHECKPOINT.json"]
+}

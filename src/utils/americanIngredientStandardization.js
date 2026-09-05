@@ -9,6 +9,24 @@ import {
   AM_061_078_REVIEW_FLAGS,
   AS_001_024_APPROVED_RESOLUTIONS,
   AS_001_024_REVIEW_FLAGS,
+  IT_001_060_APPROVED_RESOLUTIONS,
+  IT_001_060_REVIEW_FLAGS,
+  MX_001_044_APPROVED_RESOLUTIONS,
+  MX_001_044_REVIEW_FLAGS,
+  QP_001_030_APPROVED_RESOLUTIONS,
+  QP_001_030_REVIEW_FLAGS,
+  SB_001_020_APPROVED_RESOLUTIONS,
+  SB_001_020_REVIEW_FLAGS,
+  SG_001_027_APPROVED_RESOLUTIONS,
+  SG_001_027_REVIEW_FLAGS,
+  SD_001_052_APPROVED_RESOLUTIONS,
+  SD_001_052_REVIEW_FLAGS,
+  HB_HBP_APPROVED_RESOLUTIONS,
+  HB_HBP_REVIEW_FLAGS,
+  LF_001_015_APPROVED_RESOLUTIONS,
+  LF_001_015_REVIEW_FLAGS,
+  SF_001_020_APPROVED_RESOLUTIONS,
+  SF_001_020_REVIEW_FLAGS,
   INGREDIENT_STANDARD_VERSION,
   ONION_VOLUME_EQUIVALENTS,
 } from "../data/ingredientStandards.js";
@@ -169,10 +187,10 @@ function approvedCategoryAndSubcategory(name = "", aisle = "") {
 const UNIT_ALIASES = Object.freeze({
   cups: "cup", cup: "cup", tbsp: "tablespoon", tsp: "teaspoon", lb: "pound", oz: "ounce",
   cloves: "clove", leaves: "leaf", slices: "slice", stalks: "stalk", stalk: "stalk",
-  packet: "packet", sleeve: "sleeve", each: "each", "large head": "head",
+  packet: "packet", sleeve: "sleeve", each: "each", pinch: "pinch", container: "container", ears: "ear", ear: "ear", quarts: "quart", quart: "quart", rib: "rib", "small head": "head", "large head": "head",
 });
 
-const PREPARATION_WORDS = /\b(sliced|chopped|diced|minced|cubed|quartered|crumbled|crushed|drained|rinsed|melted|softened|thawed|cooked|uncooked|packed|divided|warmed|washed|dried|peeled|shredded|beaten|thinly|finely|crispy|chilled|cut in chunks|for topping|for dish|for pan|for garnish|for serving|for frying|egg wash)\b/i;
+const PREPARATION_WORDS = /\b(sliced|chopped|diced|minced|cubed|quartered|crumbled|crushed|drained|rinsed|melted|softened|thawed|cooked|uncooked|packed|divided|warmed|washed|dried|peeled|shredded|beaten|thinly|finely|crispy|chilled|optional|cut in chunks|for topping|for dish|for pan|for garnish|for serving|for frying|egg wash)\b/i;
 
 export function normalizeIngredientIdentity(value = "") {
   return String(value).toLowerCase()
@@ -253,6 +271,15 @@ function sentenceCase(value = "") {
   return text ? `${text.charAt(0).toUpperCase()}${text.slice(1)}` : "";
 }
 
+function displayQuantity(value) {
+  const number = Number(value);
+  const whole = Math.floor(number);
+  const fraction = Math.round((number - whole) * 100) / 100;
+  const glyph = new Map([[0.25, "¼"], [0.33, "⅓"], [0.5, "½"], [0.67, "⅔"], [0.75, "¾"]]).get(fraction);
+  if (!glyph) return String(value);
+  return `${whole || ""}${glyph}`;
+}
+
 function splitName(rawName = "") {
   const parts = String(rawName).split(",").map((part) => part.trim()).filter(Boolean);
   const nameParts = [parts.shift() || ""];
@@ -276,18 +303,36 @@ function normalizeUnit(rawUnit = "") {
   const value = String(rawUnit).trim();
   const optional = /\boptional\b/i.test(value);
   const instruction = value.match(/\b(?:as needed|to taste|for frying|for garnish|for serving|optional garnish)\b/i)?.[0] || "";
-  const preparation = value.match(/\bdrained\b/i)?.[0] || "";
-  const packageMatch = value.match(/^(\d+(?:\.\d+)?)\s*oz\s+(can|jar|bag|bottle)s?(?:,\s*(\d+)\s+(.+))?$/i);
-  if (packageMatch) return {
-    unitStandard: packageMatch[2].toLowerCase(),
-    packageSize: `${packageMatch[1]} ounces`,
-    packageCount: packageMatch[3] ? Number(packageMatch[3]) : null,
-    packageContents: packageMatch[4] || "",
-    optional,
-    instruction,
-    preparation,
+  const preparationPattern = /\b(?:cooked and crumbled|cooked and drained|cooked and cooled|rinsed and drained|drained and picked over|diced or shredded|melted and cooled|thawed and divided|steamed and well drained|squeezed dry|halves or pieces|thinly sliced|finely chopped|crumbled|chopped|diced|sliced|shredded|halved|flaked|drained|divided|melted|softened|packed|baked)\b/i;
+  const preparation = value.match(preparationPattern)?.[0] || "";
+  const metricMatch = value.match(/^(cups?|tbsp|tsp)\s*\((\d+(?:\.\d+)?(?:g|ml))\)(?:(?:,\s*|\s+)(.+))?$/i);
+  if (metricMatch) return {
+    unitStandard: UNIT_ALIASES[metricMatch[1].toLowerCase()],
+    packageSize: "", packageCount: null, packageContents: "", optional,
+    instruction: metricMatch[3] || "", preparation: "",
+    metricEquivalent: metricMatch[2],
   };
-  const cleaned = value.replace(/,?\s*optional\b/ig, "").replace(/,?\s*or to taste\b/ig, "").replace(/,?\s*drained\b/ig, "").trim().toLowerCase();
+  const packetMatch = value.match(/^tsp\s*\((\d+)\s+packet\)$/i);
+  if (packetMatch) return { unitStandard: "teaspoon", packageSize: "", packageCount: Number(packetMatch[1]), packageContents: "packet", optional, instruction: "", preparation: "", shoppingEquivalent: `${packetMatch[1]} packet` };
+  const purposeMatch = value.match(/^(cups?|tbsp|tsp|cloves?|each)\s+for\s+(.+)$/i);
+  if (purposeMatch) return { unitStandard: UNIT_ALIASES[purposeMatch[1].toLowerCase()], packageSize: "", packageCount: null, packageContents: "", optional, instruction: `for ${purposeMatch[2]}`, preparation: "" };
+  const packageMatch = value.match(/^(\d+(?:\.\d+)?)\s*-?\s*(?:oz|ounce)s?\s+(can|jar|bag|bottle|box|package|container)s?(?:,\s*(.+))?$/i);
+  if (packageMatch) {
+    const contentsMatch = packageMatch[3]?.match(/^(\d+)\s+(.+)$/);
+    return {
+      unitStandard: packageMatch[2].toLowerCase(),
+      packageSize: `${packageMatch[1]} ounces`,
+      packageCount: contentsMatch ? Number(contentsMatch[1]) : null,
+      packageContents: contentsMatch?.[2] || "",
+      optional,
+      instruction,
+      preparation: contentsMatch ? preparation : packageMatch[3] || preparation,
+    };
+  }
+  const cleaned = value.replace(/\s+and optional\b/ig, "").replace(/,?\s*optional(?: for garnish)?\b/ig, "").replace(/,?\s*or to taste\b/ig, "")
+    .replace(/,?\s*(?:for garnish|for serving|for frying)\b/ig, "")
+    .replace(/,?\s*(?:cooked and crumbled|cooked and drained|cooked and cooled|rinsed and drained|drained and picked over|diced or shredded|melted and cooled|thawed and divided|steamed and well drained|squeezed dry|halves or pieces|thinly sliced|finely chopped|crumbled|chopped|diced|sliced|shredded|halved|flaked|drained|divided|melted|softened|packed|baked)\b/ig, "")
+    .trim().toLowerCase();
   return { unitStandard: UNIT_ALIASES[cleaned] || (instruction ? "" : cleaned), packageSize: "", packageCount: null, packageContents: "", optional, instruction, preparation };
 }
 
@@ -319,7 +364,18 @@ function splitAlternatives(name = "") {
 }
 
 function auditedRecipe(recipeId = "") {
-  return (/^AM-(?:00[1-9]|0[1-7]\d|078)$/.test(recipeId) && recipeId !== "AM-063") || /^AS-(?:00[1-9]|01\d|02[0-4])$/.test(recipeId);
+  return (/^AM-(?:00[1-9]|0[1-7]\d|078)$/.test(recipeId) && recipeId !== "AM-063")
+    || /^AS-(?:00[1-9]|01\d|02[0-4])$/.test(recipeId)
+    || /^IT-(?:00[1-9]|0[1-5]\d|060)$/.test(recipeId)
+    || /^MX-(?:00[1-9]|0[1-3]\d|04[0-4])$/.test(recipeId)
+    || /^QP-(?:00[1-9]|0[12]\d|030)$/.test(recipeId)
+    || /^SB-(?:00[1-9]|01\d|020)$/.test(recipeId)
+    || /^SG-(?:00[1-5]|00[8-9]|01\d|02[0-7])$/.test(recipeId)
+    || /^SD-(?:00[1-9]|0[1-4]\d|05[0-2])$/.test(recipeId)
+    || /^HB-(?:00[1-9]|0[12]\d|03[01])$/.test(recipeId)
+    || /^HBP-(?:00[1-9]|01[0-2])$/.test(recipeId)
+    || /^LF-(?:00[1-9]|01[0-5])$/.test(recipeId)
+    || /^SF-(?:00[1-9]|01\d|020)$/.test(recipeId);
 }
 
 function standardizedCookingAmount(ingredient, parsedName, unit, recipeId) {
@@ -343,7 +399,7 @@ function standardizedCookingAmount(ingredient, parsedName, unit, recipeId) {
     };
   }
 
-  if (unit.packageSize && /^(can|jar|bag|bottle)$/.test(unit.unitStandard)) {
+  if (unit.packageSize && /^(can|jar|bag|bottle|box|package|container)$/.test(unit.unitStandard)) {
     const ounces = Number.parseFloat(unit.packageSize);
     if (Number.isFinite(ounces)) return {
       quantity: Number(ingredient.qty) * ounces,
@@ -352,13 +408,13 @@ function standardizedCookingAmount(ingredient, parsedName, unit, recipeId) {
     };
   }
 
-  return { quantity: ingredient.qty, unit: unit.unitStandard, shoppingEquivalent: "" };
+  return { quantity: ingredient.qty, unit: unit.unitStandard, shoppingEquivalent: unit.shoppingEquivalent || "" };
 }
 
 function approvedResolution(recipeId, originalName, originalUnit = "") {
   const keys = [`${recipeId}|${originalName}|${originalUnit}`, `${recipeId}|${originalName}`];
   for (const key of keys) {
-    const resolution = AM_001_020_APPROVED_RESOLUTIONS[key] || AM_021_040_APPROVED_RESOLUTIONS[key] || AM_041_060_APPROVED_RESOLUTIONS[key] || AM_061_078_APPROVED_RESOLUTIONS[key] || AS_001_024_APPROVED_RESOLUTIONS[key];
+    const resolution = AM_001_020_APPROVED_RESOLUTIONS[key] || AM_021_040_APPROVED_RESOLUTIONS[key] || AM_041_060_APPROVED_RESOLUTIONS[key] || AM_061_078_APPROVED_RESOLUTIONS[key] || AS_001_024_APPROVED_RESOLUTIONS[key] || IT_001_060_APPROVED_RESOLUTIONS[key] || MX_001_044_APPROVED_RESOLUTIONS[key] || QP_001_030_APPROVED_RESOLUTIONS[key] || SB_001_020_APPROVED_RESOLUTIONS[key] || SD_001_052_APPROVED_RESOLUTIONS[key] || HB_HBP_APPROVED_RESOLUTIONS[key] || LF_001_015_APPROVED_RESOLUTIONS[key] || SG_001_027_APPROVED_RESOLUTIONS[key] || SF_001_020_APPROVED_RESOLUTIONS[key];
     if (resolution) return resolution;
   }
   return null;
@@ -384,7 +440,11 @@ export function standardizeAmericanIngredient(ingredient, recipeId = "") {
   const unmeasuredSupply = resolution?.type === "unmeasured-cooking-supply";
   const unmeasuredServingSuggestion = resolution?.type === "unmeasured-serving-suggestion";
   const unmeasuredOptionalIngredient = resolution?.type === "unmeasured-optional-ingredient";
-  const reviewReason = AM_021_040_REVIEW_FLAGS[`${recipeId}|${original.name}`] || AM_041_060_REVIEW_FLAGS[`${recipeId}|${original.name}`] || AM_061_078_REVIEW_FLAGS[`${recipeId}|${original.name}`] || AS_001_024_REVIEW_FLAGS[`${recipeId}|${original.name}`] || "";
+  const optionalIngredient = resolution?.type === "optional-ingredient";
+  const optionalProteinAlternatives = resolution?.type === "optional-protein-alternatives";
+  const optionalRange = resolution?.type === "optional-range";
+  const reviewReason = AM_021_040_REVIEW_FLAGS[`${recipeId}|${original.name}`] || AM_041_060_REVIEW_FLAGS[`${recipeId}|${original.name}`] || AM_061_078_REVIEW_FLAGS[`${recipeId}|${original.name}`] || AS_001_024_REVIEW_FLAGS[`${recipeId}|${original.name}`] || IT_001_060_REVIEW_FLAGS[`${recipeId}|${original.name}`] || MX_001_044_REVIEW_FLAGS[`${recipeId}|${original.name}`] || QP_001_030_REVIEW_FLAGS[`${recipeId}|${original.name}`] || SB_001_020_REVIEW_FLAGS[`${recipeId}|${original.name}`] || SD_001_052_REVIEW_FLAGS[`${recipeId}|${original.name}`] || HB_HBP_REVIEW_FLAGS[`${recipeId}|${original.name}`] || LF_001_015_REVIEW_FLAGS[`${recipeId}|${original.name}`] || SG_001_027_REVIEW_FLAGS[`${recipeId}|${original.name}`] || SF_001_020_REVIEW_FLAGS[`${recipeId}|${original.name}`] || "";
+  const ingredientOptional = unit.optional || /\boptional\b/i.test(preparation) || optionalRange;
   const sizedOnionIdentity = parsedName.matchName.match(/^(small|medium|large|extra[- ]large) (?:(red|white|yellow|sweet) )?onions?\b/i);
   const recipeName = resolution?.recipeName || sentenceCase(parsedName.matchName
     .replace(/^(small|medium|large|extra[- ]large)\s+(onions?)$/i, "$2"));
@@ -406,16 +466,17 @@ export function standardizeAmericanIngredient(ingredient, recipeId = "") {
     packageCount: unit.packageCount,
     packageContents: unit.packageContents,
     preparation: resolution?.preparation || preparation,
-    optional: unit.optional || /\boptional\b/i.test(preparation),
+    optional: ingredientOptional,
     acceptableAlternatives: resolution?.acceptableAlternatives || alternatives,
     substitutionGroup: alternatives.length ? `${recipeId}-${normalizeIngredientIdentity(original.name)}` : "",
     shoppingName: alternatives.length ? initialCaps(parsedName.matchName) : resolvedCanonicalName,
     shoppingQuantity: resolution?.shoppingQuantity ?? resolvedCooking.quantity,
     shoppingUnit: resolution?.shoppingUnit || resolvedCooking.unit,
     shoppingEquivalent: resolution?.shoppingEquivalent || resolvedCooking.shoppingEquivalent,
-    includeInShopping: !(optionalGarnish || unmeasuredSupply || unmeasuredServingSuggestion || unmeasuredOptionalIngredient || resolvedCooking.quantity === null),
+    includeInShopping: !(ingredientOptional || optionalGarnish || optionalIngredient || optionalProteinAlternatives || unmeasuredSupply || unmeasuredServingSuggestion || unmeasuredOptionalIngredient || resolvedCooking.quantity === null),
     approximateShoppingQuantity: Boolean(resolution?.approximate || resolution?.type === "piece-count-with-shopping-weight"),
-    recipeQuantityText: resolution?.recipeQuantityText || "",
+    recipeQuantityText: resolution?.recipeQuantityText || (unit.metricEquivalent ? `${displayQuantity(ingredient.qty)} ${Number(ingredient.qty) === 1 ? resolvedCooking.unit : `${resolvedCooking.unit}s`} (${unit.metricEquivalent})` : ""),
+    recipeQuantityIncludesUnit: Boolean(unit.metricEquivalent),
     reviewStatus: reviewReason ? "needs-review" : "approved",
     reviewReason,
     resolutionType: resolution?.type || "source-specific",
@@ -423,9 +484,9 @@ export function standardizeAmericanIngredient(ingredient, recipeId = "") {
     displayPreparationSeparately: auditedRecipe(recipeId),
     masterItemId: match.masterItemId,
     matchStatus: match.matchStatus,
-    inventoryCategory: category,
-    inventorySubcategory: subcategory,
-    inventoryKind: kind,
+    inventoryCategory: resolution?.inventoryCategory || category,
+    inventorySubcategory: resolution?.inventorySubcategory || subcategory,
+    inventoryKind: resolution?.inventoryKind || kind,
     legacyInventoryCategory: legacyCategory,
     auditSource: `${recipeId} illustrated recipe card transcription`,
   };

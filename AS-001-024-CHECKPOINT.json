@@ -7,7 +7,8 @@
   "recipesAuditedThisCheckpoint": 24,
   "ingredientRowsAuditedThisCheckpoint": 210,
   "priorUnresolvedFlags": 0,
-  "newReviewFlags": 3,
+  "approvedMissingDetailResolutions": 3,
+  "newReviewFlags": 0,
   "verification": {
     "checkpointTests": "passed",
     "currentTestFiles": 151,

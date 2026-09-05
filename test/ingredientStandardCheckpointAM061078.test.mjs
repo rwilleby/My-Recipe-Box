@@ -8,7 +8,7 @@ const get = (recipeId, originalName, originalUnit = null) => recipes.find((recip
   .ingredients.find((ingredient) => ingredient.originalName === originalName && (originalUnit === null || ingredient.originalUnit === originalUnit));
 
 assert.equal(audited.length, 17);
-assert.ok(rows.every(({ ingredient }) => ingredient.standardVersion === "1.5"));
+assert.ok(rows.every(({ ingredient }) => ingredient.standardVersion === "1.14"));
 assert.equal(rows.filter(({ ingredient }) => ingredient.reviewStatus === "needs-review").length, 0);
 
 assert.equal(get("AM-061", "Small onion, chopped").qty, 0.5);

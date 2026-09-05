@@ -12,7 +12,7 @@ export function formatTextRecipeIngredient(ingredient) {
   const quantityText = ingredient.recipeQuantityText || (quantity === null || quantity === undefined || quantity === ""
     ? ""
     : String(formatQty(quantity)).trim());
-  const unit = String(Object.prototype.hasOwnProperty.call(ingredient, "cookingUnit")
+  const unit = ingredient.recipeQuantityIncludesUnit ? "" : String(Object.prototype.hasOwnProperty.call(ingredient, "cookingUnit")
     ? ingredient.cookingUnit
     : (ingredient.unit || "")).trim();
   const name = String(

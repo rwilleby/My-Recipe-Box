@@ -1,0 +1,22 @@
+{
+  "release": "v96.21",
+  "category": "Salads & Bowls",
+  "range": "SB-001–SB-020",
+  "ingredientStandardVersion": "1.10",
+  "recipesAuditedThisCheckpoint": 20,
+  "ingredientRowsAuditedThisCheckpoint": 251,
+  "priorUnresolvedFlags": 0,
+  "approvedMissingDetailResolutions": 37,
+  "newReviewFlags": 0,
+  "approvalRuleGroups": 14,
+  "verification": {
+    "checkpointTests": "passed",
+    "currentTestFiles": 151,
+    "currentTests": "passed",
+    "productionBuild": "passed",
+    "seoRecipes": 794,
+    "completeDinners": 151
+  },
+  "preserved": ["recipe IDs", "approved images", "recipe-card designs", "directions", "unrelated functionality"],
+  "changedFiles": ["src/data/ingredientStandards.js", "src/utils/americanIngredientStandardization.js", "test/ingredientStandardCheckpointAM021040.test.mjs", "test/ingredientStandardCheckpointAM041060.test.mjs", "test/ingredientStandardCheckpointAM061078.test.mjs", "test/ingredientStandardCheckpointAS001024.test.mjs", "test/ingredientStandardCheckpointIT001060.test.mjs", "test/ingredientStandardCheckpointMX001044.test.mjs", "test/ingredientStandardCheckpointQP001030.test.mjs", "test/ingredientStandardCheckpointSB001020.test.mjs", "test/ingredientStandardCheckpointSF001020.test.mjs", "docs/INGREDIENT-STANDARD.md", "SB-001-020-INGREDIENT-AUDIT.md", "SB-001-020-CHECKPOINT.json"]
+}

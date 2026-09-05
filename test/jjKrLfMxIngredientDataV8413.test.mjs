@@ -39,7 +39,7 @@ assert.ok(byId["JJ-008"].ingredients.some((item) => item.name === "Thick-cut bac
 assert.ok(byId["JJ-014"].ingredients.some((item) => item.name.startsWith("Granulated Splenda") && item.qty === 0.5));
 assert.ok(byId["KR-003"].ingredients.some((item) => item.name === "Salt" && item.unit === "to taste"));
 assert.ok(byId["KR-003"].ingredients.some((item) => item.name === "Black pepper" && item.unit === "to taste"));
-assert.ok(byId["LF-015"].ingredients.some((item) => item.name === "Salt" && item.qty === 1.75 && item.unit === "tsp"));
+assert.ok(byId["LF-015"].ingredients.some((item) => item.name === "Salt" && item.qty === 1.75 && item.unit === "teaspoon"));
 assert.ok(byId["MX-012"].ingredients.some((item) => item.name === "Milk" && Math.abs(item.qty - 1 / 3) < 1e-9));
 assert.ok(!byId["MX-008"].ingredients.some((item) => item.name === "Water"), "directions-only water must not be added");
 for (const name of ["Avocado", "Cilantro", "Lime"]) {
