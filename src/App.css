@@ -21635,6 +21635,45 @@ button.browseRecipeWideFooterAction:focus-visible,
 .shoppingListOnlineButton:focus-visible,
 .shoppingStoreChooser select:focus-visible { outline: 3px solid rgba(119, 113, 107, .28); outline-offset: 1px; }
 
+.shoppingCompanion {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 9000;
+  width: min(370px, calc(100vw - 36px));
+  max-height: min(560px, calc(100vh - 36px));
+  overflow: hidden;
+  border: 1px solid #b9b0a4;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 14px 42px rgba(35, 31, 27, .24);
+}
+.shoppingCompanion > header { display: grid; grid-template-columns: minmax(0, 1fr) 36px 36px; align-items: center; gap: 4px; min-height: 58px; padding: 8px 9px 8px 14px; background: #f7eed8; border-bottom: 1px solid #d8d0c2; }
+.shoppingCompanion > header div { display: grid; gap: 3px; min-width: 0; }
+.shoppingCompanion > header strong { color: #14532d; font: 700 17px/1.1 Georgia, serif; }
+.shoppingCompanion > header span { color: #667085; font: 600 11px/1.2 Inter, system-ui, sans-serif; }
+.shoppingCompanion > header button { width: 34px; height: 34px; padding: 0; border: 1px solid #b9b0a4; border-radius: 8px; background: #fff; color: #34312e; font: 700 18px/1 Inter, system-ui, sans-serif; cursor: pointer; }
+.shoppingCompanionBody { max-height: calc(min(560px, 100vh - 36px) - 58px); overflow-y: auto; overscroll-behavior: contain; padding: 6px 12px 10px; }
+.shoppingCompanionBody > p { margin: 18px 4px; color: #667085; text-align: center; }
+.shoppingCompanionItem { display: grid; grid-template-columns: minmax(0, 1fr) 64px; align-items: center; gap: 8px; min-height: 54px; border-bottom: 1px solid #ece7df; }
+.shoppingCompanionItem:last-child { border-bottom: 0; }
+.shoppingCompanionItem label { display: grid; grid-template-columns: 24px minmax(0, 1fr); align-items: center; gap: 8px; min-width: 0; cursor: pointer; }
+.shoppingCompanionItem input { width: 21px; height: 21px; margin: 0; accent-color: #716b65; }
+.shoppingCompanionItem label span { display: grid; gap: 2px; min-width: 0; }
+.shoppingCompanionItem label strong { overflow: hidden; color: #172033; font: 700 13px/1.15 Inter, system-ui, sans-serif; text-overflow: ellipsis; white-space: nowrap; }
+.shoppingCompanionItem label small { color: #667085; font: 500 11px/1.15 Inter, system-ui, sans-serif; }
+.shoppingCompanionItem > button { min-height: 34px; padding: 5px 8px; border: 1px solid #14532d; border-radius: 7px; background: #fff; color: #14532d; font: 700 10px/1 Inter, system-ui, sans-serif; cursor: pointer; }
+.shoppingCompanionItem.isPurchased label strong { color: #77716b; text-decoration: line-through; }
+.shoppingCompanion.isCollapsed { width: min(330px, calc(100vw - 36px)); }
+.shoppingCompanion.isCollapsed > header { border-bottom: 0; }
+
+@media (max-width: 720px) {
+  .shoppingCompanion { right: 8px; bottom: 8px; width: calc(100vw - 16px); max-height: min(62vh, 520px); }
+  .shoppingCompanionBody { max-height: calc(min(62vh, 520px) - 58px); }
+  .shoppingCompanionItem { min-height: 58px; }
+  .shoppingCompanionItem > button { min-height: 40px; }
+}
+
 .shoppingListDataRow.isChecked .shoppingListProductCell strong {
   color: #77716b;
   text-decoration: line-through;

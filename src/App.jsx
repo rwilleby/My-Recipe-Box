@@ -71,11 +71,8 @@ import { getRecipeCostEstimate, RECIPE_COST_NOTE, RECIPE_COST_TAGLINE } from "./
 import { isFreezerFriendlyCompleteDinner } from "./data/completeDinnerFreezerRatings.js";
 import { FREEZER_ACCORDION_GROUPS } from "./data/freezerPackagingAccordions.js";
 import { HOLIDAY_OCCASION_MENUS } from "./data/holidayOccasionMenus.js";
-import {
-  ONLINE_GROCERY_STORES,
-  PREFERRED_GROCERY_STORE_KEY,
-  openOnlineGroceryWindow,
-} from "./utils/onlineGroceryShopping.js";
+import ShoppingCompanionPanel from "./features/shopping/ShoppingCompanionPanel.jsx";
+import { ONLINE_GROCERY_STORES, PREFERRED_GROCERY_STORE_KEY, openOnlineGroceryWindow } from "./utils/onlineGroceryShopping.js";
 
 const VEGAN_LIBRARY_CATEGORIES = Object.freeze([
   { id: "VPM", name: "Plant Mains", displayName: "Plant Mains", iconImage: "images/categories/SG.webp" },
@@ -10117,6 +10114,7 @@ function FreezerInventoryPage({ freezer, setFreezer, setActivePage, embedded = f
 function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry, refrigerator, freezer, masterInventory, setActivePage, preparedInventory, preparedReservations, componentDecisions, setComponentDecisions, shoppingComments, setShoppingComments, shoppingOrderQuantities, setShoppingOrderQuantities, kosUi }) {
   const [showDigitalStockCheck, setShowDigitalStockCheck] = useState(false);
   const [shoppingView, setShoppingView] = useState("consolidated");
+  const [showShoppingCompanion, setShowShoppingCompanion] = useState(false);
   const [preferredGroceryStore, setPreferredGroceryStore] = useState(() => {
     if (typeof window === "undefined") return "walmart";
     const savedStore = window.localStorage.getItem(PREFERRED_GROCERY_STORE_KEY);
@@ -10878,9 +10876,11 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
             {Object.entries(ONLINE_GROCERY_STORES).map(([storeId, store]) => <option key={storeId} value={storeId}>{store.label}</option>)}
           </select>
         </label>
-        <button type="button" className="secondary" onClick={() => openOnlineShoppingWindow()}>Open {ONLINE_GROCERY_STORES[preferredGroceryStore].label}
-        </button>
+        <button type="button" className="secondary" onClick={() => openOnlineShoppingWindow()}>Open {ONLINE_GROCERY_STORES[preferredGroceryStore].label}</button>
+        <button type="button" className="secondary" onClick={() => setShowShoppingCompanion(true)}>Floating List</button>
       </section>
+
+      {showShoppingCompanion && <ShoppingCompanionPanel items={needed} checked={checked} storeLabel={ONLINE_GROCERY_STORES[preferredGroceryStore].label} formatQuantity={formatShoppingQuantity} onToggle={toggleCoverage} onSearch={openOnlineShoppingWindow} onClose={() => setShowShoppingCompanion(false)} />}
 
       {showDigitalStockCheck && (
         <DigitalStockCheckPanel
