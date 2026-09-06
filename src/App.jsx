@@ -11754,7 +11754,7 @@ function HolidaysSpecialOccasionsPage({ setActivePage, setPlan, openRecipeCard }
               {dishRecipe && (
                 <div className="holidayMenuDishHero">
                   <img
-                    src={assetUrl(`images/holiday-recipe-heroes/${dish.recipeId}.webp`)}
+                    src={assetUrl(dishRecipe.heroImage || dishRecipe.image)}
                     alt={`${dish.name} plated hero`}
                     loading="lazy"
                     decoding="async"
@@ -11764,6 +11764,9 @@ function HolidaysSpecialOccasionsPage({ setActivePage, setPlan, openRecipeCard }
                 </div>
               )}
               <h3>{dish.name}</h3>
+              {dishRecipe.categoryCode === "HS" && (
+                <p className="holidayMenuDishCollection">Special Holiday Recipes</p>
+              )}
               {dishRecipe ? (
                 <button type="button" onClick={() => openRecipeCard(dish.recipeId, recipes, "Holidays and Special Occasions")}>Open Recipe Card</button>
               ) : null}
@@ -11772,7 +11775,7 @@ function HolidaysSpecialOccasionsPage({ setActivePage, setPlan, openRecipeCard }
           })}
         </div>
         <div className="holidayMenuActions">
-          <button type="button" className="primary" disabled={!availableRecipeIds.length} onClick={() => addVerifiedMenuRecipes("Meal Planner")}>Add Menu to Meal Planner</button>
+          <button type="button" className="primary" disabled={!availableRecipeIds.length} onClick={() => addVerifiedMenuRecipes("Meal Planner")}>Add Complete Menu to Meal Planner</button>
           <button type="button" className="secondary" disabled={!availableRecipeIds.length} onClick={() => addVerifiedMenuRecipes("Shopping Lists")}>Add Menu Ingredients to Grocery List</button>
         </div>
       </section>

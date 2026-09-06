@@ -31,9 +31,11 @@ for (const source of HOLIDAY_SPECIAL_RECIPE_MANIFEST) {
   assert.deepEqual(recipe.ingredients.map(({ sourceText }) => sourceText), source.ingredients);
   assert.deepEqual(recipe.directions, source.directions);
   assert.ok(existsSync(`public/images/recipes/${source.code}.webp`));
-  assert.ok(existsSync(`public/images/heroes/${source.code}.webp`));
+  assert.equal(source.card, `cards/${source.code}.webp`);
+  assert.equal(source.hero, `heroes/${source.code}-hero.webp`);
+  assert.ok(existsSync(`public/images/heroes/${source.code}-hero.webp`));
   assert.equal(fullCardImageCandidates(recipe)[0], `images/recipes/${source.code}.webp`);
-  assert.equal(recipeHeroImageCandidates(recipe)[0], `images/heroes/${source.code}.webp`);
+  assert.equal(recipeHeroImageCandidates(recipe)[0], `images/heroes/${source.code}-hero.webp`);
   assert.equal(preexisting.some(({ title }) => title === source.title), false, `${source.title} must not duplicate an existing title`);
 }
 
@@ -48,11 +50,14 @@ for (const menu of HOLIDAY_OCCASION_MENUS) {
     assert.ok(recipes.some(({ id }) => id === dish.recipeId), `${menu.occasion}: ${dish.name} must resolve to ${dish.recipeId}`);
   }
 }
-const holidayHeroIds = [...new Set(HOLIDAY_OCCASION_MENUS.flatMap(({ dishes }) =>
-  dishes.map(({ recipeId }) => recipeId)))];
-assert.equal(holidayHeroIds.length, 55);
-for (const recipeId of holidayHeroIds) {
-  assert.ok(existsSync(`public/images/holiday-recipe-heroes/${recipeId}.webp`), `${recipeId} must have a Holiday-only square full-plate hero`);
+const holidayHeroRecipes = [...new Map(HOLIDAY_OCCASION_MENUS.flatMap(({ dishes }) =>
+  dishes.map(({ recipeId }) => {
+    const recipe = recipes.find(({ id }) => id === recipeId);
+    return [recipeId, recipe];
+  }))).values()];
+assert.equal(holidayHeroRecipes.length, 55);
+for (const recipe of holidayHeroRecipes) {
+  assert.ok(recipeHeroImageCandidates(recipe).some((candidate) => existsSync(`public/${candidate}`)), `${recipe.id} must resolve to its catalog hero`);
 }
 for (const code of HOLIDAY_SPECIAL_RECIPE_MANIFEST.map(({ code }) => code)) {
   assert.ok(allMenuIds.includes(code), `${code} must be connected to a holiday menu`);
@@ -72,8 +77,10 @@ const holidayMenusSource = readFileSync("src/data/holidayOccasionMenus.js", "utf
 const holidayPage = app.slice(app.indexOf("function HolidaysSpecialOccasionsPage"), app.indexOf("function FreezerTipsPage"));
 assert.match(holidayPage, /holidayOccasionTileImage[\s\S]*?src=\{assetUrl\(menu\.image\)\}/);
 assert.match(holidayMenusSource, /images\/holiday-occasions\/\$\{HOLIDAY_OCCASION_IMAGE_FILES\[index\]\}/);
-assert.match(holidayPage, /holidayMenuDishHero[\s\S]*?images\/holiday-recipe-heroes\/\$\{dish\.recipeId\}\.webp/);
+assert.match(holidayPage, /holidayMenuDishHero[\s\S]*?assetUrl\(dishRecipe\.heroImage \|\| dishRecipe\.image\)/);
 assert.doesNotMatch(holidayPage, /FullRecipeCardPreview|RecipeImage|images\/recipes\//);
 assert.match(holidayPage, /openRecipeCard\(dish\.recipeId, recipes, "Holidays and Special Occasions"\)/);
 assert.match(holidayPage, /next\[firstOpenSlot\] = \[\.\.\.availableRecipeIds\]/);
+assert.match(holidayPage, /Special Holiday Recipes/);
+assert.match(holidayPage, /Add Complete Menu to Meal Planner/);
 console.log("Holiday Special Recipe registration and menu contracts passed.");

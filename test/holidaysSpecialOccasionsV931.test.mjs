@@ -24,7 +24,7 @@ assert.deepEqual(HOLIDAY_OCCASION_MENUS.map(({ occasion }) => occasion), occasio
 
 assert.equal((app.match(/data-recipe-status=/g) || []).length, 1);
 assert.match(app, /data-recipe-status=\{dish\.recipeId \? "available" : "awaiting-recipe"\}/);
-assert.match(app, /Add Menu to Meal Planner/);
+assert.match(app, /Add Complete Menu to Meal Planner/);
 assert.match(app, /Add Menu Ingredients to Grocery List/);
 assert.doesNotMatch(app, /id="holidayOccasionSelect"/);
 assert.match(app, /className="holidayOccasionsSectionIntro"/);

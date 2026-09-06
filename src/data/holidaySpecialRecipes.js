@@ -26,7 +26,7 @@ export const HOLIDAY_SPECIAL_RECIPE_MANIFEST = Object.freeze([
       "Rest 5 min; top each steak with herb butter."
     ],
     "card": "cards/HS-001.webp",
-    "hero": "heroes/HS-001.webp"
+    "hero": "heroes/HS-001-hero.webp"
   },
   {
     "code": "HS-002",
@@ -56,7 +56,7 @@ export const HOLIDAY_SPECIAL_RECIPE_MANIFEST = Object.freeze([
       "Cover and simmer 22–25 min until rice is tender."
     ],
     "card": "cards/HS-002.webp",
-    "hero": "heroes/HS-002.webp"
+    "hero": "heroes/HS-002-hero.webp"
   },
   {
     "code": "HS-003",
@@ -83,7 +83,7 @@ export const HOLIDAY_SPECIAL_RECIPE_MANIFEST = Object.freeze([
       "Finish with lemon juice and adjust seasoning."
     ],
     "card": "cards/HS-003.webp",
-    "hero": "heroes/HS-003.webp"
+    "hero": "heroes/HS-003-hero.webp"
   },
   {
     "code": "HS-004",
@@ -111,7 +111,7 @@ export const HOLIDAY_SPECIAL_RECIPE_MANIFEST = Object.freeze([
       "Bake 20–24 min until golden and set."
     ],
     "card": "cards/HS-004.webp",
-    "hero": "heroes/HS-004.webp"
+    "hero": "heroes/HS-004-hero.webp"
   },
   {
     "code": "HS-005",
@@ -137,7 +137,7 @@ export const HOLIDAY_SPECIAL_RECIPE_MANIFEST = Object.freeze([
       "Top with remaining butter and serve hot."
     ],
     "card": "cards/HS-005.webp",
-    "hero": "heroes/HS-005.webp"
+    "hero": "heroes/HS-005-hero.webp"
   },
   {
     "code": "HS-006",
@@ -161,7 +161,7 @@ export const HOLIDAY_SPECIAL_RECIPE_MANIFEST = Object.freeze([
       "Bake 35–40 min; brush with butter and cool."
     ],
     "card": "cards/HS-006.webp",
-    "hero": "heroes/HS-006.webp"
+    "hero": "heroes/HS-006-hero.webp"
   },
   {
     "code": "HS-007",
@@ -189,7 +189,7 @@ export const HOLIDAY_SPECIAL_RECIPE_MANIFEST = Object.freeze([
       "Braise 3–3 1/2 hr; rest, slice and serve with gravy."
     ],
     "card": "cards/HS-007.webp",
-    "hero": "heroes/HS-007.webp"
+    "hero": "heroes/HS-007-hero.webp"
   },
   {
     "code": "HS-008",
@@ -215,7 +215,7 @@ export const HOLIDAY_SPECIAL_RECIPE_MANIFEST = Object.freeze([
       "Finish with thyme and serve warm."
     ],
     "card": "cards/HS-008.webp",
-    "hero": "heroes/HS-008.webp"
+    "hero": "heroes/HS-008-hero.webp"
   },
   {
     "code": "HS-009",
@@ -241,7 +241,7 @@ export const HOLIDAY_SPECIAL_RECIPE_MANIFEST = Object.freeze([
       "Bake 60–70 min until deeply golden."
     ],
     "card": "cards/HS-009.webp",
-    "hero": "heroes/HS-009.webp"
+    "hero": "heroes/HS-009-hero.webp"
   },
   {
     "code": "HS-010",
@@ -269,7 +269,7 @@ export const HOLIDAY_SPECIAL_RECIPE_MANIFEST = Object.freeze([
       "Serve when potatoes are crisp and browned."
     ],
     "card": "cards/HS-010.webp",
-    "hero": "heroes/HS-010.webp"
+    "hero": "heroes/HS-010-hero.webp"
   },
   {
     "code": "HS-011",
@@ -296,7 +296,7 @@ export const HOLIDAY_SPECIAL_RECIPE_MANIFEST = Object.freeze([
       "Chill 15 min; garnish with mint."
     ],
     "card": "cards/HS-011.webp",
-    "hero": "heroes/HS-011.webp"
+    "hero": "heroes/HS-011-hero.webp"
   },
   {
     "code": "HS-012",
@@ -324,7 +324,7 @@ export const HOLIDAY_SPECIAL_RECIPE_MANIFEST = Object.freeze([
       "Chill at least 2 hr; sprinkle with paprika."
     ],
     "card": "cards/HS-012.webp",
-    "hero": "heroes/HS-012.webp"
+    "hero": "heroes/HS-012-hero.webp"
   },
   {
     "code": "HS-013",
@@ -352,7 +352,7 @@ export const HOLIDAY_SPECIAL_RECIPE_MANIFEST = Object.freeze([
       "Bake 25 min; finish with scallions."
     ],
     "card": "cards/HS-013.webp",
-    "hero": "heroes/HS-013.webp"
+    "hero": "heroes/HS-013-hero.webp"
   },
   {
     "code": "HS-014",
@@ -380,7 +380,7 @@ export const HOLIDAY_SPECIAL_RECIPE_MANIFEST = Object.freeze([
       "Chill at least 1 hr before serving."
     ],
     "card": "cards/HS-014.webp",
-    "hero": "heroes/HS-014.webp"
+    "hero": "heroes/HS-014-hero.webp"
   },
   {
     "code": "HS-015",
@@ -407,7 +407,7 @@ export const HOLIDAY_SPECIAL_RECIPE_MANIFEST = Object.freeze([
       "Serve warm or at room temperature."
     ],
     "card": "cards/HS-015.webp",
-    "hero": "heroes/HS-015.webp"
+    "hero": "heroes/HS-015-hero.webp"
   },
   {
     "code": "HS-016",
@@ -434,7 +434,7 @@ export const HOLIDAY_SPECIAL_RECIPE_MANIFEST = Object.freeze([
       "Uncover and bake 20 min until glazed and tender."
     ],
     "card": "cards/HS-016.webp",
-    "hero": "heroes/HS-016.webp"
+    "hero": "heroes/HS-016-hero.webp"
   },
   {
     "code": "HS-017",
@@ -462,7 +462,7 @@ export const HOLIDAY_SPECIAL_RECIPE_MANIFEST = Object.freeze([
       "Bake 45–50 min until golden and set."
     ],
     "card": "cards/HS-017.webp",
-    "hero": "heroes/HS-017.webp"
+    "hero": "heroes/HS-017-hero.webp"
   },
   {
     "code": "HS-018",
@@ -488,7 +488,7 @@ export const HOLIDAY_SPECIAL_RECIPE_MANIFEST = Object.freeze([
       "Pour batter in and bake 18–22 min."
     ],
     "card": "cards/HS-018.webp",
-    "hero": "heroes/HS-018.webp"
+    "hero": "heroes/HS-018-hero.webp"
   },
   {
     "code": "HS-019",
@@ -514,7 +514,7 @@ export const HOLIDAY_SPECIAL_RECIPE_MANIFEST = Object.freeze([
       "Drizzle lightly with maple syrup if desired."
     ],
     "card": "cards/HS-019.webp",
-    "hero": "heroes/HS-019.webp"
+    "hero": "heroes/HS-019-hero.webp"
   },
   {
     "code": "HS-020",
@@ -542,7 +542,7 @@ export const HOLIDAY_SPECIAL_RECIPE_MANIFEST = Object.freeze([
       "Rest 30 min before carving."
     ],
     "card": "cards/HS-020.webp",
-    "hero": "heroes/HS-020.webp"
+    "hero": "heroes/HS-020-hero.webp"
   },
   {
     "code": "HS-021",
@@ -571,7 +571,7 @@ export const HOLIDAY_SPECIAL_RECIPE_MANIFEST = Object.freeze([
       "Braise 3–4 hr; chill, slice and reheat in sauce."
     ],
     "card": "cards/HS-021.webp",
-    "hero": "heroes/HS-021.webp"
+    "hero": "heroes/HS-021-hero.webp"
   },
   {
     "code": "HS-022",
@@ -597,7 +597,7 @@ export const HOLIDAY_SPECIAL_RECIPE_MANIFEST = Object.freeze([
       "Drain on a rack; keep warm and serve crisp."
     ],
     "card": "cards/HS-022.webp",
-    "hero": "heroes/HS-022.webp"
+    "hero": "heroes/HS-022-hero.webp"
   },
   {
     "code": "HS-023",
@@ -622,7 +622,7 @@ export const HOLIDAY_SPECIAL_RECIPE_MANIFEST = Object.freeze([
       "Finish with lemon zest and serve."
     ],
     "card": "cards/HS-023.webp",
-    "hero": "heroes/HS-023.webp"
+    "hero": "heroes/HS-023-hero.webp"
   },
   {
     "code": "HS-024",
@@ -649,7 +649,7 @@ export const HOLIDAY_SPECIAL_RECIPE_MANIFEST = Object.freeze([
       "Serve when fish flakes and reaches 145°F."
     ],
     "card": "cards/HS-024.webp",
-    "hero": "heroes/HS-024.webp"
+    "hero": "heroes/HS-024-hero.webp"
   },
   {
     "code": "HS-025",
@@ -676,7 +676,7 @@ export const HOLIDAY_SPECIAL_RECIPE_MANIFEST = Object.freeze([
       "Stir in Parmesan, remaining butter and pepper."
     ],
     "card": "cards/HS-025.webp",
-    "hero": "heroes/HS-025.webp"
+    "hero": "heroes/HS-025-hero.webp"
   },
   {
     "code": "HS-026",
@@ -701,7 +701,7 @@ export const HOLIDAY_SPECIAL_RECIPE_MANIFEST = Object.freeze([
       "Finish with lemon juice and serve."
     ],
     "card": "cards/HS-026.webp",
-    "hero": "heroes/HS-026.webp"
+    "hero": "heroes/HS-026-hero.webp"
   },
   {
     "code": "HS-027",
@@ -727,7 +727,7 @@ export const HOLIDAY_SPECIAL_RECIPE_MANIFEST = Object.freeze([
       "Rest 25–30 min before slicing."
     ],
     "card": "cards/HS-027.webp",
-    "hero": "heroes/HS-027.webp"
+    "hero": "heroes/HS-027-hero.webp"
   },
   {
     "code": "HS-028",
@@ -753,7 +753,7 @@ export const HOLIDAY_SPECIAL_RECIPE_MANIFEST = Object.freeze([
       "Add almonds, lemon juice, salt and pepper."
     ],
     "card": "cards/HS-028.webp",
-    "hero": "heroes/HS-028.webp"
+    "hero": "heroes/HS-028-hero.webp"
   },
   {
     "code": "HS-029",
@@ -782,7 +782,7 @@ export const HOLIDAY_SPECIAL_RECIPE_MANIFEST = Object.freeze([
       "Bake at 425°F until pastry is golden and beef is 125–130°F; rest."
     ],
     "card": "cards/HS-029.webp",
-    "hero": "heroes/HS-029.webp"
+    "hero": "heroes/HS-029-hero.webp"
   },
   {
     "code": "HS-030",
@@ -812,7 +812,7 @@ export const HOLIDAY_SPECIAL_RECIPE_MANIFEST = Object.freeze([
       "Bake 18–22 min until set with deeply golden edges; serve hot."
     ],
     "card": "cards/HS-030.webp",
-    "hero": "heroes/HS-030.webp"
+    "hero": "heroes/HS-030-hero.webp"
   }
 ]);
 
@@ -915,8 +915,8 @@ export const HOLIDAY_SPECIAL_RECIPE_ROWS = HOLIDAY_SPECIAL_RECIPE_MANIFEST.map((
     servings: record.servings,
     ingredients: record.ingredients.map((text) => manifestIngredient(text, record.code)),
     directions: [...record.directions],
-    image: `images/heroes/${record.code}.webp`,
-    heroImage: `images/heroes/${record.code}.webp`,
+    image: `images/heroes/${record.code}-hero.webp`,
+    heroImage: `images/heroes/${record.code}-hero.webp`,
     cardImage: `images/recipes/${record.code}.webp`,
   },
 ]);

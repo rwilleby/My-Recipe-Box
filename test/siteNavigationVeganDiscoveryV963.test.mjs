@@ -35,7 +35,7 @@ for (const label of ["All Recipes", "Plant Mains", "Bakes", "Pastas", "Bowls", "
 }
 assert.match(app, /browse the changing six-recipe selection for fresh inspiration/);
 assert.match(app, /className="holidayMenuDishHero"/);
-assert.match(app, /images\/holiday-recipe-heroes\/\$\{dish\.recipeId\}\.webp/);
+assert.match(app, /assetUrl\(dishRecipe\.heroImage \|\| dishRecipe\.image\)/);
 assert.match(css, /\.holidayMenuDishHero[\s\S]*aspect-ratio: 1 \/ 1/);
 assert.match(css, /\.holidayMenuDishHero img[\s\S]*object-fit: contain/);
 assert.doesNotMatch(app, /<small>\{quickCategoryRecipeCount\(choice\)\}<\/small>/);
