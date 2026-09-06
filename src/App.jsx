@@ -71,7 +71,7 @@ import { getRecipeCostEstimate, RECIPE_COST_NOTE, RECIPE_COST_TAGLINE } from "./
 import { isFreezerFriendlyCompleteDinner } from "./data/completeDinnerFreezerRatings.js";
 import { FREEZER_ACCORDION_GROUPS } from "./data/freezerPackagingAccordions.js";
 import { HOLIDAY_OCCASION_MENUS } from "./data/holidayOccasionMenus.js";
-import ShoppingCompanionPanel from "./features/shopping/ShoppingCompanionPanel.jsx";
+import ShoppingCompanionWindow from "./features/shopping/ShoppingCompanionWindow.jsx";
 import { ONLINE_GROCERY_STORES, PREFERRED_GROCERY_STORE_KEY, openOnlineGroceryWindow } from "./utils/onlineGroceryShopping.js";
 
 const VEGAN_LIBRARY_CATEGORIES = Object.freeze([
@@ -10877,10 +10877,10 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
           </select>
         </label>
         <button type="button" className="secondary" onClick={() => openOnlineShoppingWindow()}>Open {ONLINE_GROCERY_STORES[preferredGroceryStore].label}</button>
-        <button type="button" className="secondary" onClick={() => setShowShoppingCompanion(true)}>Floating List</button>
+        <button type="button" className="secondary" onClick={() => setShowShoppingCompanion(true)}>Floating Window</button>
       </section>
 
-      {showShoppingCompanion && <ShoppingCompanionPanel items={needed} checked={checked} storeLabel={ONLINE_GROCERY_STORES[preferredGroceryStore].label} formatQuantity={formatShoppingQuantity} onToggle={toggleCoverage} onSearch={openOnlineShoppingWindow} onClose={() => setShowShoppingCompanion(false)} />}
+      {showShoppingCompanion && <ShoppingCompanionWindow items={needed} checked={checked} storeLabel={ONLINE_GROCERY_STORES[preferredGroceryStore].label} formatQuantity={formatShoppingQuantity} onToggle={toggleCoverage} onSearch={openOnlineShoppingWindow} onClose={() => setShowShoppingCompanion(false)} />}
 
       {showDigitalStockCheck && (
         <DigitalStockCheckPanel

@@ -21667,6 +21667,12 @@ button.browseRecipeWideFooterAction:focus-visible,
 .shoppingCompanion.isCollapsed { width: min(330px, calc(100vw - 36px)); }
 .shoppingCompanion.isCollapsed > header { border-bottom: 0; }
 
+.shoppingCompanionWindowBody { min-width: 0; min-height: 100vh; margin: 0; overflow: hidden; background: #fff; }
+.shoppingCompanionWindowBody #shopping-companion-root { width: 100%; min-height: 100vh; }
+.shoppingCompanionWindowBody .shoppingCompanion { position: relative; right: auto; bottom: auto; width: 100%; max-width: none; max-height: 100vh; border: 0; border-radius: 0; box-shadow: none; }
+.shoppingCompanionWindowBody .shoppingCompanionBody { max-height: calc(100vh - 58px); }
+.shoppingCompanionWindowBody .shoppingCompanion.isCollapsed { width: 100%; }
+
 @media (max-width: 720px) {
   .shoppingCompanion { right: 8px; bottom: 8px; width: calc(100vw - 16px); max-height: min(62vh, 520px); }
   .shoppingCompanionBody { max-height: calc(min(62vh, 520px) - 58px); }
