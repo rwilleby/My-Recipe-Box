@@ -5,7 +5,7 @@ const audited=recipes.filter(r=>/^CR-00[1-5]$/.test(r.id)&&!r.originalRecipeId);
 const rows=audited.flatMap(r=>r.ingredients.map(ingredient=>({recipeId:r.id,ingredient})));
 const get=(id,name)=>recipes.find(r=>r.id===id).ingredients.find(i=>i.originalName===name);
 assert.equal(audited.length,5); assert.equal(rows.length,67);
-assert.ok(rows.every(({ingredient})=>ingredient.standardVersion==="1.36"));
+assert.ok(rows.every(({ingredient})=>ingredient.standardVersion==="1.37"));
 assert.equal(rows.filter(({ingredient})=>ingredient.reviewStatus==="needs-review").length,0);
 assert.deepEqual(rows.filter(({ingredient})=>ingredient.cookingUnit&&!STANDARD_COOKING_UNITS.includes(ingredient.cookingUnit)),[]);
 assert.equal(get("CR-001","Active dry yeast").shoppingUnit,"packet");

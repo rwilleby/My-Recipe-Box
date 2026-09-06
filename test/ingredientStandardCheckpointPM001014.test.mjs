@@ -11,7 +11,7 @@ const allowedUnits = new Set(STANDARD_COOKING_UNITS);
 
 assert.equal(audited.length, 14);
 assert.equal(rows.length, 189);
-assert.ok(rows.every(({ ingredient }) => ingredient.standardVersion === "1.36"));
+assert.ok(rows.every(({ ingredient }) => ingredient.standardVersion === "1.37"));
 assert.equal(rows.filter(({ ingredient }) => ingredient.reviewStatus === "needs-review").length, 0);
 assert.deepEqual(rows.filter(({ ingredient }) => ingredient.cookingUnit && !allowedUnits.has(ingredient.cookingUnit)), []);
 assert.equal(get("PM-001", "Rolled oats").canonicalKey, "grain.oats.rolled");

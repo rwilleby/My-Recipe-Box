@@ -8,7 +8,7 @@ const get = (recipeId, sourceText) => recipes.find((recipe) => recipe.id === rec
 
 assert.equal(audited.length, 20);
 assert.equal(rows.length, 163);
-assert.ok(rows.every(({ ingredient }) => ingredient.standardVersion === "1.36"));
+assert.ok(rows.every(({ ingredient }) => ingredient.standardVersion === "1.37"));
 assert.ok(rows.every(({ ingredient }) => ingredient.sourceText));
 assert.ok(rows.every(({ ingredient }) => Number.isFinite(ingredient.cookingQuantity)));
 assert.ok(rows.every(({ ingredient }) => ingredient.cookingUnit));

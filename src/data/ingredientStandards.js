@@ -1492,4 +1492,39 @@ export const HS_021_030_REVIEW_FLAGS = Object.freeze({
   "HS-022|Vegetable oil": "Recipe specifies vegetable oil for frying without a measurable quantity; no amount is invented.",
 });
 
-export const INGREDIENT_STANDARD_VERSION = "1.36";
+const VG_020_030_CANNED_ROWS = Object.freeze([
+  ["VG-020", "Red beans"], ["VG-021", "Chickpeas"], ["VG-022", "Young green jackfruit"],
+  ["VG-024", "Black beans"], ["VG-026", "Kidney beans"], ["VG-027", "Chickpeas"],
+  ["VG-029", "Cannellini beans"], ["VG-030", "Black beans"],
+]);
+
+const VG_020_030_SEASONING_ROWS = Object.freeze(Array.from({ length: 11 }, (_, index) => [`VG-${String(index + 20).padStart(3, "0")}`, "Salt, pepper and dried herbs"]));
+
+export const VG_020_030_APPROVED_RESOLUTIONS = Object.freeze({
+  ...Object.fromEntries(VG_020_030_CANNED_ROWS.map(([recipeId, name]) => [`${recipeId}|${name}`, Object.freeze({ type: "missing-package-size", shoppingEquivalent: `2 cans ${name.toLowerCase()}—can sizes not specified` })])),
+  ...Object.fromEntries(VG_020_030_SEASONING_ROWS.map(([recipeId, name]) => [`${recipeId}|${name}`, Object.freeze({ type: "unresolved-composite-seasoning", quantity: null, unit: "", recipeName: "Salt, pepper and dried herbs", canonicalName: "Seasoning Blend - Salt, Pepper and Dried Herbs", canonicalKey: "condiment.seasoning.composite.salt-pepper-dried-herbs", preparation: "to taste", recipeQuantityText: "To taste", recipeQuantityIncludesUnit: true, shoppingEquivalent: "Salt, pepper and dried herbs—individual quantities and herb varieties not specified" })])),
+  "VG-020|Rice": Object.freeze({ type: "unspecified-cooking-state", canonicalName: "Rice", canonicalKey: "grain.rice", shoppingEquivalent: "2 cups rice—dry or cooked state not specified" }),
+  "VG-023|Brown lentils": Object.freeze({ type: "unspecified-cooking-state", canonicalName: "Lentils - Brown", canonicalKey: "pantry.legume.lentil.brown", shoppingEquivalent: "1 1/2 cups brown lentils—dry or cooked state not specified" }),
+  "VG-025|Brown lentils": Object.freeze({ type: "unspecified-cooking-state", canonicalName: "Lentils - Brown", canonicalKey: "pantry.legume.lentil.brown", shoppingEquivalent: "1 1/2 cups brown lentils—dry or cooked state not specified" }),
+  "VG-030|Quinoa": Object.freeze({ type: "unspecified-cooking-state", canonicalName: "Quinoa", canonicalKey: "grain.quinoa", shoppingEquivalent: "1 1/2 cups quinoa—dry or cooked state not specified" }),
+  "VG-022|Cabbage slaw": Object.freeze({ type: "unresolved-prepared-component", canonicalName: "Cabbage Slaw", canonicalKey: "produce.cabbage.slaw", shoppingEquivalent: "3 cups cabbage slaw—prepared mix or individually prepared cabbage not specified" }),
+  "VG-027|Roasted red pepper": Object.freeze({ type: "unspecified-product-form", canonicalName: "Bell Pepper - Red", canonicalKey: "produce.pepper.bell.red", preparation: "roasted", shoppingEquivalent: "1 roasted red pepper—fresh-roasted or jarred form not specified" }),
+  "VG-028|Chickpeas": Object.freeze({ type: "unspecified-product-form", canonicalName: "Beans - Chickpeas", canonicalKey: "pantry.beans.chickpeas", shoppingEquivalent: "2 cups chickpeas—dry, soaked, or cooked form not specified" }),
+  "VG-030|Corn": Object.freeze({ type: "unspecified-product-form", canonicalName: "Corn", canonicalKey: "produce.corn", shoppingEquivalent: "1 1/2 cups corn—fresh, frozen, or canned form not specified" }),
+  "VG-025|Cooked rice": Object.freeze({ type: "cooked-rice-yield", recipeName: "Cooked rice", canonicalName: "Rice", canonicalKey: "grain.rice", preparation: "cooked", shoppingQuantity: 0.5, shoppingUnit: "cup", shoppingEquivalent: "About 1/2 cup dry rice", approximate: true }),
+  ...Object.fromEntries(["VG-022", "VG-023"].map((recipeId) => [`${recipeId}|BBQ sauce verified vegan`, Object.freeze({ type: "vegan-product-requirement", recipeName: "Vegan BBQ sauce", canonicalName: "BBQ Sauce", canonicalKey: "condiment.sauce.bbq", shoppingName: "Vegan BBQ sauce" })])),
+  ...Object.fromEntries(Array.from({ length: 11 }, (_, index) => `VG-${String(index + 20).padStart(3, "0")}`).map((recipeId) => [`${recipeId}|Vegan vegetable broth`, Object.freeze({ type: "vegan-product-requirement", recipeName: "Vegan vegetable broth", canonicalName: "Broth - Vegetable", canonicalKey: "pantry.broth.vegetable", shoppingName: "Vegan vegetable broth" })])),
+  ...Object.fromEntries(["VG-021", "VG-027", "VG-029"].map((recipeId) => [`${recipeId}|Vegan breadcrumbs`, Object.freeze({ type: "vegan-product-requirement", recipeName: "Vegan breadcrumbs", canonicalName: "Breadcrumbs", canonicalKey: "pantry.baking.breadcrumbs", shoppingName: "Vegan breadcrumbs" })])),
+});
+
+export const VG_020_030_REVIEW_FLAGS = Object.freeze({
+  ...Object.fromEntries(VG_020_030_CANNED_ROWS.map(([recipeId, name]) => [`${recipeId}|${name}`, "Recipe specifies a can count but provides no can size; no package weight is invented."])),
+  ...Object.fromEntries(VG_020_030_SEASONING_ROWS.map(([recipeId, name]) => [`${recipeId}|${name}`, "Recipe combines salt, pepper, and unspecified dried herbs without individual quantities or proportions; no amounts are invented."])),
+  ...Object.fromEntries([["VG-020", "Rice"], ["VG-023", "Brown lentils"], ["VG-025", "Brown lentils"], ["VG-030", "Quinoa"]].map(([recipeId, name]) => [`${recipeId}|${name}`, "Recipe does not specify whether the measured ingredient is dry or cooked; the source quantity is retained."])),
+  "VG-022|Cabbage slaw": "Recipe does not specify prepared slaw mix or individually prepared cabbage; the combined volume is retained.",
+  "VG-027|Roasted red pepper": "Recipe does not specify fresh-roasted or jarred roasted red pepper.",
+  "VG-028|Chickpeas": "Recipe does not specify whether the cup measure is dry, soaked, or cooked chickpeas.",
+  "VG-030|Corn": "Recipe does not specify fresh, frozen, or canned corn.",
+});
+
+export const INGREDIENT_STANDARD_VERSION = "1.37";

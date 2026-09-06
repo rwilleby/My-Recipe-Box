@@ -29,20 +29,20 @@ for (const [recipeId, expectedCount] of Object.entries(expectedCounts)) {
 }
 
 function ingredient(recipeId, name) {
-  return byId[recipeId].ingredients.find((item) => item.name === name);
+  return byId[recipeId].ingredients.find((item) => item.originalName === name || item.name === name);
 }
 
 assert.deepEqual(
   { qty: ingredient("DM-001", "Baby potatoes, halved")?.qty, unit: ingredient("DM-001", "Baby potatoes, halved")?.unit },
-  { qty: 12, unit: "oz" },
+  { qty: 12, unit: "ounce" },
 );
 assert.deepEqual(
   { qty: ingredient("DM-002", "Prepared reduced-sodium stuffing")?.qty, unit: ingredient("DM-002", "Prepared reduced-sodium stuffing")?.unit },
-  { qty: 4 / 3, unit: "cups" },
+  { qty: 4 / 3, unit: "cup" },
 );
 assert.deepEqual(
   { qty: ingredient("DM-005", "Lower-sodium marinara sauce")?.qty, unit: ingredient("DM-005", "Lower-sodium marinara sauce")?.unit },
-  { qty: 1.5, unit: "cups" },
+  { qty: 1.5, unit: "cup" },
 );
 assert.equal(ingredient("DM-007", "Small corn tortillas")?.qty, 4);
 assert.equal(ingredient("DM-010", "Smoked paprika")?.qty, 0.25);

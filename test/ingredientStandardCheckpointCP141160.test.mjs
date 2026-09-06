@@ -8,7 +8,7 @@ const get = (recipeId, originalName) => recipes.find((recipe) => recipe.id === r
 
 assert.equal(audited.length, 20);
 assert.equal(rows.length, 151);
-assert.ok(rows.every(({ ingredient }) => ingredient.standardVersion === "1.36"));
+assert.ok(rows.every(({ ingredient }) => ingredient.standardVersion === "1.37"));
 assert.deepEqual(rows.filter(({ ingredient }) => ingredient.cookingUnit && !STANDARD_COOKING_UNITS.includes(ingredient.cookingUnit)), []);
 
 const reviewRows = rows.filter(({ ingredient }) => ingredient.reviewStatus === "needs-review");

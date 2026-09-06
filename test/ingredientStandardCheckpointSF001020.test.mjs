@@ -8,7 +8,7 @@ const get = (recipeId, originalName) => recipes.find((recipe) => recipe.id === r
 
 assert.equal(audited.length, 20);
 assert.equal(rows.length, 196);
-assert.ok(rows.every(({ ingredient }) => ingredient.standardVersion === "1.14"));
+assert.ok(rows.every(({ ingredient }) => ingredient.standardVersion === "1.37"));
 assert.equal(rows.filter(({ ingredient }) => ingredient.reviewStatus === "needs-review").length, 0);
 assert.equal(get("SF-004", "Salmon, drained").qty, 29.5);
 assert.equal(get("SF-004", "Salmon, drained").unit, "ounce");

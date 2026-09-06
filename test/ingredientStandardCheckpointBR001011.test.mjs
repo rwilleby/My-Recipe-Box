@@ -9,7 +9,7 @@ const get = (recipeId, originalName) => recipes.find((recipe) => recipe.id === r
 
 assert.equal(audited.length, 10);
 assert.equal(rows.length, 91);
-assert.ok(rows.every(({ ingredient }) => ingredient.standardVersion === "1.36"));
+assert.ok(rows.every(({ ingredient }) => ingredient.standardVersion === "1.37"));
 assert.equal(rows.filter(({ ingredient }) => ingredient.reviewStatus === "needs-review").length, 0);
 assert.deepEqual(rows.filter(({ ingredient }) => ingredient.cookingUnit && !STANDARD_COOKING_UNITS.includes(ingredient.cookingUnit)), []);
 assert.equal(recipes.find((recipe) => recipe.id === "BR-004"), undefined);

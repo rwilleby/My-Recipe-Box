@@ -1,0 +1,23 @@
+import assert from "node:assert/strict";
+import { recipes } from "../src/data/recipes.js";
+import { STANDARD_COOKING_UNITS } from "../src/data/ingredientStandards.js";
+
+const audited = recipes.filter((recipe) => /^CO-00[1-6]$/.test(recipe.id) && !recipe.originalRecipeId);
+const rows = audited.flatMap((recipe) => recipe.ingredients.map((ingredient) => ({ recipeId: recipe.id, ingredient })));
+const get = (recipeId, originalName) => recipes.find((recipe) => recipe.id === recipeId).ingredients.find((ingredient) => ingredient.originalName === originalName);
+const allowedUnits = new Set(STANDARD_COOKING_UNITS);
+assert.equal(audited.length, 6);
+assert.equal(rows.length, 73);
+assert.ok(rows.every(({ ingredient }) => ingredient.standardVersion === "1.37"));
+assert.equal(rows.filter(({ ingredient }) => ingredient.reviewStatus === "needs-review").length, 0);
+assert.deepEqual(rows.filter(({ ingredient }) => ingredient.cookingUnit && !allowedUnits.has(ingredient.cookingUnit)), []);
+assert.equal(get("CO-001", "Peeled, sliced apples").shoppingQuantity, 6);
+assert.equal(get("CO-002", "Fresh or frozen blackberries").shoppingEquivalent, "About three pint containers fresh, or enough frozen for 6 cups");
+assert.equal(get("CO-004", "Pitted cherries, fresh or frozen").preparation, "pitted");
+assert.equal(get("CO-005", "Sliced strawberries, fresh or frozen").shoppingQuantity, 2.25);
+assert.equal(get("CO-006", "Sliced peaches, fresh or frozen").shoppingUnit, "each");
+assert.equal(get("CO-001", "Granulated sugar for filling").canonicalKey, get("CO-001", "Granulated sugar for batter/topping").canonicalKey);
+assert.equal(get("CO-001", "All-purpose flour for filling").canonicalKey, get("CO-001", "All-purpose flour for batter/topping").canonicalKey);
+assert.equal(get("CO-001", "Unsalted butter, melted").shoppingEquivalent, "1 stick unsalted butter");
+assert.equal(get("CO-002", "Lemon juice").unit, "teaspoon");
+console.log("CO-001 through CO-006 ingredient checkpoint passed with zero review flags.");

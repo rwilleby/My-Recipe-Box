@@ -79,7 +79,10 @@ assert.equal(built.find((entry) => entry.name === "Cooked chicken breast")?.qty,
 assert.equal(built.find((entry) => entry.name === "Low-fat milk")?.qty, 1.25);
 
 const dm023 = recipes.find((recipe) => recipe.id === "DM-023");
-assert.ok(dm023.ingredients.some((entry) => entry.name === "Cooked chicken breast, diced"));
+const dm023Chicken = dm023.ingredients.find((entry) => entry.originalName === "Cooked chicken breast, diced");
+assert.ok(dm023Chicken);
+assert.equal(dm023Chicken.name, "Chicken breast");
+assert.equal(dm023Chicken.preparation, "cooked, diced");
 assert.match(app, /items: \(recipe\.ingredients \|\| \[\]\)\.map/);
 assert.match(app, /return consolidateShoppingItems\(items\)/);
 assert.match(app, /canonicalShoppingName\(itemName\)/);

@@ -1,6 +1,6 @@
 # Robert's Recipe Box Ingredient Standard
 
-Version 1.36 — Holiday Specials HS-021–HS-030 finalized September 6, 2026
+Version 1.37 — Vegan recipes VG-020–VG-030 and active catalog finalized September 6, 2026
 
 Each audited ingredient separates: canonical inventory identity, recipe-facing
 name, cooking quantity and unit, preparation, and practical shopping equivalent.
@@ -17,6 +17,16 @@ name, cooking quantity and unit, preparation, and practical shopping equivalent.
 - Preparation such as sliced, diced, drained, softened, divided, or optional is stored separately.
 - `optional`, `to taste`, and `as needed` are instructions, never units.
 - Uncertain conversions are retained from the source and marked `needs-review`; they are never guessed.
+
+## Vegan recipes VG-020–VG-030 additions
+
+- VG-020–VG-030 complete five-part ingredient coverage for all active recipes in the catalog: 773 active recipes and 7,703 ingredient rows.
+- Bean, chickpea, and jackfruit varieties retain their specific identities; missing can sizes remain flagged.
+- Whole onions, peppers, avocados, tomatoes, celery, and cabbage retain natural purchase counts.
+- VG-025 cooked rice retains its cooked recipe quantity with an approximate half-cup dry-rice shopping equivalent.
+- Vegan requirements remain attached to broth, BBQ sauce, breadcrumbs, and breads without preventing appropriate canonical consolidation.
+- Salt, pepper, and unspecified dried herbs no longer use `set` as a cooking unit; the unresolved combination remains visible and flagged.
+- Unspecified dry/cooked states, product forms, and prepared slaw composition remain flagged rather than guessed.
 
 ## Holiday Specials HS-021–HS-030 additions
 

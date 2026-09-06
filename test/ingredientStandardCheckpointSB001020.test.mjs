@@ -10,7 +10,7 @@ const allowedUnits = new Set(STANDARD_COOKING_UNITS);
 
 assert.equal(audited.length, 20);
 assert.equal(rows.length, 251);
-assert.ok(rows.every(({ ingredient }) => ingredient.standardVersion === "1.36"));
+assert.ok(rows.every(({ ingredient }) => ingredient.standardVersion === "1.37"));
 assert.equal(rows.filter(({ ingredient }) => ingredient.reviewStatus === "needs-review").length, 0);
 assert.deepEqual(rows.filter(({ ingredient }) => ingredient.cookingUnit && !allowedUnits.has(ingredient.cookingUnit)), []);
 assert.equal(get("SB-001", "Cooked shredded chicken").shoppingQuantity, 4);
