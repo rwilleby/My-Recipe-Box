@@ -763,7 +763,7 @@ export const JJ_001_025_REVIEW_FLAGS = Object.freeze({
   "JJ-010|Thick-cut bacon, diced": "Source quantity is exactly 0.6666666667 pound (10 2/3 ounces), an unusually precise kitchen amount retained without rounding pending confirmation.",
 });
 
-const BR_RECIPE_IDS = ["BR-001", "BR-002", "BR-003", "BR-005", "BR-006", "BR-007", "BR-008", "BR-009", "BR-010", "BR-011"];
+const BR_RECIPE_IDS = ["BR-002", "BR-003", "BR-005", "BR-006", "BR-007", "BR-008", "BR-009", "BR-010", "BR-011"];
 const BR_TWO_AND_HALF_TSP_YEAST_IDS = ["BR-001", "BR-002", "BR-003", "BR-005", "BR-009", "BR-010", "BR-011"];
 const BR_BREAD_MACHINE_OR_INSTANT_IDS = ["BR-009", "BR-010", "BR-011"];
 
@@ -780,7 +780,8 @@ export const BR_001_011_APPROVED_RESOLUTIONS = Object.freeze({
     [`${recipeId}|Warm water`, Object.freeze({ type: "temperature-separated", recipeName: "Water", canonicalName: "Water", canonicalKey: "pantry.water", preparation: "warm" })],
     [`${recipeId}|Unsalted butter, softened`, Object.freeze({ type: "volume-with-shopping-equivalent", recipeName: "Unsalted butter", canonicalName: "Butter - Unsalted", canonicalKey: "dairy.butter.unsalted", preparation: "softened", shoppingEquivalent: "About 3/8 stick unsalted butter" })],
   ])),
-  "BR-001|Milk": Object.freeze({ type: "metric-equivalent-retained", canonicalName: "Milk", canonicalKey: "dairy.milk" }),
+  "BR-001|Warm milk": Object.freeze({ type: "temperature-separated", recipeName: "Milk", canonicalName: "Milk", canonicalKey: "dairy.milk", preparation: "warm" }),
+  "BR-001|Unsalted butter, melted": Object.freeze({ type: "volume-with-shopping-equivalent", recipeName: "Unsalted butter", canonicalName: "Butter - Unsalted", canonicalKey: "dairy.butter.unsalted", preparation: "melted", shoppingEquivalent: "1/4 stick unsalted butter" }),
   "BR-002|Milk": Object.freeze({ type: "metric-equivalent-retained", canonicalName: "Milk", canonicalKey: "dairy.milk" }),
   "BR-003|Buttermilk": Object.freeze({ type: "metric-equivalent-retained", canonicalName: "Buttermilk - Cultured", canonicalKey: "dairy.milk.buttermilk" }),
   "BR-005|Milk": Object.freeze({ type: "metric-equivalent-retained", canonicalName: "Milk", canonicalKey: "dairy.milk" }),

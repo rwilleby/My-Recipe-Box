@@ -29,5 +29,7 @@ for (const recipe of breadMachine) {
 
 assert.match(recipes.find((recipe) => recipe.id === "BR-009").directions.join(" "), /350°F for 18–22 minutes/);
 assert.match(recipes.find((recipe) => recipe.id === "BR-011").directions.join(" "), /8 large pieces or 10 smaller pieces/);
+assert.match(recipes.find((recipe) => recipe.id === "BR-001").directions.join(" "), /Wait 15 minutes for the yeast to bloom/);
+assert.match(recipes.find((recipe) => recipe.id === "BR-001").directions.join(" "), /Bake at 350°F for 15 minutes/);
 
 console.log("v95.10 recipe viewer accessibility and Bread Machine selectable Text Recipe contracts passed.");

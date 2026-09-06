@@ -19,13 +19,12 @@ function cards(source) {
 
 export const SPECIALTY_INGREDIENTS_V8411 = cards({
   "BR-001": `
-4|cups (480g)|Bread flour
+3|cups|Bread flour
 2.5|tsp|Bread machine yeast
 3|tbsp|Granulated sugar
-2|tsp|Salt
-1.3333333333|cups (320ml)|Warm water
-0.3333333333|cup (80ml)|Milk
-3|tbsp|Unsalted butter, softened
+1|tsp|Salt
+1.3333333333|cups|Warm milk
+2|tbsp|Unsalted butter, melted
 `,
   "BR-002": `
 2|cups|Bread flour
