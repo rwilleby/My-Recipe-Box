@@ -7,7 +7,7 @@ const [app, windowComponent, css] = await Promise.all([
   readFile(new URL("../src/App.css", import.meta.url), "utf8"),
 ]);
 
-assert.match(app, /Floating Window/);
+assert.match(app, /Start Online Shopping/);
 assert.match(windowComponent, /window\.open\("", COMPANION_WINDOW_NAME/);
 assert.match(windowComponent, /popup=yes,width=410/);
 assert.match(windowComponent, /resizable=yes,scrollbars=yes/);

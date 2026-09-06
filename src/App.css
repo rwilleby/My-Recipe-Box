@@ -21673,6 +21673,34 @@ button.browseRecipeWideFooterAction:focus-visible,
 .shoppingCompanionWindowBody .shoppingCompanionBody { max-height: calc(100vh - 58px); }
 .shoppingCompanionWindowBody .shoppingCompanion.isCollapsed { width: 100%; }
 
+.shoppingGuidedMode > header { grid-template-columns: minmax(0, 1fr) 40px; }
+.shoppingCompanionProgress { height: 7px; overflow: hidden; background: #e8e3da; }
+.shoppingCompanionProgress span { display: block; height: 100%; background: #7b8f65; transition: width .25s ease; }
+.shoppingGuidedMode .shoppingCompanionBody { padding: 0; }
+.shoppingCurrentItem { padding: 18px; border-bottom: 1px solid #d8d0c2; background: #fff; }
+.shoppingCurrentItem > small { color: #786f64; font: 800 10px/1 Inter, system-ui, sans-serif; letter-spacing: .09em; text-transform: uppercase; }
+.shoppingCurrentItem h1 { margin: 6px 0 14px; color: #172033; font: 700 24px/1.12 Georgia, serif; }
+.shoppingCurrentQuantities { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+.shoppingCurrentQuantities > span { display: grid; gap: 4px; padding: 9px 10px; border: 1px solid #ded8ce; border-radius: 8px; background: #fbfaf7; }
+.shoppingCurrentQuantities small { color: #667085; font: 700 9px/1 Inter, system-ui, sans-serif; text-transform: uppercase; }
+.shoppingCurrentQuantities strong { color: #343b46; font: 700 12px/1.2 Inter, system-ui, sans-serif; }
+.shoppingCurrentItem > p { margin: 8px 0 12px; padding: 8px 10px; border-radius: 7px; background: #fff8e8; color: #4b5563; font: 500 11px/1.35 Inter, system-ui, sans-serif; }
+.shoppingSearchCurrent,
+.shoppingAddedNext { width: 100%; min-height: 44px; margin-top: 8px; border-radius: 9px; font: 800 13px/1 Inter, system-ui, sans-serif; cursor: pointer; }
+.shoppingSearchCurrent { border: 1px solid #14532d; background: #fff; color: #14532d; }
+.shoppingAddedNext { border: 1px solid #14532d; background: #14532d; color: #fff; }
+.shoppingCurrentSecondary { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
+.shoppingCurrentSecondary button { min-height: 38px; border: 1px solid #b9b0a4; border-radius: 8px; background: #f8f6f1; color: #4b5563; font: 700 11px/1 Inter, system-ui, sans-serif; cursor: pointer; }
+.shoppingCompanionQueue > header { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; padding: 12px; background: #f7eed8; }
+.shoppingCompanionQueue > header strong { color: #14532d; font: 700 14px/1.1 Georgia, serif; }
+.shoppingCompanionQueue > header span { color: #667085; font: 600 10px/1 Inter, system-ui, sans-serif; }
+.shoppingCompanionQueue .shoppingCompanionItem { padding: 0 12px; }
+.shoppingCompanionItem.isCurrent { background: #eef5ea; box-shadow: inset 4px 0 #7b8f65; }
+.shoppingCompanionItem.isSkipped label strong { color: #9a6a22; }
+.shoppingCompleteState { margin: 18px; padding: 24px 16px; border: 1px solid #cad8bf; border-radius: 10px; background: #f4f8f1; text-align: center; }
+.shoppingCompleteState strong { color: #14532d; font: 700 22px/1.15 Georgia, serif; }
+.shoppingCompleteState p { margin: 7px 0 0; color: #4b5563; font-size: 12px; }
+
 @media (max-width: 720px) {
   .shoppingCompanion { right: 8px; bottom: 8px; width: calc(100vw - 16px); max-height: min(62vh, 520px); }
   .shoppingCompanionBody { max-height: calc(min(62vh, 520px) - 58px); }

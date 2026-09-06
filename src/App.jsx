@@ -10877,10 +10877,10 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
           </select>
         </label>
         <button type="button" className="secondary" onClick={() => openOnlineShoppingWindow()}>Open {ONLINE_GROCERY_STORES[preferredGroceryStore].label}</button>
-        <button type="button" className="secondary" onClick={() => setShowShoppingCompanion(true)}>Floating Window</button>
+        <button type="button" className="secondary" onClick={() => { setShowShoppingCompanion(true); openOnlineShoppingWindow(); }}>Start Online Shopping</button>
       </section>
 
-      {showShoppingCompanion && <ShoppingCompanionWindow items={needed} checked={checked} storeLabel={ONLINE_GROCERY_STORES[preferredGroceryStore].label} formatQuantity={formatShoppingQuantity} onToggle={toggleCoverage} onSearch={openOnlineShoppingWindow} onClose={() => setShowShoppingCompanion(false)} />}
+      {showShoppingCompanion && <ShoppingCompanionWindow items={needed} checked={checked} orderQuantities={shoppingOrderQuantities} comments={shoppingComments} storeLabel={ONLINE_GROCERY_STORES[preferredGroceryStore].label} formatQuantity={formatShoppingQuantity} onToggle={toggleCoverage} onSearch={openOnlineShoppingWindow} onClose={() => setShowShoppingCompanion(false)} />}
 
       {showDigitalStockCheck && (
         <DigitalStockCheckPanel

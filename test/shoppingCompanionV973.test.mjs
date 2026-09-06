@@ -8,12 +8,11 @@ const [app, component, css] = await Promise.all([
 ]);
 
 assert.match(app, /setShowShoppingCompanion\(true\)/);
-assert.match(app, /<ShoppingCompanionPanel items=\{needed\}/);
-assert.match(component, /Shopping Companion/);
+assert.match(app, /<ShoppingCompanionWindow items=\{needed\}/);
+assert.match(component, /Online Shopping/);
 assert.match(component, /onToggle\(key, false\)/);
-assert.match(component, /onSearch\(item\.name\)/);
-assert.match(component, /isCollapsed/);
-assert.match(component, /aria-label="Floating shopping companion"/);
+assert.match(component, /onSearch\(currentItem\.name\)/);
+assert.match(component, /aria-label="Online shopping companion"/);
 assert.match(css, /\.shoppingCompanion \{[\s\S]*position: fixed/);
 assert.match(css, /@media \(max-width: 720px\)[\s\S]*\.shoppingCompanion/);
 
