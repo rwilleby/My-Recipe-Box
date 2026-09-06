@@ -71,6 +71,11 @@ import { getRecipeCostEstimate, RECIPE_COST_NOTE, RECIPE_COST_TAGLINE } from "./
 import { isFreezerFriendlyCompleteDinner } from "./data/completeDinnerFreezerRatings.js";
 import { FREEZER_ACCORDION_GROUPS } from "./data/freezerPackagingAccordions.js";
 import { HOLIDAY_OCCASION_MENUS } from "./data/holidayOccasionMenus.js";
+import {
+  ONLINE_GROCERY_STORES,
+  PREFERRED_GROCERY_STORE_KEY,
+  openOnlineGroceryWindow,
+} from "./utils/onlineGroceryShopping.js";
 
 const VEGAN_LIBRARY_CATEGORIES = Object.freeze([
   { id: "VPM", name: "Plant Mains", displayName: "Plant Mains", iconImage: "images/categories/SG.webp" },
@@ -10112,6 +10117,11 @@ function FreezerInventoryPage({ freezer, setFreezer, setActivePage, embedded = f
 function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry, refrigerator, freezer, masterInventory, setActivePage, preparedInventory, preparedReservations, componentDecisions, setComponentDecisions, shoppingComments, setShoppingComments, shoppingOrderQuantities, setShoppingOrderQuantities, kosUi }) {
   const [showDigitalStockCheck, setShowDigitalStockCheck] = useState(false);
   const [shoppingView, setShoppingView] = useState("consolidated");
+  const [preferredGroceryStore, setPreferredGroceryStore] = useState(() => {
+    if (typeof window === "undefined") return "walmart";
+    const savedStore = window.localStorage.getItem(PREFERRED_GROCERY_STORE_KEY);
+    return ONLINE_GROCERY_STORES[savedStore] ? savedStore : "walmart";
+  });
   const recipeIdSet = useMemo(() => new Set(recipes.map((recipe) => recipe.id)), []);
   const recipeById = useMemo(
     () => Object.fromEntries(recipes.map((recipe) => [recipe.id, recipe])),
@@ -10402,6 +10412,16 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
   function toggleCoverage(key, automaticallyCovered = false) {
     const currentValue = effectiveChecked(key, automaticallyCovered);
     setChecked((current) => ({ ...current, [key]: !currentValue }));
+  }
+
+  function updatePreferredGroceryStore(storeId) {
+    if (!ONLINE_GROCERY_STORES[storeId]) return;
+    setPreferredGroceryStore(storeId);
+    window.localStorage.setItem(PREFERRED_GROCERY_STORE_KEY, storeId);
+  }
+
+  function openOnlineShoppingWindow(itemName = "") {
+    openOnlineGroceryWindow(preferredGroceryStore, itemName);
   }
 
   function clearShoppingListAndStartOver() {
@@ -10757,6 +10777,9 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
             aria-label={`Notes for ${item.name}`}
           />
         </label>
+        <button type="button" className="shoppingListOnlineButton" onClick={() => openOnlineShoppingWindow(item.name)} aria-label={`Shop for ${item.name} at ${ONLINE_GROCERY_STORES[preferredGroceryStore].label}`}>
+          Shop Online
+        </button>
       </div>
     );
   }
@@ -10845,6 +10868,19 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
           <span>Clear &amp;</span><span>Start Over</span>
         </button>
       </div>
+
+      <section className="shoppingStoreChooser" aria-label="Online grocery store"><div>
+          <strong>Shop Online</strong>
+          <span>Product searches open in one reusable shopping window beside your list.</span>
+        </div>
+        <label><span>Preferred Store</span>
+          <select value={preferredGroceryStore} onChange={(event) => updatePreferredGroceryStore(event.target.value)} aria-label="Preferred online grocery store">
+            {Object.entries(ONLINE_GROCERY_STORES).map(([storeId, store]) => <option key={storeId} value={storeId}>{store.label}</option>)}
+          </select>
+        </label>
+        <button type="button" className="secondary" onClick={() => openOnlineShoppingWindow()}>Open {ONLINE_GROCERY_STORES[preferredGroceryStore].label}
+        </button>
+      </section>
 
       {showDigitalStockCheck && (
         <DigitalStockCheckPanel
@@ -10999,7 +11035,7 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
               ) : (
                 <div className="shoppingListTable" role="table" aria-label="Items to buy">
                   <div className="shoppingListColumnHeader" role="row">
-                    <span aria-hidden="true">✓</span><span>Product Name / Description</span><span>Location / Category</span><span>Qty Needed</span><span>Qty to Order</span><span>Notes</span>
+                    <span aria-hidden="true">✓</span><span>Product Name / Description</span><span>Location / Category</span><span>Qty Needed</span><span>Qty to Order</span><span>Notes</span><span>Online</span>
                   </div>
                   {Object.entries(groupedNeeded).sort(([a], [b]) => a.localeCompare(b)).flatMap(([aisle, items]) =>
                     [...items].sort((a, b) => String(a.name).localeCompare(String(b.name))).map((item) => renderNeededItem({ ...item, aisle }))
@@ -11040,7 +11076,7 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
               ) : (
                 <div className="shoppingListTable" role="table" aria-label="Items already on hand">
                   <div className="shoppingListColumnHeader" role="row">
-                    <span aria-hidden="true">✓</span><span>Product Name / Description</span><span>Location / Category</span><span>Qty Needed</span><span>Qty to Order</span><span>Notes</span>
+                    <span aria-hidden="true">✓</span><span>Product Name / Description</span><span>Location / Category</span><span>Qty Needed</span><span>Qty to Order</span><span>Notes</span><span aria-hidden="true"></span>
                   </div>
                   {Object.entries(groupedPantry).sort(([a], [b]) => a.localeCompare(b)).flatMap(([aisle, items]) =>
                     [...items].sort((a, b) => String(a.name).localeCompare(String(b.name))).map((item) => renderPantryItem({ ...item, aisle }))
