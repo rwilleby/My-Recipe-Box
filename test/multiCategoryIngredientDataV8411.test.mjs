@@ -3,7 +3,7 @@ import fs from "node:fs";
 import { recipes } from "../src/data/recipes.js";
 
 const expected = {
-  BR: [6, 9, 7, 8, 8, 8, 9, 12, 13, 10],
+  BR: [6, 9, 7, 7, 8, 8, 9, 12, 13, 10],
   CC: [9, 10, 9, 10, 10, 10],
   CO: [13, 12, 12, 12, 12, 12],
   CP: [7,7,8,9,9,9,9,9,8,8,8,7,8,9,9,9,9,9,9,9,8,8,9,7,10,9,10,9,9,9,8,9,9,8,9,9,10,9,10,9,9,7,10,10,8,9,8,9,8,9,9,9,8,7,9,9,9,9,8,9,10,7,8,8,9,8,7,7,6,9,9,9,8,8,7,6,9,9,9,9,7,8,9,8,9,9,10,9,7,10,11,9,9,9,9,9,9,10,9,10,7,7,8,9,10,11,9,10,8,9,9,9,9,10,9,8,8,8,9,8,9,10,7,8,7,9,10,8,10,10,10,8,10,10,9,6,6,7,9,8,8,8,7,8,8,8,8,7,8,7,8,8,8,7,7,7,7,7,8,7,8,6,6,9,7,7,8,7,8,8,8,6,5,6,5,6,8,8,7,6],
@@ -11,7 +11,7 @@ const expected = {
 };
 
 const expectedRecipeCounts = { BR: 10, CC: 6, CO: 6, CP: 180, CR: 5 };
-const expectedIngredientTotals = { BR: 90, CC: 58, CO: 73, CP: 1498, CR: 67 };
+const expectedIngredientTotals = { BR: 89, CC: 58, CO: 73, CP: 1498, CR: 67 };
 const byId = Object.fromEntries(recipes.map((recipe) => [recipe.id, recipe]));
 
 for (const prefix of Object.keys(expected)) {
@@ -27,7 +27,7 @@ for (const prefix of Object.keys(expected)) {
   }));
 }
 
-assert.equal(Object.values(expectedIngredientTotals).reduce((sum, count) => sum + count, 0), 1786);
+assert.equal(Object.values(expectedIngredientTotals).reduce((sum, count) => sum + count, 0), 1785);
 assert.equal(byId["BR-004"], undefined, "missing BR-004 must not be invented");
 assert.equal(byId["BR-011a"], undefined, "alternate BR-011a asset must not become a second recipe");
 

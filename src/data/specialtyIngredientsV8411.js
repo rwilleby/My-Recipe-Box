@@ -47,14 +47,13 @@ export const SPECIALTY_INGREDIENTS_V8411 = cards({
 3|tbsp|Unsalted butter, softened
 `,
   "BR-005": `
-4|cups (480g)|Bread flour
+3|cups|Bread flour
 2.5|tsp|Bread machine yeast
-0.3333333333|cup (65g)|Granulated sugar
-1.25|tsp|Salt
-0.75|cup (180ml)|Pineapple juice
-0.5|cup (120ml)|Milk
-1|each|Egg
-0.25|cup (60ml)|Unsalted butter, softened
+3|tbsp|Granulated sugar
+1|tsp|Salt
+1|cup|Warm milk
+0.3333333333|cup|Pineapple juice
+2|tbsp|Unsalted butter, melted
 `,
   "BR-006": `
 2|cups|Bread flour

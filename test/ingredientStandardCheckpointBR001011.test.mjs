@@ -8,7 +8,7 @@ const rows = audited.flatMap((recipe) => recipe.ingredients.map((ingredient) => 
 const get = (recipeId, originalName) => recipes.find((recipe) => recipe.id === recipeId).ingredients.find((ingredient) => ingredient.originalName === originalName);
 
 assert.equal(audited.length, 10);
-assert.equal(rows.length, 90);
+assert.equal(rows.length, 89);
 assert.ok(rows.every(({ ingredient }) => ingredient.standardVersion === "1.37"));
 assert.equal(rows.filter(({ ingredient }) => ingredient.reviewStatus === "needs-review").length, 0);
 assert.deepEqual(rows.filter(({ ingredient }) => ingredient.cookingUnit && !STANDARD_COOKING_UNITS.includes(ingredient.cookingUnit)), []);
@@ -20,7 +20,9 @@ assert.equal(get("BR-001", "Warm milk").cookingQuantity, 1.3333333333);
 assert.equal(get("BR-001", "Warm milk").cookingUnit, "cup");
 assert.equal(get("BR-001", "Warm milk").preparation, "warm");
 assert.equal(get("BR-001", "Unsalted butter, melted").preparation, "melted");
-assert.equal(get("BR-005", "Unsalted butter, softened").shoppingEquivalent, "1/2 stick unsalted butter");
+assert.equal(get("BR-005", "Warm milk").cookingQuantity, 1);
+assert.ok(Math.abs(get("BR-005", "Pineapple juice").cookingQuantity - (1 / 3)) < 1e-9);
+assert.equal(get("BR-005", "Unsalted butter, melted").shoppingEquivalent, "1/4 stick unsalted butter");
 assert.equal(get("BR-006", "Bread machine yeast").shoppingEquivalent, "1 packet bread machine yeast");
 assert.equal(get("BR-008", "Lemon juice or white vinegar, for tangy flavor").acceptableAlternatives.length, 2);
 assert.equal(get("BR-011", "White vinegar or lemon juice").acceptableAlternatives.length, 2);

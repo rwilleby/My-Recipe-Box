@@ -26,11 +26,13 @@ export const BREAD_MACHINE_DIRECTIONS_V9510 = {
     "Bake according to the chosen option, or use the Basic/White Bread cycle for the bread machine loaf.",
   ],
   "BR-005": [
-    "Add pineapple juice, milk, egg, softened butter, flour, sugar, and salt to the bread machine pan in the order recommended by your machine. Add yeast last.",
-    "Select the Dough cycle and start the machine. After 5–10 minutes, check the dough. Add 1 tablespoon flour if sticky or 1 tablespoon water if dry.",
-    "When the cycle ends, transfer dough to a lightly floured surface and divide or shape for your chosen option.",
-    "Let shaped dough rise 30–45 minutes, or until puffy.",
-    "Bake according to the chosen option, or use the Sweet or Basic cycle for the bread machine loaf.",
+    "Add the warm milk, pineapple juice, sugar, melted butter, and yeast to the bread machine pan.",
+    "Wait 15 minutes for the yeast to bloom.",
+    "Add the bread flour and salt. Select the Dough cycle and press Start.",
+    "When the cycle is finished, transfer the dough to a lightly floured surface and divide it into the desired portions for baking.",
+    "Place the portions on a greased baking pan. Cover and let rise in a warm place for 45 minutes.",
+    "Bake at 350°F for 15 minutes.",
+    "Transfer to a cooling rack and cool completely. Package for immediate use or freezing.",
   ],
   "BR-006": [
     "Add warm water, softened butter, sugar, salt, and flours to the bread machine pan in the order recommended by your machine. Add yeast last.",

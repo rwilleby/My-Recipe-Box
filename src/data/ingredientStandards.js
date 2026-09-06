@@ -784,8 +784,9 @@ export const BR_001_011_APPROVED_RESOLUTIONS = Object.freeze({
   "BR-001|Unsalted butter, melted": Object.freeze({ type: "volume-with-shopping-equivalent", recipeName: "Unsalted butter", canonicalName: "Butter - Unsalted", canonicalKey: "dairy.butter.unsalted", preparation: "melted", shoppingEquivalent: "1/4 stick unsalted butter" }),
   "BR-002|Milk": Object.freeze({ type: "metric-equivalent-retained", canonicalName: "Milk", canonicalKey: "dairy.milk" }),
   "BR-003|Buttermilk": Object.freeze({ type: "metric-equivalent-retained", canonicalName: "Buttermilk - Cultured", canonicalKey: "dairy.milk.buttermilk" }),
-  "BR-005|Milk": Object.freeze({ type: "metric-equivalent-retained", canonicalName: "Milk", canonicalKey: "dairy.milk" }),
-  "BR-005|Unsalted butter, softened": Object.freeze({ type: "volume-with-shopping-equivalent", recipeName: "Unsalted butter", canonicalName: "Butter - Unsalted", canonicalKey: "dairy.butter.unsalted", preparation: "softened", shoppingEquivalent: "1/2 stick unsalted butter" }),
+  "BR-005|Warm milk": Object.freeze({ type: "temperature-separated", recipeName: "Milk", canonicalName: "Milk", canonicalKey: "dairy.milk", preparation: "warm" }),
+  "BR-005|Pineapple juice": Object.freeze({ type: "shared-ingredient-identity", canonicalName: "Pineapple Juice", canonicalKey: "beverage.juice.pineapple" }),
+  "BR-005|Unsalted butter, melted": Object.freeze({ type: "volume-with-shopping-equivalent", recipeName: "Unsalted butter", canonicalName: "Butter - Unsalted", canonicalKey: "dairy.butter.unsalted", preparation: "melted", shoppingEquivalent: "1/4 stick unsalted butter" }),
   "BR-007|Whole milk": Object.freeze({ type: "metric-equivalent-retained", canonicalName: "Milk - Whole", canonicalKey: "dairy.milk.whole" }),
   "BR-008|Lemon juice or white vinegar, for tangy flavor": Object.freeze({ type: "approved-alternatives", recipeName: "Lemon juice or white vinegar", canonicalName: "Lemon Juice or White Vinegar", canonicalKey: "choice.acid.lemon-juice-or-white-vinegar", preparation: "choose one, for tangy flavor", acceptableAlternatives: Object.freeze([
     Object.freeze({ canonicalKey: "produce.juice.lemon", canonicalName: "Lemon Juice", recipeName: "Lemon juice", masterItemId: "", matchStatus: "approved-alternative" }),
