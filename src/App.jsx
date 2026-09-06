@@ -72,8 +72,9 @@ import { isFreezerFriendlyCompleteDinner } from "./data/completeDinnerFreezerRat
 import { FREEZER_ACCORDION_GROUPS } from "./data/freezerPackagingAccordions.js";
 import { HOLIDAY_OCCASION_MENUS } from "./data/holidayOccasionMenus.js";
 import ShoppingCompanionWindow from "./features/shopping/ShoppingCompanionWindow.jsx";
+import ShoppingRecipeActions from "./features/shopping/ShoppingRecipeActions.jsx";
 import { ONLINE_GROCERY_STORES, PREFERRED_GROCERY_STORE_KEY, openOnlineGroceryWindow } from "./utils/onlineGroceryShopping.js";
-
+import { printRecipeCards } from "./utils/printRecipeCards.js";
 const VEGAN_LIBRARY_CATEGORIES = Object.freeze([
   { id: "VPM", name: "Plant Mains", displayName: "Plant Mains", iconImage: "images/categories/SG.webp" },
   { id: "VBA", name: "Bakes", displayName: "Bakes", iconImage: "images/categories/CS.webp" },
@@ -10111,7 +10112,7 @@ function FreezerInventoryPage({ freezer, setFreezer, setActivePage, embedded = f
   );
 }
 
-function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry, refrigerator, freezer, masterInventory, setActivePage, preparedInventory, preparedReservations, componentDecisions, setComponentDecisions, shoppingComments, setShoppingComments, shoppingOrderQuantities, setShoppingOrderQuantities, kosUi }) {
+function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry, refrigerator, freezer, masterInventory, setActivePage, openRecipeCard, preparedInventory, preparedReservations, componentDecisions, setComponentDecisions, shoppingComments, setShoppingComments, shoppingOrderQuantities, setShoppingOrderQuantities, kosUi }) {
   const [showDigitalStockCheck, setShowDigitalStockCheck] = useState(false);
   const [shoppingView, setShoppingView] = useState("consolidated");
   const [showShoppingCompanion, setShowShoppingCompanion] = useState(false);
@@ -10233,9 +10234,8 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
         if (recipe) {
           const multiplier = servings / (Number(recipe.servings) || 4);
           groups.push({
-            id: `${slot.key}-${itemId}-${itemIndex}`,
-            title: recipe.title,
-            subtitle: `${slot.weekId === "week1" ? "Week 1" : "Week 2"} · ${slot.day} · ${recipe.id}`,
+            id: `${slot.key}-${itemId}-${itemIndex}`, title: recipe.title,
+            subtitle: `${slot.weekId === "week1" ? "Week 1" : "Week 2"} · ${slot.day} · ${recipe.id}`, recipeLinks: [{ label: "Recipe", recipeId: recipe.id, title: recipe.title }],
             items: (recipe.ingredients || []).map((ingredient, ingredientIndex) => ({
               ...ingredient,
               id: `ingredient-${ingredientIndex}`,
@@ -10268,9 +10268,8 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
             };
           });
           groups.push({
-            id: `${slot.key}-${itemId}-${itemIndex}`,
-            title: meal.title || meal.mainDish || "Complete Meal",
-            subtitle: `${slot.weekId === "week1" ? "Week 1" : "Week 2"} · ${slot.day} · Complete Meal`,
+            id: `${slot.key}-${itemId}-${itemIndex}`, title: meal.title || meal.mainDish || "Complete Meal",
+            subtitle: `${slot.weekId === "week1" ? "Week 1" : "Week 2"} · ${slot.day} · Complete Meal`, recipeLinks: [{ label: "Main Dish", recipeId: meal.mainRecipeId, title: meal.mainDish }, ...(meal.sides || []).slice(0, 2).map((side, index) => ({ label: `Side ${index + 1}`, recipeId: side.recipeId, title: side.name }))].filter((link) => recipeById[link.recipeId]),
             items: [...componentItems, ...groceryItems],
           });
         }
@@ -10916,6 +10915,7 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
                     <p>{group.subtitle}</p>
                   </div>
                   <strong>{group.items.length} {group.items.length === 1 ? "item" : "items"}</strong>
+                  <ShoppingRecipeActions recipeLinks={group.recipeLinks} onView={(recipeId) => openRecipeCard(recipeId, recipes, "Shopping List")} onPrint={(recipeIds) => printRecipeCards(recipeIds, recipes)} />
                 </header>
                 <div className="shoppingFlatGroupBody shoppingNeedGroupBody">
                   {group.items.map((item, itemIndex) => renderNeedGroupItem(group, item, itemIndex))}
