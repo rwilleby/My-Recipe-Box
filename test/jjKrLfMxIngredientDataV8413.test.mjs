@@ -35,7 +35,7 @@ for (const prefix of Object.keys(expected)) {
 
 assert.deepEqual(byId["LF-FZ1"].ingredients, [], "LF-FZ1 is an instructional card, not a recipe purchase list");
 assert.deepEqual(byId["LF-FZ2"].ingredients, [], "LF-FZ2 is an instructional card, not a recipe purchase list");
-assert.ok(byId["JJ-008"].ingredients.some((item) => item.name === "Thick-cut bacon, diced" && item.qty === 12 && item.unit === "oz"));
+assert.ok(byId["JJ-008"].ingredients.some((item) => item.originalName === "Thick-cut bacon, diced" && item.name === "Thick-cut bacon" && item.qty === 12 && item.unit === "ounce" && item.preparation === "diced"));
 assert.ok(byId["JJ-014"].ingredients.some((item) => item.name.startsWith("Granulated Splenda") && item.qty === 0.5));
 assert.ok(byId["KR-003"].ingredients.some((item) => item.name === "Salt" && item.unit === "to taste"));
 assert.ok(byId["KR-003"].ingredients.some((item) => item.name === "Black pepper" && item.unit === "to taste"));

@@ -1,0 +1,18 @@
+import assert from "node:assert/strict";
+import { recipes } from "../src/data/recipes.js";
+import { STANDARD_COOKING_UNITS } from "../src/data/ingredientStandards.js";
+const audited=recipes.filter(r=>/^CR-00[1-5]$/.test(r.id)&&!r.originalRecipeId);
+const rows=audited.flatMap(r=>r.ingredients.map(ingredient=>({recipeId:r.id,ingredient})));
+const get=(id,name)=>recipes.find(r=>r.id===id).ingredients.find(i=>i.originalName===name);
+assert.equal(audited.length,5); assert.equal(rows.length,67);
+assert.ok(rows.every(({ingredient})=>ingredient.standardVersion==="1.36"));
+assert.equal(rows.filter(({ingredient})=>ingredient.reviewStatus==="needs-review").length,0);
+assert.deepEqual(rows.filter(({ingredient})=>ingredient.cookingUnit&&!STANDARD_COOKING_UNITS.includes(ingredient.cookingUnit)),[]);
+assert.equal(get("CR-001","Active dry yeast").shoppingUnit,"packet");
+assert.equal(get("CR-001","Warm milk, 110°F").preparation,"warmed to 110°F for dough");
+assert.equal(get("CR-002","Unsweetened cocoa powder for dough").canonicalKey,get("CR-002","Unsweetened cocoa powder for glaze").canonicalKey);
+assert.equal(get("CR-003","Peeled and diced apples, small dice").shoppingQuantity,2);
+assert.equal(get("CR-001","Milk").recipeQuantityText,"2–3");
+assert.equal(get("CR-005","Milk").recipeQuantityText,"1–2");
+assert.equal(get("CR-005","Refrigerated crescent roll dough").unit,"can");
+console.log("CR-001 through CR-005 ingredient checkpoint passed with zero review flags.");

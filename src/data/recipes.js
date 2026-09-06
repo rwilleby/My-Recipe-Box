@@ -712,7 +712,7 @@ const DETAILED_RECIPE_INGREDIENTS = {
     { name: "Baby spinach", qty: 2, unit: "cups", aisle: "Produce", cost: 0 },
     { name: "Evaporated skim milk", qty: 1, unit: "cup", aisle: "Dairy", cost: 0 },
     { name: "Low-sodium chicken broth", qty: 0.75, unit: "cup", aisle: "Soups, Broths & Stocks", cost: 0 },
-    { name: "Grated Parmesan", qty: 3 / 3, unit: "cup", aisle: "Dairy", cost: 0 },
+    { name: "Grated Parmesan", qty: 1, unit: "cup", aisle: "Dairy", cost: 0 },
     { name: "Cornstarch", qty: 1, unit: "tbsp", aisle: "Baking", cost: 0 },
     { name: "Minced garlic", qty: 1, unit: "tsp", aisle: "Produce", cost: 0 },
     { name: "Italian seasoning", qty: 0.5, unit: "tsp", aisle: "Spices & Seasonings", cost: 0 },

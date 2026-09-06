@@ -816,15 +816,90 @@ export const HOLIDAY_SPECIAL_RECIPE_MANIFEST = Object.freeze([
   }
 ]);
 
-function manifestIngredient(text) {
+function parsedAmount(raw = "") {
+  const normalized = raw.replace("–", "-");
+  if (normalized.includes("-")) {
+    const [low, high] = normalized.split("-").map(Number);
+    return (low + high) / 2;
+  }
+  if (normalized.includes(" ")) {
+    const [whole, fraction] = normalized.split(" ");
+    const [numerator, denominator] = fraction.split("/").map(Number);
+    return Number(whole) + numerator / denominator;
+  }
+  if (normalized.includes("/")) {
+    const [numerator, denominator] = normalized.split("/").map(Number);
+    return numerator / denominator;
+  }
+  return Number(normalized);
+}
+
+function manifestIngredient(text, recipeCode) {
+  if (!/^HS-(?:00[1-9]|0[12]\d|030)$/.test(recipeCode)) {
+    return {
+      name: text,
+      qty: 1,
+      amount: "",
+      unit: "",
+      aisle: "Special Holiday Recipes",
+      cost: 0,
+      sourceText: text,
+    };
+  }
+
+  if (recipeCode === "HS-022" && text === "Vegetable oil, for frying") {
+    return {
+      name: "Vegetable oil",
+      qty: 1,
+      amount: "",
+      unit: "for frying",
+      aisle: "Special Holiday Recipes",
+      cost: 0,
+      sourceText: text,
+    };
+  }
+
+  const match = text.match(/^(\d+(?:\s+\d+\/\d+|\/\d+)?|\d+[–-]\d+)\s+(?:(lb|oz|cups?|Tbsp|tsp|can)\s+)?(.+)$/i);
+  if (!match) throw new Error(`Unable to parse ${recipeCode} ingredient: ${text}`);
+  const [, amountText, printedUnit = "", rawName] = match;
+  const unitAliases = { lb: "lb", oz: "oz", cup: "cup", cups: "cups", tbsp: "tbsp", tsp: "tsp", can: "can" };
+  let name = rawName;
+  let unit = unitAliases[printedUnit.toLowerCase()] || "each";
+
+  if (!printedUnit && /^garlic cloves?\b/i.test(name)) {
+    name = name.replace(/^garlic cloves?/i, "Garlic");
+    unit = "clove";
+  } else if (!printedUnit && /^celery ribs?\b/i.test(name)) {
+    name = name.replace(/^celery ribs?/i, "Celery");
+    unit = "rib";
+  } else if (!printedUnit && /^slices? bacon\b/i.test(name)) {
+    name = name.replace(/^slices? bacon/i, "Bacon");
+    unit = "slice";
+  } else if (!printedUnit && /^slices? prosciutto\b/i.test(name)) {
+    name = name.replace(/^slices? prosciutto/i, "Prosciutto");
+    unit = "slice";
+  } else if (!printedUnit && /^bay leaves?\b/i.test(name)) {
+    name = "Bay leaves";
+    unit = "leaf";
+  }
+
+  if (unit === "can") {
+    const packageMatch = name.match(/^(.*?)\s*\((\d+(?:\.\d+)?)\s*oz\)$/i);
+    if (packageMatch) {
+      name = packageMatch[1].trim();
+      unit = `${packageMatch[2]} oz can`;
+    }
+  }
+
   return {
-    name: text,
-    qty: 1,
-    amount: "",
-    unit: "",
+    name,
+    qty: parsedAmount(amountText),
+    amount: amountText,
+    unit,
     aisle: "Special Holiday Recipes",
     cost: 0,
     sourceText: text,
+    ...(amountText.includes("–") || amountText.includes("-") ? { sourceQuantityRange: amountText } : {}),
   };
 }
 
@@ -838,7 +913,7 @@ export const HOLIDAY_SPECIAL_RECIPE_ROWS = HOLIDAY_SPECIAL_RECIPE_MANIFEST.map((
     occasion: record.occasion,
     ribbon: record.ribbon,
     servings: record.servings,
-    ingredients: record.ingredients.map(manifestIngredient),
+    ingredients: record.ingredients.map((text) => manifestIngredient(text, record.code)),
     directions: [...record.directions],
     image: `images/heroes/${record.code}.webp`,
     heroImage: `images/heroes/${record.code}.webp`,

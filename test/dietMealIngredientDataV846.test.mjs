@@ -28,7 +28,7 @@ for (const [recipeId, expectedCount] of Object.entries(expectedCounts)) {
 }
 
 function ingredient(recipeId, name) {
-  return byId[recipeId].ingredients.find((item) => item.name === name);
+  return byId[recipeId].ingredients.find((item) => item.originalName === name || item.name === name);
 }
 
 assert.equal(ingredient("DM-051", "Coarse black pepper")?.qty, 1);

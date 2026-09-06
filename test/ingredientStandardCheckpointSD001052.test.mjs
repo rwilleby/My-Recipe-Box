@@ -10,7 +10,7 @@ const allowedUnits = new Set(STANDARD_COOKING_UNITS);
 
 assert.equal(audited.length, 52);
 assert.equal(rows.length, 407);
-assert.ok(rows.every(({ ingredient }) => ingredient.standardVersion === "1.14"));
+assert.ok(rows.every(({ ingredient }) => ingredient.standardVersion === "1.36"));
 assert.equal(rows.filter(({ ingredient }) => ingredient.reviewStatus === "needs-review").length, 0);
 assert.deepEqual(rows.filter(({ ingredient }) => ingredient.cookingUnit && !allowedUnits.has(ingredient.cookingUnit)), []);
 assert.equal(get("SD-001", "Pork & beans").qty, 60);

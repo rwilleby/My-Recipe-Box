@@ -169,7 +169,7 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
     "2 lb boneless skinless chicken breasts",
     "1 packet Italian dressing seasoning",
     "1 can cream of chicken soup",
-    "8 ozcream cheese, cubed",
+    "8 oz cream cheese, cubed",
     "1/2 cup chicken broth",
     "2 cloves garlic, minced",
     "1/4 tsp black pepper"
@@ -349,7 +349,7 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
   ],
   "CP-029": [
     "2 lb beef chuck, cubed",
-    "3 large onions, sliced, sliced",
+    "3 large onions, sliced",
     "2 cups beef broth",
     "1 can French onion soup",
     "1 Tbsp Worcestershire sauce",
@@ -458,7 +458,7 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
   ],
   "CP-039": [
     "2 lb 90/10 ground beef",
-    "1 eggs",
+    "1 egg",
     "1/2 cup breadcrumbs",
     "1 Tbsp Worcestershire sauce",
     "1 sliced onion",
@@ -513,7 +513,7 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
   ],
   "CP-044": [
     "2 lb 90/10 ground beef",
-    "1 eggs",
+    "1 egg",
     "1/2 cup breadcrumbs",
     "1 Tbsp Worcestershire sauce",
     "2 large onions, sliced",
@@ -527,7 +527,7 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
     "2 lb 90/10 ground beef, browned",
     "2 lb potatoes, thinly sliced",
     "1 sliced onion",
-    "1 cancream of mushroom soup",
+    "1 can cream of mushroom soup",
     "1 cups milk",
     "1 tsp garlic powder",
     "1/2 tsp black pepper",
@@ -643,7 +643,7 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
     "6 slices bacon, cooked and chopped",
     "1 diced onion",
     "2 cans baked beans",
-    "1 can kidney beans, drained, drained",
+    "1 can kidney beans, drained",
     "1 can pinto beans, drained",
     "1 cups barbecue sauce",
     "1/3 cup brown sugar",
@@ -717,7 +717,7 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
     "6 thick boneless pork chops",
     "3 apples, sliced",
     "2 onions, sliced",
-    "1 cups chicken broth",
+    "1 cup chicken broth",
     "2 Tbsp brown sugar",
     "1 tsp thyme",
     "1/2 tsp cinnamon",
@@ -749,7 +749,7 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
     "2 lb sauerkraut, drained",
     "1 onion, sliced",
     "2 apples, sliced",
-    "1 cups apple juice",
+    "1 cup apple juice",
     "2 Tbsp brown sugar",
     "1 tsp caraway",
     "salt & pepper"
@@ -757,7 +757,7 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
   "CP-067": [
     "3-4 lb country-style pork ribs",
     "1 onion, sliced",
-    "1 cups barbecue sauce",
+    "1 cup barbecue sauce",
     "1/2 cup apple juice",
     "2 Tbsp brown sugar",
     "1 Tbsp Worcestershire",
@@ -774,7 +774,7 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
   ],
   "CP-069": [
     "1 fully cooked spiral ham, 7-8 lb",
-    "1 cups brown sugar",
+    "1 cup brown sugar",
     "1/2 cup pineapple juice",
     "1/4 cup honey",
     "2 tsp Dijon mustard",
@@ -828,7 +828,7 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
     "2 lb baby potatoes, halved",
     "1 lb green beans, trimmed",
     "1 onion, sliced",
-    "1 cups chicken broth",
+    "1 cup chicken broth",
     "2 Tbsp butter",
     "1 tsp garlic powder",
     "pepper"
@@ -889,7 +889,7 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
     "1 onion, sliced",
     "3 carrots",
     "1 lb baby potatoes",
-    "1 cups broth",
+    "1 cup broth",
     "2 Tbsp butter",
     "garlic powder",
     "pepper"
@@ -899,7 +899,7 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
     "2 lb baby potatoes",
     "4 ears corn, cut",
     "1 onion",
-    "1 cups broth",
+    "1 cup broth",
     "3 Tbsp butter",
     "2 tsp Cajun seasoning"
   ],
@@ -907,7 +907,7 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
     "1 lb breakfast sausage, browned",
     "30 oz frozen hash browns",
     "10 eggs",
-    "1 cups milk",
+    "1 cup milk",
     "2 cups cheddar",
     "1 bell pepper",
     "1/2 onion",
@@ -921,7 +921,7 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
     "8 cups broth",
     "1 tsp thyme",
     "1 bay leaf",
-    "1 cups long-grain rice",
+    "1 cup long-grain rice",
     "parsley"
   ],
   "CP-084": [
@@ -940,7 +940,7 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
     "4 cups chicken broth",
     "1 tsp garlic powder",
     "8 oz cream cheese",
-    "1 cups milk",
+    "1 cup milk",
     "2 cups shredded cheddar cheese",
     "6 slices cooked bacon, crumbled",
     "1/4 cup chopped chives"
@@ -952,7 +952,7 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
     "4 cups broth",
     "2 Tbsp tomato paste",
     "1 tsp oregano",
-    "1 cups cream",
+    "1 cup cream",
     "1/2 cup basil",
     "Parmesan"
   ],
@@ -966,7 +966,7 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
     "6 cups broth",
     "green beans",
     "zucchini",
-    "1 cups small pasta"
+    "1 cup small pasta"
   ],
   "CP-088": [
     "1 lb ground beef, browned",
@@ -977,16 +977,16 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
     "2 cans beans",
     "6 cups broth",
     "Italian seasoning",
-    "1 cups ditalini r N"
+    "1 cup ditalini"
   ],
   "CP-089": [
-    "1 lb Italian sausage, browned, browned",
+    "1 lb Italian sausage, browned",
     "1 onion",
     "2 lb potatoes, sliced",
     "6 cups broth",
     "1 tsp Italian seasoning",
     "3 cups kale",
-    "1 cups cream"
+    "1 cup cream"
   ],
   "CP-090": [
     "4 lb yellow onions, sliced",
@@ -1001,7 +1001,7 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
     "1 1/2 cups shredded Gruyére cheese"
   ],
   "CP-091": [
-    "1 cups wild-rice blend",
+    "1 cup wild-rice blend",
     "1 onion",
     "3 carrots",
     "3 celery stalks",
@@ -1009,7 +1009,7 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
     "6 cups broth",
     "thyme",
     "bay leaf",
-    "1 cups cream",
+    "1 cup cream",
     "3 Tbsp flour",
     "3 Tbsp butter"
   ],
@@ -1020,7 +1020,7 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
     "2 celery stalks",
     "4 cups broth",
     "1 tsp thyme",
-    "1 cups cream",
+    "1 cup cream",
     "2 Tbsp cornstarch",
     "bacon and chives"
   ],
@@ -1032,7 +1032,7 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
     "1 bell pepper",
     "5 cups broth",
     "thyme",
-    "1 cups cream",
+    "1 cup cream",
     "cheddar"
   ],
   "CP-094": [
@@ -1108,7 +1108,7 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
     "1 bell pepper",
     "3 cloves garlic",
     "6 cups broth",
-    "1 cans diced tomatoes",
+    "1 can diced tomatoes",
     "cumin",
     "oregano",
     "bay leaf",
@@ -1148,7 +1148,7 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
     "2 cans green chiles",
     "1 onion",
     "4 cloves garlic",
-    "1 cups broth",
+    "1 cup broth",
     "cumin",
     "oregano",
     "lime"
@@ -1158,7 +1158,7 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
     "4 chipotles in adobo",
     "4 cloves garlic",
     "1 onion",
-    "1 cups broth",
+    "1 cup broth",
     "1/4 cup lime juice",
     "2 Tbsp vinegar",
     "1 Tbsp cumin",
@@ -1185,7 +1185,7 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
     "1 Tbsp cumin",
     "2 tsp paprika",
     "1 tsp garlic powder",
-    "1 cups salsa",
+    "1 cup salsa",
     "1/2 cup broth",
     "salt"
   ],
@@ -1219,7 +1219,7 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
     "1 can diced tomatoes",
     "1 pkg taco seasoning",
     "2 boxes cornbread mix",
-    "1 cups shredded cheddar cheese",
+    "1 cup shredded cheddar cheese",
     "Eggs and milk per mix instructions"
   ],
   "CP-111": [
@@ -1235,17 +1235,17 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
   ],
   "CP-112": [
     "2 lb ground beef, browned",
-    "1 cups cooked rice",
+    "1 cup cooked rice",
     "1 can black beans",
     "1 can corn",
     "1 can diced tomatoes",
     "onion",
     "taco seasoning",
     "2 cups cheese",
-    "1 bell peppers for serving"
+    "1 bell pepper for serving"
   ],
   "CP-113": [
-    "2 lb dried pinto beans, rinsed, rinsed",
+    "2 lb dried pinto beans, rinsed",
     "1 onion, quartered",
     "4 cloves garlic",
     "1 jalapeño",
@@ -1274,13 +1274,13 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
     "1 lb potatoes",
     "4 cloves garlic",
     "1 can crushed tomatoes",
-    "1 cups beef broth",
+    "1 cup beef broth",
     "Italian seasoning",
     "balsamic vinegar"
   ],
   "CP-116": [
     "2 lb ground chicken",
-    "1 cups breadcrumbs",
+    "1 cup breadcrumbs",
     "1/2 cup Parmesan",
     "2 eggs",
     "garlic",
@@ -1291,7 +1291,7 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
   "CP-117": [
     "2 lb ground beef",
     "1/2 lb Italian sausage",
-    "1 cups breadcrumbs",
+    "1 cup breadcrumbs",
     "2 eggs",
     "1/2 cup Parmesan",
     "garlic",
@@ -1305,19 +1305,19 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
     "1 Tbsp Worcestershire",
     "garlic powder",
     "pepper",
-    "1 cups sour cream",
+    "1 cup sour cream",
     "12 oz egg noodles"
   ],
   "CP-119": [
     "2 lb Italian sausage, browned",
     "24 oz marinara",
-    "1 cans diced tomatoes",
+    "1 can diced tomatoes",
     "1 onion, diced",
     "3 cloves garlic, minced",
     "1 Tbsp Italian seasoning",
     "20 oz refrigerated cheese tortellini",
     "2 cups spinach",
-    "1 cups shredded mozzarella"
+    "1 cup shredded mozzarella"
   ],
   "CP-120": [
     "2 lb chicken breasts",
@@ -1326,18 +1326,18 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
     "1 Italian seasoning",
     "2 cups heavy cream",
     "8 oz cream cheese",
-    "1 cups Parmesan",
+    "1 cup Parmesan",
     "16 oz fettuccine"
   ],
   "CP-121": [
     "2 lb chicken breasts",
-    "1 cups broth",
+    "1 cup broth",
     "garlic",
     "Italian seasoning",
-    "1 cups sun-dried tomatoes",
+    "1 cup sun-dried tomatoes",
     "8 oz cream cheese",
-    "1 cups cream",
-    "1 cups Parmesan",
+    "1 cup cream",
+    "1 cup Parmesan",
     "3 cups spinach"
   ],
   "CP-122": [
@@ -1353,20 +1353,20 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
     "milk"
   ],
   "CP-123": [
-    "1 lb Italian sausage, browned, browned",
+    "1 lb Italian sausage, browned",
     "32 oz marinara",
-    "16 oz ziti, cooked al dente, cooked al dente",
+    "16 oz ziti, cooked al dente",
     "15 oz ricotta",
     "3 cups mozzarella",
-    "1 cups Parmesan",
+    "1 cup Parmesan",
     "Italian seasoning"
   ],
   "CP-124": [
     "24 jumbo shells, cooked",
     "15 oz ricotta",
     "2 cups mozzarella",
-    "1 cups Parmesan",
-    "1 eggs",
+    "1 cup Parmesan",
+    "1 egg",
     "spinach",
     "Italian seasoning",
     "32 oz marinara"
@@ -1374,7 +1374,7 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
   "CP-125": [
     "salt",
     "2 cups breadcrumbs",
-    "1 cups Parmesan",
+    "1 cup Parmesan",
     "2 eggs",
     "32 oz marinara",
     "3 cups mozzarella",
@@ -1387,7 +1387,7 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
     "3 celery stalks",
     "8 cups broth",
     "Italian seasoning",
-    "1 cups acini di pepe",
+    "1 cup acini di pepe",
     "4 cups spinach",
     "Parmesan"
   ],
@@ -1429,7 +1429,7 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
     "2 lb chicken breasts",
     "1 bell pepper",
     "1 onion",
-    "1 cups coconut milk",
+    "1 cup coconut milk",
     "1/2 cup peanut butter",
     "1/4 cup soy sauce",
     "2 Tbsp lime juice",
@@ -1485,7 +1485,7 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
   ],
   "CP-135": [
     "2 lb frozen meatballs",
-    "1 cups teriyaki sauce",
+    "1 cup teriyaki sauce",
     "1/2 cup pineapple juice",
     "1 bell pepper",
     "1 can pineapple chunks",
@@ -1521,7 +1521,7 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
   ],
   "CP-139": [
     "2 lb chicken thighs",
-    "1 cups wild rice blend",
+    "1 cup wild rice blend",
     "4 cups broth",
     "onion",
     "carrots",
@@ -1532,16 +1532,16 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
   ],
   "CP-140": [
     "2 lb chicken breasts",
-    "1 cups long-grain rice",
+    "1 cup long-grain rice",
     "3 cups broth",
     "1 can cream soup",
     "onion",
     "garlic",
-    "1 cups peas",
+    "1 cup peas",
     "cheese optional"
   ],
   "CP-141": [
-    "3 lb chuck roast chunks",
+    "3 lb chuck roast, cut into chunks",
     "1 1/2 lb potatoes",
     "4 carrots",
     "onion",
@@ -1555,7 +1555,7 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
     "1 1/2 lb potatoes",
     "1 lb green beans",
     "onion",
-    "1 cups broth",
+    "1 cup broth",
     "garlic",
     "paprika",
     "thyme"
@@ -1571,7 +1571,7 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
   ],
   "CP-144": [
     "1 1/2 lb smoked sausage",
-    "1 cups rice",
+    "1 cup rice",
     "1 can diced tomatoes",
     "2 1/2 cups broth",
     "bell pepper",
@@ -1582,7 +1582,7 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
   "CP-145": [
     "1 1/2 lb chicken thighs",
     "1 lb andouille",
-    "1 cups rice",
+    "1 cup rice",
     "1 can tomatoes",
     "3 cups broth",
     "peppers",
@@ -1590,9 +1590,9 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
     "Cajun seasoning"
   ],
   "CP-146": [
-    "2 lb ground beef browned",
-    "1 head cabbage chopped",
-    "1 cups rice",
+    "2 lb ground beef, browned",
+    "1 head cabbage, chopped",
+    "1 cup rice",
     "2 cans tomatoes",
     "onion",
     "garlic",
@@ -1600,31 +1600,31 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
     "paprika"
   ],
   "CP-147": [
-    "2 lb ground beef browned",
-    "4 potatoes sliced",
+    "2 lb ground beef, browned",
+    "4 potatoes, sliced",
     "3 carrots",
     "onion",
     "1 can kidney beans",
     "1 can tomatoes",
-    "1 cups broth",
+    "1 cup broth",
     "seasoning"
   ],
   "CP-148": [
     "2 cups steel-cut oats",
     "7 cups water or milk",
-    "3 apples diced",
+    "3 apples, diced",
     "1/3 cup brown sugar",
     "2 tsp cinnamon",
     "vanilla",
     "pinch salt"
   ],
   "CP-149": [
-    "2 lb ground beef browned",
+    "2 lb ground beef, browned",
     "1 bag hash browns",
     "1 can beans",
-    "1 cups corn",
+    "1 cup corn",
     "1 can cream soup",
-    "1 cups cheese",
+    "1 cup cheese",
     "onion",
     "taco seasoning"
   ],
@@ -1638,10 +1638,10 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
     "salt"
   ],
   "CP-151": [
-    "1 lb breakfast sausage browned",
+    "1 lb breakfast sausage, browned",
     "1 bag hash browns",
     "10 eggs",
-    "1 cups milk",
+    "1 cup milk",
     "2 cups cheese",
     "bell pepper",
     "onion",
@@ -1651,7 +1651,7 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
     "2 cups diced ham",
     "1 bag hash browns",
     "10 eggs",
-    "1 cups milk",
+    "1 cup milk",
     "2 cups cheddar",
     "onion",
     "mustard",
@@ -1669,7 +1669,7 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
   ],
   "CP-154": [
     "1 lb breakfast sausage",
-    "2 cans biscuits quartered",
+    "2 cans biscuits, quartered",
     "3 Tbsp flour",
     "3 cups milk",
     "butter",
@@ -1678,15 +1678,15 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
   ],
   "CP-155": [
     "10 tortillas",
-    "1 lb sausage browned",
+    "1 lb sausage, browned",
     "8 eggs",
-    "1 cups milk",
+    "1 cup milk",
     "2 cups cheese",
     "green chiles",
     "enchilada sauce"
   ],
   "CP-156": [
-    "2 cans cinnamon rolls quartered",
+    "2 cans cinnamon rolls, quartered",
     "4 eggs",
     "1/2 cup cream",
     "2 tsp cinnamon",
@@ -1695,7 +1695,7 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
     "included icing"
   ],
   "CP-157": [
-    "1 lb elbow macaroni par-cooked",
+    "1 lb elbow macaroni, par-cooked",
     "4 cups cheddar",
     "2 cups milk",
     "1 can evaporated milk",
@@ -1707,15 +1707,15 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
     "2 lb frozen diced potatoes",
     "2 cups cheddar",
     "1 can cream soup",
-    "1 cups sour cream",
+    "1 cup sour cream",
     "onion",
     "4 Tbsp butter",
     "salt and pepper"
   ],
   "CP-159": [
-    "4 lb potatoes peeled and cubed",
-    "1 cups broth",
-    "1 cups sour cream",
+    "4 lb potatoes, peeled and cubed",
+    "1 cup broth",
+    "1 cup sour cream",
     "1/2 cup butter",
     "2 cups cheddar",
     "salt",
@@ -1723,18 +1723,18 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
     "scallions"
   ],
   "CP-160": [
-    "4 lb potatoes cubed",
+    "4 lb potatoes, cubed",
     "8 garlic cloves",
-    "1 cups broth",
-    "1 cups warm milk",
+    "1 cup broth",
+    "1 cup warm milk",
     "1/2 cup butter",
     "salt and pepper",
     "parsley"
   ],
   "CP-161": [
-    "4 lb russet potatoes thinly sliced",
+    "4 lb russet potatoes, thinly sliced",
     "2 cups cream",
-    "1 cups milk",
+    "1 cup milk",
     "2 cups cheese",
     "onion",
     "garlic",
@@ -1744,7 +1744,7 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
   "CP-162": [
     "2 lb green beans",
     "2 cans cream mushroom soup",
-    "1 cups milk",
+    "1 cup milk",
     "soy sauce",
     "black pepper",
     "2 cups fried onions"
@@ -1770,12 +1770,12 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
   ],
   "CP-165": [
     "3 lb green beans",
-    "8 slices bacon cooked",
+    "8 slices bacon, cooked",
     "onion",
     "3 cups broth",
     "garlic",
     "1 tsp sugar",
-    "salt and pepper il La"
+    "salt and pepper"
   ],
   "CP-166": [
     "3 lb baby carrots",
@@ -1787,7 +1787,7 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
     "parsley"
   ],
   "CP-167": [
-    "3 lb collard greens chopped",
+    "3 lb collard greens, chopped",
     "1 smoked turkey leg",
     "1 onion, chopped",
     "4 cups broth",
@@ -1806,7 +1806,7 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
     "1 Tbsp Worcestershire"
   ],
   "CP-169": [
-    "2 lb dried pinto beans, soaked soaked",
+    "2 lb dried pinto beans, soaked",
     "8 cups water or broth",
     "onion",
     "garlic",
@@ -1816,7 +1816,7 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
     "bay leaves"
   ],
   "CP-170": [
-    "2 lb dried black-eyed peas soaked",
+    "2 lb dried black-eyed peas, soaked",
     "1 ham hock",
     "1 onion, diced",
     "1 bell pepper, diced",
@@ -1826,11 +1826,11 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
     "1/4 tsp cayenne pepper"
   ],
   "CP-171": [
-    "8 apples sliced",
+    "8 apples, sliced",
     "1/2 cup sugar",
     "2 tsp cinnamon",
     "lemon juice",
-    "1 cups oats",
+    "1 cup oats",
     "3/4 cup flour",
     "3/4 cup brown sugar",
     "1/2 cup butter"
@@ -1868,23 +1868,23 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
   "CP-176": [
     "1 box chocolate cake mix",
     "eggs, oil and water as directed",
-    "1 cups brown sugar",
+    "1 cup brown sugar",
     "1/3 cup cocoa",
     "2 cups hot water",
     "chocolate chips"
   ],
   "CP-177": [
-    "1 loaf day-old bread cubed",
+    "1 loaf day-old bread, cubed",
     "6 eggs",
     "3 cups milk",
-    "1 cups sugar",
+    "1 cup sugar",
     "1/2 cup butter",
     "vanilla",
     "cinnamon",
-    "1 cups raisins"
+    "1 cup raisins"
   ],
   "CP-178": [
-    "1 loaf brioche cubed",
+    "1 loaf brioche, cubed",
     "4 ripe bananas",
     "6 eggs",
     "3 cups milk",
@@ -1894,7 +1894,7 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
     "walnuts optional"
   ],
   "CP-179": [
-    "8 apples sliced",
+    "8 apples, sliced",
     "1/2 cup brown sugar",
     "2 tsp cinnamon",
     "1/4 cup butter",
@@ -1908,6 +1908,6 @@ export const CROCK_POT_INGREDIENTS_V8411 = cards({
     "3 eggs",
     "1/2 cup oil",
     "1 tsp pumpkin spice",
-    "1 cups cream cheese glaze"
+    "1 cup cream cheese glaze"
   ]
 });

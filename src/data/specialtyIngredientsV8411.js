@@ -100,6 +100,7 @@ export const SPECIALTY_INGREDIENTS_V8411 = cards({
 1|each, optional glossy finish|Egg yolk
 1|tbsp, optional glossy finish|Milk
 1|tsp, optional glossy finish|Honey
+1|as needed|Butter for brushing after baking
 `,
   "BR-010": `
 1.25|cups|Warm water
@@ -114,6 +115,7 @@ export const SPECIALTY_INGREDIENTS_V8411 = cards({
 1|each, optional glossy finish|Egg yolk
 1|tbsp, optional glossy finish|Milk
 1|optional|Sesame seeds
+1|as needed|Butter for brushing after baking
 `,
   "BR-011": `
 2|cups|Bread flour
@@ -125,31 +127,30 @@ export const SPECIALTY_INGREDIENTS_V8411 = cards({
 1|tbsp|White vinegar or lemon juice
 1.5|tsp|Salt
 2.5|tsp|Bread machine yeast or instant yeast
+1|as needed|Butter for brushing after baking
 `,
   "CC-001": `
 12|squares|Graham crackers
-3|tbsp|Melted sugar
-0.1666666667|cup|Cream cheese, softened
+3|tbsp|Butter, melted
+2|tbsp|Granulated sugar
 0.5|cup|Granulated sugar
 1|tsp|Vanilla extract
-12|each|Large eggs
+2|each|Large eggs
 0.5|cup|Sour cream
-0.5|tsp|Vanilla extract
 0.125|tsp|Salt
-12|oz|Cream cheese, softened
+16|oz|Cream cheese, softened
 `,
   "CC-002": `
 12|squares|Graham crackers
-3|tbsp|Melted sugar
-0.1666666667|cup|Cream cheese, softened
+3|tbsp|Butter, melted
+2|tbsp|Granulated sugar
 0.5|cup|Granulated sugar
 1|tsp|Vanilla extract
-12|each|Large eggs
+2|each|Large eggs
 0.5|cup|Sour cream
-0.5|tsp|Vanilla extract
 0.125|tsp|Salt
-12|oz|Cream cheese, softened
-0.5|cup|Salted caramel sauce
+16|oz|Cream cheese, softened
+0.5|cup|Salted caramel sauce, divided
 `,
   "CC-003": `
 12|each|Oreo cookies, crushed
@@ -200,14 +201,14 @@ export const SPECIALTY_INGREDIENTS_V8411 = cards({
 `,
   "CO-001": `
 6|cups|Peeled, sliced apples
-0.75|cup|Granulated sugar
+0.75|cup|Granulated sugar for filling
 0.25|cup, packed|Brown sugar
-2|tbsp|All-purpose flour
+2|tbsp|All-purpose flour for filling
 1|tsp|Ground cinnamon
 0.25|tsp|Ground nutmeg
 1|tbsp|Lemon juice
-1|cup|All-purpose flour
-1|cup|Granulated sugar
+1|cup|All-purpose flour for batter/topping
+1|cup|Granulated sugar for batter/topping
 1.5|tsp|Baking powder
 0.25|tsp|Salt
 1|cup|Whole milk
@@ -215,13 +216,13 @@ export const SPECIALTY_INGREDIENTS_V8411 = cards({
 `,
   "CO-002": `
 6|cups|Fresh or frozen blackberries
-0.75|cup|Granulated sugar
+0.75|cup|Granulated sugar for filling
 0.25|cup, packed|Brown sugar
-2|tbsp|All-purpose flour
+2|tbsp|All-purpose flour for filling
 1|tsp|Lemon juice
 0.5|tsp|Vanilla extract
-1|cup|All-purpose flour
-1|cup|Granulated sugar
+1|cup|All-purpose flour for batter/topping
+1|cup|Granulated sugar for batter/topping
 1.5|tsp|Baking powder
 0.25|tsp|Salt
 1|cup|Whole milk
@@ -229,13 +230,13 @@ export const SPECIALTY_INGREDIENTS_V8411 = cards({
 `,
   "CO-003": `
 6|cups|Fresh or frozen blueberries
-0.75|cup|Granulated sugar
+0.75|cup|Granulated sugar for filling
 0.25|cup, packed|Brown sugar
-2|tbsp|All-purpose flour
+2|tbsp|All-purpose flour for filling
 1|tbsp|Lemon juice
 0.5|tsp|Vanilla extract
-1|cup|All-purpose flour
-1|cup|Granulated sugar
+1|cup|All-purpose flour for batter/topping
+1|cup|Granulated sugar for batter/topping
 1.5|tsp|Baking powder
 0.25|tsp|Salt
 1|cup|Whole milk
@@ -243,13 +244,13 @@ export const SPECIALTY_INGREDIENTS_V8411 = cards({
 `,
   "CO-004": `
 6|cups|Pitted cherries, fresh or frozen
-0.75|cup|Granulated sugar
+0.75|cup|Granulated sugar for filling
 0.25|cup, packed|Brown sugar
-2|tbsp|All-purpose flour
+2|tbsp|All-purpose flour for filling
 1|tbsp|Lemon juice
 0.5|tsp|Vanilla extract
-1|cup|All-purpose flour
-1|cup|Granulated sugar
+1|cup|All-purpose flour for batter/topping
+1|cup|Granulated sugar for batter/topping
 1.5|tsp|Baking powder
 0.25|tsp|Salt
 1|cup|Whole milk
@@ -257,13 +258,13 @@ export const SPECIALTY_INGREDIENTS_V8411 = cards({
 `,
   "CO-005": `
 6|cups|Sliced strawberries, fresh or frozen
-0.75|cup|Granulated sugar
+0.75|cup|Granulated sugar for filling
 0.25|cup, packed|Brown sugar
-2|tbsp|All-purpose flour
+2|tbsp|All-purpose flour for filling
 1|tbsp|Lemon juice
 0.5|tsp|Vanilla extract
-1|cup|All-purpose flour
-1|cup|Granulated sugar
+1|cup|All-purpose flour for batter/topping
+1|cup|Granulated sugar for batter/topping
 1.5|tsp|Baking powder
 0.25|tsp|Salt
 1|cup|Whole milk
@@ -271,13 +272,13 @@ export const SPECIALTY_INGREDIENTS_V8411 = cards({
 `,
   "CO-006": `
 6|cups|Sliced peaches, fresh or frozen
-0.75|cup|Granulated sugar
+0.75|cup|Granulated sugar for filling
 0.25|cup, packed|Brown sugar
-2|tbsp|All-purpose flour
+2|tbsp|All-purpose flour for filling
 1|tbsp|Lemon juice
 0.5|tsp|Vanilla extract
-1|cup|All-purpose flour
-1|cup|Granulated sugar
+1|cup|All-purpose flour for batter/topping
+1|cup|Granulated sugar for batter/topping
 1.5|tsp|Baking powder
 0.25|tsp|Salt
 1|cup|Whole milk
@@ -306,16 +307,16 @@ export const SPECIALTY_INGREDIENTS_V8411 = cards({
 1.25|cups|Warm milk, 110°F
 0.3333333333|cup|Unsalted butter, melted
 2|each|Large eggs
-2|tbsp|Unsweetened cocoa powder
+2|tbsp|Unsweetened cocoa powder for dough
 0.3333333333|cup|Unsalted butter, softened
 0.5|cup, packed|Brown sugar
-2|tbsp|Unsweetened cocoa powder
+2|tbsp|Unsweetened cocoa powder for filling
 1|tbsp|Ground cinnamon
 0.5|cup|Semisweet chocolate chips
 1|cup|Powdered sugar
 1|2-3 tbsp range|Milk
 0.5|tsp|Vanilla extract
-1|tbsp|Unsweetened cocoa powder
+1|tbsp|Unsweetened cocoa powder for glaze
 `,
   "CR-003": `
 4|cups|All-purpose flour

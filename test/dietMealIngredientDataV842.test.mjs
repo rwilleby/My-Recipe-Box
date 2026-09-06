@@ -28,16 +28,16 @@ for (const [recipeId, expectedCount] of Object.entries(expectedCounts)) {
 }
 
 function ingredient(recipeId, name) {
-  return byId[recipeId].ingredients.find((item) => item.name === name);
+  return byId[recipeId].ingredients.find((item) => item.originalName === name || item.name === name);
 }
 
 assert.deepEqual(
   { qty: ingredient("DM-011", "Red potatoes, cut into 1-inch pieces")?.qty, unit: ingredient("DM-011", "Red potatoes, cut into 1-inch pieces")?.unit },
-  { qty: 1, unit: "lb" },
+  { qty: 1, unit: "pound" },
 );
 assert.deepEqual(
   { qty: ingredient("DM-012", "Prepared reduced-sodium stuffing")?.qty, unit: ingredient("DM-012", "Prepared reduced-sodium stuffing")?.unit },
-  { qty: 4 / 3, unit: "cups" },
+  { qty: 4 / 3, unit: "cup" },
 );
 assert.equal(ingredient("DM-014", "Prepared light macaroni and cheese")?.qty, 2);
 assert.equal(ingredient("DM-016", "Reduced-sodium beef broth")?.qty, 1.5);

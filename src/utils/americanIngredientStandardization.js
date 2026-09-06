@@ -25,6 +25,50 @@ import {
   HB_HBP_REVIEW_FLAGS,
   LF_001_015_APPROVED_RESOLUTIONS,
   LF_001_015_REVIEW_FLAGS,
+  PM_001_014_APPROVED_RESOLUTIONS,
+  PM_001_014_REVIEW_FLAGS,
+  KR_001_007_APPROVED_RESOLUTIONS,
+  KR_001_007_REVIEW_FLAGS,
+  CC_001_006_APPROVED_RESOLUTIONS,
+  CC_001_006_REVIEW_FLAGS,
+  CO_001_006_APPROVED_RESOLUTIONS,
+  CO_001_006_REVIEW_FLAGS,
+  CR_001_005_APPROVED_RESOLUTIONS,
+  CR_001_005_REVIEW_FLAGS,
+  DN_001_007_APPROVED_RESOLUTIONS,
+  DN_001_007_REVIEW_FLAGS,
+  JJ_001_025_APPROVED_RESOLUTIONS,
+  JJ_001_025_REVIEW_FLAGS,
+  BR_001_011_APPROVED_RESOLUTIONS,
+  BR_001_011_REVIEW_FLAGS,
+  CP_001_020_APPROVED_RESOLUTIONS,
+  CP_001_020_REVIEW_FLAGS,
+  CP_021_040_APPROVED_RESOLUTIONS,
+  CP_021_040_REVIEW_FLAGS,
+  CP_041_060_APPROVED_RESOLUTIONS,
+  CP_041_060_REVIEW_FLAGS,
+  CP_061_080_APPROVED_RESOLUTIONS,
+  CP_061_080_REVIEW_FLAGS,
+  CP_081_100_APPROVED_RESOLUTIONS,
+  CP_081_100_REVIEW_FLAGS,
+  CP_101_120_APPROVED_RESOLUTIONS,
+  CP_101_120_REVIEW_FLAGS,
+  CP_121_140_APPROVED_RESOLUTIONS,
+  CP_121_140_REVIEW_FLAGS,
+  CP_141_160_APPROVED_RESOLUTIONS,
+  CP_141_160_REVIEW_FLAGS,
+  CP_161_180_APPROVED_RESOLUTIONS,
+  CP_161_180_REVIEW_FLAGS,
+  DM_001_020_APPROVED_RESOLUTIONS,
+  DM_001_020_REVIEW_FLAGS,
+  DM_021_040_APPROVED_RESOLUTIONS,
+  DM_021_040_REVIEW_FLAGS,
+  DM_041_060_APPROVED_RESOLUTIONS,
+  DM_041_060_REVIEW_FLAGS,
+  HS_001_020_APPROVED_RESOLUTIONS,
+  HS_001_020_REVIEW_FLAGS,
+  HS_021_030_APPROVED_RESOLUTIONS,
+  HS_021_030_REVIEW_FLAGS,
   SF_001_020_APPROVED_RESOLUTIONS,
   SF_001_020_REVIEW_FLAGS,
   INGREDIENT_STANDARD_VERSION,
@@ -375,6 +419,28 @@ function auditedRecipe(recipeId = "") {
     || /^HB-(?:00[1-9]|0[12]\d|03[01])$/.test(recipeId)
     || /^HBP-(?:00[1-9]|01[0-2])$/.test(recipeId)
     || /^LF-(?:00[1-9]|01[0-5])$/.test(recipeId)
+    || /^PM-(?:00[1-9]|01[0-4])$/.test(recipeId)
+    || /^KR-00[1-7]$/.test(recipeId)
+    || /^CC-00[1-6]$/.test(recipeId)
+    || /^CO-00[1-6]$/.test(recipeId)
+    || /^CR-00[1-5]$/.test(recipeId)
+    || /^DN-00[1-7]$/.test(recipeId)
+    || /^JJ-(?:00[1-9]|01\d|02[0-5])$/.test(recipeId)
+    || /^BR-(?:00[1-3]|00[5-9]|01[01])$/.test(recipeId)
+    || /^CP-(?:00[1-9]|01\d|020)$/.test(recipeId)
+    || /^CP-(?:02[1-9]|03\d|040)$/.test(recipeId)
+    || /^CP-(?:04[1-9]|05\d|060)$/.test(recipeId)
+    || /^CP-(?:06[1-9]|07\d|080)$/.test(recipeId)
+    || /^CP-(?:08[1-9]|09\d|100)$/.test(recipeId)
+    || /^CP-(?:10[1-9]|11\d|120)$/.test(recipeId)
+    || /^CP-(?:12[1-9]|13\d|140)$/.test(recipeId)
+    || /^CP-(?:14[1-9]|15\d|160)$/.test(recipeId)
+    || /^CP-(?:16[1-9]|17\d|180)$/.test(recipeId)
+    || /^DM-(?:00[1-9]|01\d|020)$/.test(recipeId)
+    || /^DM-(?:02[1-9]|03\d|040)$/.test(recipeId)
+    || /^DM-(?:04[1-9]|05\d|060)$/.test(recipeId)
+    || /^HS-(?:00[1-9]|01\d|020)$/.test(recipeId)
+    || /^HS-(?:02[1-9]|030)$/.test(recipeId)
     || /^SF-(?:00[1-9]|01\d|020)$/.test(recipeId);
 }
 
@@ -414,7 +480,7 @@ function standardizedCookingAmount(ingredient, parsedName, unit, recipeId) {
 function approvedResolution(recipeId, originalName, originalUnit = "") {
   const keys = [`${recipeId}|${originalName}|${originalUnit}`, `${recipeId}|${originalName}`];
   for (const key of keys) {
-    const resolution = AM_001_020_APPROVED_RESOLUTIONS[key] || AM_021_040_APPROVED_RESOLUTIONS[key] || AM_041_060_APPROVED_RESOLUTIONS[key] || AM_061_078_APPROVED_RESOLUTIONS[key] || AS_001_024_APPROVED_RESOLUTIONS[key] || IT_001_060_APPROVED_RESOLUTIONS[key] || MX_001_044_APPROVED_RESOLUTIONS[key] || QP_001_030_APPROVED_RESOLUTIONS[key] || SB_001_020_APPROVED_RESOLUTIONS[key] || SD_001_052_APPROVED_RESOLUTIONS[key] || HB_HBP_APPROVED_RESOLUTIONS[key] || LF_001_015_APPROVED_RESOLUTIONS[key] || SG_001_027_APPROVED_RESOLUTIONS[key] || SF_001_020_APPROVED_RESOLUTIONS[key];
+    const resolution = AM_001_020_APPROVED_RESOLUTIONS[key] || AM_021_040_APPROVED_RESOLUTIONS[key] || AM_041_060_APPROVED_RESOLUTIONS[key] || AM_061_078_APPROVED_RESOLUTIONS[key] || AS_001_024_APPROVED_RESOLUTIONS[key] || IT_001_060_APPROVED_RESOLUTIONS[key] || MX_001_044_APPROVED_RESOLUTIONS[key] || QP_001_030_APPROVED_RESOLUTIONS[key] || SB_001_020_APPROVED_RESOLUTIONS[key] || SD_001_052_APPROVED_RESOLUTIONS[key] || HB_HBP_APPROVED_RESOLUTIONS[key] || LF_001_015_APPROVED_RESOLUTIONS[key] || PM_001_014_APPROVED_RESOLUTIONS[key] || KR_001_007_APPROVED_RESOLUTIONS[key] || CC_001_006_APPROVED_RESOLUTIONS[key] || CO_001_006_APPROVED_RESOLUTIONS[key] || CR_001_005_APPROVED_RESOLUTIONS[key] || DN_001_007_APPROVED_RESOLUTIONS[key] || JJ_001_025_APPROVED_RESOLUTIONS[key] || BR_001_011_APPROVED_RESOLUTIONS[key] || CP_001_020_APPROVED_RESOLUTIONS[key] || CP_021_040_APPROVED_RESOLUTIONS[key] || CP_041_060_APPROVED_RESOLUTIONS[key] || CP_061_080_APPROVED_RESOLUTIONS[key] || CP_081_100_APPROVED_RESOLUTIONS[key] || CP_101_120_APPROVED_RESOLUTIONS[key] || CP_121_140_APPROVED_RESOLUTIONS[key] || CP_141_160_APPROVED_RESOLUTIONS[key] || CP_161_180_APPROVED_RESOLUTIONS[key] || DM_001_020_APPROVED_RESOLUTIONS[key] || DM_021_040_APPROVED_RESOLUTIONS[key] || DM_041_060_APPROVED_RESOLUTIONS[key] || HS_001_020_APPROVED_RESOLUTIONS[key] || HS_021_030_APPROVED_RESOLUTIONS[key] || SG_001_027_APPROVED_RESOLUTIONS[key] || SF_001_020_APPROVED_RESOLUTIONS[key];
     if (resolution) return resolution;
   }
   return null;
@@ -443,7 +509,7 @@ export function standardizeAmericanIngredient(ingredient, recipeId = "") {
   const optionalIngredient = resolution?.type === "optional-ingredient";
   const optionalProteinAlternatives = resolution?.type === "optional-protein-alternatives";
   const optionalRange = resolution?.type === "optional-range";
-  const reviewReason = AM_021_040_REVIEW_FLAGS[`${recipeId}|${original.name}`] || AM_041_060_REVIEW_FLAGS[`${recipeId}|${original.name}`] || AM_061_078_REVIEW_FLAGS[`${recipeId}|${original.name}`] || AS_001_024_REVIEW_FLAGS[`${recipeId}|${original.name}`] || IT_001_060_REVIEW_FLAGS[`${recipeId}|${original.name}`] || MX_001_044_REVIEW_FLAGS[`${recipeId}|${original.name}`] || QP_001_030_REVIEW_FLAGS[`${recipeId}|${original.name}`] || SB_001_020_REVIEW_FLAGS[`${recipeId}|${original.name}`] || SD_001_052_REVIEW_FLAGS[`${recipeId}|${original.name}`] || HB_HBP_REVIEW_FLAGS[`${recipeId}|${original.name}`] || LF_001_015_REVIEW_FLAGS[`${recipeId}|${original.name}`] || SG_001_027_REVIEW_FLAGS[`${recipeId}|${original.name}`] || SF_001_020_REVIEW_FLAGS[`${recipeId}|${original.name}`] || "";
+  const reviewReason = AM_021_040_REVIEW_FLAGS[`${recipeId}|${original.name}`] || AM_041_060_REVIEW_FLAGS[`${recipeId}|${original.name}`] || AM_061_078_REVIEW_FLAGS[`${recipeId}|${original.name}`] || AS_001_024_REVIEW_FLAGS[`${recipeId}|${original.name}`] || IT_001_060_REVIEW_FLAGS[`${recipeId}|${original.name}`] || MX_001_044_REVIEW_FLAGS[`${recipeId}|${original.name}`] || QP_001_030_REVIEW_FLAGS[`${recipeId}|${original.name}`] || SB_001_020_REVIEW_FLAGS[`${recipeId}|${original.name}`] || SD_001_052_REVIEW_FLAGS[`${recipeId}|${original.name}`] || HB_HBP_REVIEW_FLAGS[`${recipeId}|${original.name}`] || LF_001_015_REVIEW_FLAGS[`${recipeId}|${original.name}`] || PM_001_014_REVIEW_FLAGS[`${recipeId}|${original.name}`] || KR_001_007_REVIEW_FLAGS[`${recipeId}|${original.name}`] || CC_001_006_REVIEW_FLAGS[`${recipeId}|${original.name}`] || CO_001_006_REVIEW_FLAGS[`${recipeId}|${original.name}`] || CR_001_005_REVIEW_FLAGS[`${recipeId}|${original.name}`] || DN_001_007_REVIEW_FLAGS[`${recipeId}|${original.name}`] || JJ_001_025_REVIEW_FLAGS[`${recipeId}|${original.name}`] || BR_001_011_REVIEW_FLAGS[`${recipeId}|${original.name}`] || CP_001_020_REVIEW_FLAGS[`${recipeId}|${original.name}`] || CP_021_040_REVIEW_FLAGS[`${recipeId}|${original.name}`] || CP_041_060_REVIEW_FLAGS[`${recipeId}|${original.name}`] || CP_061_080_REVIEW_FLAGS[`${recipeId}|${original.name}`] || CP_081_100_REVIEW_FLAGS[`${recipeId}|${original.name}`] || CP_101_120_REVIEW_FLAGS[`${recipeId}|${original.name}`] || CP_121_140_REVIEW_FLAGS[`${recipeId}|${original.name}`] || CP_141_160_REVIEW_FLAGS[`${recipeId}|${original.name}`] || CP_161_180_REVIEW_FLAGS[`${recipeId}|${original.name}`] || DM_001_020_REVIEW_FLAGS[`${recipeId}|${original.name}`] || DM_021_040_REVIEW_FLAGS[`${recipeId}|${original.name}`] || DM_041_060_REVIEW_FLAGS[`${recipeId}|${original.name}`] || HS_001_020_REVIEW_FLAGS[`${recipeId}|${original.name}`] || HS_021_030_REVIEW_FLAGS[`${recipeId}|${original.name}`] || SG_001_027_REVIEW_FLAGS[`${recipeId}|${original.name}`] || SF_001_020_REVIEW_FLAGS[`${recipeId}|${original.name}`] || "";
   const ingredientOptional = unit.optional || /\boptional\b/i.test(preparation) || optionalRange;
   const sizedOnionIdentity = parsedName.matchName.match(/^(small|medium|large|extra[- ]large) (?:(red|white|yellow|sweet) )?onions?\b/i);
   const recipeName = resolution?.recipeName || sentenceCase(parsedName.matchName
@@ -452,7 +518,7 @@ export function standardizeAmericanIngredient(ingredient, recipeId = "") {
   const resolvedCanonicalKey = resolution?.canonicalKey || (sizedOnionIdentity ? `produce.onion${sizedOnionIdentity[2] ? `.${sizedOnionIdentity[2].toLowerCase()}` : ""}` : canonicalKey(match, parsedName.matchName));
   return {
     ...ingredient,
-    ...(auditedRecipe(recipeId) ? { name: recipeName, qty: resolvedCooking.quantity ?? ingredient.qty, unit: resolvedCooking.unit || ingredient.unit } : {}),
+    ...(auditedRecipe(recipeId) ? { name: recipeName, qty: resolvedCooking.quantity ?? ingredient.qty, unit: resolution?.recipeUnit || resolvedCooking.unit || ingredient.unit } : {}),
     originalName: original.name,
     originalUnit: original.unit,
     recipeName,
@@ -469,14 +535,14 @@ export function standardizeAmericanIngredient(ingredient, recipeId = "") {
     optional: ingredientOptional,
     acceptableAlternatives: resolution?.acceptableAlternatives || alternatives,
     substitutionGroup: alternatives.length ? `${recipeId}-${normalizeIngredientIdentity(original.name)}` : "",
-    shoppingName: alternatives.length ? initialCaps(parsedName.matchName) : resolvedCanonicalName,
+    shoppingName: resolution?.shoppingName || (alternatives.length ? initialCaps(parsedName.matchName) : resolvedCanonicalName),
     shoppingQuantity: resolution?.shoppingQuantity ?? resolvedCooking.quantity,
     shoppingUnit: resolution?.shoppingUnit || resolvedCooking.unit,
     shoppingEquivalent: resolution?.shoppingEquivalent || resolvedCooking.shoppingEquivalent,
-    includeInShopping: !(ingredientOptional || optionalGarnish || optionalIngredient || optionalProteinAlternatives || unmeasuredSupply || unmeasuredServingSuggestion || unmeasuredOptionalIngredient || resolvedCooking.quantity === null),
+    includeInShopping: !(ingredientOptional || optionalGarnish || optionalIngredient || optionalProteinAlternatives || unmeasuredSupply || unmeasuredServingSuggestion || unmeasuredOptionalIngredient || resolution?.excludeFromShopping || resolvedCooking.quantity === null),
     approximateShoppingQuantity: Boolean(resolution?.approximate || resolution?.type === "piece-count-with-shopping-weight"),
     recipeQuantityText: resolution?.recipeQuantityText || (unit.metricEquivalent ? `${displayQuantity(ingredient.qty)} ${Number(ingredient.qty) === 1 ? resolvedCooking.unit : `${resolvedCooking.unit}s`} (${unit.metricEquivalent})` : ""),
-    recipeQuantityIncludesUnit: Boolean(unit.metricEquivalent),
+    recipeQuantityIncludesUnit: Boolean(resolution?.recipeQuantityIncludesUnit || unit.metricEquivalent),
     reviewStatus: reviewReason ? "needs-review" : "approved",
     reviewReason,
     resolutionType: resolution?.type || "source-specific",

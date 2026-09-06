@@ -1,0 +1,13 @@
+{
+  "release": "v96.26",
+  "category": "Protein Muffins",
+  "range": "PM-001–PM-014",
+  "ingredientStandardVersion": "1.15",
+  "recipesAuditedThisCheckpoint": 14,
+  "ingredientRowsAuditedThisCheckpoint": 189,
+  "priorUnresolvedFlags": 0,
+  "newReviewFlags": 0,
+  "verification": { "checkpointTests": "passed", "currentTestFiles": 151, "currentTests": "passed", "productionBuild": "passed", "seoRecipes": 794, "completeDinners": 151 },
+  "preserved": ["recipe IDs", "approved images", "recipe-card designs", "directions", "unrelated functionality"],
+  "changedFiles": ["src/data/ingredientStandards.js", "src/utils/americanIngredientStandardization.js", "test/ingredientStandardCheckpointAM021040.test.mjs", "test/ingredientStandardCheckpointAM041060.test.mjs", "test/ingredientStandardCheckpointAM061078.test.mjs", "test/ingredientStandardCheckpointAS001024.test.mjs", "test/ingredientStandardCheckpointHBHBP.test.mjs", "test/ingredientStandardCheckpointIT001060.test.mjs", "test/ingredientStandardCheckpointLF001015.test.mjs", "test/ingredientStandardCheckpointMX001044.test.mjs", "test/ingredientStandardCheckpointPM001014.test.mjs", "test/ingredientStandardCheckpointQP001030.test.mjs", "test/ingredientStandardCheckpointSB001020.test.mjs", "test/ingredientStandardCheckpointSD001052.test.mjs", "test/ingredientStandardCheckpointSF001020.test.mjs", "test/ingredientStandardCheckpointSG001027.test.mjs", "docs/INGREDIENT-STANDARD.md", "PM-001-014-INGREDIENT-AUDIT.md", "PM-001-014-CHECKPOINT.json"]
+}

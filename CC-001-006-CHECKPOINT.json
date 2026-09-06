@@ -1,0 +1,12 @@
+{
+  "release": "v96.28",
+  "category": "Cheesecakes",
+  "range": "CC-001–CC-006",
+  "ingredientStandardVersion": "1.17",
+  "recipesAuditedThisCheckpoint": 6,
+  "ingredientRowsAuditedThisCheckpoint": 58,
+  "correctedCorruptedRows": 2,
+  "newReviewFlags": 0,
+  "verification": { "checkpointTests": "passed", "currentTestFiles": 151, "currentTests": "passed", "productionBuild": "passed", "seoRecipes": 794, "completeDinners": 151 },
+  "preserved": ["recipe IDs", "approved images", "recipe-card designs", "directions", "unrelated functionality"]
+}

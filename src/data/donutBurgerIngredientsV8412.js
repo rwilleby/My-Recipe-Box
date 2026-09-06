@@ -49,6 +49,7 @@ export const DONUT_BURGER_INGREDIENTS_V8412 = cards({
 2|each|Large eggs
 1|cup|Whole milk
 2|tsp|Vanilla extract
+1|amount not specified|Vegetable oil for frying
 2|cups|Powdered sugar
 1|3-4 tbsp range|Milk
 1|tsp|Vanilla extract
@@ -64,6 +65,7 @@ export const DONUT_BURGER_INGREDIENTS_V8412 = cards({
 2|each|Large eggs
 0.75|cup|Whole milk
 1|tsp|Vanilla extract
+1|amount not specified|Vegetable oil for frying
 1.5|cups|Powdered sugar
 0.25|cup|Unsweetened cocoa powder
 0.25|cup|Milk
@@ -80,6 +82,7 @@ export const DONUT_BURGER_INGREDIENTS_V8412 = cards({
 2|each|Large eggs
 1|cup|Buttermilk
 1|tsp|Vanilla extract
+1|amount not specified|Vegetable oil for frying
 2|cups|Powdered sugar
 0.25|cup|Buttermilk
 1|tsp|Vanilla extract
@@ -111,6 +114,7 @@ export const DONUT_BURGER_INGREDIENTS_V8412 = cards({
 0.75|cup|Whole milk
 1|tsp|Vanilla extract
 2|cups|Peeled and diced apples (small dice)
+1|amount not specified|Vegetable oil for frying
 2|cups|Powdered sugar
 0.25|cup|Milk
 0.5|tsp|Vanilla extract
@@ -128,6 +132,7 @@ export const DONUT_BURGER_INGREDIENTS_V8412 = cards({
 0.75|cup|Whole milk
 1|tsp|Vanilla extract
 1|cup|Fresh blueberries (or frozen, thawed)
+1|amount not specified|Vegetable oil for frying
 1.5|cups|Powdered sugar
 1|2-3 tbsp range|Milk
 0.5|tsp|Vanilla extract
