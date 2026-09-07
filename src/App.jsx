@@ -10828,6 +10828,19 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
         className="shoppingListSectionIntro"
       />
 
+      <section className="shoppingStoreChooser" aria-label="Online grocery store"><div>
+          <strong>Shop Online</strong>
+          <span>Product searches open in one reusable shopping window beside your list.</span>
+        </div>
+        <label><span>Preferred Store</span>
+          <select value={preferredGroceryStore} onChange={(event) => updatePreferredGroceryStore(event.target.value)} aria-label="Preferred online grocery store">
+            {Object.entries(ONLINE_GROCERY_STORES).map(([storeId, store]) => <option key={storeId} value={storeId}>{store.label}</option>)}
+          </select>
+        </label>
+        <button type="button" className="secondary" onClick={() => openOnlineShoppingWindow()}>Open {ONLINE_GROCERY_STORES[preferredGroceryStore].label}</button>
+        <button type="button" className="secondary" onClick={() => { setShowShoppingCompanion(true); openOnlineShoppingWindow(); }}>Start Online Shopping</button>
+      </section>
+
       <div className="shoppingListIntroActions">
         <div className="shoppingViewToggle" role="tablist" aria-label="Shopping list view">
           <button type="button" role="tab" aria-selected={shoppingView === "consolidated"} onClick={() => setShoppingView("consolidated")}>
@@ -10859,19 +10872,6 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
           <span>Clear &amp;</span><span>Start Over</span>
         </button>
       </div>
-
-      <section className="shoppingStoreChooser" aria-label="Online grocery store"><div>
-          <strong>Shop Online</strong>
-          <span>Product searches open in one reusable shopping window beside your list.</span>
-        </div>
-        <label><span>Preferred Store</span>
-          <select value={preferredGroceryStore} onChange={(event) => updatePreferredGroceryStore(event.target.value)} aria-label="Preferred online grocery store">
-            {Object.entries(ONLINE_GROCERY_STORES).map(([storeId, store]) => <option key={storeId} value={storeId}>{store.label}</option>)}
-          </select>
-        </label>
-        <button type="button" className="secondary" onClick={() => openOnlineShoppingWindow()}>Open {ONLINE_GROCERY_STORES[preferredGroceryStore].label}</button>
-        <button type="button" className="secondary" onClick={() => { setShowShoppingCompanion(true); openOnlineShoppingWindow(); }}>Start Online Shopping</button>
-      </section>
 
       {showShoppingCompanion && <ShoppingCompanionWindow items={needed} checked={checked} orderQuantities={shoppingOrderQuantities} comments={shoppingComments} storeLabel={ONLINE_GROCERY_STORES[preferredGroceryStore].label} formatQuantity={formatShoppingQuantity} onToggle={toggleCoverage} onSearch={openOnlineShoppingWindow} onClose={() => setShowShoppingCompanion(false)} />}
 
