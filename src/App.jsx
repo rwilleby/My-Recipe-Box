@@ -71,9 +71,10 @@ import { getRecipeCostEstimate, RECIPE_COST_NOTE, RECIPE_COST_TAGLINE } from "./
 import { isFreezerFriendlyCompleteDinner } from "./data/completeDinnerFreezerRatings.js";
 import { FREEZER_ACCORDION_GROUPS } from "./data/freezerPackagingAccordions.js";
 import { HOLIDAY_OCCASION_MENUS } from "./data/holidayOccasionMenus.js";
-import ShoppingCompanionWindow from "./features/shopping/ShoppingCompanionWindow.jsx";
+import ShoppingCompanionWindow, { focusShoppingCompanionWindow, restoreShoppingCompanionWindow } from "./features/shopping/ShoppingCompanionWindow.jsx";
+import ShoppingAudioButton, { ShoppingCountAudio } from "./features/shopping/ShoppingAudioButton.jsx";
 import ShoppingRecipeActions from "./features/shopping/ShoppingRecipeActions.jsx";
-import { ONLINE_GROCERY_STORES, PREFERRED_GROCERY_STORE_KEY, openOnlineGroceryWindow } from "./utils/onlineGroceryShopping.js";
+import { ONLINE_GROCERY_STORES, PREFERRED_GROCERY_STORE_KEY, focusOnlineGroceryWindow, openOnlineGroceryWindow, restoreOnlineGroceryWindow } from "./utils/onlineGroceryShopping.js";
 import { printRecipeCards } from "./utils/printRecipeCards.js";
 const VEGAN_LIBRARY_CATEGORIES = Object.freeze([
   { id: "VPM", name: "Plant Mains", displayName: "Plant Mains", iconImage: "images/categories/SG.webp" },
@@ -10415,6 +10416,22 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
     openOnlineGroceryWindow(preferredGroceryStore, itemName);
   }
 
+  function bringShoppingListForward() {
+    if (!focusShoppingCompanionWindow()) setShowShoppingCompanion(true);
+  }
+
+  function bringGroceryStoreForward() {
+    if (!focusOnlineGroceryWindow()) openOnlineShoppingWindow();
+  }
+
+  function restoreShoppingWindowLayout() {
+    if (!restoreOnlineGroceryWindow()) openOnlineShoppingWindow();
+    if (!restoreShoppingCompanionWindow()) {
+      setShowShoppingCompanion(true);
+      window.setTimeout(() => restoreShoppingCompanionWindow(), 250);
+    }
+  }
+
   function clearShoppingListAndStartOver() {
     const confirmed = window.confirm(
       "Clear this shopping list and start over?\n\nThis removes every meal from the Weekly Meal Planner and clears shopping checks, comments, and component decisions. Pantry, refrigerator, and freezer inventory will not be deleted, so any inventory restock needs can still appear."
@@ -10838,14 +10855,20 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
           </select>
         </label>
         <button type="button" className="secondary" onClick={() => openOnlineShoppingWindow()}>Open {ONLINE_GROCERY_STORES[preferredGroceryStore].label}</button>
-        <button type="button" className="secondary" onClick={() => { setShowShoppingCompanion(true); openOnlineShoppingWindow(); }}>Start Online Shopping</button>
+        <span className="shoppingAudioControlPair"><button type="button" className="secondary" onClick={() => { setShowShoppingCompanion(true); openOnlineShoppingWindow(); }}>Start Online Shopping</button><ShoppingAudioButton label="Hear Start Online Shopping instructions" text="Start Online Shopping opens your guided shopping list in the center of the screen and your preferred grocery store on the right. Select an item, search the store, add it to your cart, and then mark it added to move to the next item." /></span>
       </section>
+
+      <div className="shoppingWindowControls" aria-label="Shopping window controls">
+        <button type="button" onClick={bringShoppingListForward}>Bring List Forward</button>
+        <button type="button" onClick={bringGroceryStoreForward}>Bring Store Forward</button>
+        <button type="button" onClick={restoreShoppingWindowLayout}>Restore Shopping Layout</button>
+      </div>
 
       <div className="shoppingListIntroActions">
         <button type="button" className="shoppingControlViewButton" aria-pressed={shoppingView === "consolidated"} onClick={() => setShoppingView("consolidated")}>Consolidated Shopping List</button>
         <button type="button" className="shoppingControlViewButton" aria-pressed={shoppingView === "needs"} onClick={() => setShoppingView("needs")}>Shopping List By Meal Component</button>
         <button type="button" className="shoppingControlPrintButton" onClick={printShoppingList}>Print Your List</button>
-        <button type="button" className="shoppingControlClearButton" onClick={clearShoppingListAndStartOver}>Clear Meals &amp; Start Over</button>
+        <span className="shoppingAudioControlPair shoppingClearControlPair"><button type="button" className="shoppingControlClearButton" onClick={clearShoppingListAndStartOver}>Clear Meals &amp; Start Over</button><ShoppingAudioButton label="Hear Clear Meals and Start Over instructions" text="Clear Meals and Start Over removes all meals from the Weekly Meal Planner and clears shopping checks, comments, quantities, and component decisions. It does not delete your pantry, refrigerator, or freezer inventory. You will be asked to confirm before anything is cleared." /></span>
       </div>
 
       {showShoppingCompanion && <ShoppingCompanionWindow items={needed} checked={checked} orderQuantities={shoppingOrderQuantities} comments={shoppingComments} storeLabel={ONLINE_GROCERY_STORES[preferredGroceryStore].label} formatQuantity={formatShoppingQuantity} onToggle={toggleCoverage} onSearch={openOnlineShoppingWindow} onClose={() => setShowShoppingCompanion(false)} />}
@@ -10902,7 +10925,7 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
                 <h2>Already On Hand</h2>
                 <p>Prepared components covered by freezer inventory or manually verified.</p>
               </div>
-              <strong>{preparedOnHand.length}</strong>
+              <ShoppingCountAudio count={preparedOnHand.length} section="Already On Hand" />
             </header>
             <div className="shoppingFlatGroupBody">
               {preparedOnHand.length ? preparedOnHand.map((requirement) => {
@@ -10924,7 +10947,7 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
                 <h2>Proteins or Components to Buy</h2>
                 <p>Choose how to handle unavailable prepared components.</p>
               </div>
-              <strong>{preparedMissing.length}</strong>
+              <ShoppingCountAudio count={preparedMissing.length} section="Proteins or Components to Buy" />
             </header>
             <div className="shoppingFlatGroupBody">
               {preparedMissing.length ? preparedMissing.map((requirement) => {
@@ -10959,7 +10982,7 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
                 <h2>Batch Prep Needed</h2>
                 <p>Components selected for advance cooking.</p>
               </div>
-              <strong>{preparedToBatch.length}</strong>
+              <ShoppingCountAudio count={preparedToBatch.length} section="Batch Prep Needed" />
             </header>
             <div className="shoppingFlatGroupBody">
               {preparedToBatch.length ? preparedToBatch.map((item) => {
@@ -10973,7 +10996,7 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
             <section className="shoppingFlatGroup preparedBuySection">
               <header className="shoppingFlatGroupHeader">
                 <div><h2>Components Selected to Buy</h2><p>These remain separate from prepared items already on hand.</p></div>
-                <strong>{preparedToBuy.length}</strong>
+                <ShoppingCountAudio count={preparedToBuy.length} section="Components Selected to Buy" />
               </header>
               <div className="shoppingFlatGroupBody">
                 {preparedToBuy.map((item) => {
@@ -10992,7 +11015,7 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
                 <h2>Needed Items</h2>
                 <p>Unchecked boxes still need to be bought. Check an item after purchasing it.</p>
               </div>
-              <strong>{needed.length} items</strong>
+              <ShoppingCountAudio count={needed.length} suffix={needed.length === 1 ? "item" : "items"} section="Needed Items" />
             </header>
 
             <div className="shoppingFlatListBody">
@@ -11021,7 +11044,7 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
                 <p>Checked items are already available in your pantry, refrigerator, freezer, or other inventory location.</p>
               </div>
               <div className="pantryHeaderActions">
-                <strong>{pantryItems.length} items</strong>
+                <ShoppingCountAudio count={pantryItems.length} suffix={pantryItems.length === 1 ? "item" : "items"} section="Already in Inventory" />
               </div>
             </header>
 
