@@ -21622,47 +21622,29 @@ button.browseRecipeWideFooterAction:focus-visible,
 
 .shoppingAudioControlPair {
   display: flex;
-  align-items: stretch;
-  gap: 7px;
+  align-items: center;
+  gap: 6px;
   min-width: 0;
 }
-.shoppingAudioControlPair > button:first-child { min-height: 40px; white-space: nowrap; }
+.shoppingAudioControlPair > button:first-child { flex: 1 1 auto; min-height: 40px; white-space: nowrap; }
+.shoppingStoreChooser > .shoppingAudioControlPair { flex: 0 1 330px; }
 .shoppingAudioButton {
   display: grid !important;
-  flex: 0 0 40px;
+  flex: 0 0 26px;
   place-items: center;
-  width: 40px !important;
-  min-width: 40px !important;
-  height: 40px !important;
-  min-height: 40px !important;
-  padding: 4px !important;
-  border: 1px solid #aaa196 !important;
-  border-radius: 8px !important;
-  background: #fff !important;
+  width: 26px !important;
+  min-width: 26px !important;
+  height: 26px !important;
+  min-height: 26px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 6px !important;
+  background: transparent !important;
   cursor: pointer;
 }
-.shoppingAudioButton img { display: block; width: 30px; height: 30px; object-fit: contain; }
+.shoppingAudioButton img { display: block; width: 26px; height: 26px; object-fit: contain; }
 .shoppingAudioButton:hover,
-.shoppingAudioButton:focus-visible { border-color: #14532d !important; background: #f1f7f2 !important; outline: 2px solid rgba(20,83,45,.2); outline-offset: 1px; }
-
-.shoppingWindowControls {
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-  margin: -8px 0 14px;
-}
-.shoppingWindowControls button {
-  min-height: 32px;
-  padding: 6px 12px;
-  border: 1px solid #c8d4ca;
-  border-radius: 8px;
-  background: #fff;
-  color: #14532d;
-  font: 700 11px/1 Inter, system-ui, sans-serif;
-  cursor: pointer;
-}
-.shoppingWindowControls button:hover,
-.shoppingWindowControls button:focus-visible { background: #edf7ef; }
+.shoppingAudioButton:focus-visible { background: transparent !important; outline: 2px solid rgba(20,83,45,.35); outline-offset: 2px; }
 
 .shoppingSectionCountAudio {
   display: inline-flex;
@@ -21673,14 +21655,13 @@ button.browseRecipeWideFooterAction:focus-visible,
 }
 .shoppingSectionCountAudio > strong { font: 700 12px/1 Inter, system-ui, sans-serif; }
 .shoppingSectionCountAudio .shoppingAudioButton {
-  flex-basis: 30px;
-  width: 30px !important;
-  min-width: 30px !important;
-  height: 30px !important;
-  min-height: 30px !important;
-  padding: 3px !important;
+  flex-basis: 26px;
+  width: 26px !important;
+  min-width: 26px !important;
+  height: 26px !important;
+  min-height: 26px !important;
 }
-.shoppingSectionCountAudio .shoppingAudioButton img { width: 22px; height: 22px; }
+.shoppingSectionCountAudio .shoppingAudioButton img { width: 26px; height: 26px; }
 
 .shoppingListOnlineButton {
   min-height: 36px;
@@ -23943,7 +23924,6 @@ button.browseRecipeWideFooterAction:focus-visible,
   .shoppingListIntroActions > .shoppingAudioControlPair > button:first-child { font-size: 10px !important; }
   .shoppingStoreChooser .shoppingAudioControlPair { width: 100%; }
   .shoppingStoreChooser .shoppingAudioControlPair > button:first-child { flex: 1 1 auto; }
-  .shoppingWindowControls { display: grid; grid-template-columns: 1fr; margin-top: -4px; }
 }
 
 /* v97.12 — compact, consistent Shopping List area headings. */

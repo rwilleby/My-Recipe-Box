@@ -11,9 +11,6 @@ const [app, css, grocery, companion, audioComponent, audioStat] = await Promise.
 ]);
 
 assert.ok(audioStat.size < 30_000, "optimized audio icon should remain below 30 KB");
-assert.match(app, /Bring List Forward/);
-assert.match(app, /Bring Store Forward/);
-assert.match(app, /Restore Shopping Layout/);
 assert.match(audioComponent, /speechSynthesis\.speak/);
 assert.match(audioComponent, /images\/icons\/AUDIO\.webp/);
 assert.match(app, /ShoppingCountAudio count=\{preparedOnHand\.length\}/);
@@ -28,7 +25,6 @@ assert.match(companion, /focusShoppingCompanionWindow/);
 assert.match(companion, /restoreShoppingCompanionWindow/);
 assert.match(companion, /availableWidth \* 0\.31/);
 assert.match(companion, /availableWidth \* 0\.25/);
-assert.match(css, /\.shoppingWindowControls/);
 assert.match(css, /\.shoppingAudioButton/);
 
 console.log("v97.13 shopping-window layout, focus controls, and audio guidance contracts passed.");

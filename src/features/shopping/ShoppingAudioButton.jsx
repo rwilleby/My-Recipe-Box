@@ -10,7 +10,7 @@ function speakShoppingInstructions(text) {
 }
 
 export default function ShoppingAudioButton({ text, label }) {
-  return <button type="button" className="shoppingAudioButton" onClick={() => speakShoppingInstructions(text)} aria-label={label} title={label}><img src="images/icons/AUDIO.webp" alt="" aria-hidden="true" /></button>;
+  return <button type="button" className="shoppingAudioButton" onClick={() => speakShoppingInstructions(text)} aria-label={label} title={label}><img src="/images/icons/AUDIO.webp" alt="" aria-hidden="true" /></button>;
 }
 
 export function ShoppingCountAudio({ count, suffix = "", section }) {

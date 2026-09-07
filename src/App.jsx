@@ -71,10 +71,10 @@ import { getRecipeCostEstimate, RECIPE_COST_NOTE, RECIPE_COST_TAGLINE } from "./
 import { isFreezerFriendlyCompleteDinner } from "./data/completeDinnerFreezerRatings.js";
 import { FREEZER_ACCORDION_GROUPS } from "./data/freezerPackagingAccordions.js";
 import { HOLIDAY_OCCASION_MENUS } from "./data/holidayOccasionMenus.js";
-import ShoppingCompanionWindow, { focusShoppingCompanionWindow, restoreShoppingCompanionWindow } from "./features/shopping/ShoppingCompanionWindow.jsx";
+import ShoppingCompanionWindow from "./features/shopping/ShoppingCompanionWindow.jsx";
 import ShoppingAudioButton, { ShoppingCountAudio } from "./features/shopping/ShoppingAudioButton.jsx";
 import ShoppingRecipeActions from "./features/shopping/ShoppingRecipeActions.jsx";
-import { ONLINE_GROCERY_STORES, PREFERRED_GROCERY_STORE_KEY, focusOnlineGroceryWindow, openOnlineGroceryWindow, restoreOnlineGroceryWindow } from "./utils/onlineGroceryShopping.js";
+import { ONLINE_GROCERY_STORES, PREFERRED_GROCERY_STORE_KEY, openOnlineGroceryWindow } from "./utils/onlineGroceryShopping.js";
 import { printRecipeCards } from "./utils/printRecipeCards.js";
 const VEGAN_LIBRARY_CATEGORIES = Object.freeze([
   { id: "VPM", name: "Plant Mains", displayName: "Plant Mains", iconImage: "images/categories/SG.webp" },
@@ -10416,22 +10416,6 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
     openOnlineGroceryWindow(preferredGroceryStore, itemName);
   }
 
-  function bringShoppingListForward() {
-    if (!focusShoppingCompanionWindow()) setShowShoppingCompanion(true);
-  }
-
-  function bringGroceryStoreForward() {
-    if (!focusOnlineGroceryWindow()) openOnlineShoppingWindow();
-  }
-
-  function restoreShoppingWindowLayout() {
-    if (!restoreOnlineGroceryWindow()) openOnlineShoppingWindow();
-    if (!restoreShoppingCompanionWindow()) {
-      setShowShoppingCompanion(true);
-      window.setTimeout(() => restoreShoppingCompanionWindow(), 250);
-    }
-  }
-
   function clearShoppingListAndStartOver() {
     const confirmed = window.confirm(
       "Clear this shopping list and start over?\n\nThis removes every meal from the Weekly Meal Planner and clears shopping checks, comments, and component decisions. Pantry, refrigerator, and freezer inventory will not be deleted, so any inventory restock needs can still appear."
@@ -10857,12 +10841,6 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
         <button type="button" className="secondary" onClick={() => openOnlineShoppingWindow()}>Open {ONLINE_GROCERY_STORES[preferredGroceryStore].label}</button>
         <span className="shoppingAudioControlPair"><button type="button" className="secondary" onClick={() => { setShowShoppingCompanion(true); openOnlineShoppingWindow(); }}>Start Online Shopping</button><ShoppingAudioButton label="Hear Start Online Shopping instructions" text="Start Online Shopping opens your guided shopping list in the center of the screen and your preferred grocery store on the right. Select an item, search the store, add it to your cart, and then mark it added to move to the next item." /></span>
       </section>
-
-      <div className="shoppingWindowControls" aria-label="Shopping window controls">
-        <button type="button" onClick={bringShoppingListForward}>Bring List Forward</button>
-        <button type="button" onClick={bringGroceryStoreForward}>Bring Store Forward</button>
-        <button type="button" onClick={restoreShoppingWindowLayout}>Restore Shopping Layout</button>
-      </div>
 
       <div className="shoppingListIntroActions">
         <button type="button" className="shoppingControlViewButton" aria-pressed={shoppingView === "consolidated"} onClick={() => setShoppingView("consolidated")}>Consolidated Shopping List</button>
