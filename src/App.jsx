@@ -74,6 +74,7 @@ import { HOLIDAY_OCCASION_MENUS } from "./data/holidayOccasionMenus.js";
 import ShoppingCompanionWindow, { focusShoppingCompanionWindow } from "./features/shopping/ShoppingCompanionWindow.jsx";
 import ShoppingAudioButton, { ShoppingCountAudio } from "./features/shopping/ShoppingAudioButton.jsx";
 import ShoppingRecipeActions from "./features/shopping/ShoppingRecipeActions.jsx";
+import PurchaseReconciliationPanel, { applyPurchasedItemsToInventory, buildPurchaseReconciliationItems } from "./features/shopping/PurchaseReconciliationPanel.jsx";
 import { ONLINE_GROCERY_STORES, PREFERRED_GROCERY_STORE_KEY, openOnlineGroceryWindow } from "./utils/onlineGroceryShopping.js";
 import { printRecipeCards } from "./utils/printRecipeCards.js";
 const VEGAN_LIBRARY_CATEGORIES = Object.freeze([
@@ -916,7 +917,7 @@ function buildMasterInventoryCoverageIndex(masterInventory = {}, recipes = []) {
       `${catalogItem.family} ${record.variation || catalogItem.variation || ""}`,
       ...(catalogItem.aliases || []),
     ].filter(Boolean);
-    return [{ record, catalogItem, names, quantity: Number(record.have || 0) }];
+    return [{ recordId, record, catalogItem, names, quantity: Number(record.have || 0) }];
   });
 }
 
@@ -10107,11 +10108,12 @@ function FreezerInventoryPage({ freezer, setFreezer, setActivePage, embedded = f
   );
 }
 
-function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry, refrigerator, freezer, masterInventory, setActivePage, openRecipeCard, preparedInventory, preparedReservations, componentDecisions, setComponentDecisions, shoppingComments, setShoppingComments, shoppingOrderQuantities, setShoppingOrderQuantities, kosUi }) {
+function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry, refrigerator, freezer, masterInventory, setMasterInventory, setActivePage, openRecipeCard, preparedInventory, preparedReservations, componentDecisions, setComponentDecisions, shoppingComments, setShoppingComments, shoppingOrderQuantities, setShoppingOrderQuantities, kosUi }) {
   const [showDigitalStockCheck, setShowDigitalStockCheck] = useState(false);
   const [shoppingView, setShoppingView] = useState("consolidated");
   const [showShoppingCompanion, setShowShoppingCompanion] = useState(false);
   const [hasReviewedShoppingList, setHasReviewedShoppingList] = useState(false);
+  const [showPurchaseReconciliation, setShowPurchaseReconciliation] = useState(false), [reconciledPurchaseKeys, setReconciledPurchaseKeys] = useState(() => new Set()), [purchaseUpdateMessage, setPurchaseUpdateMessage] = useState("");
   const [preferredGroceryStore, setPreferredGroceryStore] = useState(() => {
     if (typeof window === "undefined") return "walmart";
     const savedStore = window.localStorage.getItem(PREFERRED_GROCERY_STORE_KEY);
@@ -10303,6 +10305,7 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
     () => buildMasterInventoryCoverageIndex(masterInventory, recipes),
     [masterInventory]
   );
+  const masterCatalogItems = useMemo(() => buildMasterKitchenInventoryCatalog(recipes, masterInventory?.customItems || []).flatMap((category) => category.items), [masterInventory?.customItems]);
   const inventoryCoverageCache = useMemo(() => new Map(), [pantry, masterCoverageIndex]);
   const getShoppingCoverage = useCallback((item) => {
     const key = [item.name, item.qty, item.unit, item.aisle].map((value) => String(value || "").toLocaleLowerCase()).join("|");
@@ -10362,22 +10365,15 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
     () => splitShoppingListByPantry(printableList, getShoppingCoverage),
     [printableList, getShoppingCoverage]
   );
-
   const remainingItemsToBuy = needed.filter((item) => !effectiveChecked(`${item.name}-${item.unit}-${item.aisle}`, false));
-  const shoppingPrimaryState = list.length === 0 && preparedRequirementSummary.length === 0
-    ? "plan"
-    : needed.length > 0 && remainingItemsToBuy.length === 0
-      ? "put-away"
-      : !hasReviewedShoppingList
-        ? "review"
-        : showShoppingCompanion
-          ? "continue"
-          : "start";
+  const purchasedItems = needed.filter((item) => effectiveChecked(`${item.name}-${item.unit}-${item.aisle}`, false)), purchasedUnreconciledItems = purchasedItems.filter((item) => !reconciledPurchaseKeys.has(`${item.name}-${item.unit}-${item.aisle}`));
+  const purchaseReconciliationItems = buildPurchaseReconciliationItems({ items: purchasedUnreconciledItems, orderQuantities: shoppingOrderQuantities, coverageIndex: masterCoverageIndex, catalogItems: masterCatalogItems, inventoryRecords: masterInventory?.records, nameMatches: inventoryNameMatches });
+  const shoppingPrimaryState = list.length === 0 && preparedRequirementSummary.length === 0 ? "plan" : purchaseReconciliationItems.length > 0 && remainingItemsToBuy.length === 0 ? "put-away" : !hasReviewedShoppingList ? "review" : showShoppingCompanion ? "continue" : "start";
   const shoppingPrimaryLabels = { plan: "Plan Meals", review: "Review Items to Buy", start: "Start Online Shopping", continue: "Continue Online Shopping", "put-away": "Put Purchases Away" };
 
   function handleShoppingPrimaryAction() {
     if (shoppingPrimaryState === "plan") return setActivePage("Meal Planner");
-    if (shoppingPrimaryState === "put-away") return setActivePage("Master Kitchen Inventory");
+    if (shoppingPrimaryState === "put-away") return setShowPurchaseReconciliation(true);
     if (shoppingPrimaryState === "review") {
       setShoppingView("consolidated");
       setHasReviewedShoppingList(true);
@@ -10387,6 +10383,8 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
     if (!focusShoppingCompanionWindow()) setShowShoppingCompanion(true);
     openOnlineShoppingWindow();
   }
+
+  function reconcilePurchasedItems(rows) { setMasterInventory((current) => applyPurchasedItemsToInventory(current, rows)); setReconciledPurchaseKeys((current) => new Set([...current, ...rows.map((row) => row.key)])); setShowPurchaseReconciliation(false); setPurchaseUpdateMessage(`${rows.length} purchased ${rows.length === 1 ? "item was" : "items were"} added to Kitchen Inventory.`); }
 
   const groupedNeeded = needed.reduce((acc, item) => {
     return {
@@ -10453,6 +10451,7 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
     setShoppingOrderQuantities({});
     setComponentDecisions({});
     setShowDigitalStockCheck(false);
+    setShowPurchaseReconciliation(false); setReconciledPurchaseKeys(new Set()); setPurchaseUpdateMessage("");
     setHasReviewedShoppingList(false);
     setShoppingView("needs");
   }
@@ -10877,6 +10876,10 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
       </div>
 
       {showShoppingCompanion && <ShoppingCompanionWindow items={needed} checked={checked} orderQuantities={shoppingOrderQuantities} comments={shoppingComments} storeLabel={ONLINE_GROCERY_STORES[preferredGroceryStore].label} formatQuantity={formatShoppingQuantity} onToggle={toggleCoverage} onSearch={openOnlineShoppingWindow} onClose={() => setShowShoppingCompanion(false)} />}
+
+      {list.length > 0 && <section className="shoppingEfficiencySummary" aria-label="Shopping list progress"><div><strong>{list.length}</strong><span>Total Items</span></div><div><strong>{pantryItems.length}</strong><span>In Inventory</span></div><div><strong>{remainingItemsToBuy.length}</strong><span>To Buy</span></div>{purchasedItems.length > 0 && <div className="shoppingEfficiencyPurchased"><strong>{purchasedItems.length}</strong><span>Purchased</span></div>}</section>}
+      {purchaseUpdateMessage && <div className="shoppingPurchaseSuccess" role="status">{purchaseUpdateMessage} <button type="button" onClick={() => setActivePage("Master Kitchen Inventory")}>View Kitchen Inventory</button></div>}
+      {showPurchaseReconciliation && <PurchaseReconciliationPanel items={purchaseReconciliationItems} onClose={() => setShowPurchaseReconciliation(false)} onConfirm={reconcilePurchasedItems} />}
 
       {showDigitalStockCheck && (
         <DigitalStockCheckPanel

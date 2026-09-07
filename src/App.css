@@ -23939,6 +23939,52 @@ button.browseRecipeWideFooterAction:focus-visible,
 .shoppingListIntroActions > .shoppingClearControlPair {
   padding-right: 18px;
 }
+
+/* v97.19 — at-a-glance shopping progress and purchase reconciliation. */
+.shoppingEfficiencySummary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin: -10px 0 22px;
+}
+.shoppingEfficiencySummary > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 9px 12px;
+  border: 1px solid #d8d0c2;
+  border-radius: 10px;
+  background: #f7f4ee;
+  color: #4b5563;
+  font: 700 13px/1.2 Inter, system-ui, sans-serif;
+}
+.shoppingEfficiencySummary strong { color: #172033; font-size: 22px; }
+.shoppingEfficiencyPurchased { background: #edf6ec !important; color: #14532d !important; }
+.shoppingPurchaseSuccess { margin: -10px 0 22px; padding: 12px 16px; border: 1px solid #a9c7ad; border-radius: 10px; background: #edf6ec; color: #14532d; font: 700 13px/1.35 Inter, system-ui, sans-serif; }
+.shoppingPurchaseSuccess button { margin-left: 8px; border: 0; background: transparent; color: #14532d; font: inherit; text-decoration: underline; cursor: pointer; }
+.purchaseReconciliationBackdrop { position: fixed; inset: 0; z-index: 12000; display: grid; place-items: center; padding: 20px; background: rgba(23, 32, 51, .52); }
+.purchaseReconciliationPanel { width: min(920px, 100%); max-height: min(88vh, 820px); display: flex; flex-direction: column; overflow: hidden; border: 1px solid #cfc7ba; border-radius: 18px; background: #fff; box-shadow: 0 24px 70px rgba(0,0,0,.28); }
+.purchaseReconciliationPanel > header { display: flex; align-items: start; justify-content: space-between; gap: 18px; padding: 20px 22px 16px; border-bottom: 1px solid #d8d0c2; background: #f0ebe2; }
+.purchaseReconciliationPanel h2 { margin: 0; color: #172033; font: 700 26px/1.15 Georgia, serif; }
+.purchaseReconciliationPanel header p { margin: 5px 0 0; color: #667085; font: 500 14px/1.35 Inter, system-ui, sans-serif; }
+.purchaseReconciliationClose { width: 42px; height: 42px; border: 1px solid #aaa196; border-radius: 9px; background: #fff; color: #27231f; font-size: 28px; cursor: pointer; }
+.purchaseReconciliationSummary { padding: 11px 22px; border-bottom: 1px solid #e5ded3; color: #14532d; font: 700 14px/1.25 Inter, system-ui, sans-serif; }
+.purchaseReconciliationRows { overflow-y: auto; padding: 16px 22px; }
+.purchaseReconciliationRow { display: grid; grid-template-columns: 1fr 1fr 1fr 1.25fr; gap: 12px; margin: 0 0 14px; padding: 14px; border: 1px solid #d8d0c2; border-radius: 12px; }
+.purchaseReconciliationRow legend { padding: 0 6px; color: #172033; font: 700 17px/1.2 Georgia, serif; }
+.purchaseReconciliationRow label { display: grid; gap: 5px; color: #4b5563; font: 700 11px/1.2 Inter, system-ui, sans-serif; }
+.purchaseReconciliationRow input, .purchaseReconciliationRow select { width: 100%; min-height: 40px; padding: 7px 9px; border: 1px solid #aaa196; border-radius: 8px; background: #fff; color: #27231f; font: 600 13px/1.2 Inter, system-ui, sans-serif; }
+.purchaseReconciliationRow p { grid-column: 1 / -1; margin: 0; color: #667085; font: 500 12px/1.3 Inter, system-ui, sans-serif; }
+.purchaseReconciliationPanel > footer { display: flex; justify-content: flex-end; gap: 10px; padding: 15px 22px; border-top: 1px solid #d8d0c2; background: #faf8f4; }
+@media (max-width: 700px) {
+  .shoppingEfficiencySummary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .shoppingEfficiencySummary > div { justify-content: flex-start; }
+  .purchaseReconciliationBackdrop { padding: 8px; }
+  .purchaseReconciliationPanel { max-height: 96vh; }
+  .purchaseReconciliationRow { grid-template-columns: 1fr 1fr; }
+}
 @media (max-width: 700px) {
   .shoppingListIntroActions { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 7px !important; }
   .shoppingListIntroActions > button,
