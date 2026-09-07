@@ -19,9 +19,9 @@ assert.match(shopping, /initialCapsShoppingName\(item\.name\)/, "Shopping item n
 
 for (const token of [
   'className="shoppingFlatGroup shoppingMealGroup"',
-  'className="shoppingFlatGroup preparedOnHandSection"',
-  'className="shoppingFlatGroup preparedMissingSection"',
-  'className="shoppingFlatGroup preparedBatchSection"',
+  'shoppingFlatGroup preparedOnHandSection${preparedOnHand.length ? "" : " isEmptyShoppingSummary"}',
+  'shoppingFlatGroup preparedMissingSection${preparedMissing.length ? "" : " isEmptyShoppingSummary"}',
+  'shoppingFlatGroup preparedBatchSection${preparedToBatch.length ? "" : " isEmptyShoppingSummary"}',
   'className="shoppingFlatList shoppingNeededItemsList"',
   'className="shoppingFlatList pantryListSection"',
   'className="shoppingListTable"',

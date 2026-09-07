@@ -71,7 +71,7 @@ import { getRecipeCostEstimate, RECIPE_COST_NOTE, RECIPE_COST_TAGLINE } from "./
 import { isFreezerFriendlyCompleteDinner } from "./data/completeDinnerFreezerRatings.js";
 import { FREEZER_ACCORDION_GROUPS } from "./data/freezerPackagingAccordions.js";
 import { HOLIDAY_OCCASION_MENUS } from "./data/holidayOccasionMenus.js";
-import ShoppingCompanionWindow from "./features/shopping/ShoppingCompanionWindow.jsx";
+import ShoppingCompanionWindow, { focusShoppingCompanionWindow } from "./features/shopping/ShoppingCompanionWindow.jsx";
 import ShoppingAudioButton, { ShoppingCountAudio } from "./features/shopping/ShoppingAudioButton.jsx";
 import ShoppingRecipeActions from "./features/shopping/ShoppingRecipeActions.jsx";
 import { ONLINE_GROCERY_STORES, PREFERRED_GROCERY_STORE_KEY, openOnlineGroceryWindow } from "./utils/onlineGroceryShopping.js";
@@ -10111,6 +10111,7 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
   const [showDigitalStockCheck, setShowDigitalStockCheck] = useState(false);
   const [shoppingView, setShoppingView] = useState("consolidated");
   const [showShoppingCompanion, setShowShoppingCompanion] = useState(false);
+  const [hasReviewedShoppingList, setHasReviewedShoppingList] = useState(false);
   const [preferredGroceryStore, setPreferredGroceryStore] = useState(() => {
     if (typeof window === "undefined") return "walmart";
     const savedStore = window.localStorage.getItem(PREFERRED_GROCERY_STORE_KEY);
@@ -10362,6 +10363,31 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
     [printableList, getShoppingCoverage]
   );
 
+  const remainingItemsToBuy = needed.filter((item) => !effectiveChecked(`${item.name}-${item.unit}-${item.aisle}`, false));
+  const shoppingPrimaryState = list.length === 0 && preparedRequirementSummary.length === 0
+    ? "plan"
+    : needed.length > 0 && remainingItemsToBuy.length === 0
+      ? "put-away"
+      : !hasReviewedShoppingList
+        ? "review"
+        : showShoppingCompanion
+          ? "continue"
+          : "start";
+  const shoppingPrimaryLabels = { plan: "Plan Meals", review: "Review Items to Buy", start: "Start Online Shopping", continue: "Continue Online Shopping", "put-away": "Put Purchases Away" };
+
+  function handleShoppingPrimaryAction() {
+    if (shoppingPrimaryState === "plan") return setActivePage("Meal Planner");
+    if (shoppingPrimaryState === "put-away") return setActivePage("Master Kitchen Inventory");
+    if (shoppingPrimaryState === "review") {
+      setShoppingView("consolidated");
+      setHasReviewedShoppingList(true);
+      window.setTimeout(() => document.getElementById("items-to-buy")?.scrollIntoView({ behavior: "smooth", block: "start" }), 0);
+      return;
+    }
+    if (!focusShoppingCompanionWindow()) setShowShoppingCompanion(true);
+    openOnlineShoppingWindow();
+  }
+
   const groupedNeeded = needed.reduce((acc, item) => {
     return {
       ...acc,
@@ -10427,6 +10453,7 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
     setShoppingOrderQuantities({});
     setComponentDecisions({});
     setShowDigitalStockCheck(false);
+    setHasReviewedShoppingList(false);
     setShoppingView("needs");
   }
 
@@ -10839,7 +10866,7 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
           </select>
         </label>
         <button type="button" className="secondary" onClick={() => openOnlineShoppingWindow()}>Open {ONLINE_GROCERY_STORES[preferredGroceryStore].label}</button>
-        <span className="shoppingAudioControlPair"><button type="button" className="secondary" onClick={() => { setShowShoppingCompanion(true); openOnlineShoppingWindow(); }}>Start Online Shopping</button><ShoppingAudioButton label="Hear Start Online Shopping instructions" text="Start Online Shopping opens your guided shopping list in the center of the screen and your preferred grocery store on the right. Select an item, search the store, add it to your cart, and then mark it added to move to the next item." /></span>
+        <span className="shoppingAudioControlPair"><button type="button" className="secondary shoppingPrimaryNextButton" onClick={handleShoppingPrimaryAction}>{shoppingPrimaryLabels[shoppingPrimaryState]}</button><ShoppingAudioButton label={`Hear ${shoppingPrimaryLabels[shoppingPrimaryState]} instructions`} text={shoppingPrimaryState === "review" ? "Review Items to Buy takes you to the consolidated list so you can confirm what is already covered and what still needs to be purchased." : shoppingPrimaryState === "put-away" ? "Put Purchases Away opens Your Kitchen Inventory so purchased items can be recorded in their proper storage locations." : shoppingPrimaryState === "plan" ? "Plan Meals opens the Weekly Meal Planner so you can choose meals and create a shopping list." : "Online Shopping opens or returns to your guided shopping list and preferred grocery store. Select an item, search the store, add it to your cart, and mark it added to continue."} /></span>
       </section>
 
       <div className="shoppingListIntroActions">
@@ -10897,7 +10924,7 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
       ) : (
         <>
         <div className="preparedShoppingSections">
-          <section className="shoppingFlatGroup preparedOnHandSection">
+          <section className={`shoppingFlatGroup preparedOnHandSection${preparedOnHand.length ? "" : " isEmptyShoppingSummary"}`}>
             <header className="shoppingFlatGroupHeader">
               <div>
                 <h2>Already On Hand</h2>
@@ -10905,8 +10932,8 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
               </div>
               <ShoppingCountAudio count={preparedOnHand.length} section="Already On Hand" />
             </header>
-            <div className="shoppingFlatGroupBody">
-              {preparedOnHand.length ? preparedOnHand.map((requirement) => {
+            {preparedOnHand.length > 0 && <div className="shoppingFlatGroupBody">
+              {preparedOnHand.map((requirement) => {
                 const component = getPreparedComponent(requirement.componentId, preparedInventory);
                 return (
                   <div className="preparedShoppingItem onHand" key={requirement.componentId}>
@@ -10915,11 +10942,11 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
                     <span>On Hand</span>
                   </div>
                 );
-              }) : <p className="preparedShoppingEmpty">No prepared components are currently verified on hand.</p>}
-            </div>
+              })}
+            </div>}
           </section>
 
-          <section className="shoppingFlatGroup preparedMissingSection">
+          <section className={`shoppingFlatGroup preparedMissingSection${preparedMissing.length ? "" : " isEmptyShoppingSummary"}`}>
             <header className="shoppingFlatGroupHeader">
               <div>
                 <h2>Proteins or Components to Buy</h2>
@@ -10927,8 +10954,8 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
               </div>
               <ShoppingCountAudio count={preparedMissing.length} section="Proteins or Components to Buy" />
             </header>
-            <div className="shoppingFlatGroupBody">
-              {preparedMissing.length ? preparedMissing.map((requirement) => {
+            {preparedMissing.length > 0 && <div className="shoppingFlatGroupBody">
+              {preparedMissing.map((requirement) => {
                 const component = getPreparedComponent(requirement.componentId, preparedInventory);
                 const decision = componentDecisions[requirement.componentId] || {};
                 return (
@@ -10950,11 +10977,11 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
                     )}
                   </div>
                 );
-              }) : <p className="preparedShoppingEmpty">All required prepared components are available.</p>}
-            </div>
+              })}
+            </div>}
           </section>
 
-          <section className="shoppingFlatGroup preparedBatchSection">
+          <section className={`shoppingFlatGroup preparedBatchSection${preparedToBatch.length ? "" : " isEmptyShoppingSummary"}`}>
             <header className="shoppingFlatGroupHeader">
               <div>
                 <h2>Batch Prep Needed</h2>
@@ -10962,12 +10989,12 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
               </div>
               <ShoppingCountAudio count={preparedToBatch.length} section="Batch Prep Needed" />
             </header>
-            <div className="shoppingFlatGroupBody">
-              {preparedToBatch.length ? preparedToBatch.map((item) => {
+            {preparedToBatch.length > 0 && <div className="shoppingFlatGroupBody">
+              {preparedToBatch.map((item) => {
                 const component = getPreparedComponent(item.componentId, preparedInventory);
                 return <div className="preparedShoppingItem batch" key={item.componentId}><span className="preparedStatusDot" /><div><strong>{component?.name || item.componentId}</strong><small>Prepare {item.packagesRequired} package(s)</small></div></div>;
-              }) : <p className="preparedShoppingEmpty">No components are currently selected for batch preparation.</p>}
-            </div>
+              })}
+            </div>}
           </section>
 
           {preparedToBuy.length > 0 && (
@@ -10987,13 +11014,13 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
         </div>
 
         <div className="shoppingListSections">
-          <section className="shoppingFlatList shoppingNeededItemsList">
+          <section className="shoppingFlatList shoppingNeededItemsList" id="items-to-buy">
             <header className="shoppingFlatListTitle">
               <div>
-                <h2>Needed Items</h2>
+                <h2>Items to Buy</h2>
                 <p>Unchecked boxes still need to be bought. Check an item after purchasing it.</p>
               </div>
-              <ShoppingCountAudio count={needed.length} suffix={needed.length === 1 ? "item" : "items"} section="Needed Items" />
+              <ShoppingCountAudio count={needed.length} suffix={needed.length === 1 ? "item" : "items"} section="Items to Buy" />
             </header>
 
             <div className="shoppingFlatListBody">

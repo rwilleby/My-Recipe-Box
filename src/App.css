@@ -21662,6 +21662,15 @@ button.browseRecipeWideFooterAction:focus-visible,
   min-height: 26px !important;
 }
 .shoppingSectionCountAudio .shoppingAudioButton img { width: 26px; height: 26px; }
+.preparedShoppingSections .isEmptyShoppingSummary .shoppingFlatGroupHeader {
+  min-height: 48px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  border-bottom: 0;
+}
+.preparedShoppingSections .isEmptyShoppingSummary .shoppingFlatGroupHeader p {
+  margin-top: 2px;
+}
 
 .shoppingListOnlineButton {
   min-height: 36px;
