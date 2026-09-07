@@ -2603,10 +2603,11 @@ const HOME_ACTIONS = [
       ["Your Favorites", "Return to recipes you already saved.", "Favorites"],
       ["Freezer Options", "Use a prepared meal already in your freezer.", "Kitchen Freezer"],
     ]),
+    actions: [["Browse Our Complete Dinners", "Dinner Combinations"], ["Browse Our Diet Meals", "Healthy Dinners"], ["Browse Our Recipe Library", "Recipes"]],
   },
   {
     id: "week",
-    label: "Plan the week",
+    label: "Plan the week’s meals",
     subtext:
       "Build a flexible weekly meal plan, account for leftovers, and turn it into an organized grocery list.",
     features: makeHomeActionFeatures([
@@ -2617,6 +2618,7 @@ const HOME_ACTIONS = [
       ["Make-Ahead Meals", "Move some of the week’s cooking earlier.", "Make-Ahead Meals"],
       ["Grocery List", "Organize what you need to buy.", "Shopping Lists"],
     ]),
+    actions: [["Plan Your Week’s Dinners", "Meal Planner"], ["Plan Your Bulk Meals", "Weekend Bulk Meal Planner"], ["Browse Our Crock Pot Library", "Slow Cooker Favorites"]],
   },
   {
     id: "cook",
@@ -2631,6 +2633,7 @@ const HOME_ACTIONS = [
       ["Cooking Guides", "Check methods, temperatures, and helpful tips.", "Reference Guides"],
       ["Today’s Plan", "Open the meal already planned for today.", "Meal Planner"],
     ]),
+    actions: [["Browse Your Favorites", "Favorites"], ["Browse Our Diet Meals", "Healthy Dinners"], ["Browse Our Recipe Library", "Recipes"]],
   },
   {
     id: "freezer",
@@ -2645,6 +2648,7 @@ const HOME_ACTIONS = [
       ["Freezer Inventory", "See what is already frozen.", "Kitchen Freezer"],
       ["Freeze & Reheat", "Review freezing, thawing, and reheating help.", "Freezer Tips"],
     ]),
+    actions: [["Browse Your Complete Dinners", "Dinner Combinations"], ["Browse Your Diet Meals", "Healthy Dinners"], ["Browse Our Freezer-Friendly Library", "Freezer-Friendly Meals"]],
   },
   {
     id: "ingredients",
@@ -2659,6 +2663,7 @@ const HOME_ACTIONS = [
       ["Meal Planner", "Build meals around available ingredients.", "Meal Planner"],
       ["Grocery Gaps", "Add only the missing items to your list.", "Shopping Lists"],
     ]),
+    actions: [["Browse Your Refrigerator Dinners", "Kitchen Refrigerator"], ["Browse Your Freezer Meals", "Kitchen Freezer"], ["Create Your Own Meal", "Build Your Own Meal"]],
   },
 ];
 
@@ -2744,13 +2749,9 @@ function HomePhotoFeatureSection({ setActivePage, kosUi }) {
   const activeKosIntent =
     HOME_ACTION_KOS_INTENTS[activeAction.id] || "dinner";
   const activeScreenModel = kosUi?.screenModel?.(activeKosIntent) || null;
-  const activeActionIndex = HOME_ACTIONS.findIndex((action) => action.id === activeAction.id);
-  const compactOptions = activeAction.features.slice(0, 3);
 
-  function chooseHomeActionDestination(event) {
-    const destination = event.target.value;
-    if (!destination) return;
-    setActivePage(destination);
+  function openHomeAction(page) {
+    setActivePage(page);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
@@ -2834,18 +2835,22 @@ function HomePhotoFeatureSection({ setActivePage, kosUi }) {
 
         <div
           id="home-action-panel"
-          className="homeActionDropdownRow"
+          className="homeActionButtonRow"
           role="tabpanel"
           aria-labelledby={`home-action-${activeAction.id}`}
           data-kos-intent={activeKosIntent}
           data-kos-screen-ready={activeScreenModel ? "true" : "false"}
-          style={{ "--home-action-index": activeActionIndex }}
         >
-          <label className="homeActionDropdownLabel" htmlFor="home-action-destination">Choose an option</label>
-          <select id="home-action-destination" className="homeActionDropdown" value="" onChange={chooseHomeActionDestination} aria-label={`Choose an option for ${activeAction.label}`}>
-            <option value="" disabled>Select…</option>
-            {compactOptions.map((feature) => <option key={feature.title} value={feature.page}>{feature.title}</option>)}
-          </select>
+          {activeAction.actions.map(([label, page]) => (
+            <button
+              key={label}
+              type="button"
+              className="homeActionDestinationButton"
+              onClick={() => openHomeAction(page)}
+            >
+              {label}
+            </button>
+          ))}
         </div>
       </section>
   );
@@ -5957,6 +5962,7 @@ function Home({
         onSiteModeChange={changeSiteMode}
         backupWarningsEnabled={hasCustomUserData}
       />
+      <HomePhotoFeatureSection setActivePage={setActivePage} kosUi={kosUi} />
       <HomeComboMealStrip
         setActivePage={setActivePage}
         openRecipeCard={openRecipeCard}
@@ -5973,9 +5979,6 @@ function Home({
         classifiedRecipes={classifiedRecipes}
         siteMode={siteMode}
       />
-      {siteMode === "detailed" && (
-        <HomePhotoFeatureSection setActivePage={setActivePage} kosUi={kosUi} />
-      )}
       <HomeCategoryGrid
         setFilter={setFilter}
         setActivePage={setActivePage}
