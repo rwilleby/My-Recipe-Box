@@ -1,0 +1,5 @@
+Delete these retired v97.7 dashboard files from GitHub:
+
+src/features/planning/PlanningShoppingDashboard.jsx
+src/features/planning/PlanningShoppingDashboard.css
+test/planningShoppingDashboardV977.test.mjs
