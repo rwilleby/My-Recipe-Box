@@ -12,6 +12,7 @@ assert.doesNotMatch(app, /shoppingWindowControls|Bring List Forward|Bring Store 
 assert.match(audio, /src="\/images\/icons\/AUDIO\.webp"/);
 assert.match(css, /\.shoppingAudioButton\s*\{[\s\S]*?width:\s*26px !important;[\s\S]*?border:\s*0 !important;[\s\S]*?background:\s*transparent !important;/);
 assert.match(css, /\.shoppingStoreChooser > \.shoppingAudioControlPair \{ flex: 0 1 330px; \}/);
+assert.match(css, /\.shoppingListIntroActions > \.shoppingClearControlPair\s*\{\s*padding-right:\s*18px;/);
 assert.ok(icon.size < 30_000);
 
 console.log("v97.14 borderless audio icon and simplified Shopping controls passed.");
