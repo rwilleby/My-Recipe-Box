@@ -73,7 +73,7 @@ assert.deepEqual(
 const app = await readFile(new URL("../src/App.jsx", import.meta.url), "utf8");
 assert.match(app, /function previewShoppingList\(\)/);
 assert.match(app, /openShoppingListPrintout\(false\)/);
-assert.match(app, />\s*Preview\s*</);
+assert.match(app, /onClick=\{printShoppingList\}>Print Your List<\/button>/);
 assert.match(app, /Shopping List Print Preview/);
 assert.match(app, /Print This List/);
 assert.match(app, /@media print \{ \.previewToolbar \{ display: none !important; \} \}/);

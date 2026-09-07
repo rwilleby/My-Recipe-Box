@@ -10842,35 +10842,10 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
       </section>
 
       <div className="shoppingListIntroActions">
-        <div className="shoppingViewToggle" role="tablist" aria-label="Shopping list view">
-          <button type="button" role="tab" aria-selected={shoppingView === "consolidated"} onClick={() => setShoppingView("consolidated")}>
-            <span>Consolidated</span><span>List</span>
-          </button>
-          <button type="button" role="tab" aria-selected={shoppingView === "needs"} onClick={() => setShoppingView("needs")}>
-            <span>By Meal /</span><span>Component</span>
-          </button>
-        </div>
-        <button className="secondary shoppingPreviewButton" onClick={previewShoppingList}>
-          Preview
-        </button>
-        <button className="primary shoppingPrintButton" onClick={printShoppingList}>
-          <span>Print</span><span>List</span>
-        </button>
-        <button className="secondary shoppingWorksheetButton" onClick={printMasterShoppingStockWorksheet}>
-          <span>Stock</span><span>Check</span>
-        </button>
-        <button className="secondary shoppingDigitalCheckButton" onClick={() => setShowDigitalStockCheck((current) => !current)}>
-          {showDigitalStockCheck ? <><span>Close</span><span>Check</span></> : <><span>Digital</span><span>Check</span></>}
-        </button>
-        <button
-          className="secondary shoppingGroceryPicksButton"
-          onClick={() => setActivePage("Grocery Picks")}
-        >
-          <span>Grocery</span><span>Picks</span>
-        </button>
-        <button className="secondary shoppingClearButton" onClick={clearShoppingListAndStartOver}>
-          <span>Clear &amp;</span><span>Start Over</span>
-        </button>
+        <button type="button" className="shoppingControlViewButton" aria-pressed={shoppingView === "consolidated"} onClick={() => setShoppingView("consolidated")}>Consolidated Shopping List</button>
+        <button type="button" className="shoppingControlViewButton" aria-pressed={shoppingView === "needs"} onClick={() => setShoppingView("needs")}>Shopping List By Meal Component</button>
+        <button type="button" className="shoppingControlPrintButton" onClick={printShoppingList}>Print Your List</button>
+        <button type="button" className="shoppingControlClearButton" onClick={clearShoppingListAndStartOver}>Clear Meals &amp; Start Over</button>
       </div>
 
       {showShoppingCompanion && <ShoppingCompanionWindow items={needed} checked={checked} orderQuantities={shoppingOrderQuantities} comments={shoppingComments} storeLabel={ONLINE_GROCERY_STORES[preferredGroceryStore].label} formatQuantity={formatShoppingQuantity} onToggle={toggleCoverage} onSearch={openOnlineShoppingWindow} onClose={() => setShowShoppingCompanion(false)} />}

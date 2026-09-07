@@ -16,8 +16,8 @@ assert.match(planner, /recipeCode\(recipe\) === "DM"/);
 assert.match(planner, /Search Diet Meals by recipe name or code/);
 assert.match(plannerCss, /grid-template-columns:repeat\(3,minmax\(150px,1fr\)\)/);
 
-assert.match(app, /<span>Consolidated<\/span><span>List<\/span>/);
-assert.match(app, /<span>By Meal \/<\/span><span>Component<\/span>/);
+assert.match(app, /Consolidated Shopping List/);
+assert.match(app, /Shopping List By Meal Component/);
 assert.match(app, /useState\("consolidated"\)/);
 assert.match(app, /Items by Meal or Component/);
 assert.match(app, /function clearShoppingListAndStartOver\(\)/);
@@ -29,7 +29,7 @@ assert.match(app, /Pantry, refrigerator, and freezer inventory will not be delet
 assert.match(app, /Refrigerator Restock/);
 assert.match(app, /Freezer Restock/);
 assert.match(appCss, /\.shoppingNeedGroups/);
-assert.match(appCss, /\.shoppingClearButton/);
+assert.match(appCss, /\.shoppingControlClearButton/);
 
 for (const ingredient of [
   "Small corn tortillas",

@@ -23824,3 +23824,51 @@ button.browseRecipeWideFooterAction:focus-visible,
   .shoppingRecipeActionsMenu > summary { width: 100%; }
   .shoppingRecipeActionsMenu > div { position: relative; top: 5px; right: auto; width: 100%; box-shadow: none; }
 }
+
+/* v97.11 — full-width four-action Shopping List control strip. */
+.shoppingListIntroActions {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  grid-auto-flow: row !important;
+  gap: 10px !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  margin: 0 0 24px !important;
+  overflow: visible !important;
+}
+.shoppingListIntroActions > button {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 40px !important;
+  height: 40px !important;
+  padding: 0 10px !important;
+  border: 1px solid #c8d4ca !important;
+  border-radius: 8px !important;
+  background: #fff !important;
+  color: #14532d !important;
+  font: 800 clamp(10px, 1.05vw, 16px)/1 Inter, system-ui, sans-serif !important;
+  text-align: center !important;
+  white-space: nowrap !important;
+}
+.shoppingListIntroActions > .shoppingControlViewButton[aria-pressed="true"] {
+  border-color: #a39d98 !important;
+  background: #a39d98 !important;
+  color: #fff !important;
+}
+.shoppingListIntroActions > .shoppingControlPrintButton {
+  border-color: #829f49 !important;
+  background: #829f49 !important;
+  color: #fff !important;
+}
+.shoppingListIntroActions > .shoppingControlClearButton {
+  border-color: #dfaaa4 !important;
+  color: #a52f28 !important;
+}
+@media (max-width: 700px) {
+  .shoppingListIntroActions { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 7px !important; }
+  .shoppingListIntroActions > button { font-size: 10px !important; }
+}
