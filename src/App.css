@@ -18666,7 +18666,7 @@ button.browseRecipeWideFooterAction:focus-visible,
    ================================================================ */
 
 :root {
-  --rrb-segmented-height: 38px;
+  --rrb-segmented-height: 32px;
   --rrb-segmented-radius: 18px;
   --rrb-segmented-border: #c7ccc7;
   --rrb-segmented-bg: #f1efe9;
@@ -18676,6 +18676,41 @@ button.browseRecipeWideFooterAction:focus-visible,
   --rrb-segmented-divider: #d2d1cc;
   --rrb-segmented-font-size: 13px;
   --rrb-segmented-font-weight: 800;
+}
+
+/* v98.1 — compact task strip with one direct-destination dropdown. */
+.homeActionDropdownRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 4px;
+  width: calc(20% - 8px);
+  margin-top: 8px;
+  margin-left: calc((20% * var(--home-action-index)) + 4px);
+  padding: 0;
+  transition: margin-left 160ms ease;
+}
+.homeActionDropdownLabel {
+  color: #4f4945;
+  font: 700 11px/1 Inter, Arial, sans-serif;
+  text-align: left;
+}
+.homeActionDropdown {
+  width: 100%;
+  min-height: 38px;
+  padding: 6px 34px 6px 11px;
+  border: 1px solid #b9b2aa;
+  border-radius: 8px;
+  background: #fff;
+  color: #172033;
+  font: 700 13px/1.2 Inter, Arial, sans-serif;
+  cursor: pointer;
+}
+.homeActionDropdown:focus-visible { outline: 3px solid rgba(154, 147, 143, .35); outline-offset: 2px; }
+@media (max-width: 850px) {
+  .homeActionDropdownRow { width: min(280px, 100%); margin-left: clamp(0px, calc((20% * var(--home-action-index)) + 4px), calc(100% - 280px)); }
+}
+@media (max-width: 560px) {
+  .homeActionDropdownRow { width: 100%; margin-left: 0; }
 }
 
 .homeActionChoices {

@@ -2738,13 +2738,21 @@ function HomePhotoFeatureModal({ feature, onClose, setActivePage }) {
 }
 
 function HomePhotoFeatureSection({ setActivePage, kosUi }) {
-  const [selectedFeature, setSelectedFeature] = useState(null);
   const [activeActionId, setActiveActionId] = useState(HOME_ACTIONS[0].id);
   const activeAction =
     HOME_ACTIONS.find((action) => action.id === activeActionId) || HOME_ACTIONS[0];
   const activeKosIntent =
     HOME_ACTION_KOS_INTENTS[activeAction.id] || "dinner";
   const activeScreenModel = kosUi?.screenModel?.(activeKosIntent) || null;
+  const activeActionIndex = HOME_ACTIONS.findIndex((action) => action.id === activeAction.id);
+  const compactOptions = activeAction.features.slice(0, 3);
+
+  function chooseHomeActionDestination(event) {
+    const destination = event.target.value;
+    if (!destination) return;
+    setActivePage(destination);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
 
   function handleActionKeyDown(event) {
     const currentIndex = HOME_ACTIONS.findIndex(
@@ -2771,7 +2779,6 @@ function HomePhotoFeatureSection({ setActivePage, kosUi }) {
   }
 
   return (
-    <>
       <section
         className="section homePhotoFeatureSection"
         aria-labelledby="home-photo-features-title"
@@ -2827,47 +2834,20 @@ function HomePhotoFeatureSection({ setActivePage, kosUi }) {
 
         <div
           id="home-action-panel"
-          className="homePhotoFeatureGrid"
+          className="homeActionDropdownRow"
           role="tabpanel"
           aria-labelledby={`home-action-${activeAction.id}`}
           data-kos-intent={activeKosIntent}
           data-kos-screen-ready={activeScreenModel ? "true" : "false"}
-          key={activeAction.id}
+          style={{ "--home-action-index": activeActionIndex }}
         >
-          {activeAction.features.map((feature) => (
-            <button
-              key={feature.title}
-              type="button"
-              className="homePhotoFeatureTile"
-              onClick={() => setSelectedFeature(feature)}
-              aria-label={`Preview ${feature.title}`}
-            >
-              <span className="homePhotoFeatureImage">
-                <img
-                  src={`${import.meta.env.BASE_URL}${feature.image}`}
-                  alt=""
-                  aria-hidden="true"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </span>
-
-              <span className="homePhotoFeatureText">
-                <strong>{feature.title}</strong>
-                <small>{feature.description}</small>
-                <span className="homePhotoFeatureArrow" aria-hidden="true">›</span>
-              </span>
-            </button>
-          ))}
+          <label className="homeActionDropdownLabel" htmlFor="home-action-destination">Choose an option</label>
+          <select id="home-action-destination" className="homeActionDropdown" value="" onChange={chooseHomeActionDestination} aria-label={`Choose an option for ${activeAction.label}`}>
+            <option value="" disabled>Select…</option>
+            {compactOptions.map((feature) => <option key={feature.title} value={feature.page}>{feature.title}</option>)}
+          </select>
         </div>
       </section>
-
-      <HomePhotoFeatureModal
-        feature={selectedFeature}
-        onClose={() => setSelectedFeature(null)}
-        setActivePage={setActivePage}
-      />
-    </>
   );
 }
 
