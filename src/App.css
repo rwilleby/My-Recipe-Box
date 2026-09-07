@@ -23860,9 +23860,9 @@ button.browseRecipeWideFooterAction:focus-visible,
   color: #fff !important;
 }
 .shoppingListIntroActions > .shoppingControlPrintButton {
-  border-color: #829f49 !important;
-  background: #829f49 !important;
-  color: #fff !important;
+  border-color: #c8d4ca !important;
+  background: #fff !important;
+  color: #14532d !important;
 }
 .shoppingListIntroActions > .shoppingControlClearButton {
   border-color: #dfaaa4 !important;
@@ -23871,4 +23871,12 @@ button.browseRecipeWideFooterAction:focus-visible,
 @media (max-width: 700px) {
   .shoppingListIntroActions { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 7px !important; }
   .shoppingListIntroActions > button { font-size: 10px !important; }
+}
+
+/* v97.12 — compact, consistent Shopping List area headings. */
+.shoppingNeedsViewHeader h2,
+.shoppingFlatGroupHeader h2,
+.shoppingFlatGroupHeader h3,
+.shoppingFlatListTitle h2 {
+  font: 700 17px/1.2 Georgia, "Times New Roman", serif !important;
 }
