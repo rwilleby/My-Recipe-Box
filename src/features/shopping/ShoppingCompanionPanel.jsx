@@ -69,6 +69,7 @@ export default function ShoppingCompanionPanel({ items, checked, orderQuantities
         )}
         <section className="shoppingCompanionQueue">
           <header><strong>My Shopping List</strong><span>{pendingItems.length} remaining · {skippedKeys.size} skipped</span></header>
+          <div className="shoppingCompanionQueueList">
           {sortedItems.length ? sortedItems.map((item) => {
             const key = shoppingItemKey(item);
             const purchased = !!checked[key];
@@ -80,6 +81,7 @@ export default function ShoppingCompanionPanel({ items, checked, orderQuantities
               </div>
             );
           }) : <p>Everything on this list is covered.</p>}
+          </div>
         </section>
       </div>
     </aside>
