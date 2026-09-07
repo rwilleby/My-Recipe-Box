@@ -18678,7 +18678,7 @@ button.browseRecipeWideFooterAction:focus-visible,
   --rrb-segmented-font-weight: 800;
 }
 
-/* v98.2 — three direct actions beneath the compact homepage task strip. */
+/* v98.3 — three compact direct actions matching the task-strip controls. */
 .homeActionButtonRow {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -18692,21 +18692,23 @@ button.browseRecipeWideFooterAction:focus-visible,
   justify-content: center;
   width: 100%;
   min-width: 0;
-  min-height: 42px;
-  padding: 7px 12px;
+  height: var(--rrb-segmented-height);
+  min-height: var(--rrb-segmented-height);
+  max-height: var(--rrb-segmented-height);
+  padding: 0 12px;
   border: 1px solid #c8d4ca;
   border-radius: 9px;
   background: #fff;
   color: #14532d;
-  font: 800 13px/1.15 Inter, Arial, sans-serif;
+  font: var(--rrb-segmented-font-weight) var(--rrb-segmented-font-size)/1 Inter, Arial, sans-serif;
   text-align: center;
+  white-space: nowrap;
   cursor: pointer;
 }
 .homeActionDestinationButton:hover { background: #f7f4ee; }
 .homeActionDestinationButton:focus-visible { outline: 3px solid rgba(154, 147, 143, .35); outline-offset: 2px; }
 @media (max-width: 720px) {
   .homeActionButtonRow { grid-template-columns: 1fr; gap: 7px; }
-  .homeActionDestinationButton { min-height: 44px; }
 }
 
 .homeActionChoices {
