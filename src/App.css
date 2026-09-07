@@ -21831,7 +21831,7 @@ button.browseRecipeWideFooterAction:focus-visible,
   }
 }
 
-@media (max-width: 720px) {
+@media (max-width: 900px) {
   .shoppingStoreChooser { align-items: stretch; flex-direction: column; }
   .shoppingStoreChooser > div { margin-right: 0; }
   .shoppingStoreChooser label { min-width: 0; }

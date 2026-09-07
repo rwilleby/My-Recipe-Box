@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 
 const css = await readFile(new URL("../src/App.css", import.meta.url), "utf8");
-const mobileShopping = css.match(/@media \(max-width: 720px\) \{[\s\S]*?\/\* v85\.4 minor edit/);
+const mobileShopping = css.match(/@media \(max-width: 900px\) \{[\s\S]*?\/\* v85\.4 minor edit/);
 
 assert.ok(mobileShopping, "mobile Shopping List rules should exist");
 assert.match(mobileShopping[0], /padding:\s*11px 10px 11px 2px/);
