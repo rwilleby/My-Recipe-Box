@@ -21839,7 +21839,7 @@ button.browseRecipeWideFooterAction:focus-visible,
   .shoppingListDataRow {
     grid-template-columns: 36px minmax(0, 1fr) auto;
     gap: 7px 9px;
-    padding: 11px 2px;
+    padding: 11px 10px 11px 2px;
   }
   .shoppingListCheckCell { grid-row: 1 / span 2; }
   .shoppingListProductCell { grid-column: 2 / -1; }
@@ -21847,7 +21847,16 @@ button.browseRecipeWideFooterAction:focus-visible,
   .shoppingListNeededCell { grid-column: 3; text-align: right; }
   .shoppingListOrderCell { grid-column: 2 / -1; max-width: 180px; }
   .shoppingListNotesCell { grid-column: 2 / -1; }
-  .shoppingListOnlineButton { grid-column: 2 / -1; width: 100%; min-height: 42px; }
+  .shoppingListOnlineButton {
+    grid-column: 2 / -1;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    min-height: 42px;
+    padding-inline: 8px;
+    white-space: nowrap;
+  }
   .shoppingFlatGroupHeader,
   .shoppingFlatListTitle {
     align-items: flex-start;
