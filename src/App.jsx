@@ -73,6 +73,7 @@ import { FREEZER_ACCORDION_GROUPS } from "./data/freezerPackagingAccordions.js";
 import { HOLIDAY_OCCASION_MENUS } from "./data/holidayOccasionMenus.js";
 import ShoppingCompanionWindow from "./features/shopping/ShoppingCompanionWindow.jsx";
 import ShoppingRecipeActions from "./features/shopping/ShoppingRecipeActions.jsx";
+import PlanningShoppingDashboard from "./features/planning/PlanningShoppingDashboard.jsx";
 import { ONLINE_GROCERY_STORES, PREFERRED_GROCERY_STORE_KEY, openOnlineGroceryWindow } from "./utils/onlineGroceryShopping.js";
 import { printRecipeCards } from "./utils/printRecipeCards.js";
 const VEGAN_LIBRARY_CATEGORIES = Object.freeze([
@@ -618,8 +619,6 @@ const FULLY_STOCKED_PANTRY_MATCHERS = FULLY_STOCKED_PANTRY_ITEMS.map((item) => (
   item,
   terms: [item.name],
 }));
-
-
 const GROCERY_REFERENCE_GROUPS = [
   {
     group: "Tortillas & Wraps",
@@ -1126,10 +1125,6 @@ const HERO_INFO_BUTTONS = [
     ],
   },
 ];
-
-
-
-
 const HOME_KITCHEN_TOOL_SLIDES = [
   { title: "32-Ounce Deli Containers", image: "images/products/hero-amazon-32oz-deli-a.webp" },
   { title: "Baguette Bread Pan", image: "images/products/hero-amazon-baguette-a.webp" },
@@ -7201,6 +7196,7 @@ function PlannerPage({
 
   return (
     <main className="pageShell weeklyCalendarPlannerPage">
+      <PlanningShoppingDashboard activeStep="plan" compact setActivePage={setActivePage} />
       <header className="weeklyCalendarPlannerHeaderV3">
         <SectionIntro
           title="Let's Plan This Weeks Meals"
@@ -10833,6 +10829,7 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
         text="Checked items are covered by your inventory or purchase. Unchecked items still need to be bought."
         className="shoppingListSectionIntro"
       />
+      <PlanningShoppingDashboard activeStep={showShoppingCompanion ? "shop" : "review"} setActivePage={setActivePage} />
 
       <div className="shoppingListIntroActions">
         <div className="shoppingViewToggle" role="tablist" aria-label="Shopping list view">
@@ -10866,7 +10863,7 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
         </button>
       </div>
 
-      <section className="shoppingStoreChooser" aria-label="Online grocery store"><div>
+      <section id="online-shopping" className="shoppingStoreChooser" aria-label="Online grocery store"><div>
           <strong>Shop Online</strong>
           <span>Product searches open in one reusable shopping window beside your list.</span>
         </div>
@@ -18510,6 +18507,7 @@ export default function App() {
             text="Turn one focused weekend cooking session into several easier meals. Choose crock-pot recipes, smoked or grilled meats, flexible base foods, complete dishes, and desserts; then decide what to refrigerate, what to freeze, and how each portion should be packaged."
             className="pageHeroDepth464 weekendBulkHero"
           />
+          <PlanningShoppingDashboard activeStep="bulk" compact setActivePage={setActivePage} />
           <WeekendBulkMealPlanner
             recipes={classifiedRecipes}
             completeMeals={dinnerCombinations}
@@ -19130,6 +19128,7 @@ Use this collection to organize recipes that fit prep-ahead cooking, planned lef
             videoSrc={MASTER_KITCHEN_INVENTORY_VIDEO_URL}
             videoPoster={MASTER_KITCHEN_INVENTORY_VIDEO_POSTER}
           />
+          <PlanningShoppingDashboard activeStep="away" compact setActivePage={setActivePage} />
           <InventoryHubPage
             {...pageProps}
             initialTab={activePage === "Freezer Inventory Management" ? "freezer" : activePage === "Pantry Staples" ? "pantry" : "kitchen"}
