@@ -5857,6 +5857,11 @@ function Home({
   setPlan,
   kosUi,
   hasCustomUserData,
+  siteVisitCount,
+  plan,
+  refrigerator,
+  freezer,
+  preparedInventory,
 }) {
   const [showAdminAccess, setShowAdminAccess] = useState(false);
   const [siteMode, setSiteMode] = useState(() => {
@@ -5999,6 +6004,18 @@ function Home({
           setActivePage={setActivePage}
           className="homeBackupReminder"
           kosUi={kosUi}
+        />
+      )}
+
+      {siteVisitCount >= REMINDER_RIBBON_MINIMUM_VISITS && (
+        <KitchenReminderRibbon
+          plan={plan}
+          refrigerator={refrigerator}
+          freezer={freezer}
+          preparedInventory={preparedInventory}
+          kosUi={kosUi}
+          setActivePage={setActivePage}
+          enableBackupWarnings={hasCustomUserData}
         />
       )}
 
@@ -18402,23 +18419,13 @@ export default function App() {
     recipes: classifiedRecipes,
     classifiedRecipes,
     kosUi,
+    siteVisitCount,
   };
 
   return (
     <PageNavigationContext.Provider value={{ activePage, setActivePage }}>
       <div className="app">
         <Header activePage={activePage} setActivePage={setActivePage} favorites={favorites} savedCustomMeals={savedCustomMeals} />
-        {siteVisitCount >= REMINDER_RIBBON_MINIMUM_VISITS && (
-          <KitchenReminderRibbon
-            plan={plan}
-            refrigerator={refrigerator}
-            freezer={freezer}
-            preparedInventory={preparedInventory}
-            kosUi={kosUi}
-            setActivePage={setActivePage}
-            enableBackupWarnings={hasCustomUserData}
-          />
-        )}
         {activePage === "Home" && <HomeMealJourneyAccordion setActivePage={setActivePage} />}
 
       {activePage === "RFIS Project Dashboard" && (

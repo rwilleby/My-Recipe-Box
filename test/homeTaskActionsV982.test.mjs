@@ -29,5 +29,7 @@ assert.match(css, /\.homeActionSupportingLink[\s\S]*?font-weight: 800/);
 assert.match(categoryGrid, /code === "DS"[\s\S]*?id: "VG"[\s\S]*?displayName: "Vegan"/);
 assert.match(categoryGrid, /VG: "images\/categories\/VG\.webp"/);
 assert.match(categoryGrid, /category\.id === "VG"[\s\S]*?setActivePage\("Vegan Recipe Library"\)/);
+assert.ok(home.indexOf("<HomeRecipeCounters") < home.indexOf("<KitchenReminderRibbon"));
+assert.ok(home.indexOf("<KitchenReminderRibbon") < home.indexOf('className="homeAdminAccessArea"'));
 
-console.log("v98.5 homepage order, linked supporting text, and Vegan Quick Link contracts passed.");
+console.log("v98.6 homepage order, Vegan Quick Link, and reminder placement contracts passed.");
