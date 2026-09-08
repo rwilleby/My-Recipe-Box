@@ -44,6 +44,7 @@
     "test:ingredient-data-v8412": "node test/dnHbHbpItIngredientDataV8412.test.mjs",
     "test:ingredient-data-v8413": "node test/jjKrLfMxIngredientDataV8413.test.mjs",
     "test:master-freezer-v8414": "node test/masterFreezerInventoryV8414.test.mjs",
+    "test:freezer-label-maker-v982": "node test/freezerLabelMakerV982.test.mjs",
     "test:ingredient-data-v8415": "node test/pmQpSbSdSfSgIngredientDataV8415.test.mjs",
     "test:kitchen-details-v8416": "node test/kitchenDetailsInventoryV8416.test.mjs",
     "test:fully-stocked-pantry-v8437": "node test/fullyStockedPantryV8437.test.mjs",

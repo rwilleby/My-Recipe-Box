@@ -159,6 +159,7 @@ const AdminMealBuilderImageAudit = lazy(() => import("./components/AdminMealBuil
 const AdminNutritionDatabase = lazy(() => import("./components/AdminNutritionDatabase"));
 const RfisProjectDashboard = lazy(() => import("./components/RfisProjectDashboard"));
 const WeekendBulkMealPlanner = lazy(() => import("./components/WeekendBulkMealPlanner"));
+const FreezerLabelMaker = lazy(() => import("./components/FreezerLabelMaker"));
 const MasterKitchenInventoryPage = lazy(() => import("./components/MasterKitchenInventoryPage"));
 const VideoLibraryPage = lazy(() => import("./features/video-library/VideoLibraryPage.jsx"));
 const PlaceholderInfoPage = lazy(() => import("./features/info-pages/PlaceholderInfoPage.jsx"));
@@ -171,7 +172,6 @@ const BuildYourOwnMealPage = lazy(() => import("./components/BuildYourOwnMealPag
 const MealBuilderTrayPreview = lazy(() =>
   import("./components/BuildYourOwnMealPage").then((module) => ({ default: module.MealBuilderTrayPreview })),
 );
-
 const recipes = sortRecipesByCode(applyStoredRecipeOverrides(baseRecipes));
 const rfisPlatform = createRfisPlatform({
   recipes,
@@ -202,7 +202,6 @@ const SITE_VISIT_COUNT_KEY = "rrb_site_visit_count";
 const SITE_VISIT_SESSION_KEY = "rrb_site_visit_counted_this_session";
 const REMINDER_RIBBON_MINIMUM_VISITS = 10;
 const SHOW_KITCHEN_REMINDER_RIBBON = false;
-
 function normalizeSavedCustomMeals(value) {
   if (!Array.isArray(value)) return [];
   return value
@@ -280,7 +279,6 @@ function hasStoredCustomUserInformation() {
 
   return false;
 }
-
 function hasCustomUserState({
   favorites,
   savedCustomMeals,
@@ -1755,6 +1753,7 @@ const NO_INTRO_VIDEO_PAGES = new Set([
 
   "RFIS Search",
   "Freezer-Friendly Meals",
+  "Freezer Label Maker",
   "Food Storage Guide",
 
   "Summer Cookouts",
@@ -1773,12 +1772,9 @@ const NO_INTRO_VIDEO_PAGES = new Set([
   "Gas Grill Recipes",
   "Smoker Recipes",
 ]);
-
 function pageHasIntroVideo(pageId = "") {
   return Boolean(pageId) && !NO_INTRO_VIDEO_PAGES.has(pageId);
 }
-
-
 const PAGE_NAVIGATION_ORDER = [
   "Home",
   ...NAV_GROUPS.flatMap((group) =>
@@ -1916,6 +1912,7 @@ function Header({ activePage, setActivePage, favorites, savedCustomMeals = [] })
       page: "Master Kitchen Inventory",
       items: [
         { label: "YOUR KITCHEN INVENTORY", page: "Master Kitchen Inventory" },
+        { label: "FREEZER LABEL MAKER", page: "Freezer Label Maker" },
         { label: "FREEZING & REHEATING", page: "Freezer Tips" },
         { label: "FOOD STORAGE & SHELF-LIFE GUIDE", page: "Food Storage Guide" },
       ],
@@ -9973,6 +9970,7 @@ function FreezerInventoryPage({ freezer, setFreezer, setActivePage, embedded = f
 
       <section className="freezerActions freezerNoPrint">
         <button type="button" className="primary" onClick={printFreezerStockWorksheet}>Print Stock-Check Worksheet</button>
+        <button type="button" className="secondary" onClick={() => setActivePage("Freezer Label Maker")}>Create Freezer Labels</button>
         <button type="button" className="secondary" onClick={() => setShowDigitalStockCheck((current) => !current)}>
           {showDigitalStockCheck ? "Close Digital Stock Check" : "Open Digital Stock Check"}
         </button>
@@ -18518,6 +18516,11 @@ export default function App() {
           />
         </>
       )}
+      {activePage === "Freezer Label Maker" && (
+        <>
+          <PageHeroImage src="images/heroes/hero-page-freezer-inv.webp" alt="Labeled frozen meals, freezer portions, storage containers, and kitchen planning notes" eyebrow="YOUR KITCHEN" title="Freezer Label Maker"
+            text="Create easy-to-read labels for individual freezer portions, Complete Dinners, and bulk-prepared ingredients. Add dates, serving amounts, reheating directions, and notes, then arrange several labels on an ordinary sheet of paper for printing and cutting.\n\nYour label history stays privately in this browser and is included when you back up Robert’s Recipe Box." className="pageHeroDepth464" />
+          <FreezerLabelMaker recipes={classifiedRecipes} completeMeals={dinnerCombinations} /></>)}
       {activePage === "Build Your Own Meal" && (
         <>
           <PageHeroImage
