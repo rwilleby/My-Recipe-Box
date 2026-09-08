@@ -1,4 +1,4 @@
-import { createContext, lazy, useCallback, useContext, useMemo, useState, useEffect, useRef } from "react";
+import { Fragment, createContext, lazy, useCallback, useContext, useMemo, useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { categories, recipes as baseRecipes } from "./data/recipes";
 import { PAGE_POPUP_COPY } from "./data/pagePopupCopy.js";
@@ -2593,8 +2593,6 @@ const HOME_ACTIONS = [
   {
     id: "tonight",
     label: "Plan tonight’s dinner",
-    subtext:
-      "Choose a ready-made Complete Dinner, build a meal, or find a quick recipe for tonight.",
     features: makeHomeActionFeatures([
       ["Complete Dinners", "Choose a complete main-and-sides dinner.", "Dinner Combinations"],
       ["Quick & Easy", "Find dinner ideas ready in about 30 minutes.", "Easy 30-Minute Meals"],
@@ -2603,13 +2601,12 @@ const HOME_ACTIONS = [
       ["Your Favorites", "Return to recipes you already saved.", "Favorites"],
       ["Freezer Options", "Use a prepared meal already in your freezer.", "Kitchen Freezer"],
     ]),
-    actions: [["Browse Our Complete Dinners", "Dinner Combinations"], ["Browse Our Diet Meals", "Healthy Dinners"], ["Browse Our Recipe Library", "Recipes"]],
+    supportingLead: "For tonight, you can ",
+    actions: [["Browse Our Complete Dinners", "Dinner Combinations", " for easy meal combinations, "], ["Browse Our Diet Meals", "Healthy Dinners", " for lighter, lower-calorie options, or "], ["Browse Our Recipe Library", "Recipes", " to explore all available recipes."]],
   },
   {
     id: "week",
     label: "Plan the week’s meals",
-    subtext:
-      "Build a flexible weekly meal plan, account for leftovers, and turn it into an organized grocery list.",
     features: makeHomeActionFeatures([
       ["Weekly Planner", "Choose meals for the days ahead.", "Meal Planner"],
       ["Complete Dinners", "Add coordinated main-and-side meals.", "Dinner Combinations"],
@@ -2618,13 +2615,12 @@ const HOME_ACTIONS = [
       ["Make-Ahead Meals", "Move some of the week’s cooking earlier.", "Make-Ahead Meals"],
       ["Grocery List", "Organize what you need to buy.", "Shopping Lists"],
     ]),
-    actions: [["Plan Your Week’s Dinners", "Meal Planner"], ["Plan Your Bulk Meals", "Weekend Bulk Meal Planner"], ["Browse Our Crock Pot Library", "Slow Cooker Favorites"]],
+    supportingLead: "Planning ahead? You can ",
+    actions: [["Plan Your Week’s Dinners", "Meal Planner", " for everyday meals, "], ["Plan Your Bulk Meals", "Weekend Bulk Meal Planner", " to cook more at once, or "], ["Browse Our Crock Pot Library", "Slow Cooker Favorites", " for convenient slow-cooked options."]],
   },
   {
     id: "cook",
     label: "Start cooking",
-    subtext:
-      "Open a recipe, check the directions, and get the cooking guidance you need without extra searching.",
     features: makeHomeActionFeatures([
       ["Browse Recipes", "Choose the recipe you want to cook now.", "Recipes"],
       ["Your Favorites", "Cook a dependable saved favorite.", "Favorites"],
@@ -2633,13 +2629,12 @@ const HOME_ACTIONS = [
       ["Cooking Guides", "Check methods, temperatures, and helpful tips.", "Reference Guides"],
       ["Today’s Plan", "Open the meal already planned for today.", "Meal Planner"],
     ]),
-    actions: [["Browse Your Favorites", "Favorites"], ["Browse Our Diet Meals", "Healthy Dinners"], ["Browse Our Recipe Library", "Recipes"]],
+    supportingLead: "Ready to start cooking? You can ",
+    actions: [["Browse Your Favorites", "Favorites", " for recipes you already love, "], ["Browse Our Diet Meals", "Healthy Dinners", " for lighter options, or "], ["Browse Our Recipe Library", "Recipes", " to find something new."]],
   },
   {
     id: "freezer",
     label: "Prepare freezer meals",
-    subtext:
-      "Choose freezer-friendly recipes, plan portions, and keep packaging, labeling, and reheating organized.",
     features: makeHomeActionFeatures([
       ["Freezer-Friendly", "Browse recipes designed to freeze well.", "Freezer-Friendly Meals"],
       ["Complete Dinners", "Prepare coordinated freezer-ready dinners.", "Dinner Combinations"],
@@ -2648,13 +2643,12 @@ const HOME_ACTIONS = [
       ["Freezer Inventory", "See what is already frozen.", "Kitchen Freezer"],
       ["Freeze & Reheat", "Review freezing, thawing, and reheating help.", "Freezer Tips"],
     ]),
-    actions: [["Browse Your Complete Dinners", "Dinner Combinations"], ["Browse Your Diet Meals", "Healthy Dinners"], ["Browse Our Freezer-Friendly Library", "Freezer-Friendly Meals"]],
+    supportingLead: "Stocking your freezer? You can ",
+    actions: [["Browse Your Complete Dinners", "Dinner Combinations", " for ready-planned combinations, "], ["Browse Your Diet Meals", "Healthy Dinners", " for lighter choices, or "], ["Browse Our Freezer-Friendly Library", "Freezer-Friendly Meals", " for recipes made to freeze well."]],
   },
   {
     id: "ingredients",
     label: "Use what I have",
-    subtext:
-      "Start with ingredients already in your pantry, refrigerator, or freezer and reduce unnecessary shopping.",
     features: makeHomeActionFeatures([
       ["Your Pantry", "Check shelf-stable ingredients on hand.", "Pantry Staples"],
       ["Refrigerator", "Review fresh foods and leftovers first.", "Kitchen Refrigerator"],
@@ -2663,7 +2657,8 @@ const HOME_ACTIONS = [
       ["Meal Planner", "Build meals around available ingredients.", "Meal Planner"],
       ["Grocery Gaps", "Add only the missing items to your list.", "Shopping Lists"],
     ]),
-    actions: [["Browse Your Refrigerator Dinners", "Kitchen Refrigerator"], ["Browse Your Freezer Meals", "Kitchen Freezer"], ["Create Your Own Meal", "Build Your Own Meal"]],
+    supportingLead: "Make the most of what you already have by choosing ",
+    actions: [["Browse Your Refrigerator Dinners", "Kitchen Refrigerator", ", "], ["Browse Your Freezer Meals", "Kitchen Freezer", ", or "], ["Create Your Own Meal", "Build Your Own Meal", " using ingredients currently in your kitchen."]],
   },
 ];
 
@@ -2788,7 +2783,6 @@ function HomePhotoFeatureSection({ setActivePage, kosUi }) {
           <SectionIntro
             title="What Do You Want to Do Today?"
             titleId="home-photo-features-title"
-            text={<span aria-live="polite">{activeAction.subtext}</span>}
             className="homeActionSectionIntro"
             video={
               <SupplementalHoverVideo
@@ -2835,21 +2829,28 @@ function HomePhotoFeatureSection({ setActivePage, kosUi }) {
 
         <div
           id="home-action-panel"
-          className="homeActionButtonRow"
+          className="homeActionSupportingText"
           role="tabpanel"
           aria-labelledby={`home-action-${activeAction.id}`}
+          aria-live="polite"
           data-kos-intent={activeKosIntent}
           data-kos-screen-ready={activeScreenModel ? "true" : "false"}
         >
-          {activeAction.actions.map(([label, page]) => (
-            <button
-              key={label}
-              type="button"
-              className="homeActionDestinationButton"
-              onClick={() => openHomeAction(page)}
+          {activeAction.supportingLead}
+          {activeAction.actions.map(([label, page, trailingText]) => (
+            <Fragment key={label}>
+            <a
+              href={routeForPage(page)}
+              className="homeActionSupportingLink"
+              onClick={(event) => {
+                event.preventDefault();
+                openHomeAction(page);
+              }}
             >
               {label}
-            </button>
+            </a>
+            {trailingText}
+            </Fragment>
           ))}
         </div>
       </section>

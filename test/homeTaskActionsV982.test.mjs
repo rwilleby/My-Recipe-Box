@@ -19,9 +19,11 @@ assert.ok(home.indexOf("<HomeDietMealStrip") < home.indexOf("<HomePhotoFeatureSe
 const actionSection = app.slice(app.indexOf("function HomePhotoFeatureSection"), app.indexOf("function TransparencyLine"));
 assert.doesNotMatch(actionSection, /homePhotoFeatureTile|HomePhotoFeatureModal/);
 assert.match(actionSection, /activeAction\.actions\.map/);
-assert.match(css, /homeActionButtonRow/);
 assert.match(css, /--rrb-segmented-height: 32px/);
-assert.match(css, /\.homeActionDestinationButton[\s\S]*?height: var\(--rrb-segmented-height\)/);
-assert.match(css, /\.homeActionDestinationButton[\s\S]*?white-space: nowrap/);
+assert.match(actionSection, /href=\{routeForPage\(page\)\}/);
+assert.match(actionSection, /event\.preventDefault\(\)/);
+assert.match(css, /\.homeActionSupportingText[\s\S]*?font-family: Inter/);
+assert.match(css, /\.homeActionSupportingText[\s\S]*?font-style: italic/);
+assert.match(css, /\.homeActionSupportingLink[\s\S]*?font-weight: 800/);
 
-console.log("v98.3 homepage task order and matched action-button sizing contracts passed.");
+console.log("v98.4 homepage linked supporting-text contracts passed.");
