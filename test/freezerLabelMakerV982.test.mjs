@@ -4,10 +4,17 @@ import { addFreezerMonths, expandFreezerLabelQueue, normalizeFreezerLabelState, 
 
 assert.equal(addFreezerMonths("2026-09-08", 3), "2026-12-08");
 assert.equal(addFreezerMonths("2026-11-30", 3), "2027-03-02");
-assert.equal(normalizeFreezerLabelState({ layout: "bad", queue: "bad" }).layout, "standard");
+assert.equal(normalizeFreezerLabelState({ layout: "bad", queue: "bad" }).layout, "landscape");
 const expanded = expandFreezerLabelQueue([{ id: "one", name: "Soup", copies: 3 }]);
 assert.equal(expanded.length, 3);
-assert.equal(paginateFreezerLabels(Array(9).fill({}), "standard").length, 2);
+assert.equal(paginateFreezerLabels(Array(9).fill({})).length, 3);
+const maker = readFileSync(new URL("../src/components/FreezerLabelMaker.jsx", import.meta.url), "utf8");
+assert.match(maker, /Complete Dinners/);
+assert.match(maker, /Healthy Dinners/);
+assert.match(maker, /Build-a-Meals/);
+assert.match(maker, /Bulk Items/);
+assert.match(maker, /Favorites/);
+assert.match(maker, /IMAGE_KINDS.*complete.*healthy.*build.*favorites/);
 const app = readFileSync(new URL("../src/App.jsx", import.meta.url), "utf8");
 assert.match(app, /FREEZER LABEL MAKER/);
 assert.match(app, /activePage === "Freezer Label Maker"/);
