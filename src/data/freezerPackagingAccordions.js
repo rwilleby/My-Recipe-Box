@@ -8,12 +8,12 @@ const INDIVIDUAL_MEAL_STEPS = [
 ];
 
 const DINNER_FOR_TWO_STEPS = [
-  { title: "PLAN FOUR SERVINGS", copy: "Prepare enough for dinner tonight and one complete two-serving dinner for the freezer." },
-  { title: "SERVE TONIGHT’S MEAL", copy: "Plate the first two servings before portioning the food intended for the freezer." },
-  { title: "COOL THE EXTRA DINNER", copy: "Cool the main dish and sides promptly so steam does not become excess freezer ice." },
-  { title: "PACK BOTH SERVINGS", copy: "Arrange two complete servings together in a container sized for one future dinner." },
-  { title: "LABEL FOR TWO", copy: "Record the dinner name, two-serving quantity, freeze date, and reheating directions." },
-  { title: "FREEZE & ROTATE", copy: "Freeze promptly and place the newest dinner behind older meals so earlier packages are used first." },
+  { image: "01-plan-four-servings.webp", title: "PLAN FOUR SERVINGS", copy: "Prepare enough of the main dish and sides to provide four complete servings.", alt: "Four servings of a complete dinner prepared with the main dish and sides ready for plating and packaging." },
+  { image: "02-serve-tonights-meal.webp", title: "SERVE TONIGHT’S MEAL", copy: "Plate two servings to enjoy now and reserve the remaining food for another dinner.", alt: "Two servings plated for tonight while the remaining main dish and sides are reserved for a future dinner." },
+  { image: "03-cool-the-extra-dinner.webp", title: "COOL THE EXTRA DINNER", copy: "Allow the two remaining servings to cool properly before placing them in the freezer container.", alt: "The two remaining dinner servings cooling before being packed for the freezer." },
+  { image: "04-pack-both-servings.webp", title: "PACK BOTH SERVINGS", copy: "Place both servings in one large 29-ounce container, keeping the meal components neatly arranged.", alt: "Two complete servings arranged together inside one large white 29-ounce freezer container." },
+  { image: "05-label-for-two.webp", title: "LABEL FOR TWO", copy: "Secure the clear lid and add a label with the meal name, contents, date, and reheating information.", alt: "A clear lid secured on the two-serving dinner container with a complete freezer label attached." },
+  { image: "06-freeze-and-rotate.webp", title: "FREEZE & ROTATE", copy: "Freeze the packaged dinner and arrange stored meals so the oldest meals are used first.", alt: "Labeled two-serving dinner containers organized in the freezer with older meals positioned to be used first." },
 ];
 
 const MEAL_COMPONENT_STEPS = [
@@ -27,7 +27,7 @@ const MEAL_COMPONENT_STEPS = [
 
 const PACKAGING_ACCORDIONS = [
   { id: "individual-meals", title: "How I Package My Individual Freezer Meals", summary: "See the complete process—from portioning one prepared meal to storing it in the freezer.", intro: "Prepare, package, label, and protect each individual meal before placing it in the freezer.", steps: INDIVIDUAL_MEAL_STEPS, illustrated: true },
-  { id: "dinners-for-two", title: "How I Package My Freezer Dinners For Two", summary: "Turn planned leftovers into one complete future dinner sized for two people.", intro: "Package the main dish and sides as one clearly labeled two-serving dinner that is ready to thaw and reheat together.", steps: DINNER_FOR_TWO_STEPS },
+  { id: "dinners-for-two", title: "Freezer Dinners for Two", summary: "Cook four servings, enjoy two tonight, and package the remaining two as an easy future dinner.", intro: "Preparing four servings makes it easy to enjoy dinner tonight while saving a complete meal for two for another day.", steps: DINNER_FOR_TWO_STEPS, illustrated: true },
   { id: "meal-components", title: "How I Package My Freezer Meal Components", summary: "Store mains, sides, sauces, grains, and other prepared foods separately for flexible meal building.", intro: "Freeze prepared components in useful portions so they can be mixed, matched, and added to future meals without waste.", steps: MEAL_COMPONENT_STEPS },
 ];
 

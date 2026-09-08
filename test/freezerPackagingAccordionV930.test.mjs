@@ -14,7 +14,7 @@ const pageEnd = app.indexOf("function AboutRecipesPage", pageStart);
 const page = app.slice(pageStart, pageEnd);
 
 assert.ok(pageStart >= 0 && pageEnd > pageStart, "Freezer Meals & Storage page must remain present");
-assert.match(page, /useState\(null\)/, "All packaging accordions must load closed");
+assert.match(page, /useState\(\(\) => new Set\(\)\)/, "All packaging accordions must load closed");
 assert.match(page, /aria-expanded=\{isOpen\}/);
 assert.match(page, /aria-controls=\{panelId\}/);
 assert.match(app, /FREEZER_ACCORDION_GROUPS\.map\(\(group\) =>/);
@@ -28,14 +28,18 @@ for (const heading of [
 }
 for (const title of [
   "How I Package My Individual Freezer Meals",
-  "How I Package My Freezer Dinners For Two",
+  "Freezer Dinners for Two",
   "How I Package My Freezer Meal Components",
 ]) {
   assert.match(packagingData, new RegExp(title));
 }
 assert.match(packagingData, /See the complete process—from portioning one prepared meal to storing it in the freezer\./);
 assert.match(packagingData, /Prepare, package, label, and protect each individual meal before placing it in the freezer\./);
-assert.match(page, /setOpenPackagingAccordion\(\(current\) => current === accordion\.id \? null : accordion\.id\)/);
+assert.match(packagingData, /Cook four servings, enjoy two tonight, and package the remaining two as an easy future dinner\./);
+assert.match(packagingData, /Preparing four servings makes it easy to enjoy dinner tonight while saving a complete meal for two for another day\./);
+assert.match(packagingData, /Place both servings in one large 29-ounce container/);
+assert.match(page, /setOpenPackagingAccordions\(\(current\) =>/);
+assert.match(page, /next\.has\(accordion\.id\) \? next\.delete\(accordion\.id\) : next\.add\(accordion\.id\)/);
 assert.ok(page.indexOf("freezerPackagingAccordion") > page.indexOf("freezerMealsStorageSectionIntro"));
 assert.ok(page.indexOf("freezerPackagingAccordion") < page.indexOf("freezerMealsStorageIntroActions"));
 
@@ -47,6 +51,14 @@ const imageNames = [
   "05-vacuum-seal.webp",
   "06-store-in-freezer.webp",
 ];
+const dinnerForTwoImageNames = [
+  "01-plan-four-servings.webp",
+  "02-serve-tonights-meal.webp",
+  "03-cool-the-extra-dinner.webp",
+  "04-pack-both-servings.webp",
+  "05-label-for-two.webp",
+  "06-freeze-and-rotate.webp",
+];
 
 let previousPosition = -1;
 for (const imageName of imageNames) {
@@ -55,6 +67,16 @@ for (const imageName of imageNames) {
   previousPosition = position;
   await access(new URL(`../public/images/freezer-packaging/${imageName}`, import.meta.url));
 }
+
+previousPosition = -1;
+for (const imageName of dinnerForTwoImageNames) {
+  const position = packagingData.indexOf(imageName);
+  assert.ok(position > previousPosition, `${imageName} must appear in the approved order`);
+  previousPosition = position;
+  await access(new URL(`../public/images/freezer-packaging/${imageName}`, import.meta.url));
+}
+assert.ok(packagingData.indexOf('id: "individual-meals"') < packagingData.indexOf('id: "dinners-for-two"'));
+assert.match(packagingData, /id: "dinners-for-two"[\s\S]*?illustrated: true/);
 
 for (const title of ["SELECT & PORTION", "ADD THE MEAL PIECES", "SECURE THE LID", "LABEL THE MEAL", "VACUUM SEAL", "STORE IN THE FREEZER"]) {
   assert.ok(packagingData.includes(title), `Missing step title: ${title}`);

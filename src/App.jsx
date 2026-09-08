@@ -11822,7 +11822,7 @@ function HolidaysSpecialOccasionsPage({ setActivePage, setPlan, openRecipeCard }
 }
 
 function FreezerTipsPage({ setActivePage }) {
-  const [openPackagingAccordion, setOpenPackagingAccordion] = useState(null);
+  const [openPackagingAccordions, setOpenPackagingAccordions] = useState(() => new Set());
 
   const tipCards = [
     {
@@ -11871,7 +11871,7 @@ function FreezerTipsPage({ setActivePage }) {
             </header>
             <div className="freezerPackagingAccordionList">
               {group.accordions.map((accordion) => {
-          const isOpen = openPackagingAccordion === accordion.id;
+          const isOpen = openPackagingAccordions.has(accordion.id);
           const panelId = `freezer-packaging-${accordion.id}-panel`;
           return (
             <section className={`freezerPackagingAccordion${isOpen ? " isOpen" : ""}`} key={accordion.id}>
@@ -11880,7 +11880,11 @@ function FreezerTipsPage({ setActivePage }) {
                 type="button"
                 aria-expanded={isOpen}
                 aria-controls={panelId}
-                onClick={() => setOpenPackagingAccordion((current) => current === accordion.id ? null : accordion.id)}
+                onClick={() => setOpenPackagingAccordions((current) => {
+                  const next = new Set(current);
+                  next.has(accordion.id) ? next.delete(accordion.id) : next.add(accordion.id);
+                  return next;
+                })}
               >
                 <span className="freezerPackagingAccordionArrow" aria-hidden="true">▶</span>
                 <span className="freezerPackagingAccordionHeading">
