@@ -25,6 +25,7 @@ export const CATEGORY_ICON_IMAGES = {
   SF: "images/categories/SF.webp",
   SG: "images/categories/SG.webp",
   SW: "images/categories/SW.webp",
+  VG: "images/categories/VG.webp",
 };
 
 export const HOME_CATEGORY_CODES = [
@@ -94,18 +95,24 @@ export default function HomeCategoryGrid({
   SupplementalHoverVideo,
 }) {
   const categoryLookup = new Map(categories.map((category) => [category.id, category]));
-  const homeCategories = HOME_CATEGORY_CODES.slice(0, 13).map((code) => ({
-    ...HOME_CATEGORY_FALLBACKS[code],
-    ...(categoryLookup.get(code) || {}),
-    displayName: code === "QP"
-      ? "Quiche"
-      : code === "SD"
-        ? "Sides"
-        : HOME_CATEGORY_LABELS[code],
-    iconImage: CATEGORY_ICON_IMAGES[code],
-  }));
+  const homeCategories = HOME_CATEGORY_CODES.slice(0, 13).map((code) => code === "DS"
+    ? { id: "VG", name: "Vegan Recipe Library", displayName: "Vegan", iconImage: CATEGORY_ICON_IMAGES.VG, icon: "🌱" }
+    : {
+      ...HOME_CATEGORY_FALLBACKS[code],
+      ...(categoryLookup.get(code) || {}),
+      displayName: code === "QP" ? "Quiche" : code === "SD" ? "Sides" : HOME_CATEGORY_LABELS[code],
+      iconImage: CATEGORY_ICON_IMAGES[code],
+    });
 
   function openCategory(category) {
+    if (category.id === "VG") {
+      setActivePage("Vegan Recipe Library");
+      window.requestAnimationFrame(() => window.requestAnimationFrame(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+      }));
+      return;
+    }
+
     if (category.id === "CP") {
       setActivePage("Slow Cooker Favorites");
       window.requestAnimationFrame(() => window.requestAnimationFrame(() => {

@@ -5963,6 +5963,7 @@ function Home({
         onSiteModeChange={changeSiteMode}
         backupWarningsEnabled={hasCustomUserData}
       />
+      <HomePhotoFeatureSection setActivePage={setActivePage} kosUi={kosUi} />
       <HomeComboMealStrip
         setActivePage={setActivePage}
         openRecipeCard={openRecipeCard}
@@ -5979,7 +5980,6 @@ function Home({
         classifiedRecipes={classifiedRecipes}
         siteMode={siteMode}
       />
-      <HomePhotoFeatureSection setActivePage={setActivePage} kosUi={kosUi} />
       <HomeCategoryGrid
         setFilter={setFilter}
         setActivePage={setActivePage}
