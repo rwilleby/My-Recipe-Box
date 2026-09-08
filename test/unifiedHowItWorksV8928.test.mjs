@@ -48,10 +48,10 @@ assert.match(app, /openHowItWorksGuide\("Recipe Cards"\)/);
 assert.match(app, /title="How It Works"[\s\S]*?text="Your Guide to Using Robert’s Recipe Box"/);
 assert.match(app, /title="How It Works"[\s\S]*?videoSrc=\{HOW_IT_WORKS_VIDEO_URL\}/);
 assert.match(app, /title="Video Library"[\s\S]*?videoSrc=\{VIDEO_LIBRARY_VIDEO_URL\}/);
-assert.equal(howItWorksVideo.length, 9397332);
-assert.equal(videoLibraryVideo.length, 8958256);
-assert.equal(createHash("sha256").update(howItWorksVideo).digest("hex"), "18a8bcd44ef1f443837475972bce874939383c8fcab8df4a9e5cc98d2606f501");
-assert.equal(createHash("sha256").update(videoLibraryVideo).digest("hex"), "e7c0fa4ffa154b081a025f5493c3e076e24fba07535c69f9c3991df69ac3069a");
+assert.equal(howItWorksVideo.length, 4331583);
+assert.equal(videoLibraryVideo.length, 4251321);
+assert.equal(createHash("sha256").update(howItWorksVideo).digest("hex"), "ae69b0138770bc0540066986adb77317f356eb5715331092372f64dd3cabeab3");
+assert.equal(createHash("sha256").update(videoLibraryVideo).digest("hex"), "ab978a8ce9593fcb36043467d1649cf4e42c9253f8813adb8d857da30638a937");
 assert.match(app, /<UnifiedHowItWorksPage setActivePage=\{setActivePage\}/);
 assert.doesNotMatch(app, /activePage === "How To Use"/);
 

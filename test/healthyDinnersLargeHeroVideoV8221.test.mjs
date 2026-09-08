@@ -7,7 +7,7 @@ const videoStats = await stat(videoUrl);
 const videoHeader = await readFile(videoUrl);
 
 assert.ok(videoStats.size > 1_000_000, "Diet Meals video must contain the supplied optimized MP4");
-assert.equal(videoStats.size, 5_235_878, "Diet Meals video bytes must match the supplied optimized file");
+assert.equal(videoStats.size, 2_903_815, "Diet Meals video bytes must match the v98.1 optimized file");
 assert.equal(videoHeader.subarray(4, 8).toString("ascii"), "ftyp", "Diet Meals asset must be an MP4");
 
 assert.match(app, /const HEALTHY_DINNERS_VIDEO_URL = "videos\/diet-meals\.mp4";/);
