@@ -201,6 +201,7 @@ const CUSTOM_USER_INFORMATION_MARKER_KEY = "rrb_has_custom_user_information";
 const SITE_VISIT_COUNT_KEY = "rrb_site_visit_count";
 const SITE_VISIT_SESSION_KEY = "rrb_site_visit_counted_this_session";
 const REMINDER_RIBBON_MINIMUM_VISITS = 10;
+const SHOW_KITCHEN_REMINDER_RIBBON = false;
 
 function normalizeSavedCustomMeals(value) {
   if (!Array.isArray(value)) return [];
@@ -6007,7 +6008,7 @@ function Home({
         />
       )}
 
-      {siteVisitCount >= REMINDER_RIBBON_MINIMUM_VISITS && (
+      {SHOW_KITCHEN_REMINDER_RIBBON && siteVisitCount >= REMINDER_RIBBON_MINIMUM_VISITS && (
         <KitchenReminderRibbon
           plan={plan}
           refrigerator={refrigerator}

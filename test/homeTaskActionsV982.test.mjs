@@ -31,5 +31,6 @@ assert.match(categoryGrid, /VG: "images\/categories\/VG\.webp"/);
 assert.match(categoryGrid, /category\.id === "VG"[\s\S]*?setActivePage\("Vegan Recipe Library"\)/);
 assert.ok(home.indexOf("<HomeRecipeCounters") < home.indexOf("<KitchenReminderRibbon"));
 assert.ok(home.indexOf("<KitchenReminderRibbon") < home.indexOf('className="homeAdminAccessArea"'));
+assert.match(app, /const SHOW_KITCHEN_REMINDER_RIBBON = false/);
 
-console.log("v98.6 homepage order, Vegan Quick Link, and reminder placement contracts passed.");
+console.log("v98.7 homepage order, Vegan Quick Link, and hidden reminder contracts passed.");

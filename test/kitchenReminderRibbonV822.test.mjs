@@ -34,6 +34,8 @@ const app = await readFile(new URL("../src/App.jsx", import.meta.url), "utf8");
 const bulkPlanner = await readFile(new URL("../src/components/WeekendBulkMealPlanner.jsx", import.meta.url), "utf8");
 const css = await readFile(new URL("../src/components/KitchenReminderRibbon.css", import.meta.url), "utf8");
 
+assert.match(app, /const SHOW_KITCHEN_REMINDER_RIBBON = false/);
+
 assert.match(component, /aria-live="polite"/);
 assert.match(component, /onMouseEnter/);
 assert.match(component, /onFocus/);
@@ -46,6 +48,7 @@ assert.doesNotMatch(component, /Remind Me Tomorrow|Hide for This Visit/);
 const home = app.slice(app.indexOf("function Home({"), app.indexOf("function RecipesPage"));
 assert.ok(home.indexOf("<KitchenReminderRibbon") > home.indexOf("<HomeRecipeCounters"));
 assert.ok(home.indexOf("<KitchenReminderRibbon") < home.indexOf('className="homeAdminAccessArea"'));
+assert.match(home, /SHOW_KITCHEN_REMINDER_RIBBON && siteVisitCount >= REMINDER_RIBBON_MINIMUM_VISITS/);
 assert.equal((app.match(/<KitchenReminderRibbon/g) || []).length, 1);
 assert.match(bulkPlanner, /rrb:weekend-bulk-plan-updated/);
 assert.match(css, /height: \.25in/);
