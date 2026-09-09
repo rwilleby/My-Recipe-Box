@@ -22,24 +22,27 @@ function assertWebp(filePath) {
   assert.equal(bytes.subarray(8, 12).toString("ascii"), "WEBP", `${path.basename(filePath)} must be WebP`);
 }
 
-const registryStart = source.indexOf("const MEAL_BUILDER_MAIN_IDS");
+const registryStart = source.indexOf("export const MEAL_BUILDER_HAMBURGER_PATTY_IDS");
 const registryEnd = source.indexOf("const MEAL_BUILDER_LABEL_SHEETS");
 assert.ok(registryStart >= 0 && registryEnd > registryStart, "Current Meal Builder registry must be present");
 const registrySource = source.slice(registryStart, registryEnd).replaceAll("export ", "");
 const registry = vm.runInNewContext(`(() => { ${registrySource}; return {
   mainIds: [...MEAL_BUILDER_MAIN_IDS],
   sideIds: [...MEAL_BUILDER_SIDE_IDS],
+  sideTwoIds: [...MEAL_BUILDER_SIDE_TWO_IDS],
   fullCanvasMainIds: [...MEAL_BUILDER_FULL_CANVAS_MAIN_IDS],
   layouts: [...MEAL_BUILDER_MAIN_LAYOUTS],
 }; })()`);
 const mainIds = new Set(registry.mainIds);
 const sideIds = new Set(registry.sideIds);
+const sideTwoIds = new Set(registry.sideTwoIds);
 const fullCanvasIds = new Set(registry.fullCanvasMainIds);
 const layouts = new Map(registry.layouts);
 
-assert.equal(mainIds.size, 405, "BAM must expose exactly 405 active main dishes");
-assert.equal(sideIds.size, 53, "BAM must expose SD-001 through SD-053");
-assert.equal([...layouts.values()].filter((layout) => layout === "two-thirds").length, 190, "Exactly 190 owner-approved mains use two-thirds trays");
+assert.equal(mainIds.size, 465, "BAM must expose exactly 465 active main dishes");
+assert.equal(sideIds.size, 51, "BAM sides must exclude the two loaded-potato mains");
+assert.equal(sideTwoIds.size, 54, "Side 2 must include 51 sides plus three protein toppings");
+assert.equal([...layouts.values()].filter((layout) => layout === "two-thirds").length, 203, "Exactly 203 owner-approved mains use two-thirds trays");
 assert.equal([...layouts.values()].filter((layout) => layout === "full-tray").length, 6, "Exactly six mains use full trays");
 for (const [id, layout] of layouts) {
   assert.ok(mainIds.has(id), `${id} layout must reference an active main`);
@@ -55,12 +58,13 @@ for (const id of mainIds) {
   assert.ok(fs.existsSync(filePath), `${id} main hero is missing`);
   assertWebp(filePath);
 }
-assert.equal(sideOneFiles.length, 53, "Side 1 must contain exactly 53 WebP heroes");
-assert.equal(sideTwoFiles.length, 53, "Side 2 must contain exactly 53 WebP heroes");
+assert.equal(sideOneFiles.length, 53, "Side 1 retains the two legacy potato files outside the active selector");
+assert.equal(sideTwoFiles.length, 56, "Side 2 retains the two legacy potato files outside the active selector");
 for (const id of sideIds) {
   assertWebp(path.join(sideOneDir, `${id}.webp`));
   assertWebp(path.join(sideTwoDir, `${id}.webp`));
 }
+for (const id of sideTwoIds) assertWebp(path.join(sideTwoDir, `${id}.webp`));
 assertWebp(trayBasePath);
 
 assert.match(source, /alt="Empty white three-compartment meal-prep tray"/);
@@ -71,6 +75,10 @@ assert.match(source, /<MealChoiceStrip label="Side 2"[\s\S]*?disabled=\{sideTwoD
 assert.match(source, /nextLayout === "two-thirds" \|\| nextLayout === "full-tray"\) setSideOneId\(""\)/);
 assert.match(source, /nextLayout === "full-tray"\) setSideTwoId\(""\)/);
 assert.equal(layouts.get("AM-070"), "two-thirds", "AM-070 Cheeseburger Casserole must disable Side 1");
+assert.equal(layouts.get("SD-027"), "two-thirds", "Loaded Baked Potato must be a two-thirds main");
+assert.equal(layouts.get("SD-028"), "two-thirds", "Loaded Baked Sweet Potato must be a two-thirds main");
+assert.ok(!sideIds.has("SD-027") && !sideIds.has("SD-028"), "Loaded potatoes must not appear in either standard side list");
+for (const id of ["SG-008", "SG-010", "SG-011"]) assert.ok(sideTwoIds.has(id), `${id} must be available as a Side 2 protein topping`);
 const approvedTwoThirdsIds = [
   ...[2, 8, 9, 14, 15, 19, 20, 21, 22, 23, 24, 25, 26, 27, 29, 30, 31, 32, 33, 34, 35, 36, 38, 39, 40, 41, 42, 43, 44, 45, 46, 50, 51, 52, 55, 56, 57, 58, 59, 60, 61, 62, 64, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78].map((number) => `AM-${String(number).padStart(3, "0")}`),
   ...Array.from({ length: 21 }, (_, index) => `AS-${String(index + 1).padStart(3, "0")}`),
@@ -103,4 +111,4 @@ assert.match(styles, /\.mealBuilderChoiceRail\s*\{[^}]*overflow-y:\s*auto[^}]*sc
 assert.match(styles, /is-avery-8163 \.mealBuilderLabelPage[^}]*repeat\(2,4in\)[^}]*repeat\(5,2in\)/);
 assert.match(styles, /is-avery-5160 \.mealBuilderLabelPage[^}]*repeat\(3,2\.625in\)[^}]*repeat\(10,1in\)/);
 
-console.log(`Current Meal Builder contract passed: ${mainFiles.length} main files, 53 Side 1 files, and 53 Side 2 files`);
+console.log(`Current Meal Builder contract passed: ${mainFiles.length} main files, 51 active Side 1 choices, and 54 active Side 2 choices`);

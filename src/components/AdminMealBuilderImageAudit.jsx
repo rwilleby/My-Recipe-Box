@@ -5,6 +5,7 @@ import {
   MEAL_BUILDER_MAIN_IDS,
   MEAL_BUILDER_MAIN_LAYOUTS,
   MEAL_BUILDER_SIDE_IDS,
+  MEAL_BUILDER_SIDE_TWO_IDS,
   MealBuilderTrayPreview,
 } from "./BuildYourOwnMealPage.jsx";
 import "./AdminMealBuilderImageAudit.css";
@@ -114,7 +115,11 @@ export default function AdminMealBuilderImageAudit({ recipes = [], onClose }) {
 
   const recipeMap = useMemo(() => new Map(recipes.map((recipe) => [recipe.id, recipe])), [recipes]);
   const items = useMemo(() => {
-    const ids = kind === "main" ? [...MEAL_BUILDER_MAIN_IDS] : [...MEAL_BUILDER_SIDE_IDS];
+    const ids = kind === "main"
+      ? [...MEAL_BUILDER_MAIN_IDS]
+      : kind === "side-two"
+        ? [...MEAL_BUILDER_SIDE_TWO_IDS]
+        : [...MEAL_BUILDER_SIDE_IDS];
     return ids.map((id) => ({
       id,
       key: `${kind}:${id}`,

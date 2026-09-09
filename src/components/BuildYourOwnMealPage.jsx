@@ -4,10 +4,25 @@ import { recipeHeroImageCandidates } from "../features/recipe-viewer/recipeAsset
 import "./BuildYourOwnMealPage.css";
 
 export const MAIN_CATEGORIES = [
-  ["AM", "American"], ["AS", "Asian"], ["HB", "Hamburgers"], ["IT", "Italian"],
-  ["MX", "Mexican"], ["SF", "Seafood"], ["SG", "Meats"], ["CP", "Crock Pot Meals"],
+  ["AM", "American"], ["AS", "Asian"], ["HBP", "Hamburger Patties"], ["IT", "Italian"],
+  ["MX", "Mexican"], ["SF", "Seafood"], ["SG", "Smoked & Grilled"], ["CP", "Crock Pot Meals"],
 ];
 export const SIDE_CATEGORIES = [["SD", "Side Dishes"]];
+export const SIDE_TWO_CATEGORIES = [["SD", "Side Dishes"], ["SG", "Protein Toppings"]];
+
+export const MEAL_BUILDER_HAMBURGER_PATTY_IDS = new Set(
+  Array.from({ length: 12 }, (_, index) => `HBP-${String(index + 1).padStart(3, "0")}`),
+);
+export const MEAL_BUILDER_SMOKED_GRILLED_IDS = new Set([
+  "SG-001", "SG-002", "SG-003", "SG-004", "SG-005",
+  ...Array.from({ length: 20 }, (_, index) => `SG-${String(index + 8).padStart(3, "0")}`),
+]);
+export const MEAL_BUILDER_VEGAN_MAIN_IDS = new Set([
+  "AM-007-VG", "AM-001-VG", "AM-009-VG", "AM-025-VG", "AS-007-VG", "AS-010-VG", "AS-019-VG",
+  "IT-020-VG", "MX-008-VG", "SF-005-VG", "MX-006-VG", "AS-008-VG", "IT-015-VG", "IT-029-VG",
+  "AM-020-VG", "SF-004-VG", "CP-131-VG", "IT-030-VG", "AM-067-VG", "AM-030-VG", "IT-023-VG",
+]);
+export const MEAL_BUILDER_LOADED_POTATO_IDS = new Set(["SD-027", "SD-028"]);
 
 export const MEAL_BUILDER_MAIN_IDS = new Set([
   "AM-001", "AM-002", "AM-003", "AM-004", "AM-005", "AM-006", "AM-007", "AM-008", "AM-009", "AM-010",
@@ -25,25 +40,19 @@ export const MEAL_BUILDER_MAIN_IDS = new Set([
   ...Array.from({ length: 20 }, (_, index) => `SF-${String(index + 1).padStart(3, "0")}`),
   ...Array.from({ length: 44 }, (_, index) => `MX-${String(index + 1).padStart(3, "0")}`),
   ...Array.from({ length: 180 }, (_, index) => `CP-${String(index + 1).padStart(3, "0")}`),
+  ...MEAL_BUILDER_HAMBURGER_PATTY_IDS,
+  ...MEAL_BUILDER_SMOKED_GRILLED_IDS,
+  ...MEAL_BUILDER_VEGAN_MAIN_IDS,
+  ...MEAL_BUILDER_LOADED_POTATO_IDS,
 ]);
-export const MEAL_BUILDER_FULL_CANVAS_MAIN_IDS = new Set(
-  [
-    ...Array.from({ length: 78 }, (_, index) => index + 1)
-      .filter((number) => number !== 63)
-      .map((number) => `AM-${String(number).padStart(3, "0")}`),
-    ...Array.from({ length: 21 }, (_, index) => `AS-${String(index + 1).padStart(3, "0")}`),
-    ...Array.from({ length: 180 }, (_, index) => `CP-${String(index + 1).padStart(3, "0")}`),
-    ...Array.from({ length: 20 }, (_, index) => `SF-${String(index + 1).padStart(3, "0")}`),
-    ...Array.from({ length: 44 }, (_, index) => `MX-${String(index + 1).padStart(3, "0")}`),
-    ...Array.from({ length: 60 }, (_, index) => `IT-${String(index + 1).padStart(3, "0")}`),
-  ],
-);
+export const MEAL_BUILDER_FULL_CANVAS_MAIN_IDS = new Set(MEAL_BUILDER_MAIN_IDS);
 export const MEAL_BUILDER_SIDE_IDS = new Set(
-  Array.from({ length: 53 }, (_, index) => `SD-${String(index + 1).padStart(3, "0")}`),
+  Array.from({ length: 53 }, (_, index) => `SD-${String(index + 1).padStart(3, "0")}`)
+    .filter((id) => !MEAL_BUILDER_LOADED_POTATO_IDS.has(id)),
 );
-export const MEAL_BUILDER_DIVIDED_TRAY_SIDE_IDS = new Set(
-  Array.from({ length: 53 }, (_, index) => `SD-${String(index + 1).padStart(3, "0")}`),
-);
+export const MEAL_BUILDER_SIDE_TWO_ONLY_IDS = new Set(["SG-008", "SG-010", "SG-011"]);
+export const MEAL_BUILDER_SIDE_TWO_IDS = new Set([...MEAL_BUILDER_SIDE_IDS, ...MEAL_BUILDER_SIDE_TWO_ONLY_IDS]);
+export const MEAL_BUILDER_DIVIDED_TRAY_SIDE_IDS = new Set([...MEAL_BUILDER_SIDE_IDS, ...MEAL_BUILDER_SIDE_TWO_ONLY_IDS]);
 export const MEAL_BUILDER_TWO_THIRDS_MAIN_IDS = new Set([
   ...[2, 8, 9, 14, 15, 19, 20, 21, 22, 23, 24, 25, 26, 27, 29, 30, 31, 32, 33, 34, 35, 36, 38, 39, 40, 41, 42, 43, 44, 45, 46, 50, 51, 52, 55, 56, 57, 58, 59, 60, 61, 62, 64, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78]
     .map((number) => `AM-${String(number).padStart(3, "0")}`),
@@ -54,9 +63,12 @@ export const MEAL_BUILDER_TWO_THIRDS_MAIN_IDS = new Set([
   ...[14, 15, 16, 17, 20, 21, 22, 23, 24, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44]
     .map((number) => `MX-${String(number).padStart(3, "0")}`),
   ...Array.from({ length: 20 }, (_, index) => `SF-${String(index + 1).padStart(3, "0")}`),
+  "AM-009-VG", "AM-025-VG", "AS-007-VG", "AS-008-VG", "AS-010-VG", "AS-019-VG",
+  "AM-020-VG", "AM-030-VG", "AM-067-VG", "SF-004-VG", "SF-005-VG",
 ]);
 export const MEAL_BUILDER_MAIN_LAYOUTS = new Map([
   ...Array.from(MEAL_BUILDER_TWO_THIRDS_MAIN_IDS).map((id) => [id, "two-thirds"]),
+  ...Array.from(MEAL_BUILDER_LOADED_POTATO_IDS).map((id) => [id, "two-thirds"]),
   ...Array.from({ length: 6 }, (_, index) => [`MX-${String(index + 25).padStart(3, "0")}`, "full-tray"]),
 ]);
 const MEAL_BUILDER_LABEL_SHEETS = {
@@ -188,7 +200,12 @@ function MealBuilderFoodImage({ recipe, position }) {
   }
 
   const isMain = position === "main";
-  const hasBuilderImage = (isMain ? MEAL_BUILDER_MAIN_IDS : MEAL_BUILDER_SIDE_IDS).has(recipe.id);
+  const builderImageIds = isMain
+    ? MEAL_BUILDER_MAIN_IDS
+    : position === "side-two"
+      ? MEAL_BUILDER_SIDE_TWO_IDS
+      : MEAL_BUILDER_SIDE_IDS;
+  const hasBuilderImage = builderImageIds.has(recipe.id);
   if (!hasBuilderImage) {
     return (
       <div className={`mealBuilderTrayFood mealBuilderTrayFood-${position} is-empty is-unavailable`}>
@@ -344,8 +361,16 @@ export default function BuildYourOwnMealPage({
 
   const safeRecipes = Array.isArray(recipes) ? recipes : [];
   const recipeMap = useMemo(() => new Map(safeRecipes.map((recipe) => [recipe.id, recipe])), [safeRecipes]);
-  const mainRecipes = useMemo(() => safeRecipes.filter((recipe) => MAIN_CATEGORIES.some(([code]) => code === categoryCode(recipe))), [safeRecipes]);
-  const sideRecipes = useMemo(() => safeRecipes.filter((recipe) => SIDE_CATEGORIES.some(([code]) => code === categoryCode(recipe))), [safeRecipes]);
+  const mainRecipes = useMemo(() => safeRecipes.filter((recipe) => (
+    MAIN_CATEGORIES.some(([code]) => code === categoryCode(recipe)) || MEAL_BUILDER_LOADED_POTATO_IDS.has(recipe.id)
+  )), [safeRecipes]);
+  const sideOneRecipes = useMemo(() => safeRecipes.filter((recipe) => (
+    SIDE_CATEGORIES.some(([code]) => code === categoryCode(recipe)) && MEAL_BUILDER_SIDE_IDS.has(recipe.id)
+  )), [safeRecipes]);
+  const sideTwoRecipes = useMemo(() => safeRecipes.filter((recipe) => (
+    (SIDE_CATEGORIES.some(([code]) => code === categoryCode(recipe)) && MEAL_BUILDER_SIDE_IDS.has(recipe.id))
+      || MEAL_BUILDER_SIDE_TWO_ONLY_IDS.has(recipe.id)
+  )), [safeRecipes]);
   const mainRecipe = recipeMap.get(mainId) || null;
   const sideOneRecipe = recipeMap.get(sideOneId) || null;
   const sideTwoRecipe = recipeMap.get(sideTwoId) || null;
@@ -568,8 +593,8 @@ export default function BuildYourOwnMealPage({
         <section className="mealBuilderDishSelectors" aria-label="Dish selectors">
           <div className="mealBuilderSelectorColumns">
             <MealChoiceStrip label="Main Dish" recipes={mainRecipes} selectedId={mainId} onSelect={selectMain} builderImageIds={MEAL_BUILDER_MAIN_IDS} categoryOptions={MAIN_CATEGORIES} categoryLabel="Sort by Cuisine" trayLayouts={MEAL_BUILDER_MAIN_LAYOUTS} />
-            <MealChoiceStrip label="Side 1" recipes={sideRecipes} selectedId={sideOneId} onSelect={setSideOneId} excludeId={sideTwoId} builderImageIds={MEAL_BUILDER_SIDE_IDS} categoryOptions={SIDE_CATEGORIES} categoryLabel="Sort by Type" disabled={sideOneDisabled} disabledMessage={mainTrayLayout === "full-tray" ? "Complete meal — sides included" : "Included with selected main dish"} />
-            <MealChoiceStrip label="Side 2" recipes={sideRecipes} selectedId={sideTwoId} onSelect={setSideTwoId} excludeId={sideOneId} builderImageIds={MEAL_BUILDER_SIDE_IDS} categoryOptions={SIDE_CATEGORIES} categoryLabel="Sort by Type" disabled={sideTwoDisabled} disabledMessage="Complete meal — sides included" />
+            <MealChoiceStrip label="Side 1" recipes={sideOneRecipes} selectedId={sideOneId} onSelect={setSideOneId} excludeId={sideTwoId} builderImageIds={MEAL_BUILDER_SIDE_IDS} categoryOptions={SIDE_CATEGORIES} categoryLabel="Sort by Type" disabled={sideOneDisabled} disabledMessage={mainTrayLayout === "full-tray" ? "Complete meal — sides included" : "Included with selected main dish"} />
+            <MealChoiceStrip label="Side 2" recipes={sideTwoRecipes} selectedId={sideTwoId} onSelect={setSideTwoId} excludeId={sideOneId} builderImageIds={MEAL_BUILDER_SIDE_TWO_IDS} categoryOptions={SIDE_TWO_CATEGORIES} categoryLabel="Sort by Type" disabled={sideTwoDisabled} disabledMessage="Complete meal — sides included" />
           </div>
         </section>
       </div>
