@@ -61,7 +61,7 @@
 .freezerLabelPreviewModal>header>button{width:36px;height:36px;padding:0;border-radius:50%;font-size:23px}
 .freezerLabelPreviewModal>footer{justify-content:flex-end}
 .freezerLabelPreviewPages{overflow:auto;padding:22px}
-.freezerLabelPage{box-sizing:border-box;display:grid;grid-template-columns:repeat(2,4in);grid-template-rows:repeat(3,3in);width:8.5in;height:11in;margin:0 auto 20px;padding:1in .25in;background:#fff;box-shadow:0 4px 18px rgba(0,0,0,.18)}
+.freezerLabelPage{box-sizing:border-box;display:grid;grid-template-columns:repeat(2,4in);grid-template-rows:repeat(3,3in);place-content:center;width:8.5in;height:11in;margin:0 auto 20px;padding:0;background:#fff;box-shadow:0 4px 18px rgba(0,0,0,.18)}
 .freezerLabelPrintRoot{display:none}
 
 @media(max-width:900px){.freezerLabelWorkspace{grid-template-columns:1fr}
@@ -80,8 +80,9 @@
 @page{size:letter portrait;margin:0}
 @media print{body.printingFreezerLabels *{visibility:hidden!important}
 body.printingFreezerLabels .freezerLabelPrintRoot,body.printingFreezerLabels .freezerLabelPrintRoot *{visibility:visible!important}
-body.printingFreezerLabels .freezerLabelPrintRoot{display:block!important;position:absolute!important;inset:0!important}
-body.printingFreezerLabels .freezerLabelPage{display:grid!important;width:8.5in!important;height:11in!important;margin:0!important;padding:1in .25in!important;box-shadow:none!important;break-after:page;page-break-after:always}
+body.printingFreezerLabels{width:8.5in!important;margin:0!important;padding:0!important}
+body.printingFreezerLabels .freezerLabelPrintRoot{display:block!important;position:absolute!important;top:0!important;left:0!important;width:8.5in!important;margin:0!important;padding:0!important}
+body.printingFreezerLabels .freezerLabelPage{display:grid!important;place-content:center!important;width:8.5in!important;height:11in!important;margin:0!important;padding:0!important;box-shadow:none!important;break-after:page;page-break-after:always}
 body.printingFreezerLabels .freezerLabelPage:last-child{break-after:auto;page-break-after:auto}
 body.printingFreezerLabels .freezerPrintableLabel{break-inside:avoid!important;border:.7pt dashed #666!important;background:#fff!important;color:#000!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
 }

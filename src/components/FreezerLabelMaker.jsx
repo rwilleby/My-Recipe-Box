@@ -16,11 +16,11 @@ function PrintableLabel({ label }) {
   return <article className="freezerPrintableLabel freezerTextLabel"><h3>{label.name}</h3><div className="freezerLabelFacts"><span><small>FROZEN</small><strong>{formatFreezerLabelDate(label.frozenDate)}</strong></span><span><small>USE BY</small><strong>{formatFreezerLabelDate(label.useByDate)}</strong></span><span><small>AMOUNT</small><strong>{label.amount || "—"}</strong></span></div>{label.instructions && <p><strong>PREP:</strong> {label.instructions}</p>}{label.notes && <p><strong>NOTE:</strong> {label.notes}</p>}</article>;
 }
 
-export default function FreezerLabelMaker({ recipes = [], completeMeals = [], favorites = [], savedCustomMeals = [], getRecipeHeroImage = () => "", getCompleteMealHeroImage = () => "" }) {
+export default function FreezerLabelMaker({ recipes = [], completeMeals = [], favorites = [], savedCustomMeals = [], getRecipeHeroImage = () => "", getCompleteMealHeroImage = () => "", getDietMealCalories = () => null }) {
   const [saved, setSaved] = useState(loadState), [form, setForm] = useState(emptyForm), [search, setSearch] = useState(""), [showPreview, setShowPreview] = useState(false);
   const recipeMap = useMemo(() => new Map(recipes.map((recipe) => [String(recipe.id).toLowerCase(), recipe])), [recipes]);
   const sourceGroups = useMemo(() => {
-    const recipeSource = (recipe, group) => { const parts = titleParts(recipe.title); return { id: `${group}:${recipe.id}`, name: `${recipe.id} · ${recipe.title}`, title: parts.title, subtitle: parts.subtitle, image: getRecipeHeroImage(recipe), calories: caloriesFor(recipe), mealBalance: mealBalanceFor(recipe) }; };
+    const recipeSource = (recipe, group) => { const parts = titleParts(recipe.title); const dietCalories = String(recipe.id || "").toUpperCase().startsWith("DM-") ? getDietMealCalories(recipe) : null; return { id: `${group}:${recipe.id}`, name: `${recipe.id} · ${recipe.title}`, title: parts.title, subtitle: parts.subtitle, image: getRecipeHeroImage(recipe), calories: dietCalories ?? caloriesFor(recipe), mealBalance: mealBalanceFor(recipe) }; };
     const dinnerSource = (meal, group) => { const parts = titleParts(dinnerTitle(meal, recipeMap), meal.subtitle); return { id: `${group}:${meal.rfisId || meal.id}`, name: `${meal.rfisId || meal.id} · ${parts.title}`, title: parts.title, subtitle: parts.subtitle, image: getCompleteMealHeroImage(meal), calories: caloriesFor(meal), mealBalance: mealBalanceFor(meal) }; };
     const buildSource = (meal, group) => { const main = recipeMap.get(String(meal.mainId || "").toLowerCase()); const sides = [meal.sideOneId, meal.sideTwoId].map((id) => recipeMap.get(String(id || "").toLowerCase())?.title).filter(Boolean); const parts = titleParts(meal.title || main?.title || "Saved Build-a-Meal", sides.length ? `With ${sides.join(" & ")}` : ""); return { id: `${group}:${meal.id}`, name: meal.title || parts.title, title: parts.title, subtitle: parts.subtitle, image: main ? getRecipeHeroImage(main) : "", calories: caloriesFor(meal), mealBalance: mealBalanceFor(meal) }; };
     const favoriteIds = new Set(favorites.map(String));
@@ -30,7 +30,7 @@ export default function FreezerLabelMaker({ recipes = [], completeMeals = [], fa
       build: savedCustomMeals.map((meal) => buildSource(meal, "Build")), bulk: [],
       favorites: [...recipes.filter((recipe) => favoriteIds.has(String(recipe.id))).map((recipe) => recipeSource(recipe, "Favorite Recipe")), ...completeMeals.filter((meal) => favoriteIds.has(String(meal.id)) || favoriteIds.has(String(meal.rfisId))).map((meal) => dinnerSource(meal, "Favorite Dinner")), ...savedCustomMeals.filter((meal) => meal.favorite).map((meal) => buildSource(meal, "Favorite Build"))],
     };
-  }, [completeMeals, favorites, getCompleteMealHeroImage, getRecipeHeroImage, recipeMap, recipes, savedCustomMeals]);
+  }, [completeMeals, favorites, getCompleteMealHeroImage, getDietMealCalories, getRecipeHeroImage, recipeMap, recipes, savedCustomMeals]);
   const sources = sourceGroups[form.kind] || [], isImage = IMAGE_KINDS.has(form.kind);
   const filteredSources = useMemo(() => { const term = search.trim().toLowerCase(); return (term ? sources.filter((item) => `${item.id} ${item.name}`.toLowerCase().includes(term)) : sources).slice(0, 100); }, [search, sources]);
   const labels = useMemo(() => expandFreezerLabelQueue(saved.queue), [saved.queue]), pages = useMemo(() => paginateFreezerLabels(labels), [labels]);
