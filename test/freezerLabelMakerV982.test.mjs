@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { addFreezerMonths, expandFreezerLabelQueue, normalizeFreezerLabelState, paginateFreezerLabels } from "../src/utils/freezerLabels.js";
+import { addFreezerMonths, arrangeFreezerLabelsForPositions, expandFreezerLabelQueue, normalizeFreezerLabelState, paginateFreezerLabels } from "../src/utils/freezerLabels.js";
 
 assert.equal(addFreezerMonths("2026-09-08", 3), "2026-12-08");
 assert.equal(addFreezerMonths("2026-11-30", 3), "2027-03-02");
@@ -8,6 +8,11 @@ assert.equal(normalizeFreezerLabelState({ layout: "bad", queue: "bad" }).layout,
 const expanded = expandFreezerLabelQueue([{ id: "one", name: "Soup", copies: 3 }]);
 assert.equal(expanded.length, 3);
 assert.equal(paginateFreezerLabels(Array(21).fill({})).length, 3);
+const positioned = arrangeFreezerLabelsForPositions([{ id: "a" }, { id: "b" }], [2, 5]);
+assert.equal(positioned[0].length, 10);
+assert.equal(positioned[0][0], null);
+assert.equal(positioned[0][1].id, "a");
+assert.equal(positioned[0][4].id, "b");
 const maker = readFileSync(new URL("../src/components/FreezerLabelMaker.jsx", import.meta.url), "utf8");
 assert.match(maker, /Complete Dinners/);
 assert.match(maker, /Healthy Dinners/);
@@ -26,7 +31,10 @@ assert.match(css, /width:8\.5in!important/);
 assert.match(css, /width:4in;height:2in/);
 assert.match(css, /left:\.25in;right:\.25in;bottom:\.25in/);
 assert.match(css, /grid-template-rows:repeat\(5,2in\)/);
+assert.match(css, /freezerLabelPositionGrid/);
 const app = readFileSync(new URL("../src/App.jsx", import.meta.url), "utf8");
 assert.match(app, /FREEZER LABEL MAKER/);
 assert.match(app, /activePage === "Freezer Label Maker"/);
+assert.match(app, /PRINT LABELS/);
+assert.match(app, /rrb:open-freezer-label/);
 console.log("Freezer Label Maker v98.2 tests passed.");

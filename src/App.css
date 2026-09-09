@@ -15833,6 +15833,7 @@ button.browseRecipeWideFooterAction:focus-visible,
     minmax(0, 1.18fr)
     minmax(0, 1.12fr)
     minmax(0, .92fr)
+    minmax(0, 1fr)
     minmax(0, .88fr)
     minmax(44px, .58fr)
     minmax(0, 1.18fr) !important; gap: .8cqw !important; padding: .85cqw 1.15cqw 1.05cqw !important;}

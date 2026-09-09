@@ -4017,8 +4017,6 @@ function GLP1RecipeSupportPanel({ recipe, compact = false, className = "", detai
   );
 }
 
-
-
 function RecipeCard({
   recipe,
   favorites,
@@ -4120,6 +4118,8 @@ function RecipeCard({
           >
             <span>NOTES</span>
           </button>
+
+          <button type="button" className="browseRecipeWideFooterAction" onClick={() => window.dispatchEvent(new CustomEvent("rrb:open-freezer-label", { detail: { recipeId: recipe.id } }))}><span>PRINT LABELS</span></button>
 
           <div
             className="browseRecipeWideFooterStatus browseRecipeWideFooterTime"
@@ -18018,8 +18018,6 @@ function YourDataSecurityPage({ setActivePage, kosUi }) {
     </main>
   );
 }
-
-
 export default function App() {
   const initialRouteRef = useRef(null);
   if (!initialRouteRef.current) initialRouteRef.current = resolveInitialBrowserRoute();
@@ -18042,6 +18040,7 @@ export default function App() {
     normalizeSavedCustomMeals(loadJSON(STORAGE_KEYS.savedCustomMeals, []))
   );
   const [mealBuilderTargetId, setMealBuilderTargetId] = useState("");
+  const [freezerLabelTargetId, setFreezerLabelTargetId] = useState("");
   const [plan, setPlan] = useState(() =>
     normalizeTwoWeekPlan(loadJSON(STORAGE_KEYS.plan, emptyTwoWeekPlan()))
   );
@@ -18117,6 +18116,7 @@ export default function App() {
     setCardViewer(null);
     setActiveCompleteDinnerCode("");
   }, []);
+  useEffect(() => { const openLabel = (event) => { setFreezerLabelTargetId(String(event.detail?.recipeId || "")); setActivePage("Freezer Label Maker"); }; window.addEventListener("rrb:open-freezer-label", openLabel); return () => window.removeEventListener("rrb:open-freezer-label", openLabel); }, [setActivePage]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "auto" });
@@ -18520,7 +18520,7 @@ export default function App() {
         <>
           <PageHeroImage src="images/heroes/hero-page-freezer-inv.webp" alt="Labeled frozen meals, freezer portions, storage containers, and kitchen planning notes" eyebrow="YOUR KITCHEN" title="Freezer Label Maker"
             text="Create easy-to-read labels for individual freezer portions, Complete Dinners, and bulk-prepared ingredients. Add dates, serving amounts, reheating directions, and notes, then arrange several labels on an ordinary sheet of paper for printing and cutting.\n\nYour label history stays privately in this browser and is included when you back up Robert’s Recipe Box." className="pageHeroDepth464" />
-          <FreezerLabelMaker recipes={classifiedRecipes} completeMeals={dinnerCombinations} favorites={favorites} savedCustomMeals={savedCustomMeals} getRecipeHeroImage={(recipe) => assetUrl(heroFoodImageCandidates(recipe)[0] || "")} getCompleteMealHeroImage={(meal) => assetUrl(dinnerMealImageCandidates(meal)[0] || "")} getDietMealCalories={getHealthyDinnerCalories} getRecipeNutrition={(recipe) => getRecipeNutritionVariant(recipe?.id)?.profile?.nutritionFacts || recipe?.nutrition || {}} /></>)}
+          <FreezerLabelMaker recipes={classifiedRecipes} completeMeals={dinnerCombinations} favorites={favorites} savedCustomMeals={savedCustomMeals} getRecipeHeroImage={(recipe) => assetUrl(heroFoodImageCandidates(recipe)[0] || "")} getCompleteMealHeroImage={(meal) => assetUrl(dinnerMealImageCandidates(meal)[0] || "")} getDietMealCalories={getHealthyDinnerCalories} getRecipeNutrition={(recipe) => getRecipeNutritionVariant(recipe?.id)?.profile?.nutritionFacts || recipe?.nutrition || {}} requestedRecipeId={freezerLabelTargetId} onRequestedRecipeHandled={() => setFreezerLabelTargetId("")} /></>)}
       {activePage === "Build Your Own Meal" && (
         <>
           <PageHeroImage
