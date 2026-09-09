@@ -10,6 +10,7 @@ const stylesPath = path.join(root, "src/components/BuildYourOwnMealPage.css");
 const mainDir = path.join(root, "public/images/build-your-own/main");
 const sideOneDir = path.join(root, "public/images/build-your-own/side-1-middle");
 const sideTwoDir = path.join(root, "public/images/build-your-own/side-2-right");
+const sideTwoPreviewDir = path.join(root, "public/images/build-your-own/previews/side-2");
 const trayBasePath = path.join(root, "public/images/meal-builder/meal-builder-tray-base.webp");
 const source = fs.readFileSync(componentPath, "utf8");
 const styles = fs.readFileSync(stylesPath, "utf8");
@@ -78,7 +79,11 @@ assert.equal(layouts.get("AM-070"), "two-thirds", "AM-070 Cheeseburger Casserole
 assert.equal(layouts.get("SD-027"), "two-thirds", "Loaded Baked Potato must be a two-thirds main");
 assert.equal(layouts.get("SD-028"), "two-thirds", "Loaded Baked Sweet Potato must be a two-thirds main");
 assert.ok(!sideIds.has("SD-027") && !sideIds.has("SD-028"), "Loaded potatoes must not appear in either standard side list");
-for (const id of ["SG-008", "SG-010", "SG-011"]) assert.ok(sideTwoIds.has(id), `${id} must be available as a Side 2 protein topping`);
+for (const id of ["SG-008", "SG-010", "SG-011"]) {
+  assert.ok(sideTwoIds.has(id), `${id} must be available as a Side 2 protein topping`);
+  assertWebp(path.join(sideTwoPreviewDir, `${id}.webp`));
+}
+assert.match(source, /images\/build-your-own\/previews\/side-2\/\$\{recipe\.id\}\.webp/);
 const approvedTwoThirdsIds = [
   ...[2, 8, 9, 14, 15, 19, 20, 21, 22, 23, 24, 25, 26, 27, 29, 30, 31, 32, 33, 34, 35, 36, 38, 39, 40, 41, 42, 43, 44, 45, 46, 50, 51, 52, 55, 56, 57, 58, 59, 60, 61, 62, 64, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78].map((number) => `AM-${String(number).padStart(3, "0")}`),
   ...Array.from({ length: 21 }, (_, index) => `AS-${String(index + 1).padStart(3, "0")}`),

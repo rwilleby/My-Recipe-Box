@@ -182,10 +182,11 @@ function MealChoiceStats({ recipe }) {
   );
 }
 
-function HeroImage({ recipe, alt = "" }) {
+function HeroImage({ recipe, alt = "", srcOverride = "" }) {
   const candidates = useMemo(() => recipeHeroImageCandidates(recipe), [recipe]);
   const [imageIndex, setImageIndex] = useState(0);
   useEffect(() => setImageIndex(0), [recipe?.id]);
+  if (srcOverride) return <img src={`${import.meta.env.BASE_URL}${srcOverride}`} alt={alt} loading="lazy" decoding="async" />;
   if (!recipe || !candidates[imageIndex]) return null;
   return <img src={`${import.meta.env.BASE_URL}${candidates[imageIndex]}`} alt={alt} loading="lazy" decoding="async" onError={() => setImageIndex((current) => current + 1)} />;
 }
@@ -254,6 +255,11 @@ function MealChoiceStrip({ label, recipes, selectedId, onSelect, excludeId = "",
   const [categoryFilter, setCategoryFilter] = useState("ALL");
   const [page, setPage] = useState(0);
   const selectedRecipe = recipes.find((recipe) => recipe.id === selectedId) || null;
+  const choicePreviewPath = (recipe) => (
+    label === "Side 2" && MEAL_BUILDER_SIDE_TWO_ONLY_IDS.has(recipe?.id)
+      ? `images/build-your-own/previews/side-2/${recipe.id}.webp`
+      : ""
+  );
   const visibleRecipes = useMemo(
     () => {
       const query = searchQuery.trim().toLocaleLowerCase();
@@ -289,7 +295,7 @@ function MealChoiceStrip({ label, recipes, selectedId, onSelect, excludeId = "",
         <strong>{label}</strong>
         {selectedRecipe ? (
           <button type="button" className="mealBuilderSelectedDish has-selection" onClick={() => onSelect("")} aria-label={`Deselect ${normalizeRecipeTitle(selectedRecipe)}`}>
-            <HeroImage recipe={selectedRecipe} /><span>{normalizeRecipeTitle(selectedRecipe)}</span>
+            <HeroImage recipe={selectedRecipe} srcOverride={choicePreviewPath(selectedRecipe)} /><span>{normalizeRecipeTitle(selectedRecipe)}</span>
           </button>
         ) : <div className="mealBuilderSelectedDish"><span>Choose a Dish</span></div>}
         <label>
@@ -318,7 +324,7 @@ function MealChoiceStrip({ label, recipes, selectedId, onSelect, excludeId = "",
               aria-pressed={selectedId === recipe.id}
             >
               <span className="mealBuilderChoiceImage">
-                <HeroImage recipe={recipe} />
+                <HeroImage recipe={recipe} srcOverride={choicePreviewPath(recipe)} />
                 {trayLayouts?.get(recipe.id) === "full-tray" && <span className="mealBuilderTrayTypeBadge">Full Tray</span>}
                 {trayLayouts?.get(recipe.id) === "two-thirds" && <span className="mealBuilderTrayTypeBadge">2/3 Tray</span>}
               </span>
