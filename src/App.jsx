@@ -18520,7 +18520,7 @@ export default function App() {
         <>
           <PageHeroImage src="images/heroes/hero-page-freezer-inv.webp" alt="Labeled frozen meals, freezer portions, storage containers, and kitchen planning notes" eyebrow="YOUR KITCHEN" title="Freezer Label Maker"
             text="Create easy-to-read labels for individual freezer portions, Complete Dinners, and bulk-prepared ingredients. Add dates, serving amounts, reheating directions, and notes, then arrange several labels on an ordinary sheet of paper for printing and cutting.\n\nYour label history stays privately in this browser and is included when you back up Robert’s Recipe Box." className="pageHeroDepth464" />
-          <FreezerLabelMaker recipes={classifiedRecipes} completeMeals={dinnerCombinations} favorites={favorites} savedCustomMeals={savedCustomMeals} getRecipeHeroImage={(recipe) => assetUrl(heroFoodImageCandidates(recipe)[0] || "")} getCompleteMealHeroImage={(meal) => assetUrl(dinnerMealImageCandidates(meal)[0] || "")} getDietMealCalories={getHealthyDinnerCalories} /></>)}
+          <FreezerLabelMaker recipes={classifiedRecipes} completeMeals={dinnerCombinations} favorites={favorites} savedCustomMeals={savedCustomMeals} getRecipeHeroImage={(recipe) => assetUrl(heroFoodImageCandidates(recipe)[0] || "")} getCompleteMealHeroImage={(meal) => assetUrl(dinnerMealImageCandidates(meal)[0] || "")} getDietMealCalories={getHealthyDinnerCalories} getRecipeNutrition={(recipe) => getRecipeNutritionVariant(recipe?.id)?.profile?.nutritionFacts || recipe?.nutrition || {}} /></>)}
       {activePage === "Build Your Own Meal" && (
         <>
           <PageHeroImage
