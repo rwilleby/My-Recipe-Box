@@ -23,15 +23,17 @@
 .freezerPrintableLabel{box-sizing:border-box;display:flex;overflow:hidden;width:4in;height:2in;border:1px dashed #888;background:#fff;color:#111;font-family:Arial,Helvetica,sans-serif}
 .freezerLabelLivePreview .freezerPrintableLabel{width:100%;height:auto;aspect-ratio:2/1;margin-top:15px}
 .freezerImageLabel{position:relative;display:block;padding:0}
-.freezerImageLabel>h3{position:absolute!important;top:.05in!important;left:.125in!important;right:.125in!important;overflow:visible!important;margin:0!important;font-family:Arial,Helvetica,sans-serif!important;font-size:15pt!important;font-weight:800!important;line-height:1!important;letter-spacing:-.04em!important;text-align:center!important;white-space:nowrap!important}
-.freezerImageLabelMiddle{position:absolute;top:.28in;left:.125in;right:.125in;height:.775in;display:grid;grid-template-columns:1.3125in minmax(0,1fr);gap:.12in}
+.freezerImageLabel>h3{position:absolute!important;top:.05in!important;left:.125in!important;right:.125in!important;overflow:visible!important;margin:0!important;padding:0 0 .04in!important;border-bottom:1pt solid #1f2937!important;font-family:Arial,Helvetica,sans-serif!important;font-size:15pt!important;font-weight:800!important;line-height:1!important;letter-spacing:-.04em!important;text-align:center!important;white-space:nowrap!important}
+.freezerImageLabelMiddle{position:absolute;top:.36in;left:.125in;right:.125in;height:.775in;display:grid;grid-template-columns:1in minmax(0,1fr);gap:.08in}
 .freezerImageLabel img,.freezerImagePlaceholder{display:block;width:1.15in;height:.78in;object-fit:contain;object-position:center top}
-.freezerImageLabelMiddle img,.freezerImageLabelMiddle .freezerImagePlaceholder{width:1.3125in;height:.775in}
+.freezerImageLabelMiddle img,.freezerImageLabelMiddle .freezerImagePlaceholder{width:1.3125in;height:.775in;transform:translateX(-.125in)}
 .freezerImagePlaceholder{display:grid;place-items:center;border:1px dashed #d0d0d0;background:#f5f5f3;color:#999;font-size:11px}
 .freezerImageLabelCopy{display:flex;min-width:0;flex-direction:column;justify-content:flex-start;padding-top:0;text-align:left}
 .freezerImageLabel .freezerImageLabelCopy p{overflow:visible!important;margin:0!important;font-family:Arial,Helvetica,sans-serif!important;font-size:9pt!important;font-weight:400!important;line-height:1.1!important;color:#657083!important}
 .freezerImageLabel .freezerLabelSubtitle{display:-webkit-box!important;overflow:hidden!important;white-space:normal!important;-webkit-box-orient:vertical!important;-webkit-line-clamp:2!important}
-.freezerImageLabel .freezerImageLabelDates{display:flex!important;justify-content:flex-start!important;gap:.08in!important;margin-top:.0625in!important;padding-bottom:0!important;color:#222!important;letter-spacing:-.025em!important;white-space:nowrap!important}
+.freezerImageLabel .freezerImageLabelDates{display:block!important;margin-top:.125in!important;padding:0!important;color:#222!important;letter-spacing:-.025em!important}
+.freezerImageLabel .freezerImageLabelDates p{font-weight:700!important;white-space:nowrap!important}
+.freezerImageLabel .freezerImageLabelDates p+p{margin-top:.025in!important}
 .freezerNutritionFacts{position:absolute;left:.125in;right:.125in;bottom:.125in;height:.66in;box-sizing:border-box;border:1.5pt solid #111;background:#fff;color:#111}
 .freezerNutritionFacts header{box-sizing:border-box;display:flex;align-items:baseline;justify-content:space-between;height:.24in;padding:.025in .06in;border-bottom:4pt solid #111}
 .freezerImageLabel .freezerNutritionFacts header strong{font-family:Arial,Helvetica,sans-serif!important;font-size:10pt!important;font-weight:800!important;line-height:1!important}
