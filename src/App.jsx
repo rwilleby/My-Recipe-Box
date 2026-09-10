@@ -7653,18 +7653,9 @@ function buildMasterInventoryShoppingItems(masterInventory = {}, recipes = []) {
 }
 
 function InventoryHubPage({
-  initialTab = "kitchen",
-  recipes = [],
-  classifiedRecipes = [],
-  masterInventory,
-  setMasterInventory,
-  preparedInventory,
-  setPreparedInventory,
-  freezer,
-  setFreezer,
-  pantry,
-  setPantry,
-  setActivePage,
+  initialTab = "kitchen", recipes = [], classifiedRecipes = [],
+  masterInventory, setMasterInventory, preparedInventory, setPreparedInventory,
+  freezer, setFreezer, pantry, setPantry, setActivePage,
   ...pageProps
 }) {
   const routeTab = ["kitchen", "freezer", "pantry"].includes(initialTab) ? initialTab : "kitchen";
@@ -7675,8 +7666,7 @@ function InventoryHubPage({
   });
   const [search, setSearch] = useState("");
   const [searchScope, setSearchScope] = useState("current");
-  const [openTool, setOpenTool] = useState("");
-  const [showPhotoTransfer, setShowPhotoTransfer] = useState(false);
+  const [openTool, setOpenTool] = useState(""), [showPhotoTransfer, setShowPhotoTransfer] = useState(false);
   const [quickItem, setQuickItem] = useState({ name: "", quantity: "1", status: "in-stock", categoryId: "prepared-packaged" });
   const [moveRecordId, setMoveRecordId] = useState("");
   const [moveDestination, setMoveDestination] = useState("Pantry");
@@ -7831,9 +7821,7 @@ function InventoryHubPage({
   }
 
   const currentSearch = searchScope === "current" ? search : "";
-
   if (showPhotoTransfer) return <PhotoInventoryTransfer pantry={pantry} setPantry={setPantry} freezer={freezer} setFreezer={setFreezer} onClose={() => setShowPhotoTransfer(false)} />;
-
   return (
     <div className="pageShell inventoryHubPage" data-inventory-tab={activeTab}>
       <SectionIntro
