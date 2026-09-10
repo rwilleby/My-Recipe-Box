@@ -74,6 +74,7 @@ import { HOLIDAY_OCCASION_MENUS } from "./data/holidayOccasionMenus.js";
 import ShoppingCompanionWindow, { focusShoppingCompanionWindow } from "./features/shopping/ShoppingCompanionWindow.jsx";
 import ShoppingAudioButton, { ShoppingCountAudio } from "./features/shopping/ShoppingAudioButton.jsx";
 import ShoppingRecipeActions from "./features/shopping/ShoppingRecipeActions.jsx";
+import PhotoInventoryTransfer from "./components/PhotoInventoryTransfer.jsx";
 import PurchaseReconciliationPanel, { applyPurchasedItemsToInventory, buildPurchaseReconciliationItems } from "./features/shopping/PurchaseReconciliationPanel.jsx";
 import { ONLINE_GROCERY_STORES, PREFERRED_GROCERY_STORE_KEY, openOnlineGroceryWindow } from "./utils/onlineGroceryShopping.js";
 import { printRecipeCards } from "./utils/printRecipeCards.js";
@@ -7675,6 +7676,7 @@ function InventoryHubPage({
   const [search, setSearch] = useState("");
   const [searchScope, setSearchScope] = useState("current");
   const [openTool, setOpenTool] = useState("");
+  const [showPhotoTransfer, setShowPhotoTransfer] = useState(false);
   const [quickItem, setQuickItem] = useState({ name: "", quantity: "1", status: "in-stock", categoryId: "prepared-packaged" });
   const [moveRecordId, setMoveRecordId] = useState("");
   const [moveDestination, setMoveDestination] = useState("Pantry");
@@ -7830,6 +7832,8 @@ function InventoryHubPage({
 
   const currentSearch = searchScope === "current" ? search : "";
 
+  if (showPhotoTransfer) return <PhotoInventoryTransfer pantry={pantry} setPantry={setPantry} freezer={freezer} setFreezer={setFreezer} onClose={() => setShowPhotoTransfer(false)} />;
+
   return (
     <div className="pageShell inventoryHubPage" data-inventory-tab={activeTab}>
       <SectionIntro
@@ -7849,6 +7853,7 @@ function InventoryHubPage({
         <button type="button" onClick={() => setOpenTool(openTool === "quick" ? "" : "quick")}><span>Quick</span><span>Add</span></button>
         <button type="button" onClick={() => setOpenTool(openTool === "move" ? "" : "move")}><span>Move</span><span>Item</span></button>
         <button type="button" onClick={() => window.print()}>Print</button>
+        <button type="button" onClick={() => setShowPhotoTransfer(true)}><span>Photo</span><span>List</span></button>
         <button type="button" className="inventoryHubClearButton" onClick={clearCurrentInventory}>Clear</button>
       </section>
 
