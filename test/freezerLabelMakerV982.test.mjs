@@ -31,13 +31,14 @@ const css = readFileSync(new URL("../src/components/FreezerLabelMaker.css", impo
 assert.match(css, /place-content:center/);
 assert.match(css, /width:8\.5in!important/);
 assert.match(css, /width:4in;height:2in/);
-assert.match(css, /left:\.25in;right:\.25in;bottom:\.25in/);
+assert.match(css, /left:\.125in;right:\.125in;bottom:\.125in/);
 assert.match(css, /grid-template-rows:repeat\(5,2in\)/);
 assert.match(css, /freezerLabelPositionGrid/);
 assert.match(css, /freezerImageLabelMiddle/);
-assert.match(css, /\.freezerImageLabel>h3\{[^}]*left:\.25in!important;right:\.25in!important/);
-assert.match(css, /\.freezerImageLabel>h3\{[^}]*font-family:Arial[^}]*font-size:20pt!important[^}]*font-weight:800!important/);
+assert.match(css, /\.freezerImageLabel>h3\{[^}]*left:\.125in!important;right:\.125in!important/);
+assert.match(css, /\.freezerImageLabel>h3\{[^}]*font-family:Arial[^}]*font-size:15pt!important[^}]*font-weight:800!important/);
 assert.match(css, /freezerImageLabelDates/);
+assert.match(css, /margin-top:\.0625in!important/);
 assert.match(css, /\.freezerImageLabel \.freezerImageLabelCopy p\{[^}]*font-family:Arial[^}]*font-size:9pt!important[^}]*font-weight:400!important/);
 assert.match(css, /-webkit-line-clamp:2/);
 assert.match(css, /freezerNutritionFacts header span\{[^}]*font-size:7pt!important[^}]*font-weight:400!important/);
@@ -45,6 +46,7 @@ assert.match(css, /freezerNutritionValues small\{[^}]*font-size:7pt!important[^}
 assert.match(css, /freezerNutritionValues b\{[^}]*font-size:10pt!important[^}]*font-weight:800!important/);
 assert.match(css, /grid-template-columns:1\.3125in minmax\(0,1fr\)/);
 assert.match(css, /width:1\.3125in;height:\.775in/);
+assert.match(css, /freezerImageLabelMiddle\{[^}]*left:\.125in;right:\.125in/);
 assert.doesNotMatch(css.match(/\.freezerImageLabel h3\{[^}]+\}/)?.[0] || "", /text-overflow:ellipsis/);
 const app = readFileSync(new URL("../src/App.jsx", import.meta.url), "utf8");
 assert.match(app, /FREEZER LABEL MAKER/);
