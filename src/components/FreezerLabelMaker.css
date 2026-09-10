@@ -27,10 +27,8 @@
 .freezerImageLabel img,.freezerImagePlaceholder{display:block;width:1.15in;height:.78in;object-fit:contain;object-position:center top}
 .freezerImagePlaceholder{display:grid;place-items:center;border:1px dashed #d0d0d0;background:#f5f5f3;color:#999;font-size:11px}
 .freezerImageLabelCopy{min-width:0;padding-top:.02in;text-align:left}
-.freezerImageLabel h3{overflow:visible;margin:0;max-width:100%;font:700 11pt/1 Arial,Helvetica,sans-serif;letter-spacing:-.035em;white-space:nowrap}
-.freezerLabelTitleLong{font-size:10pt!important;letter-spacing:-.04em!important}
-.freezerLabelTitleExtraLong{font-size:8.75pt!important;letter-spacing:-.045em!important}
-.freezerImageLabel p{overflow:visible;margin:.035in 0 0;font:600 5.5pt/1 Arial,Helvetica,sans-serif;color:#657083;white-space:nowrap}
+.freezerImageLabel h3{overflow:visible;margin:0;max-width:100%;font:700 10pt/1 Arial,Helvetica,sans-serif;letter-spacing:-.04em;white-space:nowrap}
+.freezerImageLabel p{overflow:visible;margin:.035in 0 0;font-weight:600;line-height:1;color:#657083;white-space:nowrap}
 .freezerImageLabel .freezerImageLabelDate{margin-top:.045in;color:#222}
 .freezerNutritionFacts{position:absolute;left:.25in;right:.25in;bottom:.25in;height:.66in;box-sizing:border-box;border:1.5pt solid #111;background:#fff;color:#111}
 .freezerNutritionFacts header{box-sizing:border-box;display:flex;align-items:baseline;justify-content:space-between;height:.24in;padding:.025in .06in;border-bottom:4pt solid #111}
@@ -40,7 +38,8 @@
 .freezerNutritionValues>span{display:flex;min-width:0;flex-direction:column;align-items:center;justify-content:center;border-right:1pt solid #111;text-align:center}
 .freezerNutritionValues>span:last-child{border-right:0}
 .freezerNutritionValues small,.freezerNutritionValues b{display:block;overflow:hidden;max-width:100%;text-overflow:ellipsis;white-space:nowrap}
-.freezerNutritionValues small{font:600 5.5pt/1 Arial,Helvetica,sans-serif}
+.freezerImageLabel p,.freezerNutritionValues small{font-family:Arial,Helvetica,sans-serif;font-size:5.5pt}
+.freezerNutritionValues small{font-weight:600;line-height:1}
 .freezerNutritionValues b{margin-top:.02in;font:800 8pt/1 Arial,Helvetica,sans-serif}
 .freezerTextLabel{flex-direction:column;justify-content:center;padding:.2in}
 .freezerTextLabel h3{margin:0 0 .1in;font:800 17pt/1.05 Arial,Helvetica,sans-serif}
