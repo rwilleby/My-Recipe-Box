@@ -74,7 +74,6 @@ import { HOLIDAY_OCCASION_MENUS } from "./data/holidayOccasionMenus.js";
 import ShoppingCompanionWindow, { focusShoppingCompanionWindow } from "./features/shopping/ShoppingCompanionWindow.jsx";
 import ShoppingAudioButton, { ShoppingCountAudio } from "./features/shopping/ShoppingAudioButton.jsx";
 import ShoppingRecipeActions from "./features/shopping/ShoppingRecipeActions.jsx";
-import PhotoInventoryTransfer from "./components/PhotoInventoryTransfer.jsx";
 import PurchaseReconciliationPanel, { applyPurchasedItemsToInventory, buildPurchaseReconciliationItems } from "./features/shopping/PurchaseReconciliationPanel.jsx";
 import { ONLINE_GROCERY_STORES, PREFERRED_GROCERY_STORE_KEY, openOnlineGroceryWindow } from "./utils/onlineGroceryShopping.js";
 import { printRecipeCards } from "./utils/printRecipeCards.js";
@@ -161,6 +160,7 @@ const AdminNutritionDatabase = lazy(() => import("./components/AdminNutritionDat
 const RfisProjectDashboard = lazy(() => import("./components/RfisProjectDashboard"));
 const WeekendBulkMealPlanner = lazy(() => import("./components/WeekendBulkMealPlanner"));
 const FreezerLabelMaker = lazy(() => import("./components/FreezerLabelMaker"));
+const PhotoInventoryTransfer = lazy(() => import("./components/PhotoInventoryTransfer.jsx"));
 const MasterKitchenInventoryPage = lazy(() => import("./components/MasterKitchenInventoryPage"));
 const VideoLibraryPage = lazy(() => import("./features/video-library/VideoLibraryPage.jsx"));
 const PlaceholderInfoPage = lazy(() => import("./features/info-pages/PlaceholderInfoPage.jsx"));

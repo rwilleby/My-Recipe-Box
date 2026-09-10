@@ -15,6 +15,8 @@ assert.match(component, /setPantry/);
 assert.match(component, /setFreezer/);
 assert.doesNotMatch(component, /JSON\.stringify\([^)]*photos/);
 assert.match(app, /PhotoInventoryTransfer/);
+assert.match(app, /const PhotoInventoryTransfer = lazy\(\(\) => import\("\.\/components\/PhotoInventoryTransfer\.jsx"\)\)/);
+assert.doesNotMatch(app, /import PhotoInventoryTransfer from/);
 assert.match(app, /Photo<\/span><span>List/);
 assert.match(css, /@media\(max-width:820px\)/);
 assert.match(css, /@media\(max-width:480px\)/);
