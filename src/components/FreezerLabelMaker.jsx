@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { FREEZER_LABEL_LAYOUTS, FREEZER_LABEL_POSITIONS, FREEZER_LABEL_STORAGE_KEY, addFreezerMonths, arrangeFreezerLabelsForPositions, expandFreezerLabelQueue, formatFreezerLabelDate, localFreezerLabelDate, normalizeFreezerLabelState } from "../utils/freezerLabels.js";
 import "./FreezerLabelMaker.css";
 
-const IMAGE_KINDS = new Set(["complete", "healthy", "build"]);
+const IMAGE_KINDS = new Set(["complete", "healthy", "build", "bulk"]);
 const BULK_RECIPE_CODES = new Set(["SG", "CP", "CS"]);
 const KINDS = [["complete", "Complete Dinners"], ["healthy", "Healthy Dinners"], ["build", "Build-a-Meals"], ["bulk", "Bulk Items"], ["favorites", "Custom"]];
 function emptyForm() { const frozenDate = localFreezerLabelDate(); return { kind: "complete", sourceId: "", name: "", subtitle: "", image: "", nutrition: {}, calories: "—", mealBalance: "—", frozenDate, useByDate: addFreezerMonths(frozenDate, 3), amount: "1 serving", instructions: "", notes: "", copies: 1 }; }
@@ -15,6 +15,7 @@ function numericNutrient(value) { const parsed = Number.parseFloat(String(value 
 function nutritionFor(item = {}) { return { calories: item.calories ?? item.totalCalories ?? "—", protein: item.protein ?? "—", carbs: item.totalCarbohydrate ?? item.carbs ?? item.carbohydrates ?? "—", fat: item.totalFat ?? item.fat ?? "—", sodium: item.sodium ?? "—" }; }
 function combineNutrition(items = []) { const keys = ["calories", "protein", "carbs", "fat", "sodium"]; return Object.fromEntries(keys.map((key) => { const values = items.map((item) => numericNutrient(item?.[key])).filter((value) => value !== null); return [key, values.length ? Math.round(values.reduce((sum, value) => sum + value, 0) * 10) / 10 : "—"]; })); }
 function displayNutrient(value, unit = "") { if (value === null || value === undefined || value === "" || value === "—") return "—"; return /[a-z]/i.test(String(value)) ? value : `${value}${unit}`; }
+function isBulkRecipe(recipe) { const id = String(recipe.id || "").toUpperCase(); const code = String(recipe.categoryCode || id).split("-")[0].toUpperCase(); if (!BULK_RECIPE_CODES.has(code)) return false; if (code !== "SG") return true; const match = id.match(/^SG-(\d{3})$/); return Boolean(match && Number(match[1]) >= 1 && Number(match[1]) <= 25); }
 
 function PrintableLabel({ label }) {
   if (label.labelStyle === "image" || IMAGE_KINDS.has(label.kind)) { const facts = nutritionFor(label.nutrition || { calories: label.calories }); const subtitle = label.subtitle || "With —"; return <article className="freezerPrintableLabel freezerImageLabel"><h3>{label.name}</h3><div className="freezerImageLabelMiddle">{label.image ? <img src={label.image} alt="" /> : <div className="freezerImagePlaceholder">Meal image</div>}<div className="freezerImageLabelCopy"><p className="freezerLabelSubtitle">{subtitle}</p><div className="freezerImageLabelDates"><p><span>Frozen</span> <strong>{formatFreezerLabelDate(label.frozenDate)}</strong></p><p><span>Use by</span> <strong>{formatFreezerLabelDate(label.useByDate)}</strong></p></div></div></div><section className="freezerNutritionFacts"><header><strong>Nutrition Facts</strong><span>1 SERVING</span></header><div className="freezerNutritionValues"><span><small>Calories</small><b>{displayNutrient(facts.calories)}</b></span><span><small>Protein</small><b>{displayNutrient(facts.protein, "g")}</b></span><span><small>Carbs</small><b>{displayNutrient(facts.carbs, "g")}</b></span><span><small>Fat</small><b>{displayNutrient(facts.fat, "g")}</b></span><span><small>Sodium</small><b>{displayNutrient(facts.sodium, "mg")}</b></span></div></section></article>; }
@@ -33,7 +34,7 @@ export default function FreezerLabelMaker({ recipes = [], completeMeals = [], fa
       complete: completeMeals.map((meal) => dinnerSource(meal, "Complete")),
       healthy: recipes.filter((recipe) => String(recipe.id).toUpperCase().startsWith("DM-")).map((recipe) => recipeSource(recipe, "Healthy")),
       build: savedCustomMeals.map((meal) => buildSource(meal, "Build")),
-      bulk: recipes.filter((recipe) => BULK_RECIPE_CODES.has(String(recipe.categoryCode || recipe.id || "").split("-")[0].toUpperCase())).map((recipe) => recipeSource(recipe, "Bulk")),
+      bulk: recipes.filter(isBulkRecipe).map((recipe) => recipeSource(recipe, "Bulk")),
       favorites: [...recipes.filter((recipe) => favoriteIds.has(String(recipe.id))).map((recipe) => recipeSource(recipe, "Favorite Recipe")), ...completeMeals.filter((meal) => favoriteIds.has(String(meal.id)) || favoriteIds.has(String(meal.rfisId))).map((meal) => dinnerSource(meal, "Favorite Dinner")), ...savedCustomMeals.filter((meal) => meal.favorite).map((meal) => buildSource(meal, "Favorite Build"))],
     };
   }, [completeMeals, favorites, getCompleteMealHeroImage, getDietMealCalories, getRecipeHeroImage, getRecipeNutrition, recipeMap, recipes, savedCustomMeals]);
