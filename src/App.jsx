@@ -1685,7 +1685,7 @@ const NAV_GROUPS = [
   {
     label: "YOUR KITCHEN",
     items: [
-      { label: "YOUR KITCHEN INVENTORY", page: "Master Kitchen Inventory" },
+      { label: "YOUR KITCHEN INVENTORY", page: "Master Kitchen Inventory", detailedOnly: true },
       { label: "FREEZING & REHEATING", page: "Freezer Tips" },
       { label: "FOOD STORAGE & SHELF-LIFE GUIDE", page: "Food Storage Guide" },
     ],
@@ -1912,8 +1912,8 @@ function Header({ activePage, setActivePage, favorites, savedCustomMeals = [] })
       label: "YOUR KITCHEN",
       page: "Master Kitchen Inventory",
       items: [
-        { label: "YOUR KITCHEN INVENTORY", page: "Master Kitchen Inventory" },
-        { label: "FREEZER LABEL MAKER", page: "Freezer Label Maker" },
+        { label: "YOUR KITCHEN INVENTORY", page: "Master Kitchen Inventory", detailedOnly: true },
+        { label: "FREEZER LABEL MAKER", page: "Freezer Label Maker", detailedOnly: true },
         { label: "FREEZING & REHEATING", page: "Freezer Tips" },
         { label: "FOOD STORAGE & SHELF-LIFE GUIDE", page: "Food Storage Guide" },
       ],
@@ -5967,7 +5967,7 @@ function Home({
         onSiteModeChange={changeSiteMode}
         backupWarningsEnabled={hasCustomUserData}
       />
-      <HomePhotoFeatureSection setActivePage={setActivePage} kosUi={kosUi} />
+      {siteMode === "detailed" && <HomePhotoFeatureSection setActivePage={setActivePage} kosUi={kosUi} />}
       <HomeComboMealStrip
         setActivePage={setActivePage}
         openRecipeCard={openRecipeCard}
