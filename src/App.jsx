@@ -10104,6 +10104,7 @@ function FreezerInventoryPage({ freezer, setFreezer, setActivePage, embedded = f
 function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry, refrigerator, freezer, masterInventory, setMasterInventory, setActivePage, openRecipeCard, preparedInventory, preparedReservations, componentDecisions, setComponentDecisions, shoppingComments, setShoppingComments, shoppingOrderQuantities, setShoppingOrderQuantities, kosUi }) {
   const [showDigitalStockCheck, setShowDigitalStockCheck] = useState(false);
   const [shoppingView, setShoppingView] = useState("consolidated");
+  const [shoppingOverviewView, setShoppingOverviewView] = useState("meals");
   const [showShoppingCompanion, setShowShoppingCompanion] = useState(false);
   const [hasReviewedShoppingList, setHasReviewedShoppingList] = useState(false);
   const [showPurchaseReconciliation, setShowPurchaseReconciliation] = useState(false), [reconciledPurchaseKeys, setReconciledPurchaseKeys] = useState(() => new Set()), [purchaseUpdateMessage, setPurchaseUpdateMessage] = useState("");
@@ -10121,27 +10122,21 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
     () => Object.fromEntries(dinnerCombinations.map((meal) => [meal.id, meal])),
     []
   );
-
   const recipeOnlyPlan = useMemo(() => {
     const normalized = normalizeTwoWeekPlan(plan);
     const next = emptyTwoWeekPlan();
-
     PLANNER_SLOTS.forEach((slot) => {
       next[slot.key] = (normalized[slot.key] || []).filter((itemId) => recipeIdSet.has(itemId));
     });
-
     return next;
   }, [plan, recipeIdSet]);
-
   const dinnerCombinationShoppingReferences = useMemo(() => {
     const normalized = normalizeTwoWeekPlan(plan);
     const references = [];
-
     PLANNER_SLOTS.forEach((slot) => {
       (normalized[slot.key] || []).forEach((itemId) => {
         const meal = dinnerCombinationById[itemId];
         if (!meal) return;
-
         const preparedRequirements = getComboPreparedRequirements(meal);
         if (preparedRequirements.length === 0) {
           references.push({
@@ -10156,10 +10151,8 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
         });
       });
     });
-
     return references;
   }, [plan, dinnerCombinationById]);
-
   const preparedRequirementSummary = useMemo(() => {
     const normalized = normalizeTwoWeekPlan(plan);
     const totals = {};
@@ -10180,7 +10173,6 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
     });
     return Object.values(totals);
   }, [plan, dinnerCombinationById]);
-
   const preparedAvailability = useMemo(() => preparedAvailableTotals(preparedInventory), [preparedInventory]);
   const preparedOnHand = preparedRequirementSummary.filter((item) => {
     const decision = componentDecisions[item.componentId]?.action;
@@ -10189,14 +10181,12 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
   const preparedMissing = preparedRequirementSummary.filter((item) => !preparedOnHand.includes(item));
   const preparedToBuy = preparedMissing.filter((item) => componentDecisions[item.componentId]?.action === "buy");
   const preparedToBatch = preparedMissing.filter((item) => componentDecisions[item.componentId]?.action === "batch");
-
   function updateComponentDecision(componentId, patch) {
     setComponentDecisions((current) => ({
       ...(current || {}),
       [componentId]: { ...(current?.[componentId] || {}), ...patch },
     }));
   }
-
   const refrigeratorShoppingItems = useMemo(
     () => buildRefrigeratorGroceryItems(refrigerator),
     [refrigerator]
@@ -10213,11 +10203,9 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
     () => buildPantryRestockItems(pantry),
     [pantry]
   );
-
   const shoppingNeedGroups = useMemo(() => {
     const normalized = normalizeTwoWeekPlan(plan);
     const groups = [];
-
     PLANNER_SLOTS.forEach((slot) => {
       (normalized[slot.key] || []).forEach((itemId, itemIndex) => {
         const recipe = recipeById[itemId];
@@ -10266,7 +10254,6 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
         }
       });
     });
-
     if (refrigeratorShoppingItems.length) {
       groups.push({ id: "refrigerator-restock", title: "Refrigerator Restock", subtitle: "Items needed from Refrigerator Inventory", items: refrigeratorShoppingItems.map((item, index) => ({ ...item, id: `refrigerator-${index}`, kind: "grocery" })) });
     }
@@ -10281,7 +10268,6 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
     }
     return groups.filter((group) => group.items.length);
   }, [plan, recipeById, dinnerCombinationById, servings, preparedInventory, refrigeratorShoppingItems, freezerShoppingItems, kitchenShoppingItems, pantryRestockItems]);
-
   const list = useMemo(
     () => mergeShoppingListEntries([
       ...buildShoppingList(recipeOnlyPlan, recipes, servings),
@@ -10293,7 +10279,6 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
     ]),
     [recipeOnlyPlan, servings, dinnerCombinationShoppingReferences, refrigeratorShoppingItems, freezerShoppingItems, kitchenShoppingItems, pantryRestockItems]
   );
-
   const masterCoverageIndex = useMemo(
     () => buildMasterInventoryCoverageIndex(masterInventory, recipes),
     [masterInventory]
@@ -10307,17 +10292,14 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
     }
     return inventoryCoverageCache.get(key);
   }, [inventoryCoverageCache, pantry, masterCoverageIndex]);
-
   const printableList = useMemo(
     () => mergeShoppingListEntries(collectPrintableGroceryItems(shoppingNeedGroups, checked)),
     [shoppingNeedGroups, checked]
   );
-
   const printablePreparedToBuy = useMemo(
     () => collectPrintablePreparedRequirements(preparedToBuy, shoppingNeedGroups, checked),
     [preparedToBuy, shoppingNeedGroups, checked]
   );
-
   const digitalShoppingGroups = Object.entries(list.reduce((groups, item) => {
     const aisle = item.aisle || "Other";
     const id = `${item.name}-${item.unit}-${item.aisle}`;
@@ -10332,7 +10314,6 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
     });
     return groups;
   }, {})).map(([title, items]) => ({ title, items }));
-
   if (preparedToBuy.length) {
     digitalShoppingGroups.push({
       title: "Prepared Components",
@@ -10348,22 +10329,20 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
       }),
     });
   }
-
   const { needed, pantry: pantryItems } = useMemo(
     () => splitShoppingListByPantry(list, getShoppingCoverage),
     [list, getShoppingCoverage]
   );
-
   const { needed: printableNeeded, pantry: printablePantryItems } = useMemo(
     () => splitShoppingListByPantry(printableList, getShoppingCoverage),
     [printableList, getShoppingCoverage]
   );
+  const plannedMealGroups = shoppingNeedGroups.filter((group) => group.recipeLinks?.length);
   const remainingItemsToBuy = needed.filter((item) => !effectiveChecked(`${item.name}-${item.unit}-${item.aisle}`, false));
   const purchasedItems = needed.filter((item) => effectiveChecked(`${item.name}-${item.unit}-${item.aisle}`, false)), purchasedUnreconciledItems = purchasedItems.filter((item) => !reconciledPurchaseKeys.has(`${item.name}-${item.unit}-${item.aisle}`));
   const purchaseReconciliationItems = buildPurchaseReconciliationItems({ items: purchasedUnreconciledItems, orderQuantities: shoppingOrderQuantities, coverageIndex: masterCoverageIndex, catalogItems: masterCatalogItems, inventoryRecords: masterInventory?.records, nameMatches: inventoryNameMatches });
   const shoppingPrimaryState = list.length === 0 && preparedRequirementSummary.length === 0 ? "plan" : purchaseReconciliationItems.length > 0 && remainingItemsToBuy.length === 0 ? "put-away" : !hasReviewedShoppingList ? "review" : showShoppingCompanion ? "continue" : "start";
   const shoppingPrimaryLabels = { plan: "Plan Meals", review: "Review Items to Buy", start: "Start Online Shopping", continue: "Continue Online Shopping", "put-away": "Put Purchases Away" };
-
   function handleShoppingPrimaryAction() {
     if (shoppingPrimaryState === "plan") return setActivePage("Meal Planner");
     if (shoppingPrimaryState === "put-away") return setShowPurchaseReconciliation(true);
@@ -10376,63 +10355,52 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
     if (!focusShoppingCompanionWindow()) setShowShoppingCompanion(true);
     openOnlineShoppingWindow();
   }
-
   function reconcilePurchasedItems(rows) { setMasterInventory((current) => applyPurchasedItemsToInventory(current, rows)); setReconciledPurchaseKeys((current) => new Set([...current, ...rows.map((row) => row.key)])); setShowPurchaseReconciliation(false); setPurchaseUpdateMessage(`${rows.length} purchased ${rows.length === 1 ? "item was" : "items were"} added to Kitchen Inventory.`); }
-
   const groupedNeeded = needed.reduce((acc, item) => {
     return {
       ...acc,
       [item.aisle]: [...(acc[item.aisle] || []), item],
     };
   }, {});
-
   const groupedPantry = pantryItems.reduce((acc, item) => {
     return {
       ...acc,
       [item.aisle]: [...(acc[item.aisle] || []), item],
     };
   }, {});
-
   const groupedPrintableNeeded = printableNeeded.reduce((acc, item) => {
     return {
       ...acc,
       [item.aisle]: [...(acc[item.aisle] || []), item],
     };
   }, {});
-
   const groupedPrintablePantry = printablePantryItems.reduce((acc, item) => {
     return {
       ...acc,
       [item.aisle]: [...(acc[item.aisle] || []), item],
     };
   }, {});
-
   function toggleItem(key) {
     setChecked((current) => ({
       ...current,
       [key]: !current[key],
     }));
   }
-
   function effectiveChecked(key, automaticallyCovered = false) {
     return Object.prototype.hasOwnProperty.call(checked, key) ? !!checked[key] : automaticallyCovered;
   }
-
   function toggleCoverage(key, automaticallyCovered = false) {
     const currentValue = effectiveChecked(key, automaticallyCovered);
     setChecked((current) => ({ ...current, [key]: !currentValue }));
   }
-
   function updatePreferredGroceryStore(storeId) {
     if (!ONLINE_GROCERY_STORES[storeId]) return;
     setPreferredGroceryStore(storeId);
     window.localStorage.setItem(PREFERRED_GROCERY_STORE_KEY, storeId);
   }
-
   function openOnlineShoppingWindow(itemName = "") {
     openOnlineGroceryWindow(preferredGroceryStore, itemName);
   }
-
   function clearShoppingListAndStartOver() {
     const confirmed = window.confirm(
       "Clear this shopping list and start over?\n\nThis removes every meal from the Weekly Meal Planner and clears shopping checks, comments, and component decisions. Pantry, refrigerator, and freezer inventory will not be deleted, so any inventory restock needs can still appear."
@@ -10448,11 +10416,9 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
     setHasReviewedShoppingList(false);
     setShoppingView("needs");
   }
-
   function formatShoppingQuantity(value) {
     return String(formatQty(value)).replace(/\b(\d+)\s+(\d+\/\d+)\b/g, "$1 - $2");
   }
-
   function escapeShoppingPrintHtml(value = "") {
     return String(value)
       .replaceAll("&", "&amp;")
@@ -10461,13 +10427,10 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
       .replaceAll('"', "&quot;")
       .replaceAll("'", "&#039;");
   }
-
   function openShoppingListPrintout(autoPrint = false) {
     const printWindow = window.open("", "_blank", "width=900,height=700");
-
     const neededGroups = Object.entries(groupedPrintableNeeded);
     const pantryGroups = Object.entries(groupedPrintablePantry);
-
     const neededHtml = neededGroups.length
       ? neededGroups.map(([aisle, items]) => `
           <section>
@@ -10482,7 +10445,6 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
           </section>
         `).join("")
       : `<p>No needed items.</p>`;
-
     const preparedHtml = printablePreparedToBuy.length
       ? `
           <section>
@@ -10500,7 +10462,6 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
           </section>
         `
       : "";
-
     const pantryHtml = pantryGroups.length
       ? pantryGroups.map(([aisle, items]) => `
           <section>
@@ -10515,13 +10476,11 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
           </section>
         `).join("")
       : "";
-
     if (!printWindow) {
       if (autoPrint) window.print();
       else window.alert("Please allow pop-up windows to preview the shopping list.");
       return;
     }
-
     printWindow.document.write(`
       <!doctype html>
       <html>
@@ -10649,14 +10608,11 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
             <h1>Shopping List</h1>
             <div class="date">${escapeShoppingPrintHtml(new Date().toLocaleDateString())}</div>
           </header>
-
           <div class="grid">
             ${neededHtml}
             ${preparedHtml}
           </div>
-
           ${pantryHtml ? `<h1 class="pantryTitle">Already in Pantry</h1><div class="grid">${pantryHtml}</div>` : ""}
-
           <script>
             window.onload = () => {
               window.focus();
@@ -10666,18 +10622,14 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
         </body>
       </html>
     `);
-
     printWindow.document.close();
   }
-
   function previewShoppingList() {
     openShoppingListPrintout(false);
   }
-
   function printShoppingList() {
     openShoppingListPrintout(true);
   }
-
   function printMasterShoppingStockWorksheet() {
     const groupedMasterList = list.reduce((groups, item) => {
       const aisle = item.aisle || "Other";
@@ -10687,7 +10639,6 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
       }];
       return groups;
     }, {});
-
     const groups = Object.entries(groupedMasterList).map(([title, items]) => ({ title, items }));
     if (preparedToBuy.length) {
       groups.push({
@@ -10701,7 +10652,6 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
         }),
       });
     }
-
     printManualInventoryWorksheet({
       title: "Master Shopping List Stock-Check Worksheet",
       instructions: "Check items already in stock before shopping, mark what needs to be purchased, and record the final quantity or notes. Then update the Shopping List, Pantry Staples, or Freezer Inventory pages.",
@@ -10714,11 +10664,9 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
       ],
     });
   }
-
   function renderGroceryReference(item) {
     const reference = findGroceryReference(item.name);
     if (!reference) return null;
-
     return (
       <div className="shoppingSuggestionNote">
         <strong>Suggested picks: {reference.name}</strong>
@@ -10729,24 +10677,20 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
       </div>
     );
   }
-
   function renderNeededItem(item) {
     const key = `${item.name}-${item.unit}-${item.aisle}`;
     const orderQuantity = shoppingOrderQuantities[key] ?? "";
     const coverage = item.inventoryCoverage || { covered: false, status: "Need to Buy", location: item.aisle || "Other" };
     const isCovered = effectiveChecked(key, false);
-
     function setOrderQuantity(value) {
       const nextValue = value === "" ? "" : Math.max(0, Number(value) || 0);
       setShoppingOrderQuantities((current) => ({ ...(current || {}), [key]: nextValue }));
     }
-
     function initialCapsShoppingName(value) {
       return String(value || "")
         .toLocaleLowerCase()
         .replace(/\b([a-z])/g, (letter) => letter.toLocaleUpperCase());
     }
-
     return (
       <div key={key} className={isCovered ? "shoppingListDataRow isChecked" : "shoppingListDataRow"}>
         <label className="shoppingListCheckCell">
@@ -10794,13 +10738,11 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
       </div>
     );
   }
-
   function renderPantryItem(item) {
     const key = `${item.name}-${item.unit}-${item.aisle}-pantry`;
     const displayName = String(item.name || "").toLocaleLowerCase().replace(/\b([a-z])/g, (letter) => letter.toLocaleUpperCase());
     const coverage = item.inventoryCoverage || { covered: true, status: "In Inventory", location: "Inventory" };
     const isCovered = effectiveChecked(key, true);
-
     return (
       <div key={key} className={isCovered ? "shoppingListDataRow pantryDataRow isChecked" : "shoppingListDataRow pantryDataRow"}>
         <label className="shoppingListCheckCell">
@@ -10819,7 +10761,6 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
       </div>
     );
   }
-
   function renderNeedGroupItem(group, item, itemIndex) {
     const key = shoppingNeedItemKey(group, item, itemIndex);
     const isComponent = item.kind === "component";
@@ -10839,15 +10780,31 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
       </label>
     );
   }
-
   return (
     <main className="pageShell">
       <SectionIntro
-        title="Shopping List"
-        text="Checked items are covered by your inventory or purchase. Unchecked items still need to be bought."
+        title="Shopping Overview"
+        text="Review what you’re planning to make, confirm what you already have, and shop only for what you still need."
         className="shoppingListSectionIntro"
       />
-
+      <div className="shoppingOverviewControlStrip" role="tablist" aria-label="Shopping overview">
+        <button type="button" role="tab" aria-selected={shoppingOverviewView === "meals"} aria-controls="shopping-overview-meals" onClick={() => setShoppingOverviewView("meals")}>My Planned Meals</button>
+        <button type="button" role="tab" aria-selected={shoppingOverviewView === "stock"} aria-controls="shopping-overview-stock" onClick={() => setShoppingOverviewView("stock")}>Items in Stock</button>
+        <button type="button" role="tab" aria-selected={shoppingOverviewView === "list"} aria-controls="shopping-overview-list" onClick={() => setShoppingOverviewView("list")}>My Shopping List</button>
+      </div>
+      {shoppingOverviewView === "meals" && <section className="shoppingOverviewPanel shoppingPlannedMealsPanel" id="shopping-overview-meals" role="tabpanel">
+        <header><div><h2>My Planned Meals</h2><p>These meals create the ingredient list used for your inventory check and final shopping list.</p></div><strong>{plannedMealGroups.length} {plannedMealGroups.length === 1 ? "meal" : "meals"}</strong></header>
+        {plannedMealGroups.length ? <div className="shoppingPlannedMealGrid">{plannedMealGroups.map((group) => <article key={group.id}><div><h3>{group.title}</h3><p>{group.subtitle}</p></div><ShoppingRecipeActions recipeLinks={group.recipeLinks} onView={(recipeId) => openRecipeCard(recipeId, recipes, "Shopping List")} onPrint={(recipeIds) => printRecipeCards(recipeIds, recipes)} /></article>)}</div> : <EmptyState title="No meals planned yet" text="Choose meals in the Weekly Meal Planner to begin building your shopping overview." />}
+        <footer><button type="button" className="secondary" onClick={() => setActivePage("Meal Planner")}>{plannedMealGroups.length ? "Review or Change Meals" : "Choose Meals"}</button><button type="button" className="primary" disabled={!plannedMealGroups.length} onClick={() => setShoppingOverviewView("stock")}>Next: Confirm Items in Stock</button></footer>
+      </section>}
+      {shoppingOverviewView === "stock" && <section className="shoppingOverviewPanel shoppingStockReviewPanel" id="shopping-overview-stock" role="tabpanel">
+        <header><div><h2>Items in Stock</h2><p>Confirm which required items are already available. Clear a check when an item still needs to be purchased.</p></div><strong>{pantryItems.length + preparedOnHand.length} confirmed</strong></header>
+        <div className="shoppingStockReviewList">{list.map((item) => { const key = `${item.name}-${item.unit}-${item.aisle}`; const coverage = getShoppingCoverage(item); const automaticallyCovered = Boolean(coverage.covered); const isCovered = effectiveChecked(key, automaticallyCovered); return <label className={isCovered ? "isConfirmed" : ""} key={key}><input type="checkbox" checked={isCovered} onChange={() => toggleCoverage(key, automaticallyCovered)} /><span><strong>{item.name}</strong><small>{formatShoppingQuantity(item.qty)} {item.unit || "item(s)"} · {coverage.status}</small></span><em>{isCovered ? "In Stock" : "Need to Buy"}</em></label>; })}</div>
+        {!list.length && <EmptyState title="Nothing to confirm yet" text="Choose meals first, then return here to compare their ingredients with your inventory." />}
+        <footer><button type="button" className="secondary" disabled={!list.length} onClick={() => { setShowDigitalStockCheck(true); setShoppingOverviewView("list"); }}>Open Guided Stock Check</button><button type="button" className="primary" disabled={!list.length} onClick={() => { setHasReviewedShoppingList(true); setShoppingOverviewView("list"); }}>Next: Review My Shopping List</button></footer>
+      </section>}
+      {shoppingOverviewView === "list" && <section className="shoppingOverviewListPanel" id="shopping-overview-list" role="tabpanel">
+      <p className="shoppingOverviewStatusNote">Checked items are covered by your inventory or purchase. Unchecked items still need to be bought.</p>
       <section className="shoppingStoreChooser" aria-label="Online grocery store"><div>
           <strong>Shop Online</strong>
           <span>Product searches open in one reusable shopping window beside your list.</span>
@@ -10860,20 +10817,16 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
         <button type="button" className="secondary" onClick={() => openOnlineShoppingWindow()}>Open {ONLINE_GROCERY_STORES[preferredGroceryStore].label}</button>
         <span className="shoppingAudioControlPair"><button type="button" className="secondary shoppingPrimaryNextButton" onClick={handleShoppingPrimaryAction}>{shoppingPrimaryLabels[shoppingPrimaryState]}</button><ShoppingAudioButton label={`Hear ${shoppingPrimaryLabels[shoppingPrimaryState]} instructions`} text={shoppingPrimaryState === "review" ? "Review Items to Buy takes you to the consolidated list so you can confirm what is already covered and what still needs to be purchased." : shoppingPrimaryState === "put-away" ? "Put Purchases Away opens Your Kitchen Inventory so purchased items can be recorded in their proper storage locations." : shoppingPrimaryState === "plan" ? "Plan Meals opens the Weekly Meal Planner so you can choose meals and create a shopping list." : "Online Shopping opens or returns to your guided shopping list and preferred grocery store. Select an item, search the store, add it to your cart, and mark it added to continue."} /></span>
       </section>
-
       <div className="shoppingListIntroActions">
         <button type="button" className="shoppingControlViewButton" aria-pressed={shoppingView === "consolidated"} onClick={() => setShoppingView("consolidated")}>Consolidated Shopping List</button>
         <button type="button" className="shoppingControlViewButton" aria-pressed={shoppingView === "needs"} onClick={() => setShoppingView("needs")}>Shopping List By Meal Component</button>
         <button type="button" className="shoppingControlPrintButton" onClick={printShoppingList}>Print Your List</button>
         <span className="shoppingAudioControlPair shoppingClearControlPair"><button type="button" className="shoppingControlClearButton" onClick={clearShoppingListAndStartOver}>Clear Meals &amp; Start Over</button><ShoppingAudioButton label="Hear Clear Meals and Start Over instructions" text="Clear Meals and Start Over removes all meals from the Weekly Meal Planner and clears shopping checks, comments, quantities, and component decisions. It does not delete your pantry, refrigerator, or freezer inventory. You will be asked to confirm before anything is cleared." /></span>
       </div>
-
       {showShoppingCompanion && <ShoppingCompanionWindow items={needed} checked={checked} orderQuantities={shoppingOrderQuantities} comments={shoppingComments} storeLabel={ONLINE_GROCERY_STORES[preferredGroceryStore].label} formatQuantity={formatShoppingQuantity} onToggle={toggleCoverage} onSearch={openOnlineShoppingWindow} onClose={() => setShowShoppingCompanion(false)} />}
-
       {list.length > 0 && <section className="shoppingEfficiencySummary" aria-label="Shopping list progress"><div><strong>{list.length}</strong><span>Total Items</span></div><div><strong>{pantryItems.length}</strong><span>In Inventory</span></div><div><strong>{remainingItemsToBuy.length}</strong><span>To Buy</span></div>{purchasedItems.length > 0 && <div className="shoppingEfficiencyPurchased"><strong>{purchasedItems.length}</strong><span>Purchased</span></div>}</section>}
       {purchaseUpdateMessage && <div className="shoppingPurchaseSuccess" role="status">{purchaseUpdateMessage} <button type="button" onClick={() => setActivePage("Master Kitchen Inventory")}>View Kitchen Inventory</button></div>}
       {showPurchaseReconciliation && <PurchaseReconciliationPanel items={purchaseReconciliationItems} onClose={() => setShowPurchaseReconciliation(false)} onConfirm={reconcilePurchasedItems} />}
-
       {showDigitalStockCheck && (
         <DigitalStockCheckPanel
           worksheetId="master-shopping-list"
@@ -10884,7 +10837,6 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
           onClose={() => setShowDigitalStockCheck(false)}
         />
       )}
-
       {list.length === 0 && preparedRequirementSummary.length === 0 ? (
         <EmptyState
           title="Your shopping list is empty"
@@ -10941,7 +10893,6 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
               })}
             </div>}
           </section>
-
           <section className={`shoppingFlatGroup preparedMissingSection${preparedMissing.length ? "" : " isEmptyShoppingSummary"}`}>
             <header className="shoppingFlatGroupHeader">
               <div>
@@ -10976,7 +10927,6 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
               })}
             </div>}
           </section>
-
           <section className={`shoppingFlatGroup preparedBatchSection${preparedToBatch.length ? "" : " isEmptyShoppingSummary"}`}>
             <header className="shoppingFlatGroupHeader">
               <div>
@@ -10992,7 +10942,6 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
               })}
             </div>}
           </section>
-
           {preparedToBuy.length > 0 && (
             <section className="shoppingFlatGroup preparedBuySection">
               <header className="shoppingFlatGroupHeader">
@@ -11008,7 +10957,6 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
             </section>
           )}
         </div>
-
         <div className="shoppingListSections">
           <section className="shoppingFlatList shoppingNeededItemsList" id="items-to-buy">
             <header className="shoppingFlatListTitle">
@@ -11018,7 +10966,6 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
               </div>
               <ShoppingCountAudio count={needed.length} suffix={needed.length === 1 ? "item" : "items"} section="Items to Buy" />
             </header>
-
             <div className="shoppingFlatListBody">
               {needed.length === 0 ? (
                 <div className="emptyState compactEmpty">
@@ -11037,7 +10984,6 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
               )}
             </div>
           </section>
-
           <section className="shoppingFlatList pantryListSection">
             <header className="shoppingFlatListTitle">
               <div>
@@ -11048,7 +10994,6 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
                 <ShoppingCountAudio count={pantryItems.length} suffix={pantryItems.length === 1 ? "item" : "items"} section="Already in Inventory" />
               </div>
             </header>
-
             <div className="shoppingFlatListBody">
               <div className="shoppingListUtilityActions">
                 <button className="secondary smallSecondary" onClick={() => setActivePage("Pantry Staples")}>
@@ -11081,10 +11026,10 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
         </div>
         </>
       )}
+      </section>}
     </main>
   );
 }
-
 function FavoritesPage({
   favorites,
   toggleFavorite,
@@ -11105,7 +11050,6 @@ function FavoritesPage({
   const [selectedMeal, setSelectedMeal] = useState(null);
   const [selectedMealCard, setSelectedMealCard] = useState(null);
   const hasFavorites = savedRecipes.length > 0 || savedComboMeals.length > 0 || favoriteBuiltMeals.length > 0;
-
   return (
     <>
       <main className="pageShell favoritesLibraryPage">
@@ -11114,7 +11058,6 @@ function FavoritesPage({
           text="Recipe cards, Complete Dinners, and Build-A-Meals you create yourself—saved on this device. No login or sync required."
           className="favoritesSectionIntro"
         />
-
         {!hasFavorites ? (
           <EmptyState
             title="No favorites yet"
@@ -11141,7 +11084,6 @@ function FavoritesPage({
                 </div>
               </section>
             )}
-
             {favoriteBuiltMeals.length > 0 && (
               <section className="favoritesLibrarySection" aria-labelledby="favorite-built-meals-title">
                 <header className="favoritesLibraryHeader">
