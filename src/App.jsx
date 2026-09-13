@@ -10385,8 +10385,8 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
     const automaticallyCovered = Boolean(coverage.covered);
     const isCovered = Object.prototype.hasOwnProperty.call(checked, key) ? Boolean(checked[key]) : automaticallyCovered;
     const manuallyUnchecked = automaticallyCovered && Object.prototype.hasOwnProperty.call(checked, key) && !checked[key];
-    return { item, key, coverage, automaticallyCovered, isCovered, status: manuallyUnchecked ? "Unchecked" : isCovered ? "In Inventory" : "Need To Buy", statusRank: manuallyUnchecked ? 0 : isCovered ? 2 : 1, kind: item.aisle || "Other" };
-  }).sort((a, b) => a.statusRank - b.statusRank || a.kind.localeCompare(b.kind) || String(a.item.name).localeCompare(String(b.item.name))), [list, checked, getShoppingCoverage]); const shoppingPlannedWeeks = useMemo(() => { const normalized = normalizeTwoWeekPlan(plan);
+    return { item, key, coverage, automaticallyCovered, isCovered, displayName: shoppingProductName(item.name), status: manuallyUnchecked ? "Unchecked" : isCovered ? "In Inventory" : "Need To Buy", statusRank: manuallyUnchecked ? 0 : isCovered ? 2 : 1, kind: item.aisle || "Other" };
+  }).sort((a, b) => a.statusRank - b.statusRank || a.kind.localeCompare(b.kind) || a.displayName.localeCompare(b.displayName)), [list, checked, getShoppingCoverage]); const shoppingPlannedWeeks = useMemo(() => { const normalized = normalizeTwoWeekPlan(plan);
     const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     return PLANNER_WEEKS.map((week) => ({
       ...week,
@@ -10482,9 +10482,8 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
     setHasReviewedShoppingList(false);
     setShoppingView("needs");
   }
-  function formatShoppingQuantity(value) {
-    return String(formatQty(value)).replace(/\b(\d+)\s+(\d+\/\d+)\b/g, "$1 - $2");
-  }
+  function formatShoppingQuantity(value) { return String(formatQty(value)).replace(/\b(\d+)\s+(\d+\/\d+)\b/g, "$1 - $2"); }
+  function shoppingProductName(value) { const raw = String(value || "").trim(); if (!/^https?:\/\//i.test(raw)) return raw; try { const parts = new URL(raw).pathname.split("/").filter(Boolean); const ip = parts.findIndex((part) => part.toLowerCase() === "ip"); const slug = ip >= 0 ? parts[ip + 1] : parts.filter((part) => !/^\d+$/.test(part)).sort((a, b) => b.length - a.length)[0]; return decodeURIComponent(slug || "Product").replace(/[-_]+/g, " ").replace(/\s+/g, " ").trim(); } catch { return "Product"; } }
   function escapeShoppingPrintHtml(value = "") {
     return String(value)
       .replaceAll("&", "&amp;")
@@ -10865,7 +10864,7 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
       </section>}
       {shoppingOverviewView === "stock" && <section className="shoppingOverviewPanel shoppingStockReviewPanel" id="shopping-overview-stock" role="tabpanel">
         <header><div><h2>Items in Stock</h2><p>Confirm which required items are already available. Clear a check when an item still needs to be purchased.</p></div><strong>{shoppingStockItems.filter((entry) => entry.isCovered).length} confirmed</strong></header>
-        <div className="shoppingStockReviewList">{shoppingStockItems.map(({ item, key, coverage, automaticallyCovered, isCovered, status, kind }) => <label className={`${isCovered ? "isConfirmed" : "isUnconfirmed"} status${status.replaceAll(" ", "")}`} key={key}><input type="checkbox" checked={isCovered} onChange={() => toggleCoverage(key, automaticallyCovered)} /><span><strong>{item.name}</strong><small>{kind} · {formatShoppingQuantity(item.qty)} {item.unit || "item(s)"} · {coverage.status}</small></span><em>{status}</em></label>)}</div>
+        <div className="shoppingStockReviewList">{shoppingStockItems.map(({ item, key, coverage, automaticallyCovered, isCovered, displayName, status, kind }) => <label className={`${isCovered ? "isConfirmed" : "isUnconfirmed"} status${status.replaceAll(" ", "")}`} key={key}><input type="checkbox" checked={isCovered} onChange={() => toggleCoverage(key, automaticallyCovered)} /><span><strong>{displayName}</strong><small>{kind} · {formatShoppingQuantity(item.qty)} {item.unit || "item(s)"} · {coverage.status}</small></span><em>{status}</em></label>)}</div>
         {!list.length && <EmptyState title="Nothing to confirm yet" text="Choose meals first, then return here to compare their ingredients with your inventory." />}
         <footer><button type="button" className="secondary" disabled={!list.length} onClick={() => { setShowDigitalStockCheck(true); setShoppingOverviewView("list"); }}>Open Guided Stock Check</button><button type="button" className="primary" disabled={!list.length} onClick={() => { setHasReviewedShoppingList(true); setShoppingOverviewView("list"); }}>Next: Review My Shopping List</button></footer>
       </section>}

@@ -23,8 +23,9 @@ assert.match(app, /className="shoppingPlannedMbCircle"/, "Each rated meal must s
 assert.match(app, /viewLabel="View Recipe"/, "Planned-meal action must use the compact View Recipe label");
 assert.match(css, /\.shoppingPlannedMbCircle\{[^}]*background:var\(--rrb-default-green\)/, "MealBalance must use the approved site green");
 assert.match(css, /\.shoppingWeeklyMealCard h4\{[^}]*font-size:11px!important[^}]*-webkit-line-clamp:4!important/, "Meal names must use the enforced compact four-line treatment");
-assert.match(css, /\.shoppingStockReviewList\{[^}]*grid-template-columns:repeat\(2/, "Stock review must use two columns on larger screens");
+assert.match(css, /\.shoppingStockReviewList\{[^}]*column-count:2/, "Stock review must flow down column one before continuing in column two");
 assert.match(app, /statusRank: manuallyUnchecked \? 0 : isCovered \? 2 : 1/, "Stock review must order Unchecked, Need To Buy, then In Inventory");
-assert.match(app, /a\.kind\.localeCompare\(b\.kind\).*a\.item\.name/, "Stock items must sort by kind and then alphabetically");
+assert.match(app, /a\.kind\.localeCompare\(b\.kind\).*a\.displayName/, "Stock items must sort by kind and then alphabetically");
+assert.match(app, /function shoppingProductName\(value\)/, "Stored product URLs must be converted to readable product names");
 
 console.log("v98.4.1 planner priority and Shopping Overview meal-image contracts passed.");
