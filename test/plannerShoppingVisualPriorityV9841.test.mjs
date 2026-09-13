@@ -3,6 +3,7 @@ import fs from "node:fs";
 
 const app = fs.readFileSync(new URL("../src/App.jsx", import.meta.url), "utf8");
 const css = fs.readFileSync(new URL("../src/App.css", import.meta.url), "utf8");
+const simpleList = fs.readFileSync(new URL("../src/features/shopping/SimpleShoppingListPanel.jsx", import.meta.url), "utf8");
 
 const diet = app.indexOf('<option value="diet-meals">Diet Meals</option>');
 const complete = app.indexOf('<option value="complete-dinners">Complete Dinners</option>');
@@ -27,5 +28,12 @@ assert.match(css, /\.shoppingStockReviewList\{[^}]*column-count:2/, "Stock revie
 assert.match(app, /statusRank: manuallyUnchecked \? 0 : isCovered \? 2 : 1/, "Stock review must order Unchecked, Need To Buy, then In Inventory");
 assert.match(app, /a\.kind\.localeCompare\(b\.kind\).*a\.displayName/, "Stock items must sort by kind and then alphabetically");
 assert.match(app, /function shoppingProductName\(value\)/, "Stored product URLs must be converted to readable product names");
+assert.match(simpleList, /Everything below still needs to be purchased for your planned meals/, "The simple list must explain its purchase-only scope");
+assert.match(simpleList, /Preferred Store[\s\S]*Start Online Shopping[\s\S]*Print List/, "The simple list must expose only the three primary controls");
+assert.match(simpleList, /entries\.filter\(\(entry\) => !entry\.isCovered\)/, "Covered inventory must not appear in the purchase list");
+assert.match(simpleList, /shoppingPurchasedDetails/, "Purchased items must move to a separate collapsed section");
+assert.match(app, /aria-expanded=\{showMoreShoppingOptions\}/, "More Options must use an accessible disclosure control");
+assert.match(css, /\.shoppingSimpleGroups\{[^}]*grid-template-columns:repeat\(2/, "The purchase list must use two columns on larger screens");
+assert.match(css, /@media\(max-width:900px\)\{\.shoppingSimpleGroups\{grid-template-columns:1fr/, "The purchase list must collapse to one column on smaller screens");
 
 console.log("v98.4.1 planner priority and Shopping Overview meal-image contracts passed.");

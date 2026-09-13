@@ -73,7 +73,7 @@ import { FREEZER_ACCORDION_GROUPS } from "./data/freezerPackagingAccordions.js";
 import { HOLIDAY_OCCASION_MENUS } from "./data/holidayOccasionMenus.js";
 import ShoppingCompanionWindow, { focusShoppingCompanionWindow } from "./features/shopping/ShoppingCompanionWindow.jsx";
 import ShoppingAudioButton, { ShoppingCountAudio } from "./features/shopping/ShoppingAudioButton.jsx";
-import ShoppingRecipeActions from "./features/shopping/ShoppingRecipeActions.jsx";
+import ShoppingRecipeActions from "./features/shopping/ShoppingRecipeActions.jsx"; import SimpleShoppingListPanel from "./features/shopping/SimpleShoppingListPanel.jsx";
 import PurchaseReconciliationPanel, { applyPurchasedItemsToInventory, buildPurchaseReconciliationItems } from "./features/shopping/PurchaseReconciliationPanel.jsx";
 import { ONLINE_GROCERY_STORES, PREFERRED_GROCERY_STORE_KEY, openOnlineGroceryWindow } from "./utils/onlineGroceryShopping.js";
 import { printRecipeCards } from "./utils/printRecipeCards.js";
@@ -10146,7 +10146,7 @@ function FreezerInventoryPage({ freezer, setFreezer, setActivePage, embedded = f
 function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry, refrigerator, freezer, masterInventory, setMasterInventory, setActivePage, openRecipeCard, preparedInventory, preparedReservations, componentDecisions, setComponentDecisions, shoppingComments, setShoppingComments, shoppingOrderQuantities, setShoppingOrderQuantities, kosUi }) {
   const [showDigitalStockCheck, setShowDigitalStockCheck] = useState(false);
   const [shoppingView, setShoppingView] = useState("consolidated");
-  const [shoppingOverviewView, setShoppingOverviewView] = useState("meals");
+  const [shoppingOverviewView, setShoppingOverviewView] = useState("meals"), [showMoreShoppingOptions, setShowMoreShoppingOptions] = useState(false);
   const [showShoppingCompanion, setShowShoppingCompanion] = useState(false);
   const [hasReviewedShoppingList, setHasReviewedShoppingList] = useState(false);
   const [showPurchaseReconciliation, setShowPurchaseReconciliation] = useState(false), [reconciledPurchaseKeys, setReconciledPurchaseKeys] = useState(() => new Set()), [purchaseUpdateMessage, setPurchaseUpdateMessage] = useState("");
@@ -10869,6 +10869,7 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
         <footer><button type="button" className="secondary" disabled={!list.length} onClick={() => { setShowDigitalStockCheck(true); setShoppingOverviewView("list"); }}>Open Guided Stock Check</button><button type="button" className="primary" disabled={!list.length} onClick={() => { setHasReviewedShoppingList(true); setShoppingOverviewView("list"); }}>Next: Review My Shopping List</button></footer>
       </section>}
       {shoppingOverviewView === "list" && <section className="shoppingOverviewListPanel" id="shopping-overview-list" role="tabpanel">
+      <SimpleShoppingListPanel entries={shoppingStockItems} stores={ONLINE_GROCERY_STORES} preferredStore={preferredGroceryStore} onStoreChange={updatePreferredGroceryStore} onStartShopping={() => { setShowShoppingCompanion(true); openOnlineShoppingWindow(); }} onPrint={printShoppingList} onToggle={toggleCoverage} notes={shoppingComments} onNotesChange={(key, value) => setShoppingComments((current) => ({ ...(current || {}), [key]: value }))} onShop={openOnlineShoppingWindow} formatQuantity={formatShoppingQuantity} /><section className="shoppingMoreOptions"><button type="button" className="shoppingMoreOptionsToggle" aria-expanded={showMoreShoppingOptions} aria-controls="shopping-more-options-content" onClick={() => setShowMoreShoppingOptions((current) => !current)}>More Options <span aria-hidden="true">{showMoreShoppingOptions ? "▴" : "▾"}</span></button>{showMoreShoppingOptions && <div className="shoppingMoreOptionsContent" id="shopping-more-options-content">
       <p className="shoppingOverviewStatusNote">Checked items are covered by your inventory or purchase. Unchecked items still need to be bought.</p>
       <section className="shoppingStoreChooser" aria-label="Online grocery store"><div>
           <strong>Shop Online</strong>
@@ -11091,7 +11092,7 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
         </div>
         </>
       )}
-      </section>}
+      </div>}</section></section>}
     </main>
   );
 }
