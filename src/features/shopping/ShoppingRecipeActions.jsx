@@ -1,7 +1,7 @@
-export default function ShoppingRecipeActions({ recipeLinks = [], onView, onPrint }) {
+export default function ShoppingRecipeActions({ recipeLinks = [], onView, onPrint, viewLabel = "View Recipe Card" }) {
   const links = recipeLinks.filter((link) => link?.recipeId);
   if (!links.length) return null;
-  if (links.length === 1) return <div className="shoppingRecipeActions shoppingRecipeActionsSingle"><button type="button" onClick={() => onView(links[0].recipeId)}>View Recipe Card</button><button type="button" onClick={() => onPrint([links[0].recipeId])}>Print Recipe</button></div>;
+  if (links.length === 1) return <div className="shoppingRecipeActions shoppingRecipeActionsSingle"><button type="button" onClick={() => onView(links[0].recipeId)}>{viewLabel}</button><button type="button" onClick={() => onPrint([links[0].recipeId])}>Print Recipe</button></div>;
   return (
     <details className="shoppingRecipeActions shoppingRecipeActionsMenu">
       <summary>Recipe Cards</summary>
