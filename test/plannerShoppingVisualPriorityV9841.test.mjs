@@ -15,5 +15,9 @@ assert.match(app, /heroRecipeId: recipe\.id/);
 assert.match(app, /heroMealId: meal\.id/);
 assert.match(app, /shoppingPlannedMealImage/);
 assert.match(css, /\.shoppingPlannedMealImage\{[^}]*aspect-ratio:4\/3/);
+assert.match(app, /const days = \["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"\]/, "Shopping meal cards must remain ordered Sunday through Saturday");
+assert.match(app, /shoppingPlannedWeeks\.map/, "Both planner weeks must render as separate rows");
+assert.match(css, /\.shoppingPlannedWeekGrid\{[^}]*grid-template-columns:repeat\(7/, "Desktop must show seven daily meal cards per week");
+assert.match(css, /\.shoppingWeeklyMealCard \.shoppingRecipeActionsSingle\{[^}]*grid-template-columns:1fr/, "View and Print controls must remain vertically stacked");
 
 console.log("v98.4.1 planner priority and Shopping Overview meal-image contracts passed.");

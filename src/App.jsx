@@ -10380,6 +10380,22 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
     [printableList, getShoppingCoverage]
   );
   const plannedMealGroups = shoppingNeedGroups.filter((group) => group.recipeLinks?.length);
+  const shoppingPlannedWeeks = useMemo(() => {
+    const normalized = normalizeTwoWeekPlan(plan);
+    const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    return PLANNER_WEEKS.map((week) => ({
+      ...week,
+      meals: days.map((day) => {
+        const itemId = (normalized[`${week.id}-${day}`] || []).find(Boolean);
+        const recipe = recipeById[itemId];
+        const completeDinner = dinnerCombinationById[itemId];
+        if (recipe) return { day, title: recipe.title, heroRecipeId: recipe.id, recipeLinks: [{ label: "Recipe", recipeId: recipe.id, title: recipe.title }] };
+        if (completeDinner) return { day, title: completeDinner.title || completeDinner.mainDish || "Complete Dinner", heroMealId: completeDinner.id, recipeLinks: completeDinner.mainRecipeId ? [{ label: "Recipe", recipeId: completeDinner.mainRecipeId, title: completeDinner.mainDish }] : [] };
+        return { day, title: "No meal planned", recipeLinks: [] };
+      }),
+    }));
+  }, [plan, recipeById, dinnerCombinationById]);
+  const shoppingPlannedMealCount = shoppingPlannedWeeks.flatMap((week) => week.meals).filter((meal) => meal.heroRecipeId || meal.heroMealId).length;
   const remainingItemsToBuy = needed.filter((item) => !effectiveChecked(`${item.name}-${item.unit}-${item.aisle}`, false));
   const purchasedItems = needed.filter((item) => effectiveChecked(`${item.name}-${item.unit}-${item.aisle}`, false)), purchasedUnreconciledItems = purchasedItems.filter((item) => !reconciledPurchaseKeys.has(`${item.name}-${item.unit}-${item.aisle}`));
   const purchaseReconciliationItems = buildPurchaseReconciliationItems({ items: purchasedUnreconciledItems, orderQuantities: shoppingOrderQuantities, coverageIndex: masterCoverageIndex, catalogItems: masterCatalogItems, inventoryRecords: masterInventory?.records, nameMatches: inventoryNameMatches });
@@ -10835,9 +10851,9 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
         <button type="button" role="tab" aria-selected={shoppingOverviewView === "list"} aria-controls="shopping-overview-list" onClick={() => setShoppingOverviewView("list")}>My Shopping List</button>
       </div>
       {shoppingOverviewView === "meals" && <section className="shoppingOverviewPanel shoppingPlannedMealsPanel" id="shopping-overview-meals" role="tabpanel">
-        <header><div><h2>My Planned Meals</h2><p>These meals create the ingredient list used for your inventory check and final shopping list.</p></div><strong>{plannedMealGroups.length} {plannedMealGroups.length === 1 ? "meal" : "meals"}</strong></header>
-        {plannedMealGroups.length ? <div className="shoppingPlannedMealGrid">{plannedMealGroups.map((group) => <article key={group.id}><span className="shoppingPlannedMealImage">{group.heroMealId ? <DinnerCombinationImage meal={dinnerCombinationById[group.heroMealId]} /> : <PlannerRecipeThumb recipe={recipeById[group.heroRecipeId]} />}</span><div className="shoppingPlannedMealDetails"><h3>{group.title}</h3><p>{group.subtitle}</p></div><ShoppingRecipeActions recipeLinks={group.recipeLinks} onView={(recipeId) => openRecipeCard(recipeId, recipes, "Shopping List")} onPrint={(recipeIds) => printRecipeCards(recipeIds, recipes)} /></article>)}</div> : <EmptyState title="No meals planned yet" text="Choose meals in the Weekly Meal Planner to begin building your shopping overview." />}
-        <footer><button type="button" className="secondary" onClick={() => setActivePage("Meal Planner")}>{plannedMealGroups.length ? "Review or Change Meals" : "Choose Meals"}</button><button type="button" className="primary" disabled={!plannedMealGroups.length} onClick={() => setShoppingOverviewView("stock")}>Next: Confirm Items in Stock</button></footer>
+        <header><div><h2>My Planned Meals</h2><p>These meals create the ingredient list used for your inventory check and final shopping list.</p></div><strong>{shoppingPlannedMealCount} {shoppingPlannedMealCount === 1 ? "meal" : "meals"}</strong></header>
+        <div className="shoppingPlannedWeeks">{shoppingPlannedWeeks.map((week) => <section className="shoppingPlannedWeek" key={week.id} aria-label={week.title}><h3>{week.title}</h3><div className="shoppingPlannedWeekGrid">{week.meals.map((meal) => <article className={`shoppingWeeklyMealCard${meal.heroRecipeId || meal.heroMealId ? " hasMeal" : " isEmpty"}`} key={`${week.id}-${meal.day}`}><span className="shoppingPlannedMealImage">{meal.heroMealId ? <DinnerCombinationImage meal={dinnerCombinationById[meal.heroMealId]} /> : meal.heroRecipeId ? <PlannerRecipeThumb recipe={recipeById[meal.heroRecipeId]} /> : <span className="shoppingPlannedMealEmptyImage">＋</span>}<strong className="shoppingPlannedDayBadge">{meal.day}</strong></span><h4>{meal.title}</h4>{meal.recipeLinks.length ? <ShoppingRecipeActions recipeLinks={meal.recipeLinks} onView={(recipeId) => openRecipeCard(recipeId, recipes, "Shopping List")} onPrint={(recipeIds) => printRecipeCards(recipeIds, recipes)} /> : <button type="button" className="secondary shoppingChooseMealButton" onClick={() => setActivePage("Meal Planner")}>Choose Meal</button>}</article>)}</div></section>)}</div>
+        <footer><button type="button" className="secondary" onClick={() => setActivePage("Meal Planner")}>{shoppingPlannedMealCount ? "Review or Change Meals" : "Choose Meals"}</button><button type="button" className="primary" disabled={!shoppingPlannedMealCount} onClick={() => setShoppingOverviewView("stock")}>Next: Confirm Items in Stock</button></footer>
       </section>}
       {shoppingOverviewView === "stock" && <section className="shoppingOverviewPanel shoppingStockReviewPanel" id="shopping-overview-stock" role="tabpanel">
         <header><div><h2>Items in Stock</h2><p>Confirm which required items are already available. Clear a check when an item still needs to be purchased.</p></div><strong>{pantryItems.length + preparedOnHand.length} confirmed</strong></header>
