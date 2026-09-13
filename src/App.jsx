@@ -6880,8 +6880,18 @@ function PlannerPage({
       (recipe) => String(recipe.category || "Other").trim() || "Other"
     );
 
-    return [...new Set(categories)].sort((a, b) => a.localeCompare(b));
+    return [...new Set(categories)]
+      .filter((category) => category.toLowerCase() !== "diet meals")
+      .sort((a, b) => a.localeCompare(b));
   }, [picker]);
+
+  const pickerCompleteDinners = useMemo(() => {
+    if (!picker || pickerCategory !== "complete-dinners" || picker.row.type !== "main") return [];
+    const query = pickerSearch.trim().toLowerCase();
+    return dinnerCombinations
+      .filter((meal) => !query || getDinnerCombinationSearchText(meal).includes(query))
+      .sort((a, b) => String(a.number || a.id).localeCompare(String(b.number || b.id), undefined, { numeric: true }));
+  }, [picker, pickerCategory, pickerSearch]);
 
   const pickerRecipes = useMemo(() => {
     if (!picker) return [];
@@ -6892,7 +6902,10 @@ function PlannerPage({
       .filter((recipe) => {
         const category = String(recipe.category || "Other").trim() || "Other";
 
-        if (pickerCategory !== "all" && category !== pickerCategory) {
+        if (pickerCategory === "complete-dinners") return false;
+        if (pickerCategory === "diet-meals" && recipe.categoryCode !== "DM") return false;
+        if (pickerCategory === "favorites" && !(Array.isArray(favorites) && favorites.includes(recipe.id))) return false;
+        if (!["all", "diet-meals", "favorites"].includes(pickerCategory) && category !== pickerCategory) {
           return false;
         }
 
@@ -6914,7 +6927,7 @@ function PlannerPage({
           { numeric: true, sensitivity: "base" }
         );
       });
-  }, [picker, pickerSearch, pickerCategory]);
+  }, [picker, pickerSearch, pickerCategory, favorites]);
 
   function openPicker(day, row, weekId = activePlannerWeek) {
     const existing = recipeFor(day, row.index, weekId);
@@ -6959,6 +6972,19 @@ function PlannerPage({
 
   function assignRecipe() {
     if (!picker || !pickerRecipeId) return;
+
+    if (pickerCategory === "complete-dinners") {
+      const meal = dinnerCombinations.find((item) => item.id === pickerRecipeId);
+      if (!meal) return;
+      const plannerItems = [meal.mainRecipeId || null, meal.sides?.[0]?.recipeId || null, meal.sides?.[1]?.recipeId || null, meal.sides?.[2]?.recipeId || null];
+      setPlan((current) => {
+        const next = normalizeTwoWeekPlan(current);
+        next[slotKey(picker.day, picker.weekId)] = plannerItems;
+        return next;
+      });
+      closePicker();
+      return;
+    }
 
     setPlan((current) => {
       const next = normalizeTwoWeekPlan(current);
@@ -7408,9 +7434,12 @@ function PlannerPage({
               <select
                 className="weeklyPlannerPickerCategory"
                 value={pickerCategory}
-                onChange={(event) => setPickerCategory(event.target.value)}
+                onChange={(event) => { setPickerCategory(event.target.value); setPickerRecipeId(""); }}
                 aria-label="Filter recipes by category"
               >
+                <option value="diet-meals">Diet Meals</option>
+                {picker.row.type === "main" && <option value="complete-dinners">Complete Dinners</option>}
+                <option value="favorites">Favorites</option>
                 <option value="all">All Categories</option>
                 {pickerCategories.map((category) => (
                   <option key={category} value={category}>
@@ -7419,10 +7448,23 @@ function PlannerPage({
                 ))}
               </select>
 
-              <span>{pickerRecipes.length} recipes</span>
+              <span>{pickerCategory === "complete-dinners" ? `${pickerCompleteDinners.length} dinners` : `${pickerRecipes.length} recipes`}</span>
             </div>
 
             <div className="weeklyPlannerPickerRecipes">
+              {pickerCompleteDinners.map((meal) => {
+                const selected = pickerRecipeId === meal.id;
+                return (
+                  <button type="button" className={`weeklyPlannerPickerRecipe${selected ? " isSelected" : ""}`} key={meal.id} onClick={() => setPickerRecipeId(meal.id)} aria-pressed={selected}>
+                    <span className="weeklyPlannerPickerImageWrap">
+                      <DinnerCombinationImage meal={meal} />
+                      {selected && <span className="weeklyPlannerPickerCheck">✓</span>}
+                    </span>
+                    <strong>{meal.title || meal.mainDish}</strong>
+                    <small>{meal.number || meal.id} · Complete Dinner</small>
+                  </button>
+                );
+              })}
               {pickerRecipes.map((recipe) => {
                 const score = getMealBalanceScore(recipe);
                 const selected = pickerRecipeId === recipe.id;
@@ -10214,7 +10256,7 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
           const multiplier = servings / (Number(recipe.servings) || 4);
           groups.push({
             id: `${slot.key}-${itemId}-${itemIndex}`, title: recipe.title,
-            subtitle: `${slot.weekId === "week1" ? "Week 1" : "Week 2"} · ${slot.day} · ${recipe.id}`, recipeLinks: [{ label: "Recipe", recipeId: recipe.id, title: recipe.title }],
+            subtitle: `${slot.weekId === "week1" ? "Week 1" : "Week 2"} · ${slot.day} · ${recipe.id}`, heroRecipeId: recipe.id, recipeLinks: [{ label: "Recipe", recipeId: recipe.id, title: recipe.title }],
             items: (recipe.ingredients || []).map((ingredient, ingredientIndex) => ({
               ...ingredient,
               id: `ingredient-${ingredientIndex}`,
@@ -10248,7 +10290,7 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
           });
           groups.push({
             id: `${slot.key}-${itemId}-${itemIndex}`, title: meal.title || meal.mainDish || "Complete Meal",
-            subtitle: `${slot.weekId === "week1" ? "Week 1" : "Week 2"} · ${slot.day} · Complete Meal`, recipeLinks: [{ label: "Main Dish", recipeId: meal.mainRecipeId, title: meal.mainDish }, ...(meal.sides || []).slice(0, 2).map((side, index) => ({ label: `Side ${index + 1}`, recipeId: side.recipeId, title: side.name }))].filter((link) => recipeById[link.recipeId]),
+            subtitle: `${slot.weekId === "week1" ? "Week 1" : "Week 2"} · ${slot.day} · Complete Meal`, heroMealId: meal.id, recipeLinks: [{ label: "Main Dish", recipeId: meal.mainRecipeId, title: meal.mainDish }, ...(meal.sides || []).slice(0, 2).map((side, index) => ({ label: `Side ${index + 1}`, recipeId: side.recipeId, title: side.name }))].filter((link) => recipeById[link.recipeId]),
             items: [...componentItems, ...groceryItems],
           });
         }
@@ -10794,7 +10836,7 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
       </div>
       {shoppingOverviewView === "meals" && <section className="shoppingOverviewPanel shoppingPlannedMealsPanel" id="shopping-overview-meals" role="tabpanel">
         <header><div><h2>My Planned Meals</h2><p>These meals create the ingredient list used for your inventory check and final shopping list.</p></div><strong>{plannedMealGroups.length} {plannedMealGroups.length === 1 ? "meal" : "meals"}</strong></header>
-        {plannedMealGroups.length ? <div className="shoppingPlannedMealGrid">{plannedMealGroups.map((group) => <article key={group.id}><div><h3>{group.title}</h3><p>{group.subtitle}</p></div><ShoppingRecipeActions recipeLinks={group.recipeLinks} onView={(recipeId) => openRecipeCard(recipeId, recipes, "Shopping List")} onPrint={(recipeIds) => printRecipeCards(recipeIds, recipes)} /></article>)}</div> : <EmptyState title="No meals planned yet" text="Choose meals in the Weekly Meal Planner to begin building your shopping overview." />}
+        {plannedMealGroups.length ? <div className="shoppingPlannedMealGrid">{plannedMealGroups.map((group) => <article key={group.id}><span className="shoppingPlannedMealImage">{group.heroMealId ? <DinnerCombinationImage meal={dinnerCombinationById[group.heroMealId]} /> : <PlannerRecipeThumb recipe={recipeById[group.heroRecipeId]} />}</span><div className="shoppingPlannedMealDetails"><h3>{group.title}</h3><p>{group.subtitle}</p></div><ShoppingRecipeActions recipeLinks={group.recipeLinks} onView={(recipeId) => openRecipeCard(recipeId, recipes, "Shopping List")} onPrint={(recipeIds) => printRecipeCards(recipeIds, recipes)} /></article>)}</div> : <EmptyState title="No meals planned yet" text="Choose meals in the Weekly Meal Planner to begin building your shopping overview." />}
         <footer><button type="button" className="secondary" onClick={() => setActivePage("Meal Planner")}>{plannedMealGroups.length ? "Review or Change Meals" : "Choose Meals"}</button><button type="button" className="primary" disabled={!plannedMealGroups.length} onClick={() => setShoppingOverviewView("stock")}>Next: Confirm Items in Stock</button></footer>
       </section>}
       {shoppingOverviewView === "stock" && <section className="shoppingOverviewPanel shoppingStockReviewPanel" id="shopping-overview-stock" role="tabpanel">
