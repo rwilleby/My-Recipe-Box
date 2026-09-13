@@ -13,12 +13,7 @@ function daysUntil(dateValue, now) {
   return Math.ceil((target - startOfDay(now)) / DAY_MS);
 }
 
-function plannedMealCount(plan) {
-  return Object.values(plan || {}).reduce(
-    (total, meals) => total + (Array.isArray(meals) ? meals.length : 0),
-    0,
-  );
-}
+function plannedMealCount(plan) { return Object.values(plan || {}).reduce((total, meals) => total + (Array.isArray(meals) ? meals.slice(0, 4).filter(Boolean).length : 0), 0); }
 
 function mergedInventoryEntries(inventory, availabilityKey) {
   const savedItems = inventory?.items && typeof inventory.items === "object"

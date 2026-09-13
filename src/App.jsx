@@ -74,6 +74,7 @@ import { HOLIDAY_OCCASION_MENUS } from "./data/holidayOccasionMenus.js";
 import ShoppingCompanionWindow, { focusShoppingCompanionWindow } from "./features/shopping/ShoppingCompanionWindow.jsx";
 import ShoppingAudioButton, { ShoppingCountAudio } from "./features/shopping/ShoppingAudioButton.jsx";
 import ShoppingRecipeActions from "./features/shopping/ShoppingRecipeActions.jsx"; import SimpleShoppingListPanel from "./features/shopping/SimpleShoppingListPanel.jsx";
+import { buildDietMealPlanItems, buildSavedMealPlanItems, mealSourceMarker, parseMealSourceMarker, resolveDietPlannerComponent, resolveDietPlannerMain } from "./data/plannerMealBundles.js";
 import PurchaseReconciliationPanel, { applyPurchasedItemsToInventory, buildPurchaseReconciliationItems } from "./features/shopping/PurchaseReconciliationPanel.jsx";
 import { ONLINE_GROCERY_STORES, PREFERRED_GROCERY_STORE_KEY, openOnlineGroceryWindow } from "./utils/onlineGroceryShopping.js";
 import { printRecipeCards } from "./utils/printRecipeCards.js";
@@ -1321,12 +1322,7 @@ function plannerSlotLabel(slotKey = "") {
   return week && day ? `${week.title} ${day}` : slotKey;
 }
 
-function plannedMealCount(plan) {
-  return Object.values(plan || {}).reduce(
-    (total, dayRecipes) => total + (Array.isArray(dayRecipes) ? dayRecipes.length : 0),
-    0
-  );
-}
+function plannedMealCount(plan) { return Object.values(plan || {}).reduce((total, dayRecipes) => total + (Array.isArray(dayRecipes) ? dayRecipes.slice(0, 4).filter(Boolean).length : 0), 0); }
 
 
 let popupPageModeUsers = 0;
@@ -6739,6 +6735,7 @@ function PlannerPage({
   setActivePage,
   preparedInventory,
   setPreparedInventory,
+  savedCustomMeals = [],
 }) {
   const normalizedPlan = useMemo(() => normalizeTwoWeekPlan(plan), [plan]);
   const [plannerSiteMode, setPlannerSiteMode] = useState(() => {
@@ -6840,8 +6837,10 @@ function PlannerPage({
   }
 
   function recipeFor(day, rowIndex, weekId = activePlannerWeek) {
-    const recipeId = normalizedPlan[slotKey(day, weekId)]?.[rowIndex];
-    return recipes.find((recipe) => recipe.id === recipeId) || null;
+    const items = normalizedPlan[slotKey(day, weekId)] || [], recipeId = items[rowIndex];
+    const source = parseMealSourceMarker(items[4]);
+    if (rowIndex === 0 && source?.type === "diet") return resolveDietPlannerMain(recipeId, recipes) || recipes.find((recipe) => recipe.id === recipeId);
+    return recipes.find((recipe) => recipe.id === recipeId) || resolveDietPlannerComponent(recipeId, recipes);
   }
 
   function weeklyMealBalanceAverageFor(weekId) {
@@ -6875,29 +6874,19 @@ function PlannerPage({
 
   const pickerCategories = useMemo(() => {
     if (!picker) return [];
-
-    const categories = recipes.map(
-      (recipe) => String(recipe.category || "Other").trim() || "Other"
-    );
-
-    return [...new Set(categories)]
-      .filter((category) => category.toLowerCase() !== "diet meals")
-      .sort((a, b) => a.localeCompare(b));
+    const categories = recipes.map((recipe) => String(recipe.category || "Other").trim() || "Other");
+    return [...new Set(categories)].filter((category) => category.toLowerCase() !== "diet meals").sort((a, b) => a.localeCompare(b));
   }, [picker]);
-
   const pickerCompleteDinners = useMemo(() => {
     if (!picker || pickerCategory !== "complete-dinners" || picker.row.type !== "main") return [];
     const query = pickerSearch.trim().toLowerCase();
-    return dinnerCombinations
-      .filter((meal) => !query || getDinnerCombinationSearchText(meal).includes(query))
-      .sort((a, b) => String(a.number || a.id).localeCompare(String(b.number || b.id), undefined, { numeric: true }));
+    return dinnerCombinations.filter((meal) => !query || getDinnerCombinationSearchText(meal).includes(query)).sort((a, b) => String(a.number || a.id).localeCompare(String(b.number || b.id), undefined, { numeric: true }));
   }, [picker, pickerCategory, pickerSearch]);
+  const pickerSavedMeals = useMemo(() => picker && pickerCategory === "saved-meals" && picker.row.type === "main" ? savedCustomMeals.filter((meal) => !pickerSearch.trim() || `${meal.title} ${meal.id}`.toLowerCase().includes(pickerSearch.trim().toLowerCase())) : [], [picker, pickerCategory, pickerSearch, savedCustomMeals]);
 
   const pickerRecipes = useMemo(() => {
     if (!picker) return [];
-
     const query = pickerSearch.trim().toLowerCase();
-
     return recipes
       .filter((recipe) => {
         const category = String(recipe.category || "Other").trim() || "Other";
@@ -6910,10 +6899,7 @@ function PlannerPage({
         }
 
         if (!query) return true;
-
-        return `${recipe.id} ${recipe.title} ${category}`
-          .toLowerCase()
-          .includes(query);
+        return `${recipe.id} ${recipe.title} ${category}`.toLowerCase().includes(query);
       })
       .sort((a, b) => {
         const categoryCompare = String(a.category || "Other").localeCompare(
@@ -6939,6 +6925,7 @@ function PlannerPage({
 
   function openPlannerCell(day, row, weekId = activePlannerWeek) {
     const existing = recipeFor(day, row.index, weekId);
+    if (existing?.plannerComponent) { openPicker(day, row, weekId); return; }
     if (!existing) {
       openPicker(day, row, weekId);
       return;
@@ -6973,10 +6960,14 @@ function PlannerPage({
   function assignRecipe() {
     if (!picker || !pickerRecipeId) return;
 
+    const dietMealItems = buildDietMealPlanItems(pickerRecipeId);
+    if (pickerCategory === "diet-meals" && dietMealItems) { setPlan((current) => ({ ...normalizeTwoWeekPlan(current), [slotKey(picker.day, picker.weekId)]: dietMealItems })); closePicker(); return; }
+    if (pickerCategory === "saved-meals") { const savedMeal = savedCustomMeals.find((meal) => meal.id === pickerRecipeId), plannerItems = buildSavedMealPlanItems(savedMeal); if (!plannerItems) return; setPlan((current) => ({ ...normalizeTwoWeekPlan(current), [slotKey(picker.day, picker.weekId)]: plannerItems })); closePicker(); return; }
+
     if (pickerCategory === "complete-dinners") {
       const meal = dinnerCombinations.find((item) => item.id === pickerRecipeId);
       if (!meal) return;
-      const plannerItems = [meal.mainRecipeId || null, meal.sides?.[0]?.recipeId || null, meal.sides?.[1]?.recipeId || null, meal.sides?.[2]?.recipeId || null];
+      const plannerItems = [meal.mainRecipeId || null, meal.sides?.[0]?.recipeId || null, meal.sides?.[1]?.recipeId || null, meal.sides?.[2]?.recipeId || null, mealSourceMarker("complete", meal.id)];
       setPlan((current) => {
         const next = normalizeTwoWeekPlan(current);
         next[slotKey(picker.day, picker.weekId)] = plannerItems;
@@ -6993,6 +6984,7 @@ function PlannerPage({
 
       while (currentItems.length < 4) currentItems.push(null);
       currentItems[picker.row.index] = pickerRecipeId;
+      currentItems.length = 4;
 
       next[key] = currentItems;
       return next;
@@ -7011,6 +7003,7 @@ function PlannerPage({
 
       while (currentItems.length < 4) currentItems.push(null);
       currentItems[picker.row.index] = null;
+      currentItems.length = 4;
 
       while (currentItems.length && !currentItems[currentItems.length - 1]) {
         currentItems.pop();
@@ -7165,7 +7158,7 @@ function PlannerPage({
                             {score}
                           </span>
                         )}
-                        <span
+                        {!recipe.plannerComponent && <span
                           className={`weeklyPlannerFavoriteHeart${Array.isArray(favorites) && favorites.includes(recipe.id) ? " isFavorite" : ""}`}
                           role="button"
                           tabIndex={0}
@@ -7183,7 +7176,7 @@ function PlannerPage({
                           }}
                         >
                           ♥
-                        </span>
+                        </span>}
                       </span>
                       <strong>{recipe.title}</strong>
                     </>
@@ -7439,6 +7432,7 @@ function PlannerPage({
               >
                 <option value="diet-meals">Diet Meals</option>
                 {picker.row.type === "main" && <option value="complete-dinners">Complete Dinners</option>}
+                {picker.row.type === "main" && <option value="saved-meals">My Saved Meals</option>}
                 <option value="favorites">Favorites</option>
                 <option value="all">All Categories</option>
                 {pickerCategories.map((category) => (
@@ -7448,7 +7442,7 @@ function PlannerPage({
                 ))}
               </select>
 
-              <span>{pickerCategory === "complete-dinners" ? `${pickerCompleteDinners.length} dinners` : `${pickerRecipes.length} recipes`}</span>
+              <span>{pickerCategory === "complete-dinners" ? `${pickerCompleteDinners.length} dinners` : pickerCategory === "saved-meals" ? `${pickerSavedMeals.length} saved meals` : `${pickerRecipes.length} recipes`}</span>
             </div>
 
             <div className="weeklyPlannerPickerRecipes">
@@ -7465,6 +7459,7 @@ function PlannerPage({
                   </button>
                 );
               })}
+              {pickerSavedMeals.map((meal) => { const selected = pickerRecipeId === meal.id, mainRecipe = recipes.find((recipe) => recipe.id === meal.mainId), sideOneRecipe = recipes.find((recipe) => recipe.id === meal.sideOneId), sideTwoRecipe = recipes.find((recipe) => recipe.id === meal.sideTwoId); return <button type="button" className={`weeklyPlannerPickerRecipe${selected ? " isSelected" : ""}`} key={meal.id} onClick={() => setPickerRecipeId(meal.id)} aria-pressed={selected}><span className="weeklyPlannerPickerImageWrap"><MealBuilderTrayPreview mainRecipe={mainRecipe} sideOneRecipe={sideOneRecipe} sideTwoRecipe={sideTwoRecipe} mainTrayLayout={meal.mainTrayLayout || "standard"} className="weeklyPlannerPickerSavedMealPreview" suppressEmptySlots />{selected && <span className="weeklyPlannerPickerCheck">✓</span>}</span><strong>{meal.title}</strong><small>Saved Build-A-Meal · serves {meal.servings || 4}</small></button>; })}
               {pickerRecipes.map((recipe) => {
                 const score = getMealBalanceScore(recipe);
                 const selected = pickerRecipeId === recipe.id;
