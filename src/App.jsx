@@ -10379,9 +10379,14 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
     () => splitShoppingListByPantry(printableList, getShoppingCoverage),
     [printableList, getShoppingCoverage]
   );
-  const plannedMealGroups = shoppingNeedGroups.filter((group) => group.recipeLinks?.length);
-  const shoppingPlannedWeeks = useMemo(() => {
-    const normalized = normalizeTwoWeekPlan(plan);
+  const shoppingStockItems = useMemo(() => list.map((item) => {
+    const key = `${item.name}-${item.unit}-${item.aisle}`;
+    const coverage = getShoppingCoverage(item);
+    const automaticallyCovered = Boolean(coverage.covered);
+    const isCovered = Object.prototype.hasOwnProperty.call(checked, key) ? Boolean(checked[key]) : automaticallyCovered;
+    const manuallyUnchecked = automaticallyCovered && Object.prototype.hasOwnProperty.call(checked, key) && !checked[key];
+    return { item, key, coverage, automaticallyCovered, isCovered, status: manuallyUnchecked ? "Unchecked" : isCovered ? "In Inventory" : "Need To Buy", statusRank: manuallyUnchecked ? 0 : isCovered ? 2 : 1, kind: item.aisle || "Other" };
+  }).sort((a, b) => a.statusRank - b.statusRank || a.kind.localeCompare(b.kind) || String(a.item.name).localeCompare(String(b.item.name))), [list, checked, getShoppingCoverage]); const shoppingPlannedWeeks = useMemo(() => { const normalized = normalizeTwoWeekPlan(plan);
     const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     return PLANNER_WEEKS.map((week) => ({
       ...week,
@@ -10398,8 +10403,7 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
         return { day, title: "No meal planned", recipeLinks: [] };
       }),
     }));
-  }, [plan, recipeById, dinnerCombinationById]);
-  const shoppingPlannedMealCount = shoppingPlannedWeeks.flatMap((week) => week.meals).filter((meal) => meal.heroRecipeId || meal.heroMealId).length;
+  }, [plan, recipeById, dinnerCombinationById]); const shoppingPlannedMealCount = shoppingPlannedWeeks.flatMap((week) => week.meals).filter((meal) => meal.heroRecipeId || meal.heroMealId).length;
   const remainingItemsToBuy = needed.filter((item) => !effectiveChecked(`${item.name}-${item.unit}-${item.aisle}`, false));
   const purchasedItems = needed.filter((item) => effectiveChecked(`${item.name}-${item.unit}-${item.aisle}`, false)), purchasedUnreconciledItems = purchasedItems.filter((item) => !reconciledPurchaseKeys.has(`${item.name}-${item.unit}-${item.aisle}`));
   const purchaseReconciliationItems = buildPurchaseReconciliationItems({ items: purchasedUnreconciledItems, orderQuantities: shoppingOrderQuantities, coverageIndex: masterCoverageIndex, catalogItems: masterCatalogItems, inventoryRecords: masterInventory?.records, nameMatches: inventoryNameMatches });
@@ -10860,8 +10864,8 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
         <footer><button type="button" className="secondary" onClick={() => setActivePage("Meal Planner")}>{shoppingPlannedMealCount ? "Review or Change Meals" : "Choose Meals"}</button><button type="button" className="primary" disabled={!shoppingPlannedMealCount} onClick={() => setShoppingOverviewView("stock")}>Next: Confirm Items in Stock</button></footer>
       </section>}
       {shoppingOverviewView === "stock" && <section className="shoppingOverviewPanel shoppingStockReviewPanel" id="shopping-overview-stock" role="tabpanel">
-        <header><div><h2>Items in Stock</h2><p>Confirm which required items are already available. Clear a check when an item still needs to be purchased.</p></div><strong>{pantryItems.length + preparedOnHand.length} confirmed</strong></header>
-        <div className="shoppingStockReviewList">{list.map((item) => { const key = `${item.name}-${item.unit}-${item.aisle}`; const coverage = getShoppingCoverage(item); const automaticallyCovered = Boolean(coverage.covered); const isCovered = effectiveChecked(key, automaticallyCovered); return <label className={isCovered ? "isConfirmed" : ""} key={key}><input type="checkbox" checked={isCovered} onChange={() => toggleCoverage(key, automaticallyCovered)} /><span><strong>{item.name}</strong><small>{formatShoppingQuantity(item.qty)} {item.unit || "item(s)"} · {coverage.status}</small></span><em>{isCovered ? "In Stock" : "Need to Buy"}</em></label>; })}</div>
+        <header><div><h2>Items in Stock</h2><p>Confirm which required items are already available. Clear a check when an item still needs to be purchased.</p></div><strong>{shoppingStockItems.filter((entry) => entry.isCovered).length} confirmed</strong></header>
+        <div className="shoppingStockReviewList">{shoppingStockItems.map(({ item, key, coverage, automaticallyCovered, isCovered, status, kind }) => <label className={`${isCovered ? "isConfirmed" : "isUnconfirmed"} status${status.replaceAll(" ", "")}`} key={key}><input type="checkbox" checked={isCovered} onChange={() => toggleCoverage(key, automaticallyCovered)} /><span><strong>{item.name}</strong><small>{kind} · {formatShoppingQuantity(item.qty)} {item.unit || "item(s)"} · {coverage.status}</small></span><em>{status}</em></label>)}</div>
         {!list.length && <EmptyState title="Nothing to confirm yet" text="Choose meals first, then return here to compare their ingredients with your inventory." />}
         <footer><button type="button" className="secondary" disabled={!list.length} onClick={() => { setShowDigitalStockCheck(true); setShoppingOverviewView("list"); }}>Open Guided Stock Check</button><button type="button" className="primary" disabled={!list.length} onClick={() => { setHasReviewedShoppingList(true); setShoppingOverviewView("list"); }}>Next: Review My Shopping List</button></footer>
       </section>}
