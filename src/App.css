@@ -24058,6 +24058,10 @@ button.browseRecipeWideFooterAction:focus-visible,
 .inventoryHubControlStrip {
   grid-template-columns: minmax(0, 3fr) repeat(5, minmax(0, 1fr)) !important;
 }
+
+/* v98.5.1 — keep Complete Dinner heroes inside Weekly Planner picker cards. */
+.weeklyPlannerPickerImageWrap{overflow:hidden!important;border-radius:8px!important;background:#f5f3ee!important}
+.weeklyPlannerPickerDinnerImage,.weeklyPlannerPickerImageWrap>.dinnerCombinationImageFallback{display:block!important;width:100%!important;height:100%!important;min-width:0!important;min-height:0!important;max-width:100%!important;max-height:100%!important;margin:0!important;border:0!important;border-radius:8px!important;object-fit:cover!important;object-position:center!important}
 @media (max-width: 900px) {
   .inventoryHubControlStrip {
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;

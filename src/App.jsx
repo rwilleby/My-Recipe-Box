@@ -7457,7 +7457,7 @@ function PlannerPage({
                 return (
                   <button type="button" className={`weeklyPlannerPickerRecipe${selected ? " isSelected" : ""}`} key={meal.id} onClick={() => setPickerRecipeId(meal.id)} aria-pressed={selected}>
                     <span className="weeklyPlannerPickerImageWrap">
-                      <DinnerCombinationImage meal={meal} />
+                      <DinnerCombinationImage meal={meal} className="weeklyPlannerPickerDinnerImage" />
                       {selected && <span className="weeklyPlannerPickerCheck">✓</span>}
                     </span>
                     <strong>{meal.title || meal.mainDish}</strong>
