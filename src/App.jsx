@@ -79,6 +79,7 @@ import PurchaseReconciliationPanel, { applyPurchasedItemsToInventory, buildPurch
 import { ONLINE_GROCERY_STORES, PREFERRED_GROCERY_STORE_KEY, openOnlineGroceryWindow } from "./utils/onlineGroceryShopping.js";
 import { printRecipeCards } from "./utils/printRecipeCards.js";
 import { saladJarIngredientPreview } from "./utils/saladJarIngredientPreview.js";
+import { crockPotIngredientPreview } from "./utils/crockPotIngredientPreview.js";
 const VEGAN_LIBRARY_CATEGORIES = Object.freeze([
   { id: "VPM", name: "Plant Mains", displayName: "Plant Mains", iconImage: "images/categories/SG.webp" },
   { id: "VBA", name: "Bakes", displayName: "Bakes", iconImage: "images/categories/CS.webp" },
@@ -16260,13 +16261,12 @@ function GLP1NutritionPage({ setActivePage, setFilter }) {
 
 
 const SLOW_COOKER_GROUPS = [
-  { id: "all", label: "ALL" },
   { id: "chicken", label: "CHICKEN / TURKEY" },
   { id: "beef", label: "BEEF" },
   { id: "pork", label: "PORK / HAM" },
   { id: "sausage", label: "SAUSAGE" },
   { id: "soups", label: "SOUPS / STEWS" },
-  { id: "more", label: "BREAKFAST / SIDES / DESSERTS" },
+  { id: "more", label: "MORE" },
 ];
 
 function slowCookerGroupForRecipe(recipe) {
@@ -16324,6 +16324,40 @@ function slowCookerMealType(recipe) {
   return "Main Dishes";
 }
 
+function CompactCrockPotCard({ recipe, recipes, favorites, toggleFavorite, openRecipeCard }) {
+  const calories = getHealthyDinnerCalories(recipe);
+  const protein = getHealthyDinnerProteinGrams(recipe);
+  const recipeNumber = Number.parseInt(String(recipe.id).split("-")[1], 10);
+  const isFavorite = favorites.includes(recipe.id);
+  const isFreezerFriendly = recipe?.freezerFriendly === true || (recipe?.tags || []).some((tag) => String(tag).toLowerCase().includes("freezer-friendly"));
+  const ingredientPreview = crockPotIngredientPreview(recipe);
+
+  return (
+    <article className="compactDinnerCard compactCrockPotCard">
+      <button type="button" className="compactDinnerCardMain" onClick={() => openRecipeCard(recipe.id, recipes, "Crock Pot Meals")} aria-label={`View details for ${recipe.title}`}>
+        <span className="compactDinnerCardMedia">
+          <DinnerRecipeHero recipe={recipe} label={recipe.title} />
+          <span className="compactDinnerCardNumber">CP-{String(Number.isFinite(recipeNumber) ? recipeNumber : recipe.id).padStart(3, "0")}</span>
+        </span>
+        <span className="compactDinnerCardCopy">
+          <strong>{recipe.title}</strong>
+          <span className="compactDinnerCardSides compactCrockPotIngredients">{ingredientPreview || "Open for complete ingredients"}</span>
+          <span className="compactDinnerCardFacts">
+            <span>{calories ?? "—"} cal</span>
+            <span>{protein ?? "—"}g protein</span>
+            <span>MB {recipe?.mealBalance?.score ?? "—"}</span>
+            {isFreezerFriendly && <span title="Freezer Friendly">FF</span>}
+          </span>
+          <span className="compactDinnerCardActionRow"><span className="compactDinnerCardAction">View Recipe Details</span></span>
+        </span>
+      </button>
+      <button type="button" className={`compactDinnerFavorite${isFavorite ? " saved" : ""}`} onClick={() => toggleFavorite(recipe.id)} aria-label={isFavorite ? `Remove ${recipe.title} from favorites` : `Add ${recipe.title} to favorites`}>
+        <span aria-hidden="true">♥</span>
+      </button>
+    </article>
+  );
+}
+
 function SlowCookerRecipesPage({
   recipes: classifiedRecipes = [],
   favorites = [],
@@ -16333,9 +16367,7 @@ function SlowCookerRecipesPage({
 }) {
   const [activeGroup, setActiveGroup] = useState("all");
   const [search, setSearch] = useState("");
-  const [protein, setProtein] = useState("all");
-  const [mealType, setMealType] = useState("all");
-  const [favoritesOnly, setFavoritesOnly] = useState(false);
+  const [visibleRecipeCount, setVisibleRecipeCount] = useState(COMPLETE_DINNER_BATCH_SIZE);
 
   const crockPotRecipes = useMemo(
     () =>
@@ -16350,7 +16382,6 @@ function SlowCookerRecipesPage({
 
     return crockPotRecipes.filter((recipe) => {
       const group = slowCookerGroupForRecipe(recipe);
-      const type = slowCookerMealType(recipe);
       const matchesGroup =
         activeGroup === "all" ||
         group === activeGroup ||
@@ -16358,115 +16389,78 @@ function SlowCookerRecipesPage({
       const matchesSearch =
         !needle ||
         `${recipe.id} ${recipe.title}`.toLowerCase().includes(needle);
-      const matchesProtein =
-        protein === "all" ||
-        group === protein;
-      const matchesMealType =
-        mealType === "all" ||
-        type === mealType;
-      const matchesFavorite =
-        !favoritesOnly ||
-        favorites.includes(recipe.id);
-
-      return (
-        matchesGroup &&
-        matchesSearch &&
-        matchesProtein &&
-        matchesMealType &&
-        matchesFavorite
-      );
+      return matchesGroup && matchesSearch;
+    }).sort((a, b) => {
+      const favoriteDifference = Number(favorites.includes(b.id)) - Number(favorites.includes(a.id));
+      return favoriteDifference || String(a.title || "").localeCompare(String(b.title || ""), undefined, { sensitivity: "base" });
     });
-  }, [activeGroup, crockPotRecipes, favorites, favoritesOnly, mealType, protein, search]);
+  }, [activeGroup, crockPotRecipes, favorites, search]);
+
+  function selectSlowCookerGroup(group) {
+    setActiveGroup(group);
+    setSearch("");
+    setVisibleRecipeCount(COMPLETE_DINNER_BATCH_SIZE);
+  }
+
+  const visibleRecipes = filteredRecipes.slice(0, visibleRecipeCount);
 
   return (
     <main className="pageShell slowCookerRecipesPage">
       <SectionIntro
         title="Find a Crock Pot Recipe"
-        text="Choose a category or use the filters below to find the Crock Pot recipe you want."
+        text="Search or choose a category to find the Crock Pot recipe you want."
         className="crockPotSectionIntro"
       />
 
       <section className="slowCookerGroupTabs" aria-label="Crock Pot recipe groups">
+        <label className="completeDinnerCategorySearch">
+          <input
+            type="search"
+            value={search}
+            onFocus={() => selectSlowCookerGroup("all")}
+            onChange={(event) => { setSearch(event.target.value); setVisibleRecipeCount(COMPLETE_DINNER_BATCH_SIZE); }}
+            placeholder="Search for..."
+            aria-label="Search Crock Pot recipes"
+          />
+        </label>
         {SLOW_COOKER_GROUPS.map((group) => (
           <button
             key={group.id}
             type="button"
             className={activeGroup === group.id ? "isActive" : ""}
-            onClick={() => setActiveGroup(group.id)}
+            onClick={() => selectSlowCookerGroup(group.id)}
           >
             {group.label}
           </button>
         ))}
       </section>
 
-      <section className="slowCookerFilterBar">
-        <label className="slowCookerSearchField">
-          <span>SEARCH</span>
-          <input
-            type="search"
-            value={search}
-            onChange={(event) => setSearch(event.target.value)}
-            placeholder="Search Crock Pot recipes..."
-          />
-        </label>
-
-        <label>
-          <span>PROTEIN</span>
-          <select value={protein} onChange={(event) => setProtein(event.target.value)}>
-            <option value="all">All Proteins</option>
-            <option value="chicken">Chicken & Turkey</option>
-            <option value="beef">Beef</option>
-            <option value="pork">Pork & Ham</option>
-            <option value="sausage">Sausage</option>
-          </select>
-        </label>
-
-        <label>
-          <span>MEAL TYPE</span>
-          <select value={mealType} onChange={(event) => setMealType(event.target.value)}>
-            <option value="all">All Meal Types</option>
-            <option>Main Dishes</option>
-            <option>Soups & Stews</option>
-            <option>Breakfast</option>
-            <option>Sides</option>
-            <option>Desserts</option>
-          </select>
-        </label>
-
-        <label className="slowCookerFavoriteFilter">
-          <span>FAVORITE</span>
-          <button
-            type="button"
-            className={favoritesOnly ? "isActive" : ""}
-            onClick={() => setFavoritesOnly((current) => !current)}
-            aria-pressed={favoritesOnly}
-          >
-            ♥
-          </button>
-        </label>
-      </section>
-
       <div className="slowCookerResultCount">
         <strong>{filteredRecipes.length}</strong>
-        <span>Crock Pot recipes shown</span>
+        <span>Crock Pot recipes found · showing {Math.min(visibleRecipeCount, filteredRecipes.length)}</span>
       </div>
 
       {filteredRecipes.length ? (
-        <div className="recipeGrid browseRecipeGrid slowCookerRecipeGrid">
-          {filteredRecipes.map((recipe) => (
-            <RecipeCard
+        <>
+          <div className="compactDinnerGrid slowCookerRecipeGrid">
+          {visibleRecipes.map((recipe) => (
+            <CompactCrockPotCard
               key={recipe.id}
               recipe={recipe}
+              recipes={filteredRecipes}
               favorites={favorites}
               toggleFavorite={toggleFavorite}
-              addToPlan={addToPlan}
               openRecipeCard={openRecipeCard}
-              cardList={filteredRecipes}
-              viewerContext="Crock Pot Meals"
-              displayMode="card"
             />
           ))}
-        </div>
+          </div>
+          {visibleRecipeCount < filteredRecipes.length && (
+            <div className="completeDinnerShowMore">
+              <button type="button" onClick={() => setVisibleRecipeCount((current) => current + COMPLETE_DINNER_BATCH_SIZE)}>Show More Crock Pot Recipes</button>
+              <span>{filteredRecipes.length - visibleRecipeCount} more available</span>
+            </div>
+          )}
+        </>
       ) : (
         <EmptyState
           title="No Crock Pot recipes match these filters"

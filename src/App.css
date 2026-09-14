@@ -19438,6 +19438,46 @@ button.browseRecipeWideFooterAction:focus-visible,
   outline: none !important;
 }
 
+/* ================================================================
+   v99.5 — CROCK POT MEALS STANDARD LISTING
+   One compact search/category strip and Complete-Dinner-style cards.
+   ================================================================ */
+.slowCookerGroupTabs {
+  grid-template-columns: minmax(145px, 1.15fr) repeat(6, minmax(0, 1fr)) !important;
+}
+
+.slowCookerGroupTabs .completeDinnerCategorySearch {
+  height: calc(var(--rrb-segmented-height, 38px) - 4px);
+  min-height: calc(var(--rrb-segmented-height, 38px) - 4px);
+}
+
+.compactCrockPotIngredients {
+  display: -webkit-box;
+  min-height: 34px;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+
+@media (max-width: 820px) {
+  .slowCookerGroupTabs {
+    height: auto !important;
+    max-height: none !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
+
+  .slowCookerGroupTabs .completeDinnerCategorySearch {
+    min-height: 34px;
+  }
+}
+
+@media (max-width: 540px) {
+  .slowCookerGroupTabs {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
 .cardViewerZoomLaunch:focus-visible {
   box-shadow: 0 0 0 3px rgba(20, 83, 45, .22) !important;
 }

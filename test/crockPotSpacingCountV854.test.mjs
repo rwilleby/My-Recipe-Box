@@ -10,6 +10,6 @@ assert.ok(finalStart >= 0, "Missing v85.4 Crock Pot alignment styles");
 assert.match(finalStyles, /\.slowCookerRecipesPage \{[\s\S]*padding-top: 0 !important/);
 assert.match(finalStyles, /\.slowCookerResultCount \{[\s\S]*gap: 6px !important[\s\S]*margin: 4px 0 14px !important[\s\S]*font-size: 13px !important/);
 assert.match(finalStyles, /\.slowCookerResultCount strong \{[\s\S]*color: #2f8747 !important[\s\S]*font-size: 15px !important/);
-assert.match(app, /<strong>\{filteredRecipes\.length\}<\/strong>\s*<span>Crock Pot recipes shown<\/span>/);
+assert.match(app, /<strong>\{filteredRecipes\.length\}<\/strong>\s*<span>Crock Pot recipes found · showing \{Math\.min\(visibleRecipeCount, filteredRecipes\.length\)\}<\/span>/);
 
 console.log("v85.4 Crock Pot spacing and Diet Meals count-style alignment passed");
