@@ -72,7 +72,7 @@ export function resolveDietPlannerComponent(value, recipes) {
   const match = String(value || "").match(/^(DM-\d{3})::S([12])$/); if (!match) return null;
   const component = PILOT_DIET_MEALS[match[1]]?.[Number(match[2])]; if (!component) return null;
   const imageRecipe = recipes.find((recipe) => recipe.id === component.displayRecipeId);
-  return { id: value, title: component.title, heroImage: imageRecipe?.heroImage || imageRecipe?.image || "", plannerComponent: true, parentDietMealId: match[1] };
+  return { id: value, title: component.title, heroImage: imageRecipe?.heroImage || imageRecipe?.image || "", mealBalance: imageRecipe?.mealBalance, plannerComponent: true, parentDietMealId: match[1] };
 }
 export function resolveDietPlannerMain(value, recipes) {
   const component = PILOT_DIET_MEALS[value]?.[0]; if (!component) return null;

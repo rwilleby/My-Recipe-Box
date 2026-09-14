@@ -22,6 +22,7 @@ import { SPECIALTY_INGREDIENTS_V8411 } from "./specialtyIngredientsV8411.js";
 import { VEGAN_RECIPE_ROWS, VEGAN_SISTER_RECIPE_ROWS } from "./veganRecipes.js";
 import { HOLIDAY_SPECIAL_RECIPE_ROWS } from "./holidaySpecialRecipes.js";
 import { standardizeAmericanIngredients } from "../utils/americanIngredientStandardization.js";
+import { dietMealBalanceFor } from "./nutritionMealBalance.js";
 
 const baseCategories = [
   { id: "AM", name: "American Cuisine", count: 0, icon: "🍽️", iconImage: "images/categories/AM.webp" },
@@ -1497,7 +1498,7 @@ function makeRecipe(entry) {
     occasion: options.occasion || "",
     ribbon: options.ribbon || "",
     dietaryTags: Array.isArray(options.dietaryTags) ? [...options.dietaryTags] : [],
-    mealBalance: options.mealBalance || estimateMealBalance(categoryCode, title),
+    mealBalance: options.mealBalance || dietMealBalanceFor(id) || estimateMealBalance(categoryCode, title),
   };
 }
 
