@@ -124,7 +124,7 @@ export function getCrockPotNutritionEstimate(recipe) {
 
   return {
     servingSize: "1 serving",
-    servingsPerRecipe: recipe?.servings || 6,
+    servingsPerRecipe: 6,
     ...ESTIMATE_TEMPLATES[estimateType(recipe)],
     estimatedRange: true,
     estimateNote:

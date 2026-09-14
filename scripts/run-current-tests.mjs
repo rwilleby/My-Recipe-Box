@@ -83,6 +83,7 @@ files.push("test/healthyDinnerStandardV992.test.mjs");
 files.push("test/saladJarStandardV993.test.mjs");
 files.push("test/saladJarIngredientPreviewV994.test.mjs");
 files.push("test/crockPotStandardV995.test.mjs");
+files.push("test/crockPotSixServingStandardV996.test.mjs");
 // v95.2 is the consolidated Build-A-Meal contract and intentionally uses a
 // stable "Current" filename so later asset refreshes do not duplicate a 400+
 // image integrity test.

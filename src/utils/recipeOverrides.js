@@ -1,4 +1,4 @@
-import { recipeOverrides as permanentRecipeOverrides } from "../data/recipeOverrides";
+import { recipeOverrides as permanentRecipeOverrides } from "../data/recipeOverrides.js";
 
 export const RECIPE_OVERRIDE_STORAGE_KEY = "rrb_recipe_overrides_v1";
 
@@ -18,7 +18,12 @@ export function loadCombinedRecipeOverrides() {
 
 export function applyStoredRecipeOverrides(recipes = []) {
   const overrides = loadCombinedRecipeOverrides();
-  return recipes.map((recipe) => ({ ...recipe, ...(overrides[recipe.id] || {}) }));
+  return recipes.map((recipe) => {
+    const merged = { ...recipe, ...(overrides[recipe.id] || {}) };
+    return String(merged.id || "").toUpperCase().startsWith("CP-")
+      ? { ...merged, servings: 6 }
+      : merged;
+  });
 }
 
 export function saveBrowserRecipeOverrides(overrides) {

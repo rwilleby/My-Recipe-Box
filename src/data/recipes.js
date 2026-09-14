@@ -64,7 +64,7 @@ const CATEGORY_DEFAULTS = {
   BR: { time: 120, servings: 10, price: "$", emoji: "🍞" },
   CC: { time: 70, servings: 8, price: "$$", emoji: "🍰" },
   CO: { time: 55, servings: 8, price: "$$", emoji: "🥧" },
-  CP: { time: null, servings: null, price: "$$", emoji: "🍲" },
+  CP: { time: null, servings: 6, price: "$$", emoji: "🍲" },
   CR: { time: 90, servings: 8, price: "$$", emoji: "🌀" },
   CS: { time: 45, servings: 6, price: "$$", emoji: "🥘" },
   DN: { time: 60, servings: 8, price: "$$", emoji: "🍩" },
@@ -1474,7 +1474,9 @@ function makeRecipe(entry) {
     category: options.category || category?.name || categoryCode,
     categoryCode,
     time: options.time !== undefined ? options.time : defaults.time,
-    servings: options.servings !== undefined ? options.servings : defaults.servings,
+    servings: String(id).toUpperCase().startsWith("CP-")
+      ? 6
+      : options.servings !== undefined ? options.servings : defaults.servings,
     price,
     emoji: options.emoji ?? defaults.emoji,
     imageStyle: options.imageStyle || "linear-gradient(135deg, #f8fafc, #e5e7eb)",

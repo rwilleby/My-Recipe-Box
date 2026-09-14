@@ -52,9 +52,16 @@ export function buildShoppingList(plan, recipes, servings = 4) {
     const multiplier = servings / recipeServings;
 
     recipe.ingredients.forEach((ingredient) => {
+      const scaleIfNumber = (value) => {
+        const parsed = Number(value);
+        return Number.isFinite(parsed) ? parsed * multiplier : value;
+      };
       items.push({
         ...ingredient,
-        qty: (Number(ingredient.qty) || 0) * multiplier,
+        qty: scaleIfNumber(ingredient.qty),
+        quantity: scaleIfNumber(ingredient.quantity),
+        cookingQuantity: scaleIfNumber(ingredient.cookingQuantity),
+        shoppingQuantity: scaleIfNumber(ingredient.shoppingQuantity),
         cost: (Number(ingredient.cost) || 0) * multiplier,
       });
     });
