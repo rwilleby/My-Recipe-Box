@@ -25,13 +25,11 @@ for (const recipe of dietMeals) {
 assert.match(app, /function HealthyDinnersPage\(/);
 assert.match(app, /title="Find a Healthy Dinner"/);
 assert.match(app, /aria-label="Healthy Dinner categories"/);
-assert.match(app, /placeholder="Search Diet Meals\.\.\."/);
-assert.match(app, /<span>Main Protein<\/span>/);
-assert.match(app, /<span>Cuisine<\/span>/);
-assert.match(app, /<span>Calorie Range<\/span>/);
-assert.match(app, /<span>MB<\/span>/);
-assert.match(app, /viewerContext="Healthy Dinners"/);
-assert.match(app, /<BrowseRecipeNutritionFacts recipe=\{recipe\} \/>/);
+assert.match(app, /placeholder="Search for\.\.\."/);
+assert.match(app, /function CompactHealthyDinnerCard\(/);
+assert.match(app, /View Dinner Details/);
+assert.match(app, /Show More Diet Meals/);
+assert.doesNotMatch(app.slice(app.indexOf("function HealthyDinnersPage"), app.indexOf("function getSaladJarProtein")), /Healthy Dinner browsing toolbar/);
 assert.match(app, /<HealthyDinnersPage\s+recipes=\{classifiedRecipes\}/);
 assert.doesNotMatch(
   app,

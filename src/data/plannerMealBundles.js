@@ -66,6 +66,7 @@ const PILOT_DIET_MEALS = Object.freeze({
 export function mealSourceMarker(type, id) { return `${PLANNER_MEAL_SOURCE_PREFIX}${type}:${id}`; }
 export function parseMealSourceMarker(value) { const match = String(value || "").match(/^@meal:([^:]+):(.+)$/); return match ? { type: match[1], id: match[2] } : null; }
 export function pilotDietMealIds() { return Object.keys(PILOT_DIET_MEALS); }
+export function getDietMealComponents(recipeId) { return PILOT_DIET_MEALS[recipeId] || []; }
 export function buildDietMealPlanItems(recipeId) { const components = PILOT_DIET_MEALS[recipeId]; if (!components) return null; return [recipeId, ...components.slice(1).map((_, index) => `${recipeId}::S${index + 1}`), ...Array(Math.max(0, 4 - components.length)).fill(null), mealSourceMarker("diet", recipeId)]; }
 export function buildSavedMealPlanItems(meal) { if (!meal?.id || !meal?.mainId) return null; return [meal.mainId, meal.sideOneId || null, meal.sideTwoId || null, null, mealSourceMarker("saved", meal.id)]; }
 export function resolveDietPlannerComponent(value, recipes) {

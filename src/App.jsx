@@ -74,7 +74,7 @@ import { HOLIDAY_OCCASION_MENUS } from "./data/holidayOccasionMenus.js";
 import ShoppingCompanionWindow, { focusShoppingCompanionWindow } from "./features/shopping/ShoppingCompanionWindow.jsx";
 import ShoppingAudioButton, { ShoppingCountAudio } from "./features/shopping/ShoppingAudioButton.jsx";
 import ShoppingRecipeActions from "./features/shopping/ShoppingRecipeActions.jsx"; import SimpleShoppingListPanel from "./features/shopping/SimpleShoppingListPanel.jsx";
-import { buildDietMealPlanItems, buildSavedMealPlanItems, mealSourceMarker, parseMealSourceMarker, resolveDietPlannerComponent, resolveDietPlannerMain } from "./data/plannerMealBundles.js";
+import { buildDietMealPlanItems, buildSavedMealPlanItems, getDietMealComponents, mealSourceMarker, parseMealSourceMarker, resolveDietPlannerComponent, resolveDietPlannerMain } from "./data/plannerMealBundles.js";
 import PurchaseReconciliationPanel, { applyPurchasedItemsToInventory, buildPurchaseReconciliationItems } from "./features/shopping/PurchaseReconciliationPanel.jsx";
 import { ONLINE_GROCERY_STORES, PREFERRED_GROCERY_STORE_KEY, openOnlineGroceryWindow } from "./utils/onlineGroceryShopping.js";
 import { printRecipeCards } from "./utils/printRecipeCards.js";
@@ -16503,6 +16503,68 @@ function getHealthyDinnerCalories(recipe) {
   return Number.isFinite(parsed) ? parsed : null;
 }
 
+function getHealthyDinnerProteinGrams(recipe) {
+  const protein = getRecipeNutritionVariant(recipe?.id)?.profile?.nutritionFacts?.protein;
+  const parsed = Number.parseFloat(protein);
+  return Number.isFinite(parsed) ? parsed : null;
+}
+
+function isHealthyDinnerPasta(recipe) {
+  const text = `${recipe?.title || ""} ${(recipe?.ingredients || []).map((ingredient) => ingredient?.name || "").join(" ")}`.toLowerCase();
+  return /pasta|noodle|spaghetti|fettuccine|rigatoni|ravioli|lasagna|macaroni|orzo|carbonara|alfredo/.test(text);
+}
+
+function isFreezerFriendlyHealthyDinner(recipe) {
+  return recipe?.freezerFriendly === true ||
+    (recipe?.tags || []).some((tag) => String(tag).toLowerCase().includes("freezer-friendly"));
+}
+
+function CompactHealthyDinnerCard({ recipe, recipes, favorites, toggleFavorite, openRecipeCard }) {
+  const components = getDietMealComponents(recipe.id);
+  const mainTitle = components[0]?.title || recipe.title;
+  const sideNames = components.slice(1).map((component) => component.title).filter(Boolean);
+  const calories = getHealthyDinnerCalories(recipe);
+  const protein = getHealthyDinnerProteinGrams(recipe);
+  const mealNumber = Number.parseInt(String(recipe.id).split("-")[1], 10);
+  const isFavorite = favorites.includes(recipe.id);
+  const isFreezerFriendly = isFreezerFriendlyHealthyDinner(recipe);
+
+  return (
+    <article className="compactDinnerCard compactHealthyDinnerCard">
+      <button
+        type="button"
+        className="compactDinnerCardMain"
+        onClick={() => openRecipeCard(recipe.id, recipes, "Healthy Dinners")}
+        aria-label={`View details for ${recipe.title}`}
+      >
+        <span className="compactDinnerCardMedia">
+          <DinnerRecipeHero recipe={recipe} label={recipe.title} />
+          <span className="compactDinnerCardNumber">Meal #{Number.isFinite(mealNumber) ? mealNumber : recipe.id}</span>
+        </span>
+        <span className="compactDinnerCardCopy">
+          <strong>{mainTitle}</strong>
+          <span className="compactDinnerCardSides">{sideNames.join(" · ") || "Complete meal"}</span>
+          <span className="compactDinnerCardFacts">
+            <span>{calories ?? "—"} cal</span>
+            <span>{protein ?? "—"}g protein</span>
+            <span>MB {recipe?.mealBalance?.score ?? "—"}</span>
+            {isFreezerFriendly && <span title="Freezer Friendly">FF</span>}
+          </span>
+          <span className="compactDinnerCardActionRow"><span className="compactDinnerCardAction">View Dinner Details</span></span>
+        </span>
+      </button>
+      <button
+        type="button"
+        className={`compactDinnerFavorite${isFavorite ? " saved" : ""}`}
+        onClick={() => toggleFavorite(recipe.id)}
+        aria-label={isFavorite ? `Remove ${recipe.title} from favorites` : `Add ${recipe.title} to favorites`}
+      >
+        <span aria-hidden="true">♥</span>
+      </button>
+    </article>
+  );
+}
+
 function HealthyDinnersPage({
   recipes: classifiedRecipes = [],
   favorites = [],
@@ -16512,11 +16574,7 @@ function HealthyDinnersPage({
 }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [healthyGroup, setHealthyGroup] = useState("all");
-  const [proteinFilter, setProteinFilter] = useState("all");
-  const [cuisineFilter, setCuisineFilter] = useState("all");
-  const [calorieRange, setCalorieRange] = useState("all");
-  const [mealBalanceFilter, setMealBalanceFilter] = useState("all");
-  const [favoriteOnly, setFavoriteOnly] = useState(false);
+  const [visibleDinnerCount, setVisibleDinnerCount] = useState(COMPLETE_DINNER_BATCH_SIZE);
 
   const dietMeals = useMemo(
     () =>
@@ -16534,84 +16592,58 @@ function HealthyDinnersPage({
     const query = searchTerm.trim().toLowerCase();
 
     return dietMeals.filter((recipe) => {
-      const group = getHealthyDinnerGroup(recipe);
       const protein = getHealthyDinnerProtein(recipe);
-      const calories = getHealthyDinnerCalories(recipe);
-      const mealBalance = Number(recipe?.mealBalance?.score);
       const matchesQuery =
         !query ||
-        `${recipe.id} ${recipe.title} ${group} ${protein}`.toLowerCase().includes(query);
+        `${recipe.id} ${recipe.title} ${protein}`.toLowerCase().includes(query);
       const matchesGroup =
         healthyGroup === "all" ||
-        group === healthyGroup ||
+        (healthyGroup === "pasta" && isHealthyDinnerPasta(recipe)) ||
+        (healthyGroup === "vegan" && (recipe?.isVegan === true || String(recipe?.id || "").endsWith("-VG"))) ||
+        (healthyGroup === "meatless" && protein === "vegetarian") ||
         protein === healthyGroup;
-      const matchesProtein = proteinFilter === "all" || protein === proteinFilter;
-      const matchesCuisine = cuisineFilter === "all" || group === cuisineFilter;
-      const matchesCalories =
-        calorieRange === "all" ||
-        (calorieRange === "under-350" && calories !== null && calories < 350) ||
-        (calorieRange === "350-399" && calories !== null && calories >= 350 && calories < 400) ||
-        (calorieRange === "400-449" && calories !== null && calories >= 400 && calories < 450) ||
-        (calorieRange === "450-plus" && calories !== null && calories >= 450);
-      const matchesMealBalance =
-        mealBalanceFilter === "all" ||
-        (mealBalanceFilter === "1-3" && mealBalance >= 1 && mealBalance <= 3) ||
-        (mealBalanceFilter === "4-6" && mealBalance >= 4 && mealBalance <= 6) ||
-        (mealBalanceFilter === "7-10" && mealBalance >= 7 && mealBalance <= 10);
-      const matchesFavorite = !favoriteOnly || favorites.includes(recipe.id);
-
-      return (
-        matchesQuery &&
-        matchesGroup &&
-        matchesProtein &&
-        matchesCuisine &&
-        matchesCalories &&
-        matchesMealBalance &&
-        matchesFavorite
-      );
+      return matchesQuery && matchesGroup;
+    }).sort((a, b) => {
+      const favoriteDifference = Number(favorites.includes(b.id)) - Number(favorites.includes(a.id));
+      return favoriteDifference || String(a.title || "").localeCompare(String(b.title || ""), undefined, { sensitivity: "base" });
     });
-  }, [
-    calorieRange,
-    cuisineFilter,
-    dietMeals,
-    favoriteOnly,
-    favorites,
-    healthyGroup,
-    mealBalanceFilter,
-    proteinFilter,
-    searchTerm,
-  ]);
+  }, [dietMeals, favorites, healthyGroup, searchTerm]);
 
   function selectHealthyGroup(group) {
     setHealthyGroup(group);
-    setProteinFilter("all");
-    setCuisineFilter("all");
-
-    if (["chicken", "beef", "turkey", "seafood", "vegetarian"].includes(group)) {
-      setProteinFilter(group);
-    } else if (["italian", "asian", "mexican"].includes(group)) {
-      setCuisineFilter(group);
-    }
+    setSearchTerm("");
+    setVisibleDinnerCount(COMPLETE_DINNER_BATCH_SIZE);
   }
+
+  const visibleRecipes = filteredRecipes.slice(0, visibleDinnerCount);
 
   return (
     <main className="pageShell dinnerCombinationsPage healthyDinnersPage">
       <section className="dinnerCombinationFinder" aria-labelledby="healthyDinnerFinderTitle">
         <SectionIntro
           title="Find a Healthy Dinner"
-          text="Choose a meal group or use the filters below to compare Diet Meals by protein, cuisine, calories, and MealBalance."
+          text="Search or choose a category to find a portion-controlled Diet Meal."
           className="completeDinnerSectionIntro healthyDinnerSectionIntro"
         />
 
         <div className="dinnerCategorySegmented healthyDinnerSegmented" role="group" aria-label="Healthy Dinner categories">
+          <label className="completeDinnerCategorySearch">
+            <input
+              type="search"
+              value={searchTerm}
+              onFocus={() => selectHealthyGroup("all")}
+              onChange={(event) => { setSearchTerm(event.target.value); setVisibleDinnerCount(COMPLETE_DINNER_BATCH_SIZE); }}
+              placeholder="Search for..."
+              aria-label="Search Diet Meals"
+            />
+          </label>
           {[
-            ["all", "ALL"],
-            ["chicken", "CHICKEN"],
             ["beef", "BEEF"],
-            ["turkey", "TURKEY"],
-            ["italian", "PASTA"],
+            ["chicken", "CHICKEN"],
+            ["pasta", "PASTA"],
             ["seafood", "SEAFOOD"],
-            ["vegetarian", "MEATLESS"],
+            ["meatless", "MEATLESS"],
+            ["vegan", "VEGAN"],
           ].map(([value, label]) => (
             <button
               key={value}
@@ -16626,96 +16658,32 @@ function HealthyDinnersPage({
         </div>
       </section>
 
-      <section className="dinnerCombinationToolbar dinnerCombinationToolbarCompact healthyDinnerToolbar" aria-label="Healthy Dinner browsing toolbar">
-        <label className="dinnerCombinationSearch">
-          <span>Search</span>
-          <input
-            type="search"
-            value={searchTerm}
-            onChange={(event) => setSearchTerm(event.target.value)}
-            placeholder="Search Diet Meals..."
-          />
-        </label>
-
-        <label>
-          <span>Main Protein</span>
-          <select value={proteinFilter} onChange={(event) => { setProteinFilter(event.target.value); setHealthyGroup("all"); }}>
-            <option value="all">All Proteins</option>
-            <option value="chicken">Chicken</option>
-            <option value="beef">Beef</option>
-            <option value="turkey">Turkey</option>
-            <option value="seafood">Seafood</option>
-            <option value="vegetarian">Meatless</option>
-          </select>
-        </label>
-
-        <label>
-          <span>Cuisine</span>
-          <select value={cuisineFilter} onChange={(event) => { setCuisineFilter(event.target.value); setHealthyGroup("all"); }}>
-            <option value="all">All Cuisines</option>
-            <option value="american">American</option>
-            <option value="italian">Italian</option>
-            <option value="asian">Asian</option>
-            <option value="mexican">Mexican</option>
-            <option value="seafood">Seafood</option>
-          </select>
-        </label>
-
-        <label>
-          <span>Calorie Range</span>
-          <select value={calorieRange} onChange={(event) => setCalorieRange(event.target.value)}>
-            <option value="all">All Calories</option>
-            <option value="under-350">Under 350</option>
-            <option value="350-399">350–399</option>
-            <option value="400-449">400–449</option>
-            <option value="450-plus">450+</option>
-          </select>
-        </label>
-
-        <label>
-          <span>MB</span>
-          <select value={mealBalanceFilter} onChange={(event) => setMealBalanceFilter(event.target.value)}>
-            <option value="all">All MB</option>
-            <option value="1-3">1–3</option>
-            <option value="4-6">4–6</option>
-            <option value="7-10">7–10</option>
-          </select>
-        </label>
-
-        <label className="dinnerFavoriteFilter">
-          <span>Favorite</span>
-          <button
-            type="button"
-            className={favoriteOnly ? "isActive" : ""}
-            aria-pressed={favoriteOnly}
-            onClick={() => setFavoriteOnly((current) => !current)}
-          >
-            ♥
-          </button>
-        </label>
-      </section>
-
       <div className="dinnerCombinationResultsBar healthyDinnerResultsBar">
         <strong>{filteredRecipes.length}</strong>
-        <span>{filteredRecipes.length === 1 ? "Diet Meal" : "Diet Meals"} shown</span>
+        <span>{filteredRecipes.length === 1 ? "Diet Meal" : "Diet Meals"} found · showing {Math.min(visibleDinnerCount, filteredRecipes.length)}</span>
       </div>
 
       {filteredRecipes.length ? (
-        <div className="recipeGrid browseRecipeGrid healthyDinnerRecipeGrid" aria-label="Healthy Dinner results">
-          {filteredRecipes.map((recipe) => (
-            <RecipeCard
+        <>
+          <div className="compactDinnerGrid healthyDinnerRecipeGrid" aria-label="Healthy Dinner results">
+          {visibleRecipes.map((recipe) => (
+            <CompactHealthyDinnerCard
               key={recipe.id}
               recipe={recipe}
+              recipes={filteredRecipes}
               favorites={favorites}
               toggleFavorite={toggleFavorite}
-              addToPlan={addToPlan}
               openRecipeCard={openRecipeCard}
-              cardList={filteredRecipes}
-              viewerContext="Healthy Dinners"
-              displayMode="card"
             />
           ))}
-        </div>
+          </div>
+          {visibleDinnerCount < filteredRecipes.length && (
+            <div className="completeDinnerShowMore">
+              <button type="button" onClick={() => setVisibleDinnerCount((current) => current + COMPLETE_DINNER_BATCH_SIZE)}>Show More Diet Meals</button>
+              <span>{filteredRecipes.length - visibleDinnerCount} more available</span>
+            </div>
+          )}
+        </>
       ) : (
         <section className="dinnerCombinationEmpty">
           <h2>No Diet Meals found</h2>
