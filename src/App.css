@@ -17592,6 +17592,14 @@ button.browseRecipeWideFooterAction:focus-visible,
   margin-top: 0 !important;
 }
 
+.compactSaladJarIngredients {
+  display: -webkit-box;
+  overflow: hidden;
+  min-height: 32px;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
 .dinnerCombinationScaleCard .dinnerRecipeMealBalanceBadge,
 .dinnerCombinationScaleCard .dinnerRecipeMealBalanceBadge.rated {
   color: #fff !important;

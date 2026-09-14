@@ -31,8 +31,11 @@ assert.match(page, /Show More Salad Jars/);
 assert.match(card, /compactDinnerCard compactSaladJarCard/);
 assert.match(card, /compactDinnerCardMedia/);
 assert.match(card, /compactDinnerCardFacts/);
+assert.match(card, /saladJarIngredientPreview\(recipe\)/);
+assert.match(card, /compactSaladJarIngredients/);
 assert.match(card, /View Lunch Details/);
 assert.doesNotMatch(card, /FF|FZ\.webp|compactDinnerFreezerFriendly/);
 assert.match(css, /\.saladJarSegmented\s*\{[\s\S]*repeat\(7/);
+assert.match(css, /\.compactSaladJarIngredients[\s\S]*-webkit-line-clamp: 2/);
 
 console.log("v99.3 Salad Jar compact layout, controls, sorting, and pagination contracts passed.");

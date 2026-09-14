@@ -78,6 +78,7 @@ import { buildDietMealPlanItems, buildSavedMealPlanItems, getDietMealComponents,
 import PurchaseReconciliationPanel, { applyPurchasedItemsToInventory, buildPurchaseReconciliationItems } from "./features/shopping/PurchaseReconciliationPanel.jsx";
 import { ONLINE_GROCERY_STORES, PREFERRED_GROCERY_STORE_KEY, openOnlineGroceryWindow } from "./utils/onlineGroceryShopping.js";
 import { printRecipeCards } from "./utils/printRecipeCards.js";
+import { saladJarIngredientPreview } from "./utils/saladJarIngredientPreview.js";
 const VEGAN_LIBRARY_CATEGORIES = Object.freeze([
   { id: "VPM", name: "Plant Mains", displayName: "Plant Mains", iconImage: "images/categories/SG.webp" },
   { id: "VBA", name: "Bakes", displayName: "Bakes", iconImage: "images/categories/CS.webp" },
@@ -16718,16 +16719,11 @@ function getSaladJarStyle(recipe) {
 }
 
 function CompactSaladJarCard({ recipe, recipes, favorites, toggleFavorite, openRecipeCard }) {
-  const proteinType = getSaladJarProtein(recipe);
-  const style = getSaladJarStyle(recipe);
   const calories = getHealthyDinnerCalories(recipe);
   const protein = getHealthyDinnerProteinGrams(recipe);
   const jarNumber = Number.parseInt(String(recipe.id).split("-")[1], 10);
   const isFavorite = favorites.includes(recipe.id);
-  const descriptors = [
-    style && style !== "other" ? style.replace(/\b\w/g, (letter) => letter.toUpperCase()) : "",
-    proteinType === "vegetarian" ? "Meatless" : proteinType.replace(/\b\w/g, (letter) => letter.toUpperCase()),
-  ].filter(Boolean);
+  const ingredientPreview = saladJarIngredientPreview(recipe);
 
   return (
     <article className="compactDinnerCard compactSaladJarCard">
@@ -16743,7 +16739,7 @@ function CompactSaladJarCard({ recipe, recipes, favorites, toggleFavorite, openR
         </span>
         <span className="compactDinnerCardCopy">
           <strong>{recipe.title}</strong>
-          <span className="compactDinnerCardSides">{descriptors.join(" · ")}</span>
+          <span className="compactDinnerCardSides compactSaladJarIngredients">{ingredientPreview || "Open for complete ingredients"}</span>
           <span className="compactDinnerCardFacts">
             <span>{calories ?? "—"} cal</span>
             <span>{protein ?? "—"}g protein</span>
