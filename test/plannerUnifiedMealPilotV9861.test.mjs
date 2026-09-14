@@ -14,4 +14,5 @@ assert.deepEqual(buildSavedMealPlanItems({ id: "BYOM-1", mainId: "AM-001", sideO
 assert.match(app, /<option value="saved-meals">My Saved Meals<\/option>/);
 assert.match(app, /pickerCategory === "diet-meals" && dietMealItems/);
 assert.match(app, /mealSourceMarker\("complete", meal\.id\)/);
+assert.match(app, /setPickerCategory\(row\.type === "main" \? "diet-meals" : "all"\)/);
 console.log("v98.6.1 unified meal pilot contracts passed.");

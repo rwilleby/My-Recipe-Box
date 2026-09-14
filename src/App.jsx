@@ -6920,7 +6920,7 @@ function PlannerPage({
     setPicker({ day, row, weekId });
     setPickerRecipeId(existing?.id || "");
     setPickerSearch("");
-    setPickerCategory("all");
+    setPickerCategory(row.type === "main" ? "diet-meals" : "all");
   }
 
   function openPlannerCell(day, row, weekId = activePlannerWeek) {
