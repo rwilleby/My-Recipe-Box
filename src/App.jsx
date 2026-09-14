@@ -16717,6 +16717,53 @@ function getSaladJarStyle(recipe) {
   return "other";
 }
 
+function CompactSaladJarCard({ recipe, recipes, favorites, toggleFavorite, openRecipeCard }) {
+  const proteinType = getSaladJarProtein(recipe);
+  const style = getSaladJarStyle(recipe);
+  const calories = getHealthyDinnerCalories(recipe);
+  const protein = getHealthyDinnerProteinGrams(recipe);
+  const jarNumber = Number.parseInt(String(recipe.id).split("-")[1], 10);
+  const isFavorite = favorites.includes(recipe.id);
+  const descriptors = [
+    style && style !== "other" ? style.replace(/\b\w/g, (letter) => letter.toUpperCase()) : "",
+    proteinType === "vegetarian" ? "Meatless" : proteinType.replace(/\b\w/g, (letter) => letter.toUpperCase()),
+  ].filter(Boolean);
+
+  return (
+    <article className="compactDinnerCard compactSaladJarCard">
+      <button
+        type="button"
+        className="compactDinnerCardMain"
+        onClick={() => openRecipeCard(recipe.id, recipes, "Salad Jars")}
+        aria-label={`View details for ${recipe.title}`}
+      >
+        <span className="compactDinnerCardMedia">
+          <DinnerRecipeHero recipe={recipe} label={recipe.title} />
+          <span className="compactDinnerCardNumber">Jar #{Number.isFinite(jarNumber) ? jarNumber : recipe.id}</span>
+        </span>
+        <span className="compactDinnerCardCopy">
+          <strong>{recipe.title}</strong>
+          <span className="compactDinnerCardSides">{descriptors.join(" · ")}</span>
+          <span className="compactDinnerCardFacts">
+            <span>{calories ?? "—"} cal</span>
+            <span>{protein ?? "—"}g protein</span>
+            <span>MB {recipe?.mealBalance?.score ?? "—"}</span>
+          </span>
+          <span className="compactDinnerCardActionRow"><span className="compactDinnerCardAction">View Lunch Details</span></span>
+        </span>
+      </button>
+      <button
+        type="button"
+        className={`compactDinnerFavorite${isFavorite ? " saved" : ""}`}
+        onClick={() => toggleFavorite(recipe.id)}
+        aria-label={isFavorite ? `Remove ${recipe.title} from favorites` : `Add ${recipe.title} to favorites`}
+      >
+        <span aria-hidden="true">♥</span>
+      </button>
+    </article>
+  );
+}
+
 function SaladJarLunchesPage({
   recipes: classifiedRecipes = [],
   favorites = [],
@@ -16726,11 +16773,7 @@ function SaladJarLunchesPage({
 }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [saladGroup, setSaladGroup] = useState("all");
-  const [proteinFilter, setProteinFilter] = useState("all");
-  const [styleFilter, setStyleFilter] = useState("all");
-  const [calorieRange, setCalorieRange] = useState("all");
-  const [mealBalanceFilter, setMealBalanceFilter] = useState("all");
-  const [favoriteOnly, setFavoriteOnly] = useState(false);
+  const [visibleLunchCount, setVisibleLunchCount] = useState(COMPLETE_DINNER_BATCH_SIZE);
 
   const saladJarRecipes = useMemo(
     () =>
@@ -16750,72 +16793,47 @@ function SaladJarLunchesPage({
     return saladJarRecipes.filter((recipe) => {
       const protein = getSaladJarProtein(recipe);
       const style = getSaladJarStyle(recipe);
-      const calories = getHealthyDinnerCalories(recipe);
-      const mealBalance = Number(recipe?.mealBalance?.score);
       const matchesQuery =
         !query ||
         `${recipe.id} ${recipe.title} ${protein} ${style}`.toLowerCase().includes(query);
       const matchesGroup =
         saladGroup === "all" || protein === saladGroup || style === saladGroup;
-      const matchesProtein = proteinFilter === "all" || protein === proteinFilter;
-      const matchesStyle = styleFilter === "all" || style === styleFilter;
-      const matchesCalories =
-        calorieRange === "all" ||
-        (calorieRange === "under-350" && calories !== null && calories < 350) ||
-        (calorieRange === "350-449" && calories !== null && calories >= 350 && calories < 450) ||
-        (calorieRange === "450-plus" && calories !== null && calories >= 450);
-      const matchesMealBalance =
-        mealBalanceFilter === "all" ||
-        (mealBalanceFilter === "1-3" && mealBalance >= 1 && mealBalance <= 3) ||
-        (mealBalanceFilter === "4-6" && mealBalance >= 4 && mealBalance <= 6) ||
-        (mealBalanceFilter === "7-10" && mealBalance >= 7 && mealBalance <= 10);
-      const matchesFavorite = !favoriteOnly || favorites.includes(recipe.id);
-
-      return (
-        matchesQuery &&
-        matchesGroup &&
-        matchesProtein &&
-        matchesStyle &&
-        matchesCalories &&
-        matchesMealBalance &&
-        matchesFavorite
-      );
+      return matchesQuery && matchesGroup;
+    }).sort((a, b) => {
+      const favoriteDifference = Number(favorites.includes(b.id)) - Number(favorites.includes(a.id));
+      return favoriteDifference || String(a.title || "").localeCompare(String(b.title || ""), undefined, { sensitivity: "base" });
     });
-  }, [
-    calorieRange,
-    favoriteOnly,
-    favorites,
-    mealBalanceFilter,
-    proteinFilter,
-    saladGroup,
-    saladJarRecipes,
-    searchTerm,
-    styleFilter,
-  ]);
+  }, [favorites, saladGroup, saladJarRecipes, searchTerm]);
 
   function selectSaladGroup(group) {
     setSaladGroup(group);
-    setProteinFilter("all");
-    setStyleFilter("all");
-    if (["chicken", "beef", "seafood", "vegetarian"].includes(group)) {
-      setProteinFilter(group);
-    } else if (["classic", "mediterranean"].includes(group)) {
-      setStyleFilter(group);
-    }
+    setSearchTerm("");
+    setVisibleLunchCount(COMPLETE_DINNER_BATCH_SIZE);
   }
+
+  const visibleRecipes = filteredRecipes.slice(0, visibleLunchCount);
 
   return (
     <main className="pageShell dinnerCombinationsPage saladJarLunchesPage">
       <section className="dinnerCombinationFinder" aria-labelledby="saladJarFinderTitle">
         <SectionIntro
           title="Find a Salad Jar Lunch"
-          text="Choose a salad group or use the filters below to compare make-ahead lunches by protein, style, calories, and MealBalance."
+          text="Search or choose a category to find a make-ahead Salad Jar lunch."
           className="completeDinnerSectionIntro saladJarSectionIntro"
         />
 
         <div className="dinnerCategorySegmented saladJarSegmented" role="group" aria-label="Salad Jar Lunch categories">
+          <label className="completeDinnerCategorySearch">
+            <input
+              type="search"
+              value={searchTerm}
+              onFocus={() => selectSaladGroup("all")}
+              onChange={(event) => { setSearchTerm(event.target.value); setVisibleLunchCount(COMPLETE_DINNER_BATCH_SIZE); }}
+              placeholder="Search for..."
+              aria-label="Search Salad Jar Lunches"
+            />
+          </label>
           {[
-            ["all", "ALL"],
             ["chicken", "CHICKEN"],
             ["beef", "BEEF"],
             ["seafood", "SEAFOOD"],
@@ -16836,85 +16854,32 @@ function SaladJarLunchesPage({
         </div>
       </section>
 
-      <section className="dinnerCombinationToolbar dinnerCombinationToolbarCompact saladJarToolbar" aria-label="Salad Jar Lunch browsing toolbar">
-        <label className="dinnerCombinationSearch">
-          <span>Search</span>
-          <input type="search" value={searchTerm} onChange={(event) => setSearchTerm(event.target.value)} placeholder="Search Salad Jars..." />
-        </label>
-
-        <label>
-          <span>Main Protein</span>
-          <select value={proteinFilter} onChange={(event) => { setProteinFilter(event.target.value); setSaladGroup("all"); }}>
-            <option value="all">All Proteins</option>
-            <option value="chicken">Chicken</option>
-            <option value="beef">Beef</option>
-            <option value="turkey">Turkey</option>
-            <option value="seafood">Seafood</option>
-            <option value="egg">Egg</option>
-            <option value="vegetarian">Meatless</option>
-          </select>
-        </label>
-
-        <label>
-          <span>Style</span>
-          <select value={styleFilter} onChange={(event) => { setStyleFilter(event.target.value); setSaladGroup("all"); }}>
-            <option value="all">All Styles</option>
-            <option value="classic">Classic</option>
-            <option value="asian">Asian</option>
-            <option value="mediterranean">Mediterranean</option>
-            <option value="deli">Deli-Inspired</option>
-            <option value="grains">Pasta &amp; Grains</option>
-            <option value="other">Other</option>
-          </select>
-        </label>
-
-        <label>
-          <span>Calorie Range</span>
-          <select value={calorieRange} onChange={(event) => setCalorieRange(event.target.value)}>
-            <option value="all">All Calories</option>
-            <option value="under-350">Under 350</option>
-            <option value="350-449">350–449</option>
-            <option value="450-plus">450+</option>
-          </select>
-        </label>
-
-        <label>
-          <span>MB</span>
-          <select value={mealBalanceFilter} onChange={(event) => setMealBalanceFilter(event.target.value)}>
-            <option value="all">All MB</option>
-            <option value="1-3">1–3</option>
-            <option value="4-6">4–6</option>
-            <option value="7-10">7–10</option>
-          </select>
-        </label>
-
-        <label className="dinnerFavoriteFilter">
-          <span>Favorite</span>
-          <button type="button" className={favoriteOnly ? "isActive" : ""} aria-pressed={favoriteOnly} onClick={() => setFavoriteOnly((current) => !current)}>♥</button>
-        </label>
-      </section>
-
       <div className="dinnerCombinationResultsBar saladJarResultsBar">
         <strong>{filteredRecipes.length}</strong>
-        <span>{filteredRecipes.length === 1 ? "Salad Jar" : "Salad Jars"} shown</span>
+        <span>{filteredRecipes.length === 1 ? "Salad Jar" : "Salad Jars"} found · showing {Math.min(visibleLunchCount, filteredRecipes.length)}</span>
       </div>
 
       {filteredRecipes.length ? (
-        <div className="recipeGrid browseRecipeGrid saladJarRecipeGrid" aria-label="Salad Jar Lunch results">
-          {filteredRecipes.map((recipe) => (
-            <RecipeCard
+        <>
+          <div className="compactDinnerGrid saladJarRecipeGrid" aria-label="Salad Jar Lunch results">
+          {visibleRecipes.map((recipe) => (
+            <CompactSaladJarCard
               key={recipe.id}
               recipe={recipe}
+              recipes={filteredRecipes}
               favorites={favorites}
               toggleFavorite={toggleFavorite}
-              addToPlan={addToPlan}
               openRecipeCard={openRecipeCard}
-              cardList={filteredRecipes}
-              viewerContext="Salad Jars"
-              displayMode="card"
             />
           ))}
-        </div>
+          </div>
+          {visibleLunchCount < filteredRecipes.length && (
+            <div className="completeDinnerShowMore">
+              <button type="button" onClick={() => setVisibleLunchCount((current) => current + COMPLETE_DINNER_BATCH_SIZE)}>Show More Salad Jars</button>
+              <span>{filteredRecipes.length - visibleLunchCount} more available</span>
+            </div>
+          )}
+        </>
       ) : (
         <section className="dinnerCombinationEmpty">
           <h2>No Salad Jar lunches found</h2>
