@@ -39,7 +39,8 @@ assert.match(app, /assetUrl\(dishRecipe\.heroImage \|\| dishRecipe\.image\)/);
 assert.match(css, /\.holidayMenuDishHero[\s\S]*aspect-ratio: 1 \/ 1/);
 assert.match(css, /\.holidayMenuDishHero img[\s\S]*object-fit: contain/);
 assert.doesNotMatch(app, /<small>\{quickCategoryRecipeCount\(choice\)\}<\/small>/);
-assert.match(app, /\["all", "ALL"\]/);
+assert.match(app, /placeholder="Search for\.\.\."/);
+assert.match(app, /\["vegan", "VEGAN"\]/);
 assert.match(css, /\.completeDinnerCategorySegmented[\s\S]*repeat\(8/);
 
-console.log("v96.3 navigation, Vegan discovery, and Complete Dinner ALL contracts passed.");
+console.log("v99.1 navigation, Vegan discovery, and Complete Dinner search/category contracts passed.");
