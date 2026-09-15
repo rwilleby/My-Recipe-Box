@@ -11,6 +11,7 @@ const [app, appCss, homeCategories, component, css] = await Promise.all([
 
 assert.match(app, /import RecipeLibraryDiscovery from "\.\/features\/recipe-library\/RecipeLibraryDiscovery\.jsx"/);
 assert.match(app, /<RecipeLibraryDiscovery[\s\S]*choices=\{browseQuickCategories\}[\s\S]*recipes=\{libraryRecipes\}/);
+assert.match(app, /showFeaturedRecipes=\{veganOnly\}/);
 assert.match(app, /id: "ALL"[\s\S]*id: "FAVORITES"[\s\S]*HOME_CATEGORY_CODES\.slice\(0, 13\)/);
 assert.match(app, /selectedCategory === "FAVORITES" && favorites\.includes\(recipe\.id\)/);
 assert.match(app, /<section className="browseInventoryStyleToolbar browseInventoryStyleToolbarSingleRow"/);
@@ -20,11 +21,13 @@ assert.match(component, /const FEATURED_RECIPE_COUNT = 6/);
 assert.match(component, /const ROTATION_INTERVAL_MS = 9000/);
 assert.match(component, /<nav className="libraryCategorySelectorRow"/);
 assert.match(component, /onClick=\{\(\) => onSelectChoice\(choice\)\}/);
+assert.match(component, /title: "Browse Our Recipe Library"/);
 assert.match(component, /aria-live="polite"/);
 assert.match(component, /prefers-reduced-motion: reduce/);
 assert.match(component, /matchingRecipes\.filter\(\(recipe\) => !currentIds\.has\(recipe\.id\)\)/);
 assert.match(component, /onMouseEnter=\{\(\) => setPaused\(true\)\}/);
 assert.match(component, /onFocusCapture=\{\(\) => setPaused\(true\)\}/);
+assert.match(component, /\{showFeaturedRecipes && <div className="recipeLibraryDiscoveryGrid">/);
 assert.match(component, /import \{ recipeHeroImageCandidates \} from "\.\.\/recipe-viewer\/recipeAssets\.js"/);
 assert.match(component, /recipeHeroImageCandidates\(recipe\)\.length > 0/);
 assert.match(component, /onError=\{\(\) => setImageIndex/);

@@ -6147,7 +6147,7 @@ function RecipesPage({
   const [selectedGlp1Preset, setSelectedGlp1Preset] = useState("");
   const [selectedNutritionDietary, setSelectedNutritionDietary] = useState("all");
   const [showGlp1Filters, setShowGlp1Filters] = useState(false);
-  const [sortBy, setSortBy] = useState("az");
+  const [sortBy, setSortBy] = useState("library-default");
   const [page, setPage] = useState(1);
 
   const libraryRecipes = useMemo(
@@ -6208,7 +6208,7 @@ function RecipesPage({
           : category?.name || "";
     setSelectedCategory(nextCategory);
     setFilter(nextCategory);
-    setSortBy("az");
+    setSortBy("library-default");
     setPage(1);
   }
 
@@ -6222,7 +6222,7 @@ function RecipesPage({
       );
       setSelectedGlp1Filters(preset?.filters ? [...preset.filters] : []);
       setShowGlp1Filters(true);
-      setSortBy("az");
+      setSortBy("library-default");
       return;
     }
 
@@ -6230,7 +6230,7 @@ function RecipesPage({
     setSelectedGlp1Preset("");
     setSelectedGlp1Filters([]);
     setSelectedNutritionDietary("all");
-    setSortBy("az");
+    setSortBy("library-default");
   }, [filter]);
 
   const filteredRecipes = useMemo(() => {
@@ -6271,6 +6271,25 @@ function RecipesPage({
 
     const sorted = [...list];
     switch (sortBy) {
+      case 'library-default':
+        sorted.sort((a, b) => {
+          const favoriteOrder = Number(favorites.includes(b.id)) - Number(favorites.includes(a.id));
+          if (favoriteOrder) return favoriteOrder;
+
+          const cuisineA = String(a.category || a.categoryCode || "");
+          const cuisineB = String(b.category || b.categoryCode || "");
+          const cuisineOrder = cuisineA.localeCompare(cuisineB, undefined, {
+            sensitivity: "base",
+            numeric: true,
+          });
+          if (cuisineOrder) return cuisineOrder;
+
+          return String(a.title || "").localeCompare(String(b.title || ""), undefined, {
+            sensitivity: "base",
+            numeric: true,
+          }) || String(a.id || "").localeCompare(String(b.id || ""), undefined, { numeric: true });
+        });
+        break;
       case 'code':
         return sortRecipesByCode(sorted);
       case 'az':
@@ -6436,12 +6455,14 @@ function RecipesPage({
         rotateAcrossAll={veganOnly}
         ariaLabel={veganOnly ? "Select a verified vegan recipe category" : undefined}
         cardContextLabel={veganOnly ? "Vegan Recipe Library" : undefined}
+        showFeaturedRecipes={veganOnly}
       />
 
       <section className="browseInventoryStyleToolbar browseInventoryStyleToolbarSingleRow" aria-label={veganOnly ? "Vegan recipe library sorting and filters" : "Recipe library sorting and filters"}>
         <label className="browseToolbarField">
           <span>Sort By</span>
           <select value={sortBy} onChange={(event) => setSortBy(event.target.value)}>
+            <option value="library-default">Favorites, Cuisine, A–Z</option>
             <option value="code">Recipe Code</option>
             <option value="az">A–Z</option>
             <option value="time-low">Time: Low to High</option>
@@ -6552,7 +6573,7 @@ function RecipesPage({
             setSelectedDietaryNeed("");
             setSelectedMealBalance("all");
             clearGlp1Filters();
-            setSortBy("az");
+            setSortBy("library-default");
           }}>Clear Filters</button>
         </EmptyState>
       )}

@@ -7,8 +7,8 @@ const ROTATION_INTERVAL_MS = 9000;
 
 const CATEGORY_COPY = {
   ALL: {
-    title: "Discover Something New",
-    text: "Browse a changing selection from across the recipe library, or choose a cuisine or recipe group to focus the ideas.",
+    title: "Browse Our Recipe Library",
+    text: "Search the full recipe collection, or choose an icon to browse a favorite cuisine or recipe group.",
   },
   FAVORITES: {
     title: "Your Favorite Recipes",
@@ -151,6 +151,7 @@ export default function RecipeLibraryDiscovery({
   copyByChoice = CATEGORY_COPY,
   rotationRecipes = null,
   rotateAcrossAll = false,
+  showFeaturedRecipes = true,
   ariaLabel = "Select a recipe cuisine or category",
   cardContextLabel = "Browse Our Recipe Library",
 }) {
@@ -174,13 +175,18 @@ export default function RecipeLibraryDiscovery({
   );
 
   useEffect(() => {
+    if (!showFeaturedRecipes) {
+      setFeaturedRecipes([]);
+      setRotatingPosition(null);
+      return;
+    }
     setFeaturedRecipes(shuffledSample(matchingRecipes, FEATURED_RECIPE_COUNT));
     setRotatingPosition(null);
     rotationPositionRef.current = 0;
-  }, [matchingRecipes]);
+  }, [matchingRecipes, showFeaturedRecipes]);
 
   useEffect(() => {
-    if (paused || matchingRecipes.length <= FEATURED_RECIPE_COUNT) return undefined;
+    if (!showFeaturedRecipes || paused || matchingRecipes.length <= FEATURED_RECIPE_COUNT) return undefined;
     const reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
     if (reducedMotion) return undefined;
 
@@ -202,7 +208,7 @@ export default function RecipeLibraryDiscovery({
     }, ROTATION_INTERVAL_MS);
 
     return () => window.clearInterval(timer);
-  }, [matchingRecipes, paused]);
+  }, [matchingRecipes, paused, showFeaturedRecipes]);
 
   return (
     <section
@@ -239,7 +245,7 @@ export default function RecipeLibraryDiscovery({
         ))}
       </nav>
 
-      <div className="recipeLibraryDiscoveryGrid">
+      {showFeaturedRecipes && <div className="recipeLibraryDiscoveryGrid">
         {featuredRecipes.map((recipe, position) => (
           <div
             className={`libraryDiscoveryRecipeSlot${rotatingPosition === position ? " isChanging" : ""}`}
@@ -272,7 +278,7 @@ export default function RecipeLibraryDiscovery({
             <span>Choose another category to keep browsing.</span>
           </div>
         )}
-      </div>
+      </div>}
     </section>
   );
 }
