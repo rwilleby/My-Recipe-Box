@@ -1,13 +1,16 @@
-export default function ShoppingRecipeActions({ recipeLinks = [], onView, onPrint, viewLabel = "View Recipe Card" }) {
+export default function ShoppingRecipeActions({ recipeLinks = [], onView, onPrint }) {
   const links = recipeLinks.filter((link) => link?.recipeId);
   if (!links.length) return null;
-  if (links.length === 1) return <div className="shoppingRecipeActions shoppingRecipeActionsSingle"><button type="button" onClick={() => onView(links[0].recipeId)}>{viewLabel}</button><button type="button" onClick={() => onPrint([links[0].recipeId])}>Print Recipe</button></div>;
+  function runAndClose(event, action) {
+    event.currentTarget.closest("details")?.removeAttribute("open");
+    action();
+  }
   return (
     <details className="shoppingRecipeActions shoppingRecipeActionsMenu">
       <summary>Recipe Cards</summary>
       <div>
-        {links.map((link) => <section key={link.recipeId}><span><strong>{link.label}</strong><small>{link.title}</small></span><button type="button" onClick={() => onView(link.recipeId)}>View</button><button type="button" onClick={() => onPrint([link.recipeId])}>Print</button></section>)}
-        <button type="button" className="shoppingPrintAllRecipes" onClick={() => onPrint(links.map((link) => link.recipeId))}>Print All Three Recipes</button>
+        {links.map((link) => <section key={link.recipeId}><span><strong>{link.label}</strong><small>{link.title}</small></span><button type="button" onClick={(event) => runAndClose(event, () => onView(link.recipeId))}>View</button><button type="button" onClick={(event) => runAndClose(event, () => onPrint([link.recipeId]))}>Print</button></section>)}
+        <button type="button" className="shoppingPrintAllRecipes" onClick={(event) => runAndClose(event, () => onPrint(links.map((link) => link.recipeId)))}>{links.length === 1 ? "Print Recipe" : `Print All ${links.length} Recipes`}</button>
       </div>
     </details>
   );
