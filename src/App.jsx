@@ -34,6 +34,7 @@ import { FullRecipeCardPreview, RecipeHeroImage, RecipeImage } from "./features/
 import {
   AUTO_IMAGE_PREFIXES,
   fullCardImageCandidates,
+  recipeHeroImageCandidates,
   recipeCodePrefix,
 } from "./features/recipe-viewer/recipeAssets.js";
 import { getRecipeNutritionVariant, hasRecipeNutritionRecord } from "./data/recipeNutritionProfiles";
@@ -11089,7 +11090,7 @@ function FavoritesPage({
     (!favoriteNeedle || `${recipe.id} ${recipe.title}`.toLowerCase().includes(favoriteNeedle)) &&
     (favoriteView === "all" ||
       (favoriteView === "diet-meals" && String(recipe.categoryCode || "").toUpperCase() === "DM") ||
-      (favoriteView === "desserts" && ["DS", "CC", "CO", "DN", "JJ", "PM"].includes(String(recipe.categoryCode || "").toUpperCase())) ||
+      (favoriteView === "vegan-meals" && (recipe.isVegan === true || String(recipe.id || "").endsWith("-VG"))) ||
       String(recipe.categoryCode || "").toUpperCase() === favoriteView.toUpperCase())
   );
   const visibleSavedComboMeals = savedComboMeals.filter((meal) =>
@@ -11117,10 +11118,10 @@ function FavoritesPage({
           <label className="completeDinnerCategorySearch">
             <input type="search" value={favoriteSearch} onChange={(event) => setFavoriteSearch(event.target.value)} placeholder="Search for..." aria-label="Search Your Favorites" />
           </label>
-          {[["all", "ALL"], ["complete-dinners", "COMPLETE DINNERS"], ["diet-meals", "DIET MEALS"], ["built-meals", "BUILD-A-MEALS"], ["AM", "AMERICAN"], ["AS", "ASIAN"], ["IT", "ITALIAN"], ["MX", "MEXICAN"]].map(([value, label]) => (
+          {[["all", "ALL"], ["complete-dinners", "COMPLETE DINNERS"], ["diet-meals", "DIET MEALS"], ["built-meals", "BUILD-A-MEALS"], ["vegan-meals", "VEGAN MEALS"]].map(([value, label]) => (
             <button key={value} type="button" className={favoriteView === value ? "isActive" : ""} aria-pressed={favoriteView === value} onClick={() => setFavoriteView(value)}>{label}</button>
           ))}
-          <label className="completeDinnerProteinFilter"><select value={["SF", "QP", "CS", "CP", "SB", "SG", "SD", "desserts"].includes(favoriteView) ? favoriteView : ""} aria-label="More favorite categories" onChange={(event) => setFavoriteView(event.target.value || "all")}><option value="">More...</option>{[["SF","SEAFOOD"],["QP","QUICHE"],["CS","CASSEROLES"],["CP","CROCK POT"],["SB","SALADS"],["SG","MEATS"],["SD","SIDES"],["desserts","DESSERTS"]].map(([value,label]) => <option key={value} value={value}>{label}</option>)}</select></label>
+          <label className="completeDinnerProteinFilter"><select value={["AM", "AS", "IT", "MX", "SF"].includes(favoriteView) ? favoriteView : ""} aria-label="More favorite categories" onChange={(event) => setFavoriteView(event.target.value || "all")}><option value="">More...</option>{[["AM","AMERICAN"],["AS","ASIAN"],["IT","ITALIAN"],["MX","MEXICAN"],["SF","SEAFOOD"]].map(([value,label]) => <option key={value} value={value}>{label}</option>)}</select></label>
         </nav>
         {hasFavorites && <div className="dinnerCombinationResultsBar favoritesResultsBar"><strong>{favoriteFoundCount}</strong><span>Favorites found · showing {favoriteShowingCount}</span></div>}
         {!hasFavorites ? (
@@ -13592,7 +13593,10 @@ function DinnerRecipeHero({ recipe, label }) {
     if (!recipe?.id) return ["images/recipes/AM-000.webp"];
 
     return [
+      recipe.originalRecipeId ? `images/thumbs/heroes/${recipe.originalRecipeId}.webp` : "",
+      recipe.originalRecipeId ? `images/heroes/${recipe.originalRecipeId}.webp` : "",
       `images/thumbs/heroes/${recipe.id}.webp`,
+      ...recipeHeroImageCandidates(recipe),
       ...heroFoodImageCandidates(recipe),
       "images/recipes/AM-000.webp",
     ].filter((candidate, index, list) => candidate && list.indexOf(candidate) === index);
