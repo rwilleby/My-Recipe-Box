@@ -10,7 +10,7 @@ for (const label of ["ALL", "COMPLETE DINNERS", "DIET MEALS", "BUILD-A-MEALS", "
 for (const pair of ['["AM","AMERICAN"]', '["AS","ASIAN"]', '["IT","ITALIAN"]', '["MX","MEXICAN"]', '["SF","SEAFOOD"]']) assert.ok(app.includes(pair));
 assert.match(app, /favoriteView === "vegan-meals"/);
 assert.match(css, /\.favoritesControlStrip \{grid-template-columns: minmax\(130px,1fr\) minmax\(54px,\.5fr\) repeat\(5/);
-assert.match(css, /\.browseResultsRow,[\s\S]*\.dinnerCombinationResultsBar,[\s\S]*\.slowCookerResultCount[\s\S]*font:400 18px/);
-assert.match(css, /\.browseResultsRow strong,[\s\S]*font:800 24px/);
+assert.match(css, /\.browseResultsRow,[\s\S]*\.dinnerCombinationResultsBar,[\s\S]*\.slowCookerResultCount[\s\S]*font:400 13px/);
+assert.match(css, /\.browseResultsRow strong,[\s\S]*font:800 15px/);
 
 console.log("v99.18 plated Vegan heroes, Favorites strip, and unified counts passed");

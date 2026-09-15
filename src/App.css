@@ -24041,13 +24041,13 @@ main.veganRecipeLibraryPage .recipeGrid.browseRecipeGrid.browseCompactRecipeGrid
 
 .browseResultsRow,
 .dinnerCombinationResultsBar,
-.slowCookerResultCount {display:flex !important;align-items:baseline !important;justify-content:flex-start !important;gap:10px !important;margin:14px 0 18px !important;color:#667085 !important;font:400 18px/1.15 Inter,Arial,sans-serif !important;}
+.slowCookerResultCount {display:flex !important;align-items:center !important;justify-content:flex-start !important;gap:6px !important;margin:4px 0 14px !important;color:#6b7280 !important;font:400 13px/1 Inter,Arial,sans-serif !important;}
 .browseResultsRow strong,
 .dinnerCombinationResultsBar strong,
-.slowCookerResultCount strong {color:#2f8747 !important;font:800 24px/1 Inter,Arial,sans-serif !important;}
+.slowCookerResultCount strong {color:#2f8747 !important;font:800 15px/1 Inter,Arial,sans-serif !important;}
 .browseResultsRow span,
 .dinnerCombinationResultsBar span,
-.slowCookerResultCount span {color:#667085 !important;font-size:18px !important;}
+.slowCookerResultCount span {color:#6b7280 !important;font-size:13px !important;}
 .favoritesResultsBar {margin: 10px 0 18px;}
 
 @media (max-width: 820px) {
