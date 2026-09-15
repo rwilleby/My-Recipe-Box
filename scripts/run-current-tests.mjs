@@ -88,6 +88,7 @@ files.push("test/crockPotMidpointEstimatesV997.test.mjs");
 files.push("test/recipeLibraryBrowseStandardV998.test.mjs");
 files.push("test/recipeLibraryCompactCardsV999.test.mjs");
 files.push("test/recipeLibraryThreeAcrossV9910.test.mjs");
+files.push("test/recipeLibraryFinalLayoutV9911.test.mjs");
 // v95.2 is the consolidated Build-A-Meal contract and intentionally uses a
 // stable "Current" filename so later asset refreshes do not duplicate a 400+
 // image integrity test.

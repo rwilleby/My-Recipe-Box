@@ -6507,7 +6507,7 @@ function RecipesPage({
         showFeaturedRecipes={veganOnly}
       />
 
-      <section className="browseInventoryStyleToolbar browseInventoryStyleToolbarSingleRow" aria-label={veganOnly ? "Vegan recipe library sorting and filters" : "Recipe library sorting and filters"}>
+      {veganOnly && <section className="browseInventoryStyleToolbar browseInventoryStyleToolbarSingleRow" aria-label="Vegan recipe library sorting and filters">
         <label className="browseToolbarField">
           <span>Sort By</span>
           <select value={sortBy} onChange={(event) => setSortBy(event.target.value)}>
@@ -6569,7 +6569,7 @@ function RecipesPage({
             </optgroup>
           </select>
         </label>
-      </section>
+      </section>}
       <div className="browseResultsRow">
         <strong>{filteredRecipes.length} {veganOnly ? "vegan recipes" : "recipes"} found</strong>
         {totalPages > 1 && (

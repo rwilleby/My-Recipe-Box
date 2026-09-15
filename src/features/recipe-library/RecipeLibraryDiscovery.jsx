@@ -8,7 +8,7 @@ const ROTATION_INTERVAL_MS = 9000;
 const CATEGORY_COPY = {
   ALL: {
     title: "Browse Our Recipe Library",
-    text: "Search the full recipe collection, or choose an icon to browse a favorite cuisine or recipe group.",
+    text: "Browse the full recipe collection, or choose an icon to explore a favorite cuisine or recipe group.",
   },
   FAVORITES: {
     title: "Your Favorite Recipes",

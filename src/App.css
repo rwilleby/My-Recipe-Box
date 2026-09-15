@@ -19371,14 +19371,25 @@ button.browseRecipeWideFooterAction:focus-visible,
   line-clamp: 2;
 }
 
-@media (max-width: 860px) {
-  .browseCompactRecipeGrid {grid-template-columns: repeat(2, minmax(0, 1fr)) !important;}
-}
-
 @media (max-width: 620px) {
   .browseCompactRecipeGrid {grid-template-columns: 1fr !important;}
   .browseCompactRecipeGrid .compactDinnerCardMain {grid-template-columns: 128px minmax(0, 1fr);}
   .browseCompactRecipeGrid .compactDinnerCardMedia {min-height: 176px;}
+}
+
+/* v99.11 — final Browse Library column lock. This page stays three across
+   at every non-phone width, regardless of older generic recipe-grid rules. */
+main.browseRecipesPage:not(.veganRecipeLibraryPage) .recipeGrid.browseRecipeGrid.browseCompactRecipeGrid {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  grid-auto-flow: row !important;
+  width: 100% !important;
+}
+
+@media (max-width: 620px) {
+  main.browseRecipesPage:not(.veganRecipeLibraryPage) .recipeGrid.browseRecipeGrid.browseCompactRecipeGrid {
+    grid-template-columns: 1fr !important;
+  }
 }
 
 @media (max-width: 430px) {
