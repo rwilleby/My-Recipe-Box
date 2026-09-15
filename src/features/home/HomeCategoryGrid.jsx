@@ -170,7 +170,7 @@ export default function HomeCategoryGrid({
             src={`${import.meta.env.BASE_URL}images/icons/favorites-v9512.webp`}
             alt=""
             aria-hidden="true"
-            loading="eager"
+            loading="lazy"
             decoding="async"
           />
           <span className="categoryIcon categoryIconFallback" aria-hidden="true">♥</span>

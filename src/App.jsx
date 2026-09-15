@@ -961,71 +961,9 @@ function shoppingInventoryCoverage(item, pantry, inventoryIndex = []) {
   return { covered: false, partial: false, status: "Need to Buy", location: item.aisle || "Other", quantityTracked: false };
 }
 
-const SUPPORTING_PAGE_HERO_IMAGES = [
-  "images/heroes/hero-mission.webp",
-  "images/heroes/hero-page-free-to-use.webp",
-  "images/heroes/hero-page-complete-dinners.webp",
-  "images/heroes/hero-page-reference-guides.webp",
-  "images/heroes/hero-page-disclaimers.webp",
-  "images/heroes/hero-page-construction.webp",
-  "images/heroes/hero-page-browse-recipes.webp",
-  "images/heroes/hero-weekly-plan.webp",
-  "images/heroes/hero-page-salad-jars.webp",
-  "images/heroes/hero-page-slow-cooker.webp",
-  "images/heroes/hero-page-summer-cookouts.webp",
-  "images/heroes/hero-page-healthy-dinners.webp",
-  "images/heroes/hero-page-comfort-food.webp",
-  "images/heroes/hero-page-30-minute-meals.webp",
-  "images/heroes/hero-weekly-dinner-planner.webp",
-  "images/heroes/hero-page-grocery-list.webp",
-  "images/heroes/hero-page-your-pantry.webp",
-  "images/heroes/hero-page-favorite-recipes.webp",
-  "images/heroes/hero-storage.webp",
-  "images/heroes/hero-page-cooking-tools.webp",
-  "images/heroes/hero-page-healthy-substitutions.webp",
-  "images/heroes/hero-page-about-us.webp",
-  "images/heroes/hero-air-fryer.webp",
-  "images/heroes/hero-recipes.webp",
-  "images/heroes/hero-submit-recipe.webp",
-  "images/heroes/hero-oven.webp",
-  "images/heroes/hero-page-ai-generated.webp",
-  "images/heroes/hero-smoker.webp",
-  "images/heroes/hero-page-affiliate.webp",
-  "images/heroes/hero-page-crockpot.webp",
-  "images/heroes/hero-grill.webp",
-  "images/heroes/hero-page-air-fryer.webp",
-  "images/heroes/hero-page-oven.webp",
-  "images/heroes/hero-page-microwaves.webp",
-  "images/heroes/hero-page-gas-grills.webp",
-  "images/heroes/hero-page-pellet-smoker.webp",
-  "images/heroes/hero-page-storage.webp",
-  "images/heroes/hero-page-family.webp",
-  "images/heroes/hero-page-freezer-inv.webp",
-  "images/heroes/hero-page-freezer-meals.webp",
-  "images/heroes/hero-page-refrigerator-inv.webp",
-  "images/heroes/hero-page-freeze-reheat.webp",
-  "images/heroes/hero-page-food-safety.webp",
-  "images/heroes/hero-page-breadmaking.webp",
-  "images/heroes/hero-page-connect.webp",
-];
-
-const preloadedHeroImageUrls = new Set();
-
 function assetUrl(path) {
   if (!path) return "";
   return `${import.meta.env.BASE_URL}${path}`;
-}
-
-function preloadHeroImage(path, priority = "low") {
-  if (!path || typeof window === "undefined") return;
-  const url = assetUrl(path);
-  if (preloadedHeroImageUrls.has(url)) return;
-  preloadedHeroImageUrls.add(url);
-
-  const image = new Image();
-  image.decoding = "async";
-  image.fetchPriority = priority;
-  image.src = url;
 }
 
 const HERO_IMAGES = [
@@ -2393,11 +2331,11 @@ function Hero({ setActivePage, siteMode = "detailed", onSiteModeChange, backupWa
   }, []);
 
   useEffect(() => {
-    HERO_IMAGES.forEach((imagePath) => {
-      const preloadImage = new Image();
-      preloadImage.src = `${import.meta.env.BASE_URL}${imagePath}`;
-    });
-  }, []);
+    const nextImage = new Image();
+    nextImage.decoding = "async";
+    nextImage.fetchPriority = "low";
+    nextImage.src = `${import.meta.env.BASE_URL}${HERO_IMAGES[(heroIndex + 1) % HERO_IMAGES.length]}`;
+  }, [heroIndex]);
 
   useEffect(() => {
     function refreshBackupDue() {
@@ -18203,24 +18141,6 @@ export default function App() {
     () => saveRecipeClassifications(recipeClassifications),
     [recipeClassifications]
   );
-
-  useEffect(() => {
-    const preloadAllSupportingHeroes = () => {
-      SUPPORTING_PAGE_HERO_IMAGES.forEach((imagePath, index) => {
-        window.setTimeout(() => preloadHeroImage(imagePath, "low"), index * 45);
-      });
-    };
-
-    if ("requestIdleCallback" in window) {
-      const idleId = window.requestIdleCallback(preloadAllSupportingHeroes, {
-        timeout: 1600,
-      });
-      return () => window.cancelIdleCallback?.(idleId);
-    }
-
-    const timer = window.setTimeout(preloadAllSupportingHeroes, 800);
-    return () => window.clearTimeout(timer);
-  }, []);
 
   function toggleFavorite(id) {
     if (!id) return;
