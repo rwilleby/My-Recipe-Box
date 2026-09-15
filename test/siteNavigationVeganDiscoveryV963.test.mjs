@@ -29,11 +29,11 @@ assert.match(app, /rotateAcrossAll=\{veganOnly\}/);
 assert.match(discovery, /const rotationChoiceId = rotateAcrossAll \? "ALL"/);
 assert.match(discovery, /recipeHeroImageCandidates\(recipe\)/);
 assert.doesNotMatch(discovery, /RECIPE_HERO_BY_CODE/);
-assert.match(css, /\.veganRecipeLibraryPage \.libraryCategorySelectorRow[\s\S]*repeat\(9/);
+assert.match(css, /\.libraryControlStrip[\s\S]*repeat\(9/);
 for (const label of ["All Recipes", "Plant Mains", "Bakes", "Pastas", "Bowls", "Sandwiches", "Asian", "Mexican", "Soups"]) {
   assert.match(app, new RegExp(`displayName: "${label}"`), `Vegan category label ${label} must be present`);
 }
-assert.match(app, /browse the changing six-recipe selection for fresh inspiration/);
+assert.match(app, /Search or choose a category to narrow the full recipe list/);
 assert.match(app, /className="holidayMenuDishHero"/);
 assert.match(app, /assetUrl\(dishRecipe\.heroImage \|\| dishRecipe\.image\)/);
 assert.match(css, /\.holidayMenuDishHero[\s\S]*aspect-ratio: 1 \/ 1/);

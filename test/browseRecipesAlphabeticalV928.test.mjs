@@ -11,7 +11,6 @@ assert.match(recipesPage, /function applyQuickCategory\(category\)[\s\S]*?setSel
 assert.match(recipesPage, /useEffect\(\(\) => \{[\s\S]*?setSelectedCategory\(filter && filter !== "All" \? filter : ""\)[\s\S]*?setSortBy\("library-default"\)/);
 assert.match(recipesPage, /case 'library-default':[\s\S]*?favoriteOrder[\s\S]*?cuisineOrder[\s\S]*?String\(a\.title \|\| ""\)\.localeCompare/);
 assert.match(recipesPage, /case 'az':[\s\S]*?String\(a\.title \|\| ""\)\.localeCompare\([\s\S]*?sensitivity: "base", numeric: true/);
-assert.match(recipesPage, /<option value="library-default">Favorites, Cuisine, A–Z<\/option>/);
-assert.match(recipesPage, /<option value="az">A–Z<\/option>/);
+assert.doesNotMatch(recipesPage, /browseInventoryStyleToolbar/);
 
 console.log("Browse Our Recipes defaults to favorites, then cuisine, then alphabetical order");

@@ -12,10 +12,10 @@ const recipesPage = app.slice(
 );
 
 assert.match(discovery, /title: "Browse Our Recipe Library"/);
-assert.match(discovery, /<nav className="libraryCategorySelectorRow"/);
+assert.match(discovery, /<nav className="dinnerCategorySegmented libraryControlStrip"/);
 assert.match(recipesPage, /showFeaturedRecipes=\{veganOnly\}/);
 assert.match(recipesPage, /useState\("library-default"\)/);
-assert.match(recipesPage, /<option value="library-default">Favorites, Cuisine, A–Z<\/option>/);
+assert.doesNotMatch(recipesPage, /browseInventoryStyleToolbar/);
 assert.match(recipesPage, /Number\(favorites\.includes\(b\.id\)\) - Number\(favorites\.includes\(a\.id\)\)/);
 assert.match(recipesPage, /String\(a\.category \|\| a\.categoryCode \|\| ""\)/);
 assert.match(recipesPage, /String\(a\.title \|\| ""\)\.localeCompare/);

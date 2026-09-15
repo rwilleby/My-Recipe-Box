@@ -6508,71 +6508,10 @@ function RecipesPage({
         ariaLabel={veganOnly ? "Select a verified vegan recipe category" : undefined}
         cardContextLabel={veganOnly ? "Vegan Recipe Library" : undefined}
         showFeaturedRecipes={veganOnly}
+        searchValue={query}
+        onSearchChange={(value) => { setQuery(value); setPage(1); }}
       />
 
-      {veganOnly && <section className="browseInventoryStyleToolbar browseInventoryStyleToolbarSingleRow" aria-label="Vegan recipe library sorting and filters">
-        <label className="browseToolbarField">
-          <span>Sort By</span>
-          <select value={sortBy} onChange={(event) => setSortBy(event.target.value)}>
-            <option value="library-default">Favorites, Cuisine, A–Z</option>
-            <option value="code">Recipe Code</option>
-            <option value="az">A–Z</option>
-            <option value="time-low">Time: Low to High</option>
-            <option value="time-high">Time: High to Low</option>
-            <option value="servings-low">Servings: Low to High</option>
-            <option value="servings-high">Servings: High to Low</option>
-          </select>
-        </label>
-
-        <label className="browseToolbarField">
-          <span>Cooking Method</span>
-          <select
-            value={selectedCookingMethod}
-            onChange={(event) => setSelectedCookingMethod(event.target.value)}
-          >
-            <option value="">All Cooking Methods</option>
-            <option value="quick">Quick & Easy</option>
-            <option value="baked">Baked</option>
-            <option value="skillet">Skillet</option>
-            <option value="slowcooker">Slow Cooker</option>
-          </select>
-        </label>
-
-        <label className="browseToolbarField browseToolbarSearch">
-          <span>Search</span>
-          <input
-            type="search"
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
-            placeholder={veganOnly ? "Search vegan recipes..." : "Search recipes..."}
-          />
-        </label>
-
-        <label className="browseToolbarField browseNutritionDietaryField">
-          <span>Nutrition & Dietary</span>
-          <select
-            value={selectedNutritionDietary}
-            onChange={(event) => applyNutritionDietary(event.target.value)}
-          >
-            <option value="all">All Nutrition & Dietary</option>
-            <optgroup label="MealBalance">
-              <option value="mb:1-2">MB 1–2 · Very Light</option>
-              <option value="mb:3-4">MB 3–4 · Balanced</option>
-              <option value="mb:5-6">MB 5–6 · Moderate</option>
-              <option value="mb:7-8">MB 7–8 · Rich</option>
-              <option value="mb:9-10">MB 9–10 · Indulgent</option>
-              <option value="mb:unrated">Not Yet Rated</option>
-            </optgroup>
-            <optgroup label="GLP-1 Collections">
-              {GLP1_RECIPE_COLLECTION_PRESETS.map((preset) => (
-                <option key={preset.id} value={`glp1:${preset.id}`}>
-                  {preset.label}
-                </option>
-              ))}
-            </optgroup>
-          </select>
-        </label>
-      </section>}
       <div className="browseResultsRow">
         <strong>{filteredRecipes.length} {veganOnly ? "vegan recipes" : "recipes"} found</strong>
         {veganOnly && totalPages > 1 && (
@@ -11194,6 +11133,21 @@ function FavoritesPage({
   const favoriteRecipeMap = new Map(recipes.map((recipe) => [recipe.id, recipe]));
   const [selectedMeal, setSelectedMeal] = useState(null);
   const [selectedMealCard, setSelectedMealCard] = useState(null);
+  const [favoriteView, setFavoriteView] = useState("all");
+  const [favoriteSearch, setFavoriteSearch] = useState("");
+  const favoriteNeedle = favoriteSearch.trim().toLowerCase();
+  const visibleSavedRecipes = savedRecipes.filter((recipe) =>
+    (!favoriteNeedle || `${recipe.id} ${recipe.title}`.toLowerCase().includes(favoriteNeedle)) &&
+    (favoriteView === "all" || favoriteView === "recipes")
+  );
+  const visibleSavedComboMeals = savedComboMeals.filter((meal) =>
+    (!favoriteNeedle || `${meal.id} ${meal.title} ${meal.subtitle || ""}`.toLowerCase().includes(favoriteNeedle)) &&
+    (favoriteView === "all" || favoriteView === "complete-dinners")
+  );
+  const visibleFavoriteBuiltMeals = favoriteBuiltMeals.filter((meal) =>
+    (!favoriteNeedle || `${meal.id} ${meal.title}`.toLowerCase().includes(favoriteNeedle)) &&
+    (favoriteView === "all" || favoriteView === "built-meals")
+  );
   const hasFavorites = savedRecipes.length > 0 || savedComboMeals.length > 0 || favoriteBuiltMeals.length > 0;
   return (
     <>
@@ -11203,6 +11157,14 @@ function FavoritesPage({
           text="Recipe cards, Complete Dinners, and Build-A-Meals you create yourself—saved on this device. No login or sync required."
           className="favoritesSectionIntro"
         />
+        <nav className="dinnerCategorySegmented favoritesControlStrip" aria-label="Favorite types">
+          <label className="completeDinnerCategorySearch">
+            <input type="search" value={favoriteSearch} onChange={(event) => setFavoriteSearch(event.target.value)} placeholder="Search for..." aria-label="Search Your Favorites" />
+          </label>
+          {[["all", "ALL"], ["recipes", "RECIPES"], ["complete-dinners", "COMPLETE DINNERS"], ["built-meals", "BUILD-A-MEALS"]].map(([value, label]) => (
+            <button key={value} type="button" className={favoriteView === value ? "isActive" : ""} aria-pressed={favoriteView === value} onClick={() => setFavoriteView(value)}>{label}</button>
+          ))}
+        </nav>
         {!hasFavorites ? (
           <EmptyState
             title="No favorites yet"
@@ -11210,10 +11172,10 @@ function FavoritesPage({
           />
         ) : (
           <>
-            {savedRecipes.length > 0 && (
+            {visibleSavedRecipes.length > 0 && (
               <section className="favoritesLibrarySection favoritesRecipesNoHeader" aria-label="Favorite recipe cards">
                 <div className="recipeGrid browseRecipeGrid favoritesRecipeGrid">
-                  {savedRecipes.map((recipe) => (
+                  {visibleSavedRecipes.map((recipe) => (
                     <RecipeCard
                       key={recipe.id}
                       recipe={recipe}
@@ -11221,7 +11183,7 @@ function FavoritesPage({
                       toggleFavorite={toggleFavorite}
                       addToPlan={addToPlan}
                       openRecipeCard={openRecipeCard}
-                      cardList={savedRecipes}
+                      cardList={visibleSavedRecipes}
                       displayMode="card"
                       favoritesOnly
                     />
@@ -11229,14 +11191,14 @@ function FavoritesPage({
                 </div>
               </section>
             )}
-            {favoriteBuiltMeals.length > 0 && (
+            {visibleFavoriteBuiltMeals.length > 0 && (
               <section className="favoritesLibrarySection" aria-labelledby="favorite-built-meals-title">
                 <header className="favoritesLibraryHeader">
                   <h2 id="favorite-built-meals-title">Favorite Build-A-Meals</h2>
-                  <span>{favoriteBuiltMeals.length}</span>
+                  <span>{visibleFavoriteBuiltMeals.length}</span>
                 </header>
                 <div className="favoriteBuiltMealGrid">
-                  {favoriteBuiltMeals.map((meal) => {
+                  {visibleFavoriteBuiltMeals.map((meal) => {
                     const mainRecipe = favoriteRecipeMap.get(meal.mainId) || null;
                     const sideOneRecipe = favoriteRecipeMap.get(meal.sideOneId) || null;
                     const sideTwoRecipe = favoriteRecipeMap.get(meal.sideTwoId) || null;
@@ -11259,15 +11221,15 @@ function FavoritesPage({
               </section>
             )}
 
-            {savedComboMeals.length > 0 && (
+            {visibleSavedComboMeals.length > 0 && (
               <section className="favoritesLibrarySection" aria-labelledby="favorite-combos-title">
                 <header className="favoritesLibraryHeader">
                   <h2 id="favorite-combos-title">Favorite Complete Dinners</h2>
-                  <span>{savedComboMeals.length}</span>
+                  <span>{visibleSavedComboMeals.length}</span>
                 </header>
 
                 <div className="favoriteComboMealGrid">
-                  {savedComboMeals.map((meal) => (
+                  {visibleSavedComboMeals.map((meal) => (
                     <button
                       type="button"
                       className="homeComboMealCard favoriteComboMealCard"
@@ -11298,6 +11260,12 @@ function FavoritesPage({
                   ))}
                 </div>
               </section>
+            )}
+            {visibleSavedRecipes.length === 0 && visibleFavoriteBuiltMeals.length === 0 && visibleSavedComboMeals.length === 0 && (
+              <EmptyState
+                title="No favorites match this selection"
+                text="Try another favorite type or clear the search field."
+              />
             )}
           </>
         )}
@@ -16533,6 +16501,14 @@ function SlowCookerRecipesPage({
             aria-label="Search Crock Pot recipes"
           />
         </label>
+        <button
+          type="button"
+          className={activeGroup === "all" ? "isActive" : ""}
+          aria-pressed={activeGroup === "all"}
+          onClick={() => selectSlowCookerGroup("all")}
+        >
+          ALL
+        </button>
         {SLOW_COOKER_GROUPS.map((group) => (
           <button
             key={group.id}
@@ -16743,6 +16719,7 @@ function HealthyDinnersPage({
             />
           </label>
           {[
+            ["all", "ALL"],
             ["beef", "BEEF"],
             ["chicken", "CHICKEN"],
             ["pasta", "PASTA"],
@@ -18749,7 +18726,7 @@ These pages are designed to be easy to scan, print, or revisit when needed. They
             alt="Plant-based meal planning setup with a vegan grain bowl, fresh vegetables, herbs, lemons, and a recipe notebook"
             eyebrow="OUR RECIPES"
             title="Vegan Recipe Library"
-            text="Explore satisfying plant-based main courses, side dishes, soups, breads, bowls, pastas, sandwiches, bakes, and more. Every verified recipe in this library is prepared without meat, seafood, dairy, eggs, or other animal-derived ingredients.\n\nChoose a category to narrow the full recipe list, or browse the changing six-recipe selection for fresh inspiration. Open any recipe to view its illustrated card, ingredients, preparation directions, nutrition details, and any available connection to an original or Vegan sister recipe."
+            text="Explore satisfying plant-based main courses, side dishes, soups, breads, bowls, pastas, sandwiches, bakes, and more. Every verified recipe in this library is prepared without meat, seafood, dairy, eggs, or other animal-derived ingredients.\n\nSearch or choose a category to narrow the full recipe list. Open any recipe to view its illustrated card, ingredients, preparation directions, nutrition details, and any available connection to an original or Vegan sister recipe."
             className="pageHeroDepth464 veganRecipeLibraryHero"
           />
           <RecipesPage

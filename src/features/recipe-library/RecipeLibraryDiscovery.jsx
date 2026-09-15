@@ -8,7 +8,7 @@ const ROTATION_INTERVAL_MS = 9000;
 const CATEGORY_COPY = {
   ALL: {
     title: "Browse Our Recipe Library",
-    text: "Browse the full recipe collection, or choose an icon to explore a favorite cuisine or recipe group.",
+    text: "Search the full recipe collection, or choose a category to explore a favorite cuisine or recipe group.",
   },
   FAVORITES: {
     title: "Your Favorite Recipes",
@@ -154,6 +154,8 @@ export default function RecipeLibraryDiscovery({
   showFeaturedRecipes = true,
   ariaLabel = "Select a recipe cuisine or category",
   cardContextLabel = "Browse Our Recipe Library",
+  searchValue = "",
+  onSearchChange = () => {},
 }) {
   const [featuredRecipes, setFeaturedRecipes] = useState([]);
   const [rotatingPosition, setRotatingPosition] = useState(null);
@@ -161,6 +163,8 @@ export default function RecipeLibraryDiscovery({
   const rotationPositionRef = useRef(0);
   const favoriteIds = useMemo(() => (Array.isArray(favorites) ? favorites : []), [favorites]);
   const selectedChoice = choices.find((choice) => choice.id === selectedChoiceId) || choices[0];
+  const primaryChoices = choices.slice(0, 7);
+  const moreChoices = choices.slice(7);
   const rotationChoiceId = rotateAcrossAll ? "ALL" : selectedChoice?.id;
   const selectedCopy = copyByChoice[selectedChoice?.id] || {
     title: selectedChoice?.displayName || "Browse Recipes",
@@ -226,23 +230,44 @@ export default function RecipeLibraryDiscovery({
         <p>{selectedCopy.text}</p>
       </header>
 
-      <nav className="libraryCategorySelectorRow" aria-label={ariaLabel}>
-        {choices.map((choice) => (
+      <nav className="dinnerCategorySegmented libraryControlStrip" aria-label={ariaLabel}>
+        <label className="completeDinnerCategorySearch">
+          <input
+            type="search"
+            value={searchValue}
+            onChange={(event) => onSearchChange(event.target.value)}
+            placeholder="Search for..."
+            aria-label={cardContextLabel === "Vegan Recipe Library" ? "Search Vegan Recipes" : "Search Recipe Library"}
+          />
+        </label>
+        {primaryChoices.map((choice) => (
           <button
             type="button"
             key={choice.id}
-            className={`libraryCategorySelectorItem category-${String(choice.id || "all").toLowerCase()}${choice.id === selectedChoice?.id ? " active" : ""}`}
+            className={choice.id === selectedChoice?.id ? "isActive" : ""}
             onClick={() => onSelectChoice(choice)}
             aria-pressed={choice.id === selectedChoice?.id}
           >
-            {choice.iconImage ? (
-              <img src={`${import.meta.env.BASE_URL}${choice.iconImage}`} alt="" aria-hidden="true" />
-            ) : (
-              <span className="libraryCategorySelectorAll" aria-hidden="true">ALL</span>
-            )}
-            <strong>{String(choice.displayName || "").toUpperCase()}</strong>
+            {choice.id === "ALL" ? "ALL" : String(choice.displayName || "").toUpperCase()}
           </button>
         ))}
+        {moreChoices.length > 0 && (
+          <label className="completeDinnerProteinFilter libraryMoreCategoryFilter">
+            <select
+              value={moreChoices.some((choice) => choice.id === selectedChoice?.id) ? selectedChoice.id : ""}
+              onChange={(event) => {
+                const choice = moreChoices.find((item) => item.id === event.target.value);
+                if (choice) onSelectChoice(choice);
+              }}
+              aria-label="More recipe categories"
+            >
+              <option value="">MORE</option>
+              {moreChoices.map((choice) => (
+                <option key={choice.id} value={choice.id}>{String(choice.displayName || "").toUpperCase()}</option>
+              ))}
+            </select>
+          </label>
+        )}
       </nav>
 
       {showFeaturedRecipes && <div className="recipeLibraryDiscoveryGrid">

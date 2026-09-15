@@ -14,13 +14,13 @@ assert.match(app, /<RecipeLibraryDiscovery[\s\S]*choices=\{browseQuickCategories
 assert.match(app, /showFeaturedRecipes=\{veganOnly\}/);
 assert.match(app, /id: "ALL"[\s\S]*id: "FAVORITES"[\s\S]*HOME_CATEGORY_CODES\.slice\(0, 13\)/);
 assert.match(app, /selectedCategory === "FAVORITES" && favorites\.includes\(recipe\.id\)/);
-assert.match(app, /<section className="browseInventoryStyleToolbar browseInventoryStyleToolbarSingleRow"/);
+assert.doesNotMatch(app, /<section className="browseInventoryStyleToolbar browseInventoryStyleToolbarSingleRow"/);
 assert.match(app, /<div className="recipeGrid browseRecipeGrid browseCompactRecipeGrid">/);
 assert.match(app, /<CompactBrowseRecipeCard/);
 
 assert.match(component, /const FEATURED_RECIPE_COUNT = 6/);
 assert.match(component, /const ROTATION_INTERVAL_MS = 9000/);
-assert.match(component, /<nav className="libraryCategorySelectorRow"/);
+assert.match(component, /<nav className="dinnerCategorySegmented libraryControlStrip"/);
 assert.match(component, /onClick=\{\(\) => onSelectChoice\(choice\)\}/);
 assert.match(component, /title: "Browse Our Recipe Library"/);
 assert.match(component, /aria-live="polite"/);
@@ -33,7 +33,7 @@ assert.match(component, /import \{ recipeHeroImageCandidates \} from "\.\.\/reci
 assert.match(component, /recipeHeroImageCandidates\(recipe\)\.length > 0/);
 assert.match(component, /onError=\{\(\) => setImageIndex/);
 assert.doesNotMatch(component, /RECIPE_HERO_BY_CODE/);
-assert.match(component, /className=\{`libraryCategorySelectorItem/);
+assert.match(component, /className=\{choice\.id === selectedChoice\?\.id \? "isActive" : ""\}/);
 assert.doesNotMatch(component, /libraryDiscoveryRecipeSubtitle/);
 assert.match(component, /openRecipeCard\(recipe\.id, cardList, cardContextLabel\)/);
 assert.match(component, /"Calories pending"/);
