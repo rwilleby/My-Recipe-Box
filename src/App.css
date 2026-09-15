@@ -19338,11 +19338,12 @@ button.browseRecipeWideFooterAction:focus-visible,
 
 /* v99.14 Complete Dinners: search, All, cuisines, and a protein dropdown. */
 .completeDinnerCategorySegmented {grid-template-columns: repeat(9, minmax(0, 1fr)) !important;}
-.completeDinnerCategorySearch {display: flex; min-width: 0; border-right: 1px solid var(--rrb-segmented-divider, #d2d1cc);}
-.completeDinnerCategorySearch input {width: 100%; min-width: 0; height: 100%; padding: 0 12px; border: 0; outline: 0; background: transparent; color: #172033; font: 700 11.5px/1 Inter, Arial, sans-serif;}
-.completeDinnerCategorySearch input::placeholder {color: #737b87; opacity: 1;}
-.completeDinnerProteinFilter {display: flex; min-width: 0;}
-.completeDinnerProteinFilter select {width: 100%; min-width: 0; height: 100%; padding: 0 24px 0 10px; border: 0; outline: 0; background-color: transparent; color: #172033; font: 800 11.5px/1 Inter, Arial, sans-serif; cursor: pointer;}
+.completeDinnerCategorySearch {display: flex !important; align-items: stretch !important; min-width: 0; height: 100%; margin: 0 !important; border-right: 1px solid var(--rrb-segmented-divider, #d2d1cc);}
+.completeDinnerCategorySearch input[type="search"] {-webkit-appearance: none !important; appearance: none !important; display: block !important; width: 100% !important; min-width: 0 !important; height: 100% !important; margin: 0 !important; padding: 0 12px !important; border: 0 !important; border-radius: 0 !important; outline: 0; background: transparent !important; color: #172033 !important; font-family: Inter, Arial, sans-serif !important; font-size: 11.5px !important; font-weight: 700 !important; line-height: 1 !important; opacity: 1 !important;}
+.completeDinnerCategorySearch input[type="search"]::placeholder {color: #737b87 !important; opacity: 1 !important;}
+.completeDinnerCategorySearch input[type="search"]::-webkit-search-decoration {-webkit-appearance: none;}
+.completeDinnerProteinFilter {display: flex !important; align-items: stretch !important; min-width: 0; height: 100%; margin: 0 !important; overflow: hidden;}
+.completeDinnerProteinFilter select {-webkit-appearance: menulist !important; appearance: auto !important; display: block !important; width: 100% !important; min-width: 0 !important; height: 100% !important; margin: 0 !important; padding: 0 22px 0 10px !important; border: 0 !important; border-radius: 0 !important; outline: 0; background-color: transparent !important; color: #172033 !important; font-family: Inter, Arial, sans-serif !important; font-size: 11.5px !important; font-weight: 800 !important; line-height: 1 !important; cursor: pointer;}
 .completeDinnerProteinFilter select:focus-visible {outline: 2px solid #80994A; outline-offset: -3px; border-radius: 13px;}
 .compactDinnerCardSides {margin-top: 8px;}
 .compactDinnerCardFacts {flex-wrap: nowrap;}

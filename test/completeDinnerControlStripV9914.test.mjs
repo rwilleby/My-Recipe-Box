@@ -20,9 +20,11 @@ for (const label of expectedOrder) {
 
 assert.match(page, /className="completeDinnerProteinFilter"/);
 assert.match(page, /<select[\s\S]*value=\{proteinFilter\}[\s\S]*DINNER_PROTEIN_FILTERS\.map/);
+assert.doesNotMatch(page, /<span className="srOnly">Filter Complete Dinners by protein<\/span>/);
 assert.match(page, /if \(category === "all"\) setProteinFilter\("all"\)/);
 assert.doesNotMatch(page, /\["protein", "PROTEIN"\]/);
 assert.match(css, /\.completeDinnerCategorySegmented\s*\{[\s\S]*repeat\(9/);
 assert.match(css, /\.completeDinnerProteinFilter select/);
+assert.match(css, /\.completeDinnerCategorySearch input\[type="search"\][\s\S]*appearance: none !important/);
 
 console.log("v99.14 Complete Dinner control-strip contracts passed.");

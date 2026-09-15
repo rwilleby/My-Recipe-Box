@@ -14618,7 +14618,6 @@ function DinnerCombinationsPage({ setActivePage, setFilter, plan, setPlan, openR
             </button>
           ))}
           <label className="completeDinnerProteinFilter">
-            <span className="srOnly">Filter Complete Dinners by protein</span>
             <select
               value={proteinFilter}
               aria-label="Filter Complete Dinners by protein"
