@@ -80,6 +80,9 @@ const supersededContracts = new Set([
   "test/recipeLibraryShowMoreV9913.test.mjs",
   "test/completeDinnerControlStripV9914.test.mjs",
   "test/sharedLibraryControlStripsV9916.test.mjs",
+  "test/healthyDinnersDietMealsV8219.test.mjs",
+  "test/recipeMenuOrderV8220.test.mjs",
+  "test/videoLibraryV834.test.mjs",
 ]);
 
 const recentReleaseTests = readdirSync(resolve("test"))
@@ -110,6 +113,7 @@ files.push("test/veganHeroFavoritesCountsV9918.test.mjs");
 files.push("test/homeImageLoadingV1001.test.mjs");
 files.push("test/shoppingPlannedComponentsV1002.test.mjs");
 files.push("test/shoppingRecipePopupV1003.test.mjs");
+files.push("test/dietMealsNamingAndBatchRotationV1006.test.mjs");
 // v95.2 is the consolidated Build-A-Meal contract and intentionally uses a
 // stable "Current" filename so later asset refreshes do not duplicate a 400+
 // image integrity test.

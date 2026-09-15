@@ -25,7 +25,6 @@ export function createHomeMealRotations({
   HEALTHY_DINNERS_VIDEO_POSTER,
 }) {
 const HOME_COMBO_ROTATION_MS = 60 * 1000;
-const HOME_COMBO_PAUSE_MS = 650;
 const HOME_COMBO_CROSSFADE_MS = 1200;
 
 function HomeComboMealCardButton({ meal, className = "", onOpen, imageLoading = "eager" }) {
@@ -107,72 +106,19 @@ function HomeComboMealStrip({
   const [crossfades, setCrossfades] = useState({});
   const [selectedMeal, setSelectedMeal] = useState(null);
   const [selectedMealCard, setSelectedMealCard] = useState(null);
-  const staggerTimersRef = useRef([]);
+  const transitionTimerRef = useRef(null);
 
   useEffect(() => {
-    function clearStaggerTimers() {
-      staggerTimersRef.current.forEach((timer) => window.clearTimeout(timer));
-      staggerTimersRef.current = [];
-    }
-
     function rotateComboMeals() {
-      clearStaggerTimers();
-
       setHomeComboMeals((currentMeals) => {
         const nextMeals = selectVariedHomeComboMeals(allHomeComboMeals, currentMeals);
-
-        function transitionPosition(position) {
-          if (position >= nextMeals.length) return;
-
-          const fromMeal = currentMeals[position];
-          const nextMeal = nextMeals[position];
-
-          if (!fromMeal || !nextMeal || fromMeal.id === nextMeal.id) {
-            const skipTimer = window.setTimeout(
-              () => transitionPosition(position + 1),
-              HOME_COMBO_PAUSE_MS,
-            );
-            staggerTimersRef.current.push(skipTimer);
-            return;
-          }
-
-          setCrossfades((current) => ({
-            ...current,
-            [position]: { from: fromMeal, to: nextMeal },
-          }));
-
-          const finishTimer = window.setTimeout(() => {
-            setHomeComboMeals((current) => {
-              const updated = [...current];
-              updated[position] = nextMeal;
-              return updated;
-            });
-
-            const settleTimer = window.setTimeout(() => {
-              window.requestAnimationFrame(() => {
-                window.requestAnimationFrame(() => {
-                  setCrossfades((current) => {
-                    const updated = { ...current };
-                    delete updated[position];
-                    return updated;
-                  });
-
-                  const pauseTimer = window.setTimeout(
-                    () => transitionPosition(position + 1),
-                    HOME_COMBO_PAUSE_MS,
-                  );
-                  staggerTimersRef.current.push(pauseTimer);
-                });
-              });
-            }, 120);
-
-            staggerTimersRef.current.push(settleTimer);
-          }, HOME_COMBO_CROSSFADE_MS);
-
-          staggerTimersRef.current.push(finishTimer);
-        }
-
-        transitionPosition(0);
+        const batchTransitions = Object.fromEntries(nextMeals.map((to, position) => [position, { from: currentMeals[position], to }]).filter(([, transition]) => transition.from && transition.to && transition.from.id !== transition.to.id));
+        setCrossfades(batchTransitions);
+        window.clearTimeout(transitionTimerRef.current);
+        transitionTimerRef.current = window.setTimeout(() => {
+          setHomeComboMeals(nextMeals);
+          setCrossfades({});
+        }, HOME_COMBO_CROSSFADE_MS);
         return currentMeals;
       });
     }
@@ -181,7 +127,7 @@ function HomeComboMealStrip({
 
     return () => {
       window.clearInterval(rotationTimer);
-      clearStaggerTimers();
+      window.clearTimeout(transitionTimerRef.current);
     };
   }, [allHomeComboMeals]);
 
@@ -375,54 +321,23 @@ function HomeDietMealStrip({
   );
   const [dietMeals, setDietMeals] = useState(() => selectRotatingDietMeals(allDietMeals));
   const [crossfades, setCrossfades] = useState({});
-  const staggerTimersRef = useRef([]);
+  const transitionTimerRef = useRef(null);
 
   useEffect(() => {
     setDietMeals((current) => current.length ? current : selectRotatingDietMeals(allDietMeals));
   }, [allDietMeals]);
 
   useEffect(() => {
-    function clearStaggerTimers() {
-      staggerTimersRef.current.forEach((timer) => window.clearTimeout(timer));
-      staggerTimersRef.current = [];
-    }
-
     function rotateDietMeals() {
-      clearStaggerTimers();
       setDietMeals((currentMeals) => {
         const nextMeals = selectRotatingDietMeals(allDietMeals, currentMeals);
-
-        function transitionPosition(position) {
-          if (position >= nextMeals.length) return;
-          const from = currentMeals[position];
-          const to = nextMeals[position];
-          if (!from || !to || from.id === to.id) return;
-
-          setCrossfades((current) => ({ ...current, [position]: { from, to } }));
-          const finishTimer = window.setTimeout(() => {
-            setDietMeals((current) => {
-              const updated = [...current];
-              updated[position] = to;
-              return updated;
-            });
-            const settleTimer = window.setTimeout(() => {
-              setCrossfades((current) => {
-                const updated = { ...current };
-                delete updated[position];
-                return updated;
-              });
-              const pauseTimer = window.setTimeout(
-                () => transitionPosition(position + 1),
-                HOME_COMBO_PAUSE_MS
-              );
-              staggerTimersRef.current.push(pauseTimer);
-            }, 120);
-            staggerTimersRef.current.push(settleTimer);
-          }, HOME_COMBO_CROSSFADE_MS);
-          staggerTimersRef.current.push(finishTimer);
-        }
-
-        transitionPosition(0);
+        const batchTransitions = Object.fromEntries(nextMeals.map((to, position) => [position, { from: currentMeals[position], to }]).filter(([, transition]) => transition.from && transition.to && transition.from.id !== transition.to.id));
+        setCrossfades(batchTransitions);
+        window.clearTimeout(transitionTimerRef.current);
+        transitionTimerRef.current = window.setTimeout(() => {
+          setDietMeals(nextMeals);
+          setCrossfades({});
+        }, HOME_COMBO_CROSSFADE_MS);
         return currentMeals;
       });
     }
@@ -430,7 +345,7 @@ function HomeDietMealStrip({
     const rotationTimer = window.setInterval(rotateDietMeals, HOME_COMBO_ROTATION_MS);
     return () => {
       window.clearInterval(rotationTimer);
-      clearStaggerTimers();
+      window.clearTimeout(transitionTimerRef.current);
     };
   }, [allDietMeals]);
 

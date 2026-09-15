@@ -240,7 +240,7 @@ export const PAGE_POPUP_COPY = {
     tip: "Choose a mix of make-ahead dishes and last-minute grilled items.",
   },
   "Healthy Dinners": {
-    title: "Healthy Dinners",
+    title: "Diet Meals",
     intro: "Explore lighter dinner ideas that still aim to be filling, flavorful, and practical.",
     bullets: [
       "Find recipes with balanced ingredients and sensible portions.",

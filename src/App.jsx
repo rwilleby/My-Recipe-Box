@@ -1634,7 +1634,7 @@ const NAV_GROUPS = [
       { label: "VEGAN RECIPE LIBRARY", page: "Vegan Recipe Library" },
       { label: "YOUR FAVORITE RECIPES", page: "Favorites" },
       { label: "COMPLETE DINNERS", page: "Dinner Combinations" },
-      { label: "HEALTHY DINNERS", page: "Healthy Dinners" },
+      { label: "DIET MEALS", page: "Healthy Dinners" },
       { label: "SALAD JAR LUNCHES", page: "Salad Jars" },
       { label: "SLOW COOKER MEALS", page: "Slow Cooker Favorites" },
       { label: "HOLIDAYS AND SPECIAL OCCASIONS", page: "Holidays and Special Occasions" },
@@ -1837,7 +1837,7 @@ function Header({ activePage, setActivePage, favorites, savedCustomMeals = [] })
           label: "COMPLETE MEALS & COLLECTIONS",
           items: [
             { label: "COMPLETE DINNERS", page: "Dinner Combinations" },
-            { label: "HEALTHY DINNERS", page: "Healthy Dinners" },
+            { label: "DIET MEALS", page: "Healthy Dinners" },
             { label: "SALAD JAR LUNCHES", page: "Salad Jars" },
             { label: "SLOW COOKER MEALS", page: "Slow Cooker Favorites" },
             { label: "HOLIDAYS & SPECIAL OCCASIONS", page: "Holidays and Special Occasions" },
@@ -5330,7 +5330,7 @@ function CollectionStrip({ setActivePage }) {
       imageAlt: "Backyard cookout with grilled foods",
     },
     {
-      title: "Healthy Dinners",
+      title: "Diet Meals",
       text: "Balanced meals for lighter weeknight cooking.",
       page: "Healthy Dinners",
       image: "images/collections/healthy.webp",
@@ -16543,7 +16543,7 @@ function CompactHealthyDinnerCard({ recipe, recipes, favorites, toggleFavorite, 
       <button
         type="button"
         className="compactDinnerCardMain"
-        onClick={() => openRecipeCard(recipe.id, recipes, "Healthy Dinners")}
+        onClick={() => openRecipeCard(recipe.id, recipes, "Diet Meals")}
         aria-label={`View details for ${recipe.title}`}
       >
         <span className="compactDinnerCardMedia">
@@ -16633,12 +16633,12 @@ function HealthyDinnersPage({
     <main className="pageShell dinnerCombinationsPage healthyDinnersPage">
       <section className="dinnerCombinationFinder" aria-labelledby="healthyDinnerFinderTitle">
         <SectionIntro
-          title="Find a Healthy Dinner"
+          title="Find a Diet Meal"
           text="Search or choose a category to find a portion-controlled Diet Meal."
           className="completeDinnerSectionIntro healthyDinnerSectionIntro"
         />
 
-        <div className="dinnerCategorySegmented healthyDinnerSegmented" role="group" aria-label="Healthy Dinner categories">
+        <div className="dinnerCategorySegmented healthyDinnerSegmented" role="group" aria-label="Diet Meal categories">
           <label className="completeDinnerCategorySearch">
             <input
               type="search"
@@ -16670,7 +16670,7 @@ function HealthyDinnersPage({
             </button>
           ))}
           <label className="completeDinnerProteinFilter">
-            <select value={healthyProtein} aria-label="Filter Healthy Dinners by protein" onChange={(event) => { setHealthyProtein(event.target.value); setVisibleDinnerCount(COMPLETE_DINNER_BATCH_SIZE); }}>
+            <select value={healthyProtein} aria-label="Filter Diet Meals by protein" onChange={(event) => { setHealthyProtein(event.target.value); setVisibleDinnerCount(COMPLETE_DINNER_BATCH_SIZE); }}>
               <option value="all">By Protein...</option>
               {["beef", "chicken", "pork", "salads", "seafood", "vegetarian"].map((protein) => <option key={protein} value={protein}>{protein.toUpperCase()}</option>)}
             </select>
@@ -16685,7 +16685,7 @@ function HealthyDinnersPage({
 
       {filteredRecipes.length ? (
         <>
-          <div className="compactDinnerGrid healthyDinnerRecipeGrid" aria-label="Healthy Dinner results">
+          <div className="compactDinnerGrid healthyDinnerRecipeGrid" aria-label="Diet Meal results">
           {visibleRecipes.map((recipe) => (
             <CompactHealthyDinnerCard
               key={recipe.id}
@@ -18779,8 +18779,8 @@ These pages are designed to be easy to scan, print, or revisit when needed. They
             src="images/heroes/hero-page-healthy-dinners.webp"
             alt="Healthy dinner setup with grilled chicken, salad, grains, recipe box, and meal plan clipboard"
             eyebrow="COLLECTIONS"
-            title="Healthy Dinners"
-            text="Healthy dinners should still be filling, flavorful, and enjoyable to eat. This collection focuses on practical meals made with balanced ingredients, sensible portions, leaner proteins, vegetables, whole grains, or lighter preparation methods.\n\nThe goal is not to remove every comfort or follow a single strict diet. These recipes simply provide better-balanced options that can fit more easily into an everyday eating plan without making dinner feel like a punishment."
+            title="Diet Meals"
+            text="Diet Meals should still be filling, flavorful, and enjoyable to eat. This collection focuses on practical meals made with balanced ingredients, sensible portions, leaner proteins, vegetables, whole grains, or lighter preparation methods.\n\nThe goal is not to remove every comfort or follow a single strict diet. These recipes simply provide better-balanced options that can fit more easily into an everyday eating plan without making dinner feel like a punishment."
             className="pageHeroDepth464"
             videoSrc={HEALTHY_DINNERS_VIDEO_URL}
             videoPoster={HEALTHY_DINNERS_VIDEO_POSTER}
