@@ -19352,7 +19352,7 @@ button.browseRecipeWideFooterAction:focus-visible,
 }
 
 .browseCompactRecipeGrid .compactBrowseRecipeCard {
-  min-height: 194px;
+  min-height: 178px;
 }
 
 .browseCompactRecipeGrid .compactDinnerCardMain {
@@ -19360,7 +19360,7 @@ button.browseRecipeWideFooterAction:focus-visible,
 }
 
 .browseCompactRecipeGrid .compactDinnerCardMedia {
-  min-height: 194px;
+  min-height: 178px;
 }
 
 .browseCompactRecipeGrid .compactDinnerCardCopy > strong {

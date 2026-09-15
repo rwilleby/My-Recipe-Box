@@ -6397,7 +6397,10 @@ function RecipesPage({
   const totalPages = Math.max(1, Math.ceil(filteredRecipes.length / perPage));
   const safePage = Math.min(page, totalPages);
   const pageStart = (safePage - 1) * perPage;
-  const visibleRecipes = filteredRecipes.slice(pageStart, pageStart + perPage);
+  const visibleRecipes = veganOnly
+    ? filteredRecipes.slice(pageStart, pageStart + perPage)
+    : filteredRecipes.slice(0, safePage * perPage);
+  const remainingRecipeCount = Math.max(0, filteredRecipes.length - visibleRecipes.length);
   const selectedQuickCategoryId = useMemo(() => {
     if (!selectedCategory) return "ALL";
     if (selectedCategory === "FAVORITES") return "FAVORITES";
@@ -6572,7 +6575,7 @@ function RecipesPage({
       </section>}
       <div className="browseResultsRow">
         <strong>{filteredRecipes.length} {veganOnly ? "vegan recipes" : "recipes"} found</strong>
-        {totalPages > 1 && (
+        {veganOnly && totalPages > 1 && (
           <div className="browsePagination">
             <button
               className="browsePaginationArrow"
@@ -6607,6 +6610,17 @@ function RecipesPage({
           />
         ))}
       </div>
+      {!veganOnly && remainingRecipeCount > 0 && (
+        <div className="completeDinnerShowMore browseRecipeShowMore">
+          <button
+            type="button"
+            onClick={() => setPage((current) => Math.min(totalPages, current + 1))}
+          >
+            Show More Recipes
+          </button>
+          <span>{remainingRecipeCount} remaining</span>
+        </div>
+      )}
       {veganOnly && filteredRecipes.length === 0 && (
         <EmptyState
           title="No vegan recipes match your current selections."
