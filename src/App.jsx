@@ -4458,6 +4458,55 @@ function RecipeCard({
   );
 }
 
+function CompactBrowseRecipeCard({ recipe, recipes, favorites, toggleFavorite, openRecipeCard }) {
+  const calories = getHealthyDinnerCalories(recipe);
+  const protein = getHealthyDinnerProteinGrams(recipe);
+  const mealBalance = getMealBalanceScore(recipe);
+  const isFavorite = Array.isArray(favorites) && favorites.includes(recipe.id);
+  const isFreezerFriendly = isFreezerFriendlyHealthyDinner(recipe);
+
+  return (
+    <article className="compactDinnerCard compactBrowseRecipeCard">
+      <button
+        type="button"
+        className="compactDinnerCardMain"
+        onClick={() => openRecipeCard(recipe.id, recipes, "Browse Our Recipe Library")}
+        aria-label={`View details for ${recipe.title}`}
+      >
+        <span className="compactDinnerCardMedia">
+          <DinnerRecipeHero recipe={recipe} label={recipe.title} />
+          <span className="compactDinnerCardNumber">{recipe.id}</span>
+        </span>
+        <span className="compactDinnerCardCopy">
+          <strong>{recipe.title}</strong>
+          <span className="compactDinnerCardMainDish">{recipe.category || "Recipe"}</span>
+          <span className="compactDinnerCardSides">
+            {recipe.time ? `${recipe.time} min` : "Time not listed"}
+            {recipe.servings ? ` · serves ${recipe.servings}` : ""}
+          </span>
+          <span className="compactDinnerCardFacts">
+            <span>{calories ?? "—"} cal</span>
+            <span>{protein ?? "—"}g protein</span>
+            <span>MB {mealBalance ?? "—"}</span>
+            {isFreezerFriendly && <span title="Freezer Friendly">FF</span>}
+          </span>
+          <span className="compactDinnerCardActionRow">
+            <span className="compactDinnerCardAction">View Recipe Details</span>
+          </span>
+        </span>
+      </button>
+      <button
+        type="button"
+        className={`compactDinnerFavorite${isFavorite ? " saved" : ""}`}
+        onClick={() => toggleFavorite(recipe.id)}
+        aria-label={isFavorite ? `Remove ${recipe.title} from favorites` : `Add ${recipe.title} to favorites`}
+      >
+        <span aria-hidden="true">♥</span>
+      </button>
+    </article>
+  );
+}
+
 function mediaIcon(type = "") {
   const normalizedType = type.toLowerCase();
 
@@ -6546,17 +6595,15 @@ function RecipesPage({
         )}
       </div>
 
-      <div className="recipeGrid browseRecipeGrid">
+      <div className="recipeGrid browseRecipeGrid browseCompactRecipeGrid">
         {visibleRecipes.map((recipe) => (
-          <RecipeCard
+          <CompactBrowseRecipeCard
             key={recipe.id}
             recipe={recipe}
+            recipes={filteredRecipes}
             favorites={favorites}
             toggleFavorite={toggleFavorite}
-            addToPlan={addToPlan}
             openRecipeCard={openRecipeCard}
-            cardList={filteredRecipes}
-            displayMode="card"
           />
         ))}
       </div>

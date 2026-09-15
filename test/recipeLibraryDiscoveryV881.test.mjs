@@ -15,7 +15,8 @@ assert.match(app, /showFeaturedRecipes=\{veganOnly\}/);
 assert.match(app, /id: "ALL"[\s\S]*id: "FAVORITES"[\s\S]*HOME_CATEGORY_CODES\.slice\(0, 13\)/);
 assert.match(app, /selectedCategory === "FAVORITES" && favorites\.includes\(recipe\.id\)/);
 assert.match(app, /<section className="browseInventoryStyleToolbar browseInventoryStyleToolbarSingleRow"/);
-assert.match(app, /<div className="recipeGrid browseRecipeGrid">/);
+assert.match(app, /<div className="recipeGrid browseRecipeGrid browseCompactRecipeGrid">/);
+assert.match(app, /<CompactBrowseRecipeCard/);
 
 assert.match(component, /const FEATURED_RECIPE_COUNT = 6/);
 assert.match(component, /const ROTATION_INTERVAL_MS = 9000/);
