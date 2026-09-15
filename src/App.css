@@ -19371,11 +19371,11 @@ button.browseRecipeWideFooterAction:focus-visible,
   line-clamp: 2;
 }
 
-@media (max-width: 1150px) {
+@media (max-width: 860px) {
   .browseCompactRecipeGrid {grid-template-columns: repeat(2, minmax(0, 1fr)) !important;}
 }
 
-@media (max-width: 720px) {
+@media (max-width: 620px) {
   .browseCompactRecipeGrid {grid-template-columns: 1fr !important;}
   .browseCompactRecipeGrid .compactDinnerCardMain {grid-template-columns: 128px minmax(0, 1fr);}
   .browseCompactRecipeGrid .compactDinnerCardMedia {min-height: 176px;}

@@ -28,5 +28,7 @@ assert.match(recipesPage, /browseRecipeGrid browseCompactRecipeGrid/);
 assert.match(recipesPage, /<CompactBrowseRecipeCard/);
 assert.doesNotMatch(recipesPage, /<RecipeCard[\s\S]*displayMode="card"/);
 assert.match(css, /\.browseCompactRecipeGrid[\s\S]*grid-template-columns: repeat\(3, minmax\(0, 1fr\)\)/);
+assert.match(css, /@media \(max-width: 860px\)[\s\S]*\.browseCompactRecipeGrid \{grid-template-columns: repeat\(2, minmax\(0, 1fr\)\)/);
+assert.doesNotMatch(css, /@media \(max-width: 1150px\) \{\s*\.browseCompactRecipeGrid/);
 
 console.log("v99.9 Browse Recipe Library compact dinner-style cards passed.");
