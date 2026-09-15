@@ -24,7 +24,7 @@ assert.match(card, /\{meal\.protein \|\| "—"\}g protein/);
 assert.match(card, /MB \{getComboMealBalanceScore\(meal\)\}/);
 assert.match(card, /isFreezerFriendly && <span title="Freezer Friendly">FF<\/span>/);
 
-const expectedOrder = ["Search for...", "AMERICAN", "ASIAN", "ITALIAN", "MEXICAN", "SEAFOOD", "PROTEIN", "VEGAN"];
+const expectedOrder = ["Search for...", "ALL", "AMERICAN", "ASIAN", "ITALIAN", "MEXICAN", "SEAFOOD", "VEGAN", "PROTEIN"];
 let cursor = -1;
 for (const label of expectedOrder) {
   const next = page.indexOf(label, cursor + 1);
@@ -32,9 +32,12 @@ for (const label of expectedOrder) {
   cursor = next;
 }
 assert.doesNotMatch(page, /Complete Dinner browsing toolbar/);
-assert.doesNotMatch(strip, /\["light", "LIGHT"\]|\["all", "ALL"\]/);
+assert.doesNotMatch(strip, /\["light", "LIGHT"\]/);
+assert.match(strip, /\["all", "ALL"\]/);
+assert.match(page, /className="completeDinnerProteinFilter"/);
+assert.match(page, /DINNER_PROTEIN_FILTERS\.map/);
 assert.match(page, /Number\(favorites\.includes\(b\.id\)\) - Number\(favorites\.includes\(a\.id\)\)/);
 assert.match(page, /localeCompare\([\s\S]*sensitivity: "base"/);
-assert.match(css, /\.completeDinnerCategorySegmented\s*\{[\s\S]*repeat\(8/);
+assert.match(css, /\.completeDinnerCategorySegmented\s*\{[\s\S]*repeat\(9/);
 
 console.log("v99.1 Complete Dinner standard layout and ordering contracts passed.");

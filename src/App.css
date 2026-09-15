@@ -19336,11 +19336,14 @@ button.browseRecipeWideFooterAction:focus-visible,
   color: var(--rrb-segmented-text, #172033) !important;
 }
 
-/* v99.1 Complete Dinners: one compact search/category strip and standard cards. */
-.completeDinnerCategorySegmented {grid-template-columns: repeat(8, minmax(0, 1fr)) !important;}
+/* v99.14 Complete Dinners: search, All, cuisines, and a protein dropdown. */
+.completeDinnerCategorySegmented {grid-template-columns: repeat(9, minmax(0, 1fr)) !important;}
 .completeDinnerCategorySearch {display: flex; min-width: 0; border-right: 1px solid var(--rrb-segmented-divider, #d2d1cc);}
 .completeDinnerCategorySearch input {width: 100%; min-width: 0; height: 100%; padding: 0 12px; border: 0; outline: 0; background: transparent; color: #172033; font: 700 11.5px/1 Inter, Arial, sans-serif;}
 .completeDinnerCategorySearch input::placeholder {color: #737b87; opacity: 1;}
+.completeDinnerProteinFilter {display: flex; min-width: 0;}
+.completeDinnerProteinFilter select {width: 100%; min-width: 0; height: 100%; padding: 0 24px 0 10px; border: 0; outline: 0; background-color: transparent; color: #172033; font: 800 11.5px/1 Inter, Arial, sans-serif; cursor: pointer;}
+.completeDinnerProteinFilter select:focus-visible {outline: 2px solid #80994A; outline-offset: -3px; border-radius: 13px;}
 .compactDinnerCardSides {margin-top: 8px;}
 .compactDinnerCardFacts {flex-wrap: nowrap;}
 .compactDinnerCardFacts > span {white-space: nowrap;}
@@ -23995,9 +23998,9 @@ main.browseRecipesPage:not(.veganRecipeLibraryPage) .recipeGrid.browseRecipeGrid
   }
 }
 
-/* Complete Dinners has search plus seven focused categories. */
+/* Complete Dinners has search, All, six focused categories, and protein. */
 .completeDinnerCategorySegmented {
-  grid-template-columns: repeat(8, minmax(0, 1fr)) !important;
+  grid-template-columns: repeat(9, minmax(0, 1fr)) !important;
 }
 
 @media (max-width: 820px) {

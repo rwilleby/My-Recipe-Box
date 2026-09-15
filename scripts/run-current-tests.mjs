@@ -91,6 +91,7 @@ files.push("test/recipeLibraryThreeAcrossV9910.test.mjs");
 files.push("test/recipeLibraryFinalLayoutV9911.test.mjs");
 files.push("test/recipeLibraryCardHeightV9912.test.mjs");
 files.push("test/recipeLibraryShowMoreV9913.test.mjs");
+files.push("test/completeDinnerControlStripV9914.test.mjs");
 // v95.2 is the consolidated Build-A-Meal contract and intentionally uses a
 // stable "Current" filename so later asset refreshes do not duplicate a 400+
 // image integrity test.

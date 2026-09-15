@@ -14416,12 +14416,13 @@ function DinnerCombinationsPage({ setActivePage, setFilter, plan, setPlan, openR
     setCuisineFilter("all");
     setHigherProteinOnly(false);
 
+    if (category === "all") setProteinFilter("all");
+
     if (category === "american") setCollectionFilter("American & Comfort");
     if (category === "asian") setCollectionFilter("Asian Collection");
     if (category === "italian") setCollectionFilter("Italian Collection");
     if (category === "mexican") setCollectionFilter("Mexican & Southwest Collection");
     if (category === "seafood") setCollectionFilter("Seafood Collection");
-    if (category === "protein") setHigherProteinOnly(true);
   }
 
   const filteredMeals = useMemo(() => {
@@ -14598,12 +14599,12 @@ function DinnerCombinationsPage({ setActivePage, setFilter, plan, setPlan, openR
             />
           </label>
           {[
+            ["all", "ALL"],
             ["american", "AMERICAN"],
             ["asian", "ASIAN"],
             ["italian", "ITALIAN"],
             ["mexican", "MEXICAN"],
             ["seafood", "SEAFOOD"],
-            ["protein", "PROTEIN"],
             ["vegan", "VEGAN"],
           ].map(([value, label]) => (
             <button
@@ -14616,6 +14617,23 @@ function DinnerCombinationsPage({ setActivePage, setFilter, plan, setPlan, openR
               {label}
             </button>
           ))}
+          <label className="completeDinnerProteinFilter">
+            <span className="srOnly">Filter Complete Dinners by protein</span>
+            <select
+              value={proteinFilter}
+              aria-label="Filter Complete Dinners by protein"
+              onChange={(event) => {
+                setProteinFilter(event.target.value);
+                setSelectedDinnerId("");
+                setVisibleDinnerCount(COMPLETE_DINNER_BATCH_SIZE);
+              }}
+            >
+              <option value="all">PROTEIN</option>
+              {DINNER_PROTEIN_FILTERS.map((protein) => (
+                <option key={protein} value={protein}>{protein.toUpperCase()}</option>
+              ))}
+            </select>
+          </label>
         </div>
       </section>
 

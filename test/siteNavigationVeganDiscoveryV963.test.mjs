@@ -41,6 +41,6 @@ assert.match(css, /\.holidayMenuDishHero img[\s\S]*object-fit: contain/);
 assert.doesNotMatch(app, /<small>\{quickCategoryRecipeCount\(choice\)\}<\/small>/);
 assert.match(app, /placeholder="Search for\.\.\."/);
 assert.match(app, /\["vegan", "VEGAN"\]/);
-assert.match(css, /\.completeDinnerCategorySegmented[\s\S]*repeat\(8/);
+assert.match(css, /\.completeDinnerCategorySegmented[\s\S]*repeat\(9/);
 
 console.log("v99.1 navigation, Vegan discovery, and Complete Dinner search/category contracts passed.");
