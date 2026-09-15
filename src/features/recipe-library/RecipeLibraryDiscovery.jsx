@@ -261,7 +261,7 @@ export default function RecipeLibraryDiscovery({
               }}
               aria-label="More recipe categories"
             >
-              <option value="">MORE</option>
+              <option value="">More...</option>
               {moreChoices.map((choice) => (
                 <option key={choice.id} value={choice.id}>{String(choice.displayName || "").toUpperCase()}</option>
               ))}

@@ -6209,52 +6209,22 @@ function RecipesPage({
   const browseQuickCategories = useMemo(
     () => veganOnly
       ? [
-        { id: "ALL", name: "All Recipes", displayName: "All Recipes", iconImage: "images/icons/all-recipes-v9512.webp" },
-        ...VEGAN_LIBRARY_CATEGORIES.filter((category) =>
-          libraryRecipes.some((recipe) => recipe.veganLibraryCategoryId === category.id)
-        ),
-      ]
+        ["ALL", "All"], ["AM", "American"], ["AS", "Asian"], ["IT", "Italian"],
+        ["MX", "Mexican"], ["SF", "Seafood"], ["DM", "Diet Meals"],
+        ["VBA", "Bakes"], ["VPN", "Pastas"], ["VBR", "Bowls"],
+        ["VSB", "Sandwiches"], ["VSS", "Soups"], ["SD", "Sides"], ["DS", "Desserts"],
+      ].map(([id, displayName]) => ({ id, name: displayName, displayName }))
       : [
-      {
-        id: "ALL",
-        name: "All Recipes",
-        displayName: "All Recipes",
-        iconImage: "images/icons/all-recipes-v9512.webp",
-      },
-      {
-        id: "FAVORITES",
-        name: "Favorites",
-        displayName: "Favorites",
-        iconImage: "images/icons/favorites-v9512.webp",
-      },
-      ...HOME_CATEGORY_CODES.slice(0, 13)
-        .map((code) => {
-          const category = categories.find((item) => item.id === code);
-          return category
-            ? {
-                ...category,
-                displayName: code === "QP"
-                  ? "Quiche"
-                  : code === "SD"
-                    ? "Sides"
-                    : HOME_CATEGORY_LABELS[code] || category.name,
-                iconImage: CATEGORY_ICON_IMAGES[code],
-              }
-            : null;
-        })
-        .filter(Boolean),
-    ],
-    [libraryRecipes, veganOnly],
+        ["ALL", "All"], ["AM", "American"], ["AS", "Asian"], ["IT", "Italian"],
+        ["MX", "Mexican"], ["SF", "Seafood"], ["DM", "Diet Meals"],
+        ["QP", "Quiche"], ["CS", "Casseroles"], ["CP", "Crock Pot"],
+        ["SB", "Salads"], ["SG", "Meats"], ["SD", "Sides"], ["DS", "Desserts"],
+      ].map(([id, displayName]) => ({ id, name: displayName, displayName })),
+    [veganOnly],
   );
 
   function applyQuickCategory(category) {
-    const nextCategory = category?.id === "ALL"
-      ? ""
-      : category?.id === "FAVORITES"
-        ? "FAVORITES"
-        : veganOnly
-          ? category?.id || ""
-          : category?.name || "";
+    const nextCategory = category?.id === "ALL" ? "" : category?.id || "";
     setSelectedCategory(nextCategory);
     setFilter(nextCategory);
     setSortBy("library-default");
@@ -6291,13 +6261,14 @@ function RecipesPage({
       const selectedCategoryObject = categories.find(
         (category) => category.name === selectedCategory || category.id === selectedCategory
       );
-      const matchesCategory =
-        !selectedCategory ||
-        (selectedCategory === "FAVORITES" && favorites.includes(recipe.id)) ||
-        (veganOnly && recipe.veganLibraryCategoryId === selectedCategory) ||
-        recipe.category === selectedCategory ||
-        recipe.categoryCode === selectedCategoryObject?.id ||
-        recipe.id?.startsWith(`${selectedCategoryObject?.id}-`);
+      const dessertCodes = ["DS", "CC", "CO", "DN", "JJ", "PM"];
+      const matchesCategory = !selectedCategory ||
+        (veganOnly && ["VBA", "VPN", "VBR", "VSB", "VSS"].includes(selectedCategory)
+          ? recipe.veganLibraryCategoryId === selectedCategory
+          : selectedCategory === "DS"
+            ? dessertCodes.includes(String(recipe.categoryCode || "").toUpperCase())
+            : String(recipe.categoryCode || "").toUpperCase() === selectedCategory ||
+              String(recipe.id || "").toUpperCase().startsWith(`${selectedCategory}-`));
 
       const matchesMealBalance = mealBalanceMatchesFilter(recipe, selectedMealBalance);
       const matchesGlp1Filters = recipeMatchesAllGLP1Filters(
@@ -6396,10 +6367,7 @@ function RecipesPage({
   const perPage = 12;
   const totalPages = Math.max(1, Math.ceil(filteredRecipes.length / perPage));
   const safePage = Math.min(page, totalPages);
-  const pageStart = (safePage - 1) * perPage;
-  const visibleRecipes = veganOnly
-    ? filteredRecipes.slice(pageStart, pageStart + perPage)
-    : filteredRecipes.slice(0, safePage * perPage);
+  const visibleRecipes = filteredRecipes.slice(0, safePage * perPage);
   const remainingRecipeCount = Math.max(0, filteredRecipes.length - visibleRecipes.length);
   const selectedQuickCategoryId = useMemo(() => {
     if (!selectedCategory) return "ALL";
@@ -6507,34 +6475,14 @@ function RecipesPage({
         rotateAcrossAll={veganOnly}
         ariaLabel={veganOnly ? "Select a verified vegan recipe category" : undefined}
         cardContextLabel={veganOnly ? "Vegan Recipe Library" : undefined}
-        showFeaturedRecipes={veganOnly}
+        showFeaturedRecipes={false}
         searchValue={query}
         onSearchChange={(value) => { setQuery(value); setPage(1); }}
       />
 
       <div className="browseResultsRow">
-        <strong>{filteredRecipes.length} {veganOnly ? "vegan recipes" : "recipes"} found</strong>
-        {veganOnly && totalPages > 1 && (
-          <div className="browsePagination">
-            <button
-              className="browsePaginationArrow"
-              onClick={() => setPage((current) => Math.max(1, current - 1))}
-              disabled={safePage === 1}
-              aria-label="Previous page"
-            >
-              ‹
-            </button>
-            {renderPageButtons()}
-            <button
-              className="browsePaginationArrow"
-              onClick={() => setPage((current) => Math.min(totalPages, current + 1))}
-              disabled={safePage === totalPages}
-              aria-label="Next page"
-            >
-              ›
-            </button>
-          </div>
-        )}
+        <strong>{filteredRecipes.length}</strong>
+        <span>{veganOnly ? "Vegan Recipes" : "Recipes"} found · showing {visibleRecipes.length}</span>
       </div>
 
       <div className="recipeGrid browseRecipeGrid browseCompactRecipeGrid">
@@ -6549,7 +6497,7 @@ function RecipesPage({
           />
         ))}
       </div>
-      {!veganOnly && remainingRecipeCount > 0 && (
+      {remainingRecipeCount > 0 && (
         <div className="completeDinnerShowMore browseRecipeShowMore">
           <button
             type="button"
@@ -6560,7 +6508,7 @@ function RecipesPage({
           <span>{remainingRecipeCount} remaining</span>
         </div>
       )}
-      {veganOnly && filteredRecipes.length === 0 && (
+      {filteredRecipes.length === 0 && (
         <EmptyState
           title="No vegan recipes match your current selections."
           text="Try clearing a filter or choosing another category."
@@ -11135,10 +11083,14 @@ function FavoritesPage({
   const [selectedMealCard, setSelectedMealCard] = useState(null);
   const [favoriteView, setFavoriteView] = useState("all");
   const [favoriteSearch, setFavoriteSearch] = useState("");
+  const [visibleFavoriteRecipeCount, setVisibleFavoriteRecipeCount] = useState(COMPLETE_DINNER_BATCH_SIZE);
   const favoriteNeedle = favoriteSearch.trim().toLowerCase();
   const visibleSavedRecipes = savedRecipes.filter((recipe) =>
     (!favoriteNeedle || `${recipe.id} ${recipe.title}`.toLowerCase().includes(favoriteNeedle)) &&
-    (favoriteView === "all" || favoriteView === "recipes")
+    (favoriteView === "all" ||
+      (favoriteView === "diet-meals" && String(recipe.categoryCode || "").toUpperCase() === "DM") ||
+      (favoriteView === "desserts" && ["DS", "CC", "CO", "DN", "JJ", "PM"].includes(String(recipe.categoryCode || "").toUpperCase())) ||
+      String(recipe.categoryCode || "").toUpperCase() === favoriteView.toUpperCase())
   );
   const visibleSavedComboMeals = savedComboMeals.filter((meal) =>
     (!favoriteNeedle || `${meal.id} ${meal.title} ${meal.subtitle || ""}`.toLowerCase().includes(favoriteNeedle)) &&
@@ -11149,6 +11101,10 @@ function FavoritesPage({
     (favoriteView === "all" || favoriteView === "built-meals")
   );
   const hasFavorites = savedRecipes.length > 0 || savedComboMeals.length > 0 || favoriteBuiltMeals.length > 0;
+  const shownFavoriteRecipes = visibleSavedRecipes.slice(0, visibleFavoriteRecipeCount);
+  const favoriteFoundCount = visibleSavedRecipes.length + visibleSavedComboMeals.length + visibleFavoriteBuiltMeals.length;
+  const favoriteShowingCount = shownFavoriteRecipes.length + visibleSavedComboMeals.length + visibleFavoriteBuiltMeals.length;
+  useEffect(() => setVisibleFavoriteRecipeCount(COMPLETE_DINNER_BATCH_SIZE), [favoriteSearch, favoriteView]);
   return (
     <>
       <main className="pageShell favoritesLibraryPage">
@@ -11161,10 +11117,12 @@ function FavoritesPage({
           <label className="completeDinnerCategorySearch">
             <input type="search" value={favoriteSearch} onChange={(event) => setFavoriteSearch(event.target.value)} placeholder="Search for..." aria-label="Search Your Favorites" />
           </label>
-          {[["all", "ALL"], ["recipes", "RECIPES"], ["complete-dinners", "COMPLETE DINNERS"], ["built-meals", "BUILD-A-MEALS"]].map(([value, label]) => (
+          {[["all", "ALL"], ["complete-dinners", "COMPLETE DINNERS"], ["diet-meals", "DIET MEALS"], ["built-meals", "BUILD-A-MEALS"], ["AM", "AMERICAN"], ["AS", "ASIAN"], ["IT", "ITALIAN"], ["MX", "MEXICAN"]].map(([value, label]) => (
             <button key={value} type="button" className={favoriteView === value ? "isActive" : ""} aria-pressed={favoriteView === value} onClick={() => setFavoriteView(value)}>{label}</button>
           ))}
+          <label className="completeDinnerProteinFilter"><select value={["SF", "QP", "CS", "CP", "SB", "SG", "SD", "desserts"].includes(favoriteView) ? favoriteView : ""} aria-label="More favorite categories" onChange={(event) => setFavoriteView(event.target.value || "all")}><option value="">More...</option>{[["SF","SEAFOOD"],["QP","QUICHE"],["CS","CASSEROLES"],["CP","CROCK POT"],["SB","SALADS"],["SG","MEATS"],["SD","SIDES"],["desserts","DESSERTS"]].map(([value,label]) => <option key={value} value={value}>{label}</option>)}</select></label>
         </nav>
+        {hasFavorites && <div className="dinnerCombinationResultsBar favoritesResultsBar"><strong>{favoriteFoundCount}</strong><span>Favorites found · showing {favoriteShowingCount}</span></div>}
         {!hasFavorites ? (
           <EmptyState
             title="No favorites yet"
@@ -11174,21 +11132,19 @@ function FavoritesPage({
           <>
             {visibleSavedRecipes.length > 0 && (
               <section className="favoritesLibrarySection favoritesRecipesNoHeader" aria-label="Favorite recipe cards">
-                <div className="recipeGrid browseRecipeGrid favoritesRecipeGrid">
-                  {visibleSavedRecipes.map((recipe) => (
-                    <RecipeCard
+                <div className="recipeGrid browseRecipeGrid browseCompactRecipeGrid favoritesRecipeGrid">
+                  {shownFavoriteRecipes.map((recipe) => (
+                    <CompactBrowseRecipeCard
                       key={recipe.id}
                       recipe={recipe}
                       favorites={favorites}
                       toggleFavorite={toggleFavorite}
-                      addToPlan={addToPlan}
+                      recipes={visibleSavedRecipes}
                       openRecipeCard={openRecipeCard}
-                      cardList={visibleSavedRecipes}
-                      displayMode="card"
-                      favoritesOnly
                     />
                   ))}
                 </div>
+                {visibleFavoriteRecipeCount < visibleSavedRecipes.length && <div className="completeDinnerShowMore"><button type="button" onClick={() => setVisibleFavoriteRecipeCount((count) => count + COMPLETE_DINNER_BATCH_SIZE)}>Show More Recipes</button><span>{visibleSavedRecipes.length - visibleFavoriteRecipeCount} remaining</span></div>}
               </section>
             )}
             {visibleFavoriteBuiltMeals.length > 0 && (
@@ -11755,7 +11711,7 @@ function FoodStorageGuidePage({ setActivePage }) {
 }
 
 
-function HolidaysSpecialOccasionsPage({ setActivePage, setPlan, openRecipeCard }) {
+function HolidaysSpecialOccasionsPage({ setActivePage, setPlan, openRecipeCard, favorites = [], toggleFavorite = () => {} }) {
   const [selectedOccasion, setSelectedOccasion] = useState(HOLIDAY_OCCASION_MENUS[0].occasion);
   const occasionTrackRef = useRef(null);
   const selectedMenu = HOLIDAY_OCCASION_MENUS.find((menu) => menu.occasion === selectedOccasion) || HOLIDAY_OCCASION_MENUS[0];
@@ -11829,33 +11785,10 @@ function HolidaysSpecialOccasionsPage({ setActivePage, setPlan, openRecipeCard }
           <span>FEATURED MENU</span>
           <h2 id="holidayFeaturedMenuTitle">{selectedMenu.occasion}</h2>
         </div>
-        <div className="holidayMenuDishes">
+        <div className="holidayMenuDishes browseCompactRecipeGrid">
           {selectedMenu.dishes.map((dish) => {
             const dishRecipe = dish.recipeId ? recipes.find((recipe) => recipe.id === dish.recipeId) : null;
-            return (
-            <article className="holidayMenuDish" key={`${selectedMenu.occasion}-${dish.role}`} data-recipe-status={dish.recipeId ? "available" : "awaiting-recipe"}>
-              <span>{dish.role}</span>
-              {dishRecipe && (
-                <div className="holidayMenuDishHero">
-                  <img
-                    src={assetUrl(dishRecipe.heroImage || dishRecipe.image)}
-                    alt={`${dish.name} plated hero`}
-                    loading="lazy"
-                    decoding="async"
-                    width="1448"
-                    height="1448"
-                  />
-                </div>
-              )}
-              <h3>{dish.name}</h3>
-              {dishRecipe.categoryCode === "HS" && (
-                <p className="holidayMenuDishCollection">Special Holiday Recipes</p>
-              )}
-              {dishRecipe ? (
-                <button type="button" onClick={() => openRecipeCard(dish.recipeId, recipes, "Holidays and Special Occasions")}>Open Recipe Card</button>
-              ) : null}
-            </article>
-            );
+            return dishRecipe ? <CompactBrowseRecipeCard key={`${selectedMenu.occasion}-${dish.role}`} recipe={dishRecipe} recipes={recipes} favorites={favorites} toggleFavorite={toggleFavorite} openRecipeCard={openRecipeCard} /> : null;
           })}
         </div>
         <div className="holidayMenuActions">
@@ -14391,6 +14324,7 @@ function DinnerCombinationsPage({ setActivePage, setFilter, plan, setPlan, openR
     if (category === "italian") setCollectionFilter("Italian Collection");
     if (category === "mexican") setCollectionFilter("Mexican & Southwest Collection");
     if (category === "seafood") setCollectionFilter("Seafood Collection");
+    if (category === "diet-meals") setProteinFilter("all");
   }
 
   const filteredMeals = useMemo(() => {
@@ -14401,7 +14335,7 @@ function DinnerCombinationsPage({ setActivePage, setFilter, plan, setPlan, openR
         const rfisDinner = rfisPlatform.completeDinners.get(meal.id);
         return (rfisDinner?.collections || []).includes(collectionFilter);
       })
-      .filter((meal) => proteinFilter === "all" || (meal.tags || []).includes(proteinFilter))
+      .filter((meal) => proteinFilter === "all" || proteinFilter === "salads" || (meal.tags || []).includes(proteinFilter))
       .filter((meal) => sideFilter === "all" || (meal.tags || []).includes(sideFilter))
       .filter((meal) => {
         if (cuisineFilter === "all") return true;
@@ -14429,6 +14363,8 @@ function DinnerCombinationsPage({ setActivePage, setFilter, plan, setPlan, openR
       .filter((meal) => !lowerCalorieOnly || Number(meal.calories) < 600)
       .filter((meal) => !higherProteinOnly || Number(meal.protein) >= 30)
       .filter((meal) => dinnerCategory !== "vegan" || recipes.find((recipe) => recipe.id === meal.mainRecipeId)?.isVegan || String(meal.mainRecipeId || "").endsWith("-VG"))
+      .filter((meal) => dinnerCategory !== "diet-meals" || String(meal.mainRecipeId || "").toUpperCase().startsWith("DM-"))
+      .filter((meal) => proteinFilter !== "salads" || /salad/.test(getDinnerCombinationSearchText(meal)))
       .filter((meal) => {
         const calories = Number(meal.calories);
         if (calorieRange === "under-400") return calories < 400;
@@ -14573,6 +14509,7 @@ function DinnerCombinationsPage({ setActivePage, setFilter, plan, setPlan, openR
             ["italian", "ITALIAN"],
             ["mexican", "MEXICAN"],
             ["seafood", "SEAFOOD"],
+            ["diet-meals", "DIET MEALS"],
             ["vegan", "VEGAN"],
           ].map(([value, label]) => (
             <button
@@ -14595,8 +14532,8 @@ function DinnerCombinationsPage({ setActivePage, setFilter, plan, setPlan, openR
                 setVisibleDinnerCount(COMPLETE_DINNER_BATCH_SIZE);
               }}
             >
-              <option value="all">PROTEIN</option>
-              {DINNER_PROTEIN_FILTERS.map((protein) => (
+              <option value="all">By Protein...</option>
+              {["beef", "chicken", "pork", "salads", "seafood", "vegetarian"].map((protein) => (
                 <option key={protein} value={protein}>{protein.toUpperCase()}</option>
               ))}
             </select>
@@ -16436,6 +16373,24 @@ function CompactCrockPotCard({ recipe, recipes, favorites, toggleFavorite, openR
   );
 }
 
+function getCrockPotProtein(recipe) {
+  const text = `${recipe?.title || ""} ${(recipe?.ingredients || []).map((item) => item?.name || "").join(" ")}`.toLowerCase();
+  if (/shrimp|salmon|tuna|fish|seafood/.test(text)) return "seafood";
+  if (/pork|ham|sausage/.test(text)) return "pork";
+  if (/beef|steak|chuck|brisket/.test(text)) return "beef";
+  if (/chicken|turkey/.test(text)) return "chicken";
+  return "vegetarian";
+}
+
+function getCrockPotCuisine(recipe) {
+  const text = `${recipe?.title || ""} ${(recipe?.ingredients || []).map((item) => item?.name || "").join(" ")}`.toLowerCase();
+  if (/asian|teriyaki|thai|soy sauce|ginger/.test(text)) return "asian";
+  if (/italian|marinara|parmesan|lasagna/.test(text)) return "italian";
+  if (/mexican|taco|enchilada|fajita|salsa/.test(text)) return "mexican";
+  if (getCrockPotProtein(recipe) === "seafood") return "seafood";
+  return "american";
+}
+
 function SlowCookerRecipesPage({
   recipes: classifiedRecipes = [],
   favorites = [],
@@ -16444,6 +16399,7 @@ function SlowCookerRecipesPage({
   openRecipeCard = () => {},
 }) {
   const [activeGroup, setActiveGroup] = useState("all");
+  const [proteinGroup, setProteinGroup] = useState("all");
   const [search, setSearch] = useState("");
   const [visibleRecipeCount, setVisibleRecipeCount] = useState(COMPLETE_DINNER_BATCH_SIZE);
 
@@ -16460,22 +16416,28 @@ function SlowCookerRecipesPage({
 
     return crockPotRecipes.filter((recipe) => {
       const group = slowCookerGroupForRecipe(recipe);
+      const cuisine = getCrockPotCuisine(recipe);
+      const protein = getCrockPotProtein(recipe);
       const matchesGroup =
         activeGroup === "all" ||
-        group === activeGroup ||
-        (activeGroup === "more" && ["breakfast", "sides", "desserts"].includes(group));
+        cuisine === activeGroup ||
+        (activeGroup === "soups" && group === "soups") ||
+        (activeGroup === "vegan" && (recipe?.isVegan === true || String(recipe?.id || "").endsWith("-VG")));
+      const matchesProtein = proteinGroup === "all" || protein === proteinGroup ||
+        (proteinGroup === "salads" && /salad/.test(String(recipe.title || "").toLowerCase()));
       const matchesSearch =
         !needle ||
         `${recipe.id} ${recipe.title}`.toLowerCase().includes(needle);
-      return matchesGroup && matchesSearch;
+      return matchesGroup && matchesProtein && matchesSearch;
     }).sort((a, b) => {
       const favoriteDifference = Number(favorites.includes(b.id)) - Number(favorites.includes(a.id));
       return favoriteDifference || String(a.title || "").localeCompare(String(b.title || ""), undefined, { sensitivity: "base" });
     });
-  }, [activeGroup, crockPotRecipes, favorites, search]);
+  }, [activeGroup, crockPotRecipes, favorites, proteinGroup, search]);
 
   function selectSlowCookerGroup(group) {
     setActiveGroup(group);
+    setProteinGroup("all");
     setSearch("");
     setVisibleRecipeCount(COMPLETE_DINNER_BATCH_SIZE);
   }
@@ -16509,16 +16471,25 @@ function SlowCookerRecipesPage({
         >
           ALL
         </button>
-        {SLOW_COOKER_GROUPS.map((group) => (
+        {[
+          ["american", "AMERICAN"], ["asian", "ASIAN"], ["italian", "ITALIAN"],
+          ["mexican", "MEXICAN"], ["seafood", "SEAFOOD"], ["soups", "SOUPS"], ["vegan", "VEGAN"],
+        ].map(([id, label]) => (
           <button
-            key={group.id}
+            key={id}
             type="button"
-            className={activeGroup === group.id ? "isActive" : ""}
-            onClick={() => selectSlowCookerGroup(group.id)}
+            className={activeGroup === id ? "isActive" : ""}
+            onClick={() => selectSlowCookerGroup(id)}
           >
-            {group.label}
+            {label}
           </button>
         ))}
+        <label className="completeDinnerProteinFilter">
+          <select value={proteinGroup} aria-label="Filter Crock Pot recipes by protein" onChange={(event) => { setProteinGroup(event.target.value); setVisibleRecipeCount(COMPLETE_DINNER_BATCH_SIZE); }}>
+            <option value="all">By Protein...</option>
+            {["beef", "chicken", "pork", "salads", "seafood", "vegetarian"].map((protein) => <option key={protein} value={protein}>{protein.toUpperCase()}</option>)}
+          </select>
+        </label>
       </section>
 
       <div className="slowCookerResultCount">
@@ -16543,7 +16514,7 @@ function SlowCookerRecipesPage({
           {visibleRecipeCount < filteredRecipes.length && (
             <div className="completeDinnerShowMore">
               <button type="button" onClick={() => setVisibleRecipeCount((current) => current + COMPLETE_DINNER_BATCH_SIZE)}>Show More Crock Pot Recipes</button>
-              <span>{filteredRecipes.length - visibleRecipeCount} more available</span>
+              <span>{filteredRecipes.length - visibleRecipeCount} remaining</span>
             </div>
           )}
         </>
@@ -16655,6 +16626,7 @@ function HealthyDinnersPage({
 }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [healthyGroup, setHealthyGroup] = useState("all");
+  const [healthyProtein, setHealthyProtein] = useState("all");
   const [visibleDinnerCount, setVisibleDinnerCount] = useState(COMPLETE_DINNER_BATCH_SIZE);
 
   const dietMeals = useMemo(
@@ -16677,21 +16649,23 @@ function HealthyDinnersPage({
       const matchesQuery =
         !query ||
         `${recipe.id} ${recipe.title} ${protein}`.toLowerCase().includes(query);
-      const matchesGroup =
-        healthyGroup === "all" ||
-        (healthyGroup === "pasta" && isHealthyDinnerPasta(recipe)) ||
+      const cuisine = getHealthyDinnerGroup(recipe);
+      const matchesGroup = healthyGroup === "all" || healthyGroup === "diet-meals" ||
         (healthyGroup === "vegan" && (recipe?.isVegan === true || String(recipe?.id || "").endsWith("-VG"))) ||
-        (healthyGroup === "meatless" && protein === "vegetarian") ||
-        protein === healthyGroup;
-      return matchesQuery && matchesGroup;
+        cuisine === healthyGroup;
+      const matchesProtein = healthyProtein === "all" ||
+        (healthyProtein === "salads" && /salad/.test(String(recipe.title || "").toLowerCase())) ||
+        protein === healthyProtein;
+      return matchesQuery && matchesGroup && matchesProtein;
     }).sort((a, b) => {
       const favoriteDifference = Number(favorites.includes(b.id)) - Number(favorites.includes(a.id));
       return favoriteDifference || String(a.title || "").localeCompare(String(b.title || ""), undefined, { sensitivity: "base" });
     });
-  }, [dietMeals, favorites, healthyGroup, searchTerm]);
+  }, [dietMeals, favorites, healthyGroup, healthyProtein, searchTerm]);
 
   function selectHealthyGroup(group) {
     setHealthyGroup(group);
+    setHealthyProtein("all");
     setSearchTerm("");
     setVisibleDinnerCount(COMPLETE_DINNER_BATCH_SIZE);
   }
@@ -16720,11 +16694,12 @@ function HealthyDinnersPage({
           </label>
           {[
             ["all", "ALL"],
-            ["beef", "BEEF"],
-            ["chicken", "CHICKEN"],
-            ["pasta", "PASTA"],
+            ["american", "AMERICAN"],
+            ["asian", "ASIAN"],
+            ["italian", "ITALIAN"],
+            ["mexican", "MEXICAN"],
             ["seafood", "SEAFOOD"],
-            ["meatless", "MEATLESS"],
+            ["diet-meals", "DIET MEALS"],
             ["vegan", "VEGAN"],
           ].map(([value, label]) => (
             <button
@@ -16737,6 +16712,12 @@ function HealthyDinnersPage({
               {label}
             </button>
           ))}
+          <label className="completeDinnerProteinFilter">
+            <select value={healthyProtein} aria-label="Filter Healthy Dinners by protein" onChange={(event) => { setHealthyProtein(event.target.value); setVisibleDinnerCount(COMPLETE_DINNER_BATCH_SIZE); }}>
+              <option value="all">By Protein...</option>
+              {["beef", "chicken", "pork", "salads", "seafood", "vegetarian"].map((protein) => <option key={protein} value={protein}>{protein.toUpperCase()}</option>)}
+            </select>
+          </label>
         </div>
       </section>
 
@@ -16762,7 +16743,7 @@ function HealthyDinnersPage({
           {visibleDinnerCount < filteredRecipes.length && (
             <div className="completeDinnerShowMore">
               <button type="button" onClick={() => setVisibleDinnerCount((current) => current + COMPLETE_DINNER_BATCH_SIZE)}>Show More Diet Meals</button>
-              <span>{filteredRecipes.length - visibleDinnerCount} more available</span>
+              <span>{filteredRecipes.length - visibleDinnerCount} remaining</span>
             </div>
           )}
         </>
@@ -16797,6 +16778,15 @@ function getSaladJarStyle(recipe) {
   if (/blt|burger|sub-in-a-tub|pimento/.test(text)) return "deli";
   if (/pasta|chickpea/.test(text)) return "grains";
   return "other";
+}
+
+function getSaladJarCuisine(recipe) {
+  const text = `${recipe?.title || ""} ${(recipe?.ingredients || []).map((item) => item?.name || "").join(" ")}`.toLowerCase();
+  if (/asian|sesame|teriyaki|thai/.test(text)) return "asian";
+  if (/italian|caprese|antipasto/.test(text)) return "italian";
+  if (/mexican|taco|southwest|fajita/.test(text)) return "mexican";
+  if (getSaladJarProtein(recipe) === "seafood") return "seafood";
+  return "american";
 }
 
 function CompactSaladJarCard({ recipe, recipes, favorites, toggleFavorite, openRecipeCard }) {
@@ -16850,6 +16840,7 @@ function SaladJarLunchesPage({
 }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [saladGroup, setSaladGroup] = useState("all");
+  const [saladProtein, setSaladProtein] = useState("all");
   const [visibleLunchCount, setVisibleLunchCount] = useState(COMPLETE_DINNER_BATCH_SIZE);
 
   const saladJarRecipes = useMemo(
@@ -16870,20 +16861,23 @@ function SaladJarLunchesPage({
     return saladJarRecipes.filter((recipe) => {
       const protein = getSaladJarProtein(recipe);
       const style = getSaladJarStyle(recipe);
+      const cuisine = getSaladJarCuisine(recipe);
       const matchesQuery =
         !query ||
         `${recipe.id} ${recipe.title} ${protein} ${style}`.toLowerCase().includes(query);
-      const matchesGroup =
-        saladGroup === "all" || protein === saladGroup || style === saladGroup;
-      return matchesQuery && matchesGroup;
+      const matchesGroup = saladGroup === "all" || cuisine === saladGroup ||
+        (saladGroup === "vegan" && (recipe?.isVegan === true || String(recipe?.id || "").endsWith("-VG")));
+      const matchesProtein = saladProtein === "all" || protein === saladProtein;
+      return matchesQuery && matchesGroup && matchesProtein;
     }).sort((a, b) => {
       const favoriteDifference = Number(favorites.includes(b.id)) - Number(favorites.includes(a.id));
       return favoriteDifference || String(a.title || "").localeCompare(String(b.title || ""), undefined, { sensitivity: "base" });
     });
-  }, [favorites, saladGroup, saladJarRecipes, searchTerm]);
+  }, [favorites, saladGroup, saladProtein, saladJarRecipes, searchTerm]);
 
   function selectSaladGroup(group) {
     setSaladGroup(group);
+    setSaladProtein("all");
     setSearchTerm("");
     setVisibleLunchCount(COMPLETE_DINNER_BATCH_SIZE);
   }
@@ -16911,12 +16905,13 @@ function SaladJarLunchesPage({
             />
           </label>
           {[
-            ["chicken", "CHICKEN"],
-            ["beef", "BEEF"],
+            ["all", "ALL"],
+            ["american", "AMERICAN"],
+            ["asian", "ASIAN"],
+            ["italian", "ITALIAN"],
+            ["mexican", "MEXICAN"],
             ["seafood", "SEAFOOD"],
-            ["vegetarian", "MEATLESS"],
-            ["classic", "CLASSIC"],
-            ["mediterranean", "MEDITERRANEAN"],
+            ["vegan", "VEGAN"],
           ].map(([value, label]) => (
             <button
               key={value}
@@ -16928,6 +16923,12 @@ function SaladJarLunchesPage({
               {label}
             </button>
           ))}
+          <label className="completeDinnerProteinFilter">
+            <select value={saladProtein} aria-label="Filter Salad Jars by protein" onChange={(event) => { setSaladProtein(event.target.value); setVisibleLunchCount(COMPLETE_DINNER_BATCH_SIZE); }}>
+              <option value="all">By Protein...</option>
+              {["beef", "chicken", "pork", "seafood", "vegetarian"].map((protein) => <option key={protein} value={protein}>{protein.toUpperCase()}</option>)}
+            </select>
+          </label>
         </div>
       </section>
 
@@ -16953,7 +16954,7 @@ function SaladJarLunchesPage({
           {visibleLunchCount < filteredRecipes.length && (
             <div className="completeDinnerShowMore">
               <button type="button" onClick={() => setVisibleLunchCount((current) => current + COMPLETE_DINNER_BATCH_SIZE)}>Show More Salad Jars</button>
-              <span>{filteredRecipes.length - visibleLunchCount} more available</span>
+              <span>{filteredRecipes.length - visibleLunchCount} remaining</span>
             </div>
           )}
         </>
@@ -18806,6 +18807,8 @@ These pages are designed to be easy to scan, print, or revisit when needed. They
             setActivePage={setActivePage}
             setPlan={setPlan}
             openRecipeCard={openRecipeCard}
+            favorites={favorites}
+            toggleFavorite={toggleFavorite}
           />
         </>
       )}

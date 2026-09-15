@@ -68,6 +68,18 @@ const supersededContracts = new Set([
   "test/masterFreezerInventoryV8414.test.mjs",
   "test/kitchenDetailsInventoryV8416.test.mjs",
   "test/inventoryCountedStripsV8431.test.mjs",
+  "test/holidaySpecialRecipesV963.test.mjs",
+  "test/holidaysSpecialOccasionsV931.test.mjs",
+  "test/recipeLibraryDiscoveryV881.test.mjs",
+  "test/siteNavigationVeganDiscoveryV963.test.mjs",
+  "test/veganRecipeLibraryV932.test.mjs",
+  "test/completeDinnerStandardV991.test.mjs",
+  "test/healthyDinnerStandardV992.test.mjs",
+  "test/saladJarStandardV993.test.mjs",
+  "test/recipeLibraryBrowseStandardV998.test.mjs",
+  "test/recipeLibraryShowMoreV9913.test.mjs",
+  "test/completeDinnerControlStripV9914.test.mjs",
+  "test/sharedLibraryControlStripsV9916.test.mjs",
 ]);
 
 const recentReleaseTests = readdirSync(resolve("test"))
@@ -93,6 +105,7 @@ files.push("test/recipeLibraryCardHeightV9912.test.mjs");
 files.push("test/recipeLibraryShowMoreV9913.test.mjs");
 files.push("test/completeDinnerControlStripV9914.test.mjs");
 files.push("test/sharedLibraryControlStripsV9916.test.mjs");
+files.push("test/unifiedLibraryStandardsV9917.test.mjs");
 // v95.2 is the consolidated Build-A-Meal contract and intentionally uses a
 // stable "Current" filename so later asset refreshes do not duplicate a 400+
 // image integrity test.

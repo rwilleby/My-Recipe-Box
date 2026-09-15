@@ -24023,9 +24023,26 @@ main.browseRecipesPage:not(.veganRecipeLibraryPage) .recipeGrid.browseRecipeGrid
 .viewerVeganSwitchButton {white-space:nowrap;border-color:#a9bea0!important;background:#f3f7ed!important;color:#294b2e!important;}
 .viewerVeganSwitchButton:hover,.viewerVeganSwitchButton:focus-visible {border-color:#5d7954!important;background:#e6efdd!important;}
 
-/* v99.16 — approved Complete Dinner control-strip standard across libraries. */
-.healthyDinnerSegmented {grid-template-columns: repeat(8, minmax(0, 1fr)) !important;}
-.slowCookerGroupTabs {grid-template-columns: minmax(145px, 1.15fr) repeat(7, minmax(0, 1fr)) !important;}
+/* v99.17 — unified library control strips, counts, cards, and Show More. */
+.completeDinnerCategorySegmented,
+.healthyDinnerSegmented,
+.slowCookerGroupTabs {grid-template-columns: minmax(130px,1fr) minmax(54px,.5fr) repeat(8,minmax(0,1fr)) !important;}
+.libraryControlStrip {grid-template-columns: minmax(130px,1fr) minmax(54px,.5fr) repeat(7,minmax(0,1fr)) !important;}
+.saladJarSegmented {grid-template-columns: minmax(130px,1fr) minmax(54px,.5fr) repeat(7,minmax(0,1fr)) !important;}
+.favoritesControlStrip {grid-template-columns: minmax(130px,1fr) minmax(54px,.5fr) repeat(8,minmax(0,1fr)) !important;}
+
+main.veganRecipeLibraryPage .recipeGrid.browseRecipeGrid.browseCompactRecipeGrid,
+.favoritesRecipeGrid,
+.holidayMenuDishes.browseCompactRecipeGrid {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 16px !important;
+}
+
+.browseResultsRow {display:flex;align-items:baseline;justify-content:flex-start;gap:8px;}
+.browseResultsRow strong {color:#278344;font-size:18px;}
+.browseResultsRow span {color:#667085;}
+.favoritesResultsBar {margin: 10px 0 18px;}
 
 @media (max-width: 820px) {
   .libraryControlStrip,
@@ -24036,6 +24053,9 @@ main.browseRecipesPage:not(.veganRecipeLibraryPage) .recipeGrid.browseRecipeGrid
     height: auto !important;
     max-height: none !important;
   }
+  main.veganRecipeLibraryPage .recipeGrid.browseRecipeGrid.browseCompactRecipeGrid,
+  .favoritesRecipeGrid,
+  .holidayMenuDishes.browseCompactRecipeGrid {grid-template-columns: 1fr !important;}
 }
 
 @media (max-width: 520px) {
