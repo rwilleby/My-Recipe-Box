@@ -105,6 +105,23 @@ const ESTIMATE_TEMPLATES = {
   },
 };
 
+function rangeMidpoint(value) {
+  const values = String(value ?? "")
+    .replaceAll(",", "")
+    .match(/\d+(?:\.\d+)?/g)
+    ?.map(Number)
+    .filter(Number.isFinite) || [];
+  if (!values.length) return null;
+  return values.length > 1 ? (values[0] + values[1]) / 2 : values[0];
+}
+
+function estimatedMealBalance(calories, totalFat) {
+  if (!Number.isFinite(calories)) return null;
+  let score = calories <= 275 ? 3 : calories <= 349 ? 4 : calories <= 424 ? 5 : calories <= 499 ? 6 : 7;
+  if (Number.isFinite(totalFat) && totalFat >= 15 && score < 7) score += 1;
+  return score;
+}
+
 function estimateType(recipe) {
   const title = String(recipe?.title || "").toLowerCase();
   const number = Number(String(recipe?.id || "").match(/^CP-(\d{3})$/)?.[1] || 0);
@@ -129,5 +146,21 @@ export function getCrockPotNutritionEstimate(recipe) {
     estimatedRange: true,
     estimateNote:
       "Estimated range based on the recipe type. Brands, portions, retained sauce, and optional serving additions can change the totals.",
+  };
+}
+
+export function getCrockPotMidpointEstimate(recipe) {
+  const range = getCrockPotNutritionEstimate(recipe);
+  if (!range) return null;
+  const rawCalories = rangeMidpoint(range.calories);
+  const rawProtein = rangeMidpoint(range.protein);
+  const rawTotalFat = rangeMidpoint(range.totalFat);
+
+  return {
+    calories: Number.isFinite(rawCalories) ? Math.round(rawCalories / 5) * 5 : null,
+    protein: Number.isFinite(rawProtein) ? Math.round(rawProtein) : null,
+    mealBalance: estimatedMealBalance(rawCalories, rawTotalFat),
+    servingsPerRecipe: 6,
+    estimated: true,
   };
 }

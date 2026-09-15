@@ -125,7 +125,7 @@ import { sortRecipesByCode } from "./utils/recipeSorting";
 import { applyStoredRecipeOverrides } from "./utils/recipeOverrides";
 import { printManualInventoryWorksheet } from "./utils/manualInventoryWorksheets.js";
 import { uniqueRecordsByPermanentId } from "./utils/records.js";
-import { getCrockPotNutritionEstimate } from "./utils/crockPotNutritionEstimate.js";
+import { getCrockPotMidpointEstimate, getCrockPotNutritionEstimate } from "./utils/crockPotNutritionEstimate.js";
 import { getTextRecipeContent } from "./utils/textRecipe.js";
 import {
   buildShoppingList,
@@ -16325,8 +16325,19 @@ function slowCookerMealType(recipe) {
 }
 
 function CompactCrockPotCard({ recipe, recipes, favorites, toggleFavorite, openRecipeCard }) {
-  const calories = getHealthyDinnerCalories(recipe);
-  const protein = getHealthyDinnerProteinGrams(recipe);
+  const verifiedNutrition = getRecipeNutritionVariant(recipe.id)?.profile?.nutritionFacts;
+  const estimatedNutrition = getCrockPotMidpointEstimate(recipe);
+  const verifiedCalories = Number.parseFloat(verifiedNutrition?.calories);
+  const verifiedProtein = Number.parseFloat(verifiedNutrition?.protein);
+  const verifiedMealBalance = Number.parseFloat(recipe?.mealBalance?.score);
+  const hasVerifiedCalories = Number.isFinite(verifiedCalories);
+  const hasVerifiedProtein = Number.isFinite(verifiedProtein);
+  const hasVerifiedMealBalance = Number.isFinite(verifiedMealBalance) && recipe?.mealBalance?.status !== "unrated";
+  const calories = hasVerifiedCalories ? verifiedCalories : estimatedNutrition?.calories;
+  const protein = hasVerifiedProtein ? verifiedProtein : estimatedNutrition?.protein;
+  const mealBalance = hasVerifiedMealBalance
+    ? verifiedMealBalance
+    : estimatedNutrition?.mealBalance;
   const recipeNumber = Number.parseInt(String(recipe.id).split("-")[1], 10);
   const isFavorite = favorites.includes(recipe.id);
   const isFreezerFriendly = recipe?.freezerFriendly === true || (recipe?.tags || []).some((tag) => String(tag).toLowerCase().includes("freezer-friendly"));
@@ -16343,9 +16354,9 @@ function CompactCrockPotCard({ recipe, recipes, favorites, toggleFavorite, openR
           <strong>{recipe.title}</strong>
           <span className="compactDinnerCardSides compactCrockPotIngredients">{ingredientPreview || "Open for complete ingredients"}</span>
           <span className="compactDinnerCardFacts">
-            <span>{calories ?? "—"} cal</span>
-            <span>{protein ?? "—"}g protein</span>
-            <span>MB {recipe?.mealBalance?.score ?? "—"}</span>
+            <span>{hasVerifiedCalories ? "" : "~"}{calories ?? "—"} cal</span>
+            <span>{hasVerifiedProtein ? "" : "~"}{protein ?? "—"}g protein</span>
+            <span>MB {hasVerifiedMealBalance ? "" : "~"}{mealBalance ?? "—"}</span>
             {isFreezerFriendly && <span title="Freezer Friendly">FF</span>}
           </span>
           <span className="compactDinnerCardActionRow"><span className="compactDinnerCardAction">View Recipe Details</span></span>
