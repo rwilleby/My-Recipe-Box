@@ -108,6 +108,7 @@ files.push("test/sharedLibraryControlStripsV9916.test.mjs");
 files.push("test/unifiedLibraryStandardsV9917.test.mjs");
 files.push("test/veganHeroFavoritesCountsV9918.test.mjs");
 files.push("test/homeImageLoadingV1001.test.mjs");
+files.push("test/shoppingPlannedComponentsV1002.test.mjs");
 // v95.2 is the consolidated Build-A-Meal contract and intentionally uses a
 // stable "Current" filename so later asset refreshes do not duplicate a 400+
 // image integrity test.

@@ -10296,14 +10296,29 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
     return PLANNER_WEEKS.map((week) => ({
       ...week,
       meals: days.map((day) => {
-        const itemId = (normalized[`${week.id}-${day}`] || []).find(Boolean);
+        const planItems = normalized[`${week.id}-${day}`] || [];
+        const itemId = planItems.slice(0, 4).find(Boolean);
+        const source = parseMealSourceMarker(planItems[4]);
         const recipe = recipeById[itemId];
-        const completeDinner = dinnerCombinationById[itemId];
-        if (recipe) return { day, title: recipe.title, mealBalance: getMealBalanceScore(recipe), heroRecipeId: recipe.id, recipeLinks: [{ label: "Recipe", recipeId: recipe.id, title: recipe.title }] };
+        const completeDinner = dinnerCombinationById[source?.type === "complete" ? source.id : itemId];
         if (completeDinner) {
           const rawMealBalance = completeDinner.mealBalance?.score ?? completeDinner.mealBalance;
           const mealBalance = Number.isInteger(Number(rawMealBalance)) && Number(rawMealBalance) >= 1 && Number(rawMealBalance) <= 10 ? Number(rawMealBalance) : null;
-          return { day, title: completeDinner.title || completeDinner.mainDish || "Complete Dinner", mealBalance, heroMealId: completeDinner.id, recipeLinks: completeDinner.mainRecipeId ? [{ label: "Recipe", recipeId: completeDinner.mainRecipeId, title: completeDinner.mainDish }] : [] };
+          const componentRows = [
+            { label: "M", recipeId: completeDinner.mainRecipeId, title: completeDinner.mainDish },
+            ...(completeDinner.sides || []).slice(0, 3).map((side, index) => ({ label: `S${index + 1}`, recipeId: side.recipeId, title: side.name })),
+          ].filter((component) => component.title);
+          return { day, title: completeDinner.title || completeDinner.mainDish || "Complete Dinner", mealBalance, heroMealId: completeDinner.id, componentRows, recipeLinks: componentRows.filter((component) => recipeById[component.recipeId]).map((component) => ({ ...component, label: component.label === "M" ? "Main Dish" : `Side ${component.label.slice(1)}` })) };
+        }
+        if (recipe) {
+          const dietComponents = source?.type === "diet" ? getDietMealComponents(source.id) : [];
+          const componentRows = dietComponents.length
+            ? dietComponents.map((component, index) => ({ label: index ? `S${index}` : "M", recipeId: component.displayRecipeId, title: component.title }))
+            : planItems.slice(0, 4).map((recipeId, index) => {
+              const component = recipeById[recipeId] || resolveDietPlannerComponent(recipeId, recipes);
+              return component ? { label: index ? `S${index}` : "M", recipeId: component.plannerComponent ? null : component.id, title: component.title } : null;
+            }).filter(Boolean);
+          return { day, title: recipe.title, mealBalance: getMealBalanceScore(recipe), heroRecipeId: recipe.id, componentRows, recipeLinks: componentRows.filter((component) => recipeById[component.recipeId]).map((component) => ({ ...component, label: component.label === "M" ? "Main Dish" : `Side ${component.label.slice(1)}` })) };
         }
         return { day, title: "No meal planned", recipeLinks: [] };
       }),
@@ -10764,7 +10779,7 @@ function ShoppingListPage({ plan, setPlan, checked, setChecked, servings, pantry
       </div>
       {shoppingOverviewView === "meals" && <section className="shoppingOverviewPanel shoppingPlannedMealsPanel" id="shopping-overview-meals" role="tabpanel">
         <header><div><h2>My Planned Meals</h2><p>These meals create the ingredient list used for your inventory check and final shopping list.</p></div><strong>{shoppingPlannedMealCount} {shoppingPlannedMealCount === 1 ? "meal" : "meals"}</strong></header>
-        <div className="shoppingPlannedWeeks">{shoppingPlannedWeeks.map((week) => <section className="shoppingPlannedWeek" key={week.id} aria-label={week.title}><h3>{week.title}</h3><div className="shoppingPlannedWeekGrid">{week.meals.map((meal) => <article className={`shoppingWeeklyMealCard${meal.heroRecipeId || meal.heroMealId ? " hasMeal" : " isEmpty"}`} key={`${week.id}-${meal.day}`}><span className="shoppingPlannedMealImage">{meal.heroMealId ? <DinnerCombinationImage meal={dinnerCombinationById[meal.heroMealId]} /> : meal.heroRecipeId ? <PlannerRecipeThumb recipe={recipeById[meal.heroRecipeId]} /> : <span className="shoppingPlannedMealEmptyImage">＋</span>}<strong className="shoppingPlannedDayBadge">{meal.day}</strong>{meal.mealBalance !== null && meal.mealBalance !== undefined && <strong className="shoppingPlannedMbCircle" aria-label={`MealBalance ${meal.mealBalance}`} title={`MealBalance ${meal.mealBalance}`}>{meal.mealBalance}</strong>}</span><h4>{meal.title}</h4>{meal.recipeLinks.length ? <ShoppingRecipeActions viewLabel="View Recipe" recipeLinks={meal.recipeLinks} onView={(recipeId) => openRecipeCard(recipeId, recipes, "Shopping List")} onPrint={(recipeIds) => printRecipeCards(recipeIds, recipes)} /> : <button type="button" className="secondary shoppingChooseMealButton" onClick={() => setActivePage("Meal Planner")}>Choose Meal</button>}</article>)}</div></section>)}</div>
+        <div className="shoppingPlannedWeeks">{shoppingPlannedWeeks.map((week) => <section className="shoppingPlannedWeek" key={week.id} aria-label={week.title}><h3>{week.title}</h3><div className="shoppingPlannedWeekGrid">{week.meals.map((meal) => <article className={`shoppingWeeklyMealCard${meal.heroRecipeId || meal.heroMealId ? " hasMeal" : " isEmpty"}`} key={`${week.id}-${meal.day}`}><span className="shoppingPlannedMealImage">{meal.heroMealId ? <DinnerCombinationImage meal={dinnerCombinationById[meal.heroMealId]} /> : meal.heroRecipeId ? <PlannerRecipeThumb recipe={recipeById[meal.heroRecipeId]} /> : <span className="shoppingPlannedMealEmptyImage">＋</span>}<strong className="shoppingPlannedDayBadge">{meal.day}</strong>{meal.mealBalance !== null && meal.mealBalance !== undefined && <strong className="shoppingPlannedMbCircle" aria-label={`MealBalance ${meal.mealBalance}`} title={`MealBalance ${meal.mealBalance}`}>{meal.mealBalance}</strong>}</span><h4>{meal.title}</h4>{meal.componentRows?.length > 0 && <dl className="shoppingPlannedComponents" aria-label={`${meal.title} components`}>{meal.componentRows.map((component) => <div key={`${component.label}-${component.title}`}><dt>{component.label}</dt><dd>{component.title}</dd></div>)}</dl>}{meal.recipeLinks.length ? <ShoppingRecipeActions viewLabel={meal.recipeLinks.length > 1 ? "View Meal" : "View Recipe"} recipeLinks={meal.recipeLinks} onView={(recipeId) => openRecipeCard(recipeId, recipes, "Shopping List")} onPrint={(recipeIds) => printRecipeCards(recipeIds, recipes)} /> : meal.heroRecipeId || meal.heroMealId ? null : <button type="button" className="secondary shoppingChooseMealButton" onClick={() => setActivePage("Meal Planner")}>Choose Meal</button>}</article>)}</div></section>)}</div>
         <footer><button type="button" className="secondary" onClick={() => setActivePage("Meal Planner")}>{shoppingPlannedMealCount ? "Review or Change Meals" : "Choose Meals"}</button><button type="button" className="primary" disabled={!shoppingPlannedMealCount} onClick={() => setShoppingOverviewView("stock")}>Next: Confirm Items in Stock</button></footer>
       </section>}
       {shoppingOverviewView === "stock" && <section className="shoppingOverviewPanel shoppingStockReviewPanel" id="shopping-overview-stock" role="tabpanel">
