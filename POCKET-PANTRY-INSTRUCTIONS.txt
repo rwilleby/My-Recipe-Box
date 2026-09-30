@@ -6,7 +6,7 @@ INSTALL ON YOUR WEBSITE
 2. Copy its files into the matching folders of your current RRB project, replacing matching files. Keep the rest of your project.
 3. Commit the changed files to your GitHub repository. The existing GitHub Actions workflow installs dependencies and builds the website. Wait for its green checkmark.
    For a local build, run npm ci, then npm run build.
-4. The new page is /pantry-capture.html on your RRB domain.
+4. Open Kitchen Inventory and use the new Open Pocket Pantry button above the inventory controls. The app is also available at /pantry-capture.html on your RRB domain.
 
 ADD TO YOUR IPHONE
 Open that page in Safari. Tap Share, then Add to Home Screen.

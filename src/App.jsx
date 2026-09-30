@@ -7777,6 +7777,11 @@ function InventoryHubPage({
         className="inventoryHubSectionIntro"
       />
 
+      <div className="inventoryPocketPantryLink">
+        <a className="inventoryPocketPantryButton" href="/pantry-capture.html">Open Pocket Pantry</a>
+        <p>Enter items, read product photos, or scan barcodes on your phone.</p>
+      </div>
+
       <section className="inventoryHubControlStrip" aria-label="Master inventory controls">
         <div className="inventoryHubTabs" role="tablist" aria-label="Inventory section">
           {["kitchen", "freezer", "pantry"].map((tab) => (
