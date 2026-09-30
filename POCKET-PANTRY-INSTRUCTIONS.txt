@@ -1,35 +1,46 @@
-RRB POCKET PANTRY — ADD-ON FOR THE SUPPLIED v100.3 ZIP
-September 30, 2026
+RRB POCKET PANTRY — REVISED PRODUCT FORM (VERSION 2)
+For the supplied RRB v100.3 project — September 30, 2026
 
-INSTALL ON YOUR WEBSITE
-1. Extract this add-on ZIP.
-2. Copy its files into the matching folders of your current RRB project, replacing matching files. Keep the rest of your project.
-3. Commit the changed files to your GitHub repository. The existing GitHub Actions workflow installs dependencies and builds the website. Wait for its green checkmark.
-   For a local build, run npm ci, then npm run build.
-4. Open Kitchen Inventory and use the new Open Pocket Pantry button above the inventory controls. The app is also available at /pantry-capture.html on your RRB domain.
+INSTALL
+Copy the files in this ZIP into matching locations in your RRB project, replacing matching files. Keep the rest of your project. Commit them to GitHub and wait for the GitHub Actions green checkmark. For a local build: npm ci, then npm run build.
+Open RRB > Kitchen Inventory > Open Pocket Pantry. The direct app page is /pantry-capture.html.
 
-ADD TO YOUR IPHONE
-Open that page in Safari. Tap Share, then Add to Home Screen.
-Name it RRB Pantry. This is an iPhone-friendly web app; it is not an App Store download. An internet connection is needed to open it and load the local recognition tools. No account is required.
+ON YOUR IPHONE
+Open Pocket Pantry in Safari. Share > Add to Home Screen adds its icon.
+Choose a store (Walmart, Kroger, H-E-B, Aldi, Amazon, Costco, Sam's Club, Target or Other). The store is remembered.
+Enter Brand, Product name, Package size, Package type, Quantity and Storage location. Quantity starts at 1 and returns to 1 after each saved product.
+Package size is the size of one package; quantity is how many you own or purchased. For example: 2 cartons of 32 fl oz each.
+Choose Add newly purchased quantity to add a purchase to a matching product. Choose Set the quantity I have now to correct a count. Set 0 to mark a product out of stock.
+The optional reference photo identifies the product visually. It does NOT fill in product fields. Barcode scanning and automatic label reading have been removed from this page.
+Tap Save & Add Another. This saves the product in your transfer list; it does not automatically update your laptop.
 
-CAPTURE ITEMS
-- Type or dictate product names, one per line, then Add to Review List.
-- Take or choose a close photo of a product label or receipt, then tap Read Text. Correct the text before adding items. Nutrition lines, prices and other label details may need removing; a whole shelf photo is a reference, not reliable automatic product identification.
-- Photograph a complete barcode straight on. RRB reads the barcode number. Enter the product name for a first-time barcode; previously saved products on that device can be recognized. This version does not query an online product database.
-- Review the name, storage location, quantity, unit and notes.
-- Set counted quantity replaces a matching product's count. Add purchased quantity adds to it. Exact name or barcode, unit and location must match; otherwise RRB creates a new product. No unit conversion or fuzzy automatic match is attempted.
+SEND NEW PRODUCTS TO THE LAPTOP
+1. On the phone: Review & Transfer > Send Changes to RRB.
+2. Choose AirDrop to a Mac, or Save to Files (iCloud Drive). Download .json File is also available if sharing is unavailable.
+3. On the laptop: open RRB > Kitchen Inventory > Import / Export Inventory.
+4. Choose Open My Inventory / Import File and select the .json transfer file.
+5. Review the products, then click Add to My Inventory on This Device.
+6. The products are saved in the laptop's main Kitchen Inventory.
+Reimporting an identical change file skips already imported changes. There is no automatic sync.
+The transfer list stays available after sending. Clear Transfer List removes only the queue, not saved Kitchen Inventory records. Clear it after successful laptop import, before starting a new batch.
 
-SAVE OR TRANSFER
-Add Reviewed Items to Inventory saves in the main Kitchen Inventory on this device and clears the review list.
-To transfer to your Mac, use Share or Download Transfer File BEFORE saving. Use AirDrop or Save to Files.
-On your Mac: RRB > Kitchen Inventory > Photo List > Open Transfer File. Review the items, then Add Reviewed Items to Inventory.
-The small JSON transfer imports inventory items only. It does not replace your full Recipe Box backup. Already imported item IDs are skipped on repeated import.
-The review list is saved locally across reloads. Photos are temporary, processed on your device and excluded from transfers. No automatic cross-device synchronization occurs.
-Items are stored in main Kitchen Inventory, including Pantry, Refrigerator and Kitchen freezer locations. They are not separate entries in the older Pantry checkbox or Freezer tables.
-Your standard RRB Backup & Restore includes both the saved main inventory and the pending review list through its existing rrb_ storage coverage.
+EDIT THE LAPTOP'S EXISTING INVENTORY
+1. On the laptop: Kitchen Inventory > Import / Export Inventory > Export Inventory to My Phone.
+2. Move the .json file to the iPhone with AirDrop or iCloud Drive.
+3. On the phone: Open My Inventory / Import File. The My Inventory tab displays the opened list.
+4. Choose Edit beside a product. Change its details or count, then Save & Add Another. Repeat as needed.
+5. Review & Transfer > Send Changes to RRB sends only the products whose edits you saved.
+6. On the laptop: open the returned changes file, review it, then Add to My Inventory on This Device.
+Permanent product IDs let renamed products and changed brands, sizes, stores or locations update the original record. Opening an inventory file alone does not replace any saved RRB inventory.
+When matching a NEW product without a known ID, name, brand, package size, store, location and unit must match exactly. RRB does not convert units or combine different brands automatically. Review the proposed match before applying.
+If the laptop inventory changed after you exported it, review its current quantities before applying Set quantity edits.
+
+PHOTOS AND SAVED DATA
+Small reference photos are included in transfers and saved using RRB's existing product image storage. Product quantities, brand, store, size and notes are saved in the main inventory and covered by standard Backup & Restore.
+The form, transfer list and opened inventory list remain on the current device. Your full Recipe Box backup uses the separate Backup & Restore page; it is not a Pocket Pantry transfer file.
+This is a browser app, not an App Store installation. An internet connection is needed to open it. No login is required.
 
 VALIDATION
 Production build passed. All 159 current regression test files passed.
-Additional browser smoke test: phone-width layout, review-list reload, quantity saving, local photo OCR, and decoding a barcode image. Chromium was used; physical iPhone Safari/camera testing remains necessary after publication.
-
-This package is an add-on source package. The original uploaded ZIP has not been overwritten, and the website has not been deployed by this work.
+Browser test passed for the 390-pixel phone layout, quantity default/reset, remembered store, photo attachment, saved queue reload, phone-to-laptop transfer, duplicate-import protection, and laptop-to-phone-to-laptop edits including zero stock and renamed products. Testing used Chromium; actual iPhone Safari/camera testing remains necessary after publishing.
+The ZIP was rebuilt with standard uncompressed ZIP entries to avoid the previous incomplete-archive problem. The website has not been published by this work.

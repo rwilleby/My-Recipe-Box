@@ -7779,7 +7779,7 @@ function InventoryHubPage({
 
       <div className="inventoryPocketPantryLink">
         <a className="inventoryPocketPantryButton" href="/pantry-capture.html">Open Pocket Pantry</a>
-        <p>Enter items, read product photos, or scan barcodes on your phone.</p>
+        <p>Choose a store, add product details, then transfer your list to RRB.</p>
       </div>
 
       <section className="inventoryHubControlStrip" aria-label="Master inventory controls">
@@ -7793,7 +7793,7 @@ function InventoryHubPage({
         <button type="button" onClick={() => setOpenTool(openTool === "quick" ? "" : "quick")}><span>Quick</span><span>Add</span></button>
         <button type="button" onClick={() => setOpenTool(openTool === "move" ? "" : "move")}><span>Move</span><span>Item</span></button>
         <button type="button" onClick={() => window.print()}>Print</button>
-        <button type="button" onClick={() => setShowPhotoTransfer(true)}><span>Photo</span><span>List</span></button>
+        <button type="button" onClick={() => setShowPhotoTransfer(true)}><span>Import / Export</span><span>Inventory</span></button>
         <button type="button" className="inventoryHubClearButton" onClick={clearCurrentInventory}>Clear</button>
       </section>
 

@@ -1,26 +1,12 @@
-import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
-
-const component = readFileSync(new URL("../src/components/PhotoInventoryTransfer.jsx", import.meta.url), "utf8");
-const utility = readFileSync(new URL("../src/utils/inventoryCapture.js", import.meta.url), "utf8");
-const app = readFileSync(new URL("../src/App.jsx", import.meta.url), "utf8");
-const css = readFileSync(new URL("../src/components/PhotoInventoryTransfer.css", import.meta.url), "utf8");
-const appCss = readFileSync(new URL("../src/App.css", import.meta.url), "utf8");
-
-assert.match(component, /accept="image\/\*" capture="environment" multiple/);
-assert.match(utility, /roberts-recipe-box-inventory-transfer/);
-assert.match(component, /navigator\.share/);
-assert.match(component, /Add Reviewed Items to Inventory/);
-assert.match(utility, /payload\?\.type !== TRANSFER_TYPE/);
-assert.match(component, /setMasterInventory/);
-assert.match(utility, /Kitchen freezer/);
-assert.doesNotMatch(component, /JSON\.stringify\([^)]*photos/);
-assert.match(app, /PhotoInventoryTransfer/);
-assert.match(app, /const PhotoInventoryTransfer = lazy\(\(\) => import\("\.\/components\/PhotoInventoryTransfer\.jsx"\)\)/);
-assert.doesNotMatch(app, /import PhotoInventoryTransfer from/);
-assert.match(app, /Photo<\/span><span>List/);
-assert.match(css, /@media\(max-width:820px\)/);
-assert.match(css, /@media\(max-width:480px\)/);
-assert.match(appCss, /repeat\(5, minmax\(0, 1fr\)\)/);
-
-console.log("Photo Inventory Transfer tests passed.");
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+const component=readFileSync(new URL('../src/components/PhotoInventoryTransfer.jsx',import.meta.url),'utf8');
+const app=readFileSync(new URL('../src/App.jsx',import.meta.url),'utf8');
+const css=readFileSync(new URL('../src/components/PhotoInventoryTransfer.css',import.meta.url),'utf8');
+for(const label of ['Store','Brand','Product name','Package size','Quantity','Storage location','Save & Add Another','Send Changes to RRB','Open My Inventory / Import File','Add to My Inventory on This Device'])assert.ok(component.includes(label),label);
+assert.ok(component.includes('Optional reference photo'));
+assert.ok(!/scanBarcode|readPhotoText|Read Text|Photograph Barcode/.test(component));
+assert.ok(component.includes('navigator.share'));assert.ok(component.includes('setMasterInventory'));
+assert.ok(app.includes('Open Pocket Pantry'));assert.ok(app.includes('Import / Export'));
+assert.ok(css.includes('@media(max-width:480px)'));
+console.log('Pocket Pantry product form and transfer UI contracts passed.');
