@@ -20,7 +20,7 @@ export default defineConfig({
   },
   build: {
     cssCodeSplit: true,
-    rollupOptions: { output: { manualChunks: {
+    rollupOptions: { input: { main: "index.html", pantryCapture: "pantry-capture.html" }, output: { manualChunks: {
       react: ["react", "react-dom"],
       "recipe-data": ["./src/data/recipes.js", "./src/data/recipeNutritionProfiles.js", "./src/data/recipeCosts.js"],
     } } },

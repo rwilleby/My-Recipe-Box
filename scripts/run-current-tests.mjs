@@ -119,6 +119,8 @@ files.push("test/dietMealsNamingAndBatchRotationV1006.test.mjs");
 // image integrity test.
 files.push("test/mealBuilderCurrent.test.mjs");
 files.push("test/veganSisterRecipeSystem.test.mjs");
+files.push("test/inventoryCapture.test.mjs");
+files.push("test/photoInventoryTransfer.test.mjs");
 
 const uniqueFiles = [...new Set(files)].filter(
   (file) => !supersededContracts.has(file),

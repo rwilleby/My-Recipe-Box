@@ -1,0 +1,35 @@
+RRB POCKET PANTRY — ADD-ON FOR THE SUPPLIED v100.3 ZIP
+September 30, 2026
+
+INSTALL ON YOUR WEBSITE
+1. Extract this add-on ZIP.
+2. Copy its files into the matching folders of your current RRB project, replacing matching files. Keep the rest of your project.
+3. Commit the changed files to your GitHub repository. The existing GitHub Actions workflow installs dependencies and builds the website. Wait for its green checkmark.
+   For a local build, run npm ci, then npm run build.
+4. The new page is /pantry-capture.html on your RRB domain.
+
+ADD TO YOUR IPHONE
+Open that page in Safari. Tap Share, then Add to Home Screen.
+Name it RRB Pantry. This is an iPhone-friendly web app; it is not an App Store download. An internet connection is needed to open it and load the local recognition tools. No account is required.
+
+CAPTURE ITEMS
+- Type or dictate product names, one per line, then Add to Review List.
+- Take or choose a close photo of a product label or receipt, then tap Read Text. Correct the text before adding items. Nutrition lines, prices and other label details may need removing; a whole shelf photo is a reference, not reliable automatic product identification.
+- Photograph a complete barcode straight on. RRB reads the barcode number. Enter the product name for a first-time barcode; previously saved products on that device can be recognized. This version does not query an online product database.
+- Review the name, storage location, quantity, unit and notes.
+- Set counted quantity replaces a matching product's count. Add purchased quantity adds to it. Exact name or barcode, unit and location must match; otherwise RRB creates a new product. No unit conversion or fuzzy automatic match is attempted.
+
+SAVE OR TRANSFER
+Add Reviewed Items to Inventory saves in the main Kitchen Inventory on this device and clears the review list.
+To transfer to your Mac, use Share or Download Transfer File BEFORE saving. Use AirDrop or Save to Files.
+On your Mac: RRB > Kitchen Inventory > Photo List > Open Transfer File. Review the items, then Add Reviewed Items to Inventory.
+The small JSON transfer imports inventory items only. It does not replace your full Recipe Box backup. Already imported item IDs are skipped on repeated import.
+The review list is saved locally across reloads. Photos are temporary, processed on your device and excluded from transfers. No automatic cross-device synchronization occurs.
+Items are stored in main Kitchen Inventory, including Pantry, Refrigerator and Kitchen freezer locations. They are not separate entries in the older Pantry checkbox or Freezer tables.
+Your standard RRB Backup & Restore includes both the saved main inventory and the pending review list through its existing rrb_ storage coverage.
+
+VALIDATION
+Production build passed. All 159 current regression test files passed.
+Additional browser smoke test: phone-width layout, review-list reload, quantity saving, local photo OCR, and decoding a barcode image. Chromium was used; physical iPhone Safari/camera testing remains necessary after publication.
+
+This package is an add-on source package. The original uploaded ZIP has not been overwritten, and the website has not been deployed by this work.

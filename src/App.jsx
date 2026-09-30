@@ -7768,7 +7768,7 @@ function InventoryHubPage({
   }
 
   const currentSearch = searchScope === "current" ? search : "";
-  if (showPhotoTransfer) return <PhotoInventoryTransfer pantry={pantry} setPantry={setPantry} freezer={freezer} setFreezer={setFreezer} onClose={() => setShowPhotoTransfer(false)} />;
+  if (showPhotoTransfer) return <PhotoInventoryTransfer masterInventory={masterInventory} setMasterInventory={setMasterInventory} recipes={recipes} onClose={() => setShowPhotoTransfer(false)} />;
   return (
     <div className="pageShell inventoryHubPage" data-inventory-tab={activeTab}>
       <SectionIntro
@@ -18137,6 +18137,14 @@ export default function App() {
   useEffect(() => saveJSON(STORAGE_KEYS.shoppingOrderQuantities, shoppingOrderQuantities), [shoppingOrderQuantities]);
   useEffect(() => saveJSON(STORAGE_KEYS.productCategories, productCategories), [productCategories]);
   useEffect(() => saveJSON(STORAGE_KEYS.masterInventory, masterInventory), [masterInventory]);
+  useEffect(() => {
+    const refreshCapturedInventory = event => {
+      if (event.key !== STORAGE_KEYS.masterInventory || !event.newValue) return;
+      try { const updated = JSON.parse(event.newValue); if (updated && typeof updated === "object") setMasterInventory(updated); } catch { /* Keep the current inventory when a tab writes invalid data. */ }
+    };
+    window.addEventListener("storage", refreshCapturedInventory);
+    return () => window.removeEventListener("storage", refreshCapturedInventory);
+  }, []);
 
   useEffect(() => {
     const next = buildPreparedReservationsFromPlan(plan, dinnerCombinations);

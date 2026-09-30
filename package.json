@@ -126,6 +126,7 @@
     "test:homepage-refinements-v8223": "node test/homepageDietMealRefinementsV8223.test.mjs"
   },
   "dependencies": {
+    "@zxing/browser": "^0.1.5",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },
